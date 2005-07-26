@@ -1,0 +1,14 @@
+/Algorithm.java/1.19/Wed Oct 20 21:37:39 2004//
+/AlgorithmEvent.java/1.5/Mon Jul 26 12:26:49 2004//
+/AlgorithmFactory.java/1.6/Mon Jul 26 12:26:49 2004//
+/AlgorithmListener.java/1.2/Mon Jul 26 12:26:49 2004//
+/CoOperativeOptimisationAlgorithm.java/1.22/Wed Oct 20 21:37:39 2004//
+/GradientOptimisationAlgorithm.java/1.7/Wed Jun  9 14:01:39 2004//
+/InitialisationException.java/1.5/Wed Oct 20 21:37:39 2004//
+/Initialiser.java/1.1/Mon Aug 30 08:31:21 2004//
+/MultistartOptimisationAlgorithm.java/1.18/Thu Feb  3 09:44:34 2005//
+/OptimisationAlgorithm.java/1.10/Wed Oct 20 21:37:39 2004//
+/ParticipatingAlgorithm.java/1.8/Mon Jul 26 12:26:49 2004//
+/RandomInitialiser.java/1.1/Mon Aug 30 08:31:21 2004//
+/SplitCoOperativeOptimisationAlgorithm.java/1.6/Fri Jul 15 14:20:07 2005//
+D

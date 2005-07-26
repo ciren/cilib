@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE simulator [
+  <!ATTLIST algorithm id ID #IMPLIED>
+  <!ATTLIST problem id ID #IMPLIED>
+  <!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>        
+        <algorithm id="astsp" class="ACO.ASTSP" numberAnts="6" tau="0.000001">
+					<prototypeAnt class="ACO.TSPAnt">
+						<transitionRuleFunction class="ACO.StandardTransitionRuleFunction" alpha="1.0" beta="5.0" />
+						<pheromoneUpdate class="ACO.Pheromone.StandardPheromoneUpdate" rho="0.5" e="5.0" Q="100.0" />
+					</prototypeAnt>
+	  <addStoppingCondition class="StoppingCondition.MaximumIterations" 
+                                iterations="9" />
+      </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="TSP" class="ACO.TSPProblem">
+        <dataSet class="Simulator.LocalDataSet" file="data/pr107.tsp"/>
+        </problem>
+    </problems>
+    <measurements id="measurements" 
+                  class="Simulator.MeasurementSuite" 
+                  samples="1" 
+                  resolution="10">
+      <addMeasurement class="ACO.GraphMeasurementSolutionLength" />
+      <addMeasurement class="ACO.GraphMeasurementSolution" />
+    </measurements>
+    <simulations>
+      <simulation>
+        <algorithm idref="astsp" />
+        <problem idref="TSP" />
+				<measurements idref="measurements" file="data/results-aco-astsp.txt" />
+      </simulation>
+    </simulations>
+</simulator>

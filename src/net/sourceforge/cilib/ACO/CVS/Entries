@@ -1,0 +1,22 @@
+/ACO.java/1.20/Mon Mar 14 05:35:31 2005//
+/ACOException.java/1.2/Wed Oct 20 21:37:40 2004//
+/ASTSP.java/1.17/Mon Mar 14 05:35:31 2005//
+/Ant.java/1.8/Mon Mar 14 05:35:31 2005//
+/ClusterableObject.java/1.3/Wed Mar  2 06:06:52 2005//
+/ClusteringAntDecorator.java/1.3/Mon Mar 14 05:35:31 2005//
+/ClusteringOptimisationAlgorithm.java/1.1/Mon Oct 11 08:26:53 2004//
+/ClusteringOptimisationProblem.java/1.5/Mon Mar 14 05:35:31 2005//
+/ClusteringOptimisationSolution.java/1.1/Mon Oct 11 08:26:53 2004//
+/DiscreteOptimisationProblem.java/1.4/Mon Mar 14 05:35:31 2005//
+/GraphCreationFactory.java/1.5/Mon Nov 29 10:47:41 2004//
+/GraphMeasurementSolution.java/1.4/Mon Nov 29 10:47:41 2004//
+/GraphMeasurementSolutionLength.java/1.5/Wed Mar  2 06:06:52 2005//
+/GraphOptimisationAlgorithm.java/1.3/Mon Mar 14 05:35:31 2005//
+/GraphOptimisationProblem.java/1.9/Mon Mar 14 05:35:31 2005//
+/GraphOptimisationSolution.java/1.1/Sat Jun 12 06:40:16 2004//
+/LumerFaietaClusteringAlgorithm.java/1.3/Mon Nov 29 10:47:41 2004//
+/StandardTransitionRuleFunction.java/1.8/Mon Mar 14 05:35:31 2005//
+/TSPAnt.java/1.12/Mon Mar 14 05:35:31 2005//
+/TSPProblem.java/1.7/Mon Mar 14 05:35:31 2005//
+/TransitionRuleFunction.java/1.2/Tue Mar  1 14:53:52 2005//
+D/Pheromone////
