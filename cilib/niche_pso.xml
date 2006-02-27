@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE simulator [
+  <!ATTLIST algorithm id ID #IMPLIED>
+  <!ATTLIST problem id ID #IMPLIED>
+  <!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+    <algorithms>
+        <algorithm id="gcpso-gbest" class="PSO.GCPSO" particles="50">
+             <topology class="PSO.GBestTopology"/>
+             <addStoppingCondition class="StoppingCondition.MaximumFitnessEvaluations"/>
+        </algorithm>
+        <algorithm id="nichepso" class="PSO.NichePSO" observations="3">
+             <mainSwarm idref="gcpso-gbest"/>
+             <addStoppingCondition class="StoppingCondition.MaximumIterations" iterations="1000"/>
+        </algorithm>
+    </algorithms>
+
+    <problems>
+        <problem id="griewank" class="Problem.FunctionMinimisationProblem">
+            <function class="Functions.Griewank" dimension="1">
+                 <domain class="Problem.Domain" lowerBound="0" upperBound="60"/>
+            </function>
+        </problem>
+        <problem id="rastrigin" class="Problem.FunctionMinimisationProblem">
+            <function class="Functions.Rastrigin" dimension="1">
+                 <domain class="Problem.Domain" lowerBound="-1.5" upperBound="1.5"/>
+            </function>
+        </problem>
+        <problem id="multimodal f1" class="Problem.FunctionMinimisationProblem">
+            <function class="Functions.MultimodalFunction1" dimension="1">
+                 <domain class="Problem.Domain" lowerBound="0.0" upperBound="1.0"/>
+            </function>
+        </problem>
+        <problem id="multimodal f2" class="Problem.FunctionMinimisationProblem">
+            <function class="Functions.MultimodalFunction2" dimension="1">
+                 <domain class="Problem.Domain" lowerBound="0.0" upperBound="1.0"/>
+            </function>
+        </problem>
+    </problems>
+
+    <measurements id="measurements" class="Simulator.MeasurementSuite" samples="1" resolution="25">
+        <addMeasurement class="Measurement.FitnessEvaluations" />
+        <addMeasurement class="Measurement.FunctionMinimisationError" />
+    </measurements>
+
+    <simulations>
+        <simulation>
+            <algorithm idref="nichepso" />
+            <problem idref="multimodal f1" />
+            <measurements idref="measurements" file="nichepso-multimodal_f1.txt" />
+        </simulation>
+    </simulations>
+
+</simulator>

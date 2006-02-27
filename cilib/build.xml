@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="all" name="cilib">
+ 
+   <property name="junit.jar" value="/usr/share/junit/lib/junit.jar"/>
+ 
+    <property name="bin.dir" value="bin"/>
+    <property name="build.dir" value="build"/>
+    <property name="source.dir" value="src"/>
+    <property name="tests.dir" value="tests"/>
+
+    <property name="cilib.jar" value="${build.dir}/cilib.jar"/>
+    <property name="cilib-src.zip" value="${build.dir}/cilib-src.zip"/>
+    
+    <path id="cilib.classpath">
+      	<pathelement location="bin/"/>
+      	<pathelement location="${junit.jar}"/>
+    </path>
+      
+    <target depends="jar,zip" name="all"/>
+ 
+    <target name="clean">
+        <delete includeemptydirs="true">
+            <fileset dir="${build.dir}">
+                <include name="**/*"/>
+            </fileset>
+            <fileset dir="${bin.dir}">
+             	<include name="**/*"/>
+            </fileset>
+        </delete>
+    </target>
+    
+    <target name="compile">
+        <mkdir dir="${bin.dir}"/>
+        <mkdir dir="${build.dir}"/>
+        <javac classpathref="cilib.classpath" destdir="${bin.dir}" optimize="true" srcdir="${source.dir}"/>
+        <copy todir="${bin.dir}">
+          <fileset dir="${source.dir}">
+          	<include name="*.properties"/>
+          </fileset>
+        </copy>
+    </target>
+    
+    <target depends="compile" name="compile-tests">
+        <javac classpathref="cilib.classpath" destdir="${bin.dir}" optimize="true" srcdir="${tests.dir}"/>    
+    </target>
+    
+    <target depends="compile-tests" name="test">
+      	<java classpathref="cilib.classpath" classname="net.sourceforge.cilib.AllTest"/>
+    </target>
+    
+    <target name="zip">
+        <zip destfile="${cilib-src.zip}">
+            <fileset dir="${basedir}">
+             	<exclude name="bin/*/**"/>
+             	<exclude name="build/*/**"/>
+             	<exclude name=".project"/>
+             	<exclude name=".classpath"/>
+            </fileset>
+        </zip>
+    </target>
+    
+    <target depends="compile" name="jar">
+        <jar destfile="${cilib.jar}">
+            <fileset dir="${basedir}" file="AUTHORS"/>
+            <fileset dir="${basedir}" file="COPYING"/>
+            <fileset dir="${basedir}" file="README"/>
+            <fileset dir="${bin.dir}" includes="*/**"/>
+        </jar>
+    </target>
+
+</project>
