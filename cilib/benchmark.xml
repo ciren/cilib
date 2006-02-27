@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+
+  <simulation>
+    
+    <algorithm id="gbest" class="PSO.PSO">
+      <velocityUpdate class="PSO.StandardVelocityUpdate">
+        <inertiaComponent class="PSO.StandardInertia" inertia="0.729844"/>
+	<socialComponent class="PSO.StandardAcceleration"> 
+	  <acceleration value="1.49180"/>
+	  <randomiser class="Random.KnuthSubtractive"/>
+	</socialComponent>
+	<cognitiveComponent class="PSO.StandardAcceleration">
+	  <acceleration value="1.49180"/>
+	  <randomiser class="Random.KnuthSubtractive"/>
+	</cognitiveComponent>
+      </velocityUpdate>
+      <initialiser class="PSO.RandomInitialiser">
+        <randomiser class="Random.KnuthSubtractive"/>
+      </initialiser>
+      <addStoppingCondition class="StoppingCondition.MaximumIterations" iterations="10000"/>
+    </algorithm>
+    
+    <problem class="Problem.FunctionMinimisationProblem">
+      <function class="Functions.NastyBenchmark"/>
+    </problem>
+   
+    <measurements class="Simulator.MeasurementSuite">
+      <file value="data/benchmark.txt"/>
+      <resolution value="1000"/>
+      <samples value="30"/>
+      <addMeasurement class="Measurement.Fitness"/>
+      <addMeasurement class="Measurement.Solution"/>
+    </measurements>
+    
+  </simulation>
+  
+</simulator>
