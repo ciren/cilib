@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE simulator [
+  <!ATTLIST algorithm id ID #IMPLIED>
+  <!ATTLIST problem id ID #IMPLIED>
+  <!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>        
+        <algorithm id="astsp" class="ACO.ASTSP" numberOfAnts="6">
+          <!-- <dataSet class="Simulator.LocalDataSet" file="/home/gary/pr107.tsp"/>-->
+	  <addStoppingCondition class="StoppingCondition.MaximumIterations" 
+                                iterations="9" />
+      </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="TSP" class="ACO.GraphOptimisationProblem">
+        </problem>
+    </problems>
+    <measurements id="measurements" 
+                  class="Simulator.MeasurementSuite" 
+                  samples="1" 
+                  resolution="1">
+      <!--<addMeasurement class="Measurement.Iterations" />-->
+      <addMeasurement class="ACO.GraphMeasurementSolutionLength" />
+      <addMeasurement class="ACO.GraphMeasurementSolution" />
+    </measurements>
+    <simulations>
+      <simulation>
+        <algorithm idref="astsp" />
+        <problem idref="TSP" />
+        <measurements idref="measurements" file="results-aco-astsp.txt" />
+      </simulation>
+    </simulations>
+</simulator>
