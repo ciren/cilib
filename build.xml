@@ -52,7 +52,7 @@
 	</target>
 
 	<target depends="compile" name="compile-tests">
-		<javac classpathref="cilib.classpath" destdir="${bin.dir}" optimize="true" srcdir="${tests.dir}"/>    
+		<javac classpathref="cilib.classpath" source="1.5" target="1.5" destdir="${bin.dir}" optimize="true" srcdir="${tests.dir}"/>    
 	</target>
 
 	<target depends="compile-tests" name="test">

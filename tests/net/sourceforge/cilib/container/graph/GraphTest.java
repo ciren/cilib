@@ -27,7 +27,7 @@
  *   
  */
 
-package net.sourceforge.cilib.container;
+package net.sourceforge.cilib.container.graph;
 
 import net.sourceforge.cilib.container.graph.Edge;
 import net.sourceforge.cilib.container.graph.Graph;

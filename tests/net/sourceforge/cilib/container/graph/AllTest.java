@@ -26,7 +26,7 @@
  *   
  */
 
-package net.sourceforge.cilib.container;
+package net.sourceforge.cilib.container.graph;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -48,10 +48,9 @@ public class AllTest extends TestCase {
 
     public static Test suite() {
         TestSuite suite = new TestSuite();
-        suite.addTest(MatrixTest.suite());
-        suite.addTest(QueueTest.suite());
-		suite.addTest(BitArrayTest.suite());
-		suite.addTestSuite(SortedListTest.class);
+      
+        suite.addTestSuite(GraphTest.class);
+       
         return suite;
     }
 }
