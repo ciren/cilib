@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<simulator>
+
+    <simulation>
+
+        <algorithm class="Algorithm.MultistartOptimisationAlgorithm">
+            <optimisationAlgorithm class="Algorithm.CoOperativeOptimisationAlgorithm">
+                <participants>30</participants>
+                <algorithmFactory class="XMLObjectFactory">
+                    <pso class="PSO.PSO">
+                        <topology class="PSO.LBestTopology">
+                            <neighbourhoodSize>3</neighbourhoodSize>
+                        </topology>
+                    </pso>
+                </algorithmFactory>
+            </optimisationAlgorithm>
+
+            <addRestartProgressIndicator class="Indicator.MaximumFitnessEvaluations">
+                <maximumFitnessEvaluations>20000</maximumFitnessEvaluations>
+            </addRestartProgressIndicator>
+
+            <addProgressIndicator class="Indicator.MaximumFitnessEvaluations">
+                <maximumFitnessEvaluations>200000</maximumFitnessEvaluations>
+            </addProgressIndicator>
+        </algorithm>
+    
+        <problem class="Problem.FunctionMinimisationProblem">
+            <function class="Functions.Schwefel" />
+        </problem>
+
+        <measurements class="Simulator.MeasurementSuite" file="schwefel.txt" resolution="10">
+            <addMeasurement class="Measurement.Restarts" />
+            <addMeasurement class="Measurement.FunctionMinimisationError" />
+        </measurements>
+        
+     </simulation>
+        
+</simulator>
