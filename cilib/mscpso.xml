@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<simulator>
+
+    <simulation>
+
+        <algorithm class="Algorithm.MultistartOptimisationAlgorithm">
+            <targetAlgorithm class="Algorithm.SplitCoOperativeOptimisationAlgorithm">
+                <participants value="30"/>
+                <algorithmFactory class="XML.XMLAlgorithmFactory">
+                    <algorithm class="PSO.PSO">
+                        <topology class="PSO.LBestTopology" neighbourhoodSize="3"/>
+                    </algorithm>
+                </algorithmFactory>
+            </targetAlgorithm>
+            
+            <addRestartCondition class="StoppingCondition.MaximumFitnessEvaluations">
+                <evaluations>20000</evaluations>
+            </addRestartCondition>
+			
+            <addStoppingCondition class="StoppingCondition.MaximumFitnessEvaluations">
+                <evaluations>200000</evaluations>
+            </addStoppingCondition>
+            
+        </algorithm>
+    
+        <problem class="Problem.FunctionMinimisationProblem">
+            <function class="Functions.Schwefel" />
+        </problem>
+
+        <measurements class="Simulator.MeasurementSuite" file="data/multistart-cooperative-pso-schwefel.txt" resolution="10">
+            <addMeasurement class="Measurement.Restarts" /> 
+            <addMeasurement class="Measurement.FitnessEvaluations" />
+            <addMeasurement class="Measurement.FunctionOptimisationError" />
+        </measurements>
+        
+     </simulation>
+        
+</simulator>
