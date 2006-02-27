@@ -33,7 +33,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 /**
  *
- * @author  espeer
+ * @author  Edwin Peer
  */
 public class AllTest extends TestCase {
     
@@ -48,13 +48,20 @@ public class AllTest extends TestCase {
 
     public static Test suite() {
         TestSuite suite = new TestSuite();
-        suite.addTest(net.sourceforge.cilib.Functions.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.PSO.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.Random.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.Problem.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.Domain.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.Type.AllTest.suite());
-				suite.addTest(net.sourceforge.cilib.Container.AllTest.suite());
+        
+        suite.addTest(net.sourceforge.cilib.container.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.container.graph.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.functions.continuous.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.Functions.Discrete.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.pso.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.math.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.math.random.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.measurement.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.problem.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.type.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.type.creator.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.type.types.AllTest.suite());
+        
         return suite;
     }
 }

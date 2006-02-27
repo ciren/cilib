@@ -1,0 +1,79 @@
+/*
+ * Foxholes.java
+ * 
+ * Created on Oct 24, 2005
+ *
+ * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+package net.sourceforge.cilib.functions.continuous;
+
+import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Vector;
+
+/**
+ * This is an implementation of the Foxholes function.
+ * 
+ * The minimum of the function is located at <tt>f(-32, -32) ~= 1.0</tt>
+ * 
+ * @author Gary Pampara
+ */
+public class Foxholes extends ContinuousFunction {
+	
+	private double a[][] = {
+			{-32.0, -16.0, 0.0, 16.0, 32.0},
+			{-32.0, -16.0, 0.0, 16.0, 32.0}
+	};
+	
+	public Foxholes() {
+		setDomain("R(-65.536,65.536)^2");
+	}
+
+	
+	public Object getMinimum() {
+		return new Double(1.0);
+	}
+	
+	// This impl is according to the function defined by Xin Yao in the FastEP and by the DE guys
+	public double evaluate(Vector x) {
+		double result = 0.002;
+		double sum = 0.0;
+		
+		for (int j = 0; j < 25; j++) {
+			double tmp = 0.0;
+			double tmp_a = 0.0;
+			
+			for (int i = 0; i <= 1; i++) {
+				if (i == 0)
+					tmp_a = a[0][j%5];
+				else
+					tmp_a = a[1][j/5];
+						 
+				tmp += Math.pow((x.getReal(i) - tmp_a), 6);
+			}
+			
+			sum += 1.0 / (j + tmp);
+		}
+		
+		return 1.0 / (result + sum);
+	}
+
+}

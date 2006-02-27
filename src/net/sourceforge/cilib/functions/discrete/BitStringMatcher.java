@@ -1,0 +1,130 @@
+/*
+ * BitStringMatcher.java
+ * 
+ * Created on Feb 21, 2006
+ *
+ * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+package net.sourceforge.cilib.functions.discrete;
+
+import java.math.BigInteger;
+
+import net.sourceforge.cilib.functions.DiscreteFunction;
+import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.type.types.Vector;
+
+/**
+ * Discrete function to match the given bit string or a randomly generated bit string.
+ * 
+ * @author Gary Pampara
+ */
+public class BitStringMatcher extends DiscreteFunction {
+	
+	private String targetRandomString;
+	private int numberOfBits;
+	
+	/**
+	 * Constructor
+	 */
+	public BitStringMatcher() {
+	}
+	
+	
+	/**
+	 * Set the domain of the function and generate a random bit string. The generated
+	 * random bit string is generated to ensure that there is a target bit string to
+	 * solve if one is not provided by { @see net.sourceforge.cilib.functions.discrete.BitStringMatcher#setTargetRandomString(String) }.
+	 * The super classes setDomain() is called before the random bit string is generated.
+	 * 
+	 *  @param newDomain The string representation of the doamin to set.
+	 */
+	public void setDomain(String newDomain) {
+		super.setDomain(newDomain);
+		this.numberOfBits = this.getDimension();
+		
+		BigInteger bi = new BigInteger(this.numberOfBits, new MersenneTwister());
+		this.targetRandomString = bi.toString(2);
+		
+		// We need to prepend leading '0's cause the BigInteger removes leading 0's
+		// cause it does not change the value of the number that is represented
+		if (this.targetRandomString.length() != this.numberOfBits) {
+			StringBuffer buf = new StringBuffer(this.targetRandomString);
+			int difference = this.numberOfBits - this.targetRandomString.length();
+			
+			for (int i = 0; i < difference; i++) {
+				buf.insert(0, '0');
+			}
+			
+			this.targetRandomString = buf.toString();
+		}
+	}
+	
+	
+	/**
+	 * Get the target random bit string to match.
+	 * @return The target random bit string
+	 */
+	public String getTargetRandomString() {
+		return this.targetRandomString;
+	}
+	
+	
+	/**
+	 * Set the target random bit string to match.
+	 * @param target The target random bit string to set
+	 */
+	public void setTargetRandomString(String target) {
+		this.targetRandomString = target;
+	}
+	
+	
+	
+	/**
+	 * Get the number of bits in the bit string that must be matched
+	 * @return The number of bits within the bit string
+	 */
+	public int getNumberOfBits() {
+		return this.numberOfBits;
+	}
+	
+		
+	/**
+	 * Evaluate the fitness of the provided solution <code>x</code>. The provided 
+	 * solution is compared, bit for bit to the target solution and every match
+	 * results in a better fitness. Non-matching bits are not penalised.
+	 * 
+	 *  @param x The potential solution provided
+	 */
+	public double evaluate(Vector x) {
+		double result = 0.0;
+		
+		for (int i = 0; i < x.getDimension(); i++) {
+			boolean bitValue = (this.targetRandomString.charAt(i) == '1') ? true : false;
+						
+			if (x.getBit(i) == bitValue)
+				result++;
+		}
+		
+		return result;
+	}
+
+}

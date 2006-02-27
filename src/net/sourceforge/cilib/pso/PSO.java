@@ -1,0 +1,358 @@
+/*
+ * PSO.java
+ *
+ * Created on January 18, 2003, 4:08 PM
+ *
+ *
+ * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+package net.sourceforge.cilib.pso;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+import net.sourceforge.cilib.algorithm.InitialisationException;
+import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
+import net.sourceforge.cilib.algorithm.ParticipatingAlgorithm;
+import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
+import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.pso.iterationstrategies.IterationStrategy;
+import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+
+/**
+ * <p>
+ * An implementation of the standard PSO algorithm.
+ * </p><p>
+ * References:
+ * </p><p><ul><li>
+ * J. Kennedy and R.C. Eberhart, "Particle swarm optimization,"
+ * in Proceedings of IEEE International Conference on Neural Networks,
+ * vol. IV, (Perth Australia), pp. 1942-1948, 1995.
+ * </li><li>
+ * R.C. Eberhart and J. Kennedy, "A new optimizer using particle swarm theory,"
+ * in Proceedings of the Sixth International Symposium on Micro Machine and Human Science,
+ * (Nagoya, Japan), pp. 39-43, 1995.
+ * </li><li>
+ * Y. Shi amd R.C. Eberhart, "A modified particle swarm optimizer,"
+ * in Proceedings of the IEEE Congress on Evolutionary Computation,
+ * (Anchorage, Alaska), pp. 69-73, May 1998.
+ * </li></ul></p>
+ *
+ * @author Edwin Peer
+ * @author Gary Pampara
+ */
+public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorithm, ParticipatingAlgorithm {
+
+    /**
+     * Creates a new instance of <code>PSO</code>. All fields are initialised to
+     * reasonable defaults. Note that the {@link net.sourceforge.cilib.problem.OptimisationProblem}
+     * is initially <code>null</code> and must be set before {@link #initialise()} is called.
+     *
+     */
+    public PSO() {
+        problem = null;
+
+        particles = 20;
+        topology = new GBestTopology();
+
+        prototypeParticle = new StandardParticle();
+        iterationStrategy = new SynchronousIterationStrategy();
+    }
+
+    
+    /**
+     * Perform the required initialisation for the algorithm. Create the particles and add
+     * then to the specified topology.
+     */
+    protected void performInitialisation() {
+        if (problem == null) {
+            throw new InitialisationException("No problem has been specified");
+        }
+        
+        for (int i = 0; i < particles; ++i) {
+            Particle particle = prototypeParticle.clone();
+            
+            particle.initialise(problem);
+            topology.add(particle);
+        }
+    }
+
+    
+    /**
+     * Perform the iteration of the PSO algorithm, use the appropriate <code>IterationStrategy</code>
+     * to perform the iteration. 
+     */
+    protected void performIteration() {
+        bestParticle = null;
+        
+        iterationStrategy.performIteration(this);
+
+        for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext(); ) {
+        	i.next().getVelocityUpdateStrategy().updateControlParameters();
+        }
+    }
+
+    
+    /**
+     * Set the prototypeParticle to the appropriate <code>Particle</code>
+     * @param particle The <code>Particle</code> to be used and the prototypeParticle
+     */
+    public void setPrototypeParticle(Particle particle) {
+        prototypeParticle = particle;
+    }
+
+    
+    /**
+     * Return a reference to the specified prototypeParticle
+     * @return The reference to the prototypeParticle
+     */
+    public Particle getPrototypeParticle() {
+    	return prototypeParticle;
+    }
+    
+    
+    /**
+     * Set the optimisation problem to be solved. By default, the problem is
+     * <code>null</code>. That is, it is necessary to set the optimisation problem
+     * before calling {@link #initialise()}.
+     *
+     * @param problem An implementation of the {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
+     *
+     */
+    public void setOptimisationProblem(OptimisationProblem problem) {
+        this.problem = problem;
+    }
+
+    
+    /**
+     * Get the specified <code>OptimisationProblem</code>
+     * @return The specified <code>OptimisationProblem</code>
+     */
+    public OptimisationProblem getOptimisationProblem() {
+        return problem;
+    }
+    
+    
+    /**
+     * Get the best current solution. This best solution is determined from the personal bests of the particles.
+     * @return The <code>OptimisationSolution</code> representing the best solution.
+     */
+    public OptimisationSolution getBestSolution() {
+    	OptimisationSolution solution = new OptimisationSolution(problem, getBestParticle().getBestPosition().clone());
+        
+        return solution;
+    }
+
+    
+    /**
+     * Get the collection of best solutions. This result does not actually make sense in the normal PSO
+     * algorithm, but rather in a MultiObjective optimisation.
+     * @return  The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions. 
+     */
+    public Collection<OptimisationSolution> getSolutions() {
+        ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
+        solutions.add(this.getBestSolution());
+        return solutions;
+    }
+
+    
+    /**
+     * Get the current best particle. This is determined from the personal bests
+     * @return The best <code>Particle</code> so far.
+     */
+    public Particle getBestParticle() {
+        if (bestParticle == null) {
+        	Iterator<Particle> i = topology.iterator();
+            bestParticle =  i.next();
+            Fitness bestFitness = bestParticle.getBestFitness();
+            while (i.hasNext()) {
+                Particle particle = i.next();
+                if (particle.getBestFitness().compareTo(bestFitness) > 0) {
+                    bestParticle = particle;
+                    bestFitness = bestParticle.getBestFitness();
+                }
+            }
+        }
+        return bestParticle;
+    }
+
+    
+    /**
+     * Sets the particle topology used. The default is {@link GBestTopology}.
+     *
+     * @param A class that implements the {@link Topology} interface.
+     */
+    @SuppressWarnings("unchecked")
+	public void setTopology(Topology<? extends Entity> topology) {
+    	Topology<Particle> top = (Topology<Particle>) topology;
+        this.topology = top;
+    }
+
+    
+    /**
+     * Accessor for the topology being used.
+     *
+     * @return The {@link Topology} being used.
+     */
+    public Topology<Particle> getTopology() {
+        return topology;
+    }
+    
+    // TODO: Move down heirarchy into MOPSO????
+    public Type getContribution() {
+        return getBestParticle().getBestPosition();
+    }
+
+    public Fitness getContributionFitness() {
+        return getBestParticle().getBestFitness();
+    }
+
+    public void updateContributionFitness(Fitness fitness) {
+        getBestParticle().setFitness(fitness);
+    }
+
+
+    // TODO: This does not fit really here.... move to another class PSOUtilities. 
+    // Does not really calculate the diameter.
+    /**
+     * Calculates the diameter of the swarm around the position of the best particle.
+     *  The diameter is calculated using the average Euclidean distance.
+     *
+     * @return The calculated diameter of the swarm.
+     */
+    public double getDiameter() {
+  
+    	/* The code below has been moved to Measurement.EuclideanDiversityAroundGBest
+    	 * The new code as updated by Andries Engelbrecht calculates the real diameter
+    	 *  	Vector center = (Vector) getBestParticle().getPosition();
+    	DistanceMeasure distance = new EuclideanDistanceMeasure();
+        double diameter = 0;
+        int count = 0;
+
+        for (Iterator<Particle> i = topology.iterator(); i.hasNext(); ++count) {
+            Particle other = i.next();
+            diameter += distance.distance(center, (Vector) other.getPosition());
+        }*/
+    
+    	//TODO: Can be optimised by not calculating symmetrical distances
+    	
+    	double maxDistance = 0.0;
+    	
+    	Iterator k1 = getTopology().iterator();
+        while (k1.hasNext()) {
+            Particle p1 = (Particle) k1.next();
+        	Vector position1 = (Vector) p1.getPosition();
+           	
+        	Iterator k2 = getTopology().iterator();
+        	while (k2.hasNext()) {
+        		Particle p2 = (Particle) k2.next();
+        		Vector position2 = (Vector) p2.getPosition();
+        		DistanceMeasure distance = new EuclideanDistanceMeasure();
+        		double actualDistance = distance.distance(position1,position2);
+        		if (actualDistance > maxDistance)
+        			maxDistance = actualDistance;
+        	}
+        }
+    	
+        return maxDistance;
+    }
+
+    
+    /**
+     * Get the next sequential unique particle identifier
+     * @return The next unique particle identifier
+     */
+    public static int getNextParticleId() {
+        return currentParticleId++;
+    }
+
+    
+    /**
+     * Set the required number of particles.
+     * @param particles The required number of particles
+     */
+    public void setParticles(int particles)  {
+      this.particles = particles;
+    }
+    
+    
+    /**
+     * Get the number of particles set
+     * @return The number of particles
+     */
+    public int getParticles() {
+    	return particles;
+    }
+    
+    
+    public int getPopulationSize() {
+    	return this.getParticles();
+    }
+    
+	public void setPopulationSize(int populationSize) {
+		this.setParticles(populationSize);
+	}
+    
+    
+    /**
+     * Get the <code>IterationStrategy</code> of the PSO algorithm
+	 * @return Returns the iterationStrategy.
+	 */
+	public IterationStrategy getIterationStrategy() {
+		return iterationStrategy;
+	}
+	
+	
+	/**
+	 * Set the <code>IterationStrategy</code> to be used
+	 * @param iterationStrategy The iterationStrategy to set.
+	 */
+	public void setIterationStrategy(IterationStrategy iterationStrategy) {
+		this.iterationStrategy = iterationStrategy;
+	}
+
+	
+    private static int currentParticleId = 0;
+
+    private int particles;
+
+    private Topology<Particle> topology;
+    private OptimisationProblem problem;
+
+    private Particle bestParticle;
+    private Particle prototypeParticle;
+
+    private IterationStrategy iterationStrategy;
+}

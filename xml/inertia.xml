@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<simulator>
+
+	<simulation>
+
+		<algorithm class="pso.PSO">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations">
+				<iterations value="1000"/>
+			</addStoppingCondition>
+			<velocityUpdate class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+				<inertiaComponent class="controlparameterupdatestrategies.LinearDecreasingUpdateStrategy">
+					<!--
+					<minimumInertia value="0.4"/>
+					<maximumInertia value="1.4"/>
+					-->
+				</inertiaComponent>
+			</velocityUpdate>
+		</algorithm>
+
+		<problem class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Spherical" />
+		</problem>
+
+		<measurements class="simulator.MeasurementSuite" resolution="100" samples="1" file="pso-inertia.txt">
+			<addMeasurement class="measurement.Iterations"/>
+			<addMeasurement class="measurement.FunctionOptimisationError" />
+		</measurements>
+
+	</simulation>
+
+</simulator>

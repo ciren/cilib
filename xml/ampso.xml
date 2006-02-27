@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<simulator>
+	<simulation>
+		<algorithm class="pso.PSO">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations">
+				<iterations value="4000"/>
+			</addStoppingCondition>
+			<particles value="40" />
+			<topology class="entity.topologies.VonNeumannTopology" />
+			<!--			<velocityUpdate class="PSO.StandardVelocityUpdate">
+				<inertiaComponent class="PSO.LinearDecreasingInertia" />
+			</velocityUpdate>-->
+		</algorithm>
+
+		<problem class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.AngleModulation" precision="2">
+				<function class="functions.continuous.Rastrigin" domain="R(-5.12,5.12)^30" />
+			</function>
+		</problem>
+
+		<measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/ampso-quadric.txt">
+			<addMeasurement class="measurement.Fitness" />
+			<addMeasurement class="measurement.BestParticlePosition" />
+		</measurements>
+	</simulation>
+</simulator>

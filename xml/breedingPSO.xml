@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+	<algorithms>
+		
+		<algorithm id="gbest" class="PSO.BreedingPSO" particles="20">
+			<crossover class="EC.CrossOverOperators.ArithmeticCrossOver" />
+			<particleSelector class="EC.SelectionOperators.RandomSelection" />
+			<addStoppingCondition class="StoppingCondition.MaximumIterations" iterations="1000" />
+		</algorithm>
+	</algorithms>
+
+    	<problems>
+		<problem id="spherical" class="Problem.FunctionMinimisationProblem">
+			<function class="Functions.Continuous.Spherical"/>
+		</problem>
+		<problem id="rosenbrock" class="Problem.FunctionMinimisationProblem">
+			<function class="Functions.Continuous.Rosenbrock"/>
+		</problem>
+		<problem id="griewank" class="Problem.FunctionMinimisationProblem">
+			<function class="Functions.Continuous.Griewank"/>
+		</problem>
+		<problem id="hyperellipsoid" class="Problem.FunctionMinimisationProblem">
+			<function class="Functions.Continuous.HyperEllipsoid"/>
+		</problem>
+		<problem id="colville" class="Problem.FunctionMinimisationProblem">
+			<function class="Functions.Continuous.Colville"/>
+		</problem>
+		<problem id="ackley" class="Problem.FunctionMinimisationProblem">
+			<function class="Functions.Continuous.Ackley"/>
+		</problem>
+    	</problems>
+
+   	<measurements id="measurements" class="Simulator.MeasurementSuite" samples="30" resolution="10">
+	   <addMeasurement class="Measurement.Fitness" />
+   	</measurements>
+
+    	<simulations>
+		<simulation>
+			<algorithm idref="gbest" />
+			<problem idref="spherical" />
+			<measurements idref="measurements" file="data/pso-spherical.txt" />
+		</simulation>
+		<simulation>
+			<algorithm idref="gbest" />
+			<problem idref="rosenbrock" />
+			<measurements idref="measurements" file="data/pso-rosenbrock.txt" />
+		</simulation>
+		<simulation>
+			<algorithm idref="gbest" />
+			<problem idref="griewank" />
+			<measurements idref="measurements" file="data/pso-griewank.txt" />
+		</simulation>
+		<simulation>
+			<algorithm idref="gbest" />
+			<problem idref="hyperellipsoid" />
+			<measurements idref="measurements" file="data/pso-hyperellipsoid.txt" />
+		</simulation>
+		<simulation>
+			<algorithm idref="gbest" />
+			<problem idref="colville" />
+			<measurements idref="measurements" file="data/pso-colville.txt" />
+		</simulation>
+		<simulation>
+			<algorithm idref="gbest" />
+			<problem idref="ackley" />
+			<measurements idref="measurements" file="data/pso-ackley.txt" />
+		</simulation>
+    	</simulations>
+</simulator>

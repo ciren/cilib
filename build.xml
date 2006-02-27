@@ -1,104 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="all" name="cilib">
- 
-    <property name="debug" value="true"/>
- 
-    <property name="junit.jar" value="/usr/share/junit/lib/junit.jar"/>
- 
-    <property name="bin.dir" value="bin"/>
-    <property name="build.dir" value="build"/>
-    <property name="data.dir" value="data"/>
-    <property name="doc.dir" value="doc"/>
-    <property name="source.dir" value="src"/>
-    <property name="tests.dir" value="tests"/>
 
-    <property name="cilib.jar" value="${build.dir}/cilib.jar"/>
-    <property name="cilib-src.zip" value="${build.dir}/cilib-src.zip"/>
-    
-    <path id="cilib.classpath">
-      	<pathelement location="bin/"/>
-      	<pathelement location="${junit.jar}"/>
-    </path>
-      
-    <target depends="jar,zip" name="all"/>
- 
-    <target name="clean">
-        <delete includeemptydirs="true">
-            <fileset dir="${build.dir}">
-                <include name="**/*"/>
-            </fileset>
-            <fileset dir="${bin.dir}">
-             	<include name="**/*"/>
-            </fileset>
-            <fileset dir="${doc.dir}">
-	        <include name="**/*"/>
-            </fileset>
-        </delete>
-    </target>
+	<property name="debug" value="true"/>
 
-    <target depends="clean" name="distclean">
-        <delete includeemptydirs="true">
-            <fileset dir="${data.dir}">
-	        <include name="**/*"/>
-            </fileset>
-        </delete>
-    </target>
-    
-    <target name="compile">
-        <mkdir dir="${bin.dir}"/>
-        <mkdir dir="${build.dir}"/>
-        <mkdir dir="${data.dir}"/>
-        <javac classpathref="cilib.classpath" destdir="${bin.dir}" optimize="true" srcdir="${source.dir}" debug="${debug}">
-	    <compilerarg value="-Xlint:unchecked" />
-	</javac>
-        <copy todir="${bin.dir}">
-          <fileset dir="${source.dir}">
-          	<include name="*.properties"/>
-          </fileset>
-        </copy>
-    </target>
-    
-    <target depends="compile" name="compile-tests">
-        <javac classpathref="cilib.classpath" destdir="${bin.dir}" optimize="true" srcdir="${tests.dir}"/>    
-    </target>
-    
-    <target depends="compile-tests" name="test">
-      	<java classpathref="cilib.classpath" classname="net.sourceforge.cilib.AllTest"/>
-    </target>
-    
-    <target name="zip">
-        <zip destfile="${cilib-src.zip}">
-            <fileset dir="${basedir}">
-             	<exclude name="bin/*/**"/>
-             	<exclude name="build/*/**"/>
-             	<exclude name=".project"/>
-             	<exclude name=".classpath"/>
-            </fileset>
-        </zip>
-    </target>
-    
-    <target name="javadoc">
-      <mkdir dir="${doc.dir}"/>
-      <javadoc packagenames="net.sourceforge.cilib.*"
-           sourcepath="src"
-	   destdir="${doc.dir}/api"
-	   overview="overview.html"
-	   public="yes"
-	   author="true"
-	   windowtitle="CILib API">
-	   <doctitle><![CDATA[<h1>CILib - Computational Intelligence Library</h1>]]></doctitle>
-	   <bottom><![CDATA[<i>Copyright &#169; 2004 CIRG, University of Pretoria. All Rights Reserved.</i>]]></bottom>
-      </javadoc>
+	<property name="junit.jar" value="/usr/share/junit/lib/junit.jar"/>
 
-    </target>
+	<property name="bin.dir" value="bin"/>
+	<property name="build.dir" value="build"/>
+	<property name="data.dir" value="data"/>
+	<property name="doc.dir" value="doc"/>
+	<property name="source.dir" value="src"/>
+	<property name="tests.dir" value="tests"/>
 
-    <target depends="compile" name="jar">
-        <jar destfile="${cilib.jar}">
-            <fileset dir="${basedir}" file="AUTHORS"/>
-            <fileset dir="${basedir}" file="COPYING"/>
-            <fileset dir="${basedir}" file="README"/>
-            <fileset dir="${bin.dir}" includes="*/**"/>
-        </jar>
-    </target>
+	<property name="cilib.jar" value="${build.dir}/cilib.jar"/>
+	<property name="cilib-src.zip" value="${build.dir}/cilib-src.zip"/>
+
+	<path id="cilib.classpath">
+		<pathelement location="bin/"/>
+		<pathelement location="${junit.jar}"/>
+	</path>
+
+	<target depends="jar,zip" name="all"/>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${bin.dir}" />
+		<delete dir="${doc.dir}" />
+	</target>
+
+	<target depends="clean" name="distclean">
+		<delete includeemptydirs="true">
+			<fileset dir="${data.dir}">
+				<include name="**/*"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${bin.dir}"/>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${data.dir}"/>
+		<mkdir dir="${doc.dir}" />
+		<javac classpathref="cilib.classpath" source="1.5" target="1.5" destdir="${bin.dir}" optimize="true" srcdir="${source.dir}" debug="${debug}">
+			<compilerarg value="-Xlint:unchecked -nowarn" />
+		</javac>
+		<copy todir="${bin.dir}">
+			<fileset dir="${source.dir}">
+				<include name="*.properties"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target depends="compile" name="compile-tests">
+		<javac classpathref="cilib.classpath" destdir="${bin.dir}" optimize="true" srcdir="${tests.dir}"/>    
+	</target>
+
+	<target depends="compile-tests" name="test">
+		<java classpathref="cilib.classpath" classname="net.sourceforge.cilib.AllTest"/>
+	</target>
+
+	<target name="zip">
+		<zip destfile="${cilib-src.zip}">
+			<fileset dir="${basedir}">
+				<exclude name="bin/*/**"/>
+				<exclude name="build/*/**"/>
+				<exclude name=".project"/>
+				<exclude name=".classpath"/>
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="javadoc">
+		<mkdir dir="${doc.dir}"/>
+		<javadoc packagenames="net.sourceforge.cilib.*"
+			sourcepath="src"
+			destdir="${doc.dir}/api"
+			overview="overview.html"
+			public="yes"
+			author="true"
+			windowtitle="CILib API">
+			<doctitle><![CDATA[<h1>CILib - Computational Intelligence Library</h1>]]></doctitle>
+			<bottom><![CDATA[<i>Copyright &#169; 2004 CIRG, University of Pretoria. All Rights Reserved.</i>]]></bottom>
+		</javadoc>
+
+	</target>
+
+	<target depends="compile" name="jar">
+		<jar destfile="${cilib.jar}">
+			<fileset dir="${basedir}" file="AUTHORS"/>
+			<fileset dir="${basedir}" file="COPYING"/>
+			<fileset dir="${basedir}" file="README"/>
+			<fileset dir="${bin.dir}" includes="*/**"/>
+		</jar>
+	</target>
 
 </project>
