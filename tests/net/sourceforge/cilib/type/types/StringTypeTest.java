@@ -43,6 +43,14 @@ import junit.framework.TestCase;
  */
 public class StringTypeTest extends TestCase {
 	
+	public void testClone() {
+		StringType t = new StringType("test string");
+		StringType clone = t.clone();
+		
+		assertTrue(t.getString().equals(clone.getString()));
+		assertEquals(t.getString(), clone.getString());
+	}
+	
 	/**
 	 * 
 	 *
