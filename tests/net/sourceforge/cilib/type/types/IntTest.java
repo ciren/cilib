@@ -80,14 +80,7 @@ public class IntTest extends TestCase {
 	
 	public void testRandomize() {
 		Int i1 = new Int(-300, 300);
-		Int i2 = null;
-		
-		//try {
-			i2 = (Int) i1.clone();
-		//}
-		//catch (CloneNotSupportedException clone) {
-		//	fail();
-		//}
+		Int i2 = i1.clone();
 		
 		assertTrue(i1.getInt() == i2.getInt());
 		i1.randomise();

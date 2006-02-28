@@ -43,9 +43,7 @@ import junit.framework.TestCase;
 public class RealTest extends TestCase {
 	
 	public void testClone() {
-		Real r = new Real();
-		r.setReal(-10.0);
-		
+		Real r = new Real(-10.0);		
 		Real test = r.clone();
 		
 		assertEquals(r.getReal(), test.getReal());
