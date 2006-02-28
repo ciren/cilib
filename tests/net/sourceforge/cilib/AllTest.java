@@ -52,7 +52,7 @@ public class AllTest extends TestCase {
         suite.addTest(net.sourceforge.cilib.container.AllTest.suite());
         suite.addTest(net.sourceforge.cilib.container.graph.AllTest.suite());
         suite.addTest(net.sourceforge.cilib.functions.continuous.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.Functions.Discrete.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.functions.discrete.AllTest.suite());
         suite.addTest(net.sourceforge.cilib.pso.AllTest.suite());
         suite.addTest(net.sourceforge.cilib.math.AllTest.suite());
         suite.addTest(net.sourceforge.cilib.math.random.AllTest.suite());

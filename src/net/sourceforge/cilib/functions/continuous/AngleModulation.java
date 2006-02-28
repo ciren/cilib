@@ -217,7 +217,7 @@ public class AngleModulation extends ContinuousFunction {
 		double result = 0.0;
 		int n = 1;
 		
-		for (int counter = i; counter < j; counter++) {
+		for (int counter = j-1; counter >= i; counter--) {
 			if (str.charAt(counter) == '1') {
 				result += n;
 			}

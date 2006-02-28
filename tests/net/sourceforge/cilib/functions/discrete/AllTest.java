@@ -33,7 +33,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 /**
  *
- * @author  Edwin Peer
+ * @author Gary Pampara
  */
 public class AllTest extends TestCase {
     
@@ -50,6 +50,7 @@ public class AllTest extends TestCase {
         TestSuite suite = new TestSuite();
      
         suite.addTestSuite(KnapSackTest.class);
+        suite.addTestSuite(BinaryAdapterTest.class);
         
         return suite;
     }
