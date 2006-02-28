@@ -43,7 +43,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * TODO: Make the key also able to be a StringType
  * TODO: specify format of file generically
  */
-public class AssociatedPairDataSetBuilder implements DataSetBuilder {
+public class AssociatedPairDataSetBuilder extends DataSetBuilder {
 	
 	private ArrayList<Pair<Numeric, Vector>> keyPatternPair;
 	
@@ -59,8 +59,8 @@ public class AssociatedPairDataSetBuilder implements DataSetBuilder {
 	/**
 	 * 
 	 */
-	public void setDataSet(DataSet dataSet) {
-		BufferedReader br = new BufferedReader(new InputStreamReader(dataSet.getInputStream()));
+	public void initialise() {
+		BufferedReader br = new BufferedReader(new InputStreamReader(this.getDataSet(0).getInputStream()));
 		
 		try {
 			String line = br.readLine();
@@ -74,7 +74,6 @@ public class AssociatedPairDataSetBuilder implements DataSetBuilder {
 			throw new RuntimeException(io);
 		}
 	}
-	
 	
 	/**
 	 * 

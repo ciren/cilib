@@ -58,7 +58,7 @@ public class GraphOptimisationProblem extends ACOOptimisationProblem {
 	
 	/**
 	 * 
-	 * @param dataSet
+	 * @param dataSetBuilder
 	 */
 	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
 		this.dataSetBuilder = dataSetBuilder;

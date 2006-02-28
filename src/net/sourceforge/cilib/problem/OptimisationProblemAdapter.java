@@ -43,6 +43,7 @@ import net.sourceforge.cilib.type.DomainParser;
 public abstract class OptimisationProblemAdapter implements OptimisationProblem { 
    
 	protected int fitnessEvaluations;
+	protected DataSetBuilder dataSetBuilder;
 	 
     public OptimisationProblemAdapter() {
         fitnessEvaluations = 0;
@@ -69,11 +70,11 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     
     
     public DataSetBuilder getDataSetBuilder() {
-    	return null;
+    	return this.dataSetBuilder;
     }
     
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
-    	
+    	this.dataSetBuilder = dataSetBuilder;
     }
     
 }

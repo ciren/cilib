@@ -26,11 +26,31 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * @author Gary Pampara
  */
-public interface DataSetBuilder {
+public abstract class DataSetBuilder implements Iterable<DataSet> {
 	
-	public void setDataSet(DataSet dataSet);
+	private ArrayList<DataSet> dataSets;
+	
+	public DataSetBuilder() {
+		this.dataSets = new ArrayList<DataSet>();
+	}
+	
+	public void setDataSet(DataSet dataSet) {
+		this.dataSets.add(dataSet);
+	}
+	
+	public DataSet getDataSet(int index) {
+		return this.dataSets.get(index);
+	}
 
+	public Iterator<DataSet> iterator() {
+		return this.dataSets.iterator();
+	}
+	
+	public abstract void initialise();
 }

@@ -35,7 +35,7 @@ import java.io.StreamTokenizer;
 
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
-import net.sourceforge.cilib.problem.dataset.DataSet;
+import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 
 /**
  * Abstract MappingProblem class that allows for implementing methods of
@@ -46,11 +46,7 @@ import net.sourceforge.cilib.problem.dataset.DataSet;
  * @author jkroon
  */
 public abstract class MappingProblem extends OptimisationProblemAdapter {
-	/**
-	 * Make the compiler shut up!
-	 */
-	//public void getDataSet(){ }
-
+	
 	/**
 	 * Calculates the fitness of the given matrix.  This wraps arounds the
 	 * {@see evaluateMapping} function.  It may call evaluateMapping multiple
@@ -204,8 +200,8 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	}
 	
 	
-	public DataSet getDataSet() {
-		return this.dataSet;
+	public DataSetBuilder getDataSetBuilder() {
+		return this.dataSetBuilder;
 	}
 
 	/**
@@ -215,13 +211,14 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * @param dataset The dataset from which to retrieve the data.
 	 *
 	 * @author jkroon
+	 * 
 	 */
-	public void setDataSet(DataSet dataSet)
+	public void setDataSetBuilder(DataSetBuilder dataSetBuilder)
 	{
-		this.dataSet = dataSet;
+		this.dataSetBuilder = dataSetBuilder;
 		
 		try {
-			InputStream is = dataSet.getInputStream();
+			InputStream is = this.dataSetBuilder.getDataSet(0).getInputStream();
 			
 			StreamTokenizer tok = new StreamTokenizer(new InputStreamReader(is));
 
@@ -305,8 +302,5 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	private int numvectors = -1;
 	private double inputs[][] = null;
 	private double inp_distmatrix[][] = null;
-	//private DomainComponent domain = null;
-	//private Domain domain = null;
 	private MappingEvaluator evaluator = null;
-	private DataSet dataSet;
 }

@@ -77,7 +77,7 @@ public class RNAPSO extends PSO {
 		BufferedReader in;
 		try {
 			RNAOptimisationProblem p = (RNAOptimisationProblem) this.getOptimisationProblem();
-			in = new BufferedReader(new InputStreamReader(p.getDataSet().getInputStream()));
+			in = new BufferedReader(new InputStreamReader(p.getDataSetBuilder().getDataSet(0).getInputStream()));
 			String line;
 			//Read and discard first 4 lines
 			in.readLine();

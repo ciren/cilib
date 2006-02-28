@@ -29,7 +29,7 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
-import net.sourceforge.cilib.problem.dataset.DataSet;
+import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 
 
@@ -41,7 +41,7 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 
 	private RNAFitness fit;
 	protected int fitnessEvaluations;
-	private DataSet dataSet;
+	private DataSetBuilder dataSetBuilder;
 	
 	/**
 	 * @return Returns the fit.
@@ -61,12 +61,12 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 		return new MinimisationFitness(fit.getRNAFitness((RNAConformation) solution));
 	}
 	
-	public void setDataSet(DataSet data) {
-		this.dataSet = data;
+	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
+		this.dataSetBuilder = dataSetBuilder;
 	}
 	
-	public DataSet getDataSet() {
-		return this.dataSet;
+	public DataSetBuilder getDataSetBuilder() {
+		return this.dataSetBuilder;
 	}
 	
 	public DomainRegistry getDomain() {
