@@ -48,13 +48,18 @@ public class StringType extends Type {
 		string = null;
 	}
 	
+	
+	public StringType(String string) {
+		this.string = string;
+	}
+	
+	public StringType(StringType copy) {
+		this.string = copy.string;
+	}
+	
 	@Override
 	public StringType clone() {
-		StringType clone = new StringType();
-		
-		clone.string = new String(this.string);
-		
-		return clone;
+		return new StringType(this);
 	}
 	
 	
@@ -72,6 +77,9 @@ public class StringType extends Type {
 		if (other instanceof StringType) {
 			StringType t = (StringType) other;
 			return this.string.equals(t.string);
+		}
+		else if (other instanceof String) {
+			return this.string.equals(other);
 		}
 		
 		return false;
