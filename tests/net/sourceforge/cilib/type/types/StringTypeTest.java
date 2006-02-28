@@ -51,6 +51,13 @@ public class StringTypeTest extends TestCase {
 		assertEquals(t.getString(), clone.getString());
 	}
 	
+	
+	public void testDimensionality() {
+		StringType s = new StringType("This is a StringType");
+		
+		assertEquals(1, s.getDimension());
+	}
+	
 	/**
 	 * 
 	 *
