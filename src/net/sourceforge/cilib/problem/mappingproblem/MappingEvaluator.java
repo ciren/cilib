@@ -29,7 +29,7 @@
 package net.sourceforge.cilib.problem.mappingproblem;
 
 import net.sourceforge.cilib.container.Matrix;
-import net.sourceforge.cilib.problem.*;
+import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * Class that actually evaluates a given Mapping. This is to allow using

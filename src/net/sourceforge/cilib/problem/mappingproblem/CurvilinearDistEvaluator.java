@@ -28,7 +28,8 @@
 package net.sourceforge.cilib.problem.mappingproblem;
 
 import net.sourceforge.cilib.container.Matrix;
-import net.sourceforge.cilib.problem.*;
+import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.MinimisationFitness;
 
 /**
  * Implements the Curvilinear Distance function for evaluating the
