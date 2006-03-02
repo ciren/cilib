@@ -52,7 +52,7 @@ public class BitStringMatcher extends DiscreteFunction {
 	/**
 	 * Set the domain of the function and generate a random bit string. The generated
 	 * random bit string is generated to ensure that there is a target bit string to
-	 * solve if one is not provided by { @see net.sourceforge.cilib.functions.discrete.BitStringMatcher#setTargetRandomString(String) }.
+	 * solve if one is not provided by {@see net.sourceforge.cilib.functions.discrete.BitStringMatcher#setTargetRandomString(String)}.
 	 * The super classes setDomain() is called before the random bit string is generated.
 	 * 
 	 *  @param newDomain The string representation of the doamin to set.
