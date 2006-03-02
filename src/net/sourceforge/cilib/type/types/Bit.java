@@ -98,7 +98,7 @@ public class Bit extends Numeric {
 
 	
 	/**
-	 * Return the {#see } hashValue of this object
+	 * Return the {@see java.lang.Boolean#hashCode()} of this object
 	 * 
 	 * @return The <tt>hashCode</tt> of this object
 	 */

@@ -55,7 +55,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     	if (count) {
     		++fitnessEvaluations;
     	}
-        //if (getDomain().isInside(solution)) {
+        
     	if (DomainParser.getInstance().isInside(solution)) {
             return calculateFitness(solution);	
         }

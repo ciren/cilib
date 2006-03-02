@@ -26,12 +26,18 @@
  */
 package net.sourceforge.cilib.util;
 
+import java.util.Collection;
+
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
  * @author Edwin Peer
+ * @author Gary Pampara
  */
 public interface DistanceMeasure {
-    //public double distance(double[] x, double[] y);
+
 	public double distance(Vector x, Vector y);
+	
+	public <E extends Number> double distance(Collection<E> x, Collection<E> y);
+	
 }

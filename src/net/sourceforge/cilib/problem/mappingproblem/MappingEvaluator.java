@@ -28,6 +28,7 @@
 
 package net.sourceforge.cilib.problem.mappingproblem;
 
+import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.*;
 
 /**
@@ -46,7 +47,7 @@ public interface MappingEvaluator {
 	 *
 	 * @author jkroon
 	 */
-	public Fitness evaluateMapping(double [][]dist);
+	public Fitness evaluateMapping(Matrix<Double> dist);
 
 	/**
 	 * Gets called when attached to a MappingProblem.  This is to allow

@@ -27,6 +27,7 @@
  */
 package net.sourceforge.cilib.problem.mappingproblem;
 
+import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.*;
 
 /**
@@ -45,14 +46,14 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
 	 * 
 	 * @author jkroon
 	 */
-	public Fitness evaluateMapping(double [][]d) {
+	public Fitness evaluateMapping(Matrix<Double> d) {
 		int numvect = prob.getNumInputVectors();
 		double res = 0.0;
 		
 		for(int i = 0; i < numvect; i++)
 			for(int j = i + 1; j < numvect; j++) {
 				double inp = dist.getDistance(i, j);
-				double tmp = inp - d[i][j];
+				double tmp = inp - d.get(i, j);
 			
 				res += tmp * tmp * F(inp);
 			}

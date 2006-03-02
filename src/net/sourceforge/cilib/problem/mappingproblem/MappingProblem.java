@@ -28,14 +28,14 @@
 
 package net.sourceforge.cilib.problem.mappingproblem;
 
-import java.io.EOFException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StreamTokenizer;
-
+import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.problem.dataset.MatrixDataSetBuilder;
+import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * Abstract MappingProblem class that allows for implementing methods of
@@ -44,8 +44,29 @@ import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
  * OptimisationProblemAdapter.
  *
  * @author jkroon
+ * 
+ * TODO: change this to use the MatrixDataSetBuilder correctly
  */
 public abstract class MappingProblem extends OptimisationProblemAdapter {
+	
+	private int outputDimension = -1;
+	private int inputDimension = -1;
+	private int numvectors = -1;
+	private Matrix<Double> inputs = null;
+	private Matrix<Double> inp_distmatrix = null;	
+	private MappingEvaluator evaluator = null;
+	private DistanceMeasure distanceMeasure = null;
+	
+	
+	/**
+	 * 
+	 *
+	 */
+	public MappingProblem() {
+		this.evaluator = new CurvilinearCompEvaluator();
+		this.distanceMeasure = new EuclideanDistanceMeasure();
+	}
+	
 	
 	/**
 	 * Calculates the fitness of the given matrix.  This wraps arounds the
@@ -58,19 +79,22 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * @author jkroon
 	 */
 	protected final Fitness calculateFitness(Object solution) {
-		double []matrix = (double[])solution;
+		Vector matrix = (Vector) solution;
 		
-		double [][]distmatrix = new double[numvectors][numvectors];
-		double [][]outputs = new double[numvectors][D];
+		Matrix<Double> distmatrix = new Matrix<Double>(numvectors, numvectors);
+		Matrix<Double> outputs = new Matrix<Double>(numvectors, outputDimension);
 
 		performMapping(inputs, matrix, outputs);
 			
 		matrix = null;
 
 		for(int a = 0; a < numvectors; a++) {
-			distmatrix[a][a] = 0.0;
-			for(int b = 0; b < a; b++)
-				distmatrix[a][b] = distmatrix[b][a] = calcDistance(outputs[a], outputs[b]);
+			distmatrix.set(a, a, 0.0);
+			for(int b = 0; b < a; b++) {
+				double distance = this.distanceMeasure.distance(outputs.getRow(a), outputs.getRow(b));
+				distmatrix.set(a, b, distance);
+				distmatrix.set(b, a, distance);
+			}
 		}
 
 		outputs = null;
@@ -93,7 +117,8 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 *
 	 * @author jkroon
 	 */
-	protected abstract void performMapping(double [][]inputs, double []distmatrix, double [][]outputs);
+	protected abstract void performMapping(Matrix<Double> inputs, Vector distmatrix, Matrix<Double> outputs);
+
 
 	/**
 	 * This function should return the number of "doubles" required in the
@@ -105,6 +130,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 */
 	protected abstract int getMatrixSize();
 
+	
 	/**
 	 * Returns the DomainComponent representing this mapping.  The actual
 	 * ^ depends on the mapping scheme, so your mapping scheme will need
@@ -130,6 +156,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 		return domain;
 	}*/
 
+	
 	/**
 	 * Gets the value of M, the input dimension.
 	 *
@@ -138,9 +165,10 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * @author jkroon
 	 */
 	public final int getInputDim() {
-		return M;
+		return inputDimension;
 	}
 
+	
 	/**
 	 * Gets the value of D, the output dimension.
 	 *
@@ -149,8 +177,9 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * @author jkroon
 	 */
 	public final int getOutputDim() {
-		return D;
+		return outputDimension;
 	}
+	
 	
 	/**
 	 * This function retrieves the number of input vectors that forms
@@ -162,6 +191,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 		return numvectors;
 	}
 
+	
 	/**
 	 * This function sets the evaluator to use.
 	 *
@@ -174,36 +204,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 		evaluator.setMappingProblem(this);
 	}
 	
-	/**
-	 * This function calculates the distance between two vectors.  The
-	 * default functions uses a linear mapping - subclasses may override
-	 * this function if required.
-	 *
-	 * It is assumed (but not tested for) that the two vectors are of the
-	 * same dimension.  The reason for not testing is efficiency.  This
-	 * gets called hundreds and hundreds of times...
-	 *
-	 * @param v1 Vector 1.
-	 * @param v2 Vector 2.
-	 *
-	 * @author jkroon
-	 */
-	protected double calcDistance(double []v1, double[]v2)
-	{
-		double sum = 0.0;
-		for(int i = 0; i < v1.length; i++) {
-			double diff = v1[i] - v2[i];
-			sum += diff * diff;
-		}
-
-		return Math.sqrt(sum);
-	}
 	
-	
-	public DataSetBuilder getDataSetBuilder() {
-		return this.dataSetBuilder;
-	}
-
 	/**
 	 * This method is used during initialisation by the Simulator to provide us
 	 * with out DataSet.  This method loads the actual data from the DataSet.
@@ -212,10 +213,29 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 *
 	 * @author jkroon
 	 * 
+	 * TODO: Get this to work!!!
+	 * 
 	 */
-	public void setDataSetBuilder(DataSetBuilder dataSetBuilder)
-	{
-		this.dataSetBuilder = dataSetBuilder;
+	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
+		super.setDataSetBuilder(dataSetBuilder);
+		
+		MatrixDataSetBuilder matrixBuilder = (MatrixDataSetBuilder) dataSetBuilder;
+		inputs = matrixBuilder.getMatrix();
+		
+		inp_distmatrix = new Matrix<Double>(numvectors, numvectors);
+		
+		for(int i = 0; i < numvectors; i++) {
+			inp_distmatrix.set(i, i, 0.0);
+			for(int j = 0; j < i; j++) {
+				double distance = this.distanceMeasure.distance(inputs.getRow(i), inputs.getRow(j));
+				this.inp_distmatrix.set(i, j, distance);
+				this.inp_distmatrix.set(j, i, distance);
+			}
+		}
+		
+	}
+		
+		/*this.dataSetBuilder = dataSetBuilder;
 		
 		try {
 			InputStream is = this.dataSetBuilder.getDataSet(0).getInputStream();
@@ -281,7 +301,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 				inp_distmatrix[i][j] = inp_distmatrix[j][i] = 
 					calcDistance(inputs[i], inputs[j]);
 		}
-	}
+	}*/
 
 	/**
 	 * Retrieve the distance between the two given input vectors.
@@ -294,13 +314,8 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * @author jkroon
 	 */
 	public final double getDistanceInputVect(int i1, int i2) {
-		return inp_distmatrix[i2][i1];
+		return inp_distmatrix.get(i2, i1);
 	}
 
-	private int D = -1;
-	private int M = -1;
-	private int numvectors = -1;
-	private double inputs[][] = null;
-	private double inp_distmatrix[][] = null;
-	private MappingEvaluator evaluator = null;
+	
 }

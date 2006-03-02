@@ -27,6 +27,7 @@
  */
 package net.sourceforge.cilib.problem.mappingproblem;
 
+import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.*;
 
 /**
@@ -44,7 +45,7 @@ public class KruskalEvaluator implements MappingEvaluator {
 	 * 
 	 * @author jkroon
 	 */
-	public Fitness evaluateMapping(double [][]dist)
+	public Fitness evaluateMapping(Matrix<Double> dist)
 	{
 		double above = 0.0;
 		double below = 0.0;
@@ -54,11 +55,11 @@ public class KruskalEvaluator implements MappingEvaluator {
 		for(int i = 0; i < numvect; i++) {
 			for(int j = i + 1; j < numvect; j++) {
 				double inp_dist = prob.getDistanceInputVect(i, j);
-				double tmp = inp_dist - dist[i][j];
+				double tmp = inp_dist - dist.get(i, j);
 
 				above += tmp * tmp;
 //				below += inp_dist * inp_dist;
-				below += dist[i][j] * dist[i][j];
+				below += dist.get(i, j) * dist.get(i, j);
 			}
 		}
 

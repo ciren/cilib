@@ -26,6 +26,9 @@
  */
 package net.sourceforge.cilib.util;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -33,24 +36,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class EuclideanDistanceMeasure implements DistanceMeasure {
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.Util.DistanceMeasure#distance(double[], double[])
-     */
-    //public double distance(double[] x, double[] y) {
 	public double distance(Vector x, Vector y) {
-        /*if (x.length != y.length) {
-            throw new IllegalArgumentException("Unmatched argument lengths");
-        }
-        
-        double distance = 0;
-        for (int i = 0; i < x.length; ++i) {
-            double tmp = x[i] - y[i];
-            distance += tmp * tmp; 
-        }
-        
-        return Math.sqrt(distance);*/
-		
-		if (x.getDimension() != y.getDimension())
+        if (x.getDimension() != y.getDimension())
 			throw new IllegalArgumentException("Unmatched argument lengths");
 		
 		double distance = 0;
@@ -59,7 +46,27 @@ public class EuclideanDistanceMeasure implements DistanceMeasure {
 			distance += tmp * tmp;
 		}
 		
-		return distance;
+		return Math.sqrt(distance);
     }
+
+	public <E extends Number> double distance(Collection<E> x, Collection<E> y) {
+		if (x.size() != y.size())
+			throw new IllegalArgumentException("Unmatched argument lengths");
+		
+		double distance = 0;
+		Iterator<E> i = x.iterator();
+		Iterator<E> j = y.iterator();
+		
+		for ( ; i.hasNext() && j.hasNext(); ) {
+			Number n1 = i.next();
+			Number n2 = j.next();
+			
+			double tmp = n1.doubleValue() - n2.doubleValue();
+			
+			distance += tmp * tmp;
+		}
+		
+		return Math.sqrt(distance);
+	}
 
 }

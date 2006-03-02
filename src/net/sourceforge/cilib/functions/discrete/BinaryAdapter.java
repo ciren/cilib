@@ -54,11 +54,11 @@ public class BinaryAdapter extends DiscreteFunction {
 
 	
 	/**
-	 * Evaluate the {#see net.sourceforge.cilib.type.types.Vector Vector} by
+	 * Evaluate the {@see net.sourceforge.cilib.type.types.Vector} by
 	 * decoding the binary vector into a continuous vector and evaluate the results
 	 * by feeding the result into the wrapped funtion.
 	 * 
-	 * @param vector The {#see net.sourceforge.cilib.type.types.Bit Bit} vector to evaluate
+	 * @param vector The {@see net.sourceforge.cilib.type.types.Bit} vector to evaluate
 	 */
 	@Override
 	public double evaluate(Vector vector) {
