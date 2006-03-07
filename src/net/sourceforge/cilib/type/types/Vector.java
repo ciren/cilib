@@ -123,6 +123,13 @@ public abstract class Vector extends Type implements Collection<Type> {
 	public abstract Type getRange(int from, int to);
 	
 	
+	// Vector math methods
+	public abstract void add(Vector vector);
+	public abstract void subtract(Vector vector);
+	public abstract void divide(Vector vector);
+	public abstract void multiply(Vector vector);
+	
+	
 	/**
 	 * TODO: Is this correct?
 	 */

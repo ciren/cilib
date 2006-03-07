@@ -461,4 +461,63 @@ public class MixedVector extends Vector {
 		return m;
 	}
 
+
+	@Override
+	public void add(Vector vector) {
+		if (this.components.size() != vector.size())
+			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
+		
+		for (int i = 0; i < this.components.size(); i++) {
+			Numeric numeric = (Numeric) this.components.get(i);
+			double r = numeric.getReal() + vector.getReal(i);
+			this.components.set(i, new Real(r));
+		}
+		
+	}
+
+
+	@Override
+	public void subtract(Vector vector) {
+		if (this.components.size() != vector.size())
+			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
+		
+		for (int i = 0; i < this.components.size(); i++) {
+			Numeric numeric = (Numeric) this.components.get(i);
+			double r = numeric.getReal() - vector.getReal(i);
+			this.components.set(i, new Real(r));
+		}
+		
+	}
+
+
+	@Override
+	public void divide(Vector vector) {
+		if (this.components.size() != vector.size())
+			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
+		
+		for (int i = 0; i < this.components.size(); i++) {
+			if (vector.getReal(i) == 0.0)
+				throw new ArithmeticException("Vector division by zero");
+			
+			Numeric numeric = (Numeric) this.components.get(i);
+			double r = numeric.getReal() / vector.getReal(i);
+			this.components.set(i, new Real(r));
+		}
+		
+	}
+
+
+	@Override
+	public void multiply(Vector vector) {
+		if (this.components.size() != vector.size())
+			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
+		
+		for (int i = 0; i < this.components.size(); i++) {
+			Numeric numeric = (Numeric) this.components.get(i);
+			double r = numeric.getReal() * vector.getReal(i);
+			this.components.set(i, new Real(r));
+		}
+		
+	}
+
 }
