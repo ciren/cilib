@@ -73,6 +73,9 @@ public abstract class Algorithm implements Runnable {
     protected void performInitialisation() {
     	// subclasses can override the behaviour for this method
     }
+    protected void performUninitialisation() {
+    	// subclasses can override the behaviour for this method
+    }
 
     /** 
      * Executes the algorithm.
@@ -103,6 +106,8 @@ public abstract class Algorithm implements Runnable {
         else {
         	fireAlgorithmTerminated();
         }
+        
+        performUninitialisation();
       
         // TODO: Figure this stuff out
         // initialised = false; // This breaks MultiStartOptimisationAlgorithm - does it make sense to set it false here?
