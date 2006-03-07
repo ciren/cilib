@@ -463,61 +463,74 @@ public class MixedVector extends Vector {
 
 
 	@Override
-	public void add(Vector vector) {
+	public Vector plus(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 		
-		for (int i = 0; i < this.components.size(); i++) {
-			Numeric numeric = (Numeric) this.components.get(i);
+		Vector result = this.clone();
+		
+		for (int i = 0; i < result.size(); i++) {
+			Numeric numeric = (Numeric) result.get(i);
 			double r = numeric.getReal() + vector.getReal(i);
-			this.components.set(i, new Real(r));
+			result.set(i, new Real(r));
 		}
 		
+		return result;
 	}
 
 
 	@Override
-	public void subtract(Vector vector) {
+	public Vector subtract(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 		
-		for (int i = 0; i < this.components.size(); i++) {
-			Numeric numeric = (Numeric) this.components.get(i);
+		Vector result = this.clone();
+		
+		for (int i = 0; i < result.size(); i++) {
+			Numeric numeric = (Numeric) result.get(i);
 			double r = numeric.getReal() - vector.getReal(i);
-			this.components.set(i, new Real(r));
+			result.set(i, new Real(r));
 		}
 		
+		return result;
 	}
 
 
 	@Override
-	public void divide(Vector vector) {
+	public Vector divide(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 		
-		for (int i = 0; i < this.components.size(); i++) {
+		Vector result = this.clone();
+		
+		for (int i = 0; i < result.size(); i++) {
 			if (vector.getReal(i) == 0.0)
 				throw new ArithmeticException("Vector division by zero");
 			
-			Numeric numeric = (Numeric) this.components.get(i);
+			Numeric numeric = (Numeric) result.get(i);
 			double r = numeric.getReal() / vector.getReal(i);
-			this.components.set(i, new Real(r));
+			result.set(i, new Real(r));
 		}
+		
+		return result;
 		
 	}
 
 
 	@Override
-	public void multiply(Vector vector) {
+	public Vector multiply(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 		
-		for (int i = 0; i < this.components.size(); i++) {
-			Numeric numeric = (Numeric) this.components.get(i);
+		Vector result = this.clone();
+		
+		for (int i = 0; i < result.size(); i++) {
+			Numeric numeric = (Numeric) result.get(i);
 			double r = numeric.getReal() * vector.getReal(i);
-			this.components.set(i, new Real(r));
+			result.set(i, new Real(r));
 		}
 		
+		return result;		
 	}
 
 }

@@ -26,14 +26,14 @@
  *   
  */
 
-package net.sourceforge.cilib;
+package net.sourceforge.cilib.util;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 /**
  *
- * @author  Edwin Peer
+ * @author Gary Pampara
  */
 public class AllTest extends TestCase {
     
@@ -49,20 +49,7 @@ public class AllTest extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite();
         
-        suite.addTest(net.sourceforge.cilib.container.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.container.graph.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.functions.continuous.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.functions.discrete.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.pso.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.math.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.math.random.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.measurement.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.problem.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.type.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.type.creator.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.type.types.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.util.AllTest.suite());
-        
+        suite.addTestSuite(EuclideanDistanceMeasureTest.class);
         return suite;
     }
 }

@@ -124,10 +124,10 @@ public abstract class Vector extends Type implements Collection<Type> {
 	
 	
 	// Vector math methods
-	public abstract void add(Vector vector);
-	public abstract void subtract(Vector vector);
-	public abstract void divide(Vector vector);
-	public abstract void multiply(Vector vector);
+	public abstract Vector plus(Vector vector);
+	public abstract Vector subtract(Vector vector);
+	public abstract Vector divide(Vector vector);
+	public abstract Vector multiply(Vector vector);
 	
 	
 	/**
