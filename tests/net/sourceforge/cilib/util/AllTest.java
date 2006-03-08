@@ -49,7 +49,9 @@ public class AllTest extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite();
         
+        suite.addTestSuite(AbsoluteDistanceMeasureTest.class);
         suite.addTestSuite(EuclideanDistanceMeasureTest.class);
+        
         return suite;
     }
 }

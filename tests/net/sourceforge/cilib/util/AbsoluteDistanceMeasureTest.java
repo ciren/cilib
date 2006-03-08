@@ -1,7 +1,7 @@
 /*
- * EuclideanDistanceMeasureTest.java
+ * AbsoluteDistanceMeasureTest.java
  * 
- * Created on Mar 7, 2006
+ * Created on Mar 8, 2006
  *
  * Copyright (C) 2003, 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -32,15 +32,14 @@ import java.util.List;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-
 import junit.framework.TestCase;
 
-public class EuclideanDistanceMeasureTest extends TestCase {
+public class AbsoluteDistanceMeasureTest extends TestCase {
 	
 	private DistanceMeasure distanceMeasure;
 	
 	public void setUp() {
-		this.distanceMeasure = new EuclideanDistanceMeasure();		
+		distanceMeasure = new AbsoluteDistanceMeasure();
 	}
 	
 	public void testVectorDistance() {
@@ -55,7 +54,7 @@ public class EuclideanDistanceMeasureTest extends TestCase {
 		v2.add(new Real(3.0));
 		v2.add(new Real(4.0));
 		
-		assertEquals(Math.sqrt(8.0), distanceMeasure.distance(v1, v2));
+		assertEquals(4.0, distanceMeasure.distance(v1, v2));
 		
 		v1.add(new Real(22.0));
 		
@@ -78,7 +77,7 @@ public class EuclideanDistanceMeasureTest extends TestCase {
 		l2.add(3.0);
 		l2.add(4.0);
 		
-		assertEquals(Math.sqrt(8.0), distanceMeasure.distance(l1, l2));
+		assertEquals(4.0, distanceMeasure.distance(l1, l2));
 		
 		l1.add(11.0);
 		
