@@ -153,7 +153,7 @@ public class GBestTopology extends Topology<Particle> {
 	}
 
 	
-	public Collection<Particle> getAll() {
+	public List<Particle> getAll() {
 		return this.particles;
 	}
 

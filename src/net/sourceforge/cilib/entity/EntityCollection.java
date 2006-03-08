@@ -81,7 +81,7 @@ public abstract class EntityCollection<E extends Entity>
      * Get all the entities witin the topology. 
      * @return Collection. Data collection of all the entities
      */
-    public abstract Collection<E> getAll();
+    public abstract List<E> getAll();
     
     
     /**

@@ -328,7 +328,7 @@ public class VonNeumannTopology extends Topology<Particle> {
 	}
 
 
-	public Collection<Particle> getAll() {
+	public List<Particle> getAll() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 

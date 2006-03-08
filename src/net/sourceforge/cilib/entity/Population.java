@@ -28,6 +28,7 @@ package net.sourceforge.cilib.entity;
 
 import net.sourceforge.cilib.ec.ea.Individual;
 
+
 /**
  * @author otter
  *
