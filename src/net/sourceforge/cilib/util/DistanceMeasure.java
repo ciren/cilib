@@ -38,6 +38,6 @@ public interface DistanceMeasure {
 
 	public double distance(Vector x, Vector y);
 	
-	public <E extends Number> double distance(Collection<E> x, Collection<E> y);
+	public double distance(Collection<? extends Number> x, Collection<? extends Number> y);
 	
 }

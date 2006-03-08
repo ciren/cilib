@@ -53,13 +53,13 @@ public class AbsoluteDistanceMeasure implements DistanceMeasure {
     }
     
     
-	public <E extends Number> double distance(Collection<E> x, Collection<E> y) {
+	public double distance(Collection<? extends Number> x, Collection<? extends Number> y) {
 		if (x.size() != y.size())
 			throw new IllegalArgumentException("Unmatched argument lengths");
 		
 		double distance = 0;
-		Iterator<E> i = x.iterator();
-		Iterator<E> j = y.iterator();
+		Iterator<? extends Number> i = x.iterator();
+		Iterator<? extends Number> j = y.iterator();
 		
 		for ( ; i.hasNext() && j.hasNext(); ) {
 			Number n1 = i.next();
