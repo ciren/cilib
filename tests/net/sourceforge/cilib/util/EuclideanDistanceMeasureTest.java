@@ -26,6 +26,9 @@
  */
 package net.sourceforge.cilib.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
@@ -53,6 +56,21 @@ public class EuclideanDistanceMeasureTest extends TestCase {
 		v2.add(new Real(4.0));
 		
 		assertEquals(Math.sqrt(8.0), distanceMeasure.distance(v1, v2));
+	}
+	
+	public void testCollectionDistance() {
+		List<Double> l1 = new ArrayList<Double>();
+		List<Double> l2 = new ArrayList<Double>();
+		
+		l1.add(4.0);
+		l1.add(3.0);
+		l1.add(2.0);
+		
+		l2.add(2.0);
+		l2.add(3.0);
+		l2.add(4.0);
+		
+		assertEquals(Math.sqrt(8.0), distanceMeasure.distance(l1, l2));
 	}
 
 }
