@@ -64,21 +64,16 @@ public class Individual implements Entity {
     
     public Individual(Individual copy) {
         //assigne a new ID, because in fact a new individual gets created.
-        this.id = EA.getNextIndividualID(String.valueOf(copy.getId().charAt(0)));
+        //this.id = OldEA.getNextIndividualID(String.valueOf(copy.getId().charAt(0)));
         //dimension
         this.dimension = copy.dimension;
-        //genetic structure
         this.genes = copy.genes.clone();
         this.penotypes = copy.penotypes.clone();
-        //fitness - word aoutomaties oor geskakel, maar maak reset dit eerder
-        this.resetFitness();
     }
     
     /**
      * Remember the semantics of clone here on the ID creates a new ID, so in fact it's a new chromosome
      * just with a copy of the genetic structure of the calling entity.
-     * 
-     * Take note : the fitness of the clone is reset to <code>InferiorFitness</code>
      */
      public Individual clone() {
     	 return new Individual(this);
@@ -95,26 +90,18 @@ public class Individual implements Entity {
       * Intialise Individual according to the problem domain. The Type System handles it for us
       * and thus TODO: intialise must fall away.
       */
-     //public void initialise(OptimisationProblem problem, Initialiser i) {
      public void initialise(OptimisationProblem problem) {
          // ID initialization is done in the clone method...
          // which is always inforced due to the semantciss of the performInitialisation methods         
 
-    	 //this.genes = DomainParser.getInstance().getInitialisedRepresenation();
-    	 
-    	 //try {
-    		 this.genes = (Type) problem.getDomain().getBuiltRepresenation().clone();
-    		 this.genes.randomise();
+    	 this.genes = (Type) problem.getDomain().getBuiltRepresenation().clone();
+    	 this.genes.randomise();
     		 
-    		 // TODO: Must do this in a better way!
-    		 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
-    			 this.penotypes = (Type) problem.getBehaviouralDomain().getBuiltRepresenation().clone();
-    			 this.penotypes.randomise();
-    		 }
-    	 //}
-    	 //catch (CloneNotSupportedException e) {
-    	//	 throw new RuntimeException(e);
-    	 //}
+    	 // TODO: Must do this in a better way!
+    	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
+    		 this.penotypes = (Type) problem.getBehaviouralDomain().getBuiltRepresenation().clone();
+    		 this.penotypes.randomise();
+    	 }
     	 
          this.dimension = ((MixedVector)this.genes).getDimension();
          this.fitness = InferiorFitness.instance();        

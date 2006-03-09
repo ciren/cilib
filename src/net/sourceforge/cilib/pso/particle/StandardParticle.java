@@ -118,11 +118,7 @@ public class StandardParticle extends Particle {
         
        	position = (Vector) problem.getDomain().getBuiltRepresenation().clone();
 		position.randomise();
-		        
-        /*bestPosition = new MixedVector(problem.getDomain().getDimension());
-        for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
-        	bestPosition.add(position.get(i).clone());
-        }*/
+
 		// Make a deep-copy of the best position
 		bestPosition = position.clone();
         
