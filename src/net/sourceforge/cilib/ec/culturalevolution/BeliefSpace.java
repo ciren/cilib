@@ -95,7 +95,7 @@ public class BeliefSpace extends Topology<Belief> {
 	}
 
 	@Override
-	public Collection<Belief> getAll() {
+	public List<Belief> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

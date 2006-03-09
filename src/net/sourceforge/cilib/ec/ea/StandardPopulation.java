@@ -72,11 +72,23 @@ public class StandardPopulation extends Topology<Individual> {
     }
     
     public void setAll(Collection<? extends Individual> set) {
-    	this.individuals.clear();
-    	this.individuals.addAll(set);
+    	
+    	if (set.size() != this.individuals.size()) {
+    		this.individuals.clear();
+    		this.individuals.ensureCapacity(set.size());
+    		this.individuals.addAll(set);
+    	}
+    	else {  
+    		int counter = 0;
+    		for (Individual individual : set) {
+    			this.individuals.set(counter, individual);
+    			counter++;
+    		}
+    	}	
+    	
     }
     
-    public Collection<Individual> getAll() {
+    public List<Individual> getAll() {
     	return this.individuals;
     }
     
@@ -292,7 +304,7 @@ public class StandardPopulation extends Topology<Individual> {
 	}
 
 	public List<Individual> subList(int fromIndex, int toIndex) {
-		return this.subList(fromIndex, toIndex);
+		return this.individuals.subList(fromIndex, toIndex);
 	}
 	
 	

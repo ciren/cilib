@@ -28,7 +28,7 @@ package net.sourceforge.cilib.measurement;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.PopulationAlgorithmUtilities;
+import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Real;
@@ -95,7 +95,7 @@ public class NormalisedDiversity implements Measurement {
 		}
 		
 		double diversity = particleSum/numberParticles;
-		double diameter = ((PopulationAlgorithmUtilities) Algorithm.get()).getDiameter();
+		double diameter = ((PopulationBasedAlgorithm) Algorithm.get()).getDiameter();
 				
     	return new Real(diversity/diameter);
 	}
