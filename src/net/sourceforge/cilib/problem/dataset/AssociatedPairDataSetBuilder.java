@@ -66,7 +66,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder {
 			String line = br.readLine();
 			
 			while (line != null) {
-				addToDataSet(line);		
+				addToDataSet(line);
 				line = br.readLine();
 			}
 		}
@@ -80,7 +80,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder {
 	 * @param line
 	 */
 	private void addToDataSet(String line) {
-		String [] elements = line.split("\\s+");
+		String [] elements = line.split(this.getDataSet(0).getPatternExpression());
 		
 		Vector vector = new MixedVector();
 		
@@ -114,6 +114,11 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder {
 	
 	public void setKey(int index, Numeric key) {
 		this.keyPatternPair.get(index).setKey(key);
+	}
+
+
+	public int getNumberOfPatterns() {
+		return keyPatternPair.size();
 	}
 
 }

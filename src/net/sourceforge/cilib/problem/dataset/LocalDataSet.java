@@ -40,7 +40,7 @@ import java.io.InputStream;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-public class LocalDataSet implements DataSet {
+public class LocalDataSet extends DataSet {
 	
 	private String fileName;
 

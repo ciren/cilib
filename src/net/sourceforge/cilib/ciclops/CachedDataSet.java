@@ -40,7 +40,7 @@ import net.sourceforge.cilib.problem.dataset.DataSet;
  * @author Edwin Peer
  *
  */
-public class CachedDataSet implements DataSet {
+public class CachedDataSet extends DataSet {
 	
 	public static String CACHE_PATH = "";
 	

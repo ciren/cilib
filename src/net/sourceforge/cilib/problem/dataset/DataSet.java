@@ -36,20 +36,36 @@ import java.io.InputStream;
  * @author Edwin Peer
  *
  */
-public interface DataSet {
+public abstract class DataSet {
 	
+	String patternExpression = "";
 	/**
 	 * Returns the data set as a byte array.
 	 * 
 	 * @return the data set as a <code>byte[]</code>
 	 */
-	public byte[] getData();
+	public abstract byte[] getData();
 	
 	/**
 	 * Returns the data set as an input stream.
 	 * 
 	 * @return the data set as a <code>InputStream</code>
 	 */
-	public InputStream getInputStream();
+	public abstract InputStream getInputStream();
 	
+	/**
+	 * Set the regular expression that will be used to split the patterns in the provided DataSet file.
+	 * @param regexp The format of this regular expression depends on where you are calling the method from. When you specify the regular expression in an XML file, the format should be a standard regular expression. When you call this method directly with a regular expression in double quotes (from a Java source file), then the format of the regular expression should be a Java style regular expression.
+	 */
+	public void setPatternExpression(String regexp) {
+		patternExpression = regexp;
+	}
+	
+	/**
+	 * Get the regular expression that has been set for this DataSet.
+	 * @return a string containing the regular expression.
+	 */
+	public String getPatternExpression() {
+		return patternExpression;
+	}
 }
