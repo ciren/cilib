@@ -6,7 +6,7 @@ import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 
 public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm> implements SwarmCreationStrategy<E> {
 
-	public Collection<E> create(E mainSwarm, Collection<? extends E> subSwarms) {
+	public Collection<E> create(E mainSwarm, Collection<E> subSwarms) {
 		// TODO Auto-generated method stub
 		return null;
 	}
