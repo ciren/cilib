@@ -12,7 +12,7 @@
 			<crossProbability class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="1.0"/>
 			<crossover class="ec.crossoveroperators.DifferentialCrossOver" crossOverFactor="0.8" scalingFactor="0.5"/>			<!-- ons kan die factors, hierso ook vary met verskillende strategies soos velocity component en rate, maar 			niemand doen dit nie, so los dit maar eers as doubles-->
 			<nextGenerationSurvivalSelector class="ec.selectionoperators.ReplacementSelection" />
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000" />
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="5000" />
 		</algorithm>
 	</algorithms>
 
@@ -38,7 +38,7 @@
 	</problems>
 
 	<measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
-		<addMeasurement class="measurement.FunctionOptimisationError" />
+		<addMeasurement class="measurement.Fitness" />
 		<addMeasurement class="measurement.Solution" />
 	</measurements>
 

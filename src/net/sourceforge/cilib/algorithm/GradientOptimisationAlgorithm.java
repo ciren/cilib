@@ -4,7 +4,7 @@
  * Created on June 4, 2003, 4:55 PM
  *
  * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria

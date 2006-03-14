@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<simulator>
+	<simulation>
+		<algorithm class="pso.PSO">
+			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
+				<maximumFitnessEvaluations value="1000"/>
+			</addStoppingCondition>
+			<particles value="10" />
+			<topology class="entity.topologies.GBestTopology"/>
+			<prototypeParticle class="pso.particle.StandardParticle">
+				<!--<positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>-->
+				<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+				<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="2.0"/>
+				</velocityUpdateStrategy>
+			</prototypeParticle>
+		</algorithm>
+
+		<problem class="problem.FunctionMinimisationProblem">
+			<dataSetBuilder class="problem.dataset.AssociatedPairDataSetBuilder">
+				<dataSet class="problem.dataset.LocalDataSet" file="/home/tcloete/MSc/uci_datasets/ml_repository/iris/iris.data" patternExpression=",\D*"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.QuantisationErrorFunction" domain="R(0.0, 8.0)^12" clusters="3">
+				<distanceMeasure class="util.EuclideanDistanceMeasure"/>
+			</function>
+		</problem>
+
+		<measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/clustering-gbest-pso-output.txt">
+			<addMeasurement class="measurement.Fitness" />
+			<addMeasurement class="measurement.BestParticlePosition" />
+		</measurements>
+	</simulation>
+</simulator>

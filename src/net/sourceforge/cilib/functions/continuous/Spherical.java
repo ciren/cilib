@@ -4,7 +4,7 @@
  * Created on January 12, 2003, 2:48 PM
  *
  * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria
@@ -73,9 +73,9 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     
     /* Returns the gradient of the function at x */    
     public Vector getGradient(Vector x) {
-    	Vector tmp = new MixedVector(getDimension());
+    	Vector tmp = new MixedVector(x.getDimension());
     	    	
-    	for (int i = 0; i < getDimension(); ++i) {
+    	for (int i = 0; i < x.getDimension(); ++i) {
     		tmp.setReal(i, 2*x.getReal(i));
     	}
     	

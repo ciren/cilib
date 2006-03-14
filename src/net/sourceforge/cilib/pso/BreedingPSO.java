@@ -26,6 +26,7 @@
 package net.sourceforge.cilib.pso;
 
 import java.util.ArrayList;
+
 import net.sourceforge.cilib.ec.crossoveroperators.ArithmeticCrossOver;
 import net.sourceforge.cilib.ec.crossoveroperators.CrossOverOperator;
 import net.sourceforge.cilib.ec.selectionoperators.RandomSelection;
