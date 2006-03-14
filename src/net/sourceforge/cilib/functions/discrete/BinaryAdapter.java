@@ -44,12 +44,14 @@ public class BinaryAdapter extends DiscreteFunction {
 	
 	private Function function;
 	private int bitsPerDimension;
+	private int precision;
 	
 	/**
 	 * Constructor.
 	 */
 	public BinaryAdapter() {
-		
+		bitsPerDimension = 1;
+		precision = 0;
 	}
 
 	
@@ -62,7 +64,9 @@ public class BinaryAdapter extends DiscreteFunction {
 	 */
 	@Override
 	public double evaluate(Vector vector) {
+		//System.out.println("vector: " + vector);
 		Vector decodedVector = this.decodeBitString(vector);
+		//System.out.println("decoded: " + decodedVector);
 		
 		return function.evaluate(decodedVector);
 	}
@@ -100,6 +104,23 @@ public class BinaryAdapter extends DiscreteFunction {
 		
 		this.bitsPerDimension = bitsPerDimension;
 	}
+	
+
+	/**
+	 * @return Returns the precision.
+	 */
+	public int getPrecision() {
+		return precision;
+	}
+
+
+	/**
+	 * @param precision The precision to set.
+	 */
+	public void setPrecision(int precision) {
+		this.precision = precision;
+	}
+
 
 	/**
 	 * @return Returns the function.
@@ -126,6 +147,7 @@ public class BinaryAdapter extends DiscreteFunction {
 		
 		for (int i = 0; i < bits.getDimension(); ) {
 			double tmp = valueOf(bits, i, i+this.bitsPerDimension);
+			tmp = transform(tmp);
 			
 			vector.append(new Real(tmp));
 			i += this.bitsPerDimension;
@@ -156,5 +178,16 @@ public class BinaryAdapter extends DiscreteFunction {
 
 		return result;
 	}
+	
+	private double transform(double number) {
+		double result = number;
 
+		int tmp = 1;
+		tmp <<= this.bitsPerDimension-1;
+		result -= tmp;
+		result /= Math.pow(10, this.precision);
+
+		return result;
+	}
+	
 }
