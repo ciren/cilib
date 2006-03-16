@@ -972,4 +972,10 @@ public double getDiameter() {
 	// TODO Auto-generated method stub
 	return 0;
 }
+
+@Override
+public double getRadius() {
+	// TODO Auto-generated method stub
+	return 0;
+}
 }

@@ -31,6 +31,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAlgorithm {
 	
+	private OptimisationProblem problem;
 	private PSO mainSwarm;
 	private Collection<PSO> subSwarms;
 	private DistanceMeasure distanceMeasure;
@@ -87,9 +88,13 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 			subSwarm.performIteration();
 		}
 		
-		this.subSwarms = this.mergeStrategy.merge(this.subSwarms);
+		//this.subSwarms = this.mergeStrategy.merge(this.subSwarms);
+		this.mergeStrategy.merge(this.subSwarms);
 		this.absorptionStrategy.absorb(mainSwarm, subSwarms);
-		this.subSwarms.addAll(this.swarmCreationStrategy.create(mainSwarm, subSwarms));
+		
+		//this.subSwarms.addAll(this.swarmCreationStrategy.create(mainSwarm, subSwarms));
+		//this.swarmCreationStrategy.create(mainSwarm, subSwarms, null);
+		
 	}
 
 	
@@ -125,20 +130,24 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public double getRadius() {
+		return 0;
+	}
 
 	public void setOptimisationProblem(OptimisationProblem problem) {
-		// TODO Auto-generated method stub
-		
+		this.mainSwarm.setOptimisationProblem(problem);
+		this.problem = problem;		
 	}
 
 	public OptimisationProblem getOptimisationProblem() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.problem;
 	}
 
 	public OptimisationSolution getBestSolution() {
-		// TODO Auto-generated method stub
-		return null;
+		//return new OptimisationSolution(mainSwarm.getOptimisationProblem(), mainSwarm.getBestParticle().getPosition());
+		throw new UnsupportedOperationException("Niching algorithms do not have 1 correct answer. Please call getSolutions()");
 	}
 
 	public Collection<OptimisationSolution> getSolutions() {

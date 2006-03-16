@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
-import net.sourceforge.cilib.measurement.Fitness;
+import net.sourceforge.cilib.measurement.single.Fitness;
 /**
  * @author mneethling
  * Abstract base class for fitness evaluation classes

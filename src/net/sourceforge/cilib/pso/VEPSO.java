@@ -123,4 +123,10 @@ public class VEPSO extends PopulationBasedAlgorithm implements OptimisationAlgor
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public double getRadius() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

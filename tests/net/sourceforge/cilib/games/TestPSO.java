@@ -27,7 +27,7 @@ package net.sourceforge.cilib.games;
 
 import net.sourceforge.cilib.ciclops.Simulation;
 import net.sourceforge.cilib.functions.continuous.Spherical;
-import net.sourceforge.cilib.measurement.FitnessEvaluations;
+import net.sourceforge.cilib.measurement.single.FitnessEvaluations;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;

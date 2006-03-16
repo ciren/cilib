@@ -8,35 +8,35 @@
 
 <simulator>
 
-  <simulation>
-    
-    <algorithm id="gbest" class="PSO.PSO">
-      <velocityUpdate class="PSO.VelocityUpdateStrategies.StandardVelocityUpdate">
-        <inertiaComponent class="PSO.ParameterUpdateStrategies.StandardInertia" inertia="0.729844"/>
-	<socialComponent class="PSO.ParameterUpdateStrategies.StandardAcceleration"> 
-	  <acceleration value="1.49180"/>
-	  <randomiser class="Math.Random.KnuthSubtractive"/>
-	</socialComponent>
-	<cognitiveComponent class="PSO.ParameterUpdateStrategies.StandardAcceleration">
-	  <acceleration value="1.49180"/>
-	  <randomiser class="Math.Random.KnuthSubtractive"/>
-	</cognitiveComponent>
-      </velocityUpdate>
-      <addStoppingCondition class="StoppingCondition.MaximumIterations" iterations="10000"/>
-    </algorithm>
-    
-    <problem class="Problem.FunctionMinimisationProblem">
-      <function class="Functions.Continuous.NastyBenchmark"/>
-    </problem>
-   
-    <measurements class="Simulator.MeasurementSuite">
-      <file value="data/benchmark.txt"/>
-      <resolution value="1000"/>
-      <samples value="30"/>
-      <addMeasurement class="Measurement.Fitness"/>
-      <addMeasurement class="Measurement.Solution"/>
-    </measurements>
-    
-  </simulation>
-  
+	<simulation>
+
+		<algorithm id="gbest" class="pso.PSO">
+			<velocityUpdate class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+				<inertiaWeight class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.729844"/>
+				<socialComponent class="pso.parameterupdatestrategies.AccelerationUpdateStrategy"> 
+					<parameter value="1.49180"/>
+					<randomiser class="math.random.KnuthSubtractive"/>
+				</socialComponent>
+				<cognitiveComponent class="pso.parameterupdatestrategies.AccelerationUpdateStrategy">
+					<parameter value="1.49180"/>
+					<randomiser class="math.random.KnuthSubtractive"/>
+				</cognitiveComponent>
+			</velocityUpdate>
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="10000"/>
+		</algorithm>
+
+		<problem class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.NastyBenchmark"/>
+		</problem>
+
+		<measurements class="simulator.MeasurementSuite">
+			<file value="data/benchmark.txt"/>
+			<resolution value="1000"/>
+			<samples value="30"/>
+			<addMeasurement class="measurement.single.Fitness"/>
+			<addMeasurement class="measurement.single.Solution"/>
+		</measurements>
+
+	</simulation>
+
 </simulator>

@@ -214,6 +214,11 @@ public class ACO extends PopulationBasedAlgorithm {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public double getRadius() {
+		return 0;
+	}
 
 	
 	public OptimisationSolution getBestSolution() {

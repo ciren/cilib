@@ -22,8 +22,8 @@
 		</problem>
 
 		<measurements class="simulator.MeasurementSuite" file="data/splitcooperative-pso-schwefel.txt" resolution="10">
-			<addMeasurement class="measurement.FitnessEvaluations" />
-			<addMeasurement class="measurement.FunctionOptimisationError" />
+			<addMeasurement class="measurement.single.FitnessEvaluations" />
+			<addMeasurement class="measurement.single.FunctionOptimisationError" />
 		</measurements>
 
 	</simulation>

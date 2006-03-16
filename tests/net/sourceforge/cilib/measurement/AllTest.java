@@ -49,19 +49,9 @@ public class AllTest extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite();
         
-        suite.addTestSuite(BestParticlePositionTest.class);
-        suite.addTestSuite(DiameterTest.class);
-        suite.addTestSuite(FitnessTest.class);
-        suite.addTestSuite(FitnessEvaluationsTest.class);
-        suite.addTestSuite(FunctionOptimisationErrorTest.class);
-        suite.addTestSuite(IterationsTest.class);
-        suite.addTestSuite(MultipleFitnessTest.class);
-        suite.addTestSuite(MultipleSolutionsTest.class);
-        suite.addTestSuite(ParticlePositionsTest.class);
-        suite.addTestSuite(PercentageCompleteTest.class);
-        suite.addTestSuite(RestartsTest.class);
-        suite.addTestSuite(SolutionTest.class);
-        suite.addTestSuite(TimeTest.class);
+        suite.addTest(net.sourceforge.cilib.measurement.generic.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.measurement.multiple.AllTest.suite());
+        suite.addTest(net.sourceforge.cilib.measurement.single.AllTest.suite());
         
         return suite;
     }

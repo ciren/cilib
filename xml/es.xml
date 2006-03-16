@@ -48,8 +48,8 @@
 	</problems>
 
 	<measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="100">
-		<addMeasurement class="measurement.FunctionOptimisationError" />
-		<addMeasurement class="measurement.Solution" />
+		<addMeasurement class="measurement.single.FunctionOptimisationError" />
+		<addMeasurement class="measurement.single.Solution" />
 	</measurements>
 
 	<simulations>

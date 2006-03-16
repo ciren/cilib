@@ -71,6 +71,7 @@ public class BinaryAdapterTest extends TestCase {
 	 */
 	public void testSimpleDecoding() {
 		this.adapter.setBitsPerDimension(4);
+		this.adapter.setPrecision(0);
 		
 		Vector bitVector = new MixedVector();
 		for (int i = 0; i < 4; i++) {

@@ -29,9 +29,9 @@
 		</problem>
 
 		<measurements class="simulator.MeasurementSuite" file="data/multistart-cooperative-pso-schwefel.txt" resolution="10">
-			<addMeasurement class="measurement.Restarts" /> 
-			<addMeasurement class="measurement.FitnessEvaluations" />
-			<addMeasurement class="measurement.FunctionOptimisationError" />
+			<addMeasurement class="measurement.generic.Restarts" /> 
+			<addMeasurement class="measurement.single.FitnessEvaluations" />
+			<addMeasurement class="measurement.single.FunctionOptimisationError" />
 		</measurements>
 
 	</simulation>

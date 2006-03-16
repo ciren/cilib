@@ -8,40 +8,40 @@
 
 <simulator>
 	<algorithms>
-		
-		<algorithm id="gbest" class="PSO.BreedingPSO" particles="20">
-			<crossover class="EC.CrossOverOperators.ArithmeticCrossOver" />
-			<particleSelector class="EC.SelectionOperators.RandomSelection" />
-			<addStoppingCondition class="StoppingCondition.MaximumIterations" iterations="1000" />
+
+		<algorithm id="gbest" class="pso.BreedingPSO" particles="20">
+			<crossover class="ec.crossoveroperators.ArithmeticCrossOver" />
+			<particleSelector class="ec.selectionoperators.RandomSelection" />
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000" />
 		</algorithm>
 	</algorithms>
 
-    	<problems>
-		<problem id="spherical" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.Spherical"/>
+	<problems>
+		<problem id="spherical" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Spherical"/>
 		</problem>
-		<problem id="rosenbrock" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.Rosenbrock"/>
+		<problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Rosenbrock"/>
 		</problem>
-		<problem id="griewank" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.Griewank"/>
+		<problem id="griewank" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Griewank"/>
 		</problem>
-		<problem id="hyperellipsoid" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.HyperEllipsoid"/>
+		<problem id="hyperellipsoid" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.HyperEllipsoid"/>
 		</problem>
-		<problem id="colville" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.Colville"/>
+		<problem id="colville" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Colville"/>
 		</problem>
-		<problem id="ackley" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.Ackley"/>
+		<problem id="ackley" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Ackley"/>
 		</problem>
-    	</problems>
+	</problems>
 
-   	<measurements id="measurements" class="Simulator.MeasurementSuite" samples="30" resolution="10">
-	   <addMeasurement class="Measurement.Fitness" />
-   	</measurements>
+	<measurements id="measurements" class="simulator.MeasurementSuite" samples="30" resolution="10">
+		<addMeasurement class="measurement.single.Fitness" />
+	</measurements>
 
-    	<simulations>
+	<simulations>
 		<simulation>
 			<algorithm idref="gbest" />
 			<problem idref="spherical" />
@@ -72,5 +72,5 @@
 			<problem idref="ackley" />
 			<measurements idref="measurements" file="data/pso-ackley.txt" />
 		</simulation>
-    	</simulations>
+	</simulations>
 </simulator>

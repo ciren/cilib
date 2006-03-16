@@ -74,4 +74,11 @@ public abstract class PopulationBasedAlgorithm extends Algorithm implements Opti
 	 * @return The diameter of the population
 	 */
 	public abstract double getDiameter();
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public abstract double getRadius(); 
 }

@@ -20,7 +20,7 @@
 				<function class="functions.continuous.NastyBenchmark"/>
 			</problem>
 			<measurements class="simulator.MeasurementSuite" file="data/gaussian.txt" resolution="1">
-				<addMeasurement class="measurement.FunctionOptimisationError"/>
+				<addMeasurement class="measurement.single.FunctionOptimisationError"/>
 			</measurements>
 		</simulation>
 	</simulations>

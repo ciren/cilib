@@ -26,8 +26,8 @@
 		</problem>
 
 		<measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/clustering-gbest-pso-output.txt">
-			<addMeasurement class="measurement.Fitness" />
-			<addMeasurement class="measurement.BestParticlePosition" />
+			<addMeasurement class="measurement.single.Fitness" />
+			<addMeasurement class="measurement.single.BestParticlePosition" />
 		</measurements>
 	</simulation>
 </simulator>

@@ -408,7 +408,12 @@ public class EA extends PopulationBasedAlgorithm implements OptimisationAlgorith
             diameter += distance.distance(center, (Vector)other.get());
         }
         return diameter / count;
-    }    
+    }
+    
+    @Override
+    public double getRadius() {
+    	return 0;
+    }
     
     /**
      * Helper function

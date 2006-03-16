@@ -6,7 +6,7 @@
 
 <simulator>
 	<algorithms>
-		<algorithm id="ep" class="ec.ea.ea">
+		<algorithm id="ep" class="ec.ea.EA">
 			<crossProbability class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="1.0"/> <!-- absolute essential that this is 1.0-->	
 			<mutationProbability class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.8"/>  <!-- absolute essential that this is 1.0, because you want to mutate all the individuals-->
 			<populationSize>10</populationSize>
@@ -32,8 +32,8 @@
 	</problems>
 
 	<measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="1">
-		<addMeasurement class="measurement.Fitness" />
-		<addMeasurement class="measurement.Solution" />
+		<addMeasurement class="measurement.single.Fitness" />
+		<addMeasurement class="measurement.single.Solution" />
 	</measurements>
 
 	<simulations>

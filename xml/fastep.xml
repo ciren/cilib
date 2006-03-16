@@ -24,8 +24,8 @@
 	</problems>
 
 	<measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="1"> 
-		<addMeasurement class="measurement.Fitness" />
-		<addMeasurement class="measurement.Solution" />
+		<addMeasurement class="measurement.single.Fitness" />
+		<addMeasurement class="measurement.single.Solution" />
 	</measurements>
 
 	<simulations>

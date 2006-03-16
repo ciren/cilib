@@ -7,40 +7,41 @@
 
 <simulator>
 	<algorithms>
-		<algorithm id="gcpso-gbest" class="PSO.GCPSO" particles="50">
-			<topology class="Entity.Topologies.GBestTopology"/>
-			<addStoppingCondition class="StoppingCondition.MaximumFitnessEvaluations"/>
+		<algorithm id="gcpso-gbest" class="pso.GCPSO" particles="50">
+			<topology class="entity.topologies.GBestTopology"/>
+			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
 		</algorithm>
-		<algorithm id="nichepso" class="PSO.NichePSO" observations="3">
+		<algorithm id="nichepso" class="pso.NichePSO" >
 			<mainSwarm idref="gcpso-gbest"/>
-			<addStoppingCondition class="StoppingCondition.MaximumIterations" iterations="1000"/>
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>
 		</algorithm>
 	</algorithms>
 
 	<problems>
-		<problem id="griewank" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.Griewank" domain="R(0, 6)^1"/>
+		<problem id="griewank" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Griewank" domain="R(0, 6)^1"/>
 		</problem>
-		<problem id="rastrigin" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.Rastrigin" domain="R(-1.5, 1.5)^1"/>
+		<problem id="rastrigin" class="problem.FunctionMinimisationProblem">
+			<!--<function class="functions.continuous.Rastrigin" domain="R(-1.5, 1.5)^1"/>-->
+			<function class="functions.continuous.Rastrigin" domain="R(-5.12, 5.12)^30"/>
 		</problem>
-		<problem id="multimodal f1" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.MultimodalFunction1" domain="R(0, 1)^1"/>
+		<problem id="multimodal f1" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.MultimodalFunction1" domain="R(0, 1)^1"/>
 		</problem>
-		<problem id="multimodal f2" class="Problem.FunctionMinimisationProblem">
-			<function class="Functions.Continuous.MultimodalFunction2" domain="R(0, 1)^1"/>
+		<problem id="multimodal f2" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.MultimodalFunction2" domain="R(0, 1)^1"/>
 		</problem>
 	</problems>
 
-	<measurements id="measurements" class="Simulator.MeasurementSuite" samples="1" resolution="25">
-		<addMeasurement class="Measurement.FitnessEvaluations" />
-		<addMeasurement class="Measurement.FunctionOptimisationError" />
+	<measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="1">
+		<addMeasurement class="measurement.single.Fitness" />
 	</measurements>
 
 	<simulations>
 		<simulation>
 			<algorithm idref="nichepso" />
-			<problem idref="multimodal f1" />
+			<!--<problem idref="multimodal f1" />-->
+			<problem idref="rastrigin" />
 			<measurements idref="measurements" file="nichepso-multimodal_f1.txt" />
 		</simulation>
 	</simulations>

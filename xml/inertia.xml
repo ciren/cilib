@@ -23,8 +23,8 @@
 		</problem>
 
 		<measurements class="simulator.MeasurementSuite" resolution="100" samples="1" file="pso-inertia.txt">
-			<addMeasurement class="measurement.Iterations"/>
-			<addMeasurement class="measurement.FunctionOptimisationError" />
+			<addMeasurement class="measurement.generic.Iterations"/>
+			<addMeasurement class="measurement.single.FunctionOptimisationError" />
 		</measurements>
 
 	</simulation>

@@ -288,6 +288,12 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
     	
         return maxDistance;
     }
+    
+    
+    @Override
+    public double getRadius() {
+    	return 0;
+    }
 
     
     /**

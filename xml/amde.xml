@@ -39,8 +39,8 @@
 	</problems>
 
 	<measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
-		<addMeasurement class="measurement.Fitness" />
-		<addMeasurement class="measurement.Solution" />
+		<addMeasurement class="measurement.single.Fitness" />
+		<addMeasurement class="measurement.single.Solution" />
 	</measurements>
 
 	<simulations>

@@ -182,10 +182,12 @@ public class BinaryAdapter extends DiscreteFunction {
 	private double transform(double number) {
 		double result = number;
 
-		int tmp = 1;
-		tmp <<= this.bitsPerDimension-1;
-		result -= tmp;
-		result /= Math.pow(10, this.precision);
+		if (this.precision > 0) {
+			int tmp = 1;
+			tmp <<= this.bitsPerDimension-1;
+			result -= tmp;
+			result /= Math.pow(10, this.precision);
+		}
 
 		return result;
 	}

@@ -6,6 +6,7 @@ import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 
 public interface MergeStrategy<E extends PopulationBasedAlgorithm> {
 	
-	public Collection<E> merge(Collection<? extends E> name);
+	//public Collection<E> merge(Collection<? extends E> name);
+	public void merge(Collection<? extends E> name);
 
 }
