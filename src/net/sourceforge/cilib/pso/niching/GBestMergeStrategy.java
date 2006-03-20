@@ -2,6 +2,7 @@ package net.sourceforge.cilib.pso.niching;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.PSO;
@@ -28,6 +29,8 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 					if(Math.abs(gBestParticle1.getFitness().getValue() - gBestParticle2.getFitness().getValue()) < 0.0001d)
 					{
 						subSwarm1.getTopology().addAll(subSwarm2.getTopology().getAll());
+						subSwarm2 = null;
+						
 					}
 				}				
 			}	

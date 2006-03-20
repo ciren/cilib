@@ -236,7 +236,8 @@ public class GBestTopology extends Topology<Particle> {
 	}
 
 	public Particle remove(int index) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
+		return this.particles.remove(index);
+		//throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
 	public int indexOf(Object o) {

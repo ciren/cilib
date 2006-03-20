@@ -73,6 +73,8 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	 */
 	protected void performInitialisation() {
 		mainSwarm.initialise();
+		
+		System.out.println(mainSwarm.getTopology().size());
 	}
 	
 	
@@ -82,16 +84,19 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	@Override
 	protected void performIteration() {
 		mainSwarm.performIteration();
+		System.out.println("main swarm iteration complete");
 		
 		for (Iterator<PSO> i = this.subSwarms.iterator(); i.hasNext(); ) {
 			PSO subSwarm = i.next();	
 			subSwarm.performIteration();
+			System.out.println("sub swarm (" + subSwarm + ") iteration complete");
+			System.out.println(subSwarm.getTopology().size());
 		}
 		
 		//this.subSwarms = this.mergeStrategy.merge(this.subSwarms);
 		this.mergeStrategy.merge(this.subSwarms);
 		this.absorptionStrategy.absorb(mainSwarm, subSwarms);
-		
+		this.swarmCreationStrategy.create(this);
 		//this.subSwarms.addAll(this.swarmCreationStrategy.create(mainSwarm, subSwarms));
 		//this.swarmCreationStrategy.create(mainSwarm, subSwarms, null);
 		

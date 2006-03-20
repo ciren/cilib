@@ -7,10 +7,11 @@
 
 <simulator>
 	<algorithms>
-		<algorithm id="gcpso-gbest" class="pso.GCPSO" particles="50">
+		<algorithm id="gcpso-gbest" class="pso.PSO" particles="50">
 			<topology class="entity.topologies.GBestTopology"/>
 			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
 		</algorithm>
+
 		<algorithm id="nichepso" class="pso.NichePSO" >
 			<mainSwarm idref="gcpso-gbest"/>
 			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>
@@ -34,7 +35,7 @@
 	</problems>
 
 	<measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="1">
-		<addMeasurement class="measurement.single.Fitness" />
+		<addMeasurement class="measurement.multiple.MultipleFitness" />
 	</measurements>
 
 	<simulations>
