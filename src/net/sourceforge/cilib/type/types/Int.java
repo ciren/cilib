@@ -63,14 +63,15 @@ public class Int extends Numeric {
 	}
 	
 	
+	public Int(Int copy) {
+		this.value = copy.value;
+		this.setLowerBound(copy.getLowerBound());
+		this.setUpperBound(copy.getUpperBound());
+	}
+	
+	
 	public Int clone() {
-		Int clone = new Int();
-		
-		clone.setLowerBound(this.getLowerBound());
-		clone.setUpperBound(this.getUpperBound());
-		clone.value = this.value;
-		
-		return clone;
+		return new Int(this);
 	}
 
 	public boolean equals(Object other) {

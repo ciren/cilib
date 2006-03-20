@@ -68,6 +68,13 @@ public class Bit extends Numeric {
 	}
 	
 	
+	public Bit(Bit copy) {
+		this.state = copy.state;
+		this.setLowerBound(copy.getLowerBound());
+		this.setUpperBound(copy.getUpperBound());
+	}
+	
+	
 	/**
 	 * Create a clone object of the current object. The clone object is created using the
 	 * copy-constructor.
@@ -75,9 +82,7 @@ public class Bit extends Numeric {
 	 * @return A clone of the current object.
 	 */
 	public Bit clone() {
-		Bit clone = new Bit();
-		clone.state = this.state;
-		return clone;
+		return new Bit(this);
 	}
 
 	

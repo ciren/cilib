@@ -73,17 +73,18 @@ public class Real extends Numeric {
 	}
 	
 	
+	public Real(Real copy) {
+		this.value = copy.value;
+		this.setLowerBound(copy.getLowerBound());
+		this.setUpperBound(copy.getUpperBound());
+	}
+	
+	
 	/**
 	 * 
 	 */
 	public Real clone() {
-		Real clone = new Real();
-		
-		clone.setLowerBound(this.getLowerBound());
-		clone.setUpperBound(this.getUpperBound());
-		clone.value = this.value;
-		
-		return clone;
+		return new Real(this);
 	}
 
 
