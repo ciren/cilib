@@ -120,6 +120,11 @@ public class AccelerationUpdateStrategy implements ControlParameterUpdateStrateg
 	public double getParameter() {
 		return this.randomiser.nextDouble() * this.parameterUpdateStrategy.getParameter();
 	}
+	
+	
+	public double getParameter(double min, double max) {
+		throw new UnsupportedOperationException("");
+	}
 
 
 	/**

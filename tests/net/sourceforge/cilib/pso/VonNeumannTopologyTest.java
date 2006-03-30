@@ -295,6 +295,12 @@ public class VonNeumannTopologyTest extends TestCase {
 			// TODO Auto-generated method stub
 			
 		}
+
+		@Override
+		public void setBestPosition(Type bestPosition) {
+			// TODO Auto-generated method stub
+			
+		}
     	
     }
     

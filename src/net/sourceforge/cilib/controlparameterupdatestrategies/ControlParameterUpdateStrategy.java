@@ -47,6 +47,15 @@ public interface ControlParameterUpdateStrategy {
     
     
     /**
+     * 
+     * @param min
+     * @param max
+     * @return
+     */
+    public double getParameter(double min, double max);
+    
+    
+    /**
      * Set the value of the represented parameter
      * @param value The value to be used
      */

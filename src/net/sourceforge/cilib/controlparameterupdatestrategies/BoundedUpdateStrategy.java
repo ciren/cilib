@@ -74,6 +74,11 @@ public abstract class BoundedUpdateStrategy implements ControlParameterUpdateStr
 	public double getParameter() {
 		return parameter.getReal();
 	}
+	
+	
+	public double getParameter(double min, double max) {
+		throw new UnsupportedOperationException("");
+	}
 
 	
 	/**

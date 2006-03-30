@@ -73,6 +73,9 @@ public class ConstantUpdateStrategy implements ControlParameterUpdateStrategy {
 		return parameter;
 	}
 
+	public double getParameter(double min, double max) {
+		throw new UnsupportedOperationException("");
+	}
 	
 	/**
 	 * 
