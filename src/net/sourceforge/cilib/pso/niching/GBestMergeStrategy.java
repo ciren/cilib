@@ -2,7 +2,6 @@ package net.sourceforge.cilib.pso.niching;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.PSO;

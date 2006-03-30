@@ -115,6 +115,14 @@ public abstract class Particle implements Entity {
      */
     public abstract Type getBestPosition();
     
+    
+    /**
+     * Set the best position of the <tt>Particle</tt>.
+     * @param bestPosition The <tt>Vector</tt> representing new best position of the
+     *                     <tt>Particle</tt>.
+     */
+    public abstract void setBestPosition(Type bestPosition);
+    
     /**
      * Get the velocity representation of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s velocity.

@@ -130,6 +130,10 @@ public class RNAParticle extends Particle {
 	public Type getBestPosition() {
 		return bestPosition;
 	}
+	
+	public void setBestPosition(Type bestPosition) {
+		this.bestPosition = (RNAConformation) bestPosition;
+	}
 
 	public Type getVelocity() {
 		return velocity;

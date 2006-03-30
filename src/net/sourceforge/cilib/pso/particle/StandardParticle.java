@@ -92,6 +92,10 @@ public class StandardParticle extends Particle {
         return bestPosition;
     }
     
+    public void setBestPosition(Type bestPosition) {
+    	this.bestPosition = (Vector) bestPosition;
+    }
+    
     public int getDimension() {
     	return position.getDimension();
     }
