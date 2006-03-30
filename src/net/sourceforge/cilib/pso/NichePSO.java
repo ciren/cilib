@@ -40,6 +40,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	private SwarmCreationStrategy<PSO> swarmCreationStrategy;
 	private Particle mainSwarmParticle;
 	private Particle subSwarmParticle;
+	private double threshold; 
 
 	
 	/**
@@ -74,7 +75,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	protected void performInitialisation() {
 		mainSwarm.initialise();
 		
-		System.out.println(mainSwarm.getTopology().size());
+		//System.out.println(mainSwarm.getTopology().size());
 	}
 	
 	
@@ -84,17 +85,17 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	@Override
 	protected void performIteration() {
 		mainSwarm.performIteration();
-		System.out.println("main swarm iteration complete");
+		//System.out.println("main swarm iteration complete");
 		
 		for (Iterator<PSO> i = this.subSwarms.iterator(); i.hasNext(); ) {
 			PSO subSwarm = i.next();	
 			subSwarm.performIteration();
-			System.out.println("sub swarm (" + subSwarm + ") iteration complete");
-			System.out.println(subSwarm.getTopology().size());
+			//System.out.println("sub swarm (" + subSwarm + ") iteration complete");
+			//System.out.println(subSwarm.getTopology().size());
 		}
 		
 		//this.subSwarms = this.mergeStrategy.merge(this.subSwarms);
-		this.mergeStrategy.merge(this.subSwarms);
+		this.mergeStrategy.merge(this.subSwarms, this.threshold);
 		this.absorptionStrategy.absorb(mainSwarm, subSwarms);
 		this.swarmCreationStrategy.create(this);
 		//this.subSwarms.addAll(this.swarmCreationStrategy.create(mainSwarm, subSwarms));
@@ -230,6 +231,14 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 
 	public void setSwarmCreationStrategy(SwarmCreationStrategy<PSO> swarmCreationStrategy) {
 		this.swarmCreationStrategy = swarmCreationStrategy;
+	}
+	
+	public void setThreshold(double t) {
+		this.threshold = t;
+	}
+		
+	public double getThreshold() {
+		return this.threshold;
 	}
 	
 }

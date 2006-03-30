@@ -40,6 +40,7 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
                 
                 if(subSwarmRadius >= distance) {
                     subSwarm.getTopology().add(mainSwarmParticle);
+                    // mainSwarm.getTopology().getAll().remove(mainSwarmParticle); // remove the sub-swarm absorbed particle from the main swarm
                 }
                 
             }

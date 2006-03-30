@@ -290,9 +290,33 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
     }
     
     
+    /**
+     * Calculates the radius of the swarm around the position of the best particle.
+     *  The radius is calculated using the average Euclidean distance.
+     *
+     * @return The calculated radius of the swarm.
+     */
     @Override
     public double getRadius() {
-    	return 0;
+    	double maxDistance = 0.0;
+    	
+    	Particle swarmBestParticle = getBestParticle();
+    	Vector swarmBestParticlePosition = (Vector)swarmBestParticle.getPosition();
+    	
+    	Iterator swarmIterator = getTopology().iterator();
+    	
+    	while(swarmIterator.hasNext()) {
+    		Particle swarmParticle = (Particle)swarmIterator.next();
+    		Vector swarmParticlePosition = (Vector)swarmParticle.getPosition();
+    	
+    		DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
+    		double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
+    	
+    		if(actualDistance > maxDistance)
+    			maxDistance = actualDistance;
+    	}
+    	
+    	return maxDistance;
     }
 
     
