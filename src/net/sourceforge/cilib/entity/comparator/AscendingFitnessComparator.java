@@ -1,5 +1,5 @@
 /*
- * DescendingFitnessComparator.java
+ * AscendingFitnessComparator.java
  * 
  * Created on Apr 1, 2006
  *
