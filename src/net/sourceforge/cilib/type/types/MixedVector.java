@@ -451,10 +451,10 @@ public class MixedVector extends Vector {
 	/**
 	 * 
 	 */
-	public Type getRange(int from, int to) {
+	public Vector subVector(int fromIndex, int toIndex) {
 		MixedVector m = new MixedVector();
 		
-		for (int i = from; i <= to; i++) {
+		for (int i = fromIndex; i <= toIndex; i++) {
 			m.add(this.get(i));
 		}
 		

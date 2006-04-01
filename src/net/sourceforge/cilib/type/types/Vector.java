@@ -120,7 +120,7 @@ public abstract class Vector extends Type implements Collection<Type> {
 		return this.toString();
 	}
 
-	public abstract Type getRange(int from, int to);
+	public abstract Vector subVector(int from, int to);
 	
 	
 	// Vector math methods

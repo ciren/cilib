@@ -57,14 +57,26 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 			int sizeParent2 = parentChromosome2.getDimension();
 				
 			int selectRange = Math.min(sizeParent1, sizeParent2);		
-			int maxDimension = Math.max(sizeParent1, sizeParent2);
+			//int maxDimension = Math.max(sizeParent1, sizeParent2);
 					
 			int crossoverPoint = (int) this.getRandomNumber().getUniform(0, selectRange);
 		
-			// TODO: Use a sublist and append to the end of the associated offspring
-			for (int i = crossoverPoint; i < maxDimension; i++) {
-				offspringChromosome1.set(i,parentChromosome2.get(i));
-				offspringChromosome2.set(i,parentChromosome1.get(i));
+			Vector remainder1 = offspringChromosome1.subVector(crossoverPoint, offspringChromosome1.getDimension());
+			Vector remainder2 = offspringChromosome2.subVector(crossoverPoint, offspringChromosome2.getDimension());
+
+			// This needs to be tested !!!
+			for (int i = 0; i < remainder2.size(); i++) {
+				if (offspringChromosome1.size() <= crossoverPoint+i)
+					offspringChromosome1.add(remainder2.get(i));
+				else
+					offspringChromosome1.set(crossoverPoint+i, remainder2.get(i));
+			}
+			
+			for (int i = crossoverPoint; i < remainder1.size(); i++) {
+				if (offspringChromosome2.size() <= crossoverPoint+i)
+					offspringChromosome2.add(remainder1.get(i));
+				else
+					offspringChromosome1.set(crossoverPoint+i, remainder1.get(i));
 			}
 		}
 		
