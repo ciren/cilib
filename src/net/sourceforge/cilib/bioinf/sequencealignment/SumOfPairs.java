@@ -37,7 +37,7 @@ public class SumOfPairs implements ScoringMethod
 	/*    SUM OF PAIRS SCORING FUNCTION
 	 * 
 	 * Score all possible pairwise combinations in column
-	 * Requires (N × (N-1))/2 comparisons for N sequences
+	 * Requires (N * (N-1))/2 comparisons for N sequences
 	 * Total score = sum of score for each column
 	 */
 	//GapPenaltiesMethod gapPenaltyMethod;

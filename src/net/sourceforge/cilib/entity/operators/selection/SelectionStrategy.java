@@ -1,5 +1,5 @@
 /*
- * MutationStrategy.java
+ * SelectionStrategy.java
  * 
  * Created on Apr 1, 2006
  *
@@ -24,52 +24,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package net.sourceforge.cilib.entity.operators.mutation;
+package net.sourceforge.cilib.entity.operators.selection;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.entity.Topology;
 
 /**
  * 
- * @author Andries Engelbrecht
- *
+ * @author Gary Pampara
  */
-public abstract class MutationStrategy {
+public interface SelectionStrategy {
 	
-	private ControlParameterUpdateStrategy mutationProbability;
-	private RandomNumber randomNumber;
-	
-	public abstract void mutate(Entity entity);
+	public Entity select(Topology<Entity> population);
 
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public ControlParameterUpdateStrategy getMutationProbability() {
-		return mutationProbability;
-	}
-
-	/**
-	 * 
-	 * @param mutationProbability
-	 */
-	public void setMutationProbability(
-			ControlParameterUpdateStrategy mutationProbability) {
-		this.mutationProbability = mutationProbability;
-	}
-
-
-	public RandomNumber getRandomNumber() {
-		return randomNumber;
-	}
-
-
-	public void setRandomNumber(RandomNumber randomNumber) {
-		this.randomNumber = randomNumber;
-	}
-	
-	
-	
 }

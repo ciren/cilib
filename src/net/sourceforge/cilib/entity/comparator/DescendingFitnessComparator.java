@@ -1,5 +1,5 @@
 /*
- * MutationStrategy.java
+ * DescendingFitnessComparator.java
  * 
  * Created on Apr 1, 2006
  *
@@ -24,52 +24,21 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package net.sourceforge.cilib.entity.operators.mutation;
+package net.sourceforge.cilib.entity.comparator;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import java.util.Comparator;
+
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.RandomNumber;
 
 /**
  * 
- * @author Andries Engelbrecht
+ * @author Gary Pampara
  *
  */
-public abstract class MutationStrategy {
-	
-	private ControlParameterUpdateStrategy mutationProbability;
-	private RandomNumber randomNumber;
-	
-	public abstract void mutate(Entity entity);
+public class DescendingFitnessComparator implements Comparator<Entity> {	
 
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public ControlParameterUpdateStrategy getMutationProbability() {
-		return mutationProbability;
+	public int compare(Entity e1, Entity e2) {
+		return e1.getFitness().compareTo(e2.getFitness());
 	}
 
-	/**
-	 * 
-	 * @param mutationProbability
-	 */
-	public void setMutationProbability(
-			ControlParameterUpdateStrategy mutationProbability) {
-		this.mutationProbability = mutationProbability;
-	}
-
-
-	public RandomNumber getRandomNumber() {
-		return randomNumber;
-	}
-
-
-	public void setRandomNumber(RandomNumber randomNumber) {
-		this.randomNumber = randomNumber;
-	}
-	
-	
-	
 }
