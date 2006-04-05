@@ -53,8 +53,9 @@ public class Real extends Numeric {
 	
 	
 	public Real(double value) {
-		this(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 		this.value = value;
+		this.setLowerBound(Double.MIN_VALUE);
+		this.setUpperBound(Double.MAX_VALUE);
 	}
 	
 	
