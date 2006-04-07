@@ -33,23 +33,18 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
-
-* @author  Andries Engelbrecht
-*/
+ * @author Andries Engelbrecht
+ * @author Gary Pampara
+ */
 
 public class GaussianMutationStrategy extends MutationStrategy {
 
 	private double mean;
-	
-	private String operatorType;
 	private ControlParameterUpdateStrategy deviationStrategy;
 	
 	public GaussianMutationStrategy() {
 		this.mean = 0;
-		
-		deviationStrategy = new ProportionalControlParameterUpdateStrategy();
-		
-		this.operatorType = "+";
+		this.deviationStrategy = new ProportionalControlParameterUpdateStrategy();
 	}
 	
 	@Override
@@ -62,12 +57,8 @@ public class GaussianMutationStrategy extends MutationStrategy {
 				Numeric element = (Numeric) chromosome.get(i);
 				double deviation = this.deviationStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
 				
-				if (operatorType.equals("+")) {	
-					value = chromosome.getReal(i) + this.getRandomNumber().getGaussian(mean,deviation);
-				}
-				else
-					value = chromosome.getReal(i) * this.getRandomNumber().getGaussian(this.mean, deviation);
-				
+				value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
+								
 				chromosome.setReal(i, value);
 			}
 		}
@@ -91,6 +82,4 @@ public class GaussianMutationStrategy extends MutationStrategy {
 		this.mean = mean;
 	}
 	
-	
-
 }

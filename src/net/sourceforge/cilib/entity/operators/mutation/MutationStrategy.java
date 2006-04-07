@@ -33,12 +33,21 @@ import net.sourceforge.cilib.math.RandomNumber;
 /**
  * 
  * @author Andries Engelbrecht
- *
+ * @author Gary Pampara
  */
 public abstract class MutationStrategy {
 	
 	private ControlParameterUpdateStrategy mutationProbability;
 	private RandomNumber randomNumber;
+	private String operator;
+	private MutationOperatorStrategy operatorStrategy;
+	
+	
+	public MutationStrategy() {
+		operator = "+";
+		operatorStrategy = new AdditionMutationOperatorStrategy();
+	}
+	
 	
 	public abstract void mutate(Entity entity);
 
@@ -69,7 +78,24 @@ public abstract class MutationStrategy {
 	public void setRandomNumber(RandomNumber randomNumber) {
 		this.randomNumber = randomNumber;
 	}
+
+
+	public String getOperator() {
+		return operator;
+	}
+
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+		
+		MutationOperatorFactory factory = new MutationOperatorFactory();
+		this.operatorStrategy = factory.getOperatorStrategy(operator);
+	}
 	
+	
+	public MutationOperatorStrategy getOperatorStrategy() {
+		return this.operatorStrategy;
+	}
 	
 	
 }

@@ -32,19 +32,19 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
- * @author  Andries Engelbrecht
+ * @author Andries Engelbrecht
+ * @author Gary Pampara
  */
 public class UniformMutationStrategy extends MutationStrategy {
 
-	private String operatorType;
 	private ControlParameterUpdateStrategy minStrategy, maxStrategy;
 	
 	public UniformMutationStrategy() {
 		minStrategy = new ProportionalControlParameterUpdateStrategy();
 		maxStrategy = new ProportionalControlParameterUpdateStrategy();
-		
-		this.operatorType = "+";
 	}
+	
+	
 	@Override
 	public void mutate(Entity entity) {
 		Vector chromosome = (Vector) entity.get();
@@ -52,16 +52,9 @@ public class UniformMutationStrategy extends MutationStrategy {
 		if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 			for (int i = 0; i < chromosome.getDimension(); i++) {
 				double value;
-				//Numeric element = (Numeric) chromosome.get(i);
-				//double min = element.getLowerBound();
-				//double max = element.getUpperBound();
-				
-				if (operatorType.equals("+")) {	
-					value = chromosome.getReal(i) + this.getRandomNumber().getUniform(minStrategy.getParameter(),maxStrategy.getParameter());
-				}
-				else
-					value = chromosome.getReal(i) * this.getRandomNumber().getUniform(minStrategy.getParameter(),maxStrategy.getParameter());
-				
+								
+				value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getUniform(minStrategy.getParameter(),maxStrategy.getParameter()));
+								
 				chromosome.setReal(i, value);
 			}
 		}

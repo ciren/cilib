@@ -35,26 +35,20 @@ import net.sourceforge.cilib.type.types.Vector;
 /**
  * 
  * @author Andries Engelbrecht
- *
+ * @author Gary Pampara
  */
 public class CauchyMutationStrategy extends MutationStrategy {
 	
 	private double location;
-	
-	private String operatorType;
 	private ControlParameterUpdateStrategy scaleStrategy;
 	
 	public CauchyMutationStrategy() {
 		this.location = 0;
-		
-		scaleStrategy = new ProportionalControlParameterUpdateStrategy();
-		
-		this.operatorType = "+";
+		this.scaleStrategy = new ProportionalControlParameterUpdateStrategy();
 	}
 
 	/**
 	 * TODO: add comment :) Will wants this one
-	 * TODO: Visitor idea for the selection of the correct scheme
 	 */
 	@Override
 	public void mutate(Entity entity) {
@@ -67,12 +61,8 @@ public class CauchyMutationStrategy extends MutationStrategy {
 				Numeric element = (Numeric) chromosome.get(i);
 				double scale = this.scaleStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
 				
-				if (operatorType.equals("+")) {	
-					value = chromosome.getReal(i) + this.getRandomNumber().getCauchy(this.location, scale);
-				}
-				else
-					value = chromosome.getReal(i) * this.getRandomNumber().getCauchy(this.location, scale);
-				
+				value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
+								
 				chromosome.setReal(i, value);
 			}
 		}
