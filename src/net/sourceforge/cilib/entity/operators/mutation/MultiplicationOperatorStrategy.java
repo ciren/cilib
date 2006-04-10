@@ -44,7 +44,7 @@ public class MultiplicationOperatorStrategy implements MutationOperatorStrategy 
 	}
 
 	public double evaluate(double t1, double t2) {
-		return t1 + t2;
+		return t1 * t2;
 	}
 
 }
