@@ -2,6 +2,8 @@
 <project basedir="." default="all" name="cilib">
 
 	<property name="debug" value="true"/>
+	<property name="javac.source" value="1.5" />
+	<property name="javac.target" value="1.5" />
 
 	<property name="junit.jar" value="/usr/share/junit/lib/junit.jar"/>
 
@@ -52,7 +54,7 @@
 	</target>
 
 	<target depends="compile" name="compile-tests">
-		<javac classpathref="cilib.classpath" source="1.5" target="1.5" destdir="${bin.dir}" optimize="true" srcdir="${tests.dir}"/>    
+		<javac classpathref="cilib.classpath" source="${javac.source}" target="${javac.target}" destdir="${bin.dir}" optimize="true" srcdir="${tests.dir}"/>    
 	</target>
 
 	<target depends="compile-tests" name="test">
@@ -73,6 +75,7 @@
 	<target name="javadoc">
 		<mkdir dir="${doc.dir}"/>
 		<javadoc packagenames="net.sourceforge.cilib.*"
+			source="${java.source}"
 			sourcepath="src"
 			destdir="${doc.dir}/api"
 			overview="overview.html"
