@@ -124,6 +124,13 @@ public abstract class Vector extends Type implements Collection<Type> {
 	
 	
 	// Vector math methods
+	/**
+	 * Vector math method. Adding this {#see net.sourceforge.cilib.type.types.Vector}
+	 * to another will result in a resultant {#see net.sourceforge.cilib.type.types.Vector}.
+	 * 
+	 * @param vector The {#see net.sourceforge.cilib.type.types.Vector} to add to the current one
+	 * @return The resultant {#see net.sourceforge.cilib.type.types.Vector}
+	 */
 	public abstract Vector plus(Vector vector);
 	public abstract Vector subtract(Vector vector);
 	public abstract Vector divide(Vector vector);
