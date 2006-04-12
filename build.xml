@@ -10,7 +10,7 @@
 	<property name="bin.dir" value="bin"/>
 	<property name="build.dir" value="build"/>
 	<property name="data.dir" value="data"/>
-	<property name="doc.dir" value="doc"/>
+	<property name="doc.dir" value="${build.dir}/site/doc"/>
 	<property name="source.dir" value="src"/>
 	<property name="tests.dir" value="tests"/>
 
