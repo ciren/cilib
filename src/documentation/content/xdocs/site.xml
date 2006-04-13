@@ -51,7 +51,7 @@ See http://forrest.apache.org/docs/linking.html for more info
 		<changelog label="Change Log" href="#" />
 		<wiki label="Wiki" href="#" />
 		<forums label="Forums" href="#" />
-		<api label="JavaDoc API" href="#" />
+		<api label="JavaDoc API" href="doc/api/index.html" />
 	</documentation>
    
 	<project label="Project">
