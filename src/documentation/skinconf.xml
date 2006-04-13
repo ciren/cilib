@@ -188,6 +188,10 @@ which will be used to configure the chosen Forrest skin.
       background-color: #f0f0f0;
       font-family: monospace;
     }
+    
+    h2.boxed {
+      background-color: #E5E4D9;
+    }
     <!--Example:
         To override the colours of links only in the footer.
     -->

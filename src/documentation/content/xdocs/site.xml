@@ -37,11 +37,30 @@ See http://forrest.apache.org/docs/linking.html for more info
        information tells you how to change that. 
    -->
    
-   <cilib label="CILib">
-	<home label="Home" href="index.html" />
-	<description label="Description" href="#" />
-	<mailing-lists label="Mailing Lists" href="mailing-lists.html" />
-   </cilib>
-
+	<cilib label="CILib">
+		<home label="Home" href="index.html" />
+		<description label="Description" href="#" />
+		<developers label="Developers" href="developers.html" />
+		<dependencies label="Dependencies" href="dependencies.html" />
+		<downloads label="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=72233" />
+	</cilib>
+	
+	<documentation label="Documentation">
+		<faq label="FAQ" href="#" />
+		<todo label="TODO" href="todo.html" />
+		<changelog label="Change Log" href="#" />
+		<wiki label="Wiki" href="#" />
+		<forums label="Forums" href="#" />
+		<api label="JavaDoc API" href="#" />
+	</documentation>
+   
+	<project label="Project">
+		<mailing-lists label="Mailing Lists" href="mailing-lists.html" />
+		<svn-access label="SVN Access" href="svn-access.html" />
+	</project>
+	
+	<useful-information label="Useful Information">
+		<getting-involved label="Getting Involved" href="#" />
+	</useful-information>
  
 </site>

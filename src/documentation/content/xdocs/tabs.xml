@@ -34,7 +34,7 @@
   -->
 
   <tab id="cilib" label="CILib Project" dir="/" indexfile="index.html"/>
-  <tab id="usage" label="Usage" dir="" indexfile="" />
+  <tab id="usage" label="User Guide" dir="" indexfile="" />
 
 
 
