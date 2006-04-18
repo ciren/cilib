@@ -36,15 +36,15 @@ public interface MutationOperatorStrategy {
 	
 	/**
 	 * Perform the evaluation based on the given parameters
-	 * @param t1 The first paramter: {#see net.sourceforge.cilib.type.types.Numeric}
-	 * @param t2 The second parmater: {#see net.sourceforge.cilib.type.types.Numeric}
+	 * @param t1 The first paramter: {@see net.sourceforge.cilib.type.types.Numeric}
+	 * @param t2 The second parmater: {@see net.sourceforge.cilib.type.types.Numeric}
 	 * @return The result of the evaluation with paramter t1 and t2
 	 */
 	public double evaluate(Numeric t1, Numeric t2);
 	
 	/**
 	 * Perform the evaluation based on the given parameters
-	 * @param t1 The first paramter: {#see net.sourceforge.cilib.type.types.Numeric}
+	 * @param t1 The first paramter: {@see net.sourceforge.cilib.type.types.Numeric}
 	 * @param t2 The second parmater: double
 	 * @return The result of the evaluation with paramter t1 and t2
 	 */
