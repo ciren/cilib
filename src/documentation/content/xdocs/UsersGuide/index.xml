@@ -18,26 +18,76 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
 <document> 
   <header> 
-    <title>CILib</title> 
+    <title>CILib - User's Guide</title> 
   </header> 
   <body>
-    <section id="overview">
-      <title>Overview</title>
-      <p>CILib (Computational Intelligence Library) is a collaborative component based framework for developing <a href="http://www.worldscinet.com/ijcia/ijcia.shtml">Computational Intelligence</a> 
-      software in:</p>
-      <ul>
-        <li>Swarm Intelligence</li>
-        <li>Evolutionary Computation</li>
-        <li>Neural Networks</li>
-        <li>Artifical Immune Systems</li>
-        <li>Fuzzy Logic</li>
-      </ul>
-      <p>
-	CILib is maintained by the <a href="http://cirg.cs.up.ac.za/">Computational Intelligence Reasearch Group</a> hosted by the <a href="http://www.cs.up.ac.za/">Department of Computer Science</a>
-	at the <a href="http://www.up.ac.za">University of Pretoria</a> in <a href="http://www.southafrica.net/">South Africa</a>.
-      </p>
+		<p>
+			CILib is a component based framework for Computational Intelligence 
+			software, written in Java. CILib is a complex abstraction in order 
+			to simply and effectively perform simulations and executions of 
+			Computational Intelligence algorithms.
+		</p>
+		<p>
+			The design goals of CILib are to ensure simplicity in composing different
+			algorithms, with performance of the algorithm not being as important as
+			having an algorithmic framework that is highly generic and simplistic.
+			The power of CILib lies in the ability to compose the required 
+			algorithm quickly and	correctly from the available set of algorithmic
+			components.
+		</p>
+		<p>
+			All algorithm definitions are defined as a tree structure. As a result,
+			the	use of XML leads to a very robust expression of the algorithm and the
+			associated components.
+		</p>
+
+		<note>
+			An algorithm need not be specified using XML. If the user would rather
+			use the required classes directly, the user may do so. This will not 
+			influence the operation of the algorithm or even the library.
+		</note>
+
+    <section>
+      <title>Overview of CILib</title>
+			<p>
+				CILib is composed as a collection of 5 hierarchies of component objects.
+			</p>
+
+			<ul>
+				<li>Algorithm hierarchy</li>
+				<li>Problem hierarchy</li>
+				<li>Measurement hierarchy</li>
+				<li>Control parameter hierarchy</li>
+				<li>Type hierarchy</li>
+			</ul>
     </section>
-    
+
+		<section>
+			<title>Algorithm Hierarchy</title>
+			<p>
+				The algorithm hierarchy
+			</p>
+		</section>
+
+		<section>
+			<title>Problem Hierarchy</title>
+			<p></p>
+		</section>
+
+		<section>
+			<title>Measurement Hierarchy</title>
+			<p></p>
+		</section>
+
+		<section>
+			<title>Control Parameter Heirarchy</title>
+			<p></p>
+		</section>
+
+		<section>
+			<title>Type Heirarchy</title>
+			<p></p>
+		</section>
     
  <!--   <section id="overview">
       <title>Congratulations</title>

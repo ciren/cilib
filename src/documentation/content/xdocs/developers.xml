@@ -25,12 +25,17 @@
 		
 		<section>
 			<title>Edwin Peer</title>
-			<p>Edwin is the project founder and based on his efforts, CILib was started in 2003</p>
+			<p>Edwin is the project founder and the initial project was developed, based on his efforts.</p>
 		</section>
 		
 		<section>
 			<title>Gary Pampara</title>
-			<p>Gary has been a developer of CILib ever since 2004 and is now one of the most active developers</p>
+			<p>Gary has been a developer of CILib ever since 2004 and is now one of the most active developers.</p>
+		</section>
+
+		<section>
+			<title>Andries Engelbrecht</title>
+			<p>Prof. Andries Engelbrecht is the leader of the <a href="http://cirg.cs.up.ac.za">Computational Intelligence Research Group</a> and is an active developer. The book <a href="http://si.cs.up.ac.za">Swarm Intelligence</a> has references to CILib.</p>
 		</section>
 	</body>
 </document>

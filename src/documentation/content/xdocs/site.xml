@@ -30,12 +30,14 @@ This file contains an outline of the site's information content.  It is used to:
 See http://forrest.apache.org/docs/linking.html for more info
 -->
 
-<site label="CILib" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="cilib">
+<site label="CILib" href="" xmlns="http://apache.org/forrest/linkmap/1.0">
    <!-- Note: No matter what you configure here, Forrest will always try to load
        index.html when you request http://yourHost/.
        'How can I use a start-up-page other than index.html?' in the FAQs has more 
        information tells you how to change that. 
    -->
+
+   <project-index href="index.html" />
    
 	<cilib label="CILib">
 		<home label="Home" href="index.html" />
@@ -45,21 +47,28 @@ See http://forrest.apache.org/docs/linking.html for more info
 		<downloads label="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=72233" />
 	</cilib>
 	
-	<documentation label="Documentation">
+	<UsersGuide label="Users Guide" href="UsersGuide/">
+		<intro label="Introduction" href="index.html" />
+		<quick-start label="Quick Start" href="quick-start.html" />
+		<xml-files label="XML Configuration" href="#" />
+	</UsersGuide>
+
+	<project label="Project">
 		<faq label="FAQ" href="#" />
 		<todo label="TODO" href="todo.html" />
-		<changelog label="Change Log" href="#" />
+		<changelog label="Change Log" href="changelog.html" />
+		<mailing-lists label="Mailing Lists" href="mailing-lists.html" />
+		<svn-access label="SVN Access" href="svn-access.html" />
+	</project>
+   
+	<documentation label="Documentation">
 		<wiki label="Wiki" href="#" />
 		<forums label="Forums" href="#" />
 		<api label="JavaDoc API" href="doc/api/index.html" />
 	</documentation>
-   
-	<project label="Project">
-		<mailing-lists label="Mailing Lists" href="mailing-lists.html" />
-		<svn-access label="SVN Access" href="svn-access.html" />
-	</project>
-	
+
 	<useful-information label="Useful Information">
+		<reporting-problems label="Reporting Problems" href="#" />
 		<getting-involved label="Getting Involved" href="#" />
 	</useful-information>
  

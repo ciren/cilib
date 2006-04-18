@@ -24,7 +24,15 @@
 		<section>
 			<title>Release 0.6.0</title>
 			<ul>
-				<li><strong>[code]</strong> Upgrade JUnit to version 4.0. Version 4.0 of JUnit was released on 16 Feb 2006.</li>
+				<li>
+					<strong>[code]</strong> Upgrade JUnit to version 4.0. Version 4.0 of 
+					JUnit was released on 16 Feb 2006.
+				</li>
+				<li>
+					<strong>[code]</strong> Add the functionality to have different forms
+					of output. These should range from plain text files, character
+					deliminated files, XML to even PDF.
+				</li>
 			</ul>
 		</section>
 	</body>	

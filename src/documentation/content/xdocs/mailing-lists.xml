@@ -17,42 +17,44 @@
 -->
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://forrest.apache.org/dtd/document-v12.dtd">
 <document>
-  <header>
-    <title>Mailing Lists</title>
-  </header>
-  <body>
-    <section>
-      <title>Lists</title>
-      <table>
-        <tr>
-	  <th>Name</th>
-	  <th>Archives</th>
-	  <th>Purpose</th>
-	  <th>Notes</th>
-	  <th>Subscription Management</th>
-	</tr>
-	<tr>
-	  <td><anchor id="cilib-user"/><strong>cilib-user</strong></td>
-	  <td></td>
-	  <td>Any general usage questions required by users</td>
-	  <td>This is subscriber-only list. You must join before you are allowed to post.</td>
-	  <td>
-	    cilib-user-subscribe&lt;at&gt;lists.sourceforge.net<br/>
-	    cilib-user-unsubscribe&lt;at&gt;lists.sourceforge.net<br/>
-	    cilib-user&lt;at&gt;lists.sourceforge.net
-	  </td>
-	</tr>
-	<tr>
-	  <td><anchor id="cilib-devel"/><strong>cilib-devel</strong></td>
-	  <td></td>
-	  <td>Development centric</td>
-	  <td>This is a subscriber-only list. You must subscribe before posting. Developers are encouraged to join and post ideas and findings.</td>
-	  <td>
-	    cilib-devel-subscribe&lt;at&gt;lists.sourceforge.net<br/>
-	    cilib-devel-unsubscribe&lt;at&gt;lists.sourceforge.net<br/>
-	    cilib-devel&lt;at&gt;lists.sourceforge.net</td>
-	</tr>
-     </table>
-    </section>
-  </body>
+	<header>
+		<title>Mailing Lists</title>
+	</header>
+	<body>
+		<p>
+			The CILib framework project uses the following mailing lists to discuss: framework usage, development and improvements.
+		</p>
+
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Archives</th>
+				<th>Purpose</th>
+				<th>Notes</th>
+				<th>Subscription Management</th>
+			</tr>
+			<tr>
+				<td><anchor id="cilib-user"/><strong>cilib-user</strong></td>
+				<td></td>
+				<td>Any general usage questions required by users</td>
+				<td>This is subscriber-only list. You must join before you are allowed to post.</td>
+				<td>
+					cilib-user-subscribe&lt;at&gt;lists.sourceforge.net<br/>
+					cilib-user-unsubscribe&lt;at&gt;lists.sourceforge.net<br/>
+					cilib-user&lt;at&gt;lists.sourceforge.net
+				</td>
+			</tr>
+			<tr>
+				<td><anchor id="cilib-devel"/><strong>cilib-devel</strong></td>
+				<td></td>
+				<td>Development centric</td>
+				<td>This is a subscriber-only list. You must subscribe before posting. Developers are encouraged to join and post ideas and findings.</td>
+				<td>
+					cilib-devel-subscribe&lt;at&gt;lists.sourceforge.net<br/>
+					cilib-devel-unsubscribe&lt;at&gt;lists.sourceforge.net<br/>
+					cilib-devel&lt;at&gt;lists.sourceforge.net
+				</td>
+			</tr>
+		</table>
+	</body>
 </document>

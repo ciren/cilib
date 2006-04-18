@@ -19,7 +19,7 @@
 
 <tabs software="CILib"
   title="CILib"
-  copyright="2006 Computational Intelligence Research Group (CIRG@UP)"
+  copyright="Computational Intelligence Research Group (CIRG@UP)"
   xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <!-- The rules for tabs are:
@@ -33,8 +33,9 @@
     be displayed when their parent tab is selected.    
   -->
 
-  <tab id="cilib" label="CILib Project" dir="/" indexfile="index.html"/>
-  <tab id="usage" label="User Guide" dir="" indexfile="" />
+  <tab label="CILib Project" dir="" indexfile="index.html"/>
+
+  <tab label="Users Guide" dir="UsersGuide" />
 
 
 

@@ -35,7 +35,7 @@ which will be used to configure the chosen Forrest skin.
   <!-- Disable the print link? If enabled, invalid HTML 4.0.1 -->
   <disable-print-link>true</disable-print-link>  
   <!-- Disable the PDF link? -->
-  <disable-pdf-link>false</disable-pdf-link>
+  <disable-pdf-link>true</disable-pdf-link>
   <!-- Disable the POD link? -->
   <disable-pod-link>true</disable-pod-link>
   <!-- Disable the Text link? FIXME: NOT YET IMPLEMENETED. -->
@@ -49,7 +49,7 @@ which will be used to configure the chosen Forrest skin.
   <disable-xml-link>true</disable-xml-link>
 
   <!-- Disable navigation icons on all external links? -->
-  <disable-external-link-image>true</disable-external-link-image>
+  <disable-external-link-image>false</disable-external-link-image>
 
   <!-- Disable w3c compliance links? 
     Use e.g. align="center" to move the compliance links logos to 
@@ -75,10 +75,10 @@ which will be used to configure the chosen Forrest skin.
 
   <!-- optional group logo
        default skin: renders it at the top-left corner -->
-  <!--<group-name>MyGroup</group-name>
-  <group-description>MyGroup Description</group-description>
-  <group-url>http://mygroup.org</group-url>
-  <group-logo>images/group.png</group-logo>-->
+  <group-name>CILib</group-name>
+  <group-description>Computational Intelligence Library</group-description>
+  <group-url>http://cilib.sourceforge.net/</group-url>
+  <group-logo>images/cilib_logo_invert.jpg</group-logo>
   <!-- Alternative static image:
   <group-logo>images/group-logo.gif</group-logo> -->
 
@@ -110,8 +110,8 @@ which will be used to configure the chosen Forrest skin.
     directory.
   -->
   <trail>
-    <link1 name="sourceforge" href="http://www.sourceforge.net" />
-    <link2 name="cilib" href="http://cilib.sourceforge.net/"/>
+    <link1 name="SourceForge" href="http://www.sourceforge.net" />
+    <link2 name="CILib" href="http://cilib.sourceforge.net/"/>
     <link3 name="" href=""/>
   </trail>
 
@@ -192,6 +192,13 @@ which will be used to configure the chosen Forrest skin.
     h2.boxed {
       background-color: #E5E4D9;
     }
+
+		PRE.code {
+			border: solid thin;
+			padding: 2px;
+			background-color: #ffffcc;
+		}
+
     <!--Example:
         To override the colours of links only in the footer.
     -->
@@ -228,8 +235,9 @@ which will be used to configure the chosen Forrest skin.
      pelt: feedback: the optional bottom strip containing feedback link
   -->
 
+<!--
     <color name="breadtrail" value="#cedfef" font="#0F3660" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
-    <!--<color name="header" value="#294563"/>-->
+    <color name="header" value="#294563"/>
     <color name="tab-selected" value="#4a6d8c" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
     <color name="tab-unselected" value="#b5c7e7" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
     <color name="subtab-selected" value="#4a6d8c" link="#0F3660" vlink="#0F3660" hlink="#000066"/>
@@ -253,7 +261,12 @@ which will be used to configure the chosen Forrest skin.
     <color name="warning" value="#990000"/>
     <color name="code" value="#CFDCED"/>
     <color name="footer" value="#cedfef"/>
+-->
 
+    <color name="header" value="#294563"/>
+    <color name="navstrip" value="#4a6d8c"/>
+    <color name="published" value="#4C6C8F" font="#FFFFFF"/>
+    <color name="searchbox" value="#4a6d8c" font="#000000"/>
 
   <!-- Color group: Krysalis -->
 <!--

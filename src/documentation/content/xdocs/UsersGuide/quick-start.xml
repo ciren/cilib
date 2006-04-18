@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation or its licensors,
+  as applicable.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document> 
+  <header> 
+    <title>CILib - User's Guide - Quick Start</title> 
+  </header> 
+  <body>
+		<section>
+			<title>Compiling the CILib source</title>
+	
+			<p>
+				This is a simple quick start guide to get a very simple algorithm 
+				definition within CILib to execute and to produce output. A few steps 
+				are required to get things going, so let's get right into	it.
+			</p>
+
+			<p>
+				The very first thing we need to do is to compile the library code into
+				a jar that we will be able to use. CILib's build process uses 
+				<a href="http://ant.apache.org">Apache Ant</a>. Simply execute 
+				"<code>ant jar</code>" to build the cilib.jar file. The jar will be 
+				placed in the build directory within the root directory of the CILib 
+				source.
+			</p>
+
+			<source><![CDATA[
+bash-3.1$ ant
+Buildfile: build.xml
+
+compile:
+  [mkdir] Created dir: /home/gpampara/development/cilib/bin
+  [mkdir] Created dir: /home/gpampara/development/cilib/build
+  [mkdir] Created dir: /home/gpampara/development/cilib/build/site/doc
+  [javac] Compiling 474 source files to /home/gpampara/development/cilib/bin
+  [javac] Note: Recompile with -Xlint:deprecation for details.
+  [javac] Note: Some input files use unchecked or unsafe operations.
+  [javac] Note: Recompile with -Xlint:unchecked for details.
+
+jar:
+  [jar] Building jar: /home/gpampara/development/cilib/build/cilib.jar
+
+zip:
+  [zip] Building zip: /home/gpampara/development/cilib/build/cilib-src.zip
+
+all:
+
+BUILD SUCCESSFUL
+Total time: 17 seconds
+bash-3.1$ ]]></source>
+		</section>
+
+
+		<section>
+			<title>The CILib XML specification</title>
+			<p>
+				Within the root of the CILib source distribution, you will find a
+				directory named <code>xml</code>. Within this directory is a collection
+				of predefined XML spcifications for algorithm executions using CILib.
+			</p>
+
+			<p>
+				Let's have a look at one of the files. This file 
+				(<code>gbestPSO.xml</code>) defines a gbest PSO algorithm to execute 
+				on a <code>FunctionMinimisationProblem</code> to optimise 12 continuous
+				valued functions.
+			</p>
+
+			<p>
+				The XML file looks like:
+			</p>
+
+<source><![CDATA[
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+
+  <algorithms>
+    <algorithm id="gbest" class="pso.PSO">
+      <addStoppingCondition class="stoppingcondition.MaximumIterations" 
+        iterations="1000" />
+      <particles value="40"/>
+    </algorithm>
+  </algorithms>
+
+  <problems>
+    <problem id="spherical" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Spherical"/>
+    </problem>
+    <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Rosenbrock"/>
+    </problem>
+    <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Rastrigin"/>
+    </problem>
+    <problem id="griewank" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Griewank"/>
+    </problem>
+    <problem id="quadric" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Quadric"/>
+    </problem>
+    <problem id="michalewicz" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Michalewicz12"/>
+    </problem>
+    <problem id="hyperellipsoid" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.HyperEllipsoid"/>
+    </problem>
+    <problem id="easom" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Easom"/>
+    </problem>
+    <problem id="colville" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Colville"/>
+    </problem>
+    <problem id="bohachevsky1" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Bohachevsky1"/>
+    </problem>
+    <problem id="ackley" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Ackley"/>
+    </problem>
+    <problem id="schwefel" class="problem.FunctionMinimisationProblem">
+      <function class="functions.continuous.Schwefel"/>
+    </problem>
+  </problems>
+
+  <measurements id="fitness" class="simulator.MeasurementSuite"
+    resolution="10" samples="1">
+    <addMeasurement class="measurement.single.Fitness"/>
+  </measurements>
+
+  <simulations>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="spherical"/>
+      <measurements idref="fitness" 
+        file="data/spherical3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="rosenbrock"/>
+      <measurements idref="fitness"
+        file="data/rosenbrock3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="rastrigin"/>
+      <measurements idref="fitness" 
+        file="data/rastrigin3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="griewank"/>
+      <measurements idref="fitness" 
+        file="data/griewank3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="quadric"/>
+      <measurements idref="fitness" 
+        file="data/quadric3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="michalewicz"/>
+      <measurements idref="fitness"
+        file="data/michalewicz3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="hyperellipsoid"/>
+      <measurements idref="fitness"
+        file="data/hyperellipsoid3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="easom"/>
+      <measurements idref="fitness" 
+        file="data/easom3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="colville"/>
+      <measurements idref="fitness" 
+        file="data/colville3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="bohachevsky1"/>
+      <measurements idref="fitness"
+        file="data/bohachevksy1_3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="ackley"/>
+      <measurements idref="fitness"
+        file="data/ackley3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+    <simulation>
+      <algorithm idref="gbest"/>
+      <problem idref="schwefel"/>
+      <measurements idref="fitness"
+        file="data/schwefel3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+    </simulation>
+  </simulations>
+</simulator>
+]]></source>
+
+			<p>
+				That's relatively a lot of XML. But what does it mean? Have a look at
+				the section on "XML Configuration" for more information on how the 
+				configuration is setup for the simulations.
+			</p>
+		</section>
+
+
+		<section>
+			<title>Exectuing the specification</title>
+			<p>
+				Right, now that we have a specification defining the exectutions, the
+				next step is to execute the CILib simulator with the XML file as a
+				command line parameter.
+			</p>
+
+			<p>
+				The simulator is a shell script, <code>simulator.sh</code> for UNIX
+				based systems and <code>simulator.bat</code> for Windows.
+			</p>
+
+<source><![CDATA[
+bash-3.1$ ./simulator.sh xml/gbestPSO.xml 
+Starting simulation 1 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 2 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 3 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 4 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 5 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 6 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 7 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 8 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 9 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 10 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 11 of 12.
+Progress (100.0%) |==================================================| done.
+Starting simulation 12 of 12.
+Progress (100.0%) |==================================================| done.
+]]></source>
+
+			<p>
+				That's it, 12 simulations have been executed with the same algorithm
+				but with 12 different problems and all without recompiling the source
+				code! The output location is located in the <code>data</code> directory
+				as specified within the XML configuration file. Have a look at the
+				contents of the files and you should see the fitness value of the
+				best particle in the PSO getting smaller and smaller, ie better :)
+			</p>
+
+			<p>
+				Now you know how the XML configuration should like and have seen how to
+				run the simulations. We'll leave it to you to create your own 
+				configuration files and to run your own algorithm executions.
+			</p>
+		</section>
+
+  </body>
+</document>
