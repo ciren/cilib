@@ -207,14 +207,24 @@ public class AngleModulation extends ContinuousFunction {
 	
 	
 	/**
+	 * Determine the numeric value of the given bitstring.
 	 * 
-	 * @param str
-	 * @param i
-	 * @param j
-	 * @return
+	 * TODO: Move this into a class that will make sense.
+	 * 
+	 * @param bitString The bitsting as a string
+	 * @param i The starting index
+	 * @param j The ending index
+	 * @return The value of the bitstring
 	 */
-	private double valueOf(String str, int i, int j) {
+	public double valueOf(String bitString, int startIndex, int endIndex) {
 		double result = 0.0;
+		
+		String substring = bitString.substring(startIndex, endIndex);
+		result = Integer.valueOf(substring, 2).intValue();
+		
+		return result;
+		
+		/*double result = 0.0;
 		int n = 1;
 		
 		for (int counter = j-1; counter >= i; counter--) {
@@ -225,7 +235,18 @@ public class AngleModulation extends ContinuousFunction {
 			n = n*2;
 		}
 
-		return result;
+		return result;*/
+	}
+	
+	
+	public double valueOf(String bitString, int index) {
+		String substring = bitString.substring(index);
+		return Integer.valueOf(substring, 2).intValue();
+	}
+	
+	
+	public double valueOf(String bitString) {
+		return Integer.valueOf(bitString, 2).intValue();
 	}
 
 	

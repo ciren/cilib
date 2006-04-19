@@ -132,6 +132,17 @@ public class AngleModulationTest extends TestCase {
 	}
 	
 	
+	public void testBinaryConversion() {
+		String test = "1111";
+		String test2 = "1010";
+		
+		assertEquals(15.0, this.angle.valueOf(test));
+		assertEquals(15.0, this.angle.valueOf(test, 0, 4));
+		assertEquals(3.0, this.angle.valueOf(test, 2));
+		assertEquals(10.0, this.angle.valueOf(test2, 0, 4));
+	}
+	
+	
 	private void reset() {
 		angle.setPrecision(3);
 	}
