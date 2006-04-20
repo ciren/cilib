@@ -25,8 +25,8 @@
 			<title>Release 0.6.0</title>
 			<ul>
 				<li>
-					<strong>[code]</strong> Upgrade JUnit to version 4.0. Version 4.0 of 
-					JUnit was released on 16 Feb 2006.
+					<strong>[code]</strong> - Upgrade JUnit to version 4.0. Version 4.0 of 
+					JUnit was released on 16 Feb 2006. <strong>[DONE]</strong>
 				</li>
 				<li>
 					<strong>[code]</strong> Add the functionality to have different forms

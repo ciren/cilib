@@ -35,7 +35,7 @@
 			</tr>
 			<tr>
 				<td><link href="http://www.junit.org">junit</link></td>
-				<td>3.8.1</td>
+				<td>4.0</td>
 				<td>CPL</td>
 				<td>Unit Testing framework used for regression testing.</td>
 			</tr>
