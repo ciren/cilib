@@ -26,19 +26,22 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.generic.PercentageComplete;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class PercentageCompleteTest extends TestCase {
+public class PercentageCompleteTest {
 	
+	@Test
 	public void testPercentageCompleteDomain() {
 		Measurement m = new PercentageComplete();
 		

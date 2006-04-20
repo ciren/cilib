@@ -26,6 +26,9 @@
  */
 package net.sourceforge.cilib.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,16 +36,19 @@ import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
 
-import junit.framework.TestCase;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-public class EuclideanDistanceMeasureTest extends TestCase {
+public class EuclideanDistanceMeasureTest {
 	
-	private DistanceMeasure distanceMeasure;
+	private static DistanceMeasure distanceMeasure;
 	
-	public void setUp() {
-		this.distanceMeasure = new EuclideanDistanceMeasure();		
+	@BeforeClass
+	public static void setUp() {
+		distanceMeasure = new EuclideanDistanceMeasure();		
 	}
 	
+	@Test
 	public void testVectorDistance() {
 		Vector v1 = new MixedVector();
 		Vector v2 = new MixedVector();
@@ -66,6 +72,8 @@ public class EuclideanDistanceMeasureTest extends TestCase {
 		catch (IllegalArgumentException i) {}
 	}
 	
+	
+	@Test
 	public void testCollectionDistance() {
 		List<Double> l1 = new ArrayList<Double>();
 		List<Double> l2 = new ArrayList<Double>();

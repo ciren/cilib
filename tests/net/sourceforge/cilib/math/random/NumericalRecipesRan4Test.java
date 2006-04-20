@@ -31,21 +31,21 @@ package net.sourceforge.cilib.math.random;
 
 import java.util.Random;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 
 /**
  *
  * @author Edwin Peer
  */
-public class NumericalRecipesRan4Test extends TestCase {
+public class NumericalRecipesRan4Test {
     
-    public NumericalRecipesRan4Test(java.lang.String testName) {
-        super(testName);
+    public NumericalRecipesRan4Test() {
+       
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -54,7 +54,9 @@ public class NumericalRecipesRan4Test extends TestCase {
         
         return suite;
     }
+    */
     
+    @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
         Random r = new Random();

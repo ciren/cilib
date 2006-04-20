@@ -29,13 +29,13 @@
 
 package net.sourceforge.cilib.container.graph;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.container.graph.Edge;
 import net.sourceforge.cilib.container.graph.Graph;
 import net.sourceforge.cilib.container.graph.Vertex;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 
 /**
@@ -43,13 +43,12 @@ import junit.framework.TestSuite;
  *
  * @author Gary Pampara
  */
-public class GraphTest extends TestCase {
+public class GraphTest {
 
-	public GraphTest(java.lang.String testName) {
-		super(testName);
+	public GraphTest() {
 	}
 
-	public static void main(java.lang.String[] args) {
+	/*public static void main(java.lang.String[] args) {
 		junit.textui.TestRunner.run(suite());
 	}
 
@@ -61,12 +60,15 @@ public class GraphTest extends TestCase {
 
 	public void setUp() {
 	}
-
+*/
+	
+	@Test
 	public void testGraphCreation() {
 		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
 		assertNotNull(g);
 	}
 
+	@Test
 	public void testGraphAddVerticies() {
 		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
 		g.addVertex(new Vertex(1));
@@ -75,6 +77,7 @@ public class GraphTest extends TestCase {
 		assertEquals(2, g.getVertexCount());
 	}
 
+	@Test
 	public void testGraphAddEdges() {
 		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
 		Vertex v1 = new Vertex(1);
@@ -90,6 +93,7 @@ public class GraphTest extends TestCase {
 		assertEquals(1, g.getEdgeCount());
 	}
 
+	@Test
 	public void testVertexSelection() {
 		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
 		Vertex v1 = new Vertex(1);
@@ -102,6 +106,7 @@ public class GraphTest extends TestCase {
 		assertSame(v2, g.getVertexAt(1));
 	}
 
+	@Test
 	public void testEdgeSelection() {
 		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
 		Vertex v1 = new Vertex(1);

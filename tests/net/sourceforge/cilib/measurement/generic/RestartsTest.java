@@ -26,19 +26,22 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.generic.Restarts;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class RestartsTest extends TestCase {
+public class RestartsTest {
 	
+	@Test
 	public void testRestartsDomain() {
 		Measurement m = new Restarts();
 		

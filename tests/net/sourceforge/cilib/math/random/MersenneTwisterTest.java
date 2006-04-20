@@ -31,23 +31,22 @@ package net.sourceforge.cilib.math.random;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import net.sourceforge.cilib.math.random.MersenneTwister;
 
 /**
  *
  * @author Edwin Peer
  */
-public class MersenneTwisterTest extends TestCase {
+public class MersenneTwisterTest {
     
-    public MersenneTwisterTest(java.lang.String testName) {
-        super(testName);
+    public MersenneTwisterTest() {
+      
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -55,9 +54,10 @@ public class MersenneTwisterTest extends TestCase {
         TestSuite suite = new TestSuite(MersenneTwisterTest.class);
         
         return suite;
-    }
+    }*/
     
     /** Test of next method, of class za.ac.up.cs.ailib.Random.MersenneTwister. */
+    @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
         Random r = new MersenneTwister();

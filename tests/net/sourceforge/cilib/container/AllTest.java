@@ -28,30 +28,26 @@
 
 package net.sourceforge.cilib.container;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 /**
  *
  * @author  Gary Pampara
  */
-public class AllTest extends TestCase {
-    
-    /** Creates a new instance of AllTests */
-    public AllTest(java.lang.String testname) {
-        super(testname);
-    }
-    
-    public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTest(MatrixTest.suite());
-        suite.addTest(QueueTest.suite());
-		suite.addTest(BitArrayTest.suite());
-		suite.addTestSuite(SortedListTest.class);
-        return suite;
-    }
+@RunWith(Suite.class)
+@SuiteClasses(
+		value={
+				MatrixTest.class,
+				QueueTest.class,
+				BitArrayTest.class,
+				SortedListTest.class				
+			}
+		)
+public class AllTest {
+	
+	public AllTest() {
+		
+	}
+	
 }

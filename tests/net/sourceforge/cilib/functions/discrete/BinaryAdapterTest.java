@@ -26,7 +26,12 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import net.sourceforge.cilib.functions.continuous.Rastrigin;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.MixedVector;
@@ -39,27 +44,37 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  *
  */
-public class BinaryAdapterTest extends TestCase {
+public class BinaryAdapterTest {
 	
-	private BinaryAdapter adapter;
+	private static BinaryAdapter adapter;
 	
-	public void setUp() {
-		this.adapter = new BinaryAdapter();
-		this.adapter.setFunction(new Rastrigin());
+	@BeforeClass
+	public static void setUp() {
+		adapter = new BinaryAdapter();
+		adapter.setFunction(new Rastrigin());
+	}
+	
+	/**
+	 * Cleanup
+	 */
+	@AfterClass
+	public static void tearDown() {
+		adapter = null;
 	}
 	
 	/**
 	 * Test the process of setting the bits per dimension.
 	 */
+	@Test
 	public void testDimensionSettings() {
-		this.adapter.setBitsPerDimension(5);
-		assertEquals(5, this.adapter.getBitsPerDimension());
+		adapter.setBitsPerDimension(5);
+		assertEquals(5, adapter.getBitsPerDimension());
 		
-		this.adapter.setBitsPerDimension(0);
-		assertEquals(0, this.adapter.getBitsPerDimension());
+		adapter.setBitsPerDimension(0);
+		assertEquals(0, adapter.getBitsPerDimension());
 		
 		try {
-			this.adapter.setBitsPerDimension(-9);
+			adapter.setBitsPerDimension(-9);
 			fail("Cannot use negative bits!!");
 		}
 		catch (Exception e) {}
@@ -69,9 +84,10 @@ public class BinaryAdapterTest extends TestCase {
 	/**
 	 * Test the process of creating a bit vector and decoding it into real values.
 	 */
+	@Test
 	public void testSimpleDecoding() {
-		this.adapter.setBitsPerDimension(4);
-		this.adapter.setPrecision(0);
+		adapter.setBitsPerDimension(4);
+		adapter.setPrecision(0);
 		
 		Vector bitVector = new MixedVector();
 		for (int i = 0; i < 4; i++) {
@@ -80,7 +96,7 @@ public class BinaryAdapterTest extends TestCase {
 		
 		assertEquals(4, bitVector.getDimension());
 		
-		Vector converted = this.adapter.decodeBitString(bitVector);	
+		Vector converted = adapter.decodeBitString(bitVector);	
 		assertEquals(1, converted.getDimension());
 		
 		Type t = converted.get(0);
@@ -89,29 +105,30 @@ public class BinaryAdapterTest extends TestCase {
 		assertEquals(15.0, n.getReal());
 
 		bitVector.setBit(3, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
 		assertEquals(14.0, converted.getReal(0));
 		
 		bitVector.setBit(2, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
 		assertEquals(12.0, converted.getReal(0));
 		
 		bitVector.setBit(1, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
 		assertEquals(8.0, converted.getReal(0));
 		
 		bitVector.setBit(0, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
 		assertEquals(0.0, converted.getReal(0));
 	}
 	
 	
+	@Test
 	public void testSimpleDoubleDecoding() {
-		this.adapter.setBitsPerDimension(4);
+		adapter.setBitsPerDimension(4);
 		
 		Vector bitVector = new MixedVector();
 		for (int i = 0; i < 8; i++) {
@@ -120,7 +137,7 @@ public class BinaryAdapterTest extends TestCase {
 		
 		assertEquals(8, bitVector.getDimension());
 		
-		Vector converted = this.adapter.decodeBitString(bitVector);	
+		Vector converted = adapter.decodeBitString(bitVector);	
 		assertEquals(2, converted.getDimension());
 		
 		Type t = converted.get(0);
@@ -129,28 +146,29 @@ public class BinaryAdapterTest extends TestCase {
 		assertEquals(15.0, n.getReal());
 
 		bitVector.setBit(3, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(2, converted.getDimension());
 		assertEquals(14.0, converted.getReal(0));
 		
 		bitVector.setBit(2, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(2, converted.getDimension());
 		assertEquals(12.0, converted.getReal(0));
 		
 		bitVector.setBit(1, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(2, converted.getDimension());
 		assertEquals(8.0, converted.getReal(0));
 		
 		bitVector.setBit(0, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(2, converted.getDimension());
 		assertEquals(0.0, converted.getReal(0));
 	}
 	
+	@Test
 	public void testComplex() {
-		this.adapter.setBitsPerDimension(8);
+		adapter.setBitsPerDimension(8);
 		
 		Vector bitVector = new MixedVector();
 		for (int i = 0; i < 8; i++) {
@@ -159,7 +177,7 @@ public class BinaryAdapterTest extends TestCase {
 		
 		assertEquals(8, bitVector.getDimension());
 		
-		Vector converted = this.adapter.decodeBitString(bitVector);	
+		Vector converted = adapter.decodeBitString(bitVector);	
 		assertEquals(1, converted.getDimension());
 		
 		Type t = converted.get(0);
@@ -168,32 +186,24 @@ public class BinaryAdapterTest extends TestCase {
 		assertEquals(255.0, n.getReal());
 
 		bitVector.setBit(3, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
 		assertEquals(239.0, converted.getReal(0));
 		
 		bitVector.setBit(2, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
 		assertEquals(207.0, converted.getReal(0));
 		
 		bitVector.setBit(1, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
 		assertEquals(143.0, converted.getReal(0));
 		
 		bitVector.setBit(0, false);
-		converted = this.adapter.decodeBitString(bitVector);
+		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
 		assertEquals(15.0, converted.getReal(0));
-	}
-	
-	
-	/**
-	 * Cleanup
-	 */
-	public void tearDown() {
-		this.adapter = null;
 	}
 
 }

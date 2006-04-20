@@ -31,23 +31,22 @@ package net.sourceforge.cilib.math.random;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.math.random.Tausworthe;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import net.sourceforge.cilib.math.random.Tausworthe;
 
 /**
  *
  * @author Edwin Peer
  */
-public class TauswortheTest extends TestCase {
+public class TauswortheTest {
     
-    public TauswortheTest(java.lang.String testName) {
-        super(testName);
+    public TauswortheTest() {
+        
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -55,8 +54,9 @@ public class TauswortheTest extends TestCase {
         TestSuite suite = new TestSuite(TauswortheTest.class);
         
         return suite;
-    }
+    }*/
    
+    @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
         Random r = new Tausworthe();

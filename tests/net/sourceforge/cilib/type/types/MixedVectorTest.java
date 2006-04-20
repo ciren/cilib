@@ -32,7 +32,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import junit.framework.TestCase;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.MixedVector;
@@ -46,12 +50,13 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * @author Gary Pampara
  */
-public class MixedVectorTest extends TestCase {
+public class MixedVectorTest {
 	
-	private Vector vector;
-	private Vector tmpVector;
+	private static Vector vector;
+	private static Vector tmpVector;
 	
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		vector = new MixedVector();
 		
 		vector.append(new Real(1));
@@ -60,8 +65,8 @@ public class MixedVectorTest extends TestCase {
 		vector.append(new Real(4));
 	}
 	
-	
-	public void tearDown() {
+	@AfterClass
+	public static void tearDown() {
 		vector = null;
 		tmpVector = null;
 	}
@@ -75,6 +80,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testClone() {
 		
 		Vector v = (Vector) vector.clone();
@@ -86,6 +92,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testSet() {
 		vector.setReal(0, 3.0);
 		assertEquals(3.0, vector.getReal(0));
@@ -94,6 +101,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testNumericGet() {
 		recreateTmpVector();
 		
@@ -107,6 +115,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testNonNumericGet() {
 		MixedVector m = new MixedVector();
 		Set<Real> realSet = new Set<Real>();
@@ -120,6 +129,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testNumericSet() {
 		assertEquals(1.0, vector.getReal(0));
 		vector.setReal(0, 99.9);
@@ -133,6 +143,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testNonNumericSet() {
 		MixedVector m = new MixedVector();
 		Set<Object> s = new Set<Object>();
@@ -146,6 +157,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testDimension() {
 		assertFalse(vector.getDimension() == 3);
 		assertTrue(vector.getDimension() == 4);
@@ -153,6 +165,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testInsert() {
 		MixedVector m = new MixedVector();
 		double [] targetResults = { 0.0, 1.0, 2.0, 3.0, 4.0 };
@@ -186,6 +199,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testRemove() {
 		MixedVector m = new MixedVector();
 		
@@ -213,6 +227,7 @@ public class MixedVectorTest extends TestCase {
 	}
 
 	
+	@Test
 	public void testAdd() {
 		MixedVector m = new MixedVector();
 		assertEquals(0, m.getDimension());
@@ -222,12 +237,14 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testGetReal() {
 		Object tmp = vector.getReal(0);
 		assertTrue(tmp instanceof Double);
 	}
 	
 	
+	@Test
 	public void testSetReal() {
 		MixedVector m = new MixedVector();
 		m.add(new Real(-10.0, 10.0));
@@ -237,12 +254,14 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testGetInt() {
 		Object tmp = vector.getInt(0);
 		assertTrue(tmp instanceof Integer);
 	}
 	
 	
+	@Test
 	public void testSetInt() {
 		MixedVector m = new MixedVector();
 		m.add(new Int(2));
@@ -260,12 +279,14 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testGetBit() {
 		Object tmp = vector.getBit(0);
 		assertTrue(tmp instanceof Boolean);
 	}
 	
 	
+	@Test
 	public void testSetBit() {
 		MixedVector m = new MixedVector();
 		m.add(new Bit());
@@ -275,6 +296,7 @@ public class MixedVectorTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testRandomize() {
 		MixedVector m = new MixedVector();
 		m.add(new Real(1.0));
@@ -287,6 +309,8 @@ public class MixedVectorTest extends TestCase {
 		assertFalse(m.getReal(2) == 3.0);
 	}
 	
+	
+	@Test
 	public void testSerialisation() {
 		MixedVector m = new MixedVector();
 		m.add(new Real(55.0));

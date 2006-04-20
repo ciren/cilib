@@ -26,25 +26,30 @@
  */
 package net.sourceforge.cilib.math;
 
-import junit.framework.TestCase;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 
 /**
  * 
  * @author Gary Pampara
  *
  */
-public class DiscreteRandomNumberTest extends TestCase {
+public class DiscreteRandomNumberTest {
 	
 	//private DiscreteRandomNumber number;
 	
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		//number = new DiscreteRandomNumber();
 	}
 	
+	@Test
 	public void testBinomial() {
 		
 	}
 	
+	@Test
 	public void testPoisson() {
 		
 	}

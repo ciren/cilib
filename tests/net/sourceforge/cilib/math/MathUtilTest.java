@@ -26,16 +26,19 @@
  */
 package net.sourceforge.cilib.math;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.math.MathUtil;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  *
  */
-public class MathUtilTest extends TestCase {
+public class MathUtilTest {
 	
+	@Test
 	public void testFactorial() {
 		assertEquals(1.0, MathUtil.factorial(0.0));
 		assertEquals(1.0, MathUtil.factorial(1.0));
@@ -52,6 +55,7 @@ public class MathUtilTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testCombination() {
 		assertEquals(792.0, MathUtil.combination(12, 5));
 		

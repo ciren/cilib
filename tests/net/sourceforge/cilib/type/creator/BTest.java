@@ -26,29 +26,35 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.creator.B;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Type;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class BTest extends TestCase {
+public class BTest {
 	
-	private B creator = null;
+	private static B creator = null;
 	
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		creator = new B();
 	}
 	
+	@Test
 	public void testCreateNoBounds() {
 		Type b = creator.create();
 		
 		assertTrue(b instanceof Bit);
 	}
 	
+	@Test
 	public void testCreateBounds() {
 		Type b = null;
 		try {

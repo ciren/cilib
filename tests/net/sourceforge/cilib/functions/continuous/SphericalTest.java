@@ -29,26 +29,28 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.Spherical;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 
 /**
  *
  * @author Edwin Peer
  */
-public class SphericalTest extends TestCase {
+public class SphericalTest {
     
-    public SphericalTest(java.lang.String testName) {
-        super(testName);
+    public SphericalTest() {
+
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -56,9 +58,10 @@ public class SphericalTest extends TestCase {
         TestSuite suite = new TestSuite(SphericalTest.class);
         
         return suite;
-    }
+    }*/
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
+    @Test
     public void testEvaluate() {
     	ContinuousFunction function = new Spherical();
         function.setDomain("R(-100, 100)^3");

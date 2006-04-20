@@ -29,10 +29,11 @@
 
 package net.sourceforge.cilib.container;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.container.BitArray;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 
 
 /**
@@ -40,9 +41,9 @@ import junit.framework.TestSuite;
  *
  * @author Gary Pampara
  */
-public class BitArrayTest extends TestCase {
+public class BitArrayTest {
 
-	public BitArrayTest(java.lang.String testName) {
+	/*public BitArrayTest(java.lang.String testName) {
 		super(testName);
 	}
 
@@ -57,19 +58,22 @@ public class BitArrayTest extends TestCase {
 	}
 
 	public void setUp() {
-	}
+	}*/
 
+	@Test
 	public void testBitArrayCreation() {
 		BitArray b = new BitArray();
 		assertNotNull(b);
 	}
 
+	@Test
 	public void testBitArrayGet() {
 		BitArray b = new BitArray(); // default with 32 bits
 
 		assertEquals(false, b.get(10));
 	}
 
+	@Test
 	public void testBitArraySet() {
 		BitArray b = new BitArray(); // default with 32 bits
 		
@@ -80,6 +84,7 @@ public class BitArrayTest extends TestCase {
 		assertEquals(true, b.get(30));
 	}
 
+	@Test
 	public void testBitArrayBounds() {
 		BitArray b = new BitArray();
 
@@ -97,6 +102,7 @@ public class BitArrayTest extends TestCase {
 		fail("Accessing invalid ranges!");
 	}
 
+	@Test
 	public void testLargerBitArray() {
 		BitArray b = new BitArray(40);
 
@@ -104,6 +110,7 @@ public class BitArrayTest extends TestCase {
 		assertEquals(true, b.get(40));
 	}
 
+	@Test
 	public void testBitArrayClear() {
 		BitArray b = new BitArray(40);
 		
@@ -114,6 +121,7 @@ public class BitArrayTest extends TestCase {
 		assertEquals(false, b.get(35));
 	}
 
+	@Test
 	public void testBitArraySizeInMemory() {
 		BitArray b = new BitArray(50);
 
@@ -121,6 +129,7 @@ public class BitArrayTest extends TestCase {
 		assertEquals(size, b.size());
 	}
 
+	@Test
 	public void testBitArrayBitLength() {
 		BitArray b = new BitArray(60);
 

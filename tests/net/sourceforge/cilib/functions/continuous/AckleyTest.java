@@ -29,27 +29,27 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.Ackley;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-;
+
 
 /**
  *
  * @author Edwin Peer
  */
-public class AckleyTest extends TestCase {
+public class AckleyTest {
     
-    public AckleyTest(java.lang.String testName) {
-        super(testName);
+    public AckleyTest() {
+        
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -57,9 +57,10 @@ public class AckleyTest extends TestCase {
         TestSuite suite = new TestSuite(AckleyTest.class);
         
         return suite;
-    }
+    }*/
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Ackley. */
+    @Test
     public void testEvaluate() {
         ContinuousFunction function = new Ackley();
         function.setDomain("R(-30, 30)^3");

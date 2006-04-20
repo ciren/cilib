@@ -31,23 +31,23 @@ package net.sourceforge.cilib.math.random;
 
 import java.util.Random;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.math.random.RANLUX;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  *
  * @author Edwin Peer
  */
-public class RANLUXTest extends TestCase {
+public class RANLUXTest {
     
-    public RANLUXTest(java.lang.String testName) {
-        super(testName);
+    public RANLUXTest() {
+      
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -55,7 +55,9 @@ public class RANLUXTest extends TestCase {
         TestSuite suite = new TestSuite(RANLUXTest.class);
         
         return suite;
-    }
+    }*/
+    
+    @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
         Random r = new RANLUX();

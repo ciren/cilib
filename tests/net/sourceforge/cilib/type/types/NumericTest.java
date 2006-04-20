@@ -26,10 +26,12 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class NumericTest extends TestCase {
-	
+public class NumericTest {
+
+	@Test
 	public void testDimension() {
 		Real r = new Real();
 		Int i = new Int();
@@ -40,6 +42,7 @@ public class NumericTest extends TestCase {
 		assertEquals(1, b.getDimension());
 	}
 	
+	@Test
 	public void testLowerBound() {
 		Real r = new Real(-30.0, 30.0);
 		Int i = new Int(-3, 3);
@@ -63,6 +66,7 @@ public class NumericTest extends TestCase {
 		}
 	}
 	
+	@Test
 	public void testUpperBound() {
 		Real r = new Real(-30.0, 30.0);
 		Int i = new Int(-3, 3);

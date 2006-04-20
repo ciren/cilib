@@ -26,7 +26,10 @@
  */
 package net.sourceforge.cilib.type.creator;
 
-import junit.framework.TestCase;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.creator.T;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
@@ -35,20 +38,23 @@ import net.sourceforge.cilib.type.types.Type;
  * 
  * @author Gary Pampara
  */
-public class TTest extends TestCase {
+public class TTest {
 	
-	private T creator = null;
+	private static T creator = null;
 	
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		creator = new T();
 	}
 	
+	@Test
 	public void testCreateNoBounds() {
 		Type t = creator.create();
 		
 		assertTrue(t instanceof StringType);
 	}
 	
+	@Test
 	public void testCreateBounds() {
 		Type t = null;
 		try {

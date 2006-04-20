@@ -26,19 +26,22 @@
  */
 package net.sourceforge.cilib.measurement.multiple;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.multiple.MultipleSolutions;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class MultipleSolutionsTest extends TestCase {
+public class MultipleSolutionsTest {
 
+	@Test
 	public void testMultipleSolutionsDomain() {
 		Measurement m = new MultipleSolutions();
 		

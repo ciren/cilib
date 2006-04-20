@@ -26,7 +26,10 @@
  */
 package net.sourceforge.cilib.type.creator;
 
-import junit.framework.TestCase;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.creator.R;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -35,20 +38,23 @@ import net.sourceforge.cilib.type.types.Type;
  * 
  * @author Gary Pampara
  */
-public class RTest extends TestCase {
+public class RTest {
 	
-	private R creator = null;
+	private static R creator = null;
 	
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		creator = new R();
 	}
 	
+	@Test
 	public void testCreateNoBounds() {
 		Type r = creator.create();
 		
 		assertTrue(r instanceof Real);
 	}
 	
+	@Test
 	public void testCreateBounds() {
 		Type r = creator.create(0, 2);
 		

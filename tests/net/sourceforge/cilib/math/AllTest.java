@@ -28,21 +28,31 @@
 
 package net.sourceforge.cilib.math;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+
 /**
  *
  * @author  Gary Pampara
  */
-public class AllTest extends TestCase {
+@RunWith(Suite.class)
+@SuiteClasses(
+		value = {
+				RandomNumberTest.class,
+				DiscreteRandomNumberTest.class,
+				MathUtilTest.class
+		}
+	)	
+public class AllTest {
     
     /** Creates a new instance of AllTests */
-    public AllTest(java.lang.String testname) {
-        super(testname);
+    public AllTest() {
+
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
 
@@ -54,5 +64,5 @@ public class AllTest extends TestCase {
         suite.addTestSuite(MathUtilTest.class);
         
         return suite;
-    }
+    }*/
 }

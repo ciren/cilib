@@ -29,21 +29,21 @@
 
 package net.sourceforge.cilib.type;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 
 /**
  *
  * @author Edwin Peer
  */
-public class RandomInitialiserTest extends TestCase {
+public class RandomInitialiserTest {
     
-    public RandomInitialiserTest(java.lang.String testName) {
-        super(testName);
+    public RandomInitialiserTest() {
+
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -51,13 +51,15 @@ public class RandomInitialiserTest extends TestCase {
         TestSuite suite = new TestSuite(RandomInitialiserTest.class);
         
         return suite;
-    }
+    }*/
     
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
 /*    	initialiser = new RandomInitialiser(new Random());
     	parser = new DomainParser(initialiser);*/
     }
     
+    @Test
     public void testBit() {
     /*	int ones = 0;
     	int zeroes = 0;
@@ -77,6 +79,7 @@ public class RandomInitialiserTest extends TestCase {
     	assertTrue(zeroes > 10);*/
     }
     
+    @Test
     public void testInt() {
     	/*int total = 0;
     	for (int i = 0; i < 100; ++i) {
@@ -91,6 +94,7 @@ public class RandomInitialiserTest extends TestCase {
     	assertTrue(total >= 10);*/
     }
     
+    @Test
     public void testReal() {
     	/*double total = 0;
     	for (int i = 0; i < 100; ++i) {
@@ -105,6 +109,7 @@ public class RandomInitialiserTest extends TestCase {
     	assertTrue(total > 10);*/
     }
     
+    @Test
     public void testPrefixBitVector() {
     	/*parser.build("[B,B,B,B,B]");
     	//BitVector tmp = (BitVector) initialiser.getResult();
@@ -112,6 +117,7 @@ public class RandomInitialiserTest extends TestCase {
     	assertEquals(5, tmp.getDimension());*/
     }
     
+    @Test
     public void testPostfixBitVector() {
     	/*parser.build("B^128");
     	//BitVector tmp = (BitVector) initialiser.getResult();
@@ -119,6 +125,7 @@ public class RandomInitialiserTest extends TestCase {
     	assertEquals(128, tmp.getDimension());*/
     }
     
+    @Test
     public void testPostfixBitVectorWithSlack() {
 /*    	int total = 0;
     	for (int i = 0; i < 100; ++i) {
@@ -134,6 +141,7 @@ public class RandomInitialiserTest extends TestCase {
     	assertFalse(total == 1500);*/
     }
     
+    @Test
     public void testPrefixRealVector() {
 /*    	parser.build("[R, R]");
     	
@@ -142,6 +150,7 @@ public class RandomInitialiserTest extends TestCase {
     	assertEquals(2, tmp.getDimension());*/
     }
     
+    @Test
     public void testPostfixRealVector() {
     	/*parser.build("R(1, 10)^50");
     	
@@ -158,6 +167,7 @@ public class RandomInitialiserTest extends TestCase {
     	assertFalse(total == 500);*/
     }
     
+    @Test
     public void testMixedRealBitVector() {
 /*        parser.build("[R(-1, 1)^30, B^20]");
         //Vector tmp = (Vector) initialiser.getResult();
@@ -174,6 +184,7 @@ public class RandomInitialiserTest extends TestCase {
     	}*/    		
     }
     
+    @Test
     public void testFlattenComposite() {
     	/*parser.build("[R(0,1),R,R^3,[[R,R], [R^10],R,R]^2,R]");
     	//Vector tmp = (Vector) initialiser.getResult();
@@ -189,6 +200,7 @@ public class RandomInitialiserTest extends TestCase {
     	}*/
     }
     
+    @Test
     public void testAlternatingComposite() {
     	/*parser.build("[R,B]^5");
     	//Vector tmp = (Vector) initialiser.getResult();
@@ -204,6 +216,7 @@ public class RandomInitialiserTest extends TestCase {
     	}*/
     }
     
+    @Test
     public void testRealMatrix() {
     	/*parser.build("R^3^3");
     	//Vector tmp = (Vector) initialiser.getResult();
@@ -218,6 +231,7 @@ public class RandomInitialiserTest extends TestCase {
     	 */   	
     }
     
+    @Test
     public void testPathologicalCase() {
     	/*parser.build("[[R,B^10]^4^3, [R, [R], [[R]], [Z,R, [R, R,[R, [[R]]]]^2], B],R,R,B^13,Z(-10,10)^3 ]^10");
     	//Vector tmp = (Vector) initialiser.getResult();

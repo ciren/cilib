@@ -29,10 +29,11 @@
 
 package net.sourceforge.cilib.container;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.container.Queue;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 
 
 /**
@@ -40,30 +41,28 @@ import junit.framework.TestSuite;
  *
  * @author Gary Pampara
  */
-public class QueueTest extends TestCase {
+public class QueueTest {
 
-	public QueueTest(java.lang.String testName) {
-		super(testName);
+	public QueueTest() {
 	}
 
-	public static void main(java.lang.String[] args) {
+	/*public static void main(java.lang.String[] args) {
 		junit.textui.TestRunner.run(suite());
-	}
+	}*/
 
-	public static Test suite() {
+	/*public static Test suite() {
 		TestSuite suite = new TestSuite(QueueTest.class);
 
 		return suite;
-	}
+	}*/
 
-	public void setUp() {
-	}
-
+	@Test
 	public void testQueueCreation() {
 		Queue<Double> q = new Queue<Double>();
 		assertNotNull(q);
 	}
 
+	@Test
 	public void testRemoveEmptyQueue() {
 		Queue<Double> q = new Queue<Double>();
 		Double result1 = q.remove();
@@ -73,6 +72,7 @@ public class QueueTest extends TestCase {
 		assertNull(result2);
 	}
 
+	@Test
 	public void testAddingElement() {
 		Queue<Double> q = new Queue<Double>();
 
@@ -83,6 +83,7 @@ public class QueueTest extends TestCase {
 		assertEquals(2, q.size());
 	}
 
+	@Test
 	public void testClearQueue() {
 		Queue<Double> q = new Queue<Double>();
 

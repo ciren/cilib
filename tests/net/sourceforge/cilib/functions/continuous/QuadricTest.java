@@ -29,26 +29,27 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.Quadric;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 
 /**
  *
  * @author Edwin Peer
  */
-public class QuadricTest extends TestCase {
+public class QuadricTest {
     
-    public QuadricTest(java.lang.String testName) {
-        super(testName);
+    public QuadricTest() {
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -56,9 +57,10 @@ public class QuadricTest extends TestCase {
         TestSuite suite = new TestSuite(QuadricTest.class);
         
         return suite;
-    }
+    }*/
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Quadric. */
+    @Test
     public void testEvaluate() {
     	ContinuousFunction function = new Quadric();
         function.setDomain("R(-100, 100)^3");

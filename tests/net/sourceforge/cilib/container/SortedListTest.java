@@ -28,18 +28,19 @@ package net.sourceforge.cilib.container;
 
 import java.util.Comparator;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.container.SortedList;
 import net.sourceforge.cilib.entity.Entity;
-import junit.framework.TestCase;
 
-public class SortedListTest extends TestCase {
+public class SortedListTest {
 
-	public SortedListTest(java.lang.String testName) {
-		super(testName);
+	public SortedListTest(){
 	}
 	
-	
+	@Test
 	public void testSortedAddition() {
 		SortedList<Integer> intList = new SortedList<Integer>();
 		
@@ -53,7 +54,7 @@ public class SortedListTest extends TestCase {
 	}
 	
 	
-	
+	@Test
 	public void testSortedPairAddition() {
 		SortedList<Pair<Integer, Entity>> pairList = new SortedList<Pair<Integer, Entity>>(new PairComparator());
 		

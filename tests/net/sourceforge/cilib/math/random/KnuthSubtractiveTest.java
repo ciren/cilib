@@ -31,23 +31,21 @@ package net.sourceforge.cilib.math.random;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.math.random.KnuthSubtractive;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import net.sourceforge.cilib.math.random.KnuthSubtractive;
 
 /**
  *
  * @author Edwin Peer
  */
-public class KnuthSubtractiveTest extends TestCase {
+public class KnuthSubtractiveTest {
     
-    public KnuthSubtractiveTest(java.lang.String testName) {
-        super(testName);
+    public KnuthSubtractiveTest() {
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -55,9 +53,10 @@ public class KnuthSubtractiveTest extends TestCase {
         TestSuite suite = new TestSuite(KnuthSubtractiveTest.class);
         
         return suite;
-    }
+    }*/
     
     /** Test of next method, of class za.ac.up.cs.ailib.Random.NumericalRecipesRan3. */
+    @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
         Random r = new KnuthSubtractive();

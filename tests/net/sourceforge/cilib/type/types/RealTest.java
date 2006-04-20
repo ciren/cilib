@@ -32,16 +32,19 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.types.Real;
-import junit.framework.TestCase;
 
 
 /**
  * 
  * @author Gary Pampara
  */
-public class RealTest extends TestCase {
+public class RealTest {
 	
+	@Test
 	public void testClone() {
 		Real r = new Real(-10.0);		
 		Real test = r.clone();
@@ -50,6 +53,8 @@ public class RealTest extends TestCase {
 		assertNotSame(r, test);
 	}
 	
+	
+	@Test
 	public void testEquals() {
 		Real i1 = new Real(10.0);
 		Real i2 = new Real(10.0);
@@ -65,12 +70,16 @@ public class RealTest extends TestCase {
 		assertFalse(i2.equals(i3));
 	}
 	
+	
+	@Test
 	public void testHashCode() {
 		Real r = new Real(10.0);
 		
 		assertEquals(Double.valueOf(10).hashCode(), r.hashCode());
 	}
 	
+	
+	@Test
 	public void testCompareTo() {
 		Real r1 = new Real(0.0, 30.0);
 		Real r2 = new Real(-30.0, 0.0);
@@ -82,6 +91,7 @@ public class RealTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testGetRepresentation() {
 		Real r = new Real(-30.0, 30.0);
 		
@@ -93,6 +103,7 @@ public class RealTest extends TestCase {
 	 * 
 	 *
 	 */
+	@Test
 	public void testRandomize() {
 		Real r1 = new Real(-30.0, 30.0);
 		Real r2 = r1.clone();
@@ -107,6 +118,7 @@ public class RealTest extends TestCase {
 	 * 
 	 *
 	 */
+	@Test
 	public void testSerialisation() {
 		Real r = new Real(55.0);
 		double target = r.getReal();

@@ -26,22 +26,28 @@
  */
 package net.sourceforge.cilib.type;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class DomainParserTest extends TestCase {
+public class DomainParserTest {
 	
-	private DomainParser parser;
+	private static DomainParser parser;
 	
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		parser = DomainParser.getInstance();
 	}
 	
+	@Test
 	public void testParseReal() {
 		try {
 			parser.parse("R(0,INF)");
@@ -60,6 +66,7 @@ public class DomainParserTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testParseBit() {
 		try {
 			parser.parse("B");
@@ -73,6 +80,7 @@ public class DomainParserTest extends TestCase {
 	}
 	
 
+	@Test
 	public void testParseInteger() {
 		try {
 			parser.parse("Z");
@@ -94,6 +102,7 @@ public class DomainParserTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testParseString() {
 		try {
 			parser.parse("T^5");
@@ -105,6 +114,7 @@ public class DomainParserTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testParseComplexDomain() {
 		try {
 			parser.parse("R(-30.0,30.0)^30,B,Z^6");
@@ -122,6 +132,7 @@ public class DomainParserTest extends TestCase {
 	 * domains that can be represented as a matrix (also regarded as second order
 	 * domains).
 	 */
+	@Test
 	public void testParseMatrixDomain() {
 		try {
 			parser.parse("[R(-30.0,30.0)^4]^5,B,B,Z(2,5)");
@@ -134,6 +145,7 @@ public class DomainParserTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testBuildMatrixDomain() {
 		try {
 			parser.parse("[R(-30.0,30.0)^4]^5");

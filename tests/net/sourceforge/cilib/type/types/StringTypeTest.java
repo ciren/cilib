@@ -32,17 +32,19 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import net.sourceforge.cilib.type.types.StringType;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
+import net.sourceforge.cilib.type.types.StringType;
 
 
 /**
  * 
  * @author Gary Pampara
  */
-public class StringTypeTest extends TestCase {
+public class StringTypeTest {
 	
+	@Test
 	public void testClone() {
 		StringType t = new StringType("test string");
 		StringType clone = t.clone();
@@ -52,6 +54,7 @@ public class StringTypeTest extends TestCase {
 	}
 	
 	
+	@Test
 	public void testDimensionality() {
 		StringType s = new StringType("This is a StringType");
 		
@@ -62,6 +65,7 @@ public class StringTypeTest extends TestCase {
 	 * 
 	 *
 	 */
+	@Test
 	public void testSerialisation() {
 		StringType testString = new StringType();
 		testString.setString("This is a test string");

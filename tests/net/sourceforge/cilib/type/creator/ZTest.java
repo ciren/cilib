@@ -26,7 +26,10 @@
  */
 package net.sourceforge.cilib.type.creator;
 
-import junit.framework.TestCase;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.creator.Z;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
@@ -35,20 +38,23 @@ import net.sourceforge.cilib.type.types.Type;
  * 
  * @author Gary Pampara
  */
-public class ZTest extends TestCase {
+public class ZTest {
 	
-	private Z creator = null;
+	private static Z creator = null;
 	
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		creator = new Z();
 	}
 	
+	@Test
 	public void testCreateNoBounds() {
 		Type z = creator.create();
 		
 		assertTrue(z instanceof Int);
 	}
 	
+	@Test
 	public void testCreateBounds() {
 		Type z = creator.create(0, 2);
 		

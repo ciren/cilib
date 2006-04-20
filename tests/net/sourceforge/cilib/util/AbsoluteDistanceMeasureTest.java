@@ -26,22 +26,29 @@
  */
 package net.sourceforge.cilib.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
-public class AbsoluteDistanceMeasureTest extends TestCase {
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+public class AbsoluteDistanceMeasureTest {
 	
-	private DistanceMeasure distanceMeasure;
+	private static DistanceMeasure distanceMeasure;
 	
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		distanceMeasure = new AbsoluteDistanceMeasure();
 	}
 	
+	@Test
 	public void testVectorDistance() {
 		Vector v1 = new MixedVector();
 		Vector v2 = new MixedVector();
@@ -65,6 +72,7 @@ public class AbsoluteDistanceMeasureTest extends TestCase {
 		catch (IllegalArgumentException i) {}
 	}
 	
+	@Test
 	public void testCollectionDistance() {
 		List<Double> l1 = new ArrayList<Double>();
 		List<Double> l2 = new ArrayList<Double>();

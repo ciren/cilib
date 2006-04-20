@@ -29,9 +29,10 @@
 
 package net.sourceforge.cilib.problem;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 
@@ -39,13 +40,15 @@ import net.sourceforge.cilib.type.DomainRegistry;
  *
  * @author jkroon
  */
-public class MOFitnessTest extends TestCase {
+public class MOFitnessTest {
+	
+	private static MOOptimisationProblem moproblem;
 
-	public MOFitnessTest(java.lang.String testName) {
-        super(testName);
+	public MOFitnessTest() {
+        
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -53,15 +56,17 @@ public class MOFitnessTest extends TestCase {
         TestSuite suite = new TestSuite(MOFitnessTest.class);
         
         return suite;
-    }
+    }*/
     
-    public void setUp() {
+	@BeforeClass
+    public static void setUp() {
     	moproblem = new MOOptimisationProblem();
     	for(int i = 0; i < 3; i++) {
     		moproblem.addOptimisationProblem(new DummyOptimisationProblem(i));
     	}
     }
         
+	@Test
     public void testAllInferior() {
     	Fitness inferior[] = new Fitness[]{ InferiorFitness.instance(), InferiorFitness.instance(), InferiorFitness.instance() };
     	Fitness oneFitness[] = new Fitness[]{
@@ -77,9 +82,9 @@ public class MOFitnessTest extends TestCase {
     	
     }
 
-    private MOOptimisationProblem moproblem;
     
-    private class DummyOptimisationProblem implements OptimisationProblem {
+    
+    private static class DummyOptimisationProblem implements OptimisationProblem {
     	private int i;
     	
     	DummyOptimisationProblem(int i) {

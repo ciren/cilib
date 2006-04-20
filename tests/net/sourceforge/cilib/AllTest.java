@@ -29,39 +29,62 @@
 package net.sourceforge.cilib;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
 /**
  *
  * @author  Edwin Peer
  */
-public class AllTest extends TestCase {
+@RunWith(Suite.class)
+@SuiteClasses(
+		value={
+				net.sourceforge.cilib.container.AllTest.class,
+				net.sourceforge.cilib.container.graph.AllTest.class,
+				net.sourceforge.cilib.functions.continuous.AllTest.class,
+				net.sourceforge.cilib.functions.discrete.AllTest.class,
+				net.sourceforge.cilib.math.AllTest.class,
+				net.sourceforge.cilib.math.random.AllTest.class,
+				net.sourceforge.cilib.measurement.AllTest.class,
+				net.sourceforge.cilib.problem.AllTest.class,
+				net.sourceforge.cilib.pso.AllTest.class,
+				net.sourceforge.cilib.type.AllTest.class,
+				net.sourceforge.cilib.type.creator.AllTest.class,
+				net.sourceforge.cilib.type.types.AllTest.class,
+				net.sourceforge.cilib.util.AllTest.class
+			}
+		)
+public class AllTest {
     
-    /** Creates a new instance of AllTests */
-    public AllTest(java.lang.String testname) {
-        super(testname);
+    public AllTest() {
     }
     
     public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
+    	JUnitCore.main(AllTest.class.getName());
+    	//System.out.println("Running JUnit 3.8.1 Tests");
+        //junit.textui.TestRunner.run(suite());
     }
 
     public static Test suite() {
         TestSuite suite = new TestSuite();
         
-        suite.addTest(net.sourceforge.cilib.container.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.container.graph.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.functions.continuous.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.functions.discrete.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.pso.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.math.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.math.random.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.measurement.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.problem.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.type.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.type.creator.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.type.types.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.util.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.container.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.container.graph.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.functions.continuous.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.functions.discrete.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.pso.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.math.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.math.random.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.measurement.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.problem.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.type.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.type.creator.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.type.types.AllTest.suite());
+        //suite.addTest(net.sourceforge.cilib.util.AllTest.suite());
         
         return suite;
     }

@@ -29,26 +29,26 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.Griewank;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  *
  * @author Edwin Peer
  */
-public class GriewankTest extends TestCase {
+public class GriewankTest {
     
-    public GriewankTest(java.lang.String testName) {
-        super(testName);
+    public GriewankTest() {
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -56,9 +56,10 @@ public class GriewankTest extends TestCase {
         TestSuite suite = new TestSuite(GriewankTest.class);
         
         return suite;
-    }
+    }*/
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Griewank. */
+    @Test
     public void testEvaluate() {
     	ContinuousFunction function = new Griewank();
         function.setDomain("R(-600, 600)^3");

@@ -29,24 +29,26 @@
 
 package net.sourceforge.cilib.problem;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 
 /**
  *
  * @author Edwin Peer
  */
-public class MinFitnessTest extends TestCase {
+public class MinFitnessTest {
 
-	public MinFitnessTest(java.lang.String testName) {
-        super(testName);
+	public MinFitnessTest() {
+    
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -54,29 +56,33 @@ public class MinFitnessTest extends TestCase {
         TestSuite suite = new TestSuite(MinFitnessTest.class);
         
         return suite;
-    }
+    }*/
     
-    public void setUp() {
+	@BeforeClass
+    public static void setUp() {
     	oneFitness = new MinimisationFitness(new Integer(1).doubleValue());
     	twoFitness = new MinimisationFitness(new Integer(2).doubleValue());
     	inferiorFitness = InferiorFitness.instance();
     }
         
+	@Test
     public void testLessThan() {
     	assertEquals(twoFitness.compareTo(oneFitness), -1);
     }
     
+	@Test
     public void testMoreThan() {
     	assertEquals(oneFitness.compareTo(twoFitness), 1);
     }
 		
+	@Test
     public void testInferior() {		
     	assertEquals(inferiorFitness.compareTo(oneFitness), -1);
     	assertEquals(oneFitness.compareTo(inferiorFitness), 1);
     }
 
-    private Fitness oneFitness;
-    private Fitness twoFitness;
-    private Fitness inferiorFitness;
+    private static Fitness oneFitness;
+    private static Fitness twoFitness;
+    private static Fitness inferiorFitness;
     
 }

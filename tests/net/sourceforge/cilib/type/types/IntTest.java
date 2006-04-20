@@ -32,7 +32,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Vector;
@@ -41,8 +43,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * @author Gary Pampara
  */
-public class IntTest extends TestCase {
+public class IntTest {
 	
+	@Test
 	public void testClone() {
 		Int i = new Int();
 		i.setInt(-10);
@@ -53,6 +56,7 @@ public class IntTest extends TestCase {
 		assertNotSame(i, clone);
 	}
 	
+	@Test
 	public void testEquals() {
 		Int i1 = new Int(10);
 		Int i2 = new Int(10);
@@ -68,6 +72,7 @@ public class IntTest extends TestCase {
 		assertFalse(i2.equals(i3));
 	}
 	
+	@Test
 	public void testCompareTo() {
 		Int i1 = new Int(0, 30);
 		Int i2 = new Int(-30, 0);
@@ -78,6 +83,7 @@ public class IntTest extends TestCase {
 		assertEquals(-1, i2.compareTo(i1));
 	}
 	
+	@Test
 	public void testRandomize() {
 		Int i1 = new Int(-300, 300);
 		Int i2 = i1.clone();
@@ -87,6 +93,7 @@ public class IntTest extends TestCase {
 		assertTrue(i1.getInt() != i2.getInt());
 	}
 	
+	@Test
 	public void testSerialisation() {
 		Int r = new Int();
 		int target = r.getInt();
@@ -115,6 +122,7 @@ public class IntTest extends TestCase {
 		}
 	}
 	
+	@Test
 	public void testCiclops() {
 		DomainParser parser = DomainParser.getInstance();
 		parser.parse("Z");

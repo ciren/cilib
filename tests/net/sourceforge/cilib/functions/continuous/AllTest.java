@@ -28,34 +28,32 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+
 /**
  *
  * @author  Edwin Peer
  */
-public class AllTest extends TestCase {
+@RunWith(Suite.class)
+@SuiteClasses(
+		value = {
+				AckleyTest.class,
+				GriewankTest.class,
+				QuadricTest.class,
+				RastriginTest.class,
+				RosenbrockTest.class,
+				SchwefelTest.class,
+				SphericalTest.class,
+				AngleModulationTest.class
+		}
+	)
+public class AllTest {
     
     /** Creates a new instance of AllTests */
-    public AllTest(java.lang.String testname) {
-        super(testname);
-    }
-    
-    public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
+    public AllTest() {
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTest(AckleyTest.suite());
-        suite.addTest(GriewankTest.suite());
-        suite.addTest(QuadricTest.suite());
-        suite.addTest(RastriginTest.suite());
-        suite.addTest(RosenbrockTest.suite());
-        suite.addTest(SchwefelTest.suite());
-        suite.addTest(SphericalTest.suite());
-        suite.addTest(AngleModulationTest.suite());
-        return suite;
-    }
 }

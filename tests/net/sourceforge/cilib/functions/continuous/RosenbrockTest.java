@@ -29,26 +29,26 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.Rosenbrock;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  *
  * @author Edwin Peer
  */
-public class RosenbrockTest extends TestCase {
+public class RosenbrockTest {
     
-    public RosenbrockTest(java.lang.String testName) {
-        super(testName);
+    public RosenbrockTest() {
+
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -56,9 +56,10 @@ public class RosenbrockTest extends TestCase {
         TestSuite suite = new TestSuite(RosenbrockTest.class);
         
         return suite;
-    }
+    }*/
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Rosenbrock. */
+    @Test
     public void testEvaluate() {
     	ContinuousFunction function = new Rosenbrock();
         function.setDomain("R(-2.048, 2.048)^3");

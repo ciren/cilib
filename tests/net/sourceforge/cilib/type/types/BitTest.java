@@ -35,15 +35,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.type.types.Bit;
-import junit.framework.TestCase;
 
 /**
  *
  * @author Gary Pampara
  */
-public class BitTest extends TestCase {
+public class BitTest {
 	
+	@Test
 	public void testClone() {
 		Bit b = new Bit(false);
 		Bit clone = (Bit) b.clone();
@@ -52,6 +55,7 @@ public class BitTest extends TestCase {
 		assertTrue(b.equals(clone));
 	}
 	
+	@Test
 	public void testEquals() {
 		Bit b1 = new Bit(false);
 		Bit b2 = new Bit(false);
@@ -69,6 +73,7 @@ public class BitTest extends TestCase {
 		assertFalse(b1.equals(b4));
 	}
 	
+	@Test
 	public void testGet() {
 		Bit b1 = new Bit(true);
 		Bit b2 = new Bit(false);
@@ -77,6 +82,7 @@ public class BitTest extends TestCase {
 		assertEquals(false, b2.getBit());
 	}
 	
+	@Test
 	public void testSet() {
 		Bit b1 = new Bit(true);
 		Bit b2 = new Bit(false);
@@ -88,6 +94,7 @@ public class BitTest extends TestCase {
 		assertEquals(true, b2.getBit());		
 	}
 	
+	@Test
 	public void testCompareTo() {
 		Bit b1 = new Bit(true);
 		Bit b2 = new Bit(false);
@@ -97,6 +104,7 @@ public class BitTest extends TestCase {
 		assertEquals(1, b1.compareTo(b2));
 	}
 	
+	@Test
 	public void testRandomize() {
 		Bit b1 = new Bit(true);
 		Bit b2 = new Bit(true);
@@ -108,6 +116,7 @@ public class BitTest extends TestCase {
 			assertTrue(b1.getBit() != b2.getBit());
 	}
 	
+	@Test
 	public void testSerialisation() {
 		Bit b = new Bit();
 		boolean target = b.getBit();

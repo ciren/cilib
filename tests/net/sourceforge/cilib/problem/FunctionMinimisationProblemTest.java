@@ -31,9 +31,11 @@ package net.sourceforge.cilib.problem;
 
 import java.util.Random;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.continuous.Ackley;
 import net.sourceforge.cilib.functions.continuous.Spherical;
@@ -43,18 +45,18 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  *
  * @author Edwin Peer
  */
-public class FunctionMinimisationProblemTest extends TestCase {
+public class FunctionMinimisationProblemTest {
 
-    private Random random;
-    private double[] x;
-    private Function function;
-    private FunctionMinimisationProblem problem;
+    private static Random random;
+    private static double[] x;
+    private static Function function;
+    private static FunctionMinimisationProblem problem;
     
-    public FunctionMinimisationProblemTest(java.lang.String testName) {
-        super(testName);
+    public FunctionMinimisationProblemTest() {
+      
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -62,9 +64,10 @@ public class FunctionMinimisationProblemTest extends TestCase {
         TestSuite suite = new TestSuite(FunctionMinimisationProblemTest.class);
         
         return suite;
-    }
+    }*/
     
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         function = new Spherical();
         function.setDomain("R^5");
         problem = new FunctionMinimisationProblem();
@@ -79,11 +82,13 @@ public class FunctionMinimisationProblemTest extends TestCase {
     
     
     /** Test of getFunction method, of class za.ac.up.cs.ailib.Functions.FunctionMinimisationProblem. */
+    @Test
     public void testGetFunction() {
         assertSame(function, problem.getFunction());
     }
     
     /** Test of setFunction method, of class za.ac.up.cs.ailib.Functions.FunctionMinimisationProblem. */
+    @Test
     public void testSetFunction() {
         Function f = new Ackley();
         problem.setFunction(f);

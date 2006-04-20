@@ -26,16 +26,19 @@
  */
 package net.sourceforge.cilib.math;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.math.RandomNumber;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  *
  */
-public class RandomNumberTest extends TestCase {
+public class RandomNumberTest {
 
+	@Test
 	public void testGuassian() {
 		RandomNumber rand = new RandomNumber();
 
@@ -46,6 +49,7 @@ public class RandomNumberTest extends TestCase {
 		}
 	}
 	
+	@Test
 	public void testUniform() {
 		RandomNumber rand = new RandomNumber();
 		

@@ -29,26 +29,28 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.Schwefel;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 
 /**
  *
  * @author Edwin Peer
  */
-public class SchwefelTest extends TestCase {
+public class SchwefelTest {
     
-    public SchwefelTest(java.lang.String testName) {
-        super(testName);
+    public SchwefelTest() {
+
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -56,9 +58,10 @@ public class SchwefelTest extends TestCase {
         TestSuite suite = new TestSuite(SchwefelTest.class);
         
         return suite;
-    }
+    }*/
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Schwefel. */
+    @Test
     public void testEvaluate() {
     	ContinuousFunction function = new Schwefel();
         function.setDomain("R(-500, 500)^3");

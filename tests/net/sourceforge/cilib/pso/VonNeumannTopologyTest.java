@@ -29,12 +29,13 @@
 
 package net.sourceforge.cilib.pso;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.VonNeumannTopology;
@@ -44,17 +45,20 @@ import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 /**
  *
  * @author Edwin Peer
  */
-public class VonNeumannTopologyTest extends TestCase {
+public class VonNeumannTopologyTest {
     
-    public VonNeumannTopologyTest(java.lang.String testName) {
-        super(testName);
+    public VonNeumannTopologyTest() {
+       
     }
     
-    public static void main(java.lang.String[] args) {
+    /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
     
@@ -62,9 +66,10 @@ public class VonNeumannTopologyTest extends TestCase {
         TestSuite suite = new TestSuite(VonNeumannTopologyTest.class);
         
         return suite;
-    }
+    }*/
     
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
     	empty = new VonNeumannTopology();
     	square = new VonNeumannTopology();
     	
@@ -81,6 +86,7 @@ public class VonNeumannTopologyTest extends TestCase {
     	}
     }
        
+    @Test
     public void testIteration() {
     	Iterator<Particle> i = empty.iterator();
     	assertFalse(i.hasNext());
@@ -110,6 +116,7 @@ public class VonNeumannTopologyTest extends TestCase {
     	assertEquals(10, count);
     }
     
+    @Test
     public void testNeighbourhoodIteration() {
     	Iterator<Particle> i = square.iterator();
     	Particle p = null;
@@ -182,13 +189,13 @@ public class VonNeumannTopologyTest extends TestCase {
     		
     }
     
-    private Topology<Particle> empty;
-    private Topology<Particle> square;
-    private Topology<Particle> irregular;
+    private static Topology<Particle> empty;
+    private static Topology<Particle> square;
+    private static Topology<Particle> irregular;
     
     private int[] id = {1, 3, 7, 2, 4, 8, 5, 6, 9, 10};
     
-    private class DumbParticle extends Particle {
+    private static class DumbParticle extends Particle {
 
     	private String id;
     	

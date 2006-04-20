@@ -28,30 +28,39 @@
 
 package net.sourceforge.cilib.util;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+
 /**
  *
  * @author Gary Pampara
  */
-public class AllTest extends TestCase {
-    
-    /** Creates a new instance of AllTests */
-    public AllTest(java.lang.String testname) {
-        super(testname);
-    }
+@RunWith(Suite.class)
+@Suite.SuiteClasses(
+		value={AbsoluteDistanceMeasureTest.class, 
+				EuclideanDistanceMeasureTest.class})
+public class AllTest {
+
+	/** Creates a new instance of AllTests */
+    //public AllTest(java.lang.String testname) {
+    //    super(testname);
+   // }
+	public AllTest() {
+		
+	}
     
     public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
+    	JUnitCore.main(AllTest.class.getName());
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
+    //public static Test suite() {
+     //   TestSuite suite = new TestSuite();
         
-        suite.addTestSuite(AbsoluteDistanceMeasureTest.class);
-        suite.addTestSuite(EuclideanDistanceMeasureTest.class);
+     //   suite.addTestSuite(AbsoluteDistanceMeasureTest.class);
+       // suite.addTestSuite(EuclideanDistanceMeasureTest.class);
         
-        return suite;
-    }
+//        return suite;
+  //  }
 }

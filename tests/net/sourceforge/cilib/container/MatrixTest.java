@@ -32,42 +32,35 @@ package net.sourceforge.cilib.container;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.container.Matrix;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 
 /**
  * This Unit test tests all the needed operations of the Matrix class.
  *
  * @author Gary Pampara
  */
-public class MatrixTest extends TestCase {
-
-	public MatrixTest(java.lang.String testName) {
-		super(testName);
+public class MatrixTest {
+	
+	public MatrixTest() {
 	}
 
-	public static void main(java.lang.String[] args) {
-		junit.textui.TestRunner.run(suite());
-	}
+	//public static void main(java.lang.String[] args) {
+	//	junit.textui.TestRunner.run(suite());
+	//}
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite(MatrixTest.class);
-
-		return suite;
-	}
-
-	public void setUp() {
-	}
-
+	@Test
 	public void testMatrixCreation() {
 		Matrix<Double> m = new Matrix<Double>(3, 3);
 		assertEquals(3, m.getColumnCount());
 		assertEquals(3, m.getRowCount());
 	}
 
+	@Test
 	public void testMatrixExceptionCreation() {
 		try {
 			Matrix<Double> m = new Matrix<Double>(0, 0);
@@ -79,6 +72,7 @@ public class MatrixTest extends TestCase {
 		fail("Expected IllegalArgumentException");
 	}
 
+	@Test
 	public void testDataMatrixInputOutputOperation() {
 		Matrix<Integer> m = new Matrix<Integer>(10, 5);
 
@@ -92,6 +86,7 @@ public class MatrixTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testNullGet() {
 		Matrix<Integer> m = new Matrix<Integer>(5, 5);
 
@@ -102,6 +97,7 @@ public class MatrixTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testOutOfBoundsSetOperation() {
 		Matrix<Double> m = new Matrix<Double>(2, 2);
 		try {
@@ -128,6 +124,7 @@ public class MatrixTest extends TestCase {
 		fail("Boundary cases fail on the Matrix set operation");
 	}
 
+	@Test
 	public void testOutOfBoundsGetOperation() {
 		Matrix<Double> m = new Matrix<Double>(2, 2);
 		// Get operation
@@ -155,6 +152,7 @@ public class MatrixTest extends TestCase {
 		fail("Boundary cases fail on the Matrix get operation");
 	}
 
+	@Test
 	public void testClearOperation() {
 		Matrix<Double> m = new Matrix<Double>(2, 2);
 
@@ -171,6 +169,7 @@ public class MatrixTest extends TestCase {
 		assertEquals(null, m.get(1, 1));
 	}
 
+	@Test
 	public void testGetRow() {
 		Matrix<Double> m = new Matrix<Double>(2, 2);
 
@@ -196,6 +195,7 @@ public class MatrixTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testGetColumn() {
 		Matrix<Double> m = new Matrix<Double>(2, 2);
 
