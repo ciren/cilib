@@ -43,16 +43,6 @@ public class RandomInitialiserTest {
 
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(RandomInitialiserTest.class);
-        
-        return suite;
-    }*/
-    
     @BeforeClass
     public static void setUp() {
 /*    	initialiser = new RandomInitialiser(new Random());

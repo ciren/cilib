@@ -28,9 +28,6 @@
 
 package net.sourceforge.cilib;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -38,7 +35,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /**
  *
- * @author  Edwin Peer
+ * @author Edwin Peer
+ * @author Gary Pampara
  */
 @RunWith(Suite.class)
 @SuiteClasses(
@@ -65,27 +63,6 @@ public class AllTest {
     
     public static void main(java.lang.String[] args) {
     	JUnitCore.main(AllTest.class.getName());
-    	//System.out.println("Running JUnit 3.8.1 Tests");
-        //junit.textui.TestRunner.run(suite());
     }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        
-        //suite.addTest(net.sourceforge.cilib.container.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.container.graph.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.functions.continuous.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.functions.discrete.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.pso.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.math.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.math.random.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.measurement.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.problem.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.type.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.type.creator.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.type.types.AllTest.suite());
-        //suite.addTest(net.sourceforge.cilib.util.AllTest.suite());
-        
-        return suite;
-    }
+    
 }

@@ -48,17 +48,7 @@ public class MOFitnessTest {
         
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MOFitnessTest.class);
-        
-        return suite;
-    }*/
-    
-	@BeforeClass
+    @BeforeClass
     public static void setUp() {
     	moproblem = new MOOptimisationProblem();
     	for(int i = 0; i < 3; i++) {

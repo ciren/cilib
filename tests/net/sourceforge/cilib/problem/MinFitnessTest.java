@@ -45,18 +45,7 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 public class MinFitnessTest {
 
 	public MinFitnessTest() {
-    
     }
-    
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MinFitnessTest.class);
-        
-        return suite;
-    }*/
     
 	@BeforeClass
     public static void setUp() {

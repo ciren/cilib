@@ -50,16 +50,6 @@ public class SphericalTest {
 
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SphericalTest.class);
-        
-        return suite;
-    }*/
-    
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
     @Test
     public void testEvaluate() {

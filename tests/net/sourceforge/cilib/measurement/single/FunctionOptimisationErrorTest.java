@@ -26,19 +26,22 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.single.FunctionOptimisationError;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class FunctionOptimisationErrorTest extends TestCase {
+public class FunctionOptimisationErrorTest {
 
+	@Test
 	public void testFunctionOptimisationErrorDomain() {
 		Measurement m = new FunctionOptimisationError();
 		

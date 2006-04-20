@@ -50,17 +50,6 @@ public class RastriginTest {
 
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(RastriginTest.class);
-        
-        return suite;
-    }
-    */
-    
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Rastrigin. */
     @Test
     public void testEvaluate() {

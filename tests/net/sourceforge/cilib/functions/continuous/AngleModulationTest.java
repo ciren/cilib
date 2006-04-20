@@ -38,10 +38,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * 
+ * @author Gary Pampara
+ *
+ */
 public class AngleModulationTest {
 
 	private static AngleModulation angle;
-	
 	
 	@BeforeClass
 	public static void setUp() {

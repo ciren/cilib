@@ -50,19 +50,5 @@ public class AllTest {
     /** Creates a new instance of AllTests */
     public AllTest() {
     }
-    
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        
-        suite.addTestSuite(IterationsTest.class);
-        suite.addTestSuite(PercentageCompleteTest.class);
-        suite.addTestSuite(RestartsTest.class);
-        suite.addTestSuite(TimeTest.class);
-        
-        return suite;
-    }*/
 }

@@ -49,16 +49,7 @@ public class SchwefelTest {
     public SchwefelTest() {
 
     }
-    
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SchwefelTest.class);
-        
-        return suite;
-    }*/
+   
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Schwefel. */
     @Test

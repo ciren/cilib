@@ -45,16 +45,6 @@ public class NumericalRecipesRan4Test {
        
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(NumericalRecipesRan4Test.class);
-        
-        return suite;
-    }
-    */
     
     @Test
     public void testNextDouble() {

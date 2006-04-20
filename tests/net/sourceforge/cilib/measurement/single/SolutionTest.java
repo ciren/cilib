@@ -26,15 +26,22 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.single.Solution;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
-public class SolutionTest extends TestCase {
+/**
+ * 
+ * @author Gary Pampara
+ */
+public class SolutionTest {
 	
+	@Test
 	public void testSolutionDomain() {
 		Measurement m = new Solution();
 		

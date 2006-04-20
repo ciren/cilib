@@ -26,19 +26,22 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.single.BestParticlePosition;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class BestParticlePositionTest extends TestCase {
+public class BestParticlePositionTest {
 	
+	@Test
 	public void testBestParticlePositionDomain() {
 		Measurement m = new BestParticlePosition();
 		

@@ -43,23 +43,6 @@ import net.sourceforge.cilib.container.BitArray;
  */
 public class BitArrayTest {
 
-	/*public BitArrayTest(java.lang.String testName) {
-		super(testName);
-	}
-
-	public static void main(java.lang.String[] args) {
-		junit.textui.TestRunner.run(suite());
-	}
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite(BitArrayTest.class);
-
-		return suite;
-	}
-
-	public void setUp() {
-	}*/
-
 	@Test
 	public void testBitArrayCreation() {
 		BitArray b = new BitArray();

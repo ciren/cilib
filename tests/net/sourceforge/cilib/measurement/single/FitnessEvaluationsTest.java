@@ -26,7 +26,9 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.single.FitnessEvaluations;
 import net.sourceforge.cilib.type.DomainParser;
@@ -37,8 +39,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * @author Gary Pampara
  */
-public class FitnessEvaluationsTest extends TestCase {
+public class FitnessEvaluationsTest {
 	
+	@Test
 	public void testFitnessEvaluationsDomain() {
 		Measurement m = new FitnessEvaluations();
 		

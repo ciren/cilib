@@ -29,6 +29,11 @@ package net.sourceforge.cilib.type.types;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * 
+ * @author Gary Pampara
+ *
+ */
 public class NumericTest {
 
 	@Test

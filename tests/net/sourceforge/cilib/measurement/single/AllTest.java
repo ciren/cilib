@@ -54,27 +54,6 @@ public class AllTest {
     
     /** Creates a new instance of AllTests */
     public AllTest() {
-
-    }
-    
-/*    public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        
-        suite.addTest(net.sourceforge.cilib.measurement.generic.AllTest.suite());
-        
-        suite.addTestSuite(BestParticlePositionTest.class);
-        suite.addTestSuite(DiameterTest.class);
-        suite.addTestSuite(FitnessTest.class);
-        suite.addTestSuite(FitnessEvaluationsTest.class);
-        suite.addTestSuite(FunctionOptimisationErrorTest.class);
-        suite.addTestSuite(ParticlePositionsTest.class);
-        suite.addTestSuite(SolutionTest.class);
-        
-        return suite;
-    }
-    */
 }

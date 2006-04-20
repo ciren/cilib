@@ -48,17 +48,7 @@ public class MaxFitnessTest {
         
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MaxFitnessTest.class);
-        
-        return suite;
-    }*/
-    
-	@BeforeClass
+    @BeforeClass
     public static void setUp() {
     	oneFitness = new MaximisationFitness(new Integer(1).doubleValue());
     	twoFitness = new MaximisationFitness(new Integer(2).doubleValue());

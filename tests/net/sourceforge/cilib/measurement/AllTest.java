@@ -48,22 +48,7 @@ import org.junit.runners.Suite.SuiteClasses;
 public class AllTest {
     
     /** Creates a new instance of AllTests */
-    public AllTest() {
-        
-    }
-    
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
+    public AllTest() {        
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        
-        suite.addTest(net.sourceforge.cilib.measurement.generic.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.measurement.multiple.AllTest.suite());
-        suite.addTest(net.sourceforge.cilib.measurement.single.AllTest.suite());
-        
-        return suite;
-    }
-    */
 }

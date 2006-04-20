@@ -49,20 +49,7 @@ import org.junit.runners.Suite.SuiteClasses;
 public class AllTest {
     
     /** Creates a new instance of AllTests */
-    public AllTest() {
-        
+    public AllTest() {     
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTest(FunctionMinimisationProblemTest.suite());
-        suite.addTest(MaxFitnessTest.suite());
-        suite.addTest(MinFitnessTest.suite());
-        suite.addTest(MOFitnessTest.suite());
-        return suite;
-    }*/
 }

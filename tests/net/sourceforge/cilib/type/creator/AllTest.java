@@ -48,23 +48,7 @@ import org.junit.runners.Suite.SuiteClasses;
 public class AllTest {
     
     /** Creates a new instance of AllTests */
-    public AllTest() {
-        
+    public AllTest() {     
     }
-    
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-
-        suite.addTestSuite(BTest.class);
-        suite.addTestSuite(RTest.class);
-        suite.addTestSuite(TTest.class);
-        suite.addTestSuite(ZTest.class);
-        
-        return suite;
-    }
-    */
+   
 }

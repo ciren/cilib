@@ -49,10 +49,6 @@ public class MatrixTest {
 	public MatrixTest() {
 	}
 
-	//public static void main(java.lang.String[] args) {
-	//	junit.textui.TestRunner.run(suite());
-	//}
-
 	@Test
 	public void testMatrixCreation() {
 		Matrix<Double> m = new Matrix<Double>(3, 3);

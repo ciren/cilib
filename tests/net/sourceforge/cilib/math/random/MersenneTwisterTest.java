@@ -46,15 +46,6 @@ public class MersenneTwisterTest {
       
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MersenneTwisterTest.class);
-        
-        return suite;
-    }*/
     
     /** Test of next method, of class za.ac.up.cs.ailib.Random.MersenneTwister. */
     @Test

@@ -46,16 +46,6 @@ public class QueueTest {
 	public QueueTest() {
 	}
 
-	/*public static void main(java.lang.String[] args) {
-		junit.textui.TestRunner.run(suite());
-	}*/
-
-	/*public static Test suite() {
-		TestSuite suite = new TestSuite(QueueTest.class);
-
-		return suite;
-	}*/
-
 	@Test
 	public void testQueueCreation() {
 		Queue<Double> q = new Queue<Double>();

@@ -39,6 +39,11 @@ import net.sourceforge.cilib.type.types.Vector;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * 
+ * @author Edwin Peer
+ * @author Gary Pampara
+ */
 public class EuclideanDistanceMeasureTest {
 	
 	private static DistanceMeasure distanceMeasure;

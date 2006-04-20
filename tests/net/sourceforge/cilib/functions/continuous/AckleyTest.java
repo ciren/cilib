@@ -49,23 +49,12 @@ public class AckleyTest {
         
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(AckleyTest.class);
-        
-        return suite;
-    }*/
-    
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Ackley. */
     @Test
     public void testEvaluate() {
         ContinuousFunction function = new Ackley();
         function.setDomain("R(-30, 30)^3");
         
-        //double[] x = {1, 2, 3};
         Vector x = new MixedVector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));

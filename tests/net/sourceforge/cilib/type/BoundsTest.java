@@ -29,28 +29,14 @@
 
 package net.sourceforge.cilib.type;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 /**
  *
  * @author Edwin Peer
  */
-public class BoundsTest extends TestCase {
+public class BoundsTest {
     
-    public BoundsTest(java.lang.String testName) {
-        super(testName);
-    }
-    
-    public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(BoundsTest.class);
+    public BoundsTest() {
         
-        return suite;
     }
     
     public void setUp() {

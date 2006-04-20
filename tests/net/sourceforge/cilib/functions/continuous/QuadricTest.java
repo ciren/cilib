@@ -49,16 +49,6 @@ public class QuadricTest {
     public QuadricTest() {
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(QuadricTest.class);
-        
-        return suite;
-    }*/
-    
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Quadric. */
     @Test
     public void testEvaluate() {

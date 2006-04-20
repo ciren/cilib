@@ -45,16 +45,6 @@ public class KnuthSubtractiveTest {
     public KnuthSubtractiveTest() {
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(KnuthSubtractiveTest.class);
-        
-        return suite;
-    }*/
-    
     /** Test of next method, of class za.ac.up.cs.ailib.Random.NumericalRecipesRan3. */
     @Test
     public void testNextDouble() {

@@ -51,23 +51,7 @@ import org.junit.runners.Suite.SuiteClasses;
 public class AllTest {
     
     /** Creates a new instance of AllTests */
-    public AllTest() {
-        
-    }
-    
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
+    public AllTest() {        
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTest(MersenneTwisterTest.suite());
-        suite.addTest(KnuthSubtractiveTest.suite());
-        suite.addTest(NumericalRecipesRan4Test.suite());
-        suite.addTest(RANLUXTest.suite());
-        suite.addTest(TauswortheTest.suite());
-        suite.addTest(ZiffGFSR4Test.suite());
-        return suite;
-    }
-    */
 }

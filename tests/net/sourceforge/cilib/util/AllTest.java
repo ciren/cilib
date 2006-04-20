@@ -28,7 +28,6 @@
 
 package net.sourceforge.cilib.util;
 
-import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -44,23 +43,7 @@ import org.junit.runners.Suite;
 public class AllTest {
 
 	/** Creates a new instance of AllTests */
-    //public AllTest(java.lang.String testname) {
-    //    super(testname);
-   // }
-	public AllTest() {
-		
+	public AllTest() {		
 	}
     
-    public static void main(java.lang.String[] args) {
-    	JUnitCore.main(AllTest.class.getName());
-    }
-
-    //public static Test suite() {
-     //   TestSuite suite = new TestSuite();
-        
-     //   suite.addTestSuite(AbsoluteDistanceMeasureTest.class);
-       // suite.addTestSuite(EuclideanDistanceMeasureTest.class);
-        
-//        return suite;
-  //  }
 }

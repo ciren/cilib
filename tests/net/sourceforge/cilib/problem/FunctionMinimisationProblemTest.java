@@ -95,6 +95,4 @@ public class FunctionMinimisationProblemTest {
         assertSame(f, problem.getFunction());
     }
     
-    
-    
 }

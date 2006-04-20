@@ -34,7 +34,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /**
  *
- * @author  Edwin Peer
+ * @author Gary Pampara
  */
 @RunWith(Suite.class)
 @SuiteClasses(
@@ -51,24 +51,6 @@ public class AllTest {
     
     /** Creates a new instance of AllTests */
     public AllTest() {
-
     }
-    
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        
-        suite.addTestSuite(NumericTest.class);
-        suite.addTestSuite(BitTest.class);
-        suite.addTestSuite(IntTest.class);
-        suite.addTestSuite(MixedVectorTest.class);
-        suite.addTestSuite(RealTest.class);
-        suite.addTestSuite(StringTypeTest.class);
-        
-        return suite;
-    }
-    */
+ 
 }

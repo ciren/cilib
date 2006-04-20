@@ -34,7 +34,6 @@ import net.sourceforge.cilib.math.MathUtil;
 /**
  * 
  * @author Gary Pampara
- *
  */
 public class MathUtilTest {
 	

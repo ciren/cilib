@@ -26,14 +26,21 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import net.sourceforge.cilib.functions.discrete.KnapSack;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Vector;
-import junit.framework.TestCase;
 
-public class KnapSackTest extends TestCase {
+/**
+ * 
+ * @author Gary Pampara
+ */
+public class KnapSackTest {
 	
+	@Test
 	public void testSimpleKnapSack() {
 		KnapSack k = new KnapSack();
 		k.setCapacity(5);

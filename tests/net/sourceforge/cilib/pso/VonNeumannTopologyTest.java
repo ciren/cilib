@@ -58,16 +58,6 @@ public class VonNeumannTopologyTest {
        
     }
     
-    /*public static void main(java.lang.String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-    
-    public static Test suite() {
-        TestSuite suite = new TestSuite(VonNeumannTopologyTest.class);
-        
-        return suite;
-    }*/
-    
     @BeforeClass
     public static void setUp() {
     	empty = new VonNeumannTopology();
