@@ -69,7 +69,7 @@ which will be used to configure the chosen Forrest skin.
   <project-name>CILib</project-name>
   <project-description>CILIB (Computational Intelligence Framework)</project-description>
   <project-url>http://cilib.sourceforge.net/</project-url>
-  <project-logo>images/cilib_logo_invert.jpg</project-logo>
+  <project-logo>images/cilib_logo_transparent.png</project-logo>
   <!-- Alternative static image:
   <project-logo>images/project-logo.gif</project-logo> -->
 
@@ -78,7 +78,7 @@ which will be used to configure the chosen Forrest skin.
   <group-name>CILib</group-name>
   <group-description>Computational Intelligence Library</group-description>
   <group-url>http://cilib.sourceforge.net/</group-url>
-  <group-logo>images/cilib_logo_invert.jpg</group-logo>
+  <group-logo>images/cilib_logo_transparent.png</group-logo>
   <!-- Alternative static image:
   <group-logo>images/group-logo.gif</group-logo> -->
 
@@ -263,7 +263,7 @@ which will be used to configure the chosen Forrest skin.
     <color name="footer" value="#cedfef"/>
 -->
 
-    <color name="header" value="#294563"/>
+    <!--<color name="header" value="#294563"/>-->
     <color name="navstrip" value="#4a6d8c"/>
     <color name="published" value="#4C6C8F" font="#FFFFFF"/>
     <color name="searchbox" value="#4a6d8c" font="#000000"/>
