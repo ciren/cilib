@@ -33,6 +33,10 @@
 					of output. These should range from plain text files, character
 					deliminated files, XML to even PDF.
 				</li>
+				<li>
+					<strong>[code]</strong> Add log4j support so that the various debug and error messages
+					can be directed to files / console etc...
+				</li>
 			</ul>
 		</section>
 	</body>	

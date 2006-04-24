@@ -25,45 +25,27 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
+package net.sourceforge.cilib.algorithm.initialisation;
 
-package net.sourceforge.cilib;
-
-import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
  *
- * @author Edwin Peer
- * @author Gary Pampara
+ * @author  Edwin Peer
  */
 @RunWith(Suite.class)
 @SuiteClasses(
-		value={
-				net.sourceforge.cilib.algorithm.initialisation.AllTest.class,
-				net.sourceforge.cilib.container.AllTest.class,
-				net.sourceforge.cilib.container.graph.AllTest.class,
-				net.sourceforge.cilib.functions.continuous.AllTest.class,
-				net.sourceforge.cilib.functions.discrete.AllTest.class,
-				net.sourceforge.cilib.math.AllTest.class,
-				net.sourceforge.cilib.math.random.AllTest.class,
-				net.sourceforge.cilib.measurement.AllTest.class,
-				net.sourceforge.cilib.problem.AllTest.class,
-				net.sourceforge.cilib.pso.AllTest.class,
-				net.sourceforge.cilib.type.AllTest.class,
-				net.sourceforge.cilib.type.creator.AllTest.class,
-				net.sourceforge.cilib.type.types.AllTest.class,
-				net.sourceforge.cilib.util.AllTest.class
-			}
-		)
+		value = {
+			EntityCloneIntialisationBuilderTest.class
+		}
+	)
 public class AllTest {
     
+    /** Creates a new instance of AllTests */
     public AllTest() {
+        
     }
-    
-    public static void main(java.lang.String[] args) {
-    	JUnitCore.main(AllTest.class.getName());
-    }
-    
+
 }

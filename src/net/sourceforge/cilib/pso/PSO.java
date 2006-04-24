@@ -32,10 +32,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.ParticipatingAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationBuilder;
+import net.sourceforge.cilib.algorithm.initialisation.InitialisationBuilder;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -89,6 +90,8 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
 
         prototypeParticle = new StandardParticle();
         iterationStrategy = new SynchronousIterationStrategy();
+        
+        initialisationBuilder = new ClonedEntityInitialisationBuilder();
     }
 
     
@@ -97,7 +100,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
      * then to the specified topology.
      */
     protected void performInitialisation() {
-        if (problem == null) {
+        /*if (problem == null) {
             throw new InitialisationException("No problem has been specified");
         }
         
@@ -106,7 +109,11 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
             
             particle.initialise(problem);
             topology.add(particle);
-        }
+        }*/
+        
+    	this.initialisationBuilder.setEntities(this.particles);
+    	this.initialisationBuilder.setEntityType(this.prototypeParticle);
+        this.initialisationBuilder.intialise(this.topology, this.problem);
     }
 
     
@@ -385,4 +392,6 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
     private Particle prototypeParticle;
 
     private IterationStrategy iterationStrategy;
+    
+    private InitialisationBuilder initialisationBuilder;
 }
