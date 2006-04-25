@@ -32,8 +32,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationBuilder;
-import net.sourceforge.cilib.algorithm.initialisation.InitialisationBuilder;
+import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
+import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.ec.ea.Individual;
 import net.sourceforge.cilib.ec.ea.StandardPopulation;
 import net.sourceforge.cilib.entity.Topology;
@@ -51,7 +51,7 @@ import org.junit.Test;
  *  
  * @author Gary Pampara
  */
-public class EntityCloneIntialisationBuilderTest {
+public class EntityCloneIntialisationStrategyTest {
 	
 	@Test
 	public void intialiseClonedParticleTopology() {
@@ -60,7 +60,7 @@ public class EntityCloneIntialisationBuilderTest {
 		FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
 		problem.setFunction(new Rastrigin());
 		
-		InitialisationBuilder initialisationBuilder = new ClonedEntityInitialisationBuilder();
+		InitialisationStrategy initialisationBuilder = new ClonedEntityInitialisationStrategy();
 		initialisationBuilder.setEntityType(new StandardParticle());
 		initialisationBuilder.setEntities(40); // 40 Particles
 		
@@ -85,7 +85,7 @@ public class EntityCloneIntialisationBuilderTest {
 		FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
 		problem.setFunction(new Rastrigin());
 		
-		InitialisationBuilder initialisationBuilder = new ClonedEntityInitialisationBuilder();
+		InitialisationStrategy initialisationBuilder = new ClonedEntityInitialisationStrategy();
 		initialisationBuilder.setEntityType(new Individual());
 		initialisationBuilder.setEntities(40); // 40 Individuals
 		

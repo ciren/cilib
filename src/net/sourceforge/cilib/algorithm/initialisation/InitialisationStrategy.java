@@ -36,7 +36,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * 
  * @author Gary Pampara
  */
-public interface InitialisationBuilder {
+public interface InitialisationStrategy {
 
 	/**
 	 * Set the number of entities that are required.
