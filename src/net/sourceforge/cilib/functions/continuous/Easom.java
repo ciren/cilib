@@ -60,8 +60,10 @@ public class Easom extends ContinuousFunction {
      * @param x The position
      *
      */
-    public double evaluate(Vector x) { 
-    	double power = -(x.getReal(0)-Math.PI)*(x.getReal(0)-Math.PI)+(x.getReal(1)-Math.PI)*(x.getReal(1)-Math.PI);
+    public double evaluate(Vector x) {
+    	double powerTerm1 = -((x.getReal(0)-Math.PI)*(x.getReal(0)-Math.PI));
+    	double powerTerm2 = -((x.getReal(1)-Math.PI)*(x.getReal(1)-Math.PI));
+    	double power = powerTerm1 + powerTerm2;
         return - Math.cos(x.getReal(0)) * Math.cos(x.getReal(1)) * Math.exp(power);
     }
     
