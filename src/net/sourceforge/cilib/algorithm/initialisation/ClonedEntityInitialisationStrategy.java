@@ -36,13 +36,12 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * 
  * @author Gary Pampara
  */
-public class ClonedEntityInitialisationStrategy implements InitialisationStrategy {
+public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 
-	private int entities;
 	private Entity prototypeEntity;
 	
 	public ClonedEntityInitialisationStrategy() {
-		entities = 0;
+		entities = 20;
 		prototypeEntity = null;
 	}
 

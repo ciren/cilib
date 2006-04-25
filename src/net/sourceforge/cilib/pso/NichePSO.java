@@ -65,7 +65,8 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 		
 		subSwarmParticle = new StandardParticle();
 		
-		mainSwarm.setPrototypeParticle(mainSwarmParticle);
+		//mainSwarm.setPrototypeParticle(mainSwarmParticle);
+		mainSwarm.getInitialisationStrategy().setEntityType(mainSwarmParticle);
 	}
 
 	

@@ -62,13 +62,15 @@ public class GCPSO extends PSO {
         //super.setVelocityUpdate(new GCVelocityUpdate());
         StandardParticle particle = new StandardParticle();
         particle.setVelocityUpdateStrategy(new GCVelocityUpdate());
-        super.setPrototypeParticle(new GCDecorator(particle));
+        //super.setPrototypeParticle(new GCDecorator(particle));
+        super.getInitialisationStrategy().setEntityType(new GCDecorator(particle));
         
         super.setIterationStrategy(new GCPSOIterationStrategy());
     }
     
     public void setPrototypeParticle(Particle particle) {
-        super.setPrototypeParticle(new GCDecorator(particle));
+        //super.setPrototypeParticle(new GCDecorator(particle));
+    	this.getInitialisationStrategy().setEntityType(new GCDecorator(particle));
     }
     
     public void setVelocityUpdate(VelocityUpdateStrategy vu) {

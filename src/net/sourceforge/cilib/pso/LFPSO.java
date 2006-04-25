@@ -68,11 +68,13 @@ public class LFPSO extends PSO implements GradientOptimisationAlgorithm {
         
         velocityUpdate = new LFVelocityUpdate();
         //super.setVelocityUpdate(velocityUpdate);
-        super.setPrototypeParticle(new LFDecorator(new StandardParticle()));
+        //super.setPrototypeParticle(new LFDecorator(new StandardParticle()));
+        this.getInitialisationStrategy().setEntityType(new LFDecorator(new StandardParticle()));
     }
     
     public void setPrototypeParticle(Particle particle) {
-        super.setPrototypeParticle(new LFDecorator(particle));
+        //super.setPrototypeParticle(new LFDecorator(particle));
+    	this.getInitialisationStrategy().setEntityType(new LFDecorator(particle));
     }
     
     public void setVelocityUpdate(VelocityUpdateStrategy vu) {

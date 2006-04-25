@@ -36,21 +36,24 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * 
  * @author Gary Pampara
  */
-public interface InitialisationStrategy {
+public abstract class InitialisationStrategy {
+	
+	protected int entities;
 
 	/**
 	 * Set the number of entities that are required.
 	 * 
 	 * @param entityNumber The number of entities to set
 	 */
-	public void setEntities(int entityNumber);
+	public abstract void setEntities(int entityNumber);
 	
 	
 	/**
+	 * Set the entity type to use
 	 * 
-	 * @param entityType
+	 * @param entityType The entity type to use
 	 */
-	public void setEntityType(Entity entityType);
+	public abstract void setEntityType(Entity entity);
 
 	
 	/**
@@ -60,6 +63,9 @@ public interface InitialisationStrategy {
 	 * @param topology The topology to initialise with Entity objects
 	 * @param problem The Problem to based the initialisation on
 	 */
-	public <E extends Entity> void intialise(Topology<E> topology, OptimisationProblem problem);
+	public abstract <E extends Entity> void intialise(Topology<E> topology, OptimisationProblem problem);
+
+
+	
 
 }

@@ -85,13 +85,14 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
     public PSO() {
         problem = null;
 
-        particles = 20;
+        //particles = 20;
         topology = new GBestTopology();
 
-        prototypeParticle = new StandardParticle();
+        //prototypeParticle = new StandardParticle();
         iterationStrategy = new SynchronousIterationStrategy();
         
-        initialisationBuilder = new ClonedEntityInitialisationStrategy();
+        initialisationStrategy = new ClonedEntityInitialisationStrategy();
+        initialisationStrategy.setEntityType(new StandardParticle());
     }
 
     
@@ -111,9 +112,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
             topology.add(particle);
         }*/
         
-    	this.initialisationBuilder.setEntities(this.particles);
-    	this.initialisationBuilder.setEntityType(this.prototypeParticle);
-        this.initialisationBuilder.intialise(this.topology, this.problem);
+        this.initialisationStrategy.intialise(this.topology, this.problem);
     }
 
     
@@ -133,9 +132,31 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
 
     
     /**
+     * 
+     * @return
+     */   
+    public InitialisationStrategy getInitialisationStrategy() {
+		return initialisationStrategy;
+	}
+
+
+    /**
+     * 
+     * @param initialisationStrategy
+     */
+	public void setInitialisationStrategy(
+			InitialisationStrategy initialisationStrategy) {
+		this.initialisationStrategy = initialisationStrategy;
+	}
+
+
+	/**
      * Set the prototypeParticle to the appropriate <code>Particle</code>
      * @param particle The <code>Particle</code> to be used and the prototypeParticle
+     * 
+     * @deprecated
      */
+    @Deprecated
     public void setPrototypeParticle(Particle particle) {
         prototypeParticle = particle;
     }
@@ -144,7 +165,10 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
     /**
      * Return a reference to the specified prototypeParticle
      * @return The reference to the prototypeParticle
+     * 
+     * @deprecated
      */
+    @Deprecated
     public Particle getPrototypeParticle() {
     	return prototypeParticle;
     }
@@ -342,6 +366,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
      */
     public void setParticles(int particles)  {
       this.particles = particles;
+      this.initialisationStrategy.setEntities(particles);
     }
     
     
@@ -393,5 +418,5 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
 
     private IterationStrategy iterationStrategy;
     
-    private InitialisationStrategy initialisationBuilder;
+    private InitialisationStrategy initialisationStrategy;
 }
