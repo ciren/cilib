@@ -25,17 +25,20 @@
 			<title>Release 0.6.0</title>
 			<ul>
 				<li>
-					<strong>[code]</strong> - Upgrade JUnit to version 4.0. Version 4.0 of 
-					JUnit was released on 16 Feb 2006. <strong>[DONE]</strong>
+					<strong>[code]</strong> Upgrade JUnit to version 4.0. Version 4.0 of 
+					JUnit was released on 16 Feb 2006. &rarr; <strong>DONE</strong>
 				</li>
 				<li>
 					<strong>[code]</strong> Add the functionality to have different forms
 					of output. These should range from plain text files, character
-					deliminated files, XML to even PDF.
+					deliminated files, XML to even PDF. &rarr; open
 				</li>
 				<li>
 					<strong>[code]</strong> Add log4j support so that the various debug and error messages
-					can be directed to files / console etc...
+					can be directed to files / console etc... &rarr; open
+				</li>
+				<li>
+					<strong>[documentation]</strong> - Add more documentation to the project, focusing on the User Guide &rarr; open
 				</li>
 			</ul>
 		</section>

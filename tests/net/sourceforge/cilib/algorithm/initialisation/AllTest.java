@@ -38,7 +38,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 		value = {
-			EntityCloneIntialisationBuilderTest.class
+			EntityCloneIntialisationStrategyTest.class
 		}
 	)
 public class AllTest {

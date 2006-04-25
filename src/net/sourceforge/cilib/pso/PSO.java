@@ -35,8 +35,8 @@ import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.ParticipatingAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationBuilder;
-import net.sourceforge.cilib.algorithm.initialisation.InitialisationBuilder;
+import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
+import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -91,7 +91,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
         prototypeParticle = new StandardParticle();
         iterationStrategy = new SynchronousIterationStrategy();
         
-        initialisationBuilder = new ClonedEntityInitialisationBuilder();
+        initialisationBuilder = new ClonedEntityInitialisationStrategy();
     }
 
     
@@ -393,5 +393,5 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
 
     private IterationStrategy iterationStrategy;
     
-    private InitialisationBuilder initialisationBuilder;
+    private InitialisationStrategy initialisationBuilder;
 }

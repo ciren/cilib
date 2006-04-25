@@ -24,7 +24,10 @@
 		<section>
 			<title>Version 0.5.7</title>
 			<ul>
-				<li>Added the new site documentation. Documentation site is generated using <link href="http://forrest.apache.org">Apache Forrest</link>. The new documentation is more concise and easily browsable.</li>
+				<li><strong>[code]</strong> - Migrated all the JUnit unit tests to JUnit 4.0</li>
+				<li><strong>[code]</strong> - Added an InitialisationStrategy scheme that will intialise algorithms based on a provided InitialisationStrategy object.</li>
+				<li><strong>[docs]</strong> - Added the new site documentation. Documentation site is generated using <link href="http://forrest.apache.org">Apache Forrest</link>. The new documentation is more concise and easily browsable, as well as being in SVN.</li>				
+				<li><strong>[docs]</strong> - Added a Wiki to the CILib sourceforge website (http://cilib.sourceforge.net/wiki). Content is currently read-only.</li>
 			</ul>
 		</section>
 	</body>
