@@ -50,7 +50,7 @@ See http://forrest.apache.org/docs/linking.html for more info
 	<UsersGuide label="Users Guide" href="UsersGuide/">
 		<intro label="Introduction" href="index.html" />
 		<quick-start label="Quick Start" href="quick-start.html" />
-		<xml-files label="XML Configuration" href="#" />
+		<xml-files label="XML Configuration" href="xml-configuration.html" />
 	</UsersGuide>
 
 	<project label="Project">
