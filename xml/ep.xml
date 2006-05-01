@@ -18,7 +18,7 @@
 			<nextGenerationOffSpringSelector class="ec.selectionoperators.RandomSelection" />	 
 			<crossover class="ec.crossoveroperators.CloneCrossOver" />
 			<mutator class="ec.mutationoperators.GaussianMutation" /> <!-- Guassian mutator -->
-			<random class="math.random.MersenneTwister" />
+			<random class="math.random.generator.MersenneTwister" />
 			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="2000" />
 		</algorithm>
 	</algorithms>

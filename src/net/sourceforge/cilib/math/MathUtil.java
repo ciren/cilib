@@ -28,7 +28,7 @@ package net.sourceforge.cilib.math;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>

@@ -30,7 +30,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
 

@@ -51,6 +51,7 @@ See http://forrest.apache.org/docs/linking.html for more info
 		<intro label="Introduction" href="index.html" />
 		<quick-start label="Quick Start" href="quick-start.html" />
 		<xml-files label="XML Configuration" href="xml-configuration.html" />
+		<direct-code-usage label="Direct usage in source code" href="direct-code-usage.html" />
 	</UsersGuide>
 
 	<project label="Project">

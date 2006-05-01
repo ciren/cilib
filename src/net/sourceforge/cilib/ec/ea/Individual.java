@@ -29,7 +29,7 @@ package net.sourceforge.cilib.ec.ea;
 import java.util.Random;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;

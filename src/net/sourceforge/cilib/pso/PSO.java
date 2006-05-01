@@ -169,7 +169,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
      * @deprecated
      */
     @Deprecated
-    public Particle getPrototypeParticle() {
+    public Particle getPrototypeParticle() {    	
     	return prototypeParticle;
     }
     

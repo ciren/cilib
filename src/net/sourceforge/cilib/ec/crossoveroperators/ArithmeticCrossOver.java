@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**

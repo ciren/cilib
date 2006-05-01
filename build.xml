@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="all" name="cilib">
+	
+	<property file="build.properties" />
 
-	<property name="debug" value="true"/>
 	<property name="javac.source" value="1.5" />
 	<property name="javac.target" value="1.5" />
-
-	<property name="junit.jar" value="/usr/share/junit/lib/junit.jar"/>
 
 	<property name="bin.dir" value="bin"/>
 	<property name="build.dir" value="build"/>

@@ -37,7 +37,7 @@ import net.sourceforge.cilib.container.SortedList;
 import net.sourceforge.cilib.ec.selectionoperators.TournamentSelection;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**

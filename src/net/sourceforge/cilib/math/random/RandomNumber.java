@@ -24,11 +24,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package net.sourceforge.cilib.math;
+package net.sourceforge.cilib.math.random;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * This class provides the needed functionality to sample random numbers from different

@@ -28,7 +28,7 @@ package net.sourceforge.cilib.coevolution.scoreschemes;
 
 import net.sourceforge.cilib.games.*;
 import net.sourceforge.cilib.games.agents.*;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * @author Vangos

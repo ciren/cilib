@@ -26,7 +26,7 @@
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.parameterupdatestrategies.AccelerationUpdateStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;

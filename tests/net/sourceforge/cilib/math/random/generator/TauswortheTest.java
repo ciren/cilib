@@ -1,8 +1,8 @@
 /*
- * NumericalRecipesRan4Test.java
+ * TauswortheTest.java
  * JUnit based test
  *
- * Created on January 21, 2003, 7:39 PM
+ * Created on January 21, 2003, 7:43 PM
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -27,30 +27,30 @@
  *   
  */
 
-package net.sourceforge.cilib.math.random;
+package net.sourceforge.cilib.math.random.generator;
 
 import java.util.Random;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import net.sourceforge.cilib.math.random.generator.Tausworthe;
 
 /**
  *
  * @author Edwin Peer
  */
-public class NumericalRecipesRan4Test {
+public class TauswortheTest {
     
-    public NumericalRecipesRan4Test() {
-       
+    public TauswortheTest() {
+        
     }
     
     
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
-        Random r = new Random();
- //       Random r = new NumericalRecipesRan4();  // Not GPL
+        Random r = new Tausworthe();
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
             assertTrue("Random value out of range", 0 <= d && d < 1); 
@@ -58,6 +58,5 @@ public class NumericalRecipesRan4Test {
         }
         assertTrue("Samples are not random", tester.hasRandomSamples());
     }
-    
     
 }

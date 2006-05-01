@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
@@ -45,7 +45,7 @@ public class RNAInitialiser {
 		RNAConformation position = new RNAConformation();
 		int rand;
 		int added = 0;
-		MersenneTwister r = new net.sourceforge.cilib.math.random.MersenneTwister();
+		MersenneTwister r = new net.sourceforge.cilib.math.random.generator.MersenneTwister();
 		//
 		if (NucleotideString.getInstance().getNucleotideString().length() == 0)
 			System.out.println("RNAInitialiser.getInitialPosition(): Nucleotide String not yet initialised!");

@@ -21,33 +21,7 @@
     <title>CILib - User's Guide</title> 
   </header> 
   <body>
-		<p>
-			CILib is a component based framework for Computational Intelligence 
-			software, written in Java. CILib is a complex abstraction in order 
-			to simply and effectively perform simulations and executions of 
-			Computational Intelligence algorithms.
-		</p>
-		<p>
-			The design goals of CILib are to ensure simplicity in composing different
-			algorithms, with performance of the algorithm not being as important as
-			having an algorithmic framework that is highly generic and simplistic.
-			The power of CILib lies in the ability to compose the required 
-			algorithm quickly and	correctly from the available set of algorithmic
-			components.
-		</p>
-		<p>
-			All algorithm definitions are defined as a tree structure. As a result,
-			the	use of XML leads to a very robust expression of the algorithm and the
-			associated components.
-		</p>
-
-		<note>
-			An algorithm need not be specified using XML. If the user would rather
-			use the required classes directly, the user may do so. This will not 
-			influence the operation of the algorithm or even the library.
-		</note>
-
-    <section>
+	<section>
       <title>Overview of CILib</title>
 			<p>
 				CILib is composed as a collection of 5 hierarchies of component objects.
@@ -60,7 +34,33 @@
 				<li>Control parameter hierarchy</li>
 				<li>Type hierarchy</li>
 			</ul>
-    </section>
+			
+			<p>
+				CILib is a component based framework for Computational Intelligence 
+				software, written in Java. CILib is a complex abstraction in order 
+				to simply and effectively perform simulations and executions of 
+				Computational Intelligence algorithms.
+			</p>
+			<p>
+				The design goals of CILib are to ensure simplicity in composing different
+				algorithms, with performance of the algorithm not being as important as
+				having an algorithmic framework that is highly generic and simplistic.
+				The power of CILib lies in the ability to compose the required 
+				algorithm quickly and	correctly from the available set of algorithmic
+				components.
+			</p>
+			<p>
+				All algorithm definitions are defined as a tree structure. As a result,
+				the	use of XML leads to a very robust expression of the algorithm and the
+				associated components.
+			</p>
+
+			<note>
+				An algorithm need not be specified using XML. If the user would rather
+				use the required classes directly, the user may do so. This will not 
+				influence the operation of the algorithm or even the library.
+			</note>
+	    </section>
 
 		<section>
 			<title>Algorithm Hierarchy</title>
@@ -71,22 +71,26 @@
 
 		<section>
 			<title>Problem Hierarchy</title>
-			<p></p>
+			<p>
+			</p>
 		</section>
 
 		<section>
 			<title>Measurement Hierarchy</title>
-			<p></p>
+			<p>
+			</p>
 		</section>
 
 		<section>
-			<title>Control Parameter Heirarchy</title>
-			<p></p>
+			<title>Control Parameter Hierarchy</title>
+			<p>
+			</p>
 		</section>
 
 		<section>
 			<title>Type Heirarchy</title>
-			<p></p>
+			<p>
+			</p>
 		</section>
     
  <!--   <section id="overview">

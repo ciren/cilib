@@ -21,7 +21,7 @@
 			<crossover class="ec.crossoveroperators.ArithmeticCrossOver" />
 			<!-- 	  <crossover class="EvolComp.CrossOverOperators.UniformBitCrossOver" /> //-->
 			<mutator class="ec.mutationoperators.ArithmeticMutation" />
-			<random class="math.random.MersenneTwister" />
+			<random class="math.random.generator.MersenneTwister" />
 			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000" />
 		</algorithm>
 	</algorithms>

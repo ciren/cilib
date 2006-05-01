@@ -29,7 +29,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.math.random.KnuthSubtractive;
+import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.GCDecorator;
 import net.sourceforge.cilib.pso.particle.Particle;
@@ -108,7 +108,7 @@ public class GCVelocityUpdate implements VelocityUpdateStrategy {
     }
     
     /**
-     * Sets the random number generator used in the GC update equation. The default is {@link net.sourceforge.cilib.math.random.KnuthSubtractive}.
+     * Sets the random number generator used in the GC update equation. The default is {@link net.sourceforge.cilib.math.random.generator.KnuthSubtractive}.
      *
      * @param rhoRandomGenerator The {@link java.util.Random} generator used in the GC update.
      */

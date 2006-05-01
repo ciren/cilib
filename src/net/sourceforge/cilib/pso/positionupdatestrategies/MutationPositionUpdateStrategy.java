@@ -33,7 +33,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.BoundedUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.LinearDecreasingUpdateStrategy;
 import net.sourceforge.cilib.math.MathUtil;
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;

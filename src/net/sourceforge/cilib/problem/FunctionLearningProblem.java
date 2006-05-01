@@ -35,7 +35,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import net.sourceforge.cilib.functions.Function;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;

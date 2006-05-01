@@ -30,13 +30,14 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Collection;
 
+import net.sourceforge.cilib.math.VectorMath;
+
 
 /**
  * 
  * @author Gary Pampara
- *
  */
-public abstract class Vector extends Type implements Collection<Type> {
+public abstract class Vector extends Type implements Collection<Type>, VectorMath {
 	
 	public abstract Vector clone();		
 	
@@ -120,21 +121,7 @@ public abstract class Vector extends Type implements Collection<Type> {
 		return this.toString();
 	}
 
-	public abstract Vector subVector(int from, int to);
-	
-	
-	// Vector math methods
-	/**
-	 * Vector math method. Adding this {@see net.sourceforge.cilib.type.types.Vector}
-	 * to another will result in a resultant {@see net.sourceforge.cilib.type.types.Vector}.
-	 * 
-	 * @param vector The {@see net.sourceforge.cilib.type.types.Vector} to add to the current one
-	 * @return The resultant {@see net.sourceforge.cilib.type.types.Vector}
-	 */
-	public abstract Vector plus(Vector vector);
-	public abstract Vector subtract(Vector vector);
-	public abstract Vector divide(Vector vector);
-	public abstract Vector multiply(Vector vector);
+	public abstract Vector subVector(int fromIndex, int toIndex);
 	
 	
 	/**
@@ -151,7 +138,7 @@ public abstract class Vector extends Type implements Collection<Type> {
 		}
 	}
 	
-	
+	@Override
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		if (getDimension() == 0)
 			throw new RuntimeException("Cannot deserialise/deexternalise an empty Vector Type");

@@ -1,8 +1,9 @@
 /*
- * DiscreteRandomNumber.java
- * 
- * Created on Aug 5, 2005
+ * AllTests.java
  *
+ * Created on January 21, 2003, 2:55 PM
+ *
+ * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -21,26 +22,36 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ *   
  */
-package net.sourceforge.cilib.math;
+
+package net.sourceforge.cilib.math.random.generator;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
 
 /**
- * 
- * @author Gary Pampara
  *
+ * @author  Edwin Peer
  */
-public class DiscreteRandomNumber {
-
-	public double getPoisson(double x, double lambda) {
-		double numerator = Math.pow(Math.E, -lambda) * Math.pow(lambda, x);
-		double denominator = MathUtil.factorial(x);
-		return numerator / denominator;
-	}
-	
-	public double getBinomial(double x, double p, double n) {
-		return MathUtil.combination(n, x) * Math.pow(p, x) * Math.pow((1-p), (n-x));		
-	}
+@RunWith(Suite.class)
+@SuiteClasses(
+		value = {
+				MersenneTwisterTest.class,
+				KnuthSubtractiveTest.class,
+				NumericalRecipesRan4Test.class,
+				RANLUXTest.class,
+				TauswortheTest.class,
+				ZiffGFSR4Test.class
+		}
+	)
+public class AllTest {
+    
+    /** Creates a new instance of AllTests */
+    public AllTest() {        
+    }
 
 }

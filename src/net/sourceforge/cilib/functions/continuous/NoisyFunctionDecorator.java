@@ -27,7 +27,7 @@
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.Vector;
 
 

@@ -45,7 +45,7 @@ import net.sourceforge.cilib.ec.selectionoperators.RandomSelection;
 import net.sourceforge.cilib.ec.selectionoperators.SelectionOperator;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Vector;

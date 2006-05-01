@@ -25,7 +25,7 @@
  */
 package net.sourceforge.cilib.pso.parameterupdatestrategies;
 
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
  * This is an implementation of the fully informed PSO, for which there is only one

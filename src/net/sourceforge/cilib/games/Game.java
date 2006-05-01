@@ -32,7 +32,7 @@ import net.sourceforge.cilib.games.agents.RandomAgent;
 import net.sourceforge.cilib.games.gametokens.Action;
 import net.sourceforge.cilib.games.states.State;
 import net.sourceforge.cilib.games.states.evaluations.Evaluations;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * @author Vangos

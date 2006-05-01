@@ -28,7 +28,7 @@ package net.sourceforge.cilib.games.agents;
 
 import net.sourceforge.cilib.games.*;
 import net.sourceforge.cilib.games.states.*;
-import net.sourceforge.cilib.math.random.*;
+import net.sourceforge.cilib.math.random.generator.*;
 
 /**
  * @author Vangos

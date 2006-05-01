@@ -42,9 +42,18 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 	
 	public ClonedEntityInitialisationStrategy() {
 		entities = 20;
-		prototypeEntity = null;
+		prototypeEntity = null; // This has to be manually set as Individuals are used in GAs etc...
 	}
 
+
+	/**
+	 * Perform the required initialisation, using the provided <tt>Topology</tt>
+	 * and <tt>Problem</tt>.
+	 * 
+	 * @param topology The given <tt>Topology</tt> to use in initialisation.
+	 * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
+	 * @throws InitialisationException if the initialisation cannot take place.
+	 */
 	@SuppressWarnings("unchecked")
 	public <E extends Entity> void intialise(Topology<E> topology, OptimisationProblem problem) {
 		
@@ -62,23 +71,45 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 		 }
 	}
 
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public Entity getPrototypeEntity() {
 		return prototypeEntity;
 	}
 
+	
+	/**
+	 * 
+	 * @param prototypeEntity
+	 */
 	public void setPrototypeEntity(Entity prototypeEntity) {
 		this.prototypeEntity = prototypeEntity;
 	}
 
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getEntities() {
 		return entities;
 	}
 
+	
+	/**
+	 * 
+	 */
 	public void setEntities(int entities) {
 		this.entities = entities;
 	}
 
+	
+	/**
+	 * 
+	 */
 	public void setEntityType(Entity entityType) {
 		this.setPrototypeEntity(entityType);		
 	}

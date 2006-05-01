@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;

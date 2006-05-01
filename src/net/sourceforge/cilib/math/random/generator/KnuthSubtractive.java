@@ -31,7 +31,7 @@
  * 
  */
 
-package net.sourceforge.cilib.math.random;
+package net.sourceforge.cilib.math.random.generator;
 
 import java.util.Random;
 

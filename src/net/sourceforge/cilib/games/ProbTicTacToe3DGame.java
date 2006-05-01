@@ -31,7 +31,7 @@ import net.sourceforge.cilib.games.chances.*;
 import net.sourceforge.cilib.games.gametokens.*;
 import net.sourceforge.cilib.games.states.*;
 import net.sourceforge.cilib.games.states.evaluations.*;
-import net.sourceforge.cilib.math.random.*;
+import net.sourceforge.cilib.math.random.generator.*;
 
 /**
  * @author Vangos

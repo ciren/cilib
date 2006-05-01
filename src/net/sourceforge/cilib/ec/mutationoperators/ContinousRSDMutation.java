@@ -27,7 +27,7 @@
 package net.sourceforge.cilib.ec.mutationoperators;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
  * @author otter

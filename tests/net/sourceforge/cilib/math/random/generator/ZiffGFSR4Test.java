@@ -1,8 +1,8 @@
 /*
- * KnuthSubtractiveTest.java
+ * ZiffGFSR4Test.java
  * JUnit based test
  *
- * Created on January 21, 2003, 7:23 PM
+ * Created on January 21, 2003, 7:44 PM
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -27,35 +27,36 @@
  *   
  */
 
-package net.sourceforge.cilib.math.random;
+package net.sourceforge.cilib.math.random.generator;
 
 import java.util.Random;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import net.sourceforge.cilib.math.random.KnuthSubtractive;
+import net.sourceforge.cilib.math.random.generator.ZiffGFSR4;
 
 /**
  *
  * @author Edwin Peer
  */
-public class KnuthSubtractiveTest {
+public class ZiffGFSR4Test {
     
-    public KnuthSubtractiveTest() {
+    public ZiffGFSR4Test() {
+        
     }
     
-    /** Test of next method, of class za.ac.up.cs.ailib.Random.NumericalRecipesRan3. */
+   
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
-        Random r = new KnuthSubtractive();
+        Random r = new ZiffGFSR4();
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
             assertTrue("Random value out of range", 0 <= d && d < 1); 
             tester.addSample(d);
         }
         assertTrue("Samples are not random", tester.hasRandomSamples());
-    }
+    }    
     
 }

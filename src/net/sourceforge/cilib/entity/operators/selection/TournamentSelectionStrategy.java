@@ -35,7 +35,7 @@ import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalContro
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
  * 

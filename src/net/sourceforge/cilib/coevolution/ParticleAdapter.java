@@ -30,7 +30,7 @@ import java.util.Random;
 
 import net.sourceforge.cilib.coevolution.inputmasks.InputMask;
 import net.sourceforge.cilib.games.states.State;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * @author Vangos

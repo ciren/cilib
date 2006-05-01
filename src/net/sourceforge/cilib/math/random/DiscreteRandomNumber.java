@@ -1,10 +1,8 @@
 /*
- * RANLUXTest.java
- * JUnit based test
- *
- * Created on January 21, 2003, 7:41 PM
- *
+ * DiscreteRandomNumber.java
  * 
+ * Created on Aug 5, 2005
+ *
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -23,40 +21,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
  */
-
 package net.sourceforge.cilib.math.random;
 
-import java.util.Random;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.math.random.RANLUX;
-
+import net.sourceforge.cilib.math.MathUtil;
 
 /**
+ * 
+ * @author Gary Pampara
  *
- * @author Edwin Peer
  */
-public class RANLUXTest {
-    
-    public RANLUXTest() {
-      
-    }
-    
-    @Test
-    public void testNextDouble() {
-        RandomTester tester = new SimpleRandomTester();
-        Random r = new RANLUX();
-        for (int i = 0; i < 100000; ++i) {
-            double d = r.nextDouble();
-            assertTrue("Random value out of range", 0 <= d && d < 1); 
-            tester.addSample(d);
-        }
-        assertTrue("Samples are not random", tester.hasRandomSamples());
-    }
-    
+public class DiscreteRandomNumber {
+
+	public double getPoisson(double x, double lambda) {
+		double numerator = Math.pow(Math.E, -lambda) * Math.pow(lambda, x);
+		double denominator = MathUtil.factorial(x);
+		return numerator / denominator;
+	}
+	
+	public double getBinomial(double x, double p, double n) {
+		return MathUtil.combination(n, x) * Math.pow(p, x) * Math.pow((1-p), (n-x));		
+	}
+
 }

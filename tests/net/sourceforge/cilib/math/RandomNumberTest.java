@@ -29,7 +29,7 @@ package net.sourceforge.cilib.math;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import net.sourceforge.cilib.math.RandomNumber;
+import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
  * 

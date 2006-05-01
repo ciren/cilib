@@ -1,8 +1,8 @@
 /*
- * ZiffGFSR4Test.java
+ * MersenneTwisterTest.java
  * JUnit based test
  *
- * Created on January 21, 2003, 7:44 PM
+ * Created on January 21, 2003, 7:17 PM
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -27,30 +27,31 @@
  *   
  */
 
-package net.sourceforge.cilib.math.random;
+package net.sourceforge.cilib.math.random.generator;
 
 import java.util.Random;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import net.sourceforge.cilib.math.random.ZiffGFSR4;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  *
  * @author Edwin Peer
  */
-public class ZiffGFSR4Test {
+public class MersenneTwisterTest {
     
-    public ZiffGFSR4Test() {
-        
+    public MersenneTwisterTest() {
+      
     }
     
-   
+    
+    /** Test of next method, of class za.ac.up.cs.ailib.Random.MersenneTwister. */
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
-        Random r = new ZiffGFSR4();
+        Random r = new MersenneTwister();
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
             assertTrue("Random value out of range", 0 <= d && d < 1); 

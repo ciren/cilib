@@ -31,16 +31,16 @@ import java.util.Iterator;
 
 
 /**
+ * Concrete implemetnation of the {@see net.sourceforge.cilib.type.types.Vector}
+ * class. Any {@see net.sourceforge.cilib.type.types.Type} object may be contained
+ * within this object.
+ * 
  * @author Gary Pampara
  * @author Edwin Peer
  */
 public class MixedVector extends Vector {
 	
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = 1L;
-	
 	private ArrayList<Type> components;
 
 	
@@ -48,7 +48,6 @@ public class MixedVector extends Vector {
 	 * Create a clone (deep copy) of the <code>MixedVector</code>
 	 * 
 	 * @return The clone of the <code>MixedVector</code>
-	 * @throws CloneNotSupportedException
 	 */
 	public MixedVector clone() {
 		MixedVector clone = new MixedVector();
@@ -147,7 +146,10 @@ public class MixedVector extends Vector {
 	
 	
 	/**
+	 * Deterime if the given object is contained within the <tt>MixedVector</tt>.
 	 * 
+	 * @param obj The object to examined for containment
+	 * @return <tt>true</tt> if the object is contained<br><tt>false</tt> otherwise.
 	 */
 	public boolean contains(Object obj) {
 		return components.contains(obj);
@@ -155,10 +157,14 @@ public class MixedVector extends Vector {
 	
 	
 	/**
+	 * Determine if the entire given collection is contained within this
+	 * <tt>MixedVector</tt>.
 	 * 
+	 * @param collection The {@see java.util.Collection} to be examined for containment.
+	 * @return <tt>true</tt> if the collection is contained, <tt>false</tt> otherwise.
 	 */
-	public boolean containsAll(Collection<?> c) {
-		return this.components.containsAll(c);
+	public boolean containsAll(Collection<?> collection) {
+		return this.components.containsAll(collection);
 	}
 	
 	
@@ -233,7 +239,7 @@ public class MixedVector extends Vector {
      * Returns an array containing all of the elements in this <tt>Vector</tt>
      * in the correct order.
      *
-     * @return an array containing all of the elements in this <tt>Vector</tt>
+     * @return An <tt>Object</tt> array containing all of the elements in this <tt>Vector</tt>
      * 	       in the correct order.
      */
 	public Object [] toArray() {
@@ -300,12 +306,16 @@ public class MixedVector extends Vector {
 	 * with in the Types heirarchy, the <code>Type</code> will be returned <b><i>without</i></b> any cloning. 
 	 * 
 	 * @param index The index of the requested <code>Type</code>
+	 * 
+	 * @return A clone of the <tt>Type</tt> object specificed at the given index.
+	 * 
+	 * @throws IndexOutOfBoundsException if the <tt>index</tt> exceeds the bounds.
 	 */
 	public Type get(int index) {
 		Type component = getType(index);
 		
 		if (component instanceof Numeric) {
-			Type result = getType(index).clone(); //(Type) getType(index).clone();
+			Type result = getType(index).clone();
 			return result;
 		}
 		else 
@@ -348,15 +358,14 @@ public class MixedVector extends Vector {
 	}
 	
 	
-	
-
-	
 	/**
 	 * Get the <code>Numeric</code> component from the <code>MixedVector</code> at index
 	 * <code>index</code>
 	 * 
 	 * @param index The location of the requested object within the <code>MixedVector</code>
 	 * @return A <code>Numeric</code> representing the object located at index <code>index</code>
+	 * @throws IndexOutOfBoundsException if the <tt>index</tt> exceeds the bounds.
+	 * @throws UnsupportedOperationException if the <tt>Vector</tt> does not contain a <tt>Numeric</tt> object at the given index
 	 */
 	private Numeric getNumeric(int index) {
 		Type tmp = getType(index);
@@ -370,7 +379,11 @@ public class MixedVector extends Vector {
 	
 	
 	/**
+	 * Get the <tt>boolean</tt> represenation of the bit value represented
+	 * at index <tt>index</tt> within this <tt>Vector</tt> object.
 	 * 
+	 * @param index The index of the object that the bit value must be returned.
+	 * @return The boolean value represenation of the bit.
 	 */
 	public boolean getBit(int index) {
 		return this.getNumeric(index).getBit();
@@ -378,7 +391,10 @@ public class MixedVector extends Vector {
 
 	
 	/**
+	 * Set the value located at the specified index to the given value.
 	 * 
+	 * @param index The index of the contained <tt>Type</tt>.
+	 * @param value The value to be set.
 	 */
 	public void setBit(int index, boolean value) {
 		this.getNumeric(index).setBit(value);
@@ -386,7 +402,10 @@ public class MixedVector extends Vector {
 
 	
 	/**
+	 * Get the integer value of the object located at the specified index.
 	 * 
+	 * @param index The location of the requested object.
+	 * @return The int value representation the of the object located at the specified index. 
 	 */
 	public int getInt(int index) {
 		return this.getNumeric(index).getInt();
@@ -394,7 +413,10 @@ public class MixedVector extends Vector {
 
 	
 	/**
+	 * Set the value located at the specified index to the given value.
 	 * 
+	 * @param index The index of the contained <tt>Type</tt>.
+	 * @param value The value to be set.
 	 */
 	public void setInt(int index, int value) {
 		this.getNumeric(index).setInt(value);
@@ -403,6 +425,8 @@ public class MixedVector extends Vector {
 	
 	/**
 	 * Get the real value of the object located at <code>index</code>
+	 * 
+	 * @param index The index of the real value to get.
 	 * @return A <code>double</code> value of the object at index <code>index</code>
 	 */
 	public double getReal(int index) {
@@ -412,6 +436,9 @@ public class MixedVector extends Vector {
 	
 	/**
 	 * Set the value of the object located at index <code>index</code> to <code>value</code>
+	 * 
+	 * @param index The index of the object to be altered.
+	 * @param value The value to be set.
 	 */
 	public void setReal(int index, double value) {
 		this.getNumeric(index).setReal(value);
@@ -419,16 +446,22 @@ public class MixedVector extends Vector {
 	
 	
 	/**
+	 * Get the specified <tt>Type</tt> object at the given index.
 	 * 
+	 * @return The reference to the <tt>Type</tt> object at index <tt>index</tt>.
+	 * @throws IndexOutOfBoundsException if the <tt>index</tt> exceeds the bounds.
 	 */
 	protected Type getType(int index) {
+		if (index >= components.size())
+			throw new IndexOutOfBoundsException("Cannot find object at index: " + index);
+		
 		return this.components.get(index);
 	}
 	
 	
 	/**
 	 * Re-Randomise the contents of the structure based on the lower and uppper bounds
-	 * enforced on the <code>Type</code> 
+	 * enforced on the <code>Type</code>.
 	 */
 	public void randomise() {
 		for (int i = 0; i < components.size(); i++) {
@@ -448,8 +481,13 @@ public class MixedVector extends Vector {
 		}
 	}
 
+	
 	/**
+	 * Get the subrange from the current <tt>Vector</tt> as a <tt>Vector</tt>.
 	 * 
+	 * @param fromIndex The starting index for the subrange
+	 * @param toIndex The ending index for the subrange.
+	 * @return A <tt>Vector</tt> object representing the sub range of the original <tt>Vector</tt>
 	 */
 	public Vector subVector(int fromIndex, int toIndex) {
 		MixedVector m = new MixedVector();
@@ -462,7 +500,14 @@ public class MixedVector extends Vector {
 	}
 
 
-	@Override
+	/**
+	 * Create a new <tt>Vector</tt> that is the resultant <tt>Vector</tt>
+	 * calculated from the addition of two <tt>Vector</tt> objects.
+	 * 
+	 * @return The resultant <tt>Vector</tt> object.
+	 * @throws UnsupportedOperationException if the current <tt>Vector</tt> and the given <tt>Vector</tt> do
+	 * 			not have the same dimensions.
+	 */
 	public Vector plus(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
@@ -479,7 +524,6 @@ public class MixedVector extends Vector {
 	}
 
 
-	@Override
 	public Vector subtract(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
@@ -496,7 +540,6 @@ public class MixedVector extends Vector {
 	}
 
 
-	@Override
 	public Vector divide(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
@@ -517,7 +560,6 @@ public class MixedVector extends Vector {
 	}
 
 
-	@Override
 	public Vector multiply(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
@@ -531,6 +573,50 @@ public class MixedVector extends Vector {
 		}
 		
 		return result;		
+	}
+	
+	
+	/**
+	 * Calculate the norm of this Vector object. All the elements must
+	 * be of type {@see net.sourceforge.cilib.type.types.Numeric}.
+	 * 
+	 * @return The value of the vector norm 
+	 */	
+	public double norm() {
+		double result = 0.0;
+		
+		for (Type element : this.components) {
+			if (element instanceof Numeric) {
+				Numeric n = (Numeric) element;
+				result += n.getReal() * n.getReal();
+			}
+		}
+		
+		return Math.sqrt(result);
+	}
+
+
+	/**
+	 * @throws UnsupportedOperationException
+	 */
+	public double dot(Vector vector) {
+		if (this.size() != vector.size()) {
+			
+		}
+		
+		double result = 0.0;
+		
+		for (int i = 0; i < size(); i++) {
+			result += this.getReal(i) * vector.getReal(i);
+		}
+		
+		return result;
+	}
+
+
+	public Vector cross(Vector vector) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

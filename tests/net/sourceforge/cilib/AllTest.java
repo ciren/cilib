@@ -44,10 +44,11 @@ import org.junit.runners.Suite.SuiteClasses;
 				net.sourceforge.cilib.algorithm.initialisation.AllTest.class,
 				net.sourceforge.cilib.container.AllTest.class,
 				net.sourceforge.cilib.container.graph.AllTest.class,
+				net.sourceforge.cilib.entity.comparator.AllTest.class,
 				net.sourceforge.cilib.functions.continuous.AllTest.class,
 				net.sourceforge.cilib.functions.discrete.AllTest.class,
 				net.sourceforge.cilib.math.AllTest.class,
-				net.sourceforge.cilib.math.random.AllTest.class,
+				net.sourceforge.cilib.math.random.generator.AllTest.class,
 				net.sourceforge.cilib.measurement.AllTest.class,
 				net.sourceforge.cilib.problem.AllTest.class,
 				net.sourceforge.cilib.pso.AllTest.class,
@@ -63,7 +64,7 @@ public class AllTest {
     }
     
     public static void main(java.lang.String[] args) {
-    	JUnitCore.main(AllTest.class.getName());
+    		JUnitCore.main(AllTest.class.getName());
     }
     
 }

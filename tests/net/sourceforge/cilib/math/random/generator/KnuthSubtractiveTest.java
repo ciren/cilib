@@ -1,8 +1,8 @@
 /*
- * TauswortheTest.java
+ * KnuthSubtractiveTest.java
  * JUnit based test
  *
- * Created on January 21, 2003, 7:43 PM
+ * Created on January 21, 2003, 7:23 PM
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -27,30 +27,29 @@
  *   
  */
 
-package net.sourceforge.cilib.math.random;
+package net.sourceforge.cilib.math.random.generator;
 
 import java.util.Random;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import net.sourceforge.cilib.math.random.Tausworthe;
+import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 
 /**
  *
  * @author Edwin Peer
  */
-public class TauswortheTest {
+public class KnuthSubtractiveTest {
     
-    public TauswortheTest() {
-        
+    public KnuthSubtractiveTest() {
     }
     
-    
+    /** Test of next method, of class za.ac.up.cs.ailib.Random.NumericalRecipesRan3. */
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
-        Random r = new Tausworthe();
+        Random r = new KnuthSubtractive();
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
             assertTrue("Random value out of range", 0 <= d && d < 1); 

@@ -36,7 +36,7 @@ import net.sourceforge.cilib.container.graph.Edge;
 import net.sourceforge.cilib.container.graph.Graph;
 import net.sourceforge.cilib.container.graph.Vertex;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;

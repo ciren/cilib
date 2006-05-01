@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import static java.lang.Math.sqrt;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -307,6 +309,49 @@ public class MixedVectorTest {
 		assertFalse(m.getReal(0) == 1.0);
 		assertFalse(m.getReal(1) == 2.0);
 		assertFalse(m.getReal(2) == 3.0);
+	}
+	
+	
+	@Test
+	public void testVectorNorm() {
+		MixedVector m = new MixedVector();
+		
+		m.add(new Real(1.0));
+		m.add(new Real(1.0));
+		m.add(new Real(1.0));
+		m.add(new Real(1.0));
+		m.add(new Real(1.0));
+		assertEquals(sqrt(5.0), m.norm());
+		
+		m.clear();
+		
+		m.add(new Real(2.0));
+		m.add(new Real(-2.0));
+		m.add(new Real(2.0));
+		m.add(new Real(-2.0));
+		m.add(new Real(2.0));
+		m.add(new Real(-2.0));
+		assertEquals(sqrt(24.0), m.norm());
+	}
+	
+	
+	@Test
+	public void testVectorDotProduct() {
+		Vector v1 = new MixedVector();
+		Vector v2 = new MixedVector();
+		
+		v1.add(new Real(1.0));
+		v1.add(new Real(2.0));
+		v1.add(new Real(3.0));
+		
+		v2.add(new Real(3.0));
+		v2.add(new Real(2.0));
+		v2.add(new Real(1.0));
+		
+		assertEquals(10.0, v1.dot(v2));
+		
+		v2.setReal(0, -3.0);
+		assertEquals(4.0, v1.dot(v2));
 	}
 	
 	

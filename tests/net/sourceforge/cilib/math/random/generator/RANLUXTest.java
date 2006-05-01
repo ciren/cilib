@@ -1,7 +1,8 @@
 /*
- * AllTests.java
+ * RANLUXTest.java
+ * JUnit based test
  *
- * Created on January 21, 2003, 2:55 PM
+ * Created on January 21, 2003, 7:41 PM
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -26,32 +27,36 @@
  *   
  */
 
-package net.sourceforge.cilib.math.random;
+package net.sourceforge.cilib.math.random.generator;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import java.util.Random;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+import net.sourceforge.cilib.math.random.generator.RANLUX;
 
 
 /**
  *
- * @author  Edwin Peer
+ * @author Edwin Peer
  */
-@RunWith(Suite.class)
-@SuiteClasses(
-		value = {
-				MersenneTwisterTest.class,
-				KnuthSubtractiveTest.class,
-				NumericalRecipesRan4Test.class,
-				RANLUXTest.class,
-				TauswortheTest.class,
-				ZiffGFSR4Test.class
-		}
-	)
-public class AllTest {
+public class RANLUXTest {
     
-    /** Creates a new instance of AllTests */
-    public AllTest() {        
+    public RANLUXTest() {
+      
     }
-
+    
+    @Test
+    public void testNextDouble() {
+        RandomTester tester = new SimpleRandomTester();
+        Random r = new RANLUX();
+        for (int i = 0; i < 100000; ++i) {
+            double d = r.nextDouble();
+            assertTrue("Random value out of range", 0 <= d && d < 1); 
+            tester.addSample(d);
+        }
+        assertTrue("Samples are not random", tester.hasRandomSamples());
+    }
+    
 }

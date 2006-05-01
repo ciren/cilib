@@ -1,8 +1,8 @@
 /*
- * MersenneTwisterTest.java
+ * NumericalRecipesRan4Test.java
  * JUnit based test
  *
- * Created on January 21, 2003, 7:17 PM
+ * Created on January 21, 2003, 7:39 PM
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -27,37 +27,37 @@
  *   
  */
 
-package net.sourceforge.cilib.math.random;
+package net.sourceforge.cilib.math.random.generator;
 
 import java.util.Random;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import net.sourceforge.cilib.math.random.MersenneTwister;
 
 /**
  *
  * @author Edwin Peer
  */
-public class MersenneTwisterTest {
+public class NumericalRecipesRan4Test {
     
-    public MersenneTwisterTest() {
-      
+    public NumericalRecipesRan4Test() {
+       
     }
     
     
-    /** Test of next method, of class za.ac.up.cs.ailib.Random.MersenneTwister. */
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
-        Random r = new MersenneTwister();
+        Random r = new Random();
+ //       Random r = new NumericalRecipesRan4();  // Not GPL
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
             assertTrue("Random value out of range", 0 <= d && d < 1); 
             tester.addSample(d);
         }
         assertTrue("Samples are not random", tester.hasRandomSamples());
-    }    
+    }
+    
     
 }
