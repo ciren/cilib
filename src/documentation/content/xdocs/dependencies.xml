@@ -34,6 +34,12 @@
 				<th>Description</th>
 			</tr>
 			<tr>
+				<td><link href="http://jakarta.apache.org/commons/logging/">commons-logging</link></td>
+				<td>1.0.4</td>
+				<td>ASL</td>
+				<td>Logging framework that acts as a wrapper around JDK 1.4 logging, Log4J or others.</td>
+			</tr>
+			<tr>
 				<td><link href="http://www.junit.org">junit</link></td>
 				<td>4.0</td>
 				<td>CPL</td>
