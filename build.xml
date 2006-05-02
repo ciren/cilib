@@ -11,6 +11,7 @@
 	<property name="data.dir" value="data"/>
 	<property name="doc.dir" value="${build.dir}/site/doc"/>
 	<property name="source.dir" value="src"/>
+	<property name="lib.dir" value="lib"/>
 	<property name="tests.dir" value="tests"/>
 
 	<property name="cilib.jar" value="${build.dir}/cilib.jar"/>
@@ -19,6 +20,10 @@
 	<path id="cilib.classpath">
 		<pathelement location="bin/"/>
 		<pathelement location="${junit.jar}"/>
+		<pathelement location="${log4j.jar}"/>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
 	</path>
 
 	<target depends="jar,zip" name="all"/>
@@ -89,6 +94,10 @@
 
 	<target depends="compile" name="jar">
 		<jar destfile="${cilib.jar}">
+			<metainf dir="${basedir}">
+				<include name="log4j.properties" />
+			</metainf>
+				
 			<fileset dir="${basedir}" file="AUTHORS"/>
 			<fileset dir="${basedir}" file="COPYING"/>
 			<fileset dir="${basedir}" file="README"/>

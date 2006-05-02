@@ -32,6 +32,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.ParticipatingAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
@@ -75,6 +78,8 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * @author Gary Pampara
  */
 public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorithm, ParticipatingAlgorithm {
+	
+	private static Log log = LogFactory.getLog(PSO.class);
 
     /**
      * Creates a new instance of <code>PSO</code>. All fields are initialised to
@@ -128,6 +133,8 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
         for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext(); ) {
         	i.next().getVelocityUpdateStrategy().updateControlParameters();
         }
+        
+        log.debug("Performing iteration");
     }
 
     

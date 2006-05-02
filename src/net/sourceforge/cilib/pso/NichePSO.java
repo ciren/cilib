@@ -75,8 +75,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	 */
 	protected void performInitialisation() {
 		mainSwarm.initialise();
-		
-		//System.out.println(mainSwarm.getTopology().size());
+		//log.debug(mainSwarm.getTopology().size());
 	}
 	
 	
@@ -96,7 +95,8 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 		}
 		
 		//this.subSwarms = this.mergeStrategy.merge(this.subSwarms);
-		this.mergeStrategy.merge(this.subSwarms, this.threshold);
+		//this.mergeStrategy.merge(this.subSwarms, this.threshold);
+		this.mergeStrategy.merge(this.subSwarms);
 		this.absorptionStrategy.absorb(mainSwarm, subSwarms);
 		this.swarmCreationStrategy.create(this);
 		//this.subSwarms.addAll(this.swarmCreationStrategy.create(mainSwarm, subSwarms));
@@ -234,10 +234,12 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 		this.swarmCreationStrategy = swarmCreationStrategy;
 	}
 	
+	@Deprecated
 	public void setThreshold(double t) {
 		this.threshold = t;
 	}
 		
+	@Deprecated
 	public double getThreshold() {
 		return this.threshold;
 	}

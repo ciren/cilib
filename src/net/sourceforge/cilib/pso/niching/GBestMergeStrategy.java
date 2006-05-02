@@ -8,8 +8,16 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements MergeStrategy<E> {
+	
+	private double threshold;
+	
+	
+	public GBestMergeStrategy() {
+		this.threshold = 0.1;
+	}
 
-	public void merge(Collection<? extends E> name, double threshold)
+	
+	public void merge(Collection<? extends E> name)
 	{
 			
 		for (Iterator<? extends E> i = name.iterator(); i.hasNext(); )
@@ -21,7 +29,7 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 			{
 				PSO subSwarm2 = (PSO)j.next();
 				
-				if( subSwarm1.equals(subSwarm2) == false ) // do not compare with itself
+				if ( subSwarm1.equals(subSwarm2) == false ) // do not compare with itself
 				{
 					Particle gBestParticle2 = subSwarm2.getBestParticle();
 					
@@ -29,11 +37,19 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 					{
 						subSwarm1.getTopology().addAll(subSwarm2.getTopology().getAll());
 						subSwarm2 = null; // the two swarms are now merged, so delete the one
-						
 					}
 				}				
 			}	
 		}
+	}
+	
+	
+	public void setThreshold(double t) {
+		this.threshold = t;
+	}
+		
+	public double getThreshold() {
+		return this.threshold;
 	}
 
 }

@@ -48,6 +48,8 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 public abstract class Algorithm implements Runnable {
     
     protected Algorithm() {
+    	LoggingSingleton.initialise();
+    	    	
         stoppingConditions = new Vector<StoppingCondition>();
         algorithmListeners = new Vector<AlgorithmListener>();
         running = false;

@@ -37,6 +37,7 @@ import net.sourceforge.cilib.ec.ea.Individual;
  * 
  * @deprecated 14-02-2006 Responsibilities have been assumed by <tt>Topology</tt> 
  */
+@Deprecated
 public abstract class Population extends Topology<Individual> {
     
    

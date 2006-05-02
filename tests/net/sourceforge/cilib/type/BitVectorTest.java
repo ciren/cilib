@@ -37,6 +37,7 @@ import junit.framework.TestSuite;
  * @deprecated
  * @author Edwin Peer
  */
+@Deprecated
 public class BitVectorTest extends TestCase {
     
     public BitVectorTest(java.lang.String testName) {

@@ -53,9 +53,9 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * <p>Company: </p>
  * @author Clive Naicker
  * @version 1.0
- * @deprecated Will be rewriten
+ * @deprecated Will be rewriten with a new design focused on flexibility, 
+ *             plugability and useabilty
  */
-
 public class DeratingNichePSO extends Algorithm implements OptimisationAlgorithm
 {
   /**
