@@ -57,7 +57,7 @@ See http://forrest.apache.org/docs/linking.html for more info
 	<project label="Project">
 		<faq label="FAQ" href="#" />
 		<todo label="TODO" href="todo.html" />
-		<changes label="Change Log" href="changes.html" />-->
+		<changes label="Change Log" href="changes.html" />
 		<mailing-lists label="Mailing Lists" href="mailing-lists.html" />
 		<svn-access label="SVN Access" href="svn-access.html" />
 	</project>
