@@ -37,6 +37,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * A Belief is also a type of Entity and it represent a piece of cultural information.
  */
+@Deprecated
 public class Belief implements Entity {
     
     protected String id;

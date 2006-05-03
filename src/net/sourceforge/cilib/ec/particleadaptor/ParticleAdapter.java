@@ -32,7 +32,7 @@ import net.sourceforge.cilib.pso.particle.Particle;
 /**
  * @author otter
  */
-
+@Deprecated
 public class ParticleAdapter extends Individual {
     
     /**

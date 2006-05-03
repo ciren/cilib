@@ -47,6 +47,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * TODO: implement global...
  */
+@Deprecated
 public class IntermediateRecombination<E extends Entity> extends CrossOverOperator<E> {
     private Random random;
     

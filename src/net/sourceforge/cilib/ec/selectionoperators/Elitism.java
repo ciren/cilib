@@ -38,6 +38,7 @@ import net.sourceforge.cilib.entity.EntityCollection;
  * 
  * Elitism - select the n most best (elite) entities from the supplied EntityCollection.
  */
+@Deprecated
 public class Elitism<E extends Entity> implements SelectionOperator<E> {
 	
 	public Collection<E> select(EntityCollection<E> ecol, int selectionSize) {

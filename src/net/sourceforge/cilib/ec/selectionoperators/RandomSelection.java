@@ -40,6 +40,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * Select individuals randomly from the supplied EntityCollection instance.
  * This selection operator has the added constraint that no entity can be selected twice.
  */
+@Deprecated
 public class RandomSelection<E extends Entity> implements SelectionOperator<E> {
     
     private Random random;

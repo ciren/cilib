@@ -63,9 +63,6 @@ public class Individual implements Entity {
     
     
     public Individual(Individual copy) {
-        //assigne a new ID, because in fact a new individual gets created.
-        //this.id = OldEA.getNextIndividualID(String.valueOf(copy.getId().charAt(0)));
-        //dimension
         this.dimension = copy.dimension;
         this.genes = copy.genes.clone();
         this.penotypes = copy.penotypes.clone();
@@ -97,7 +94,6 @@ public class Individual implements Entity {
     	 this.genes = (Type) problem.getDomain().getBuiltRepresenation().clone();
     	 this.genes.randomise();
     		 
-    	 // TODO: Must do this in a better way!
     	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
     		 this.penotypes = (Type) problem.getBehaviouralDomain().getBuiltRepresenation().clone();
     		 this.penotypes.randomise();
@@ -150,7 +146,7 @@ public class Individual implements Entity {
     
     public String toString() {
         StringBuffer str = new StringBuffer();
-        //str = this.ID + "\t" + this.fitness.getValue() + "\t";
+       
         str.append(this.genes.toString());
         
         if (this.penotypes != null) {

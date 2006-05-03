@@ -40,6 +40,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * UniformCrossOver - Creates two offspring, which is a random combination of the two parents supplied. 
  * It does not matter what the representation of the entities are, as long as it is in a form of a vector.
  */
+@Deprecated
 public class UniformCrossOver<E extends Entity> extends CrossOverOperator<E> {
     
     private Random random;

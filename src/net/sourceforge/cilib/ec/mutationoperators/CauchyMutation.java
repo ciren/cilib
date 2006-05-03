@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * Mutation operator, which mutate by adding small values to the entities paramaters, based on a probability,
  * were the small values are sampled from a cauchy distribution.
  */
+@Deprecated
 public class CauchyMutation<E extends Entity> extends ContinousRSDMutation<E> {
 
     public void mutate(E entity) {

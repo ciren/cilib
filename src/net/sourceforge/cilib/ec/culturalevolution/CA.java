@@ -35,6 +35,7 @@ import net.sourceforge.cilib.ec.ea.EA;
  *
  * CE - Cultural Evolution
  */
+@Deprecated
 public class CA extends EA {
 	
 	protected Protocol comProt = null;

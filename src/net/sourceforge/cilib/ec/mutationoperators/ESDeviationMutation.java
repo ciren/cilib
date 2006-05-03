@@ -41,6 +41,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * Based on Fogel[1992]
  */
+@Deprecated
 public class ESDeviationMutation<E extends Entity> extends MutationOperator<E> {
     
     protected RandomNumber randomSample;

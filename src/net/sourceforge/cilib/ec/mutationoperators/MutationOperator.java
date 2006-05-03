@@ -39,6 +39,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * Defines a common interface for all mutation operators.
  * Every Selection Operator must implement this interface. 
  */
+@Deprecated
 public abstract class MutationOperator<E extends Entity> {
 	
 	//This class member is for purposes of the rate at which paramaters are selected within the entity to be mutated.

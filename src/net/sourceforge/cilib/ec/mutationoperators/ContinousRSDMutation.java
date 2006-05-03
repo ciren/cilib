@@ -36,6 +36,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * by using sampling from random distributions, where the distributions are continous of nature.
  * 
  */
+@Deprecated
 public abstract class ContinousRSDMutation<E extends Entity> extends RandomSampleDistributionMutation<E> {
     
 	protected RandomNumber randomSample;

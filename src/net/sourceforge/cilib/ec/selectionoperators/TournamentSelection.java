@@ -40,6 +40,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * TournamentSelection - a number of entities, according to the defined tournament size, gets picked randomly from supplied entity-collection.
  * The Entity with the best fitness, from the selected tournament competitors, is declared the winner and selected.
  */
+@Deprecated
 public class TournamentSelection<E extends Entity> implements SelectionOperator<E> {
 
     private Random random;

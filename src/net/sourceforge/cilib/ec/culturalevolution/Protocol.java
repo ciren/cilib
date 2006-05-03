@@ -47,6 +47,7 @@ import net.sourceforge.cilib.entity.Topology;
  * 
  * TODO: Proof of concept
  */
+@Deprecated
 public interface Protocol {
 	
 	//Determine which individuals from the current generation has an influence on the current beliefs

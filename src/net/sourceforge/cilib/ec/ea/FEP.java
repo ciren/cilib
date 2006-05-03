@@ -45,6 +45,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  *
  */
+@Deprecated
 public class FEP extends EA {
 	
 	private RandomNumber randomNumber;

@@ -44,6 +44,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * Take note: Due to the mathmetics, if the two parents are the same Entity then the resulting two offspring will be an exact
  * clone of the parents.
  */
+@Deprecated
 public class ArithmeticCrossOver<E extends Entity> extends CrossOverOperator<E> {
     
     private Random random;

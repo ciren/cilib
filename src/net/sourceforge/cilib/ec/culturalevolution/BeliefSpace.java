@@ -55,6 +55,7 @@ import net.sourceforge.cilib.entity.Topology;
  * StandardPopulation is sufficient for now
  * TODO: This doesn't feel very generic... Change it to something more generic.
  */
+@Deprecated
 public class BeliefSpace extends Topology<Belief> {
 
 	@Override

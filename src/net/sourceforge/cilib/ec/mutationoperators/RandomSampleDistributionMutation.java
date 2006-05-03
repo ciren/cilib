@@ -37,6 +37,7 @@ import net.sourceforge.cilib.entity.Entity;
  * All mutation operators which mutate by making use of sampling from random distributions, must
  * extend from this class. 
  */
+@Deprecated
 public abstract class RandomSampleDistributionMutation<E extends Entity> extends MutationOperator<E> {
 	
 }

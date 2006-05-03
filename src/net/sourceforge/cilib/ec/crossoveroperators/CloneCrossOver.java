@@ -37,6 +37,7 @@ import net.sourceforge.cilib.entity.Entity;
  * Makes a clone of the parent supplied.
  * One parent needed, returns one cloned offspring.
  */
+@Deprecated
 public class CloneCrossOver<E extends Entity> extends CrossOverOperator<E> {
     
     public CloneCrossOver() {

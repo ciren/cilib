@@ -36,6 +36,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * Entities must have a binary representation.
  * 
  */
+@Deprecated
 public class InorderBitMutation<E extends Entity> extends MutationOperator<E> {
 
     public void mutate(E entity) {

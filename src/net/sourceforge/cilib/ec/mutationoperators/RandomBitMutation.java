@@ -34,6 +34,7 @@ import net.sourceforge.cilib.type.types.Vector;
  *
  * RandomBitMuation - Based on the parameter selection probabilty certain bits will have their values negated.
  */
+@Deprecated
 public class RandomBitMutation<E extends Entity> extends MutationOperator<E> {
     
     public void mutate(E entity) {

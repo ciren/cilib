@@ -39,6 +39,7 @@ import net.sourceforge.cilib.entity.Topology;
  * 
  * TODO check all die copying semantics en so aan, maak proof of concept...
  */
+@Deprecated
 public class ES extends EA {
 	
 	protected ControlParameterUpdateStrategy lambda;

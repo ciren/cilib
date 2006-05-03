@@ -33,6 +33,7 @@ import net.sourceforge.cilib.entity.Entity;
  * Abstract MutationOperator decorator. With this abstraction one can add extra responsiblities to any
  * mutation operator dynamically.
  */
+@Deprecated
 public abstract class MutationDecorator<E extends Entity> extends MutationOperator<E> {
 	
 	protected MutationOperator<E> component;

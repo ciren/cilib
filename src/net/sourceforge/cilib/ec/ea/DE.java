@@ -40,6 +40,7 @@ import net.sourceforge.cilib.ec.crossoveroperators.DifferentialCrossOver;
  * 
  * Breek dit nou jou hierarchy, of nie? Is dit bad practice om seker velde van jou super klas nie te gebruik nie?
  */
+@Deprecated
 public class DE extends EA {
 	
 	public DE() {

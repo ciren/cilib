@@ -37,6 +37,7 @@ import net.sourceforge.cilib.entity.EntityCollection;
  * Defines a common interface for all selection operators.
  * Every Selection Operator must implement this interface. 
  */
+@Deprecated
 public interface SelectionOperator<E extends Entity> {
 	/**
 	 * Receives a EntityCollection (population(EC), topology(PSO), etc and the number of Entities that one wants

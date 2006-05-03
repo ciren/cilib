@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * Mutation operator, which mutate by adding small values to the entities paramaters, based on a probability,
  * were the small values are sampled from a poisson distribution.
  */
+@Deprecated
 public class PoissonMutation<E extends Entity> extends DiscreteRSDMutation<E> {
 
 	private double x;

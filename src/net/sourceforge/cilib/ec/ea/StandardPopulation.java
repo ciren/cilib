@@ -43,6 +43,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * Extending the PopulationTopology interface.
  * This is a standard StandardPopulation implementation using an ArrayList as the data structure to host the individuals
  */
+@Deprecated
 public class StandardPopulation extends Topology<Individual> {
     
 	protected String id; //for use in Co-evolution

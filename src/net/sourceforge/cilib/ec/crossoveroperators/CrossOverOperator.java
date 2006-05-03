@@ -49,6 +49,7 @@ import net.sourceforge.cilib.entity.Entity;
  * If applicable for this numbers to change - make set methods available so that user can
  * define the numbers via the configuration XML file.
  */
+@Deprecated
 public abstract class CrossOverOperator<E extends Entity> {
     
     protected int offspring;

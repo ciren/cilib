@@ -44,6 +44,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * This cross-over operator only works on Entities who uses a vector representation.
  */
+@Deprecated
 public class nPointCrossOver<E extends Entity> extends CrossOverOperator<E> {
     
     private Random random;

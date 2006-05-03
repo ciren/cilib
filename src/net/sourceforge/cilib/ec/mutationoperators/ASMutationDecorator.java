@@ -34,6 +34,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * accepting the mutation result in the event of success. That is when
  * the result is fitter than before the mutation occured.
  */
+@Deprecated
 public class ASMutationDecorator<E extends Entity> extends MutationDecorator<E> {
 
 	//YOU NEED THE PROBLEM IN ORDER TO EVALUATE THE FITNESS.Make sure the correct problem is specified within the XML configuration file.

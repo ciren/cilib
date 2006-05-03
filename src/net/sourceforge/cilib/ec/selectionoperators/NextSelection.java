@@ -39,6 +39,7 @@ import net.sourceforge.cilib.entity.EntityCollection;
  * The logic to retrieve the next entity within an entity-collection is built into the different implementations of the EbityCollection interface.
  * This selection operator enforces wrap around... 
  */
+@Deprecated
 public class NextSelection<E extends Entity> implements SelectionOperator<E> {
     
     public Collection<E> select(EntityCollection<E> popTop, int selectionSize) {

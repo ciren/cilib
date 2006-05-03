@@ -38,6 +38,7 @@ import net.sourceforge.cilib.entity.EntityCollection;
  * Usually used in Differential Evolution and EP were the fittest Entity between the parent and it's resulting kid is selected to survive
  * to the next generation.
  */
+@Deprecated
 public class ReplacementSelection<E extends Entity> implements SelectionOperator<E> {
     /**
      * @precondition The entity-collection passed as a parameter, must be the result of an addition of the current generation with the resulting

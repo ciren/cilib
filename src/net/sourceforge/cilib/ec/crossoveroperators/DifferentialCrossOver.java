@@ -45,6 +45,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * This operator is usually used for DE.
  */
+@Deprecated
 public class DifferentialCrossOver<E extends Entity> extends CrossOverOperator<E> {
     
     private Random random;

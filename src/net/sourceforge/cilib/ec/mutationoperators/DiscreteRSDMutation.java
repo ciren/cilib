@@ -36,6 +36,7 @@ import net.sourceforge.cilib.math.random.DiscreteRandomNumber;
  * by using sampling from random distributions, where the distributions are discrete of nature.
  * 
  */
+@Deprecated
 public abstract class DiscreteRSDMutation<E extends Entity> extends RandomSampleDistributionMutation<E> {
 	
     protected DiscreteRandomNumber randomSample;

@@ -34,6 +34,7 @@ import net.sourceforge.cilib.entity.Entity;
  * This is an empty mutation implementation. It makes no changes to the individual at all.
  * This is equivalent to setting the mutation probability of the EA to 0.0.
  */
+@Deprecated
 public class NoMutation<E extends Entity> extends MutationOperator<E> {
     public void mutate(E entity) {
         //do nothing. Leave it as it is...

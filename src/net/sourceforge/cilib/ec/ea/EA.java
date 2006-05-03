@@ -57,6 +57,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * 
  * Basic Evolutionary Algorithm
  */
+@Deprecated
 public class EA extends PopulationBasedAlgorithm implements OptimisationAlgorithm /*, ParticipatingAlgorithm*/ {
 	
 	//Object fields...
