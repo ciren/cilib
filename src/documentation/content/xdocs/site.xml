@@ -72,5 +72,9 @@ See http://forrest.apache.org/docs/linking.html for more info
 		<reporting-problems label="Reporting Problems" href="#" />
 		<getting-involved label="Getting Involved" href="#" />
 	</useful-information>
+	
+	<miscellaneous label="Miscellaneous">
+		<java-performance label="Java Performance" href="java-performance.html" />
+	</miscellaneous>
  
 </site>
