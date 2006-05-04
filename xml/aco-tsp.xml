@@ -19,7 +19,9 @@
 		</algorithms>
 		<problems>
 			<problem id="TSP" class="aco.TSPProblem">
-				<dataSet class="simulator.LocalDataSet" file="data/pr107.tsp"/>
+				<dataSetBuilder class="problem.dataset.StringDataSetBuilder">
+					<dataSet class="problem.dataset.LocalDataSet" file="data/pr107.tsp"/>
+				</dataSetBuilder>
 			</problem>
 		</problems>
 		<measurements id="measurements" 
