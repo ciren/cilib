@@ -30,21 +30,21 @@ package net.sourceforge.cilib.entity.topologies;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Entity;
 
 /**
  * @author Gareth David
  */
 
-public class HypercubeTopology extends GBestTopology {
+public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 
 	public HypercubeTopology() {
 		super();
 		neighbourhoodSize = 5;
 	}
 
-	public Iterator<Particle> neighbourhood(Iterator<Particle> iterator) {
-        return new HypercubeNeighbourhoodIterator(this, (ArrayIterator) iterator);
+	public Iterator<E> neighbourhood(Iterator<E> iterator) {
+        return new HypercubeNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
     }
 
 	/**
@@ -75,9 +75,9 @@ public class HypercubeTopology extends GBestTopology {
 
 	private int neighbourhoodSize;
 
-	private class HypercubeNeighbourhoodIterator implements ArrayIterator {
+	private class HypercubeNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
 
-        public HypercubeNeighbourhoodIterator(HypercubeTopology topology, ArrayIterator iterator) {
+        public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, ArrayIterator iterator) {
             if (iterator.getIndex() == -1) {
                 throw new IllegalStateException();
             }
@@ -97,7 +97,7 @@ public class HypercubeTopology extends GBestTopology {
             return (count < topology.getNeighbourhoodSize());
         }
 
-        public Particle next() {
+        public T next() {
             if (count >= topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
             }
@@ -115,7 +115,7 @@ public class HypercubeTopology extends GBestTopology {
             }
         }
 
-        private HypercubeTopology topology;
+        private HypercubeTopology<T> topology;
         private int index;
         private int count;
     }

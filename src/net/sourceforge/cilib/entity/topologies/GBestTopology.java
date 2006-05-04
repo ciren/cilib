@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * <p>
@@ -50,48 +50,44 @@ import net.sourceforge.cilib.pso.particle.Particle;
  *
  * @author Edwin Peer
  */
-public class GBestTopology extends Topology<Particle> {
+public class GBestTopology<E extends Entity> extends Topology<E> {
 	
-	protected ArrayList<Particle> particles;
+	protected ArrayList<E> particles;
 
     /**
      * Creates a new instance of <code>GBestTopology</code>.
      */
     public GBestTopology() {
-        particles = new ArrayList<Particle>();
+        particles = new ArrayList<E>();
     }
     
-    public Iterator<Particle> iterator() {
-        return new GBestTopologyIterator(this);
+    public Iterator<E> iterator() {
+        return new GBestTopologyIterator<E>(this);
     }
 
-    public Iterator<Particle> neighbourhood(Iterator<Particle> iterator) {
-        return new GBestTopologyIterator(this);
+    public Iterator<E> neighbourhood(Iterator<E> iterator) {
+        return new GBestTopologyIterator<E>(this);
     }
     
-    public boolean add(Particle particle) {
+    public boolean add(E particle) {
         return particles.add(particle);
     }
     
-    public boolean addAll(Collection<? extends Particle> set) {
-    	for (Iterator<? extends Particle> i = set.iterator(); i.hasNext(); ) {
-    		this.add(i.next());
-    	}
-    	
-    	return true;
+    public boolean addAll(Collection<? extends E> set) {
+    	return this.particles.addAll(set);
     }
 
     public int size() {
         return particles.size();
     }
 
-    protected interface ArrayIterator extends Iterator<Particle> {
+    protected interface ArrayIterator<T extends Entity> extends Iterator<T> {
         public int getIndex();
     }
 
-    private class GBestTopologyIterator implements ArrayIterator {
+    private class GBestTopologyIterator<T extends Entity> implements ArrayIterator<T> {
 
-    	public GBestTopologyIterator(GBestTopology topology) {
+    	public GBestTopologyIterator(GBestTopology<T> topology) {
             this.topology = topology;
             index = -1;
         }
@@ -105,7 +101,7 @@ public class GBestTopology extends Topology<Particle> {
             return (index != lastIndex);
         }
 
-        public Particle next() {
+        public T next() {
             int lastIndex = topology.particles.size() - 1;
             if (index == lastIndex) {
                 throw new NoSuchElementException();
@@ -126,7 +122,7 @@ public class GBestTopology extends Topology<Particle> {
         }
 
         private int index;
-        private GBestTopology topology;
+        private GBestTopology<T> topology;
     }
 
     
@@ -134,26 +130,26 @@ public class GBestTopology extends Topology<Particle> {
     
     
     
-    public boolean remove(Particle indiv) {
+    public boolean remove(E indiv) {
 		return particles.remove(indiv);
 	}
 
-	public Particle get(int index) {
+	public E get(int index) {
 		return this.particles.get(index);
 	}
 
-	public Particle set(int index, Particle particle) {
+	public E set(int index, E particle) {
 		this.particles.set(index, particle);
 		return particle;
 	}
 
-	public void setAll(Collection<? extends Particle> set) {
+	public void setAll(Collection<? extends E> set) {
 		this.particles.clear();
 		this.particles.addAll(set);
 	}
 
 	
-	public List<Particle> getAll() {
+	public List<E> getAll() {
 		return this.particles;
 	}
 
@@ -168,9 +164,9 @@ public class GBestTopology extends Topology<Particle> {
 	}
 
 	// TODO: Jan to explain next()
-	public Particle next() {
+	/*public E next() {
 		throw new UnsupportedOperationException("next() is not supported in GBestTopology");
-	}
+	}*/
 
 	
 	
@@ -199,7 +195,7 @@ public class GBestTopology extends Topology<Particle> {
 
 	@Override
 	public int hashCode() {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
+		return this.particles.hashCode();
 	}
 
 	@Override
@@ -227,15 +223,15 @@ public class GBestTopology extends Topology<Particle> {
 		throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
-	public boolean addAll(int index, Collection<? extends Particle> c) {
+	public boolean addAll(int index, Collection<? extends E> c) {
 		throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
-	public void add(int index, Particle element) {
+	public void add(int index, E element) {
 		throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
-	public Particle remove(int index) {
+	public E remove(int index) {
 		return this.particles.remove(index);
 		//throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
@@ -249,15 +245,15 @@ public class GBestTopology extends Topology<Particle> {
 		throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
-	public ListIterator<Particle> listIterator() {
+	public ListIterator<E> listIterator() {
 		throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
-	public ListIterator<Particle> listIterator(int index) {
+	public ListIterator<E> listIterator(int index) {
 		throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
-	public List<Particle> subList(int fromIndex, int toIndex) {
+	public List<E> subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 

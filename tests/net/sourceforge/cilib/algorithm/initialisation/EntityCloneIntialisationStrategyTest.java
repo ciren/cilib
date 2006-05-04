@@ -32,10 +32,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.ec.ea.Individual;
-import net.sourceforge.cilib.ec.ea.StandardPopulation;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.functions.continuous.Rastrigin;
@@ -55,7 +52,7 @@ public class EntityCloneIntialisationStrategyTest {
 	
 	@Test
 	public void intialiseClonedParticleTopology() {
-		Topology<Particle> topology = new GBestTopology();
+		Topology<Particle> topology = new GBestTopology<Particle>();
 		
 		FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
 		problem.setFunction(new Rastrigin());
@@ -80,7 +77,7 @@ public class EntityCloneIntialisationStrategyTest {
 
 	@Test
 	public void intialiseClonedIndividualTopology() {
-		Topology<Individual> population = new StandardPopulation();
+		Topology<Individual> population = new GBestTopology<Individual>();
 		
 		FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
 		problem.setFunction(new Rastrigin());

@@ -119,11 +119,11 @@ public class BeliefSpace extends Topology<Belief> {
 		
 	}
 
-	@Override
+	/*@Override
 	public Belief next() {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 	@Override
 	public boolean contains(Object o) {

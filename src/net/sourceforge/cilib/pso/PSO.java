@@ -32,15 +32,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.ParticipatingAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.Fitness;
@@ -54,6 +50,9 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
@@ -91,7 +90,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
         problem = null;
 
         //particles = 20;
-        topology = new GBestTopology();
+        topology = new GBestTopology<Particle>();
 
         //prototypeParticle = new StandardParticle();
         iterationStrategy = new SynchronousIterationStrategy();
@@ -252,10 +251,10 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
      *
      * @param A class that implements the {@link Topology} interface.
      */
-    @SuppressWarnings("unchecked")
-	public void setTopology(Topology<? extends Entity> topology) {
-    	Topology<Particle> top = (Topology<Particle>) topology;
-        this.topology = top;
+	@SuppressWarnings("unchecked")
+	public void setTopology(Topology topology) {
+		log.debug("topology set: " + topology);
+        this.topology = topology;
     }
 
     

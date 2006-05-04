@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.particle.Particle;
 
@@ -49,40 +50,41 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * (Honolulu, Hawaii USA), May 2002.
  * </li></ul></p>
  *
- * @author  Edwin Peer
+ * @author Edwin Peer
+ * @author Gary Pampara
  */
-public class VonNeumannTopology extends Topology<Particle> {
+public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     
     /**
      * Creates a new instance of <code>VonNeumannTopology</code>.
      */
     public VonNeumannTopology() {
-        particles = new ArrayList<ArrayList<Particle>>();
+        particles = new ArrayList<ArrayList<E>>();
         lastRow = 0;
         lastCol = -1;
     }
     
-    public Iterator<Particle> neighbourhood(Iterator<Particle> iterator) {
-        MatrixIterator i = (MatrixIterator) iterator;
-        return new VonNeumannNeighbourhoodIterator(this, i);
+    public Iterator<E> neighbourhood(Iterator<E> iterator) {
+        MatrixIterator<E> i = (MatrixIterator<E>) iterator;
+        return new VonNeumannNeighbourhoodIterator<E>(this, i);
     }
     
 
-    public Iterator<Particle> iterator() {
-        return new VonNeumannTopologyIterator(this);
+    public Iterator<E> iterator() {
+        return new VonNeumannTopologyIterator<E>(this);
     }
     
-    public boolean add(Particle particle) {
+    public boolean add(E particle) {
     	int min = particles.size();
-        ArrayList<Particle> shortest = null;
-        for (ArrayList<Particle> tmp : particles) {	
+        ArrayList<E> shortest = null;
+        for (ArrayList<E> tmp : particles) {	
             if (tmp.size() < min) {
                 shortest = tmp;
                 min = tmp.size();
             }
         }
         if (shortest == null) {
-            shortest = new ArrayList<Particle>(particles.size() + 1);
+            shortest = new ArrayList<E>(particles.size() + 1);
             particles.add(shortest);
         }
         shortest.add(particle);
@@ -93,8 +95,8 @@ public class VonNeumannTopology extends Topology<Particle> {
         return true;        
     }
     
-    public boolean addAll(Collection<? extends Particle> set) {
-    	for (Iterator<? extends Particle> i = set.iterator(); i.hasNext(); ) {
+    public boolean addAll(Collection<? extends E> set) {
+    	for (Iterator<? extends E> i = set.iterator(); i.hasNext(); ) {
     		this.add(i.next());
     	}
     	
@@ -103,7 +105,7 @@ public class VonNeumannTopology extends Topology<Particle> {
     
     public int size() {
     	int size = 0;
-    	Iterator<ArrayList<Particle>> i = particles.iterator();
+    	Iterator<ArrayList<E>> i = particles.iterator();
     	while (i.hasNext()) {
             size += i.next().size();
     	}
@@ -111,7 +113,7 @@ public class VonNeumannTopology extends Topology<Particle> {
     }
     
     private void remove(int x, int y) {
-    	ArrayList<Particle> row = particles.get(x);
+    	ArrayList<E> row = particles.get(x);
         row.remove(y);
         if (row.size() == 0) {
         	particles.remove(x);
@@ -120,18 +122,18 @@ public class VonNeumannTopology extends Topology<Particle> {
         lastCol = ((ArrayList) particles.get(lastRow)).size() - 1;        
     }
     
-    private ArrayList<ArrayList<Particle>> particles;
+    private ArrayList<ArrayList<E>> particles;
     private int lastRow;
     private int lastCol;
     
-    private interface MatrixIterator extends Iterator<Particle> {
+    private interface MatrixIterator<T extends Entity> extends Iterator<T> {
         public int getRow();
         public int getCol();
     }
     
-    private class VonNeumannTopologyIterator implements MatrixIterator {
+    private class VonNeumannTopologyIterator<T extends Entity> implements MatrixIterator<T> {
         
-        public VonNeumannTopologyIterator(VonNeumannTopology topology) {
+        public VonNeumannTopologyIterator(VonNeumannTopology<T> topology) {
             this.topology = topology;
             row = 0;
             col = -1;
@@ -141,7 +143,7 @@ public class VonNeumannTopology extends Topology<Particle> {
         	return row != topology.lastRow || col != topology.lastCol;
         }
         
-        public Particle next() {
+        public T next() {
             if (row == topology.lastRow && col == topology.lastCol) {
                 throw new NoSuchElementException();
             }
@@ -179,12 +181,12 @@ public class VonNeumannTopology extends Topology<Particle> {
         
         private int row;
         private int col;
-        private VonNeumannTopology topology;
+        private VonNeumannTopology<T> topology;
     }
     
-    private class VonNeumannNeighbourhoodIterator implements MatrixIterator {
+    private class VonNeumannNeighbourhoodIterator<T extends Entity> implements MatrixIterator<T> {
         
-        public VonNeumannNeighbourhoodIterator(VonNeumannTopology topology, MatrixIterator iterator) {
+        public VonNeumannNeighbourhoodIterator(VonNeumannTopology<T> topology, MatrixIterator iterator) {
             if (iterator.getCol() == -1) {
                 throw new IllegalStateException();
             }
@@ -198,7 +200,7 @@ public class VonNeumannTopology extends Topology<Particle> {
             return (index != DONE);
         }
         
-        public Particle next() {
+        public T next() {
             switch (index) {
             	case CENTER: { 
             		row = x; 
@@ -281,7 +283,7 @@ public class VonNeumannTopology extends Topology<Particle> {
         private int row;
         private int col;
         private int index;
-        private VonNeumannTopology topology;
+        private VonNeumannTopology<T> topology;
         
         private static final int CENTER = 0;
         private static final int NORTH = 1;
@@ -308,27 +310,27 @@ public class VonNeumannTopology extends Topology<Particle> {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-	public boolean remove(Particle indiv) {
+	public boolean remove(E indiv) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
 
-	public Particle get(int index) {
+	public E get(int index) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
 
-	public Particle set(int index, Particle indiv) {
+	public E set(int index, E indiv) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
 
-	public void setAll(Collection<? extends Particle> set) {
+	public void setAll(Collection<? extends E> set) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
 
-	public List<Particle> getAll() {
+	public List<E> getAll() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
@@ -368,7 +370,7 @@ public class VonNeumannTopology extends Topology<Particle> {
 
 	@Override
 	public int hashCode() {
-		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
+		return this.particles.hashCode() + this.lastCol*6 + this.lastRow*8;
 	}
 
 	@Override
@@ -396,15 +398,15 @@ public class VonNeumannTopology extends Topology<Particle> {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-	public boolean addAll(int index, Collection<? extends Particle> c) {
+	public boolean addAll(int index, Collection<? extends E> c) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-	public void add(int index, Particle element) {
+	public void add(int index, E element) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");		
 	}
 
-	public Particle remove(int index) {
+	public E remove(int index) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
@@ -416,15 +418,15 @@ public class VonNeumannTopology extends Topology<Particle> {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-	public ListIterator<Particle> listIterator() {
+	public ListIterator<E> listIterator() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-	public ListIterator<Particle> listIterator(int index) {
+	public ListIterator<E> listIterator(int index) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-	public List<Particle> subList(int fromIndex, int toIndex) {
+	public List<E> subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 

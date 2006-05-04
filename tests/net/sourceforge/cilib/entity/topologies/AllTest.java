@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-package net.sourceforge.cilib.entity.comparator;
+package net.sourceforge.cilib.entity.topologies;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -38,7 +38,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 		value={
-			AscendingFitnessCompartorTest.class
+			GeneralTopologyTest.class
 		}
 	)
 public class AllTest {

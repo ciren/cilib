@@ -31,7 +31,7 @@ package net.sourceforge.cilib.entity.topologies;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Entity;
 
 
 /**
@@ -46,7 +46,7 @@ import net.sourceforge.cilib.pso.particle.Particle;
  *
  * @author  Edwin Peer
  */
-public class LBestTopology extends GBestTopology {
+public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     
     /**
      * Creates a new instance of <code>LBestTopology</code>.
@@ -57,8 +57,8 @@ public class LBestTopology extends GBestTopology {
     }
     
     
-    public Iterator<Particle> neighbourhood(Iterator<Particle> iterator) {
-        return new LBestNeighbourhoodIterator(this, (ArrayIterator) iterator);
+    public Iterator<E> neighbourhood(Iterator<E> iterator) {
+        return new LBestNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
     }
     
     
@@ -91,9 +91,9 @@ public class LBestTopology extends GBestTopology {
     
     private int neighbourhoodSize;
     
-    private class LBestNeighbourhoodIterator implements ArrayIterator {
+    private class LBestNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
         
-        public LBestNeighbourhoodIterator(LBestTopology topology, ArrayIterator iterator) {
+        public LBestNeighbourhoodIterator(LBestTopology<T> topology, ArrayIterator iterator) {
             if (iterator.getIndex() == -1) {
                 throw new IllegalStateException();
             }
@@ -113,7 +113,7 @@ public class LBestTopology extends GBestTopology {
             return (count != topology.getNeighbourhoodSize());
         }
         
-        public Particle next() {
+        public T next() {
             if (count == topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
             }
@@ -133,7 +133,7 @@ public class LBestTopology extends GBestTopology {
             }
         }
         
-        private LBestTopology topology;
+        private LBestTopology<T> topology;
         private int index;
         private int count;
     }

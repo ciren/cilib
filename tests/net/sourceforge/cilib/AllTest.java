@@ -44,7 +44,7 @@ import org.junit.runners.Suite.SuiteClasses;
 				net.sourceforge.cilib.algorithm.initialisation.AllTest.class,
 				net.sourceforge.cilib.container.AllTest.class,
 				net.sourceforge.cilib.container.graph.AllTest.class,
-				net.sourceforge.cilib.entity.comparator.AllTest.class,
+				net.sourceforge.cilib.entity.AllTest.class,
 				net.sourceforge.cilib.functions.continuous.AllTest.class,
 				net.sourceforge.cilib.functions.discrete.AllTest.class,
 				net.sourceforge.cilib.math.AllTest.class,

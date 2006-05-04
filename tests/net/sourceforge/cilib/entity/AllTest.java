@@ -1,7 +1,7 @@
 /*
- * LoggingSingleton.java
+ * AllTest.java
  *
- * Created on May 2, 2006
+ * Created on May 4 2006
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -25,32 +25,23 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-package net.sourceforge.cilib.algorithm;
+package net.sourceforge.cilib.entity;
 
-import org.apache.log4j.PropertyConfigurator;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Initialisation singleton for logging
  * 
  * @author Gary Pampara
  */
-public class LoggingSingleton {
-	
-	private static LoggingSingleton instance;
-	
-	/**
-	 * Constructor that initialises the logging properties.
-	 *
-	 */
-	private LoggingSingleton() {
-		PropertyConfigurator.configure("log4j.properties");
-	}
-	
-	public static LoggingSingleton initialise() {
-		if (instance == null)
-			instance = new LoggingSingleton();
-		
-		return instance;
-	}
+@RunWith(Suite.class)
+@SuiteClasses(
+		value={
+			net.sourceforge.cilib.entity.comparator.AllTest.class,
+			net.sourceforge.cilib.entity.topologies.AllTest.class
+		}
+	)
+public class AllTest {
 
 }

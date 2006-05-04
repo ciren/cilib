@@ -45,7 +45,7 @@ public class NextSelection<E extends Entity> implements SelectionOperator<E> {
     public Collection<E> select(EntityCollection<E> popTop, int selectionSize) {
         ArrayList<E> selection = new ArrayList<E>();
         for(int i = 0; i < selectionSize; i++) {
-            selection.add(popTop.next());
+            //selection.add(popTop.next());
         }
         
         return selection;

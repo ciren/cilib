@@ -109,7 +109,7 @@ public abstract class EntityCollection<E extends Entity>
      * 
      * TODO: Jan needs to explain this logic
      */
-    public abstract E next();
+    //public abstract E next();
     
     
     public abstract boolean contains(Object o);
