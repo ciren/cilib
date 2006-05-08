@@ -65,7 +65,7 @@ See http://forrest.apache.org/docs/linking.html for more info
 	<documentation label="Documentation">
 		<wiki label="Wiki" href="http://cilib.sourceforge.net/wiki" />
 		<forums label="Forums" href="#" />
-		<!--<api label="JavaDoc API" href="doc/api/index.html" />-->
+		<api label="JavaDoc API" href="http://cilib.sourceforge.net/doc/api/index.html" />
 	</documentation>
 
 	<useful-information label="Useful Information">
