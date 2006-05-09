@@ -81,10 +81,8 @@ public class DomainParser {
 			
 		if (isValid(domain)) {
 			String expandedRepresenation = expandDomainString(domain);
-		
 			builder.build(expandedRepresenation);
-			//System.out.println(builder.getBuiltRepresenation());
-			
+						
 			return true;
 		}
 		else
@@ -100,7 +98,6 @@ public class DomainParser {
 	 */
 	public String expandDomainString(String domain) {
 		String result = validator.expandString(domain);
-		//System.out.println("result domain: " + result);
 	
 		return result;
 	}
