@@ -28,11 +28,11 @@
 				software in:
 			</p>
 			<ul>
-				<li>Swarm Intelligence</li>
-				<li>Evolutionary Computation</li>
-				<li>Neural Networks</li>
-				<li>Artifical Immune Systems</li>
-				<li>Fuzzy Logic</li>
+				<li><a href="http://en.wikipedia.org/wiki/Swarm_Intelligence">Swarm Intelligence</a></li>
+				<li><a href="http://en.wikipedia.org/wiki/Evolutionary_Computation">Evolutionary Computation</a></li>
+				<li><a href="http://en.wikipedia.org/wiki/Neural_network">Neural Networks</a></li>
+				<li><a href="#">Artifical Immune Systems</a></li>
+				<li><a href="http://en.wikipedia.org/wiki/Fuzzy_Logic">Fuzzy Logic</a></li>
 			</ul>
 			<p>
 				CILib is maintained by the <a href="http://cirg.cs.up.ac.za/">Computational Intelligence Reasearch Group</a> hosted by the <a href="http://www.cs.up.ac.za/">Department of Computer Science</a>
