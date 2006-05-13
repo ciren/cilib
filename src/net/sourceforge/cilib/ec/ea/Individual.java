@@ -26,10 +26,7 @@
  */
 package net.sourceforge.cilib.ec.ea;
 
-import java.util.Random;
-
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -47,9 +44,7 @@ public class Individual implements Entity {
     protected int dimension = 0;
     protected Type genes = null;    //represents the genetic structure.
     protected Type penotypes = null;
-    protected Fitness fitness; 
-    
-    protected Random random = new MersenneTwister();
+    protected Fitness fitness;
     
     /**
      * Constructor

@@ -449,7 +449,7 @@ public class EA extends PopulationBasedAlgorithm implements OptimisationAlgorith
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void setTopology(Topology<? extends Entity> topology) {
+	public void setTopology(Topology topology) {
 		Topology<Individual> top = (Topology<Individual>) topology;
 		this.topology = top;		
 	}

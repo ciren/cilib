@@ -34,7 +34,6 @@ import java.util.ListIterator;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.DiscreteOptimisationProblem;
@@ -204,7 +203,7 @@ public class ACO extends PopulationBasedAlgorithm {
 	}
 
 	@Override
-	public void setTopology(Topology<? extends Entity> topology) {
+	public void setTopology(Topology topology) {
 		// TODO Auto-generated method stub
 		
 	}

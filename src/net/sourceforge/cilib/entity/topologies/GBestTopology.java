@@ -215,7 +215,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
 	@Override
 	public Object[] toArray() {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
+		return this.particles.toArray();
 	}
 
 	@Override
@@ -246,11 +246,11 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 	}
 
 	public ListIterator<E> listIterator() {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
+		return this.particles.listIterator();
 	}
 
 	public ListIterator<E> listIterator(int index) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
+		return this.particles.listIterator(index);
 	}
 
 	public List<E> subList(int fromIndex, int toIndex) {

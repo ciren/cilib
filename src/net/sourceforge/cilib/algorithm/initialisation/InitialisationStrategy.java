@@ -45,7 +45,9 @@ public abstract class InitialisationStrategy {
 	 * 
 	 * @param entityNumber The number of entities to set
 	 */
-	public abstract void setEntities(int entityNumber);
+	public void setEntities(int entityNumber) {
+		this.entities = entityNumber;
+	}
 	
 	
 	/**
@@ -66,6 +68,8 @@ public abstract class InitialisationStrategy {
 	public abstract <E extends Entity> void intialise(Topology<E> topology, OptimisationProblem problem);
 
 
-	
+	public int getEntities() {
+		return this.entities; 
+	}
 
 }

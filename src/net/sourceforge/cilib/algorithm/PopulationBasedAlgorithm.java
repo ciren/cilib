@@ -66,7 +66,7 @@ public abstract class PopulationBasedAlgorithm extends Algorithm implements Opti
 	 * Set the <tt>Topology</tt> for the population-based algorithm 
 	 * @param topology The <tt>Topology</tt> to be set
 	 */
-	public abstract void setTopology(Topology<? extends Entity> topology);
+	public abstract void setTopology(Topology topology);
 	
 	
 	/**

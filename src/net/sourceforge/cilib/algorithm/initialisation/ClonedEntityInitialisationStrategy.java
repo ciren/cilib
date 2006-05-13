@@ -92,23 +92,6 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 
 	/**
 	 * 
-	 * @return
-	 */
-	public int getEntities() {
-		return entities;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public void setEntities(int entities) {
-		this.entities = entities;
-	}
-
-	
-	/**
-	 * 
 	 */
 	public void setEntityType(Entity entityType) {
 		this.setPrototypeEntity(entityType);		
