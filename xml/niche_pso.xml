@@ -7,7 +7,7 @@
 
 <simulator>
 	<algorithms>
-		<algorithm id="gcpso-gbest" class="pso.PSO" particles="50">
+		<algorithm id="gcpso-gbest" class="pso.PSO" particles="100">
 			<topology class="entity.topologies.GBestTopology"/>
 			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
 		</algorithm>
@@ -19,6 +19,9 @@
 	</algorithms>
 
 	<problems>
+		<problem id="spherical" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Spherical" />
+		</problem>
 		<problem id="griewank" class="problem.FunctionMinimisationProblem">
 			<function class="functions.continuous.Griewank" domain="R(0, 6)^1"/>
 		</problem>
@@ -42,7 +45,7 @@
 		<simulation>
 			<algorithm idref="nichepso" />
 			<!--<problem idref="multimodal f1" />-->
-			<problem idref="rastrigin" />
+			<problem idref="spherical" />
 			<measurements idref="measurements" file="nichepso-multimodal_f1.txt" />
 		</simulation>
 	</simulations>
