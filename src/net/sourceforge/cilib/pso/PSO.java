@@ -51,8 +51,7 @@ import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -78,7 +77,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorithm, ParticipatingAlgorithm {
 	
-	private static Log log = LogFactory.getLog(PSO.class);
+	private static Logger log = Logger.getLogger(PSO.class);
 
     /**
      * Creates a new instance of <code>PSO</code>. All fields are initialised to

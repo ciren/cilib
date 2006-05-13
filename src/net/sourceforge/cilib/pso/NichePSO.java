@@ -1,8 +1,37 @@
+/*
+ * NichePSO.java
+ *
+ * Created on 13 May 2006
+ *
+ * Copyright (C) 2003 - 2006 
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
 package net.sourceforge.cilib.pso;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
@@ -25,15 +54,18 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
+ * Implementation of the NichePSO algorithm.
  * 
- * @author engel
- *
+ * @author Andires Engelbrecht
+ * @author Gary Pampara
  */
 public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAlgorithm {
 	
+	private static Logger log = Logger.getLogger(NichePSO.class);
+	
 	private OptimisationProblem problem;
 	private PSO mainSwarm;
-	private Collection<PSO> subSwarms;
+	private List<PSO> subSwarms;
 	private DistanceMeasure distanceMeasure;
 	private MergeStrategy<PSO> mergeStrategy;
 	private AbsorptionStrategy<PSO> absorptionStrategy;
@@ -65,7 +97,6 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 		
 		subSwarmParticle = new StandardParticle();
 		
-		//mainSwarm.setPrototypeParticle(mainSwarmParticle);
 		mainSwarm.getInitialisationStrategy().setEntityType(mainSwarmParticle);
 	}
 
@@ -75,7 +106,6 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	 */
 	protected void performInitialisation() {
 		mainSwarm.initialise();
-		//log.debug(mainSwarm.getTopology().size());
 	}
 	
 	
@@ -84,24 +114,21 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	 */
 	@Override
 	protected void performIteration() {
+		log.debug("Beginning iteration");
+		log.debug("\tmainSwarm particle #: " + mainSwarm.getTopology().size());
 		mainSwarm.performIteration();
-		//System.out.println("main swarm iteration complete");
 		
 		for (Iterator<PSO> i = this.subSwarms.iterator(); i.hasNext(); ) {
 			PSO subSwarm = i.next();	
+			log.debug("\tsubswarm size: " + subSwarm.getTopology().size());
 			subSwarm.performIteration();
-			//System.out.println("sub swarm (" + subSwarm + ") iteration complete");
-			//System.out.println(subSwarm.getTopology().size());
 		}
 		
-		//this.subSwarms = this.mergeStrategy.merge(this.subSwarms);
-		//this.mergeStrategy.merge(this.subSwarms, this.threshold);
 		this.mergeStrategy.merge(this.subSwarms);
 		this.absorptionStrategy.absorb(mainSwarm, subSwarms);
 		this.swarmCreationStrategy.create(this);
-		//this.subSwarms.addAll(this.swarmCreationStrategy.create(mainSwarm, subSwarms));
-		//this.swarmCreationStrategy.create(mainSwarm, subSwarms, null);
 		
+		log.debug("End of iteration");
 	}
 
 	
@@ -127,7 +154,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	}
 
 	@Override
-	public void setTopology(Topology<? extends Entity> topology) {
+	public void setTopology(Topology topology) {
 		// TODO Auto-generated method stub
 
 	}
@@ -153,8 +180,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	}
 
 	public OptimisationSolution getBestSolution() {
-		//return new OptimisationSolution(mainSwarm.getOptimisationProblem(), mainSwarm.getBestParticle().getPosition());
-		throw new UnsupportedOperationException("Niching algorithms do not have 1 correct answer. Please call getSolutions()");
+		throw new UnsupportedOperationException("Niching algorithms could possibly not have 1 correct answer. Please call getSolutions()");
 	}
 
 	public Collection<OptimisationSolution> getSolutions() {
@@ -222,7 +248,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 		return subSwarms;
 	}
 
-	public void setSubSwarms(Collection<PSO> subSwarms) {
+	public void setSubSwarms(List<PSO> subSwarms) {
 		this.subSwarms = subSwarms;
 	}
 

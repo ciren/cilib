@@ -113,7 +113,7 @@ public class VEPSO extends PopulationBasedAlgorithm implements OptimisationAlgor
 		return null;
 	}
 
-	public void setTopology(Topology<? extends Entity> topology) {
+	public void setTopology(Topology topology) {
 		// TODO Auto-generated method stub
 		
 	}

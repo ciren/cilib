@@ -1,12 +1,44 @@
+/*
+ * GBestMergeStrategy.java
+ *
+ * Created on 13 May 2006
+ *
+ * Copyright (C) 2003 - 2006 
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
 package net.sourceforge.cilib.pso.niching;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 
+/**
+ * 
+ * @author Edrich van Loggerenberg
+ * @author Shegen
+ * @author Gary Pampara
+ */
 public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements MergeStrategy<E> {
 	
 	private double threshold;
@@ -17,25 +49,25 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 	}
 
 	
-	public void merge(Collection<? extends E> name)
+	public void merge(List<? extends E> subSwarms)
 	{
-			
-		for (Iterator<? extends E> i = name.iterator(); i.hasNext(); )
+		for (ListIterator<? extends E> i = subSwarms.listIterator(); i.hasNext(); )
 		{
-			PSO subSwarm1 = (PSO)i.next();
+			PSO subSwarm1 = (PSO) i.next();
 			Particle gBestParticle1 = subSwarm1.getBestParticle();
 			
-			for (Iterator<? extends E> j = name.iterator(); j.hasNext(); )
+			for (ListIterator<? extends E> j = subSwarms.listIterator(); j.hasNext(); )
 			{
-				PSO subSwarm2 = (PSO)j.next();
+				PSO subSwarm2 = (PSO) j.next();
 				
-				if ( subSwarm1.equals(subSwarm2) == false ) // do not compare with itself
+				if (!subSwarm1.equals(subSwarm2) && subSwarm1 != subSwarm2) // do not compare with itself
 				{
 					Particle gBestParticle2 = subSwarm2.getBestParticle();
 					
 					if(Math.abs(gBestParticle1.getFitness().getValue() - gBestParticle2.getFitness().getValue()) < threshold)
 					{
-						subSwarm1.getTopology().addAll(subSwarm2.getTopology().getAll());
+						subSwarm1.getTopology().addAll(subSwarm2.getTopology());
+						j.remove();
 						subSwarm2 = null; // the two swarms are now merged, so delete the one
 					}
 				}				

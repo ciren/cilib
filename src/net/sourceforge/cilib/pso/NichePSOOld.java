@@ -962,7 +962,7 @@ public Topology<? extends Entity> getTopology() {
 }
 
 @Override
-public void setTopology(Topology<? extends Entity> topology) {
+public void setTopology(Topology topology) {
 	// TODO Auto-generated method stub
 	
 }
