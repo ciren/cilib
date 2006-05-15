@@ -175,7 +175,10 @@ public class RandomNumber {
 	public double getCauchy(double location, double scale) {
 		double x = randomGenerator.nextDouble(); // Uniform number between 0.0 and 1.0
 
-		return scale*(Math.tan(Math.PI*(x-0.5))) + location;
+		//return scale*(Math.tan(Math.PI*(x-0.5))) + location;
+		
+		double term = (x-location)/scale;
+		return (1.0 / scale*Math.PI*(1 + (term*term)));
 	}
 	
 	
