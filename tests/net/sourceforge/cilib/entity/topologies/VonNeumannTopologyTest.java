@@ -27,7 +27,7 @@
  *   
  */
 
-package net.sourceforge.cilib.pso;
+package net.sourceforge.cilib.entity.topologies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -38,7 +38,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 		value={
-			GeneralTopologyTest.class
+			GeneralTopologyTest.class,
+			VonNeumannTopologyTest.class
 		}
 	)
 public class AllTest {
