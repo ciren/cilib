@@ -54,6 +54,11 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * @author Gary Pampara
  */
 public class VonNeumannTopology<E extends Entity> extends Topology<E> {
+	
+	private enum Direction { CENTER, NORTH, EAST, SOUTH, WEST, DONE };
+	private ArrayList<ArrayList<E>> particles;
+    private int lastRow;
+    private int lastCol;
     
     /**
      * Creates a new instance of <code>VonNeumannTopology</code>.
@@ -122,9 +127,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         lastCol = ((ArrayList) particles.get(lastRow)).size() - 1;        
     }
     
-    private ArrayList<ArrayList<E>> particles;
-    private int lastRow;
-    private int lastCol;
+    
     
     private interface MatrixIterator<T extends Entity> extends Iterator<T> {
         public int getRow();
@@ -132,6 +135,10 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     }
     
     private class VonNeumannTopologyIterator<T extends Entity> implements MatrixIterator<T> {
+    	
+        private int row;
+        private int col;
+        private VonNeumannTopology<T> topology;
         
         public VonNeumannTopologyIterator(VonNeumannTopology<T> topology) {
             this.topology = topology;
@@ -179,25 +186,31 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             return col;
         }
         
-        private int row;
-        private int col;
-        private VonNeumannTopology<T> topology;
+
     }
     
     private class VonNeumannNeighbourhoodIterator<T extends Entity> implements MatrixIterator<T> {
+    	
+    	private int x;
+    	private int y;
+    	private int row;
+    	private int col;
+    	private Direction index;
+    	private VonNeumannTopology<T> topology;
         
-        public VonNeumannNeighbourhoodIterator(VonNeumannTopology<T> topology, MatrixIterator iterator) {
-            if (iterator.getCol() == -1) {
-                throw new IllegalStateException();
-            }
-            this.topology = topology;
-            row = x = iterator.getRow();
-            col = y = iterator.getCol();
-            index = CENTER;
-        }
+        
+    	public VonNeumannNeighbourhoodIterator(VonNeumannTopology<T> topology, MatrixIterator iterator) {
+    		if (iterator.getCol() == -1) {
+    			throw new IllegalStateException();
+    		}	
+    		this.topology = topology;
+    		row = x = iterator.getRow();
+    		col = y = iterator.getCol();
+    		index = Direction.CENTER;
+    	}
         
         public boolean hasNext() {
-            return (index != DONE);
+            return (index != Direction.DONE);
         }
         
         public T next() {
@@ -259,14 +272,14 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             	default: throw new NoSuchElementException();
             }
             
-            ++index;
+            index = Direction.values()[index.ordinal()+1];
             return topology.particles.get(row).get(col);
         }
         
         public void remove() {
         	topology.remove(row, col);
-        	if (index == CENTER) {
-        		index = DONE;
+        	if (index == Direction.CENTER) {
+        		index = Direction.DONE;
         	}
         }
         
@@ -278,19 +291,6 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             return col;
         }
         
-        private int x;
-        private int y;
-        private int row;
-        private int col;
-        private int index;
-        private VonNeumannTopology<T> topology;
-        
-        private static final int CENTER = 0;
-        private static final int NORTH = 1;
-        private static final int EAST = 2;
-        private static final int SOUTH = 3;
-        private static final int WEST = 4;
-        private static final int DONE = 5;
     }
 
     

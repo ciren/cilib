@@ -55,20 +55,19 @@ import org.junit.Test;
 public class VonNeumannTopologyTest {
     
     public VonNeumannTopologyTest() {
-       
     }
     
     @BeforeClass
     public static void setUp() {
-    	empty = new VonNeumannTopology();
-    	square = new VonNeumannTopology();
+    	empty = new VonNeumannTopology<Particle>();
+    	square = new VonNeumannTopology<Particle>();
     	
     	for (int i = 0; i < 9; ++i) {
     		Particle dumbParticle = new DumbParticle(String.valueOf(i + 1)); 
     		square.add(dumbParticle);
     	}
     	
-    	irregular = new VonNeumannTopology();
+    	irregular = new VonNeumannTopology<Particle>();
     	
     	for (int i = 0; i < 10; ++i) {
     		Particle dumbParticle = new DumbParticle(String.valueOf(i + 1)); 
