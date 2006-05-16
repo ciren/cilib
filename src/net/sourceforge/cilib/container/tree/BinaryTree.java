@@ -38,12 +38,11 @@ import net.sourceforge.cilib.container.visitor.Visitor;
  */
 public class BinaryTree<E> implements Tree<E> {
 	
+	private enum Direction { LEFT, RIGHT };
 	private BinaryTree<E> left;
 	private BinaryTree<E> right;
 	private E nodeValue;
-	private int degree = 0;
-	private static final int LEFT = 0;
-	private static final int RIGHT = 1; 
+	private int degree = 0; 
 	
 	
 	/**
@@ -94,7 +93,7 @@ public class BinaryTree<E> implements Tree<E> {
 	 */
 	public void add(BinaryTree<E> b, int position) {
 		if (getSubtree(position) == null) {
-			if (position == LEFT) {
+			if (position == Direction.LEFT.ordinal()) {
 				left = b;
 			}
 			else { // This is the Right part of the BinaryTree
@@ -133,9 +132,9 @@ public class BinaryTree<E> implements Tree<E> {
 	 * @return The subtree located in the given position, otherwise a <code>null</code> is returned
 	 */
 	public Tree<E> getSubtree(int subtree) {
-		if (subtree == LEFT)
+		if (subtree == Direction.LEFT.ordinal())
 			return getLeftSubtree();
-		else if (subtree == RIGHT)
+		else if (subtree == Direction.RIGHT.ordinal())
 			return getRightSubtree();
 		else return null;
 	}
@@ -147,7 +146,7 @@ public class BinaryTree<E> implements Tree<E> {
 	 * @param b The <code>BinaryTree</code> to add to the current <code>BinaryTree</code> node in the "left" position
 	 */
 	public void addLeftSubtree(BinaryTree<E> b) {
-		add(b, LEFT);
+		add(b, Direction.LEFT.ordinal());
 	}
 	
 	
@@ -157,7 +156,7 @@ public class BinaryTree<E> implements Tree<E> {
 	 * @param b The <code>BinaryTree</code> to add to the current <code>BinaryTree</code> node in the "right" position
 	 */
 	public void addRightSubtree(BinaryTree<E> b) {
-		add(b, RIGHT);
+		add(b, Direction.RIGHT.ordinal());
 	}
 	
 	
@@ -188,13 +187,13 @@ public class BinaryTree<E> implements Tree<E> {
 		if (this.getSubtree(position) == null)
 			throw new RuntimeException("NullPointer Operation Error - Cannot remove a subtree if it does not exist");
 		
-		if (position == LEFT) {
+		if (position == Direction.LEFT.ordinal()) {
 			BinaryTree<E> b = left;
 			degree--;
 			left = null;
 			return b;
 		}
-		else if (position == RIGHT) {
+		else if (position == Direction.RIGHT.ordinal()) {
 			BinaryTree<E> b = right;
 			degree--;
 			right = null;
@@ -209,7 +208,7 @@ public class BinaryTree<E> implements Tree<E> {
 	 * @return The <code>BinaryTree</code> that was located in the left branch of the <code>BinaryTree</code>
 	 */
 	public Tree<E> removeLeftSubtree() {
-		return removeSubtree(LEFT);
+		return removeSubtree(Direction.LEFT.ordinal());
 	}
 	
 	
@@ -218,7 +217,7 @@ public class BinaryTree<E> implements Tree<E> {
 	 * @return The <code>BinaryTree</code> that was located in the right branch of the <code>BinaryTree</code>
 	 */
 	public Tree<E> removeRightSubtree() {
-		return removeSubtree(RIGHT);
+		return removeSubtree(Direction.RIGHT.ordinal());
 	}
 
 	
