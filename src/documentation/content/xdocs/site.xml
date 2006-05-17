@@ -41,6 +41,7 @@ See http://forrest.apache.org/docs/linking.html for more info
    
 	<cilib label="CILib">
 		<home label="Home" href="index.html" />
+		<project-page label="Project Page" href="http://www.sourceforge.net/projects/cilib" />
 		<description label="Description" href="#" />
 		<developers label="Developers" href="developers.html" />
 		<dependencies label="Dependencies" href="dependencies.html" />
