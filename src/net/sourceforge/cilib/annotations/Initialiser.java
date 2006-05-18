@@ -9,6 +9,6 @@ import java.lang.annotation.ElementType;
 @Documented
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Initialise {
+public @interface Initialiser {
 
 }
