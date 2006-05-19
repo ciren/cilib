@@ -29,6 +29,8 @@
 
 package net.sourceforge.cilib.container;
 
+import java.util.Iterator;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -81,5 +83,31 @@ public class QueueTest {
 		q.clear();
 
 		assertEquals(true, q.isEmpty());
+	}
+	
+	@Test
+	public void concurrentIteratorTest() {
+		Queue<Double> q = new Queue<Double>();
+		q.add(4.0);
+		q.add(3.0);
+		q.add(2.0);
+		q.add(1.0);
+		
+		for (Iterator<Double> i = q.iterator(); i.hasNext(); ) {
+			double d = i.next();
+		}
+		
+		assertEquals(4, q.size());
+		
+		for (Iterator<Double> i = q.iterator(); i.hasNext(); ) {
+			double d = i.next();
+			
+			for (Iterator<Double> j = q.iterator(); j.hasNext(); ) {
+				double dj = j.next();
+				j.remove();
+			}
+		}
+		
+		assertEquals(0, q.size());
 	}
 }
