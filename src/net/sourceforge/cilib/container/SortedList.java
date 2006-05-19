@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * 
@@ -119,6 +120,19 @@ public class SortedList<E extends Comparable<E>> extends LinkedList<E> {
 	 */
 	public void setComparator(Comparator<E> comparator) {
 		this.comparator = comparator;
+	}
+	
+	
+	public Iterator<E> iterator() {
+		return new DynamicIterator<E>(this);
+	}
+	
+	public ListIterator<E> listIterator() {
+		return this.listIterator(0);
+	}
+	
+	public ListIterator<E> listIterator(int index) {
+		return new DynamicIterator<E>(this, index);
 	}
 	
 }

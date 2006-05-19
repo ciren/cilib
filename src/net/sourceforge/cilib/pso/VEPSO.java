@@ -32,7 +32,6 @@ import java.util.Collection;
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;

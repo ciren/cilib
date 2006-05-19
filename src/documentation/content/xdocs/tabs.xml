@@ -36,7 +36,8 @@
   <tab label="CILib Project" dir="" indexfile="index.html"/>
 
   <tab label="Users Guide" dir="UsersGuide" />
-
+  
+  <tab label="Annotations" dir="Annotations" />
 
 
   <!--<tab id="samples" label="Samples" dir="samples" indexfile="sample.html">

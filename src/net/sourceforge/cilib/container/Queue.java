@@ -31,7 +31,7 @@ import java.util.LinkedList;
 /**
  * @author Gary Pampara
  */
-public class Queue<E> { 
+public class Queue<E> implements Iterable<E> { 
 	
 	private LinkedList<E> queue;
 		
@@ -120,6 +120,10 @@ public class Queue<E> {
 	 * Returns an iterator to the queue
 	 */
 	public Iterator<E> iterator() {
-		return queue.listIterator();
+		return new DynamicIterator<E>(queue);
+	}
+	
+	public String toString() {
+		return this.queue.toString();
 	}
 }
