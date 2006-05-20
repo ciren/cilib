@@ -51,7 +51,7 @@ public class Int extends Numeric {
 	}
 
 	public Int(int lower, int upper) {
-		value = Double.valueOf(Math.random()*(upper-lower)).intValue() + lower;
+		value = Double.valueOf(Math.random()*(upper-lower+1)).intValue() + lower;
 		setLowerBound(lower);
 		setUpperBound(upper);
 	}
@@ -129,7 +129,7 @@ public class Int extends Numeric {
 	}
 
 	public void randomise() {
-		double tmp = MathUtil.random()*(getUpperBound()-getLowerBound()) + getLowerBound();
+		double tmp = MathUtil.random()*(getUpperBound()-getLowerBound()+1) + getLowerBound();
 		this.value = Double.valueOf(tmp).intValue();
 	}
 	
