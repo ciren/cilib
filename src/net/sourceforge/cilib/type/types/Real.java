@@ -67,7 +67,7 @@ public class Real extends Numeric {
 	public Real(double lower, double upper) {
 		double bottom = (lower == Double.NEGATIVE_INFINITY) ? -Double.MAX_VALUE : lower;
 		double top = (upper == Double.POSITIVE_INFINITY) ? Double.MAX_VALUE : upper;
-		value = (top-bottom)*Math.random() + bottom;
+		value = (top-bottom+1)*Math.random() + bottom;
 		
 		setLowerBound(lower);
 		setUpperBound(upper);
@@ -177,7 +177,7 @@ public class Real extends Numeric {
 	 * Re-randomize the <code>Real</code> object based on the upper and lower bounds
 	 */
 	public void randomise() {
-		this.value = (getUpperBound()-getLowerBound())*MathUtil.random() + getLowerBound();
+		this.value = (getUpperBound()-getLowerBound()+1)*MathUtil.random() + getLowerBound();
 	}
 	
 	
