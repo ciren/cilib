@@ -154,7 +154,7 @@ public class DomainParser {
 				else if (t instanceof Numeric) {
 					Numeric r = (Numeric) t;
 					double value = r.getReal();
-					if (value >= r.getLowerBound() && value <= r.getUpperBound()) {
+					if (value >= r.getLowerBound() && value < r.getUpperBound()) {
 						continue;
 					}
 					else {
