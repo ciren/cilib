@@ -1,7 +1,7 @@
 /*
  * InvertedFunction.java
  *
- * Created on January 11, 2003, 2:09 PM
+ * Created on May 19, 2006
  *
  * 
  * Copyright (C) 2003 - 2006 
