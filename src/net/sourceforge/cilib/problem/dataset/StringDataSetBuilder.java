@@ -32,13 +32,19 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class StringDataSetBuilder extends DataSetBuilder {
+/**
+ * 
+ * @author Gary Pampara
+ */
+public class StringDataSetBuilder extends TextDataSetBuilder {
 
 	private ArrayList<String> strings;
+	private String shortestString;
+	private String longestString;
 	
 	public StringDataSetBuilder() {
 		this.strings = new ArrayList<String>();
-		System.out.println("Building...");
+//		System.out.println("Building...");
 	}
 	
 	@Override
@@ -46,14 +52,13 @@ public class StringDataSetBuilder extends DataSetBuilder {
 		
 		for (Iterator<DataSet> i = this.iterator(); i.hasNext(); ) {
 			DataSet dataSet = i.next();
-			//System.out.println(dataSet);
+
 			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(dataSet.getInputStream()));
 				String result = in.readLine();
 				
 				while (result != null) {
-					//if (result == null) break;
-					System.out.println(result);
+//					System.out.println(result);
 					strings.add(result);
 					
 					result = in.readLine();
@@ -63,7 +68,7 @@ public class StringDataSetBuilder extends DataSetBuilder {
 				throw new RuntimeException(ioException);
 			}
 			
-			System.out.println("Data set(s) initialised, proceeding...");
+//			System.out.println("Data set(s) initialised, proceeding...");
 		}
 
 	}
@@ -72,4 +77,47 @@ public class StringDataSetBuilder extends DataSetBuilder {
 		return this.strings;
 	}
 
+	
+	@Override
+	public String getShortestString() {
+		if (this.shortestString == null)
+			calculateStringLengths();
+		
+		return this.shortestString;
+	}
+
+	
+	@Override
+	public String getLongestString() {
+		if (this.longestString == null)
+			calculateStringLengths();
+		
+		return this.longestString;
+	}
+	
+
+	/**
+	 * Iterate through all the strings and determine the length of the longest
+	 * and shortest strings. If the strings are all the same length, then
+	 * the <tt>shortestLength</tt> will equal the <tt>longestLength</tt>.
+	 */
+	private void calculateStringLengths() {
+		int shortestLength = Integer.MAX_VALUE;
+		int longestLength = Integer.MIN_VALUE;
+		
+		for (String str : strings) {
+			int length = str.length();
+
+			if (length < shortestLength) {
+				shortestLength = length;
+				this.shortestString = str;
+			}
+			
+			if (length > longestLength) { 
+				longestLength = length;
+				this.longestString = str;
+			}
+		}
+	}
+	
 }

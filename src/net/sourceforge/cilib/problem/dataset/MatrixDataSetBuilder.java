@@ -38,7 +38,7 @@ import net.sourceforge.cilib.container.Matrix;
  * @author Gary Pampara
  *
  */
-public class MatrixDataSetBuilder extends DataSetBuilder {
+public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 	
 	private Matrix<Double> matrix;
 	private int numvectors = 0;

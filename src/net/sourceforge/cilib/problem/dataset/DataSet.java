@@ -34,7 +34,7 @@ import java.io.InputStream;
  * set can be accessed using either an <code>InputStream</code> or a <code>byte[]</code>
  * 
  * @author Edwin Peer
- *
+ * @author Theuns Cloete
  */
 public abstract class DataSet {
 	
