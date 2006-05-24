@@ -1,7 +1,7 @@
 /*
  * AllTest.java
  *
- * Created on January 21, 2003, 5:12 PM
+ * Created on 24 May 2006
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -25,13 +25,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.problem.dataset;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-
 
 /**
  *
@@ -40,11 +38,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 		value = {
-			FunctionMinimisationProblemTest.class,
-			MaxFitnessTest.class,
-			MinFitnessTest.class,
-			MOFitnessTest.class,
-			net.sourceforge.cilib.problem.dataset.AllTest.class
+			StringDataSetBuilderTest.class		
 		}
 	)
 public class AllTest {
