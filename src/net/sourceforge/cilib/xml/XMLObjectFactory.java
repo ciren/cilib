@@ -417,7 +417,7 @@ public class XMLObjectFactory {
     		if (method.isAnnotationPresent(Initialiser.class)) {
     			//System.out.println("Annotation: Initialiser is applied to: " + method.toGenericString());
     			try {
-					method.invoke(object, new Object[]{});
+					method.invoke(object);
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
