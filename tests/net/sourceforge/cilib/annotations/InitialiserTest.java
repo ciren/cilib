@@ -1,7 +1,7 @@
 /*
- * Initialiser.java
+ * InitialiserTest.java
  *
- * Created on 26 May 2006
+ * Created on 25 May 2006
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -27,20 +27,47 @@
  */
 package net.sourceforge.cilib.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.annotation.ElementType;
+import static org.junit.Assert.assertEquals;
+
+import java.lang.reflect.Method;
+
+import org.junit.Test;
 
 /**
- * Annotation used in the additional intialisation of objects.
  * 
  * @author Gary Pampara
  */
-@Documented
-@Target({ ElementType.METHOD })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Initialiser {
+public class InitialiserTest {
+	
+	@Test
+	public void testAnnotation() {
+		AnnotationTestClass testClass = new AnnotationTestClass();
+		
+		for (Method method : testClass.getClass().getDeclaredMethods()) {
+			if (method.isAnnotationPresent(Initialiser.class)) {
+				try {
+					method.invoke(testClass, new Object[]{});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		assertEquals(1, testClass.getX());
+	}
+	
+	private class AnnotationTestClass {
+		
+		private int x = 0;
+		
+		public int getX() {
+			return x;
+		}
+		
+		@Initialiser
+		public void annotatedMethod() {
+			x++;
+		}
+	}
 
 }

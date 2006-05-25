@@ -32,6 +32,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.annotations.Initialiser;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -85,6 +87,9 @@ import org.w3c.dom.Text;
 
 // TODO: Rewrite to use SAX instead of maintaining a DOM tree.
 public class XMLObjectFactory {
+	
+	private Document xmlDocument;
+    private Element xmlObjectDescription;
     
     /**
      * Creates a new instance of <code>XMLObjectFactory</code> for constructing objects
@@ -138,6 +143,8 @@ public class XMLObjectFactory {
         Object object = instanciate(xml, objectClass);
        
         setup(object, xml);
+        
+        performAnnotationActions(object);
         
         return object;
     }
@@ -312,11 +319,11 @@ public class XMLObjectFactory {
     }
 
     private void invokeAnyMethod(Element xml, Object target, String name, Object value) {
-        try {
+    	try {
             invokeSetMethod(xml, target, name, value);
         }
-        catch (FactoryException ex) { 
-            Object[] parameter = { value };
+        catch (FactoryException ex) {
+        	Object[] parameter = { value };
             invokeMethod(xml, target, name, parameter);
         }
     }
@@ -398,6 +405,28 @@ public class XMLObjectFactory {
         throw new FactoryException("In <" + element.getTagName() + "> : " + message); 
     }
     
-    private Document xmlDocument;
-    private Element xmlObjectDescription;
+    
+    /**
+     * Cycle through all the declared methods, invoking any with the @Initialiser
+     * annotation applied to them
+     * 
+     * @param object The <tt>Object</tt> to be inspected
+     */
+    private void performAnnotationActions(Object object) {
+    	for (Method method : object.getClass().getDeclaredMethods()) {
+    		if (method.isAnnotationPresent(Initialiser.class)) {
+    			//System.out.println("Annotation: Initialiser is applied to: " + method.toGenericString());
+    			try {
+					method.invoke(object, new Object[]{});
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
+    }
+    
 }

@@ -77,8 +77,6 @@ public class Belief implements Entity {
         this.id = id;
     }
     
-
-    //public void initialise(OptimisationProblem problem, Initialiser i) {
     public void initialise(OptimisationProblem problem) {
         // ID initialization is done in the clone method...
         // which is always inforced due to the semantciss of the performInitialisation methods

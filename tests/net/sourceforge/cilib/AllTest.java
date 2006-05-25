@@ -42,6 +42,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses(
 		value={
 				net.sourceforge.cilib.algorithm.initialisation.AllTest.class,
+				net.sourceforge.cilib.annotations.AllTest.class,
 				net.sourceforge.cilib.container.AllTest.class,
 				net.sourceforge.cilib.container.graph.AllTest.class,
 				net.sourceforge.cilib.entity.AllTest.class,

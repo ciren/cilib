@@ -75,7 +75,6 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
         return (LFDecorator) particle.getDecorator(LFDecorator.class);
     }
 
-    //public void initialise(OptimisationProblemAdapter problem, Initialiser initialiser) {
     public void initialise(OptimisationProblemAdapter problem) {
         //previousPosition = new double[problem.getDomain().getDimension()];
     	//previousVelocity = new double[problem.getDomain().getDimension()];

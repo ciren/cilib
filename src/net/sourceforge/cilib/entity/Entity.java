@@ -105,7 +105,6 @@ public interface Entity extends Comparable<Entity>, BehaviouralParameters {
 	 * The exact semantics of this method is defined by the classes that implements this interface.
 	 * @param problem
 	 * @param Take note. The Intialiser is obsolete the new Type System handles it now. Init can be left out now.
-	 * TODO: Take Initialiser out.
 	 */
 	public void initialise(OptimisationProblem problem);
 	

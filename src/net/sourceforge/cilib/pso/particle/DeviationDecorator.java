@@ -86,7 +86,6 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 	 * @param problem
 	 * @param i
 	 */
-	//public void initialise(OptimisationProblem problem, Initialiser i) {
 	public void initialise(OptimisationProblem problem) {
 
 		//super.initialise(problem, i);
