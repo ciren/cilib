@@ -40,7 +40,7 @@ import net.sourceforge.cilib.type.types.Vector;
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
 
 	@Override
-	public List<Entity> crossover(List<Entity> parentCollection) {
+	public List<Entity> crossover(List<? extends Entity> parentCollection) {
 		
 		//How do we handle variable sizes? Resizing the entities?
 		Entity offspring1 = parentCollection.get(0).clone();

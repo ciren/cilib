@@ -64,7 +64,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     
     public double evaluate(Vector x) {
         double tmp = 0;
-        for (int i = 0; i < getDimension(); i++) {
+        for (int i = 0; i < x.getDimension(); i++) {
             tmp += x.getReal(i) * x.getReal(i);
         }
         return tmp;

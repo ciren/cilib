@@ -38,8 +38,6 @@ import net.sourceforge.cilib.entity.Entity;
 public class DescendingFitnessComparator implements Comparator<Entity> {	
 
 	public int compare(Entity e1, Entity e2) {
-		//System.out.println("e1: " + e1);
-		//System.out.println("e2: " + e2);
 		return e1.getFitness().compareTo(e2.getFitness());
 	}
 

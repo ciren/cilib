@@ -26,6 +26,9 @@
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
+import java.util.List;
+
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.RandomNumber;
@@ -42,14 +45,17 @@ public abstract class MutationStrategy {
 	private String operator;
 	private MutationOperatorStrategy operatorStrategy;
 	
-	
+		
 	public MutationStrategy() {
 		operator = "+";
 		operatorStrategy = new AdditionMutationOperatorStrategy();
+		
+		mutationProbability = new ConstantUpdateStrategy(0.7);
+		randomNumber = new RandomNumber();
 	}
 	
 	
-	public abstract void mutate(Entity entity);
+	public abstract void mutate(List<? extends Entity> entity);
 
 	
 	/**

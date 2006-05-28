@@ -26,6 +26,9 @@
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
+import java.util.List;
+import java.util.ListIterator;
+
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
@@ -51,21 +54,25 @@ public class CauchyMutationStrategy extends MutationStrategy {
 	 * TODO: add comment :) Will wants this one
 	 */
 	@Override
-	public void mutate(Entity entity) {
+	public void mutate(List<? extends Entity> entity) {
 
-		Vector chromosome = (Vector) entity.get();
-		
-		if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-			for (int i = 0; i < chromosome.getDimension(); i++) {
-				double value;
-				Numeric element = (Numeric) chromosome.get(i);
-				double scale = this.scaleStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
-				
-				value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
-								
-				chromosome.setReal(i, value);
+		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext(); ) {
+			Entity current = individual.next(); 
+			Vector chromosome = (Vector) current.get();
+			
+			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+				for (int i = 0; i < chromosome.getDimension(); i++) {
+					double value;
+					Numeric element = (Numeric) chromosome.get(i);
+					double scale = this.scaleStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
+					
+					value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
+									
+					chromosome.setReal(i, value);
+				}
 			}
 		}
+		
 	}
 
 	

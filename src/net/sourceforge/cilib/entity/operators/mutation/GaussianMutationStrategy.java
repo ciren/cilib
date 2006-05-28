@@ -26,6 +26,9 @@
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
+import java.util.List;
+import java.util.ListIterator;
+
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
@@ -36,7 +39,6 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Andries Engelbrecht
  * @author Gary Pampara
  */
-
 public class GaussianMutationStrategy extends MutationStrategy {
 
 	private double mean;
@@ -48,19 +50,24 @@ public class GaussianMutationStrategy extends MutationStrategy {
 	}
 	
 	@Override
-	public void mutate(Entity entity) {
-		Vector chromosome = (Vector) entity.get();
+	public void mutate(List<? extends Entity> entity) {
 		
-		if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-			for (int i = 0; i < chromosome.getDimension(); i++) {
-				double value;
-				Numeric element = (Numeric) chromosome.get(i);
-				double deviation = this.deviationStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
-				
-				value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
-								
-				chromosome.setReal(i, value);
+		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext(); ) {
+			Entity current = individual.next(); 
+			Vector chromosome = (Vector) current.get();
+			
+			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+				for (int i = 0; i < chromosome.getDimension(); i++) {
+					double value;
+					Numeric element = (Numeric) chromosome.get(i);
+					double deviation = this.deviationStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
+					
+					value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
+									
+					chromosome.setReal(i, value);
+				}
 			}
+		
 		}
 
 	}

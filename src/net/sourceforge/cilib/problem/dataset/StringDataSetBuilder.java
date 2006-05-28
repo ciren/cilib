@@ -119,5 +119,15 @@ public class StringDataSetBuilder extends TextDataSetBuilder {
 			}
 		}
 	}
+
+	@Override
+	public int size() {
+		return this.strings.size();
+	}
+
+	@Override
+	public String get(int index) {
+		return this.strings.get(index);
+	}
 	
 }

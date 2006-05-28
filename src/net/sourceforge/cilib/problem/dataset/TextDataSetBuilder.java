@@ -17,5 +17,10 @@ public abstract class TextDataSetBuilder extends DataSetBuilder {
 	 * @return The length of the longest string within this <tt>TextDataSetBuilder</tt>.
 	 */
 	public abstract String getLongestString();
+	
+	
+	public abstract int size();
+	
+	public abstract String get(int index);
 
 }

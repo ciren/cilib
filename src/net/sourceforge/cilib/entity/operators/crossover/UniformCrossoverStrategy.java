@@ -29,7 +29,10 @@ package net.sourceforge.cilib.entity.operators.crossover;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -40,18 +43,21 @@ import net.sourceforge.cilib.type.types.Vector;
 public class UniformCrossoverStrategy extends CrossoverStrategy {
 
 	@Override
-	public List<Entity> crossover(List<Entity> parentCollection) {
-		if (parentCollection.size() != 2)
-			throw new IllegalArgumentException("");
+	public List<Entity> crossover(List<? extends Entity> parentCollection) {
+		//if (parentCollection.size() != 2)
+		//	throw new IllegalArgumentException("");
+		
+		int random1 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
+		int random2 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
 		
 		//How do we handle variable sizes? Resizing the entities?
-		Entity offspring1 = parentCollection.get(0).clone();
-		Entity offspring2 = parentCollection.get(1).clone();
+		Entity offspring1 = parentCollection.get(random1).clone();
+		Entity offspring2 = parentCollection.get(random2).clone();
 		
 		if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 			
-			Vector parentChromosome1 = (Vector) parentCollection.get(0).get();
-			Vector parentChromosome2 = (Vector) parentCollection.get(1).get();
+			Vector parentChromosome1 = (Vector) parentCollection.get(random1).get();
+			Vector parentChromosome2 = (Vector) parentCollection.get(random2).get();
 			Vector offspringChromosome1 = (Vector) offspring1.get();
 			Vector offspringChromosome2 = (Vector) offspring2.get();
 			
@@ -60,7 +66,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 		
 			int minDimension = Math.min(sizeParent1, sizeParent2);
 									
-			for (int i = 0; i < minDimension; i++)
+			for (int i = 0; i < minDimension; i++) {
 				if (i%2 == 0) {
 					offspringChromosome1.set(i,parentChromosome1.get(i));
 					offspringChromosome2.set(i,parentChromosome2.get(i));
@@ -69,7 +75,12 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 					offspringChromosome1.set(i,parentChromosome2.get(i));
 					offspringChromosome2.set(i,parentChromosome1.get(i));	
 				}
+			}
 		}
+		
+		OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
+		offspring1.setFitness(problem.getFitness(offspring1.get(), false));
+		offspring2.setFitness(problem.getFitness(offspring2.get(), false));
 		
 		List<Entity> offspring = new ArrayList<Entity>();
 		offspring.add(offspring1);
