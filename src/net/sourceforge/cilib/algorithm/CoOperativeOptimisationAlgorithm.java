@@ -83,37 +83,50 @@ public abstract class CoOperativeOptimisationAlgorithm extends Algorithm impleme
         	//participants = DomainParser.getInstance().getDimension();
         }
         
+        //we need an algorithm for each part of the problem that will be optimised, these algorithms are the participants
         optimisers = new Algorithm[participants];
+        //determine what the dimensions are for each of the sub-problems
         int dim = problem.getDomain().getDimension() / participants;
+        //determine how many remaining dimensions there are (0 <= extras < dim)
         int extras = problem.getDomain().getDimension() % participants;
         //int dim = DomainParser.getInstance().getDimension() / participants;
         //int extras = DomainParser.getInstance().getDimension() % participants;
         int offset = 0;
         for (int i = 0; i < participants; ++i) {
+        	//let the AlgorithmFactory return an Algorithm object of the correct type
+        	//QUESTION not sure how AlgorithmFactory works; it seems as though the the classes that are specified in the XML gets created by the AlgorithmFactory
             optimisers[i] = factory.newAlgorithm();
             
+            //CoOperativeOptimisationProblemAdapter exposes only that component of the full problem that the subProblem is responsible for
             CoOperativeOptimisationProblemAdapter subProblem;
             if (extras > 0) {
+            	//the case where the problem cannot be split up into equal dimensions, i.e. there are remaining dimensions
                 --extras;
+                //QUESTION the first "extras" sub-problems will all have dimension "dim+1", after that the sub-problems will have dimension "dim"
+                //QUESTION is there a specific reason for doing it this way?
+                //QUESTION what other way can this be made more generic, so that the user can specify how to split up the problem?
                 subProblem = 
                     new CoOperativeOptimisationProblemAdapter(problem, dim + 1, offset);
                 offset += (dim + 1);
             }
             else {
+            	//the case where the problem is split up into equal dimensions
                 subProblem = 
                     new CoOperativeOptimisationProblemAdapter(problem, dim, offset);
                 offset += dim;
             }
             
             try {
+            	//assign the newly created sub-problem to the i'th participating algorithm
                 ((OptimisationAlgorithm) optimisers[i]).setOptimisationProblem(subProblem);
             }
             catch (ClassCastException e) {
                 throw new InitialisationException("Algorithm is not an OptimisationAlgorithm");
             }
-            
+            //initialise the i'th particiating Algorithm
             optimisers[i].initialise();
             
+            //make sure that the i'th algorithm is a participating algorithm and try to convert it
             ParticipatingAlgorithm participant;
             try {
                 participant = (ParticipatingAlgorithm) optimisers[i];
@@ -122,7 +135,9 @@ public abstract class CoOperativeOptimisationAlgorithm extends Algorithm impleme
                 throw new InitialisationException("Algorithm is not a ParticipatingAlgorithm");
             }
             
+            //get the contribution (vector) that the i'th sub-problem is making to the full problem
             Vector contribution = (Vector) participant.getContribution();
+            //copy each dimension value from the i'th sub-problem's contribution vector over to the correct poition in the context vector of the full problem
             for (int j = 0; j < subProblem.getDimension(); ++j) {
                 //context[subProblem.getOffset() + j] = participant.getContribution()[j];
             	//context[subProblem.getOffset() + j] = participant.getContribution().getReal(j);
@@ -167,19 +182,17 @@ public abstract class CoOperativeOptimisationAlgorithm extends Algorithm impleme
         return fitness;
     }
     
+    //all the participating algorithms' best solution (particle) is set the context vector's fitness
     public void updateContributionFitness(Fitness fitness) {
-        this.fitness = fitness;
-        
-        for (int i = 0; i < participants; ++i) {
-            ParticipatingAlgorithm participant = 
-                (ParticipatingAlgorithm) optimisers[i];
-            
-            participant.updateContributionFitness(fitness);
-        }
+		this.fitness = fitness;
+		for (int i = 0; i < participants; ++i) {
+			ParticipatingAlgorithm participant = (ParticipatingAlgorithm) optimisers[i];
+			participant.updateContributionFitness(fitness);
+		}
     }
     
 
-    
+    //QUESTION this method just creates a solution object of the current problem
     public OptimisationSolution getBestSolution() {
     	OptimisationSolution solution = null;
     	
@@ -209,6 +222,12 @@ public abstract class CoOperativeOptimisationAlgorithm extends Algorithm impleme
     
     protected class CoOperativeOptimisationProblemAdapter extends OptimisationProblemAdapter {
     
+    	/**
+    	 * Creates an OptimisationProblemAdpter that has the specified dimension starting at the given offset (index) position of the full given problem.
+    	 * @param problem the full problem that is being split up
+    	 * @param dimension the dimension that that this sub-problem should be
+    	 * @param offset the offset (index) position in the full-problem where this sub-problem should start
+    	 */
         public CoOperativeOptimisationProblemAdapter(OptimisationProblem problem, int dimension, int offset) {
             this.problem = problem;
             this.dimension = dimension;
@@ -222,6 +241,7 @@ public abstract class CoOperativeOptimisationAlgorithm extends Algorithm impleme
                 components.add(domain.getComponent(offset + i));           
             }
             domain = new Composite(components);*/
+            //QUESTION what does this code do? The variable is never used again...
             ArrayList<Type> components = new ArrayList<Type>();
             for (int i = 0; i < dimension; ++i) {
             	components.add(domain.get(offset+i));

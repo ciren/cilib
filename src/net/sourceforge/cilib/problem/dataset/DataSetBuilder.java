@@ -34,7 +34,7 @@ import java.util.Iterator;
  */
 public abstract class DataSetBuilder implements Iterable<DataSet> {
 	
-	private ArrayList<DataSet> dataSets;
+	protected ArrayList<DataSet> dataSets;
 	
 	public DataSetBuilder() {
 		this.dataSets = new ArrayList<DataSet>();
