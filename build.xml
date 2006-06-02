@@ -21,6 +21,7 @@
 		<pathelement location="bin/"/>
 		<pathelement location="${junit.jar}"/>
 		<pathelement location="${log4j.jar}"/>
+		<pathelement location="${xerces.jar}" />
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
 		</fileset>

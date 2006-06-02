@@ -26,7 +26,7 @@
  *   
  */
 
-package net.sourceforge.cilib;
+package net.sourceforge.cilib.ioc;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
@@ -41,23 +41,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 		value={
-				net.sourceforge.cilib.algorithm.initialisation.AllTest.class,
-				net.sourceforge.cilib.annotations.AllTest.class,
-				net.sourceforge.cilib.container.AllTest.class,
-				net.sourceforge.cilib.container.graph.AllTest.class,
-				net.sourceforge.cilib.entity.AllTest.class,
-				net.sourceforge.cilib.functions.continuous.AllTest.class,
-				net.sourceforge.cilib.functions.discrete.AllTest.class,
-				net.sourceforge.cilib.math.AllTest.class,
-				net.sourceforge.cilib.math.random.generator.AllTest.class,
-				net.sourceforge.cilib.measurement.AllTest.class,
-				net.sourceforge.cilib.problem.AllTest.class,
-				net.sourceforge.cilib.pso.AllTest.class,
-				net.sourceforge.cilib.type.AllTest.class,
-				net.sourceforge.cilib.type.creator.AllTest.class,
-				net.sourceforge.cilib.type.types.AllTest.class,
-				net.sourceforge.cilib.util.AllTest.class,
-				net.sourceforge.cilib.ioc.AllTest.class
+				SAXHandlerTest.class
 			}
 		)
 public class AllTest {
