@@ -41,7 +41,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 		value={
-				SAXHandlerTest.class
+				CILibHandlerTest.class
 			}
 		)
 public class AllTest {

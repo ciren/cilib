@@ -44,8 +44,8 @@ public class RandomNumberTest {
 
 		for (int i = 0; i < 1000; i++) {
 			double number = rand.getGaussian();
-			assertTrue(-5.0 <= number);
-			assertTrue(number <= 5.0);
+			assertTrue(-5.0 < number);
+			assertTrue(number < 5.0);
 		}
 	}
 	

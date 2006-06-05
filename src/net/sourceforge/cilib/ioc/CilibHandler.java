@@ -1,5 +1,5 @@
 /*
- * XMLParser.java
+ * CILibHandler.java
  * 
  * Created on Jun 2, 2006
  *
@@ -30,7 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Stack;
 
-import net.sourceforge.cilib.ioc.registry.ServiceManager;
+import net.sourceforge.cilib.ioc.registry.ObjectRegistry;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
@@ -42,7 +42,7 @@ public class CilibHandler extends DefaultHandler {
 	private Stack<Object> stack;
 	
 	public CilibHandler() {
-		stack = new Stack();
+		stack = new Stack<Object>();
 	}
 
 	public void setDocumentLocator(Locator locator) {
@@ -85,7 +85,7 @@ public class CilibHandler extends DefaultHandler {
 	    		System.out.println("Created instance: " + created);
 	    		
 	    		if (id != null) {
-		    		ServiceManager.getInstance().addObject(id, created);
+		    		ObjectRegistry.getInstance().addObject(id, created);
 		    	}
 	    	}
 	    	else if (value != null) {

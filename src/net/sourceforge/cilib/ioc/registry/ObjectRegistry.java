@@ -28,19 +28,19 @@ package net.sourceforge.cilib.ioc.registry;
 
 import java.util.Hashtable;
 
-public class ServiceManager {
+public class ObjectRegistry {
 	
 	private Hashtable<String, Object> objectSet;
-	private static ServiceManager instance;
+	private static ObjectRegistry instance;
 	
 
-	private ServiceManager() {
+	private ObjectRegistry() {
 		objectSet = new Hashtable<String, Object>();
 	}
 	
-	public static ServiceManager getInstance() {
+	public static ObjectRegistry getInstance() {
 		if (instance == null)
-			instance = new ServiceManager();
+			instance = new ObjectRegistry();
 		
 		return instance;
 	}
@@ -51,6 +51,10 @@ public class ServiceManager {
 	
 	public void addObject(String name, Object object) {
 		this.objectSet.put(name, object);
+	}
+
+	public int size() {
+		return this.objectSet.size();
 	}
 
 }
