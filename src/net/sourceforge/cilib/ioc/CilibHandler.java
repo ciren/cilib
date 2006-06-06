@@ -32,13 +32,19 @@ import java.util.Stack;
 
 import net.sourceforge.cilib.ioc.registry.ObjectRegistry;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * 
+ * @author Gary Pampara and Francois Geldenhuys
+ */
 public class CilibHandler extends DefaultHandler {
 	
+	private static Logger log = Logger.getLogger(CilibHandler.class);
 	private Stack<Object> stack;
 	
 	public CilibHandler() {
@@ -46,8 +52,7 @@ public class CilibHandler extends DefaultHandler {
 	}
 
 	public void setDocumentLocator(Locator locator) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void startDocument() throws SAXException {
@@ -59,13 +64,11 @@ public class CilibHandler extends DefaultHandler {
 	}
 
 	public void startPrefixMapping(String prefix, String uri) throws SAXException {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void endPrefixMapping(String prefix) throws SAXException {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	
@@ -77,6 +80,7 @@ public class CilibHandler extends DefaultHandler {
 	    	String id = atts.getValue("id");
 	    	String clazz = atts.getValue("class");
 	    	String value = atts.getValue("value");
+	    	String ref = atts.getValue("ref");
 	    	
 	    	Object created = null;
 	    	
@@ -91,6 +95,14 @@ public class CilibHandler extends DefaultHandler {
 	    	else if (value != null) {
 	    		// Create value object
 	    		created = createValueObject(value);
+	    	}
+	    	else if (ref != null) {
+	    		System.out.println("reference to existing object requested: " + ref);
+	    		Object injectedObject = ObjectRegistry.getInstance().getObject(ref);
+	    		Object stackTop = stack.peek();
+	    		System.out.println("Object: " + injectedObject + " injected into object: " + stackTop);
+	    		
+	    		applyProperty(stackTop, qName, injectedObject);
 	    	}
 	    	
 	    	if (created != null) {
@@ -114,6 +126,9 @@ public class CilibHandler extends DefaultHandler {
 		    System.out.println("Start element: {" + uri + "}" + localName);
 	}
 
+	/**
+	 * 
+	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if ("".equals (uri))
 		    System.out.println("End element: " + qName);
@@ -126,22 +141,18 @@ public class CilibHandler extends DefaultHandler {
 
 	
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void processingInstruction(String target, String data) throws SAXException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void skippedEntity(String name) throws SAXException {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -169,7 +180,12 @@ public class CilibHandler extends DefaultHandler {
 		return result;
 	}
 	
-	
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
 	public Object createValueObject(String value) {
 		try {
 			return Integer.valueOf(value);
@@ -196,6 +212,11 @@ public class CilibHandler extends DefaultHandler {
 	}
 	
 
+	/**
+	 * 
+	 * @param created
+	 * @param atts
+	 */
 	private void applyAdditionalProperties(Object created, Attributes atts) {
 		for (int i = 0; i < atts.getLength(); i++) {
 			String attributeName = atts.getQName(i);
@@ -208,6 +229,12 @@ public class CilibHandler extends DefaultHandler {
 	}
 	
 	
+	/**
+	 * Apply the given object to the current object via a setter mutator. 
+	 * @param object
+	 * @param propertyName
+	 * @param value
+	 */
 	private void applyProperty(Object object, String propertyName, Object value) {
 		boolean executed = false;
 		String propertySetName = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
@@ -229,6 +256,14 @@ public class CilibHandler extends DefaultHandler {
 		}
 	}
 	
+	
+	/**
+	 * 
+	 * @param propertyName
+	 * @param object
+	 * @param value
+	 * @throws NoSuchMethodException
+	 */
 	private void invokeMethod(String propertyName, Object object, Object value) throws NoSuchMethodException {
 		Method method = null;
 		try {
@@ -267,6 +302,14 @@ public class CilibHandler extends DefaultHandler {
 		
 	}
 	
+	
+	/**
+	 * 
+	 * @param object
+	 * @param propertyName
+	 * @param clazz
+	 * @return
+	 */
 	private Method perfromLookupOfSuperClassAndSuperInterfaces(Object object, String propertyName, Class clazz) {
 		
 		if (clazz == null)

@@ -1,5 +1,5 @@
 /*
- * ServiceManager.java
+ * ObjectRegistry.java
  * 
  * Created on Jun 2, 2006
  *
@@ -28,16 +28,26 @@ package net.sourceforge.cilib.ioc.registry;
 
 import java.util.Hashtable;
 
+/**
+ * Container to hold references to objects that need to used with object
+ * injection.
+ * 
+ * @author Gary Pampara and Francois Geldenhuys
+ */
 public class ObjectRegistry {
 	
 	private Hashtable<String, Object> objectSet;
 	private static ObjectRegistry instance;
 	
-
 	private ObjectRegistry() {
 		objectSet = new Hashtable<String, Object>();
 	}
 	
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public static ObjectRegistry getInstance() {
 		if (instance == null)
 			instance = new ObjectRegistry();
@@ -45,14 +55,31 @@ public class ObjectRegistry {
 		return instance;
 	}
 	
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public Object getObject(String name) {
 		return this.objectSet.get(name);
 	}
 	
+	
+	/**
+	 * 
+	 * @param name
+	 * @param object
+	 */
 	public void addObject(String name, Object object) {
 		this.objectSet.put(name, object);
 	}
 
+	
+	/**
+	 * Return the number of entries contained within the ObjectRegistry.
+	 * @return The number of entries within the <tt>ObjectRegistry</tt>
+	 */
 	public int size() {
 		return this.objectSet.size();
 	}
