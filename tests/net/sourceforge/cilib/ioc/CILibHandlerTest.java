@@ -64,7 +64,7 @@ public class CILibHandlerTest {
 		xmlBuffer.append("<?xml version='1.0' encoding='utf-8'?>");
 		xmlBuffer.append("<!DOCTYPE simulator [");
 		xmlBuffer.append("<!ELEMENT simulator (algorithms?, problems?, simulation+)>");
-		xmlBuffer.append("<!ELEMENT algorithms")
+		xmlBuffer.append("<!ELEMENT algorithms>");
 		xmlBuffer.append("<!ELEMENT simulation (algorithm,problem,measurements)>");
 		xmlBuffer.append("<!ELEMENT algorithm (addStoppingCondition+)>");
 		xmlBuffer.append("<!ATTLIST simulation class CDATA 'ioc.Simulation'>");
