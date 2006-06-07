@@ -56,11 +56,11 @@ public class CilibHandler extends DefaultHandler {
 	}
 
 	public void startDocument() throws SAXException {
-		System.out.println("Start document");		
+		log.debug("Start document");		
 	}
 
 	public void endDocument() throws SAXException {
-		System.out.println("End document");
+		log.debug("End Document");
 	}
 
 	public void startPrefixMapping(String prefix, String uri) throws SAXException {
@@ -74,7 +74,7 @@ public class CilibHandler extends DefaultHandler {
 	
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		if ("".equals (uri)) {
-		    System.out.println("Start element: " + qName);
+		    log.info("start element: " + qName);
 
 		    // Get the associated values, if they exist
 	    	String id = atts.getValue("id");
@@ -86,7 +86,7 @@ public class CilibHandler extends DefaultHandler {
 	    	
 	    	if (clazz != null) {
 	    		created = createInstance(clazz); // Create instance
-	    		System.out.println("Created instance: " + created);
+	    		log.info("Created instance: " + created);
 	    		
 	    		if (id != null) {
 		    		ObjectRegistry.getInstance().addObject(id, created);
@@ -97,10 +97,10 @@ public class CilibHandler extends DefaultHandler {
 	    		created = createValueObject(value);
 	    	}
 	    	else if (ref != null) {
-	    		System.out.println("reference to existing object requested: " + ref);
+	    		log.debug("reference to existing object requested: " + ref);
 	    		Object injectedObject = ObjectRegistry.getInstance().getObject(ref);
 	    		Object stackTop = stack.peek();
-	    		System.out.println("Object: " + injectedObject + " injected into object: " + stackTop);
+	    		log.debug("Object: " + injectedObject + " injected into object: " + stackTop);
 	    		
 	    		applyProperty(stackTop, qName, injectedObject);
 	    	}
@@ -123,7 +123,7 @@ public class CilibHandler extends DefaultHandler {
 	    	}
 		}
 		else
-		    System.out.println("Start element: {" + uri + "}" + localName);
+		    log.info("Start element: {" + uri + "}" + localName);
 	}
 
 	/**
@@ -131,10 +131,9 @@ public class CilibHandler extends DefaultHandler {
 	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if ("".equals (uri))
-		    System.out.println("End element: " + qName);
+		    log.info("End element: " + qName);
 		else
-		    System.out.println("End element: {" + uri + "}" + localName);
-		
+		    log.info("End element: {" + uri + "}" + localName);
 		
 		stack.pop();		
 	}
@@ -158,9 +157,10 @@ public class CilibHandler extends DefaultHandler {
 	
 	
 	/**
+	 * Create a new instance of the provided class name.
 	 * 
-	 * @param className
-	 * @return
+	 * @param className The name of the class
+	 * @return The newly instanciated class.
 	 */
 	public Object createInstance(String className) {
 		Object result = null;
@@ -170,10 +170,13 @@ public class CilibHandler extends DefaultHandler {
 			result = clazz.newInstance();
 		}
 		catch (ClassNotFoundException c) {
+			log.error("Cannot find class [" + className + " for instantiation. Please ensure that the spelling is correct and that the class does exist");
 			c.printStackTrace();
 		} catch (InstantiationException e) {
+			log.error("Cannot instanciate class [" + className + "] the class is most probably abstract or an interface");
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			log.error("Cannot create instance of class [" + className + "], the access to the required method / constructor is not accessible from the public namespace");
 			e.printStackTrace();
 		}
 		
@@ -182,9 +185,12 @@ public class CilibHandler extends DefaultHandler {
 	
 
 	/**
+	 * Create the value object based on the provided {@see java.lang.String}.
+	 * Conversion to the appropriate type is attempted before the the default
+	 * case of a {@see java.lang.String} is returned.
 	 * 
-	 * @param value
-	 * @return
+	 * @param value The value to be converted to the appropriate type.
+	 * @return The converted type as an <tt>Object</tt>.
 	 */
 	public Object createValueObject(String value) {
 		try {
@@ -213,15 +219,20 @@ public class CilibHandler extends DefaultHandler {
 	
 
 	/**
+	 * Apply the additional properties to the specified object. These attributes
+	 * are additional to the main attribute values.
 	 * 
-	 * @param created
-	 * @param atts
+	 * @param created The instantiated object to have the attributes applied to.
+	 * @param atts The attributes to be applied.
 	 */
 	private void applyAdditionalProperties(Object created, Attributes atts) {
 		for (int i = 0; i < atts.getLength(); i++) {
 			String attributeName = atts.getQName(i);
 			
-			if (!attributeName.equals("class") && !attributeName.equals("id")) {
+			if (!attributeName.equals("class") && 
+				!attributeName.equals("id") && 
+				!attributeName.equals("ref") && 
+				!attributeName.equals("value")) {
 				System.out.println("Applying: " + attributeName);
 				applyProperty(created, attributeName, createValueObject(atts.getValue(i)));
 			}
@@ -230,10 +241,11 @@ public class CilibHandler extends DefaultHandler {
 	
 	
 	/**
-	 * Apply the given object to the current object via a setter mutator. 
-	 * @param object
-	 * @param propertyName
-	 * @param value
+	 * Apply the given object to the current object via a setter mutator.
+	 * 
+	 * @param object The object to apply the setter mutator to.
+	 * @param propertyName The name of the setter mutator to call.
+	 * @param value The value of the argument to be passed to the setter mutator.
 	 */
 	private void applyProperty(Object object, String propertyName, Object value) {
 		boolean executed = false;
@@ -243,6 +255,7 @@ public class CilibHandler extends DefaultHandler {
 			invokeMethod(propertySetName, object, value);
 			executed = true;
 		} catch (NoSuchMethodException e) {
+			// Intentionally do nothing here... the check later handles the invocation if this one fails
 			//e.printStackTrace();
 		}
 		
@@ -250,7 +263,7 @@ public class CilibHandler extends DefaultHandler {
 			try {
 				invokeMethod(propertyName, object, value);
 			} catch (NoSuchMethodException e) {
-				System.err.println("No method with name: " + propertySetName + " or " + propertyName + " was found.");
+				log.error("No method with name: " + propertySetName + " or " + propertyName + " was found when trying to apply the value (" + value + ") on object: " + object.toString());
 				e.printStackTrace();
 			}			
 		}
@@ -258,11 +271,14 @@ public class CilibHandler extends DefaultHandler {
 	
 	
 	/**
-	 * 
-	 * @param propertyName
-	 * @param object
-	 * @param value
-	 * @throws NoSuchMethodException
+	 * Invoke the required method <tt>propertyName</tt> on the given object <tt>object</tt> with the
+	 * given value <tt>value</tt>. The <tt>value</tt> object is converted into the appropriate type
+	 * and applied to the method as an argument.
+	 *  
+	 * @param propertyName The name of the methof to call.
+	 * @param object The object to perform the invocation on.
+	 * @param value The argument to be applied to the object via the invocation method.
+	 * @throws NoSuchMethodException if the needed method is not found within <tt>object</tt>.
 	 */
 	private void invokeMethod(String propertyName, Object object, Object value) throws NoSuchMethodException {
 		Method method = null;
@@ -291,12 +307,16 @@ public class CilibHandler extends DefaultHandler {
 			method.invoke(object, value);
 			
 		} catch (SecurityException e) {
+			log.error("A security exception was thrown. The call does not have permission to execute.");
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
+			log.error("An invalid / illegal argument was passed to the method invocation. " + object.toString() + "." + propertyName + "(" + value + ") is an illegal arguement");
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			log.error("Cannot invoke method: " + propertyName + "with argument(s): " + value + " because the access modifiers do not allow it. The access to the method should be public.");
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			log.error("An exception occoured during the invocation of the method: " + propertyName + ". The cause of this error is :" + e.getCause().getMessage());
 			e.printStackTrace();
 		}
 		
@@ -304,11 +324,15 @@ public class CilibHandler extends DefaultHandler {
 	
 	
 	/**
+	 * Perform the lookup of the required method starting at the given object. If the method
+	 * is not found, continue the lookup based on the super class and the interfaces of the
+	 * object. The search in turn is continued until the end of the inheritance hierarchy is
+	 * reached or the method is found. 
 	 * 
-	 * @param object
-	 * @param propertyName
-	 * @param clazz
-	 * @return
+	 * @param object The object to search for the required method
+	 * @param propertyName The required method to look for.
+	 * @param clazz The class of the argument to be passed to the method.
+	 * @return The <code>Method</code> of the required method call.
 	 */
 	private Method perfromLookupOfSuperClassAndSuperInterfaces(Object object, String propertyName, Class clazz) {
 		
