@@ -263,7 +263,7 @@ which will be used to configure the chosen Forrest skin.
     <color name="footer" value="#cedfef"/>
 -->
 
-    <!--<color name="header" value="#294563"/>-->
+    <color name="header" value="#B0BED0"/>
     <color name="navstrip" value="#4a6d8c"/>
     <color name="published" value="#4C6C8F" font="#FFFFFF"/>
     <color name="searchbox" value="#4a6d8c" font="#000000"/>
