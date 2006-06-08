@@ -45,6 +45,12 @@
 				<td>CPL</td>
 				<td>Unit Testing framework used for regression testing.</td>
 			</tr>
+			<tr>
+				<td><link href="http://xerces.apache.org/xerces2-j/">Xerces-J</link></td>
+				<td>2.8.0</td>
+				<td>ASF</td>
+				<td>XML library used for parsing of XML documents</td>
+			</tr>
 		</table>
 		
 		

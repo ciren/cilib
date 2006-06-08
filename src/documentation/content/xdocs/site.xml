@@ -54,6 +54,10 @@ See http://forrest.apache.org/docs/linking.html for more info
 		<xml-files label="XML Configuration" href="xml-configuration.html" />
 		<direct-code-usage label="Direct usage in source code" href="direct-code-usage.html" />
 	</UsersGuide>
+	
+	<Annotations label="Annotations" href="Annotations/">
+		<intro label="Introduction" href="index.html" />
+	</Annotations>
 
 	<project label="Project">
 		<faq label="FAQ" href="#" />

@@ -62,13 +62,14 @@ public class CILibHandlerTest {
 	public static void setup() {
 		StringBuffer xmlBuffer = new StringBuffer();
 		xmlBuffer.append("<?xml version='1.0' encoding='utf-8'?>");
-		xmlBuffer.append("<!DOCTYPE simulator [");
+		/*xmlBuffer.append("<!DOCTYPE simulator [");
 		xmlBuffer.append("<!ELEMENT simulator (algorithms?, problems?, simulation+)>");
 		xmlBuffer.append("<!ELEMENT algorithms>");
 		xmlBuffer.append("<!ELEMENT simulation (algorithm,problem,measurements)>");
 		xmlBuffer.append("<!ELEMENT algorithm (addStoppingCondition+)>");
 		xmlBuffer.append("<!ATTLIST simulation class CDATA 'ioc.Simulation'>");
 		xmlBuffer.append("]>");
+		*/
 		xmlBuffer.append("<simulator>");
 		xmlBuffer.append("<algorithms>");
 		xmlBuffer.append("  <algorithm id='gbest' class='pso.PSO'>");
@@ -103,7 +104,8 @@ public class CILibHandlerTest {
 			reader = XMLReaderFactory.createXMLReader();
 			reader.setContentHandler(handler);
 			reader.setErrorHandler(handler);
-			reader.setFeature("http://xml.org/sax/features/validation", true);
+			//reader.setFeature("http://xml.org/sax/features/validation", true);
+			//reader.setFeature("http://xml.org/sax/features/validation/schema", true);
 			
 			reader.parse(new InputSource(bis));
 		} catch (SAXException e) {

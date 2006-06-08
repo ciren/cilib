@@ -233,7 +233,7 @@ public class CilibHandler extends DefaultHandler {
 				!attributeName.equals("id") && 
 				!attributeName.equals("ref") && 
 				!attributeName.equals("value")) {
-				System.out.println("Applying: " + attributeName);
+				log.info("Applying: " + attributeName);
 				applyProperty(created, attributeName, createValueObject(atts.getValue(i)));
 			}
 		}

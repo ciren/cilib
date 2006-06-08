@@ -38,6 +38,12 @@
 				placed in the build directory within the root directory of the CILib 
 				source.
 			</p>
+			<note>
+				Please ensure that the correct dependency jars are available during the
+				compile and for execution. For the build process, the paths located in the
+				<code>build.properties</code> in the source code root needs to be altered
+				to point to the correct jar files.
+			</note>
 
 			<source><![CDATA[
 bash-3.1$ ant
