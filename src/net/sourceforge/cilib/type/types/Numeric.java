@@ -52,6 +52,8 @@ public abstract class Numeric extends Type implements Comparable<Numeric> {
 	
 	public abstract int compareTo(Numeric other);
 	
+	public abstract boolean isInsideBounds();
+	
 	public int getDimension() {
 		return 1;
 	}

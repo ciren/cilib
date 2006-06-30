@@ -171,6 +171,20 @@ public class Real extends Numeric {
 		else 
 			return (other.getReal() < value) ? 1 : -1;
 	}
+	
+	/**
+	 * Determine if the current value for this {@see net.sourceforge.cilib.type.types.Real}
+	 * is defined within the lower and upper bounds, as specified by the domain of the
+	 * problem.
+	 * 
+	 * @return <tt>true</tt> if within the bounds, <tt>false</tt> otherwise
+	 */
+	public boolean isInsideBounds() {
+		if (value >= this.getLowerBound() && value < this.getUpperBound())
+			return true;
+		
+		return false;	
+	}
 
 	
 	/**

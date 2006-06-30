@@ -139,7 +139,7 @@ public class DomainParser {
 	 * @return <code>true</code> if the solution is contained within the search space of the problem; 
 	 *         <code>false</code> if the solution is not contained within the search space of the problem
 	 */
-	public boolean isInside(Object solution) {
+	public boolean isInsideBounds(Object solution) {
 		boolean result = true;
 		
 		if (solution instanceof Vector) {
@@ -149,17 +149,11 @@ public class DomainParser {
 				Type t = vector.get(i);
 			
 				if (t instanceof Vector) {
-					result = isInside(t);
+					result = isInsideBounds(t);
 				}
 				else if (t instanceof Numeric) {
-					Numeric r = (Numeric) t;
-					double value = r.getReal();
-					if (value >= r.getLowerBound() && value < r.getUpperBound()) {
-						continue;
-					}
-					else {
-						result = false;
-					}
+					Numeric numeric = (Numeric) t;
+					result = numeric.isInsideBounds();
 				}
 			
 				if (!result)

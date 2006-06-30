@@ -198,6 +198,21 @@ public class Bit extends Numeric {
 		else
 			return state ? 1 : -1;
 	}
+	
+	
+	/**
+	 * Determine if the current value for this {@see net.sourceforge.cilib.type.types.Bit}
+	 * is defined within the lower and upper bounds, as specified by the domain of the
+	 * problem.
+	 * 
+	 * The {@see net.sourceforge.cilib.type.types.Bit} only has 2 possible values,
+	 * <tt>true</tt> or <tt>false</tt>
+	 * 
+	 * @return <tt>true</tt> always
+	 */
+	public boolean isInsideBounds() {
+		return true;
+	}
 
 	
 	/**
