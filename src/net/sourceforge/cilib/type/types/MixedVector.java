@@ -136,6 +136,55 @@ public class MixedVector extends Vector {
 		return components.addAll(collection);
 	}
 	
+	/**
+	 * Add all the elements contained within the supplied <tt>Vector</tt>.
+	 * This method copies the references of the supplied <tt>Vector</tt>.
+	 * 
+	 * @return true always
+	 */
+	public boolean addAll(Vector vector) {
+		if (vector == null)
+			throw new NullPointerException("Cannot append a null reference to Vector object");
+		
+		int capacity = this.components.size() + vector.size();
+		this.components.ensureCapacity(capacity);
+		
+		for (Type t : vector) {
+			this.components.add(t);
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Appends the supplied <tt>Vector</tt> contents to the current
+	 * <tt>Vector</tt>.
+	 * 
+	 * @return true always
+	 */
+	public boolean append(Vector vector) {
+		return this.addAll(vector);
+	}
+	
+	/**
+	 * Append the supplied <tt>Vector</tt> to the beginning of the current 
+	 * <tt>Vector</tt>.
+	 * 
+	 * @return true always
+	 */
+	public boolean prepend(Vector vector) {
+		if (vector == null)
+			throw new NullPointerException("Cannot prepend a null reference to Vector object");
+		
+		int capacity = this.components.size() + vector.size();
+		this.components.ensureCapacity(capacity);
+		
+		for (int i = vector.size()-1; i >= 0; i--) {
+			prepend(vector.getType(i));
+		}
+		return true;
+	}
+	
 	
 	/**
 	 * Remove all the enties in this <tt>Vector</tt>.

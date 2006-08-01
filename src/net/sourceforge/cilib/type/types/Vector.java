@@ -76,12 +76,17 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	public abstract void insert(int index, Type value);	
 	public abstract void remove(int index);
 	
+	public abstract boolean addAll(Vector vector);
+	
 	public void append(Type value) {
 		insert(getDimension(), value);
 	}
+	public abstract boolean append(Vector vector);
+	
 	public void prepend(Type value) {
 		insert(0, value);
 	}
+	public abstract boolean prepend(Vector vector);
 	
 	public abstract boolean getBit(int index);
 	public abstract void setBit(int index, boolean value);
