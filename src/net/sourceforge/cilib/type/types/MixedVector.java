@@ -539,7 +539,8 @@ public class MixedVector extends Vector {
 	 * @return A <tt>Vector</tt> object representing the sub range of the original <tt>Vector</tt>
 	 */
 	public Vector subVector(int fromIndex, int toIndex) {
-		MixedVector m = new MixedVector();
+		int length = toIndex - fromIndex + 1;
+		MixedVector m = new MixedVector(length);
 		
 		for (int i = fromIndex; i <= toIndex; i++) {
 			m.add(this.get(i));

@@ -101,6 +101,8 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     }
     
     public boolean addAll(Collection<? extends E> set) {
+    	this.particles.ensureCapacity(this.particles.size()+set.size());
+    	
     	for (Iterator<? extends E> i = set.iterator(); i.hasNext(); ) {
     		this.add(i.next());
     	}

@@ -74,6 +74,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     }
     
     public boolean addAll(Collection<? extends E> set) {
+    	this.particles.ensureCapacity(particles.size()+set.size());
     	return this.particles.addAll(set);
     }
 
@@ -144,6 +145,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 	}
 
 	public void setAll(Collection<? extends E> set) {
+		this.particles.ensureCapacity(set.size());
 		this.particles.clear();
 		this.particles.addAll(set);
 	}
@@ -163,16 +165,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 		this.particles.clear();		
 	}
 
-	// TODO: Jan to explain next()
-	/*public E next() {
-		throw new UnsupportedOperationException("next() is not supported in GBestTopology");
-	}*/
 
-	
-	
-	
-	
-	
 	
 	
 	
@@ -268,9 +261,6 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 	public void setId(String id) {
 			
 	}
-	
-	
-	
 
 }
 

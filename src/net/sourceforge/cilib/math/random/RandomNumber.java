@@ -183,6 +183,7 @@ public class RandomNumber {
 	
 	
 	/**
+	 * Get a uniform random number located within <code>0 &lt;= x &lt; 1</code>
 	 * 
 	 * @return
 	 */
@@ -192,7 +193,7 @@ public class RandomNumber {
 	
 	
 	/**
-	 * Get the uniform random number located within <code>A &lt= x &lt= B</code>
+	 * Get the uniform random number located within <code>A &lt;= x &lt; B</code>
 	 * where <code>A == mean</code> and <code>B == deviation</code>
 	 *  
 	 * @return 

@@ -38,9 +38,48 @@ import net.sourceforge.cilib.type.types.Vector;
 */
 
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
-
+	
 	@Override
 	public List<Entity> crossover(List<? extends Entity> parentCollection) {
+		
+		// This needs a selection strategy to select the parent individuals!!!!
+		Entity parent1 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()+1));
+		Entity parent2 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()+1));
+		
+		// Select the pivot point where crossover will occour
+		int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
+		int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue(); 
+		
+		// if (random number >= prob_crossover) {
+		Entity offspring1 = parent1.clone();
+		Entity offspring2 = parent2.clone();
+		
+		Vector offspringVector1 = (Vector) offspring1.get();
+		Vector offspringVector2 = (Vector) offspring2.get();
+		
+		for (int i = crossoverPoint; i < offspringVector2.getDimension(); i++) {
+			offspringVector1.remove(i);
+			offspringVector1.insert(i, offspringVector2.get(i));
+		}
+		
+		for (int i = crossoverPoint; i < offspringVector1.getDimension(); i++) {
+			offspringVector2.remove(i);
+			offspringVector2.insert(i, offspringVector1.get(i));
+		}
+				
+		List<Entity> offspring = new ArrayList<Entity>(2);
+		offspring.add(offspring1);
+		offspring.add(offspring2);
+		
+		return offspring;
+		
+		
+		// }
+		
+		
+		
+		
+		/*
 		
 		//How do we handle variable sizes? Resizing the entities?
 		Entity offspring1 = parentCollection.get(0).clone();
@@ -85,5 +124,6 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 		offspring.add(offspring2);
 		
 		return offspring;
+		*/
 	}
 }

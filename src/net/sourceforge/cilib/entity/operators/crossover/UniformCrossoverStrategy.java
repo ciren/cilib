@@ -44,9 +44,6 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 
 	@Override
 	public List<Entity> crossover(List<? extends Entity> parentCollection) {
-		//if (parentCollection.size() != 2)
-		//	throw new IllegalArgumentException("");
-		
 		int random1 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
 		int random2 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
 		

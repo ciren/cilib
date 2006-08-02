@@ -86,6 +86,7 @@ public class QueueTest {
 	}
 	
 	@Test
+	@SuppressWarnings("unused")
 	public void concurrentIteratorTest() {
 		Queue<Double> q = new Queue<Double>();
 		q.add(4.0);

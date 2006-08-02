@@ -94,7 +94,7 @@ public class EC extends PopulationBasedAlgorithm {
 		}
 		
 		// Perform crossover
-		List<Entity> crossedOver = this.crossoverStrategy.crossover(topology.getAll());
+		List<Entity> crossedOver = this.crossoverStrategy.crossover(topology);
 				
 		// Perform mutation on offspring
 		this.mutationStrategy.mutate(crossedOver);
@@ -173,19 +173,19 @@ public class EC extends PopulationBasedAlgorithm {
 	}
 	
 	public Entity getBestEntity() {
-		 if (bestEntity == null) {
-	        	Iterator<? extends Entity> i = topology.iterator();
-	            bestEntity =  i.next();
-	            Fitness bestFitness = bestEntity.getFitness();
-	            while (i.hasNext()) {
-	                Entity entity = i.next();
-	                if (entity.getFitness().compareTo(bestFitness) > 0) {
-	                    bestEntity = entity;
-	                    bestFitness = bestEntity.getFitness();
-	                }
-	            }
-	        }
-	        return bestEntity;
+		if (bestEntity == null) {
+			Iterator<? extends Entity> i = topology.iterator();
+			bestEntity =  i.next();
+			Fitness bestFitness = bestEntity.getFitness();
+			while (i.hasNext()) {
+				Entity entity = i.next();
+				if (entity.getFitness().compareTo(bestFitness) > 0) {
+					bestEntity = entity;
+					bestFitness = bestEntity.getFitness();
+				}
+			}
+		}
+		return bestEntity;
 	}
 
 }
