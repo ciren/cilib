@@ -137,12 +137,12 @@ public class MixedVector extends Vector {
 	}
 	
 	/**
-	 * Add all the elements contained within the supplied <tt>Vector</tt>.
+	 * Appends the supplied <tt>Vector</tt> contents to the current <tt>Vector</tt>.
 	 * This method copies the references of the supplied <tt>Vector</tt>.
 	 * 
 	 * @return true always
 	 */
-	public boolean addAll(Vector vector) {
+	public boolean append(Vector vector) {
 		if (vector == null)
 			throw new NullPointerException("Cannot append a null reference to Vector object");
 		
@@ -156,16 +156,7 @@ public class MixedVector extends Vector {
 		return true;
 	}
 	
-	/**
-	 * Appends the supplied <tt>Vector</tt> contents to the current
-	 * <tt>Vector</tt>.
-	 * 
-	 * @return true always
-	 */
-	public boolean append(Vector vector) {
-		return this.addAll(vector);
-	}
-	
+
 	/**
 	 * Append the supplied <tt>Vector</tt> to the beginning of the current 
 	 * <tt>Vector</tt>.
