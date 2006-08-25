@@ -50,7 +50,7 @@ public abstract class MutationStrategy {
 		operator = "+";
 		operatorStrategy = new AdditionMutationOperatorStrategy();
 		
-		mutationProbability = new ConstantUpdateStrategy(0.7);
+		mutationProbability = new ConstantUpdateStrategy(0.3);
 		randomNumber = new RandomNumber();
 	}
 	

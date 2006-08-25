@@ -101,5 +101,16 @@ public class EuclideanDistanceMeasureTest {
 		}
 		catch (IllegalArgumentException i) {}
 	}
+	
+	@Test
+	public void testSingleDimension() {
+		List<Double> list1 = new ArrayList<Double>(1);
+		List<Double> list2 = new ArrayList<Double>(1);
+		
+		list1.add(0.0);
+		list2.add(1.0);
+		
+		assertEquals(Math.sqrt(0.0), distanceMeasure.distance(list1, list2));
+	}
 
 }

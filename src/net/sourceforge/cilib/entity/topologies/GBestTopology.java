@@ -226,12 +226,10 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
 	public E remove(int index) {
 		return this.particles.remove(index);
-		//throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
 	public int indexOf(Object o) {
 		return this.particles.indexOf(o);
-		//throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
 	public int lastIndexOf(Object o) {

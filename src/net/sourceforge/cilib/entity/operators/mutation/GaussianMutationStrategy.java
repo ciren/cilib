@@ -57,10 +57,12 @@ public class GaussianMutationStrategy extends MutationStrategy {
 			Vector chromosome = (Vector) current.get();
 			
 			for (int i = 0; i < chromosome.getDimension(); i++) {
-				if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+				double random = this.getRandomNumber().getUniform(); 
+				if (random <= this.getMutationProbability().getParameter()) {
 					double value;
 					Numeric element = (Numeric) chromosome.get(i);
-					double deviation = this.deviationStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
+					//double deviation = this.deviationStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
+					double deviation = this.getRandomNumber().getGaussian();
 					
 					value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
 									

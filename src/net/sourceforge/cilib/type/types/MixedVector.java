@@ -50,7 +50,7 @@ public class MixedVector extends Vector {
 	 * @return The clone of the <code>MixedVector</code>
 	 */
 	public MixedVector clone() {
-		MixedVector clone = new MixedVector();
+		MixedVector clone = new MixedVector(this.components.size());
 		
 		for (int i = 0; i < components.size(); ++i) {
 			clone.components.add(getType(i).clone());

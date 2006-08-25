@@ -113,6 +113,7 @@ public class Individual implements Entity {
     
     public void set(Type type) {
     	this.genes = type;
+    	this.dimension = type.getDimension();
     }
 
     public String getId() {

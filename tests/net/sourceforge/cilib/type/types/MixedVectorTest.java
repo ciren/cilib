@@ -86,6 +86,8 @@ public class MixedVectorTest {
 	public void testClone() {
 		
 		Vector v = (Vector) vector.clone();
+		
+		assertEquals(v.size(), vector.size());
 				
 		for (int i = 0; i < vector.getDimension(); i++) {
 			assertEquals(vector.getReal(i), v.getReal(i));

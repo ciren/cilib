@@ -27,9 +27,13 @@
 package net.sourceforge.cilib.entity.operators.crossover;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -39,91 +43,53 @@ import net.sourceforge.cilib.type.types.Vector;
 
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
 	
+	private ArrayList<Entity> offspring;
+	
+	public OnePointCrossoverStrategy() {
+		offspring = new ArrayList<Entity>();
+	}
+	
 	@Override
 	public List<Entity> crossover(List<? extends Entity> parentCollection) {
-		
-		// This needs a selection strategy to select the parent individuals!!!!
-		Entity parent1 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()+1));
-		Entity parent2 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()+1));
-		
-		// Select the pivot point where crossover will occour
-		int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
-		int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue(); 
-		
-		// if (random number >= prob_crossover) {
-		Entity offspring1 = parent1.clone();
-		Entity offspring2 = parent2.clone();
-		
-		Vector offspringVector1 = (Vector) offspring1.get();
-		Vector offspringVector2 = (Vector) offspring2.get();
-		
-		for (int i = crossoverPoint; i < offspringVector2.getDimension(); i++) {
-			offspringVector1.remove(i);
-			offspringVector1.insert(i, offspringVector2.get(i));
-		}
-		
-		for (int i = crossoverPoint; i < offspringVector1.getDimension(); i++) {
-			offspringVector2.remove(i);
-			offspringVector2.insert(i, offspringVector1.get(i));
-		}
-				
-		List<Entity> offspring = new ArrayList<Entity>(2);
-		offspring.add(offspring1);
-		offspring.add(offspring2);
-		
-		return offspring;
-		
-		
-		// }
-		
-		
-		
-		
-		/*
-		
-		//How do we handle variable sizes? Resizing the entities?
-		Entity offspring1 = parentCollection.get(0).clone();
-		Entity offspring2 = parentCollection.get(1).clone();
-		
-		if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-			
-			Vector parentChromosome1 = (Vector) parentCollection.get(0).get();
-			Vector parentChromosome2 = (Vector) parentCollection.get(1).get();
-			Vector offspringChromosome1 = (Vector) offspring1.get();
-			Vector offspringChromosome2 = (Vector) offspring2.get();
-			
-			int sizeParent1 = parentChromosome1.getDimension();
-			int sizeParent2 = parentChromosome2.getDimension();
-				
-			int selectRange = Math.min(sizeParent1, sizeParent2);		
-			//int maxDimension = Math.max(sizeParent1, sizeParent2);
-					
-			int crossoverPoint = (int) this.getRandomNumber().getUniform(0, selectRange);
-		
-			Vector remainder1 = offspringChromosome1.subVector(crossoverPoint, offspringChromosome1.getDimension());
-			Vector remainder2 = offspringChromosome2.subVector(crossoverPoint, offspringChromosome2.getDimension());
+		offspring.clear();
 
-			// This needs to be tested !!!
-			for (int i = 0; i < remainder2.size(); i++) {
-				if (offspringChromosome1.size() <= crossoverPoint+i)
-					offspringChromosome1.add(remainder2.get(i));
-				else
-					offspringChromosome1.set(crossoverPoint+i, remainder2.get(i));
+		Collections.shuffle(parentCollection); // This should be a selectionstrategy on the entire population
+		offspring.ensureCapacity(parentCollection.size());
+		
+		for (int i = 0; i < parentCollection.size(); i++) {
+			// This needs a selection strategy to select the parent individuals!!!!
+			Entity parent1 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()));
+			Entity parent2 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()));
+			
+			// Select the pivot point where crossover will occour
+			int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
+			int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue(); 
+			
+			// if (random number >= prob_crossover) {
+			Entity offspring1 = parent1.clone();
+			Entity offspring2 = parent2.clone();
+			
+			Vector offspringVector1 = (Vector) offspring1.get();
+			Vector offspringVector2 = (Vector) offspring2.get();
+			
+			for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
+				offspringVector1.remove(j);
+				offspringVector1.insert(j, offspringVector2.get(j));
 			}
 			
-			for (int i = crossoverPoint; i < remainder1.size(); i++) {
-				if (offspringChromosome2.size() <= crossoverPoint+i)
-					offspringChromosome2.add(remainder1.get(i));
-				else
-					offspringChromosome1.set(crossoverPoint+i, remainder1.get(i));
+			for (int j = crossoverPoint; j < offspringVector1.getDimension(); j++) {
+				offspringVector2.remove(j);
+				offspringVector2.insert(j, offspringVector1.get(j));
 			}
+			
+			OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
+			offspring1.setFitness(problem.getFitness(offspring1.get(), false));
+			offspring2.setFitness(problem.getFitness(offspring2.get(), false));
+					
+			offspring.add(offspring1);
+			offspring.add(offspring2);
 		}
 		
-		List<Entity> offspring = new ArrayList<Entity>();
-		offspring.add(offspring1);
-		offspring.add(offspring2);
-		
 		return offspring;
-		*/
 	}
 }

@@ -38,6 +38,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 		value={
+			IndividualTest.class,
 			net.sourceforge.cilib.entity.comparator.AllTest.class,
 			net.sourceforge.cilib.entity.topologies.AllTest.class
 		}

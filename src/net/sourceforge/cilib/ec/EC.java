@@ -40,7 +40,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -73,7 +73,7 @@ public class EC extends PopulationBasedAlgorithm {
 		
 		this.topology = new GBestTopology<Individual>();
 		
-		this.crossoverStrategy = new UniformCrossoverStrategy();
+		this.crossoverStrategy = new OnePointCrossoverStrategy();
 		this.mutationStrategy = new GaussianMutationStrategy();
 	}
 	
@@ -99,25 +99,24 @@ public class EC extends PopulationBasedAlgorithm {
 		// Perform mutation on offspring
 		this.mutationStrategy.mutate(crossedOver);
 		
-		//System.out.println(crossedOver);
-		
 		// Perform new population selection
 		for (Entity entity : crossedOver) {
 			topology.add((Individual) entity);
 		}
 		
-		//log.info("topology size: " + topology.size());
-		
 		Collections.sort(topology, new AscendingFitnessComparator());
-		
-		//log.info("population size: " + this.getPopulationSize());
 
-		for (ListIterator<Individual> iterator = topology.listIterator(this.getPopulationSize()); iterator.hasNext(); ) {
-			iterator.next();
-			iterator.remove();
+		//System.out.println("\n\n\nSorted list");
+		//for (Entity e : topology) {
+		//	System.out.println(e.getFitness());
+		//}
+		
+		for (ListIterator<Individual> i = this.topology.listIterator(this.getPopulationSize()); i.hasNext(); ) {
+			i.next();
+			i.remove();
 		}
 		
-		//log.info("new toipology size: " + topology.size());
+		crossedOver = null;
 	}
 
 	@Override
@@ -174,8 +173,8 @@ public class EC extends PopulationBasedAlgorithm {
 	
 	public Entity getBestEntity() {
 		if (bestEntity == null) {
-			Iterator<? extends Entity> i = topology.iterator();
-			bestEntity =  i.next();
+			Iterator<Individual> i = topology.iterator();
+			bestEntity = i.next();
 			Fitness bestFitness = bestEntity.getFitness();
 			while (i.hasNext()) {
 				Entity entity = i.next();
@@ -185,6 +184,8 @@ public class EC extends PopulationBasedAlgorithm {
 				}
 			}
 		}
+		
+		System.out.println("best sorted: " + topology.get(0).getFitness() + " best found: " + bestEntity.getFitness());
 		return bestEntity;
 	}
 
