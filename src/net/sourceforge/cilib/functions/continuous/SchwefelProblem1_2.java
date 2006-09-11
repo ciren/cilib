@@ -1,5 +1,5 @@
 /*
- * SchwefelDoubleSum.java
+ * SchwefelProblem1_2.java
  * 
  * Created on Aug 3, 2005
  *
@@ -41,9 +41,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * @author Gary Pampara
  */
-public class SchwefelDoubleSum extends ContinuousFunction {
+public class SchwefelProblem1_2 extends ContinuousFunction {
 	
-	public SchwefelDoubleSum() {
+	public SchwefelProblem1_2() {
 		setDomain("R(-65.536,65.536)^30)");
 	}
 	
@@ -59,7 +59,7 @@ public class SchwefelDoubleSum extends ContinuousFunction {
 		for (int i = 0; i < getDimension(); i++) {
 			sum = 0.0;
 			
-			for (int j = 1; j <= i; j++) {
+			for (int j = 1; j < i; j++) {
 				sum += x.getReal(j);
 			}
 			
