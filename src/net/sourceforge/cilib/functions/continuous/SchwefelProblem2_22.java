@@ -1,5 +1,5 @@
 /*
- * Schwefel2_22.java
+ * SchwefelProblem2_22.java
  * 
  * Created on Aug 3, 2005
  *
@@ -40,9 +40,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
-public class Schwefel2_22 extends ContinuousFunction {
+public class SchwefelProblem2_22 extends ContinuousFunction {
     
-    public Schwefel2_22() {
+    public SchwefelProblem2_22() {
         setDomain("R(-10, 10)^30");
     }
     
