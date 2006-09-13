@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -33,15 +32,14 @@ import net.sourceforge.cilib.type.types.Vector;
 
 
 /**
- * TODO: This function exhibits strange behaviour, don't use yet.
  *
- * @author  engel
+ * @author Andries Engelbrecht
  */
 public class Step extends ContinuousFunction {
     
     /** Creates a new instance of Step */
     public Step() {
-        setDomain("R(-5.12, 5.12)^5");
+        setDomain("R(-100.0, 100.0)^30");
     }
     
     public Object getMinimum() {
@@ -61,14 +59,11 @@ public class Step extends ContinuousFunction {
      *
      */
     public double evaluate(Vector x) {
-        double tmp = 6 * getDimension();
+        double sum = 0.0;
         for (int i = 0; i < getDimension(); ++i) {
-//            if (x[i] < domain.getLowerBound() || x[i] > domain.getUpperBound()) {
-//                return Double.POSITIVE_INFINITY;
-//            }
-            tmp += Math.floor(x.getReal(i));
+            sum += (x.getReal(i) + 0.5) * (x.getReal(i) + 0.5);
         }
-        return tmp;
+        return sum;
     }
     
 }
