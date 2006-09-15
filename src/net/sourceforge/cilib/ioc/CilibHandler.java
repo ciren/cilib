@@ -28,6 +28,8 @@ package net.sourceforge.cilib.ioc;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import net.sourceforge.cilib.ioc.registry.ObjectRegistry;
@@ -46,9 +48,11 @@ public class CilibHandler extends DefaultHandler {
 	
 	private static Logger log = Logger.getLogger(CilibHandler.class);
 	private Stack<Object> stack;
+	private List<Simulation> simulations;
 	
 	public CilibHandler() {
 		stack = new Stack<Object>();
+		simulations = new ArrayList<Simulation>();
 	}
 
 	public void setDocumentLocator(Locator locator) {
@@ -135,7 +139,14 @@ public class CilibHandler extends DefaultHandler {
 		else
 		    log.info("End element: {" + uri + "}" + localName);
 		
-		stack.pop();		
+		
+		Object stackTop = stack.pop();
+		
+		// Add the stack object to the simulation list iff it is a simulation object
+		if (stackTop instanceof Simulation) {
+			log.info("Adding simulation to the list of simulations to execute");
+			simulations.add((Simulation) stackTop);
+		}
 	}
 
 	
@@ -254,15 +265,16 @@ public class CilibHandler extends DefaultHandler {
 		try {
 			invokeMethod(propertySetName, object, value);
 			executed = true;
-		} catch (NoSuchMethodException e) {
+		} 
+		catch (NoSuchMethodException e) {
 			// Intentionally do nothing here... the check later handles the invocation if this one fails
-			//e.printStackTrace();
 		}
 		
 		if (!executed) {
 			try {
 				invokeMethod(propertyName, object, value);
-			} catch (NoSuchMethodException e) {
+			} 
+			catch (NoSuchMethodException e) {
 				log.error("No method with name: " + propertySetName + " or " + propertyName + " was found when trying to apply the value (" + value + ") on object: " + object.toString());
 				e.printStackTrace();
 			}			
@@ -357,6 +369,16 @@ public class CilibHandler extends DefaultHandler {
 		}
 		
 		return method;
+	}
+	
+	
+	
+	/**
+	 * Get the generated simulations.
+	 * @return
+	 */
+	public List<Simulation> getSimulations() {
+		return this.simulations;
 	}
 
 }

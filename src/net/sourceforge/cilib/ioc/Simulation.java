@@ -26,21 +26,30 @@
  */
 package net.sourceforge.cilib.ioc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AlgorithmEvent;
+import net.sourceforge.cilib.algorithm.AlgorithmListener;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.simulator.MeasurementSuite;
+import net.sourceforge.cilib.simulator.ProgressListener;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class Simulation {
+public class Simulation extends Thread implements AlgorithmListener {
 	
 	private Algorithm algorithm;
 	private OptimisationProblem optimisationProblem;
 	private MeasurementSuite measurements;
 	
+	private List<ProgressListener> progressListeners;
+	
 	public Simulation() {
+		progressListeners = new ArrayList<ProgressListener>();
 		
 	}
 
@@ -66,6 +75,30 @@ public class Simulation {
 
 	public void setMeasurements(MeasurementSuite measurements) {
 		this.measurements = measurements;
+	}
+
+	public void run() {
+		algorithm.run();		
+	}
+
+	public void algorithmStarted(AlgorithmEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void algorithmFinished(AlgorithmEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void algorithmTerminated(AlgorithmEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void iterationCompleted(AlgorithmEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
