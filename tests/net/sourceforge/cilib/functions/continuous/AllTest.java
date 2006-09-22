@@ -47,7 +47,8 @@ import org.junit.runners.Suite.SuiteClasses;
 				RosenbrockTest.class,
 				SchwefelTest.class,
 				SphericalTest.class,
-				AngleModulationTest.class
+				AngleModulationTest.class,
+				QuarticTest.class
 		}
 	)
 public class AllTest {
