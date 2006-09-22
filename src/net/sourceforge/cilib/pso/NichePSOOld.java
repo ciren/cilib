@@ -131,8 +131,8 @@ public class NichePSOOld extends PopulationBasedAlgorithm implements Optimisatio
     
     Particle mainSwarmParticle = new StandardParticle(); //TODO: Pull this out
     mainSwarmParticle.setVelocityUpdateStrategy(standardVelocityUpdate);
-    //mainSwarm.setPrototypeParticle(new DeviationDecorator(new StandardParticle(), getObservations()));
-    mainSwarm.setPrototypeParticle(mainSwarmParticle);
+    
+    mainSwarm.getInitialisationStrategy().setEntityType(mainSwarmParticle);
 
     // initialise the subswarms.
     subswarms = new ArrayList<PSO>();
@@ -698,7 +698,8 @@ public class NichePSOOld extends PopulationBasedAlgorithm implements Optimisatio
   public void setMainSwarm(PSO mainSwarm)
   {
     this.mainSwarm = mainSwarm;
-    this.mainSwarm.setPrototypeParticle(new DeviationDecorator(new StandardParticle(), getObservations()));
+    this.mainSwarm.getInitialisationStrategy().setEntityType(new DeviationDecorator(new StandardParticle(), getObservations()));
+
     /**
      * @todo we need to test if the mainSwarm's particles have the
      * DeviationDecorator.

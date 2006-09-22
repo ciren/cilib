@@ -96,5 +96,11 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 	public void setEntityType(Entity entityType) {
 		this.setPrototypeEntity(entityType);		
 	}
+
+
+	@Override
+	public Entity getEntityType() {
+		return this.prototypeEntity;
+	}
 	
 }

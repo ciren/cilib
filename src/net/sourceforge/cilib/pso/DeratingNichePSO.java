@@ -562,7 +562,7 @@ public class DeratingNichePSO extends Algorithm implements OptimisationAlgorithm
 
         // the main swarms particles need to be able to calculate the standard
         // deviation of their fitness.
-        mainSwarm.setPrototypeParticle(new DeviationDecorator(new StandardParticle(), observations));
+        mainSwarm.getInitialisationStrategy().setEntityType(new DeviationDecorator(new StandardParticle(), observations));
 
         return nichePSO;
       }

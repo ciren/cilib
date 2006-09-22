@@ -9,6 +9,7 @@ import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.positionupdatestrategies.GaussianPositionUpdateStrategy;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -26,7 +27,9 @@ public class MOPSO extends PSO  {
 		
 		this.archive = new StandardArchive();
 		
-		this.getPrototypeParticle().setPositionUpdateStrategy(new GaussianPositionUpdateStrategy());
+		Particle particle = new StandardParticle();
+		particle.setPositionUpdateStrategy(new GaussianPositionUpdateStrategy());
+		this.getInitialisationStrategy().setEntityType(particle);		
 	}
 	
 	@Override

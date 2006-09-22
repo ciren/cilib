@@ -34,7 +34,6 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * @author marais
@@ -53,18 +52,8 @@ public class RNAPSO extends PSO {
 		}
 		
 		readDataSet();
-
-        for (int i = 0; i < getParticles(); ++i) {
-            Particle particle = null;
-            //try {
-                particle = getPrototypeParticle().clone();//(Particle) getPrototypeParticle().clone();
-            //}
-            //catch (CloneNotSupportedException ex) {
-            //    throw new InitialisationException("Could not clone prototype particle");
-            //}
-            particle.initialise(getOptimisationProblem());
-            this.getTopology().add(particle);
-        }
+		
+		this.getInitialisationStrategy().intialise(this.getTopology(), getOptimisationProblem());
 	}
 	
 	private void readDataSet() {

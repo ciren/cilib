@@ -104,17 +104,6 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
      * then to the specified topology.
      */
     protected void performInitialisation() {
-        /*if (problem == null) {
-            throw new InitialisationException("No problem has been specified");
-        }
-        
-        for (int i = 0; i < particles; ++i) {
-            Particle particle = prototypeParticle.clone();
-            
-            particle.initialise(problem);
-            topology.add(particle);
-        }*/
-        
         this.initialisationStrategy.intialise(this.topology, this.problem);
     }
 
@@ -152,32 +141,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
 	public void setInitialisationStrategy(
 			InitialisationStrategy initialisationStrategy) {
 		this.initialisationStrategy = initialisationStrategy;
-	}
-
-
-	/**
-     * Set the prototypeParticle to the appropriate <code>Particle</code>
-     * @param particle The <code>Particle</code> to be used and the prototypeParticle
-     * 
-     * @deprecated
-     */
-    @Deprecated
-    public void setPrototypeParticle(Particle particle) {
-        prototypeParticle = particle;
-    }
-
-    
-    /**
-     * Return a reference to the specified prototypeParticle
-     * @return The reference to the prototypeParticle
-     * 
-     * @deprecated
-     */
-    @Deprecated
-    public Particle getPrototypeParticle() {    	
-    	return prototypeParticle;
-    }
-    
+	}    
     
     /**
      * Set the optimisation problem to be solved. By default, the problem is
@@ -419,7 +383,6 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
     private OptimisationProblem problem;
 
     private Particle bestParticle;
-    private Particle prototypeParticle;
 
     private IterationStrategy iterationStrategy;
     

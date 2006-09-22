@@ -56,6 +56,13 @@ public abstract class InitialisationStrategy {
 	 * @param entityType The entity type to use
 	 */
 	public abstract void setEntityType(Entity entity);
+	
+	
+	/**
+	 * Get the current entity type
+	 * @return The entity being used.
+	 */
+	public abstract Entity getEntityType();
 
 	
 	/**
