@@ -29,7 +29,6 @@
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.type.DomainParser;
 
 /**
  * This is a covenience class that keeps track of the number of fitness evaluations.  
@@ -56,12 +55,14 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     		++fitnessEvaluations;
     	}
         
-    	if (DomainParser.getInstance().isInsideBounds(solution)) {
+    	/*if (DomainParser.getInstance().isInsideBounds(solution)) {
             return calculateFitness(solution);	
         }
         else {
         	return InferiorFitness.instance();
-        }
+        }*/
+    	
+    	return calculateFitness(solution);
     }
     
     public final int getFitnessEvaluations() {

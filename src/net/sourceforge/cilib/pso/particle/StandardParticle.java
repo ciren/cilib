@@ -129,7 +129,8 @@ public class StandardParticle extends Particle {
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
         velocity = position.clone();
-        velocity.reset();
+        //velocity.reset();
+        velocityInitialisationStrategy.initialise(this);
         
         fitness = InferiorFitness.instance();
         bestFitness = InferiorFitness.instance();
@@ -214,5 +215,11 @@ public class StandardParticle extends Particle {
 
 	public void setBehaviouralParameters(Type type) {
 			
+	}
+
+
+	// Reinitialise all the things based on the defined initialisation strategy
+	public void reinitialise() {
+		this.velocityInitialisationStrategy.initialise(this);
 	}
 }

@@ -27,11 +27,15 @@
 
 package net.sourceforge.cilib.pso;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
+import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -43,29 +47,25 @@ import net.sourceforge.cilib.pso.particle.Particle;
  *
  * TODO: Warning, this class is not yet finished.
  */
-public class VEPSO extends PopulationBasedAlgorithm implements OptimisationAlgorithm {
+public class VEPSO extends MultiPopulationBasedAlgorithm {
 
 	protected void performInitialisation() {
-		int count = problem.getProblemCount();
-		swarms = new PSO[count];
-		for (int i = 0; i < count; ++i) {
-			swarms[i] = (PSO) factory.newAlgorithm();
-			swarms[i].setOptimisationProblem(problem.getOptimisationProblem(i));
-			catalogue[i] = swarms[i].getBestSolution();
-		}
+		
 	}
 	
 	protected void performIteration() {
-		// TODO Auto-generated method stub
+		//Get the global guides for each subswarm
+		List<Entity> globalGuides = new ArrayList<Entity>();
 		
-	}
-
-	public void setPSOAlgorithmFactory(AlgorithmFactory factory) {
-		this.factory = factory;
-	}
-	
-	public AlgorithmFactory getPSOAlgorithmFactory() {
-		return factory;
+		// for each subswarm get the global best -> guide
+		
+		// Set the global guides from each subswarm to anther subswarm
+		// KnowledgeTransferStrategy.....
+		
+		// perform the iteration for each subswarm with the guides within the subswarms
+		
+		
+		
 	}
 	
 	public void setOptimisationProblem(OptimisationProblem problem) {
@@ -83,6 +83,13 @@ public class VEPSO extends PopulationBasedAlgorithm implements OptimisationAlgor
 
 	public Collection<OptimisationSolution> getSolutions() {
 		// TODO Auto-generated method stub
+		
+		// for each subswarm select the global best and add it to this solution
+		
+		return null;
+	}
+	
+	public List<OptimisationSolution> getObjectiveSolutions() {
 		return null;
 	}
 
@@ -94,13 +101,12 @@ public class VEPSO extends PopulationBasedAlgorithm implements OptimisationAlgor
 	
 	
 	
-	@Override
+
 	public int getPopulationSize() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public void setPopulationSize(int populationSize) {
 		// TODO Auto-generated method stub
 		
@@ -117,13 +123,12 @@ public class VEPSO extends PopulationBasedAlgorithm implements OptimisationAlgor
 		
 	}
 
-	@Override
 	public double getDiameter() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+
 	public double getRadius() {
 		// TODO Auto-generated method stub
 		return 0;

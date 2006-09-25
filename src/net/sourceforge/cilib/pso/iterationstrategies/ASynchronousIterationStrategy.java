@@ -33,7 +33,7 @@ import net.sourceforge.cilib.pso.particle.Particle;
 /**
  * @author Gary Pampara
  */
-public class ASynchronousIterationStrategy implements IterationStrategy {
+public class ASynchronousIterationStrategy extends IterationStrategy {
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
@@ -57,6 +57,8 @@ public class ASynchronousIterationStrategy implements IterationStrategy {
            //current.updateVelocity(pso.getVelocityUpdate());      // TODO: replace with visitor (will simplify particle interface)
            current.updateVelocity();
            current.updatePosition();                                        // TODO: replace with visitor (will simplify particle interface)
+           
+           boundaryConstraint.enforce(current);
            
            current.setFitness(pso.getOptimisationProblem().getFitness(current.getPosition(), true));
            

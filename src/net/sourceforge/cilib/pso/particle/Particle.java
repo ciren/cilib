@@ -30,6 +30,8 @@ package net.sourceforge.cilib.pso.particle;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
+import net.sourceforge.cilib.pso.particle.initialisation.ZeroInitialVelocityStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
@@ -52,6 +54,10 @@ public abstract class Particle implements Entity {
     protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
     
+    protected VelocityInitialisationStrategy velocityInitialisationStrategy;
+    // TODO: Factor this out into a Particle intialisation strategy.... keep in mind the heterogeneous swarm thingy
+    //    protected PositionInitialisationStrategy positionInitialisationStrategy;
+    //    protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
     /**
      * 
      *
@@ -60,6 +66,8 @@ public abstract class Particle implements Entity {
 		neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
 		positionUpdateStrategy = new StandardPositionUpdateStrategy();
 		velocityUpdateStrategy = new StandardVelocityUpdate();
+		
+		velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
 	}
 
 	/**

@@ -281,4 +281,9 @@ public class ClusteringAntDecorator extends Ant {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void reinitialise() {
+		// TODO Auto-generated method stub
+		
+	}
 }

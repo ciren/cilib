@@ -139,5 +139,12 @@ public class Belief implements Entity {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
+	public void reinitialise() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

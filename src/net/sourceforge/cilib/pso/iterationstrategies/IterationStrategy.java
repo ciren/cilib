@@ -30,8 +30,27 @@ import net.sourceforge.cilib.pso.PSO;
 /**
  * @author Gary Pampara
  */
-public interface IterationStrategy {
+public abstract class IterationStrategy {
 	
-	public void performIteration(PSO pso);
+	protected BoundaryConstraint boundaryConstraint;
+	
+	public IterationStrategy() {
+		this.boundaryConstraint = new UnconstrainedBoundary();
+	}
+	
+	/**
+	 * 
+	 * @param pso
+	 */
+	public abstract void performIteration(PSO pso);
 
+	
+	public BoundaryConstraint getBoundaryConstraint() {
+		return boundaryConstraint;
+	}
+
+	public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
+		this.boundaryConstraint = boundaryConstraint;
+	}
+	
 }

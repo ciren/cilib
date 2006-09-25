@@ -38,7 +38,7 @@ import net.sourceforge.cilib.pso.parameterupdatestrategies.StandardRhoUpdateStra
  * @author Gary Pampara
  *
  */
-public class GCPSOIterationStrategy implements IterationStrategy {
+public class GCPSOIterationStrategy extends IterationStrategy {
 	
 	private IterationStrategy strategy;
 	private RhoUpdateStrategy rhoUpdateStrategy; 

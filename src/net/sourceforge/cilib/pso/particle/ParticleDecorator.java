@@ -166,4 +166,8 @@ public abstract class ParticleDecorator extends Particle {
     public void setBehaviouralParameters(Type type) {
     	
     }
+    
+    public void reinitialise() {
+    	
+    }
 }

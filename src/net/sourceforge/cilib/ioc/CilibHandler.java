@@ -41,6 +41,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
+ * The handler that is provided to the SAX parser to interpret the tags
+ * as well as to construct the <tt>Simulation</tt> objects needed.
  * 
  * @author Gary Pampara and Francois Geldenhuys
  */
@@ -76,6 +78,14 @@ public class CilibHandler extends DefaultHandler {
 	}
 
 	
+	/**
+	 * Found the start tag for an element.
+	 * @param uri
+	 * @param localName
+	 * @param qName
+	 * @param atts
+	 * @throws SAXException if an error has occoured within the SAX parser
+	 */
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		if ("".equals (uri)) {
 		    log.info("start element: " + qName);
@@ -131,7 +141,10 @@ public class CilibHandler extends DefaultHandler {
 	}
 
 	/**
-	 * 
+	 * The end element has been found for a specific tag.
+	 * @param uri
+	 * @param localName
+	 * @param qName
 	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if ("".equals (uri))

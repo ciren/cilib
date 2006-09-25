@@ -26,15 +26,31 @@
  */
 package net.sourceforge.cilib.algorithm;
 
+import java.util.List;
+
 /**
  * 
  * @author Gary Pampara
  *
  */
 public abstract class MultiPopulationBasedAlgorithm extends Algorithm {
+	
+	protected List<Algorithm> populations;
+	
 
 	/**
 	 * 
 	 */
 	protected abstract void performIteration();
+
+
+	public List<Algorithm> getPopulations() {
+		return populations;
+	}
+
+
+	public void setPopulations(List<Algorithm> populations) {
+		this.populations = populations;
+	}
+
 }

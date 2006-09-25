@@ -171,5 +171,11 @@ public class Individual implements Entity {
 		if (type instanceof Vector)
 			this.penotypes = (Vector) type;
 		else throw new RuntimeException("BehaviouralParameters need to be correct type! Please check and correct");
+	}
+
+
+	public void reinitialise() {
+		// TODO Auto-generated method stub
+		
 	}    
 }

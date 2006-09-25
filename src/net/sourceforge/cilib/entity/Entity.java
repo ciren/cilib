@@ -121,6 +121,13 @@ public interface Entity extends Comparable<Entity>, BehaviouralParameters {
 	 * @param dim
 	 */
 	public void setDimension(int dim);
+
+
+	/**
+	 * 
+	 *
+	 */
+	public void reinitialise();
 }
 
 

@@ -110,7 +110,7 @@ public class EuclideanDistanceMeasureTest {
 		list1.add(0.0);
 		list2.add(1.0);
 		
-		assertEquals(Math.sqrt(0.0), distanceMeasure.distance(list1, list2));
+		assertEquals(Math.sqrt(1.0), distanceMeasure.distance(list1, list2));
 	}
 
 }

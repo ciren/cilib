@@ -268,4 +268,9 @@ public class RNAParticle extends Particle {
 		
 	}
 
+	public void reinitialise() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
