@@ -104,11 +104,11 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 			int i = index^((int)Math.pow(2, count));
 			count++;
 
-            return topology.particles.get(i);
+            return topology.entities.get(i);
         }
 
         public void remove() {
-            topology.particles.remove(index);
+            topology.entities.remove(index);
             index = index^((int)Math.pow(2, count));
             if (index < 0) {
             	index += topology.size();

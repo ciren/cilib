@@ -122,11 +122,11 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
             if (index == topology.size()) {
                index = 0; 
             }
-            return topology.particles.get(index);
+            return topology.entities.get(index);
         }
         
         public void remove() {
-            topology.particles.remove(index);
+            topology.entities.remove(index);
             --index;
             if (index < 0) {
             	index += topology.size();

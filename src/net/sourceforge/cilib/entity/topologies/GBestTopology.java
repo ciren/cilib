@@ -52,13 +52,13 @@ import net.sourceforge.cilib.entity.Topology;
  */
 public class GBestTopology<E extends Entity> extends Topology<E> {
 	
-	protected ArrayList<E> particles;
+	protected ArrayList<E> entities;
 
     /**
      * Creates a new instance of <code>GBestTopology</code>.
      */
     public GBestTopology() {
-        particles = new ArrayList<E>();
+        entities = new ArrayList<E>();
     }
     
     public Iterator<E> iterator() {
@@ -70,16 +70,16 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     }
     
     public boolean add(E particle) {
-        return particles.add(particle);
+        return entities.add(particle);
     }
     
     public boolean addAll(Collection<? extends E> set) {
-    	this.particles.ensureCapacity(particles.size()+set.size());
-    	return this.particles.addAll(set);
+    	this.entities.ensureCapacity(entities.size()+set.size());
+    	return this.entities.addAll(set);
     }
 
     public int size() {
-        return particles.size();
+        return entities.size();
     }
 
     protected interface ArrayIterator<T extends Entity> extends Iterator<T> {
@@ -98,19 +98,19 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
         }
 
         public boolean hasNext() {
-            int lastIndex = topology.particles.size() - 1;
+            int lastIndex = topology.entities.size() - 1;
             return (index != lastIndex);
         }
 
         public T next() {
-            int lastIndex = topology.particles.size() - 1;
+            int lastIndex = topology.entities.size() - 1;
             if (index == lastIndex) {
                 throw new NoSuchElementException();
             }
 
             ++index;
 
-            return topology.particles.get(index);
+            return topology.entities.get(index);
         }
 
         public void remove() {
@@ -118,7 +118,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
                 throw new IllegalStateException();
             }
 
-            topology.particles.remove(index);
+            topology.entities.remove(index);
             --index;
         }
 
@@ -132,37 +132,37 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     
     
     public boolean remove(E indiv) {
-		return particles.remove(indiv);
+		return entities.remove(indiv);
 	}
 
 	public E get(int index) {
-		return this.particles.get(index);
+		return this.entities.get(index);
 	}
 
 	public E set(int index, E particle) {
-		this.particles.set(index, particle);
+		this.entities.set(index, particle);
 		return particle;
 	}
 
 	public void setAll(List<E> set) {
-		this.particles.ensureCapacity(set.size());
-		this.particles.clear();
-		this.particles.addAll(set);
+		this.entities.ensureCapacity(set.size());
+		this.entities.clear();
+		this.entities.addAll(set);
 	}
 
 	
 	public List<E> getAll() {
-		return this.particles;
+		return this.entities;
 	}
 
 
 	public boolean isEmpty() {
-		return this.particles.isEmpty();
+		return this.entities.isEmpty();
 	}
 
 
 	public void clear() {
-		this.particles.clear();		
+		this.entities.clear();		
 	}
 
 
@@ -188,7 +188,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
 	@Override
 	public int hashCode() {
-		return this.particles.hashCode();
+		return this.entities.hashCode();
 	}
 
 	@Override
@@ -208,7 +208,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
 	@Override
 	public Object[] toArray() {
-		return this.particles.toArray();
+		return this.entities.toArray();
 	}
 
 	@Override
@@ -225,11 +225,11 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 	}
 
 	public E remove(int index) {
-		return this.particles.remove(index);
+		return this.entities.remove(index);
 	}
 
 	public int indexOf(Object o) {
-		return this.particles.indexOf(o);
+		return this.entities.indexOf(o);
 	}
 
 	public int lastIndexOf(Object o) {
@@ -237,11 +237,11 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 	}
 
 	public ListIterator<E> listIterator() {
-		return this.particles.listIterator();
+		return this.entities.listIterator();
 	}
 
 	public ListIterator<E> listIterator(int index) {
-		return this.particles.listIterator(index);
+		return this.entities.listIterator(index);
 	}
 
 	public List<E> subList(int fromIndex, int toIndex) {
