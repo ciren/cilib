@@ -27,8 +27,8 @@
 package net.sourceforge.cilib.ec.selectionoperators;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityCollection;
@@ -41,7 +41,7 @@ import net.sourceforge.cilib.entity.EntityCollection;
 @Deprecated
 public class Elitism<E extends Entity> implements SelectionOperator<E> {
 	
-	public Collection<E> select(EntityCollection<E> ecol, int selectionSize) {
+	public List<E> select(EntityCollection<E> ecol, int selectionSize) {
         if (ecol.size() < selectionSize) {
             throw new RuntimeException("Elitism operator usage Error : Selection size("+ selectionSize+") can not be greater than the population size("+ ecol.size()+").");
         }

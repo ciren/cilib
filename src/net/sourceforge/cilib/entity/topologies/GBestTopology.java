@@ -144,7 +144,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 		return particle;
 	}
 
-	public void setAll(Collection<? extends E> set) {
+	public void setAll(List<E> set) {
 		this.particles.ensureCapacity(set.size());
 		this.particles.clear();
 		this.particles.addAll(set);

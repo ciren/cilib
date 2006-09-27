@@ -27,6 +27,7 @@ package net.sourceforge.cilib.ec.ea;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
@@ -154,7 +155,7 @@ public class ES extends EA {
         //else do (mu,lamda)ES-selection
         
         //use the elistism operator, as configured within the XML file to choose the best individuals up to the size of the population.
-        Collection<Individual> tmp = this.nextGenerationSurvivalSelector.select(this.offspring,this.populationSize); 
+        List<Individual> tmp = this.nextGenerationSurvivalSelector.select(this.offspring,this.populationSize); 
         this.population.setAll(tmp);    	
     }
 }

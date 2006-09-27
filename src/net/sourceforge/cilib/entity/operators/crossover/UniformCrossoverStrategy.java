@@ -44,44 +44,47 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 
 	@Override
 	public List<Entity> crossover(List<? extends Entity> parentCollection) {
-		int random1 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
-		int random2 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
+		List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
 		
-		//How do we handle variable sizes? Resizing the entities?
-		Entity offspring1 = parentCollection.get(random1).clone();
-		Entity offspring2 = parentCollection.get(random2).clone();
-		
-		if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+		for (int entity = 0; entity < parentCollection.size(); entity++) {
+			int random1 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
+			int random2 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
 			
-			Vector parentChromosome1 = (Vector) parentCollection.get(random1).get();
-			Vector parentChromosome2 = (Vector) parentCollection.get(random2).get();
-			Vector offspringChromosome1 = (Vector) offspring1.get();
-			Vector offspringChromosome2 = (Vector) offspring2.get();
+			//How do we handle variable sizes? Resizing the entities?
+			Entity offspring1 = parentCollection.get(random1).clone();
+			Entity offspring2 = parentCollection.get(random2).clone();
 			
-			int sizeParent1 = parentChromosome1.getDimension();
-			int sizeParent2 = parentChromosome2.getDimension();
-		
-			int minDimension = Math.min(sizeParent1, sizeParent2);
-									
-			for (int i = 0; i < minDimension; i++) {
-				if (i%2 == 0) {
-					offspringChromosome1.set(i,parentChromosome1.get(i));
-					offspringChromosome2.set(i,parentChromosome2.get(i));
-				}
-				else {
-					offspringChromosome1.set(i,parentChromosome2.get(i));
-					offspringChromosome2.set(i,parentChromosome1.get(i));	
+			if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+				
+				Vector parentChromosome1 = (Vector) parentCollection.get(random1).get();
+				Vector parentChromosome2 = (Vector) parentCollection.get(random2).get();
+				Vector offspringChromosome1 = (Vector) offspring1.get();
+				Vector offspringChromosome2 = (Vector) offspring2.get();
+				
+				int sizeParent1 = parentChromosome1.getDimension();
+				int sizeParent2 = parentChromosome2.getDimension();
+			
+				int minDimension = Math.min(sizeParent1, sizeParent2);
+										
+				for (int i = 0; i < minDimension; i++) {
+					if (i%2 == 0) {
+						offspringChromosome1.set(i,parentChromosome1.get(i));
+						offspringChromosome2.set(i,parentChromosome2.get(i));
+					}
+					else {
+						offspringChromosome1.set(i,parentChromosome2.get(i));
+						offspringChromosome2.set(i,parentChromosome1.get(i));	
+					}
 				}
 			}
+			
+			OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
+			offspring1.setFitness(problem.getFitness(offspring1.get(), false));
+			offspring2.setFitness(problem.getFitness(offspring2.get(), false));
+			
+			offspring.add(offspring1);
+			offspring.add(offspring2);
 		}
-		
-		OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
-		offspring1.setFitness(problem.getFitness(offspring1.get(), false));
-		offspring2.setFitness(problem.getFitness(offspring2.get(), false));
-		
-		List<Entity> offspring = new ArrayList<Entity>();
-		offspring.add(offspring1);
-		offspring.add(offspring2);
 		
 		return offspring;
 	}

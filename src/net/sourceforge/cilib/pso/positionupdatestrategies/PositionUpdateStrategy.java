@@ -1,5 +1,5 @@
 /*
- * DiscreteFunction.java
+ * PositionUpdateStrategy.java
  * 
  * Created on Oct 14, 2005
  *

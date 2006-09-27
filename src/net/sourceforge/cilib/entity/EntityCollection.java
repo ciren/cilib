@@ -74,7 +74,7 @@ public abstract class EntityCollection<E extends Entity>
      * Set the topology by setting the entities, first wiping the original entities
      * @param Collection coll. The collection which must populate the topology 
      */
-    public abstract void setAll(Collection<? extends E> set);
+    public abstract void setAll(List<E> set);
     
     
     /**

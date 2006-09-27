@@ -90,7 +90,7 @@ public class BeliefSpace extends Topology<Belief> {
 	}
 
 	@Override
-	public void setAll(Collection<? extends Belief> set) {
+	public void setAll(List<Belief> set) {
 		// TODO Auto-generated method stub
 		
 	}

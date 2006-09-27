@@ -61,6 +61,7 @@ public class Individual implements Entity {
         this.dimension = copy.dimension;
         this.genes = copy.genes.clone();
         this.penotypes = copy.penotypes.clone();
+        this.fitness = InferiorFitness.instance();
     }
     
     /**

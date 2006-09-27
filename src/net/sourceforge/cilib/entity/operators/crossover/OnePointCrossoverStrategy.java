@@ -61,33 +61,34 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 			Entity parent1 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()));
 			Entity parent2 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()));
 			
-			// Select the pivot point where crossover will occour
-			int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
-			int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue(); 
-			
-			// if (random number >= prob_crossover) {
-			Entity offspring1 = parent1.clone();
-			Entity offspring2 = parent2.clone();
-			
-			Vector offspringVector1 = (Vector) offspring1.get();
-			Vector offspringVector2 = (Vector) offspring2.get();
-			
-			for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
-				offspringVector1.remove(j);
-				offspringVector1.insert(j, offspringVector2.get(j));
+			if (this.getRandomNumber().getUniform() <= this.getCrossoverProbability().getParameter()) {
+				// Select the pivot point where crossover will occour
+				int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
+				int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue(); 
+				
+				Entity offspring1 = parent1.clone();
+				Entity offspring2 = parent2.clone();
+				
+				Vector offspringVector1 = (Vector) offspring1.get();
+				Vector offspringVector2 = (Vector) offspring2.get();
+				
+				for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
+					offspringVector1.remove(j);
+					offspringVector1.insert(j, offspringVector2.get(j));
+				}
+				
+				for (int j = crossoverPoint; j < offspringVector1.getDimension(); j++) {
+					offspringVector2.remove(j);
+					offspringVector2.insert(j, offspringVector1.get(j));
+				}
+				
+				OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
+				offspring1.setFitness(problem.getFitness(offspring1.get(), false));
+				offspring2.setFitness(problem.getFitness(offspring2.get(), false));
+						
+				offspring.add(offspring1);
+				offspring.add(offspring2);
 			}
-			
-			for (int j = crossoverPoint; j < offspringVector1.getDimension(); j++) {
-				offspringVector2.remove(j);
-				offspringVector2.insert(j, offspringVector1.get(j));
-			}
-			
-			OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
-			offspring1.setFitness(problem.getFitness(offspring1.get(), false));
-			offspring2.setFitness(problem.getFitness(offspring2.get(), false));
-					
-			offspring.add(offspring1);
-			offspring.add(offspring2);
 		}
 		
 		return offspring;

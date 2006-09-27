@@ -43,7 +43,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 	
 	
 	public BinaryPositionUpdateStrategy(BinaryPositionUpdateStrategy copy) {
-		
+
 	}
 	
 	

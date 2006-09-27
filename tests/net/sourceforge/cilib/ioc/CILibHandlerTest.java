@@ -165,5 +165,11 @@ public class CILibHandlerTest {
 		assertEquals(1, suite.getSamples());
 	}
 	
+	@Test
+	public void countSimulations() {
+		List<Simulation> simulations = handler.getSimulations();
+		
+		assertEquals(1, simulations.size());
+	}
 	
 }

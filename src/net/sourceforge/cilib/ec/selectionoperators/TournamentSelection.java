@@ -27,7 +27,7 @@
 package net.sourceforge.cilib.ec.selectionoperators;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 import net.sourceforge.cilib.entity.Entity;
@@ -50,7 +50,7 @@ public class TournamentSelection<E extends Entity> implements SelectionOperator<
         random = new MersenneTwister();
     }
     
-    public Collection<E> select(EntityCollection<E> ecol, int selectionSize) {
+    public List<E> select(EntityCollection<E> ecol, int selectionSize) {
 
         if (ecol.size() < selectionSize) {
             throw new RuntimeException("Usage Error : Selection size("+ selectionSize+") can not be greater than the population size("+ ecol.size()+").");

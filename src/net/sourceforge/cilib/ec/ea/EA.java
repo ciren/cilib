@@ -29,6 +29,7 @@ package net.sourceforge.cilib.ec.ea;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
@@ -43,7 +44,6 @@ import net.sourceforge.cilib.ec.mutationoperators.MutationOperator;
 import net.sourceforge.cilib.ec.selectionoperators.Elitism;
 import net.sourceforge.cilib.ec.selectionoperators.RandomSelection;
 import net.sourceforge.cilib.ec.selectionoperators.SelectionOperator;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -134,7 +134,7 @@ public class EA extends PopulationBasedAlgorithm implements OptimisationAlgorith
 		
 		//intialize all the individuals
         for (int i = 0; i < this.populationSize; ++i) {
-            Individual indiv = indiv = prototypeIndividual.clone();
+            Individual indiv = prototypeIndividual.clone();
             indiv.initialise(problem);
 
             //add individual to the population
@@ -224,7 +224,7 @@ public class EA extends PopulationBasedAlgorithm implements OptimisationAlgorith
         //
         // set the next generation with the individuals chosen from the current generation, according to the 
         // nextGenerationSurvivalSelector and the generationGap (number that survives to next generation).
-    	Collection<Individual> tmp = this.nextGenerationSurvivalSelector.select(this.population,this.generationGap); 
+    	List<Individual> tmp = this.nextGenerationSurvivalSelector.select(this.population,this.generationGap); 
         this.population.setAll(tmp);
         // Then fill up the next generation to full capacity by selecting individuals from the generated offspring using the
         // nextGenerationOffSpringSelector.

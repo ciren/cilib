@@ -27,22 +27,16 @@
 package net.sourceforge.cilib.ec;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.ec.ea.Individual;
+import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
+import net.sourceforge.cilib.ec.iterationstrategies.IterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
-import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
-import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
-import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -58,23 +52,19 @@ public class EC extends PopulationBasedAlgorithm {
 	
 	private OptimisationProblem problem;
 	private InitialisationStrategy intialisationStrategy;
-	private Topology<Individual> topology;
+	private IterationStrategy iterationStrategy;
+	private Topology<? extends Entity> topology;
 	
 	private Entity bestEntity;
 	
-	//Refactor? Iteration strategy???
-	private CrossoverStrategy crossoverStrategy;
-	private MutationStrategy mutationStrategy;
-		
 	
 	public EC() {
 		this.intialisationStrategy = new ClonedEntityInitialisationStrategy();
 		this.intialisationStrategy.setEntityType(new Individual());
 		
+		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
+				
 		this.topology = new GBestTopology<Individual>();
-		
-		this.crossoverStrategy = new OnePointCrossoverStrategy();
-		this.mutationStrategy = new GaussianMutationStrategy();
 	}
 	
 	
@@ -88,35 +78,7 @@ public class EC extends PopulationBasedAlgorithm {
 	protected void performIteration() {
 		bestEntity = null;
 		
-		// Cacluate the fitness
-		for (Individual indiv : topology) {
-			indiv.setFitness(problem.getFitness(indiv.get(), true));
-		}
-		
-		// Perform crossover
-		List<Entity> crossedOver = this.crossoverStrategy.crossover(topology);
-				
-		// Perform mutation on offspring
-		this.mutationStrategy.mutate(crossedOver);
-		
-		// Perform new population selection
-		for (Entity entity : crossedOver) {
-			topology.add((Individual) entity);
-		}
-		
-		Collections.sort(topology, new AscendingFitnessComparator());
-
-		//System.out.println("\n\n\nSorted list");
-		//for (Entity e : topology) {
-		//	System.out.println(e.getFitness());
-		//}
-		
-		for (ListIterator<Individual> i = this.topology.listIterator(this.getPopulationSize()); i.hasNext(); ) {
-			i.next();
-			i.remove();
-		}
-		
-		crossedOver = null;
+		iterationStrategy.perfromIteration(this);
 	}
 
 	@Override
@@ -126,6 +88,7 @@ public class EC extends PopulationBasedAlgorithm {
 
 	@Override
 	public void setPopulationSize(int populationSize) {
+		System.out.println("populationSize: " + populationSize);
 		this.intialisationStrategy.setEntities(populationSize);
 	}
 
@@ -173,7 +136,7 @@ public class EC extends PopulationBasedAlgorithm {
 	
 	public Entity getBestEntity() {
 		if (bestEntity == null) {
-			Iterator<Individual> i = topology.iterator();
+			Iterator<? extends Entity> i = topology.iterator();
 			bestEntity = i.next();
 			Fitness bestFitness = bestEntity.getFitness();
 			while (i.hasNext()) {

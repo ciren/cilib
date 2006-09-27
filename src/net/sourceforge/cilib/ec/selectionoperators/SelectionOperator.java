@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.ec.selectionoperators;
 
-import java.util.Collection;
+import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityCollection;
@@ -47,5 +47,5 @@ public interface SelectionOperator<E extends Entity> {
 	 * @param selectionSize - number of Entities to select
 	 * @return Collection containing the selected Entities
 	 */
-    public Collection<E> select(EntityCollection<E> ecol, int selectionSize);
+    public List<E> select(EntityCollection<E> ecol, int selectionSize);
 }

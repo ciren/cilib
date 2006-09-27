@@ -28,6 +28,7 @@ package net.sourceforge.cilib.ec.ea;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.ec.crossoveroperators.DifferentialCrossOver;
 
@@ -114,7 +115,7 @@ public class DE extends EA {
         // Used the nextGenerationSurvivalSelector for varaible purposes here.
         this.population.addAll(this.offspring.getAll());
         
-        Collection<Individual> tmp = this.nextGenerationSurvivalSelector.select(this.population,this.offspring.size()); 
+        List<Individual> tmp = this.nextGenerationSurvivalSelector.select(this.population,this.offspring.size()); 
         this.population.setAll(tmp);
     }    
 }

@@ -72,7 +72,7 @@ public class StandardPopulation extends Topology<Individual> {
     	return this.individuals.addAll(set);
     }
     
-    public void setAll(Collection<? extends Individual> set) {
+    public void setAll(List<Individual> set) {
     	
     	if (set.size() != this.individuals.size()) {
     		this.individuals.clear();

@@ -56,7 +56,7 @@ import net.sourceforge.cilib.pso.particle.Particle;
 public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 	
 	private enum Direction { CENTER, NORTH, EAST, SOUTH, WEST, DONE };
-	private ArrayList<ArrayList<E>> particles;
+	private ArrayList<ArrayList<E>> entities;
     private int lastRow;
     private int lastCol;
     
@@ -64,7 +64,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
      * Creates a new instance of <code>VonNeumannTopology</code>.
      */
     public VonNeumannTopology() {
-        particles = new ArrayList<ArrayList<E>>();
+        entities = new ArrayList<ArrayList<E>>();
         lastRow = 0;
         lastCol = -1;
     }
@@ -80,28 +80,28 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     }
     
     public boolean add(E particle) {
-    	int min = particles.size();
+    	int min = entities.size();
         ArrayList<E> shortest = null;
-        for (ArrayList<E> tmp : particles) {	
+        for (ArrayList<E> tmp : entities) {	
             if (tmp.size() < min) {
                 shortest = tmp;
                 min = tmp.size();
             }
         }
         if (shortest == null) {
-            shortest = new ArrayList<E>(particles.size() + 1);
-            particles.add(shortest);
+            shortest = new ArrayList<E>(entities.size() + 1);
+            entities.add(shortest);
         }
         shortest.add(particle);
         
-       	lastRow = particles.size() - 1;
-        lastCol = ((ArrayList) particles.get(lastRow)).size() - 1;
+       	lastRow = entities.size() - 1;
+        lastCol = ((ArrayList) entities.get(lastRow)).size() - 1;
         
         return true;        
     }
     
     public boolean addAll(Collection<? extends E> set) {
-    	this.particles.ensureCapacity(this.particles.size()+set.size());
+    	this.entities.ensureCapacity(this.entities.size()+set.size());
     	
     	for (Iterator<? extends E> i = set.iterator(); i.hasNext(); ) {
     		this.add(i.next());
@@ -112,7 +112,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     
     public int size() {
     	int size = 0;
-    	Iterator<ArrayList<E>> i = particles.iterator();
+    	Iterator<ArrayList<E>> i = entities.iterator();
     	while (i.hasNext()) {
             size += i.next().size();
     	}
@@ -120,13 +120,13 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     }
     
     private void remove(int x, int y) {
-    	ArrayList<E> row = particles.get(x);
+    	ArrayList<E> row = entities.get(x);
         row.remove(y);
         if (row.size() == 0) {
-        	particles.remove(x);
+        	entities.remove(x);
         }
-       	lastRow = particles.size() - 1;
-        lastCol = ((ArrayList) particles.get(lastRow)).size() - 1;        
+       	lastRow = entities.size() - 1;
+        lastCol = ((ArrayList) entities.get(lastRow)).size() - 1;        
     }
     
     
@@ -158,12 +158,12 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             }
             
             ++col;
-            if (col >= particles.get(row).size()) {
+            if (col >= entities.get(row).size()) {
                 ++row;
                 col = 0;
             }
             
-            return topology.particles.get(row).get(col);
+            return topology.entities.get(row).get(col);
         }
         
         public void remove() {
@@ -176,7 +176,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             --col;
             if (row != 0 && col < 0) {
             	--row;
-            	col = topology.particles.get(row).size() - 1;
+            	col = topology.entities.get(row).size() - 1;
             }
         }
         
@@ -228,9 +228,9 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             		col = y;
             		while (true) {
             			if (row < 0) {
-            				row = topology.particles.size() - 1;
+            				row = topology.entities.size() - 1;
             			}
-            			if (col < ((ArrayList) topology.particles.get(row)).size()) {
+            			if (col < ((ArrayList) topology.entities.get(row)).size()) {
             				break;
             			}
             			--row;
@@ -241,7 +241,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             	case EAST: {
             		row = x;
             		col = y + 1;
-            		if (col >= ((ArrayList) topology.particles.get(row)).size()) {
+            		if (col >= ((ArrayList) topology.entities.get(row)).size()) {
             			col = 0;
             		}
             		break;
@@ -251,10 +251,10 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             		row = x + 1;
             		col = y;
             		while (true) {
-            			if (row >= topology.particles.size()) {
+            			if (row >= topology.entities.size()) {
             				row = 0;
             			}
-            			if (col < ((ArrayList) topology.particles.get(row)).size()) {
+            			if (col < ((ArrayList) topology.entities.get(row)).size()) {
             				break;
             			}
             			++row;
@@ -266,7 +266,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             		row = x;
             		col = y - 1;
             		if (col < 0) {
-            			col = ((ArrayList) topology.particles.get(row)).size() - 1;
+            			col = ((ArrayList) topology.entities.get(row)).size() - 1;
             		}
             		break;
             	}
@@ -275,7 +275,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             }
             
             index = Direction.values()[index.ordinal()+1];
-            return topology.particles.get(row).get(col);
+            return topology.entities.get(row).get(col);
         }
         
         public void remove() {
@@ -327,7 +327,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 	}
 
 
-	public void setAll(Collection<? extends E> set) {
+	public void setAll(List<E> set) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
@@ -372,7 +372,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 
 	@Override
 	public int hashCode() {
-		return this.particles.hashCode() + this.lastCol*6 + this.lastRow*8;
+		return this.entities.hashCode() + this.lastCol*6 + this.lastRow*8;
 	}
 
 	@Override

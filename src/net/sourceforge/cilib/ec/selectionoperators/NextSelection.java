@@ -27,7 +27,7 @@
 package net.sourceforge.cilib.ec.selectionoperators;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityCollection;
@@ -42,7 +42,7 @@ import net.sourceforge.cilib.entity.EntityCollection;
 @Deprecated
 public class NextSelection<E extends Entity> implements SelectionOperator<E> {
     
-    public Collection<E> select(EntityCollection<E> popTop, int selectionSize) {
+    public List<E> select(EntityCollection<E> popTop, int selectionSize) {
         ArrayList<E> selection = new ArrayList<E>();
         for(int i = 0; i < selectionSize; i++) {
             //selection.add(popTop.next());
