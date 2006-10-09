@@ -28,6 +28,7 @@ package net.sourceforge.cilib.coevolution;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collection;
 
 import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.inputmasks.TicTacToeMask;
@@ -36,6 +37,7 @@ import net.sourceforge.cilib.games.Game;
 import net.sourceforge.cilib.games.agents.ParticleAgent;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 
@@ -55,7 +57,7 @@ public class Coevolution extends MultiPopulationBasedAlgorithm implements Optimi
 		theScoreScheme = null;
 	}
 	
-	protected void performInitialisation()
+	public void performInitialisation()
 	{
 		players = new ParticleAgent[population];
 		for (int i=0; i<population; i++)
@@ -77,7 +79,7 @@ public class Coevolution extends MultiPopulationBasedAlgorithm implements Optimi
 	public void SetScoreScheme(ScoreScheme scoreScheme_)
 	{ theScoreScheme = scoreScheme_; }
 	
-	protected void performIteration() 
+	public void performIteration() 
 	{
 		theScoreScheme.ScoreAgents(players,theGame);
 			
@@ -200,6 +202,16 @@ public class Coevolution extends MultiPopulationBasedAlgorithm implements Optimi
 	public void setDataSetBuilder(DataSetBuilder dataSet) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public OptimisationSolution getBestSolution() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Collection<OptimisationSolution> getSolutions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/* (non-Javadoc)

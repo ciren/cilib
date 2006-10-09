@@ -27,6 +27,8 @@
 package net.sourceforge.cilib.problem.dataset;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
 	//The datastructure used is an ArrayList that holds Pair entries
-	protected ArrayList<Pair<Numeric, Vector>> keyPatternPair = null;
+	private ArrayList<Pair<Numeric, Vector>> keyPatternPair = null;
 	//A DistanceMeasure will be used to calculate the distance between a pattern and a centroid 
 	protected DistanceMeasure distanceMeasure = null;
 	//the expert should specify how many clusters there should be
@@ -97,6 +99,22 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 		}
 	}
 	
+	public void uninitialise(Vector centroids) {
+		try {
+			FileWriter out = new FileWriter(new File("data/output.txt"));
+			for(Pair<Numeric, Vector> pattern : keyPatternPair) {
+				for(int j = 0; j < pattern.getValue().size(); j++) {
+					out.write(pattern.getValue().getReal(j) + ",");
+				}
+				out.write(pattern.getKey().getInt() + "\n");
+			}
+			out.close();
+		}
+		catch (IOException iox) {
+			throw new RuntimeException(iox);
+		}
+	}
+	
 	/**
 	 * Parse the given line using the given dataset's patternExpression and add it to keyPatternPair
 	 * @param line a String representing one line of the DataSet
@@ -105,13 +123,13 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	private void addToDataSet(String line, DataSet dataset) {
 		//split the received line using the regular expression given in the XML file (or 'patternExpression' in {@link net.sourceforge.cilib.problem.dataset.DataSet})
 		String [] elements = line.split(dataset.getPatternExpression());
-		Vector vector = new MixedVector();
+		Vector pattern = new MixedVector();
 		//the elements of the split are stored inside a vector that will form the pattern 
 		for(String element : elements) {
-			vector.add(new Real(Double.parseDouble(element)));
+			pattern.add(new Real(Double.parseDouble(element)));
 		}
 		//the pattern is added to the "dataset"
-		keyPatternPair.add(new Pair<Numeric, Vector>(new Real(0.0), vector));
+		keyPatternPair.add(new Pair<Numeric, Vector>(new Real(0.0), pattern));
 	}
 
 	/**
@@ -120,25 +138,23 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	 * @param centroids The vector representing the centroid vectors
 	 */
 	public void assign(Vector centroids) {
-		Vector pattern = null;
 		Vector centroid = null;
+		double distance = 0.0, minimum = Double.MAX_VALUE;
 		//run through all the patterns in the dataset
-		for(int i = 0; i < getNumberOfPatterns(); i++) {
-			//the i'th pattern will be compared
-			pattern = getPattern(i);
-			//reset the minimum distance between pattern and the other centroids to be the largets double possible
-			double minimum = Double.MAX_VALUE;
+		for(Pair<Numeric, Vector> pattern : keyPatternPair) {
+			//reset the minimum distance between pattern and the other centroids to be the largest double possible
+			minimum = Double.MAX_VALUE;
 			//run through all the different clusters
 			for(int j = 0; j < numberOfClusters; j++) {
-				//extract the i'th centroid from the given centroids Vector that contains all the centroids
+				//extract the j'th centroid from the given centroids Vector that contains all the centroids
 				centroid = getSubCentroid(centroids, j);
-				//calculate the distances between the i'th pattern and the j'th centroid
-				double distance = distanceMeasure.distance(centroid, pattern);
+				//calculate the distances between the pattern and the j'th centroid
+				distance = distanceMeasure.distance(pattern.getValue(), centroid);
 				//remember what the minimum distance is so far
 				if(distance < minimum) {
 					minimum = distance;
-					//assign pattern i to cluster j
-					setKey(i, new Int(j));
+					//assign pattern to cluster j
+					pattern.setKey(new Int(j));
 				}
 			}
 		}
@@ -152,11 +168,11 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	public Vector patternsInCluster(Numeric key) {
 		Vector patterns = new MixedVector();
 		//run through all the patterns in the dataset
-		for(int j = 0; j < getNumberOfPatterns(); j++) {
+		for(Pair<Numeric, Vector> pattern : keyPatternPair) {
 			//check whether the patterns 'key' is the same as the cluster number (cluster's 'key')
-			if(getKey(j).getInt() == key.getInt()) {
+			if(pattern.getKey().compareTo(key) == 0) {
 				//add the pattern to the list of patterns
-				patterns.add(getPattern(j));
+				patterns.add(pattern.getValue());
 			}
 		}
 		return patterns;

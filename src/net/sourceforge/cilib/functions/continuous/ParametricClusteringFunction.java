@@ -1,10 +1,7 @@
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -63,19 +60,17 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 		if(w1 + w2 != 1.0)
 			throw new IllegalArgumentException("The sum of w1 and w2 must equal 1.0");
 
-		//get the Algorithm we are working with
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		//get the ClusterableDataSet we are working with
-		ClusterableDataSet dataset = (ClusterableDataSet)(algorithm.getOptimisationProblem().getDataSetBuilder());
+		if(dataset == null)
+			setDataSet(null);
 		//assign each pattern in the dataset to its closest centroid
 		dataset.assign(centroids);
 
-		calculateMaximumAverageDistanceBetweenPatternsAndCentroids(dataset, centroids);
-		calculateMinimumDistanceBetweenCentroidPairs(dataset, centroids);
+		calculateMaximumAverageDistanceBetweenPatternsAndCentroids(centroids);
+		calculateMinimumDistanceBetweenCentroidPairs(centroids);
 
 		//zMax only needs to be calculated once, because the domain is not supposed to change during a simulation 
 		if(!zMaxFlag)
-			zMax = zMax(centroids);
+			zMax = zMax(dataset, centroids);
 
 		//the fitness should never drop below 0.0, but just in case something goes wrong, we want to know about it
 		double fitness = (w1 * maximumAverageDistance) + (w2 * (zMax - minimumCentroidDistance));
@@ -111,14 +106,13 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	 * @param centroids The vector representing the centroid vectors
 	 * @return the maximum distance possible between the given centroids
 	 */
-	protected double zMax(Vector centroids) {
+	protected double zMax(ClusterableDataSet dataset, Vector centroids) {
 		double zMax = 0.0;
-		for(Type element : centroids) {
-			double upper = ((Numeric)element).getUpperBound();
-			double lower = ((Numeric)element).getLowerBound();
-			zMax += Math.pow(upper - lower, 2.0);
-		}
-		//make sure zMax is only calculated once, because it is an expensive calculation
+		double upper = ((Numeric)centroids.get(0)).getUpperBound();
+		double lower = ((Numeric)centroids.get(0)).getLowerBound();
+		int dimension = centroids.size() / dataset.getNumberOfClusters();
+		zMax = Math.pow(upper - lower, 2.0) * dimension;
+		//we only have to calculate zMax once
 		zMaxFlag = true;
 		return Math.sqrt(zMax);
 	}

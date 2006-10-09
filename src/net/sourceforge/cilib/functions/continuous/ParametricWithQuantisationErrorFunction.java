@@ -1,8 +1,5 @@
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -62,19 +59,17 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 		if(w1 + w2 + w3 != 1.0)
 			throw new IllegalArgumentException("The sum of w1, w2 and w3 must equal 1.0");
 
-		//get the Algorithm we are working with
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		//get the ClusterableDataSet we are working with
-		ClusterableDataSet dataset = (ClusterableDataSet)(algorithm.getOptimisationProblem().getDataSetBuilder());
+		if(dataset == null)
+			setDataSet(null);
 		//assign each pattern in the dataset to its closest centroid
 		dataset.assign(centroids);
 		
-		calculateQuantisationErrorAndMaximumAverageDistanceBetweenPatternsAndCentroids(dataset, centroids);
-		calculateMinimumDistanceBetweenCentroidPairs(dataset, centroids);
+		calculateQuantisationErrorAndMaximumAverageDistanceBetweenPatternsAndCentroids(centroids);
+		calculateMinimumDistanceBetweenCentroidPairs(centroids);
 
 		//zMax only needs to be calculated once, because the domain is not supposed to change during a simulation
 		if(!zMaxFlag)
-			zMax = zMax(centroids);
+			zMax = zMax(dataset, centroids);
 
 		//the fitness should never drop below 0.0, but just in case something goes wrong, we want to know about it
 		double fitness = (w1 * maximumAverageDistance) + (w2 * (zMax - minimumCentroidDistance)) + (w3 * quantisationError); 

@@ -59,7 +59,7 @@ public class Schwefel extends ContinuousFunction { // ?
     
     public double evaluate(Vector x) {
         double sum = 0;
-        for (int i = 0; i < getDimension(); ++i) {
+        for (int i = 0; i < x.getDimension(); ++i) {
             sum += x.getReal(i) * Math.sin(Math.sqrt(Math.abs(x.getReal(i))));
         }
         sum += getDimension() * 4.18982887272434686131e+02;

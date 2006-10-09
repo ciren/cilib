@@ -32,11 +32,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
-import net.sourceforge.cilib.algorithm.ParticipatingAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
+import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.Fitness;
@@ -46,7 +45,6 @@ import net.sourceforge.cilib.pso.iterationstrategies.IterationStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -75,7 +73,7 @@ import org.apache.log4j.Logger;
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorithm, ParticipatingAlgorithm {
+public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	
 	private static Logger log = Logger.getLogger(PSO.class);
 
@@ -103,7 +101,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
      * Perform the required initialisation for the algorithm. Create the particles and add
      * then to the specified topology.
      */
-    protected void performInitialisation() {
+    public void performInitialisation() {
         this.initialisationStrategy.intialise(this.topology, this.problem);
     }
 
@@ -112,7 +110,7 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
      * Perform the iteration of the PSO algorithm, use the appropriate <code>IterationStrategy</code>
      * to perform the iteration. 
      */
-    protected void performIteration() {
+    public void performIteration() {
         bestParticle = null;
         
         iterationStrategy.performIteration(this);
@@ -120,7 +118,6 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
         for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext(); ) {
         	i.next().getVelocityUpdateStrategy().updateControlParameters();
         }
-        
         log.debug("Performing iteration");
     }
 
@@ -230,10 +227,10 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
         return topology;
     }
     
-    // TODO: Move down heirarchy into MOPSO????
-    public Type getContribution() {
-        return getBestParticle().getBestPosition();
-    }
+	// TODO: Move down heirarchy into MOPSO????
+	public Particle getContribution() {
+		return getBestParticle();
+	}
 
     public Fitness getContributionFitness() {
         return getBestParticle().getBestFitness();
@@ -242,7 +239,14 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
     public void updateContributionFitness(Fitness fitness) {
         getBestParticle().setFitness(fitness);
     }
+    
+    public boolean participated() {
+		return participation;
+	}
 
+	public void participated(boolean p) {
+		participation = p;
+	}
 
     // TODO: This does not fit really here.... move to another class PSOUtilities. 
     // Does not really calculate the diameter.
@@ -373,7 +377,6 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
 	public void setIterationStrategy(IterationStrategy iterationStrategy) {
 		this.iterationStrategy = iterationStrategy;
 	}
-
 	
     private static int currentParticleId = 0;
 
@@ -387,4 +390,5 @@ public class PSO extends PopulationBasedAlgorithm implements OptimisationAlgorit
     private IterationStrategy iterationStrategy;
     
     private InitialisationStrategy initialisationStrategy;
+    protected boolean participation = false;
 }

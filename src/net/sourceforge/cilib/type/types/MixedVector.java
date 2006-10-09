@@ -139,7 +139,6 @@ public class MixedVector extends Vector {
 	/**
 	 * Appends the supplied <tt>Vector</tt> contents to the current <tt>Vector</tt>.
 	 * This method copies the references of the supplied <tt>Vector</tt>.
-	 * 
 	 * @return true always
 	 */
 	public boolean append(Vector vector) {
@@ -152,7 +151,6 @@ public class MixedVector extends Vector {
 		for (Type t : vector) {
 			this.components.add(t);
 		}
-		
 		return true;
 	}
 	
@@ -536,7 +534,6 @@ public class MixedVector extends Vector {
 		for (int i = fromIndex; i <= toIndex; i++) {
 			m.add(this.get(i));
 		}
-		
 		return m;
 	}
 

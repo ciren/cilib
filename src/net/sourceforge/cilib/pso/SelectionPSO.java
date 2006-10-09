@@ -47,7 +47,7 @@ public class SelectionPSO extends PSO {
 	}
 	
 	// Correct with the needed iteration strategy
-    protected void performIteration() {
+    public void performIteration() {
         for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext(); ) {
             Particle current = i.next();
             current.setFitness(this.getOptimisationProblem().getFitness(current.getPosition(), true));

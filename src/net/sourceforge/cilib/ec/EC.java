@@ -32,6 +32,7 @@ import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
+import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.ec.ea.Individual;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.ec.iterationstrategies.IterationStrategy;
@@ -46,7 +47,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * 
  * @author Gary Pampara
  */
-public class EC extends PopulationBasedAlgorithm {
+public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorithm{
 	
 	//private static Logger log = Logger.getLogger(EC.class);
 	
@@ -57,6 +58,8 @@ public class EC extends PopulationBasedAlgorithm {
 	
 	private Entity bestEntity;
 	
+	protected boolean participation;
+	
 	
 	public EC() {
 		this.intialisationStrategy = new ClonedEntityInitialisationStrategy();
@@ -65,6 +68,8 @@ public class EC extends PopulationBasedAlgorithm {
 		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
 				
 		this.topology = new GBestTopology<Individual>();
+		
+		this.participation = false;
 	}
 	
 	
@@ -75,7 +80,7 @@ public class EC extends PopulationBasedAlgorithm {
 	
 
 	@Override
-	protected void performIteration() {
+	public void performIteration() {
 		bestEntity = null;
 		
 		iterationStrategy.perfromIteration(this);
@@ -152,4 +157,26 @@ public class EC extends PopulationBasedAlgorithm {
 		return bestEntity;
 	}
 
+	public Entity getContribution() {
+		//TODO: This might not be what you want, change as desired
+		return getBestEntity();
+	}
+
+	public Fitness getContributionFitness() {
+		//TODO: This might not be what you want, change as desired
+		return getBestEntity().getFitness();
+	}
+
+	public void updateContributionFitness(Fitness fitness) {
+		//TODO: This might not be what you want, change as desired
+		getBestEntity().setFitness(fitness);
+	}
+
+	public boolean participated() {
+		return participation;
+	}
+
+	public void participated(boolean p) {
+		participation = p;
+	}
 }

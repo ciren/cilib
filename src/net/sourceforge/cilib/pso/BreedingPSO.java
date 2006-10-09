@@ -46,7 +46,7 @@ public class BreedingPSO extends PSO {
 		particleSelector = new RandomSelection<Particle>();
 	}
 	
-	protected void performIteration() {
+	public void performIteration() {
 		//do stuff, in what sequebce????
 		super.performIteration();
 		//do breeding step...

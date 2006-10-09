@@ -1,8 +1,5 @@
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -47,15 +44,12 @@ public class NonParametricClusteringFunction extends ClusteringFitnessFunction {
 	 * @return the parameterised fitness that has been calculated
 	 */
 	public double evaluate(Vector centroids) {
-		//get the Algorithm we are working with
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		//get the ClusterableDataSet we are working with
-		ClusterableDataSet dataset = (ClusterableDataSet)(algorithm.getOptimisationProblem().getDataSetBuilder());
+		if(dataset == null)
+			setDataSet(null);
 		//assign each pattern in the dataset to its closest centroid
 		dataset.assign(centroids);
-
-		calculateQuantisationErrorAndMaximumAverageDistanceBetweenPatternsAndCentroids(dataset, centroids);
-		calculateMinimumDistanceBetweenCentroidPairs(dataset, centroids);
+		calculateQuantisationErrorAndMaximumAverageDistanceBetweenPatternsAndCentroids(centroids);
+		calculateMinimumDistanceBetweenCentroidPairs(centroids);
 
 		//the maximum average distance and minimum centroid distance should never drop below 0.0, but just in case something goes wrong, we want to know about it
 		if(maximumAverageDistance < 0.0 || minimumCentroidDistance <= 0.0) {

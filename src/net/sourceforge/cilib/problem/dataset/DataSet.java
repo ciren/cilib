@@ -38,7 +38,7 @@ import java.io.InputStream;
  */
 public abstract class DataSet {
 	
-	private String patternExpression = "";
+	protected String patternExpression = "";
 	
 	/**
 	 * Returns the data set as a byte array.

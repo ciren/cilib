@@ -28,12 +28,10 @@
 
 package net.sourceforge.cilib.algorithm;
 
-
 /**
  * <p>
- * A factory used to produce an {@link Algorithm} must satisfy this interface. The
- * {@link CoOperativeOptimisationAlgorithm} makes use of an <code>AlgorithmFactory</code>
- * to create each participating algorithm. {@link net.sourceforge.cilib.xml.XMLAlgorithmFactory} implements this
+ * A factory used to produce an {@link Algorithm} must satisfy this interface.
+ * {@link net.sourceforge.cilib.xml.XMLAlgorithmFactory} implements this
  * interface so that algorithms can be created for the simulator.
  * </p>
  * <p>

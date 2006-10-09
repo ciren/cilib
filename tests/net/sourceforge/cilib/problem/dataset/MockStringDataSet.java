@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 public class MockStringDataSet extends DataSet {
 	
-	private String data;
+	protected String data;
 	
 	public MockStringDataSet() {
 		data = "CGTGGTAATCAC\n";

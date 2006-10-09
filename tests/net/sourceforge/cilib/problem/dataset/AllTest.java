@@ -38,7 +38,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses(
 		value = {
-			StringDataSetBuilderTest.class		
+			StringDataSetBuilderTest.class,
+			AssociatedPairDataSetBuilderTest.class
 		}
 	)
 public class AllTest {

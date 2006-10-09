@@ -56,12 +56,12 @@ public class ES extends EA {
 		this.parentsAsWell = false;
 	}
 	
-	protected void performInitialisation() {
+	public void performInitialisation() {
 		super.performInitialisation();
 		this.performFitnessEvaluation(this.population);
 	}
 	
-	protected void performIteration() {
+	public void performIteration() {
 		//no fitness eval in beginning for population, this is enforced thanks to the way the algorithm structure is defined.
 		this.performCrossOver();
 		this.performMutation();

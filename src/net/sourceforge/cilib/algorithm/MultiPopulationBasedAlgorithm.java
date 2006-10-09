@@ -28,20 +28,23 @@ package net.sourceforge.cilib.algorithm;
 
 import java.util.List;
 
+import net.sourceforge.cilib.problem.OptimisationProblem;
+
 /**
  * 
  * @author Gary Pampara
  *
  */
-public abstract class MultiPopulationBasedAlgorithm extends Algorithm {
+public abstract class MultiPopulationBasedAlgorithm extends Algorithm implements OptimisationAlgorithm {
 	
 	protected List<Algorithm> populations;
+	protected OptimisationProblem optimisationProblem;
 	
 
 	/**
 	 * 
 	 */
-	protected abstract void performIteration();
+	public abstract void performIteration();
 
 
 	public List<Algorithm> getPopulations() {
@@ -51,6 +54,14 @@ public abstract class MultiPopulationBasedAlgorithm extends Algorithm {
 
 	public void setPopulations(List<Algorithm> populations) {
 		this.populations = populations;
+	}
+	
+	public OptimisationProblem getOptimisationProblem() {
+		return this.optimisationProblem;
+	}
+	
+	public void setOptimisationProblem(OptimisationProblem problem) {
+		this.optimisationProblem = problem;
 	}
 
 }

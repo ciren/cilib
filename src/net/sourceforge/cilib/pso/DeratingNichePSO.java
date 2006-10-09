@@ -117,7 +117,7 @@ public class DeratingNichePSO extends Algorithm implements OptimisationAlgorithm
   /**
    * Implemenation of the abstract method inherited from the Algorithm base class.
    */
-  protected void performIteration()
+  public void performIteration()
   {
     // create a new NichePSO
     try

@@ -57,7 +57,7 @@ public class ASTSP extends ACO {
 	/**
 	 * Perform the needed initialisation for the AS algorithm
 	 */
-	protected void performInitialisation() {
+	public void performInitialisation() {
 		super.performInitialisation();
 		
 		// Set the Edges to have an initial value of tau

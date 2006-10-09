@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>]>
+
+<simulator>
+	<algorithms>
+		<algorithm id="pso_1" class="pso.PSO">
+			<particles value="10"/>
+			<topology class="entity.topologies.GBestTopology"/>
+			<prototypeParticle class="pso.particle.StandardParticle">
+				<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+					<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.07"/>
+				</velocityUpdateStrategy>
+			</prototypeParticle>
+		</algorithm>
+		<algorithm id="pso_2" class="pso.PSO">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>
+<!--			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
+				<maximumFitnessEvaluations value="100000"/>
+			</addStoppingCondition>-->
+			<particles value="30"/>
+			<topology class="entity.topologies.GBestTopology"/>
+			<prototypeParticle class="pso.particle.StandardParticle">
+				<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+					<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.07"/>
+				</velocityUpdateStrategy>
+			</prototypeParticle>
+		</algorithm>
+	</algorithms>
+	<problems>
+		<problem id="griewank" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.Griewank" domain="R(-10.0, 10.0)^6"/>
+		</problem>
+	</problems>
+	<measurements id="measurements" class="simulator.MeasurementSuite" resolution="1" samples="1">
+		<addMeasurement class="measurement.single.Fitness"/>
+	</measurements>
+	<simulations>
+		<simulation>
+			<algorithm id="coop" class="algorithm.SplitCooperativeAlgorithm">
+				<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>
+<!--				<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
+					<maximumFitnessEvaluations value="10000"/>
+				</addStoppingCondition>-->
+				<!-- one day, when referencing an algorithm like this (below), the XML parser will give you a reference instead to the algorithm instead of a copy, therefore it will become neccessary to have clone methods for all algorithms. This also holds for problems, measurements, etc. -->
+				<algorithm idref="pso_1"/>
+				<algorithm idref="pso_1"/>
+				<algorithm idref="pso_1"/>
+				<splitStrategy class="algorithm.cooperative.splitstrategies.PerfectSplitStrategy"/>
+				<populationIterator class="algorithm.cooperative.populationiterators.SequentialPopulationIterator"/>
+<!--				<populationIterator class="algorithm.cooperative.populationiterators.RandomPopulationIterator"/>-->
+				<contributionUpdateStrategy class="algorithm.cooperative.contributionupdatestrategies.SelectiveContributionUpdateStrategy"/>
+				<fitnessUpdateStrategy class="algorithm.cooperative.fitnessupdatestrategies.StandardFitnessUpdateStrategy"/>
+			</algorithm>
+			<problem idref="griewank"/>
+			<measurements idref="measurements" file="data/cooperative-pso.txt"/>
+		</simulation>
+		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="griewank"/>
+			<measurements idref="measurements" file="data/normal-pso.txt"/>
+		</simulation>
+	</simulations>
+</simulator>

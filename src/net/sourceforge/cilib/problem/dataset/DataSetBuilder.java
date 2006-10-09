@@ -29,6 +29,8 @@ package net.sourceforge.cilib.problem.dataset;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.sourceforge.cilib.type.types.Vector;
+
 /**
  * @author Gary Pampara
  */
@@ -53,4 +55,6 @@ public abstract class DataSetBuilder implements Iterable<DataSet> {
 	}
 	
 	public abstract void initialise();
+	public void uninitialise(Vector centroids) {
+	}
 }

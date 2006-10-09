@@ -66,7 +66,7 @@ public class FEP extends EA {
 	 * Perform the initialisation of the algorithm. Create the individuals and initialise
 	 * the <code>BehaviouralParameters</code> according to the FEP paper by Xin Yao.
 	 */
-	protected void performInitialisation() {
+	public void performInitialisation() {
 		super.performInitialisation();
 		
 		for (Iterator<Individual> i = this.population.iterator(); i.hasNext(); ) {
@@ -82,7 +82,7 @@ public class FEP extends EA {
 	/**
 	 * 
 	 */
-	protected void performIteration() {
+	public void performIteration() {
 		performFitnessEvaluation(population);
 		
 		performCrossOver(); // Create the offspring

@@ -36,11 +36,10 @@ import net.sourceforge.cilib.entity.Topology;
  * @author Gary Pampara
  */
 public abstract class PopulationBasedAlgorithm extends Algorithm implements OptimisationAlgorithm {
-
 	/**
 	 * Perform the iteration within the algorithm
 	 */
-	protected abstract void performIteration();
+	public abstract void performIteration();
 	
 	
 	/**
@@ -80,5 +79,5 @@ public abstract class PopulationBasedAlgorithm extends Algorithm implements Opti
 	 * 
 	 * @return
 	 */
-	public abstract double getRadius(); 
+	public abstract double getRadius();
 }

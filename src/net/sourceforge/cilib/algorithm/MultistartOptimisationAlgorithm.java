@@ -36,6 +36,8 @@ package net.sourceforge.cilib.algorithm;
 
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -44,7 +46,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.SingleIteration;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * <code>MultistartOptimisationAlgorithm</code> is simply a wrapper. The wrapped 
@@ -85,7 +86,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Optimi
         this.problem = new MultistartProblemAdapter(problem);
     }
     
-    public Type getContribution() {
+    public Entity getContribution() {
         return ((ParticipatingAlgorithm) algorithm).getContribution();
     }
     
@@ -167,6 +168,14 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Optimi
         return solutions;
     }
     
+    public boolean participated() {
+		return participation;
+	}
+
+	public void participated(boolean p) {
+		participation = p;
+	}
+    
     private Algorithm algorithm;
     private OptimisationAlgorithm optimisationAlgorithm;
     private int restarts;
@@ -174,6 +183,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Optimi
     private MultistartProblemAdapter problem;
     private OptimisationSolution solution;
     private Fitness fitness;
+	private boolean participation = false;
     
     private class MultistartProblemAdapter extends OptimisationProblemAdapter {
 

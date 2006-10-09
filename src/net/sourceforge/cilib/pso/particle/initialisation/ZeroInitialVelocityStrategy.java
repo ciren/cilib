@@ -9,10 +9,7 @@ public class ZeroInitialVelocityStrategy implements
 	public void initialise(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();
 		
-		velocity.reset();
-		
-		System.out.println("velocity was reset");
-		
+		velocity.reset();		
 	}
 
 }

@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
@@ -58,7 +57,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * Basic Evolutionary Algorithm
  */
 @Deprecated
-public class EA extends PopulationBasedAlgorithm implements OptimisationAlgorithm /*, ParticipatingAlgorithm*/ {
+public class EA extends PopulationBasedAlgorithm {
 	
 	//Object fields...
 	protected OptimisationProblem problem;
@@ -122,7 +121,7 @@ public class EA extends PopulationBasedAlgorithm implements OptimisationAlgorith
      * The intiialization is based on the prototype individual as well as the domain string as specified in the XML file.
      * The type system is used to create the types and initialize them based on the domain.
      */
-	protected void performInitialisation() {
+	public void performInitialisation() {
         
         if (problem == null) {
             throw new InitialisationException("Usage error : No problem has been specified");
@@ -149,7 +148,7 @@ public class EA extends PopulationBasedAlgorithm implements OptimisationAlgorith
 	 * The four sub steps of an evolutionary iteration takes on the form of primitive operations, which
 	 * The task are delageted to the primitive operations's sub class implementations.
 	 */
-	protected void performIteration() {
+	public void performIteration() {
 		//1). determine fitness of each individual currently within the population
         performFitnessEvaluation(this.population);
         

@@ -42,7 +42,7 @@ public class InferiorFitness implements Fitness {
 	/**
 	 * Always returns null. <code>InferiorFitness</code> does not have a value. The
 	 * most sensible value to return is Double.NaN as it is still a value, however,
-	 * it represents somthing that is not a number (effectively null). Returning 
+	 * it represents something that is not a number (effectively null). Returning 
 	 * Double.NaN will ensure that some of the Measurements do get an value, even if
 	 * the value is Double.NaN
 	 * 

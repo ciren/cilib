@@ -233,9 +233,13 @@ public abstract class Particle implements Entity {
 			VelocityUpdateStrategy velocityUpdateStrategy) {
 		this.velocityUpdateStrategy = velocityUpdateStrategy;
 	}
-	
 
+	/**
+	 * This method initially threw an exception
+	 * @author Theuns Cloete
+	 */
 	public int compareTo(Entity o) {
-		throw new UnsupportedOperationException("This does not exist --- not supported");
+		//throw new UnsupportedOperationException("This does not exist --- not supported");
+		return getFitness().compareTo(o.getFitness());
 	}
 }

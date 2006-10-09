@@ -1,8 +1,5 @@
-	package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -41,14 +38,11 @@ public class QuantisationErrorFunction extends ClusteringFitnessFunction {
 	 */
 	@Override
 	public double evaluate(Vector centroids) {
-		//get the Algorithm we are working with
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		//get the ClusterableDataSet we are working with
-		ClusterableDataSet dataset = (ClusterableDataSet)(algorithm.getOptimisationProblem().getDataSetBuilder());
+		if(dataset == null)
+			setDataSet(null);
 		//assign each pattern in the dataset to its closest centroid
 		dataset.assign(centroids);
-		
-		calculateQuantisationError(dataset, centroids);
+		calculateQuantisationError(centroids);
 		return quantisationError;
 	}
 }

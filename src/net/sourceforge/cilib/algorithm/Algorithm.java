@@ -71,11 +71,11 @@ public abstract class Algorithm implements Runnable {
         performInitialisation();
     }
     
-    protected abstract void performIteration();
-    protected void performInitialisation() {
+    public abstract void performIteration();
+    public void performInitialisation() {
     	// subclasses can override the behaviour for this method
     }
-    protected void performUninitialisation() {
+    public void performUninitialisation() {
     	// subclasses can override the behaviour for this method
     }
 

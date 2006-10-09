@@ -73,7 +73,7 @@ public class ACO extends PopulationBasedAlgorithm {
 	 * 
 	 * @see net.sourceforge.cilib.algorithm.Algorithm
 	 */
-	protected void performInitialisation() {
+	public void performInitialisation() {
 		if (problem == null) 
 			throw new RuntimeException("Cannont perform algorithm on a non-existant problem");
 		
@@ -89,7 +89,7 @@ public class ACO extends PopulationBasedAlgorithm {
 	 * to know what is going on. It implements the Template Method design pattern and defers
 	 * the needed calls to the specific <code>Ant</code> class
 	 */
-	protected void performIteration() {
+	public void performIteration() {
 		for (ListIterator<Ant> l = ants.listIterator(); l.hasNext(); ) {
 			Ant a = l.next();
 			a.buildTour(problem);

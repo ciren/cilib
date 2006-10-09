@@ -72,20 +72,18 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	
 	public abstract Type get(int index);
 	public abstract void set(int index, Type value);
-	
 	public abstract void insert(int index, Type value);	
 	public abstract void remove(int index);
-	
 	public void append(Type value) {
 		insert(getDimension(), value);
 	}
+
 	public abstract boolean append(Vector vector);
-	
 	public void prepend(Type value) {
 		insert(0, value);
 	}
+
 	public abstract boolean prepend(Vector vector);
-	
 	public abstract boolean getBit(int index);
 	public abstract void setBit(int index, boolean value);
 
@@ -136,8 +134,7 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 			t.deserialise(ois);
 		}
 	}
-	
-	
+
 	/**
 	 * Create a new (cloned) <tt>Vector</tt> consisting of <tt>rhs</tt> that has been
 	 * appended to <tt>lhs</tt>.
@@ -171,8 +168,7 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 		cat.append(lhs.clone());
 		return cat;
 	}
-	
-	
+
 	/**
 	 * Generate a <tt>String</tt> representation of this <tt>Vector</tt> using the
 	 * provided first, last and delimiter characters.
@@ -223,5 +219,4 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	public String toString(char delimiter) {
 		return toString('[', ']', delimiter);
 	}
-		
 }

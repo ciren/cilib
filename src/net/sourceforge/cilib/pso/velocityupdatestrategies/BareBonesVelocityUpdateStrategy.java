@@ -77,11 +77,13 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 		Vector velocity = (Vector) particle.getVelocity();
 
 		for (int i = 0; i < particle.getDimension(); ++i) {
-			double tmp1 = cognitive.getParameter();
-			double tmp2 = social.getParameter();
+			//double tmp1 = cognitive.getParameter();
+			//double tmp2 = social.getParameter();
 			
         	double sigma = Math.abs(personalBestPosition.getReal(i) - nBestPosition.getReal(i));
-        	double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
+        	//according to Kennedy
+        	double mean = (personalBestPosition.getReal(i) + nBestPosition.getReal(i)) / 2;
+        	//andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
 			
 			velocity.setReal(i, randomNumber.getGaussian(mean, sigma));
         }

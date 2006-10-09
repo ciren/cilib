@@ -3,34 +3,41 @@
 <simulator>
 	<simulation>
 		<algorithm class="pso.PSO">
-<!--			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
-				<maximumFitnessEvaluations value="40000"/>
-			</addStoppingCondition>-->
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="500"/>
-			<particles value="40" />
+			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
+				<maximumFitnessEvaluations value="1000"/>
+			</addStoppingCondition>
+<!--			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>-->
+			<particles value="10"/>
 			<topology class="entity.topologies.GBestTopology"/>
 			<prototypeParticle class="pso.particle.StandardParticle">
 				<!--<positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>-->
 				<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
-				<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="15"/>
+					<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.07"/>
 				</velocityUpdateStrategy>
 			</prototypeParticle>
 		</algorithm>
 
 		<problem class="problem.FunctionMinimisationProblem">
-			<dataSetBuilder class="problem.dataset.AssociatedPairDataSetBuilder" numberOfClusters="10">
-<!--				<dataSet class="problem.dataset.LocalDataSet" file="/home/tcloete/MSc/uci_datasets/ml_repository/iris/iris.data" patternExpression=",\D*"/>-->
-				<dataSet class="problem.dataset.LocalDataSet" file="data/generated02.txt" patternExpression=",Class[\d+]|,"/>
-			</dataSetBuilder>
+<!--			<dataSetBuilder class="problem.dataset.TGAImageDataSetBuilder" numberOfClusters="16" outputFile="data/clustered.tga">-->
+			<setDataSetBuilder class="problem.dataset.AssociatedPairDataSetBuilder" numberOfClusters="12">
+<!--				<dataSet class="problem.dataset.LocalDataSet" file="data/lenna_small.tga"/>-->
+<!--				<dataSet class="problem.dataset.LocalDataSet" file="data/hl2-ep1_small.tga"/>-->
+<!--				<dataSet class="problem.dataset.LocalDataSet" file="data/testimage_small.tga"/>-->
+<!--				<dataSet class="problem.dataset.LocalDataSet" file="data/css_sass_small.tga"/>-->
+<!--				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/uci/iris/iris.data" patternExpression=",[^0123456789.]*"/>-->
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/vdmerwe_artificial1/vdmerwe_artificial1.txt" patternExpression=",[^-0123456789.]*"/>
+<!--				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/vdmerwe_artificial2/vdmerwe_artificial2.txt" patternExpression=",\D*"/>-->
+			</setDataSetBuilder>
 <!--			<function class="functions.continuous.ParametricWithQuantisationErrorFunction" domain="R(-10.0, 10.0)^20" w1="0.3" w2="0.3" w3="0.4"/>-->
-			<function class="functions.continuous.NonParametricClusteringFunction" domain="R(-10.0, 10.0)^20"/>
-<!--			<function class="functions.continuous.QuantisationErrorFunction" domain="R(-10.0, 10.0)^20"/>-->
-<!--			<function class="functions.continuous.ParametricClusteringFunction" domain="R(-10.0, 10.0)^20" w1="0.5" w2="0.5"/>-->
+<!--			<function class="functions.continuous.NonParametricClusteringFunction" domain="Z(0, 256)^12"/>-->
+<!--			<function class="functions.continuous.QuantisationErrorFunction" domain="R(0.0, 10.0)^8"/>-->
+			<function class="functions.continuous.QuantisationErrorFunction" domain="R(-1.0, 1.0)^24"/>
+<!--			<function class="functions.continuous.ParametricClusteringFunction" domain="Z(0, 256)^48" w1="0.5" w2="0.5"/>-->
 		</problem>
 
 		<measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/clustering-gbest-pso-output.txt">
 			<addMeasurement class="measurement.single.Fitness" />
-			<addMeasurement class="measurement.single.BestParticlePosition" />
+<!--			<addMeasurement class="measurement.single.BestParticlePosition" />-->
 		</measurements>
 	</simulation>
 </simulator>

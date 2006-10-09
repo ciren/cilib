@@ -31,13 +31,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.niching.AbsorptionStrategy;
@@ -53,13 +51,15 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
+import org.apache.log4j.Logger;
+
 /**
  * Implementation of the NichePSO algorithm.
  * 
- * @author Andires Engelbrecht
+ * @author Andries Engelbrecht
  * @author Gary Pampara
  */
-public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAlgorithm {
+public class NichePSO extends PopulationBasedAlgorithm {
 	
 	private static Logger log = Logger.getLogger(NichePSO.class);
 	
@@ -72,7 +72,6 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	private SwarmCreationStrategy<PSO> swarmCreationStrategy;
 	private Particle mainSwarmParticle;
 	private Particle subSwarmParticle;
-	private double threshold; 
 
 	
 	/**
@@ -104,7 +103,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	/**
 	 * 
 	 */
-	protected void performInitialisation() {
+	public void performInitialisation() {
 		mainSwarm.initialise();
 	}
 	
@@ -113,7 +112,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	 * 
 	 */
 	@Override
-	protected void performIteration() {
+	public void performIteration() {
 		log.debug("Beginning iteration");
 		log.debug("\tmainSwarm particle #: " + mainSwarm.getTopology().size());
 		mainSwarm.performIteration();
@@ -260,7 +259,7 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 		this.swarmCreationStrategy = swarmCreationStrategy;
 	}
 	
-	@Deprecated
+	/*@Deprecated
 	public void setThreshold(double t) {
 		this.threshold = t;
 	}
@@ -268,6 +267,17 @@ public class NichePSO extends PopulationBasedAlgorithm implements OptimisationAl
 	@Deprecated
 	public double getThreshold() {
 		return this.threshold;
+	}*/
+
+	public Entity getContribution() {
+		throw new UnsupportedOperationException("If you want to use this, you will have to implement it yourself");
 	}
-	
+
+	public Fitness getContributionFitness() {
+		throw new UnsupportedOperationException("If you want to use this, you will have to implement it yourself");
+	}
+
+	public void updateContributionFitness(Fitness fitness) {
+		throw new UnsupportedOperationException("If you want to use this, you will have to implement it yourself");
+	}
 }

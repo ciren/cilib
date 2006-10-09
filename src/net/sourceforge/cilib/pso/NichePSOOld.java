@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
@@ -57,7 +56,7 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate
  * @deprecated This is being rewritten
  */
 // TODO: Create a more generic nicheing thing????
-public class NichePSOOld extends PopulationBasedAlgorithm implements OptimisationAlgorithm
+public class NichePSOOld extends PopulationBasedAlgorithm
 {
   /**
    * The main swarm from which all subswarms will be created.
@@ -154,7 +153,7 @@ public class NichePSOOld extends PopulationBasedAlgorithm implements Optimisatio
    * This method will perform one iteration of the NichePSO
    * algorithm as defined by Brits et. al.
    */
-  protected void performIteration()
+  public void performIteration()
   {
     // perform one iteration of the mainSwarm (PSO algorithm).
     mainSwarm.performIteration();
@@ -891,27 +890,27 @@ public class NichePSOOld extends PopulationBasedAlgorithm implements Optimisatio
    * Returns contribution to the solution for the co-operative optimisation algorithm.
    * @return The algorithm's solution contribution.
    */
-  public double[] getContribution()
-  {
-    return (double[]) getBestSolution().getPosition();
+  public Particle getContribution() {
+	  //TODO: this may not be what you want, change as desired
+	  return getBestParticle();
   }
 
   /**
    * Returns the fitness of contribution to the solution.
    * @return The fitness of the solution contribution.
    */
-  public Fitness getContributionFitness()
-  {
-    return getBestSolution().getFitness();
+  public Fitness getContributionFitness() {
+	  //TODO: this may not be what you want, change as desired
+      return getBestParticle().getBestFitness();
   }
 
   /**
    * Updates the new fitness for the solution contribution.
    * @param fitness The new fitness of the contribution.
    */
-  public void updateContributionFitness(Fitness fitness)
-  {
-    getBestParticle().setFitness(fitness);
+  public void updateContributionFitness(Fitness fitness) {
+	  //TODO: this may not be what you want, change as desired
+      getBestParticle().setFitness(fitness);
   }
 
   /**

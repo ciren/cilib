@@ -32,6 +32,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * @author Gary Pampara
  * @author Andries Engelbrecht
+ * @deprecated Replaced by {@see net.sourceforge.cilib.pso.positionupdatestrategies.LinearPositionUpdateStrategy}
  *
  */
 public class BareBonesPositionUpdateStrategy implements PositionUpdateStrategy {

@@ -45,7 +45,7 @@ public class RNAPSO extends PSO {
     }
 	 
 	
-	protected void performInitialisation() {
+	public void performInitialisation() {
 		
 		if (getOptimisationProblem() == null) {
            throw new InitialisationException("No problem has been specified");

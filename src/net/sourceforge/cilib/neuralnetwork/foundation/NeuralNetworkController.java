@@ -55,7 +55,7 @@ public class NeuralNetworkController extends SingularAlgorithm {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.Algorithm.Algorithm#performIteration()
 	 */
-	protected void performIteration() {
+	public void performIteration() {
 		
 		errorDt = NNProblem.learningEpoch();
 		System.out.println("Epoch " + this.getIterations() + " completed, error: " + ((Double)errorDt.getValue()).doubleValue());

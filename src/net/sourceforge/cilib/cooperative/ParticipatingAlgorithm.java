@@ -26,20 +26,20 @@
  *   
  */
 
-package net.sourceforge.cilib.algorithm;
+package net.sourceforge.cilib.cooperative;
 
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.type.types.Type;
 
 
 /**
- * Any algorithm that implements this interface can be used as a participant in a {@link CoOperativeOptimisationAlgorithm}.
- * 
- * <p />
+ * Any algorithm that implements this interface can be used as a participant in any Cooperative Algorithm.
+ * Such Cooperative Algorithms should preferably inherit from {@link net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm}.
  * 
  * <b>Note:</b> Currently this interface only supports continuous domained problems.
  * 
- * @author  Edwin Peer
+ * @author Edwin Peer
+ * @author Theuns Cloete
  */
 public interface ParticipatingAlgorithm {
     /**
@@ -47,7 +47,7 @@ public interface ParticipatingAlgorithm {
     *
     * @return The algorithm's solution contribution.
     */
-    public Type getContribution();
+    public Entity getContribution();
 
     /**
      * Returns the fitness of contribution to the solution.
@@ -62,4 +62,7 @@ public interface ParticipatingAlgorithm {
      * @param fitness The new fitness of the contribution.
      */
     public void updateContributionFitness(Fitness fitness);
+    
+    public boolean participated();
+    public void participated(boolean participation);
 }
