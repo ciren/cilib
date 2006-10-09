@@ -11,6 +11,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.OnePointCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
 import net.sourceforge.cilib.math.random.RandomNumber;
@@ -22,7 +23,7 @@ public class GeneticAlgorithmIterationStrategy implements IterationStrategy {
 	private RandomNumber randomNumber;
 	
 	public GeneticAlgorithmIterationStrategy() {
-		this.crossoverStrategy = new OnePointCrossoverStrategy();
+		this.crossoverStrategy = new UniformCrossoverStrategy();
 		this.mutationStrategy = new GaussianMutationStrategy();
 		this.randomNumber = new RandomNumber();
 	}

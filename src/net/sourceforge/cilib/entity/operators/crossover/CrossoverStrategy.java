@@ -44,7 +44,7 @@ public abstract class CrossoverStrategy {
 	
 	
 	public CrossoverStrategy() {
-		crossoverProbability = new ConstantUpdateStrategy(0.4);
+		crossoverProbability = new ConstantUpdateStrategy(0.5);
 		randomNumber = new RandomNumber();
 	}
 	
