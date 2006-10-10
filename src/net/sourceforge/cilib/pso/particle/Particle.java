@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package net.sourceforge.cilib.pso.particle;
 
 import net.sourceforge.cilib.entity.Entity;
@@ -243,6 +242,23 @@ public abstract class Particle implements Entity {
 	public void setVelocityUpdateStrategy(
 			VelocityUpdateStrategy velocityUpdateStrategy) {
 		this.velocityUpdateStrategy = velocityUpdateStrategy;
+	}
+
+	/**
+	 * Get the {@see net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy}
+	 * @return 
+	 */
+	public VelocityInitialisationStrategy getVelocityInitialisationStrategy() {
+		return velocityInitialisationStrategy;
+	}
+
+	/**
+	 * Set the velocityInitialisationStrategy
+	 * @param velocityInitialisationStrategy
+	 */
+	public void setVelocityInitialisationStrategy(
+			VelocityInitialisationStrategy velocityInitialisationStrategy) {
+		this.velocityInitialisationStrategy = velocityInitialisationStrategy;
 	}
 
 	/**

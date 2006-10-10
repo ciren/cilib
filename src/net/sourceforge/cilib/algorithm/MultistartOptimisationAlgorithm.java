@@ -31,7 +31,6 @@
  *          PhD thesis, Department of Computer Science, 
  *          University of Pretoria, South Africa, 2002.
  */
-
 package net.sourceforge.cilib.algorithm;
 
 import java.util.ArrayList;
