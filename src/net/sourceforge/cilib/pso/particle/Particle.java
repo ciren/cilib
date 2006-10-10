@@ -49,7 +49,6 @@ public abstract class Particle implements Entity {
     public static byte _ciclops_exclude_neighbourhoodBest = 1;
     public static byte _ciclops_exclude_fitness = 1;
     
-    
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
     protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;

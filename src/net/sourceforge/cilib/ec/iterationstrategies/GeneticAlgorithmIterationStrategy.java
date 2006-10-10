@@ -79,20 +79,6 @@ public class GeneticAlgorithmIterationStrategy implements IterationStrategy {
 		}
 		
 		Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
-		//Collections.shuffle(ec.getTopology());
-
-		//System.out.println("\n\n\nSorted list");
-		//for (Entity e : topology) {
-		//	System.out.println(e.getFitness());
-		//}
-		/*System.out.println("topology size before: " + topology.size());
-		System.out.println("number of generated individuals: " + crossedOver.size());
-		System.out.println("pop size: " + ec.getPopulationSize());
-		for (int i = ec.getPopulationSize(); i < crossedOver.size(); i++) {
-			int number = Double.valueOf(this.randomNumber.getUniform(0, topology.size())).intValue();
-			topology.remove(number);
-		}
-		System.out.println("size after: " + topology.size());*/
 		for (ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize()); i.hasNext(); ) {
 			i.next();
 			i.remove();
