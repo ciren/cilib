@@ -26,8 +26,8 @@
  */
 package net.sourceforge.cilib.ec;
 
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
@@ -133,8 +133,19 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
         
         return solution;
 	}
+	
 
-	public Collection<OptimisationSolution> getSolutions() {
+	public IterationStrategy getIterationStrategy() {
+		return iterationStrategy;
+	}
+
+
+	public void setIterationStrategy(IterationStrategy iterationStrategy) {
+		this.iterationStrategy = iterationStrategy;
+	}
+
+
+	public List<OptimisationSolution> getSolutions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

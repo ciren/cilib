@@ -28,7 +28,6 @@
 package net.sourceforge.cilib.pso;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
@@ -79,7 +78,7 @@ public class VEPSO extends MultiPopulationBasedAlgorithm {
 		return null;
 	}
 
-	public Collection<OptimisationSolution> getSolutions() {
+	public List<OptimisationSolution> getSolutions() {
 		// TODO Auto-generated method stub
 		
 		// for each subswarm select the global best and add it to this solution

@@ -29,8 +29,8 @@
 package net.sourceforge.cilib.pso;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
@@ -178,7 +178,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      * algorithm, but rather in a MultiObjective optimisation.
      * @return  The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions. 
      */
-    public Collection<OptimisationSolution> getSolutions() {
+    public List<OptimisationSolution> getSolutions() {
         ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
         solutions.add(this.getBestSolution());
         return solutions;

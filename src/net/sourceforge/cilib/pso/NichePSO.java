@@ -182,8 +182,8 @@ public class NichePSO extends PopulationBasedAlgorithm {
 		throw new UnsupportedOperationException("Niching algorithms could possibly not have 1 correct answer. Please call getSolutions()");
 	}
 
-	public Collection<OptimisationSolution> getSolutions() {
-		Collection<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
+	public List<OptimisationSolution> getSolutions() {
+		List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
 		
 		for (Iterator<PSO> i = subSwarms.iterator(); i.hasNext(); ) {
 			PSO p = i.next();

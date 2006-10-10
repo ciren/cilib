@@ -28,7 +28,7 @@
 
 package net.sourceforge.cilib.algorithm;
 
-import java.util.Collection;
+import java.util.List;
 
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -65,6 +65,6 @@ public interface OptimisationAlgorithm {
      * 
      * @return a collection of solutions.
      */
-    public Collection<OptimisationSolution> getSolutions();
+    public List<OptimisationSolution> getSolutions();
     
 }

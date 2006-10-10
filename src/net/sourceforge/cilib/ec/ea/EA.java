@@ -266,7 +266,7 @@ public class EA extends PopulationBasedAlgorithm {
 	 * TODO: Multiple solution stuff...
      * Niching stuff...
 	 */
-	public java.util.Collection<OptimisationSolution> getSolutions() {
+	public List<OptimisationSolution> getSolutions() {
 		System.out.println("GETSOLUTIONS CALLED");
 		if(true)
 			throw new RuntimeException("GETSOLUTIONS CALLED");

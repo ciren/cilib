@@ -50,6 +50,7 @@ public abstract class Particle implements Entity {
     public static byte _ciclops_exclude_neighbourhoodBest = 1;
     public static byte _ciclops_exclude_fitness = 1;
     
+    
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
     protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
@@ -58,6 +59,8 @@ public abstract class Particle implements Entity {
     // TODO: Factor this out into a Particle intialisation strategy.... keep in mind the heterogeneous swarm thingy
     //    protected PositionInitialisationStrategy positionInitialisationStrategy;
     //    protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
+    
+    private int id;
     /**
      * 
      *
@@ -80,12 +83,20 @@ public abstract class Particle implements Entity {
      * 
      * @return
      */
-    public abstract String getId();
+    public String getId() {
+    	return String.valueOf(this.id);
+    }
     
     /**
      * 
      */
-    public abstract void setId(String id);
+    public void setId(String id) {
+    	this.id = Integer.parseInt(id);
+    }
+    
+    public void setId(int id) {
+    	this.id = id;
+    }
     
     /**
      * 
@@ -242,4 +253,15 @@ public abstract class Particle implements Entity {
 		//throw new UnsupportedOperationException("This does not exist --- not supported");
 		return getFitness().compareTo(o.getFitness());
 	}
+	
+	/*public boolean equals(Object obj) {
+		if (obj instanceof Particle) {
+			Particle other = (Particle) obj;
+			
+			if (this.id == other.id)
+				return true;
+		}
+		
+		return false;
+	}*/
 }

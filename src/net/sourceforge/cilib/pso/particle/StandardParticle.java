@@ -41,8 +41,6 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  */
 public class StandardParticle extends Particle {
-	
-	private int id;
     
     protected Vector position;
     protected Vector bestPosition;
@@ -118,7 +116,7 @@ public class StandardParticle extends Particle {
     
     
     public void initialise(OptimisationProblem problem) {
-        id = PSO.getNextParticleId();
+        setId(PSO.getNextParticleId());
         
        	position = (Vector) problem.getDomain().getBuiltRepresenation().clone();
 		position.randomise();
@@ -180,14 +178,14 @@ public class StandardParticle extends Particle {
     /**
      * 
      */
-    public String getId() {
+/*    public String getId() {
         return String.valueOf(id);
     }
     
     
     public void setId(String id) {
     	this.id = Integer.valueOf(id);
-    }
+    }*/
     
     /**
      * 

@@ -53,16 +53,7 @@ public class BestParticlePosition implements Measurement {
     	OptimisationAlgorithm alg = (OptimisationAlgorithm)Algorithm.get();
         Vector solution = (Vector) alg.getBestSolution().getPosition();
         
-        /*StringBuffer buffer = new StringBuffer();
-        
-        for (int i = 0; i < solution.getDimension()-1; i++) {
-        	buffer.append(solution.getReal(i) + ",");
-        }
-        
-        buffer.append(solution.getReal(solution.getDimension()-1));*/
-        
         StringType t = new StringType();
-        //t.setString(buffer.toString());
         t.setString(solution.toString());
         
         return t;    	

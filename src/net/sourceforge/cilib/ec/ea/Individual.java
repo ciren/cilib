@@ -107,6 +107,17 @@ public class Individual implements Entity {
         return this.getFitness().compareTo(o.getFitness());
     }
     
+    /*public boolean equals(Object obj) {
+    	if (obj instanceof Individual) {
+    		Individual other = (Individual) obj;
+    		
+    		if (this.genes)
+    			return true;
+    	}
+    	
+    	return false;
+    }*/
+    
     //get the genetic content of the Individual.
     public Type get() {
         return genes;

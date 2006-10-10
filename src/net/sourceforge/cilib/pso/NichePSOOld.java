@@ -26,6 +26,7 @@ package net.sourceforge.cilib.pso;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
@@ -811,7 +812,7 @@ public class NichePSOOld extends PopulationBasedAlgorithm
     return result;
   }
 
-  public Collection<OptimisationSolution> getSolutions()
+  public List<OptimisationSolution> getSolutions()
   {
     // if there are no subswarms, then we must return the solution from the
     // main swarm.
@@ -822,7 +823,7 @@ public class NichePSOOld extends PopulationBasedAlgorithm
     else
     {
       // get the solution from the mainSwarm
-      Collection<OptimisationSolution> solutions = new Vector<OptimisationSolution>();
+      List<OptimisationSolution> solutions = new Vector<OptimisationSolution>();
 
       // if the main swarm has particles then we can get solutions
       //if (mainSwarm.getTopology().particles().hasNext())

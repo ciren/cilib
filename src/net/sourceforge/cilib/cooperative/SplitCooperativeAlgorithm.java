@@ -29,20 +29,17 @@
 package net.sourceforge.cilib.cooperative;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
-import net.sourceforge.cilib.cooperative.CooperativeEntity;
-import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.cooperative.contributionupdatestrategies.ContributionUpdateStrategy;
 import net.sourceforge.cilib.cooperative.fitnessupdatestrategies.FitnessUpdateStrategy;
 import net.sourceforge.cilib.cooperative.populationiterators.PopulationIterator;
 import net.sourceforge.cilib.cooperative.splitstrategies.SplitStrategy;
-import net.sourceforge.cilib.annotations.Initialiser;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.CooperativeOptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.Fitness;
@@ -78,7 +75,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		return new OptimisationSolution(optimisationProblem, context.get().clone());
 	}
 
-	public Collection<OptimisationSolution> getSolutions() {
+	public List<OptimisationSolution> getSolutions() {
 		ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
 		solutions.add(getBestSolution());
 		return solutions;

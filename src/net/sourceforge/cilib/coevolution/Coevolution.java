@@ -28,7 +28,7 @@ package net.sourceforge.cilib.coevolution;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
-import java.util.Collection;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.inputmasks.TicTacToeMask;
@@ -209,7 +209,7 @@ public class Coevolution extends MultiPopulationBasedAlgorithm implements Optimi
 		return null;
 	}
 
-	public Collection<OptimisationSolution> getSolutions() {
+	public List<OptimisationSolution> getSolutions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

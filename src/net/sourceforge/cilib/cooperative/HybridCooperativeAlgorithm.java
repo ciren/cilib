@@ -1,10 +1,9 @@
 package net.sourceforge.cilib.cooperative;
 
-import java.util.Collection;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
-import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -26,7 +25,7 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 		return null;
 	}
 
-	public Collection<OptimisationSolution> getSolutions() {
+	public List<OptimisationSolution> getSolutions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

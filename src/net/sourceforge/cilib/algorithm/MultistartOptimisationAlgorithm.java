@@ -35,6 +35,7 @@
 package net.sourceforge.cilib.algorithm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
@@ -160,7 +161,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Optimi
         return solution;
     }
     
-    public java.util.Collection<OptimisationSolution> getSolutions() {
+    public List<OptimisationSolution> getSolutions() {
     	// TODO: Fix this so that all the solutions found at the time of each restart are added to the collection
     
         ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);

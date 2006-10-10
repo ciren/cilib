@@ -25,8 +25,8 @@
  */
 package net.sourceforge.cilib.pso;
 
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -445,7 +445,7 @@ public class DeratingNichePSO extends Algorithm implements OptimisationAlgorithm
    * Gets the solutions currently available from this algorithm
    * @return The solution currently available
    */
-  public Collection<OptimisationSolution> getSolutions()
+  public List<OptimisationSolution> getSolutions()
   {
     if (solutions.isEmpty())
     {

@@ -30,6 +30,7 @@ package net.sourceforge.cilib.aco;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
@@ -225,7 +226,7 @@ public class ACO extends PopulationBasedAlgorithm {
 		return null;
 	}
 
-	public Collection<OptimisationSolution> getSolutions() {
+	public List<OptimisationSolution> getSolutions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

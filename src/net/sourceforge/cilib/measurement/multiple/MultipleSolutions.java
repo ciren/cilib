@@ -22,8 +22,7 @@
  */
 package net.sourceforge.cilib.measurement.multiple;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
@@ -44,18 +43,15 @@ public class MultipleSolutions implements Measurement {
 	}
 
 	public String getDomain() {
-		//return "?^N";
-		//return "R";
 		return "T";
 	}
 	
-	public Type getValue() {
-		//return ((OptimisationAlgorithm) Algorithm.get()).getSolutions().toArray();
-		
+	public Type getValue() {		
 		Vector v = new MixedVector();
-		Collection<OptimisationSolution> p = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
-		for (Iterator<OptimisationSolution> i = p.iterator(); i.hasNext(); ) {
-			Number n = (Number) i.next().getFitness().getValue();
+		List<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
+		
+		for (OptimisationSolution solution : solutions) {
+			Number n = (Number) solution.getFitness().getValue();
 			v.append(new Real(n.doubleValue()));
 		}
 		

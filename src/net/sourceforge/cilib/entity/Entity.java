@@ -128,6 +128,8 @@ public interface Entity extends Comparable<Entity>, BehaviouralParameters {
 	 *
 	 */
 	public void reinitialise();
+	
+	public boolean equals(Object o);
 }
 
 
