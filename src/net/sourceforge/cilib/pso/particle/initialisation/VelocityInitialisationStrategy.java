@@ -26,11 +26,22 @@ package net.sourceforge.cilib.pso.particle.initialisation;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
+ * Interface defining the valid tasks available for velocity intialisation
  * 
  * @author Gary Pampara
  */
 public interface VelocityInitialisationStrategy {
 	
+	/**
+	 * Clone the VeclocityInitialisationStrategy 
+	 * @return A copy of the VelocityInitialisationStrategy
+	 */
+	public VelocityInitialisationStrategy clone();
+	
+	/**
+	 * Initialise the Particle velocity
+	 * @param particle The velocity vector of the particle to initialise
+	 */
 	public void initialise(Particle particle);
 
 }

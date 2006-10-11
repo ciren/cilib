@@ -258,6 +258,7 @@ public abstract class Particle implements Entity {
 	public void setVelocityInitialisationStrategy(
 			VelocityInitialisationStrategy velocityInitialisationStrategy) {
 		this.velocityInitialisationStrategy = velocityInitialisationStrategy;
+		System.out.println("Set to: " + velocityInitialisationStrategy);
 	}
 
 	/**

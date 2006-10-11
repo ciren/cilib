@@ -1,5 +1,5 @@
 /*
- * ZeroInitialVelocityStrategy.java
+ * RandomInitialVelocityStrategy.java
  *
  * Copyright (C) 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -28,27 +28,26 @@ import net.sourceforge.cilib.type.types.Vector;
 
 /**
  * 
- * @author Gary Pampara
+ * @author Andries Engelbrecht
  */
-public class ZeroInitialVelocityStrategy implements
+public class RandomInitialVelocityStrategy implements
 		VelocityInitialisationStrategy {
 	
-	public ZeroInitialVelocityStrategy() {
+	public RandomInitialVelocityStrategy() {
+
+	}
+	
+	public RandomInitialVelocityStrategy(RandomInitialVelocityStrategy copy) {
 		
 	}
 	
-	public ZeroInitialVelocityStrategy(ZeroInitialVelocityStrategy copy) {
-		
-	}
-	
-	public ZeroInitialVelocityStrategy clone() {
-		return new ZeroInitialVelocityStrategy(this);
+	public RandomInitialVelocityStrategy clone() {
+		return new RandomInitialVelocityStrategy(this);
 	}
 
 	public void initialise(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();
-		
-		velocity.reset();		
+		velocity.randomise();
 	}
 
 }

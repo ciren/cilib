@@ -69,6 +69,7 @@ public class StandardParticle extends Particle {
     	this.velocityUpdateStrategy = copy.velocityUpdateStrategy.clone(); // Check this
     	this.positionUpdateStrategy = copy.positionUpdateStrategy.clone();
     	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
+    	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.clone();
     	    	
     	this.position = copy.position.clone();
     	this.bestPosition = copy.position.clone();
@@ -116,6 +117,7 @@ public class StandardParticle extends Particle {
     
     
     public void initialise(OptimisationProblem problem) {
+    	System.out.println("Initialising particle");
         setId(PSO.getNextParticleId());
         
        	position = (Vector) problem.getDomain().getBuiltRepresenation().clone();
@@ -127,7 +129,6 @@ public class StandardParticle extends Particle {
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
         velocity = position.clone();
-        //velocity.reset();
         velocityInitialisationStrategy.initialise(this);
         
         fitness = InferiorFitness.instance();
