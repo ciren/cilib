@@ -164,7 +164,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 			}
 		}
 		
-		System.out.println("best sorted: " + topology.get(0).getFitness() + " best found: " + bestEntity.getFitness());
+//		System.out.println("best sorted: " + topology.get(0).getFitness() + " best found: " + bestEntity.getFitness());
 		return bestEntity;
 	}
 
