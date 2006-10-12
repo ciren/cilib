@@ -66,7 +66,7 @@ public class DifferentialEvolutionIterationStrategy implements
 		
 		for (Iterator<? extends Entity> iterator = topology.iterator(); iterator.hasNext(); ) {
 			Entity current = iterator.next();
-			current.setFitness(ec.getOptimisationProblem().getFitness(current.get(), false));
+			current.setFitness(ec.getOptimisationProblem().getFitness(current.get(), true));
 		
 			List<Entity> parents = getRandomParentEntities(topology);
 			
