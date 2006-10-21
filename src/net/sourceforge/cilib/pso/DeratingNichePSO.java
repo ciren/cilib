@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.DeratingFunctionMaximisationProblem;
@@ -56,7 +55,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * @deprecated Will be rewriten with a new design focused on flexibility, 
  *             plugability and useabilty
  */
-public class DeratingNichePSO extends Algorithm implements OptimisationAlgorithm
+public class DeratingNichePSO extends Algorithm
 {
   /**
    * This is the NichePSO that is used to find multiple solutions

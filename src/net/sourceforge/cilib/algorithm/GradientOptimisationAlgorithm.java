@@ -34,7 +34,7 @@ import net.sourceforge.cilib.problem.GradientOptimisationProblem;
  *
  * @author  Edwin Peer
  */
-public interface GradientOptimisationAlgorithm extends OptimisationAlgorithm {
+public interface GradientOptimisationAlgorithm {
      /**
      * Sets the optimisation problem to be solved.
      *

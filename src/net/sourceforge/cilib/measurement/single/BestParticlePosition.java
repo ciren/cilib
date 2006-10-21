@@ -29,7 +29,6 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
@@ -50,7 +49,7 @@ public class BestParticlePosition implements Measurement {
     }
     
     public Type getValue() {
-    	OptimisationAlgorithm alg = (OptimisationAlgorithm)Algorithm.get();
+    	Algorithm alg = Algorithm.get();
         Vector solution = (Vector) alg.getBestSolution().getPosition();
         
         StringType t = new StringType();

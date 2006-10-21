@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.StringType;
@@ -50,7 +49,7 @@ public class RNAStructureMeasurement implements Measurement {
 	 * @see net.sourceforge.cilib.Measurement.Measurement#getValue()
 	 */
 	public Type getValue() {
-		OptimisationSolution os =((OptimisationAlgorithm) Algorithm.get()).getBestSolution();
+		OptimisationSolution os = Algorithm.get().getBestSolution();
 		RNAConformation conf = (RNAConformation) os.getPosition();
 		
 		StringType t = new StringType();

@@ -25,6 +25,8 @@
  */
 package net.sourceforge.cilib.entity;
 
+import java.io.Serializable;
+
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
@@ -36,7 +38,7 @@ import net.sourceforge.cilib.type.types.Type;
  * 
  * @author otter
  */
-public interface Entity extends Comparable<Entity>, BehaviouralParameters {
+public interface Entity extends Comparable<Entity>, BehaviouralParameters, Serializable {
 	
 	/**
 	 * Make a clone of the Entity the exact semantics of the clone method will be defined by the classes

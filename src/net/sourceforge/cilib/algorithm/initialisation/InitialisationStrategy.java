@@ -72,7 +72,7 @@ public abstract class InitialisationStrategy {
 	 * @param topology The topology to initialise with Entity objects
 	 * @param problem The Problem to based the initialisation on
 	 */
-	public abstract <E extends Entity> void intialise(Topology<E> topology, OptimisationProblem problem);
+	public abstract void intialise(Topology<? extends Entity> topology, OptimisationProblem problem);
 
 
 	public int getEntities() {

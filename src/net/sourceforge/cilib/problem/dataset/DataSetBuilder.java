@@ -26,6 +26,7 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -34,7 +35,7 @@ import net.sourceforge.cilib.type.types.Vector;
 /**
  * @author Gary Pampara
  */
-public abstract class DataSetBuilder implements Iterable<DataSet> {
+public abstract class DataSetBuilder implements Iterable<DataSet>, Serializable {
 	
 	protected ArrayList<DataSet> dataSets;
 	

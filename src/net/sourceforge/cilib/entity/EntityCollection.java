@@ -26,6 +26,7 @@
  */
 package net.sourceforge.cilib.entity;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +38,7 @@ import java.util.List;
  * @author otter
  */
 public abstract class EntityCollection<E extends Entity> 
-	implements Collection<E>, Iterable<E>, List<E> {
+	implements Collection<E>, Iterable<E>, List<E>, Serializable {
        
     /**
      * Adds an entity to the topology

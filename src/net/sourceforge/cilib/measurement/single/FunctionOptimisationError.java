@@ -29,7 +29,6 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
@@ -51,7 +50,7 @@ public class FunctionOptimisationError implements Measurement {
     }
     
     public Type getValue() {
-    	OptimisationAlgorithm algorithm = (OptimisationAlgorithm) Algorithm.get();
+    	Algorithm algorithm = Algorithm.get();
     	FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
     	
     	Double d = new Double(problem.getError(algorithm.getBestSolution().getPosition()));

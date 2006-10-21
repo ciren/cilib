@@ -28,6 +28,7 @@
 
 package net.sourceforge.cilib.simulator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -40,7 +41,13 @@ import net.sourceforge.cilib.measurement.Measurement;
  *
  * @author  Edwin Peer
  */
-public class MeasurementSuite {
+public class MeasurementSuite implements Serializable {
+	
+	private String file;
+    private int samples;
+    private int resolution;
+    private ArrayList<Measurement> measurements;
+    private SynchronizedOutputBuffer buffer;
     
     /** Creates a new instance of MeasurementSuite */
     public MeasurementSuite() {
@@ -123,11 +130,6 @@ public class MeasurementSuite {
         for (Measurement measurement : measurements) {
             buffer.writeMeasuredValue(measurement.getValue(), algorithm, measurement);
         }
-    }
-    
-    private String file;
-    private int samples;
-    private int resolution;
-    private ArrayList<Measurement> measurements;
-    private SynchronizedOutputBuffer buffer;
+    }	
+
 }

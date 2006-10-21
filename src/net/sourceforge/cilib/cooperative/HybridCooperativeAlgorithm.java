@@ -3,13 +3,12 @@ package net.sourceforge.cilib.cooperative;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
-public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements OptimisationAlgorithm, ParticipatingAlgorithm {
+public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
 
 	public HybridCooperativeAlgorithm() {
 		super();

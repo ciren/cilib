@@ -25,7 +25,6 @@ package net.sourceforge.cilib.measurement.multiple;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.MixedVector;
@@ -48,7 +47,7 @@ public class MultipleSolutions implements Measurement {
 	
 	public Type getValue() {		
 		Vector v = new MixedVector();
-		List<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
+		List<OptimisationSolution> solutions = Algorithm.get().getSolutions();
 		
 		for (OptimisationSolution solution : solutions) {
 			Number n = (Number) solution.getFitness().getValue();

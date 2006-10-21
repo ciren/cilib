@@ -29,7 +29,6 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
@@ -51,7 +50,7 @@ public class FitnessEvaluations implements Measurement {
     
     public Type getValue() {
     	Int i = new Int();
-    	i.setInt(((OptimisationAlgorithm) Algorithm.get()).getOptimisationProblem().getFitnessEvaluations());
+    	i.setInt((Algorithm.get()).getOptimisationProblem().getFitnessEvaluations());
         
     	//return new Integer(((OptimisationAlgorithm) Algorithm.get()).getOptimisationProblem().getFitnessEvaluations());
     	return i;

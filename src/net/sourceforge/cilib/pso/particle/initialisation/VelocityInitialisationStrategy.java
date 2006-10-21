@@ -23,6 +23,8 @@
  */
 package net.sourceforge.cilib.pso.particle.initialisation;
 
+import java.io.Serializable;
+
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
@@ -30,7 +32,7 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * 
  * @author Gary Pampara
  */
-public interface VelocityInitialisationStrategy {
+public interface VelocityInitialisationStrategy extends Serializable {
 	
 	/**
 	 * Clone the VeclocityInitialisationStrategy 

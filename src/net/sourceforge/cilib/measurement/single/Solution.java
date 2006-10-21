@@ -26,7 +26,6 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.StringType;
@@ -48,7 +47,7 @@ public class Solution implements Measurement {
 	public Type getValue() {
 		StringType s = new StringType();
 		
-		MixedVector solution = (MixedVector) ((OptimisationAlgorithm) Algorithm.get()).getBestSolution().getPosition();
+		MixedVector solution = (MixedVector) Algorithm.get().getBestSolution().getPosition();
 		
 		//s.setString(buffer.toString());
 		s.setString(solution.toString());

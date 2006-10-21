@@ -26,6 +26,8 @@
  */
 package net.sourceforge.cilib.problem;
 
+import java.io.Serializable;
+
 /**
  * This interface is an abstraction for the fitness of a solution to an optimisation problem.
  * The actual fitness value (as determined by the {@link OptimisationProblem} in question) 
@@ -51,7 +53,7 @@ package net.sourceforge.cilib.problem;
  * 
  * @author Edwin Peer
  */
-public interface Fitness extends Comparable<Fitness> {
+public interface Fitness extends Comparable<Fitness>, Serializable {
 	
 	/**
 	 * Returns the underlying fitness value.

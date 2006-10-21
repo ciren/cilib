@@ -29,7 +29,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.MixedVector;
@@ -66,7 +65,7 @@ public class MultipleFitness implements Measurement {
 		return fitnessValues.toArray();*/
 		
 		MixedVector fitnessValues = new MixedVector();
-		Collection<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
+		Collection<OptimisationSolution> solutions = Algorithm.get().getSolutions();
 		
 		for (Iterator i = solutions.iterator(); i.hasNext(); ) {
 			Number fitness = (Number) ((OptimisationSolution)i.next()).getFitness().getValue();

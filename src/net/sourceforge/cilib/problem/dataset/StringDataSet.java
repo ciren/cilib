@@ -1,6 +1,8 @@
 package net.sourceforge.cilib.problem.dataset;
 
-public interface StringDataSet {
+import java.io.Serializable;
+
+public interface StringDataSet extends Serializable {
 	
 	public int getShortestLength();
 	

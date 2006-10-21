@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -59,7 +60,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 			//select three random individuals, all different and different from particle
 			PSO pso = (PSO) Algorithm.get();
 			
-			Iterator k = pso.getTopology().iterator();
+			/*Iterator k = pso.getTopology().iterator();
 			int counter = 0;
 			String particleId = particle.getId();
 			Vector pos;
@@ -69,6 +70,17 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 					pos = (Vector) p.getPosition();
 					positions.add(pos);
 					counter++;
+				}
+			}*/
+			
+			int count = 0;
+			
+			while (count < 3) {
+				int random = rand2.getRandomGenerator().nextInt(pso.getTopology().size());
+				Entity parent = pso.getTopology().get(random);
+				if (!positions.contains(parent)) {
+					positions.add((Vector) parent.get());
+					count++;
 				}
 			}
 	        

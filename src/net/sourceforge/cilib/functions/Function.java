@@ -28,6 +28,8 @@
 
 package net.sourceforge.cilib.functions;
 
+import java.io.Serializable;
+
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 
@@ -37,7 +39,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public abstract class Function {
+public abstract class Function implements Serializable {
 
 	/**
 	 * 

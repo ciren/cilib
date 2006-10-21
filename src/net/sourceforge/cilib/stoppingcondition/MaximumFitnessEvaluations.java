@@ -29,7 +29,6 @@
 package net.sourceforge.cilib.stoppingcondition;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 
 /**
  *
@@ -63,9 +62,9 @@ public class MaximumFitnessEvaluations implements StoppingCondition {
     }
     
     public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = (OptimisationAlgorithm) algorithm;
+        this.algorithm = algorithm;
     }
     
     private int maximumFitnessEvaluations;
-    private OptimisationAlgorithm algorithm;
+    private Algorithm algorithm;
 }

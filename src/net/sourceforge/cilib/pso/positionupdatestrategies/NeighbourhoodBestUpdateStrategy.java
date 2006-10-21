@@ -25,13 +25,15 @@
  */
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
+import java.io.Serializable;
+
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * @author Gary Pampara
  */
-public interface NeighbourhoodBestUpdateStrategy {
+public interface NeighbourhoodBestUpdateStrategy extends Serializable {
 	
 	public Fitness getSocialBestFitness(Particle particle);
 

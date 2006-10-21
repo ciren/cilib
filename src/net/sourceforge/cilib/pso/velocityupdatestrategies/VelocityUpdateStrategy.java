@@ -27,13 +27,15 @@
 
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
+import java.io.Serializable;
+
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  *
  * @author Gary Pampara
  */
-public interface VelocityUpdateStrategy {
+public interface VelocityUpdateStrategy extends Serializable {
 	
 	/**
 	 * Clone the <tt>VelocityUpdateStrategy</tt> object.

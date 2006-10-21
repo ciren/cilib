@@ -133,14 +133,21 @@ public class CILibHandlerTest {
 	@Test
 	public void initialiseAlgorithm() {
 		try {
+			Simulation simulation = new Simulation();
+			
 			PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) ObjectRegistry.getInstance().getObject("gbest");
 			OptimisationProblem problem = (OptimisationProblem) ObjectRegistry.getInstance().getObject("spherical");
 			
+			simulation.setAlgorithm(algorithm);
+			simulation.setProblem(problem);
+			
+			algorithm.setSimulation(simulation);
 			algorithm.setOptimisationProblem(problem);
 			
 			algorithm.initialise();
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			fail("Initialisation of algorithm failed.");
 		}
 	}

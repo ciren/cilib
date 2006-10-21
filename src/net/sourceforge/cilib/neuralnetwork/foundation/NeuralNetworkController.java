@@ -27,7 +27,10 @@ package net.sourceforge.cilib.neuralnetwork.foundation;
 
 
 
+import java.util.List;
+
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
  * @author stefanv
@@ -88,5 +91,17 @@ public class NeuralNetworkController extends SingularAlgorithm {
 	 */
 	public void setNNProblem(NeuralNetworkProblem problem) {
 		NNProblem = problem;
+	}
+
+	@Override
+	public OptimisationSolution getBestSolution() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OptimisationSolution> getSolutions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

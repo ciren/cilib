@@ -6,7 +6,7 @@
 
 package net.sourceforge.cilib.stoppingcondition;
 
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.AbsoluteDistanceMeasure;
@@ -19,7 +19,7 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *
  * @author  frans
  */
-public class OptimiserStalled implements StoppingCondition{
+public class OptimiserStalled implements StoppingCondition {
     
     /** Creates a new instance of OptimiserStalled */
     public OptimiserStalled() {
@@ -59,8 +59,8 @@ public class OptimiserStalled implements StoppingCondition{
         return false;
     }
     
-    public void setAlgorithm(net.sourceforge.cilib.algorithm.Algorithm algorithm) {
-        this.algorithm = (OptimisationAlgorithm) algorithm;
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
     }
 
     /**sets the minimum percentage that the new best location must be from the previous
@@ -81,6 +81,6 @@ public class OptimiserStalled implements StoppingCondition{
     protected int minChangeCounter;
     
     DistanceMeasure distMeasure;
-    OptimisationAlgorithm algorithm;
+    Algorithm algorithm;
     OptimisationSolution previousBest;
 }

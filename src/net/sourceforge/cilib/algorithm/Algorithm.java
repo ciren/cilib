@@ -25,11 +25,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  * 
  */
-
 package net.sourceforge.cilib.algorithm;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.Vector;
 
+import net.sourceforge.cilib.algorithm.proxy.AlgorithmProxy;
+import net.sourceforge.cilib.algorithm.proxy.DistributedAlgorithmProxy;
+import net.sourceforge.cilib.algorithm.proxy.LocalAlgorithmProxy;
+import net.sourceforge.cilib.ioc.Simulation;
+import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
@@ -45,7 +52,19 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  *
  * @author  Edwin Peer
  */
-public abstract class Algorithm implements Runnable {
+public abstract class Algorithm implements Runnable, Serializable {
+	
+	private Vector<StoppingCondition> stoppingConditions;
+    private Vector<AlgorithmListener> algorithmListeners;
+    private int iterations;
+    private volatile boolean running;
+    private boolean initialised;
+    private boolean distributed;
+    public static byte _ciclops_exclude_algorithmListener = 1; // TODO: Replace these with annotations
+    
+    private Simulation simulation; 
+    private static AlgorithmProxy proxy; // TODO: Is this over engineered? Thin about the flow and determine whether or not this strategy couldn't work like the original??? 
+    
     
     protected Algorithm() {
     	LoggingSingleton.initialise();
@@ -54,6 +73,7 @@ public abstract class Algorithm implements Runnable {
         algorithmListeners = new Vector<AlgorithmListener>();
         running = false;
         initialised = false;
+        distributed = false;
     }
     
     /**
@@ -66,6 +86,13 @@ public abstract class Algorithm implements Runnable {
         
         if (stoppingConditions.isEmpty()) {
         	throw new InitialisationException("No stopping conditions specified");
+        }
+        
+        if (distributed) {
+        	proxy = new DistributedAlgorithmProxy(); 
+        }
+        else {
+        	proxy = new LocalAlgorithmProxy();
         }
         
         performInitialisation();
@@ -89,8 +116,8 @@ public abstract class Algorithm implements Runnable {
             throw new InitialisationException("Algorithm not initialised");
         }
 
-    	if (localInstance.get() == null) {
-    		localInstance.set(this);
+    	if (proxy.get() == null) {
+    		proxy.set(this);
     	}
     
         fireAlgorithmStarted();
@@ -144,7 +171,6 @@ public abstract class Algorithm implements Runnable {
     public final void addAlgorithmListener(AlgorithmListener listener) {
         algorithmListeners.add(listener);
     }
-    public static byte _ciclops_exclude_algorithmListener = 1; // TODO: Replace these with annotations
     
     /**
      * Removes an alogorithm event listener
@@ -208,7 +234,11 @@ public abstract class Algorithm implements Runnable {
      * @return the instance of the algorithm that is running in the current thread,.
      */
     public static Algorithm get() {
-        return localInstance.get();
+        return proxy.get();
+    }
+    
+    public static AlgorithmProxy getProxy() {
+    	return proxy;
     }
     
     
@@ -239,13 +269,57 @@ public abstract class Algorithm implements Runnable {
     		listener.iterationCompleted(new AlgorithmEvent(this));
     	}
     }
+    
+    public Simulation getSimulation() {
+		return simulation;
+	}
+
+	public void setSimulation(Simulation simulation) {
+		this.simulation = simulation;
+	}
+	
+	public boolean isDistributed() {
+		return distributed;
+	}
+
+	public void setDistributed(boolean distributed) {
+		this.distributed = distributed;
+	}
+
+	/**
+     * Set the optimisation problem to be solved. By default, the problem is
+     * <code>null</code>. That is, it is necessary to set the optimisation problem
+     * before calling {@link #initialise()}.
+     *
+     * @param problem An implementation of the {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
+     *
+     */
+    public void setOptimisationProblem(OptimisationProblem problem) {
+        this.simulation.setProblem(problem);
+    }
 
     
-    private Vector<StoppingCondition> stoppingConditions;
-    private Vector<AlgorithmListener> algorithmListeners;
-    private int iterations;
-    private volatile boolean running;
-    private boolean initialised;
+    /**
+     * Get the specified <code>OptimisationProblem</code>
+     * @return The specified <code>OptimisationProblem</code>
+     */
+    public OptimisationProblem getOptimisationProblem() {
+        return this.simulation.getProblem();
+    }
     
-    private static ThreadLocal<Algorithm> localInstance = new ThreadLocal<Algorithm>(); 
+    
+    /**
+     * Get the best current solution. This best solution is determined from the personal bests of the particles.
+     * @return The <code>OptimisationSolution</code> representing the best solution.
+     */
+    public abstract OptimisationSolution getBestSolution();
+
+    
+    /**
+     * Get the collection of best solutions. This result does not actually make sense in the normal PSO
+     * algorithm, but rather in a MultiObjective optimisation.
+     * @return  The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions. 
+     */
+    public abstract List<OptimisationSolution> getSolutions();
+	
 }

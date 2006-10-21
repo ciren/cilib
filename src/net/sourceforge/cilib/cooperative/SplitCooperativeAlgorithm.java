@@ -35,7 +35,6 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.cooperative.contributionupdatestrategies.ContributionUpdateStrategy;
 import net.sourceforge.cilib.cooperative.fitnessupdatestrategies.FitnessUpdateStrategy;
 import net.sourceforge.cilib.cooperative.populationiterators.PopulationIterator;
@@ -191,7 +190,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 			population.performIteration();
 			try {
 				//TODO check whether this cast is safe
-				CooperativeOptimisationProblemAdapter participantProblem = (CooperativeOptimisationProblemAdapter)((OptimisationAlgorithm)population).getOptimisationProblem();
+				CooperativeOptimisationProblemAdapter participantProblem = (CooperativeOptimisationProblemAdapter)((Algorithm)population).getOptimisationProblem();
 				participantProblem.updateContext(context);
 				contributionUpdateStrategy.updateContribution(((ParticipatingAlgorithm)population).getContribution(), 0, context, participantProblem.getOffset(), participantProblem.getDimension());
 				fitnessUpdateStrategy.updateFitness(optimisationProblem, context);

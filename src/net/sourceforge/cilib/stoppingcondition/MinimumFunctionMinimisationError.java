@@ -29,7 +29,6 @@
 package net.sourceforge.cilib.stoppingcondition;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 
 /**
@@ -68,11 +67,11 @@ public class MinimumFunctionMinimisationError implements StoppingCondition {
     }
     
     public void setAlgorithm(Algorithm algorithm) {
-        optAlgorithm = (OptimisationAlgorithm) algorithm;
+        optAlgorithm = algorithm;
         problem = (FunctionMinimisationProblem) optAlgorithm.getOptimisationProblem();
     }
     
-    private OptimisationAlgorithm optAlgorithm;
+    private Algorithm optAlgorithm;
     private double minimumError;
     private FunctionMinimisationProblem problem;
     

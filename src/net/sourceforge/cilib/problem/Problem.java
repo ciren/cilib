@@ -28,6 +28,8 @@
 
 package net.sourceforge.cilib.problem;
 
+import java.io.Serializable;
+
 
 /**
  * This is a common abstraction for all problem classes. All problems should extend this interface. 
@@ -35,6 +37,6 @@ package net.sourceforge.cilib.problem;
  *
  * @author  Edwin Peer
  */
-public interface Problem {
+public interface Problem extends Serializable{
     
 }

@@ -15,4 +15,4 @@ done
 
 [ "$CLASSPATH" != "" ] && CLASSPATH="${CILIBJAR}:${CLASSPATH}" || CLASSPATH="${CILIBJAR}"
 
-nice java $JAVA_OPTS net.sourceforge.cilib.simulator.Main $@ -textprogress
+nice java $JAVA_OPTS -Xms1000M -Xmx2000M net.sourceforge.cilib.simulator.Main $@ -textprogress

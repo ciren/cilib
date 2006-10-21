@@ -29,7 +29,6 @@
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -49,7 +48,7 @@ public class Fitness implements Measurement {
     }
     
     public Type getValue() {
-    	Number n = (Number) ((OptimisationAlgorithm) Algorithm.get()).getBestSolution().getFitness().getValue();    	
+    	Number n = (Number) (Algorithm.get()).getBestSolution().getFitness().getValue();    	
     	return new Real(n.doubleValue());
     }
     

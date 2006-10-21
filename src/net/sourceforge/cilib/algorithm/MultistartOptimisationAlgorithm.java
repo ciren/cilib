@@ -55,7 +55,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
  * 
  * @author  Edwin Peer
  */
-public class MultistartOptimisationAlgorithm extends Algorithm implements OptimisationAlgorithm, ParticipatingAlgorithm {
+public class MultistartOptimisationAlgorithm extends Algorithm implements ParticipatingAlgorithm {
     
     /** Creates a new instance of MultistartOptimisationAlgorithm */
     public MultistartOptimisationAlgorithm() {
@@ -68,7 +68,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Optimi
      *
      * @param algorithm Any {@link OptimisationAlgorithm} that extends {@link Algorithm}.
      */
-    public void setTargetAlgorithm(OptimisationAlgorithm algorithm) {
+    public void setTargetAlgorithm(Algorithm algorithm) {
         optimisationAlgorithm = algorithm;
         this.algorithm = (Algorithm) algorithm;
         this.algorithm.addStoppingCondition(singleIteration);
@@ -177,7 +177,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Optimi
 	}
     
     private Algorithm algorithm;
-    private OptimisationAlgorithm optimisationAlgorithm;
+    private Algorithm optimisationAlgorithm;
     private int restarts;
     private SingleIteration singleIteration;
     private MultistartProblemAdapter problem;

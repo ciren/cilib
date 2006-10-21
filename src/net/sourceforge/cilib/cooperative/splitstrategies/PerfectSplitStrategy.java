@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
 import net.sourceforge.cilib.problem.CooperativeOptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -24,7 +23,7 @@ public class PerfectSplitStrategy implements SplitStrategy {
 		int offset = 0;
 		for(Algorithm population : populations) {
 			//TODO check whether this cast is safe
-			((OptimisationAlgorithm)population).setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
+			((Algorithm)population).setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
 			offset += dimension;
 		}
 	}

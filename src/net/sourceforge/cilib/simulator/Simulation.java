@@ -25,10 +25,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
 package net.sourceforge.cilib.simulator;
 
-import java.lang.reflect.Method;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -36,7 +34,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
-import net.sourceforge.cilib.algorithm.InitialisationException;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.ProblemFactory;
 
@@ -87,7 +85,9 @@ public class Simulation extends Thread implements AlgorithmListener {
             threads[i] = new Thread(algorithms[i]);
             algorithms[i].addAlgorithmListener(this);
             Problem problem = problemFactory.newProblem();
-            try {
+
+            algorithms[i].setOptimisationProblem((OptimisationProblem) problem);
+            /*try {
                 Class<? extends Object> current = problem.getClass();
 
                 while (! current.getSuperclass().equals(Object.class)) {
@@ -102,7 +102,8 @@ public class Simulation extends Thread implements AlgorithmListener {
             }
             catch (Exception ex) {
                 throw new InitialisationException(algorithms[i].getClass().getName() + " does not support problems of type " + problem.getClass().getName());
-            }
+            }*/
+            
             algorithms[i].initialise();
             progress.put(algorithms[i], new Double(0));
         }

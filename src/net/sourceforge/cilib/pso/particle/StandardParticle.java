@@ -117,7 +117,6 @@ public class StandardParticle extends Particle {
     
     
     public void initialise(OptimisationProblem problem) {
-    	System.out.println("Initialising particle");
         setId(PSO.getNextParticleId());
         
        	position = (Vector) problem.getDomain().getBuiltRepresenation().clone();

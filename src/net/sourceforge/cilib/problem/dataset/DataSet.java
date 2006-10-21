@@ -28,6 +28,7 @@
 package net.sourceforge.cilib.problem.dataset;
 
 import java.io.InputStream;
+import java.io.Serializable;
 
 /**
  * This interface provides an abstraction for accessing data sets. The underlying data
@@ -36,7 +37,7 @@ import java.io.InputStream;
  * @author Edwin Peer
  * @author Theuns Cloete
  */
-public abstract class DataSet {
+public abstract class DataSet implements Serializable {
 	
 	protected String patternExpression = "";
 	

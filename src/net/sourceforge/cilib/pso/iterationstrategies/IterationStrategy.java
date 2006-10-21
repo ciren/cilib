@@ -25,12 +25,14 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
+import java.io.Serializable;
+
 import net.sourceforge.cilib.pso.PSO;
 
 /**
  * @author Gary Pampara
  */
-public abstract class IterationStrategy {
+public abstract class IterationStrategy implements Serializable {
 	
 	protected BoundaryConstraint boundaryConstraint;
 	

@@ -39,7 +39,6 @@ import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.IterationStrategy;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
@@ -76,6 +75,19 @@ import org.apache.log4j.Logger;
 public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	
 	private static Logger log = Logger.getLogger(PSO.class);
+	
+	 private static int currentParticleId = 0;
+
+	 private int particles;
+
+	 private Topology<Particle> topology;
+	 
+	 private Particle bestParticle;
+	    
+	 private IterationStrategy iterationStrategy;
+	    
+	 private InitialisationStrategy initialisationStrategy;
+	 protected boolean participation = false;
 
     /**
      * Creates a new instance of <code>PSO</code>. All fields are initialised to
@@ -84,8 +96,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      *
      */
     public PSO() {
-        problem = null;
-
         //particles = 20;
         topology = new GBestTopology<Particle>();
 
@@ -102,7 +112,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      * then to the specified topology.
      */
     public void performInitialisation() {
-        this.initialisationStrategy.intialise(this.topology, this.problem);
+        this.initialisationStrategy.intialise(this.topology, this.getOptimisationProblem());
     }
 
     
@@ -138,28 +148,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	public void setInitialisationStrategy(
 			InitialisationStrategy initialisationStrategy) {
 		this.initialisationStrategy = initialisationStrategy;
-	}    
-    
-    /**
-     * Set the optimisation problem to be solved. By default, the problem is
-     * <code>null</code>. That is, it is necessary to set the optimisation problem
-     * before calling {@link #initialise()}.
-     *
-     * @param problem An implementation of the {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
-     *
-     */
-    public void setOptimisationProblem(OptimisationProblem problem) {
-        this.problem = problem;
-    }
-
-    
-    /**
-     * Get the specified <code>OptimisationProblem</code>
-     * @return The specified <code>OptimisationProblem</code>
-     */
-    public OptimisationProblem getOptimisationProblem() {
-        return problem;
-    }
+	}   
     
     
     /**
@@ -167,7 +156,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      * @return The <code>OptimisationSolution</code> representing the best solution.
      */
     public OptimisationSolution getBestSolution() {
-    	OptimisationSolution solution = new OptimisationSolution(problem, getBestParticle().getBestPosition().clone());
+    	OptimisationSolution solution = new OptimisationSolution(this.getOptimisationProblem(), getBestParticle().getBestPosition().clone());
         
         return solution;
     }
@@ -378,17 +367,5 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		this.iterationStrategy = iterationStrategy;
 	}
 	
-    private static int currentParticleId = 0;
-
-    private int particles;
-
-    private Topology<Particle> topology;
-    private OptimisationProblem problem;
-
-    private Particle bestParticle;
-
-    private IterationStrategy iterationStrategy;
-    
-    private InitialisationStrategy initialisationStrategy;
-    protected boolean participation = false;
+   
 }

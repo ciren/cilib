@@ -55,7 +55,7 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 	 * @throws InitialisationException if the initialisation cannot take place.
 	 */
 	@SuppressWarnings("unchecked")
-	public <E extends Entity> void intialise(Topology<E> topology, OptimisationProblem problem) {
+	public void intialise(Topology topology, OptimisationProblem problem) {
 		
 		 if (problem == null)
 			 throw new InitialisationException("No problem has been specified");
@@ -64,7 +64,7 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 			 throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 		 
 		 for (int i = 0; i < entities; ++i) {
-			 E entity = (E) prototypeEntity.clone();
+			 Entity entity = (Entity) prototypeEntity.clone();
 		    
 			 entity.initialise(problem);
 			 topology.add(entity);

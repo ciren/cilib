@@ -26,30 +26,26 @@
  */
 package net.sourceforge.cilib.ioc;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.simulator.MeasurementSuite;
-import net.sourceforge.cilib.simulator.ProgressListener;
 
 /**
  * 
  * @author Gary Pampara
  */
-public class Simulation extends Thread implements AlgorithmListener {
+public class Simulation extends Thread implements AlgorithmListener, Serializable {
 	
+	private static final long serialVersionUID = -1205166010434175545L;
 	private Algorithm algorithm;
 	private OptimisationProblem optimisationProblem;
 	private MeasurementSuite measurements;
 	
-	private List<ProgressListener> progressListeners;
-	
 	public Simulation() {
-		progressListeners = new ArrayList<ProgressListener>();
 		
 	}
 
@@ -78,7 +74,9 @@ public class Simulation extends Thread implements AlgorithmListener {
 	}
 
 	public void run() {
-		algorithm.run();		
+		for (int i = 0; i < measurements.getSamples(); i++) {
+			algorithm.run();		
+		}
 	}
 
 	public void algorithmStarted(AlgorithmEvent e) {
