@@ -58,6 +58,12 @@ import net.sourceforge.cilib.problem.ProblemFactory;
  * @author  Edwin Peer
  */
 public class Simulation extends Thread implements AlgorithmListener {
+	
+	private MeasurementSuite measurementSuite;
+    private net.sourceforge.cilib.ioc.Simulation[] simulations;
+    private Thread[] threads;
+    private Vector<ProgressListener> progressListeners;
+    private Hashtable<Algorithm, Double> progress;
     
     /** 
      * Creates a new instance of Simulation given an algorithm factory, a problem factory and
@@ -78,15 +84,25 @@ public class Simulation extends Thread implements AlgorithmListener {
         progressListeners = new Vector<ProgressListener>();
         progress = new Hashtable<Algorithm, Double>();
 
-        algorithms = new Algorithm[measurementSuite.getSamples()];
+        simulations = new net.sourceforge.cilib.ioc.Simulation[measurementSuite.getSamples()];
+        //algorithms = new Algorithm[measurementSuite.getSamples()];
         threads = new Thread[measurementSuite.getSamples()];
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            algorithms[i] = algorithmFactory.newAlgorithm();
-            threads[i] = new Thread(algorithms[i]);
-            algorithms[i].addAlgorithmListener(this);
+            //algorithms[i] = algorithmFactory.newAlgorithm();
+        	simulations[i] = new net.sourceforge.cilib.ioc.Simulation();
+        	Algorithm algorithm = algorithmFactory.newAlgorithm();
+        	algorithm.setSimulation(simulations[i]);
+        	simulations[i].setAlgorithm(algorithm);
+            //threads[i] = new Thread(algorithms[i]);
+        	threads[i] = new Thread(simulations[i]);
+            //algorithms[i].addAlgorithmListener(this);
+        	simulations[i].getAlgorithm().addAlgorithmListener(this);
             Problem problem = problemFactory.newProblem();
-
-            algorithms[i].setOptimisationProblem((OptimisationProblem) problem);
+            
+            //algorithms[i].setOptimisationProblem((OptimisationProblem) problem);
+            simulations[i].setProblem((OptimisationProblem) problem);
+            
+            simulations[i].setMeasurements(measurementSuite);
             /*try {
                 Class<? extends Object> current = problem.getClass();
 
@@ -104,8 +120,10 @@ public class Simulation extends Thread implements AlgorithmListener {
                 throw new InitialisationException(algorithms[i].getClass().getName() + " does not support problems of type " + problem.getClass().getName());
             }*/
             
-            algorithms[i].initialise();
-            progress.put(algorithms[i], new Double(0));
+            //algorithms[i].initialise();
+            simulations[i].initialise();
+            //progress.put(algorithms[i], new Double(0));
+            progress.put(simulations[i].getAlgorithm(), new Double(0.0));
         }
     }
     
@@ -124,7 +142,8 @@ public class Simulation extends Thread implements AlgorithmListener {
         }
         measurementSuite.getOutputBuffer().close();
         measurementSuite = null;
-        algorithms = null;
+        //algorithms = null;
+        simulations = null;
         progress = null;
         progressListeners = null;
         threads = null;
@@ -135,7 +154,8 @@ public class Simulation extends Thread implements AlgorithmListener {
      */
     public void terminate() {
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            algorithms[i].terminate();
+            //algorithms[i].terminate();
+        	simulations[i].getAlgorithm().terminate();
         }
     }
     
@@ -195,11 +215,5 @@ public class Simulation extends Thread implements AlgorithmListener {
             notifyProgress();
         }		
 	}
-    
-    private MeasurementSuite measurementSuite;
-    private Algorithm[] algorithms;
-    private Thread[] threads;
-    private Vector<ProgressListener> progressListeners;
-    private Hashtable<Algorithm, Double> progress;
 	
 }

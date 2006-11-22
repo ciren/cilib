@@ -59,6 +59,7 @@ public abstract class Particle implements Entity {
     //    protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
     
     private int id;
+
     /**
      * 
      *
@@ -92,6 +93,10 @@ public abstract class Particle implements Entity {
     	this.id = Integer.parseInt(id);
     }
     
+    /**
+     * 
+     * @param id
+     */
     public void setId(int id) {
     	this.id = id;
     }
@@ -103,8 +108,8 @@ public abstract class Particle implements Entity {
     public abstract void setFitness(Fitness fitness);
 
     /**
-     * 
-     * @return
+     * Get the Fitness of the current Particle 
+     * @return 
      */
     public abstract Fitness getFitness();
     
@@ -147,8 +152,10 @@ public abstract class Particle implements Entity {
     public abstract Type getVelocity();
 
     /**
+     * Set the neighbourhood best particle for the current Particle based on the
+     * topology of the current particle.
      * 
-     * @param particle
+     * @param particle The particle to use as the current particle's neighhod best particle
      */
     public abstract void setNeighbourhoodBest(Particle particle);
     
@@ -217,6 +224,7 @@ public abstract class Particle implements Entity {
 		return positionUpdateStrategy;
 	}
 	
+	
 	/**
 	 * Set the <tt>PostionUpdateStrategy</tt> for the <tt>Particle</tt>.
 	 * @param positionUpdateStrategy The <tt>PositionUpdateStrategy</tt> to use.
@@ -229,6 +237,9 @@ public abstract class Particle implements Entity {
 	
 	
 	/**
+	 * Get the {@see net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy}
+	 * of the current particle.
+	 * 
 	 * @return Returns the velocityUpdateStrategy.
 	 */
 	public VelocityUpdateStrategy getVelocityUpdateStrategy() {
@@ -236,6 +247,7 @@ public abstract class Particle implements Entity {
 	}
 
 	/**
+	 * Set the velocity updating strategy for the particle.
 	 * @param velocityUpdateStrategy The velocityUpdateStrategy to set.
 	 */
 	public void setVelocityUpdateStrategy(
@@ -269,15 +281,5 @@ public abstract class Particle implements Entity {
 		//throw new UnsupportedOperationException("This does not exist --- not supported");
 		return getFitness().compareTo(o.getFitness());
 	}
-	
-	/*public boolean equals(Object obj) {
-		if (obj instanceof Particle) {
-			Particle other = (Particle) obj;
-			
-			if (this.id == other.id)
-				return true;
-		}
-		
-		return false;
-	}*/
+
 }

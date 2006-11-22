@@ -24,7 +24,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
-
 package net.sourceforge.cilib.math.random.generator;
 
 import java.net.InetAddress;
@@ -40,13 +39,19 @@ import java.util.Random;
  * @author  Edwin Peer
  */
 public class Seeder {
+	
+	private static Seeder seeder = null;
+    private Random random;
+    private int address;
     
     private Seeder() {
+ 
         random = new SecureRandom();
         address = getNetworkAddress();
     }
     
-    public static long getSeed() {
+    public synchronized static long getSeed() {
+
         if (seeder == null) {
             seeder = new Seeder();
         }
@@ -55,6 +60,7 @@ public class Seeder {
         seed ^= System.currentTimeMillis();
         seed ^= seeder.address;
         seed ^= ((long) System.identityHashCode(new Object())) << 32;
+        
         return seed;
     }
     
@@ -91,9 +97,5 @@ public class Seeder {
             return ((int)address[0]) << 24 | ((int)address[1]) << 16 | ((int) address[2]) << 8 | (int) address[3]; 
         }
     }
-    
-    private static Seeder seeder = null;
-    private Random random;
-    private int address;
     
 }

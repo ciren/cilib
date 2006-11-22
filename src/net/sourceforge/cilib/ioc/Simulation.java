@@ -99,4 +99,9 @@ public class Simulation extends Thread implements AlgorithmListener, Serializabl
 		
 	}
 
+	public void initialise() {
+		this.algorithm.setOptimisationProblem(this.optimisationProblem);
+		this.algorithm.initialise();
+	}
+
 }

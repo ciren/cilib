@@ -104,7 +104,7 @@ public final class MathUtil {
 	 * 
 	 * @return
 	 */
-	public static double random() {
+	public synchronized static double random() {
 		if (randomiser == null)
 			randomiser = new MersenneTwister();
 		

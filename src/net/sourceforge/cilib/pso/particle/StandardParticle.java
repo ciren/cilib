@@ -72,8 +72,8 @@ public class StandardParticle extends Particle {
     	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.clone();
     	    	
     	this.position = copy.position.clone();
-    	this.bestPosition = copy.position.clone();
-    	this.velocity = copy.position.clone();
+    	this.bestPosition = copy.bestPosition.clone();
+    	this.velocity = copy.velocity.clone();
     }
     
     /**
