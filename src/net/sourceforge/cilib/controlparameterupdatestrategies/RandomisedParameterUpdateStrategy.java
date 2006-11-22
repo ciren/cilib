@@ -24,12 +24,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
-package net.sourceforge.cilib.pso.parameterupdatestrategies;
+package net.sourceforge.cilib.controlparameterupdatestrategies;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
@@ -39,7 +37,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * @author Gary Pampara
  * @author Andries Engelbrecht
  */
-public class AccelerationUpdateStrategy implements ControlParameterUpdateStrategy {
+public class RandomisedParameterUpdateStrategy implements ControlParameterUpdateStrategy {
 
 	protected ControlParameterUpdateStrategy parameterUpdateStrategy;
 	protected Random randomiser;
@@ -51,7 +49,7 @@ public class AccelerationUpdateStrategy implements ControlParameterUpdateStrateg
 	 * and a <tt>MersenneTwister</tt> as the random number generator.
 	 *
 	 */
-	public AccelerationUpdateStrategy() {
+	public RandomisedParameterUpdateStrategy() {
 		this.parameterUpdateStrategy = new ConstantUpdateStrategy();
 		this.randomiser = new MersenneTwister();
 	}
@@ -61,14 +59,14 @@ public class AccelerationUpdateStrategy implements ControlParameterUpdateStrateg
 	 * Copy constructor.
 	 * @param copy
 	 */
-	public AccelerationUpdateStrategy(AccelerationUpdateStrategy copy) {
+	public RandomisedParameterUpdateStrategy(RandomisedParameterUpdateStrategy copy) {
 		this.parameterUpdateStrategy = copy.parameterUpdateStrategy.clone();
 		this.randomiser = new MersenneTwister();
 	}
 	
 	
-	public AccelerationUpdateStrategy clone() {
-		return new AccelerationUpdateStrategy(this);
+	public RandomisedParameterUpdateStrategy clone() {
+		return new RandomisedParameterUpdateStrategy(this);
 	}
 	
 	

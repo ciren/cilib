@@ -4,11 +4,11 @@ import java.util.Iterator;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.parameterupdatestrategies.AccelerationUpdateStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -25,8 +25,8 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 
 	public CoherenceVelocityUpdate() {
 		super();
-		socialAcceleration = new AccelerationUpdateStrategy();
-		cognitiveAcceleration = new AccelerationUpdateStrategy();
+		socialAcceleration = new RandomisedParameterUpdateStrategy();
+		cognitiveAcceleration = new RandomisedParameterUpdateStrategy();
 		socialRandomGenerator = new KnuthSubtractive();
 		cognitiveRandomGenerator = new KnuthSubtractive();
 	}

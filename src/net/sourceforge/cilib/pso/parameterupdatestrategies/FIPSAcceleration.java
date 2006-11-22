@@ -25,6 +25,7 @@
  */
 package net.sourceforge.cilib.pso.parameterupdatestrategies;
 
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
@@ -34,7 +35,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * 
  * @author engel
  */
-public class FIPSAcceleration extends AccelerationUpdateStrategy {
+public class FIPSAcceleration extends RandomisedParameterUpdateStrategy {
 
 	private RandomNumber randomNumber;
 	private double initialisationRange; // This is equal to c1 + c2 in original paper

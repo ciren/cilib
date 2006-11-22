@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -44,7 +45,6 @@ import net.sourceforge.cilib.pso.niching.GBestAbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.GBestMergeStrategy;
 import net.sourceforge.cilib.pso.niching.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.SwarmCreationStrategy;
-import net.sourceforge.cilib.pso.parameterupdatestrategies.AccelerationUpdateStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
@@ -89,7 +89,7 @@ public class NichePSO extends PopulationBasedAlgorithm {
 		
 		mainSwarmParticle = new StandardParticle();
 		StandardVelocityUpdate velocityUpdate = new StandardVelocityUpdate();
-		AccelerationUpdateStrategy socialAcceleration = new AccelerationUpdateStrategy();
+		RandomisedParameterUpdateStrategy socialAcceleration = new RandomisedParameterUpdateStrategy();
 		socialAcceleration.setParameterUpdateStrategy(new ConstantUpdateStrategy(0.0));
 		velocityUpdate.setSocialAcceleration(socialAcceleration);
 		mainSwarmParticle.setVelocityUpdateStrategy(velocityUpdate);

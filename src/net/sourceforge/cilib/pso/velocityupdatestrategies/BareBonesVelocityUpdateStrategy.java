@@ -25,9 +25,9 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.pso.parameterupdatestrategies.AccelerationUpdateStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -50,8 +50,8 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 	public BareBonesVelocityUpdateStrategy() {
 		randomNumber = new RandomNumber();
 		
-		cognitive = new AccelerationUpdateStrategy();
-		social = new AccelerationUpdateStrategy();
+		cognitive = new RandomisedParameterUpdateStrategy();
+		social = new RandomisedParameterUpdateStrategy();
 		
 		cognitive.setParameter(1.496180);
 		social.setParameter(1.496180);

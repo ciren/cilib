@@ -30,13 +30,13 @@ import java.util.List;
 import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.DeratingFunctionMaximisationProblem;
 import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.pso.parameterupdatestrategies.AccelerationUpdateStrategy;
 import net.sourceforge.cilib.pso.particle.DeviationDecorator;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -543,7 +543,7 @@ public class DeratingNichePSO extends Algorithm
 
         StandardVelocityUpdate standardVelocityUpdate = new StandardVelocityUpdate();
         ConstantUpdateStrategy zeroAcceleration = new ConstantUpdateStrategy();
-        AccelerationUpdateStrategy standardAcceleration = new AccelerationUpdateStrategy();
+        RandomisedParameterUpdateStrategy standardAcceleration = new RandomisedParameterUpdateStrategy();
         ConstantUpdateStrategy standardInertia = new ConstantUpdateStrategy();
         ConstantUpdateStrategy vMax = new ConstantUpdateStrategy();
 

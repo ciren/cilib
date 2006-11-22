@@ -26,9 +26,9 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.pso.parameterupdatestrategies.AccelerationUpdateStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -47,8 +47,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     /** Creates a new instance of StandardVelocityUpdate */
     public StandardVelocityUpdate() {      
         inertiaWeight = new ConstantUpdateStrategy();
-        cognitiveAcceleration = new AccelerationUpdateStrategy();
-        socialAcceleration = new AccelerationUpdateStrategy();
+        cognitiveAcceleration = new RandomisedParameterUpdateStrategy();
+        socialAcceleration = new RandomisedParameterUpdateStrategy();
         vMax = new ConstantUpdateStrategy();
         
         inertiaWeight.setParameter(0.729844);

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.parameterupdatestrategies.AccelerationUpdateStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -33,8 +33,8 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 		rand1 = new RandomNumber();
 		rand2 = new RandomNumber();
 		rand3 = new RandomNumber();
-		cognitive = new AccelerationUpdateStrategy();
-		social = new AccelerationUpdateStrategy();
+		cognitive = new RandomisedParameterUpdateStrategy();
+		social = new RandomisedParameterUpdateStrategy();
 		
 		cognitive.setParameter(1);
 		social.setParameter(1);
