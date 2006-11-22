@@ -1,5 +1,5 @@
 /*
- * DiscreteFunction.java
+ * LinearVelocityUpdate.java
  * 
  * Created on Jul 26, 2004
  *
@@ -27,8 +27,8 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import java.util.Random;
 
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
-import net.sourceforge.cilib.pso.parameterupdatestrategies.AccelerationUpdateStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -40,10 +40,20 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class LinearVelocityUpdate extends StandardVelocityUpdate {
 
+	private Random socialRandomGenerator;
+	private Random cognitiveRandomGenerator;
+
 	public LinearVelocityUpdate() {
 		super();
-		socialAcceleration = new AccelerationUpdateStrategy();
-		cognitiveAcceleration = new AccelerationUpdateStrategy();
+		
+		// Resetting the social and cognitive components is required to ensure
+		// that during the velocity update process, only 1 random number is used.
+		this.cognitiveAcceleration = new ConstantUpdateStrategy();
+		this.socialAcceleration = new ConstantUpdateStrategy();
+		
+		this.cognitiveAcceleration.setParameter(1.496180);
+		this.socialAcceleration.setParameter(1.496180);
+		
 		socialRandomGenerator = new KnuthSubtractive();
 		cognitiveRandomGenerator = new KnuthSubtractive();
 	}
@@ -100,9 +110,4 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 	public void setSocialRandomGenerator(Random socialRandomGenerator) {
 		this.socialRandomGenerator = socialRandomGenerator;
 	}
-
-
-	private Random socialRandomGenerator;
-	private Random cognitiveRandomGenerator;
-	
 }
