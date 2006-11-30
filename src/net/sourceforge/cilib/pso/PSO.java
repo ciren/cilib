@@ -74,6 +74,8 @@ import org.apache.log4j.Logger;
  */
 public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	
+	private static final long serialVersionUID = -8234345682394295357L;
+
 	private static Logger log = Logger.getLogger(PSO.class);
 	
 	 private static int currentParticleId = 0;

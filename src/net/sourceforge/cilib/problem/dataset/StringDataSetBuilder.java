@@ -38,6 +38,8 @@ import java.util.Iterator;
  */
 public class StringDataSetBuilder extends TextDataSetBuilder {
 
+	private static final long serialVersionUID = 3309485547124815669L;
+	
 	private ArrayList<String> strings;
 	private String shortestString;
 	private String longestString;

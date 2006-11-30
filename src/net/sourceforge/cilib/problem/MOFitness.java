@@ -32,6 +32,8 @@ package net.sourceforge.cilib.problem;
  */
 public class MOFitness implements Fitness{
 
+	private static final long serialVersionUID = 1477723759384827131L;
+
 	public MOFitness(MOOptimisationProblem problem, Object solution, boolean count) {
 		int size = problem.getProblemCount();
 		fitnesses = new Fitness[size];

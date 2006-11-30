@@ -58,6 +58,9 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: specify format of file generically
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
+
+	private static final long serialVersionUID = -7035524554252462144L;
+	
 	//The datastructure used is an ArrayList that holds Pair entries
 	private ArrayList<Pair<Numeric, Vector>> keyPatternPair = null;
 	//A DistanceMeasure will be used to calculate the distance between a pattern and a centroid 

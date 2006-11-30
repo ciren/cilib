@@ -30,7 +30,9 @@ package net.sourceforge.cilib.problem;
 
 public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
 
-    public FunctionMaximisationProblem() {
+	private static final long serialVersionUID = 3917826029336826880L;
+
+	public FunctionMaximisationProblem() {
        super();
     }
 

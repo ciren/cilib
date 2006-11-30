@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.functions.Differentiable;
@@ -37,7 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class GradientFunctionMinimisationProblem extends FunctionMinimisationProblem implements GradientOptimisationProblem {
     
-    /** Creates a new instance of GradientFunctionMinimisationProblem */
+	private static final long serialVersionUID = 4139167463799605466L;
+
+	/** Creates a new instance of GradientFunctionMinimisationProblem */
     public GradientFunctionMinimisationProblem() {
         super();
     }

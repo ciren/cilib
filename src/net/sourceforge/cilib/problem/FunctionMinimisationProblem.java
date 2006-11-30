@@ -25,7 +25,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
 package net.sourceforge.cilib.problem;
 
 /**
@@ -36,7 +35,9 @@ package net.sourceforge.cilib.problem;
  */
 public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
     
-    public FunctionMinimisationProblem() {
+	private static final long serialVersionUID = 8635875300412883576L;
+
+	public FunctionMinimisationProblem() {
     	super();
     }
     

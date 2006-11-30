@@ -40,6 +40,8 @@ import net.sourceforge.cilib.container.Matrix;
  */
 public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 	
+	private static final long serialVersionUID = 1141280214032774956L;
+	
 	private Matrix<Double> matrix;
 	private int numvectors = 0;
 	private int M = -1;

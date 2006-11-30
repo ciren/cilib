@@ -39,6 +39,8 @@ import net.sourceforge.cilib.problem.Fitness;
  */
 public class MSEErrorFunction implements NNError {
 
+	private static final long serialVersionUID = -2004705426415014321L;
+	
 	protected double value = 0;
 	protected int noOutputs = 0;
 	protected int noPatterns = 0;

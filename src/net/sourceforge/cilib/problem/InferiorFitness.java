@@ -35,6 +35,8 @@ package net.sourceforge.cilib.problem;
  */
 public class InferiorFitness implements Fitness {
 
+	private static final long serialVersionUID = -2129092436359289935L;
+
 	private InferiorFitness() {
 		
 	}

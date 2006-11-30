@@ -40,6 +40,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class LinearVelocityUpdate extends StandardVelocityUpdate {
 
+	private static final long serialVersionUID = -1624326615681760823L;
+	
 	private Random socialRandomGenerator;
 	private Random cognitiveRandomGenerator;
 
@@ -57,6 +59,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		socialRandomGenerator = new KnuthSubtractive();
 		cognitiveRandomGenerator = new KnuthSubtractive();
 	}
+
 	
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.PSO.VelocityUpdate#updateVelocity(net.sourceforge.cilib.PSO.Particle)
@@ -72,24 +75,24 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		
 		for (int i = 0; i < particle.getDimension(); ++i) {			
 			double tmp = inertiaWeight.getParameter()*velocity.getReal(i)
-				+ cognitive * (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-				+ social * (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
+				+ cognitive  * cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i))
+				+ social * socialAcceleration.getParameter() * (nBestPosition.getReal(i) - position.getReal(i));
 			velocity.setReal(i, tmp);
 			
 			clamp(velocity, i);
-		}
-		
+		}		
 	}
 
 	
-	
 	/**
-	 * @return Returns the congnitiveRandomGenerator.
+	 * Return the random number generator for the cognitive component.
+	 * @return Returns the random number generator for the cognitive component.
 	 */
 	public Random getCongnitiveRandomGenerator() {
 		return cognitiveRandomGenerator;
 	}
 
+	
 	/**
 	 * @param congnitiveRandomGenerator The congnitiveRandomGenerator to set.
 	 */
@@ -97,6 +100,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		this.cognitiveRandomGenerator = congnitiveRandomGenerator;
 	}
 
+	
 	/**
 	 * @return Returns the socialRandomGenerator.
 	 */
@@ -104,6 +108,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		return socialRandomGenerator;
 	}
 
+	
 	/**
 	 * @param socialRandomGenerator The socialRandomGenerator to set.
 	 */

@@ -35,6 +35,8 @@ package net.sourceforge.cilib.problem;
  */
 public class OptimisationSolution implements Solution {
 
+	private static final long serialVersionUID = 2119444179382452329L;
+	
 	/**
 	 * Contrucs a new instance of <code>OptimisationSolution</code>.
 	 * 

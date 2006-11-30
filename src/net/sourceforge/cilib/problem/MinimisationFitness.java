@@ -34,6 +34,8 @@ package net.sourceforge.cilib.problem;
  */
 public class MinimisationFitness implements Fitness {
 
+	private static final long serialVersionUID = 8380821922737298435L;
+
 	/**
 	 * Constructs a new <code>MinimisationFitness</code> with the given fitness value.
 	 * 

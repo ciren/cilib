@@ -1,5 +1,5 @@
 /*
- * AccelerationComponentStrategy.java
+ * RandomisedParameterUpdateStrategy.java
  *
  * Created on Mar 2, 2004
  *
@@ -42,7 +42,6 @@ public class RandomisedParameterUpdateStrategy implements ControlParameterUpdate
 	protected ControlParameterUpdateStrategy parameterUpdateStrategy;
 	protected Random randomiser;
 	
-	
 	/**
 	 * Create a new <tt>AccelerationUpdateStrategy</tt>. This object will be
 	 * instantiated by default with a contained <tt>ConstantUpdateStrategy</tt>
@@ -65,6 +64,10 @@ public class RandomisedParameterUpdateStrategy implements ControlParameterUpdate
 	}
 	
 	
+	/**
+	 * Clone method.
+	 * @return Return a cloned {@link RandomisedParameterUpdateStrategy}
+	 */
 	public RandomisedParameterUpdateStrategy clone() {
 		return new RandomisedParameterUpdateStrategy(this);
 	}

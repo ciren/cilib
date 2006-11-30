@@ -39,6 +39,8 @@ import java.io.InputStream;
  */
 public class LocalDataSet extends DataSet {
 	
+	private static final long serialVersionUID = -3482617012711168661L;
+	
 	private String fileName;
 
 	public LocalDataSet() {
