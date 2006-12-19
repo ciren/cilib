@@ -40,6 +40,13 @@ public class MultipleSolutions implements Measurement {
 
 	public MultipleSolutions() {
 	}
+	
+	public MultipleSolutions(MultipleSolutions copy) {
+	}
+	
+	public MultipleSolutions clone() {
+		return new MultipleSolutions(this);
+	}
 
 	public String getDomain() {
 		return "T";

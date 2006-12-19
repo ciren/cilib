@@ -98,6 +98,14 @@ public class NichePSO extends PopulationBasedAlgorithm {
 		
 		mainSwarm.getInitialisationStrategy().setEntityType(mainSwarmParticle);
 	}
+	
+	public NichePSO(NichePSO copy) {
+		
+	}
+	
+	public NichePSO clone() {
+		return new NichePSO(this);
+	}
 
 	
 	/**

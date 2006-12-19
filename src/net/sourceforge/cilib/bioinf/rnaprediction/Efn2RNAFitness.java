@@ -43,12 +43,20 @@ public class Efn2RNAFitness extends RNAFitness {
 		nucleotides = NucleotideString.getInstance().getNucleotideString();
 	}
 	
+	public Efn2RNAFitness(Efn2RNAFitness copy) {
+		// @TODO: complete this
+	}
+	
+	public Efn2RNAFitness clone() {
+		return new Efn2RNAFitness(this);
+	}
+	
 	@Override
 	public Double getRNAFitness(RNAConformation stems) {
 		String outputString = toCt(stems);
-System.out.println("Conf ");
-System.out.println(outputString);
-System.out.println("\n\n");
+		System.out.println("Conf ");
+		System.out.println(outputString);
+		System.out.println("\n\n");
 			
 		return new Double(10.0);
 	}

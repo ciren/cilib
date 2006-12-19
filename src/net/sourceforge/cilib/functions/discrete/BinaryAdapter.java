@@ -42,6 +42,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class BinaryAdapter extends DiscreteFunction {
 	
+	private static final long serialVersionUID = -329657439970469569L;
+	
 	private Function function;
 	private int bitsPerDimension;
 	private int precision;

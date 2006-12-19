@@ -36,6 +36,13 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public class GraphMeasurementSolutionLength implements Measurement {
+	
+	public GraphMeasurementSolutionLength(GraphMeasurementSolutionLength copy) {
+	}
+	
+	public GraphMeasurementSolutionLength clone() {
+		return new GraphMeasurementSolutionLength(this);
+	}
 
 	/**
 	 * Get the type of Domain

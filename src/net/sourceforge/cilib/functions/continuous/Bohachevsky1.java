@@ -37,7 +37,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class Bohachevsky1 extends ContinuousFunction {
     
-    /** Creates a new instance of Bohachevsky1 */
+	private static final long serialVersionUID = 44382638223225638L;
+
+	/** Creates a new instance of Bohachevsky1 */
     public Bohachevsky1() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-50, 50)^2");

@@ -76,6 +76,8 @@ public abstract class Algorithm implements Runnable, Serializable {
         distributed = false;
     }
     
+    public abstract Algorithm clone();
+    
     /**
      * Intialises the algorithm. Must be called before {@link #run()} is called.
      */

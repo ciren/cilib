@@ -39,6 +39,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class BitStringMatcher extends DiscreteFunction {
 	
+	private static final long serialVersionUID = 7535776840908399415L;
+	
 	private String targetRandomString;
 	private int numberOfBits;
 	

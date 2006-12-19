@@ -37,6 +37,13 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class RNAStructureMeasurement implements Measurement {
+	
+	public RNAStructureMeasurement(RNAStructureMeasurement copy) {
+	}
+	
+	public RNAStructureMeasurement clone() {
+		return new RNAStructureMeasurement(this);
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.Measurement.Measurement#getDomain()

@@ -72,6 +72,14 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		this.participation = false;
 	}
 	
+	public EC(EC copy) {
+		
+	}
+	
+	public EC clone() {
+		return new EC(this);
+	}
+	
 	
 	@Override
 	public void performInitialisation() {
@@ -164,7 +172,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 			}
 		}
 		
-//		System.out.println("best sorted: " + topology.get(0).getFitness() + " best found: " + bestEntity.getFitness());
+		//System.out.println("best sorted: " + topology.get(0).getFitness() + " best found: " + bestEntity.getFitness());
 		return bestEntity;
 	}
 

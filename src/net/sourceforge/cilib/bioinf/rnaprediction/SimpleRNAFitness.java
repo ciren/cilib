@@ -37,6 +37,14 @@ public class SimpleRNAFitness extends RNAFitness{
 	public SimpleRNAFitness() {
 		nucleotides = NucleotideString.getInstance().getNucleotideString();		
 	}
+	
+	public SimpleRNAFitness(SimpleRNAFitness copy) {
+	}
+	
+	public SimpleRNAFitness clone() {
+		return new SimpleRNAFitness(this);
+	}
+	
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(java.util.Collection)
 	 */

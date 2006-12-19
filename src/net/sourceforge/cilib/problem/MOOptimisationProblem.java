@@ -42,6 +42,14 @@ public class MOOptimisationProblem implements OptimisationProblem {
 		problems = new ArrayList<OptimisationProblem>();
 	}
 	
+	public MOOptimisationProblem(MOOptimisationProblem copy) {
+		
+	}
+	
+	public MOOptimisationProblem clone() {
+		return new MOOptimisationProblem(this);
+	}
+	
 	public Fitness getFitness(Object solution, boolean count) {
 		return new MOFitness(this, solution, count);
 	}

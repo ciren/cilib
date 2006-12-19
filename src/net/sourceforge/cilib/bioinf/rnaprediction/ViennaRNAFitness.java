@@ -55,6 +55,13 @@ public class ViennaRNAFitness extends RNAFitness {
 			e.printStackTrace();
 		}*/
 	}
+	
+	public ViennaRNAFitness(ViennaRNAFitness copy) {
+	}
+	
+	public ViennaRNAFitness clone() {
+		return new ViennaRNAFitness(this);
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(net.sourceforge.cilib.Type.Types.Set)

@@ -33,4 +33,6 @@ package net.sourceforge.cilib.problem;
  */
 public abstract class DiscreteOptimisationProblem implements OptimisationProblem {
 	
+	public abstract DiscreteOptimisationProblem clone();
+	
 }

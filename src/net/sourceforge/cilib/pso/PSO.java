@@ -107,6 +107,14 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
         initialisationStrategy = new ClonedEntityInitialisationStrategy();
         initialisationStrategy.setEntityType(new StandardParticle());
     }
+    
+    public PSO(PSO copy) {
+    	
+    }
+    
+    public PSO clone() {
+    	return new PSO(this);
+    }
 
     
     /**

@@ -38,5 +38,7 @@ import java.io.Serializable;
  * @author  Edwin Peer
  */
 public interface Problem extends Serializable {
+	
+	public Problem clone();
     
 }

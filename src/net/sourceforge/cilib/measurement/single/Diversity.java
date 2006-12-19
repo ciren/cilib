@@ -31,6 +31,17 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class Diversity implements Measurement {
+	
+	public Diversity() {
+	}
+	
+	public Diversity(Diversity copy) {
+		
+	}
+	
+	public Diversity clone() {
+		return new Diversity(this);
+	}
 
 	public String getDomain() {
 		return "R";

@@ -31,6 +31,8 @@ import net.sourceforge.cilib.type.types.Vector;
 
 public class KnightsCoverage extends DiscreteFunction {
 
+	private static final long serialVersionUID = -8039165934381145252L;
+
 	@Override
 	public double evaluate(Vector x) {
 		// TODO Auto-generated method stub

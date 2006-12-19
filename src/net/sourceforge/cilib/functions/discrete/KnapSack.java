@@ -40,6 +40,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class KnapSack extends DiscreteFunction {
 	
+	private static final long serialVersionUID = 79098409450300605L;
+	
 	private int capacity;
 	private int numberOfObjects;
 	private ArrayList<Double> weights;

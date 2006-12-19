@@ -114,6 +114,14 @@ public class EA extends PopulationBasedAlgorithm {
         this.crossProbability = new ConstantUpdateStrategy(1.0); 
         this.random = new MersenneTwister();
     }    
+    
+    public EA(EA copy) {
+    	
+    }
+    
+    public EA clone() {
+    	return new EA(this);
+    }
 
     /**
      * Initialize the population and all the individuals within it.

@@ -49,6 +49,9 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author Gary Pampara
  */
 public class ACO extends PopulationBasedAlgorithm {
+	
+	private static final long serialVersionUID = -650778598840486860L;
+
 	protected int numberAnts;
 	
 	private ACOOptimisationProblem problem;
@@ -66,6 +69,21 @@ public class ACO extends PopulationBasedAlgorithm {
 		
 		prototypeAnt = new TSPAnt();		
 		randomizer = new MersenneTwister();
+	}
+	
+	public ACO(ACO copy) {
+		this.numberAnts = copy.numberAnts;
+		this.prototypeAnt = copy.prototypeAnt;
+		this.randomizer = copy.randomizer;
+		
+		this.ants = new ArrayList<Ant>(copy.ants.size());
+		for (Ant ant : copy.ants) {
+			this.ants.add(ant.clone());
+		}
+	}
+	
+	public ACO clone() {
+		return new ACO(this);
 	}
 	
 	/**

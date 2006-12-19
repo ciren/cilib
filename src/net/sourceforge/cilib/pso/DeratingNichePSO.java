@@ -112,6 +112,14 @@ public class DeratingNichePSO extends Algorithm
     nichePSO = new NichePSOOld();
     nichePSOFactory = new NichePSOFactory(nichePSO);
   }
+  
+  public DeratingNichePSO(DeratingNichePSO copy) {
+	  
+  }
+  
+  public DeratingNichePSO clone() {
+	  return new DeratingNichePSO(this);
+  }
 
   /**
    * Implemenation of the abstract method inherited from the Algorithm base class.

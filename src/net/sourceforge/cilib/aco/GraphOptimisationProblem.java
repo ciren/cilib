@@ -51,6 +51,14 @@ public class GraphOptimisationProblem extends ACOOptimisationProblem {
 		graph = null;
 		dataSetBuilder = null;
 	}
+	
+	public GraphOptimisationProblem(GraphOptimisationProblem copy) {
+		
+	}
+	
+	public GraphOptimisationProblem clone() {
+		return new GraphOptimisationProblem(this);
+	}
 
 /*	public Domain getDomain() {
 		return null;

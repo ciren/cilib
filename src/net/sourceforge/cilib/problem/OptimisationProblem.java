@@ -43,7 +43,9 @@ import net.sourceforge.cilib.type.DomainRegistry;
  *
  * @author  Edwin Peer
  */
-public interface OptimisationProblem extends Problem { 
+public interface OptimisationProblem extends Problem {
+	
+	public OptimisationProblem clone();
     
     /**
      * Returns the fitness of a potential solution to this problem. The solution object is described 

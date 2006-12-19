@@ -137,6 +137,14 @@ public class NichePSOOld extends PopulationBasedAlgorithm
     // initialise the subswarms.
     subswarms = new ArrayList<PSO>();
   }
+  
+  public NichePSOOld(NichePSOOld copy) {
+	  
+  }
+  
+  public NichePSOOld clone() {
+	  return new NichePSOOld(this);
+  }
 
   /**
    * The mainSwarm is initialised.

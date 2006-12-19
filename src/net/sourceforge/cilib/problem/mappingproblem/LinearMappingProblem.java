@@ -44,6 +44,19 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author jkroon
  */
 public class LinearMappingProblem extends MappingProblem {
+	
+	public LinearMappingProblem() {
+		
+	}
+	
+	public LinearMappingProblem(LinearMappingProblem copy) {
+		
+	}
+	
+	public LinearMappingProblem clone() {
+		return new LinearMappingProblem(this);
+	}
+	
 	/**
 	 * This function performs the actual mapping.  It is only used by this
 	 * class and should never be required by any of the subclasses, who

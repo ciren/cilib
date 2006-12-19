@@ -43,6 +43,14 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 	protected int fitnessEvaluations;
 	private DataSetBuilder dataSetBuilder;
 	
+	public RNAOptimisationProblem(RNAOptimisationProblem copy) {
+		
+	}
+	
+	public RNAOptimisationProblem clone() {
+		return new RNAOptimisationProblem(this);
+	}
+	
 	/**
 	 * @return Returns the fit.
 	 */

@@ -52,6 +52,13 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
 
 public class SpatialExtent implements Measurement {
+	
+	public SpatialExtent(SpatialExtent copy) {
+	}
+	
+	public SpatialExtent clone() {
+		return new SpatialExtent(this);
+	}
 
 	public String getDomain() {
 		return "R";

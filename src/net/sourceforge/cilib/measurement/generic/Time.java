@@ -48,6 +48,16 @@ public class Time implements Measurement, AlgorithmListener {
 		endTime = startTime;
 	}
 	
+	public Time(Time copy) {
+		running = copy.running;
+		startTime = copy.startTime;
+		endTime = copy.endTime;
+	}
+	
+	public Time clone() {
+		return new Time(this);
+	}
+	
 	public String getDomain() {
 		return "Z";
 		//return "T";

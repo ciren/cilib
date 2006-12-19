@@ -35,6 +35,13 @@ import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
 public class RNAAccuracyMeasurement implements Measurement {
+	
+	public RNAAccuracyMeasurement(RNAAccuracyMeasurement copy) {
+	}
+	
+	public RNAAccuracyMeasurement clone() {
+		return new RNAAccuracyMeasurement(this);
+	}
 
 	public String getDomain() {
 		return "?";

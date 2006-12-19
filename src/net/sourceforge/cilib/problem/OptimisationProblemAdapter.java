@@ -48,6 +48,8 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
         fitnessEvaluations = 0;
     }
     
+    public abstract OptimisationProblemAdapter clone();
+    
     protected abstract Fitness calculateFitness(Object solution);
     
     public final Fitness getFitness(Object solution, boolean count) {

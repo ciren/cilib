@@ -43,6 +43,13 @@ public class Iterations implements Measurement {
     public Iterations() {
     }
     
+    public Iterations(Iterations copy) {
+    }
+    
+    public Iterations clone() {
+    	return new Iterations(this);
+    }
+    
     public String getDomain() {
     	return "Z";
     	//return "T";

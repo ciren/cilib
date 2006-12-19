@@ -67,6 +67,14 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         this.neuralNetwork = neuralNetwork;
         initialise();
     }
+    
+    public FunctionLearningProblem(FunctionLearningProblem copy) {
+    	
+    }
+    
+    public FunctionLearningProblem clone() {
+    	return new FunctionLearningProblem(this);
+    }
 
     public void initialise() {
         if (function == null) {

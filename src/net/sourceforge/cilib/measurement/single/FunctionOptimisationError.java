@@ -43,6 +43,13 @@ public class FunctionOptimisationError implements Measurement {
     /** Creates a new instance of FunctionMinimisationError */
     public FunctionOptimisationError() {
     }
+    
+    public FunctionOptimisationError(FunctionOptimisationError copy) {
+    }
+    
+    public FunctionOptimisationError clone() {
+    	return new FunctionOptimisationError(this);
+    }
 
     public String getDomain() {
     	return "R";

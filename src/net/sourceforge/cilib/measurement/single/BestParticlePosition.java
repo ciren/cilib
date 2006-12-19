@@ -43,6 +43,14 @@ public class BestParticlePosition implements Measurement {
 	
 	public BestParticlePosition() {
     }
+	
+	public BestParticlePosition(BestParticlePosition copy) {
+		
+	}
+	
+	public BestParticlePosition clone() {
+		return new BestParticlePosition(this);
+	}
 
     public String getDomain() {
     	return "T";

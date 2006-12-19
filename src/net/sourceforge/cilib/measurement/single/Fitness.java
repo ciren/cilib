@@ -42,6 +42,13 @@ public class Fitness implements Measurement {
     /** Creates a new instance of Fitness */
     public Fitness() {
     }
+    
+    public Fitness(Fitness copy) {
+    }
+    
+    public Fitness clone() {
+    	return new Fitness(this);
+    }
 
     public String getDomain() {
     	return "R";

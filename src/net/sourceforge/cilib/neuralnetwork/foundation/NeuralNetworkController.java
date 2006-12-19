@@ -47,6 +47,18 @@ public class NeuralNetworkController extends SingularAlgorithm {
 	protected NeuralNetworkProblem NNProblem = null;
 	protected NNError errorDt = null;
 	
+	public NeuralNetworkController() {
+		
+	}
+	
+	public NeuralNetworkController(NeuralNetworkController copy) {
+		
+	}
+	
+	public NeuralNetworkController clone() {
+		return new NeuralNetworkController(this);
+	}
+	
 	/**
 	 * 
 	 */

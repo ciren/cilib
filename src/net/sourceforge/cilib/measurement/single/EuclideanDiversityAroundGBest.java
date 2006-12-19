@@ -40,6 +40,14 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 public class EuclideanDiversityAroundGBest implements Measurement {
+	
+	public EuclideanDiversityAroundGBest(EuclideanDiversityAroundGBest copy) {
+		
+	}
+	
+	public EuclideanDiversityAroundGBest clone() {
+		return new EuclideanDiversityAroundGBest(this);
+	}
 
 	public String getDomain() {
 		return "R";

@@ -44,6 +44,13 @@ public class Restarts implements Measurement {
     public Restarts() {
     }
     
+    public Restarts(Restarts copy) {
+    }
+    
+    public Restarts clone() {
+    	return new Restarts(this);
+    }
+    
     public String getDomain() {
     	return "Z";
     	//return "T";

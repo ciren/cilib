@@ -35,6 +35,14 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
 	public FunctionMaximisationProblem() {
        super();
     }
+	
+	public FunctionMaximisationProblem(FunctionMaximisationProblem copy) {
+		
+	}
+	
+	public FunctionMaximisationProblem clone() {
+		return new FunctionMaximisationProblem(this);
+	}
 
     protected Fitness calculateFitness(Object solution) {
         return new MaximisationFitness(function.evaluate(solution));

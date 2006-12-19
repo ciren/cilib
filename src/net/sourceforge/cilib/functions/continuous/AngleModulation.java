@@ -40,6 +40,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class AngleModulation extends ContinuousFunction {
 
+	private static final long serialVersionUID = 4298005212613585266L;
+	
 	private int precision;
 	private int requiredBits;
 	private double lowerBound;

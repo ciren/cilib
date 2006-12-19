@@ -46,6 +46,14 @@ public class Diameter implements Measurement {
     public Diameter() {
     }
     
+    public Diameter(Diameter copy) {
+    	
+    }
+    
+    public Diameter clone() {
+    	return new Diameter(this);
+    }
+    
     public String getDomain() {
     	return "R";
     }

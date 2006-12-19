@@ -57,6 +57,13 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class NormalisedDiversity implements Measurement {
+	
+	public NormalisedDiversity(NormalisedDiversity copy) {
+	}
+	
+	public NormalisedDiversity clone() {
+		return new NormalisedDiversity(this);
+	}
 
 	public String getDomain() {
 		return "R";

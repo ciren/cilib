@@ -43,6 +43,13 @@ public class PercentageComplete implements Measurement {
     public PercentageComplete() {
     }
     
+    public PercentageComplete(PercentageComplete copy) {
+    }
+    
+    public PercentageComplete clone() {
+    	return new PercentageComplete(this);
+    }
+    
     public String getDomain() {
     	return "R(0,1)";
     	//return "T";

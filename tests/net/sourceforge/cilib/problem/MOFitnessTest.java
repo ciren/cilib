@@ -77,8 +77,16 @@ public class MOFitnessTest {
     private static class DummyOptimisationProblem implements OptimisationProblem {
     	private int i;
     	
-    	DummyOptimisationProblem(int i) {
+    	public DummyOptimisationProblem(int i) {
     		this.i = i;
+    	}
+    	
+    	public DummyOptimisationProblem(DummyOptimisationProblem copy) {
+    		
+    	}
+    	
+    	public DummyOptimisationProblem clone() {
+    		return new DummyOptimisationProblem(this);
     	}
     
 		public Fitness getFitness(Object solution, boolean count) {

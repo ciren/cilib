@@ -43,6 +43,14 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 		}
 		else throw new InitialisationException("The expanded domain string \"" + expandedDomain + "\" could not be parsed.");
 	}
+	
+	public CooperativeOptimisationProblemAdapter(CooperativeOptimisationProblemAdapter copy) {
+		
+	}
+	
+	public CooperativeOptimisationProblemAdapter clone() {
+		return new CooperativeOptimisationProblemAdapter(this);
+	}
 
 	public int getDimension() {
 		return dimension;

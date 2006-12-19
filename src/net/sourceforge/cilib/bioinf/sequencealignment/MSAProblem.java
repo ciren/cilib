@@ -62,6 +62,14 @@ public class MSAProblem extends OptimisationProblemAdapter {
 		this.domainRegistry = new DomainRegistry();
 	}
 	
+	public MSAProblem(MSAProblem copy) {
+		
+	}
+	
+	public MSAProblem clone() {
+		return new MSAProblem(this);
+	}
+	
 	protected Fitness calculateFitness(Object solution) { //solution = particule position vector
 		Vector realValuedPosition = (Vector) solution;
 		if (!areGapsAllowed)

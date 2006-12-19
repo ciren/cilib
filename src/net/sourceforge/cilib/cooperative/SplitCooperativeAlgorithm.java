@@ -70,6 +70,14 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		context = new CooperativeEntity();
 	}
 	
+	public SplitCooperativeAlgorithm(SplitCooperativeAlgorithm copy) {
+		
+	}
+	
+	public SplitCooperativeAlgorithm clone() {
+		return new SplitCooperativeAlgorithm(this);
+	}
+	
 	public OptimisationSolution getBestSolution() {
 		return new OptimisationSolution(optimisationProblem, context.get().clone());
 	}

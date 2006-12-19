@@ -45,6 +45,18 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * TODO: Warning, this class is not yet finished.
  */
 public class VEPSO extends MultiPopulationBasedAlgorithm {
+	
+	public VEPSO() {
+		
+	}
+	
+	public VEPSO(VEPSO copy) {
+		
+	}
+	
+	public VEPSO clone() {
+		return new VEPSO(this);
+	}
 
 	public void performInitialisation() {
 		

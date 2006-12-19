@@ -13,6 +13,14 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 	public HybridCooperativeAlgorithm() {
 		super();
 	}
+	
+	public HybridCooperativeAlgorithm(HybridCooperativeAlgorithm copy) {
+		
+	}
+	
+	public HybridCooperativeAlgorithm clone() {
+		return new HybridCooperativeAlgorithm(this);
+	}
 
 	public OptimisationSolution getBestSolution() {
 		// TODO Auto-generated method stub

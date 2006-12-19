@@ -37,6 +37,18 @@ import net.sourceforge.cilib.type.DomainRegistry;
 public class ClusteringOptimisationProblem extends ACOOptimisationProblem {
 	private DataSetBuilder dataSetBuilder;
 	private Matrix<Object> grid;
+	
+	public ClusteringOptimisationProblem() {
+		
+	}
+	
+	public ClusteringOptimisationProblem(ClusteringOptimisationProblem copy) {
+		
+	}
+	
+	public ClusteringOptimisationProblem clone() {
+		return new ClusteringOptimisationProblem(this);
+	}
 
 	protected Fitness calculateFitness(Object solution) { // FIXME: What do I do here?
 		return null;

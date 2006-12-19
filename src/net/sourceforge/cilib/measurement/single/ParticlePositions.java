@@ -39,6 +39,16 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Edwin Peer
  */
 public class ParticlePositions implements Measurement {
+	
+	public ParticlePositions() {
+	}
+	
+	public ParticlePositions(ParticlePositions copy) {
+	}
+	
+	public ParticlePositions clone() {
+		return new ParticlePositions(this);
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.Measurement.Measurement#getDomain()

@@ -37,7 +37,13 @@ import net.sourceforge.cilib.type.types.Type;
 public class Solution implements Measurement {
 
 	public Solution() {
-		
+	}
+	
+	public Solution(Solution copy) {
+	}
+	
+	public Solution clone() {
+		return new Solution(this);
 	}
 	
 	public String getDomain() {

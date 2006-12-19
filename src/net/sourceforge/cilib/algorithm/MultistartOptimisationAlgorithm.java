@@ -63,6 +63,14 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         problem = null;
     }
     
+    public MultistartOptimisationAlgorithm(MultistartOptimisationAlgorithm copy) {
+    	
+    }
+    
+    public MultistartOptimisationAlgorithm clone() {
+    	return new MultistartOptimisationAlgorithm(this);
+    }
+    
     /**
      * Sets the target optimisation algorithm that is subject to restarting.
      *
@@ -186,9 +194,21 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 	private boolean participation = false;
     
     private class MultistartProblemAdapter extends OptimisationProblemAdapter {
+    	
+    	public MultistartProblemAdapter() {
+    		
+    	}
 
     	public MultistartProblemAdapter(OptimisationProblem target) {
     		this.target = target;
+    	}
+    	
+    	public MultistartProblemAdapter(MultistartProblemAdapter copy) {
+    		
+    	}
+    	
+    	public MultistartProblemAdapter clone() {
+    		return new MultistartProblemAdapter(this);
     	}
     	
     	public OptimisationProblem getTarget() {

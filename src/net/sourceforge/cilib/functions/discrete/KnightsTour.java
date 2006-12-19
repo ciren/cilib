@@ -44,6 +44,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class KnightsTour extends DiscreteFunction {
 	
+	private static final long serialVersionUID = 6961834833997387285L;
+	
 	private int boardSize;
 	private boolean cyclic;
 	private String startingPos = null;

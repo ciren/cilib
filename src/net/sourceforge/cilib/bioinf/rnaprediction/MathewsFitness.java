@@ -33,6 +33,16 @@ import net.sourceforge.cilib.type.types.Set;
  *
  */
 public class MathewsFitness extends RNAFitness {
+	
+	public MathewsFitness() {
+	}
+	
+	public MathewsFitness(MathewsFitness copy) {
+	}
+	
+	public MathewsFitness clone() {
+		return new MathewsFitness(this);
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(null)

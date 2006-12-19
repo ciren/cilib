@@ -99,7 +99,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
         public boolean hasNext() {
             int lastIndex = topology.entities.size() - 1;
-            return (index != lastIndex);
+            return (index != lastIndex) && (lastIndex >= 0);
         }
 
         public T next() {

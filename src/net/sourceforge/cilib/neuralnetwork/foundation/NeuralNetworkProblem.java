@@ -61,6 +61,14 @@ public class NeuralNetworkProblem implements OptimisationProblem {
 		this.evaluationStrategy = evaluationStrategy_;
 		this.fitnessEvaluations = 0;	
 	}
+	
+	public NeuralNetworkProblem(NeuralNetworkProblem copy) {
+		
+	}
+	
+	public NeuralNetworkProblem clone() {
+		return new NeuralNetworkProblem(this);
+	}
 
 	
 	/**

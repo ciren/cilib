@@ -36,12 +36,13 @@ import net.sourceforge.cilib.measurement.single.Fitness;
 public abstract class RNAFitness extends Fitness {
 
 	public RNAFitness() {
-		
 	}
 	
 	public RNAFitness(String nuc) {
 		this.nucleotides = nuc;		 
 	}
+	
+	public abstract RNAFitness clone();
 	
 	public abstract Double getRNAFitness(RNAConformation stems);
 		

@@ -42,6 +42,8 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public interface Measurement extends Serializable {
 	
+	public Measurement clone();
+	
 	/**
 	 * Get the domain string representing what this measurement's results will conform to.
 	 * @return The Domain String representing the represenation of the measurement

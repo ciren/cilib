@@ -48,6 +48,13 @@ public class MultipleFitness implements Measurement {
 
 	public MultipleFitness() {
 	}
+	
+	public MultipleFitness(MultipleFitness copy) {
+	}
+	
+	public MultipleFitness clone() {
+		return new MultipleFitness(this);
+	}
 
 	public String getDomain() {
 		//return "?^N";

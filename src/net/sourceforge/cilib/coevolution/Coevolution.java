@@ -57,6 +57,16 @@ public class Coevolution extends MultiPopulationBasedAlgorithm implements Optimi
 		theScoreScheme = null;
 	}
 	
+	public Coevolution(Coevolution copy) {
+		this.population = copy.population;
+		//this.theGame = copy.theGame.clone();
+		//this.theScoreScheme = copy.theScoreScheme.clone();
+	}
+	
+	public Coevolution clone() {
+		return new Coevolution(this);
+	}
+	
 	public void performInitialisation()
 	{
 		players = new ParticleAgent[population];

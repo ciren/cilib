@@ -42,6 +42,14 @@ public class FitnessEvaluations implements Measurement {
     /** Creates a new instance of FitnessEvaluations */
     public FitnessEvaluations() {
     }
+    
+    public FitnessEvaluations(FitnessEvaluations copy) {
+    	
+    }
+    
+    public FitnessEvaluations clone() {
+    	return new FitnessEvaluations(this);
+    }
   
     public String getDomain() {
     	return "Z";

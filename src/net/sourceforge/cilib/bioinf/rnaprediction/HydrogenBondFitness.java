@@ -30,10 +30,19 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * @author mneethling
  */
 public class HydrogenBondFitness extends RNAFitness {
+	
+	public HydrogenBondFitness() {
+	}
+	
+	public HydrogenBondFitness(HydrogenBondFitness copy) {
+	}
+	
+	public HydrogenBondFitness clone() {
+		return new HydrogenBondFitness(this);
+	}
 
 	@Override
 	public Double getRNAFitness(RNAConformation stems) {
-		
 		return null;
 	}
 

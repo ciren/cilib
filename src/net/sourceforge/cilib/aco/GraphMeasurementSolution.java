@@ -38,6 +38,14 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public class GraphMeasurementSolution implements Measurement {
+	
+	public GraphMeasurementSolution(GraphMeasurementSolution copy) {
+	}
+	
+	public GraphMeasurementSolution clone() {
+		return new GraphMeasurementSolution(this);
+	}
+	
 	public String getDomain() {
 		return "T";
 	}

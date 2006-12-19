@@ -43,6 +43,14 @@ import net.sourceforge.cilib.type.types.Vector;
  * This problem is an OptimisationProblem and thus based on the <code>OptimisationProblem</code> interface
  */
 public class KnightCoverageProblem extends OptimisationProblemAdapter {
+	
+	public KnightCoverageProblem(KnightCoverageProblem copy) {
+		
+	}
+	
+	public KnightCoverageProblem clone() {
+		return new KnightCoverageProblem(this);		
+	}
 
     /**
      * Returns the fitness of a potential solution to this problem. The solution object is described 

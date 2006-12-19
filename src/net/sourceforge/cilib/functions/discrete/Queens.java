@@ -38,6 +38,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class Queens extends DiscreteFunction {
 	
+	private static final long serialVersionUID = 8900436160526532438L;
+	
 	private int boardSize;
 	private final double x_moves [] = { 1, 1,  1,  0, -1, -1, -1, 0 };
 	//private final double y_moves [] = { 1, 0, -1, -1, -1,  0,  1, 1 };
