@@ -29,6 +29,7 @@ package net.sourceforge.cilib.entity.comparator;
 import java.util.Comparator;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * 
@@ -38,7 +39,10 @@ import net.sourceforge.cilib.entity.Entity;
 public class DescendingFitnessComparator implements Comparator<Entity> {	
 
 	public int compare(Entity e1, Entity e2) {
-		return e1.getFitness().compareTo(e2.getFitness());
+		Fitness f1 = e1.getFitness();
+		Fitness f2 = e2.getFitness();
+		
+		return f1.compareTo(f2);
 	}
 
 }

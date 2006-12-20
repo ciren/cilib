@@ -39,7 +39,9 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class Fitness implements Measurement {
     
-    /** Creates a new instance of Fitness */
+	private static final long serialVersionUID = 4152219744331703008L;
+
+	/** Creates a new instance of Fitness */
     public Fitness() {
     }
     

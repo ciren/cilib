@@ -57,6 +57,17 @@ public class DomainRegistry implements Serializable {
 	public DomainRegistry() {
 	}
 	
+	
+	public DomainRegistry(DomainRegistry copy) {
+		this.domainString = copy.domainString;
+		this.expandedRepresentation = copy.expandedRepresentation;
+		this.builtRepresenation = copy.builtRepresenation.clone();
+	}
+	
+	public DomainRegistry clone() {
+		return new DomainRegistry(this);
+	}
+	
 
 	/**
 	 * Get the string specifying the domain

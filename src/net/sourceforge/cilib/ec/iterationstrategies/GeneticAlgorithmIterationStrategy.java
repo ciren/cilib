@@ -37,7 +37,6 @@ import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
-import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
  * 
@@ -47,20 +46,16 @@ public class GeneticAlgorithmIterationStrategy implements IterationStrategy {
 	
 	private CrossoverStrategy crossoverStrategy;
 	private MutationStrategy mutationStrategy;
-	private RandomNumber randomNumber;
 	
 	public GeneticAlgorithmIterationStrategy() {
 		this.crossoverStrategy = new UniformCrossoverStrategy();
 		this.mutationStrategy = new GaussianMutationStrategy();
-		this.randomNumber = new RandomNumber();
 	}
 
 	public void perfromIteration(EC ec) {
 		// Cacluate the fitness
 		for (Iterator<? extends Entity> i = ec.getTopology().iterator(); i.hasNext(); ) {
-		//for (Individual indiv : ec.getTopology()) {
 			Entity entity = i.next();
-			//indiv.setFitness(problem.getFitness(indiv.get(), true));
 			entity.setFitness(ec.getOptimisationProblem().getFitness(entity.get(), true));
 		}
 		
@@ -70,20 +65,26 @@ public class GeneticAlgorithmIterationStrategy implements IterationStrategy {
 		// Perform mutation on offspring
 		this.mutationStrategy.mutate(crossedOver);
 		
+		// Evaluate the fitness values of the generated offspring
+		for (Iterator<Entity> offspring = crossedOver.iterator(); offspring.hasNext(); ) {
+			Entity entity = offspring.next();
+			entity.setFitness(ec.getOptimisationProblem().getFitness(entity.get(), false));
+		}
 		
 		// Perform new population selection
 		Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
 		for (Iterator<Entity> i = crossedOver.iterator(); i.hasNext(); ) {
 			Entity entity = i.next();
 			topology.add(entity);
-		}
+		} 
 		
 		Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
 		for (ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize()); i.hasNext(); ) {
 			i.next();
 			i.remove();
 		}
-		
+
+		crossedOver.clear();
 		crossedOver = null;
 	}
 

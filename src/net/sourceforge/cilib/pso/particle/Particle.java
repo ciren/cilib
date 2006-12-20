@@ -278,7 +278,6 @@ public abstract class Particle implements Entity {
 	 * @author Theuns Cloete
 	 */
 	public int compareTo(Entity o) {
-		//throw new UnsupportedOperationException("This does not exist --- not supported");
 		return getFitness().compareTo(o.getFitness());
 	}
 
