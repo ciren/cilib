@@ -38,6 +38,8 @@ import net.sourceforge.cilib.container.visitor.Visitor;
  * @author otter
  */
 public abstract class Topology<E extends Entity> extends EntityCollection<E> {
+	
+	public abstract Topology<E> clone();
     
     /**
      * Returns an <code>Iterator</code> over all particles in the neighbourhood of

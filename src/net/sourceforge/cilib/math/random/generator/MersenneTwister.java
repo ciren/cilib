@@ -32,8 +32,6 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
-import java.util.Random;
-
 /**
  * <p>
  * This is an implementation of the MT19937 random number generator.
@@ -68,6 +66,14 @@ public class MersenneTwister extends Random {
     
     public MersenneTwister(long seed) {
         super(seed);
+    }
+    
+    public MersenneTwister(MersenneTwister copy) {
+    	super(Seeder.getSeed());
+    }
+    
+    public MersenneTwister clone() {
+    	return new MersenneTwister();
     }
     
     public void setSeed (long seed) {

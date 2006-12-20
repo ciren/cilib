@@ -31,10 +31,7 @@
  *
  * Comment text ripped from GSL. 
  */
-
 package net.sourceforge.cilib.math.random.generator;
-
-import java.util.Random;
 
 /**
  * <p>
@@ -71,6 +68,10 @@ public class RANLUX extends Random {
     
     public RANLUX(long seed) {
         super(seed);
+    }
+    
+    public RANLUX clone() {
+    	return new RANLUX();
     }
     
     public void setSeed(long seed) {

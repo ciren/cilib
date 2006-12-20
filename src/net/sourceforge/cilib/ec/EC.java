@@ -47,11 +47,10 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author Gary Pampara
  */
 public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorithm{
-	
-	//private static Logger log = Logger.getLogger(EC.class);
+	private static final long serialVersionUID = -4324446523858690744L;
 	
 	private OptimisationProblem problem;
-	private InitialisationStrategy intialisationStrategy;
+	private InitialisationStrategy initialisationStrategy;
 	private IterationStrategy iterationStrategy;
 	private Topology<? extends Entity> topology;
 	
@@ -61,8 +60,8 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	
 	
 	public EC() {
-		this.intialisationStrategy = new ClonedEntityInitialisationStrategy();
-		this.intialisationStrategy.setEntityType(new Individual());
+		this.initialisationStrategy = new ClonedEntityInitialisationStrategy();
+		this.initialisationStrategy.setEntityType(new Individual());
 		
 		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
 				
@@ -72,7 +71,10 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	}
 	
 	public EC(EC copy) {
-		
+		this.initialisationStrategy = copy.initialisationStrategy.clone();
+		this.iterationStrategy = copy.iterationStrategy.clone();
+		this.topology = copy.topology.clone();
+		this.participation = copy.participation;
 	}
 	
 	public EC clone() {
@@ -82,7 +84,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	
 	@Override
 	public void performInitialisation() {
-		this.intialisationStrategy.intialise(this.topology, this.problem);
+		this.initialisationStrategy.intialise(this.topology, this.problem);
 	}
 	
 
@@ -95,13 +97,13 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 
 	@Override
 	public int getPopulationSize() {
-		return this.intialisationStrategy.getEntities();
+		return this.initialisationStrategy.getEntities();
 	}
 
 	@Override
 	public void setPopulationSize(int populationSize) {
 		System.out.println("populationSize: " + populationSize);
-		this.intialisationStrategy.setEntities(populationSize);
+		this.initialisationStrategy.setEntities(populationSize);
 	}
 
 	@Override

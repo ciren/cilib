@@ -41,6 +41,18 @@ import net.sourceforge.cilib.type.types.Vector;
 */
 
 public class UniformCrossoverStrategy extends CrossoverStrategy {
+	
+	public UniformCrossoverStrategy() {
+		super();
+	}
+	
+	public UniformCrossoverStrategy(UniformCrossoverStrategy copy) {
+		super(copy);
+	}
+	
+	public UniformCrossoverStrategy clone() {
+		return new UniformCrossoverStrategy(this);
+	}
 
 	@Override
 	public List<Entity> crossover(List<? extends Entity> parentCollection) {

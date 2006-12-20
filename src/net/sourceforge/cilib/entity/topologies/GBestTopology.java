@@ -51,6 +51,7 @@ import net.sourceforge.cilib.entity.Topology;
  * @author Edwin Peer
  */
 public class GBestTopology<E extends Entity> extends Topology<E> {
+	private static final long serialVersionUID = 3190027340582769112L;
 	
 	protected ArrayList<E> entities;
 
@@ -59,6 +60,17 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
      */
     public GBestTopology() {
         entities = new ArrayList<E>();
+    }
+    
+    public GBestTopology(GBestTopology<E> copy) {
+    	this.entities = new ArrayList<E>(copy.entities.size());
+    	for (E entity : copy.entities) {
+    		this.entities.add((E) entity.clone());
+    	}
+    }
+    
+    public GBestTopology<E> clone() {
+    	return new GBestTopology<E>(this);
     }
     
     public Iterator<E> iterator() {

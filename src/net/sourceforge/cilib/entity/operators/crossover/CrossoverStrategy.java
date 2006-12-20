@@ -48,6 +48,12 @@ public abstract class CrossoverStrategy {
 		randomNumber = new RandomNumber();
 	}
 	
+	public CrossoverStrategy(CrossoverStrategy copy) {
+		this.crossoverProbability = copy.crossoverProbability.clone();
+		this.randomNumber = copy.randomNumber.clone();
+	}
+	
+	public abstract CrossoverStrategy clone();
 	
 	//public abstract void crossover(Entity parent1, Entity parent2);
 	public abstract List<Entity> crossover(List<? extends Entity> parentCollection);

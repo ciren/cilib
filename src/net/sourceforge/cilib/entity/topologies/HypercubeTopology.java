@@ -37,10 +37,20 @@ import net.sourceforge.cilib.entity.Entity;
  */
 
 public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
+	private static final long serialVersionUID = -8328600903928335004L;
 
 	public HypercubeTopology() {
 		super();
 		neighbourhoodSize = 5;
+	}
+	
+	public HypercubeTopology(HypercubeTopology<E> copy) {
+		super(copy);
+		this.neighbourhoodSize = copy.neighbourhoodSize;
+	}
+	
+	public HypercubeTopology<E> clone() {
+		return new HypercubeTopology<E>(this);
 	}
 
 	public Iterator<E> neighbourhood(Iterator<E> iterator) {

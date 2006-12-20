@@ -26,9 +26,8 @@
  */
 package net.sourceforge.cilib.math.random;
 
-import java.util.Random;
-
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 /**
  * This class provides the needed functionality to sample random numbers from different
@@ -56,6 +55,14 @@ public class RandomNumber {
 	 */
 	public RandomNumber() {
 		randomGenerator = new MersenneTwister();
+	}
+	
+	public RandomNumber(RandomNumber copy) {
+		this.randomGenerator = copy.randomGenerator.clone();
+	}
+	
+	public RandomNumber clone() {
+		return new RandomNumber(this);
 	}
 	
 	

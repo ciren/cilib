@@ -46,8 +46,19 @@ public class CauchyMutationStrategy extends MutationStrategy {
 	private ControlParameterUpdateStrategy scaleStrategy;
 	
 	public CauchyMutationStrategy() {
+		super();
 		this.location = 0;
 		this.scaleStrategy = new ProportionalControlParameterUpdateStrategy();
+	}
+	
+	public CauchyMutationStrategy(CauchyMutationStrategy copy) {
+		super(copy);
+		this.location = copy.location;
+		this.scaleStrategy = copy.scaleStrategy.clone();
+	}
+	
+	public CauchyMutationStrategy clone() {
+		return new CauchyMutationStrategy(this);
 	}
 
 	/**

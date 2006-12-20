@@ -32,10 +32,8 @@
  * Comment text ripped from GSL.
  * 
  */
-
 package net.sourceforge.cilib.math.random.generator;
 
-import java.util.Random;
 
 /**
  * <p>
@@ -68,6 +66,10 @@ public class Tausworthe extends Random {
     
     public Tausworthe(long seed) {
         super(seed);
+    }
+    
+    public Tausworthe clone() {
+    	return new Tausworthe();
     }
     
     private long LCG(long n) {

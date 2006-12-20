@@ -32,7 +32,6 @@ import java.util.ListIterator;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -45,8 +44,19 @@ public class GaussianMutationStrategy extends MutationStrategy {
 	private ControlParameterUpdateStrategy deviationStrategy;
 	
 	public GaussianMutationStrategy() {
+		super();
 		this.mean = 0;
 		this.deviationStrategy = new ProportionalControlParameterUpdateStrategy();
+	}
+	
+	public GaussianMutationStrategy(GaussianMutationStrategy copy) {
+		super(copy);
+		this.mean = copy.mean;
+		this.deviationStrategy = copy.deviationStrategy.clone();
+	}
+	
+	public GaussianMutationStrategy clone() {
+		return new GaussianMutationStrategy(this);
 	}
 	
 	@Override
@@ -60,7 +70,7 @@ public class GaussianMutationStrategy extends MutationStrategy {
 				double random = this.getRandomNumber().getUniform(); 
 				if (random <= this.getMutationProbability().getParameter()) {
 					double value;
-					Numeric element = (Numeric) chromosome.get(i);
+					//Numeric element = (Numeric) chromosome.get(i);
 					//double deviation = this.deviationStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
 					double deviation = this.getRandomNumber().getGaussian();
 					

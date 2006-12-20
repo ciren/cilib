@@ -39,6 +39,8 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 public abstract class InitialisationStrategy {
 	
 	protected int entities;
+	
+	public abstract InitialisationStrategy clone();
 
 	/**
 	 * Set the number of entities that are required.

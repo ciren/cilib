@@ -30,10 +30,8 @@
  * and Brian Gough.
  * 
  */
-
 package net.sourceforge.cilib.math.random.generator;
 
-import java.util.Random;
 
 /**
  * An implementation of Knuth's subtractive random number generator. 
@@ -51,6 +49,10 @@ public class KnuthSubtractive extends Random {
     
     public KnuthSubtractive(long seed) {
         super(seed);
+    }
+    
+    public KnuthSubtractive clone() {
+    	return new KnuthSubtractive();
     }
     
     public void setSeed(long seed) {

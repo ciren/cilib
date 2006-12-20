@@ -57,6 +57,18 @@ public class DifferentialEvolutionIterationStrategy implements
 		this.crossoverProbability = 0.6;
 		this.scaleParameter = 0.5;
 	}
+	
+	public DifferentialEvolutionIterationStrategy(DifferentialEvolutionIterationStrategy copy) {
+		this.random1 = copy.random1.clone();
+		this.random2 = copy.random2.clone();
+		
+		this.crossoverProbability = copy.crossoverProbability;
+		this.scaleParameter = copy.scaleParameter;
+	}
+	
+	public DifferentialEvolutionIterationStrategy clone() {
+		return new DifferentialEvolutionIterationStrategy(this);
+	}
 
 	/**
 	 * Implementation of the Scheme 1 strategy for differential evolution 

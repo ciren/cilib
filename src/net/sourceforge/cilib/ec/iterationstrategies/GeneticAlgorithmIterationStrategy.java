@@ -51,6 +51,15 @@ public class GeneticAlgorithmIterationStrategy implements IterationStrategy {
 		this.crossoverStrategy = new UniformCrossoverStrategy();
 		this.mutationStrategy = new GaussianMutationStrategy();
 	}
+	
+	public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
+		this.crossoverStrategy = copy.crossoverStrategy.clone();
+		this.mutationStrategy = copy.mutationStrategy.clone();
+	}
+	
+	public GeneticAlgorithmIterationStrategy clone() {
+		return new GeneticAlgorithmIterationStrategy(this);
+	}
 
 	public void perfromIteration(EC ec) {
 		// Cacluate the fitness

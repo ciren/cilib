@@ -54,7 +54,8 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * @author Gary Pampara
  */
 public class VonNeumannTopology<E extends Entity> extends Topology<E> {
-	
+	private static final long serialVersionUID = -4795901403887110994L;
+
 	private enum Direction { CENTER, NORTH, EAST, SOUTH, WEST, DONE };
 	private ArrayList<ArrayList<E>> entities;
     private int lastRow;
@@ -67,6 +68,26 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         entities = new ArrayList<ArrayList<E>>();
         lastRow = 0;
         lastCol = -1;
+    }
+    
+    public VonNeumannTopology(VonNeumannTopology<E> copy) {
+    	this.entities = new ArrayList<ArrayList<E>>(copy.entities.size());
+    	for (ArrayList<E> list : copy.entities) {
+    		ArrayList<E> tmpList = new ArrayList<E>(list.size());
+    		
+    		for (E e : list) {
+    			tmpList.add((E) e.clone());
+    		}
+    		
+    		this.entities.add(tmpList);
+    	}
+    	
+    	this.lastRow = copy.lastRow;
+    	this.lastCol = copy.lastCol;
+    }
+    
+    public VonNeumannTopology<E> clone() {
+    	return new VonNeumannTopology<E>(this);
     }
     
     public Iterator<E> neighbourhood(Iterator<E> iterator) {

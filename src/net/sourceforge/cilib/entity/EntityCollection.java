@@ -39,6 +39,8 @@ import java.util.List;
  */
 public abstract class EntityCollection<E extends Entity> 
 	implements Collection<E>, Iterable<E>, List<E>, Serializable {
+	
+	public abstract EntityCollection<E> clone();
        
     /**
      * Adds an entity to the topology

@@ -47,13 +47,23 @@ import net.sourceforge.cilib.entity.Entity;
  * @author  Edwin Peer
  */
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {
-    
-    /**
+	private static final long serialVersionUID = 93039445052676571L;
+
+	/**
      * Creates a new instance of <code>LBestTopology</code>.
      */
     public LBestTopology() {
         super();
         neighbourhoodSize = 3;
+    }
+    
+    public LBestTopology(LBestTopology<E> copy) {
+    	super(copy);
+    	this.neighbourhoodSize = copy.neighbourhoodSize;
+    }
+    
+    public LBestTopology<E> clone() {
+    	return new LBestTopology<E>(this);
     }
     
     

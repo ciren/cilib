@@ -43,18 +43,24 @@ import net.sourceforge.cilib.type.types.Vector;
 
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
 	
-	private ArrayList<Entity> offspring;
-	
 	public OnePointCrossoverStrategy() {
-		offspring = new ArrayList<Entity>();
+		super();
+	}
+	
+	public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
+		super(copy);
+	}
+	
+	public OnePointCrossoverStrategy clone() {
+		return new OnePointCrossoverStrategy(this);
 	}
 	
 	@Override
 	public List<Entity> crossover(List<? extends Entity> parentCollection) {
-		offspring.clear();
-
-		Collections.shuffle(parentCollection); // This should be a selectionstrategy on the entire population
+		ArrayList<Entity> offspring = new ArrayList<Entity>();
 		offspring.ensureCapacity(parentCollection.size());
+		
+		Collections.shuffle(parentCollection); // This should be a selectionstrategy on the entire population
 		
 		for (int i = 0; i < parentCollection.size(); i++) {
 			// This needs a selection strategy to select the parent individuals!!!!

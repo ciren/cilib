@@ -32,6 +32,8 @@ import net.sourceforge.cilib.ec.EC;
  *
  */
 public interface IterationStrategy {
+	
+	public IterationStrategy clone();
 
 	public void perfromIteration(EC ec);
 	

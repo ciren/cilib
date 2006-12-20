@@ -43,8 +43,19 @@ public class UniformMutationStrategy extends MutationStrategy {
 	private ControlParameterUpdateStrategy minStrategy, maxStrategy;
 	
 	public UniformMutationStrategy() {
+		super();
 		minStrategy = new ProportionalControlParameterUpdateStrategy();
 		maxStrategy = new ProportionalControlParameterUpdateStrategy();
+	}
+	
+	public UniformMutationStrategy(UniformMutationStrategy copy) {
+		super(copy);
+		this.minStrategy = copy.minStrategy.clone();
+		this.maxStrategy = copy.maxStrategy.clone();
+	}
+	
+	public UniformMutationStrategy clone() {
+		return new UniformMutationStrategy(this);
 	}
 	
 	

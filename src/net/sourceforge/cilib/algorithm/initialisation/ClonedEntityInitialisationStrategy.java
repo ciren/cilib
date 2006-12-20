@@ -44,6 +44,15 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 		entities = 20;
 		prototypeEntity = null; // This has to be manually set as Individuals are used in GAs etc...
 	}
+	
+	public ClonedEntityInitialisationStrategy(ClonedEntityInitialisationStrategy copy) {
+		this.entities = copy.entities;
+		this.prototypeEntity = copy.prototypeEntity.clone();
+	}
+	
+	public ClonedEntityInitialisationStrategy clone() {
+		return new ClonedEntityInitialisationStrategy(this);
+	}
 
 
 	/**

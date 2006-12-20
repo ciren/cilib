@@ -53,6 +53,15 @@ public abstract class MutationStrategy {
 		randomNumber = new RandomNumber();
 	}
 	
+	public MutationStrategy(MutationStrategy copy) {
+		this.operator = copy.operator;
+		this.operatorStrategy = copy.operatorStrategy;
+		this.mutationProbability = copy.mutationProbability.clone();
+		this.randomNumber = copy.randomNumber.clone();
+	}
+	
+	public abstract MutationStrategy clone();
+	
 	public abstract void mutate(List<? extends Entity> entity);
 
 	/**

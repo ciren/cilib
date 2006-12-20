@@ -57,6 +57,10 @@ import net.sourceforge.cilib.entity.Topology;
  */
 @Deprecated
 public class BeliefSpace extends Topology<Belief> {
+	
+	public BeliefSpace clone() {
+		return null;
+	}
 
 	@Override
 	public Iterator<Belief> iterator() {

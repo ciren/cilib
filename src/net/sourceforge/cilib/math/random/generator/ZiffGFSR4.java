@@ -30,10 +30,7 @@
  * 
  * Comment text ripped from GSL.
  */
-
 package net.sourceforge.cilib.math.random.generator;
-
-import java.util.Random;
 
 /**
  * <p>
@@ -85,6 +82,10 @@ public class ZiffGFSR4 extends Random {
     
     public ZiffGFSR4(long seed) {
         super(seed);
+    }
+    
+    public ZiffGFSR4 clone() {
+    	return new ZiffGFSR4();
     }
     
     private long LCG(long n) {
