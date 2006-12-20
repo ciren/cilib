@@ -24,7 +24,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
  */
-package net.sourceforge.cilib.ec.ea;
+package net.sourceforge.cilib.ec;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
@@ -39,8 +39,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * Implements the Entity interface. Individual represents entities used within the EC paradigm.
  */
 public class Individual implements Entity {
-    
-    protected String id;
+	private static final long serialVersionUID = -578986147850240655L;
+	
+	protected String id;
     protected int dimension = 0;
     protected Type genes = null;    //represents the genetic structure.
     protected Type penotypes = null;

@@ -33,7 +33,6 @@ import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
-import net.sourceforge.cilib.ec.ea.Individual;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.ec.iterationstrategies.IterationStrategy;
 import net.sourceforge.cilib.entity.Entity;

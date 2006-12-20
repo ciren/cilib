@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.ec.particleadaptor;
 
-import net.sourceforge.cilib.ec.ea.Individual;
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**

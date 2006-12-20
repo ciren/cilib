@@ -31,6 +31,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Topology;
 
 /**

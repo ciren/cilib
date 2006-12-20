@@ -48,7 +48,6 @@ public class AngleModulation extends ContinuousFunction {
 	private double upperBound;
 	private Function function;
 	
-	
 	/**
 	 * 
 	 *
@@ -59,14 +58,12 @@ public class AngleModulation extends ContinuousFunction {
 		requiredBits = 0;
 	}
 	
-	
 	/**
 	 * 
 	 */
 	public Object getMinimum() {
 		return function.getMinimum();
 	}
-	
 	
 	/**
 	 * 
@@ -75,21 +72,16 @@ public class AngleModulation extends ContinuousFunction {
 		return function.getMaximum();
 	}
 	
-	
 	/**
 	 * 
 	 */
 	public double evaluate(Vector x) {
-		//System.out.println("Before vector: " + x);
 		String solution = generateBitString(x);
 		Vector expandedVector = decodeBitString(solution);
-		//System.out.println("After vector: " + expandedVector);
 		
-		//System.out.println("fitness: " + function.evaluate(expandedVector));
 		return function.evaluate(expandedVector);
 	}
-	
-	
+		
 	/**
 	 * 
 	 * @return
@@ -97,7 +89,6 @@ public class AngleModulation extends ContinuousFunction {
 	public int getPrecision() {
 		return this.precision;
 	}
-	
 	
 	/**
 	 * 
@@ -107,15 +98,13 @@ public class AngleModulation extends ContinuousFunction {
 		this.precision = precision;		
 	}
 	
-	
 	/**
 	 * 
 	 * @return
 	 */
 	public Function getFunction() {
 		return this.function;
-	}
-	
+	}	
 	
 	/**
 	 * 
@@ -125,7 +114,6 @@ public class AngleModulation extends ContinuousFunction {
 		this.function = decoratedFunciton;
 		requiredBits = getRequiredNumberOfBits(function.getDomainRegistry());
 	}
-	
 	
 	/**
 	 * 
@@ -157,7 +145,6 @@ public class AngleModulation extends ContinuousFunction {
 		
 	}
 
-	
 	/**
 	 * @TODO: Change this to use something better than a string
 	 * @TODO: complete this method
@@ -170,8 +157,6 @@ public class AngleModulation extends ContinuousFunction {
 		double b = x.getReal(1);
 		double c = x.getReal(2);
 		double d = x.getReal(3);
-		
-		//System.out.println("a: " + a + " b: " + b + " c: " + c + " d: " + d);
 		
 		StringBuffer str = new StringBuffer();
 		
@@ -186,7 +171,6 @@ public class AngleModulation extends ContinuousFunction {
 		
 		return str.toString();
 	}
-	
 	
 	/**
 	 * 
@@ -207,7 +191,6 @@ public class AngleModulation extends ContinuousFunction {
 		return vector;
 	}
 	
-	
 	/**
 	 * Determine the numeric value of the given bitstring.
 	 * 
@@ -225,32 +208,16 @@ public class AngleModulation extends ContinuousFunction {
 		result = Integer.valueOf(substring, 2).intValue();
 		
 		return result;
-		
-		/*double result = 0.0;
-		int n = 1;
-		
-		for (int counter = j-1; counter >= i; counter--) {
-			if (str.charAt(counter) == '1') {
-				result += n;
-			}
-			
-			n = n*2;
-		}
-
-		return result;*/
 	}
-	
 	
 	public double valueOf(String bitString, int index) {
 		String substring = bitString.substring(index);
 		return Integer.valueOf(substring, 2).intValue();
 	}
-	
-	
+		
 	public double valueOf(String bitString) {
 		return Integer.valueOf(bitString, 2).intValue();
 	}
-
 	
 	/**
 	 * 
@@ -267,5 +234,4 @@ public class AngleModulation extends ContinuousFunction {
 
 		return result;
 	}
-
 }

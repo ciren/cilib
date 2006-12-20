@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.ec.crossoveroperators.DifferentialCrossOver;
 
 /**

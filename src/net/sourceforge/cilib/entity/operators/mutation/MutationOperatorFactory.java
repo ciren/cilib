@@ -33,8 +33,8 @@ package net.sourceforge.cilib.entity.operators.mutation;
  */
 public class MutationOperatorFactory {
 	
-	private final String [] plusKeywords = { "+", "plus", "add" };
-	private final String [] multiplicationKeywords = { "*", "times" };
+	private final String [] plusKeywords = { "+", "plus", "add", "additive" };
+	private final String [] multiplicationKeywords = { "*", "times", "multiplicative" };
 	
 	
 	public MutationOperatorFactory() {	

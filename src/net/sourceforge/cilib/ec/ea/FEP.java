@@ -34,9 +34,11 @@ import java.util.List;
 
 import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.container.SortedList;
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.ec.selectionoperators.TournamentSelection;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -153,7 +155,7 @@ public class FEP extends EA {
 	protected void performNextGenerationFormation() {
 		SortedList<Pair<Integer, Entity>> list = new SortedList<Pair<Integer, Entity>>(new AscendingOrderComparator());
 		
-		Topology<Individual> unionPopulation = new StandardPopulation();
+		Topology<Individual> unionPopulation = new GBestTopology<Individual>();
 		unionPopulation.addAll(this.population.getAll());
 		unionPopulation.addAll(this.offspring.getAll());
 		

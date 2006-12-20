@@ -36,6 +36,7 @@ import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.ec.crossoveroperators.ArithmeticCrossOver;
 import net.sourceforge.cilib.ec.crossoveroperators.CrossOverOperator;
 import net.sourceforge.cilib.ec.mutationoperators.GaussianMutation;
@@ -44,6 +45,7 @@ import net.sourceforge.cilib.ec.selectionoperators.Elitism;
 import net.sourceforge.cilib.ec.selectionoperators.RandomSelection;
 import net.sourceforge.cilib.ec.selectionoperators.SelectionOperator;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -102,8 +104,8 @@ public class EA extends PopulationBasedAlgorithm {
     	
         //This is all the default settings.
         //Changes can be made via the XML file.
-        this.population = new StandardPopulation();
-        this.offspring = new StandardPopulation();
+        this.population = new GBestTopology<Individual>();
+        this.offspring = new GBestTopology<Individual>();
         this.populationSize = 50;
         this.prototypeIndividual = new Individual();
         this.parentSelector = new RandomSelection<Individual>();

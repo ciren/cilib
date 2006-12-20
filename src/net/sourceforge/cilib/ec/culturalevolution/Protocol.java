@@ -27,7 +27,7 @@ package net.sourceforge.cilib.ec.culturalevolution;
 
 import java.util.Collection;
 
-import net.sourceforge.cilib.ec.ea.Individual;
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Topology;
 
 /**

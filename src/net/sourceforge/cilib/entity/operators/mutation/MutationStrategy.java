@@ -44,8 +44,7 @@ public abstract class MutationStrategy {
 	private RandomNumber randomNumber;
 	private String operator;
 	private MutationOperatorStrategy operatorStrategy;
-	
-		
+			
 	public MutationStrategy() {
 		operator = "+";
 		operatorStrategy = new AdditionMutationOperatorStrategy();
@@ -54,10 +53,8 @@ public abstract class MutationStrategy {
 		randomNumber = new RandomNumber();
 	}
 	
-	
 	public abstract void mutate(List<? extends Entity> entity);
 
-	
 	/**
 	 * 
 	 * @return
@@ -75,22 +72,32 @@ public abstract class MutationStrategy {
 		this.mutationProbability = mutationProbability;
 	}
 
-
 	public RandomNumber getRandomNumber() {
 		return randomNumber;
 	}
-
 
 	public void setRandomNumber(RandomNumber randomNumber) {
 		this.randomNumber = randomNumber;
 	}
 
-
 	public String getOperator() {
 		return operator;
 	}
 
-
+	/**
+	 * This sets the operator to be used within the mutation strategy.
+	 * The mustation can be multiplicative or additive.
+	 * Valid values for the operator are defined in the list below.<br>
+	 * <p>
+	 * <table border="0">
+	 * <tr><td>Multiplicative:</td><td>Additive:</td></tr>
+	 * <tr><td>*</td><td>+</td></tr>
+	 * <tr><td>times</td><td>plus, add</td></tr>
+	 * <tr><td>multiplicative</td><td>additive</td></tr>
+	 * </table>
+	 * 
+	 * @param operator A {@link java.lang.String} defining the desired operation
+	 */
 	public void setOperator(String operator) {
 		this.operator = operator;
 		
@@ -98,10 +105,12 @@ public abstract class MutationStrategy {
 		this.operatorStrategy = factory.getOperatorStrategy(operator);
 	}
 	
-	
+	/**
+	 * Get the defined {@link net.sourceforge.cilib.entity.operators.mutation.MutationOperatorStrategy} 
+	 * @return
+	 */
 	public MutationOperatorStrategy getOperatorStrategy() {
 		return this.operatorStrategy;
 	}
-	
-	
+
 }

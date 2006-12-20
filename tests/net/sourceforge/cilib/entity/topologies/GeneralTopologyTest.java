@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import net.sourceforge.cilib.ec.ea.Individual;
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;

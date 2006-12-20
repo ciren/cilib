@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.cilib.ec.ea.Individual;
+import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.functions.continuous.Rastrigin;

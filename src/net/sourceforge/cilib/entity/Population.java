@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.entity;
 
-import net.sourceforge.cilib.ec.ea.Individual;
+import net.sourceforge.cilib.ec.Individual;
 
 
 /**
