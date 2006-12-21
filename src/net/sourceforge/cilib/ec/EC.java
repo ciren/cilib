@@ -43,6 +43,8 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
+ * Generic EC skeleton agorithm. The algorithm is altered by defining the
+ * appropriate {@link net.sourceforge.cilib.ec.iterationstrategies.IterationStrategy}.
  * 
  * @author Gary Pampara
  */
@@ -53,9 +55,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	private InitialisationStrategy initialisationStrategy;
 	private IterationStrategy iterationStrategy;
 	private Topology<? extends Entity> topology;
-	
 	private Entity bestEntity;
-	
 	protected boolean participation;
 	
 	
@@ -63,10 +63,8 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		this.initialisationStrategy = new ClonedEntityInitialisationStrategy();
 		this.initialisationStrategy.setEntityType(new Individual());
 		
-		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
-				
+		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();			
 		this.topology = new GBestTopology<Individual>();
-		
 		this.participation = false;
 	}
 	
@@ -81,7 +79,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		return new EC(this);
 	}
 	
-	
 	@Override
 	public void performInitialisation() {
 		this.initialisationStrategy.intialise(this.topology, this.problem);
@@ -91,7 +88,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	@Override
 	public void performIteration() {
 		bestEntity = null;
-		
 		iterationStrategy.perfromIteration(this);
 	}
 
@@ -102,7 +98,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 
 	@Override
 	public void setPopulationSize(int populationSize) {
-		System.out.println("populationSize: " + populationSize);
 		this.initialisationStrategy.setEntities(populationSize);
 	}
 
@@ -129,10 +124,12 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		return 0;
 	}
 
+	@Override
 	public void setOptimisationProblem(OptimisationProblem problem) {
 		this.problem = problem;		
 	}
 
+	@Override
 	public OptimisationProblem getOptimisationProblem() {
 		return this.problem;
 	}
@@ -143,19 +140,15 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
         return solution;
 	}
 	
-
 	public IterationStrategy getIterationStrategy() {
 		return iterationStrategy;
 	}
-
 
 	public void setIterationStrategy(IterationStrategy iterationStrategy) {
 		this.iterationStrategy = iterationStrategy;
 	}
 
-
 	public List<OptimisationSolution> getSolutions() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -173,7 +166,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 			}
 		}
 		
-		//System.out.println("best sorted: " + topology.get(0).getFitness() + " best found: " + bestEntity.getFitness());
 		return bestEntity;
 	}
 
