@@ -35,7 +35,7 @@ import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
  * 
  * @author Gary Pampara
  */
-public abstract class IterationStrategy<E> implements Serializable {
+public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> implements Serializable {
 	
 	protected BoundaryConstraint boundaryConstraint;
 	
