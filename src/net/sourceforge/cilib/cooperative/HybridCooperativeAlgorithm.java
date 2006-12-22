@@ -2,7 +2,7 @@ package net.sourceforge.cilib.cooperative;
 
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;

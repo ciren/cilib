@@ -42,8 +42,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * @author Gary Pampara
  */
-public class DifferentialEvolutionIterationStrategy implements
-		IterationStrategy {
+public class DifferentialEvolutionIterationStrategy extends
+		net.sourceforge.cilib.algorithm.population.IterationStrategy<EC> {
+	private static final long serialVersionUID = 8019668923312811974L;
 	
 	private RandomNumber random1;
 	private RandomNumber random2;
@@ -73,7 +74,7 @@ public class DifferentialEvolutionIterationStrategy implements
 	/**
 	 * Implementation of the Scheme 1 strategy for differential evolution 
 	 */
-	public void perfromIteration(EC ec) {
+	public void performIteration(EC ec) {
 		Topology<? extends Entity> topology = ec.getTopology();
 		
 		for (Iterator<? extends Entity> iterator = topology.iterator(); iterator.hasNext(); ) {

@@ -34,7 +34,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
-import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.contributionupdatestrategies.ContributionUpdateStrategy;
 import net.sourceforge.cilib.cooperative.fitnessupdatestrategies.FitnessUpdateStrategy;
 import net.sourceforge.cilib.cooperative.populationiterators.PopulationIterator;

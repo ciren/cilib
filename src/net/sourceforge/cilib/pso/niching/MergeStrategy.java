@@ -28,7 +28,7 @@ package net.sourceforge.cilib.pso.niching;
 
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 public interface MergeStrategy<E extends PopulationBasedAlgorithm> {
 	

@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.ec.Individual;

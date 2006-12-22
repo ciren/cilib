@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
-import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;

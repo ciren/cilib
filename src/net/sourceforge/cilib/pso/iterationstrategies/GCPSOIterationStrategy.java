@@ -26,6 +26,7 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.parameterupdatestrategies.RhoUpdateStrategy;
 import net.sourceforge.cilib.pso.parameterupdatestrategies.StandardRhoUpdateStrategy;
@@ -38,9 +39,9 @@ import net.sourceforge.cilib.pso.parameterupdatestrategies.StandardRhoUpdateStra
  * @author Gary Pampara
  *
  */
-public class GCPSOIterationStrategy extends IterationStrategy {
+public class GCPSOIterationStrategy extends IterationStrategy<PSO> {
 	
-	private IterationStrategy strategy;
+	private IterationStrategy<PSO> strategy;
 	private RhoUpdateStrategy rhoUpdateStrategy; 
 	
 	/**
@@ -52,14 +53,21 @@ public class GCPSOIterationStrategy extends IterationStrategy {
 		rhoUpdateStrategy = new StandardRhoUpdateStrategy();
 	}
 	
+	
+	@Override
+	public IterationStrategy clone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 	/**
 	 * Perform the iteration of the GCPSO and then perform the required rho update
 	 * @param pso The PSO for which the iteration must be done
 	 */
-	public void performIteration(PSO pso) {
-		strategy.performIteration(pso);
-		rhoUpdateStrategy.updateRho(pso);
+	public void performIteration(PSO algorithm) {
+		strategy.performIteration(algorithm);
+		rhoUpdateStrategy.updateRho(algorithm);
 	}
 	
 	

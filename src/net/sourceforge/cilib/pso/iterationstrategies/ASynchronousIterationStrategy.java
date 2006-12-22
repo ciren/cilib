@@ -27,24 +27,31 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 
 import java.util.Iterator;
 
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * @author Gary Pampara
  */
-public class ASynchronousIterationStrategy extends IterationStrategy {
+public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
+	private static final long serialVersionUID = -3511991873784185698L;
+
+	@Override
+	public ASynchronousIterationStrategy clone() {
+		return new ASynchronousIterationStrategy();
+	}
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
 	 */
-	public void performIteration(PSO pso) {
+	public void performIteration(PSO algorithm) {
 		
-	   for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext(); ) {
+	   for (Iterator<Particle> i = algorithm.getTopology().iterator(); i.hasNext(); ) {
             Particle current = i.next();
-            current.setFitness(pso.getOptimisationProblem().getFitness(current.getPosition(), true));
+            current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
             
-            for (Iterator<Particle> j = pso.getTopology().neighbourhood(i); j.hasNext(); ) {
+            for (Iterator<Particle> j = algorithm.getTopology().neighbourhood(i); j.hasNext(); ) {
                 Particle other = j.next();
                 if (current.getSocialBestFitness().compareTo( other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
                     other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
@@ -52,7 +59,7 @@ public class ASynchronousIterationStrategy extends IterationStrategy {
             }
        }
 
-       for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext(); ) {
+       for (Iterator<Particle> i = algorithm.getTopology().iterator(); i.hasNext(); ) {
            Particle current = i.next();
            //current.updateVelocity(pso.getVelocityUpdate());      // TODO: replace with visitor (will simplify particle interface)
            current.updateVelocity();
@@ -60,9 +67,9 @@ public class ASynchronousIterationStrategy extends IterationStrategy {
            
            boundaryConstraint.enforce(current);
            
-           current.setFitness(pso.getOptimisationProblem().getFitness(current.getPosition(), true));
+           current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
            
-           for (Iterator<Particle> j = pso.getTopology().neighbourhood(i); j.hasNext(); ) {
+           for (Iterator<Particle> j = algorithm.getTopology().neighbourhood(i); j.hasNext(); ) {
                Particle other = j.next();
                if (current.getBestFitness().compareTo( other.getNeighbourhoodBest().getBestFitness()) > 0) {
                    other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?

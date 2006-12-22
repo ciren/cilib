@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Vector;

@@ -29,12 +29,12 @@ package net.sourceforge.cilib.ec;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
-import net.sourceforge.cilib.ec.iterationstrategies.IterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -53,7 +53,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	
 	private OptimisationProblem problem;
 	private InitialisationStrategy initialisationStrategy;
-	private IterationStrategy iterationStrategy;
+	private IterationStrategy<EC> iterationStrategy;
 	private Topology<? extends Entity> topology;
 	private Entity bestEntity;
 	protected boolean participation;
@@ -88,7 +88,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	@Override
 	public void performIteration() {
 		bestEntity = null;
-		iterationStrategy.perfromIteration(this);
+		iterationStrategy.performIteration(this);
 	}
 
 	@Override

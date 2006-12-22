@@ -31,7 +31,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;

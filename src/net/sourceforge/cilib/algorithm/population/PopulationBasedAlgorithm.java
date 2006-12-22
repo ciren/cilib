@@ -24,8 +24,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package net.sourceforge.cilib.algorithm;
+package net.sourceforge.cilib.algorithm.population;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 

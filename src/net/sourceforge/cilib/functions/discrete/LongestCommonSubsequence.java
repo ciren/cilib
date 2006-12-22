@@ -3,7 +3,7 @@ package net.sourceforge.cilib.functions.discrete;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.TextDataSetBuilder;

@@ -36,7 +36,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.functions.continuous.Spherical;
 import net.sourceforge.cilib.ioc.registry.ObjectRegistry;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;

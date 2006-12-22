@@ -30,7 +30,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.inputmasks.TicTacToeMask;
 import net.sourceforge.cilib.coevolution.scoreschemes.ScoreScheme;
 import net.sourceforge.cilib.games.Game;

@@ -28,7 +28,7 @@ package net.sourceforge.cilib.pso.niching;
 
 import java.util.Collection;
 
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 public interface AbsorptionStrategy<E extends PopulationBasedAlgorithm> {
 	

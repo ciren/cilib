@@ -30,7 +30,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Vector;

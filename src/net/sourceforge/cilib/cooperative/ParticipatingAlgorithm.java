@@ -34,7 +34,7 @@ import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * Any algorithm that implements this interface can be used as a participant in any Cooperative Algorithm.
- * Such Cooperative Algorithms should preferably inherit from {@link net.sourceforge.cilib.algorithm.MultiPopulationBasedAlgorithm}.
+ * Such Cooperative Algorithms should preferably inherit from {@link net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm}.
  * 
  * <b>Note:</b> Currently this interface only supports continuous domained problems.
  * 

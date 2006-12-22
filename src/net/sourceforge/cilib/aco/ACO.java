@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.DiscreteOptimisationProblem;

@@ -1,7 +1,7 @@
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.type.types.Int;

@@ -42,8 +42,9 @@ import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
  * 
  * @author Gary Pampara
  */
-public class GeneticAlgorithmIterationStrategy implements IterationStrategy {
-	
+public class GeneticAlgorithmIterationStrategy extends net.sourceforge.cilib.algorithm.population.IterationStrategy<EC> {
+	private static final long serialVersionUID = -2429984051022079804L;
+
 	private CrossoverStrategy crossoverStrategy;
 	private MutationStrategy mutationStrategy;
 	
@@ -61,7 +62,8 @@ public class GeneticAlgorithmIterationStrategy implements IterationStrategy {
 		return new GeneticAlgorithmIterationStrategy(this);
 	}
 
-	public void perfromIteration(EC ec) {
+	@SuppressWarnings("unchecked")
+	public void performIteration(EC ec) {
 		// Cacluate the fitness
 		for (Iterator<? extends Entity> i = ec.getTopology().iterator(); i.hasNext(); ) {
 			Entity entity = i.next();
@@ -96,5 +98,4 @@ public class GeneticAlgorithmIterationStrategy implements IterationStrategy {
 		crossedOver.clear();
 		crossedOver = null;
 	}
-
 }

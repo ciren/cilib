@@ -1,7 +1,7 @@
 /*
- * IterationStrategy.java
- *
- * Created on Oct 14, 2005
+ * MultiPopulationBasedAlgorithm.java
+ * 
+ * Created on Feb 10, 2006
  *
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -22,37 +22,52 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
  */
-package net.sourceforge.cilib.pso.iterationstrategies;
+package net.sourceforge.cilib.algorithm.population;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
+ * 
  * @author Gary Pampara
+ *
  */
-public abstract class IterationStrategy implements Serializable {
+public abstract class MultiPopulationBasedAlgorithm extends Algorithm {
 	
-	protected BoundaryConstraint boundaryConstraint;
+	protected List<Algorithm> populations;
+	protected OptimisationProblem optimisationProblem;
 	
-	public IterationStrategy() {
-		this.boundaryConstraint = new UnconstrainedBoundary();
+	public MultiPopulationBasedAlgorithm() {
+		this.populations = new ArrayList<Algorithm>();
 	}
 	
+
 	/**
 	 * 
-	 * @param pso
 	 */
-	public abstract void performIteration(PSO pso);
+	public abstract void performIteration();
 
-	
-	public BoundaryConstraint getBoundaryConstraint() {
-		return boundaryConstraint;
+
+	public List<Algorithm> getPopulations() {
+		return populations;
 	}
 
-	public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
-		this.boundaryConstraint = boundaryConstraint;
+
+	public void setPopulations(List<Algorithm> populations) {
+		this.populations = populations;
 	}
 	
+	public OptimisationProblem getOptimisationProblem() {
+		return this.optimisationProblem;
+	}
+	
+	public void setOptimisationProblem(OptimisationProblem problem) {
+		this.optimisationProblem = problem;
+	}
+
 }
