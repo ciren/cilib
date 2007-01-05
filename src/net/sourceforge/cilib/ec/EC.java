@@ -68,6 +68,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		this.participation = false;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public EC(EC copy) {
 		this.initialisationStrategy = copy.initialisationStrategy.clone();
 		this.iterationStrategy = copy.iterationStrategy.clone();
@@ -144,6 +145,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		return iterationStrategy;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setIterationStrategy(IterationStrategy iterationStrategy) {
 		this.iterationStrategy = iterationStrategy;
 	}

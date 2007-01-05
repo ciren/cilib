@@ -40,7 +40,7 @@ import net.sourceforge.cilib.pso.parameterupdatestrategies.StandardRhoUpdateStra
  *
  */
 public class GCPSOIterationStrategy extends IterationStrategy<PSO> {
-	
+	private static final long serialVersionUID = 4738676997183256531L;
 	private IterationStrategy<PSO> strategy;
 	private RhoUpdateStrategy rhoUpdateStrategy; 
 	

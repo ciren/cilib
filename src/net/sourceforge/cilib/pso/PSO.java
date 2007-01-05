@@ -76,7 +76,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	
 	private static final long serialVersionUID = -8234345682394295357L;
 
-	private static Logger log = Logger.getLogger(PSO.class);
+//	private static Logger log = Logger.getLogger(PSO.class);
 	
 	 private static int currentParticleId = 0;
 
@@ -109,7 +109,9 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
     }
     
     public PSO(PSO copy) {
-    	
+    	this.topology = copy.topology.clone();
+    	this.iterationStrategy = copy.iterationStrategy; // need to clone?
+    	this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
     }
     
     public PSO clone() {
@@ -138,7 +140,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
         for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext(); ) {
         	i.next().getVelocityUpdateStrategy().updateControlParameters();
         }
-        log.debug("Performing iteration");
+  //      log.debug("Performing iteration");
     }
 
     
@@ -212,7 +214,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      */
 	@SuppressWarnings("unchecked")
 	public void setTopology(Topology topology) {
-		log.debug("topology set: " + topology);
+	//	log.debug("topology set: " + topology);
         this.topology = topology;
     }
 

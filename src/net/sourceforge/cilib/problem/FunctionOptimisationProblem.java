@@ -75,7 +75,6 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     public DomainRegistry getDomain() {
 		return function.getDomainRegistry();
 	}
-
     
     /**
      * 
@@ -83,13 +82,6 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     public DomainRegistry getBehaviouralDomain() {
     	return function.getBehavioralDomainRegistry();
     }
-    
-    /*public DomainComponent getDomain() {
-        return function.getDomainComponent();
-    }*/
-    /*public Domain getDomain() {
-    	return Domain.getInstance();
-    }*/
     
     /**
      * Returns the error (as a double for now) that the given solution has with respect to the actual optimum solution.   

@@ -67,7 +67,7 @@ public abstract class Algorithm implements Runnable, Serializable {
     
     
     protected Algorithm() {
-    	LoggingSingleton.initialise();
+//    	LoggingSingleton.initialise();
     	    	
         stoppingConditions = new Vector<StoppingCondition>();
         algorithmListeners = new Vector<AlgorithmListener>();

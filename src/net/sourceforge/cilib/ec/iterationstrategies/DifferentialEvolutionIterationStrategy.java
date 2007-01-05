@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -42,10 +43,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * @author Gary Pampara
  */
-public class DifferentialEvolutionIterationStrategy extends
-		net.sourceforge.cilib.algorithm.population.IterationStrategy<EC> {
-	private static final long serialVersionUID = 8019668923312811974L;
-	
+public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC> {
+	private static final long serialVersionUID = 8019668923312811974L;	
 	private RandomNumber random1;
 	private RandomNumber random2;
 	private double crossoverProbability;
@@ -108,9 +107,10 @@ public class DifferentialEvolutionIterationStrategy extends
 			if (trialVectorFitness.compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
 				current.set(trialVector);
 			}
+			
+			//this.boundaryConstraint.enforce(current);
 		}
-	}
-	
+	}	
 	
 	/**
 	 * Get a list of individuals that are suitable to be used within

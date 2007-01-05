@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -42,7 +43,7 @@ import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
  * 
  * @author Gary Pampara
  */
-public class GeneticAlgorithmIterationStrategy extends net.sourceforge.cilib.algorithm.population.IterationStrategy<EC> {
+public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 	private static final long serialVersionUID = -2429984051022079804L;
 
 	private CrossoverStrategy crossoverStrategy;
@@ -87,7 +88,9 @@ public class GeneticAlgorithmIterationStrategy extends net.sourceforge.cilib.alg
 		for (Iterator<Entity> i = crossedOver.iterator(); i.hasNext(); ) {
 			Entity entity = i.next();
 			topology.add(entity);
-		} 
+		}
+		
+		//this.boundaryConstraint.enforce(entity);
 		
 		Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
 		for (ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize()); i.hasNext(); ) {
