@@ -27,6 +27,8 @@
  */
 package net.sourceforge.cilib.algorithm;
 
+import java.net.URL;
+
 import org.apache.log4j.PropertyConfigurator;
 
 /**
@@ -43,7 +45,8 @@ public class LoggingSingleton {
 	 *
 	 */
 	private LoggingSingleton() {
-		PropertyConfigurator.configure("log4j.properties");
+		URL url = getClass().getResource("/log4j.properties");
+		PropertyConfigurator.configure(url);
 	}
 	
 	public static LoggingSingleton initialise() {

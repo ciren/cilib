@@ -29,6 +29,12 @@
 
 package net.sourceforge.cilib.type;
 
+import static org.junit.Assert.*;
+
+import net.sourceforge.cilib.type.types.Real;
+
+import org.junit.Test;
+
 /**
  *
  * @author Edwin Peer
@@ -40,8 +46,13 @@ public class BoundsTest {
     }
     
     public void setUp() {
-    	
-//    	target = new Target();
+    //    	target = new Target();
+    }
+    
+    @Test
+    public void testSomething() {
+    	Real r = new Real(5.0);
+    	assertEquals(5.0, r.getReal());
     }
        
     /*

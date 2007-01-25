@@ -48,8 +48,6 @@ import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
-import org.apache.log4j.Logger;
-
 /**
  * <p>
  * An implementation of the standard PSO algorithm.
