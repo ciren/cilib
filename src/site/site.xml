@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="CILib">
+  <bannerLeft>
+    <name>CILib</name>
+    <src>http://cilib.sourceforge.net/images/cilib_logo_transparent.png</src>
+    <href>http://cilib.sourceforge.net</href>
+  </bannerLeft>
+
+  <bannerRight>
+    <src>http://cilib.sourceforge.net/images/cirg_logo.png</src>
+    <href>http://cirg.cs.up.ac.za</href>
+  </bannerRight>
+
+  <body>
+    <links>
+    </links>
+
+    <menu name="Quick Links">
+      <item name="Home" href="/index.html" />
+    </menu>
+
+    <menu name="Documentation">
+      <item name="Introduction" href="/usersguide/index.html" collapse="true">
+	<item name="Quick Start" href="/usersguide/quick-start.html" />
+	<item name="XML Configuration" href="/usersguide/xml-configuration.html" />
+	<item name="Direct usage in code" href="/usersguide/direct-code-usage.html" />
+      </item>
+    </menu>
+
+    ${reports}
+  </body>
+</project>

@@ -1,0 +1,148 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sourceforge.cilib</groupId>
+  <artifactId>cilib</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>cilib</name>
+  <description>Collaborative component based framework for developing Computational Intelligence software</description>
+  <url>http://cilib.sourceforge.net</url>
+
+  <licenses>
+    <license>
+      <name>GPL</name>
+      <url></url>
+      <distribution></distribution>
+    </license>
+  </licenses>
+  
+  <organization>
+    <name>CIRG</name>
+    <url>http://cirg.cs.up.ac.za</url>
+  </organization>
+
+  <scm>
+    <connection>scm:svn:https://svn.sourceforge.net/svnroot/cilib/trunk</connection>
+    <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/cilib/trunk</developerConnection>
+    <url>http://svn.sourceforge.net/svnroot/cilib/trunk</url>
+  </scm>
+
+  <mailingLists>
+    <mailingList>
+      <name>CILib User List</name>
+      <subscribe></subscribe>
+      <unsubscribe></unsubscribe>
+      <post>cilib-user@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=44422</archive>
+    </mailingList>
+    <mailingList>
+      <name>CILib Developer List</name>
+      <subscribe></subscribe>
+      <unsubscribe></unsubscribe>
+      <post>cilib-devel@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=34915</archive>
+    </mailingList>
+    <mailingList>
+      <name>CILib Announce</name>
+      <subscribe></subscribe>
+      <unsubscribe></unsubscribe>
+      <post>cilib-announce@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=cilib-announce</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <id>gp</id>
+      <name>Gary Pampara</name>
+      <email>gpampara@cs.up.ac.za</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>2</timezone>
+    </developer>
+  </developers>
+  
+  <contributors>
+    <contributor>
+      <name></name>
+      <email></email>
+      <url></url>
+      <organisation></organisation>
+      <organisationUrl></organisationUrl>
+      <roles>
+        <role></role>
+      </roles>
+      <properties>
+        <gtalk></gtalk>
+      </properties>
+    </contributor>
+  </contributors>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <defaultGoal>package</defaultGoal>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+    </testResources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<configuration>
+	  <source>1.6</source>
+	  <target>1.6</target>
+	</configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-surefire-plugin</artifactId>
+	<version>2.3-SNAPSHOT</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+	<configuration>
+	  <descriptor>src/main/assembly/assembly.xml</descriptor>
+	</configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-javadoc-plugin</artifactId>
+	<configuration>
+	  <aggregate>true</aggregate>
+	  <links>
+	    <link>http://java.sun.com/javase/6/docs/api</link>
+	  </links>
+	</configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

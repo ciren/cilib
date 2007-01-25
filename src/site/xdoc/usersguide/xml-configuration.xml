@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+	  <title>CILib - User's Guide - XML Configuration</title>
+	  <author>Gary Pampara</author>
+	</properties>
+	<body>
+		<section name="Overview">
+			<p>
+				The CiLib XML configuration file format is defined in cilib.xsd as a xml schema. This schema however, leaves much room for adding undefined elements and attributes, and these will be explained here.
+			</p>
+			<p>
+				A CiLib XML configuration is contained within the <code>&lt;simulator&gt;</code> element. 
+				Inside here, there are a few options. First, you may have a custom element, in which custom objects, 
+				not defined in the schema, may be placed to be later referenced. Secondly, you can define an 
+				<code>&lt;algorithm&gt;</code>, or <code>&lt;algorithms&gt;</code> if there are more than 
+				one. The <code>&lt;algorithms&gt;</code> element can then contain more than one 
+				<code>&lt;algorihm&gt;</code> element. <code>&lt;problem&gt;</code> or <code>&lt;problems&gt;</code>
+				can then be defined in the same manner as the <code>&lt;algorithm&gt;</code> elements. After 
+				the problem tags, the <code>&lt;measurements&gt;</code> element can be defined, and lastly, the 
+				<code>&lt;simulation&gt;</code> or <code>&lt;simulations&gt;</code> elements can be placed, 
+				in the same manner as the algorithm and problem elements.
+			</p>
+			<p>
+				In summary an XML configuration file will contain the following tags in order:
+			</p>
+			<ol>
+				<li><code>&lt;custom&gt;</code></li>
+				<li><code>&lt;algorithm&gt;</code> or <code>&lt;algorithms&gt;</code></li>
+				<li><code>&lt;problem&gt;</code> or <code>&lt;problems&gt;</code></li>
+				<li><code>&lt;measurements&gt;</code></li>
+				<li><code>&lt;simulation&gt;</code> or <code>&lt;simulations&gt;</code></li>
+			</ol>
+		</section>
+		<section name="Attributes">
+			<p>
+				All tags follow the same common attribute specification, plus they can have any amount of custom 
+				attributes. The schema defines the following attributes:
+			</p>
+			<ul>
+				<li><code>id</code></li>
+				<li><code>class</code></li>
+				<li><code>value</code></li>
+				<li><code>ref</code></li>
+			</ul>
+			<p>
+				The <code>&lt;id&gt;</code> attribute is a unique identifier for that element, which can be later used 
+				in a reference using the <code>&lt;ref&gt;</code> attribute. The <code>&lt;class&gt;</code> attribute 
+				specifies the specific class that should be instantiated, and the <code>&lt;value&gt;</code> attribute 
+				specifies a primitive type. The <code>&lt;id&gt;</code> attribute is optional, but any element other than 
+				a placeholder must have a <code>&lt;class&gt;</code>, <code>&lt;ref&gt;</code> or <code>&lt;value&gt;</code>
+				tag. The exception to this is the <code>&lt;simulation&gt;</code> element, which has a defualt value for the
+				<code>&lt;class&gt;</code> attribute. The default value is <code>ioc.Simulation</code>.
+			</p>
+		</section>
+		<section name="References">
+			<p>
+				This section provides an explanation of how references are handled in the CiLib configuration file.
+			</p>
+			<p>
+				When an element is encountered that has a <code>class</code> attribute, a new object is instantiated 
+				and the method corresponding to the element name is called with this instance. If, in addition there is a 
+				<code>id</code> element, the object instance is stored in the Inversion of Control (IoC) Container. 
+				Concequently if an element with the <code>ref</code> attribute is encountered, a lookup is done in the 
+				aforementioned IoC container to find the referenced object, and the method corresponding to the element 
+				name is then called with the referenced object. Note that in both places the same actual object instance is 
+				referenced, not just a copy.
+			</p>
+		</section>
+		<section name="Custom elements">
+			<p>
+				The optional first element in the configuration is the <code>&lt;custom&gt;</code> element. Inside here, 
+				any custom objects may be defined. These custom objects should have <code>id</code> attributes, so they
+				can be referenced throughout the rest of the configuration.
+			</p>
+		</section>
+		<section name="The simulation element">
+			<p>
+				The <code>&lt;simulation&gt;</code> element has a very strict format. It must contain the following 
+				elements in order:
+			</p>
+			<ol>
+				<li>&lt;algorithm&gt;</li>
+				<li>&lt;problem&gt;</li>
+				<li>&lt;measurements&gt;</li>
+			</ol>
+			<p>
+				These elements should contain <code>ref</code> attributes to previously defined objects.
+			</p>
+			<p>
+				The <code>class</code> attribute for the <code>&lt;simulation&gt;</code> element is set to <code>ioc.Simulation</code>
+				by default. You may override this value, but that should rarely be necessary.
+			</p>
+		</section>
+	</body>
+</document>
+

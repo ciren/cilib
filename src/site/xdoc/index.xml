@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <title>Welcome to CILib</title>
+    <author email="gpampara@cs.up.ac.za">Gary Pampara</author>
+  </properties>
+  <body>
+    <section name="Welcome to CILib">
+    <p>
+      CILib (Computational Intelligence Library) is a collaborative component 
+      based framework for developing <a href="http://www.worldscinet.com/ijcia/ijcia.shtml">
+      Computational Intelligence</a> software in:
+    </p>
+    <ul>
+    <li><a href="http://en.wikipedia.org/wiki/Swarm_Intelligence">Swarm Intelligence</a></li>
+    <li><a href="http://en.wikipedia.org/wiki/Evolutionary_Computation">Evolutionary Computation</a></li>
+    <li><a href="http://en.wikipedia.org/wiki/Neural_network">Neural Networks</a></li>
+    <li><a href="http://en.wikipedia.org/wiki/Artificial_immune_systems">Artifical Immune Systems</a></li>
+    <li><a href="http://en.wikipedia.org/wiki/Fuzzy_Logic">Fuzzy Logic</a></li>
+    </ul>
+    <p>
+    CILib is maintained by the <a href="http://cirg.cs.up.ac.za/">Computational Intelligence Reasearch Group</a> hosted by the <a href="http://www.cs.up.ac.za/">Department of Computer Science</a>
+    at the <a href="http://www.up.ac.za">University of Pretoria</a> in <a href="http://www.southafrica.net/">South Africa</a>.
+    </p>
+    </section>
+
+    <section name="Licensing Information">
+    <title>License</title>
+    <p>
+    CILib is distributred under the <a href="http://www.fsf.org/licenses/gpl.html">GPL</a>.
+    </p>
+    <p>
+    <a href="http://cilib.sourceforge.net/GPLApproval.pdf">Approval</a> for publishing University of Pretoria <a href="http://re.up.ac.za/ip.html">Intellectual Property</a>.
+    </p>
+    </section>
+    </body>
+    </document>

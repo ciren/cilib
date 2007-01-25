@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <body>
+    <section name="Overview of CILib">
+    <p>
+    CILib is composed as a collection of 5 hierarchies of component objects.
+    </p>
+
+    <ul>
+    <li>Algorithm hierarchy</li>
+    <li>Problem hierarchy</li>
+    <li>Measurement hierarchy</li>
+    <li>Control parameter hierarchy</li>
+    <li>Type hierarchy</li>
+    </ul>
+
+    <p>
+    CILib is a component based framework for Computational Intelligence 
+    software, written in Java. CILib is a complex abstraction in order 
+    to simply and effectively perform simulations and executions of 
+    Computational Intelligence algorithms.
+    </p>
+    <p>
+    The design goals of CILib are to ensure simplicity in composing different
+    algorithms, with performance of the algorithm not being as important as
+    having an algorithmic framework that is highly generic and simplistic.
+    The power of CILib lies in the ability to compose the required 
+    algorithm quickly and	correctly from the available set of algorithmic
+    components.
+    </p>
+    <p>
+    All algorithm definitions are defined as a tree structure. As a result,
+    the	use of XML leads to a very robust expression of the algorithm and the
+    associated components.
+    </p>
+
+    <note>
+    An algorithm need not be specified using XML. If the user would rather
+    use the required classes directly, the user may do so. This will not 
+    influence the operation of the algorithm or even the library.
+    </note>
+    </section>
+
+    <section name="Algorithm Hierarchy">
+    <fixme author="Gary Pampara">
+    Complete this section
+    </fixme>
+    </section>
+
+    <section name="Problem Hierarchy">
+    <fixme author="Gary Pampara">
+    Complete this section
+    </fixme>
+    </section>
+
+    <section name="Measurement Hierarchy">
+    <fixme author="Gary Pampara">
+    Complete this section
+    </fixme>
+    </section>
+
+    <section name="Control Parameter Hierarchy">
+    <fixme author="Gary Pampara">
+    Complete this section
+    </fixme>
+    </section>
+
+    <section name="Type Hierarchy">
+    <fixme author="Gary Pampara">
+    Complete this section
+    </fixme>
+    </section>
+<!--
+    <section id="overview">
+    <title>Congratulations</title>
+    <p>You have successfully generated and rendered an <a
+    href="ext:forrest">Apache Forrest</a> site.
+    This page is from the site template. It is found in
+    <code>src/documentation/content/xdocs/index.xml</code>
+    Please edit it and replace this text with content of your own.</p>
+    </section>
+
+    <section id="examples">
+    <title>Using examples as templates</title>
+    <p>
+    This demo site has many examples. See the menu at the left.
+    The sources for these examples are in the directory
+    <code>src/documentation/content/xdocs/</code>
+    </p>
+    <p>
+    The sources for the Apache Forrest website are also included
+    in your distribution at <code>$FORREST_HOME/site-author/</code>
+    </p>
+    <p>You can also extend the functionality of Forrest via 
+    <a` href="site:plugins">plugins</a>,
+    these will often come with more samples for you to out.</p>
+    </section>-->
+    </body>
+    </document>
