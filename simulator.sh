@@ -6,22 +6,14 @@ if [ "$1" == "-server" ] ; then
 fi
 
 BASEDIR="`dirname "$0"`"
-declare -a CILIBJAR
-if [ -e ${BASEDIR}/target/cilib-1.0-SNAPSHOT.jar ]; then
-	CILIBJAR=${BASEDIR}/target/cilib-1.0-SNAPSHOT.jar
-elif [ -e ${BASEDIR}/cilib-1.0-SNAPSHOT.jar ]; then
-	CILIBJAR=${BASEDIR}/cilib-*.jar
-fi
 
-#CILIBJAR="${BASEDIR}/target/cilib-1.0-SNAPSHOT.jar"
-
-# Handle all the files in the lib directory and add to the classpath
-for jar in lib/*; do
-	CLASSPATH="${jar}:${CLASSPATH}"
-done
+# Obtain the CILib jar file. It's either in the 'target' directory or in '.'
+echo  -n "Locating the CILib jar file... "
+CILIBJAR=$(find . -maxdepth 3 -iname "cilib*.jar")
+echo ${CILIBJAR}
 
 [ "$CLASSPATH" != "" ] && CLASSPATH="${CILIBJAR}:${CLASSPATH}" || CLASSPATH="${CILIBJAR}"
 
-echo $CILIBJAR
+echo "Built classpath: ${CLASSPATH}"
 
 nice java $JAVA_OPTS -Xms1000M -Xmx2000M net.sourceforge.cilib.simulator.Main $@ -textprogress
