@@ -635,11 +635,11 @@ public class MixedVector extends Vector {
 
 
 	/**
-	 * @throws UnsupportedOperationException
+	 * @throws ArithmeticException
 	 */
 	public double dot(Vector vector) {
 		if (this.size() != vector.size()) {
-			
+			throw new ArithmeticException("Cannot perform the dot product on vectors with differing dimensions");
 		}
 		
 		double result = 0.0;

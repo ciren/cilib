@@ -161,7 +161,6 @@ public class Int extends Numeric {
 		return "Z(" + Double.valueOf(getLowerBound()).intValue() + "," +
 			Double.valueOf(getUpperBound()).intValue() +")";
 	}
-
 	
 	public void writeExternal(ObjectOutput oos) throws IOException {
 		oos.writeInt(this.value);		
