@@ -52,6 +52,18 @@
     </mailingList>
   </mailingLists>
 
+  <issueManagement>
+    <system>sourceforge</system>
+    <url>http://sourceforge.net/tracker/?group_id=72233</url>
+  </issueManagement>
+
+  <distributionManagement>
+    <site>
+      <id>sourceforge</id>
+      <url>scp://shell.sourceforge.net/home/groups/c/ci/cilib/htdocs</url>
+    </site>
+  </distributionManagement>
+
   <developers>
     <developer>
       <id>gp</id>
@@ -147,5 +159,25 @@
 
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-changes-plugin</artifactId>
+	<inherited>false</inherited>
+	<reportSets>
+	  <reportSet>
+  	    <reports>
+	      <report>changes-report</report>
+	    </reports>
+	  </reportSet>
+	</reportSets>
+	<configuration>
+	  <issueLinkTemplate>http://sourceforget.net/suport/tracker.php?aid=%ISSUE%</issueLinkTemplate>
+	</configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>
