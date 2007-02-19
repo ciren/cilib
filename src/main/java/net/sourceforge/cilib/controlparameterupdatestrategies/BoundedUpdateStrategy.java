@@ -91,7 +91,20 @@ public abstract class BoundedUpdateStrategy implements ControlParameterUpdateStr
 	/**
 	 * 
 	 */
-	public abstract void updateParameter();
+	public void updateParameter() {
+		update();
+		clamp();
+	}
+	
+	protected abstract void update();
+	
+	protected void clamp() {
+		if (this.parameter.getReal() < this.parameter.getLowerBound())
+			this.parameter.setReal(this.parameter.getLowerBound());
+		else if (this.parameter.getReal() > this.parameter.getUpperBound())
+			this.parameter.setReal(this.parameter.getUpperBound());
+	}
+	
 	
 	
 	/**

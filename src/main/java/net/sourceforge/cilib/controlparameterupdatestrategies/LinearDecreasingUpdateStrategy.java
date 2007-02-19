@@ -65,7 +65,7 @@ public class LinearDecreasingUpdateStrategy extends BoundedUpdateStrategy {
 	/**
 	 * 
 	 */
-	public void updateParameter() {
+	public void update() {
 		double result = getUpperBound() - (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
 		parameter.setReal(result);		
 	}
