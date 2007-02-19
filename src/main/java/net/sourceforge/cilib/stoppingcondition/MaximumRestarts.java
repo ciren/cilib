@@ -42,6 +42,15 @@ public class MaximumRestarts implements StoppingCondition {
         maximumRestarts = 10;
     }
     
+    public MaximumRestarts(MaximumRestarts copy) {
+    	this.maximumRestarts = copy.maximumRestarts;
+    	this.algorithm = copy.algorithm;
+    }
+    
+    public MaximumRestarts clone() {
+    	return new MaximumRestarts(this);
+    }
+    
     public MaximumRestarts(int maximumRestarts) {
         this.maximumRestarts = maximumRestarts;
     }

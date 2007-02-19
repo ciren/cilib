@@ -69,5 +69,12 @@ public interface StoppingCondition {
      * @param algorithm The applicable {@link Algorithm}.
      */
     public void setAlgorithm(Algorithm algorithm);
+    
+    /**
+     * 
+     * @return
+     */
+    public StoppingCondition clone();
+        
     public static byte _ciclops_exclude_algorithm = 1;
 }

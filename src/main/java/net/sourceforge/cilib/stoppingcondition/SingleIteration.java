@@ -40,6 +40,15 @@ public class SingleIteration implements StoppingCondition {
     public SingleIteration() {
     }
     
+    public SingleIteration(SingleIteration copy) {
+    	this.iteration = copy.iteration;
+    	this.algorithm = copy.algorithm;
+    }
+    
+    public SingleIteration clone() {
+    	return new SingleIteration(this);
+    }
+    
     public void reset() {
         iteration = algorithm.getIterations();
     }

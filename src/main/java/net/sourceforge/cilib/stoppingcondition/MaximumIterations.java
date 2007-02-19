@@ -41,6 +41,15 @@ public class MaximumIterations implements StoppingCondition {
         maximumIterations = 10000;
     }
     
+    public MaximumIterations(MaximumIterations copy) {
+    	this.maximumIterations = copy.maximumIterations;
+    	this.algorithm = copy.algorithm;
+    }
+    
+    public MaximumIterations clone() {
+    	return new MaximumIterations(this);
+    }
+    
     public MaximumIterations(int maximumIterations) {
         this.maximumIterations = maximumIterations;
     }

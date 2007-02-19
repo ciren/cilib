@@ -46,6 +46,16 @@ public class MinimumFunctionMinimisationError implements StoppingCondition {
         this.minimumError = minimumError;
     }
     
+    public MinimumFunctionMinimisationError(MinimumFunctionMinimisationError copy) {
+    	this.minimumError = copy.minimumError;
+    	this.optAlgorithm = copy.optAlgorithm;
+    	this.problem = copy.problem;
+    }
+    
+    public MinimumFunctionMinimisationError clone() {
+    	return new MinimumFunctionMinimisationError(this);
+    }
+    
     public void setError(double minimumError) {
         this.minimumError = minimumError;
     }

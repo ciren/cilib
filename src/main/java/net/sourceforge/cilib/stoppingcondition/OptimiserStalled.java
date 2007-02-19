@@ -30,6 +30,18 @@ public class OptimiserStalled implements StoppingCondition {
         distMeasure = new AbsoluteDistanceMeasure();
     }
     
+    public OptimiserStalled(OptimiserStalled copy) {
+    	this.minChange = copy.minChange;
+    	this.maxConsecutiveMinChange = copy.maxConsecutiveMinChange;
+    	this.minChangeCounter = copy.minChangeCounter;
+    	this.distMeasure = copy.distMeasure;
+    	this.algorithm = copy.algorithm;
+    }
+    
+    public OptimiserStalled clone() {
+    	return new OptimiserStalled(this);
+    }
+    
     public double getPercentageCompleted() {
         //check if this is the first iteration
         if (previousBest == null) {

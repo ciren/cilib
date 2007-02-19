@@ -41,6 +41,15 @@ public class MaximumFitnessEvaluations implements StoppingCondition {
         maximumFitnessEvaluations = 200000;
     }
     
+    public MaximumFitnessEvaluations(MaximumFitnessEvaluations copy) {
+    	this.maximumFitnessEvaluations = copy.maximumFitnessEvaluations;
+    	this.algorithm = copy.algorithm;
+    }
+    
+    public MaximumFitnessEvaluations clone() {
+    	return new MaximumFitnessEvaluations(this);
+    }
+    
     public MaximumFitnessEvaluations(int maximumFitnessEvaluations) {
         this.maximumFitnessEvaluations = maximumFitnessEvaluations;
     }

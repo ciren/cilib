@@ -46,6 +46,15 @@ public class MinimumSwarmDiameter implements StoppingCondition {
         this.minimumSwarmDiameter = minimumSwarmDiameter;
     }
     
+    public MinimumSwarmDiameter(MinimumSwarmDiameter copy) {
+    	this.minimumSwarmDiameter = copy.minimumSwarmDiameter;
+    	this.algorithm = copy.algorithm;
+    }
+    
+    public MinimumSwarmDiameter clone() {
+    	return new MinimumSwarmDiameter(this);
+    }
+    
     public void setDiameter(double minimumSwarmDiameter) {
         this.minimumSwarmDiameter = minimumSwarmDiameter;
     }
