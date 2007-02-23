@@ -88,7 +88,7 @@ public class CilibHandler extends DefaultHandler {
 	 */
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		if ("".equals (uri)) {
-		    log.info("start element: " + qName);
+		    log.debug("start element: " + qName);
 
 		    // Get the associated values, if they exist
 	    	String id = atts.getValue("id");
@@ -100,7 +100,7 @@ public class CilibHandler extends DefaultHandler {
 	    	
 	    	if (clazz != null) {
 	    		created = createInstance(clazz); // Create instance
-	    		log.info("Created instance: " + created);
+	    		log.debug("Created instance: " + created);
 	    		
 	    		if (id != null) {
 		    		ObjectRegistry.getInstance().addObject(id, created);
@@ -116,6 +116,7 @@ public class CilibHandler extends DefaultHandler {
 	    		Object stackTop = stack.peek();
 	    		log.debug("Object: " + injectedObject + " injected into object: " + stackTop);
 	    		
+	    		applyAdditionalProperties(injectedObject, atts);
 	    		applyProperty(stackTop, qName, injectedObject);
 	    	}
 	    	
@@ -137,7 +138,7 @@ public class CilibHandler extends DefaultHandler {
 	    	}
 		}
 		else
-		    log.info("Start element: {" + uri + "}" + localName);
+		    log.debug("Start element: {" + uri + "}" + localName);
 	}
 
 	/**
@@ -148,16 +149,16 @@ public class CilibHandler extends DefaultHandler {
 	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if ("".equals (uri))
-		    log.info("End element: " + qName);
+		    log.debug("End element: " + qName);
 		else
-		    log.info("End element: {" + uri + "}" + localName);
+		    log.debug("End element: {" + uri + "}" + localName);
 		
 		
 		Object stackTop = stack.pop();
 		
 		// Add the stack object to the simulation list iff it is a simulation object
 		if (stackTop instanceof Simulation) {
-			log.info("Adding simulation to the list of simulations to execute");
+			log.debug("Adding simulation to the list of simulations to execute");
 			simulations.add((Simulation) stackTop);
 		}
 	}
@@ -257,7 +258,7 @@ public class CilibHandler extends DefaultHandler {
 				!attributeName.equals("id") && 
 				!attributeName.equals("ref") && 
 				!attributeName.equals("value")) {
-				log.info("Applying: " + attributeName);
+				log.debug("Applying attribute(" + attributeName + ") with value(" + atts.getValue(i) + ") to object(" + created +")");
 				applyProperty(created, attributeName, createValueObject(atts.getValue(i)));
 			}
 		}

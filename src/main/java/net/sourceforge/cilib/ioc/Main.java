@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 
+import net.sourceforge.cilib.simulator.SimulationException;
+
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -26,6 +28,7 @@ public class Main {
 	 * @param filename
 	 */
 	public Main(String filename) {
+		handler = new CilibHandler();
 		FileReader fileReader = null;
 		
 		try {
@@ -56,7 +59,11 @@ public class Main {
 		List<Simulation> simulations = handler.getSimulations();
 		System.out.println("simulations.size(): " + simulations.size());
 		
+		if (simulations.size() == 0)
+			throw new SimulationException("Zero (0) simulations could be found.\nPlease ensure that the XML file is correct, as no simulation objects could be constructed.");
+		
 		for (Simulation simulation : simulations) {
+			simulation.initialise();
 			simulation.run();
 		}
 	}

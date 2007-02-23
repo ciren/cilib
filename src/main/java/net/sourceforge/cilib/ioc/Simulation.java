@@ -55,6 +55,7 @@ public class Simulation extends Thread implements AlgorithmListener, Serializabl
 
 	public void setAlgorithm(Algorithm algorithm) {
 		this.algorithm = algorithm;
+		this.algorithm.addAlgorithmListener(this);
 	}
 
 	public OptimisationProblem getProblem() {
@@ -63,6 +64,7 @@ public class Simulation extends Thread implements AlgorithmListener, Serializabl
 
 	public void setProblem(OptimisationProblem optimisationProblem) {
 		this.optimisationProblem = optimisationProblem;
+		//System.out.println("Setting the problem to: " + optimisationProblem);
 	}
 	
 	public MeasurementSuite getMeasurements() {
@@ -71,37 +73,47 @@ public class Simulation extends Thread implements AlgorithmListener, Serializabl
 
 	public void setMeasurements(MeasurementSuite measurements) {
 		this.measurements = measurements;
+		//System.out.println("Measuremets set: " + measurements);
 	}
 
 	public void run() {
-		for (int i = 0; i < measurements.getSamples(); i++) {
+		measurements.initialise();
+		
+		for (int i = 0; i < measurements.getSamples(); i++) {	
+			algorithm.initialise();
 			algorithm.run();		
 		}
 	}
 
 	public void algorithmStarted(AlgorithmEvent e) {
 		// TODO Auto-generated method stub
+		//System.out.println("Algorithm started");
 		
 	}
 
 	public void algorithmFinished(AlgorithmEvent e) {
 		// TODO Auto-generated method stub
+		//System.out.println("Algorithm finished");
+		measurements.measure(e.getSource());
 		
+		measurements.getOutputBuffer().close();
+	    //progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
+	    //notifyProgress();		
 	}
 
 	public void algorithmTerminated(AlgorithmEvent e) {
 		// TODO Auto-generated method stub
-		
+		//System.out.println("Algorithm terminated");
 	}
 
 	public void iterationCompleted(AlgorithmEvent e) {
 		// TODO Auto-generated method stub
-		
+		//System.out.println("IterationCompleted");
 	}
 
 	public void initialise() {
 		this.algorithm.setOptimisationProblem(this.optimisationProblem);
-		this.algorithm.initialise();
+		//this.algorithm.initialise();
 	}
 
 }
