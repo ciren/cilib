@@ -34,7 +34,6 @@ import java.util.Vector;
 import net.sourceforge.cilib.algorithm.proxy.AlgorithmProxy;
 import net.sourceforge.cilib.algorithm.proxy.DistributedAlgorithmProxy;
 import net.sourceforge.cilib.algorithm.proxy.LocalAlgorithmProxy;
-import net.sourceforge.cilib.ioc.Simulation;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -62,7 +61,7 @@ public abstract class Algorithm implements Runnable, Serializable {
     private boolean distributed;
     public static byte _ciclops_exclude_algorithmListener = 1; // TODO: Replace these with annotations
     
-    private Simulation simulation; 
+    private OptimisationProblem problem;
     private static AlgorithmProxy proxy; // TODO: Is this over engineered? Thin about the flow and determine whether or not this strategy couldn't work like the original??? 
     
     
@@ -272,14 +271,6 @@ public abstract class Algorithm implements Runnable, Serializable {
     	}
     }
     
-    public Simulation getSimulation() {
-		return simulation;
-	}
-
-	public void setSimulation(Simulation simulation) {
-		this.simulation = simulation;
-	}
-	
 	public boolean isDistributed() {
 		return distributed;
 	}
@@ -297,7 +288,7 @@ public abstract class Algorithm implements Runnable, Serializable {
      *
      */
     public void setOptimisationProblem(OptimisationProblem problem) {
-        this.simulation.setProblem(problem);
+    	this.problem = problem;
     }
 
     
@@ -306,7 +297,7 @@ public abstract class Algorithm implements Runnable, Serializable {
      * @return The specified <code>OptimisationProblem</code>
      */
     public OptimisationProblem getOptimisationProblem() {
-        return this.simulation.getProblem();
+    	return this.problem;
     }
     
     
