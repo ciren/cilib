@@ -87,7 +87,7 @@ public class CILibHandlerTest {
 		xmlBuffer.append("<simulation class='ioc.Simulation'>");
 		xmlBuffer.append("  <algorithm ref='gbest' />");
 		xmlBuffer.append("  <problem ref='spherical' />");
-		xmlBuffer.append("  <measurements ref='measurements' />");
+		xmlBuffer.append("  <measurements ref='measurements' file='test.txt' />");
 		xmlBuffer.append("</simulation>");
 		xmlBuffer.append("</simulator>");
 		
@@ -141,7 +141,7 @@ public class CILibHandlerTest {
 			simulation.setAlgorithm(algorithm);
 			simulation.setProblem(problem);
 			
-			algorithm.setSimulation(simulation);
+			//algorithm.setSimulation(simulation);
 			algorithm.setOptimisationProblem(problem);
 			
 			algorithm.initialise();
