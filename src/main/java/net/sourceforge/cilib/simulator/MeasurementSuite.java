@@ -57,7 +57,7 @@ public class MeasurementSuite implements Serializable {
         resolution = 1;
     }
     
-    protected void initialise() {
+    public void initialise() {
         buffer = new SynchronizedOutputBuffer(file, measurements.size(), samples);
         buffer.write("# 0 - Iterations");
         for (Measurement measurement : measurements) {
@@ -113,7 +113,7 @@ public class MeasurementSuite implements Serializable {
         return resolution;
     }
     
-    protected SynchronizedOutputBuffer getOutputBuffer() {
+    public SynchronizedOutputBuffer getOutputBuffer() {
         return buffer;
     }
     
@@ -126,7 +126,7 @@ public class MeasurementSuite implements Serializable {
         measurements.add(measurement);
     }
     
-    protected void measure(Algorithm algorithm) {
+    public void measure(Algorithm algorithm) {
         for (Measurement measurement : measurements) {
             buffer.writeMeasuredValue(measurement.getValue(), algorithm, measurement);
         }

@@ -40,7 +40,7 @@ import net.sourceforge.cilib.measurement.Measurement;
  *
  * @author  Edwin Peer
  */
-class SynchronizedOutputBuffer {
+public class SynchronizedOutputBuffer {
     
     /** Creates a new instance of SynchronizedOutputBuffer */
     public SynchronizedOutputBuffer(String file, int measurements, int samples) {
