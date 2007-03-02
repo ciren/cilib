@@ -31,22 +31,22 @@
   <mailingLists>
     <mailingList>
       <name>CILib User List</name>
-      <subscribe></subscribe>
-      <unsubscribe></unsubscribe>
+      <subscribe>cilib-users-subscribe@lists.sourceforge.net</subscribe>
+      <unsubscribe>cilib-users-unsubscribe@lists.sourceforge.net</unsubscribe>
       <post>cilib-user@lists.sourceforge.net</post>
       <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=44422</archive>
     </mailingList>
     <mailingList>
       <name>CILib Developer List</name>
-      <subscribe></subscribe>
-      <unsubscribe></unsubscribe>
+      <subscribe>cilib-devel-subscribe@lists.sourceforge.net</subscribe>
+      <unsubscribe>cilib-devel-unsubscribe@lists.sourceforge.net</unsubscribe>
       <post>cilib-devel@lists.sourceforge.net</post>
       <archive>http://sourceforge.net/mailarchive/forum.php?forum_id=34915</archive>
     </mailingList>
     <mailingList>
       <name>CILib Announce</name>
-      <subscribe></subscribe>
-      <unsubscribe></unsubscribe>
+      <subscribe>cilib-announce-subscribe@lists.sourceforge.net</subscribe>
+      <unsubscribe>cilib-announce-unsubscribe@lists.sourceforge.net</unsubscribe>
       <post>cilib-announce@lists.sourceforge.net</post>
       <archive>http://sourceforge.net/mailarchive/forum.php?forum=cilib-announce</archive>
     </mailingList>

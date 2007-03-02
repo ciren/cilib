@@ -11,12 +11,32 @@
     <href>http://cirg.cs.up.ac.za</href>
   </bannerRight>
 
+  <poweredBy>
+    <logo 
+      name="Hosted on SourceForge.net"
+      href="http://www.sourceforge.net"
+      img="http://sflogo.sourceforge.net/sflogo.php?group_id=72233&amp;type=1"/>
+    <logo
+      name="Build with Maven 2"
+      href="http://maven.apache.org"
+      img="images/logos/maven-feather.png" />
+  </poweredBy>
+
   <body>
     <links>
+      <item name="SoureForge.net project page"
+            href="http://www.sourceforge.net/projects/cilib" />
     </links>
+
+    <breadcrumbs>
+      <item name="sf.net" href="http://www.sourceforge.net" />
+    </breadcrumbs>
 
     <menu name="Quick Links">
       <item name="Home" href="/index.html" />
+      <item name="Downloads" href="http://sourceforge.net/project/platformdownload.php?group_id=72233&amp;sel_platform=740" />
+      <item name="Wiki" href="/wiki" />
+      <item name="API docs" href="/apidocs" />
     </menu>
 
     <menu name="Documentation">
