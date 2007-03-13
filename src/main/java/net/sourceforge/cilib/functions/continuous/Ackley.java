@@ -54,17 +54,18 @@ public class Ackley extends ContinuousFunction {
     }
     
     public Object getMinimum() {
-        return new Double(0);
+        return new Double(verticalShift);
     }
     
     public double evaluate(Vector x) {
         double sumsq = 0.0;
         double sumcos = 0.0;
         for (int i = 0; i < getDimension(); ++i) {
-            sumsq += x.getReal(i) * x.getReal(i);
+        	double value = horizontalShift + x.getReal(i);
+            sumsq += value * value;
             sumcos += Math.cos(2 * Math.PI * x.getReal(i));
         }
-        return - 20.0 * Math.exp(-0.2 * Math.sqrt(sumsq / getDimension())) - Math.exp(sumcos / getDimension()) + 20 + Math.E;
+        return - 20.0 * Math.exp(-0.2 * Math.sqrt(sumsq / getDimension())) - Math.exp(sumcos / getDimension()) + 20 + Math.E + verticalShift;
     }
 }
 

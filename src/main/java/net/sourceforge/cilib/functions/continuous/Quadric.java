@@ -42,7 +42,7 @@ public class Quadric extends ContinuousFunction {
     }
     
     public Object getMinimum() {
-        return new Double(0);
+        return new Double(verticalShift);
     }
     
     public Object getMaximum() {
@@ -56,8 +56,8 @@ public class Quadric extends ContinuousFunction {
             for (int j = 0; j <= i; ++j) {
                 sum += x.getReal(j);
             }
-            sumsq += sum * sum;
+            sumsq += (sum+horizontalShift) * (sum+horizontalShift);
         }
-        return sumsq;
+        return sumsq + verticalShift;
     }
 }

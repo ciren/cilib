@@ -55,7 +55,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     }
     
     public Object getMinimum() {
-        return new Double(0);
+        return new Double(verticalShift);
     }
     
     public Object getMaximum() {
@@ -65,9 +65,10 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     public double evaluate(Vector x) {
         double tmp = 0;
         for (int i = 0; i < x.getDimension(); i++) {
-            tmp += x.getReal(i) * x.getReal(i);
+        	double value = x.getReal(i) + horizontalShift;
+            tmp += value * value;
         }
-        return tmp;
+        return tmp + verticalShift;
     }
     
     

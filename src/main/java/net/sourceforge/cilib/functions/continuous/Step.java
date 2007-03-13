@@ -51,12 +51,12 @@ public class Step extends ContinuousFunction {
     	return new Double(55.0);
     }
     
-    /** Each function must provide an implementation which returns the function value
+    /** 
+     * Each function must provide an implementation which returns the function value
      * at the given position. The length of the position array should be the same
      * as the function dimension.
      *
      * @param x The position
-     *
      */
     public double evaluate(Vector x) {
         double sum = 0.0;
