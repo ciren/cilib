@@ -546,7 +546,7 @@ public class MixedVector extends Vector {
 	 * @throws UnsupportedOperationException if the current <tt>Vector</tt> and the given <tt>Vector</tt> do
 	 * 			not have the same dimensions.
 	 */
-	public Vector plus(Vector vector) {
+	public final Vector plus(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 		
@@ -562,7 +562,7 @@ public class MixedVector extends Vector {
 	}
 
 
-	public Vector subtract(Vector vector) {
+	public final Vector subtract(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 		
@@ -578,7 +578,7 @@ public class MixedVector extends Vector {
 	}
 
 
-	public Vector divide(Vector vector) {
+	public final Vector divide(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 		
@@ -598,7 +598,7 @@ public class MixedVector extends Vector {
 	}
 
 
-	public Vector multiply(Vector vector) {
+	public final Vector multiply(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 		
@@ -637,7 +637,7 @@ public class MixedVector extends Vector {
 	/**
 	 * @throws ArithmeticException
 	 */
-	public double dot(Vector vector) {
+	public final double dot(Vector vector) {
 		if (this.size() != vector.size()) {
 			throw new ArithmeticException("Cannot perform the dot product on vectors with differing dimensions");
 		}
@@ -652,7 +652,7 @@ public class MixedVector extends Vector {
 	}
 
 
-	public Vector cross(Vector vector) {
+	public final Vector cross(Vector vector) {
 		// TODO Auto-generated method stub
 		return null;
 	}
