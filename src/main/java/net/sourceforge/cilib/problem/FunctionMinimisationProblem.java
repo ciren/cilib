@@ -50,6 +50,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
 	}
     
     protected Fitness calculateFitness(Object solution) {
+    	/* Add code to enforce the boundary constraint */
         return new MinimisationFitness(function.evaluate(solution));
     }
     
