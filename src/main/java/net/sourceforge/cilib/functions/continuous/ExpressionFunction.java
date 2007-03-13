@@ -18,7 +18,7 @@ public class ExpressionFunction extends ContinuousFunction {
 	}
 	
 	public ExpressionFunction(ExpressionFunction copy) {
-		
+		this.function = copy.function;		
 	}
 	
 	public ExpressionFunction clone() {
@@ -46,13 +46,14 @@ public class ExpressionFunction extends ContinuousFunction {
 	}
 
 	public void setFunction(String function) {
-		System.out.println("setting function: " + function);
+		System.out.println("Setting function: " + function);
 		this.function = function;
 		
 		this.parser.addVariable("x", 0);
-		this.parser.parseExpression(function);
 		this.parser.addStandardFunctions();
 		this.parser.addStandardConstants();
+		
+		this.parser.parseExpression(function);
 	}
 	
 }
