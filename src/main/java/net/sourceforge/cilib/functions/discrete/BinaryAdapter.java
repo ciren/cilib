@@ -193,5 +193,14 @@ public class BinaryAdapter extends DiscreteFunction {
 
 		return result;
 	}
+
+
+	@Override
+	public void setDomain(String representation) {
+		if (!representation.matches("^B\\^.*"))
+			throw new RuntimeException("BinaryAdapter can only accept domain strings in the form: B^?\nWhere ? is the size of the dimension");
+		
+		super.setDomain(representation);
+	}
 	
 }
