@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
@@ -74,21 +76,21 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	
 	private static final long serialVersionUID = -8234345682394295357L;
 
-//	private static Logger log = Logger.getLogger(PSO.class);
+	private static Logger log = Logger.getLogger(PSO.class);
 	
-	 private static int currentParticleId = 0;
+	private static int currentParticleId = 0;
 
-	 private int particles;
+	private int particles;
 
-	 private Topology<Particle> topology;
+	private Topology<Particle> topology;
 	 
-	 private Particle bestParticle;
+	private Particle bestParticle;
 	    
-	 private IterationStrategy iterationStrategy;
+	private IterationStrategy iterationStrategy;
 	    
-	 private InitialisationStrategy initialisationStrategy;
-	 protected boolean participation = false;
-
+	private InitialisationStrategy initialisationStrategy;
+	protected boolean participation = false;
+	 
     /**
      * Creates a new instance of <code>PSO</code>. All fields are initialised to
      * reasonable defaults. Note that the {@link net.sourceforge.cilib.problem.OptimisationProblem}
@@ -130,7 +132,8 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      * Perform the iteration of the PSO algorithm, use the appropriate <code>IterationStrategy</code>
      * to perform the iteration. 
      */
-    public void performIteration() {
+    @SuppressWarnings("unchecked")
+	public void performIteration() {
         bestParticle = null;
         
         iterationStrategy.performIteration(this);
@@ -138,7 +141,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
         for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext(); ) {
         	i.next().getVelocityUpdateStrategy().updateControlParameters();
         }
-  //      log.debug("Performing iteration");
+        log.debug("Performing iteration");
     }
 
     
