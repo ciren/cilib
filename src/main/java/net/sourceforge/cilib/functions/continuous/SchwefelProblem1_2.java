@@ -37,14 +37,14 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  * f(x) = 0; x = (0,0,...,0)
  * 
- * x e [-65.536,65.536]
+ * x e [-100,100]
  * 
  * @author Gary Pampara
  */
 public class SchwefelProblem1_2 extends ContinuousFunction {
 	
 	public SchwefelProblem1_2() {
-		setDomain("R(-65.536,65.536)^30)");
+		setDomain("R(-100,100)^30)");
 	}
 	
 	public Object getMinimum() {
@@ -59,7 +59,7 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
 		for (int i = 0; i < getDimension(); i++) {
 			sum = 0.0;
 			
-			for (int j = 1; j < i; j++) {
+			for (int j = 0; j < i; j++) {
 				sum += x.getReal(j);
 			}
 			

@@ -41,6 +41,10 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class GoldsteinPrice extends ContinuousFunction {
 	
+	public GoldsteinPrice() {
+        setDomain("R(-2, 2)^2");
+    }
+	
 	public Object getMinimum() {
 		return new Double(3.0);
 	}

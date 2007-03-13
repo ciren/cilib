@@ -16,7 +16,7 @@ public class SpecialisedEntityInitialisationStrategy extends
 	public SpecialisedEntityInitialisationStrategy() {
 		this.entityList = new ArrayList<Entity>(40);
 	}
-	
+
 	public SpecialisedEntityInitialisationStrategy(SpecialisedEntityInitialisationStrategy copy) {
 		this.entityList = new ArrayList<Entity>(copy.entityList.size());
 		for (Entity entity : copy.entityList) {
