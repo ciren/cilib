@@ -48,7 +48,7 @@ import org.junit.Test;
  *  
  * @author Gary Pampara
  */
-public class EntityCloneIntialisationStrategyTest {
+public class EntityCloneInitialisationStrategyTest {
 	
 	@Test
 	public void intialiseClonedParticleTopology() {
@@ -61,7 +61,7 @@ public class EntityCloneIntialisationStrategyTest {
 		initialisationBuilder.setEntityType(new StandardParticle());
 		initialisationBuilder.setEntities(40); // 40 Particles
 		
-		initialisationBuilder.intialise(topology, problem);
+		initialisationBuilder.initialise(topology, problem);
 		
 		assertEquals(40, topology.size());
 		
@@ -86,7 +86,7 @@ public class EntityCloneIntialisationStrategyTest {
 		initialisationBuilder.setEntityType(new Individual());
 		initialisationBuilder.setEntities(40); // 40 Individuals
 		
-		initialisationBuilder.intialise(population, problem);
+		initialisationBuilder.initialise(population, problem);
 		
 		assertEquals(40, population.size());
 		

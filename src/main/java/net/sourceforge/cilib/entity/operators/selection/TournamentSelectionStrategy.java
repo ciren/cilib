@@ -41,13 +41,22 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * 
  * @author Gary Pampara
  */
-public class TournamentSelectionStrategy implements SelectionStrategy {
+public class TournamentSelectionStrategy extends SelectionStrategy {
 	
 	private ControlParameterUpdateStrategy tournamentProportion;
 	private RandomNumber randomNumber;
 	
 	public TournamentSelectionStrategy() {
 		this.tournamentProportion = new ProportionalControlParameterUpdateStrategy();
+	}
+	
+	public TournamentSelectionStrategy(TournamentSelectionStrategy copy) {
+		this.tournamentProportion = copy.tournamentProportion.clone();
+		this.randomNumber = copy.randomNumber.clone();
+	}
+	
+	public TournamentSelectionStrategy clone() {
+		return new TournamentSelectionStrategy(this);
 	}
 
 	public Entity select(Topology<Entity> population) {
@@ -76,7 +85,10 @@ public class TournamentSelectionStrategy implements SelectionStrategy {
 	public void setTournamentSize(ControlParameterUpdateStrategy tournamentProportion) {
 		this.tournamentProportion = tournamentProportion;
 	}
-	
-	
 
+	@SuppressWarnings("unchecked")
+	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+		offspring.add(this.select((Topology<Entity>) topology));
+	}
+	
 }

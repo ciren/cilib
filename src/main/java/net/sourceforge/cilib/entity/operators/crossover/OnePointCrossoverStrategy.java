@@ -33,14 +33,15 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
 *
-* @author  Andries Engelbrecht
+* @author Andries Engelbrecht
+* @author Gary Pampara
 */
-
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
 	
 	public OnePointCrossoverStrategy() {
@@ -56,7 +57,7 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 	}
 	
 	@Override
-	public List<Entity> crossover(List<? extends Entity> parentCollection) {
+	public List<Entity> crossover(Topology<? extends Entity> parentCollection) {
 		ArrayList<Entity> offspring = new ArrayList<Entity>();
 		offspring.ensureCapacity(parentCollection.size());
 		
@@ -98,5 +99,9 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 		}
 		
 		return offspring;
+	}
+
+	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+		offspring.addAll(this.crossover(topology));
 	}
 }

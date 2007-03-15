@@ -28,13 +28,16 @@ package net.sourceforge.cilib.entity.operators.selection;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.operators.Operator;
 
 /**
  * 
  * @author Gary Pampara
  */
-public interface SelectionStrategy {
+public abstract class SelectionStrategy implements Operator {
 	
-	public Entity select(Topology<Entity> population);
+	public abstract SelectionStrategy clone();
+	
+	public abstract Entity select(Topology<Entity> population);
 
 }

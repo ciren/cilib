@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -47,15 +49,15 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	private static final long serialVersionUID = 8019668923312811974L;	
 	private RandomNumber random1;
 	private RandomNumber random2;
-	private double crossoverProbability;
-	private double scaleParameter;
+	private ControlParameterUpdateStrategy crossoverProbability;
+	private ControlParameterUpdateStrategy scaleParameter;
 	
 	public DifferentialEvolutionIterationStrategy() {
 		this.random1 = new RandomNumber();
 		this.random2 = new RandomNumber();
 		
-		this.crossoverProbability = 0.6;
-		this.scaleParameter = 0.5;
+		this.crossoverProbability = new ConstantUpdateStrategy(0.6);
+		this.scaleParameter = new ConstantUpdateStrategy(0.5);
 	}
 	
 	public DifferentialEvolutionIterationStrategy(DifferentialEvolutionIterationStrategy copy) {
@@ -91,9 +93,9 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 			
 			int i = Double.valueOf(random1.getUniform(0, currentPosition.getDimension())).intValue();
 			for (int j = 0; j < currentPosition.getDimension(); j++) {
-				if ((random2.getUniform() < crossoverProbability) || (j == i)) {
+				if ((random2.getUniform() < crossoverProbability.getParameter()) || (j == i)) {
 					double value = position3.getReal(j);
-					value += scaleParameter * (position1.getReal(j) - position2.getReal(j));
+					value += scaleParameter.getParameter() * (position1.getReal(j) - position2.getReal(j));
 					
 					trialVector.add(new Real(value));
 				}
@@ -135,6 +137,23 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		}
 		
 		return parents;
+	}
+
+	public ControlParameterUpdateStrategy getCrossoverProbability() {
+		return crossoverProbability;
+	}
+
+	public void setCrossoverProbability(
+			ControlParameterUpdateStrategy crossoverProbability) {
+		this.crossoverProbability = crossoverProbability;
+	}
+
+	public ControlParameterUpdateStrategy getScaleParameter() {
+		return scaleParameter;
+	}
+
+	public void setScaleParameter(ControlParameterUpdateStrategy scaleParameter) {
+		this.scaleParameter = scaleParameter;
 	}
 
 }

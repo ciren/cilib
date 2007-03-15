@@ -32,6 +32,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -55,10 +56,10 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 	}
 
 	@Override
-	public List<Entity> crossover(List<? extends Entity> parentCollection) {
+	public List<Entity> crossover(Topology<? extends Entity> parentCollection) {
 		List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
 		
-		for (int entity = 0; entity < parentCollection.size(); entity++) {
+		//for (int entity = 0; entity < parentCollection.size(); entity++) {
 			int random1 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
 			int random2 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
 			
@@ -88,7 +89,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 						offspringChromosome2.set(i,parentChromosome1.get(i));	
 					}
 				}
-			}
+			
 			
 			OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
 			offspring1.setFitness(problem.getFitness(offspring1.get(), false));
@@ -101,5 +102,10 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 		return offspring;
 	}
 	
+
+	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+		offspring.addAll(this.crossover(topology));// TODO Auto-generated method stub
+	}
+		
 
 }

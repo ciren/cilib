@@ -24,9 +24,9 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
@@ -34,10 +34,13 @@ import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
+import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.general.TopologyLoopingOperator;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
 
 /**
  * 
@@ -52,11 +55,21 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 	public GeneticAlgorithmIterationStrategy() {
 		this.crossoverStrategy = new UniformCrossoverStrategy();
 		this.mutationStrategy = new GaussianMutationStrategy();
+		
+		TopologyLoopingOperator loopingOperator = new TopologyLoopingOperator();
+		loopingOperator.setOperator(this.crossoverStrategy);
+		this.operatorPipeline.add(loopingOperator);
+		this.operatorPipeline.add(this.mutationStrategy);
 	}
 	
 	public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
 		this.crossoverStrategy = copy.crossoverStrategy.clone();
 		this.mutationStrategy = copy.mutationStrategy.clone();
+		
+		this.operatorPipeline = new ArrayList<Operator>();
+		for (Operator operator : copy.operatorPipeline) {
+			this.operatorPipeline.add(operator.clone());
+		}
 	}
 	
 	public GeneticAlgorithmIterationStrategy clone() {
@@ -65,27 +78,27 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 
 	@SuppressWarnings("unchecked")
 	public void performIteration(EC ec) {
-		// Cacluate the fitness
-		for (Iterator<? extends Entity> i = ec.getTopology().iterator(); i.hasNext(); ) {
-			Entity entity = i.next();
-			entity.setFitness(ec.getOptimisationProblem().getFitness(entity.get(), true));
+		Topology<Entity> offspring = new GBestTopology<Entity>();
+		
+		for (Operator operator : operatorPipeline) {
+			operator.performOperation(ec.getTopology(), offspring);
 		}
 		
 		// Perform crossover
-		List<Entity> crossedOver = this.crossoverStrategy.crossover(ec.getTopology());
+		//List<Entity> crossedOver = this.crossoverStrategy.crossover(ec.getTopology());
 				
 		// Perform mutation on offspring
-		this.mutationStrategy.mutate(crossedOver);
+		//this.mutationStrategy.mutate(crossedOver);
 		
 		// Evaluate the fitness values of the generated offspring
-		for (Iterator<Entity> offspring = crossedOver.iterator(); offspring.hasNext(); ) {
-			Entity entity = offspring.next();
+		for (Iterator<Entity> i = offspring.iterator(); i.hasNext(); ) {
+			Entity entity = i.next();
 			entity.setFitness(ec.getOptimisationProblem().getFitness(entity.get(), false));
 		}
 		
 		// Perform new population selection
 		Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
-		for (Iterator<Entity> i = crossedOver.iterator(); i.hasNext(); ) {
+		for (Iterator<Entity> i = offspring.iterator(); i.hasNext(); ) {
 			Entity entity = i.next();
 			topology.add(entity);
 		}
@@ -98,7 +111,7 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 			i.remove();
 		}
 
-		crossedOver.clear();
-		crossedOver = null;
+		offspring.clear();
+		offspring = null;
 	}
 }

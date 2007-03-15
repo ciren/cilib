@@ -32,6 +32,7 @@ import java.util.ListIterator;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -103,6 +104,11 @@ public class CauchyMutationStrategy extends MutationStrategy {
 
 	public void setScaleStrategy(ControlParameterUpdateStrategy scaleStrategy) {
 		this.scaleStrategy = scaleStrategy;
+	}
+
+	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+		// TODO Auto-generated method stub
+		this.mutate(offspring);
 	}
 	
 

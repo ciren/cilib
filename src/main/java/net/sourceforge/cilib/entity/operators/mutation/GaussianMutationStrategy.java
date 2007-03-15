@@ -32,6 +32,7 @@ import java.util.ListIterator;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -79,17 +80,14 @@ public class GaussianMutationStrategy extends MutationStrategy {
 					chromosome.setReal(i, value);
 				}
 			}
-		
 		}
-
 	}
 
 	public ControlParameterUpdateStrategy getDeviationStrategy() {
 		return deviationStrategy;
 	}
 
-	public void setDeviationStrategy(
-			ControlParameterUpdateStrategy deviationStrategy) {
+	public void setDeviationStrategy(ControlParameterUpdateStrategy deviationStrategy) {
 		this.deviationStrategy = deviationStrategy;
 	}
 
@@ -99,6 +97,10 @@ public class GaussianMutationStrategy extends MutationStrategy {
 
 	public void setMean(double mean) {
 		this.mean = mean;
+	}
+
+	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+		this.mutate(offspring);		
 	}
 	
 }

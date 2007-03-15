@@ -64,7 +64,7 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 	 * @throws InitialisationException if the initialisation cannot take place.
 	 */
 	@SuppressWarnings("unchecked")
-	public void intialise(Topology topology, OptimisationProblem problem) {
+	public void initialise(Topology topology, OptimisationProblem problem) {
 		
 		 if (problem == null)
 			 throw new InitialisationException("No problem has been specified");

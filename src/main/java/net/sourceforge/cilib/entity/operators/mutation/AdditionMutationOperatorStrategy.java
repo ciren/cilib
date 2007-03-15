@@ -43,6 +43,10 @@ public class AdditionMutationOperatorStrategy implements
 	public double evaluate(Numeric t1, double value) {
 		return t1.getReal() + value;
 	}
+	
+	public double evaluate(double value, Numeric t1) {
+		return value + t1.getReal();
+	}
 
 	public double evaluate(double t1, double t2) {
 		return t1 + t2;

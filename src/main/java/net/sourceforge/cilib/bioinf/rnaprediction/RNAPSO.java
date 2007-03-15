@@ -53,7 +53,7 @@ public class RNAPSO extends PSO {
 		
 		readDataSet();
 		
-		this.getInitialisationStrategy().intialise(this.getTopology(), getOptimisationProblem());
+		this.getInitialisationStrategy().initialise(this.getTopology(), getOptimisationProblem());
 	}
 	
 	private void readDataSet() {

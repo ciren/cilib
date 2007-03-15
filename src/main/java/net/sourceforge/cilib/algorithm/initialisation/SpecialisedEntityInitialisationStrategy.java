@@ -36,7 +36,7 @@ public class SpecialisedEntityInitialisationStrategy extends
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void intialise(Topology topology, OptimisationProblem problem) {
+	public void initialise(Topology topology, OptimisationProblem problem) {
 		 if (problem == null)
 			 throw new InitialisationException("No problem has been specified");
 		 

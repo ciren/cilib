@@ -124,7 +124,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      * then to the specified topology.
      */
     public void performInitialisation() {
-        this.initialisationStrategy.intialise(this.topology, this.getOptimisationProblem());
+        this.initialisationStrategy.initialise(this.topology, this.getOptimisationProblem());
     }
 
     

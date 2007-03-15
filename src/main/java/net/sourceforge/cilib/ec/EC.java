@@ -82,13 +82,18 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	
 	@Override
 	public void performInitialisation() {
-		this.initialisationStrategy.intialise(this.topology, this.problem);
+		this.initialisationStrategy.initialise(this.topology, this.problem);
 	}
-	
 
 	@Override
 	public void performIteration() {
 		bestEntity = null;
+		
+		for (Iterator<? extends Entity> i = this.getTopology().iterator(); i.hasNext(); ) {
+			Entity entity = i.next();
+			entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
+		}
+		
 		iterationStrategy.performIteration(this);
 	}
 

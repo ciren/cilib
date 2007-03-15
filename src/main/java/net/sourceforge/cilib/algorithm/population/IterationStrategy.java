@@ -26,7 +26,10 @@
 package net.sourceforge.cilib.algorithm.population;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.pso.iterationstrategies.BoundaryConstraint;
 import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
 
@@ -38,9 +41,11 @@ import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
 public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> implements Serializable {
 	
 	protected BoundaryConstraint boundaryConstraint;
+	protected List<Operator> operatorPipeline;
 	
 	public IterationStrategy() {
 		this.boundaryConstraint = new UnconstrainedBoundary();
+		this.operatorPipeline = new ArrayList<Operator>();
 	}
 	
 	public abstract IterationStrategy clone();
@@ -68,7 +73,6 @@ public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> impl
 	 */
 	public abstract void performIteration(E algorithm);
 
-	
 	public BoundaryConstraint getBoundaryConstraint() {
 		return boundaryConstraint;
 	}

@@ -31,6 +31,7 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
@@ -38,7 +39,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * @author Andries Engelbrecht
  * @author Gary Pampara
  */
-public abstract class MutationStrategy {
+public abstract class MutationStrategy implements Operator {
 	
 	private ControlParameterUpdateStrategy mutationProbability;
 	private RandomNumber randomNumber;

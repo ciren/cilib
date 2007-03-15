@@ -31,6 +31,8 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
@@ -38,7 +40,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 * @author  Andries Engelbrecht
 */
 
-public abstract class CrossoverStrategy {
+public abstract class CrossoverStrategy implements Operator {
 	private ControlParameterUpdateStrategy crossoverProbability;
 	private RandomNumber randomNumber;
 	
@@ -55,8 +57,7 @@ public abstract class CrossoverStrategy {
 	
 	public abstract CrossoverStrategy clone();
 	
-	//public abstract void crossover(Entity parent1, Entity parent2);
-	public abstract List<Entity> crossover(List<? extends Entity> parentCollection);
+	public abstract List<Entity> crossover(Topology<? extends Entity> parentCollection);
 
 	
 	/**
