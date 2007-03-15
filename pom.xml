@@ -168,8 +168,9 @@
   <reporting>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
+        <groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-changes-plugin</artifactId>
+	<inherited>false</inherited>
 	<reportSets>
 	  <reportSet>
   	    <reports>
@@ -177,6 +178,9 @@
 	    </reports>
 	  </reportSet>
 	</reportSets>
+	<configuration>
+	  <issueLinkTemplate>http://sourceforge.net/support/tracher.php?aid=%ISSUE%</issueLinkTemplate>
+	</configuration>
       </plugin>
     </plugins>
   </reporting>

@@ -1,0 +1,48 @@
+<document>
+  <properties>
+    <title>Changes Tester Project</title>
+    <author email="jruiz@exist.com">Johnny R. Ruiz III</author>
+  </properties>
+  <body>
+    <release version="0.6.6" date="2007-03-18" description="Feature release and bug fixes">
+      <action dev="gpampara" type="add">
+        Added support to define functions within the XML specification file or
+	programatically, having the Expression Tree then created and evaluated.
+	ExpressionFunction defines this functionality and relies on the
+	library JEP (http://jep.sourceforge.net)
+      </action>
+      <action dev="gpampara" type="add">
+        Added the new operator system for algorithms using Entities. Main 
+	benefactor at the moment is the EC framework.
+      </action>
+      <action dev="apengelbrecht" type="add">
+        Added support to have all ContinuousFunction classes have the ability
+	to define relative X-axis and Y-axis shifts. Functions are no longer
+	only defined to have their reference point at the origin.
+      </action>
+      <action dev="gpampara" type="update">
+        Added the new changes page to the Maven build prcess to keep track of 
+	the changes made within CILib. Also updated some documentation.
+      </action>
+    </release>
+ 
+<!--    <release version="1.1" date="2005-03-01" description="Subsequent release">
+      <action dev="jruiz" type="add">
+        Added additional documentation on how to configure the plugin.
+      </action>
+      <action dev="aramirez" type="fix" issue="MPJIRA-11">
+        Enable retrieving component-specific issues.
+      </action>
+      <action dev="jruiz" type="remove" due-to="Allan Ramirez" due-to-email="aramirez@exist.com">
+        The element type " link " must be terminated by the matching end-tag.
+        Deleted the erroneous code.
+      </action>
+    </release>
+
+    <release version="1.0" date="2005-01-01" description="First release">
+      <action dev="jruiz" type="update">
+        Uploaded documentation on how to use the plugin.
+      </action>
+    </release>-->
+  </body>
+</document>
