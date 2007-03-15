@@ -179,7 +179,7 @@
 	  </reportSet>
 	</reportSets>
 	<configuration>
-	  <issueLinkTemplate>http://sourceforge.net/support/tracher.php?aid=%ISSUE%</issueLinkTemplate>
+	  <issueLinkTemplate>http://sourceforge.net/support/tracker.php?aid=%ISSUE%</issueLinkTemplate>
 	</configuration>
       </plugin>
     </plugins>
