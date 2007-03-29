@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 
 /**
@@ -11,7 +12,7 @@ import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
  * @author Theuns Cloete
  */
 public class RandomPopulationIterator implements PopulationIterator {
-	List<Algorithm> populations = null;
+	List<PopulationBasedAlgorithm> populations = null;
 	int iterations = 0;
 
 	public RandomPopulationIterator() {
@@ -45,7 +46,7 @@ public class RandomPopulationIterator implements PopulationIterator {
 		throw new UnsupportedOperationException("Removal of a ParticipatingAlgorithm from a CooperativeOptimisationAlgorithm is not supported");
 	}
 
-	public void setPopulations(List<Algorithm> p) {
+	public void setPopulations(List<PopulationBasedAlgorithm> p) {
 		populations = p;
 	}
 

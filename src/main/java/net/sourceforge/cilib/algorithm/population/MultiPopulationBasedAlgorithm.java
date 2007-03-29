@@ -29,7 +29,6 @@ package net.sourceforge.cilib.algorithm.population;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
@@ -37,13 +36,12 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author Gary Pampara
  *
  */
-public abstract class MultiPopulationBasedAlgorithm extends Algorithm {
+public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm {
 	
-	protected List<Algorithm> populations;
-	protected OptimisationProblem optimisationProblem;
+	protected List<PopulationBasedAlgorithm> populationBasedAlgorithms;
 	
 	public MultiPopulationBasedAlgorithm() {
-		this.populations = new ArrayList<Algorithm>();
+		this.populationBasedAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
 	}
 	
 
@@ -53,13 +51,21 @@ public abstract class MultiPopulationBasedAlgorithm extends Algorithm {
 	public abstract void performIteration();
 
 
-	public List<Algorithm> getPopulations() {
-		return populations;
+	public List<PopulationBasedAlgorithm> getPopulations() {
+		return populationBasedAlgorithms;
 	}
 
 
-	public void setPopulations(List<Algorithm> populations) {
-		this.populations = populations;
+	public void setPopulations(List<PopulationBasedAlgorithm> populationBasedAlgorithms) {
+		this.populationBasedAlgorithms = populationBasedAlgorithms;
+	}
+	
+	public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
+		this.populationBasedAlgorithms.add(algorithm);
+	}
+	
+	public void removePopulationBasedalgorithm(PopulationBasedAlgorithm algorithm) {
+		this.populationBasedAlgorithms.remove(algorithm);
 	}
 	
 	public OptimisationProblem getOptimisationProblem() {

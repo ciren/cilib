@@ -29,6 +29,7 @@ package net.sourceforge.cilib.entity;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
  * This an abstract class which extends from the abstract Topology class.
@@ -62,6 +63,10 @@ public abstract class Topology<E extends Entity> extends EntityCollection<E> {
             visitor.visit(i.next());
         }
     }    
+    
+    public void accept(TopologyVisitor visitor) {
+    	visitor.visit(this);
+    }
     
     
     /**

@@ -61,7 +61,7 @@ public abstract class Algorithm implements Runnable, Serializable {
     private boolean distributed;
     public static byte _ciclops_exclude_algorithmListener = 1; // TODO: Replace these with annotations
     
-    private OptimisationProblem problem;
+    protected OptimisationProblem optimisationProblem;
     private static AlgorithmProxy proxy; // TODO: Is this over engineered? Thin about the flow and determine whether or not this strategy couldn't work like the original??? 
     
     
@@ -288,7 +288,7 @@ public abstract class Algorithm implements Runnable, Serializable {
      *
      */
     public void setOptimisationProblem(OptimisationProblem problem) {
-    	this.problem = problem;
+    	this.optimisationProblem = problem;
     }
 
     
@@ -297,7 +297,7 @@ public abstract class Algorithm implements Runnable, Serializable {
      * @return The specified <code>OptimisationProblem</code>
      */
     public OptimisationProblem getOptimisationProblem() {
-    	return this.problem;
+    	return this.optimisationProblem;
     }
     
     

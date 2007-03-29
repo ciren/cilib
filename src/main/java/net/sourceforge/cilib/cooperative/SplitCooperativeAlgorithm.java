@@ -35,11 +35,13 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.contributionupdatestrategies.ContributionUpdateStrategy;
 import net.sourceforge.cilib.cooperative.fitnessupdatestrategies.FitnessUpdateStrategy;
 import net.sourceforge.cilib.cooperative.populationiterators.PopulationIterator;
 import net.sourceforge.cilib.cooperative.splitstrategies.SplitStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.CooperativeOptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -96,14 +98,14 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		context = c;
 	}
 
-	public void setAlgorithm(Algorithm algorithm) {
+	public void setAlgorithm(PopulationBasedAlgorithm algorithm) {
 		if(!(algorithm instanceof ParticipatingAlgorithm))
 			throw new IllegalArgumentException("The given Algorithm is not a ParticipatingAlgorithm");
-		populations.add(algorithm);
+		populationBasedAlgorithms.add(algorithm);
 	}
 	
 	public int getNumberOfParticipants() {
-		return populations.size();
+		return populationBasedAlgorithms.size();
 	}
 
 	public SplitStrategy getSplitStrategy() {
@@ -150,10 +152,10 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	}
 
 	public void setPopulationIterator(PopulationIterator iterator) {
-		if(populations == null)
+		if(populationBasedAlgorithms == null)
 			throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
 		populationIterator = iterator;
-		populationIterator.setPopulations(populations);
+		populationIterator.setPopulations(populationBasedAlgorithms);
 	}
 
 	public FitnessUpdateStrategy getFitnessUpdateStrategy() {
@@ -173,7 +175,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	}
 
 	public void resetParticipation(boolean participation) {
-		for(Algorithm population : populations) {
+		for(Algorithm population : populationBasedAlgorithms) {
 			//TODO check whether this cast is safe
 			((ParticipatingAlgorithm)population).participated(participation);
 		}
@@ -184,9 +186,9 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	public void performInitialisation() {
 		System.out.println(this);
 		context.set(optimisationProblem.getDomain().getBuiltRepresenation().clone());
-		splitStrategy.split(optimisationProblem, context, populations);
+		splitStrategy.split(optimisationProblem, context, populationBasedAlgorithms);
 		context.reset();
-		for(Algorithm participant : populations) {
+		for(Algorithm participant : populationBasedAlgorithms) {
 			participant.performInitialisation();
 			//TODO check whether this cast is safe
 			context.append(((ParticipatingAlgorithm)participant).getContribution());
@@ -210,5 +212,41 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 			}
 		}
 		resetParticipation(false);
+	}
+
+	@Override
+	public double getDiameter() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getPopulationSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getRadius() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Topology<? extends Entity> getTopology() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPopulationSize(int populationSize) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTopology(Topology topology) {
+		// TODO Auto-generated method stub
+		
 	}
 }

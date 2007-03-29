@@ -28,6 +28,10 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -80,9 +84,12 @@ public class Diameter implements Measurement {
         }*/
     	
     	PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-        double diameter = algorithm.getDiameter();
+    	Topology<? extends Entity> topology = algorithm.getTopology();
+    	
+    	DiameterVisitor visitor = new DiameterVisitor();
+        topology.accept(visitor);
         
-    	return new Real(diameter);
+    	return new Real(visitor.getResult());
     }
     
 }

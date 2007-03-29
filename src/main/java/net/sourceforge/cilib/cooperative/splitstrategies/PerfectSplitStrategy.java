@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
 import net.sourceforge.cilib.problem.CooperativeOptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -14,7 +15,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author Theuns Cloete
  */
 public class PerfectSplitStrategy implements SplitStrategy {
-	public void split(OptimisationProblem problem, CooperativeEntity context, List<Algorithm> populations) {
+	public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations) {
 		if(populations.size() < 2)
 			throw new IllegalArgumentException("There should at least be two Cooperating populations in a Cooperative Algorithm");
 		if(problem.getDomain().getDimension() % populations.size() != 0)

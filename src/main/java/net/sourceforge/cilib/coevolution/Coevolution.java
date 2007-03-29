@@ -33,6 +33,8 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.inputmasks.TicTacToeMask;
 import net.sourceforge.cilib.coevolution.scoreschemes.ScoreScheme;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.games.Game;
 import net.sourceforge.cilib.games.agents.ParticleAgent;
 import net.sourceforge.cilib.problem.Fitness;
@@ -222,6 +224,42 @@ public class Coevolution extends MultiPopulationBasedAlgorithm implements Optimi
 	public List<OptimisationSolution> getSolutions() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public double getDiameter() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getPopulationSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getRadius() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Topology<? extends Entity> getTopology() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPopulationSize(int populationSize) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTopology(Topology topology) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc)

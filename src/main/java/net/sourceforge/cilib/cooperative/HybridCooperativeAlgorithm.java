@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -79,6 +80,42 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 	}
 
 	public void participated(boolean participation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getDiameter() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getPopulationSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getRadius() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Topology<? extends Entity> getTopology() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPopulationSize(int populationSize) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTopology(Topology topology) {
 		// TODO Auto-generated method stub
 		
 	}

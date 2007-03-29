@@ -38,9 +38,13 @@ import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisation
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
+import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
+import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
@@ -249,6 +253,11 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	public void participated(boolean p) {
 		participation = p;
 	}
+	
+	public double accept(TopologyVisitor visitor) {
+		getTopology().accept(visitor);
+		return visitor.getResult();
+	}
 
     // TODO: This does not fit really here.... move to another class PSOUtilities. 
     // Does not really calculate the diameter.
@@ -259,40 +268,9 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      * @return The calculated diameter of the swarm.
      */
     public double getDiameter() {
-  
-    	/* The code below has been moved to Measurement.EuclideanDiversityAroundGBest
-    	 * The new code as updated by Andries Engelbrecht calculates the real diameter
-    	 *  	Vector center = (Vector) getBestParticle().getPosition();
-    	DistanceMeasure distance = new EuclideanDistanceMeasure();
-        double diameter = 0;
-        int count = 0;
-
-        for (Iterator<Particle> i = topology.iterator(); i.hasNext(); ++count) {
-            Particle other = i.next();
-            diameter += distance.distance(center, (Vector) other.getPosition());
-        }*/
-    
-    	//TODO: Can be optimised by not calculating symmetrical distances
-    	
-    	double maxDistance = 0.0;
-    	
-    	Iterator k1 = getTopology().iterator();
-        while (k1.hasNext()) {
-            Particle p1 = (Particle) k1.next();
-        	Vector position1 = (Vector) p1.getPosition();
-           	
-        	Iterator k2 = getTopology().iterator();
-        	while (k2.hasNext()) {
-        		Particle p2 = (Particle) k2.next();
-        		Vector position2 = (Vector) p2.getPosition();
-        		DistanceMeasure distance = new EuclideanDistanceMeasure();
-        		double actualDistance = distance.distance(position1,position2);
-        		if (actualDistance > maxDistance)
-        			maxDistance = actualDistance;
-        	}
-        }
-    	
-        return maxDistance;
+    	DiameterVisitor visitor = new DiameterVisitor();
+    	getTopology().accept(visitor);
+    	return visitor.getResult();
     }
     
     
@@ -304,25 +282,9 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
      */
     @Override
     public double getRadius() {
-    	double maxDistance = 0.0;
-    	
-    	Particle swarmBestParticle = getBestParticle();
-    	Vector swarmBestParticlePosition = (Vector)swarmBestParticle.getPosition();
-    	
-    	Iterator swarmIterator = getTopology().iterator();
-    	
-    	while(swarmIterator.hasNext()) {
-    		Particle swarmParticle = (Particle)swarmIterator.next();
-    		Vector swarmParticlePosition = (Vector)swarmParticle.getPosition();
-    	
-    		DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
-    		double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
-    	
-    		if(actualDistance > maxDistance)
-    			maxDistance = actualDistance;
-    	}
-    	
-    	return maxDistance;
+    	RadiusVisitor visitor = new RadiusVisitor();
+    	getTopology().accept(visitor);
+    	return visitor.getResult();
     }
 
     

@@ -3,13 +3,14 @@ package net.sourceforge.cilib.cooperative.populationiterators;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
  * TODO test this class
  * @author Theuns Cloete
  */
 public class SequentialPopulationIterator implements PopulationIterator {
-	List<Algorithm> populations = null;
+	List<PopulationBasedAlgorithm> populations = null;
 	int iterations = 0;
 
 	public SequentialPopulationIterator() {
@@ -37,7 +38,7 @@ public class SequentialPopulationIterator implements PopulationIterator {
 		throw new UnsupportedOperationException("Removal of an Algorithm from a MultiPopulationBasedAlgorithm is not supported, yet");
 	}
 
-	public void setPopulations(List<Algorithm> p) {
+	public void setPopulations(List<PopulationBasedAlgorithm> p) {
 		populations = p;
 		iterations = 0;
 	}
