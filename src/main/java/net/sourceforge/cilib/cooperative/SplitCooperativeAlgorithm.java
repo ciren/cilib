@@ -1,5 +1,5 @@
 /*
- * CoOperativeOptimisationAglorithm.java
+ * SplitCooperativeAglorithm.java
  *
  * Created on January 24, 2003, 11:44 AM
  *
@@ -45,6 +45,9 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.CooperativeOptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
+import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.type.types.MixedVector;
 
 /**
  * TODO test this class
@@ -184,7 +187,6 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 //	@Initialiser
 //	QUESTION are initialisations (or initialisers) still deprecated? Should we use @Initialiser here instead?
 	public void performInitialisation() {
-		System.out.println(this);
 		context.set(optimisationProblem.getDomain().getBuiltRepresenation().clone());
 		splitStrategy.split(optimisationProblem, context, populationBasedAlgorithms);
 		context.reset();
@@ -193,6 +195,12 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 			//TODO check whether this cast is safe
 			context.append(((ParticipatingAlgorithm)participant).getContribution());
 		}
+	}
+
+	public void performUninitialisation() {
+		DataSetBuilder dataset = optimisationProblem.getDataSetBuilder();
+		((ClusterableDataSet)dataset).assign((MixedVector)context.get());
+		dataset.uninitialise((MixedVector)context.get());
 	}
 
 	public void performIteration() {

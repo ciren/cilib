@@ -60,25 +60,25 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 			throw new IllegalArgumentException("The sum of w1, w2 and w3 must equal 1.0");
 
 		if(dataset == null)
-			setDataSet(null);
+			resetDataSet();
 		//assign each pattern in the dataset to its closest centroid
 		dataset.assign(centroids);
 		
 		calculateQuantisationErrorAndMaximumAverageDistanceBetweenPatternsAndCentroids(centroids);
-		calculateMinimumDistanceBetweenCentroidPairs(centroids);
+		calculateInterClusterDistance(centroids);
 
 		//zMax only needs to be calculated once, because the domain is not supposed to change during a simulation
 		if(!zMaxFlag)
 			zMax = zMax(dataset, centroids);
 
 		//the fitness should never drop below 0.0, but just in case something goes wrong, we want to know about it
-		double fitness = (w1 * maximumAverageDistance) + (w2 * (zMax - minimumCentroidDistance)) + (w3 * quantisationError); 
+		double fitness = (w1 * maximumAverageDistance) + (w2 * (zMax - interClusterDistance)) + (w3 * quantisationError); 
 		if(fitness < 0.0) {
 			System.out.println("w1 = " + w1);
 			System.out.println("maximumAverageDistance = " + maximumAverageDistance);
 			System.out.println("zMax = " + zMax);
 			System.out.println("w2 = " + w2);
-			System.out.println("minimumCentroidDistance = " + minimumCentroidDistance);
+			System.out.println("minimumCentroidDistance = " + interClusterDistance);
 			System.out.println("w3 = " + w3);
 			System.out.println("quantisationError = " + quantisationError);
 			System.exit(0);

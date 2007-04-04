@@ -26,47 +26,13 @@
  */
 package net.sourceforge.cilib.util;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import net.sourceforge.cilib.type.types.Vector;
-
 /**
+ * Euclidean Distance is a special case of the {@link net.sourceforge.cilib.util.MinkowskiMetric Minkowski Metric} with 'alpha' := 2.
  * @author Edwin Peer
+ * @author Theuns Cloete
  */
-public class EuclideanDistanceMeasure implements DistanceMeasure {
-
-	public double distance(Vector x, Vector y) {
-        if (x.getDimension() != y.getDimension())
-			throw new IllegalArgumentException("Unmatched argument lengths");
-		
-		double distance = 0;
-		for (int i = 0; i < x.getDimension(); ++i) {
-			double tmp = x.getReal(i) - y.getReal(i);
-			distance += tmp * tmp;
-		}
-		
-		return Math.sqrt(distance);
-    }
-
-	public double distance(Collection<? extends Number> x, Collection<? extends Number> y) {
-		if (x.size() != y.size())
-			throw new IllegalArgumentException("Unmatched argument lengths");
-		
-		double distance = 0;
-		Iterator<? extends Number> i = x.iterator();
-		Iterator<? extends Number> j = y.iterator();
-		
-		for ( ; i.hasNext() && j.hasNext(); ) {
-			Number n1 = i.next();
-			Number n2 = j.next();
-			
-			double tmp = n1.doubleValue() - n2.doubleValue();
-			
-			distance += tmp * tmp;
-		}
-		
-		return Math.sqrt(distance);
+public class EuclideanDistanceMeasure extends MinkowskiMetric {
+	public EuclideanDistanceMeasure() {
+		super(2);
 	}
-
 }

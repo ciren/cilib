@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 
 /**
  * Concrete implemetnation of the {@see net.sourceforge.cilib.type.types.Vector}
@@ -39,7 +40,7 @@ import java.util.Iterator;
  * @author Edwin Peer
  */
 public class MixedVector extends Vector {
-	
+	private static Logger log = Logger.getLogger(MixedVector.class);
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Type> components;
 
@@ -106,8 +107,18 @@ public class MixedVector extends Vector {
 		components = new ArrayList<Type>(dimension);
 		components.ensureCapacity(dimension);
 	}
-	
-	
+
+	/**
+	 * Initialise this vector to contain 'size' 'element' elements
+	 * @param size the number of elements this vector should contain
+	 * @param element the element that will be cloned and used as each element of this vector
+	 * @author Theuns Cloete
+	 */
+	public void initialise(int size, Type element) {
+		for(int i = 0; i < size; i++)
+			components.add(element.clone());
+	}
+
 	/**
 	 * Add an object to the end of the <code>MixedVector</code>.
 	 * 
@@ -204,8 +215,7 @@ public class MixedVector extends Vector {
 	public boolean containsAll(Collection<?> collection) {
 		return this.components.containsAll(collection);
 	}
-	
-	
+
 	/**
      * Tests if this <tt>Vector</tt> has no elements.
      *
@@ -215,8 +225,7 @@ public class MixedVector extends Vector {
 	public boolean isEmpty() {
 		return this.components.isEmpty();
 	}
-	
-	
+
 	/**
 	 * Returns the elements in this <tt>Vector</tt> in the proper sequence.
 	 * 
@@ -225,8 +234,7 @@ public class MixedVector extends Vector {
 	public Iterator<Type> iterator() {
 		return this.components.iterator();
 	}
-	
-	
+
 	/**
 	 * Remove the <tt>Object</tt> obj from this <tt>Vector</tt>
 	 * 
@@ -236,8 +244,7 @@ public class MixedVector extends Vector {
 	public boolean remove(Object obj) {
 		return this.components.remove(obj);		
 	}
-	
-	
+
 	/**
 	 * Remove the <tt>Collection</tt> of objects from this <tt>Vector</tt>.
 	 * 
@@ -248,8 +255,7 @@ public class MixedVector extends Vector {
 	public boolean removeAll(Collection<?> c) {
 		return this.components.removeAll(c);
 	}
-	
-	
+
 	/**
 	 * Retains only the specified in the objects contained in the specified collection.
 	 * 
@@ -261,8 +267,7 @@ public class MixedVector extends Vector {
 	public boolean retainAll(Collection<?> c) {
 		return this.components.retainAll(c);
 	}
-	
-	
+
 	/**
      * Returns the number of elements in this list.
      *
@@ -271,8 +276,7 @@ public class MixedVector extends Vector {
     public int size() {
     	return this.getDimension();
     }
-	
-	
+
     /**
      * Returns an array containing all of the elements in this <tt>Vector</tt>
      * in the correct order.
@@ -294,8 +298,7 @@ public class MixedVector extends Vector {
 			throw new RuntimeException("Could not create a array");
 		}
 	}
-	
-	
+
 	/**
      * Returns an array containing all of the elements in this <tt>Vector</tt> in the
      * correct order; the runtime type of the returned array is that of the
@@ -320,9 +323,7 @@ public class MixedVector extends Vector {
 	public <T> T[] toArray(T[] a) {
 		return this.components.toArray(a);
 	}
-	
-	
-	
+
 	/**
 	 * Return the dimension of the <code>MixedVector</code>
 	 * 
@@ -331,8 +332,7 @@ public class MixedVector extends Vector {
 	public int getDimension() {
 		return components.size();
 	}
-	
-	
+
 	/**
 	 * This method returns the current <code>Type</code> at index <code>index</code>. The returned <code>Type</code>
 	 * is a <b>clone</b> of the original to avoid issues with the references to the same objects, provided that the
@@ -360,7 +360,6 @@ public class MixedVector extends Vector {
 			return component;
 	}
 
-	
 	/**
 	 * Set the element within the <code>MixedVector</code> at index <code>index</code> with
 	 * the object defined by <code>value</code>
@@ -371,8 +370,7 @@ public class MixedVector extends Vector {
 	public void set(int index, Type value) {
 		components.set(index, value);
 	}
-	
-	
+
 	/**
 	 * Insert a new object within the <code>MixedVector</code> such that the <code>Type</code>
 	 * object will be located between index-1 and index+1
@@ -383,8 +381,7 @@ public class MixedVector extends Vector {
 	public void insert(int index, Type value) {
 		components.add(index, value);
 	}
-	
-	
+
 	/**
 	 * Remove the object at index <code>index</code> and adjust the <code>MixedVector</code>
 	 * accordingly.
@@ -394,8 +391,7 @@ public class MixedVector extends Vector {
 	public void remove(int index) {
 		components.remove(index);
 	}
-	
-	
+
 	/**
 	 * Get the <code>Numeric</code> component from the <code>MixedVector</code> at index
 	 * <code>index</code>
@@ -414,8 +410,7 @@ public class MixedVector extends Vector {
 			throw new UnsupportedOperationException("Attempted to perform a numeric operation on non-numeric type");
 		}
 	}
-	
-	
+
 	/**
 	 * Get the <tt>boolean</tt> represenation of the bit value represented
 	 * at index <tt>index</tt> within this <tt>Vector</tt> object.
@@ -427,7 +422,6 @@ public class MixedVector extends Vector {
 		return this.getNumeric(index).getBit();
 	}
 
-	
 	/**
 	 * Set the value located at the specified index to the given value.
 	 * 
@@ -438,7 +432,6 @@ public class MixedVector extends Vector {
 		this.getNumeric(index).setBit(value);
 	}
 
-	
 	/**
 	 * Get the integer value of the object located at the specified index.
 	 * 
@@ -449,7 +442,6 @@ public class MixedVector extends Vector {
 		return this.getNumeric(index).getInt();
 	}
 
-	
 	/**
 	 * Set the value located at the specified index to the given value.
 	 * 
@@ -460,7 +452,6 @@ public class MixedVector extends Vector {
 		this.getNumeric(index).setInt(value);
 	}
 
-	
 	/**
 	 * Get the real value of the object located at <code>index</code>
 	 * 
@@ -471,7 +462,6 @@ public class MixedVector extends Vector {
 		return this.getNumeric(index).getReal();
 	}
 
-	
 	/**
 	 * Set the value of the object located at index <code>index</code> to <code>value</code>
 	 * 
@@ -481,8 +471,7 @@ public class MixedVector extends Vector {
 	public void setReal(int index, double value) {
 		this.getNumeric(index).setReal(value);
 	}
-	
-	
+
 	/**
 	 * Get the specified <tt>Type</tt> object at the given index.
 	 * 
@@ -495,8 +484,7 @@ public class MixedVector extends Vector {
 		
 		return this.components.get(index);
 	}
-	
-	
+
 	/**
 	 * Re-Randomise the contents of the structure based on the lower and uppper bounds
 	 * enforced on the <code>Type</code>.
@@ -507,7 +495,6 @@ public class MixedVector extends Vector {
 		}
 	}
 
-	
 	/**
 	 * Reset all every component within this vector to it's standard default value
 	 * as defined and accepted by developers everywhere. The value of the components 
@@ -519,7 +506,6 @@ public class MixedVector extends Vector {
 		}
 	}
 
-	
 	/**
 	 * Get the subrange from the current <tt>Vector</tt> as a <tt>Vector</tt>.
 	 * 
@@ -537,7 +523,6 @@ public class MixedVector extends Vector {
 		return m;
 	}
 
-
 	/**
 	 * Create a new <tt>Vector</tt> that is the resultant <tt>Vector</tt>
 	 * calculated from the addition of two <tt>Vector</tt> objects.
@@ -549,71 +534,132 @@ public class MixedVector extends Vector {
 	public final Vector plus(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
-		
+
 		Vector result = this.clone();
-		
-		for (int i = 0; i < result.size(); i++) {
-			Numeric numeric = (Numeric) result.get(i);
-			double r = numeric.getReal() + vector.getReal(i);
-			result.set(i, new Real(r));
+		for(int i = 0; i < result.size(); i++) {
+			Numeric numeric = (Numeric)result.getType(i);
+			numeric.setReal(numeric.getReal() + vector.getReal(i));
 		}
-		
 		return result;
 	}
 
+	/**
+	 * Vector-vector addition (fast)
+	 * @param vector the vector that should be added to this vector
+	 * @return this vector of which the given vector has been added to it
+	 * @author Theuns Cloete
+	 */
+	public Vector plusEquals(Vector vector) {
+		if (this.components.size() != vector.size())
+			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 
 	public final Vector subtract(Vector vector) {
 		if (this.components.size() != vector.size())
-			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
-		
+			throw new UnsupportedOperationException("Cannot subtract vectors with differing dimensions");
+
 		Vector result = this.clone();
-		
 		for (int i = 0; i < result.size(); i++) {
-			Numeric numeric = (Numeric) result.get(i);
-			double r = numeric.getReal() - vector.getReal(i);
-			result.set(i, new Real(r));
+			Numeric numeric = (Numeric)result.getType(i);
+			numeric.setReal(numeric.getReal() - vector.getReal(i));
 		}
-		
 		return result;
 	}
 
+	/**
+	 * Vector-vector subtraction (fast)
+	 * @param vector the vector that should be subtracted from this vector
+	 * @return this vector of which the given vector has been subtracted from it
+	 * @author Theuns Cloete
+	 */
+	public Vector subtractEquals(Vector vector) {
+		if (this.components.size() != vector.size())
+			throw new UnsupportedOperationException("Cannot subtract vectors with differing dimensions");
 
 	public final Vector divide(Vector vector) {
 		if (this.components.size() != vector.size())
-			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
+			throw new UnsupportedOperationException("Cannot divide vectors with differing dimensions");
 		
 		Vector result = this.clone();
-		
-		for (int i = 0; i < result.size(); i++) {
-			if (vector.getReal(i) == 0.0)
-				throw new ArithmeticException("Vector division by zero");
-			
-			Numeric numeric = (Numeric) result.get(i);
-			double r = numeric.getReal() / vector.getReal(i);
-			result.set(i, new Real(r));
+		for(int i = 0; i < result.size(); i++) {
+			if(vector.getReal(i) == 0.0)
+				throw new ArithmeticException("Vector division by zero caused by element " + i);
+
+			Numeric numeric = (Numeric)result.getType(i);
+			numeric.setReal(numeric.getReal() / vector.getReal(i));
 		}
-		
 		return result;
-		
 	}
 
+	/**
+	 * Scalar-vector devision
+	 * @param scalar the scalar with which each element of this vector should be divided by
+	 * @return a vector of which each element has been divided by the scalar
+	 * @author Theuns Cloete
+	 */
+	public Vector divide(double scalar) {
+		if(scalar == 0.0)
+			throw new ArithmeticException("Scalar division by zero");
 
 	public final Vector multiply(Vector vector) {
 		if (this.components.size() != vector.size())
-			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
+			throw new UnsupportedOperationException("Cannot multiply vectors with differing dimensions");
 		
 		Vector result = this.clone();
-		
-		for (int i = 0; i < result.size(); i++) {
-			Numeric numeric = (Numeric) result.get(i);
-			double r = numeric.getReal() * vector.getReal(i);
-			result.set(i, new Real(r));
+		for(int i = 0; i < result.size(); i++) {
+			Numeric numeric = (Numeric)result.getType(i);
+			numeric.setReal(numeric.getReal() * vector.getReal(i));
 		}
-		
 		return result;		
 	}
-	
-	
+
+	/**
+	 * TODO create methods that take parameters of the type package (Int, Real) instead of primitives (int, double)
+	 * Scalar-vector multiplication
+	 * @param scalar the scalar that should be multiplied with each element of this vector
+	 * @return a vector of which the scalar has been multiplied with each element
+	 * @author Theuns Cloete
+	 */
+	public Vector multiply(double scalar) {
+		Vector result = this.clone();
+		for(int i = 0; i < result.size(); i++) {
+			Numeric numeric = (Numeric)result.getType(i);
+			numeric.setReal(numeric.getReal() * scalar);
+		}
+		return result;
+	}
+
+	/**
+	 * Vector-vector multiplication (fast)
+	 * @param vector the vector that should be multiplied with this vector
+	 * @return this vector that has been multiplied with the given vector
+	 * @author Theuns Cloete
+	 */
+	public Vector multiplyEquals(Vector vector) {
+		if (this.components.size() != vector.size())
+			throw new UnsupportedOperationException("Cannot multiply vectors with differing dimensions");
+
+		for(int i = 0; i < this.size(); i++) {
+			Numeric numeric = (Numeric) this.getType(i);
+			numeric.setReal(numeric.getReal() * vector.getReal(i));
+		}
+		return this;
+	}
+
+	/**
+	 * TODO create methods that take parameters of the type package (Int, Real) instead of primitives (int, double)
+	 * Scalar-vector multiplication (fast)
+	 * @param scalar the scalar that should be multiplied with each element of this vector
+	 * @return this vector of which the scalar has been multiplied with each element
+	 * @author Theuns Cloete
+	 */
+	public Vector multiplyEquals(double scalar) {
+		for(int i = 0; i < this.size(); i++) {
+			Numeric numeric = (Numeric)this.getType(i);
+			numeric.setReal(numeric.getReal() * scalar);
+		}
+		return this;
+	}
+
 	/**
 	 * Calculate the norm of this Vector object. All the elements must
 	 * be of type {@see net.sourceforge.cilib.type.types.Numeric}.

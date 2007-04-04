@@ -199,7 +199,8 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	public String toString(char first, char last, char delimiter) {
 		int dimension = getDimension();
 		StringBuffer tmp = new StringBuffer(10 * dimension);
-		tmp.append(first);
+		if(first != 0)
+			tmp.append(first);
 		if (dimension > 0) {
 			tmp.append(this.get(0).toString());
 			for (int i = 1; i < dimension; ++i) {
@@ -207,8 +208,8 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 				tmp.append(this.get(i).toString());
 			}
 		}
-	
-		tmp.append(last);
+		if(last != 0)
+			tmp.append(last);
 		return tmp.toString();
 	}
 	
@@ -219,4 +220,6 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	public String toString(char delimiter) {
 		return toString('[', ']', delimiter);
 	}
+
+	public abstract void initialise(int size, Type element);
 }

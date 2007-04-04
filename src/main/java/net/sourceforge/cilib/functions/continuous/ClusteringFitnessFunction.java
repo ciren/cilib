@@ -1,11 +1,12 @@
 package net.sourceforge.cilib.functions.continuous;
 
+import java.util.ArrayList;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
-import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -23,7 +24,8 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	/**Stores the Maximum Average Distance between centroids and patterns*/
 	protected double maximumAverageDistance = 0.0;
 	/**Stores the Minimum Distance between centroid pairs*/
-	protected double minimumCentroidDistance = 0.0;
+	protected double interClusterDistance = 0.0;
+	protected double intraClusterDistance = 0.0;
 	/**Stores the Quantisation Error*/
 	protected double quantisationError = 0.0;
 	protected ClusterableDataSet dataset = null;
@@ -35,7 +37,6 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 */
 	public ClusteringFitnessFunction() {
 		setDomain("R(-5.0, 5.0)^2");
-		setDataSet(null);
 	}
 
 	/**
@@ -44,39 +45,25 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * @param dataset The dataset containing the patterns that should be classified 
 	 * @param centroids The vector representing the centroid vectors
 	 */
-	public void calculateQuantisationError(Vector centroids)	{
-		//we need a Vector to hold all the patterns that belong to a certain cluster
-		Vector patternsInCluster = null;
-		Vector centroid = null;
-		//reset the quantisation error to be 0.0
-		quantisationError = 0.0;
-		int numberOfClusters = dataset.getNumberOfClusters();
+	public double calculateQuantisationError(Vector centroids)	{
+		int k = 0;
 		double averageDistance = 0.0;
-		//run through all the different clusters
-		for(int i = 0; i < numberOfClusters; i++) {
-			//get a Vector with all the patterns belonging to cluster i
-			patternsInCluster = dataset.patternsInCluster(new Int(i));
-			//we don't have to do the following if there are no patterns that belong to this cluster (save some time)
-			if(patternsInCluster.size() > 0) {
-				//extract the i'th centroid from the given centroids Vector that contains all the centroids
-				centroid = dataset.getSubCentroid(centroids, i);
-				//we have to calculate the average distance between the centroid and all the patterns belonging to the centroid
+		quantisationError = 0.0;
+		for(ArrayList<Pattern> cluster : dataset.arrangedClusters()) {
+			int numberOfPatterns = cluster.size();
+			if(numberOfPatterns > 0) {
+				Vector centroid = dataset.getSubCentroid(centroids, k);
 				averageDistance = 0.0;
-				//run through all the patterns that belong to cluster i
-				for(Type pattern : patternsInCluster) {
-					//calculate the sum of the distances between the centroid and all patterns j 
-					averageDistance += dataset.getDistanceMeasure().distance((Vector)pattern, centroid);
+				for(Pattern pattern : cluster) {
+					averageDistance += dataset.calculateDistance(pattern.data, centroid);
 				}
-				//devide the sum by the number of patterns belonging to the centroid
-				averageDistance /= patternsInCluster.size();
-				//calculate the sum of all the average distances between a centroid and the patterns that belong to that centroid 
+				averageDistance /= numberOfPatterns;
 				quantisationError += averageDistance;
-				//clear out the patterns because we are going to work with another cluster in the next iteration
-				patternsInCluster.clear();
 			}
+			++k;
 		}
-		//devide the sum by the number of clusters
-		quantisationError /= numberOfClusters;
+		quantisationError /= dataset.getNumberOfClusters();
+		return quantisationError;
 	}
 
 	/**
@@ -87,39 +74,26 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * @param dataset The dataset containing the patterns that should be classified 
 	 * @param centroids The vector representing the centroid vectors
 	 */
-	public void calculateMaximumAverageDistanceBetweenPatternsAndCentroids(Vector centroids)	{
-		//we need a Vector to hold all the patterns that belong to a certain cluster
-		Vector patternsInCluster = null;
-		Vector centroid = null;
-		//reset the maximum average distance to be the smallest double possible
-		maximumAverageDistance = Double.MIN_VALUE;
-		int numberOfClusters = dataset.getNumberOfClusters();
+	public double calculateMaximumAverageDistanceBetweenPatternsAndCentroids(Vector centroids)	{
+		int k = 0;
 		double averageDistance = 0.0;
-		//run through all the different clusters
-		for(int i = 0; i < numberOfClusters; i++) {
-			//get a Vector with all the patterns belonging to cluster i
-			patternsInCluster = dataset.patternsInCluster(new Int(i));
-			//we don't have to do the following if there are no patterns that belong to this cluster (save some time)
-			if(patternsInCluster.size() > 0) {
-				//extract the i'th centroid from the given centroids Vector that contains all the centroids
-				centroid = dataset.getSubCentroid(centroids, i);
-				//we have to calculate the average distance between the centroid and all the patterns belonging to the centroid
+		maximumAverageDistance = 0.0;
+		for(ArrayList<Pattern> cluster : dataset.arrangedClusters()) {
+			int numberOfPatterns = cluster.size();
+			if(numberOfPatterns > 0) {
+				Vector centroid = dataset.getSubCentroid(centroids, k);
 				averageDistance = 0.0;
-				//run through all the patterns that belong to cluster i
-				for(Type pattern : patternsInCluster) {
-					//calculate the sum of the distances between the centroid and all patterns j
-					averageDistance += dataset.getDistanceMeasure().distance((Vector)pattern, centroid);
+				for(Pattern pattern : cluster) {
+					averageDistance += dataset.calculateDistance(pattern.data, centroid);
 				}
-				//devide the sum by the number of patterns belonging to the centroid
-				averageDistance /= patternsInCluster.size();
-				//remember what the maximum average distance is so far
+				averageDistance /= numberOfPatterns;
 				if(averageDistance > maximumAverageDistance) {
 					maximumAverageDistance = averageDistance;
 				}
-				//clear out the patterns because we are going to work with another cluster in the next iteration
-				patternsInCluster.clear();
 			}
+			++k;
 		}
+		return maximumAverageDistance;
 	}
 
 	/**
@@ -133,77 +107,98 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * @param centroids The vector representing the centroid vectors
 	 */
 	public void calculateQuantisationErrorAndMaximumAverageDistanceBetweenPatternsAndCentroids(Vector centroids)	{
-		//we need a Vector to hold all the patterns that belong to a certain cluster
-		Vector patternsInCluster = null;
-		Vector centroid = null;
-		//reset the quantisation error to be 0.0
-		quantisationError = 0.0;
-		//reset the maximum average distance to be the smallest double possible
-		maximumAverageDistance = Double.MIN_VALUE;
-		int numberOfClusters = dataset.getNumberOfClusters();
+		int k = 0;
 		double averageDistance = 0.0;
-		//run through all the different clusters
-		for(int i = 0; i < numberOfClusters; i++) {
-			//get a Vector with all the patterns belonging to cluster i
-			patternsInCluster = dataset.patternsInCluster(new Int(i));
-			//we don't have to do the following if there are no patterns that belong to this cluster (save some time)
-			if(patternsInCluster.size() > 0) {
-				//extract the i'th centroid from the given centroids Vector that contains all the centroids
-				centroid = dataset.getSubCentroid(centroids, i);
-				//we have to calculate the average distance between the centroid and all the patterns belonging to the centroid
+		quantisationError = 0.0;
+		maximumAverageDistance = 0.0;
+		for(ArrayList<Pattern> cluster : dataset.arrangedClusters()) {
+			int numberOfPatterns = cluster.size();
+			if(numberOfPatterns > 0) {
+				Vector centroid = dataset.getSubCentroid(centroids, k);
 				averageDistance = 0.0;
-				//run through all the patterns that belong to cluster i
-				for(Type pattern : patternsInCluster) {
-					//calculate the sum of the distances between the centroid and all patterns j
-					averageDistance += dataset.getDistanceMeasure().distance(centroid, (Vector)pattern);
+				for(Pattern pattern : cluster) {
+					averageDistance += dataset.calculateDistance(pattern.data, centroid);
 				}
-				//devide the sum by the number of patterns belonging to the centroid
-				averageDistance /=  patternsInCluster.size();
-				//remember what the maximum average distance is so far
+				averageDistance /= numberOfPatterns;
+				quantisationError += averageDistance;
 				if(averageDistance > maximumAverageDistance) {
 					maximumAverageDistance = averageDistance;
 				}
-				//calculate the sum of all the average distances between a centroid and the patterns that belong to that centroid
-				quantisationError += averageDistance;
-				//clear out the patterns because we are going to work with another cluster in the next iteration
-				patternsInCluster.clear();
 			}
+			++k;
 		}
-		//devide the sum by the number of clusters
-		quantisationError /= numberOfClusters;
+		quantisationError /= dataset.getNumberOfClusters();
 	}
 
 	/**
 	 * Calculate the Minimum Distance between centroid pairs (in other words, calculate the Minimum Distance from all
-	 * centroids to all other centroids) that have been learned so far; see Section 4.1.1 at the top of page 106 of "Particle
+	 * centroids to all other centroids, also known as the Inter Cluster Distance) that have been learned so far; see Section 4.1.1 at the top of page 106 of "Particle
 	 * Swarm Optimization Methods for Pattern Recognition and Image Processing" by Mahamed G.H. Omran. The Minimum Centoid
 	 * Distance is needed for the calculation of the parametric clustering fitness function
 	 * {@link net.sourceforge.cilib.functions.continuous.ParametricClusteringFunction}
 	 * @param dataset The dataset containing the patterns that should be classified 
 	 * @param centroids The vector representing the centroid vectors
 	 */
-	public void calculateMinimumDistanceBetweenCentroidPairs(Vector centroids) {
+	public double calculateInterClusterDistance(Vector centroids) {
 		Vector centroid1 = null, centroid2 = null;
-		//reset the minimum distance between centroid pairs to be the largets double possible
-		minimumCentroidDistance = Double.MAX_VALUE;
 		double distance = 0.0;
+		interClusterDistance = Double.MAX_VALUE;
 		int numberOfClusters = dataset.getNumberOfClusters();
-		//run through all the different clusters, starting with the first and stopping with the second last cluster 
 		for(int i = 0; i < numberOfClusters - 1; i++) {
-			//extract the i'th centroid from the given centroids Vector that contains all the centroids
 			centroid1 = dataset.getSubCentroid(centroids, i);
-			//run through all the different clusters, starting to the right of i and stopping with the last cluster
 			for(int j = i + 1; j < numberOfClusters; j++) {
-				//extract the j'th centroid from the given centroids Vector that contains all the centroids
 				centroid2 = dataset.getSubCentroid(centroids, j);
-				//calculate the distane between the two centroids
-				distance = dataset.getDistanceMeasure().distance(centroid1, centroid2);
-				//remember what the minimum distance is so far
-				if(distance < minimumCentroidDistance) {
-					minimumCentroidDistance = distance;
+				distance = dataset.calculateDistance(centroid1, centroid2);
+				if(distance < interClusterDistance) {
+					interClusterDistance = distance;
 				}
 			}
 		}
+		return interClusterDistance;
+	}
+
+	public double calculateClusterDissimilarity(ArrayList<Pattern> lhs, ArrayList<Pattern> rhs) {
+		double dissimilarity = Double.MAX_VALUE, distance = 0.0;
+		for(Pattern patternA : lhs) {
+			for(Pattern patternB : rhs) {
+				distance = dataset.calculateDistance(patternA.index, patternB.index);
+				if(distance < dissimilarity) {
+					dissimilarity = distance;
+				}
+			}
+		}
+		return dissimilarity;
+	}
+
+	public double calculateClusterDiameter(ArrayList<Pattern> cluster) {
+		double diameter = 0.0, distance = 0.0;
+		int patterns = cluster.size();
+		for(int i = 0; i < patterns - 1; i++) {
+			for(int j = i + 1; j < patterns; j++) {
+				distance = dataset.calculateDistance(cluster.get(i).index, cluster.get(j).index);
+				if(distance > diameter) {
+					diameter = distance;
+				}
+			}
+		}
+		return diameter;
+	}
+
+	public double calculateIntraClusterDistance(Vector centroids) {
+		int k = 0;
+		intraClusterDistance = 0.0;
+		for(ArrayList<Pattern> cluster : dataset.arrangedClusters()) {
+			int numberOfPatterns = cluster.size();
+			if(numberOfPatterns > 0) {
+				Vector centroid = dataset.getSubCentroid(centroids, k);
+				for(Pattern pattern : cluster) {
+					intraClusterDistance += dataset.calculateDistance(pattern.data, centroid);
+				}
+			}
+			++k;
+		}
+		intraClusterDistance /= dataset.getNumberOfPatterns();
+		return intraClusterDistance;
 	}
 
 	public ClusterableDataSet getDataSet() {
@@ -212,12 +207,20 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 	public void setDataSet(ClusterableDataSet ds) {
 		dataset = ds;
-		if(dataset == null && Algorithm.get() != null)
-		{
-			//get the Algorithm we are working with
-			PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+	}
+
+	public void resetDataSet() {
+		//get the Algorithm we are working with
+		Algorithm algorithm = Algorithm.get();
+		if(algorithm != null)
 			//get the ClusterableDataSet we are working with
-			dataset = (ClusterableDataSet)(algorithm.getOptimisationProblem().getDataSetBuilder());
-		}
+			dataset = (ClusterableDataSet)algorithm.getOptimisationProblem().getDataSetBuilder();
+		else
+			throw new InitialisationException("Algorithm hasn't been initialised yet.");
+	}
+
+	@Override
+	public Object getMinimum() {
+		return new Double(0.0);
 	}
 }

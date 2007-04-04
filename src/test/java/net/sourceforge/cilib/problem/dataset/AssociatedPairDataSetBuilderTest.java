@@ -1,14 +1,18 @@
 package net.sourceforge.cilib.problem.dataset;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
+import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class AssociatedPairDataSetBuilderTest {
 	
@@ -45,48 +49,49 @@ public class AssociatedPairDataSetBuilderTest {
 		assertEquals(dataSetBuilder.getNumberOfPatterns(), 16);
 		assertEquals(centroids.size(), 8);
 		for(int i = 0; i < 16; i++)
-			assertEquals(dataSetBuilder.getPattern(i).size(), 2);
+			assertEquals(dataSetBuilder.getPattern(i).data.size(), 2);
 	}
 	
 	@Test
 	public void testAssign() {
 		dataSetBuilder.assign(centroids);
-		assertEquals(dataSetBuilder.getKey(0).getInt(), 3);
-		assertEquals(dataSetBuilder.getKey(1).getInt(), 3);
-		assertEquals(dataSetBuilder.getKey(2).getInt(), 3);
-		assertEquals(dataSetBuilder.getKey(3).getInt(), 3);
-		assertEquals(dataSetBuilder.getKey(4).getInt(), 3);
-		assertEquals(dataSetBuilder.getKey(5).getInt(), 1);
-		assertEquals(dataSetBuilder.getKey(6).getInt(), 1);
-		assertEquals(dataSetBuilder.getKey(7).getInt(), 0);
-		assertEquals(dataSetBuilder.getKey(8).getInt(), 3);
-		assertEquals(dataSetBuilder.getKey(9).getInt(), 1);
-		assertEquals(dataSetBuilder.getKey(10).getInt(), 2);
-		assertEquals(dataSetBuilder.getKey(11).getInt(), 2);
-		assertEquals(dataSetBuilder.getKey(12).getInt(), 1);
-		assertEquals(dataSetBuilder.getKey(13).getInt(), 3);
-		assertEquals(dataSetBuilder.getKey(14).getInt(), 3);
-		assertEquals(dataSetBuilder.getKey(15).getInt(), 3);
+		assertEquals(dataSetBuilder.getPattern(0).clas, 3);
+		assertEquals(dataSetBuilder.getPattern(1).clas, 3);
+		assertEquals(dataSetBuilder.getPattern(2).clas, 3);
+		assertEquals(dataSetBuilder.getPattern(3).clas, 3);
+		assertEquals(dataSetBuilder.getPattern(4).clas, 3);
+		assertEquals(dataSetBuilder.getPattern(5).clas, 1);
+		assertEquals(dataSetBuilder.getPattern(6).clas, 1);
+		assertEquals(dataSetBuilder.getPattern(7).clas, 0);
+		assertEquals(dataSetBuilder.getPattern(8).clas, 3);
+		assertEquals(dataSetBuilder.getPattern(9).clas, 1);
+		assertEquals(dataSetBuilder.getPattern(10).clas, 2);
+		assertEquals(dataSetBuilder.getPattern(11).clas, 2);
+		assertEquals(dataSetBuilder.getPattern(12).clas, 1);
+		assertEquals(dataSetBuilder.getPattern(13).clas, 3);
+		assertEquals(dataSetBuilder.getPattern(14).clas, 3);
+		assertEquals(dataSetBuilder.getPattern(15).clas, 3);
 	}
 	
 	@Test
 	public void testPatternsInCluster() {
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(0)).get(0)).equals(dataSetBuilder.getPattern(7)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(1)).get(0)).equals(dataSetBuilder.getPattern(5)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(1)).get(1)).equals(dataSetBuilder.getPattern(6)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(1)).get(2)).equals(dataSetBuilder.getPattern(9)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(1)).get(3)).equals(dataSetBuilder.getPattern(12)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(2)).get(0)).equals(dataSetBuilder.getPattern(10)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(2)).get(1)).equals(dataSetBuilder.getPattern(11)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(0)).equals(dataSetBuilder.getPattern(0)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(1)).equals(dataSetBuilder.getPattern(1)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(2)).equals(dataSetBuilder.getPattern(2)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(3)).equals(dataSetBuilder.getPattern(3)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(4)).equals(dataSetBuilder.getPattern(4)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(5)).equals(dataSetBuilder.getPattern(8)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(6)).equals(dataSetBuilder.getPattern(13)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(7)).equals(dataSetBuilder.getPattern(14)));
-		assertTrue(((Vector)dataSetBuilder.patternsInCluster(new Int(3)).get(8)).equals(dataSetBuilder.getPattern(15)));
+		ArrayList<ArrayList<Pattern>> clusters = dataSetBuilder.arrangedClusters();
+		assertTrue(clusters.get(0).get(0).equals(dataSetBuilder.getPattern(7)));
+		assertTrue(clusters.get(1).get(0).equals(dataSetBuilder.getPattern(5)));
+		assertTrue(clusters.get(1).get(1).equals(dataSetBuilder.getPattern(6)));
+		assertTrue(clusters.get(1).get(2).equals(dataSetBuilder.getPattern(9)));
+		assertTrue(clusters.get(1).get(3).equals(dataSetBuilder.getPattern(12)));
+		assertTrue(clusters.get(2).get(0).equals(dataSetBuilder.getPattern(10)));
+		assertTrue(clusters.get(2).get(1).equals(dataSetBuilder.getPattern(11)));
+		assertTrue(clusters.get(3).get(0).equals(dataSetBuilder.getPattern(0)));
+		assertTrue(clusters.get(3).get(1).equals(dataSetBuilder.getPattern(1)));
+		assertTrue(clusters.get(3).get(2).equals(dataSetBuilder.getPattern(2)));
+		assertTrue(clusters.get(3).get(3).equals(dataSetBuilder.getPattern(3)));
+		assertTrue(clusters.get(3).get(4).equals(dataSetBuilder.getPattern(4)));
+		assertTrue(clusters.get(3).get(5).equals(dataSetBuilder.getPattern(8)));
+		assertTrue(clusters.get(3).get(6).equals(dataSetBuilder.getPattern(13)));
+		assertTrue(clusters.get(3).get(7).equals(dataSetBuilder.getPattern(14)));
+		assertTrue(clusters.get(3).get(8).equals(dataSetBuilder.getPattern(15)));
 	}
 	
 	@Test

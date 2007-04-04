@@ -32,7 +32,6 @@ import java.io.IOException;
 
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
@@ -67,7 +66,6 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 	private int imagedescriptor = 0;
 	private byte[] idfield = null;
 	private byte[] colourmapdata = null;
-	private String outputFile = "";
 
 	public TGAImageDataSetBuilder() {
 		distanceMeasure = new EuclideanDistanceMeasure();
@@ -181,29 +179,16 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 	}
 	
 	@Override
-	public Vector getPattern(int index) {
+	public Pattern getPattern(int index) {
 		Vector tmp = new MixedVector();
 		for(int z = 0; z < depth; z++)
 			tmp.add(new Int((int)data[index % width][index / width][z]));
-		return tmp;
+		int k = (int)key[index % width][index / width];
+		return new Pattern(index, k, tmp);
 	}
-	
-	@Override
-	public Numeric getKey(int index) {
-		return new Int((int)key[index % width][index / width]);
-	}
-	
-	@Override
-	public void setKey(int index, Numeric key) {
-		this.key[index % width][index / width] = (char)key.getInt();
-	}
-	
+
 	@Override
 	public int getNumberOfPatterns() {
 		return width * height;
-	}
-	
-	public void setOutputFile(String filename) {
-		outputFile = filename;
 	}	
 }

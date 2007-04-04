@@ -45,18 +45,18 @@ public class NonParametricClusteringFunction extends ClusteringFitnessFunction {
 	 */
 	public double evaluate(Vector centroids) {
 		if(dataset == null)
-			setDataSet(null);
+			resetDataSet();
 		//assign each pattern in the dataset to its closest centroid
 		dataset.assign(centroids);
 		calculateQuantisationErrorAndMaximumAverageDistanceBetweenPatternsAndCentroids(centroids);
-		calculateMinimumDistanceBetweenCentroidPairs(centroids);
+		calculateInterClusterDistance(centroids);
 
 		//the maximum average distance and minimum centroid distance should never drop below 0.0, but just in case something goes wrong, we want to know about it
-		if(maximumAverageDistance < 0.0 || minimumCentroidDistance <= 0.0) {
+		if(maximumAverageDistance < 0.0 || interClusterDistance <= 0.0) {
 			System.out.println("maximumAverageDistance = " + maximumAverageDistance);
-			System.out.println("minimumCentroidDistance = " + minimumCentroidDistance);
+			System.out.println("minimumCentroidDistance = " + interClusterDistance);
 			System.exit(0);
 		}
-		return (maximumAverageDistance + quantisationError) / minimumCentroidDistance;
+		return (maximumAverageDistance + quantisationError) / interClusterDistance;
 	}
 }

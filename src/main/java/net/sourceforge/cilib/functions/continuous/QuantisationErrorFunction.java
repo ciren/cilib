@@ -15,7 +15,6 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Theuns Cloete
  */
 public class QuantisationErrorFunction extends ClusteringFitnessFunction {
-	
 	/**
 	 * The constructor, nothing much is done here, except that it calls the base class' constructor.
 	 * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction}
@@ -39,10 +38,9 @@ public class QuantisationErrorFunction extends ClusteringFitnessFunction {
 	@Override
 	public double evaluate(Vector centroids) {
 		if(dataset == null)
-			setDataSet(null);
+			resetDataSet();
 		//assign each pattern in the dataset to its closest centroid
 		dataset.assign(centroids);
-		calculateQuantisationError(centroids);
-		return quantisationError;
+		return calculateQuantisationError(centroids);
 	}
 }

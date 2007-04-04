@@ -32,8 +32,10 @@ import java.util.Iterator;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
+ * @deprecated Make use of {@link net.sourceforge.cilib.util.ManhattanDistance Manhattan Distance}. It is the correct name.
  * @author Edwin Peer
  */
+@Deprecated
 public class AbsoluteDistanceMeasure implements DistanceMeasure {
 
     /* (non-Javadoc)

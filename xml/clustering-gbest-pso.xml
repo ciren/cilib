@@ -1,43 +1,194 @@
 <?xml version="1.0"?>
+<!DOCTYPE simulator [
+	<!ATTLIST algorithm id ID #IMPLIED>
+	<!ATTLIST problem id ID #IMPLIED>
+	<!ATTLIST measurements id ID #IMPLIED>]>
 
 <simulator>
-	<simulation>
-		<algorithm class="pso.PSO">
-			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
-				<maximumFitnessEvaluations value="1000"/>
-			</addStoppingCondition>
-<!--			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>-->
+	<algorithms>
+		<algorithm id="pso_1" class="pso.PSO">
 			<particles value="10"/>
 			<topology class="entity.topologies.GBestTopology"/>
-			<prototypeParticle class="pso.particle.StandardParticle">
-				<!--<positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>-->
-				<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
-					<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.07"/>
-				</velocityUpdateStrategy>
-			</prototypeParticle>
+			<initialisationStrategy class="algorithm.initialisation.ClonedEntityInitialisationStrategy">
+				<entityType class="pso.particle.StandardParticle">
+					<positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+					<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+						<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.1"/>
+					</velocityUpdateStrategy>
+				</entityType>
+			</initialisationStrategy>
 		</algorithm>
 
-		<problem class="problem.FunctionMinimisationProblem">
-<!--			<dataSetBuilder class="problem.dataset.TGAImageDataSetBuilder" numberOfClusters="16" outputFile="data/clustered.tga">-->
-			<setDataSetBuilder class="problem.dataset.AssociatedPairDataSetBuilder" numberOfClusters="12">
-<!--				<dataSet class="problem.dataset.LocalDataSet" file="data/lenna_small.tga"/>-->
-<!--				<dataSet class="problem.dataset.LocalDataSet" file="data/hl2-ep1_small.tga"/>-->
-<!--				<dataSet class="problem.dataset.LocalDataSet" file="data/testimage_small.tga"/>-->
-<!--				<dataSet class="problem.dataset.LocalDataSet" file="data/css_sass_small.tga"/>-->
+		<algorithm id="pso_2" class="pso.PSO">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>
+			<particles value="30"/>
+			<topology class="entity.topologies.GBestTopology"/>
+			<initialisationStrategy class="algorithm.initialisation.ClonedEntityInitialisationStrategy">
+				<entityType class="pso.particle.StandardParticle">
+					<positionUpdateStrategy class="pso.positionupdatestrategies.StandardPositionUpdateStrategy"/>
+					<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+						<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.1"/>
+					</velocityUpdateStrategy>
+				</entityType>
+			</initialisationStrategy>
+		</algorithm>
+
+		<algorithm id="coop" class="algorithm.SplitCooperativeAlgorithm">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>
+<!--			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
+				<maximumFitnessEvaluations value="10000"/>
+			</addStoppingCondition>-->
+			<algorithm idref="pso_1"/>
+			<algorithm idref="pso_1"/>
+			<algorithm idref="pso_1"/>
+			<algorithm idref="pso_1"/>
+			<algorithm idref="pso_1"/>
+			<splitStrategy class="cooperative.splitstrategies.PerfectSplitStrategy"/>
+			<populationIterator class="cooperative.populationiterators.SequentialPopulationIterator"/>
+			<contributionUpdateStrategy class="cooperative.contributionupdatestrategies.StandardContributionUpdateStrategy"/>
+			<fitnessUpdateStrategy class="cooperative.fitnessupdatestrategies.StandardFitnessUpdateStrategy"/>
+		</algorithm>
+	</algorithms>
+
+	<problems>
+		<problem id="coop_quantisation_error" class="problem.FunctionMinimisationProblem">
+			<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/coop-quant-clustering.txt">
 <!--				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/uci/iris/iris.data" patternExpression=",[^0123456789.]*"/>-->
-				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/vdmerwe_artificial1/vdmerwe_artificial1.txt" patternExpression=",[^-0123456789.]*"/>
-<!--				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/vdmerwe_artificial2/vdmerwe_artificial2.txt" patternExpression=",\D*"/>-->
-			</setDataSetBuilder>
-<!--			<function class="functions.continuous.ParametricWithQuantisationErrorFunction" domain="R(-10.0, 10.0)^20" w1="0.3" w2="0.3" w3="0.4"/>-->
-<!--			<function class="functions.continuous.NonParametricClusteringFunction" domain="Z(0, 256)^12"/>-->
-<!--			<function class="functions.continuous.QuantisationErrorFunction" domain="R(0.0, 10.0)^8"/>-->
-			<function class="functions.continuous.QuantisationErrorFunction" domain="R(-1.0, 1.0)^24"/>
-<!--			<function class="functions.continuous.ParametricClusteringFunction" domain="Z(0, 256)^48" w1="0.5" w2="0.5"/>-->
+<!--				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/vdmerwe_artificial1/vdmerwe_artificial1.txt" patternExpression=",[^-0123456789.]*"/>-->
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.QuantisationErrorFunction" domain="R(-5.0, 5.0)^10"/>
 		</problem>
 
-		<measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/clustering-gbest-pso-output.txt">
-			<addMeasurement class="measurement.single.Fitness" />
-<!--			<addMeasurement class="measurement.single.BestParticlePosition" />-->
-		</measurements>
-	</simulation>
+		<problem id="quantisation_error" class="problem.FunctionMinimisationProblem">
+				<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/quant-clustering.txt">
+<!--					<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/uci/iris/iris.data" patternExpression=",[^0123456789.]*"/>-->
+<!--					<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/vdmerwe_artificial1/vdmerwe_artificial1.txt" patternExpression=",[^-0123456789.]*"/>-->
+					<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+				</dataSetBuilder>
+			<function class="functions.continuous.QuantisationErrorFunction" domain="R(-5.0, 5.0)^10"/>
+		</problem>
+
+		<problem id="dunn_index" class="problem.FunctionMaximisationProblem">
+			<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/dunn-clustering.txt">
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.DunnIndex" domain="R(-5.0, 5.0)^10"/>
+		</problem>
+
+		<problem id="coop_dunn_index" class="problem.FunctionMaximisationProblem">
+			<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/coop-dunn-clustering.txt">
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.DunnIndex" domain="R(-5.0, 5.0)^10"/>
+		</problem>
+
+		<problem id="parametric_quant" class="problem.FunctionMinimisationProblem">
+			<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/parametric-quant-clustering.txt">
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.ParametricWithQuantisationErrorFunction" domain="R(-5.0, 5.0)^10" w1="0.3" w2="0.3" w3="0.4"/>
+		</problem>
+
+		<problem id="parametric" class="problem.FunctionMinimisationProblem">
+			<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/parametric-clustering.txt">
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.ParametricClusteringFunction" domain="Z(-5.0, 5.0)^10" w1="0.5" w2="0.5"/>
+		</problem>
+
+		<problem id="non_parametric" class="problem.FunctionMinimisationProblem">
+			<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/non-parametric-clustering.txt">
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.NonParametricClusteringFunction" domain="R(-5.0, 5.0)^10"/>
+		</problem>
+
+		<problem id="davies_bouldin" class="problem.FunctionMinimisationProblem">
+			<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/davies-bouldin-clustering.txt">
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.DaviesBouldinIndex" domain="R(-5.0, 5.0)^10"/>
+		</problem>
+
+		<problem id="turi_index" class="problem.FunctionMinimisationProblem">
+			<dataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/turi-clustering.txt">
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</dataSetBuilder>
+			<function class="functions.continuous.TuriIndex" domain="R(-5.0, 5.0)^10" c="0.1"/>
+		</problem>
+
+		<problem id="s_dbw_index" class="problem.FunctionMinimisationProblem">
+			<setDataSetBuilder class="problem.dataset.CachedDistanceDataSetBuilder" numberOfClusters="5" outputFile="data/s_dbw-clustering.txt">
+				<dataSet class="problem.dataset.LocalDataSet" file="../../datasets/generated/n_circles/circles_5_1_10.txt" patternExpression="\s\d$|\s"/>
+			</setDataSetBuilder>
+			<function class="functions.continuous.ScatterDensityIndex" domain="R(-5.0, 5.0)^10"/>
+		</problem>
+	</problems>
+
+	<measurements id="measurements" class="simulator.MeasurementSuite" resolution="1" samples="1">
+		<addMeasurement class="measurement.single.Fitness"/>
+	</measurements>
+
+	<simulations>
+<!--		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="s_dbw_index"/>
+			<measurements idref="measurements" file="data/s_dbw_index.txt"/>
+		</simulation>
+
+		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="quantisation_error"/>
+			<measurements idref="measurements" file="data/quant_error.txt"/>
+		</simulation>
+
+		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="parametric"/>
+			<measurements idref="measurements" file="data/parametric.txt"/>
+		</simulation>
+
+		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="parametric_quant"/>
+			<measurements idref="measurements" file="data/parametric_quant.txt"/>
+		</simulation>
+
+		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="non_parametric"/>
+			<measurements idref="measurements" file="data/non_parametric.txt"/>
+		</simulation>
+
+		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="dunn_index"/>
+			<measurements idref="measurements" file="data/dunn_index.txt"/>
+		</simulation>
+
+		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="davies_bouldin"/>
+			<measurements idref="measurements" file="data/davies_boulding_index.txt"/>
+		</simulation>
+-->
+		<simulation>
+			<algorithm idref="pso_2"/>
+			<problem idref="turi_index"/>
+			<measurements idref="measurements" file="data/turi_index.txt"/>
+		</simulation>
+<!--
+		<simulation>
+			<algorithm idref="coop"/>
+			<problem idref="coop_quantisation_error"/>
+			<measurements idref="measurements" file="data/coop_quant_error.txt"/>
+		</simulation>
+
+		<simulation>
+			<algorithm idref="coop"/>
+			<problem idref="coop_dunn_index"/>
+			<measurements idref="measurements" file="data/coop_dunn_index.txt"/>
+		</simulation>-->
+	</simulations>
 </simulator>

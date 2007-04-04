@@ -42,13 +42,15 @@ public interface VectorMath {
 	 * @return The resultant {@see net.sourceforge.cilib.type.types.Vector}
 	 */
 	public Vector plus(Vector vector);
-	
+	public Vector plusEquals(Vector vector);
+
 	/**
 	 * 
 	 * @param vector
 	 * @return
 	 */
 	public Vector subtract(Vector vector);
+	public Vector subtractEquals(Vector vector);
 	
 	/**
 	 * 
@@ -56,6 +58,9 @@ public interface VectorMath {
 	 * @return
 	 */
 	public Vector divide(Vector vector);
+	public Vector divide(double scalar);
+	public Vector divideEquals(Vector vector);
+	public Vector divideEquals(double scalar);
 	
 	/**
 	 * 
@@ -63,6 +68,9 @@ public interface VectorMath {
 	 * @return
 	 */
 	public Vector multiply(Vector vector);
+	public Vector multiply(double scalar);
+	public Vector multiplyEquals(Vector vector);
+	public Vector multiplyEquals(double scalar);
 	
 	/**
 	 * Calculate the norm of this <tt>Vector</tt> object. All the elements must
