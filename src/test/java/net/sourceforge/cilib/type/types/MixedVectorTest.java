@@ -442,51 +442,6 @@ public class MixedVectorTest {
 	 * @author Theuns Cloete
 	 */
 	@Test
-	public void testPlusEquals() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
-
-		for(int i = 0; i < 10; i++)
-			a.append(new Real(i));
-		for(int i = 0; i < 9; i++)
-			b.prepend(new Real(i));
-
-		Vector sum = null;
-		try {
-			sum = a.plusEquals(b);
-		}
-		catch(UnsupportedOperationException u) {
-			log.info("Catching UnsupportedOperationException as expected: " + u.getMessage());
-		}
-
-		b.prepend(new Real(9));
-		sum = a.plusEquals(b);
-
-		assertNotNull(a);
-		assertNotNull(b);
-		assertNotNull(sum);
-		assertNotSame(a, b);
-		assertSame(sum, a);
-		assertNotSame(sum, b);
-
-		for(int i = 0; i < 10; i++) {
-			assertNotNull(a.getType(i));
-			assertNotNull(b.getType(i));
-			assertNotNull(sum.getType(i));
-			assertNotSame(a.getType(i), b.getType(i));
-			assertSame(sum.getType(i), a.getType(i));
-			assertNotSame(sum.getType(i), b.getType(i));
-
-			assertEquals(a.getReal(i), 9.0);
-			assertEquals(b.getReal(i), (double)(9 - i));
-			assertEquals(sum.getReal(i), 9.0);
-		}
-	}
-
-	/**
-	 * @author Theuns Cloete
-	 */
-	@Test
 	public void testSubtract() {
 		Vector a = new MixedVector();
 		Vector b = new MixedVector();
@@ -523,51 +478,6 @@ public class MixedVectorTest {
 			assertNotSame(difference.getType(i), b.getType(i));
 
 			assertEquals(a.getReal(i), (double)i);
-			assertEquals(b.getReal(i), (double)(9.0 - i));
-			assertEquals(difference.getReal(i), (double)(i - (9.0 - i)));
-		}
-	}
-
-	/**
-	 * @author Theuns Cloete
-	 */
-	@Test
-	public void testSubtractEquals() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
-
-		for(int i = 0; i < 10; i++)
-			a.append(new Real(i));
-		for(int i = 0; i < 9; i++)
-			b.prepend(new Real(i));
-
-		Vector difference = null;
-		try {
-			difference = a.subtractEquals(b);
-		}
-		catch(UnsupportedOperationException u) {
-			log.info("Catching UnsupportedOperationException as expected: " + u.getMessage());
-		}
-
-		b.prepend(new Real(9));
-		difference = a.subtractEquals(b);
-
-		assertNotNull(a);
-		assertNotNull(b);
-		assertNotNull(difference);
-		assertNotSame(a, b);
-		assertSame(difference, a);
-		assertNotSame(difference, b);
-
-		for(int i = 0; i < 10; i++) {
-			assertNotNull(a.getType(i));
-			assertNotNull(b.getType(i));
-			assertNotNull(difference.getType(i));
-			assertNotSame(a.getType(i), b.getType(i));
-			assertSame(difference.getType(i), a.getType(i));
-			assertNotSame(difference.getType(i), b.getType(i));
-
-			assertEquals(a.getReal(i), (double)(i - (9.0 - i)));
 			assertEquals(b.getReal(i), (double)(9.0 - i));
 			assertEquals(difference.getReal(i), (double)(i - (9.0 - i)));
 		}
@@ -664,93 +574,6 @@ public class MixedVectorTest {
 	 * @author Theuns Cloete
 	 */
 	@Test
-	public void testVectorDivisionEquals() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
-
-		for(int i = 1; i < 11; i++)
-			a.append(new Real(i));
-		for(int i = 1; i < 10; i++)
-			b.prepend(new Real(i));
-
-		Vector divided = null;
-		try {
-			divided = a.divideEquals(b);
-		}
-		catch(UnsupportedOperationException u) {
-			log.info("Catching UnsupportedOperationException as expected: " + u.getMessage());
-		}
-
-		b.prepend(new Real(0));
-		try {
-			divided = a.divideEquals(b);
-		}
-		catch(ArithmeticException e) {
-			log.info("Catching ArithmeticException as expected: " + e.getMessage());
-		}
-
-		((Numeric)b.getType(0)).setReal(10);
-		divided = a.divideEquals(b);
-
-		assertNotNull(a);
-		assertNotNull(b);
-		assertNotNull(divided);
-		assertNotSame(a, b);
-		assertSame(divided, a);
-		assertNotSame(divided, b);
-
-		for(int i = 0; i < 10; i++) {
-			assertNotNull(a.getType(i));
-			assertNotNull(b.getType(i));
-			assertNotNull(divided.getType(i));
-			assertNotSame(a.getType(i), b.getType(i));
-			assertSame(divided.getType(i), a.getType(i));
-			assertNotSame(divided.getType(i), b.getType(i));
-
-			assertEquals(a.getReal(i), (double)((i + 1) / (10.0 - i)));
-			assertEquals(b.getReal(i), (double)(10.0 - i));
-			assertEquals(divided.getReal(i), (double)((i + 1) / (10.0 - i)));
-		}
-	}
-
-	/**
-	 * @author Theuns Cloete
-	 */
-	@Test
-	public void testScalarDivisionEquals() {
-		Vector a = new MixedVector();
-
-		for(int i = 0; i < 10; i++)
-			a.append(new Real(i));
-
-		Vector divided = null;
-		try {
-			divided = a.divideEquals(0);
-		}
-		catch(ArithmeticException e) {
-			log.info("Catching ArithmeticException as expected: " + e.getMessage());
-		}
-
-		divided = a.divideEquals(3.0);
-
-		assertNotNull(a);
-		assertNotNull(divided);
-		assertSame(divided, a);
-
-		for(int i = 0; i < 10; i++) {
-			assertNotNull(a.getType(i));
-			assertNotNull(divided.getType(i));
-			assertSame(divided.getType(i), a.getType(i));
-
-			assertEquals(a.getReal(i), (double)(i / 3.0));
-			assertEquals(divided.getReal(i), (double)(i / 3.0));
-		}
-	}
-
-	/**
-	 * @author Theuns Cloete
-	 */
-	@Test
 	public void testVectorMultiplication() {
 		Vector a = new MixedVector();
 		Vector b = new MixedVector();
@@ -814,77 +637,6 @@ public class MixedVectorTest {
 			assertNotSame(product.getType(i), a.getType(i));
 
 			assertEquals(a.getReal(i), (double)i);
-			assertEquals(product.getReal(i), (double)(i * 3.0));
-		}
-	}
-
-	/**
-	 * @author Theuns Cloete
-	 */
-	@Test
-	public void testVectorMultiplicationEquals() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
-
-		for(int i = 0; i < 10; i++)
-			a.append(new Real(i));
-		for(int i = 0; i < 9; i++)
-			b.prepend(new Real(i));
-
-		Vector product = null;
-		try {
-			product = a.multiplyEquals(b);
-		}
-		catch(UnsupportedOperationException u) {
-			log.info("Catching UnsupportedOperationException as expected: " + u.getMessage());
-		}
-
-		b.prepend(new Real(9));
-		product = a.multiplyEquals(b);
-
-		assertNotNull(a);
-		assertNotNull(b);
-		assertNotNull(product);
-		assertNotSame(a, b);
-		assertSame(product, a);
-		assertNotSame(product, b);
-
-		for(int i = 0; i < 10; i++) {
-			assertNotNull(a.getType(i));
-			assertNotNull(b.getType(i));
-			assertNotNull(product.getType(i));
-			assertNotSame(a.getType(i), b.getType(i));
-			assertSame(product.getType(i), a.getType(i));
-			assertNotSame(product.getType(i), b.getType(i));
-
-			assertEquals(a.getReal(i), (double)(i * (9.0 - i)));
-			assertEquals(b.getReal(i), (double)(9.0 - i));
-			assertEquals(product.getReal(i), (double)(i * (9.0 - i)));
-		}
-	}
-
-	/**
-	 * @author Theuns Cloete
-	 */
-	@Test
-	public void testScalarMultiplicationEquals() {
-		Vector a = new MixedVector();
-
-		for(int i = 0; i < 10; i++)
-			a.append(new Real(i));
-
-		Vector product = a.multiplyEquals(3.0);
-
-		assertNotNull(a);
-		assertNotNull(product);
-		assertSame(product, a);
-
-		for(int i = 0; i < 10; i++) {
-			assertNotNull(a.getType(i));
-			assertNotNull(product.getType(i));
-			assertSame(product.getType(i), a.getType(i));
-
-			assertEquals(a.getReal(i), (double)(i * 3.0));
 			assertEquals(product.getReal(i), (double)(i * 3.0));
 		}
 	}

@@ -131,7 +131,7 @@
 	</measurements>
 
 	<simulations>
-<!--		<simulation>
+		<simulation>
 			<algorithm idref="pso_2"/>
 			<problem idref="s_dbw_index"/>
 			<measurements idref="measurements" file="data/s_dbw_index.txt"/>
@@ -172,7 +172,7 @@
 			<problem idref="davies_bouldin"/>
 			<measurements idref="measurements" file="data/davies_boulding_index.txt"/>
 		</simulation>
--->
+
 		<simulation>
 			<algorithm idref="pso_2"/>
 			<problem idref="turi_index"/>

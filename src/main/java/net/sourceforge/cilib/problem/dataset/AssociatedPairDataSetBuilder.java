@@ -278,9 +278,10 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 		mean.initialise(set.get(0).data.size(), new Real(0.0));
 
 		for(Pattern pattern : set) {
-			mean.plusEquals(pattern.data);
+			mean = mean.plus(pattern.data);
 		}
-		return mean.divideEquals(set.size());
+		mean = mean.divide(set.size());
+		return mean;
 	}
 
 	public Vector getSetVariance(ArrayList<Pattern> set) {
@@ -294,10 +295,11 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 		for(Pattern pattern : set) {
 			diffSquare = pattern.data.subtract(mean);
-			diffSquare.multiplyEquals(diffSquare);
-			variance.plusEquals(diffSquare);
+			diffSquare = diffSquare.multiply(diffSquare);
+			variance = variance.plus(diffSquare);
 		}
-		return variance.divideEquals(set.size());
+		variance = variance.divide(set.size());
+		return variance;
 	}
 
 	public Vector getMean() {

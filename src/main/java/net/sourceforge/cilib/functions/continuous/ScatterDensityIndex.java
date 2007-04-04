@@ -60,7 +60,7 @@ public class ScatterDensityIndex extends ClusteringFitnessFunction {
 
 				//if we get here, then both clusters have patterns belonging to them
 				midPoint = centerI.plus(centerJ);
-				midPoint.divideEquals(2.0);
+				midPoint = midPoint.divide(2.0);
 				midPointDensity = clusterIDensity = clusterJDensity = 0;
 				for(Pattern pattern : clusters.get(i)) {
 					if(dataset.calculateDistance(pattern.data, midPoint) <= stdev)

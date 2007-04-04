@@ -543,16 +543,6 @@ public class MixedVector extends Vector {
 		return result;
 	}
 
-	/**
-	 * Vector-vector addition (fast)
-	 * @param vector the vector that should be added to this vector
-	 * @return this vector of which the given vector has been added to it
-	 * @author Theuns Cloete
-	 */
-	public Vector plusEquals(Vector vector) {
-		if (this.components.size() != vector.size())
-			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
-
 	public final Vector subtract(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot subtract vectors with differing dimensions");
@@ -564,16 +554,6 @@ public class MixedVector extends Vector {
 		}
 		return result;
 	}
-
-	/**
-	 * Vector-vector subtraction (fast)
-	 * @param vector the vector that should be subtracted from this vector
-	 * @return this vector of which the given vector has been subtracted from it
-	 * @author Theuns Cloete
-	 */
-	public Vector subtractEquals(Vector vector) {
-		if (this.components.size() != vector.size())
-			throw new UnsupportedOperationException("Cannot subtract vectors with differing dimensions");
 
 	public final Vector divide(Vector vector) {
 		if (this.components.size() != vector.size())
@@ -591,14 +571,22 @@ public class MixedVector extends Vector {
 	}
 
 	/**
-	 * Scalar-vector devision
-	 * @param scalar the scalar with which each element of this vector should be divided by
-	 * @return a vector of which each element has been divided by the scalar
+	 * Scalar-vector multiplication
+	 * @param scalar the scalar that should be multiplied with each element of this vector
+	 * @return a vector of which the scalar has been multiplied with each element
 	 * @author Theuns Cloete
 	 */
 	public Vector divide(double scalar) {
 		if(scalar == 0.0)
-			throw new ArithmeticException("Scalar division by zero");
+			throw new ArithmeticException("Vector division by zero");
+
+		Vector result = this.clone();
+		for(int i = 0; i < result.size(); i++) {
+			Numeric numeric = (Numeric)result.getType(i);
+			numeric.setReal(numeric.getReal() / scalar);
+		}
+		return result;
+	}
 
 	public final Vector multiply(Vector vector) {
 		if (this.components.size() != vector.size())
@@ -613,7 +601,6 @@ public class MixedVector extends Vector {
 	}
 
 	/**
-	 * TODO create methods that take parameters of the type package (Int, Real) instead of primitives (int, double)
 	 * Scalar-vector multiplication
 	 * @param scalar the scalar that should be multiplied with each element of this vector
 	 * @return a vector of which the scalar has been multiplied with each element
@@ -626,38 +613,6 @@ public class MixedVector extends Vector {
 			numeric.setReal(numeric.getReal() * scalar);
 		}
 		return result;
-	}
-
-	/**
-	 * Vector-vector multiplication (fast)
-	 * @param vector the vector that should be multiplied with this vector
-	 * @return this vector that has been multiplied with the given vector
-	 * @author Theuns Cloete
-	 */
-	public Vector multiplyEquals(Vector vector) {
-		if (this.components.size() != vector.size())
-			throw new UnsupportedOperationException("Cannot multiply vectors with differing dimensions");
-
-		for(int i = 0; i < this.size(); i++) {
-			Numeric numeric = (Numeric) this.getType(i);
-			numeric.setReal(numeric.getReal() * vector.getReal(i));
-		}
-		return this;
-	}
-
-	/**
-	 * TODO create methods that take parameters of the type package (Int, Real) instead of primitives (int, double)
-	 * Scalar-vector multiplication (fast)
-	 * @param scalar the scalar that should be multiplied with each element of this vector
-	 * @return this vector of which the scalar has been multiplied with each element
-	 * @author Theuns Cloete
-	 */
-	public Vector multiplyEquals(double scalar) {
-		for(int i = 0; i < this.size(); i++) {
-			Numeric numeric = (Numeric)this.getType(i);
-			numeric.setReal(numeric.getReal() * scalar);
-		}
-		return this;
 	}
 
 	/**
