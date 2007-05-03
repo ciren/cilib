@@ -6,13 +6,21 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class DgPatternCount implements Measurement {
-	
-	
+	private static final long serialVersionUID = 1660067769897420258L;
 
 	public DgPatternCount() {
-		
+	}
+
+	public DgPatternCount(DgPatternCount rhs) {
+//		super(rhs);
+		throw new UnimplementedMethodException("public DgPatternCount(DgPatternCount rhs)");
+	}
+
+	public DgPatternCount clone() {
+		return new DgPatternCount(this);
 	}
 
 	public String getDomain() {
@@ -23,5 +31,4 @@ public class DgPatternCount implements Measurement {
 		int size = ((NeuralNetworkProblem) ((NeuralNetworkController) Algorithm.get()).getOptimisationProblem()).getEvaluationStrategy().getData().getGeneralisationSetSize();
 		return new Int(size);
 	}
-
 }

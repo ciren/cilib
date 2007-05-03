@@ -1,6 +1,5 @@
 package net.sourceforge.cilib.neuralnetwork.foundation.measurements;
 
-import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkData;
@@ -10,9 +9,10 @@ import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class AreaUnderROC implements Measurement{
-	
+	private static final long serialVersionUID = -8959256964785840633L;
 	NeuralNetworkTopology topology;
 	NeuralNetworkData data;
 	
@@ -23,15 +23,21 @@ public class AreaUnderROC implements Measurement{
 	
 	
 	public AreaUnderROC() {
-
-		
 		this.topology = null;
 		this.data = null;
 		this.threshold = 0.5;
 		this.confusionMatrix = null;
 	}
-	
-	
+
+	public AreaUnderROC(AreaUnderROC rhs) {
+//		super(rhs);
+		throw new UnimplementedMethodException("public AreaUnderROC(AreaUnderROC rhs)");
+	}
+
+	public AreaUnderROC clone() {
+		return new AreaUnderROC(this);
+	}
+
 	public Type getValue() {
 		
 		NeuralNetworkDataIterator iterDv = data.getValidationSetIterator();
@@ -162,8 +168,7 @@ public class AreaUnderROC implements Measurement{
 		}
 		return null;
 	}
-	
-	
+
 	private double calculateAUC(int c1, int c2) {
 		
 		/*int c1Total = this.classCount[c1], c2Total = this.classCount[c2];
@@ -202,29 +207,20 @@ public class AreaUnderROC implements Measurement{
 		return area;
 		
 	}
-	
-	
+
 	public void setThreshold(double threshold) {
 		this.threshold = threshold;
 	}
-	
 
 	public String getDomain() {
 		return "T";
 	}
 
-
 	public void setData(NeuralNetworkData data) {
 		this.data = data;
 	}
 
-
 	public void setTopology(NeuralNetworkTopology topology) {
 		this.topology = topology;
 	}
-	
-	
-
-	
-	
 }

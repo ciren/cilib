@@ -12,20 +12,28 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.MixedVector;
+import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
  * @author stefanv
- * 
  */
 public class NeuralNetworkProblem implements OptimisationProblem, Initializable {
-	
+	private static final long serialVersionUID = -5790791148649131742L;
 	protected int fitnessEvaluations;
 	protected EvaluationMediator evaluationStrategy = null;
-
-		
+	
 	public NeuralNetworkProblem(){
 		this.evaluationStrategy = null;
 		this.fitnessEvaluations = 0;	
+	}
+
+	public NeuralNetworkProblem(NeuralNetworkProblem rhs) {
+//		super(rhs);
+		throw new UnimplementedMethodException("public NeuralNetworkProblem(NeuralNetworkProblem rhs)");
+	}
+
+	public NeuralNetworkProblem clone() {
+		return new NeuralNetworkProblem(this);
 	}
 
 	public void initialize(){
@@ -37,22 +45,18 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 		this.evaluationStrategy.initialize();
 	
 	}
-	
-	
+
 	public NNError[] learningEpoch(){
 		evaluationStrategy.performLearning();
 		return evaluationStrategy.getErrorDt();
 	}
-	
-	
-	
+
 	public MixedVector evaluate(MixedVector in){
 		
 		StandardPattern p = new StandardPattern(in,null);
 		return evaluationStrategy.evaluate(p);
 	}
 
-	
 	public Fitness getFitness(Object solution, boolean count) {
 		
 		if (count) {
@@ -64,7 +68,6 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
             return evaluationStrategy.getErrorDt()[0];
 	}
 
-	
 	public int getFitnessEvaluations() {
 		return this.fitnessEvaluations;
 	}
@@ -73,23 +76,18 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 		return evaluationStrategy.getTopology();
 	}
 
-
 	public void setTopology(NeuralNetworkTopology topology) {
 		evaluationStrategy.setTopology(topology);
 	}
-	
+
 	public EvaluationMediator getEvaluationStrategy() {
 		return evaluationStrategy;
 	}
 
-
-	
 	public DomainRegistry getDomain() {
 		return null;
 	}
 
-
-	
 	public DomainRegistry getBehaviouralDomain() {
 		return null;
 	}
@@ -105,6 +103,4 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
 				
 	}
-		
-	
 }

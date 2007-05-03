@@ -6,38 +6,43 @@
  */
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
-
-
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
 import net.sourceforge.cilib.neuralnetwork.foundation.postSimulation.PostMeasurementSuite;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
  * @author stefanv
  *
  */
-public class NeuralNetworkController extends Algorithm implements OptimisationAlgorithm{
-
+public class NeuralNetworkController extends Algorithm {
+	private static final long serialVersionUID = -904395696777716473L;
 	protected NeuralNetworkProblem problem = null;
 	protected NNError[] errorDt = null;
 	protected PostMeasurementSuite measures;
-	
-	
-	
+
 	public NeuralNetworkController() {
 		super();
 		this.problem = null;
 		this.errorDt = null;
 		this.measures = null;
 	}
-	
-	protected void performInitialisation() {
+
+	public NeuralNetworkController(NeuralNetworkController rhs) {
+//		super(rhs);
+		throw new UnimplementedMethodException("public NeuralNetworkController(NeuralNetworkController rhs)");
+	}
+
+	public NeuralNetworkController clone() {
+		return new NeuralNetworkController(this);
+	}
+
+	public void performInitialisation() {
     	    	
 		if (this.problem == null){
 			throw new IllegalArgumentException("NeuralNetworkController: Required NNProblem object was null during initialization");
@@ -45,9 +50,8 @@ public class NeuralNetworkController extends Algorithm implements OptimisationAl
 		
 		this.problem.initialize();
 	}
-	
-	
-	protected void performUninitialisation() {
+
+	public void performUninitialisation() {
 		
 		if (this.measures != null){
 			try {
@@ -59,7 +63,7 @@ public class NeuralNetworkController extends Algorithm implements OptimisationAl
 		
 	}
 
-	protected void performIteration() {
+	public void performIteration() {
 		
 		errorDt = problem.learningEpoch();
 		System.out.println("------------   Epoch " + this.getIterations() + " completed, error list :   ------------");
@@ -68,13 +72,10 @@ public class NeuralNetworkController extends Algorithm implements OptimisationAl
 		}
 	}
 
-	
 	public NNError[] getError() {
 		return errorDt;
 	}
-	
-				
-	
+
 	public void setProblem(Problem problem_) {
 		problem = (NeuralNetworkProblem)problem_;
 	}
@@ -95,7 +96,7 @@ public class NeuralNetworkController extends Algorithm implements OptimisationAl
 		return null;
 	}
 
-	public Collection<OptimisationSolution> getSolutions() {
+	public List<OptimisationSolution> getSolutions() {
 		return null;
 	}
 }

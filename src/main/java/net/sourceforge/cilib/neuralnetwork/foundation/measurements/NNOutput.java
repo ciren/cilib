@@ -15,20 +15,28 @@ import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.RandomDistribu
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class NNOutput implements Measurement {
-	
+	private static final long serialVersionUID = -3695723118431143860L;
 	private String inputFile;
 	private String outputFile;
 	private int noInputs;
 	private NeuralNetworkTopology topology;
 	private BufferedWriter out;
-	
+
 	public NNOutput() {
 		this.inputFile = null;
 		this.outputFile = null;
-		
-	
+	}
+
+	public NNOutput(NNOutput rhs) {
+//		super(rhs);
+		throw new UnimplementedMethodException("public NNOutput(NNOutput rhs)");
+	}
+
+	public NNOutput clone() {
+		return new NNOutput(this);
 	}
 
 	public String getDomain() {
@@ -79,7 +87,6 @@ public class NNOutput implements Measurement {
 			e.printStackTrace();
 			throw new IllegalStateException("Problem writing measurement to file...");
 		}
-		
 				
 		return new StringType(this.outputFile + "_" + String.valueOf(iter) + ".txt");
 	}
@@ -95,6 +102,4 @@ public class NNOutput implements Measurement {
 	public void setNoInputs(int noInputs) {
 		this.noInputs = noInputs;
 	}
-
-	
 }

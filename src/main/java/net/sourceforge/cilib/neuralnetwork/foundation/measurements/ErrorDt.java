@@ -6,24 +6,30 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class ErrorDt implements Measurement {
-	
+	private static final long serialVersionUID = -5027085270461720189L;
 	EvaluationMediator eval;
-	
+
 	public ErrorDt() {
 		eval = null;
 	}
-	
-	
+
+	public ErrorDt(ErrorDt rhs) {
+//		super(rhs);
+		throw new UnimplementedMethodException("public ErrorDt(ErrorDt rhs)");
+	}
+
+	public ErrorDt clone() {
+		return new ErrorDt(this);
+	}
 
 	public ErrorDt(EvaluationMediator eval) {
 		super();
 		// TODO Auto-generated constructor stub
 		this.eval = eval;
 	}
-
-
 
 	public String getDomain() {
 		return "T";
@@ -43,7 +49,4 @@ public class ErrorDt implements Measurement {
 	public void setEval(EvaluationMediator eval) {
 		this.eval = eval;
 	}
-	
-	
-
 }
