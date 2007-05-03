@@ -1,71 +1,82 @@
 /*
- * SAILARealData.java
- * 
- * Created on Jul 06, 2005
+ * Created on 2005/07/06
  *
- * Copyright (C) 2004 - CIRG@UP 
- * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
- * University of Pretoria
- * South Africa
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * To change the template for this generated file go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package net.sourceforge.cilib.neuralnetwork.generic.datacontainers;
 
-import net.sourceforge.cilib.neuralnetwork.DefaultData;
+import java.util.ArrayList;
+
+import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
+import net.sourceforge.cilib.neuralnetwork.foundation.Initializable;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
 import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.StandardLayerIterator;
-import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
+import net.sourceforge.cilib.type.types.Real;
 
 /**
  * @author stefanv
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class SAILARealData extends DefaultData {
+public class SAILARealData extends GenericData implements Initializable{
 	
-	GenericTopology topology;
+	protected GenericTopology topology;
+	private int nrUpdates;
+	protected ArrayList<NNPattern> mostInformative;
+	protected ArrayList<Double> informativeness;
 
-	/**
-	 * @param file_
-	 * @param noInputs
-	 * @param percentTrain
-	 * @param percentGen
-	 * @param percentVal
-	 */
-	public SAILARealData(String file_, int noInputs, int percentCan, int percentTrain, 
-						 int percentGen, int percentVal, GenericTopology t) {
+	
+	public SAILARealData() {		
+		super();				
+		topology = null;
+		this.nrUpdates = 1;		
+	}
+	
+	public void initialize(){
 		
-		super(file_, noInputs, percentCan, percentTrain, percentGen, percentVal);
+		super.initialize();
 		
-		topology = t;
+		if (this.topology == null){
+			throw new IllegalArgumentException("Required object was null during initialization");
+		}
+		if (this.nrUpdates <= 0){
+			throw new IllegalArgumentException("Illegal number of updates selected - must be larger than 0");
+		}
 		
+		if (this.getTrainingSetSize() != 0){
+			throw new IllegalArgumentException("In SAILA, the starting training set size must be 0");
+		}
+		
+		this.mostInformative = new ArrayList<NNPattern>();
+		this.informativeness = new ArrayList<Double>();
+		for (int i = 0; i < nrUpdates; i++){
+			mostInformative.add(null);
+			informativeness.add(new Double(-9999999));
+		}
+		this.activeLearningUpdate(null);		
 	}
 	
 	
-	public void distributePatterns(){
-		//initially distribute patterns into the Candidate set, Training, validation and Generalisation set.
 		
-		super.distributePatterns();
+	protected void prioritisePattern(NNPattern p, double inform){
 		
-		//add one pattern with SAILA operator 4.29
-		this.activeLearningUpdate(null);
+		//search for input position, index 0 being the best ie highest informativeness value.
+		for (int i = 0; i < informativeness.size(); i++){
+			
+			if (informativeness.get(i) < inform){
+				informativeness.add(i, new Double(inform));
+				mostInformative.add(i, p);
+				break;
+			}
+		}
+		
+		//trim the list to size, if an insertion was made
+		if (informativeness.size() > this.nrUpdates){
+			informativeness.remove(this.nrUpdates);
+			mostInformative.remove(this.nrUpdates);
+		}
 		
 	}
 	
@@ -75,44 +86,47 @@ public class SAILARealData extends DefaultData {
 		//patterns in Candidate set, select most informative one 
 		//to remove from candidate set and add to training set.
 		
-		NNPattern mostInformative = null;
-		double bestInformativeness = -999999;
-		
-		//Iterate over each pattern p in the Candidate set Dc
-		NeuralNetworkDataIterator DcIter = this.getCandidateSetIterator();
-		
-		while(DcIter.hasMore()){
-			//System.out.println("Hello...........................................");
-			NNPattern p = DcIter.value();
-		
-			//Evaluate p against current NN topology.
-			this.topology.evaluate(p);
-		
-			//determine informativeness of p
-			double pInformativeness = this.calculateInformativeness(p);
-		
-			//if p = highest informativeness so far, set it as prospective update pattern.
-			if (pInformativeness > bestInformativeness){
-				mostInformative = p;
-				bestInformativeness = pInformativeness;
+				
+			//Iterate over each pattern p in the Candidate set Dc
+			NeuralNetworkDataIterator DcIter = this.getCandidateSetIterator();
+			
+			while(DcIter.hasMore()){
+				
+				NNPattern p = DcIter.value();
+				
+				//Evaluate p against current NN topology.
+				this.topology.evaluate(p);
+				
+				//determine informativeness of p
+				double pInformativeness = this.calculateInformativeness(p);
+				
+				this.prioritisePattern(p, pInformativeness);
+				
+				DcIter.next();
+			}//end iterate Dc
+			
+			//remove bestInformative patterns from candidate set Dc and add to training set Dt.
+			while( (candidateSet.size() != 0) && (this.mostInformative.size() > 0) ){
+				this.candidateSet.remove(mostInformative.get(0));
+				this.trainingSet.add(mostInformative.get(0));
+				this.mostInformative.remove(0);
+				this.informativeness.remove(0);
 			}
-		
-			DcIter.next();
-		}//end iterate Dc
-		
-		//remove bestInformative pattern from candidate set Dc and add to training set Dt.
-		if(candidateSet.size() != 0){
-			this.candidateSet.remove(mostInformative);
-			this.trainingSet.add(mostInformative);
-		}
+			
+			//reset list
+			this.mostInformative = new ArrayList<NNPattern>();
+			this.informativeness = new ArrayList<Double>();
+			for (int i = 0; i < nrUpdates; i++){
+				mostInformative.add(null);
+				informativeness.add(new Double(-9999999));
+			}
+			
 		
 	}
 
 
-	/**
-	 * @param p
-	 */
-	private double calculateInformativeness(NNPattern p) {
+	
+	protected double calculateInformativeness(NNPattern p) {
 		
 		double bestOutputSo = -999999.0;
 		
@@ -140,35 +154,32 @@ public class SAILARealData extends DefaultData {
 	}
 
 
-	/**
-	 * @return
-	 */
-	private double normalisedOSVector(NeuronConfig Ok) {
+	
+	protected double normalisedOSVector(NeuronConfig Ok) {
 		
 		int nrInputs = Ok.getInput()[0].getInput().length;
 		double[] inputVector = new double[nrInputs];
-		double outputDeriv = (1.0 - ((Double)Ok.getCurrentOutput()).doubleValue())
-							 * ((Double)Ok.getCurrentOutput()).doubleValue();
+		double outputDeriv = (1.0 - ((Real)Ok.getCurrentOutput()).getReal() )
+							 * ((Real)Ok.getCurrentOutput()).getReal();
 		
 		//For each input unit
-		for (int i = 0; i < nrInputs; i++){
-			
-			//System.out.println("Normaliser: input = " + i);
+		for (int i = 0; i < nrInputs -1; i++){
 			
 			inputVector[i] = 0.0;
-		
+		    
 			//Iterate over Hidden units
 			for (int h = 0; h < Ok.getInput().length; h++){
-				//System.out.println("\thidden = " + h);
-				
+								
 				NeuronConfig hidden = Ok.getInput()[h];
+				
 				//check that no bias unit used.
 				if (hidden.getInputWeights() != null){
 					//Evaluate equation E6 from SAILA paper, adding result to the input unit vector.
-					inputVector[i] += (Double) Ok.getInputWeights()[h].getWeightValue() 
-						              * ( (1.0 - ((Double)hidden.getCurrentOutput()).doubleValue()) * 
-							          ((Double)hidden.getCurrentOutput()).doubleValue() ) *
-							          (Double) hidden.getInputWeights()[i].getWeightValue();	
+					inputVector[i] += ((Real) Ok.getInputWeights()[h].getWeightValue()).getReal() 
+						              * ( (1.0 - ((Real)hidden.getCurrentOutput()).getReal()) * 
+							          ((Real)hidden.getCurrentOutput()).getReal() ) *
+							          ((Real) hidden.getInputWeights()[i].getWeightValue()).getReal();
+					
 				}
 			}
 			
@@ -186,7 +197,19 @@ public class SAILARealData extends DefaultData {
 		return sumNorm;
 	}
 
+	public void setTopology(GenericTopology topology) {
+		this.topology = topology;
+	}
+
+	public int getNrUpdates() {
+		return nrUpdates;
+	}
+
+	public void setNrUpdates(int nrUpdates) {
+		this.nrUpdates = nrUpdates;
+	}
 	
+		
 	
 	
 	

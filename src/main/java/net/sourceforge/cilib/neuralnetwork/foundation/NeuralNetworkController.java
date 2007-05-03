@@ -1,119 +1,101 @@
 /*
- * NeuralNetworkController.java
- * 
- * Created on Dec 06, 2004
+ * Created on 2004/12/06
  *
- * Copyright (C) 2004 - CIRG@UP 
- * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
- * University of Pretoria
- * South Africa
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * To change the template for this generated file go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 
 
-import java.util.List;
+import java.io.IOException;
+import java.util.Collection;
 
-import net.sourceforge.cilib.algorithm.SingularAlgorithm;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.OptimisationAlgorithm;
+import net.sourceforge.cilib.neuralnetwork.foundation.postSimulation.PostMeasurementSuite;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.Problem;
 
 /**
  * @author stefanv
  *
- * This is the base Algorithm implementation to run "stand-alone" neural network simulations.  Use this
- * class if you want to create a neural network that uses a custom stand-alone training algorithm such
- * as Gradient Decent.  This class works 'as is' and no further development should be needed in most 
- * cases - the NN functionality is incorporated into NeuralNetworkProblem.
- * 
- * If more functionality is required in the performIteration method or elsewhere, the class can be extended.
  */
-public class NeuralNetworkController extends SingularAlgorithm {
+public class NeuralNetworkController extends Algorithm implements OptimisationAlgorithm{
 
-	protected NeuralNetworkProblem NNProblem = null;
-	protected NNError errorDt = null;
+	protected NeuralNetworkProblem problem = null;
+	protected NNError[] errorDt = null;
+	protected PostMeasurementSuite measures;
+	
+	
 	
 	public NeuralNetworkController() {
-		
-	}
-	
-	public NeuralNetworkController(NeuralNetworkController copy) {
-		
-	}
-	
-	public NeuralNetworkController clone() {
-		return new NeuralNetworkController(this);
-	}
-	
-	/**
-	 * 
-	 */
-	public NeuralNetworkController(NeuralNetworkProblem NNProblem_) {
 		super();
-		this.NNProblem = NNProblem_;
+		this.problem = null;
+		this.errorDt = null;
+		this.measures = null;
 	}
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.Algorithm.Algorithm#performIteration()
-	 */
-	public void performIteration() {
+	
+	protected void performInitialisation() {
+    	    	
+		if (this.problem == null){
+			throw new IllegalArgumentException("NeuralNetworkController: Required NNProblem object was null during initialization");
+		}
 		
-		errorDt = NNProblem.learningEpoch();
-		System.out.println("Epoch " + this.getIterations() + " completed, error: " + ((Double)errorDt.getValue()).doubleValue());
+		this.problem.initialize();
+	}
+	
+	
+	protected void performUninitialisation() {
+		
+		if (this.measures != null){
+			try {
+				measures.performMeasurement();
+			} catch (IOException e) {
+				throw new IllegalStateException("Problem writing Simulation measures to file");
+			}
+		}
+		
 	}
 
-	/**
-	 * @return Returns the error.
-	 */
-	public NNError getError() {
+	protected void performIteration() {
+		
+		errorDt = problem.learningEpoch();
+		System.out.println("------------   Epoch " + this.getIterations() + " completed, error list :   ------------");
+		for (int i = 0; i < errorDt.length; i++){
+			System.out.println("\t" + errorDt[i].getName() + " \t\t\t" + ((Double)errorDt[i].getValue()).doubleValue());
+		}
+	}
+
+	
+	public NNError[] getError() {
 		return errorDt;
 	}
-	/**
-	 * @param error The error to set.
-	 */
-	public void setError(NNError error) {
-		this.errorDt = error;
-	}
 	
+				
 	
-	
-			
-	/**
-	 * @return Returns the nNProblem.
-	 */
-	public NeuralNetworkProblem getNNProblem() {
-		return NNProblem;
-	}
-	/**
-	 * @param problem The nNProblem to set.
-	 */
-	public void setNNProblem(NeuralNetworkProblem problem) {
-		NNProblem = problem;
+	public void setProblem(Problem problem_) {
+		problem = (NeuralNetworkProblem)problem_;
 	}
 
-	@Override
+	public void setOptimisationProblem(OptimisationProblem problem_) {
+		problem = (NeuralNetworkProblem)problem_;		
+	}
+
+	public OptimisationProblem getOptimisationProblem() {
+		return this.problem;
+	}
+	
+	public void setMeasures(PostMeasurementSuite measures) {
+		this.measures = measures;
+	}
+
 	public OptimisationSolution getBestSolution() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public List<OptimisationSolution> getSolutions() {
-		// TODO Auto-generated method stub
+	public Collection<OptimisationSolution> getSolutions() {
 		return null;
 	}
 }

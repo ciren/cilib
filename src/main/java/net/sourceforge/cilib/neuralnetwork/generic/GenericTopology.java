@@ -1,36 +1,24 @@
 /*
- * GenericTopology.java
- * 
- * Created on Jan 16, 2005
+ * Created on 2005/01/16
  *
- * Copyright (C) 2004 - CIRG@UP 
- * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
- * University of Pretoria
- * South Africa
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * To change the template for this generated file go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package net.sourceforge.cilib.neuralnetwork.generic;
 
 import java.util.ArrayList;
+
+import net.sourceforge.cilib.neuralnetwork.foundation.Initializable;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
-import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronPipeline;
+import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.GenericTopologyBuilder;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.GenericTopologyVisitor;
+import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser;
+import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.SpecificWeightInitialiser;
+import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightCountingVisitor;
+import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightExtractingVisitor;
+import net.sourceforge.cilib.type.types.MixedVector;
 
 /**
  * @author stefanv
@@ -46,102 +34,32 @@ import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.GenericTopol
  * getLayerIterator() method to manually traverse layers (NeuronConfig objects).
  * 
  */
-public class GenericTopology implements NeuralNetworkTopology {
-	
-	ArrayList<NeuronPipeline> neuronPipePool = null;
+public abstract class GenericTopology implements NeuralNetworkTopology, Initializable {
 	
 	ArrayList<ArrayList<NeuronConfig>> layerList = null;
-	
 	ArrayList<Observer> observers = null;
 	
-	
+	private GenericTopologyBuilder topologyBuilder = null;
+	private GenericTopologyVisitor weightInitialiser = null;
 	
 	
 	public GenericTopology(){
-		//default contructor needed to construct TopologyDecorators
+		this.weightInitialiser = new RandomWeightInitialiser();
 	}
 	
 		
-	public GenericTopology(GenericTopologyBuilder tb){
-		layerList = tb.createLayerList();
-		neuronPipePool = tb.createNeuronPipePool();
+	public void initialize(){
+		
+		if (this.topologyBuilder == null)
+			throw new IllegalArgumentException("Required object was null during initialization");
+						
+		this.topologyBuilder.initialize();
+		
+		layerList = this.topologyBuilder.createLayerList();
 		observers = new ArrayList<Observer>();
+		
+		this.acceptVisitor(this.weightInitialiser);
 				
-		System.out.println("\nPool size: " + neuronPipePool.size());
-		
-	}
-	
-			
-	public ArrayList evaluate(NNPattern p){
-		
-		//int currentLayer = 0;
-		
-		ArrayList<Object> output = new ArrayList<Object>();
-		
-		for (int layer = 0; layer < layerList.size(); layer++){
-			
-			ArrayList<NeuronConfig> neuronList = layerList.get(layer);
-		
-			for (int i = 0; i < neuronList.size(); i++){
-				
-				NeuronConfig neuron = neuronList.get(i);
-				
-				Object result = (neuronPipePool.get(neuron.getNeuronPipelineIndex()) )
-								.computeOutput(neuron, p);
-				
-				//Finalise the compute procedure
-				neuron.setTminus1Output(neuron.getCurrentOutput());
-				
-				neuron.setCurrentOutput(result);
-				
-				if (neuron.isOutputNeuron())
-					output.add(result);
-			//	System.out.print("Neuron " + i + " in layer " + layer);
-			//	System.out.println("\tResult in gentop.evaluate: " + ((Double)result).doubleValue());
-				
-			}//end for i
-		
-		}
-			
-		return output;
-		
-	}
-		
-	
-	public ArrayList<Weight> getWeights(){
-		//TODO: do this implementation as soon as the topology is stable via visitor
-		return null;
-	}	
-	
-	/**
-	 * @return Returns the neuronPipePool.
-	 */
-	public ArrayList<NeuronPipeline> getNeuronPipePool() {
-		return neuronPipePool;
-	}
-	/**
-	 * @param neuronPipePool The neuronPipePool to set.
-	 */
-	public void setNeuronPipePool(ArrayList<NeuronPipeline> neuronPipePool) {
-		this.neuronPipePool = neuronPipePool;
-	}
-	
-	public void setWeights(ArrayList weights) throws TopologyException{
-		//TODO: do this implementation as soon as the topology is stable via visitor
-	}
-	
-	
-	public int getNrLayers(){
-		return layerList.size();
-	}
-	
-	
-	public StandardLayerIterator getLayerIterator(int layer){
-		return new StandardLayerIterator(this.layerList.get(layer));		
-	}
-	
-	public ArrayList<NeuronConfig> getLayer(int index){
-		return layerList.get(index);
 	}
 	
 	public void acceptVisitor(GenericTopologyVisitor v){
@@ -156,12 +74,41 @@ public class GenericTopology implements NeuralNetworkTopology {
 	}
 	
 	
-	public void addObserver(Observer v){
-		
+	public void addObserver(Observer v){		
 		if (!observers.contains(v)){
 			observers.add(v);
-		}
+		}		
+	}
+	
+			
+	public abstract MixedVector evaluate(NNPattern p);
 		
+	
+	public ArrayList<NeuronConfig> getLayer(int index){
+		return layerList.get(index);
+	}
+	
+	
+	public StandardLayerIterator getLayerIterator(int layer){
+		return new StandardLayerIterator(this.layerList.get(layer));		
+	}
+		
+	public int getNrLayers(){
+		return layerList.size();
+	}
+		
+	
+	public MixedVector getWeights(){
+		WeightExtractingVisitor w = new WeightExtractingVisitor();
+		this.acceptVisitor(w);
+		return w.getWeights();
+	}	
+	
+	
+	public void notifyObservers(){
+		for (int i = 0; i < observers.size(); i++){
+			observers.get(i).validate();
+		}
 	}
 	
 	
@@ -171,11 +118,54 @@ public class GenericTopology implements NeuralNetworkTopology {
 	}
 	
 	
-	public void notifyObservers(){
-		for (int i = 0; i < observers.size(); i++){
-			observers.get(i).validate();
+		
+	public void setWeights(MixedVector weights){
+								
+		//set the weights array (NOT pattern input weights, only network weights
+		SpecificWeightInitialiser v = new SpecificWeightInitialiser();
+		v.setWeights(weights);
+		this.acceptVisitor(v);
+		
+		if (!v.isEmpty()){
+			throw new IllegalStateException("Weight vector size not compatible with topology - too few/many weights");
 		}
 	}
+
+
+	public GenericTopologyBuilder getTopologyBuilder() {
+		return topologyBuilder;
+	}
+
+
+	public void setTopologyBuilder(GenericTopologyBuilder topologyBuilder) {
+		this.topologyBuilder = topologyBuilder;
+	}
+	
+	public void printRepresentation(){
+		
+		for (int layer = 0; layer < layerList.size(); layer++){
+			System.out.println("=== Layer " + layer + " ===");
+			
+			ArrayList<NeuronConfig> neuronList = layerList.get(layer);
+			for (int i = 0; i < neuronList.size(); i++){
+				System.out.println("Neuron " + i + ":");
+				System.out.print("input Weights = " );
+				if (neuronList.get(i).getInputWeights() != null){
+					for (int w = 0; w < neuronList.get(i).getInputWeights().length; w++)
+					System.out.print(neuronList.get(i).getInputWeights()[w].getWeightValue() + ", ");
+				} else System.out.println(" NO INPUTS");
+				System.out.println();
+			}
+		}
+		System.out.println(" === end ===\n\n");
+	}
+
+
+	public void setWeightInitialiser(GenericTopologyVisitor weightInitialiser) {
+		this.weightInitialiser = weightInitialiser;
+	}
+
+
 	
 }
 

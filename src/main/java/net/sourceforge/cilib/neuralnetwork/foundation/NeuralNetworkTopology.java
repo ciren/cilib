@@ -1,45 +1,25 @@
 /*
- * NeuralNetworkTopology.java
- * 
- * Created on Nov 13, 2004
+ * Created on 2004/11/13
  *
- * Copyright (C) 2004 - CIRG@UP 
- * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
- * University of Pretoria
- * South Africa
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * To change the template for this generated file go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
-import java.util.ArrayList;
 
-import net.sourceforge.cilib.neuralnetwork.generic.TopologyException;
+import net.sourceforge.cilib.type.types.MixedVector;
 
 /**
  * @author stefanv
  *
  * 
  */
-public interface NeuralNetworkTopology {
+public interface NeuralNetworkTopology extends Initializable{
 
-	public ArrayList evaluate(NNPattern p);
+	public MixedVector evaluate(NNPattern p);
 	
-	public ArrayList getWeights();
+	public MixedVector getWeights();
 	
-	public void setWeights(ArrayList w) throws TopologyException;
+	public void setWeights(MixedVector w);
 				
 }

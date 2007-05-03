@@ -1,27 +1,8 @@
 /*
- * StandardLayoutIterator.java
- * 
- * Created on Apr 04, 2005
+ * Created on 2005/04/06
  *
- * Copyright (C) 2004 - CIRG@UP 
- * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
- * University of Pretoria
- * South Africa
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * To change the template for this generated file go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package net.sourceforge.cilib.neuralnetwork.generic;
 
@@ -41,33 +22,24 @@ public class StandardLayerIterator implements LayerIterator {
 	ArrayList<NeuronConfig> layer = null;
 	
 	
-	/**
-	 * @param topology_
-	 */
+	
 	public StandardLayerIterator(ArrayList<NeuronConfig> layer_) {
 		layer = layer_;
 		currentNeuron = 0;
 	}
 	
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.NeuralNetwork.Foundation.LayerIterator#nextNeuron()
-	 */
+	
 	public void nextNeuron() {
 		currentNeuron++;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.NeuralNetwork.Foundation.LayerIterator#value()
-	 */
+	
 	public NeuronConfig value() {
 		return layer.get(currentNeuron);
 	}
 
 	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.NeuralNetwork.Foundation.LayerIterator#getNrNeurons()
-	 */
+	
 	public int getNrNeurons() {
 		return layer.size();
 	}
@@ -77,17 +49,13 @@ public class StandardLayerIterator implements LayerIterator {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.NeuralNetwork.Generic.LayerIterator#reset()
-	 */
+	
 	public void reset() {
 		currentNeuron = 0;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.NeuralNetwork.Generic.LayerIterator#currentPosition()
-	 */
+	
 	public int currentPosition() {
 		return currentNeuron;
 	}

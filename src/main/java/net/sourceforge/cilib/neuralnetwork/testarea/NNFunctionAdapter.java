@@ -1,0 +1,30 @@
+package net.sourceforge.cilib.neuralnetwork.testarea;
+
+import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
+import net.sourceforge.cilib.type.types.MixedVector;
+
+public class NNFunctionAdapter extends Function {
+	
+	EvaluationMediator mediator;
+
+	@Override
+	public Double evaluate(Object in) {
+		mediator.getTopology().setWeights((MixedVector)in);
+		mediator.performLearning();
+		return mediator.getErrorDt()[0].getValue();
+	}
+
+	@Override
+	public Object getMaximum() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getMinimum() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

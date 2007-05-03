@@ -1,84 +1,41 @@
 /*
- * SigmoidOutputFunction.java
- * 
- * Created on Mar 03, 2005
+ * Created on 2005/03/21
  *
- * Copyright (C) 2004 - CIRG@UP 
- * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
- * University of Pretoria
- * South Africa
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * To change the template for this generated file go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package net.sourceforge.cilib.neuralnetwork.generic.neuron;
+
+import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author stefanv
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class SigmoidOutputFunction implements NeuronFunction{
 	
-	double lambda = 1;
+	double lambda;
 	
-	/**
-	 * 
-	 */
+	
 	public SigmoidOutputFunction() {
 		lambda = 1;
 	}
+		
 	
 	
-	
-	/**
-	 * @param lambda
-	 */
-	public SigmoidOutputFunction(double lambda) {
-		super();
-		this.lambda = lambda;
-	}
-	
-	
-	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.NeuralNetwork.Generic.Neuron.outputFunction#compute(java.lang.Object)
-	 */
-	public Object computeFunction(Object in) {
-		//TODO: gamma learning
-		return new Double(1.0 / (1.0 + Math.exp(-1.0 *lambda * ((Double)in).doubleValue())));
+	public Type computeFunction(Type in) {
+		return new Real(1.0 / (1.0 + Math.exp(-1.0 *lambda * ((Real)in).getReal())));
 	}
 
 
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.NeuralNetwork.Generic.Neuron.NeuronFunction#computeDerivativeAtPos(java.lang.Object)
-	 */
-	public Object computeDerivativeAtPos(Object pos) {
-		Double result = (Double)computeFunction(pos) * (new Double(1.0) - ((Double)computeFunction(pos)));
-		return result;
+	public Type computeDerivativeAtPos(Type pos) {
+		return new Real(((Real)computeFunction(pos)).getReal() * (1 - ((Real)computeFunction(pos)).getReal()));
 	}
 
 
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.NeuralNetwork.Generic.Neuron.NeuronFunction#computeDerivativeUsingLastOutput(java.lang.Object)
-	 */
-	public Object computeDerivativeUsingLastOutput(Object lastOut) {
-		return new Double((Double)lastOut * (new Double(1.0) - (Double)lastOut) );
+	public Type computeDerivativeUsingLastOutput(Type lastOut) {
+		return new Real( ((Real)lastOut).getReal() * (1 - ((Real)lastOut).getReal()) );
 	}
 
 }
