@@ -33,9 +33,12 @@ package net.sourceforge.cilib.problem;
  *
  * @author  Edwin Peer
  */
-public class OptimisationSolution implements Solution {
+public class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
 
 	private static final long serialVersionUID = 2119444179382452329L;
+	
+	private OptimisationProblem problem;
+    private Object position;
 	
 	/**
 	 * Contrucs a new instance of <code>OptimisationSolution</code>.
@@ -67,7 +70,8 @@ public class OptimisationSolution implements Solution {
         return problem.getFitness(position, false);
     }
     
-    private OptimisationProblem problem;
-    private Object position;
+    
+    public int compareTo(OptimisationSolution other) {
+		return getFitness().compareTo(other.getFitness());
+	}
 }
- 
