@@ -3,7 +3,7 @@
  *
  * Created on Sep 21, 2004
  *
- * Copyright (C) 2003, 2004 - CIRG@UP
+ * Copyright (C) 2007 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -28,13 +28,13 @@ package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
 
-
 /**
- * Common interface for the two gap penalties ways.
+ * Public common interface for gap penalties methods (GapFogel, GapFourFour and GapOpeningAndExtensionPenalty).
  *
- * @author fzablocki
+ * @author Fabien Zablocki
  */
-public interface GapPenaltiesMethod {
+public interface GapPenaltiesMethod 
+{
 	public double getPenalty(ArrayList<String> alignment);
 }
 

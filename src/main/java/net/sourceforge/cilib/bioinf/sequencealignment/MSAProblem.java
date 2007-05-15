@@ -1,9 +1,9 @@
 /*
- * MSAProblemPSO.java
+ * MSAProblem.java
  *
- * Created on Sep 14, 2004
+ * Created on Sep 14, 2005
  *
- * Copyright (C) 2003, 2004 - CIRG@UP
+ * Copyright (C) 2007 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,6 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.Collection;
@@ -31,119 +32,133 @@ import java.util.Iterator;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
-import net.sourceforge.cilib.problem.dataset.StringDataSetBuilder;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
- * This class represents the Optimization Problem to be solved for the MSA.
+ * This class represents the Optimization Problem to be solved for the MSA (Real representation).
  *
  * @author gpampara
  * @author fzablocki
  */
 public class MSAProblem extends OptimisationProblemAdapter {
 	
+	private static final long serialVersionUID = 7939251270170439461L;
+	
 	private DomainRegistry domainRegistry;  //will hold the domain, i.e. the solution space is defined
 	private Collection<String> strings; //holds the array of input sequences
-	private GapCreator gapCreator;  //interface for the fitness function
-	private GapPenaltiesMethod gapPenaltyMethod;
+	private AlignmentCreator alignmentCreator;  //discretize position into alignment
+	private GapPenaltiesMethod gapPenaltyMethod; //interface for the gap penalty methods
 	
 	private int maxSequenceGapsAllowed;  //FOR GAPPED, AS A STANDARD, SHOULD BE SET TO 20% EXTRA OF THE LENGTH OF SEQUENCE, MIN 2
 	private int smallestLength = Integer.MAX_VALUE;  //for init purpose
 	private int biggestLength = Integer.MIN_VALUE; //for init purpose
 	private int averageLength;  //computed average length of all the input sequences 
-	private boolean areGapsAllowed;  //GAPPED (true) or non-GAPPED version (false by default)
 	private int gapsArray []; //holds total num of gaps to be inserted
 	private int totalGaps;
-	private boolean isAggregate;
+	private double weight1 = 1.0, weight2 = 1.0;  // defaults, can be set in the XML configuration
 	
-	public MSAProblem() {
+	public void setWeight1(double weight1) 
+	{
+		this.weight1 = weight1;
+	}
+	
+	public double getWeight1()
+	{
+		return weight1;
+	}
+
+	public AlignmentCreator getAlignmentCreator() 
+	{
+		return alignmentCreator;
+	}
+	
+	public void setAlignmentCreator(AlignmentCreator alignmentCreator) 
+	{
+		this.alignmentCreator = alignmentCreator;
+	}
+	
+	public void setWeight2(double weight2) 
+	{
+		this.weight2 = weight2;
+	}
+
+	public MSAProblem()
+	{
 		this.domainRegistry = new DomainRegistry();
 	}
 	
-	public MSAProblem(MSAProblem copy) {
-		
-	}
-	
-	public MSAProblem clone() {
-		return new MSAProblem(this);
-	}
-	
-	protected Fitness calculateFitness(Object solution) { //solution = particule position vector
-		Vector realValuedPosition = (Vector) solution;
-		if (!areGapsAllowed)
-		{ 
-			double result = gapCreator.getFitness(strings, realValuedPosition, gapsArray);
-			System.out.println("Fitness: "+ result);
-			return new MaximisationFitness(new Double(result));
-		}
-		else
-		{
-			double result1 = gapCreator.getFitness(strings, realValuedPosition, gapsArray);
-			double result2 = gapPenaltyMethod.getPenalty(gapCreator.getAlignment());
-		//	System.out.println("Fitness for matches: "+result1);
-		//	System.out.println("Fitness for gap penalties: "+result2);
-			System.out.println("Fitness: "+ (result1-result2));
-		
-			if (isAggregate)
-				return new MaximisationFitness(new Double(result1-result2));
-            //CHANGE "MaximisationFitness" WITH THE NEW MO FITNESS below, with vector of fitnesses.
-			else return new MaximisationFitness(new Double(result1-result2));
-		}
-	}
-
-	public void setAreGapsAllowed(boolean areGapsAllowed)
+	public void setGapPenaltyMethod(GapPenaltiesMethod gapPenaltyMethod) 
 	{
-		this.areGapsAllowed = areGapsAllowed;
-	}
-
-	public void setGapCreator(GapCreator gapCreator) {
-		this.gapCreator = gapCreator;
-	}
-
-	public void setIsAggregate(boolean isAggregate) {
-		this.isAggregate = isAggregate;
-	}
-
-	public void setGapPenaltyMethod(GapPenaltiesMethod gapPenaltyMethod) {
 		this.gapPenaltyMethod = gapPenaltyMethod;
 	}
 	
-	// If gaps are allowed, make it a 20% of sequence length (in XML file). Otherwise set it to 1.
-	public void setMaxSequenceGapsAllowed(int number) {
-		if (number == 0)
-			this.maxSequenceGapsAllowed = 1; 
-		else{
-			//for gapped version, it is the number of gaps allowed.
-			this.maxSequenceGapsAllowed = number;
-		}
+	public GapPenaltiesMethod getGapPenaltyMethod() 
+	{
+		return gapPenaltyMethod;
 	}
 
-	public DomainRegistry getDomain() {
+	public DomainRegistry getBehaviouralDomain()
+	{
+		return this.domainRegistry;
+	}
+	
+	public OptimisationProblemAdapter clone()
+	{
+		return this;
+	}
+
+	protected Fitness calculateFitness(Object solution)  //	solution = particule position vector
+	{ 
+		Vector realValuedPosition = (Vector) solution;
+		//System.out.println("Fitness for matches: "+alignmentCreator.getFitness(strings, realValuedPosition, gapsArray));   // debug purpose
+		//System.out.println("Fitness for gap penalties: "+gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment());  // debug purpose
+		
+		//speed boost: don't calculate gaps penalty at all if weight2=0
+		//final fitness with weights applied
+		if(weight2 == 0.0) return new MaximisationFitness(new Double(weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)));  
+		else return new MaximisationFitness(new Double (weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)- weight2*gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment())));	
+	}
+
+	//	 If gaps are allowed, make it a 20% of sequence length (in XML file). Otherwise set it to 0.
+	public void setMaxSequenceGapsAllowed(int number) 
+	{	
+		if (number < 0)
+		{
+			this.maxSequenceGapsAllowed = 0;
+			System.out.println("  **  Warning  **  Negative values for specified amount of gaps allowed cannot be negative, set to 0.");
+		} 
+		else
+			this.maxSequenceGapsAllowed = number;
+	}
+
+	public DomainRegistry getDomain()  //computes the domain according to the input sequences and amount of gaps to insert
+	{
 		if (this.domainRegistry.getDomainString() == null) {
 			DomainParser parser = DomainParser.getInstance();
 			
 			//reads in the input data sets.
-			StringDataSetBuilder stringBuilder = (StringDataSetBuilder) this.getDataSetBuilder();
+			FASTADataSetBuilder stringBuilder = (FASTADataSetBuilder) this.getDataSetBuilder();
 			strings = stringBuilder.getStrings();
+			int totalLength = 0;
 	
 			for (Iterator<String> i = strings.iterator(); i.hasNext(); ) {
 				String result = i.next();
+				totalLength+=result.length();
 				
 				if (result.length() < smallestLength) smallestLength = result.length();
 				if (result.length() > biggestLength) biggestLength = result.length();
 			}
 			
-			averageLength = Math.round((float)((smallestLength + biggestLength)/2));
-			System.out.println("Average Length: "+averageLength+ ", amount of sequences: "+strings.size()+".");
-			
-			
+			averageLength = (int)Math.round(totalLength/strings.size());  
+			System.out.println("Got "+strings.size()+" sequences of average length: "+averageLength+".");
+				
 			/*
 			 * ATTENTION:  An alignment is only valid if all the aligned sequences are of the same length!!!!
-			 * MUST DO SOME PREPROCESSING. 
+			 * PRE-PROCESSING follows. Calculates the number of gaps to be inserted in each sequences and fills up an array
+			 * used later to allocate the correct number of gaps to its respective sequence.
 			 */
-			 
 			gapsArray = new int [strings.size()];
 			
 			int delta = 0;
@@ -152,8 +167,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 			{
 				String aSeq = i.next();
 				delta = biggestLength - aSeq.length();
-				if (delta > 0) gapsArray[c] = delta+maxSequenceGapsAllowed;
-				else gapsArray[c] = maxSequenceGapsAllowed;
+				gapsArray[c] = delta+maxSequenceGapsAllowed;
 				c++;
 			}
 			
@@ -162,25 +176,13 @@ public class MSAProblem extends OptimisationProblemAdapter {
 			System.out.println("Total gaps to be added: " + totalGaps+".");
 			
 			String rep = "";
-			
-			// Non-Gapped version
-			if (!areGapsAllowed) { 
-				rep = "Z(0.0, " + averageLength + ")^" + strings.size()*maxSequenceGapsAllowed;
-			}
-			
-			//Gapped version
-			else
-			{
-				//System.out.println("Strings size: " + strings.size());
-				System.out.println("Recommended number of gaps per seq: " + Math.ceil(0.2 * averageLength) +".");
+			//Ouputs a recommended amount of gaps to be inserted per sequence which is usually set to 20% of the longest sequence
+			System.out.println("Recommended number of gaps per sequence: " + Math.ceil(0.2 * averageLength) +".");
+			// The domain representation string  
+			rep = "R(0, " + (biggestLength+1) + ")^" + totalGaps; 
+			//rep = "B^"+totalGaps*4;  // ENABLE THIS TO USE A BINARY REPRESENTATION (4 bits is for alignment of maximum 15 in length).
 				
-				/*OBSOLETE:
-				 * I put -1 instead of 0 for the domain so that if it is -1 it means no gap to insert otherwise it is the gap position.
-				 * Since there is a set amount of gaps allowed for all the sequences, it's better no to force having let's say 3 gaps per sequence, rather UP to 3.
-				 */
-				//representation = "Z(0.0, " + biggestLength + ")^" + strings.size()*maxSequenceGapsAllowed;
-				rep = "Z(0.0, " + (biggestLength+maxSequenceGapsAllowed) + ")^" + totalGaps;
-			} 
+			System.out.println("Domain: "+rep);  //extra for debug, can be commented out
 			
 	    	parser.parse(rep);
 	    	
@@ -190,9 +192,5 @@ public class MSAProblem extends OptimisationProblemAdapter {
 		}
 				
 		return domainRegistry;
-	}
-
-	public DomainRegistry getBehaviouralDomain() {
-		return null;
 	}
 }

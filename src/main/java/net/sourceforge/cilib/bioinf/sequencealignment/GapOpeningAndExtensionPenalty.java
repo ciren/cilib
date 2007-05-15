@@ -3,7 +3,7 @@
  *
  * Created on Sep 21, 2004
  *
- * Copyright (C) 2003, 2004 - CIRG@UP
+ * Copyright (C) 2007 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -30,56 +30,71 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 /**
- * @author fzablocki
+ * Method that penalises indels as gap groups.
+ * Penalty for k contiguous indels (1 gap group) = Gop + (k-1)Gep where Gop is GapOpeningPenalty and Gep is GapExtensionPenalty
+ * 
+ * @author Fabien Zablocki
  */
 public class GapOpeningAndExtensionPenalty implements GapPenaltiesMethod {
 
-	double gapOpeningPenalty;
-	double gapOpeningExtension;
+	private double gapOpeningPenalty = 2.0;  // default, can be set in XML
+	private double gapExtensionPenalty = 1.0; // default, can be set in XML
+	private ArrayList<String> alignment;
+	private boolean verbose = false;
 	
-	public void setGapOpeningExtension(double gapOpeningExtension) {
-		this.gapOpeningExtension = gapOpeningExtension;
+	public void setVerbose(boolean verbose)
+	{
+		this.verbose = verbose;
+	}
+	
+	public void setGapExtensionPenalty(double gapExtensionPenalty) 
+	{
+		this.gapExtensionPenalty = gapExtensionPenalty;
 	}
 
-	public void setGapOpeningPenalty(double gapOpeningPenalty) {
+	public void setGapOpeningPenalty(double gapOpeningPenalty) 
+	{
 		this.gapOpeningPenalty = gapOpeningPenalty;
 	}
 	
-	public double getPenalty(ArrayList<String> alignment) {
-		
-//	 	Now modify the fitness based on the formula to penalise gaps and gap groups
-		int totalNumberGaps = 0;
-		int extensionCounter = 0;
+	public double getPenalty(ArrayList<String> _alignment) 
+	{
+		this.alignment = _alignment;
+		//	Now modify the fitness based on the formula to penalize gaps and gap groups
+		int openingGapsCounter = 0;
+		int extensionGapsCounter = 0;
 
 		for (ListIterator l = alignment.listIterator(); l.hasNext(); )
 		{
 			String s = (String) l.next();
+			
 			for (int i = 0; i < s.length(); i++)
 			{
-				if (s.charAt(i) == '-')
-				{ 
-					totalNumberGaps++; 
-				}
-			}
-			
-			for (int i = 0; i < s.length()-1; i++)
-			{
-				if(s.charAt(i) == '-')
+				if(s.charAt(i) == '-')  //first indel of potential group
 				{
-					while(i < s.length()-1)
+					openingGapsCounter++;  //increment Opening Gaps
+					
+					while(i < s.length()-1)  //look if any extension
 					{
-						if ( s.charAt(++i) == '-') extensionCounter++;
-
+						if ( s.charAt(++i) == '-') extensionGapsCounter++;
 						else break;
 					}
 				}
 			}	
 		}
 
-		double gapPenalty = (extensionCounter* gapOpeningExtension) + (totalNumberGaps*gapOpeningPenalty);
-		//System.out.println("extensionCounter"+ extensionCounter);
-		//System.out.println("totalNumberGaps"+ totalNumberGaps);
-		//System.out.println("Penalty: " + gapPenalty);
+		double gapPenalty = (extensionGapsCounter*gapExtensionPenalty) + (openingGapsCounter*gapOpeningPenalty);
+		
+		//	prints the current alignment if verbose on
+		if (verbose)
+		{
+			System.out.println("Penalty: "+gapPenalty+" ["+openingGapsCounter+" opening gap(s)*"+gapOpeningPenalty+" + "+extensionGapsCounter+" extension gap(s)]*"+gapExtensionPenalty+"]");
+			for (ListIterator j = alignment.listIterator(); j.hasNext(); )
+			{
+				String s = (String) j.next();
+				System.out.println("'" + s + "'");
+			}
+		}
 		return gapPenalty;
 	}
 }

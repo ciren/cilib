@@ -3,7 +3,7 @@
  *
  * Created on Mar 16, 2006
  *
- * Copyright (C) 2003, 2004, 2005, 2006 - CIRG@UP
+ * Copyright (C) 2007 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -29,11 +29,13 @@ package net.sourceforge.cilib.bioinf.sequencealignment;
 import java.util.ArrayList;
 
 /**
- * Public common interface to allow multiple scoring schemes.
+ * Public common interface to allow multiple scoring schemes,
+ *  namely Similarity, MatchFogel, and BestMatch (DNA or any characters), BLOSUM and PAM (Proteins).
  * 
- * @author fzablocki
+ * @author Fabien Zablocki
  */
 
-public interface ScoringMethod {
+public interface ScoringMethod 
+{
 	public double getScore(ArrayList<String> alignment);
 }

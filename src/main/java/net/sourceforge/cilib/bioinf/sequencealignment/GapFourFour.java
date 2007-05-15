@@ -1,18 +1,107 @@
+/*
+ * GapFourFour.java
+ *
+ * Created on Sep 21, 2005
+ *
+ * Copyright (C) 2007 - CIRG@UP
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
-
-//ONLY FOR GAPPED VERSION!
+import java.util.StringTokenizer;
 
 /**
- * @author fzablocki
+ * Method that penalises gaps according to the following formula:
+ *            gap groups*4 + total amount of gaps*0.4
+ * 
+ * @author Fabien Zablocki
  */
 public class GapFourFour implements GapPenaltiesMethod {
+	
+	private boolean verbose = false;
+	private ArrayList<String> finalAlignment;
+	
+	public void setVerbose(boolean verbose)
+	{
+		this.verbose = verbose;
+	}
 
-	public double getPenalty(ArrayList<String> alignment) {
+	public ArrayList<String> getFinalAlignment()
+	{
+		return finalAlignment;
+	}
+	
+	private void setFinalAlignment(ArrayList<String> s)
+	{
+		finalAlignment = (ArrayList<String>) s.clone();
+	}
+	
+	public double getPenalty(ArrayList<String> alignment)
+	{
+		/*************************************************************
+		 *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
+		 *************************************************************/
 		
-//	 	Now modify the fitness based on the formula to penalise gaps and gap groups
+		int seqLength = alignment.get(0).length();
+		int count = 0;
+		
+		//Iterate through the columns
+		for (int i = 0; i < seqLength; i++)
+		{ 
+			 for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+			 { 
+				 String st = (String) l.next();  //make that seq a String
+				 if ( st.charAt(i) == '-' ) count++; //gets char at position i
+			 }
+			 
+			 if (count == alignment.size() ) // GOT ONE, PROCEED TO CLEAN UP
+			 {
+				 int which = 0;
+				 for (ListIterator p = alignment.listIterator(); p.hasNext(); )
+				 { 
+					 String st1 = (String) p.next();  //make that seq a String
+					 StringBuffer stB = new StringBuffer(st1);
+					 stB.setCharAt(i, '*');
+					 alignment.set(which, stB.toString());
+					 which++;
+				 }
+			 }
+			 count = 0;
+		}
+		
+		int which2 = 0;
+		for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+		{ 
+			String st = (String) l.next();  //make that seq a String
+			StringTokenizer st1 = new StringTokenizer(st,"*",false);
+			String t="";
+			while (st1.hasMoreElements()) t += st1.nextElement();
+			alignment.set(which2, t);
+			which2++;
+		}
+			/************* END ***************/
+		setFinalAlignment(alignment);
+		//	Now modify the fitness based on the formula to penalise gaps and gap groups
 		int totalNumberGaps = 0;
 		int gapGroups = 0;
 
@@ -44,13 +133,20 @@ public class GapFourFour implements GapPenaltiesMethod {
 		}
 
 		double gapPenalty = gapGroups*4 + (totalNumberGaps*0.4);
-		//System.out.println("Penalty: " + gapPenalty);
 		
-		/*for (ListIterator j = alignment.listIterator(); j.hasNext(); )
+		//	prints the current alignment if verbose on
+		if (verbose)
 		{
-			String s = (String) j.next();
-			System.out.println("'" + s + "'");
-		}*/
+			System.out.println("Gap Groups: "+gapGroups);
+			System.out.println("TotalNumberGaps: "+totalNumberGaps);
+			System.out.println("Penalty: "+gapPenalty);
+
+			for (ListIterator j = alignment.listIterator(); j.hasNext(); )
+			{
+				String s = (String) j.next();
+				System.out.println("'" + s + "'");
+			}
+		}
 		return gapPenalty;
 	}
 }
