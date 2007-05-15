@@ -24,9 +24,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.cilib.stoppingcondition;
+package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
  * This class serves as a crude implementation of a stopping condition that
