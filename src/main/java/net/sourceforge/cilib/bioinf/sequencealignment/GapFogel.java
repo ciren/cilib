@@ -65,9 +65,9 @@ public class GapFogel implements GapPenaltiesMethod {
 		for (int i = 0; i < seqLength1; i++)
 		{ 
 			//go through all the seqs
-			for (ListIterator<String> l = alignment.listIterator(); l.hasNext(); ) // Use Templates here for the iterator
+			for (ListIterator l = alignment.listIterator(); l.hasNext(); )
 			{   
-				String currentString = l.next();   //gets the sequence as a String
+				String currentString = (String) l.next();   //gets the sequence as a String
 				if (currentString.charAt(i) != '-') counter++;  // counts the number of symbols (all non-gap characters in that column)	
 			}	
 			columnPenalty = alignment.size() - counter;							
@@ -78,12 +78,12 @@ public class GapFogel implements GapPenaltiesMethod {
 		}
 		
 		//	prints the current alignment if verbose on
-		if (verbose) // log4j needed here
+		if (verbose)
 		{
 			System.out.println("Penalty: "+penalty);
-			for (ListIterator<String> j = alignment.listIterator(); j.hasNext(); )
+			for (ListIterator j = alignment.listIterator(); j.hasNext(); )
 			{
-				String s = j.next();
+				String s = (String) j.next();
 				System.out.println("'" + s + "'");
 			}
 		}

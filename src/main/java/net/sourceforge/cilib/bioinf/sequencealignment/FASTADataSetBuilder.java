@@ -78,7 +78,7 @@ public class FASTADataSetBuilder extends DataSetBuilder
 						temp = in.readLine();
 						while(!temp.startsWith(">") ) //collect sequence without space
 						{
-							StringTokenizer st = new StringTokenizer(temp, "\u0020");  // String.split()
+							StringTokenizer st = new StringTokenizer(temp, "\u0020");
 							String p="";
 							
 							while(st.hasMoreElements())

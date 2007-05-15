@@ -51,7 +51,7 @@ public class BestMatch implements ScoringMethod
 	public double getScore(ArrayList<String> alignment)
 	{
 		// prints the current raw alignment in verbose mode
-		if (verbose) // Use LOG4J Rather here log.debug()
+		if (verbose)
 		{	
 			System.out.println("Raw Alignment (no clean up):");
 			
