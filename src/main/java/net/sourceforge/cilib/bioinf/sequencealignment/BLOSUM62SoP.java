@@ -147,7 +147,7 @@ public class BLOSUM62SoP implements ScoringMethod {
 			double matchC = 0;
 			double mismC = 0;
 	
-			//go through all the seqs (rows) SUM OF PAIRS (N × (N-1) /2)
+			//go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
 			for (int j = 0; j < alignment.size()-1; j++ )
 			{   
 				for (int k = j+1; k < alignment.size(); k++ )
@@ -185,7 +185,7 @@ public class BLOSUM62SoP implements ScoringMethod {
 		}
 		else
 		{
-//			go through all the seqs (rows) SUM OF PAIRS (N × (N-1) /2)
+//			go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
 			for (int j = 0; j < alignment.size()-1; j++ )
 			{   
 				for (int k = j+1; k < alignment.size(); k++ )

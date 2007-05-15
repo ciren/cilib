@@ -34,7 +34,7 @@ import java.util.StringTokenizer;
  *    SIMILARITY SCORING FUNCTION
  * 
  * Score all possible pairwise combinations in column
- * Requires (N × (N-1))/2 comparisons for N sequences
+ * Requires (N * (N-1))/2 comparisons for N sequences
  * Total score = sum of score for each column
  * 
  * SoP routine has been optimized for speed.
@@ -142,7 +142,7 @@ public class Similarity implements ScoringMethod
 			double matchC = 0;
 			double mismC = 0;
 	
-			//go through all the seqs (rows) SUM OF PAIRS (N × (N-1) /2)
+			//go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
 			for (int j = 0; j < alignment.size()-1; j++ )
 			{   
 				for (int k = j+1; k < alignment.size(); k++ )
@@ -185,7 +185,7 @@ public class Similarity implements ScoringMethod
 		}
 		else
 		{
-//			go through all the seqs (rows) SUM OF PAIRS (N × (N-1) /2)
+//			go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
 			for (int j = 0; j < alignment.size()-1; j++ )
 			{   
 				for (int k = j+1; k < alignment.size(); k++ )
