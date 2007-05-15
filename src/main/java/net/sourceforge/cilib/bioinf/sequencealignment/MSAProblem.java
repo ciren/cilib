@@ -193,4 +193,4 @@ public class MSAProblem extends OptimisationProblemAdapter {
 				
 		return domainRegistry;
 	}
-}
+}==== ORIGINAL VERSION src/main/java/net/sourceforge/cilib/bioinf/sequencealignment/MSAProblem.java 117912298594720
