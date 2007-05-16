@@ -83,7 +83,7 @@ public class GCVelocityUpdate implements VelocityUpdateStrategy {
     }
 
 	public void updateVelocity(Particle particle) {
-		if (particle.getNeighbourhoodBest().getId() == particle.getId()) {
+		if (particle.getNeighbourhoodBest().getId().equals(particle.getId())) {
 			double rho = GCDecorator.extract(particle).getRho();
 
 			Vector velocity = (Vector) particle.getVelocity();
