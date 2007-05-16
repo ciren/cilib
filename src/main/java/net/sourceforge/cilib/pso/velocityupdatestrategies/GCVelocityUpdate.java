@@ -81,32 +81,27 @@ public class GCVelocityUpdate implements VelocityUpdateStrategy {
     public StandardVelocityUpdate getStandardVelocityUpdate() {
         return standard;
     }
-    
-    public void updateVelocity(Particle particle) {
-        if (particle.getNeighbourhoodBest().getId() == particle.getId()) {
-            double rho = GCDecorator.extract(particle).getRho();
 
-            Vector velocity = (Vector) particle.getVelocity();            
-            Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-            
-            PSO pso = (PSO) Algorithm.get();
-            Vector swarmBestPosition = (Vector) pso.getBestParticle().getPosition();
-            
-            for (int i = 0; i < particle.getDimension(); ++i) {
-            	double result = nBestPosition.getReal(i) - swarmBestPosition.getReal(i) + 
-            		this.standard.getInertiaWeight().getParameter()*velocity.getReal(i) + 
-            		rho * (1 - 2 * rhoRandomGenerator.nextFloat());
-                /*velocity.setReal(i, bestPosition.getReal(i) - position.getReal(i) + 
-                standard.getInertiaComponent().get() * velocity.getReal(i) 
-                  + rho * (1 - 2 * rhoRandomGenerator.nextFloat()));*/
-            	velocity.setReal(i, result);
-            }
-        }
-        else {
-            standard.updateVelocity(particle);
-        }
-    }
-    
+	public void updateVelocity(Particle particle) {
+		if (particle.getNeighbourhoodBest().getId() == particle.getId()) {
+			double rho = GCDecorator.extract(particle).getRho();
+
+			Vector velocity = (Vector) particle.getVelocity();
+			Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+
+			PSO pso = (PSO) Algorithm.get();
+			Vector swarmBestPosition = (Vector) pso.getBestParticle().getPosition();
+
+			for (int i = 0; i < particle.getDimension(); ++i) {
+				double result = nBestPosition.getReal(i) - swarmBestPosition.getReal(i) + standard.getInertiaWeight().getParameter() * velocity.getReal(i) + rho * (1 - 2 * rhoRandomGenerator.nextFloat());
+				velocity.setReal(i, result);
+			}
+		}
+		else {
+			standard.updateVelocity(particle);
+		}
+	}
+
     /**
      * Sets the random number generator used in the GC update equation. The default is {@link net.sourceforge.cilib.math.random.generator.KnuthSubtractive}.
      *

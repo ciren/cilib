@@ -77,15 +77,15 @@ public abstract class Particle implements Entity {
 	 * @return
 	 */
     public abstract Particle clone();
-    
-    /**
-     * 
-     * @return
-     */
-    public String getId() {
-    	return String.valueOf(this.id);
-    }
-    
+
+	/**
+	 * Returns the String representation of this Particle's ID
+	 * @return the ID of this Particle as a String
+	 */
+	public String getId() {
+		return String.valueOf(this.id);
+	}
+
     /**
      * 
      */
