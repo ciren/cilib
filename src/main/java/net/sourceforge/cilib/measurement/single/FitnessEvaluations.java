@@ -38,8 +38,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class FitnessEvaluations implements Measurement {
-    
-    /** Creates a new instance of FitnessEvaluations */
+    private static final long serialVersionUID = 8843539724541605245L;
+
+	/** Creates a new instance of FitnessEvaluations */
     public FitnessEvaluations() {
     }
     

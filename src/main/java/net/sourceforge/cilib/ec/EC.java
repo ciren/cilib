@@ -91,7 +91,8 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		
 		for (Iterator<? extends Entity> i = this.getTopology().iterator(); i.hasNext(); ) {
 			Entity entity = i.next();
-			entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
+			//entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
+			entity.calculateFitness();
 		}
 		
 		iterationStrategy.performIteration(this);
@@ -188,7 +189,8 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 
 	public void updateContributionFitness(Fitness fitness) {
 		//TODO: This might not be what you want, change as desired
-		getBestEntity().setFitness(fitness);
+		//getBestEntity().setFitness(fitness);
+		getBestEntity().calculateFitness();
 	}
 
 	public boolean participated() {

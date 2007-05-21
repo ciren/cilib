@@ -36,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Andries Engelbrecht
  */
 public class Step extends ContinuousFunction {
-    
-    /** Creates a new instance of Step */
+    private static final long serialVersionUID = 4962101545621686038L;
+
+	/** Creates a new instance of Step */
     public Step() {
         setDomain("R(-100.0, 100.0)^30");
     }

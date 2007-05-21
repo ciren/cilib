@@ -36,7 +36,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public class GraphMeasurementSolutionLength implements Measurement {
-	
+	private static final long serialVersionUID = -3208485696904109797L;
+
 	public GraphMeasurementSolutionLength(GraphMeasurementSolutionLength copy) {
 	}
 	

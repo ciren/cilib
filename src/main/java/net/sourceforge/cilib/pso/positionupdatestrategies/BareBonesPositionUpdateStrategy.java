@@ -36,7 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  *
  */
 public class BareBonesPositionUpdateStrategy implements PositionUpdateStrategy {
-	
+	private static final long serialVersionUID = -6562797054222387899L;
+
+
 	/**
 	 * Default construstor.
 	 */

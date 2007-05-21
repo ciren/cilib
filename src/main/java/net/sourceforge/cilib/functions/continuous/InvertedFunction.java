@@ -38,6 +38,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  */
 public class InvertedFunction extends ContinuousFunction {
+	private static final long serialVersionUID = -7506823207533866371L;
 	
 	private Function function;
 

@@ -60,6 +60,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Edwin Peer
  */
 public class DeviationDecorator extends ParticleDecorator implements Cloneable {
+	private static final long serialVersionUID = -7919347953251165107L;
+
 
 	public DeviationDecorator(Particle target, int observations) {
 
@@ -216,6 +218,12 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 	public int compareTo(Entity o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void calculateFitness() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -36,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author csbmcd
  */
 public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
-    
-    /** Creates a new instance of MovingPeaks */
+    private static final long serialVersionUID = 733952126255493620L;
+
+	/** Creates a new instance of MovingPeaks */
     public MovingPeaks() 
     {        
           setDomain("R(0, 100)^5");
@@ -101,7 +102,8 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     /* 
      *  seed for built-in random number generator 
      */
-    private long movrandseed = 1;
+    @SuppressWarnings("unused")
+	private long movrandseed = 1;
 
     /* 
      *  number of dimensions, or the number of double valued genes 
@@ -232,7 +234,8 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     private double[] coordinates; //double * coordinates;
 
     /* which peaks are covered by the population ? */
-    private int[] covered_peaks; //int * covered_peaks; 
+    @SuppressWarnings("unused")
+	private int[] covered_peaks; //int * covered_peaks; 
 
     /* to store every peak's previous movement */
     private double[][] prev_movement; //double * * prev_movement; 
@@ -567,12 +570,14 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 
     /* The following procedures may be used to change the step size over time */
 
-    private void change_stepsize_random() /* assigns vlength a value from a normal distribution */ 
+    @SuppressWarnings("unused")
+	private void change_stepsize_random() /* assigns vlength a value from a normal distribution */ 
     {
 		this.vlength = this.movnrand.nextGaussian();
     }
 
-    private void change_stepsize_linear() /* sinusoidal change of the stepsize, */ 
+    @SuppressWarnings("unused")
+	private void change_stepsize_linear() /* sinusoidal change of the stepsize, */ 
     {
 		/* returns to same value after 20 changes */	
 		this.vlength = 1 + Math.sin((double) counter * frequency);

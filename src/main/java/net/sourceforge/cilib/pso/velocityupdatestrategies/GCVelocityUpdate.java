@@ -40,8 +40,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  Edwin Peer
  */
 public class GCVelocityUpdate implements VelocityUpdateStrategy {
+	private static final long serialVersionUID = -5970032622069588530L;
 	
-    private StandardVelocityUpdate standard;
+	private StandardVelocityUpdate standard;
     private Random rhoRandomGenerator;
     
     private int successThreshold;

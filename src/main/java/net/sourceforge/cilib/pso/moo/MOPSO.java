@@ -8,8 +8,8 @@ import net.sourceforge.cilib.moo.archive.StandardArchive;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.MultiObjectiveParticle;
 import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.positionupdatestrategies.GaussianPositionUpdateStrategy;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -17,7 +17,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author CIRG
  */
 public class MOPSO extends PSO  {
-
+	private static final long serialVersionUID = -4388678573614103683L;
+	
 	private MOOptimisationProblem moproblem;
 	private Archive archive;
 	//private LocalGuideStrategy localGuideStrategy;
@@ -27,7 +28,7 @@ public class MOPSO extends PSO  {
 		
 		this.archive = new StandardArchive();
 		
-		Particle particle = new StandardParticle();
+		Particle particle = new MultiObjectiveParticle();
 		particle.setPositionUpdateStrategy(new GaussianPositionUpdateStrategy());
 		this.getInitialisationStrategy().setEntityType(particle);		
 	}
@@ -37,7 +38,8 @@ public class MOPSO extends PSO  {
 		super.performInitialisation();
 		
 		for (Particle particle : getTopology()) {
-			particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
+			//particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
+			particle.calculateFitness();
 		}
 		
 		// Look at Set
@@ -96,7 +98,8 @@ public class MOPSO extends PSO  {
 		maintainBoundaries();
 		
 		for (Particle particle : getTopology()) {
-			particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
+			//particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
+			particle.calculateFitness();
 		}
 		
 		// TODO :: FIX THIS!!!!!!!!!!!!!!!!!!!!
@@ -129,9 +132,9 @@ public class MOPSO extends PSO  {
 		return null;
 	}
 	
-	private Vector selectLocalGuide() { // Look at creating a strategy to do this
-		return null;
-	}
+	//private Vector selectLocalGuide() { // Look at creating a strategy to do this
+	//	return null;
+	//}
 	
 	private void maintainBoundaries() {
 		

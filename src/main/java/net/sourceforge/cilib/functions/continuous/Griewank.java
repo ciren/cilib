@@ -45,8 +45,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  Edwin Peer
  */
 public class Griewank extends ContinuousFunction {
-    
-    public Griewank() {
+    private static final long serialVersionUID = 1095225532651577254L;
+
+	public Griewank() {
         setDomain("R(-600, 600)^30");
     }
     

@@ -56,8 +56,8 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
  * TODO:: Need Global best update strategies	
  */
 public class LFPSO extends PSO implements GradientOptimisationAlgorithm {
-    
-     /** 
+    private static final long serialVersionUID = -1385469595182738903L;
+	/** 
      * Creates a new instance of <code>LFPSO</code>. All fields are initialised to 
      * reasonable defaults. Note that the {@link net.sourceforge.cilib.problem.GradientOptimisationProblem} 
      * is initially <code>null</code> and must be set before {@link #initialise()} is called. 

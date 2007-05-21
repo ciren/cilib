@@ -25,18 +25,11 @@
  */
 package net.sourceforge.cilib.pso;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-
-import net.sourceforge.cilib.ec.selectionoperators.Elitism;
-import net.sourceforge.cilib.ec.selectionoperators.SelectionOperator;
-import net.sourceforge.cilib.pso.particle.Particle;
-import net.sourceforge.cilib.type.types.Vector;
 
 public class SelectionPSO extends PSO {
+	private static final long serialVersionUID = 2974661152550129709L;
 	
+	/*
 	protected SelectionOperator<Particle> selector;
 	protected int replacementSize;
 	
@@ -50,7 +43,8 @@ public class SelectionPSO extends PSO {
     public void performIteration() {
         for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext(); ) {
             Particle current = i.next();
-            current.setFitness(this.getOptimisationProblem().getFitness(current.getPosition(), true));
+            //current.setFitness(this.getOptimisationProblem().getFitness(current.getPosition(), true));
+            current.calculateFitness();
             for (Iterator<Particle> j = this.getTopology().neighbourhood(i); j.hasNext(); ) {
                 Particle other = j.next();
                 if (current.getBestFitness().compareTo( other.getNeighbourhoodBest().getBestFitness()) > 0) {
@@ -62,12 +56,12 @@ public class SelectionPSO extends PSO {
         /**
          * The performIteration semantics is the same, except for this part that comes in between, just before the 
          * velocity updates.
-         */
+         *
         sortSwarm();
         replace(selector.select(this.getTopology(),this.replacementSize));
         /**
          * selection and position+velocity replacement completed. 
-         */
+         *
         
         for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext(); ) {
             Particle current = i.next();
@@ -78,7 +72,7 @@ public class SelectionPSO extends PSO {
 	
 	/**
 	 * Sort the swarm, according to fitness.
-	 */
+	 *
 	private void sortSwarm() {
         //copy the whole population to a candidate list.
         ArrayList<Particle> swarm = new ArrayList<Particle>(this.getTopology().getAll());
@@ -95,7 +89,7 @@ public class SelectionPSO extends PSO {
      * getVelocity and setVelocity are used for purposes of particle's velocity.
 	 * @pre Topology must be sorted from worst to bad...
 	 * @param best
-	 */
+	 *
 	private void replace(Collection<Particle> best) {
 		int i = 0;
 		
@@ -122,6 +116,6 @@ public class SelectionPSO extends PSO {
 	}
 	public void setSelector(SelectionOperator<Particle> selector) {
 		this.selector = selector;
-	}
+	}*/
 }
 

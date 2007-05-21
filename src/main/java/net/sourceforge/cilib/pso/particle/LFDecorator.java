@@ -26,7 +26,6 @@
 
 package net.sourceforge.cilib.pso.particle;
 
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.MixedVector;
@@ -37,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  barlad
  */
 public class LFDecorator extends ParticleDecorator implements Cloneable {
-    
-    /** Creates a new instance of LFParticleDecorator */
+    private static final long serialVersionUID = -7796859060873208936L;
+
+	/** Creates a new instance of LFParticleDecorator */
     public LFDecorator(Particle target) {       
         super(target);  
         
@@ -63,9 +63,10 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
         return new LFDecorator(this.getTarget()); //super.clone();
     }
     
-    public void setFitness(Fitness fitness) {
-        super.setFitness(fitness);
-    }
+    @Override
+	public void calculateFitness() {
+		super.calculateFitness();
+	}
     
     public void updateVelocity(VelocityUpdateStrategy vu) {
         this.getVelocityUpdateStrategy().updateVelocity(this);

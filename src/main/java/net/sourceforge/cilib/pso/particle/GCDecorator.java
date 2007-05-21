@@ -36,8 +36,9 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdate;
  * @author  Edwin Peer
  */
 public class GCDecorator extends ParticleDecorator {
-    
-    /** Creates a new instance of GCParticleDecorator */
+	private static final long serialVersionUID = -3961952732558174787L;
+	
+	/** Creates a new instance of GCParticleDecorator */
     public GCDecorator(Particle target) {       
         super(target);        
         
@@ -60,7 +61,8 @@ public class GCDecorator extends ParticleDecorator {
         else {
             fitnessImproved = false;
         }
-        super.setFitness(fitness);
+        //super.setFitness(fitness);
+        super.calculateFitness();
     }
     
     
@@ -113,4 +115,9 @@ public class GCDecorator extends ParticleDecorator {
     
     private boolean fitnessImproved;
     private Particle previousNeighbourhoodBest;
+	@Override
+	public void calculateFitness() {
+		// TODO Auto-generated method stub
+		
+	}
 }

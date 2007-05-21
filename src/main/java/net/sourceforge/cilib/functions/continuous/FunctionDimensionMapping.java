@@ -31,13 +31,13 @@ import java.util.Random;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 public class FunctionDimensionMapping extends ContinuousFunction {
+	private static final long serialVersionUID = 3785385852226926590L;
 	
 	private double [] generatedPoints;
 	private double [][] generatedDistanceMatrix;

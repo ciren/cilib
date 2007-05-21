@@ -40,8 +40,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class ShekelsFoxholes extends ContinuousFunction {
-
-    private double[][] A = new double[2][25];
+	private static final long serialVersionUID = 1986501892056164693L;
+	
+	private double[][] A = new double[2][25];
 
     public ShekelsFoxholes() {
         int index = 0;

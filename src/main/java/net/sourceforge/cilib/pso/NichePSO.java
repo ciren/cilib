@@ -60,7 +60,8 @@ import org.apache.log4j.Logger;
  * @author Gary Pampara
  */
 public class NichePSO extends PopulationBasedAlgorithm {
-	
+	private static final long serialVersionUID = 2056933096612146989L;
+
 	private static Logger log = Logger.getLogger(NichePSO.class);
 	
 	private OptimisationProblem problem;

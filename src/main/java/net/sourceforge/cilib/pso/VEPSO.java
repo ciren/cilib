@@ -27,12 +27,9 @@
 
 package net.sourceforge.cilib.pso;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.AlgorithmFactory;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -45,7 +42,8 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * TODO: Warning, this class is not yet finished.
  */
 public class VEPSO extends MultiPopulationBasedAlgorithm {
-	
+	private static final long serialVersionUID = -1106504317383943200L;
+
 	public VEPSO() {
 		
 	}
@@ -64,7 +62,7 @@ public class VEPSO extends MultiPopulationBasedAlgorithm {
 	
 	public void performIteration() {
 		//Get the global guides for each subswarm
-		List<Entity> globalGuides = new ArrayList<Entity>();
+		//List<Entity> globalGuides = new ArrayList<Entity>();
 		
 		// for each subswarm get the global best -> guide
 		
@@ -103,9 +101,9 @@ public class VEPSO extends MultiPopulationBasedAlgorithm {
 	}
 
 	private MOOptimisationProblem problem;
-	private AlgorithmFactory factory;
-	private PSO[] swarms;
-	private Object[] catalogue;
+	//private AlgorithmFactory factory;
+	//private PSO[] swarms;
+	//private Object[] catalogue;
 	
 	
 	

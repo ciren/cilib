@@ -40,6 +40,8 @@ import net.sourceforge.cilib.type.DomainRegistry;
  * @author Gary Pampara
  */
 public class GraphOptimisationProblem extends ACOOptimisationProblem {
+	private static final long serialVersionUID = 1L;
+	
 	protected Graph<Vertex, Edge> graph;
 	protected DataSetBuilder dataSetBuilder;
 	

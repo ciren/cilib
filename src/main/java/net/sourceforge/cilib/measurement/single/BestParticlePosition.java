@@ -40,7 +40,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  */
 public class BestParticlePosition implements Measurement { 
-	
+	private static final long serialVersionUID = 5808686984197365658L;
+
 	public BestParticlePosition() {
     }
 	

@@ -55,8 +55,9 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
  * @author Andries Engelbrecht
  */
 public class GCPSO extends PSO {
-    
-    /** Creates a new instance of GCPSO */
+    private static final long serialVersionUID = -3759965202914163542L;
+
+	/** Creates a new instance of GCPSO */
     public GCPSO() {
         super();
         //super.setVelocityUpdate(new GCVelocityUpdate());

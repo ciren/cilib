@@ -6,6 +6,7 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Vector;
 
 public class DaviesBouldinIndex extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = -5167494843653998358L;
 
 	/**
 	 * The constructor, nothing much is done here, except that it calls the base class' constructor.

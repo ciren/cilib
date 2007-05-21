@@ -19,6 +19,7 @@ import net.sourceforge.cilib.type.types.Real;
  * 
  */
 public class MSEErrorFunction implements NNError, Initializable {
+	private static final long serialVersionUID = 2782200795898945699L;
 	
 	protected double value = 0;
 	protected double computationData = 0;

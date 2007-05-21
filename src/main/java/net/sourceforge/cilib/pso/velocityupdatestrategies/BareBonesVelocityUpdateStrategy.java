@@ -41,6 +41,7 @@ import net.sourceforge.cilib.type.types.Vector;
  *  @author Andries Engelbrecht
  */
 public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
+	private static final long serialVersionUID = -823686042197742768L;
 	
 	private RandomNumber randomNumber;
 	private ControlParameterUpdateStrategy cognitive;

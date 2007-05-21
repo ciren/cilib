@@ -41,6 +41,7 @@ import net.sourceforge.cilib.problem.dataset.DataSet;
  *
  */
 public class CachedDataSet extends DataSet {
+	private static final long serialVersionUID = -167393351437644754L;
 	
 	public static String CACHE_PATH = "";
 	

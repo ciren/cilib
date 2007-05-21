@@ -15,6 +15,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Theuns Cloete
  */
 public class QuantisationErrorFunction extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = -7008338250315442786L;
+
 	/**
 	 * The constructor, nothing much is done here, except that it calls the base class' constructor.
 	 * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction}

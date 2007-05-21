@@ -36,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  */
 public class Quartic extends ContinuousFunction {
-    
-    public Quartic() {
+    private static final long serialVersionUID = 1830591489569513511L;
+
+	public Quartic() {
         setDomain("R(-1.28, 1.28)^30");
     }
     

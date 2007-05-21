@@ -9,8 +9,8 @@ package net.sourceforge.cilib.stoppingcondition;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Vector;
-import net.sourceforge.cilib.util.AbsoluteDistanceMeasure;
 import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
 
 /** used to check if optimisation algorithm has stalled.
  *
@@ -27,7 +27,7 @@ public class OptimiserStalled implements StoppingCondition {
         maxConsecutiveMinChange = 5;
    
         minChangeCounter = 0;
-        distMeasure = new AbsoluteDistanceMeasure();
+        distMeasure = new ManhattanDistanceMeasure();
     }
     
     public OptimiserStalled(OptimiserStalled copy) {

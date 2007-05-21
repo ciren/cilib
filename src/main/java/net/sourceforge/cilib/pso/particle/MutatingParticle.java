@@ -40,7 +40,8 @@ import net.sourceforge.cilib.type.types.Real;
  * @deprecated 25/01/2006
  */
 public class MutatingParticle extends StandardParticle {
-
+	private static final long serialVersionUID = -135676600466549570L;
+	
 	private double mutationRate;
 	private double startingMutationRate;
 	private double endingMutationRate;

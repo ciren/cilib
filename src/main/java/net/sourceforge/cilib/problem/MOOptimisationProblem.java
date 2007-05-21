@@ -37,6 +37,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
  *
  */
 public class MOOptimisationProblem implements OptimisationProblem {
+	private static final long serialVersionUID = 4997914969290350571L;
 
 	public MOOptimisationProblem() {
 		problems = new ArrayList<OptimisationProblem>();

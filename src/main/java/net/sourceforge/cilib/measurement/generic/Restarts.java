@@ -39,8 +39,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class Restarts implements Measurement {
-    
-    /** Creates a new instance of Restarts */
+    private static final long serialVersionUID = 3990735185462072444L;
+
+	/** Creates a new instance of Restarts */
     public Restarts() {
     }
     

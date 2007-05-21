@@ -89,11 +89,9 @@ public interface Entity extends Comparable<Entity>, BehaviouralParameters, Seria
 	
 	
 	/**
-	 * Sets the Entity's fitness
-	 * @param fitness
+	 * Caclulate the fitness of the <code>Entity</code>
 	 */
-	public void setFitness(Fitness fitness);
-	
+	public void calculateFitness();
 	
 	/**
 	 * Returns the Entities fitness

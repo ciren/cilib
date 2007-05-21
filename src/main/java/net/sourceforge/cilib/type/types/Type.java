@@ -43,6 +43,8 @@ public abstract class Type implements Externalizable {
 	public abstract boolean equals(Object other);
 	public abstract int hashCode();
 	
+	// public Type get(int index);
+	
 	
 	/**
 	 * Utility method. Change the values within the <code>Type</code>, randomly, based

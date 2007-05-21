@@ -18,6 +18,7 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class Shir extends ContinuousFunction {
+	private static final long serialVersionUID = 8157687561496975789L;
 	
 	double l1, l2, l3, l4, l5, sharpness;
 	

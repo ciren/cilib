@@ -37,6 +37,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Edwin Peer
  */
 public class MultipleSolutions implements Measurement {
+	private static final long serialVersionUID = 1617755270627315980L;
 
 	public MultipleSolutions() {
 	}

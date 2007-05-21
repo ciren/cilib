@@ -16,7 +16,6 @@ import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.GenericTopol
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.GenericTopologyVisitor;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.SpecificWeightInitialiser;
-import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightCountingVisitor;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightExtractingVisitor;
 import net.sourceforge.cilib.type.types.MixedVector;
 

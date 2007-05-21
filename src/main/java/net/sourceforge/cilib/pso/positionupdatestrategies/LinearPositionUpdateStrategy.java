@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.Vector;
  *
  */
 public class LinearPositionUpdateStrategy implements PositionUpdateStrategy {
+	private static final long serialVersionUID = -3328130784035172372L;
 
 	public LinearPositionUpdateStrategy() {
 	}

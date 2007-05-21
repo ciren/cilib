@@ -17,6 +17,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Theuns Cloete
  */
 public class ParametricClusteringFunction extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = 583965930447258179L;
+	
 	/**Specifies the weight that intra-cluster-distance will contribute to the final fitness*/
 	protected double w1 = 0.0;
 	/**Specifies the weight that inter-cluster-distance will contribute to the final fitness*/

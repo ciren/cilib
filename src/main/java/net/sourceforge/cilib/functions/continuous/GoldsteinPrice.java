@@ -40,7 +40,8 @@ import net.sourceforge.cilib.type.types.Vector;
  *
  */
 public class GoldsteinPrice extends ContinuousFunction {
-	
+	private static final long serialVersionUID = 5635493177950325746L;
+
 	public GoldsteinPrice() {
         setDomain("R(-2, 2)^2");
     }

@@ -1,6 +1,5 @@
 package net.sourceforge.cilib.functions.continuous;
 
-import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MockClusteringStringDataSet;
 import net.sourceforge.cilib.type.types.MixedVector;

@@ -41,7 +41,9 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
 
 public class FunctionLearningProblem extends OptimisationProblemAdapter {
-    private Function function;
+    private static final long serialVersionUID = -8903112361933892141L;
+    
+	private Function function;
     private int sampleSetSize = 1000;
     private double trainingSetPercentage = 0.7;
     private double testingSetPercentage = 1.0 - trainingSetPercentage;

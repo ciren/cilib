@@ -21,6 +21,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
+	private static final long serialVersionUID = -8781011210069055197L;
+	
 	private RandomNumber rand1;
 	private RandomNumber rand2;
 	private RandomNumber rand3;

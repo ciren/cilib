@@ -50,8 +50,10 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  Edwin Peer
  */
 public class Rastrigin extends ContinuousFunction implements Differentiable {
-    
-    public Rastrigin() {
+    private static final long serialVersionUID = 447701182683968035L;
+
+
+	public Rastrigin() {
         setDomain("R(-5.12, 5.12)^30");
     }
     

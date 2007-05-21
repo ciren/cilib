@@ -38,8 +38,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class PercentageComplete implements Measurement {
-    
-    /** Creates a new instance of PercentageComplete */
+	private static final long serialVersionUID = 552272710698138639L;
+
+	/** Creates a new instance of PercentageComplete */
     public PercentageComplete() {
     }
     

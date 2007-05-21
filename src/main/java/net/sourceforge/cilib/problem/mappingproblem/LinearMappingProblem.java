@@ -44,7 +44,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author jkroon
  */
 public class LinearMappingProblem extends MappingProblem {
-	
+	private static final long serialVersionUID = -8250226009646654027L;
+
 	public LinearMappingProblem() {
 		
 	}

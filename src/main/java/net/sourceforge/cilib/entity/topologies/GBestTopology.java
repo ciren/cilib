@@ -62,7 +62,8 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
         entities = new ArrayList<E>();
     }
     
-    public GBestTopology(GBestTopology<E> copy) {
+    @SuppressWarnings("unchecked")
+	public GBestTopology(GBestTopology<E> copy) {
     	this.entities = new ArrayList<E>(copy.entities.size());
     	for (E entity : copy.entities) {
     		this.entities.add((E) entity.clone());

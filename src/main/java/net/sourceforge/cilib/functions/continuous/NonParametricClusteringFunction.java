@@ -15,6 +15,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Theuns Cloete
  */
 public class NonParametricClusteringFunction extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = 5712216719378084294L;
 
 	/**
 	 * The constructor, nothing much is done here, except that it calls the base class' constructor.

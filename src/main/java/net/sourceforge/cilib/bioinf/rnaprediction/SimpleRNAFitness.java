@@ -33,6 +33,7 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * the length of the nucleotide string. Thus, fitness should be minimised.
  */
 public class SimpleRNAFitness extends RNAFitness{
+	private static final long serialVersionUID = -666765613654971498L;
 
 	public SimpleRNAFitness() {
 		nucleotides = NucleotideString.getInstance().getNucleotideString();		

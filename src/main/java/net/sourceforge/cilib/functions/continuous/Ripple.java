@@ -39,8 +39,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class Ripple extends ContinuousFunction {
+	private static final long serialVersionUID = 2956377362140947929L;
 
-    public Ripple() {
+	public Ripple() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(0, 1)^2");
     }

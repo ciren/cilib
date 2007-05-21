@@ -38,6 +38,7 @@ import java.util.Iterator;
  */
 
 public class Efn2RNAFitness extends RNAFitness {
+	private static final long serialVersionUID = 328787448081439602L;
 
 	public Efn2RNAFitness (){
 		nucleotides = NucleotideString.getInstance().getNucleotideString();

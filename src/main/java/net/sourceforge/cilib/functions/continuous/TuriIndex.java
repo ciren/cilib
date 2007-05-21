@@ -5,6 +5,8 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.Vector;
 
 public class TuriIndex extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = 2457356424874462741L;
+	
 	private double c = 0.0;
 	private RandomNumber random = null;
 	private double gaussian = 0.0;

@@ -52,7 +52,8 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
 
 public class SpatialExtent implements Measurement {
-	
+	private static final long serialVersionUID = -6846992935896199456L;
+
 	public SpatialExtent(SpatialExtent copy) {
 	}
 	

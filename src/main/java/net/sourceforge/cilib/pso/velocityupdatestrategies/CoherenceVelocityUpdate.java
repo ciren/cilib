@@ -18,6 +18,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Daniel Lowes
  */
 public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
+	private static final long serialVersionUID = -9051938755796130230L;
 	
 	private Random socialRandomGenerator;
 	private Random cognitiveRandomGenerator;

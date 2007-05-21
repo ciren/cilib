@@ -31,8 +31,9 @@ import net.sourceforge.cilib.type.types.Vector;
 
 
 public class MultimodalFunction2 extends ContinuousFunction { 
+	private static final long serialVersionUID = -5046586719830749372L;
 
-    public MultimodalFunction2() {
+	public MultimodalFunction2() {
         setDomain("R(0, 1)^1");
     }
 

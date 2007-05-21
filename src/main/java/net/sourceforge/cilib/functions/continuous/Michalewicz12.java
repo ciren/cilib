@@ -51,6 +51,7 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class Michalewicz12 extends ContinuousFunction {
+	private static final long serialVersionUID = -2885728189740122807L;
 	
 	private int m;
 

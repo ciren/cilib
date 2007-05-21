@@ -32,7 +32,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public class ZeroInitialVelocityStrategy implements
 		VelocityInitialisationStrategy {
-	
+	private static final long serialVersionUID = 7339106246533286485L;
+
 	public ZeroInitialVelocityStrategy() {
 		
 	}

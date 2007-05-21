@@ -31,7 +31,6 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -45,8 +44,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Andries Engelbrecht
  */
 public class Diameter implements Measurement {
-    
-    /** Creates a new instance of SwarmDiameter */
+    private static final long serialVersionUID = 5136996282460480831L;
+
+	/** Creates a new instance of SwarmDiameter */
     public Diameter() {
     }
     

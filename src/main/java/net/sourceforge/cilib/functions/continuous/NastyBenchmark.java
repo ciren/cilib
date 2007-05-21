@@ -37,8 +37,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  Edwin Peer
  */
 public class NastyBenchmark extends ContinuousFunction {
-    
-    public NastyBenchmark() {
+	private static final long serialVersionUID = 6848836780892359015L;
+
+	public NastyBenchmark() {
         setDomain("R(-500, 500)^30");
     }
     

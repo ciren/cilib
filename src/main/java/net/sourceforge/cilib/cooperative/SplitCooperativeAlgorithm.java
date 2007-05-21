@@ -60,6 +60,8 @@ import net.sourceforge.cilib.type.types.MixedVector;
  * @author Theuns Cloete
  */
 public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm, Iterable<Algorithm> {
+	private static final long serialVersionUID = 2287798336228462889L;
+	
 	protected CooperativeEntity context = null;
 	protected SplitStrategy splitStrategy = null;
 	protected PopulationIterator populationIterator = null;

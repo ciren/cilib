@@ -30,7 +30,8 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * @author mneethling
  */
 public class HydrogenBondFitness extends RNAFitness {
-	
+	private static final long serialVersionUID = -7908183910339793704L;
+
 	public HydrogenBondFitness() {
 	}
 	

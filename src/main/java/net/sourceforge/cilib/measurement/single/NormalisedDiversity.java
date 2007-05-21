@@ -57,7 +57,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class NormalisedDiversity implements Measurement {
-	
+	private static final long serialVersionUID = 93751729329230145L;
+
 	public NormalisedDiversity(NormalisedDiversity copy) {
 	}
 	

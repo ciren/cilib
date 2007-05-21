@@ -38,8 +38,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class Iterations implements Measurement {
-    
-    /** Creates a new instance of Iterations */
+    private static final long serialVersionUID = -1689111168205874937L;
+
+	/** Creates a new instance of Iterations */
     public Iterations() {
     }
     

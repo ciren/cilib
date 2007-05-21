@@ -31,7 +31,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class Diversity implements Measurement {
-	
+	private static final long serialVersionUID = -6536136932133521018L;
+
 	public Diversity() {
 	}
 	

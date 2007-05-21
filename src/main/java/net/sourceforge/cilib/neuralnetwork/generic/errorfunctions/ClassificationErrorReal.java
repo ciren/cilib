@@ -14,6 +14,7 @@ import net.sourceforge.cilib.type.types.Real;
  *
  */
 public class ClassificationErrorReal implements NNError {
+	private static final long serialVersionUID = 8105183884502670240L;
 	
 	protected int numberPatternsCorrect = 0;
 	protected int numberPatternsIncorrect = 0;

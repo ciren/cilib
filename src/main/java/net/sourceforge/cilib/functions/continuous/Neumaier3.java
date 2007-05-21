@@ -36,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  engel
  */
 public class Neumaier3 extends ContinuousFunction {
-    
-    /** Creates a new instance of Neumaier */
+	private static final long serialVersionUID = 192809046725649930L;
+
+	/** Creates a new instance of Neumaier */
     public Neumaier3() {
     	// TODO: Fix this constraint
         // constraint.add(new ContentValidator(new NeumaierValidator()));

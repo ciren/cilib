@@ -36,7 +36,8 @@ import net.sourceforge.cilib.type.types.Vector;
  *
  */
 public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
-	
+	private static final long serialVersionUID = 5547754413670196513L;
+
 	public StandardPositionUpdateStrategy() {
 
 	}

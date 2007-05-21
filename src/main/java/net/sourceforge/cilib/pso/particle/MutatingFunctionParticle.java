@@ -41,7 +41,8 @@ import net.sourceforge.cilib.type.types.Real;
  * @deprecated
  */
 public class MutatingFunctionParticle extends StandardParticle {
-
+	private static final long serialVersionUID = 4339678955710234244L;
+	
 	private double mutationRate;
 	private double startingMutationRate;
 	private double endingMutationRate;

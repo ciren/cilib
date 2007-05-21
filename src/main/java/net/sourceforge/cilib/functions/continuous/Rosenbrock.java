@@ -47,8 +47,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  Edwin Peer
  */
 public class Rosenbrock extends ContinuousFunction {
-    
-    public Rosenbrock() {
+    private static final long serialVersionUID = -5850480295351224196L;
+
+	public Rosenbrock() {
         setDomain("R(-2.048, 2.048)^30");
     }
     

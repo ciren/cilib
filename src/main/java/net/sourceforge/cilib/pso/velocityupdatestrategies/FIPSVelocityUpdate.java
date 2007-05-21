@@ -42,6 +42,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
 public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
+	private static final long serialVersionUID = -601384236026398105L;
 	
 	private ControlParameterUpdateStrategy randomComponent;
 

@@ -25,19 +25,14 @@
  */
 package net.sourceforge.cilib.pso;
 
-import java.util.ArrayList;
-
-import net.sourceforge.cilib.ec.crossoveroperators.ArithmeticCrossOver;
-import net.sourceforge.cilib.ec.crossoveroperators.CrossOverOperator;
-import net.sourceforge.cilib.ec.selectionoperators.RandomSelection;
-import net.sourceforge.cilib.ec.selectionoperators.SelectionOperator;
-import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * @author otter
  */
 public class BreedingPSO extends PSO {
+	private static final long serialVersionUID = 2935832436408246517L;
 	
+	/*
 	private CrossOverOperator<Particle> crossover;
 	private SelectionOperator<Particle> particleSelector;
 	
@@ -56,7 +51,7 @@ public class BreedingPSO extends PSO {
 	/**
 	 * Want to select two particle perform cross-over to produce two new particles which
 	 * replaces the parent particles.
-	 */
+	 *
 	private void breed() {
 		//list containing the parents.
 		ArrayList<Particle> parents = (ArrayList<Particle>)particleSelector.select(this.getTopology(), crossover.numberOffParentsNeeded());
@@ -85,6 +80,6 @@ public class BreedingPSO extends PSO {
 
 	public void setParticleSelector(SelectionOperator<Particle> particleSelector) {
 		this.particleSelector = particleSelector;
-	}
+	}*/
 }
 

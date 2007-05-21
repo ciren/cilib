@@ -36,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  engel
  */
 public class Schaffer2 extends ContinuousFunction {
-    
-    /** Creates a new instance of Schaffer */
+    private static final long serialVersionUID = 7289010453718555694L;
+
+	/** Creates a new instance of Schaffer */
     public Schaffer2() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");

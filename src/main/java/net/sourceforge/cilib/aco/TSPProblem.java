@@ -42,6 +42,8 @@ import net.sourceforge.cilib.container.graph.Vertex;
  * @author Gary Pampara
  */
 public class TSPProblem extends GraphOptimisationProblem {
+	private static final long serialVersionUID = 7470281924795385913L;
+	
 	protected Collection<Edge> bestSolution;
 	protected double bestSolutionLength;
 	

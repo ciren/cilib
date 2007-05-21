@@ -42,8 +42,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  engel
  */
 public class Easom extends ContinuousFunction {
-    
-    /** Creates a new instance of Easom */
+	private static final long serialVersionUID = 7173528343222997045L;
+
+	/** Creates a new instance of Easom */
     public Easom() {        
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");

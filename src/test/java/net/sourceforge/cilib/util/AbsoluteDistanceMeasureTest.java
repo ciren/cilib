@@ -50,7 +50,7 @@ public class AbsoluteDistanceMeasureTest {
 	
 	@BeforeClass
 	public static void setUp() {
-		distanceMeasure = new AbsoluteDistanceMeasure();
+		distanceMeasure = new ManhattanDistanceMeasure();
 	}
 	
 	@Test

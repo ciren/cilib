@@ -34,6 +34,8 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
+import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
  *
@@ -41,15 +43,17 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  */
 public class StandardParticle extends Particle {
+    private static final long serialVersionUID = 2610843008637279845L;
     
-    protected Vector position;
+	protected Vector position;
     protected Vector bestPosition;
     protected Vector velocity;
 
-    private Fitness fitness;
-    private Fitness bestFitness;
+    protected Fitness fitness;
+    protected Fitness bestFitness;
 
-    private Particle neighbourhoodBest;
+    protected Particle neighbourhoodBest;
+    protected FitnessCalculator fitnessCalculator;
     
     
     /** Creates a new instance of StandardParticle */
@@ -58,6 +62,8 @@ public class StandardParticle extends Particle {
         position = new MixedVector();
         bestPosition = new MixedVector();
         velocity = new MixedVector();
+        
+        fitnessCalculator = new VectorBasedFitnessCalculator();
     }
     
     
@@ -70,6 +76,8 @@ public class StandardParticle extends Particle {
     	this.positionUpdateStrategy = copy.positionUpdateStrategy.clone();
     	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
     	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.clone();
+    	
+    	this.fitnessCalculator = copy.fitnessCalculator.clone();
     	    	
     	this.position = copy.position.clone();
     	this.bestPosition = copy.bestPosition.clone();
@@ -90,11 +98,7 @@ public class StandardParticle extends Particle {
     public Vector getBestPosition() {
         return bestPosition;
     }
-    
-    public void setBestPosition(Type bestPosition) {
-    	this.bestPosition = (Vector) bestPosition;
-    }
-    
+        
     public int getDimension() {
     	return position.getDimension();
     }
@@ -147,17 +151,13 @@ public class StandardParticle extends Particle {
     /**
      * 
      */
-    public void setFitness(Fitness fitness) {
-        this.fitness = fitness;
-        if (fitness.compareTo(bestFitness) > 0) {
-            bestFitness = fitness;
-     
-            for (int i = 0; i < position.getDimension(); ++i) {
-            	bestPosition.set(i, position.get(i));
-            }
-        }
+    public void calculateFitness() {
+    	this.fitness = fitnessCalculator.getFitness(position);
+    	if (fitness.compareTo(bestFitness) > 0) {
+    		this.bestFitness = fitness;
+    		this.bestPosition = (Vector) position.clone();
+    	}
     }
-    
     
     /**
      * 
@@ -219,5 +219,15 @@ public class StandardParticle extends Particle {
 	// Reinitialise all the things based on the defined initialisation strategy
 	public void reinitialise() {
 		this.velocityInitialisationStrategy.initialise(this);
+	}
+
+
+	public FitnessCalculator getFitnessCalculator() {
+		return fitnessCalculator;
+	}
+
+
+	public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
+		this.fitnessCalculator = fitnessCalculator;
 	}
 }

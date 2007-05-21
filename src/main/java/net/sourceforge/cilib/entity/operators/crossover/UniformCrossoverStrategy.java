@@ -29,11 +29,8 @@ package net.sourceforge.cilib.entity.operators.crossover;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -91,9 +88,11 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 				}
 			
 			
-			OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
-			offspring1.setFitness(problem.getFitness(offspring1.get(), false));
-			offspring2.setFitness(problem.getFitness(offspring2.get(), false));
+			//OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
+//			offspring1.setFitness(problem.getFitness(offspring1.get(), false));
+//			offspring2.setFitness(problem.getFitness(offspring2.get(), false));
+			offspring1.calculateFitness();
+			offspring2.calculateFitness();
 			
 			offspring.add(offspring1);
 			offspring.add(offspring2);

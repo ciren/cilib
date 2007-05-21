@@ -40,7 +40,9 @@ import net.sourceforge.cilib.pso.PSO;
  *
  */
 public class RNAPSO extends PSO {
-	 public RNAPSO() {
+	private static final long serialVersionUID = 8034984869522637866L;
+
+	public RNAPSO() {
         super();
     }
 	 

@@ -40,6 +40,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public class ClusteringAntDecorator extends Ant {
+	private static final long serialVersionUID = -923470118462293377L;
+	
 	private ClusterableObject ladenObject;
 	private boolean laden = false;
 	private int currentX;

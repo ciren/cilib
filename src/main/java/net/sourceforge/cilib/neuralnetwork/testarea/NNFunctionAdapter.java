@@ -5,6 +5,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.type.types.MixedVector;
 
 public class NNFunctionAdapter extends Function {
+	private static final long serialVersionUID = -8189968864920232174L;
 	
 	EvaluationMediator mediator;
 

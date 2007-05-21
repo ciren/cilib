@@ -10,6 +10,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
+	private static final long serialVersionUID = 4908040536174924734L;
 
 	public HybridCooperativeAlgorithm() {
 		super();

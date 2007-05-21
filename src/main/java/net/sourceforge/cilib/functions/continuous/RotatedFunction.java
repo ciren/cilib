@@ -36,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  Edwin Peer
  */
 public class RotatedFunction extends ContinuousFunction {
-    
-    /** Creates a new instance of RotatedFunction */
+    private static final long serialVersionUID = -5231187596635372920L;
+
+	/** Creates a new instance of RotatedFunction */
     public RotatedFunction() {
         function = null;
     }

@@ -57,6 +57,8 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class DeratingNichePSO extends Algorithm
 {
+  private static final long serialVersionUID = 4592274400793897112L;
+  
   /**
    * This is the NichePSO that is used to find multiple solutions
    */

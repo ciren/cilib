@@ -49,7 +49,8 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
 		
 	   for (Iterator<Particle> i = algorithm.getTopology().iterator(); i.hasNext(); ) {
             Particle current = i.next();
-            current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
+            //current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
+            current.calculateFitness();
             
             for (Iterator<Particle> j = algorithm.getTopology().neighbourhood(i); j.hasNext(); ) {
                 Particle other = j.next();
@@ -67,7 +68,8 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
            
            boundaryConstraint.enforce(current);
            
-           current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
+           //current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
+           current.calculateFitness();
            
            for (Iterator<Particle> j = algorithm.getTopology().neighbourhood(i); j.hasNext(); ) {
                Particle other = j.next();

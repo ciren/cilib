@@ -33,8 +33,8 @@ import net.sourceforge.cilib.pso.particle.Particle;
  * 
  * @author Gary Pampara
  */
-public class MemoryNeighbourhoodBestUpdateStrategy implements
-		NeighbourhoodBestUpdateStrategy {
+public class MemoryNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
+	private static final long serialVersionUID = -6674766322219682030L;
 
 	/**
 	 * Get the social best fitness of the particle. This returns the fitness of the

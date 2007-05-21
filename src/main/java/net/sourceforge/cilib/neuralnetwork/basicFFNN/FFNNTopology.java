@@ -12,7 +12,6 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 
 /**

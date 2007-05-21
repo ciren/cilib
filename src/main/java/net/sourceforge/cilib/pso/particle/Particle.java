@@ -38,6 +38,7 @@ import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdate
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.Vector;
 
 /**
  *
@@ -101,11 +102,7 @@ public abstract class Particle implements Entity {
     	this.id = id;
     }
     
-    /**
-     * 
-     * @param fitness
-     */
-    public abstract void setFitness(Fitness fitness);
+    public abstract void calculateFitness();
 
     /**
      * Get the Fitness of the current Particle 
@@ -143,7 +140,7 @@ public abstract class Particle implements Entity {
      * @param bestPosition The <tt>Vector</tt> representing new best position of the
      *                     <tt>Particle</tt>.
      */
-    public abstract void setBestPosition(Type bestPosition);
+    //public abstract void setBestPosition(Type bestPosition);
     
     /**
      * Get the velocity representation of the <tt>Particle</tt>.
@@ -279,6 +276,10 @@ public abstract class Particle implements Entity {
 	 */
 	public int compareTo(Entity o) {
 		return getFitness().compareTo(o.getFitness());
+	}
+
+	public void setBestPosition(Vector localGuide) {
+		throw new UnsupportedOperationException("This method does not make sense to use directly. Please use setFitness() instead");		
 	}
 
 }

@@ -32,13 +32,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
@@ -50,9 +47,8 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+
+import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -243,7 +239,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
     }
 
     public void updateContributionFitness(Fitness fitness) {
-        getBestParticle().setFitness(fitness);
+        getBestParticle().calculateFitness();
     }
     
     public boolean participated() {

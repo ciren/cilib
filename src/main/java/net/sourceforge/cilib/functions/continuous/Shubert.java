@@ -41,8 +41,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class Shubert extends ContinuousFunction {
+	private static final long serialVersionUID = 3213789483391643466L;
 
-    public Shubert() {
+	public Shubert() {
         setDomain("R(-10, 10)^2");
     }
     

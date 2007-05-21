@@ -16,7 +16,8 @@ import net.sourceforge.cilib.type.types.Vector;
 // TODO: Check discontinuous / continuous
 
 public class SchwefelProblem2_26 extends ContinuousFunction {
-	
+	private static final long serialVersionUID = -4483598483574144341L;
+
 	public SchwefelProblem2_26() {
         setDomain("R(-500, 500)^30");
     }

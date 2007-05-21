@@ -35,6 +35,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  *
  */
 public class RNAOptimisationSolution extends OptimisationSolution {
+	private static final long serialVersionUID = -5464713156390857487L;
 	
 	/**
 	 * Contrucs a new instance of <code>RNAOptimisationSolution</code>.

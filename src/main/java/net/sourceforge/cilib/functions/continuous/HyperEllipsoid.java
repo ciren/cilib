@@ -46,8 +46,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  engel
  */
 public class HyperEllipsoid extends ContinuousFunction {
-    
-    /** Creates a new instance of HyperEllipsoid */
+    private static final long serialVersionUID = 813261964413884141L;
+
+	/** Creates a new instance of HyperEllipsoid */
     public HyperEllipsoid() {
         setDomain("R(-5.12,5.12)^30");
     }

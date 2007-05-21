@@ -70,7 +70,8 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         lastCol = -1;
     }
     
-    public VonNeumannTopology(VonNeumannTopology<E> copy) {
+    @SuppressWarnings("unchecked")
+	public VonNeumannTopology(VonNeumannTopology<E> copy) {
     	this.entities = new ArrayList<ArrayList<E>>(copy.entities.size());
     	for (ArrayList<E> list : copy.entities) {
     		ArrayList<E> tmpList = new ArrayList<E>(list.size());

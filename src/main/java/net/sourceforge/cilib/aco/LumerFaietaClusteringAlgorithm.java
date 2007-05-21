@@ -35,6 +35,8 @@ import net.sourceforge.cilib.problem.Problem;
  * @author Gary Pampara
  */
 public class LumerFaietaClusteringAlgorithm extends ACO {
+	private static final long serialVersionUID = -6794247875665714135L;
+	
 	private double k1 = 0.1;
 	private double k2 = 0.15;
 	private double alpha = 0.5;

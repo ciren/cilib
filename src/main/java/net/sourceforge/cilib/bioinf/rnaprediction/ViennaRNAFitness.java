@@ -33,6 +33,7 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * of the structure.
  */
 public class ViennaRNAFitness extends RNAFitness {
+	private static final long serialVersionUID = -38000347027058908L;
 
 	native float vfitness(String nuc, String brack);
 	

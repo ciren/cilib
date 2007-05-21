@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  */
 public class Solution implements Measurement {
+	private static final long serialVersionUID = -7485598441585703760L;
 
 	public Solution() {
 	}

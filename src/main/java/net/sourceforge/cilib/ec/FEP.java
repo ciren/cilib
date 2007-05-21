@@ -24,23 +24,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package net.sourceforge.cilib.ec.ea;
+package net.sourceforge.cilib.ec;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 
 import net.sourceforge.cilib.container.Pair;
-import net.sourceforge.cilib.container.SortedList;
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.ec.selectionoperators.TournamentSelection;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.type.types.Vector;
 
 /**
  *  
@@ -48,9 +39,9 @@ import net.sourceforge.cilib.type.types.Vector;
  *
  */
 @Deprecated
-public class FEP extends EA {
+public class FEP  {
 	
-	private RandomNumber randomNumber;
+	//private RandomNumber randomNumber;
 	
 	/**
 	 * 
@@ -59,8 +50,8 @@ public class FEP extends EA {
 	public FEP() {
 		super();
 
-		this.parentSelector = new TournamentSelection<Individual>();
-		this.randomNumber = new RandomNumber();
+	//	this.parentSelector = new TournamentSelection<Individual>();
+//		this.randomNumber = new RandomNumber();
 	}
 	
 	
@@ -69,7 +60,7 @@ public class FEP extends EA {
 	 * the <code>BehaviouralParameters</code> according to the FEP paper by Xin Yao.
 	 */
 	public void performInitialisation() {
-		super.performInitialisation();
+	/*	super.performInitialisation();
 		
 		for (Iterator<Individual> i = this.population.iterator(); i.hasNext(); ) {
 			Individual individual = i.next();
@@ -77,7 +68,7 @@ public class FEP extends EA {
 			for (int k = 0; k < vector.getDimension(); k++) {
 				vector.setReal(k, 3.0);
 			}
-		}
+		}*/
 	}
 	
 	
@@ -85,7 +76,7 @@ public class FEP extends EA {
 	 * 
 	 */
 	public void performIteration() {
-		performFitnessEvaluation(population);
+	//	performFitnessEvaluation(population);
 		
 		performCrossOver(); // Create the offspring
 		
@@ -100,7 +91,8 @@ public class FEP extends EA {
         Iterator<Individual> iterator = pop.iterator();
         while (iterator.hasNext()) {
           Individual individual = iterator.next();
-          individual.setFitness(problem.getFitness(individual.get(), false));
+          //individual.setFitness(problem.getFitness(individual.get(), false));
+          individual.calculateFitness();
         }
     }
 	
@@ -109,9 +101,9 @@ public class FEP extends EA {
 	 * 
 	 */
 	protected void performCrossOver() {
-		this.offspring.clear();
+		//this.offspring.clear();
 		
-		for (Iterator<Individual> iterator = this.population.iterator(); iterator.hasNext(); ) {
+		/*for (Iterator<Individual> iterator = this.population.iterator(); iterator.hasNext(); ) {
 			Individual parent = iterator.next();
 			Individual offspring = null;
 						
@@ -144,7 +136,7 @@ public class FEP extends EA {
 			this.offspring.add(offspring);
 		}
 		
-		performFitnessEvaluation(this.offspring);
+		performFitnessEvaluation(this.offspring);*/
 	}
 
 	
@@ -153,7 +145,7 @@ public class FEP extends EA {
 	 */
 	/* This should be abstracted into a selection operator ???? */
 	protected void performNextGenerationFormation() {
-		SortedList<Pair<Integer, Entity>> list = new SortedList<Pair<Integer, Entity>>(new AscendingOrderComparator());
+		/*SortedList<Pair<Integer, Entity>> list = new SortedList<Pair<Integer, Entity>>(new AscendingOrderComparator());
 		
 		Topology<Individual> unionPopulation = new GBestTopology<Individual>();
 		unionPopulation.addAll(this.population.getAll());
@@ -184,7 +176,7 @@ public class FEP extends EA {
 			newParentEntities.add((Individual)p.getValue());
 		}
 		
-		this.population.setAll(newParentEntities);
+		this.population.setAll(newParentEntities);*/
 	}
 	
 	
@@ -192,6 +184,7 @@ public class FEP extends EA {
 	 * 
 	 * @author Gary Pampara
 	 */
+	@SuppressWarnings("unused")
 	private class AscendingOrderComparator implements Comparator<Pair<Integer, Entity>> {
 		
 		/**

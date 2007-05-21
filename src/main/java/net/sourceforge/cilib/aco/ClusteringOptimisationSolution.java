@@ -31,5 +31,6 @@ import net.sourceforge.cilib.problem.Solution;
  * @author Gary Pampara
  */
 public class ClusteringOptimisationSolution implements Solution {
+	private static final long serialVersionUID = -6011660715563403772L;
 
 }

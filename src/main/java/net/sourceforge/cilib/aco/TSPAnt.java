@@ -47,6 +47,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public class TSPAnt extends Ant {
+	private static final long serialVersionUID = 3363231185310380644L;
+	
 	protected TransitionRuleFunction transitionRuleFunction;
 	protected PheromoneUpdate pheromoneUpdate;
 	

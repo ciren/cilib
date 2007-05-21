@@ -37,6 +37,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  */
 public class Foxholes extends ContinuousFunction {
+	private static final long serialVersionUID = 6407823129058106208L;
 	
 	private double a[][] = {
 			{-32.0, -16.0, 0.0, 16.0, 32.0},

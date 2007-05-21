@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
-
 /**
  * Concrete implemetnation of the {@see net.sourceforge.cilib.type.types.Vector}
  * class. Any {@see net.sourceforge.cilib.type.types.Type} object may be contained
@@ -40,8 +38,8 @@ import org.apache.log4j.Logger;
  * @author Edwin Peer
  */
 public class MixedVector extends Vector {
-	private static Logger log = Logger.getLogger(MixedVector.class);
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 136711882764612609L;
+	
 	private ArrayList<Type> components;
 
 	

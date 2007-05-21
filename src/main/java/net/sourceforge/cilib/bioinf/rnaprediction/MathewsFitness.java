@@ -33,7 +33,8 @@ import net.sourceforge.cilib.type.types.Set;
  *
  */
 public class MathewsFitness extends RNAFitness {
-	
+	private static final long serialVersionUID = 4258571695099807985L;
+
 	public MathewsFitness() {
 	}
 	

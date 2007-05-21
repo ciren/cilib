@@ -46,8 +46,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class Himmelblau extends ContinuousFunction {
+	private static final long serialVersionUID = 7323733640884766707L;
 
-    public Himmelblau() {
+	public Himmelblau() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-6, 6)^2");
     }

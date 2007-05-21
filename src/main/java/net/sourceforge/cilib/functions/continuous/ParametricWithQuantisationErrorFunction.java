@@ -15,6 +15,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Theuns Cloete
  */
 public class ParametricWithQuantisationErrorFunction extends ParametricClusteringFunction {
+	private static final long serialVersionUID = -2022785065235231801L;
+	
 	/**Specifies the weight that the Quantisation Error will contribute to the final fitness*/
 	protected double w3 = 0.0;
 

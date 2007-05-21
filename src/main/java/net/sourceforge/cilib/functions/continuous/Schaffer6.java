@@ -48,7 +48,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Gary Pampara
  */
 public class Schaffer6 extends ContinuousFunction {
-	
+	private static final long serialVersionUID = 4959662717057274057L;
+
+
 	/**
 	 * Constructor. Initialise the function to the initial domain of R(-100.0,100.0)^2
 	 */

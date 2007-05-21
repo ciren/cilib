@@ -51,6 +51,7 @@ public class GapFourFour implements GapPenaltiesMethod {
 		return finalAlignment;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void setFinalAlignment(ArrayList<String> s)
 	{
 		finalAlignment = (ArrayList<String>) s.clone();

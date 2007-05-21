@@ -33,6 +33,8 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
+import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
  * @author otter
@@ -46,6 +48,7 @@ public class Individual implements Entity {
     protected Type genes = null;    //represents the genetic structure.
     protected Type penotypes = null;
     protected Fitness fitness;
+    protected FitnessCalculator fitnessCalculator;
     
     /**
      * Constructor
@@ -55,6 +58,7 @@ public class Individual implements Entity {
         genes = new MixedVector();
         penotypes = new MixedVector();
         fitness = InferiorFitness.instance();
+        fitnessCalculator = new VectorBasedFitnessCalculator();
     }
     
     
@@ -63,6 +67,7 @@ public class Individual implements Entity {
         this.genes = copy.genes.clone();
         this.penotypes = copy.penotypes.clone();
         this.fitness = InferiorFitness.instance();
+        this.fitnessCalculator = copy.fitnessCalculator.clone();
     }
     
     /**
@@ -141,8 +146,8 @@ public class Individual implements Entity {
         return fitness;
     }
     
-    public void setFitness(Fitness fitness) {
-        this.fitness = fitness;
+    public void calculateFitness() {
+        this.fitness = fitnessCalculator.getFitness(this.genes);
     }
 
     public int getDimension() {

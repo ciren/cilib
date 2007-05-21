@@ -56,8 +56,9 @@ import net.sourceforge.cilib.type.DomainRegistry;
  * @author  Edwin Peer
  */
 public class MultistartOptimisationAlgorithm extends Algorithm implements ParticipatingAlgorithm {
-    
-    /** Creates a new instance of MultistartOptimisationAlgorithm */
+    private static final long serialVersionUID = 1493525363256406120L;
+
+	/** Creates a new instance of MultistartOptimisationAlgorithm */
     public MultistartOptimisationAlgorithm() {
         singleIteration = new SingleIteration();
         problem = null;
@@ -195,7 +196,9 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     
     private class MultistartProblemAdapter extends OptimisationProblemAdapter {
     	
-    	public MultistartProblemAdapter() {
+		private static final long serialVersionUID = -3156973576101060294L;
+
+		public MultistartProblemAdapter() {
     		
     	}
 

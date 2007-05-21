@@ -52,6 +52,8 @@ import net.sourceforge.cilib.type.DomainRegistry;
  */
 public class Coevolution extends MultiPopulationBasedAlgorithm implements OptimisationProblem
 {
+	private static final long serialVersionUID = -6283594401467387473L;
+
 	public Coevolution()
 	{
 		population = 10;

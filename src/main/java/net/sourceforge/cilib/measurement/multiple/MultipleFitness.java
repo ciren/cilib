@@ -45,6 +45,7 @@ import net.sourceforge.cilib.type.types.Type;
  */
 
 public class MultipleFitness implements Measurement {
+	private static final long serialVersionUID = -255308745515061075L;
 
 	public MultipleFitness() {
 	}

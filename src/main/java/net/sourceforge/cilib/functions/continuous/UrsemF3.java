@@ -41,8 +41,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class UrsemF3 extends ContinuousFunction {
+	private static final long serialVersionUID = -4477290008482842765L;
 
-    public UrsemF3() {
+	public UrsemF3() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-2, 2)^2");
     }

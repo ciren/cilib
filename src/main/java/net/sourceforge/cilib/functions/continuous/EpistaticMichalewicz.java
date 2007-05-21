@@ -43,8 +43,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  engel
  */
 public class EpistaticMichalewicz extends ContinuousFunction {
-    
-    /** Creates a new instance of EpistaticMichalewicz */
+	private static final long serialVersionUID = -4391269929189674709L;
+
+	/** Creates a new instance of EpistaticMichalewicz */
     public EpistaticMichalewicz() { 
         m = 10;
         setDomain("R(0, 3.141592653589793)^10");

@@ -6,6 +6,8 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Vector;
 
 public class DunnIndex extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = -7440453719679272149L;
+
 	/**
 	 * The constructor, nothing much is done here, except that it calls the base class' constructor.
 	 * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction}

@@ -29,7 +29,6 @@
 
 package net.sourceforge.cilib.type;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**

@@ -29,8 +29,8 @@ package net.sourceforge.cilib.pso;
 import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleVisitor;
 import net.sourceforge.cilib.type.types.Vector;
-import net.sourceforge.cilib.util.AbsoluteDistanceMeasure;
 import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
 
 /**
  * @author Edwin Peer
@@ -41,7 +41,7 @@ public class FindClosestParticleVisitor extends ParticleVisitor {
         this.target = target;
         closest = null;
         minimum = Double.MAX_VALUE;
-        distanceMeasure = new AbsoluteDistanceMeasure();
+        distanceMeasure = new ManhattanDistanceMeasure();
     }
     
     /* (non-Javadoc)

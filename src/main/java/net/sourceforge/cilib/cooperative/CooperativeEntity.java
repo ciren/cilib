@@ -13,6 +13,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Theuns Cloete
  */
 public class CooperativeEntity implements Entity {
+	private static final long serialVersionUID = -8298684370426283216L;
+	
 	protected MixedVector context = null;
 	protected Fitness fitness = null;
 
@@ -103,6 +105,11 @@ public class CooperativeEntity implements Entity {
 	}
 
 	public void reinitialise() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void calculateFitness() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -38,6 +38,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  Edwin Peer
  */
 public class StandardVelocityUpdate implements VelocityUpdateStrategy {
+	private static final long serialVersionUID = 8204479765311251730L;
 	
 	protected ControlParameterUpdateStrategy inertiaWeight;
     protected ControlParameterUpdateStrategy socialAcceleration;

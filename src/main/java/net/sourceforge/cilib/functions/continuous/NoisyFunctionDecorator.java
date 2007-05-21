@@ -37,6 +37,7 @@ import net.sourceforge.cilib.type.types.Vector;
  *
  */
 public class NoisyFunctionDecorator extends ContinuousFunction {
+	private static final long serialVersionUID = -3918271655104447420L;
 	
 	private ContinuousFunction function;
 	private RandomNumber randomNumber;

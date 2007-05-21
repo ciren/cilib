@@ -42,6 +42,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @modified Daniel Lowes
  */
 public class CoherenceParticle extends Particle {
+	private static final long serialVersionUID = 7558011414998829458L;
 
 	private int id;
 
@@ -217,6 +218,13 @@ public class CoherenceParticle extends Particle {
 	}
 
 	public void reinitialise() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void calculateFitness() {
 		// TODO Auto-generated method stub
 		
 	}

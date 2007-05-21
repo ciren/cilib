@@ -52,7 +52,9 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 
 public class DeratingFunctionMaximisationProblem extends FunctionMaximisationProblem {
-    /**
+    private static final long serialVersionUID = 6513411928705015979L;
+    
+	/**
      * This vector contains all the solutions (or positions) in the search
      * space that will be modified using the deratingFunction.
      */

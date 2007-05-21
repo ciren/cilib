@@ -47,8 +47,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class BraninRCOS extends ContinuousFunction {
-
-    private double a = 1.0;
+	private static final long serialVersionUID = -8231787667614872490L;
+	
+	private double a = 1.0;
     private double b = 5.1/(4*Math.PI*Math.PI);
     private double c = 5.0/Math.PI;
     private double d = 6.0;

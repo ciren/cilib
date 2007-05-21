@@ -36,6 +36,7 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  barlad
  */
 public class LFVelocityUpdate implements VelocityUpdateStrategy {
+	private static final long serialVersionUID = 2786412133881308328L;
 	
 	private StandardVelocityUpdate standard;    
     private GradientOptimisationProblem problem;

@@ -42,6 +42,7 @@ import net.sourceforge.cilib.measurement.Measurement;
  * @author  Edwin Peer
  */
 public class MeasurementSuite implements Serializable {
+	private static final long serialVersionUID = 8021290553229945841L;
 	
 	private String file;
     private int samples;

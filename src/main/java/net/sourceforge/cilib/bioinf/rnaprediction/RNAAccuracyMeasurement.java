@@ -35,7 +35,8 @@ import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
 public class RNAAccuracyMeasurement implements Measurement {
-	
+	private static final long serialVersionUID = -5526205767479118899L;
+
 	public RNAAccuracyMeasurement(RNAAccuracyMeasurement copy) {
 	}
 	

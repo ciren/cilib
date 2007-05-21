@@ -1,7 +1,8 @@
 package net.sourceforge.cilib.problem.dataset;
 
 public class MockClusteringStringDataSet extends MockStringDataSet {
-	
+	private static final long serialVersionUID = 5346632651777290824L;
+
 	public MockClusteringStringDataSet() {
 		patternExpression = ",\\s*Class[\\d+]|,\\s*";
 		data = "7.5, 1.5,Class0\n";

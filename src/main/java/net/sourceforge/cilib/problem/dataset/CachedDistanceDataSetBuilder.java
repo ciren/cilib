@@ -3,6 +3,8 @@ package net.sourceforge.cilib.problem.dataset;
 import net.sourceforge.cilib.type.types.Vector;
 
 public class CachedDistanceDataSetBuilder extends AssociatedPairDataSetBuilder {
+	private static final long serialVersionUID = -8098125665317527403L;
+	
 	private Vector mean = null, variance = null;
 	private double distanceCache[] = null;
 	private int cacheSize = 0;

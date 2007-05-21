@@ -47,6 +47,7 @@ import net.sourceforge.cilib.type.types.Real;
  */
 public class MutationPositionUpdateStrategy extends
 		StandardPositionUpdateStrategy {
+	private static final long serialVersionUID = -8369435727526797836L;
 	
 	private MaximumIterations maximumIterations;
 	private BoundedUpdateStrategy decreasingParameter;

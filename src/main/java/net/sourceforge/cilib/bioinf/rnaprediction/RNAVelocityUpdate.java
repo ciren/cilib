@@ -39,6 +39,7 @@ import net.sourceforge.cilib.type.types.MixedVector;
  *
  */
 public class RNAVelocityUpdate implements VelocityUpdateStrategy {
+	private static final long serialVersionUID = -6682883069950387034L;
 	
 	private RNAConformation unionSet;
 	private Random r;

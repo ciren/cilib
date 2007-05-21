@@ -75,7 +75,9 @@ public class MOFitnessTest {
     
     
     private static class DummyOptimisationProblem implements OptimisationProblem {
-    	private int i;
+    	private static final long serialVersionUID = -2955989686805159033L;
+    	
+		private int i;
     	
     	public DummyOptimisationProblem(int i) {
     		this.i = i;

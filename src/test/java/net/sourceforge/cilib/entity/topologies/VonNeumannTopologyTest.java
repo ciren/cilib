@@ -185,8 +185,9 @@ public class VonNeumannTopologyTest {
     private int[] id = {1, 3, 7, 2, 4, 8, 5, 6, 9, 10};
     
     private static class DumbParticle extends Particle {
-
-    	private String id;
+		private static final long serialVersionUID = 4273664052866515691L;
+		
+		private String id;
     	
     	public DumbParticle(String id) {
     		this.id = id;
@@ -292,13 +293,19 @@ public class VonNeumannTopologyTest {
 			
 		}
 
-		@Override
+		
 		public void setBestPosition(Type bestPosition) {
 			// TODO Auto-generated method stub
 			
 		}
 
 		public void reinitialise() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void calculateFitness() {
 			// TODO Auto-generated method stub
 			
 		}

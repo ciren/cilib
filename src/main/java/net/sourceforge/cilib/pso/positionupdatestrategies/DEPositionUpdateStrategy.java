@@ -1,7 +1,6 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.Entity;
@@ -20,7 +19,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * 
  */
 public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
-
+	private static final long serialVersionUID = -4052606351661988520L;
+	
 	private RandomNumber DEProbability; //Make a parameter to set via xml
 	private RandomNumber crossoverProbability;
 	private RandomNumber scaleParameter;

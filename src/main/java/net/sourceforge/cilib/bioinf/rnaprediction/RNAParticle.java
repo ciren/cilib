@@ -41,6 +41,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class RNAParticle extends Particle {
+	private static final long serialVersionUID = -8232081489398782692L;
 
 	public RNAParticle () {
 		position = new RNAConformation();
@@ -269,6 +270,12 @@ public class RNAParticle extends Particle {
 	}
 
 	public void reinitialise() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void calculateFitness() {
 		// TODO Auto-generated method stub
 		
 	}

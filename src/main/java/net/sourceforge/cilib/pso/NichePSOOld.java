@@ -58,8 +58,9 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate
  */
 // TODO: Create a more generic nicheing thing????
 public class NichePSOOld extends PopulationBasedAlgorithm
-{
-  /**
+{	
+	private static final long serialVersionUID = -4634540223887988107L;
+	/**	
    * The main swarm from which all subswarms will be created.
    */
   private PSO mainSwarm;
@@ -919,7 +920,8 @@ public class NichePSOOld extends PopulationBasedAlgorithm
    */
   public void updateContributionFitness(Fitness fitness) {
 	  //TODO: this may not be what you want, change as desired
-      getBestParticle().setFitness(fitness);
+      //getBestParticle().setFitness(fitness);
+	  getBestParticle().calculateFitness();
   }
 
   /**

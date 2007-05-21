@@ -51,8 +51,9 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class SixHumpCamelBack extends ContinuousFunction {
+	private static final long serialVersionUID = -3834640752316926216L;
 
-    public SixHumpCamelBack() {
+	public SixHumpCamelBack() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-3,3),R(-2,2)");
     }

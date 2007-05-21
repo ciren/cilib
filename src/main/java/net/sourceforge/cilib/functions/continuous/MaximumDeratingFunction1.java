@@ -32,7 +32,9 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Vector;
 
 public class MaximumDeratingFunction1 extends ContinuousFunction {
-    private double radius = 0.25;
+    private static final long serialVersionUID = -2963512750988478604L;
+    
+	private double radius = 0.25;
     private double alpha = 2.0;
 
     public MaximumDeratingFunction1() {

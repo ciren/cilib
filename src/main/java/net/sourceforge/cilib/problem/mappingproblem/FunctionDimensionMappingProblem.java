@@ -41,6 +41,7 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter {
+	private static final long serialVersionUID = -5419400002196415792L;
 	
 	private FunctionDimensionMapping function;	
 	private double higherDimensionDistanceMatrix[][];

@@ -125,7 +125,8 @@ public class XMLObjectFactory {
         return newObject(xmlObjectDescription);
     }
 
-    private Object newObject(Element xml) {
+    @SuppressWarnings("unchecked")
+	private Object newObject(Element xml) {
         
         Class objectClass = getClass(xml);
         

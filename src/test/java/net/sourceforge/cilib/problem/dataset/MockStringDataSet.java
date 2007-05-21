@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MockStringDataSet extends DataSet {
+	private static final long serialVersionUID = 8253706217084102158L;
 	
 	protected String data;
 	

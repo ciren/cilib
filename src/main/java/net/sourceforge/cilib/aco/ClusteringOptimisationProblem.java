@@ -35,6 +35,8 @@ import net.sourceforge.cilib.type.DomainRegistry;
  * @author Gary Pampara
  */
 public class ClusteringOptimisationProblem extends ACOOptimisationProblem {
+	private static final long serialVersionUID = 3297883559877806563L;
+	
 	private DataSetBuilder dataSetBuilder;
 	private Matrix<Object> grid;
 	

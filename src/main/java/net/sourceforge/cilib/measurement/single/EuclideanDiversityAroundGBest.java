@@ -40,7 +40,8 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 public class EuclideanDiversityAroundGBest implements Measurement {
-	
+	private static final long serialVersionUID = 8221420456303029095L;
+
 	public EuclideanDiversityAroundGBest(EuclideanDiversityAroundGBest copy) {
 		
 	}

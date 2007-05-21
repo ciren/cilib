@@ -43,7 +43,8 @@ import net.sourceforge.cilib.type.types.Vector;
  * This problem is an OptimisationProblem and thus based on the <code>OptimisationProblem</code> interface
  */
 public class KnightCoverageProblem extends OptimisationProblemAdapter {
-	
+	private static final long serialVersionUID = 3070562330891331356L;
+
 	public KnightCoverageProblem(KnightCoverageProblem copy) {
 		
 	}

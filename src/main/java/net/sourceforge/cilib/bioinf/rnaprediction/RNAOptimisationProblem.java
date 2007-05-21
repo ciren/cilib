@@ -38,7 +38,8 @@ import net.sourceforge.cilib.type.DomainRegistry;
  *
  */
 public class RNAOptimisationProblem extends OptimisationProblemAdapter {
-
+	private static final long serialVersionUID = -2995246748207035373L;
+	
 	private RNAFitness fit;
 	protected int fitnessEvaluations;
 	private DataSetBuilder dataSetBuilder;

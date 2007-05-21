@@ -37,6 +37,8 @@ import net.sourceforge.cilib.container.graph.Vertex;
  * @author Gary Pampara
  */ 
 public class ASTSP extends ACO {
+	private static final long serialVersionUID = -8685716419439021909L;
+
 	// FIXME: Shouldn't the solutions be kept in the correct extended Solution class?
 	private double tau;
 		

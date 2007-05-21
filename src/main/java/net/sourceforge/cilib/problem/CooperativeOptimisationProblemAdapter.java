@@ -11,6 +11,8 @@ import net.sourceforge.cilib.type.types.MixedVector;
  * @author Theuns Cloete
  */
 public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAdapter {
+	private static final long serialVersionUID = 6643809900184758346L;
+	
 	private OptimisationProblem problem = null;
 	private CooperativeEntity context = null;
 	private DomainRegistry domainRegistry = null;

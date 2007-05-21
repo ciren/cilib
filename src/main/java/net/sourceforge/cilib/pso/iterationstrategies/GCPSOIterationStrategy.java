@@ -84,6 +84,7 @@ public class GCPSOIterationStrategy extends IterationStrategy<PSO> {
 	 * Set the decorated <code>IterationStrategy</code>
 	 * @param strategy The strategy to set.
 	 */
+	@SuppressWarnings("unchecked")
 	public void setStrategy(IterationStrategy strategy) {
 		this.strategy = strategy;
 	}

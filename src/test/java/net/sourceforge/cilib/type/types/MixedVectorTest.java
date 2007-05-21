@@ -156,6 +156,7 @@ public class MixedVectorTest {
 		m.add(s);
 		m.add(v);
 		
+		assertSame(s, m.get(0));
 		assertEquals(s, m.get(0));
 		assertEquals(v, m.get(1));
 	}

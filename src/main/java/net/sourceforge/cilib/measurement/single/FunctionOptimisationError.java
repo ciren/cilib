@@ -39,8 +39,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class FunctionOptimisationError implements Measurement {
-    
-    /** Creates a new instance of FunctionMinimisationError */
+    private static final long serialVersionUID = 7708362377448599712L;
+
+	/** Creates a new instance of FunctionMinimisationError */
     public FunctionOptimisationError() {
     }
     

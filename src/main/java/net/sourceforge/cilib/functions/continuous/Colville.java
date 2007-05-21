@@ -36,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  engel
  */
 public class Colville extends ContinuousFunction {
-    
-    /** Creates a new instance of Colville */
+   private static final long serialVersionUID = 4561331100889232057L;
+
+	/** Creates a new instance of Colville */
     public Colville() {
         //constraint.add(new DimensionValidator(4));
         setDomain("R(-10, 10)^4");

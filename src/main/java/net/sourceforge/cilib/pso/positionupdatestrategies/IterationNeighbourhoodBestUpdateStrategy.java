@@ -31,8 +31,8 @@ import net.sourceforge.cilib.pso.particle.Particle;
 /**
  * @author Gary Pampara
  */
-public class IterationNeighbourhoodBestUpdateStrategy implements
-		NeighbourhoodBestUpdateStrategy {
+public class IterationNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
+	private static final long serialVersionUID = 9029103734770326975L;
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.PSO.NeighbourhoodBestUpdateStrategy#getSocialBestFitness(net.sourceforge.cilib.PSO.Particle)

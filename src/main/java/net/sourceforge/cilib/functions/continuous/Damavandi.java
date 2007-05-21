@@ -20,7 +20,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class Damavandi extends ContinuousFunction {
-	
+	private static final long serialVersionUID = 2857754134712271398L;
+
 	public Damavandi() {
         setDomain("R(0, 12)^2");
     }

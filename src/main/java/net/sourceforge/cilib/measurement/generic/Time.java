@@ -37,7 +37,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  */
 public class Time implements Measurement, AlgorithmListener {
-
+	private static final long serialVersionUID = -3516066813688827758L;
+	
 	private boolean running = false;
 	private long startTime;
 	private long endTime;

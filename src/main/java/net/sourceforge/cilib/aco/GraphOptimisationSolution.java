@@ -31,5 +31,6 @@ import net.sourceforge.cilib.problem.Solution;
  * @author Gary Pampara
  */
 public class GraphOptimisationSolution implements Solution {
+	private static final long serialVersionUID = -509125039774388673L;
 
 }

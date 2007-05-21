@@ -6,6 +6,8 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Vector;
 
 public class ScatterDensityIndex extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = 1164537525165848345L;
+
 	/**
 	 * The constructor, nothing much is done here, except that it calls the base class' constructor.
 	 * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction}

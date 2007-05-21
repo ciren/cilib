@@ -19,7 +19,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 
 public class SchwefelP extends ContinuousFunction {
-	
+	private static final long serialVersionUID = -6609235224439591206L;
+
 	public SchwefelP() {
         setDomain("R(-100, 100)^30");
     }

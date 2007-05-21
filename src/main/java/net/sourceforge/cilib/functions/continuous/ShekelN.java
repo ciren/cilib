@@ -36,8 +36,9 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author  engel
  */
 public class ShekelN extends ContinuousFunction {
-    
-    /** Creates a new instance of Step */
+    private static final long serialVersionUID = 4420382656606698465L;
+
+	/** Creates a new instance of Step */
     public ShekelN() {
         n = 10;
 
