@@ -91,8 +91,8 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 			//OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
 //			offspring1.setFitness(problem.getFitness(offspring1.get(), false));
 //			offspring2.setFitness(problem.getFitness(offspring2.get(), false));
-			offspring1.calculateFitness();
-			offspring2.calculateFitness();
+			offspring1.calculateFitness(false);
+			offspring2.calculateFitness(false);
 			
 			offspring.add(offspring1);
 			offspring.add(offspring2);
