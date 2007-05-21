@@ -108,8 +108,12 @@ public class CooperativeEntity implements Entity {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	public void calculateFitness() {
+		calculateFitness(true);
+	}
+
+	public void calculateFitness(boolean count) {
 		// TODO Auto-generated method stub
 		
 	}

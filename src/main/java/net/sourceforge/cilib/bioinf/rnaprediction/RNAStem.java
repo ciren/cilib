@@ -27,9 +27,6 @@
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,7 +39,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author mneethling
  *
  */
-public class RNAStem extends Type implements Comparable<RNAStem>, Collection<NucleotidePair>  {
+public class RNAStem implements Type, Comparable<RNAStem>, Collection<NucleotidePair>  {
 	
 	/**
 	 * 
@@ -294,37 +291,21 @@ public class RNAStem extends Type implements Comparable<RNAStem>, Collection<Nuc
 		return sb.toString();
 	}
 
-	@Override
 	public void randomise() {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public String getRepresentation() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void writeExternal(ObjectOutput oos) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public int getDimension() {
 		return 1;
 	}

@@ -52,11 +52,16 @@ public abstract class Ant implements Entity {
 	 * @param problem The problem to construct a tour on
 	 */
 	public abstract void buildTour(OptimisationProblem problem);
-
+	
+	
+	public void calculateFitness() {
+		calculateFitness(true);
+	}
+	
 	/**
 	 * Calculate the fitness of the <code>Ant</code>
 	 */
-	public abstract void calculateFitness();
+	public abstract void calculateFitness(boolean count);
 
 	/**
 	 * Update the best solution based on the current <code>Problem</code> based on the premis

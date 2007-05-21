@@ -257,7 +257,7 @@ public class TSPAnt extends Ant {
 	 * Caluclate the current fitness of the <code>Ant</code>. The current fitness is the same as
 	 * the length of the tour generated.
 	 */
-	public void calculateFitness() {
+	public void calculateFitness(boolean count) {
 		calculateCurrentTourLength();
 	}
 

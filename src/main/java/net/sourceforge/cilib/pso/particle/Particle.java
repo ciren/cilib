@@ -102,7 +102,11 @@ public abstract class Particle implements Entity {
     	this.id = id;
     }
     
-    public abstract void calculateFitness();
+    public void calculateFitness() {
+    	calculateFitness(true);
+    }
+    
+    public abstract void calculateFitness(boolean count);
 
     /**
      * Get the Fitness of the current Particle 

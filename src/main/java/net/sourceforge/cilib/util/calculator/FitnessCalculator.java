@@ -7,6 +7,6 @@ public interface FitnessCalculator {
 	
 	public FitnessCalculator clone();
 
-	public Fitness getFitness(Type bestPosition);
+	public Fitness getFitness(Type position, boolean count);
 
 }

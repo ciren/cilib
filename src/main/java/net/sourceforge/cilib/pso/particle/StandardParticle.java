@@ -151,8 +151,8 @@ public class StandardParticle extends Particle {
     /**
      * 
      */
-    public void calculateFitness() {
-    	this.fitness = fitnessCalculator.getFitness(position);
+    public void calculateFitness(boolean count) {
+    	this.fitness = fitnessCalculator.getFitness(position, count);
     	if (fitness.compareTo(bestFitness) > 0) {
     		this.bestFitness = fitness;
     		this.bestPosition = (Vector) position.clone();

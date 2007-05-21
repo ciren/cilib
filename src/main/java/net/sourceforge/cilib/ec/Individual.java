@@ -147,7 +147,11 @@ public class Individual implements Entity {
     }
     
     public void calculateFitness() {
-        this.fitness = fitnessCalculator.getFitness(this.genes);
+    	calculateFitness(true);
+    }
+    
+    public void calculateFitness(boolean count) {
+        this.fitness = fitnessCalculator.getFitness(this.genes, count);
     }
 
     public int getDimension() {

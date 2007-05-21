@@ -8,7 +8,7 @@ public class MultiObjectiveParticle extends StandardParticle {
 
 	public void setBestPosition(Type bestPosition) {
 		this.bestPosition = (Vector) bestPosition.clone();
-		bestFitness = fitnessCalculator.getFitness(bestPosition);
+		bestFitness = fitnessCalculator.getFitness(bestPosition, false);
 	}
 
 }

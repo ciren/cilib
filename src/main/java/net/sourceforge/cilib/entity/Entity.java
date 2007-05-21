@@ -89,9 +89,17 @@ public interface Entity extends Comparable<Entity>, BehaviouralParameters, Seria
 	
 	
 	/**
-	 * Caclulate the fitness of the <code>Entity</code>
+	 * Caclulate the fitness of the <code>Entity</code>. This method will increment the
+	 * number of fitness evaluations for the algorithm
 	 */
 	public void calculateFitness();
+	
+	/**
+	 * Calculate the fitness of the <code>Entity</code>. This method may or may not
+	 * increment the number of fitness evaluations of the algorithm.
+	 * @param count Add or do not add this fitness evaluation to the algorithm global count.
+	 */
+	public void calculateFitness(boolean count);
 	
 	/**
 	 * Returns the Entities fitness

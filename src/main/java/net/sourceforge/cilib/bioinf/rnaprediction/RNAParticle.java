@@ -275,7 +275,7 @@ public class RNAParticle extends Particle {
 	}
 
 	@Override
-	public void calculateFitness() {
+	public void calculateFitness(boolean count) {
 		// TODO Auto-generated method stub
 		
 	}

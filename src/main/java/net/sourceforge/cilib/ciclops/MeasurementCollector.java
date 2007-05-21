@@ -32,7 +32,6 @@ import java.io.ObjectOutputStream;
 import java.util.zip.GZIPOutputStream;
 
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.Type;
 
 
 public class MeasurementCollector {
@@ -52,12 +51,12 @@ public class MeasurementCollector {
 	
 	public void serialiseValue(Object value) {
 		++count;
-		try {
-			((Type)value).serialise(oos);
-		}
-		catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
+//		try {
+//			//((Type)value).serialise(oos);
+//		}
+//		catch (IOException ex) {
+//			throw new RuntimeException(ex);
+//		}
 	}
 	
 	public byte[] getData() {

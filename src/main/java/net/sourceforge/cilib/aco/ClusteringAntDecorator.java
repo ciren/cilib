@@ -177,7 +177,7 @@ public class ClusteringAntDecorator extends Ant {
 		
 	}
 
-	public void calculateFitness() {
+	public void calculateFitness(boolean count) {
 		// TODO Auto-generated method stub
 		
 	}

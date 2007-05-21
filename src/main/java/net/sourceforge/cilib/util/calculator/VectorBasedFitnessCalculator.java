@@ -18,9 +18,9 @@ public class VectorBasedFitnessCalculator implements FitnessCalculator {
 		return new VectorBasedFitnessCalculator(this);
 	}
 
-	public Fitness getFitness(Type position) {
+	public Fitness getFitness(Type position, boolean count) {
 		Algorithm algorithm = Algorithm.get();
-		return algorithm.getOptimisationProblem().getFitness(position, false);
+		return algorithm.getOptimisationProblem().getFitness(position, count);
 	}
 
 }
