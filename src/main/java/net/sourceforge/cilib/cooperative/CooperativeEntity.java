@@ -7,6 +7,8 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
+import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
  * 
@@ -17,15 +19,18 @@ public class CooperativeEntity implements Entity {
 	
 	protected MixedVector context = null;
 	protected Fitness fitness = null;
+	protected FitnessCalculator fitnessCalculator;
 
 	public CooperativeEntity() {
 		context = new MixedVector();
 		fitness = InferiorFitness.instance();
+		fitnessCalculator = new VectorBasedFitnessCalculator();
 	}
 	
 	public CooperativeEntity(CooperativeEntity rhs) {
 		context = rhs.context.clone();
 		fitness = rhs.fitness;
+		fitnessCalculator = rhs.fitnessCalculator.clone();
 	}
 
 	public CooperativeEntity clone() {
@@ -114,7 +119,6 @@ public class CooperativeEntity implements Entity {
 	}
 
 	public void calculateFitness(boolean count) {
-		// TODO Auto-generated method stub
-		
+		fitness = fitnessCalculator.getFitness(context, count);
 	}
 }

@@ -55,7 +55,7 @@ public class SynchronousIterationStrategy extends IterationStrategy<PSO> {
             //current.setFitness(pso.getOptimisationProblem().getFitness(current.getPosition(), true));
             current.calculateFitness();
             
-            System.out.println("fitness: " + current.getFitness());
+//            System.out.println("fitness: " + current.getFitness());
             
             for (Iterator<Particle> j = pso.getTopology().neighbourhood(i); j.hasNext(); ) {
                 Particle other = j.next();
@@ -68,12 +68,12 @@ public class SynchronousIterationStrategy extends IterationStrategy<PSO> {
        for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext(); ) {
            Particle current = i.next();
            //current.updateVelocity(pso.getVelocityUpdate());      // TODO: replace with visitor (will simplify particle interface)
-           System.out.println("Before velocity: " + current.getVelocity());
-           System.out.println("Before position: " + current.getPosition());
+//           System.out.println("Before velocity: " + current.getVelocity());
+//           System.out.println("Before position: " + current.getPosition());
            current.updateVelocity();
            current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
-           System.out.println("After velocity: " + current.getVelocity());
-           System.out.println("After position: " + current.getPosition());
+//           System.out.println("After velocity: " + current.getVelocity());
+//           System.out.println("After position: " + current.getPosition());
            
            
            boundaryConstraint.enforce(current);

@@ -1,11 +1,11 @@
 package net.sourceforge.cilib.cooperative.populationiterators;
 
 import java.util.List;
-import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
  * TODO test this class
@@ -13,13 +13,18 @@ import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
  */
 public class RandomPopulationIterator implements PopulationIterator {
 	List<PopulationBasedAlgorithm> populations = null;
+	RandomNumber random = null;
 	int iterations = 0;
 
 	public RandomPopulationIterator() {
+		random = new RandomNumber();
+		iterations = 0;
 	}
 	
 	public RandomPopulationIterator(RandomPopulationIterator rhs) {
 		populations = rhs.populations;
+		random = new RandomNumber();
+		iterations = rhs.iterations;
 	}
 
 	public RandomPopulationIterator clone() {
@@ -33,10 +38,9 @@ public class RandomPopulationIterator implements PopulationIterator {
 	@SuppressWarnings("unchecked")
 	public Algorithm next() {
 		Algorithm population = null;
-		Random random = new Random();
 		do {
-			population = populations.get(random.nextInt(populations.size()));
-		} while(!((ParticipatingAlgorithm)population).participated());
+			population = populations.get((int)random.getUniform(0, populations.size()));
+		} while(((ParticipatingAlgorithm)population).participated());
 
 		iterations++;
 		return population;
