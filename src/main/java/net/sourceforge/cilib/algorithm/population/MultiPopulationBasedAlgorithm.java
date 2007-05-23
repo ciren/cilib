@@ -58,7 +58,7 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 
 	@Override
 	public Algorithm getCurrentAlgorithm() {
-		return this.algorithmIterator.current();
+		return this.algorithmIterator.current().getCurrentAlgorithm();
 	}
 
 	/**
