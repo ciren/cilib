@@ -7,7 +7,7 @@ public class LocalAlgorithmProxy implements AlgorithmProxy {
 	private static ThreadLocal<Algorithm> localInstance = new ThreadLocal<Algorithm>();
 
 	public Algorithm get() {
-		return localInstance.get();
+		return localInstance.get().getCurrentAlgorithm();
 	}
 
 	public void set(Algorithm algorithm) {
