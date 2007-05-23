@@ -3,19 +3,19 @@ package net.sourceforge.cilib.cooperative.populationiterators;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
  * TODO test this class
  * @author Theuns Cloete
  */
-public class SequentialPopulationIterator implements PopulationIterator {
-	List<PopulationBasedAlgorithm> populations = null;
+public class SequentialPopulationIterator<E extends Algorithm> implements PopulationIterator<E> {
+	List<E> populations = null;
 	int iterations = 0;
 
 	public SequentialPopulationIterator() {
 	}
 	
+	@SuppressWarnings("unchecked")
 	public SequentialPopulationIterator(SequentialPopulationIterator rhs) {
 		populations = rhs.populations;
 		iterations = 0;
@@ -30,20 +30,21 @@ public class SequentialPopulationIterator implements PopulationIterator {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Algorithm next() {
-		return populations.get(iterations++);
+	public E next() {
+		E algorithm = populations.get(iterations++);
+		return (E) algorithm.getCurrentAlgorithm();
 	}
 
 	public void remove() {
 		throw new UnsupportedOperationException("Removal of an Algorithm from a MultiPopulationBasedAlgorithm is not supported, yet");
 	}
 
-	public void setPopulations(List<PopulationBasedAlgorithm> p) {
+	public void setPopulations(List<E> p) {
 		populations = p;
 		iterations = 0;
 	}
 
-	public void add(Algorithm o) {
+	public void add(E o) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -58,7 +59,7 @@ public class SequentialPopulationIterator implements PopulationIterator {
 		return 0;
 	}
 
-	public Algorithm previous() {
+	public E previous() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -68,9 +69,13 @@ public class SequentialPopulationIterator implements PopulationIterator {
 		return 0;
 	}
 
-	public void set(Algorithm o) {
+	public void set(E o) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public E current() {
+		return populations.get(iterations);
 	}
 
 }

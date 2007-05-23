@@ -29,7 +29,6 @@
 package net.sourceforge.cilib.cooperative;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -38,7 +37,6 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.contributionupdatestrategies.ContributionUpdateStrategy;
 import net.sourceforge.cilib.cooperative.fitnessupdatestrategies.FitnessUpdateStrategy;
-import net.sourceforge.cilib.cooperative.populationiterators.PopulationIterator;
 import net.sourceforge.cilib.cooperative.splitstrategies.SplitStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -59,12 +57,12 @@ import net.sourceforge.cilib.type.types.MixedVector;
  * @author Edwin Peer
  * @author Theuns Cloete
  */
-public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm, Iterable<Algorithm> {
+public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = 2287798336228462889L;
 	
 	protected CooperativeEntity context = null;
 	protected SplitStrategy splitStrategy = null;
-	protected PopulationIterator populationIterator = null;
+	//protected PopulationIterator populationIterator = null;
 	protected FitnessUpdateStrategy fitnessUpdateStrategy = null;
 	protected ContributionUpdateStrategy contributionUpdateStrategy = null;
 	protected boolean participated = false;
@@ -146,22 +144,22 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		context.setFitness(fitness);
 	}
 
-	public Iterator<Algorithm> iterator() {
-		if(populationIterator == null)
-			throw new InitialisationException("The PopulationIterator has not been initialised yet.");
-		return populationIterator.clone();
-	}
+//	public Iterator<Algorithm> iterator() {
+//		if(populationIterator == null)
+//			throw new InitialisationException("The PopulationIterator has not been initialised yet.");
+//		return populationIterator.clone();
+//	}
 
-	public Iterator getPopulationtIterator() {
-		return populationIterator;
-	}
-
-	public void setPopulationIterator(PopulationIterator iterator) {
-		if(populationBasedAlgorithms == null)
-			throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
-		populationIterator = iterator;
-		populationIterator.setPopulations(populationBasedAlgorithms);
-	}
+//	public Iterator getPopulationtIterator() {
+//		return populationIterator;
+//	}
+//
+//	public void setPopulationIterator(PopulationIterator iterator) {
+//		if(populationBasedAlgorithms == null)
+//			throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
+//		populationIterator = iterator;
+//		populationIterator.setPopulations(populationBasedAlgorithms);
+//	}
 
 	public FitnessUpdateStrategy getFitnessUpdateStrategy() {
 		return fitnessUpdateStrategy;

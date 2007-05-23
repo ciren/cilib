@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
-public interface PopulationIterator extends ListIterator<Algorithm> {
+public interface PopulationIterator<E extends Algorithm> extends ListIterator<E> {
 	
 	public PopulationIterator clone();
 	
-	public void setPopulations(List<PopulationBasedAlgorithm> participants);
+	public E current();
+	
+	public void setPopulations(List<E> participants);
 	
 }

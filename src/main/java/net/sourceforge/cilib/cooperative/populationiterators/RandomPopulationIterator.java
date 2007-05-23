@@ -3,7 +3,6 @@ package net.sourceforge.cilib.cooperative.populationiterators;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
@@ -11,8 +10,8 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * TODO test this class
  * @author Theuns Cloete
  */
-public class RandomPopulationIterator implements PopulationIterator {
-	List<PopulationBasedAlgorithm> populations = null;
+public class RandomPopulationIterator<E extends Algorithm> implements PopulationIterator<E> {
+	List<E> populations = null;
 	RandomNumber random = null;
 	int iterations = 0;
 
@@ -21,6 +20,7 @@ public class RandomPopulationIterator implements PopulationIterator {
 		iterations = 0;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public RandomPopulationIterator(RandomPopulationIterator rhs) {
 		populations = rhs.populations;
 		random = new RandomNumber();
@@ -36,8 +36,8 @@ public class RandomPopulationIterator implements PopulationIterator {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Algorithm next() {
-		Algorithm population = null;
+	public E next() {
+		E population = null;
 		do {
 			population = populations.get((int)random.getUniform(0, populations.size()));
 		} while(((ParticipatingAlgorithm)population).participated());
@@ -50,11 +50,11 @@ public class RandomPopulationIterator implements PopulationIterator {
 		throw new UnsupportedOperationException("Removal of a ParticipatingAlgorithm from a CooperativeOptimisationAlgorithm is not supported");
 	}
 
-	public void setPopulations(List<PopulationBasedAlgorithm> p) {
+	public void setPopulations(List<E> p) {
 		populations = p;
 	}
 
-	public void add(Algorithm o) {
+	public void add(E o) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -69,7 +69,7 @@ public class RandomPopulationIterator implements PopulationIterator {
 		return 0;
 	}
 
-	public Algorithm previous() {
+	public E previous() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -79,8 +79,12 @@ public class RandomPopulationIterator implements PopulationIterator {
 		return 0;
 	}
 
-	public void set(Algorithm o) {
+	public void set(E o) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public E current() {
+		return this.populations.get(iterations);
 	}
 }

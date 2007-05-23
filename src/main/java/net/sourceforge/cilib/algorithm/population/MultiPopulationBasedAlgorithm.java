@@ -31,6 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.cooperative.populationiterators.PopulationIterator;
+import net.sourceforge.cilib.cooperative.populationiterators.SequentialPopulationIterator;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
@@ -38,26 +40,26 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author Gary Pampara
  *
  */
-public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm {
+public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm implements Iterable<Algorithm> {
 	
 	protected List<PopulationBasedAlgorithm> populationBasedAlgorithms;
-	protected Iterator<PopulationBasedAlgorithm> algorithmIterator;
+	protected PopulationIterator<PopulationBasedAlgorithm> algorithmIterator;
 	
 	public MultiPopulationBasedAlgorithm() {
 		this.populationBasedAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
+		this.algorithmIterator = new SequentialPopulationIterator<PopulationBasedAlgorithm>();
+		this.algorithmIterator.setPopulations(this.populationBasedAlgorithms);
 	}
 	
-	@Override
-	public Algorithm getCurrentAlgorithm() {
-		if (algorithmIterator == null)
-			algorithmIterator = populationBasedAlgorithms.iterator();
-		
-		if (!algorithmIterator.hasNext())
-			algorithmIterator = populationBasedAlgorithms.iterator();
-		
-		return algorithmIterator.next();
+	@SuppressWarnings("unchecked")
+	public Iterator<Algorithm> iterator() {
+		return this.algorithmIterator.clone();		
 	}
 
+	@Override
+	public Algorithm getCurrentAlgorithm() {
+		return this.algorithmIterator.current();
+	}
 
 	/**
 	 * 
@@ -89,5 +91,16 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	public void setOptimisationProblem(OptimisationProblem problem) {
 		this.optimisationProblem = problem;
 	}
+
+	public PopulationIterator<PopulationBasedAlgorithm> getAlgorithmIterator() {
+		return algorithmIterator;
+	}
+
+	public void setAlgorithmIterator(PopulationIterator<PopulationBasedAlgorithm> algorithmIterator) {
+		this.algorithmIterator = algorithmIterator;
+		this.algorithmIterator.setPopulations(this.populationBasedAlgorithms);
+	}
+	
+	
 
 }
