@@ -27,8 +27,10 @@
 package net.sourceforge.cilib.algorithm.population;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
@@ -39,11 +41,23 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm {
 	
 	protected List<PopulationBasedAlgorithm> populationBasedAlgorithms;
+	protected Iterator<PopulationBasedAlgorithm> algorithmIterator;
 	
 	public MultiPopulationBasedAlgorithm() {
 		this.populationBasedAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
 	}
 	
+	@Override
+	public Algorithm getCurrentAlgorithm() {
+		if (algorithmIterator == null)
+			algorithmIterator = populationBasedAlgorithms.iterator();
+		
+		if (!algorithmIterator.hasNext())
+			algorithmIterator = populationBasedAlgorithms.iterator();
+		
+		return algorithmIterator.next();
+	}
+
 
 	/**
 	 * 

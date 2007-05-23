@@ -581,4 +581,9 @@ public class DeratingNichePSO extends Algorithm
       }
     }
   }
+
+  @Override
+  public Algorithm getCurrentAlgorithm() {
+	throw new UnsupportedOperationException("This class is deprecated and this implementation is missing");
+  }
 }

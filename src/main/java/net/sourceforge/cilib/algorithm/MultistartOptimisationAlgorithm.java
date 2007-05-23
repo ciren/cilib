@@ -252,4 +252,9 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 		private OptimisationProblem target;
 		
     }
+
+	@Override
+	public Algorithm getCurrentAlgorithm() {
+		throw new UnsupportedOperationException("This operation implementation is still required!");
+	}
 }

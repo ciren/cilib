@@ -38,6 +38,12 @@ import net.sourceforge.cilib.entity.Topology;
  */
 public abstract class PopulationBasedAlgorithm extends Algorithm {
 	
+	@Override
+	public Algorithm getCurrentAlgorithm() {
+		return this;
+	}
+
+
 	/**
 	 * Perform the iteration within the algorithm
 	 */

@@ -242,6 +242,7 @@ public abstract class Algorithm implements Runnable, Serializable {
     	return proxy;
     }
     
+    public abstract Algorithm getCurrentAlgorithm();    
     
     public Vector<StoppingCondition> getStoppingConditions() {
     	return this.stoppingConditions;

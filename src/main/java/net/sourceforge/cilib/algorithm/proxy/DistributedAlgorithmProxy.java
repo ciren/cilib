@@ -7,7 +7,7 @@ public class DistributedAlgorithmProxy implements AlgorithmProxy {
 	private static Algorithm localInstance = null;
 
 	public Algorithm get() {
-		return localInstance;
+		return localInstance.getCurrentAlgorithm();
 	}
 
 	public void set(Algorithm algorithm) {

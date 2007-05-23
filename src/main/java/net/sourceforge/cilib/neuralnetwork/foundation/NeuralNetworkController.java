@@ -99,4 +99,9 @@ public class NeuralNetworkController extends Algorithm {
 	public List<OptimisationSolution> getSolutions() {
 		return null;
 	}
+
+	@Override
+	public Algorithm getCurrentAlgorithm() {
+		return this;
+	}
 }
