@@ -94,7 +94,8 @@ public abstract class Algorithm implements Runnable, Serializable {
 	public abstract Algorithm clone();
 
 	public void reset() {
-		throw new UnimplementedMethodException("'reset()' method not implemented for '" + this.getClass().getName() + "'");
+		// it is probably not a good idea to have this hear
+		// throw new UnimplementedMethodException("'reset()' method not implemented for '" + this.getClass().getName() + "'");
 	}
 
 	/**

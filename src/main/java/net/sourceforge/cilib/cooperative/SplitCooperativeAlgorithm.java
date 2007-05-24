@@ -90,6 +90,12 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	}
 
 	@Override
+	public void reset() {
+		super.reset();
+		participated = false;
+	}
+
+	@Override
 	public OptimisationSolution getBestSolution() {
 		return new OptimisationSolution(optimisationProblem, context.get().clone());
 	}

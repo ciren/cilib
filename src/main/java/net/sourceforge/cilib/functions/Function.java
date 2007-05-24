@@ -55,8 +55,6 @@ public abstract class Function implements Serializable {
 		behavioralDomainRegistry = copy.behavioralDomainRegistry.clone();
 	}
 
-	public abstract Function clone();
-
 	/**
 	 * @return
 	 */
