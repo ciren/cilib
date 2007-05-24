@@ -2,7 +2,6 @@
  * RandomisedParameterUpdateStrategy.java
  *
  * Created on Mar 2, 2004
- *
  * 
  * Copyright (C) 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -31,29 +30,26 @@ import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
- * This class defined the required functionality for the <tt>AccelerationComponent</tt>
- * within a <tt>VelocityUpdate</tt>.
- * 
+ * This class defined the required functionality for the <tt>AccelerationComponent</tt> within a
+ * <tt>VelocityUpdate</tt>.
  * @author Gary Pampara
  * @author Andries Engelbrecht
  */
 public class RandomisedParameterUpdateStrategy implements ControlParameterUpdateStrategy {
-
+	private static final long serialVersionUID = 5678971018262140893L;
 	protected ControlParameterUpdateStrategy parameterUpdateStrategy;
 	protected Random randomiser;
-	
+
 	/**
-	 * Create a new <tt>AccelerationUpdateStrategy</tt>. This object will be
-	 * instantiated by default with a contained <tt>ConstantUpdateStrategy</tt>
-	 * and a <tt>MersenneTwister</tt> as the random number generator.
-	 *
+	 * Create a new <tt>AccelerationUpdateStrategy</tt>. This object will be instantiated by
+	 * default with a contained <tt>ConstantUpdateStrategy</tt> and a <tt>MersenneTwister</tt> as
+	 * the random number generator.
 	 */
 	public RandomisedParameterUpdateStrategy() {
 		this.parameterUpdateStrategy = new ConstantUpdateStrategy();
 		this.randomiser = new MersenneTwister();
 	}
-	
-	
+
 	/**
 	 * Copy constructor.
 	 * @param copy
@@ -62,8 +58,7 @@ public class RandomisedParameterUpdateStrategy implements ControlParameterUpdate
 		this.parameterUpdateStrategy = copy.parameterUpdateStrategy.clone();
 		this.randomiser = new MersenneTwister();
 	}
-	
-	
+
 	/**
 	 * Clone method.
 	 * @return Return a cloned {@link RandomisedParameterUpdateStrategy}
@@ -71,8 +66,7 @@ public class RandomisedParameterUpdateStrategy implements ControlParameterUpdate
 	public RandomisedParameterUpdateStrategy clone() {
 		return new RandomisedParameterUpdateStrategy(this);
 	}
-	
-	
+
 	/**
 	 * Return the current <tt>Random</tt>.
 	 * @return The <tt>Random</tt> being used.
@@ -80,16 +74,14 @@ public class RandomisedParameterUpdateStrategy implements ControlParameterUpdate
 	public Random getRandomiser() {
 		return randomiser;
 	}
-	
-	
+
 	/**
-	 * Set the <tt>Random</tt> to be used 
+	 * Set the <tt>Random</tt> to be used
 	 * @param randomiser The <tt>Random</tt> to be used
 	 */
 	public void setRandomiser(Random randomiser) {
 		this.randomiser = randomiser;
 	}
-
 
 	/**
 	 * Get the currently used <tt>ControlParameterUpdateStrategy</tt>.
@@ -99,33 +91,26 @@ public class RandomisedParameterUpdateStrategy implements ControlParameterUpdate
 		return parameterUpdateStrategy;
 	}
 
-
 	/**
 	 * Set the <tt>ControlParameterUpdateStrategy</tt> to be used.
 	 * @param parameterUpdateStrategy The <tt>ControlParameterUpdateStrategy</tt> to be used.
 	 */
-	public void setParameterUpdateStrategy(
-			ControlParameterUpdateStrategy parameterUpdateStrategy) {
+	public void setParameterUpdateStrategy(ControlParameterUpdateStrategy parameterUpdateStrategy) {
 		this.parameterUpdateStrategy = parameterUpdateStrategy;
 	}
 
-
 	/**
-	 * Get the value of this parameter after it has been multiplied with a uniform
-	 * random number.
-	 * 
-	 * @return The value representing a uniform ranfom unmber multiplied by the value of the underlying
-	 * <tt>ControlParameterUpdateStrategy</tt>.
+	 * Get the value of this parameter after it has been multiplied with a uniform random number.
+	 * @return The value representing a uniform ranfom unmber multiplied by the value of the
+	 *         underlying <tt>ControlParameterUpdateStrategy</tt>.
 	 */
 	public double getParameter() {
 		return this.randomiser.nextDouble() * this.parameterUpdateStrategy.getParameter();
 	}
-	
-	
+
 	public double getParameter(double min, double max) {
 		throw new UnsupportedOperationException("");
 	}
-
 
 	/**
 	 * Set the value of the parameter in the underlying <tt>ControlParameterUpdateStrategy</tt>.
@@ -135,12 +120,10 @@ public class RandomisedParameterUpdateStrategy implements ControlParameterUpdate
 		this.parameterUpdateStrategy.setParameter(value);
 	}
 
-
 	/**
 	 * Update the contained <tt>ControlParameterUpdateStrategy</tt>.
 	 */
 	public void updateParameter() {
-		this.parameterUpdateStrategy.updateParameter();		
+		this.parameterUpdateStrategy.updateParameter();
 	}
-
 }

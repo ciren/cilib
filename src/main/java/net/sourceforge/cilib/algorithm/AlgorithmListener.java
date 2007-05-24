@@ -2,7 +2,6 @@
  * IterationEventListener.java
  *
  * Created on January 26, 2003, 1:47 PM
- *
  * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -23,45 +22,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
  */
-
 package net.sourceforge.cilib.algorithm;
 
 /**
- * Any class can implement this interface to be notified about algorithm events.
- * Classes implementing this interface can be added to the algorithm as an event listener 
- * using {@link Algorithm#addAlgorithmListener(AlgorithmListener)}.
- *
- * @author  Edwin Peer
+ * Any class can implement this interface to be notified about algorithm events. Classes
+ * implementing this interface can be added to the algorithm as an event listener using
+ * {@link Algorithm#addAlgorithmListener(AlgorithmListener)}.
+ * @author Edwin Peer
  */
 public interface AlgorithmListener {
-	
 	/**
 	 * This event is fired just prior to the execution of the main loop of the algorithm.
-	 * 
 	 * @param e an event containing a reference to the source algorithm.
 	 */
-    public void algorithmStarted(AlgorithmEvent e);
-    
-    /**
-     * This event is fired when the algorithm has completed normally.
-     * 
-     * @param e an event containing a reference to the source algorithm.
-     */
-    public void algorithmFinished(AlgorithmEvent e);
-    
-    /**
-     * This event is fired when the algorithm is terminated abnormally.
-     * 
-     * @param e an event containing a reference to the source algorithm.
-     */
-    public void algorithmTerminated(AlgorithmEvent e);
-    
-    /**
-     * This event is fired after each iteration of the mail loop of the algorithm.
-     * 
-     * @param e an event containing a reference to the source algorithm.
-     */
-    public void iterationCompleted(AlgorithmEvent e);
+	public void algorithmStarted(AlgorithmEvent e);
+
+	/**
+	 * This event is fired when the algorithm has completed normally.
+	 * @param e an event containing a reference to the source algorithm.
+	 */
+	public void algorithmFinished(AlgorithmEvent e);
+
+	/**
+	 * This event is fired when the algorithm is terminated abnormally.
+	 * @param e an event containing a reference to the source algorithm.
+	 */
+	public void algorithmTerminated(AlgorithmEvent e);
+
+	/**
+	 * This event is fired after each iteration of the mail loop of the algorithm.
+	 * @param e an event containing a reference to the source algorithm.
+	 */
+	public void iterationCompleted(AlgorithmEvent e);
+
+	public AlgorithmListener clone();
 }

@@ -2,7 +2,6 @@
  * MaximumIterations.java
  *
  * Created on January 20, 2003, 10:54 AM
- *
  * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -25,55 +24,54 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
 package net.sourceforge.cilib.stoppingcondition;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- *
- * @author  Edwin Peer
+ * @author Edwin Peer
  */
 public class MaximumIterations implements StoppingCondition {
-    
-    /** Creates a new instance of MaximumIterationIndicator */
-    public MaximumIterations() {
-        maximumIterations = 10000;
-    }
-    
-    public MaximumIterations(MaximumIterations copy) {
-    	this.maximumIterations = copy.maximumIterations;
-    	this.algorithm = copy.algorithm;
-    }
-    
-    public MaximumIterations clone() {
-    	return new MaximumIterations(this);
-    }
-    
-    public MaximumIterations(int maximumIterations) {
-        this.maximumIterations = maximumIterations;
-    }
-    
-    public int getIterations() {
-    	return maximumIterations;
-    }
-    
-    public double getPercentageCompleted() {
-        return ((double) algorithm.getIterations()) / ((double) maximumIterations);
-    }
-    
-    public boolean isCompleted() {
-        return algorithm.getIterations() >= maximumIterations;
-    }
-    
-    public void setIterations(int maximumIterations) {
-        this.maximumIterations = maximumIterations;
-    }
-    
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
-    }
-    
-    private Algorithm algorithm;
-    private int maximumIterations;
+	private static final long serialVersionUID = -6344490201879962979L;
+
+	private Algorithm algorithm;
+	private int maximumIterations;
+
+	/** Creates a new instance of MaximumIterationIndicator */
+	public MaximumIterations() {
+		maximumIterations = 10000;
+	}
+
+	public MaximumIterations(MaximumIterations copy) {
+		this.maximumIterations = copy.maximumIterations;
+		this.algorithm = copy.algorithm;
+	}
+
+	public MaximumIterations clone() {
+		return new MaximumIterations(this);
+	}
+
+	public MaximumIterations(int maximumIterations) {
+		this.maximumIterations = maximumIterations;
+	}
+
+	public int getIterations() {
+		return maximumIterations;
+	}
+
+	public double getPercentageCompleted() {
+		return ((double) algorithm.getIterations()) / ((double) maximumIterations);
+	}
+
+	public boolean isCompleted() {
+		return algorithm.getIterations() >= maximumIterations;
+	}
+
+	public void setIterations(int maximumIterations) {
+		this.maximumIterations = maximumIterations;
+	}
+
+	public void setAlgorithm(Algorithm algorithm) {
+		this.algorithm = algorithm;
+	}
 }

@@ -3,7 +3,6 @@
  *
  * Created on March 18, 2004, 4:23 PM
  *
- *
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -30,21 +29,18 @@ package net.sourceforge.cilib.controlparameterupdatestrategies;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- * 
  * @author Gary Pampara
- *
  */
 public class LinearDecreasingUpdateStrategy extends BoundedUpdateStrategy {
-	
+	private static final long serialVersionUID = -7213083955334884076L;
+
 	/**
-	 * 
 	 *
 	 */
 	public LinearDecreasingUpdateStrategy() {
 		super();
 	}
-	
-	
+
 	/**
 	 * Copy constructor
 	 * @param copy
@@ -52,8 +48,7 @@ public class LinearDecreasingUpdateStrategy extends BoundedUpdateStrategy {
 	public LinearDecreasingUpdateStrategy(LinearDecreasingUpdateStrategy copy) {
 		super(copy);
 	}
-	
-	
+
 	/**
 	 * 
 	 */
@@ -61,13 +56,11 @@ public class LinearDecreasingUpdateStrategy extends BoundedUpdateStrategy {
 		return new LinearDecreasingUpdateStrategy(this);
 	}
 
-	
 	/**
 	 * 
 	 */
 	public void update() {
 		double result = getUpperBound() - (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
-		parameter.setReal(result);		
+		parameter.setReal(result);
 	}
-
 }

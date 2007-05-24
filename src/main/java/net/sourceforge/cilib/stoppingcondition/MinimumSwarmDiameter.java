@@ -2,7 +2,6 @@
  * MinimumSwarmDiameter.java
  *
  * Created on January 26, 2003, 2:40 PM
- *
  * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -25,59 +24,58 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
 package net.sourceforge.cilib.stoppingcondition;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
- *
- * @author  Edwin Peer
+ * @author Edwin Peer
  */
 public class MinimumSwarmDiameter implements StoppingCondition {
-    
-    /** Creates a new instance of MinimumSwarmDiameterIndicator */
-    public MinimumSwarmDiameter() {
-        minimumSwarmDiameter = 0.0001;
-    }
-    
-    public MinimumSwarmDiameter(double minimumSwarmDiameter) {
-        this.minimumSwarmDiameter = minimumSwarmDiameter;
-    }
-    
-    public MinimumSwarmDiameter(MinimumSwarmDiameter copy) {
-    	this.minimumSwarmDiameter = copy.minimumSwarmDiameter;
-    	this.algorithm = copy.algorithm;
-    }
-    
-    public MinimumSwarmDiameter clone() {
-    	return new MinimumSwarmDiameter(this);
-    }
-    
-    public void setDiameter(double minimumSwarmDiameter) {
-        this.minimumSwarmDiameter = minimumSwarmDiameter;
-    }
-    
-    public double getDiameter() {
-    	return minimumSwarmDiameter;
-    }
-    
-    public double getPercentageCompleted() {
-        if (algorithm.getDiameter() <= minimumSwarmDiameter) {
-            return 1;
-        }
-        return minimumSwarmDiameter / algorithm.getDiameter();
-    }
-    
-    public boolean isCompleted() {
-        return algorithm.getDiameter() <= minimumSwarmDiameter;
-    }
-    
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = (PSO) algorithm;
-    }
-    
-    double minimumSwarmDiameter;
-    PSO algorithm;
+	private static final long serialVersionUID = -1570485054918077401L;
+
+	double minimumSwarmDiameter;
+	PSO algorithm;
+
+	/** Creates a new instance of MinimumSwarmDiameterIndicator */
+	public MinimumSwarmDiameter() {
+		minimumSwarmDiameter = 0.0001;
+	}
+
+	public MinimumSwarmDiameter(double minimumSwarmDiameter) {
+		this.minimumSwarmDiameter = minimumSwarmDiameter;
+	}
+
+	public MinimumSwarmDiameter(MinimumSwarmDiameter copy) {
+		this.minimumSwarmDiameter = copy.minimumSwarmDiameter;
+		this.algorithm = copy.algorithm;
+	}
+
+	public MinimumSwarmDiameter clone() {
+		return new MinimumSwarmDiameter(this);
+	}
+
+	public void setDiameter(double minimumSwarmDiameter) {
+		this.minimumSwarmDiameter = minimumSwarmDiameter;
+	}
+
+	public double getDiameter() {
+		return minimumSwarmDiameter;
+	}
+
+	public double getPercentageCompleted() {
+		if (algorithm.getDiameter() <= minimumSwarmDiameter) {
+			return 1;
+		}
+		return minimumSwarmDiameter / algorithm.getDiameter();
+	}
+
+	public boolean isCompleted() {
+		return algorithm.getDiameter() <= minimumSwarmDiameter;
+	}
+
+	public void setAlgorithm(Algorithm algorithm) {
+		this.algorithm = (PSO) algorithm;
+	}
 }

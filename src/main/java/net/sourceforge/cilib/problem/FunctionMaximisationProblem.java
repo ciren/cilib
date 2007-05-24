@@ -3,7 +3,6 @@
  *
  * Created on June 24, 2003, 21:00 PM
  *
- *
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -27,43 +26,39 @@
  */
 package net.sourceforge.cilib.problem;
 
-
 public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
-
 	private static final long serialVersionUID = 3917826029336826880L;
 
 	public FunctionMaximisationProblem() {
-       super();
-    }
-	
-	public FunctionMaximisationProblem(FunctionMaximisationProblem copy) {
-		
+		super();
 	}
-	
+
+	public FunctionMaximisationProblem(FunctionMaximisationProblem copy) {
+		super(copy);
+	}
+
 	public FunctionMaximisationProblem clone() {
 		return new FunctionMaximisationProblem(this);
 	}
 
-    protected Fitness calculateFitness(Object solution) {
-        return new MaximisationFitness(function.evaluate(solution));
-    }
+	protected Fitness calculateFitness(Object solution) {
+		return new MaximisationFitness(function.evaluate(solution));
+	}
 
-    /**
-     * <p>
-     * Returns the error for the given solution. That is, a lower error value
-     * is returned if the given solution is a better maximiser for the function.
-     * </p>
-     * <p>
-     * The lowest possible error (corresponding to the best solution) should be 0. However,
-     * if the function incorrectly reports its maximum value then it is possible for error
-     * values to be negative.
-     * </p>
-     *
-     * @param The solution for which an error is saught.
-     * @return The error.
-     */
-    public double getError(Object solution) {
-        return ((Number) function.getMaximum()).doubleValue() - ((Number) function.evaluate(solution)).doubleValue();
-    }
-
+	/**
+	 * <p>
+	 * Returns the error for the given solution. That is, a lower error value is returned if the
+	 * given solution is a better maximiser for the function.
+	 * </p>
+	 * <p>
+	 * The lowest possible error (corresponding to the best solution) should be 0. However, if the
+	 * function incorrectly reports its maximum value then it is possible for error values to be
+	 * negative.
+	 * </p>
+	 * @param The solution for which an error is saught.
+	 * @return The error.
+	 */
+	public double getError(Object solution) {
+		return ((Number) function.getMaximum()).doubleValue() - ((Number) function.evaluate(solution)).doubleValue();
+	}
 }

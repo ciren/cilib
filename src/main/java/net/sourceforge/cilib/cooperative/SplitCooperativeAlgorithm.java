@@ -3,7 +3,6 @@
  *
  * Created on January 24, 2003, 11:44 AM
  *
- * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -25,44 +24,41 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  * 
  */
-
 package net.sourceforge.cilib.cooperative;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.contributionupdatestrategies.ContributionUpdateStrategy;
+import net.sourceforge.cilib.cooperative.contributionupdatestrategies.StandardContributionUpdateStrategy;
 import net.sourceforge.cilib.cooperative.fitnessupdatestrategies.FitnessUpdateStrategy;
+import net.sourceforge.cilib.cooperative.fitnessupdatestrategies.StandardFitnessUpdateStrategy;
+import net.sourceforge.cilib.cooperative.splitstrategies.PerfectSplitStrategy;
 import net.sourceforge.cilib.cooperative.splitstrategies.SplitStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.CooperativeOptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.type.types.MixedVector;
 
 /**
- * TODO test this class
- * This class forms that basis for any co-operative optimisation implementations.
- * Any algorithm that wishes to participate in a co-operative optimisation algorithm must implement the
- * {@link ParticipatingAlgorithm} interface. This class also implements {@link ParticipatingAlgorithm} meaning that
- * co-operative algorithms can be composed of co-operative algorithms again. 
- *
+ * TODO test this class This class forms that basis for any co-operative optimisation
+ * implementations. Any algorithm that wishes to participate in a co-operative optimisation
+ * algorithm must implement the {@link ParticipatingAlgorithm} interface. This class also implements
+ * {@link ParticipatingAlgorithm} meaning that co-operative algorithms can be composed of
+ * co-operative algorithms again.
  * @author Edwin Peer
  * @author Theuns Cloete
  */
 public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = 2287798336228462889L;
-	
+
 	protected CooperativeEntity context = null;
 	protected SplitStrategy splitStrategy = null;
-	//protected PopulationIterator populationIterator = null;
+	// protected PopulationIterator populationIterator = null;
 	protected FitnessUpdateStrategy fitnessUpdateStrategy = null;
 	protected ContributionUpdateStrategy contributionUpdateStrategy = null;
 	protected boolean participated = false;
@@ -73,20 +69,32 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	public SplitCooperativeAlgorithm() {
 		super();
 		context = new CooperativeEntity();
+		splitStrategy = new PerfectSplitStrategy();
+		fitnessUpdateStrategy = new StandardFitnessUpdateStrategy();
+		contributionUpdateStrategy = new StandardContributionUpdateStrategy();
+		participated = false;
 	}
-	
+
 	public SplitCooperativeAlgorithm(SplitCooperativeAlgorithm copy) {
-		
+		super(copy);
+		context = copy.context.clone();
+		splitStrategy = copy.splitStrategy;
+		fitnessUpdateStrategy = copy.fitnessUpdateStrategy;
+		contributionUpdateStrategy = copy.contributionUpdateStrategy;
+		participated = copy.participated;
 	}
-	
+
+	@Override
 	public SplitCooperativeAlgorithm clone() {
 		return new SplitCooperativeAlgorithm(this);
 	}
-	
+
+	@Override
 	public OptimisationSolution getBestSolution() {
 		return new OptimisationSolution(optimisationProblem, context.get().clone());
 	}
 
+	@Override
 	public List<OptimisationSolution> getSolutions() {
 		ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
 		solutions.add(getBestSolution());
@@ -101,12 +109,13 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		context = c;
 	}
 
-	public void setAlgorithm(PopulationBasedAlgorithm algorithm) {
-		if(!(algorithm instanceof ParticipatingAlgorithm))
+	@Override
+	public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
+		if (!(algorithm instanceof ParticipatingAlgorithm))
 			throw new IllegalArgumentException("The given Algorithm is not a ParticipatingAlgorithm");
 		populationBasedAlgorithms.add(algorithm);
 	}
-	
+
 	public int getNumberOfParticipants() {
 		return populationBasedAlgorithms.size();
 	}
@@ -136,31 +145,31 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	}
 
 	/**
-	 * The purpose of this method should not be confused with the ContributionUpdateStrategy.
-	 * This method sets the fitness for the context of the cooperating algorithm, i.e. the fitness
-	 * for all cooperating algorithms as a whole.
+	 * The purpose of this method should not be confused with the ContributionUpdateStrategy. This
+	 * method sets the fitness for the context of the cooperating algorithm, i.e. the fitness for all
+	 * cooperating algorithms as a whole.
 	 */
 	public void updateContributionFitness(Fitness fitness) {
 		context.setFitness(fitness);
 	}
 
-//	public Iterator<Algorithm> iterator() {
-//		if(populationIterator == null)
-//			throw new InitialisationException("The PopulationIterator has not been initialised yet.");
-//		return populationIterator.clone();
-//	}
+/*	public Iterator<Algorithm> iterator() {
+		if(populationIterator == null)
+			throw new InitialisationException("The PopulationIterator has not been initialised yet.");
+		return populationIterator.clone();
+	}
 
-//	public Iterator getPopulationtIterator() {
-//		return populationIterator;
-//	}
-//
-//	public void setPopulationIterator(PopulationIterator iterator) {
-//		if(populationBasedAlgorithms == null)
-//			throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
-//		populationIterator = iterator;
-//		populationIterator.setPopulations(populationBasedAlgorithms);
-//	}
+	public Iterator getPopulationtIterator() {
+		return populationIterator;
+	}
 
+	public void setPopulationIterator(PopulationIterator iterator) {
+		if(populationBasedAlgorithms == null)
+			throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
+		populationIterator = iterator;
+		populationIterator.setPopulations(populationBasedAlgorithms);
+	}
+*/
 	public FitnessUpdateStrategy getFitnessUpdateStrategy() {
 		return fitnessUpdateStrategy;
 	}
@@ -177,47 +186,48 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		participated = p;
 	}
 
+	/**
+	 * Reset the participation of all the sub-algorithms to the given boolean value.
+	 * @param participation The boolean value to which all sub-algorithm's participation should be
+	 *        reset to
+	 */
 	public void resetParticipation(boolean participation) {
-		for(Algorithm population : populationBasedAlgorithms) {
-			//TODO check whether this cast is safe
-			((ParticipatingAlgorithm)population).participated(participation);
+		for (Algorithm population : populationBasedAlgorithms) {
+			((ParticipatingAlgorithm) population).participated(participation);
 		}
 	}
 
-//	@Initialiser
-//	QUESTION are initialisations (or initialisers) still deprecated? Should we use @Initialiser here instead?
+	// @Initialiser
+	// QUESTION are initialisations (or initialisers) still deprecated? Should we use @Initialiser
+	// here instead?
+	@Override
 	public void performInitialisation() {
 		context.set(optimisationProblem.getDomain().getBuiltRepresenation().clone());
 		splitStrategy.split(optimisationProblem, context, populationBasedAlgorithms);
 		context.reset();
-		for(Algorithm participant : populationBasedAlgorithms) {
+		for (Algorithm participant : populationBasedAlgorithms) {
 			participant.performInitialisation();
-			//TODO check whether this cast is safe
-			context.append(((ParticipatingAlgorithm)participant).getContribution());
+			context.append(((ParticipatingAlgorithm) participant).getContribution());
 		}
 	}
 
+	@Override
 	public void performUninitialisation() {
-		DataSetBuilder dataset = optimisationProblem.getDataSetBuilder();
-		((ClusterableDataSet)dataset).assign((MixedVector)context.get());
-		dataset.uninitialise((MixedVector)context.get());
+		// DataSetBuilder dataset = optimisationProblem.getDataSetBuilder();
+		// ((ClusterableDataSet)dataset).assign((MixedVector)context.get());
+		// dataset.uninitialise((MixedVector)context.get());
 	}
 
+	@Override
 	public void performIteration() {
-		for(Algorithm population : this) {
+		for (Algorithm population : this) {
 			population.performIteration();
-			try {
-				//TODO check whether this cast is safe
-				CooperativeOptimisationProblemAdapter participantProblem = (CooperativeOptimisationProblemAdapter)((Algorithm)population).getOptimisationProblem();
-				participantProblem.updateContext(context);
-				contributionUpdateStrategy.updateContribution(((ParticipatingAlgorithm)population).getContribution(), 0, context, participantProblem.getOffset(), participantProblem.getDimension());
-				fitnessUpdateStrategy.updateFitness(optimisationProblem, context);
-				//TODO check whether this cast is safe
-				((ParticipatingAlgorithm)population).participated(true);
-			}
-			catch(ClassCastException cce) {
-				throw new InitialisationException("The population's problem is not a CooperativeOptimisationProblemAdapter");
-			}
+			CooperativeOptimisationProblemAdapter participantProblem = (CooperativeOptimisationProblemAdapter) population.getOptimisationProblem();
+			participantProblem.updateContext(context);
+			ParticipatingAlgorithm participantAlgorithm = (ParticipatingAlgorithm) population;
+			contributionUpdateStrategy.updateContribution(participantAlgorithm.getContribution(), 0, context, participantProblem.getOffset(), participantProblem.getDimension());
+			fitnessUpdateStrategy.updateFitness(optimisationProblem, context);
+			participantAlgorithm.participated(true);
 		}
 		resetParticipation(false);
 	}
@@ -230,8 +240,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 
 	@Override
 	public int getPopulationSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return populationBasedAlgorithms.size();
 	}
 
 	@Override
@@ -249,12 +258,10 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	@Override
 	public void setPopulationSize(int populationSize) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setTopology(Topology topology) {
 		// TODO Auto-generated method stub
-		
 	}
 }

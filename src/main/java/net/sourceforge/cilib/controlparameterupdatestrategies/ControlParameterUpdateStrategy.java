@@ -3,7 +3,6 @@
  *
  * Created on Mar 2, 2004
  *
- * 
  * Copyright (C) 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -26,43 +25,43 @@
  */
 package net.sourceforge.cilib.controlparameterupdatestrategies;
 
+import java.io.Serializable;
+
 /**
  * @author Gary Pampara
  * @author Andries Engelbrecht
  */
-public interface ControlParameterUpdateStrategy {
-	
+public interface ControlParameterUpdateStrategy extends Serializable {
 	/**
-	 * Clone the current object such that a comaprison of the clone and original
-	 * object will yield two seperate, but duplicate objects.
+	 * Clone the current object such that a comaprison of the clone and original object will yield
+	 * two seperate, but duplicate objects.
 	 * @return The cloned <tt>ControlParameterUpdateStrategy</tt>
 	 */
 	public ControlParameterUpdateStrategy clone();
-    
+
 	/**
 	 * Get the value of the represented parameter.
 	 * @return The value of the represented parameter.
 	 */
-    public double getParameter();
-    
-    /**
-     * Get the parameter value based on the provided <code>min</code> and <code>max</min>.
-     * @param min The minimum value to use in getting the parameter value
-     * @param max The maximum value to use in getting the parameter value
-     * @return The value of the represented parameter.
-     */
-    public double getParameter(double min, double max);
-    
-    /**
-     * Set the value of the represented parameter
-     * @param value The value to be used
-     */
-    public void setParameter(double value);
-    
-    /**
-     * Update the required and needed parameters contained within this
-     * <code>ControlParameterUpdateStrategy</code>
-     */
-    public void updateParameter();
-    
+	public double getParameter();
+
+	/**
+	 * Get the parameter value based on the provided <code>min</code> and <code>max</min>.
+	 * @param min The minimum value to use in getting the parameter value
+	 * @param max The maximum value to use in getting the parameter value
+	 * @return The value of the represented parameter.
+	 */
+	public double getParameter(double min, double max);
+
+	/**
+	 * Set the value of the represented parameter
+	 * @param value The value to be used
+	 */
+	public void setParameter(double value);
+
+	/**
+	 * Update the required and needed parameters contained within this
+	 * <code>ControlParameterUpdateStrategy</code>
+	 */
+	public void updateParameter();
 }

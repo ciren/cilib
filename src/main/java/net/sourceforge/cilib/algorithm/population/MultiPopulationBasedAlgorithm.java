@@ -33,27 +33,39 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.cooperative.populationiterators.PopulationIterator;
 import net.sourceforge.cilib.cooperative.populationiterators.SequentialPopulationIterator;
-import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
- * 
  * @author Gary Pampara
- *
  */
 public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm implements Iterable<Algorithm> {
-	
 	protected List<PopulationBasedAlgorithm> populationBasedAlgorithms;
 	protected PopulationIterator<PopulationBasedAlgorithm> algorithmIterator;
-	
+
 	public MultiPopulationBasedAlgorithm() {
 		this.populationBasedAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
 		this.algorithmIterator = new SequentialPopulationIterator<PopulationBasedAlgorithm>();
 		this.algorithmIterator.setPopulations(this.populationBasedAlgorithms);
 	}
-	
+
+	/**
+	 * @author Theuns Cloete
+	 * @param rhs The
+	 *        {@linkplain net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm}
+	 *        that should be copied.
+	 */
+	@SuppressWarnings("unchecked")
+	public MultiPopulationBasedAlgorithm(MultiPopulationBasedAlgorithm rhs) {
+		super(rhs);
+		populationBasedAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
+		for (PopulationBasedAlgorithm algorithm : rhs.populationBasedAlgorithms) {
+			populationBasedAlgorithms.add(algorithm.clone());
+		}
+		algorithmIterator = rhs.algorithmIterator.clone();
+	}
+
 	@SuppressWarnings("unchecked")
 	public Iterator<Algorithm> iterator() {
-		return this.algorithmIterator.clone();		
+		return this.algorithmIterator.clone();
 	}
 
 	@Override
@@ -61,35 +73,23 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 		return this.algorithmIterator.current().getCurrentAlgorithm();
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public abstract void performIteration();
-
 
 	public List<PopulationBasedAlgorithm> getPopulations() {
 		return populationBasedAlgorithms;
 	}
 
-
 	public void setPopulations(List<PopulationBasedAlgorithm> populationBasedAlgorithms) {
 		this.populationBasedAlgorithms = populationBasedAlgorithms;
 	}
-	
+
 	public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
 		this.populationBasedAlgorithms.add(algorithm);
 	}
-	
+
 	public void removePopulationBasedalgorithm(PopulationBasedAlgorithm algorithm) {
 		this.populationBasedAlgorithms.remove(algorithm);
-	}
-	
-	public OptimisationProblem getOptimisationProblem() {
-		return this.optimisationProblem;
-	}
-	
-	public void setOptimisationProblem(OptimisationProblem problem) {
-		this.optimisationProblem = problem;
 	}
 
 	public PopulationIterator<PopulationBasedAlgorithm> getAlgorithmIterator() {
@@ -100,7 +100,4 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 		this.algorithmIterator = algorithmIterator;
 		this.algorithmIterator.setPopulations(this.populationBasedAlgorithms);
 	}
-	
-	
-
 }

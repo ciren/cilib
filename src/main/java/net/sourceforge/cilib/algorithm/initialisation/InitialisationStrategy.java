@@ -1,10 +1,9 @@
 /*
- * InitialisationBuilder.java
+ * InitialisationStrategy.java
  *
  * Created on April 24, 2006, 2:26 PM
  *
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2007
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria
@@ -27,58 +26,50 @@
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
+import java.io.Serializable;
+
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
- * Interface for the InitialisationBuilder.
- * 
+ * Interface for the InitialisationStrategy.
  * @author Gary Pampara
  */
-public abstract class InitialisationStrategy {
-	
+public abstract class InitialisationStrategy implements Serializable {
 	protected int entities;
-	
+
 	public abstract InitialisationStrategy clone();
 
 	/**
 	 * Set the number of entities that are required.
-	 * 
 	 * @param entityNumber The number of entities to set
 	 */
 	public void setEntities(int entityNumber) {
 		this.entities = entityNumber;
 	}
-	
-	
+
 	/**
 	 * Set the entity type to use
-	 * 
 	 * @param entityType The entity type to use
 	 */
 	public abstract void setEntityType(Entity entity);
-	
-	
+
 	/**
 	 * Get the current entity type
 	 * @return The entity being used.
 	 */
 	public abstract Entity getEntityType();
 
-	
 	/**
-	 * Initialise the {@see net.sourceforge.cilib.entity.Entity} collection
-	 * based on the given Topology and Problem.
-	 * 
+	 * Initialise the {@see net.sourceforge.cilib.entity.Entity} collection based on the given
+	 * Topology and Problem.
 	 * @param topology The topology to initialise with Entity objects
 	 * @param problem The Problem to based the initialisation on
 	 */
 	public abstract void initialise(Topology<? extends Entity> topology, OptimisationProblem problem);
 
-
 	public int getEntities() {
-		return this.entities; 
+		return this.entities;
 	}
-
 }

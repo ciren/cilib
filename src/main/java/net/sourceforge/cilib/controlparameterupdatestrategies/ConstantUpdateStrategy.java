@@ -3,7 +3,6 @@
  *
  * Created on March 18, 2004, 4:23 PM
  *
- *
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -28,44 +27,37 @@
 package net.sourceforge.cilib.controlparameterupdatestrategies;
 
 /**
- * 
- * @author Gary Pampara 
- *
+ * @author Gary Pampara
  */
 public class ConstantUpdateStrategy implements ControlParameterUpdateStrategy {
-	
+	private static final long serialVersionUID = 8847038781478109426L;
 	protected double parameter;
-	
+
 	/**
-	 * 
 	 *
 	 */
 	public ConstantUpdateStrategy() {
-		
+
 	}
-	
-	
+
 	public ConstantUpdateStrategy(double value) {
 		this.parameter = value;
 	}
-	
+
 	/**
-	 * 
 	 * @param copy
 	 */
 	public ConstantUpdateStrategy(ConstantUpdateStrategy copy) {
 		this.parameter = copy.parameter;
 	}
-	
-	
+
 	/**
 	 * 
 	 */
 	public ConstantUpdateStrategy clone() {
 		return new ConstantUpdateStrategy(this);
 	}
-	
-	
+
 	/**
 	 * 
 	 */
@@ -74,9 +66,9 @@ public class ConstantUpdateStrategy implements ControlParameterUpdateStrategy {
 	}
 
 	public double getParameter(double min, double max) {
-		throw new UnsupportedOperationException("");
+		throw new UnsupportedOperationException("This method is not supported");
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -84,12 +76,10 @@ public class ConstantUpdateStrategy implements ControlParameterUpdateStrategy {
 		this.parameter = value;
 	}
 
-	
 	/**
 	 * 
 	 */
 	public void updateParameter() {
-		
-	}
 
+	}
 }

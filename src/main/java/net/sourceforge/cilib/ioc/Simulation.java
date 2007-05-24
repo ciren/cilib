@@ -35,18 +35,20 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.simulator.MeasurementSuite;
 
 /**
- * 
  * @author Gary Pampara
  */
 public class Simulation extends Thread implements AlgorithmListener, Serializable {
-	
+
 	private static final long serialVersionUID = -1205166010434175545L;
 	private Algorithm algorithm;
 	private OptimisationProblem optimisationProblem;
 	private MeasurementSuite measurements;
-	
+
 	public Simulation() {
-		
+	}
+
+	public Simulation clone() {
+		return null;
 	}
 
 	public Algorithm getAlgorithm() {
@@ -64,56 +66,55 @@ public class Simulation extends Thread implements AlgorithmListener, Serializabl
 
 	public void setProblem(OptimisationProblem optimisationProblem) {
 		this.optimisationProblem = optimisationProblem;
-		//System.out.println("Setting the problem to: " + optimisationProblem);
+		// System.out.println("Setting the problem to: " + optimisationProblem);
 	}
-	
+
 	public MeasurementSuite getMeasurements() {
 		return measurements;
 	}
 
 	public void setMeasurements(MeasurementSuite measurements) {
 		this.measurements = measurements;
-		//System.out.println("Measuremets set: " + measurements);
+		// System.out.println("Measuremets set: " + measurements);
 	}
 
 	public void run() {
 		measurements.initialise();
-		
-		for (int i = 0; i < measurements.getSamples(); i++) {	
+
+		for (int i = 0; i < measurements.getSamples(); i++) {
 			algorithm.initialise();
-			algorithm.run();		
+			algorithm.run();
 		}
 	}
 
 	public void algorithmStarted(AlgorithmEvent e) {
 		// TODO Auto-generated method stub
-		//System.out.println("Algorithm started");
-		
+		// System.out.println("Algorithm started");
+
 	}
 
 	public void algorithmFinished(AlgorithmEvent e) {
 		// TODO Auto-generated method stub
-		//System.out.println("Algorithm finished");
+		// System.out.println("Algorithm finished");
 		measurements.measure(e.getSource());
-		
+
 		measurements.getOutputBuffer().close();
-	    //progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
-	    //notifyProgress();		
+		// progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
+		// notifyProgress();
 	}
 
 	public void algorithmTerminated(AlgorithmEvent e) {
 		// TODO Auto-generated method stub
-		//System.out.println("Algorithm terminated");
+		// System.out.println("Algorithm terminated");
 	}
 
 	public void iterationCompleted(AlgorithmEvent e) {
 		// TODO Auto-generated method stub
-		//System.out.println("IterationCompleted");
+		// System.out.println("IterationCompleted");
 	}
 
 	public void initialise() {
 		this.algorithm.setOptimisationProblem(this.optimisationProblem);
-		//this.algorithm.initialise();
+		// this.algorithm.initialise();
 	}
-
 }

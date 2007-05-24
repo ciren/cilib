@@ -32,15 +32,12 @@ import java.util.Collection;
 
 import net.sourceforge.cilib.math.VectorMath;
 
-
 /**
- * 
  * @author Gary Pampara
  */
 public abstract class Vector extends Type implements Collection<Type>, VectorMath {
-	
-	public abstract Vector clone();		
-	
+	public abstract Vector clone();
+
 	public boolean equals(Object other) {
 		if (other instanceof Vector) {
 			Vector tmp = (Vector) other;
@@ -49,7 +46,7 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 				return false;
 			}
 			for (int i = 0; i < dimension; ++i) {
-				if (! this.get(i).equals(tmp.get(i))) {
+				if (!this.get(i).equals(tmp.get(i))) {
 					return false;
 				}
 			}
@@ -59,7 +56,7 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 			return false;
 		}
 	}
-	
+
 	public int hashCode() {
 		int dimension = this.getDimension();
 		int count = (dimension < 5) ? dimension : 5;
@@ -69,99 +66,103 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 		}
 		return tmp;
 	}
-	
+
 	public abstract Type get(int index);
+
 	public abstract void set(int index, Type value);
-	public abstract void insert(int index, Type value);	
+
+	public abstract void insert(int index, Type value);
+
 	public abstract void remove(int index);
+
 	public void append(Type value) {
 		insert(getDimension(), value);
 	}
 
 	public abstract boolean append(Vector vector);
+
 	public void prepend(Type value) {
 		insert(0, value);
 	}
 
 	public abstract boolean prepend(Vector vector);
+
 	public abstract boolean getBit(int index);
+
 	public abstract void setBit(int index, boolean value);
 
 	public abstract int getInt(int index);
+
 	public abstract void setInt(int index, int value);
 
 	public abstract double getReal(int index);
+
 	public abstract void setReal(int index, double value);
-	
-	
+
 	/**
 	 * Create an <code>Object []</code> from this <code>Vector</code>
-	 * 
-	 * @return an <code>Object []</code> representing the <code>Vector</code> 
+	 * @return an <code>Object []</code> representing the <code>Vector</code>
 	 */
-	public abstract Object [] toArray();
-	
+	public abstract Object[] toArray();
+
 	protected abstract Type getType(int index);
-	
+
 	public String getRepresentation() {
 		return this.toString();
 	}
 
 	public abstract Vector subVector(int fromIndex, int toIndex);
-	
-	
+
 	/**
 	 * TODO: Is this correct?
 	 */
 	@Override
+	@Deprecated
 	public void writeExternal(ObjectOutput oos) throws IOException {
 		if (getDimension() == 0)
 			throw new RuntimeException("Cannot serialise/externalise an empty Vector Type");
-		
-		for (int i = 0; i < getDimension(); i++) {
-			Type t = this.getType(i);
+
+		for (Type t : this) {
 			t.serialise(oos);
 		}
 	}
-	
+
 	@Override
+	@Deprecated
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		if (getDimension() == 0)
 			throw new RuntimeException("Cannot deserialise/deexternalise an empty Vector Type");
-		
-		for (int i = 0; i < getDimension(); i++) {
-			Type t = this.getType(i);
+
+		for (Type t : this) {
 			t.deserialise(ois);
 		}
 	}
 
 	/**
-	 * Create a new (cloned) <tt>Vector</tt> consisting of <tt>rhs</tt> that has been
-	 * appended to <tt>lhs</tt>.
-	 * 
-	 * @param lhs The <tt>Vector</tt> that will form the front part of the new
-	 *            (cloned) <tt>Vector</tt>.
+	 * Create a new (cloned) <tt>Vector</tt> consisting of <tt>rhs</tt> that has been appended to
+	 * <tt>lhs</tt>.
+	 * @param lhs The <tt>Vector</tt> that will form the front part of the new (cloned)
+	 *        <tt>Vector</tt>.
 	 * @param rhs The <tt>Vector</tt> that will form the back part of the new (cloned)
-	 *            <tt>Vector</tt>.
-	 * @return A new <tt>Vector</tt> consisting of the concatenation of <tt>lhs</tt>
-	 *         and <tt>rhs</tt>.
+	 *        <tt>Vector</tt>.
+	 * @return A new <tt>Vector</tt> consisting of the concatenation of <tt>lhs</tt> and
+	 *         <tt>rhs</tt>.
 	 */
 	public static Vector append(Vector lhs, Vector rhs) {
 		Vector cat = lhs.clone();
 		cat.append(rhs.clone());
 		return cat;
 	}
-	         
+
 	/**
-	 * Create a new (cloned) <tt>Vector</tt> consisting of <tt>rhs</tt> that has been
-	 * prepended to <tt>lhs</tt>.
-	 * 
+	 * Create a new (cloned) <tt>Vector</tt> consisting of <tt>rhs</tt> that has been prepended
+	 * to <tt>lhs</tt>.
 	 * @param lhs The <tt>Vector</tt> that will form the back part of the new (cloned)
-	 *            <tt>Vector</tt>.
-	 * @param rhs The <tt>Vector</tt> that will form the front part of the new
-	 *            (cloned) <tt>Vector</tt>.
-	 * @return A new <tt>Vector</tt> consisting of the concatenation of <tt>rhs</tt>
-	 *         and <tt>lhs</tt>.
+	 *        <tt>Vector</tt>.
+	 * @param rhs The <tt>Vector</tt> that will form the front part of the new (cloned)
+	 *        <tt>Vector</tt>.
+	 * @return A new <tt>Vector</tt> consisting of the concatenation of <tt>rhs</tt> and
+	 *         <tt>lhs</tt>.
 	 */
 	public static Vector prepend(Vector lhs, Vector rhs) {
 		Vector cat = rhs.clone();
@@ -170,36 +171,29 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	}
 
 	/**
-	 * Generate a <tt>String</tt> representation of this <tt>Vector</tt> using the
-	 * provided first, last and delimiter characters.
-	 * 
+	 * Generate a <tt>String</tt> representation of this <tt>Vector</tt> using the provided
+	 * first, last and delimiter characters.
 	 * <p>
 	 * Example Input: Assume <tt>first</tt> = <code>'['</code>, <tt>last</tt> =
 	 * <code>']'</code>, <tt>delimiter</tt> = <code>','</code> and elements of the
-	 * <tt>Vector</tt> = {1,2,3,4,5}
-	 * <br>
+	 * <tt>Vector</tt> = {1,2,3,4,5} <br>
 	 * Example Output: <code>[1,2,3,4,5]</code>
-	 * 
 	 * <p>
-	 * In the case where first and last characters are not desired, call the function
-	 * as follows: <br>
-	 * <code>toString((char)0, (char)0, ',');</code>
-	 * 
-	 * The delimiter character may be any character including a tab <code>'\t'</code>
-	 * or a newline <code>'\n'</code>.
-	 * 
+	 * In the case where first and last characters are not desired, call the function as follows:
+	 * <br>
+	 * <code>toString((char)0, (char)0, ',');</code> The delimiter character may be any character
+	 * including a tab <code>'\t'</code> or a newline <code>'\n'</code>.
 	 * @param first The character that indicates the start of the <tt>Vector</tt>
 	 *        <tt>String</tt>
 	 * @param last The character that indicates the end of the <tt>Vector</tt>
 	 *        <tt>String</tt>
 	 * @param delimiter The character used to delimit the elements of the <tt>Vector</tt>
-	 * 
 	 * @return a <tt>String</tt> representing this <tt>Vector</tt>
 	 */
 	public String toString(char first, char last, char delimiter) {
 		int dimension = getDimension();
 		StringBuffer tmp = new StringBuffer(10 * dimension);
-		if(first != 0)
+		if (first != 0)
 			tmp.append(first);
 		if (dimension > 0) {
 			tmp.append(this.get(0).toString());
@@ -208,15 +202,15 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 				tmp.append(this.get(i).toString());
 			}
 		}
-		if(last != 0)
+		if (last != 0)
 			tmp.append(last);
 		return tmp.toString();
 	}
-	
+
 	public String toString() {
 		return toString('[', ']', ',');
 	}
-	
+
 	public String toString(char delimiter) {
 		return toString('[', ']', delimiter);
 	}

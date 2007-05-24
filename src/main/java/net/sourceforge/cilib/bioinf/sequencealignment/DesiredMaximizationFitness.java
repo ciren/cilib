@@ -30,65 +30,58 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
- * This class serves as a crude implementation of a stopping condition that
- * forces the optimizer to stop whenever a arbitrary fitness has been reached. Handy to measure how fast an
- * optimizer gets to a goal fitness. Prevents wasting computational power and time when optimal solution has already been found. 
- * 
+ * This class serves as a crude implementation of a stopping condition that forces the optimizer to
+ * stop whenever a arbitrary fitness has been reached. Handy to measure how fast an optimizer gets
+ * to a goal fitness. Prevents wasting computational power and time when optimal solution has
+ * already been found.
  * @author Fabien Zablocki
  */
 public class DesiredMaximizationFitness implements StoppingCondition {
-
+	private static final long serialVersionUID = 6494553632698710933L;
 	private Algorithm algorithm;
 	private double desiredFitness;
 	private int quitAnywayAfterIterations;
-	
-	public DesiredMaximizationFitness()
-	{
+
+	public DesiredMaximizationFitness() {
 	}
-	
-	public DesiredMaximizationFitness (DesiredMaximizationFitness copy)
-	{
+
+	public DesiredMaximizationFitness(DesiredMaximizationFitness copy) {
 		this.algorithm = copy.algorithm;
 		this.desiredFitness = copy.desiredFitness;
 	}
-	
-	public DesiredMaximizationFitness clone()
-	{
+
+	public DesiredMaximizationFitness clone() {
 		return new DesiredMaximizationFitness(this);
 	}
-	
+
 	public double getFitness() {
 		return desiredFitness;
 	}
 
-	public void setDesiredFitness(double desiredFitness) 
-	{
+	public void setDesiredFitness(double desiredFitness) {
 		this.desiredFitness = desiredFitness;
 	}
 
-	public double getPercentageCompleted()
-	{
+	public double getPercentageCompleted() {
 		return algorithm.getBestSolution().getFitness().getValue() / desiredFitness;
 	}
-	
-	public boolean isCompleted()
-	{
-		if(algorithm.getIterations() == quitAnywayAfterIterations) return true;
-		else return algorithm.getBestSolution().getFitness().getValue() >= desiredFitness;
-	}
-	
-	public void setAlgorithm(Algorithm algorithm)
-	{
-		 this.algorithm = algorithm;
+
+	public boolean isCompleted() {
+		if (algorithm.getIterations() == quitAnywayAfterIterations)
+			return true;
+		else
+			return algorithm.getBestSolution().getFitness().getValue() >= desiredFitness;
 	}
 
-	public int getQuitAnywayAfterIterations()
-	{
+	public void setAlgorithm(Algorithm algorithm) {
+		this.algorithm = algorithm;
+	}
+
+	public int getQuitAnywayAfterIterations() {
 		return quitAnywayAfterIterations;
 	}
 
-	public void setQuitAnywayAfterIterations(int quitAnywayAfterIterations) 
-	{
+	public void setQuitAnywayAfterIterations(int quitAnywayAfterIterations) {
 		this.quitAnywayAfterIterations = quitAnywayAfterIterations;
 	}
 }

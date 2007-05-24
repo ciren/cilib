@@ -31,60 +31,63 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 
 /**
- * Base <tt>Algorithm</tt> class for algorithms that focus on Populations of entities.
- * These include PSO and EC.
- * 
+ * Base <tt>Algorithm</tt> class for algorithms that focus on Populations of entities. These
+ * include PSO and EC.
  * @author Gary Pampara
  */
 public abstract class PopulationBasedAlgorithm extends Algorithm {
-	
+	public PopulationBasedAlgorithm() {
+	}
+
+	public PopulationBasedAlgorithm(PopulationBasedAlgorithm copy) {
+		super(copy);
+	}
+
+	@Override
+	public abstract PopulationBasedAlgorithm clone();
+
 	@Override
 	public Algorithm getCurrentAlgorithm() {
 		return this;
 	}
 
-
 	/**
 	 * Perform the iteration within the algorithm
 	 */
+	@Override
 	public abstract void performIteration();
-	
-	
+
 	/**
 	 * Get the size of the current population within the algorithm.
 	 * @return The size of the current Population
 	 */
 	public abstract int getPopulationSize();
-	
+
 	/**
 	 * Set the size of the current population.
 	 * @param populationSize The new size to be set
 	 */
 	public abstract void setPopulationSize(int populationSize);
-	
-	
+
 	/**
 	 * Get the currently associated topology for the algorithm
 	 * @return The currently associated topology
 	 */
 	public abstract Topology<? extends Entity> getTopology();
-	
+
 	/**
-	 * Set the <tt>Topology</tt> for the population-based algorithm 
+	 * Set the <tt>Topology</tt> for the population-based algorithm
 	 * @param topology The <tt>Topology</tt> to be set
 	 */
 	public abstract void setTopology(Topology topology);
-	
-	
+
 	/**
 	 * Get the diameter of the population
 	 * @return The diameter of the population
 	 */
 	public abstract double getDiameter();
-	
-	
+
 	/**
-	 * 
 	 * @return
 	 */
 	public abstract double getRadius();

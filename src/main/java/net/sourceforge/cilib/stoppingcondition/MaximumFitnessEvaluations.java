@@ -3,7 +3,6 @@
  *
  * Created on January 26, 2003, 2:18 PM
  *
- * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -25,55 +24,54 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
 package net.sourceforge.cilib.stoppingcondition;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- *
- * @author  Edwin Peer
+ * @author Edwin Peer
  */
 public class MaximumFitnessEvaluations implements StoppingCondition {
-    
-    /** Creates a new instance of MaximumFitnessEvaluationsIndicator */
-    public MaximumFitnessEvaluations() {
-        maximumFitnessEvaluations = 200000;
-    }
-    
-    public MaximumFitnessEvaluations(MaximumFitnessEvaluations copy) {
-    	this.maximumFitnessEvaluations = copy.maximumFitnessEvaluations;
-    	this.algorithm = copy.algorithm;
-    }
-    
-    public MaximumFitnessEvaluations clone() {
-    	return new MaximumFitnessEvaluations(this);
-    }
-    
-    public MaximumFitnessEvaluations(int maximumFitnessEvaluations) {
-        this.maximumFitnessEvaluations = maximumFitnessEvaluations;
-    }
-    
-    public void setMaximumFitnessEvaluations(int maximumFitnessEvaluations) {
-        this.maximumFitnessEvaluations = maximumFitnessEvaluations;
-    }
-    
-    public int getMaximumFitnessEvaluations() {
-    	return maximumFitnessEvaluations;
-    }
-    
-    public double getPercentageCompleted() {
-        return ((double) algorithm.getOptimisationProblem().getFitnessEvaluations()) / ((double) maximumFitnessEvaluations);
-    }
-    
-    public boolean isCompleted() {
-        return algorithm.getOptimisationProblem().getFitnessEvaluations() >= maximumFitnessEvaluations;
-    }
-    
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
-    }
-    
-    private int maximumFitnessEvaluations;
-    private Algorithm algorithm;
+	private static final long serialVersionUID = 92433928310230011L;
+
+	private int maximumFitnessEvaluations;
+	private Algorithm algorithm;
+
+	/** Creates a new instance of MaximumFitnessEvaluationsIndicator */
+	public MaximumFitnessEvaluations() {
+		maximumFitnessEvaluations = 200000;
+	}
+
+	public MaximumFitnessEvaluations(MaximumFitnessEvaluations copy) {
+		this.maximumFitnessEvaluations = copy.maximumFitnessEvaluations;
+		this.algorithm = copy.algorithm;
+	}
+
+	public MaximumFitnessEvaluations clone() {
+		return new MaximumFitnessEvaluations(this);
+	}
+
+	public MaximumFitnessEvaluations(int maximumFitnessEvaluations) {
+		this.maximumFitnessEvaluations = maximumFitnessEvaluations;
+	}
+
+	public void setMaximumFitnessEvaluations(int maximumFitnessEvaluations) {
+		this.maximumFitnessEvaluations = maximumFitnessEvaluations;
+	}
+
+	public int getMaximumFitnessEvaluations() {
+		return maximumFitnessEvaluations;
+	}
+
+	public double getPercentageCompleted() {
+		return ((double) algorithm.getOptimisationProblem().getFitnessEvaluations()) / ((double) maximumFitnessEvaluations);
+	}
+
+	public boolean isCompleted() {
+		return algorithm.getOptimisationProblem().getFitnessEvaluations() >= maximumFitnessEvaluations;
+	}
+
+	public void setAlgorithm(Algorithm algorithm) {
+		this.algorithm = algorithm;
+	}
 }

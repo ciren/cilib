@@ -3,7 +3,6 @@
  *
  * Created on April 24, 2006, 2:26 PM
  *
- *
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -23,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
@@ -33,83 +31,67 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
- * 
  * @author Gary Pampara
  */
 public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
-
+	private static final long serialVersionUID = -7354579791235878648L;
 	private Entity prototypeEntity;
-	
+
 	public ClonedEntityInitialisationStrategy() {
 		entities = 20;
 		prototypeEntity = null; // This has to be manually set as Individuals are used in GAs etc...
 	}
-	
+
 	public ClonedEntityInitialisationStrategy(ClonedEntityInitialisationStrategy copy) {
 		this.entities = copy.entities;
 		this.prototypeEntity = copy.prototypeEntity.clone();
 	}
-	
+
 	public ClonedEntityInitialisationStrategy clone() {
 		return new ClonedEntityInitialisationStrategy(this);
 	}
 
-
 	/**
-	 * Perform the required initialisation, using the provided <tt>Topology</tt>
-	 * and <tt>Problem</tt>.
-	 * 
+	 * Perform the required initialisation, using the provided <tt>Topology</tt> and
+	 * <tt>Problem</tt>.
 	 * @param topology The given <tt>Topology</tt> to use in initialisation.
 	 * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
 	 * @throws InitialisationException if the initialisation cannot take place.
 	 */
 	@SuppressWarnings("unchecked")
 	public void initialise(Topology topology, OptimisationProblem problem) {
-		
-		 if (problem == null)
-			 throw new InitialisationException("No problem has been specified");
-		 
-		 if (prototypeEntity == null)
-			 throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
-		 
-		 for (int i = 0; i < entities; ++i) {
-			 Entity entity = (Entity) prototypeEntity.clone();
-		    
-			 entity.initialise(problem);
-			 topology.add(entity);
-		 }
+
+		if (problem == null)
+			throw new InitialisationException("No problem has been specified");
+
+		if (prototypeEntity == null)
+			throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
+
+		for (int i = 0; i < entities; ++i) {
+			Entity entity = (Entity) prototypeEntity.clone();
+
+			entity.initialise(problem);
+			topology.add(entity);
+		}
 	}
 
-	
-	/**
-	 * 
-	 * @return
-	 */
 	public Entity getPrototypeEntity() {
 		return prototypeEntity;
 	}
 
-	
 	/**
-	 * 
 	 * @param prototypeEntity
 	 */
 	public void setPrototypeEntity(Entity prototypeEntity) {
 		this.prototypeEntity = prototypeEntity;
 	}
 
-
-	/**
-	 * 
-	 */
 	public void setEntityType(Entity entityType) {
-		this.setPrototypeEntity(entityType);		
+		this.setPrototypeEntity(entityType);
 	}
-
 
 	@Override
 	public Entity getEntityType() {
 		return this.prototypeEntity;
 	}
-	
 }

@@ -3,7 +3,6 @@
  * 
  * Created on Jul 24, 2004
  *
- *
  * Copyright (C) 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -32,29 +31,36 @@ import net.sourceforge.cilib.type.types.Vector;
  * @author Edwin Peer
  */
 public abstract class ContinuousFunction extends Function {
-	
 	protected double verticalShift = 0.0;
 	protected double horizontalShift = 0.0;
 
 	public ContinuousFunction() {
-        //constraint.add(new ContentValidator(new TypeValidator(Real.class)));
+		// constraint.add(new ContentValidator(new TypeValidator(Real.class)));
 	}
-	
-	/* (non-Javadoc)
+
+	public ContinuousFunction(ContinuousFunction copy) {
+		verticalShift = copy.verticalShift;
+		horizontalShift = copy.horizontalShift;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see net.sourceforge.cilib.Functions.Function#getMinimum()
 	 */
 	public Object getMinimum() {
-		return new Double(- Double.MAX_VALUE);
+		return new Double(-Double.MAX_VALUE);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see net.sourceforge.cilib.Functions.Function#getMaximum()
 	 */
 	public Object getMaximum() {
 		return new Double(Double.MAX_VALUE);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see net.sourceforge.cilib.Functions.Function#evaluate(java.lang.Object)
 	 */
 	public Double evaluate(Object x) {
@@ -65,7 +71,7 @@ public abstract class ContinuousFunction extends Function {
 		catch (ClassCastException c) {
 			c.printStackTrace();
 		}
-		
+
 		return d;
 	}
 
@@ -102,5 +108,4 @@ public abstract class ContinuousFunction extends Function {
 	public void setVerticalShift(double verticalShift) {
 		this.verticalShift = verticalShift;
 	}
-	
 }

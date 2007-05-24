@@ -49,7 +49,11 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
         function = null;
     }
     
-    /**
+    public FunctionOptimisationProblem(FunctionOptimisationProblem copy) {
+    	function = copy.function;
+	}
+
+	/**
      * Sets the function that is to be optimised.
      *
      * @param function The function.

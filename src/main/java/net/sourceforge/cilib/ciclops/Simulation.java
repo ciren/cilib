@@ -24,7 +24,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  * 
  */
-
 package net.sourceforge.cilib.ciclops;
 
 import java.util.ArrayList;
@@ -42,85 +41,92 @@ import net.sourceforge.cilib.measurement.Measurement;
  * @author Edwin Peer
  */
 public class Simulation implements AlgorithmListener {
+	private int resolution;
+	private Algorithm algorithm;
+	private Collection<Measurement> measurements;
+	private List<MeasurementCollector> sample;
 
-    public Simulation() {
-        resolution = 100;
-        algorithm = null;
-        measurements = new LinkedList<Measurement>();
-    }
-    
-    /**
-     * @return Returns the algorithm.
-     */
-    public Algorithm getAlgorithm() {
-        return algorithm;
-    }
+	public Simulation() {
+		resolution = 100;
+		algorithm = null;
+		measurements = new LinkedList<Measurement>();
+	}
 
-    /**
-     * @param algorithm The algorithm to set.
-     */
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
-    }
+	public Simulation clone() {
+		return null;
+	}
 
-    /**
-     * @return Returns the resolution.
-     */
-    public int getResolution() {
-        return resolution;
-    }
+	/**
+	 * @return Returns the algorithm.
+	 */
+	public Algorithm getAlgorithm() {
+		return algorithm;
+	}
 
-    /**
-     * @param resolution The resolution to set.
-     */
-    public void setResolution(int resolution) {
-        this.resolution = resolution;
-    }
+	/**
+	 * @param algorithm The algorithm to set.
+	 */
+	public void setAlgorithm(Algorithm algorithm) {
+		this.algorithm = algorithm;
+	}
 
-    /**
-     * @return Returns the measurements.
-     */
-    public Collection getMeasurements() {
-        return measurements;
-    }
-    
-    public void addMeasurement(Measurement measurement) {
-        measurements.add(measurement);
-    }    
-    
+	/**
+	 * @return Returns the resolution.
+	 */
+	public int getResolution() {
+		return resolution;
+	}
 
-    public void initialise() {
-        algorithm.initialise();
-    }
-    
-    public void run() {
-        algorithm.addAlgorithmListener(this);
-    	algorithm.run();
-    	algorithm.removeAlgorithmListener(this);
-    }
-    
-    public void iterationCompleted(AlgorithmEvent e) {
-        if (algorithm.isFinished() || algorithm.getIterations() % resolution == 0) {
-        	Iterator<Measurement> i = measurements.iterator();
-        	for (int index = 0; i.hasNext(); ++index) {
-                Measurement measurement = i.next();
-                sample.get(index).serialiseValue(measurement.getValue());
-            }    
-        }
-    }
-    
+	/**
+	 * @param resolution The resolution to set.
+	 */
+	public void setResolution(int resolution) {
+		this.resolution = resolution;
+	}
+
+	/**
+	 * @return Returns the measurements.
+	 */
+	public Collection getMeasurements() {
+		return measurements;
+	}
+
+	public void addMeasurement(Measurement measurement) {
+		measurements.add(measurement);
+	}
+
+	public void initialise() {
+		algorithm.initialise();
+	}
+
+	public void run() {
+		algorithm.addAlgorithmListener(this);
+		algorithm.run();
+		algorithm.removeAlgorithmListener(this);
+	}
+
+	public void iterationCompleted(AlgorithmEvent e) {
+		if (algorithm.isFinished() || algorithm.getIterations() % resolution == 0) {
+			Iterator<Measurement> i = measurements.iterator();
+			for (int index = 0; i.hasNext(); ++index) {
+				Measurement measurement = i.next();
+				sample.get(index).serialiseValue(measurement.getValue());
+			}
+		}
+	}
+
 	public void algorithmStarted(AlgorithmEvent e) {
-        sample = new ArrayList<MeasurementCollector>(measurements.size());
-        Iterator<Measurement> i = measurements.iterator();
-        while (i.hasNext()) {
-            Measurement measurement = i.next();
-            if (measurement instanceof AlgorithmListener) {
-            	algorithm.addAlgorithmListener((AlgorithmListener) measurement);
-            }
-            MeasurementCollector mc = new MeasurementCollector(measurement);
-            mc.serialiseValue(measurement.getValue());
-            sample.add(mc);
-        }
+		sample = new ArrayList<MeasurementCollector>(measurements.size());
+		Iterator<Measurement> i = measurements.iterator();
+		while (i.hasNext()) {
+			Measurement measurement = i.next();
+			if (measurement instanceof AlgorithmListener) {
+				algorithm.addAlgorithmListener((AlgorithmListener) measurement);
+			}
+			MeasurementCollector mc = new MeasurementCollector(measurement);
+			mc.serialiseValue(measurement.getValue());
+			sample.add(mc);
+		}
 	}
 
 	public void algorithmFinished(AlgorithmEvent e) {
@@ -128,13 +134,8 @@ public class Simulation implements AlgorithmListener {
 
 	public void algorithmTerminated(AlgorithmEvent e) {
 	}
-	
+
 	public MeasurementCollector[] getSampleData() {
 		return sample.toArray(new MeasurementCollector[sample.size()]);
 	}
-	
-    private int resolution;
-    private Algorithm algorithm;
-    private Collection<Measurement> measurements;
-    private List<MeasurementCollector> sample;
 }

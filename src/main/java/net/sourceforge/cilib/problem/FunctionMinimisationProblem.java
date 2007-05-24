@@ -2,7 +2,6 @@
  * FunctionMinimisationProblem.java
  *
  * Created on January 12, 2003, 2:10 PM
- *
  * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -28,48 +27,44 @@
 package net.sourceforge.cilib.problem;
 
 /**
- * An implementation of {@link OptimisationProblemAdapter} that can be used to find
- * the minimum of any {@link net.sourceforge.cilib.functions.Function}.
- *
- * @author  Edwin Peer
+ * An implementation of {@link OptimisationProblemAdapter} that can be used to find the minimum of
+ * any {@link net.sourceforge.cilib.functions.Function}.
+ * @author Edwin Peer
  */
 public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
-    
 	private static final long serialVersionUID = 8635875300412883576L;
 
 	public FunctionMinimisationProblem() {
-    	super();
-    }
-	
-	public FunctionMinimisationProblem(FunctionMinimisationProblem copy) {
-		
+		super();
 	}
-	
+
+	public FunctionMinimisationProblem(FunctionMinimisationProblem copy) {
+		super(copy);
+	}
+
 	public FunctionMinimisationProblem clone() {
 		return new FunctionMinimisationProblem(this);
 	}
-    
-    protected Fitness calculateFitness(Object solution) {
-    	/* Add code to enforce the boundary constraint */
-        return new MinimisationFitness(function.evaluate(solution));
-    }
-    
-    /**
-     * <p>
-     * Returns the error for the given solution. That is, a lower error value
-     * is returned if the given solution is a better minimiser for the function.
-     * </p>
-     * <p>
-     * The lowest possible error (corresponding to the best solution) should be 0. However,
-     * if the function incorrectly reports its minimum value then it is possible for error
-     * values to be negative.
-     * </p>
-     * 
-     * @param The solution for which an error is saught.
-     * @return The error.
-     */
-    public double getError(Object solution) {
-        return ((Number) function.evaluate(solution)).doubleValue() - ((Number) function.getMinimum()).doubleValue();
-    }
-    
+
+	protected Fitness calculateFitness(Object solution) {
+		/* Add code to enforce the boundary constraint */
+		return new MinimisationFitness(function.evaluate(solution));
+	}
+
+	/**
+	 * <p>
+	 * Returns the error for the given solution. That is, a lower error value is returned if the
+	 * given solution is a better minimiser for the function.
+	 * </p>
+	 * <p>
+	 * The lowest possible error (corresponding to the best solution) should be 0. However, if the
+	 * function incorrectly reports its minimum value then it is possible for error values to be
+	 * negative.
+	 * </p>
+	 * @param The solution for which an error is saught.
+	 * @return The error.
+	 */
+	public double getError(Object solution) {
+		return ((Number) function.evaluate(solution)).doubleValue() - ((Number) function.getMinimum()).doubleValue();
+	}
 }

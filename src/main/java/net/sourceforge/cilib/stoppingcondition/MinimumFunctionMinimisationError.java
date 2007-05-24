@@ -2,7 +2,6 @@
  * MinimumFunctionMinimisationError.java
  *
  * Created on January 26, 2003, 2:56 PM
- *
  * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -25,64 +24,62 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-
 package net.sourceforge.cilib.stoppingcondition;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 
 /**
- *
- * @author  Edwin Peer
+ * @author Edwin Peer
  */
 public class MinimumFunctionMinimisationError implements StoppingCondition {
-    
-    /** Creates a new instance of MinimumErrorIndicator */
-    public MinimumFunctionMinimisationError() {
-        minimumError = 1e-10;
-    }
-    
-    public MinimumFunctionMinimisationError(double minimumError) {
-        this.minimumError = minimumError;
-    }
-    
-    public MinimumFunctionMinimisationError(MinimumFunctionMinimisationError copy) {
-    	this.minimumError = copy.minimumError;
-    	this.optAlgorithm = copy.optAlgorithm;
-    	this.problem = copy.problem;
-    }
-    
-    public MinimumFunctionMinimisationError clone() {
-    	return new MinimumFunctionMinimisationError(this);
-    }
-    
-    public void setError(double minimumError) {
-        this.minimumError = minimumError;
-    }
-    
-    public double getError() {
-    	return minimumError;
-    }
-    
-    public double getPercentageCompleted() {
-        double error = problem.getError(optAlgorithm.getBestSolution().getPosition());
-        if (error <= minimumError) {
-            return 1;
-        }
-        return minimumError / error;
-    }
+	private static final long serialVersionUID = -7375489325180419208L;
 
-    public boolean isCompleted() {
-        return problem.getError(optAlgorithm.getBestSolution().getPosition()) <= minimumError;
-    }
-    
-    public void setAlgorithm(Algorithm algorithm) {
-        optAlgorithm = algorithm;
-        problem = (FunctionMinimisationProblem) optAlgorithm.getOptimisationProblem();
-    }
-    
-    private Algorithm optAlgorithm;
-    private double minimumError;
-    private FunctionMinimisationProblem problem;
-    
+	private Algorithm optAlgorithm;
+	private double minimumError;
+	private FunctionMinimisationProblem problem;
+
+	/** Creates a new instance of MinimumErrorIndicator */
+	public MinimumFunctionMinimisationError() {
+		minimumError = 1e-10;
+	}
+
+	public MinimumFunctionMinimisationError(double minimumError) {
+		this.minimumError = minimumError;
+	}
+
+	public MinimumFunctionMinimisationError(MinimumFunctionMinimisationError copy) {
+		this.minimumError = copy.minimumError;
+		this.optAlgorithm = copy.optAlgorithm;
+		this.problem = copy.problem;
+	}
+
+	public MinimumFunctionMinimisationError clone() {
+		return new MinimumFunctionMinimisationError(this);
+	}
+
+	public void setError(double minimumError) {
+		this.minimumError = minimumError;
+	}
+
+	public double getError() {
+		return minimumError;
+	}
+
+	public double getPercentageCompleted() {
+		double error = problem.getError(optAlgorithm.getBestSolution().getPosition());
+		if (error <= minimumError) {
+			return 1;
+		}
+		return minimumError / error;
+	}
+
+	public boolean isCompleted() {
+		return problem.getError(optAlgorithm.getBestSolution().getPosition()) <= minimumError;
+	}
+
+	public void setAlgorithm(Algorithm algorithm) {
+		optAlgorithm = algorithm;
+		problem = (FunctionMinimisationProblem) optAlgorithm.getOptimisationProblem();
+	}
 }
