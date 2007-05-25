@@ -35,7 +35,6 @@ import net.sourceforge.cilib.algorithm.proxy.LocalAlgorithmProxy;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
  * <p>
@@ -88,13 +87,15 @@ public abstract class Algorithm implements Runnable, Serializable {
 		running = false;
 		initialised = false;
 		distributed = false;
-		optimisationProblem = copy.optimisationProblem.clone();
+		if(copy.optimisationProblem != null)
+			optimisationProblem = copy.optimisationProblem.clone();
 	}
 
 	public abstract Algorithm clone();
 
 	public void reset() {
-		// it is probably not a good idea to have this hear
+		setupProxy();
+		// it is probably not a good idea to have this here
 		// throw new UnimplementedMethodException("'reset()' method not implemented for '" + this.getClass().getName() + "'");
 	}
 
@@ -131,8 +132,6 @@ public abstract class Algorithm implements Runnable, Serializable {
 		if (!initialised) {
 			throw new InitialisationException("Algorithm not initialised");
 		}
-
-		setupProxy();
 
 		fireAlgorithmStarted();
 
@@ -260,9 +259,7 @@ public abstract class Algorithm implements Runnable, Serializable {
 			}
 		}
 
-		if (proxy.get() == null) {
-			proxy.set(this);
-		}
+		proxy.set(this);
 	}
 
 	public abstract Algorithm getCurrentAlgorithm();
