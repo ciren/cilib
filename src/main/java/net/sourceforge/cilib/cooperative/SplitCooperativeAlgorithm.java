@@ -225,7 +225,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	}
 
 	@Override
-	public void performIteration() {
+	public void algorithmIteration() {
 		for (Algorithm population : this) {
 			population.performIteration();
 			CooperativeOptimisationProblemAdapter participantProblem = (CooperativeOptimisationProblemAdapter) population.getOptimisationProblem();

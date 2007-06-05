@@ -5,7 +5,8 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Type;
 
 public class VectorBasedFitnessCalculator implements FitnessCalculator {
-	
+	private static final long serialVersionUID = -5053760817332028741L;
+
 	public VectorBasedFitnessCalculator() {
 		
 	}

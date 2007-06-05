@@ -139,7 +139,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         solution = optimisationAlgorithm.getBestSolution();
     }
     
-    public void performIteration() { 
+    public void algorithmIteration() { 
         algorithm.run();
         singleIteration.reset();
        

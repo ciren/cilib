@@ -86,7 +86,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	}
 
 	@Override
-	public void performIteration() {
+	public void algorithmIteration() {
 		bestEntity = null;
 		
 		for (Iterator<? extends Entity> i = this.getTopology().iterator(); i.hasNext(); ) {

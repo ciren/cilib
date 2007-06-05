@@ -63,7 +63,7 @@ public class NeuralNetworkController extends Algorithm {
 		
 	}
 
-	public void performIteration() {
+	public void algorithmIteration() {
 		
 		errorDt = problem.learningEpoch();
 		System.out.println("------------   Epoch " + this.getIterations() + " completed, error list :   ------------");

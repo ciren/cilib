@@ -54,8 +54,7 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	/**
 	 * Perform the iteration within the algorithm
 	 */
-	@Override
-	public abstract void performIteration();
+	protected abstract void algorithmIteration();
 
 	/**
 	 * Get the size of the current population within the algorithm.

@@ -27,13 +27,13 @@
 package net.sourceforge.cilib.pso;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Fitness;
@@ -59,14 +59,14 @@ import org.apache.log4j.Logger;
  * @author Andries Engelbrecht
  * @author Gary Pampara
  */
-public class NichePSO extends PopulationBasedAlgorithm {
+public class NichePSO extends MultiPopulationBasedAlgorithm {
 	private static final long serialVersionUID = 2056933096612146989L;
 
 	private static Logger log = Logger.getLogger(NichePSO.class);
 	
 	private OptimisationProblem problem;
 	private PSO mainSwarm;
-	private List<PSO> subSwarms;
+	//private List<PSO> subSwarms;
 	private DistanceMeasure distanceMeasure;
 	private MergeStrategy<PSO> mergeStrategy;
 	private AbsorptionStrategy<PSO> absorptionStrategy;
@@ -80,8 +80,10 @@ public class NichePSO extends PopulationBasedAlgorithm {
 	 *
 	 */
 	public NichePSO() {
+		super();
+		
 		mainSwarm = new PSO();
-		subSwarms = new ArrayList<PSO>();
+//		subSwarms = new ArrayList<PSO>();
 		
 		distanceMeasure = new EuclideanDistanceMeasure();
 		mergeStrategy = new GBestMergeStrategy<PSO>();
@@ -121,19 +123,19 @@ public class NichePSO extends PopulationBasedAlgorithm {
 	 * 
 	 */
 	@Override
-	public void performIteration() {
+	public void algorithmIteration() {
 		log.debug("Beginning iteration");
 		log.debug("\tmainSwarm particle #: " + mainSwarm.getTopology().size());
 		mainSwarm.performIteration();
 		
-		for (Iterator<PSO> i = this.subSwarms.iterator(); i.hasNext(); ) {
-			PSO subSwarm = i.next();	
+		for (Iterator<PopulationBasedAlgorithm> i = this.populationBasedAlgorithms.iterator(); i.hasNext(); ) {
+			PopulationBasedAlgorithm subSwarm = i.next();	
 			log.debug("\tsubswarm size: " + subSwarm.getTopology().size());
 			subSwarm.performIteration();
 		}
 		
-		this.mergeStrategy.merge(this.subSwarms);
-		this.absorptionStrategy.absorb(mainSwarm, subSwarms);
+		this.mergeStrategy.merge(this.populationBasedAlgorithms);
+		this.absorptionStrategy.absorb(mainSwarm, this.populationBasedAlgorithms);
 		this.swarmCreationStrategy.create(this);
 		
 		log.debug("End of iteration");
@@ -194,8 +196,8 @@ public class NichePSO extends PopulationBasedAlgorithm {
 	public List<OptimisationSolution> getSolutions() {
 		List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
 		
-		for (Iterator<PSO> i = subSwarms.iterator(); i.hasNext(); ) {
-			PSO p = i.next();
+		for (Iterator<PopulationBasedAlgorithm> i = this.populationBasedAlgorithms.iterator(); i.hasNext(); ) {
+			PopulationBasedAlgorithm p = i.next();
 			solutions.add(p.getBestSolution());
 		}
 		
@@ -252,12 +254,12 @@ public class NichePSO extends PopulationBasedAlgorithm {
 		this.subSwarmParticle = subSwarmParticle;
 	}
 
-	public Collection<PSO> getSubSwarms() {
-		return subSwarms;
+	public List<PopulationBasedAlgorithm> getSubSwarms() {
+		return this.populationBasedAlgorithms;
 	}
 
-	public void setSubSwarms(List<PSO> subSwarms) {
-		this.subSwarms = subSwarms;
+	public void setSubSwarms(List<PopulationBasedAlgorithm> subSwarms) {
+		this.populationBasedAlgorithms = subSwarms;
 	}
 
 	public SwarmCreationStrategy getSwarmCreationStrategy() {
@@ -268,16 +270,6 @@ public class NichePSO extends PopulationBasedAlgorithm {
 		this.swarmCreationStrategy = swarmCreationStrategy;
 	}
 	
-	/*@Deprecated
-	public void setThreshold(double t) {
-		this.threshold = t;
-	}
-		
-	@Deprecated
-	public double getThreshold() {
-		return this.threshold;
-	}*/
-
 	public Entity getContribution() {
 		throw new UnsupportedOperationException("If you want to use this, you will have to implement it yourself");
 	}

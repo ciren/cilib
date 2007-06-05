@@ -74,7 +74,7 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	}
 
 	@Override
-	public abstract void performIteration();
+	protected abstract void algorithmIteration();
 
 	public List<PopulationBasedAlgorithm> getPopulations() {
 		return populationBasedAlgorithms;
@@ -100,4 +100,5 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 		this.algorithmIterator = algorithmIterator;
 		this.algorithmIterator.setPopulations(this.populationBasedAlgorithms);
 	}
+
 }

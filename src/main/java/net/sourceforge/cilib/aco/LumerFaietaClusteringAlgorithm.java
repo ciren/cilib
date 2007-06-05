@@ -62,7 +62,7 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 	}
 	
 	// TODO: Move more of this code into the ClusteringAntDecorator
-	public void performIteration() { // Override this method to perform the needed clustering algorithm
+	public void algorithmIteration() { // Override this method to perform the needed clustering algorithm
 		Matrix<Object> grid = clusteringOptimisationProblem.getGrid();
 		double randomNumber = -1.0;
 		

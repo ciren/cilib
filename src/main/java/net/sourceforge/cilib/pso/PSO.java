@@ -129,7 +129,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * to perform the iteration.
 	 */
 	@SuppressWarnings("unchecked")
-	public void performIteration() {
+	protected void algorithmIteration() {
 		bestParticle = null;
 
 		iterationStrategy.performIteration(this);

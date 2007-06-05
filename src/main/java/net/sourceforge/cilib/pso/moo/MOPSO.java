@@ -77,7 +77,7 @@ public class MOPSO extends PSO  {
 	}
 	
 	@Override
-	public void performIteration() {
+	public void algorithmIteration() {
 		// TODO Auto-generated method stub
 		
 		StandardArchive standardArchive = (StandardArchive) this.archive;

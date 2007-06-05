@@ -36,5 +36,5 @@ public abstract class SingularAlgorithm extends Algorithm {
 	/**
 	 * 
 	 */
-	public abstract void performIteration();
+	public abstract void algorithmIteration();
 }

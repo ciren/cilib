@@ -48,7 +48,7 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 	}
 
 	
-	public void merge(List<? extends E> subSwarms)
+	public void merge(List<PopulationBasedAlgorithm> subSwarms)
 	{
 		for (int i = 0; i < subSwarms.size(); i++) {
 			System.out.println("subSwarmsire: " + subSwarms.size());

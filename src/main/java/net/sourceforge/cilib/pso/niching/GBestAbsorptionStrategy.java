@@ -26,8 +26,8 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -45,7 +45,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> implements AbsorptionStrategy<E> {
     
-    public void absorb(E mainSwarm, Collection<? extends E> subSwarms) {
+    public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
         
         ListIterator mainSwarmIterator = mainSwarm.getTopology().listIterator();
         

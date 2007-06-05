@@ -70,7 +70,7 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 	}
 
 	@Override
-	public void performIteration() {
+	public void algorithmIteration() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -34,5 +34,5 @@ public interface MergeStrategy<E extends PopulationBasedAlgorithm> {
 	
 	//public Collection<E> merge(Collection<? extends E> name);
 	//public void merge(Collection<? extends E> name, double threshold);
-	public void merge(List<? extends E> name);
+	public void merge(List<PopulationBasedAlgorithm> subSwarms);
 }

@@ -108,7 +108,7 @@ public class ACO extends PopulationBasedAlgorithm {
 	 * to know what is going on. It implements the Template Method design pattern and defers
 	 * the needed calls to the specific <code>Ant</code> class
 	 */
-	public void performIteration() {
+	public void algorithmIteration() {
 		for (ListIterator<Ant> l = ants.listIterator(); l.hasNext(); ) {
 			Ant a = l.next();
 			a.buildTour(problem);

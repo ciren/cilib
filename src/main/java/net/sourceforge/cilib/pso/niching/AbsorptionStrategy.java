@@ -26,12 +26,12 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
-import java.util.Collection;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 public interface AbsorptionStrategy<E extends PopulationBasedAlgorithm> {
 	
-	public void absorb(E mainSwarm, Collection<? extends E> subSwarms);
+	public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms);
 
 }

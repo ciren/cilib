@@ -29,9 +29,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
-import net.sourceforge.cilib.algorithm.proxy.AlgorithmProxy;
-import net.sourceforge.cilib.algorithm.proxy.DistributedAlgorithmProxy;
-import net.sourceforge.cilib.algorithm.proxy.LocalAlgorithmProxy;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -54,22 +51,28 @@ public abstract class Algorithm implements Runnable, Serializable {
 	private int iterations;
 	private volatile boolean running;
 	private boolean initialised;
-	private boolean distributed;
-	// TODO: Replace these with annotations
-	public static byte _ciclops_exclude_algorithmListener = 1;
 
 	protected OptimisationProblem optimisationProblem;
-	// TODO: Is this over engineered? Think about the flow and determine whether or not this strategy
-	// couldn't work like the original???
-	private static AlgorithmProxy proxy;
+	private transient ThreadLocal<Algorithm> localInstance;
+	
+	/**
+	 * 
+	 */
+	private transient static ThreadLocal<AlgorithmStack> currentAlgorithmStack = new ThreadLocal<AlgorithmStack>() {
+		protected AlgorithmStack initialValue() {
+			return new AlgorithmStack();
+		}
+	};
 
 	protected Algorithm() {
 		// LoggingSingleton.initialise();
 		stoppingConditions = new Vector<StoppingCondition>();
 		algorithmListeners = new Vector<AlgorithmListener>();
+		
+		localInstance = new ThreadLocal<Algorithm>();
+		
 		running = false;
 		initialised = false;
-		distributed = false;
 	}
 
 	public Algorithm(Algorithm copy) {
@@ -84,18 +87,17 @@ public abstract class Algorithm implements Runnable, Serializable {
 		for (AlgorithmListener listen : copy.algorithmListeners) {
 			algorithmListeners.add(listen.clone());
 		}
+		
 		running = false;
 		initialised = false;
-		distributed = false;
-		if(copy.optimisationProblem != null)
+
+		if (copy.optimisationProblem != null)
 			optimisationProblem = copy.optimisationProblem.clone();
 	}
 
 	public abstract Algorithm clone();
 
 	public void reset() {
-		setupProxy();
-		// it is probably not a good idea to have this here
 		// throw new UnimplementedMethodException("'reset()' method not implemented for '" + this.getClass().getName() + "'");
 	}
 
@@ -114,7 +116,13 @@ public abstract class Algorithm implements Runnable, Serializable {
 		performInitialisation();
 	}
 
-	public abstract void performIteration();
+	public final void performIteration() {
+		currentAlgorithmStack.get().push(this);
+		algorithmIteration();
+		currentAlgorithmStack.get().pop();
+	}
+	
+	protected abstract void algorithmIteration();
 
 	public void performInitialisation() {
 		// subclasses can override the behaviour for this method
@@ -134,7 +142,12 @@ public abstract class Algorithm implements Runnable, Serializable {
 		}
 
 		fireAlgorithmStarted();
-
+		
+		if (localInstance.get() == null)
+			localInstance.set(this);
+		
+		currentAlgorithmStack.get().push(this);
+		
 		while (running && (!isFinished())) {
 			performIteration();
 			++iterations;
@@ -152,9 +165,10 @@ public abstract class Algorithm implements Runnable, Serializable {
 		performUninitialisation();
 
 		// TODO: Figure this stuff out
-		// initialised = false; // This breaks MultiStartOptimisationAlgorithm - does it make sense to
+		 //initialised = false; // This breaks MultiStartOptimisationAlgorithm - does it make sense to
 		// set it false here?
-		// localInstance.set(null); // By not setting to null we allow algorithm to be accessed after
+		 localInstance.set(null); // By not setting to null we allow algorithm to be accessed after
+		 currentAlgorithmStack.remove();
 		// compeltion - should be fine
 	}
 
@@ -242,26 +256,9 @@ public abstract class Algorithm implements Runnable, Serializable {
 	 * @return the instance of the algorithm that is running in the current thread,.
 	 */
 	public static Algorithm get() {
-		return proxy.get();
+		return currentAlgorithmStack.get().peek();
 	}
-
-	public static AlgorithmProxy getProxy() {
-		return proxy;
-	}
-
-	private void setupProxy() {
-		if (proxy == null) {
-			if (distributed) {
-				proxy = new DistributedAlgorithmProxy();
-			}
-			else {
-				proxy = new LocalAlgorithmProxy();
-			}
-		}
-
-		proxy.set(this);
-	}
-
+	
 	public abstract Algorithm getCurrentAlgorithm();
 
 	public Vector<StoppingCondition> getStoppingConditions() {
@@ -290,14 +287,6 @@ public abstract class Algorithm implements Runnable, Serializable {
 		for (AlgorithmListener listener : algorithmListeners) {
 			listener.iterationCompleted(new AlgorithmEvent(this));
 		}
-	}
-
-	public boolean isDistributed() {
-		return distributed;
-	}
-
-	public void setDistributed(boolean distributed) {
-		this.distributed = distributed;
 	}
 
 	/**

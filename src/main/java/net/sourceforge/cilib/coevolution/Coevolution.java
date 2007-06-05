@@ -93,7 +93,7 @@ public class Coevolution extends MultiPopulationBasedAlgorithm implements Optimi
 	public void SetScoreScheme(ScoreScheme scoreScheme_)
 	{ theScoreScheme = scoreScheme_; }
 	
-	public void performIteration() 
+	public void algorithmIteration() 
 	{
 		theScoreScheme.ScoreAgents(players,theGame);
 			

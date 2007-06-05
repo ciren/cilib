@@ -60,7 +60,7 @@ public class VEPSO extends MultiPopulationBasedAlgorithm {
 		
 	}
 	
-	public void performIteration() {
+	public void algorithmIteration() {
 		//Get the global guides for each subswarm
 		//List<Entity> globalGuides = new ArrayList<Entity>();
 		
