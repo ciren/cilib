@@ -46,11 +46,6 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	@Override
 	public abstract PopulationBasedAlgorithm clone();
 
-	@Override
-	public Algorithm getCurrentAlgorithm() {
-		return this;
-	}
-
 	/**
 	 * Perform the iteration within the algorithm
 	 */

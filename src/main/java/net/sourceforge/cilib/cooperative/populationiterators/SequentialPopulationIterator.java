@@ -57,8 +57,7 @@ public class SequentialPopulationIterator<E extends Algorithm> implements Popula
 
 	@SuppressWarnings("unchecked")
 	public E next() {
-		E algorithm = populations.get(iterations++);
-		return (E) algorithm.getCurrentAlgorithm();
+		return populations.get(iterations++);
 	}
 
 	public void remove() {
@@ -84,8 +83,7 @@ public class SequentialPopulationIterator<E extends Algorithm> implements Popula
 
 	@SuppressWarnings("unchecked")
 	public E previous() {
-		E algorithm = populations.get(--iterations);
-		return (E) algorithm.getCurrentAlgorithm();
+		return populations.get(--iterations);
 	}
 
 	public int previousIndex() {

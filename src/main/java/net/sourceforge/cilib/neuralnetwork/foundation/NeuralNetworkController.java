@@ -100,8 +100,4 @@ public class NeuralNetworkController extends Algorithm {
 		return null;
 	}
 
-	@Override
-	public Algorithm getCurrentAlgorithm() {
-		return this;
-	}
 }

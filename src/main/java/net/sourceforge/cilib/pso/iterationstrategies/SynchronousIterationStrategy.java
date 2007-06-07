@@ -62,7 +62,6 @@ public class SynchronousIterationStrategy extends IterationStrategy<PSO> {
 
        for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext(); ) {
            Particle current = i.next();
-           //current.updateVelocity(pso.getVelocityUpdate());      // TODO: replace with visitor (will simplify particle interface)
            current.updateVelocity();
            current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
            
