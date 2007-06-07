@@ -53,7 +53,6 @@ public abstract class Algorithm implements Runnable, Serializable {
 	private boolean initialised;
 
 	protected OptimisationProblem optimisationProblem;
-	private transient ThreadLocal<Algorithm> localInstance;
 	
 	/**
 	 * 
@@ -68,8 +67,6 @@ public abstract class Algorithm implements Runnable, Serializable {
 		// LoggingSingleton.initialise();
 		stoppingConditions = new Vector<StoppingCondition>();
 		algorithmListeners = new Vector<AlgorithmListener>();
-		
-		localInstance = new ThreadLocal<Algorithm>();
 		
 		running = false;
 		initialised = false;
@@ -143,9 +140,6 @@ public abstract class Algorithm implements Runnable, Serializable {
 
 		fireAlgorithmStarted();
 		
-		if (localInstance.get() == null)
-			localInstance.set(this);
-		
 		currentAlgorithmStack.get().push(this);
 		
 		while (running && (!isFinished())) {
@@ -167,7 +161,7 @@ public abstract class Algorithm implements Runnable, Serializable {
 		// TODO: Figure this stuff out
 		 //initialised = false; // This breaks MultiStartOptimisationAlgorithm - does it make sense to
 		// set it false here?
-		 localInstance.set(null); // By not setting to null we allow algorithm to be accessed after
+	//	 localInstance.set(null); // By not setting to null we allow algorithm to be accessed after
 		 currentAlgorithmStack.remove();
 		// compeltion - should be fine
 	}
