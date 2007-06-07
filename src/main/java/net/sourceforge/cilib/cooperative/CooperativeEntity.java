@@ -30,7 +30,7 @@ public class CooperativeEntity implements Entity {
 	public CooperativeEntity(CooperativeEntity rhs) {
 		context = rhs.context.clone();
 		fitness = rhs.fitness;
-		fitnessCalculator = rhs.fitnessCalculator.clone();
+		fitnessCalculator = rhs.fitnessCalculator;//.clone();
 	}
 
 	public CooperativeEntity clone() {

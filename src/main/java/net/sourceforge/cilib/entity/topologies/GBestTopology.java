@@ -66,6 +66,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 	public GBestTopology(GBestTopology<E> copy) {
     	this.entities = new ArrayList<E>(copy.entities.size());
     	for (E entity : copy.entities) {
+    		entity.reinitialise();
     		this.entities.add((E) entity.clone());
     	}
     }

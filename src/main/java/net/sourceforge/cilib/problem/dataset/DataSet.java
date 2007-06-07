@@ -3,7 +3,6 @@
  * 
  * Created on May 27, 2004
  *
- * 
  * Copyright (C) 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
@@ -23,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
  */
 package net.sourceforge.cilib.problem.dataset;
 
@@ -31,50 +29,51 @@ import java.io.InputStream;
 import java.io.Serializable;
 
 /**
- * This interface provides an abstraction for accessing data sets. The underlying data
- * set can be accessed using either an <code>InputStream</code> or a <code>byte[]</code>
- * 
+ * This interface provides an abstraction for accessing data sets. The underlying data set can be
+ * accessed using either an <code>InputStream</code> or a <code>byte[]</code>
  * @author Edwin Peer
  * @author Theuns Cloete
  */
 public abstract class DataSet implements Serializable {
-	
-	protected String patternExpression = "";
-	
+	protected String patternExpression = null;
+
+	public DataSet() {
+		patternExpression = "";
+	}
+
+	public DataSet(DataSet rhs) {
+		patternExpression = new String(rhs.patternExpression);
+	}
+
+	public abstract DataSet clone();
+
 	/**
 	 * Returns the data set as a byte array.
-	 * 
 	 * @return the data set as a <code>byte[]</code>
 	 */
 	public abstract byte[] getData();
-	
+
 	/**
 	 * Returns the data set as an input stream.
-	 * 
 	 * @return the data set as a <code>InputStream</code>
 	 */
 	public abstract InputStream getInputStream();
-	
+
 	/**
-	 * Set the regular expression that will be used to split the patterns in the 
-	 * provided DataSet file.
-	 * 
-	 * The format of this regular expression depends on where you are calling the 
-	 * method from. When you specify the regular expression in a simulation XML file,
-	 * the format should be a standard regular expression. When you call this method 
-	 * directly with a regular expression in double quotes (from a Java source file),
-	 * then the format of the regular expression should be a Java style regular 
-	 * expression.
-	 * 
-	 * @param regexp The regex to use 
+	 * Set the regular expression that will be used to split the patterns in the provided DataSet
+	 * file. The format of this regular expression depends on where you are calling the method from.
+	 * When you specify the regular expression in a simulation XML file, the format should be a
+	 * standard regular expression. When you call this method directly with a regular expression in
+	 * double quotes (from a Java source file), then the format of the regular expression should be a
+	 * Java style regular expression.
+	 * @param regexp The regex to use
 	 */
 	public void setPatternExpression(String regexp) {
 		patternExpression = regexp;
 	}
-	
+
 	/**
 	 * Get the regular expression that has been set for this DataSet.
-	 * 
 	 * @return The regular expression.
 	 */
 	public String getPatternExpression() {

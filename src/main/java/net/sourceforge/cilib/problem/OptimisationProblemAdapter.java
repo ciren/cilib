@@ -2,7 +2,6 @@
  * OptimisationProblemAdapter.java
  *
  * Created on January 11, 2003, 1:02 PM
- *
  * 
  * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -23,62 +22,60 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
  */
-
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 
 /**
- * This is a covenience class that keeps track of the number of fitness evaluations.  
- * This class can be extend instead of  implementing {@link OptimisationProblem} directly.
+ * This is a covenience class that keeps track of the number of fitness evaluations. This class can
+ * be extend instead of implementing {@link OptimisationProblem} directly.
  * <p />
- * The contract of returning an instance of {@link  InferiorFitness} for solutions outside the 
- * problem search space is implemented by {@link #getFitness(Object solution, boolean count)} 
- * 
- * @author  Edwin Peer
+ * The contract of returning an instance of {@link  InferiorFitness} for solutions outside the
+ * problem search space is implemented by {@link #getFitness(Object solution, boolean count)}
+ * @author Edwin Peer
  */
-public abstract class OptimisationProblemAdapter implements OptimisationProblem { 
-   
+public abstract class OptimisationProblemAdapter implements OptimisationProblem {
 	protected int fitnessEvaluations;
 	protected DataSetBuilder dataSetBuilder;
-	 
-    public OptimisationProblemAdapter() {
-        fitnessEvaluations = 0;
-    }
-    
-    public abstract OptimisationProblemAdapter clone();
-    
-    protected abstract Fitness calculateFitness(Object solution);
-    
-    public final Fitness getFitness(Object solution, boolean count) {
-    	if (count) {
-    		++fitnessEvaluations;
-    	}
-        
-    	/*if (DomainParser.getInstance().isInsideBounds(solution)) {
-            return calculateFitness(solution);	
-        }
-        else {
-        	return InferiorFitness.instance();
-        }*/
-    	
-    	return calculateFitness(solution);
-    }
-    
-    public final int getFitnessEvaluations() {
-        return fitnessEvaluations;
-    }
-    
-    
-    public DataSetBuilder getDataSetBuilder() {
-    	return this.dataSetBuilder;
-    }
-    
-    public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
-    	this.dataSetBuilder = dataSetBuilder;
-    	this.dataSetBuilder.initialise();
-    }
-    
+
+	public OptimisationProblemAdapter() {
+		fitnessEvaluations = 0;
+	}
+
+	public OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
+		fitnessEvaluations = copy.fitnessEvaluations;
+		if(copy.dataSetBuilder != null)
+			dataSetBuilder = copy.dataSetBuilder.clone();
+	}
+
+	public abstract OptimisationProblemAdapter clone();
+
+	protected abstract Fitness calculateFitness(Object solution);
+
+	public final Fitness getFitness(Object solution, boolean count) {
+		if (count) {
+			++fitnessEvaluations;
+		}
+
+		/*
+		 * if (DomainParser.getInstance().isInsideBounds(solution)) { return
+		 * calculateFitness(solution); } else { return InferiorFitness.instance(); }
+		 */
+
+		return calculateFitness(solution);
+	}
+
+	public final int getFitnessEvaluations() {
+		return fitnessEvaluations;
+	}
+
+	public DataSetBuilder getDataSetBuilder() {
+		return this.dataSetBuilder;
+	}
+
+	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
+		this.dataSetBuilder = dataSetBuilder;
+		this.dataSetBuilder.initialise();
+	}
 }

@@ -22,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.problem.dataset;
 
@@ -56,22 +55,22 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: specify format of file generically
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
-
 	private static final long serialVersionUID = -7035524554252462144L;
-	
-	//The datastructure used is an ArrayList that holds Pair entries
+
+	// The datastructure used is an ArrayList that holds Pair entries
 	protected ArrayList<Pattern> patterns = null;
-	//A DistanceMeasure will be used to calculate the distance between a pattern and a centroid 
+	// A DistanceMeasure will be used to calculate the distance between a pattern and a centroid
 	protected DistanceMeasure distanceMeasure = null;
-	//the expert should specify how many clusters there should be
+	// the expert should specify how many clusters there should be
 	protected int numberOfClusters = 0;
-	//the expert can also specify how many classes there are (although this is not really neccessary)
+	// the expert can also specify how many classes there are (although this is not really
+	// neccessary)
 	protected int numberOfClasses = 0;
 	protected String outputFile = "";
 
 	/**
-	 * Initialise the keyPatternPair data structure using the {@link net.sourceforge.cilib.util.EuclideanDistanceMeasure} as the default distance
-	 * measure
+	 * Initialise the keyPatternPair data structure using the
+	 * {@link net.sourceforge.cilib.util.EuclideanDistanceMeasure} as the default distance measure
 	 */
 	public AssociatedPairDataSetBuilder() {
 		super();
@@ -79,19 +78,34 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 		distanceMeasure = new EuclideanDistanceMeasure();
 	}
 
+	public AssociatedPairDataSetBuilder(AssociatedPairDataSetBuilder rhs) {
+		super(rhs);
+		patterns = new ArrayList<Pattern>();
+		for (Pattern pattern : rhs.patterns) {
+			patterns.add(pattern.clone());
+		}
+		distanceMeasure = rhs.distanceMeasure;
+	}
+
+	@Override
+	public AssociatedPairDataSetBuilder clone() {
+		return new AssociatedPairDataSetBuilder(this);
+	}
+
 	/**
-	 * Construct the data structure (keyPatternPair) that will contain all the patterns of all the datasets that exist
+	 * Construct the data structure (keyPatternPair) that will contain all the patterns of all the
+	 * datasets that exist
 	 */
 	public void initialise() {
-		//run through all the datasets specified in the XML file
-		for(DataSet dataset : this) {
-			//every dataset is represented by a file on disk
+		// run through all the datasets specified in the XML file
+		for (DataSet dataset : this) {
+			// every dataset is represented by a file on disk
 			BufferedReader br = new BufferedReader(new InputStreamReader(dataset.getInputStream()));
 			try {
-				//every line in a dataset represents a pattern
+				// every line in a dataset represents a pattern
 				String line = br.readLine();
 				int index = 0;
-				while(line != null) {
+				while (line != null) {
 					addToDataSet(index++, line, dataset);
 					line = br.readLine();
 				}
@@ -101,15 +115,15 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 			}
 		}
 	}
-	
+
 	public void uninitialise(Vector centroids) {
 		try {
 			FileWriter out = new FileWriter(new File(outputFile));
-			for(Pattern pattern : patterns) {
-				out.write(pattern.data.toString((char)0, ' ', ' ') + pattern.clas + "\n");
+			for (Pattern pattern : patterns) {
+				out.write(pattern.data.toString((char) 0, ' ', ' ') + pattern.clas + "\n");
 			}
-			for(int i = 0; i < numberOfClusters; i++) {
-				out.write(getSubCentroid(centroids, i).toString((char)0, ' ', ' ') + "-1\n");
+			for (int i = 0; i < numberOfClusters; i++) {
+				out.write(getSubCentroid(centroids, i).toString((char) 0, ' ', ' ') + "-1\n");
 			}
 			out.close();
 		}
@@ -117,48 +131,49 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 			throw new RuntimeException(iox);
 		}
 
-		int min = (int)((Numeric)centroids.get(0)).getLowerBound();
-		int max = (int)((Numeric)centroids.get(0)).getUpperBound();
+		int min = (int) ((Numeric) centroids.get(0)).getLowerBound();
+		int max = (int) ((Numeric) centroids.get(0)).getUpperBound();
 		System.out.print("plot [" + min + ":" + max + "][" + min + ":" + max + "] ");
-		for(int i = numberOfClusters - 1; i > -2; --i) {
+		for (int i = numberOfClusters - 1; i > -2; --i) {
 			System.out.print("\"" + outputFile + "\" using 1:($3 == " + i + " ? $2 : 1/0)");
-			if(i > -1)
+			if (i > -1)
 				System.out.print(", ");
 		}
 		System.out.println();
 	}
-	
+
 	/**
 	 * Parse the given line using the given dataset's patternExpression and add it to keyPatternPair
 	 * @param line a String representing one line of the DataSet
 	 * @param dataset the DataSet in which the given line resides
 	 */
 	private void addToDataSet(int index, String line, DataSet dataset) {
-		//split the received line using the regular expression given in the XML file (or 'patternExpression' in {@link net.sourceforge.cilib.problem.dataset.DataSet})
-		String [] elements = line.split(dataset.getPatternExpression());
+		// split the received line using the regular expression given in the XML file (or
+		// 'patternExpression' in {@link net.sourceforge.cilib.problem.dataset.DataSet})
+		String[] elements = line.split(dataset.getPatternExpression());
 		Vector pattern = new MixedVector();
-		//the elements of the split are stored inside a vector that will form the pattern 
-		for(String element : elements) {
+		// the elements of the split are stored inside a vector that will form the pattern
+		for (String element : elements) {
 			pattern.add(new Real(Double.parseDouble(element)));
 		}
-		//the pattern is added to the "dataset"
+		// the pattern is added to the "dataset"
 		patterns.add(new Pattern(index, 0, pattern));
 	}
 
 	/**
-	 * Update pattern assignations, i.e. determine in which cluster a pattern belongs based on its closest
-	 * centroid by running through the entire centroids vector
+	 * Update pattern assignations, i.e. determine in which cluster a pattern belongs based on its
+	 * closest centroid by running through the entire centroids vector
 	 * @param centroids The vector representing the centroid vectors
 	 */
 	public void assign(Vector centroids) {
 		Vector centroid = null;
 		double distance = 0.0, minimum = Double.MAX_VALUE;
-		for(Pattern pattern : patterns) {
+		for (Pattern pattern : patterns) {
 			minimum = Double.MAX_VALUE;
-			for(int j = 0; j < numberOfClusters; j++) {
+			for (int j = 0; j < numberOfClusters; j++) {
 				centroid = getSubCentroid(centroids, j);
 				distance = distanceMeasure.distance(pattern.data, centroid);
-				if(distance < minimum) {
+				if (distance < minimum) {
 					minimum = distance;
 					pattern.clas = j;
 				}
@@ -167,19 +182,19 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	}
 
 	/**
-	 * Build up a list of all the clusters, each element containing another list of all the patterns that
-	 * belong to that cluster.
+	 * Build up a list of all the clusters, each element containing another list of all the patterns
+	 * that belong to that cluster.
 	 * @return an ArrayList containing ArrayLists containing Patterns
 	 */
 	public ArrayList<ArrayList<Pattern>> arrangedClusters() {
 		ArrayList<ArrayList<Pattern>> clusters = new ArrayList<ArrayList<Pattern>>();
-		for(int i = 0; i < numberOfClusters; i++) {
+		for (int i = 0; i < numberOfClusters; i++) {
 			clusters.add(new ArrayList<Pattern>());
 		}
-		for(Pattern pattern : patterns) {
+		for (Pattern pattern : patterns) {
 			clusters.get(pattern.clas).add(pattern);
 		}
-		assert clusters.size() == numberOfClusters ;
+		assert clusters.size() == numberOfClusters;
 		return clusters;
 	}
 
@@ -203,23 +218,25 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	public ArrayList<Pattern> getPatterns() {
 		return patterns;
 	}
-	
+
 	/**
-	 * Set the type of DistanceMeasure that should be used for determining the distance between two Vectors.
+	 * Set the type of DistanceMeasure that should be used for determining the distance between two
+	 * Vectors.
 	 * @param distanceMeasure any class that inherits from DistanceMeasure can be used
 	 */
 	public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
 		this.distanceMeasure = distanceMeasure;
 	}
-	
+
 	/**
-	 * Get the type of DistanceMeasure that should be used for determining the distance between two Vectors.
+	 * Get the type of DistanceMeasure that should be used for determining the distance between two
+	 * Vectors.
 	 * @return a DistanceMeasure object
 	 */
 	public DistanceMeasure getDistanceMeasure() {
 		return this.distanceMeasure;
 	}
-	
+
 	public double calculateDistance(Vector x, Vector y) {
 		return distanceMeasure.distance(x, y);
 	}
@@ -227,57 +244,58 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	public double calculateDistance(int x, int y) {
 		return distanceMeasure.distance(patterns.get(x).data, patterns.get(y).data);
 	}
-	
+
 	/**
 	 * Set the number of clusters that exist in the dataset that will be optimised.
 	 * @param clusters the value that numberOfClusters will be set to
 	 */
 	public void setNumberOfClusters(int clusters) {
-		if(clusters < 1)
+		if (clusters < 1)
 			throw new IllegalArgumentException("The number of clusters cannot be less than 1");
 		numberOfClusters = clusters;
 	}
-	
+
 	public int getNumberOfClusters() {
 		return numberOfClusters;
 	}
-	
+
 	public void setNumberOfClasses(int classes) {
-		if(classes < 1)
+		if (classes < 1)
 			throw new IllegalArgumentException("The number of classes cannot be less than 1");
 		numberOfClasses = classes;
 	}
-	
+
 	public int getNumberOfClasses() {
 		return numberOfClasses;
 	}
 
 	/**
-	 * Determine which part of the centroids vector (i.e. which centroid) the patterns should be compared to
+	 * Determine which part of the centroids vector (i.e. which centroid) the patterns should be
+	 * compared to
 	 * @param centroids the current Vector that contains all the cluster centroids
 	 * @param cluster the cluster number that should be returned
 	 * @return a vector representing the specific centroid in the given centroids Vector
 	 */
 	public Vector getSubCentroid(Vector centroids, int cluster) {
 		int dimension = centroids.size() / numberOfClusters;
-		return (Vector)centroids.subVector(cluster * dimension, ((cluster * dimension) + dimension) - 1);
+		return (Vector) centroids.subVector(cluster * dimension, ((cluster * dimension) + dimension) - 1);
 	}
-	
+
 	public void setSubCentroid(Vector centroids, Vector centroid, int cluster) {
 		int dimension = centroids.size() / numberOfClusters;
-		for(int i = cluster * dimension, j = 0; i < ((cluster * dimension) + dimension); i++, j++) {
+		for (int i = cluster * dimension, j = 0; i < ((cluster * dimension) + dimension); i++, j++) {
 			centroids.set(i, centroid.get(j));
 		}
 	}
 
 	public Vector getSetMean(ArrayList<Pattern> set) {
-		if(set.size() == 0)
+		if (set.size() == 0)
 			return null;
 
 		Vector mean = new MixedVector();
 		mean.initialise(set.get(0).data.size(), new Real(0.0));
 
-		for(Pattern pattern : set) {
+		for (Pattern pattern : set) {
 			mean = mean.plus(pattern.data);
 		}
 		mean = mean.divide(set.size());
@@ -285,7 +303,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	}
 
 	public Vector getSetVariance(ArrayList<Pattern> set) {
-		if(set.size() == 0)
+		if (set.size() == 0)
 			return null;
 
 		Vector mean = getSetMean(set);
@@ -293,7 +311,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 		Vector variance = new MixedVector();
 		variance.initialise(mean.size(), new Real(0.0));
 
-		for(Pattern pattern : set) {
+		for (Pattern pattern : set) {
 			diffSquare = pattern.data.subtract(mean);
 			diffSquare = diffSquare.multiply(diffSquare);
 			variance = variance.plus(diffSquare);

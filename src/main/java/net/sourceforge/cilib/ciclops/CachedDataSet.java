@@ -2,7 +2,6 @@
  * CachedDataSet.java
  * 
  * Created on July 9, 2004
- *
  * 
  * Copyright (C) 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -23,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
  */
 package net.sourceforge.cilib.ciclops;
 
@@ -38,46 +36,57 @@ import net.sourceforge.cilib.problem.dataset.DataSet;
 
 /**
  * @author Edwin Peer
- *
  */
 public class CachedDataSet extends DataSet {
 	private static final long serialVersionUID = -167393351437644754L;
-	
+
 	public static String CACHE_PATH = "";
-	
+	private int id;
+
 	public CachedDataSet() {
+		super();
 		id = -1;
 	}
-	
+
+	public CachedDataSet(CachedDataSet rhs) {
+		super(rhs);
+		id = rhs.id;
+	}
+
+	@Override
+	public CachedDataSet clone() {
+		return new CachedDataSet(this);
+	}
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public byte[] getData() {
 		try {
 			InputStream is = getInputStream();
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			
+
 			byte[] buffer = new byte[1024];
 			int len = 0;
 			while ((len = is.read(buffer, 0, buffer.length)) != -1) {
 				bos.write(buffer, 0, len);
 			}
 			bos.close();
-			
+
 			return bos.toByteArray();
 		}
 		catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
-	
-	private int id;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see net.sourceforge.cilib.Problem.DataSet#getInputStream()
 	 */
 	public InputStream getInputStream() {

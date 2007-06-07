@@ -61,7 +61,6 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	// protected PopulationIterator populationIterator = null;
 	protected FitnessUpdateStrategy fitnessUpdateStrategy = null;
 	protected ContributionUpdateStrategy contributionUpdateStrategy = null;
-	protected boolean participated = false;
 
 	/**
 	 * Creates a new instance of a SplitCooperativeAglorithm
@@ -72,7 +71,6 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		splitStrategy = new PerfectSplitStrategy();
 		fitnessUpdateStrategy = new StandardFitnessUpdateStrategy();
 		contributionUpdateStrategy = new StandardContributionUpdateStrategy();
-		participated = false;
 	}
 
 	public SplitCooperativeAlgorithm(SplitCooperativeAlgorithm copy) {
@@ -81,7 +79,6 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		splitStrategy = copy.splitStrategy;
 		fitnessUpdateStrategy = copy.fitnessUpdateStrategy;
 		contributionUpdateStrategy = copy.contributionUpdateStrategy;
-		participated = copy.participated;
 	}
 
 	@Override
@@ -92,7 +89,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	@Override
 	public void reset() {
 		super.reset();
-		participated = false;
+		context.reset();
 	}
 
 	@Override
@@ -119,11 +116,11 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
 		if (!(algorithm instanceof ParticipatingAlgorithm))
 			throw new IllegalArgumentException("The given Algorithm is not a ParticipatingAlgorithm");
-		populationBasedAlgorithms.add(algorithm);
+		subPopulationsAlgorithms.add(algorithm);
 	}
 
 	public int getNumberOfParticipants() {
-		return populationBasedAlgorithms.size();
+		return subPopulationsAlgorithms.size();
 	}
 
 	public SplitStrategy getSplitStrategy() {
@@ -170,10 +167,10 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	}
 
 	public void setPopulationIterator(PopulationIterator iterator) {
-		if(populationBasedAlgorithms == null)
+		if(subPopulationsAlgorithms == null)
 			throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
 		populationIterator = iterator;
-		populationIterator.setPopulations(populationBasedAlgorithms);
+		populationIterator.setPopulations(subPopulationsAlgorithms);
 	}
 */
 	public FitnessUpdateStrategy getFitnessUpdateStrategy() {
@@ -184,34 +181,15 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		this.fitnessUpdateStrategy = fitnessUpdate;
 	}
 
-	public boolean participated() {
-		return participated;
-	}
-
-	public void participated(boolean p) {
-		participated = p;
-	}
-
-	/**
-	 * Reset the participation of all the sub-algorithms to the given boolean value.
-	 * @param participation The boolean value to which all sub-algorithm's participation should be
-	 *        reset to
-	 */
-	public void resetParticipation(boolean participation) {
-		for (Algorithm population : populationBasedAlgorithms) {
-			((ParticipatingAlgorithm) population).participated(participation);
-		}
-	}
-
 	// @Initialiser
 	// QUESTION are initialisations (or initialisers) still deprecated? Should we use @Initialiser
 	// here instead?
 	@Override
 	public void performInitialisation() {
 		context.set(optimisationProblem.getDomain().getBuiltRepresenation().clone());
-		splitStrategy.split(optimisationProblem, context, populationBasedAlgorithms);
+		splitStrategy.split(optimisationProblem, context, subPopulationsAlgorithms);
 		context.reset();
-		for (Algorithm participant : populationBasedAlgorithms) {
+		for (Algorithm participant : subPopulationsAlgorithms) {
 			participant.performInitialisation();
 			context.append(((ParticipatingAlgorithm) participant).getContribution());
 		}
@@ -233,9 +211,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 			ParticipatingAlgorithm participantAlgorithm = (ParticipatingAlgorithm) population;
 			contributionUpdateStrategy.updateContribution(participantAlgorithm.getContribution(), 0, context, participantProblem.getOffset(), participantProblem.getDimension());
 			fitnessUpdateStrategy.updateFitness(optimisationProblem, context);
-			participantAlgorithm.participated(true);
 		}
-		resetParticipation(false);
 	}
 
 	@Override
@@ -246,7 +222,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 
 	@Override
 	public int getPopulationSize() {
-		return populationBasedAlgorithms.size();
+		return subPopulationsAlgorithms.size();
 	}
 
 	@Override

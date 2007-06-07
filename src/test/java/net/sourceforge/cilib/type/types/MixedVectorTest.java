@@ -412,7 +412,7 @@ public class MixedVectorTest {
 			sum = a.plus(b);
 		}
 		catch(UnsupportedOperationException u) {
-			log.info("Catching UnsupportedOperationException as expected: " + u.getMessage());
+			log.info("Caught 'UnsupportedOperationException' correctly: " + u.getMessage());
 		}
 
 		b.prepend(new Real(9));
@@ -457,7 +457,7 @@ public class MixedVectorTest {
 			difference = a.subtract(b);
 		}
 		catch(UnsupportedOperationException u) {
-			log.info("Catching UnsupportedOperationException as expected: " + u.getMessage());
+			log.info("Caught 'UnsupportedOperationException' correctly: " + u.getMessage());
 		}
 
 		b.prepend(new Real(9));
@@ -502,7 +502,7 @@ public class MixedVectorTest {
 			divided = a.divide(b);
 		}
 		catch(UnsupportedOperationException u) {
-			log.info("Catching UnsupportedOperationException as expected: " + u.getMessage());
+			log.info("Caught 'UnsupportedOperationException' correctly: " + u.getMessage());
 		}
 
 		b.prepend(new Real(0));
@@ -510,7 +510,7 @@ public class MixedVectorTest {
 			divided = a.divide(b);
 		}
 		catch(ArithmeticException e) {
-			log.info("Catching ArithmeticException as expected: " + e.getMessage());
+			log.info("Caught 'ArithmeticException' correctly: " + e.getMessage());
 		}
 
 		((Numeric)b.getType(0)).setReal(10);
@@ -552,7 +552,7 @@ public class MixedVectorTest {
 			divided = a.divide(0);
 		}
 		catch(ArithmeticException e) {
-			log.info("Catching ArithmeticException as expected: " + e.getMessage());
+			log.info("Caught 'ArithmeticException' correctly: " + e.getMessage());
 		}
 
 		divided = a.divide(3.0);
@@ -589,7 +589,7 @@ public class MixedVectorTest {
 			product = a.multiply(b);
 		}
 		catch(UnsupportedOperationException u) {
-			log.info("Catching UnsupportedOperationException as expected: " + u.getMessage());
+			log.info("Caught 'UnsupportedOperationException' correctly: " + u.getMessage());
 		}
 
 		b.prepend(new Real(9));

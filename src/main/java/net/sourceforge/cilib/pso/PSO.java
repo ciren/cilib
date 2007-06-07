@@ -79,7 +79,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	private InitialisationStrategy initialisationStrategy;
 	private static int currentParticleId = 0;
 	private int particles;
-	protected boolean participation = false;
 
 	/**
 	 * Creates a new instance of <code>PSO</code>. All fields are initialised to reasonable
@@ -137,7 +136,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext();) {
 			i.next().getVelocityUpdateStrategy().updateControlParameters();
 		}
-		log.debug("Performing iteration");
 	}
 
 	/**
@@ -225,14 +223,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 
 	public void updateContributionFitness(Fitness fitness) {
 		getBestParticle().calculateFitness();
-	}
-
-	public boolean participated() {
-		return participation;
-	}
-
-	public void participated(boolean p) {
-		participation = p;
 	}
 
 	public double accept(TopologyVisitor visitor) {

@@ -31,20 +31,20 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.cooperative.populationiterators.PopulationIterator;
-import net.sourceforge.cilib.cooperative.populationiterators.SequentialPopulationIterator;
+import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
+import net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIterator;
 
 /**
  * @author Gary Pampara
  */
 public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm implements Iterable<Algorithm> {
-	protected List<PopulationBasedAlgorithm> populationBasedAlgorithms;
-	protected PopulationIterator<PopulationBasedAlgorithm> algorithmIterator;
+	protected List<PopulationBasedAlgorithm> subPopulationsAlgorithms;
+	protected AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator;
 
 	public MultiPopulationBasedAlgorithm() {
-		this.populationBasedAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
-		this.algorithmIterator = new SequentialPopulationIterator<PopulationBasedAlgorithm>();
-		this.algorithmIterator.setPopulations(this.populationBasedAlgorithms);
+		this.subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
+		this.algorithmIterator = new SequentialAlgorithmIterator<PopulationBasedAlgorithm>();
+		this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
 	}
 
 	/**
@@ -56,11 +56,19 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	@SuppressWarnings("unchecked")
 	public MultiPopulationBasedAlgorithm(MultiPopulationBasedAlgorithm rhs) {
 		super(rhs);
-		populationBasedAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
-		for (PopulationBasedAlgorithm algorithm : rhs.populationBasedAlgorithms) {
-			populationBasedAlgorithms.add(algorithm.clone());
+		subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
+		for (PopulationBasedAlgorithm algorithm : rhs.subPopulationsAlgorithms) {
+			subPopulationsAlgorithms.add(algorithm.clone());
 		}
-		algorithmIterator = rhs.algorithmIterator.clone();
+		algorithmIterator = rhs.algorithmIterator;
+		algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
+	}
+
+	public void reset() {
+		super.reset();
+		for(Algorithm algorithm : subPopulationsAlgorithms)
+			algorithm.reset();
+		algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,28 +80,28 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	protected abstract void algorithmIteration();
 
 	public List<PopulationBasedAlgorithm> getPopulations() {
-		return populationBasedAlgorithms;
+		return subPopulationsAlgorithms;
 	}
 
 	public void setPopulations(List<PopulationBasedAlgorithm> populationBasedAlgorithms) {
-		this.populationBasedAlgorithms = populationBasedAlgorithms;
+		this.subPopulationsAlgorithms = populationBasedAlgorithms;
 	}
 
 	public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
-		this.populationBasedAlgorithms.add(algorithm);
+		this.subPopulationsAlgorithms.add(algorithm);
 	}
 
 	public void removePopulationBasedalgorithm(PopulationBasedAlgorithm algorithm) {
-		this.populationBasedAlgorithms.remove(algorithm);
+		this.subPopulationsAlgorithms.remove(algorithm);
 	}
 
-	public PopulationIterator<PopulationBasedAlgorithm> getAlgorithmIterator() {
+	public AlgorithmIterator<PopulationBasedAlgorithm> getAlgorithmIterator() {
 		return algorithmIterator;
 	}
 
-	public void setAlgorithmIterator(PopulationIterator<PopulationBasedAlgorithm> algorithmIterator) {
+	public void setAlgorithmIterator(AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator) {
 		this.algorithmIterator = algorithmIterator;
-		this.algorithmIterator.setPopulations(this.populationBasedAlgorithms);
+		this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
 	}
 
 }

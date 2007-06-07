@@ -22,9 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.io.BufferedReader;
@@ -36,78 +34,79 @@ import java.util.StringTokenizer;
 
 import net.sourceforge.cilib.problem.dataset.DataSet;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
- * Builds the input data set that gets fed as sequences to be aligned.
- * Input sequences must be in the FASTA format.
- * 
+ * Builds the input data set that gets fed as sequences to be aligned. Input sequences must be in
+ * the FASTA format.
  * @author Fabien Zablocki
  */
-public class FASTADataSetBuilder extends DataSetBuilder
-{
+public class FASTADataSetBuilder extends DataSetBuilder {
 	private static final long serialVersionUID = 766658455852634831L;
-	
-	private ArrayList<String> strings;  //data structure that holds the input sequence
-	
-	public FASTADataSetBuilder()
-	{
+
+	private ArrayList<String> strings; // data structure that holds the input sequence
+
+	public FASTADataSetBuilder() {
 		this.strings = new ArrayList<String>();
 	}
-	
+
+	public FASTADataSetBuilder(FASTADataSetBuilder rhs) {
+		throw new UnimplementedMethodException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
+	}
+
 	@Override
-	//Used to read in the unalignmed sequences in the FASTA format. 
-	public void initialise()
-	{	
-		for (Iterator<DataSet> i = this.iterator(); i.hasNext(); ) 
-		{
+	public FASTADataSetBuilder clone() {
+		return new FASTADataSetBuilder(this);
+	}
+
+	@Override
+	// Used to read in the unalignmed sequences in the FASTA format.
+	public void initialise() {
+		for (Iterator<DataSet> i = this.iterator(); i.hasNext();) {
 			DataSet dataSet = i.next();
-			
-			String temp;  //buffer
-			String result=""; //hold the actual sequence
-			
-			try
-			{
+
+			String temp; // buffer
+			String result = ""; // hold the actual sequence
+
+			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(dataSet.getInputStream()));
-				
-				temp = new String(in.readLine()); 
+
+				temp = new String(in.readLine());
 				temp.trim();
-				while(temp != null) // all the sequences in file
+				while (temp != null) // all the sequences in file
 				{
-					if(temp.contains(">")) //it is the description line
+					if (temp.contains(">")) // it is the description line
 					{
 						temp = in.readLine();
-						while(!temp.startsWith(">") ) //collect sequence without space
+						while (!temp.startsWith(">")) // collect sequence without space
 						{
 							StringTokenizer st = new StringTokenizer(temp, "\u0020");
-							String p="";
-							
-							while(st.hasMoreElements())
-							{
+							String p = "";
+
+							while (st.hasMoreElements()) {
 								String token = st.nextToken();
-								p+= token;
-							} 
+								p += token;
+							}
 							result += p;
 							temp = in.readLine();
-							
-							if(temp == null ) break;
+
+							if (temp == null)
+								break;
 						}
-						
+
 						strings.add(result); // adds sequence to the set
-						result="";
-					}	
+						result = "";
+					}
 				}
 			}
-			catch (IOException ioException)
-			{
+			catch (IOException ioException) {
 				throw new RuntimeException(ioException.getMessage());
 			}
-			
 			System.out.println("Data set(s) initialization completed, aligning...");
 		}
 	}
-	
-	public ArrayList<String> getStrings()
-	{
+
+	public ArrayList<String> getStrings() {
 		return this.strings;
 	}
 }

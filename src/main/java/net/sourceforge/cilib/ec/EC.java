@@ -56,8 +56,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	private IterationStrategy<EC> iterationStrategy;
 	private Topology<? extends Entity> topology;
 	private Entity bestEntity;
-	protected boolean participation;
-	
 	
 	public EC() {
 		this.initialisationStrategy = new ClonedEntityInitialisationStrategy();
@@ -65,7 +63,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		
 		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();			
 		this.topology = new GBestTopology<Individual>();
-		this.participation = false;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -73,7 +70,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		this.initialisationStrategy = copy.initialisationStrategy.clone();
 		this.iterationStrategy = copy.iterationStrategy.clone();
 		this.topology = copy.topology.clone();
-		this.participation = copy.participation;
 	}
 	
 	public EC clone() {
@@ -191,13 +187,5 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		//TODO: This might not be what you want, change as desired
 		//getBestEntity().setFitness(fitness);
 		getBestEntity().calculateFitness();
-	}
-
-	public boolean participated() {
-		return participation;
-	}
-
-	public void participated(boolean p) {
-		participation = p;
 	}
 }

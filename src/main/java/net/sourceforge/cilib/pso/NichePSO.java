@@ -128,14 +128,14 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		log.debug("\tmainSwarm particle #: " + mainSwarm.getTopology().size());
 		mainSwarm.performIteration();
 		
-		for (Iterator<PopulationBasedAlgorithm> i = this.populationBasedAlgorithms.iterator(); i.hasNext(); ) {
+		for (Iterator<PopulationBasedAlgorithm> i = this.subPopulationsAlgorithms.iterator(); i.hasNext(); ) {
 			PopulationBasedAlgorithm subSwarm = i.next();	
 			log.debug("\tsubswarm size: " + subSwarm.getTopology().size());
 			subSwarm.performIteration();
 		}
 		
-		this.mergeStrategy.merge(this.populationBasedAlgorithms);
-		this.absorptionStrategy.absorb(mainSwarm, this.populationBasedAlgorithms);
+		this.mergeStrategy.merge(this.subPopulationsAlgorithms);
+		this.absorptionStrategy.absorb(mainSwarm, this.subPopulationsAlgorithms);
 		this.swarmCreationStrategy.create(this);
 		
 		log.debug("End of iteration");
@@ -196,7 +196,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	public List<OptimisationSolution> getSolutions() {
 		List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
 		
-		for (Iterator<PopulationBasedAlgorithm> i = this.populationBasedAlgorithms.iterator(); i.hasNext(); ) {
+		for (Iterator<PopulationBasedAlgorithm> i = this.subPopulationsAlgorithms.iterator(); i.hasNext(); ) {
 			PopulationBasedAlgorithm p = i.next();
 			solutions.add(p.getBestSolution());
 		}
@@ -255,11 +255,11 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	}
 
 	public List<PopulationBasedAlgorithm> getSubSwarms() {
-		return this.populationBasedAlgorithms;
+		return this.subPopulationsAlgorithms;
 	}
 
 	public void setSubSwarms(List<PopulationBasedAlgorithm> subSwarms) {
-		this.populationBasedAlgorithms = subSwarms;
+		this.subPopulationsAlgorithms = subSwarms;
 	}
 
 	public SwarmCreationStrategy getSwarmCreationStrategy() {

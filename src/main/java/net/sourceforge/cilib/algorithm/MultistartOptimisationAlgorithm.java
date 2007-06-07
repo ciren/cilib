@@ -177,14 +177,6 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         return solutions;
     }
     
-    public boolean participated() {
-		return participation;
-	}
-
-	public void participated(boolean p) {
-		participation = p;
-	}
-    
     private Algorithm algorithm;
     private Algorithm optimisationAlgorithm;
     private int restarts;
@@ -192,7 +184,6 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     private MultistartProblemAdapter problem;
     private OptimisationSolution solution;
     private Fitness fitness;
-	private boolean participation = false;
     
     private class MultistartProblemAdapter extends OptimisationProblemAdapter {
     	

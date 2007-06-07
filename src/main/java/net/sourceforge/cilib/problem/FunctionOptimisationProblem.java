@@ -37,7 +37,8 @@ import net.sourceforge.cilib.type.DomainRegistry;
  * @author  Edwin Peer
  */
 public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
-    
+	protected Function function;
+
     /** 
      * Creates a new instance of <code>FunctionOptimisationProblem</code> with <code>null</code> function.
      * Remember to always set a {@link net.sourceforge.cilib.functions.Function} before attempting to apply 
@@ -50,6 +51,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     }
     
     public FunctionOptimisationProblem(FunctionOptimisationProblem copy) {
+   	 super(copy);
     	function = copy.function;
 	}
 
@@ -94,6 +96,4 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      * @return the error with respect to the optimum solution
      */
     public abstract double getError(Object solution);
-    
-    protected Function function;
 }

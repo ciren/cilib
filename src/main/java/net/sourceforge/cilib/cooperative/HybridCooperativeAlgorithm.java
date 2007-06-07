@@ -17,7 +17,7 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 	}
 	
 	public HybridCooperativeAlgorithm(HybridCooperativeAlgorithm copy) {
-		
+		super(copy);
 	}
 	
 	public HybridCooperativeAlgorithm clone() {
@@ -41,7 +41,6 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 
 	public void setOptimisationProblem(OptimisationProblem problem) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public Entity getContribution() {
@@ -54,33 +53,12 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 		return null;
 	}
 
-	public boolean getParticipation() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void setParticipation(boolean participation) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void updateContributionFitness(Fitness fitness) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void algorithmIteration() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean participated() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void participated(boolean participation) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -112,12 +90,10 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 	@Override
 	public void setPopulationSize(int populationSize) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setTopology(Topology topology) {
 		// TODO Auto-generated method stub
-		
 	}
 }
