@@ -12,9 +12,11 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 public class RadiusVisitor extends TopologyVisitor {
 	
+	private PopulationBasedAlgorithm populationBasedAlgorithm;
 	private DistanceMeasure distanceMeasure;
 	
-	public RadiusVisitor() {
+	public RadiusVisitor(PopulationBasedAlgorithm populationBasedAlgorithm) {
+		this.populationBasedAlgorithm = populationBasedAlgorithm;
 		this.distanceMeasure = new EuclideanDistanceMeasure();
 	}
 
@@ -22,8 +24,7 @@ public class RadiusVisitor extends TopologyVisitor {
 	public void visit(Topology topology) {
 		double maxDistance = 0.0;
     	
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-    	Vector swarmBestParticlePosition = (Vector) algorithm.getBestSolution().getPosition();
+    	Vector swarmBestParticlePosition = (Vector) populationBasedAlgorithm.getBestSolution().getPosition();
     	Iterator swarmIterator = topology.iterator();
     	    	
     	while(swarmIterator.hasNext()) {

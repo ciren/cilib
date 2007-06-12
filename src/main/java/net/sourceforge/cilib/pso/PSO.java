@@ -250,7 +250,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 */
 	@Override
 	public double getRadius() {
-		RadiusVisitor visitor = new RadiusVisitor();
+		RadiusVisitor visitor = new RadiusVisitor(this);
 		getTopology().accept(visitor);
 		return visitor.getResult();
 	}
