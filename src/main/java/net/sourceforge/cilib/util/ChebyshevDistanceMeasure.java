@@ -31,6 +31,8 @@ import java.util.Iterator;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
+ * Chebyshev Distance is a special case of the {@link net.sourceforge.cilib.util.MinkowskiMetric Minkowski Metric} with 'alpha' := infinity.
+ * It calculates the distance between to vectors as the largest coordinate difference between both vectors.
  * @author Olusegun Olorunda
  */
 public class ChebyshevDistanceMeasure extends MinkowskiMetric {

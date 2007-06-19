@@ -40,7 +40,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author Wiehann Matthysen
  */
 public class IndexedSplitStrategy implements SplitStrategy {
-	private ArrayList<Integer> indices;
+	protected ArrayList<Integer> indices;
 
 	public IndexedSplitStrategy() {
 		indices = new ArrayList<Integer>();
@@ -64,9 +64,12 @@ public class IndexedSplitStrategy implements SplitStrategy {
 		if (populations.size() < 2)
 			throw new IllegalArgumentException("There should at least be two Cooperating populations in a Cooperative Algorithm");
 		if (indices.size() != populations.size())
-			throw new InitialisationException("The number of indices is not sufficient to divide into the number of populations.");
+			throw new InitialisationException("The number of indices (" + indices.size() + ") is not sufficient to divide into the number of populations.");
 		if (indices.size() == 0)
 			throw new InitialisationException("No split indices set.");
+		if (problem.getDomain().getDimension() < populations.size())
+			throw new InitialisationException("Problem dimensionality should be equal to or greater than the number of cooperating populations.");
+
 		for (int i = 0; i < populations.size(); ++i) {
 			Algorithm population = (Algorithm) populations.get(i);
 			int offset = indices.get(i);
