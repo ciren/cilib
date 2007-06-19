@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @author Olusegun
+ * @author Olusegun Olorunda
  */
 public class ChebyshevDistanceMeasureTest {
 	
