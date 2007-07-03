@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.pso;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleVisitor;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;

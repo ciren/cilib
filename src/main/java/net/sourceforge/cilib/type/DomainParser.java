@@ -26,9 +26,7 @@
  */
 package net.sourceforge.cilib.type;
 
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Vector;
 
 /**
  * Implementation of the Facade pattern to remove the complexity of actually performing
@@ -140,27 +138,30 @@ public class DomainParser {
 	 *         <code>false</code> if the solution is not contained within the search space of the problem
 	 */
 	public boolean isInsideBounds(Object solution) {
-		boolean result = true;
+//		boolean result = true;
+		Type type = (Type) solution;
 		
-		if (solution instanceof Vector) {
-			Vector vector = (Vector) solution;
-		
-			for (int i = 0; i < vector.getDimension(); i++) {
-				Type t = vector.get(i);
-			
-				if (t instanceof Vector) {
-					result = isInsideBounds(t);
-				}
-				else if (t instanceof Numeric) {
-					Numeric numeric = (Numeric) t;
-					result = numeric.isInsideBounds();
-				}
-			
-				if (!result)
-					break;
-			}
-		}
-		
-		return result;
+		return type.isInsideBounds();
+//		
+//		if (solution instanceof Vector) {
+//			Vector vector = (Vector) solution;
+//		
+//			for (int i = 0; i < vector.getDimension(); i++) {
+//				Type t = vector.get(i);
+//			
+//				if (t instanceof Vector) {
+//					result = isInsideBounds(t);
+//				}
+//				else if (t instanceof Numeric) {
+//					Numeric numeric = (Numeric) t;
+//					result = numeric.isInsideBounds();
+//				}
+//			
+//				if (!result)
+//					break;
+//			}
+//		}
+//		
+//		return result;
 	}
 }

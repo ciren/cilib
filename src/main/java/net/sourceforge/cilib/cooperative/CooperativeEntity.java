@@ -1,5 +1,6 @@
 package net.sourceforge.cilib.cooperative;
 
+import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -14,7 +15,7 @@ import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
  * 
  * @author Theuns Cloete
  */
-public class CooperativeEntity implements Entity {
+public class CooperativeEntity extends AbstractEntity {
 	private static final long serialVersionUID = -8298684370426283216L;
 	
 	protected MixedVector context = null;
@@ -53,20 +54,20 @@ public class CooperativeEntity implements Entity {
 	}
 	
 	public void append(Entity entity) {
-		append(entity.get());
+		append(entity.getContents());
 	}
 	
 	public void update(Entity src, int srcPos, int dstPos, int length) {
 		for(int i = dstPos; i < dstPos + length; ++i) {
-			context.setReal(i, ((MixedVector)src.get()).getReal(srcPos + i - dstPos));
+			context.setReal(i, ((MixedVector)src.getContents()).getReal(srcPos + i - dstPos));
 		}
 	}
 	
-	public Type get() {
+	public Type getContents() {
 		return context;
 	}
 
-	public void set(Type type) {
+	public void setContents(Type type) {
 		context.clear();
 		append(type);
 	}

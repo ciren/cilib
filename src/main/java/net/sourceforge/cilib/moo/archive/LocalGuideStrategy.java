@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.moo.archive;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**

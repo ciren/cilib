@@ -37,6 +37,8 @@ import net.sourceforge.cilib.entity.Topology;
  *  
  * @author Gary Pampara
  *
+ * This class is deprecated as it can be constructed using the correct
+ * <tt>IterationStrategy</tt> together with the generalised <code>EC</code> algorithm
  */
 @Deprecated
 public class FEP  {

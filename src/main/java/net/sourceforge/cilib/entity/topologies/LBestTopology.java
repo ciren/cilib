@@ -67,7 +67,8 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     }
     
     
-    public Iterator<E> neighbourhood(Iterator<E> iterator) {
+    @SuppressWarnings("unchecked")
+	public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         return new LBestNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
     }
     

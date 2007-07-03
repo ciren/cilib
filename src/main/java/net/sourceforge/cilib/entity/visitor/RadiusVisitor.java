@@ -2,7 +2,6 @@ package net.sourceforge.cilib.entity.visitor;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -29,7 +28,7 @@ public class RadiusVisitor extends TopologyVisitor {
     	    	
     	while(swarmIterator.hasNext()) {
     		Entity swarmParticle = (Entity) swarmIterator.next();
-    		Vector swarmParticlePosition = (Vector) swarmParticle.get();
+    		Vector swarmParticlePosition = (Vector) swarmParticle.getContents();
     			
     		double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
     	

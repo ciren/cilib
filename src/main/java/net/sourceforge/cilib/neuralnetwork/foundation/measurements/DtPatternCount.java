@@ -6,7 +6,6 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class DtPatternCount implements Measurement {
 	private static final long serialVersionUID = -7985184255274982621L;
@@ -16,7 +15,7 @@ public class DtPatternCount implements Measurement {
 
 	public DtPatternCount(DtPatternCount rhs) {
 //		super(rhs);
-		throw new UnimplementedMethodException("public DtPatternCount(DtPatternCount rhs)");
+		throw new UnsupportedOperationException("public DtPatternCount(DtPatternCount rhs)");
 	}
 
 	public DtPatternCount clone() {

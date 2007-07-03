@@ -20,7 +20,7 @@ public class IndividualTest {
 		genes.add(new Real(5.0));
 		
 		Individual i = new Individual();
-		i.set(genes);
+		i.setContents(genes);
 		
 		Individual clone = i.clone();
 		
@@ -28,7 +28,7 @@ public class IndividualTest {
 		assertEquals(5, clone.getDimension());
 		assertEquals(i.getDimension(), clone.getDimension());
 		
-		Vector cloneVector = (Vector) clone.get();
+		Vector cloneVector = (Vector) clone.getContents();
 		
 		for (int k = 0; k < cloneVector.getDimension(); k++) {
 			assertEquals(genes.get(k), cloneVector.get(k));

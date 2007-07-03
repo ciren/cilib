@@ -29,7 +29,7 @@ import java.util.Collection;
 
 import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
 import net.sourceforge.cilib.container.graph.Edge;
-import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 
@@ -39,7 +39,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * 
  * @author Gary Pampara
  */
-public abstract class Ant implements Entity {
+public abstract class Ant extends AbstractEntity {
 	/**
 	 * Return a clone of the current Ant object instance
 	 * @return An <code>Object</code> representing a clone of the current <code>Ant</code> object

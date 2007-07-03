@@ -35,8 +35,8 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * <p>
@@ -91,7 +91,8 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     	return new VonNeumannTopology<E>(this);
     }
     
-    public Iterator<E> neighbourhood(Iterator<E> iterator) {
+    @SuppressWarnings("unchecked")
+	public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         MatrixIterator<E> i = (MatrixIterator<E>) iterator;
         return new VonNeumannNeighbourhoodIterator<E>(this, i);
     }
@@ -348,13 +349,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-
-	public void setAll(List<E> set) {
-		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-	}
-
-
-	public List<E> getAll() {
+	public List<Entity> asList() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 

@@ -74,8 +74,8 @@ public abstract class Algorithm implements Runnable, Serializable {
 
 	public Algorithm(Algorithm copy) {
 		stoppingConditions = new Vector<StoppingCondition>();
-		for (StoppingCondition stop : copy.stoppingConditions) {
-			StoppingCondition clone = stop.clone();
+		for (StoppingCondition stoppingCondition : copy.stoppingConditions) {
+			StoppingCondition clone = stoppingCondition.clone();
 			clone.setAlgorithm(this);
 			stoppingConditions.add(clone);
 		}
@@ -158,12 +158,7 @@ public abstract class Algorithm implements Runnable, Serializable {
 
 		performUninitialisation();
 
-		// TODO: Figure this stuff out
-		 //initialised = false; // This breaks MultiStartOptimisationAlgorithm - does it make sense to
-		// set it false here?
-	//	 localInstance.set(null); // By not setting to null we allow algorithm to be accessed after
-		 currentAlgorithmStack.remove();
-		// compeltion - should be fine
+		currentAlgorithmStack.remove();
 	}
 
 	/**

@@ -27,23 +27,19 @@
 package net.sourceforge.cilib.type.types;
 
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+
+import net.sourceforge.cilib.container.visitor.Visitor;
 
 /**
  * TODO: Fix the copy constructor
  * @author mneethling
  */
 
-public class Set<E> extends Type implements java.util.Set<E> {
+public class Set<E> implements Graph<E> {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3697379819132292696L;
 	private HashSet<E> elements;
 
@@ -74,61 +70,21 @@ public class Set<E> extends Type implements java.util.Set<E> {
 		//}
 	}
 	
-	public boolean addAll(Collection<? extends E> s) {
+	public boolean addAll(Structure<E> s) {
 		//if (s instanceof Set) {
 //			Set<T> tmp = (Set<T>) s;
-			return elements.addAll(s);
+		for (E element : s)
+			this.elements.add(element);
+		
 	//	} else {
 		//	throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Set");
 		//}
-	}
-	
-	public boolean remove(Object obj) {
-		if (obj instanceof Type) {
-			return elements.remove((Type)obj);
-		} else {
-			throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Type");
-		}
-	}
-	
-	public boolean removeAll(Collection s)  {
-		//if (s instanceof Set) {
-		//	Set tmp = (Set) s;
-			return elements.removeAll(s);
-		//} else {
-		//	throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Set");
-		//}
-	}
-	
-	public boolean retainAll(Collection s)  {
-		//if (s instanceof Set) {
-		//	Set tmp = (Set) s;
-			return elements.retainAll(s);
-		//} else {
-		//	throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Set");
-		//}
+		
+		return true;
 	}
 	
 	public void clear() {
 		elements.clear();
-	}
-	
-	public boolean contains(Object obj)  {
-		if (obj instanceof Type) {
-			return elements.contains(obj);
-		} else {
-			throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Type");
-		}
-	}
-		
-	public boolean containsAll(Collection s)  {
-//		if (s instanceof Set) {
-//			Set tmp = (Set) s;		
-			return elements.containsAll(s);
-//		}
-//		else {
-//			throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Set");
-//		}
 	}
 	
 	public boolean isEmpty() {
@@ -187,40 +143,121 @@ public class Set<E> extends Type implements java.util.Set<E> {
 		return elements.size();
 	}
 
-	@Override
 	public void randomise() {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	@Override
 	public void reset() {
 		
 	}
 	
-
-	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public String getRepresentation() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void writeExternal(ObjectOutput oos) throws IOException {
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public boolean add(E parent, E element) {
+		throw new UnsupportedOperationException("Within a set there is no concept of a parent, all elements are equal");
+	}
+
+
+	public int edges() {
+		return 0;
+	}
+
+
+	public int verticies() {
+		return this.elements.size();
+	}
+
+
+	public void accept(Visitor<E> visitor) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		
+
+	public boolean contains(E element) {
+		return this.elements.contains(element);
 	}
-	
+
+
+	public boolean remove(E element) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public E remove(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public boolean containsAll(Collection<?> c) {
+		return this.elements.containsAll(c);
+	}
+
+
+	public boolean removeAll(Collection<?> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public boolean retainAll(Collection<?> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public boolean removeAll(Structure<E> structure) {
+		boolean result = true;
+		
+		for (E element : structure) {
+			if (!this.elements.contains(element))
+				result = false;
+			else
+				this.elements.remove(element);
+		}
+			
+		return result;
+	}
+
+
+	public boolean addEdge(E a, E b) {
+		return false;
+	}
+
+
+	public boolean isConnected(E a, E b) {
+		return false;
+	}
+
+
+	public boolean isInsideBounds() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -27,41 +27,18 @@
 
 package net.sourceforge.cilib.pso.particle;
 
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Vector;
-
 /**
  *
  * @author Edwin Peer
  * @author Gary Pampara
  * @modified Daniel Lowes
  */
-public class CoherenceParticle extends Particle {
+public class CoherenceParticle extends StandardParticle {
 	private static final long serialVersionUID = 7558011414998829458L;
-
-	private int id;
-
-    protected Vector position;
-    protected Vector bestPosition;
-    protected Vector velocity;
-
-    private Fitness fitness;
-    private Fitness bestFitness;
-
-    private Particle neighbourhoodBest;
-
 
     /** Creates a new instance of StandardParticle */
     public CoherenceParticle() {
     	super();
-        position = new MixedVector();
-        bestPosition = new MixedVector();
-        velocity = new MixedVector();
     }
 
 
@@ -70,13 +47,7 @@ public class CoherenceParticle extends Particle {
      * @param copy
      */
     public CoherenceParticle(CoherenceParticle copy) {
-    	this.velocityUpdateStrategy = copy.velocityUpdateStrategy.clone(); // Check this
-    	this.positionUpdateStrategy = copy.positionUpdateStrategy.clone();
-    	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
-
-    	this.position = copy.position.clone();
-    	this.bestPosition = copy.position.clone();
-    	this.velocity = copy.position.clone();
+    	super(copy);
     }
 
     /**
@@ -86,146 +57,5 @@ public class CoherenceParticle extends Particle {
        	return new CoherenceParticle(this);
     }
 
-    public Fitness getBestFitness() {
-        return bestFitness;
-    }
 
-    public Vector getBestPosition() {
-        return bestPosition;
-    }
-
-    public void setBestPosition(Type bestPosition) {
-    	this.bestPosition = (Vector) bestPosition;
-    }
-
-    public int getDimension() {
-    	return position.getDimension();
-    }
-
-    public Fitness getFitness() {
-        return fitness;
-    }
-
-    public Particle getNeighbourhoodBest() {
-        return neighbourhoodBest;
-    }
-
-    public Vector getPosition() {
-        return position;
-    }
-
-    public Vector getVelocity() {
-        return velocity;
-    }
-
-    public void initialise(OptimisationProblem problem) {
-        id = PSO.getNextParticleId();
-
-       	position = (Vector) problem.getDomain().getBuiltRepresenation().clone();
-		position.randomise();
-
-		// Make a deep-copy of the best position
-		bestPosition = position.clone();
-
-        // Create the velocity vector by cloning the position and setting all the values
-        // within the velocity to 0
-        velocity = position.clone();
-        velocity.reset();
-
-        fitness = InferiorFitness.instance();
-        bestFitness = InferiorFitness.instance();
-        neighbourhoodBest = this;
-    }
-
-
-    /**
-     *
-     */
-    public void updatePosition() {
-    	this.positionUpdateStrategy.updatePosition(this);
-    }
-
-
-    /**
-     *
-     */
-    public void setFitness(Fitness fitness) {
-        this.fitness = fitness;
-        if (fitness.compareTo(bestFitness) > 0) {
-            bestFitness = fitness;
-
-            for (int i = 0; i < position.getDimension(); ++i) {
-            	bestPosition.set(i, position.get(i));
-            }
-        }
-    }
-
-
-    /**
-     *
-     */
-    public void setNeighbourhoodBest(Particle particle) {
-        neighbourhoodBest = particle;
-    }
-
-
-    /**
-     *
-     */
-    public void updateVelocity() {
-    	this.velocityUpdateStrategy.updateVelocity(this);
-    }
-
-
-    /**
-     *
-     */
-    public String getId() {
-        return String.valueOf(id);
-    }
-
-
-    public void setId(String id) {
-    	this.id = Integer.valueOf(id);
-    }
-
-    /**
-     *
-     */
-    public Particle getDecorator(Class decorator) {
-        throw new RuntimeException("This is not a decorator");
-    }
-
-	public Type get() {
-		return getPosition();
-	}
-
-	public void set(Type type) {
-		this.position = (Vector) type;
-	}
-
-	public void setDimension(int dim) {
-		// TODO Auto-generated method stub
-	}
-
-
-	public Type getBehaviouralParameters() {
-		return null;
-	}
-
-	public void setBehaviouralParameters(Type type) {
-
-	}
-
-	public void reinitialise() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void calculateFitness(boolean count) {
-		// TODO Auto-generated method stub
-		
-	}
 }

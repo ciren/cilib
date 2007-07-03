@@ -30,9 +30,10 @@ import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
@@ -64,9 +65,10 @@ public class EuclideanDiversityAroundGBest implements Measurement {
 		double diameter = 0;
 		int count = 0;
 
-		for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext(); ++count) {
+		Topology<Particle> topology = pso.getTopology();
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ++count) {
 			 Entity other = i.next();
-		     diameter += distance.distance(center, (Vector) other.get());
+		     diameter += distance.distance(center, (Vector) other.getContents());
 		}
 		return new Real(diameter/count);
 	}

@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 
 /**
  * @author Edwin Peer

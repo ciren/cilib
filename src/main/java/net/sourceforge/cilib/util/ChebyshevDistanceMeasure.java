@@ -43,7 +43,7 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
 		// alpha cannot be directly instantiated to infinity :-)
 	}
 
-	public double distance(Vector x, Vector y) {
+	public <T extends Vector> double distance(T x, T y) {
 		/*
 		 * TODO: Consider re-implementing for different sized vectors, especially as everything is
 		 * equivalent relative to infinity
@@ -61,7 +61,7 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
 		return maxDistance;
 	}
 
-	public double distance(Collection<? extends Number> x, Collection<? extends Number> y) {
+	public <T extends Collection<? extends Number>> double distance(T x, T y) {
 		/*
 		 * TODO: Consider re-implementing for different sized collections, especially as everything is
 		 * equivalent relative to infinity

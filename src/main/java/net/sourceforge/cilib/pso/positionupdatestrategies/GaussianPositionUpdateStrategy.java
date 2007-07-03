@@ -1,6 +1,6 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 
 public class GaussianPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = 1888395118987536803L;

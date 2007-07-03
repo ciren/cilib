@@ -37,11 +37,11 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.VonNeumannTopology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -184,7 +184,7 @@ public class VonNeumannTopologyTest {
     
     private int[] id = {1, 3, 7, 2, 4, 8, 5, 6, 9, 10};
     
-    private static class DumbParticle extends Particle {
+    private static class DumbParticle extends AbstractParticle {
 		private static final long serialVersionUID = 4273664052866515691L;
 		
 		private String id;
@@ -262,7 +262,7 @@ public class VonNeumannTopologyTest {
 			return 0;
 		}
 
-		public Type get() {
+		public Type getContents() {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -277,7 +277,7 @@ public class VonNeumannTopologyTest {
 			return null;
 		}
 
-		public void set(Type type) {
+		public void setContents(Type type) {
 			// TODO Auto-generated method stub
 			
 		}

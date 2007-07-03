@@ -32,9 +32,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.NichePSO;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -83,6 +84,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 	*/
 	
 //	 TODO: Check generics
+	@SuppressWarnings("unchecked")
 	public void create(E mainSwarm, Collection<PSO> subSwarms,List<Double> [] mainSwarmParticleFitnesses)
 	{
 		int mainSwarmIteration = mainSwarm.getIterations();
@@ -122,7 +124,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				if( mainSwarmParticleFitnesses[2].get(j) < stdDev )
 				{
 					// find nearest neighbor
-					Particle p = (Particle)mainSwarm.getTopology().get(j);
+					Particle p = (Particle) mainSwarm.getTopology().get(j);
 					double minDistance = Double.MAX_VALUE;
 					Particle minDistanceParticle = null;
 					
@@ -145,7 +147,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 			        
 			        // create new subswarm
 			        PSO newSubSwarm = new PSO();
-			        newSubSwarm.getInitialisationStrategy().setEntities(0);
+			        newSubSwarm.getInitialisationStrategy().setNumberOfEntities(0);
 			        newSubSwarm.addStoppingCondition(mainSwarm.getStoppingConditions().elementAt(0));
 			        newSubSwarm.setOptimisationProblem(mainSwarm.getOptimisationProblem());
 			        newSubSwarm.initialise();
@@ -164,6 +166,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void create(NichePSO pso) {
 		
 		//int mainSwarmIteration = pso.getMainSwarm().getIterations();
@@ -238,13 +241,14 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 			        
 			        // create new subswarm
 			        PSO newSubSwarm = new PSO();
-			        newSubSwarm.getInitialisationStrategy().setEntities(0);
+			        newSubSwarm.getInitialisationStrategy().setNumberOfEntities(0);
 			        newSubSwarm.setOptimisationProblem(pso.getMainSwarm().getOptimisationProblem());
 			        
 			        pso.getMainSwarm().getTopology().remove(p);
 			        pso.getMainSwarm().getTopology().remove(minDistanceParticle);
-			        newSubSwarm.getTopology().add(p);
-			        newSubSwarm.getTopology().add(minDistanceParticle);
+			        Topology<Particle> newSubSwarmTopology = newSubSwarm.getTopology();
+			        newSubSwarmTopology.add(p);
+			        newSubSwarmTopology.add(minDistanceParticle);
 			        
 			        pso.getSubSwarms().add(newSubSwarm);
 				}

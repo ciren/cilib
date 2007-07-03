@@ -28,9 +28,9 @@ package net.sourceforge.cilib.measurement.single;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Vector;
@@ -70,7 +70,7 @@ public class ParticlePositions implements Measurement {
 		while (i.hasNext()) {
 			Particle particle = (Particle) i.next();
 			tmp.append("\nParticle: ");
-			tmp.append(particle.getId());
+			//tmp.append(particle.getId());
 			tmp.append(" Current Fitness: ");
 			tmp.append(particle.getFitness().getValue());
 			tmp.append(" Best Fitness: ");

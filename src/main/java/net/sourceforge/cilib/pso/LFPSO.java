@@ -29,10 +29,10 @@
 package net.sourceforge.cilib.pso;
 
 import net.sourceforge.cilib.algorithm.GradientOptimisationAlgorithm;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.GradientOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.pso.particle.LFDecorator;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.LFVelocityUpdate;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;

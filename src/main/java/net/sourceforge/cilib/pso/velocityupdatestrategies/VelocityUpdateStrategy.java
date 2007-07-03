@@ -29,7 +29,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import java.io.Serializable;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 
 /**
  *

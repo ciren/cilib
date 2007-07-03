@@ -36,8 +36,8 @@ import net.sourceforge.cilib.type.types.Vector;
  */
 public interface DistanceMeasure {
 
-	public double distance(Vector x, Vector y);
+	public <T extends Vector> double distance(T x, T y);
 	
-	public double distance(Collection<? extends Number> x, Collection<? extends Number> y);
+	public <T extends Collection<? extends Number>> double distance(T x, T y);
 	
 }

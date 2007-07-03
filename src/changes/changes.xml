@@ -4,6 +4,30 @@
     <author email="jruiz@exist.com">Johnny R. Ruiz III</author>
   </properties>
   <body>
+    <release version="0.7.0" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
+      <action dev="gpampara" type="add">
+        Added the revised Entity heirarchy. This effectively allows for dynamic
+	properties to be associated with all Entity objects. The main driver
+	for the change was the need for extra information with regards to
+	coevolution changes that will come into CILib shortly.
+      </action>
+      <action dev="gpampara" type="update">
+        Refactored some code and made some methods generic. Cleaned up some
+	comments and mainly made sure the tree is currently in a sane state.
+      </action>
+      <action dev="gpampara" type="update">
+        Renamed a few methods to make the intention of the methods more clear.
+      </action>
+      <action dev="gpampara" type="update">
+        Changed the Type system hierarchy by pushing the isInsideBounds() method
+	up into the Type class. This change simplified the DomainParser code.
+      </action>
+      <action dev="gpampara" type="remove">
+        Removed the need for a user defined exception class, as the 
+	description is the main	need and not the new class.
+      </action>
+    </release>
+
     <release version="0.6.6" date="2007-03-18" description="Feature release and bug fixes">
       <action dev="gpampara" type="add">
         Added support to define functions within the XML specification file or

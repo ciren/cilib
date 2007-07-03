@@ -34,7 +34,6 @@ import java.util.StringTokenizer;
 
 import net.sourceforge.cilib.problem.dataset.DataSet;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
  * Builds the input data set that gets fed as sequences to be aligned. Input sequences must be in
@@ -51,7 +50,7 @@ public class FASTADataSetBuilder extends DataSetBuilder {
 	}
 
 	public FASTADataSetBuilder(FASTADataSetBuilder rhs) {
-		throw new UnimplementedMethodException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
+		throw new UnsupportedOperationException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
 	}
 
 	@Override

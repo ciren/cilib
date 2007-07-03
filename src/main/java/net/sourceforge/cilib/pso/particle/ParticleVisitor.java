@@ -26,6 +26,7 @@
 package net.sourceforge.cilib.pso.particle;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.entity.Particle;
 
 
 /**

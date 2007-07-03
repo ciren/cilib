@@ -26,6 +26,7 @@
 package net.sourceforge.cilib.entity;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -34,11 +35,8 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * This is the super interface which all correpsonding entity implementation and extending interfaces,
  * for use in population based algorithms, must implement/extend from. 
- * TODO: Ants(eg. Ants?, Individuals and Particles) must implement/extend. 
- * 
- * @author otter
  */
-public interface Entity extends Comparable<Entity>, BehaviouralParameters, Serializable {
+public interface Entity extends Comparable<Entity>, Serializable {
 	
 	/**
 	 * Make a clone of the Entity the exact semantics of the clone method will be defined by the classes
@@ -58,34 +56,34 @@ public interface Entity extends Comparable<Entity>, BehaviouralParameters, Seria
 	
 	
 	/**
-	 * Get the contents of the entity. The conents will depend on the subclass.
+	 * Get the contents (candidate solution) of the entity. The conents will depend on the subclass.
 	 * Eg. genes for Individual
 	 *     position for Particle
 	 *     tour for Ant
 	 *     etc...
 	 */ 
-	public Type get();
+	public Type getContents();
 	
 	
 	/**
 	 * 
 	 * @param type
 	 */
-	public void set(Type type);
+	public void setContents(Type type);
 	
 	
 	/**
 	 * Returns the ID of the entity.
 	 * @return String - ID
 	 */
-	public String getId();
+	//public String getId();
 	
 	
 	/**
 	 * Sets the ID of the Entity with the passed String value
 	 * @param ID
 	 */
-	public void setId(String Id);
+	//public void setId(String Id);
 	
 	
 	/**
@@ -125,19 +123,24 @@ public interface Entity extends Comparable<Entity>, BehaviouralParameters, Seria
 	
 	
 	/**
-	 * Sets the dimension of the Entity
-	 * @param dim
-	 */
-	public void setDimension(int dim);
-
-
-	/**
 	 * 
 	 *
 	 */
 	public void reinitialise();
 	
 	public boolean equals(Object o);
+
+
+	/**
+	 * Get the properties associate with the <code>Entity</code>
+	 * @return
+	 */
+	public Map<String, Type> getProperties();
+
+
+	/**
+	 * Set the properties for the current <code>Entity</code>
+	 * @param properties
+	 */
+	public void setProperties(Map<String, Type> properties);
 }
-
-

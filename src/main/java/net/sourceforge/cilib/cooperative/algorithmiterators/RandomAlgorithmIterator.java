@@ -31,7 +31,6 @@ import java.util.NoSuchElementException;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
  * Iterate through a list of {@link Algorithm}s in a random order. With this class it is possible
@@ -154,7 +153,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 	 */
 	@Override
 	public void add(E algorithm) {
-		throw new UnimplementedMethodException(this.getClass().getSimpleName() + ".add()");
+		throw new UnsupportedOperationException(this.getClass().getSimpleName() + ".add()");
 	}
 
 	/**

@@ -27,6 +27,7 @@
 package net.sourceforge.cilib.pso.particle;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
@@ -36,9 +37,9 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author  Edwin Peer
  */
-public abstract class ParticleDecorator extends Particle {
+public abstract class ParticleDecorator extends AbstractParticle {
 	
-	private Particle target;
+	private AbstractParticle target;
 	    
 	public ParticleDecorator() {
 		this.neighbourhoodBestUpdateStrategy = null;
@@ -49,11 +50,11 @@ public abstract class ParticleDecorator extends Particle {
 	}
 	
     public ParticleDecorator(Particle target) {
-        this.target = target;
+        this.target = (AbstractParticle) target;
     }
     
     public void setTarget(Particle target) {
-    	this.target = target;
+    	this.target = (AbstractParticle) target;
     }
     
     public Particle getTarget() {
@@ -143,12 +144,12 @@ public abstract class ParticleDecorator extends Particle {
     }
     
         
-    public Type get() {
-    	return target.get();
+    public Type getContents() {
+    	return target.getContents();
     }
     
-    public void set(Type type) {
-    	this.target.set(type);
+    public void setContents(Type type) {
+    	this.target.setContents(type);
     }
     
     public int compareTo(Entity o) {

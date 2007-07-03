@@ -85,10 +85,10 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		
 			List<Entity> parents = getRandomParentEntities(topology);
 			
-			Vector currentPosition = (Vector) current.get(); 
-			Vector position1 = (Vector) parents.get(0).get();
-			Vector position2 = (Vector) parents.get(1).get();
-			Vector position3 = (Vector) parents.get(2).get();
+			Vector currentPosition = (Vector) current.getContents(); 
+			Vector position1 = (Vector) parents.get(0).getContents();
+			Vector position2 = (Vector) parents.get(1).getContents();
+			Vector position3 = (Vector) parents.get(2).getContents();
 			
 			Vector trialVector = new MixedVector();
 			
@@ -108,7 +108,7 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 			Fitness trialVectorFitness = ec.getOptimisationProblem().getFitness(trialVector, false);
 			
 			if (trialVectorFitness.compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
-				current.set(trialVector);
+				current.setContents(trialVector);
 			}
 			
 			//this.boundaryConstraint.enforce(current);

@@ -27,7 +27,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import java.io.Serializable;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 
 
 /**

@@ -3,13 +3,14 @@ package net.sourceforge.cilib.pso.moo;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.moo.archive.StandardArchive;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.MultiObjectiveParticle;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.positionupdatestrategies.GaussianPositionUpdateStrategy;
 import net.sourceforge.cilib.type.types.Vector;
 
@@ -36,8 +37,9 @@ public class MOPSO extends PSO  {
 	@Override
 	public void performInitialisation() {
 		super.performInitialisation();
+		Topology<Particle> topology = this.getTopology();
 		
-		for (Particle particle : getTopology()) {
+		for (Particle particle : topology) {
 			//particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
 			particle.calculateFitness();
 		}
@@ -47,8 +49,8 @@ public class MOPSO extends PSO  {
 		
 		// TODO : prevent fitness re-evaluations
 		// TODO : Check Jaco's code
-		paretoFront.add(new OptimisationSolution(this.getMoproblem(), this.getTopology().get(0).getPosition()));
-		for (Particle particle : getTopology()) {
+		paretoFront.add(new OptimisationSolution(this.getMoproblem(), topology.get(0).getPosition()));
+		for (Particle particle : topology) {
 			for (OptimisationSolution solution : paretoFront) {
 				int result = solution.getFitness().compareTo(particle.getFitness()); // Check this comparing 
 				if (result > 0) {
@@ -81,23 +83,26 @@ public class MOPSO extends PSO  {
 		// TODO Auto-generated method stub
 		
 		StandardArchive standardArchive = (StandardArchive) this.archive;
+		Topology<Particle> topology = this.getTopology();
 		
-		for (Particle particle : getTopology()) {
+		for (Particle particle : topology) {
+			MultiObjectiveParticle moParticle = (MultiObjectiveParticle) particle;
+			
 			Particle globalGuide = selectGlobalGuide(/*hypercube*/);
 		
 			standardArchive.getLocalGuideStrategy().updateLocalGuide(particle);
 			Vector localGuide = standardArchive.getLocalGuideStrategy().getLocalGuide();
 			
-			particle.setNeighbourhoodBest(globalGuide);
-			particle.setBestPosition(localGuide);
+			moParticle.setNeighbourhoodBest(globalGuide);
+			moParticle.setBestPosition(localGuide);
 			
-			particle.updateVelocity();
-			particle.updatePosition();
+			moParticle.updateVelocity();
+			moParticle.updatePosition();
 		}
 		
 		maintainBoundaries();
 		
-		for (Particle particle : getTopology()) {
+		for (Particle particle : topology) {
 			//particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
 			particle.calculateFitness();
 		}
@@ -108,8 +113,8 @@ public class MOPSO extends PSO  {
 		
 		// TODO : prevent fitness re-evaluations
 		// TODO : Check Jaco's code
-		paretoFront.add(new OptimisationSolution(this.getMoproblem(), this.getTopology().get(0).getPosition()));
-		for (Particle particle : getTopology()) {
+		paretoFront.add(new OptimisationSolution(this.getMoproblem(), topology.get(0).getPosition()));
+		for (Particle particle : topology) {
 			for (OptimisationSolution solution : paretoFront) {
 				int result = solution.getFitness().compareTo(particle.getFitness()); // Check this comparing 
 				if (result > 0) {
@@ -155,7 +160,12 @@ public class MOPSO extends PSO  {
 	public void setMoproblem(MOOptimisationProblem moproblem) {
 		this.moproblem = moproblem;
 	}
+
 	
+//	public Topology<? > getTopology() {
+//		// TODO Auto-generated method stub
+//		return super.getTopology();
+//	}
 	
 
 }

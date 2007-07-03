@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import net.sourceforge.cilib.container.visitor.Visitor;
+
 /**
  * Concrete implemetnation of the {@see net.sourceforge.cilib.type.types.Vector}
  * class. Any {@see net.sourceforge.cilib.type.types.Type} object may be contained
@@ -39,7 +41,6 @@ import java.util.Iterator;
  */
 public class MixedVector extends Vector {
 	private static final long serialVersionUID = 136711882764612609L;
-	
 	private ArrayList<Type> components;
 
 	
@@ -141,8 +142,11 @@ public class MixedVector extends Vector {
 	 * @return <tt>true</tt> if this <tt>Vector</tt> changed as a result of the call.
 	 * @throws NullPointerException if the specified collection is null.
 	 */
-	public boolean addAll(Collection<? extends Type> collection) {
-		return components.addAll(collection);
+	public boolean addAll(Structure<Type> collection) {
+		for (Type type : collection)
+			components.add(type);
+		
+		return true;
 	}
 	
 	/**
@@ -198,7 +202,7 @@ public class MixedVector extends Vector {
 	 * @param obj The object to examined for containment
 	 * @return <tt>true</tt> if the object is contained<br><tt>false</tt> otherwise.
 	 */
-	public boolean contains(Object obj) {
+	public boolean contains(Type obj) {
 		return components.contains(obj);
 	}
 	
@@ -239,10 +243,10 @@ public class MixedVector extends Vector {
 	 * @param obj element to be removed from this <tt>Vector</tt>, if present.
 	 * @return <tt>true</tt> if the list contained the specified element.
 	 */
-	public boolean remove(Object obj) {
+	public boolean remove(Type obj) {
 		return this.components.remove(obj);		
 	}
-
+	
 	/**
 	 * Remove the <tt>Collection</tt> of objects from this <tt>Vector</tt>.
 	 * 
@@ -250,8 +254,11 @@ public class MixedVector extends Vector {
 	 * @throws UnsupportedOperationException - if the removeAll method is not supported by this collection. 
 	 * @throws NullPointerException - if the specified collection is null.
 	 */
-	public boolean removeAll(Collection<?> c) {
-		return this.components.removeAll(c);
+	public boolean removeAll(Structure<Type> collection) {
+		for (Type type : collection)
+			components.remove(type);
+		
+		return true;
 	}
 
 	/**
@@ -386,8 +393,8 @@ public class MixedVector extends Vector {
 	 * @param index The index within the <code>MixedVector</code> at which the element is to
 	 *              be removed.
 	 */
-	public void remove(int index) {
-		components.remove(index);
+	public Type remove(int index) {
+		return components.remove(index);
 	}
 
 	/**
@@ -654,6 +661,52 @@ public class MixedVector extends Vector {
 	public final Vector cross(Vector vector) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public boolean isInsideBounds() {
+		boolean result = true;
+		
+		for (Type type : this.components) {
+			if (!type.isInsideBounds())	{
+				result = false;
+				break;
+			}
+		}
+		
+		return result;
+	}
+
+
+	public boolean addEdge(Type a, Type b) {
+		return false;
+	}
+
+
+	/**
+	 * Return the number of edges in this <tt>Graph</tt> based <tt>Vector</tt>.
+	 * A <tt>Vector</tt> is nothing more than a linear <tt>Graph</tt>
+	 */
+	public int edges() {
+		return this.components.size() - 1;
+	}
+
+
+	public boolean isConnected(Type a, Type b) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public int verticies() {
+		return this.components.size();
+	}
+
+
+	public void accept(Visitor<Type> visitor) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

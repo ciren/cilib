@@ -26,6 +26,7 @@
 
 package net.sourceforge.cilib.pso.particle;
 
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdate;
 

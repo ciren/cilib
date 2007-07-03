@@ -53,7 +53,8 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 		return new HypercubeTopology<E>(this);
 	}
 
-	public Iterator<E> neighbourhood(Iterator<E> iterator) {
+	@SuppressWarnings("unchecked")
+	public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         return new HypercubeNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
     }
 

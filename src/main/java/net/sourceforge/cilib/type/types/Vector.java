@@ -25,17 +25,12 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.Collection;
-
 import net.sourceforge.cilib.math.VectorMath;
 
 /**
  * @author Gary Pampara
  */
-public abstract class Vector extends Type implements Collection<Type>, VectorMath {
+public abstract class Vector implements Graph<Type>, VectorMath {
 	public abstract Vector clone();
 
 	public boolean equals(Object other) {
@@ -72,8 +67,6 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	public abstract void set(int index, Type value);
 
 	public abstract void insert(int index, Type value);
-
-	public abstract void remove(int index);
 
 	public void append(Type value) {
 		insert(getDimension(), value);
@@ -112,31 +105,6 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	}
 
 	public abstract Vector subVector(int fromIndex, int toIndex);
-
-	/**
-	 * TODO: Is this correct?
-	 */
-	@Override
-	@Deprecated
-	public void writeExternal(ObjectOutput oos) throws IOException {
-		if (getDimension() == 0)
-			throw new RuntimeException("Cannot serialise/externalise an empty Vector Type");
-
-		for (Type t : this) {
-			t.serialise(oos);
-		}
-	}
-
-	@Override
-	@Deprecated
-	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-		if (getDimension() == 0)
-			throw new RuntimeException("Cannot deserialise/deexternalise an empty Vector Type");
-
-		for (Type t : this) {
-			t.deserialise(ois);
-		}
-	}
 
 	/**
 	 * Create a new (cloned) <tt>Vector</tt> consisting of <tt>rhs</tt> that has been appended to
@@ -216,4 +184,7 @@ public abstract class Vector extends Type implements Collection<Type>, VectorMat
 	}
 
 	public abstract void initialise(int size, Type element);
+
+	public abstract boolean isInsideBounds();
+	
 }

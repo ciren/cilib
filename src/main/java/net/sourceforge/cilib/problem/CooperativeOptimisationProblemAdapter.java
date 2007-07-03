@@ -60,7 +60,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 		domainRegistry = new DomainRegistry();
 		String expandedDomain = "";
 		for (int i = offset; i < offset + dimension; i++) {
-			expandedDomain += ((MixedVector) context.get()).get(i).getRepresentation();
+			expandedDomain += ((MixedVector) context.getContents()).get(i).getRepresentation();
 			if (i < offset + dimension - 1)
 				expandedDomain += ",";
 		}
@@ -103,9 +103,9 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 	protected Fitness calculateFitness(Object solution) {
 		MixedVector participant = (MixedVector) solution;
 		for (int i = 0; i < dimension; ++i) {
-			((MixedVector) context.get()).setReal(offset + i, participant.getReal(i));
+			((MixedVector) context.getContents()).setReal(offset + i, participant.getReal(i));
 		}
-		return problem.getFitness(context.get(), true);
+		return problem.getFitness(context.getContents(), true);
 	}
 
 	public DomainRegistry getDomain() {

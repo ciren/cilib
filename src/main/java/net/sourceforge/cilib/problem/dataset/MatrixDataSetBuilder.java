@@ -31,7 +31,6 @@ import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
 
 import net.sourceforge.cilib.container.Matrix;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
  * TODO: This needs to implement the reading of a matrix as needed by MappingProblem
@@ -49,7 +48,7 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 	}
 
 	public MatrixDataSetBuilder(MatrixDataSetBuilder rhs) {
-		throw new UnimplementedMethodException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
+		throw new UnsupportedOperationException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
 	}
 
 	@Override

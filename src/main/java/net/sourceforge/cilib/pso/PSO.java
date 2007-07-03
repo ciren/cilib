@@ -35,6 +35,7 @@ import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
@@ -43,10 +44,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-
-import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -72,7 +70,7 @@ import org.apache.log4j.Logger;
  */
 public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = -8234345682394295357L;
-	private static Logger log = Logger.getLogger(PSO.class);
+//	private static Logger log = Logger.getLogger(PSO.class);
 	private Topology<Particle> topology;
 	private Particle bestParticle;
 	private IterationStrategy iterationStrategy;
@@ -132,7 +130,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		bestParticle = null;
 
 		iterationStrategy.performIteration(this);
-
+		
 		for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext();) {
 			i.next().getVelocityUpdateStrategy().updateControlParameters();
 		}
@@ -269,7 +267,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 */
 	public void setParticles(int particles) {
 		this.particles = particles;
-		this.initialisationStrategy.setEntities(particles);
+		this.initialisationStrategy.setNumberOfEntities(particles);
 	}
 
 	/**

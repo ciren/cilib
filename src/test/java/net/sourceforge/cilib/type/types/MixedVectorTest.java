@@ -26,27 +26,19 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import static java.lang.Math.sqrt;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.type.types.Bit;
-import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Set;
-import net.sourceforge.cilib.type.types.Vector;
 
 
 /**
@@ -157,8 +149,7 @@ public class MixedVectorTest {
 		m.add(v);
 		
 		assertSame(s, m.get(0));
-		assertEquals(s, m.get(0));
-		assertEquals(v, m.get(1));
+		assertSame(v, m.get(1));
 	}
 	
 	
@@ -356,47 +347,8 @@ public class MixedVectorTest {
 		v2.setReal(0, -3.0);
 		assertEquals(4.0, v1.dot(v2));
 	}
-	
-	
-	@Test
-	public void testSerialisation() {
-		MixedVector m = new MixedVector();
-		m.add(new Real(55.0));
-		m.add(new Int(-12));
-		m.add(new Bit(false));
 		
-		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			
-			m.serialise(oos);
-			oos.close();
-			
-			byte [] data = bos.toByteArray();
-			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
-			
-			MixedVector result = new MixedVector();
-			result.add(new Real());
-			result.add(new Int());
-			result.add(new Bit());
-			
-			result.deserialise(ois);
-			
-			assertEquals(m.getReal(0), result.getReal(0));
-			assertEquals(m.getInt(1), result.getInt(1));
-			assertEquals(m.getBit(2), result.getBit(2));
-		}
-		catch (IOException e) {
-			fail("Serialisation fails for Types.MixedVector!");
-		}
-		catch (ClassNotFoundException c) {
-			fail("Class Not Found: " + c.getMessage());
-		}
-	}
 
-	/**
-	 * @author Theuns Cloete
-	 */
 	@Test
 	public void testPlus() {
 		Vector a = new MixedVector();
@@ -439,9 +391,6 @@ public class MixedVectorTest {
 		}
 	}
 
-	/**
-	 * @author Theuns Cloete
-	 */
 	@Test
 	public void testSubtract() {
 		Vector a = new MixedVector();
@@ -484,9 +433,6 @@ public class MixedVectorTest {
 		}
 	}
 
-	/**
-	 * @author Theuns Cloete
-	 */
 	@Test
 	public void testVectorDivision() {
 		Vector a = new MixedVector();
@@ -537,9 +483,6 @@ public class MixedVectorTest {
 		}
 	}
 
-	/**
-	 * @author Theuns Cloete
-	 */
 	@Test
 	public void testScalarDivision() {
 		Vector a = new MixedVector();
@@ -571,9 +514,6 @@ public class MixedVectorTest {
 		}
 	}
 
-	/**
-	 * @author Theuns Cloete
-	 */
 	@Test
 	public void testVectorMultiplication() {
 		Vector a = new MixedVector();
@@ -616,9 +556,6 @@ public class MixedVectorTest {
 		}
 	}
 
-	/**
-	 * @author Theuns Cloete
-	 */
 	@Test
 	public void testScalarMultiplication() {
 		Vector a = new MixedVector();

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
 /* Implementation of the DE PSO of Hendtlass
@@ -52,7 +52,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 		Vector velocity = (Vector) particle.getVelocity();
 			
 		if (rand1.getUniform() < DEProbability.getGaussian(0.8,0.1)) {
-			particle.set(position.plus(velocity));
+			particle.setContents(position.plus(velocity));
 		}
 		else {
 			ArrayList<Vector> positions = new ArrayList<Vector>(3);
@@ -79,7 +79,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 				int random = rand2.getRandomGenerator().nextInt(pso.getTopology().size());
 				Entity parent = pso.getTopology().get(random);
 				if (!positions.contains(parent)) {
-					positions.add((Vector) parent.get());
+					positions.add((Vector) parent.getContents());
 					count++;
 				}
 			}
@@ -104,10 +104,10 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 				
 			//position should only become the offspring if its fitness is better
 			Fitness trialFitness = pso.getOptimisationProblem().getFitness(DEposition, false);
-			Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.get(), false);
+			Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getContents(), false);
 				
 			if (trialFitness.compareTo(currentFitness) > 0) {
-				particle.set(DEposition);
+				particle.setContents(DEposition);
 			}			
 		}
 	}

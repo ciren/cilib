@@ -183,6 +183,12 @@ public class DomainParserTest {
 		}
 	}
 	
+//	@Test
+//	public void expansionOfPredefinedDomain() {
+//		parser.parse("[R(4.3, 7.9), R(2.0, 4.4), R(1.0, 6.9), R(0.1, 2.5)]^3");
+//		System.out.println(parser.getBuiltRepresentation());
+//	}
+	
 	/**
 	 * 
 	 * @param v1
@@ -192,9 +198,6 @@ public class DomainParserTest {
 	private boolean assertObjectNotSame(Vector v1, Vector v2) {
 		
 		for (int i = 0; i < v1.getDimension(); i++) {
-			//System.out.println("v1.get: " + v1.get(i));
-			//System.out.println("v2.get: " + v2.get(i));
-			//System.out.println(v1.get(i).equals(v2.get(i)));
 			if (v1.get(i).equals(v2.get(i)))
 				return false;
 		}

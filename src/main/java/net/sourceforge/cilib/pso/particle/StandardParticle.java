@@ -27,6 +27,9 @@
 
 package net.sourceforge.cilib.pso.particle;
 
+import java.util.Map;
+
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -42,30 +45,25 @@ import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public class StandardParticle extends Particle {
+public class StandardParticle extends AbstractParticle {
     private static final long serialVersionUID = 2610843008637279845L;
     
-	protected Vector position;
-    protected Vector bestPosition;
-    protected Vector velocity;
-
     protected Fitness fitness;
     protected Fitness bestFitness;
 
     protected Particle neighbourhoodBest;
     protected FitnessCalculator fitnessCalculator;
     
-    
     /** Creates a new instance of StandardParticle */
     public StandardParticle() {
     	super();
-        position = new MixedVector();
-        bestPosition = new MixedVector();
-        velocity = new MixedVector();
+    	
+    	properties.put("position", new MixedVector());
+    	properties.put("bestPosition", new MixedVector());
+    	properties.put("velocity", new MixedVector());
         
         fitnessCalculator = new VectorBasedFitnessCalculator();
     }
-    
     
     /**
      * Copy Constructor.
@@ -79,9 +77,10 @@ public class StandardParticle extends Particle {
     	
     	this.fitnessCalculator = copy.fitnessCalculator.clone();
     	    	
-    	this.position = copy.position.clone();
-    	this.bestPosition = copy.bestPosition.clone();
-    	this.velocity = copy.velocity.clone();
+    	for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
+    		String key = entry.getKey().toString();
+    		this.properties.put(key, entry.getValue().clone());
+    	}
     }
     
     /**
@@ -96,11 +95,11 @@ public class StandardParticle extends Particle {
     }
     
     public Vector getBestPosition() {
-        return bestPosition;
+    	return (Vector) this.properties.get("bestPosition");
     }
         
     public int getDimension() {
-    	return position.getDimension();
+    	return getPosition().getDimension();
     }
     
     public Fitness getFitness() {
@@ -112,26 +111,26 @@ public class StandardParticle extends Particle {
     }
     
     public Vector getPosition() {
-        return position;
+    	return (Vector) this.properties.get("position");
     }
     
     public Vector getVelocity() {
-        return velocity;
+        return (Vector) this.properties.get("velocity");
     }
     
     
     public void initialise(OptimisationProblem problem) {
         setId(PSO.getNextParticleId());
         
-       	position = (Vector) problem.getDomain().getBuiltRepresenation().clone();
-		position.randomise();
+       	this.properties.put("position", (Vector) problem.getDomain().getBuiltRepresenation().clone());
+		getPosition().randomise();
 
 		// Make a deep-copy of the best position
-		bestPosition = position.clone();
+		this.properties.put("bestPosition", getPosition().clone());
         
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
-        velocity = position.clone();
+        this.properties.put("velocity", getPosition().clone());
         velocityInitialisationStrategy.initialise(this);
         
         fitness = InferiorFitness.instance();
@@ -152,10 +151,10 @@ public class StandardParticle extends Particle {
      * 
      */
     public void calculateFitness(boolean count) {
-    	this.fitness = fitnessCalculator.getFitness(position, count);
+    	this.fitness = fitnessCalculator.getFitness(getPosition(), count);
     	if (fitness.compareTo(bestFitness) > 0) {
     		this.bestFitness = fitness;
-    		this.bestPosition = (Vector) position.clone();
+    		this.properties.put("bestPosition", getPosition().clone());
     	}
     }
     
@@ -174,19 +173,6 @@ public class StandardParticle extends Particle {
     	this.velocityUpdateStrategy.updateVelocity(this);
     }
     
-    
-    /**
-     * 
-     */
-/*    public String getId() {
-        return String.valueOf(id);
-    }
-    
-    
-    public void setId(String id) {
-    	this.id = Integer.valueOf(id);
-    }*/
-    
     /**
      * 
      */
@@ -194,19 +180,18 @@ public class StandardParticle extends Particle {
         throw new RuntimeException("This is not a decorator");
     }
 
-	public Type get() {
+	public Type getContents() {
 		return getPosition();
 	}
 	
-	public void set(Type type) {
-		this.position = (Vector) type;
+	public void setContents(Type type) {
+		this.properties.put("position", type);
 	}
 
 	public void setDimension(int dim) {
 		// TODO Auto-generated method stub
 	}
 
-	
 	public Type getBehaviouralParameters() {
 		return null;
 	}
@@ -215,17 +200,14 @@ public class StandardParticle extends Particle {
 			
 	}
 
-
 	// Reinitialise all the things based on the defined initialisation strategy
 	public void reinitialise() {
 		this.velocityInitialisationStrategy.initialise(this);
 	}
 
-
 	public FitnessCalculator getFitnessCalculator() {
 		return fitnessCalculator;
 	}
-
 
 	public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
 		this.fitnessCalculator = fitnessCalculator;

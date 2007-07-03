@@ -32,7 +32,7 @@ public class CosineDistanceMeasure implements DistanceMeasure {
 	 * @return the "distance" (or angle or dot product) (as a double) between the two vectors.
 	 * @throws IllegalArgumentException when the two vectors' dimension differ.
 	 */
-	public double distance(Vector x, Vector y) {
+	public <T extends Vector> double distance(T x, T y) {
 		if(x.getDimension() != y.getDimension())
 			throw new IllegalArgumentException("Cannot calculate Cosine Distance for vectors of different dimensions");
 
@@ -60,7 +60,7 @@ public class CosineDistanceMeasure implements DistanceMeasure {
 	 * @return the distance (or angle or dot product) (as a double) between the two vectors.
 	 * @throws IllegalArgumentException when the two vectors' dimension differ.
 	 */
-	public double distance(Collection<? extends Number> x, Collection<? extends Number> y) {
+	public <T extends Collection<? extends Number>> double distance(T x, T y) {
 		if (x.size() != y.size())
 			throw new IllegalArgumentException("Cannot calculate Cosine Distance for vectors  of different dimensions");
 

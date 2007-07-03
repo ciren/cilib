@@ -30,8 +30,8 @@ package net.sourceforge.cilib.pso;
 
 import java.util.Random;
 
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**

@@ -234,12 +234,12 @@ public class ClusteringAntDecorator extends Ant {
 		return 0;
 	}
 
-	public Type get() {
+	public Type getContents() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void set(Type type) {
+	public void setContents(Type type) {
 		// TODO Auto-generated method stub
 		
 	}

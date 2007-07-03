@@ -26,6 +26,9 @@
  */
 package net.sourceforge.cilib.ec;
 
+import java.util.Map;
+
+import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -40,13 +43,11 @@ import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
  * @author otter
  * Implements the Entity interface. Individual represents entities used within the EC paradigm.
  */
-public class Individual implements Entity {
+public class Individual extends AbstractEntity {
 	private static final long serialVersionUID = -578986147850240655L;
 	
 	protected String id;
     protected int dimension = 0;
-    protected Type genes = null;    //represents the genetic structure.
-    protected Type penotypes = null;
     protected Fitness fitness;
     protected FitnessCalculator fitnessCalculator;
     
@@ -55,8 +56,8 @@ public class Individual implements Entity {
      */
     public Individual() {
         dimension = 0;
-        genes = new MixedVector();
-        penotypes = new MixedVector();
+        this.properties.put("genes", new MixedVector());
+        this.properties.put("penotypes", new MixedVector());
         fitness = InferiorFitness.instance();
         fitnessCalculator = new VectorBasedFitnessCalculator();
     }
@@ -64,10 +65,13 @@ public class Individual implements Entity {
     
     public Individual(Individual copy) {
         this.dimension = copy.dimension;
-        this.genes = copy.genes.clone();
-        this.penotypes = copy.penotypes.clone();
         this.fitness = InferiorFitness.instance();
         this.fitnessCalculator = copy.fitnessCalculator.clone();
+        
+        for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
+        	String key = entry.getKey().toString();
+    		this.properties.put(key, entry.getValue().clone());
+        }
     }
     
     /**
@@ -93,15 +97,15 @@ public class Individual implements Entity {
          // ID initialization is done in the clone method...
          // which is always inforced due to the semantciss of the performInitialisation methods         
 
-    	 this.genes = (Type) problem.getDomain().getBuiltRepresenation().clone();
-    	 this.genes.randomise();
+    	 this.properties.put("genes", (Type) problem.getDomain().getBuiltRepresenation().clone());
+    	 this.getContents().randomise();
     		 
     	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
-    		 this.penotypes = (Type) problem.getBehaviouralDomain().getBuiltRepresenation().clone();
-    		 this.penotypes.randomise();
+    		 this.properties.put("penotypes", problem.getBehaviouralDomain().getBuiltRepresenation().clone());
+    		 this.properties.get("penotypes").randomise();
     	 }
     	 
-         this.dimension = ((MixedVector)this.genes).getDimension();
+    	 this.dimension = this.getContents().getDimension();
          this.fitness = InferiorFitness.instance();        
      }     
      
@@ -113,24 +117,12 @@ public class Individual implements Entity {
         return this.getFitness().compareTo(o.getFitness());
     }
     
-    /*public boolean equals(Object obj) {
-    	if (obj instanceof Individual) {
-    		Individual other = (Individual) obj;
-    		
-    		if (this.genes)
-    			return true;
-    	}
-    	
-    	return false;
-    }*/
-    
-    //get the genetic content of the Individual.
-    public Type get() {
-        return genes;
+    public Type getContents() {
+        return this.properties.get("genes");
     }
     
-    public void set(Type type) {
-    	this.genes = type;
+    public void setContents(Type type) {
+    	this.properties.put("genes", type);
     	this.dimension = type.getDimension();
     }
 
@@ -151,7 +143,7 @@ public class Individual implements Entity {
     }
     
     public void calculateFitness(boolean count) {
-        this.fitness = fitnessCalculator.getFitness(this.genes, count);
+        this.fitness = fitnessCalculator.getFitness(getContents(), count);
     }
 
     public int getDimension() {
@@ -165,11 +157,11 @@ public class Individual implements Entity {
     public String toString() {
         StringBuffer str = new StringBuffer();
        
-        str.append(this.genes.toString());
+        str.append(getContents().toString());
         
-        if (this.penotypes != null) {
+        if (this.properties.get("penotypes") != null) {
         	str.append(" ");
-        	str.append(this.penotypes.toString());
+        	str.append(this.properties.get("penotypes").toString());
         }
         
         return str.toString();
@@ -181,7 +173,7 @@ public class Individual implements Entity {
 	 * @return a <tt>Type</tt> representing the behavioural parameters
 	 */
 	public Type getBehaviouralParameters() {
-		return this.penotypes;
+		return this.properties.get("penotypes");
 	}
 
 	
@@ -191,7 +183,7 @@ public class Individual implements Entity {
 	 */
 	public void setBehaviouralParameters(Type type) {
 		if (type instanceof Vector)
-			this.penotypes = (Vector) type;
+			this.properties.put("penotypes", type);
 		else throw new RuntimeException("BehaviouralParameters need to be correct type! Please check and correct");
 	}
 

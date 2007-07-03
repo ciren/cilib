@@ -25,7 +25,7 @@ package net.sourceforge.cilib.pso.particle.initialisation;
 
 import java.io.Serializable;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 
 /**
  * Interface defining the valid tasks available for velocity intialisation

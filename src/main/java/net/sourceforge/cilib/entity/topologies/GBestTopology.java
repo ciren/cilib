@@ -30,6 +30,7 @@ package net.sourceforge.cilib.entity.topologies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -79,7 +80,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
         return new GBestTopologyIterator<E>(this);
     }
 
-    public Iterator<E> neighbourhood(Iterator<E> iterator) {
+    public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         return new GBestTopologyIterator<E>(this);
     }
     
@@ -158,15 +159,12 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 		return particle;
 	}
 
-	public void setAll(List<E> set) {
-		this.entities.ensureCapacity(set.size());
-		this.entities.clear();
-		this.entities.addAll(set);
-	}
-
-	
-	public List<E> getAll() {
-		return this.entities;
+	public List<Entity> asList() {
+		List<Entity> list = new ArrayList<Entity>();
+		
+		Collections.copy(list, this.entities);
+		
+		return list;
 	}
 
 

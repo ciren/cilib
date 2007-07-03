@@ -68,7 +68,7 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	 * @return The currently associated topology
 	 */
 	public abstract Topology<? extends Entity> getTopology();
-
+	
 	/**
 	 * Set the <tt>Topology</tt> for the population-based algorithm
 	 * @param topology The <tt>Topology</tt> to be set

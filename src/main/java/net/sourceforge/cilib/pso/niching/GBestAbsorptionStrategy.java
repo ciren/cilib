@@ -31,7 +31,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -45,7 +46,8 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> implements AbsorptionStrategy<E> {
     
-    public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
+    @SuppressWarnings("unchecked")
+	public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
         
         ListIterator mainSwarmIterator = mainSwarm.getTopology().listIterator();
         
@@ -66,7 +68,8 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
                 double distance = distanceMeasure.distance(subSwarmBestParticlePosition, mainSwarmParticlePosition);
                 
                 if(subSwarmRadius >= distance) {
-                    subSwarm.getTopology().add(mainSwarmParticle);
+                	Topology<Particle> subSwarmTopology = subSwarm.getTopology();
+                	subSwarmTopology.add(mainSwarmParticle);
                     mainSwarmIterator.remove();
                     break;
                     // mainSwarm.getTopology().getAll().remove(mainSwarmParticle); // remove the sub-swarm absorbed particle from the main swarm

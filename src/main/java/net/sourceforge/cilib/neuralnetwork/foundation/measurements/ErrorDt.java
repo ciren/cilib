@@ -6,7 +6,6 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class ErrorDt implements Measurement {
 	private static final long serialVersionUID = -5027085270461720189L;
@@ -18,7 +17,7 @@ public class ErrorDt implements Measurement {
 
 	public ErrorDt(ErrorDt rhs) {
 //		super(rhs);
-		throw new UnimplementedMethodException("public ErrorDt(ErrorDt rhs)");
+		throw new UnsupportedOperationException("public ErrorDt(ErrorDt rhs)");
 	}
 
 	public ErrorDt clone() {

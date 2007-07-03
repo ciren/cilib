@@ -73,8 +73,8 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 				Entity offspring1 = parent1.clone();
 				Entity offspring2 = parent2.clone();
 				
-				Vector offspringVector1 = (Vector) offspring1.get();
-				Vector offspringVector2 = (Vector) offspring2.get();
+				Vector offspringVector1 = (Vector) offspring1.getContents();
+				Vector offspringVector2 = (Vector) offspring2.getContents();
 				
 				for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
 					offspringVector1.remove(j);

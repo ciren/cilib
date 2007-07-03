@@ -45,7 +45,7 @@ public abstract class InitialisationStrategy implements Serializable {
 	 * Set the number of entities that are required.
 	 * @param entityNumber The number of entities to set
 	 */
-	public void setEntities(int entityNumber) {
+	public void setNumberOfEntities(int entityNumber) {
 		this.entities = entityNumber;
 	}
 
@@ -69,7 +69,11 @@ public abstract class InitialisationStrategy implements Serializable {
 	 */
 	public abstract void initialise(Topology<? extends Entity> topology, OptimisationProblem problem);
 
-	public int getEntities() {
+	/**
+	 * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>
+	 * @return The number of entities to construct
+	 */
+	public int getNumberOfEntities() {
 		return this.entities;
 	}
 }

@@ -29,16 +29,12 @@
 
 package net.sourceforge.cilib.type.types;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.type.types.Bit;
 
 /**
  *
@@ -115,34 +111,5 @@ public class BitTest {
 		else
 			assertTrue(b1.getBit() != b2.getBit());
 	}
-	
-	@Test
-	public void testSerialisation() {
-		Bit b = new Bit();
-		boolean target = b.getBit();
 		
-		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			
-			b.serialise(oos);
-			oos.close();
-			
-			byte [] data = bos.toByteArray();
-			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
-			
-			Bit result = new Bit();
-			result.deserialise(ois);
-			
-			assertTrue(result instanceof Bit);
-			assertEquals(target, ((Bit) result).getBit());
-		}
-		catch (IOException e) {
-			fail("Serialisation fails for Types.Bit!");
-		}
-		catch (ClassNotFoundException c) {
-			fail("ClassNotFound: Serialisation");
-		}
-	}
-	
  }

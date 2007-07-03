@@ -9,7 +9,7 @@ public class ReinitilisationBoundary implements BoundaryConstraint {
 
 	public void enforce(Entity entity) {
 		
-		if (!DomainParser.getInstance().isInsideBounds(entity.get())) {
+		if (!DomainParser.getInstance().isInsideBounds(entity.getContents())) {
 			entity.reinitialise();
 		}
 

@@ -29,8 +29,9 @@ package net.sourceforge.cilib.pso.niching;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * 
@@ -48,6 +49,7 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	public void merge(List<PopulationBasedAlgorithm> subSwarms)
 	{
 		for (int i = 0; i < subSwarms.size(); i++) {
@@ -64,7 +66,8 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 					
 					if(Math.abs(gBestParticle1.getFitness().getValue() - gBestParticle2.getFitness().getValue()) < threshold)
 					{
-						subSwarm1.getTopology().addAll(subSwarm2.getTopology());
+						Topology<Particle> subSwarmTopology = subSwarm1.getTopology();
+						subSwarmTopology.addAll(subSwarm2.getTopology());
 						subSwarms.remove(j);
 						subSwarm2 = null; // the two swarms are now merged, so delete the one
 					}

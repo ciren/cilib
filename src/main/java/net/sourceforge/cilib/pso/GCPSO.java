@@ -28,9 +28,9 @@
 
 package net.sourceforge.cilib.pso;
 
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.iterationstrategies.GCPSOIterationStrategy;
 import net.sourceforge.cilib.pso.particle.GCDecorator;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdate;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;

@@ -26,18 +26,12 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.type.DomainParser;
-import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Vector;
 
 /**
  * 
@@ -91,67 +85,6 @@ public class IntTest {
 		assertTrue(i1.getInt() == i2.getInt());
 		i1.randomise();
 		assertTrue(i1.getInt() != i2.getInt());
-	}
-	
-	@Test
-	public void testSerialisation() {
-		Int r = new Int();
-		int target = r.getInt();
-			
-		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			
-			r.serialise(oos);
-			oos.close();
-			
-			byte [] data = bos.toByteArray();
-			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
-			
-			Int result = new Int();
-			result.deserialise(ois);
-			
-			assertTrue(result instanceof Int);
-			assertEquals(target, ((Int) result).getInt());
-		}
-		catch (IOException e) {
-			fail("Serialisation fails for Types.Int!");
-		}
-		catch (ClassNotFoundException c) {
-			fail();
-		}
-	}
-	
-	@Test
-	public void testCiclops() {
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse("Z");
-		
-		Vector t = (Vector) parser.getBuiltRepresentation();
-		t.setReal(0, -5);
-		
-		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			
-			t.serialise(oos);
-			oos.close();
-			
-			byte [] data = bos.toByteArray();
-			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
-			
-			Int result = new Int();
-			result.deserialise(ois);
-			
-			assertTrue(result instanceof Int);
-			assertEquals(-5, ((Int) result).getInt());
-		}
-		catch (IOException e) {
-			fail("Serialisation fails for Types.Int!");
-		}
-		catch (ClassNotFoundException c) {
-			fail();
-		}
 	}
 
 }

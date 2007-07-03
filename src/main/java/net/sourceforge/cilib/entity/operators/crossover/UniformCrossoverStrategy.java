@@ -66,10 +66,10 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 			
 			if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 				
-				Vector parentChromosome1 = (Vector) parentCollection.get(random1).get();
-				Vector parentChromosome2 = (Vector) parentCollection.get(random2).get();
-				Vector offspringChromosome1 = (Vector) offspring1.get();
-				Vector offspringChromosome2 = (Vector) offspring2.get();
+				Vector parentChromosome1 = (Vector) parentCollection.get(random1).getContents();
+				Vector parentChromosome2 = (Vector) parentCollection.get(random2).getContents();
+				Vector offspringChromosome1 = (Vector) offspring1.getContents();
+				Vector offspringChromosome2 = (Vector) offspring2.getContents();
 				
 				int sizeParent1 = parentChromosome1.getDimension();
 				int sizeParent2 = parentChromosome2.getDimension();

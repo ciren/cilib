@@ -27,7 +27,9 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
+import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
 import net.sourceforge.cilib.pso.particle.initialisation.ZeroInitialVelocityStrategy;
@@ -38,18 +40,14 @@ import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdate
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Vector;
 
 /**
  *
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public abstract class Particle implements Entity {
+public abstract class AbstractParticle extends AbstractEntity implements Particle {
 	
-    public static byte _ciclops_exclude_neighbourhoodBest = 1;
-    public static byte _ciclops_exclude_fitness = 1;
-    
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
     protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
@@ -65,7 +63,7 @@ public abstract class Particle implements Entity {
      * 
      *
      */
-	public Particle() {
+	public AbstractParticle() {
 		neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
 		positionUpdateStrategy = new StandardPositionUpdateStrategy();
 		velocityUpdateStrategy = new StandardVelocityUpdate();
@@ -138,13 +136,6 @@ public abstract class Particle implements Entity {
      */
     public abstract Type getBestPosition();
     
-    
-    /**
-     * Set the best position of the <tt>Particle</tt>.
-     * @param bestPosition The <tt>Vector</tt> representing new best position of the
-     *                     <tt>Particle</tt>.
-     */
-    //public abstract void setBestPosition(Type bestPosition);
     
     /**
      * Get the velocity representation of the <tt>Particle</tt>.
@@ -271,19 +262,10 @@ public abstract class Particle implements Entity {
 	public void setVelocityInitialisationStrategy(
 			VelocityInitialisationStrategy velocityInitialisationStrategy) {
 		this.velocityInitialisationStrategy = velocityInitialisationStrategy;
-		//System.out.println("Set to: " + velocityInitialisationStrategy);
 	}
 
-	/**
-	 * This method initially threw an exception
-	 * @author Theuns Cloete
-	 */
 	public int compareTo(Entity o) {
 		return getFitness().compareTo(o.getFitness());
-	}
-
-	public void setBestPosition(Vector localGuide) {
-		throw new UnsupportedOperationException("This method does not make sense to use directly. Please use setFitness() instead");		
 	}
 
 }

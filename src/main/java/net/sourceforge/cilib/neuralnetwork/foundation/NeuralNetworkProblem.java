@@ -12,7 +12,6 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
  * @author stefanv
@@ -29,7 +28,7 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 
 	public NeuralNetworkProblem(NeuralNetworkProblem rhs) {
 //		super(rhs);
-		throw new UnimplementedMethodException("public NeuralNetworkProblem(NeuralNetworkProblem rhs)");
+		throw new UnsupportedOperationException("public NeuralNetworkProblem(NeuralNetworkProblem rhs)");
 	}
 
 	public NeuralNetworkProblem clone() {

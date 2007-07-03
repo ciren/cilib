@@ -15,7 +15,6 @@ import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.RandomDistribu
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class NNOutput implements Measurement {
 	private static final long serialVersionUID = -3695723118431143860L;
@@ -32,7 +31,7 @@ public class NNOutput implements Measurement {
 
 	public NNOutput(NNOutput rhs) {
 //		super(rhs);
-		throw new UnimplementedMethodException("public NNOutput(NNOutput rhs)");
+		throw new UnsupportedOperationException("public NNOutput(NNOutput rhs)");
 	}
 
 	public NNOutput clone() {

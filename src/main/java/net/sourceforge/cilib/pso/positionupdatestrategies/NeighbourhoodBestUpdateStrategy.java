@@ -27,8 +27,8 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import java.io.Serializable;
 
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * @author Gary Pampara

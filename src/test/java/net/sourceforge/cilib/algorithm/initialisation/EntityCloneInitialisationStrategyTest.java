@@ -33,11 +33,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sourceforge.cilib.ec.Individual;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.functions.continuous.Rastrigin;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class EntityCloneInitialisationStrategyTest {
 		
 		InitialisationStrategy initialisationBuilder = new ClonedEntityInitialisationStrategy();
 		initialisationBuilder.setEntityType(new StandardParticle());
-		initialisationBuilder.setEntities(40); // 40 Particles
+		initialisationBuilder.setNumberOfEntities(40); // 40 Particles
 		
 		initialisationBuilder.initialise(topology, problem);
 		
@@ -84,7 +84,7 @@ public class EntityCloneInitialisationStrategyTest {
 		
 		InitialisationStrategy initialisationBuilder = new ClonedEntityInitialisationStrategy();
 		initialisationBuilder.setEntityType(new Individual());
-		initialisationBuilder.setEntities(40); // 40 Individuals
+		initialisationBuilder.setNumberOfEntities(40); // 40 Individuals
 		
 		initialisationBuilder.initialise(population, problem);
 		

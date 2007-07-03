@@ -26,16 +26,10 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.type.types.StringType;
 
 
 /**
@@ -59,40 +53,6 @@ public class StringTypeTest {
 		StringType s = new StringType("This is a StringType");
 		
 		assertEquals(1, s.getDimension());
-	}
-	
-	/**
-	 * 
-	 *
-	 */
-	@Test
-	public void testSerialisation() {
-		StringType testString = new StringType();
-		testString.setString("This is a test string");
-		String target = new String(testString.getString());
-		
-		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			
-			testString.serialise(oos);
-			oos.close();
-			
-			byte [] data = bos.toByteArray();
-			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
-			
-			StringType result = new StringType();
-			result.deserialise(ois);
-			
-			assertTrue(result instanceof StringType);
-			assertEquals(target, ((StringType) result).getString());
-		}
-		catch (IOException e) {
-			fail("Serialisation fails for Types.StringType!");
-		}
-		catch (ClassNotFoundException c) {
-			fail();
-		}
 	}
 
 }

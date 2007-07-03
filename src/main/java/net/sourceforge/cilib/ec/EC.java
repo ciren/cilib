@@ -96,12 +96,12 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 
 	@Override
 	public int getPopulationSize() {
-		return this.initialisationStrategy.getEntities();
+		return this.initialisationStrategy.getNumberOfEntities();
 	}
 
 	@Override
 	public void setPopulationSize(int populationSize) {
-		this.initialisationStrategy.setEntities(populationSize);
+		this.initialisationStrategy.setNumberOfEntities(populationSize);
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	}
 
 	public OptimisationSolution getBestSolution() {
-		OptimisationSolution solution = new OptimisationSolution(problem, getBestEntity().get().clone());
+		OptimisationSolution solution = new OptimisationSolution(problem, getBestEntity().getContents().clone());
         
         return solution;
 	}

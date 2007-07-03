@@ -9,7 +9,6 @@ import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class AreaUnderROC implements Measurement{
 	private static final long serialVersionUID = -8959256964785840633L;
@@ -31,7 +30,7 @@ public class AreaUnderROC implements Measurement{
 
 	public AreaUnderROC(AreaUnderROC rhs) {
 //		super(rhs);
-		throw new UnimplementedMethodException("public AreaUnderROC(AreaUnderROC rhs)");
+		throw new UnsupportedOperationException("public AreaUnderROC(AreaUnderROC rhs)");
 	}
 
 	public AreaUnderROC clone() {

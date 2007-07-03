@@ -23,7 +23,7 @@
  */
 package net.sourceforge.cilib.pso.particle.initialisation;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**

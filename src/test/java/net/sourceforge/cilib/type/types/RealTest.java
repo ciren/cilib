@@ -26,16 +26,12 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.type.types.Real;
 
 
 /**
@@ -111,40 +107,6 @@ public class RealTest {
 		assertTrue(r1.getReal() == r2.getReal());
 		r1.randomise();
 		assertTrue(r1.getReal() != r2.getReal());
-	}
-	
-	
-	/**
-	 * 
-	 *
-	 */
-	@Test
-	public void testSerialisation() {
-		Real r = new Real(55.0);
-		double target = r.getReal();
-		
-		try {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			
-			r.serialise(oos);
-			oos.close();
-			
-			byte [] data = bos.toByteArray();
-			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
-			
-			Real result = new Real();
-			result.deserialise(ois);
-			
-			assertTrue(result instanceof Real);
-			assertEquals(target, ((Real) result).getReal());
-		}
-		catch (IOException e) {
-			fail("Serialisation fails for Types.Real!");
-		}
-		catch (ClassNotFoundException c) {
-			fail();
-		}
 	}
 	
 }

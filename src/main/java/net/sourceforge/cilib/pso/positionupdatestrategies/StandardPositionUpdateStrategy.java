@@ -25,7 +25,7 @@
  */
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**

@@ -14,7 +14,6 @@ import net.sourceforge.cilib.neuralnetwork.foundation.postSimulation.PostMeasure
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 /**
  * @author stefanv
@@ -35,7 +34,7 @@ public class NeuralNetworkController extends Algorithm {
 
 	public NeuralNetworkController(NeuralNetworkController rhs) {
 //		super(rhs);
-		throw new UnimplementedMethodException("public NeuralNetworkController(NeuralNetworkController rhs)");
+		throw new UnsupportedOperationException("public NeuralNetworkController(NeuralNetworkController rhs)");
 	}
 
 	public NeuralNetworkController clone() {

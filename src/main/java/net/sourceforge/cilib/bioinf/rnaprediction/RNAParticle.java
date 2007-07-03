@@ -28,11 +28,12 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
 
 import java.util.Iterator;
 
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
+import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -40,7 +41,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author marais
  *
  */
-public class RNAParticle extends Particle {
+public class RNAParticle extends AbstractParticle {
 	private static final long serialVersionUID = -8232081489398782692L;
 
 	public RNAParticle () {
@@ -245,12 +246,12 @@ public class RNAParticle extends Particle {
 	}
 
 
-	public Type get() {
+	public Type getContents() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public void set(Type type) {
+	public void setContents(Type type) {
 		
 	}
 

@@ -7,7 +7,6 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.UnimplementedMethodException;
 
 public class RobelOverfittingRho implements Measurement {
 	private static final long serialVersionUID = -3535954032635090424L;
@@ -17,7 +16,7 @@ public class RobelOverfittingRho implements Measurement {
 
 	public RobelOverfittingRho(RobelOverfittingRho rhs) {
 //		super(rhs);
-		throw new UnimplementedMethodException("public RobelOverfittingRho(RobelOverfittingRho rhs)");
+		throw new UnsupportedOperationException("public RobelOverfittingRho(RobelOverfittingRho rhs)");
 	}
 
 	public RobelOverfittingRho clone() {

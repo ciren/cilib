@@ -5,11 +5,12 @@ import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
 
@@ -60,7 +61,8 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 
 		double avgv = 0.0;
 		double swv = 0.0;
-  		Iterator<? extends Particle> it = ((PSO) Algorithm.get()).getTopology().neighbourhood(null);
+		Topology<Particle> topology = ((PSO)Algorithm.get()).getTopology();
+  		Iterator<? extends Particle> it = topology.neighbourhood(null);
   		double[] al = new double[particle.getDimension()];
    		while (it.hasNext()) {
    			Particle pl = it.next();
@@ -86,7 +88,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 				+ social * (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
 
 			double avgdim = 0.0;
-	  		it = ((PSO) Algorithm.get()).getTopology().neighbourhood(null);
+	  		it = topology.neighbourhood(null);
 	   		while (it.hasNext()) {
 	   			avgdim += ((Vector)(it.next().getPosition())).getReal(i);
 	   		}

@@ -66,6 +66,9 @@ public class MutatingFunctionParticle extends StandardParticle {
 		/*for (int i = 0; i < position.length; ++i) {
 			position[i] += velocity[i];
 		}*/
+		net.sourceforge.cilib.type.types.Vector position = getPosition();
+		net.sourceforge.cilib.type.types.Vector velocity = getVelocity();
+		
 		for (int i = 0; i < position.getDimension(); ++i) {
 			double result = position.getReal(i) + velocity.getReal(i);
 			position.setReal(i, result);
@@ -131,7 +134,9 @@ public class MutatingFunctionParticle extends StandardParticle {
 		double tempLower = 0.0;
 		double tempUpper = 0.0;
 		
-//		for (int i = 0; i < position.length; ++i) { // Mutation
+		net.sourceforge.cilib.type.types.Vector position = getPosition();
+		
+		//		for (int i = 0; i < position.length; ++i) { // Mutation
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
 	        double number = Math.pow((1.0 - (double)p.getIterations()/(maximum.getIterations()*mutationRate)),1.5);
 			int dimension = RandomInt(0,position.getDimension());

@@ -28,8 +28,9 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 
 /**
  * @author Gary Pampara
@@ -46,13 +47,13 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
 	 */
 	public void performIteration(PSO algorithm) {
-		
-	   for (Iterator<Particle> i = algorithm.getTopology().iterator(); i.hasNext(); ) {
+		Topology<Particle> topology = algorithm.getTopology();
+	   for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
             Particle current = i.next();
             //current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
             current.calculateFitness();
             
-            for (Iterator<Particle> j = algorithm.getTopology().neighbourhood(i); j.hasNext(); ) {
+            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
                 Particle other = j.next();
                 if (current.getSocialBestFitness().compareTo( other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
                     other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
@@ -60,7 +61,7 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
             }
        }
 
-       for (Iterator<Particle> i = algorithm.getTopology().iterator(); i.hasNext(); ) {
+       for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
            Particle current = i.next();
            //current.updateVelocity(pso.getVelocityUpdate());      // TODO: replace with visitor (will simplify particle interface)
            current.updateVelocity();
@@ -71,7 +72,7 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
            //current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
            current.calculateFitness();
            
-           for (Iterator<Particle> j = algorithm.getTopology().neighbourhood(i); j.hasNext(); ) {
+           for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
                Particle other = j.next();
                if (current.getBestFitness().compareTo( other.getNeighbourhoodBest().getBestFitness()) > 0) {
                    other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?

@@ -27,6 +27,7 @@
 package net.sourceforge.cilib.entity;
 
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
@@ -49,7 +50,7 @@ public abstract class Topology<E extends Entity> extends EntityCollection<E> {
      * @param An iterator that refers to a particle in this topology.
      * @return A particle iterator.
      */
-    public abstract Iterator<E> neighbourhood(Iterator<E> iterator);
+    public abstract Iterator<E> neighbourhood(Iterator<? extends Entity> iterator);
     
     
     /**
@@ -67,6 +68,12 @@ public abstract class Topology<E extends Entity> extends EntityCollection<E> {
     public void accept(TopologyVisitor visitor) {
     	visitor.visit(this);
     }
+    
+    /**
+     * Get all the entities witin the topology. 
+     * @return Collection. Data collection of all the entities
+     */
+    public abstract List<Entity> asList();
     
     
     /**

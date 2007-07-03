@@ -35,7 +35,7 @@ import java.io.ObjectOutput;
  * @author Gary Pampara
  *
  */
-public class StringType extends Type {
+public class StringType implements Type {
 	
 	/**
 	 * 
@@ -129,6 +129,11 @@ public class StringType extends Type {
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		this.string = ois.readUTF();
 		
+	}
+
+
+	public boolean isInsideBounds() {
+		return false; // There are no bounds for the StringType.
 	}
 
 }

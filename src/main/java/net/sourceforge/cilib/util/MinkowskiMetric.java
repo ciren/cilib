@@ -40,7 +40,7 @@ public class MinkowskiMetric implements DistanceMeasure {
 	 * @return the distance (as a double) between the two vectors.
 	 * @throws IllegalArgumentException when the two vectors' dimension differ.
 	 */
-	public double distance(Vector x, Vector y) {
+	public <T extends Vector> double distance(T x, T y) {
 		if(x.getDimension() != y.getDimension())
 			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions");
 		if(alpha < 1)
@@ -60,7 +60,7 @@ public class MinkowskiMetric implements DistanceMeasure {
 	 * @return the distance (as a double) between the two vectors.
 	 * @throws IllegalArgumentException when the two vectors' dimension differ.
 	 */
-	public double distance(Collection<? extends Number> x, Collection<? extends Number> y) {
+	public <T extends Collection<? extends Number>> double distance(T x, T y) {
 		if (x.size() != y.size())
 			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions");
 		if(alpha < 1)

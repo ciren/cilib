@@ -25,34 +25,29 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.io.Serializable;
 
 /**
  * @author Gary Pampara
  */
-public abstract class Type implements Serializable {// Externalizable {
-	public abstract Type clone();
+public interface Type extends Serializable {
+	public Type clone();
 
-	public abstract boolean equals(Object other);
+	public boolean equals(Object other);
 
-	public abstract int hashCode();
-
-	// public Type get(int index);
+	public int hashCode();
 
 	/**
 	 * Utility method. Change the values within the <code>Type</code>, randomly, based on the
 	 * upper and lower bounds that are defined for that <code>Type</code>
 	 */
-	public abstract void randomise();
+	public void randomise();
 
 	/**
 	 * Utility method. Change the values within the <code>Type</code> to the default value as
 	 * defined by Java primitives. All variables will be set to 0 or false.
 	 */
-	public abstract void reset();
+	public void reset();
 
 	/**
 	 * This method is used to print out the data values of the <code>Type</code>. This is probably
@@ -63,7 +58,7 @@ public abstract class Type implements Serializable {// Externalizable {
 	 * solution than toString() ?</b>
 	 * @return The data value of the <code>Type</code>
 	 */
-	public abstract String toString();
+	public String toString();
 
 	/**
 	 * Get the representation of the type in the form expressed by the domain notation.
@@ -76,56 +71,14 @@ public abstract class Type implements Serializable {// Externalizable {
 	 * </ul>
 	 * @return A <code>String</code> representing the <code>Type</code> in domain notation.
 	 */
-	public abstract String getRepresentation();
+	public String getRepresentation();
 
 	/**
 	 * Get the dimension of the <code>Type</code>.
 	 * @return The dimension of the <code>Type</code>
 	 */
-	public abstract int getDimension();
+	public int getDimension();
 
-	/**
-	 * Serailise the <code>Type</code> onto the <code>ObjectOutput</code>. The serialisation is
-	 * a minimal type of serialisation, with only the needed information being serialised.
-	 * @param oos The <code>ObjectOutput</code> interface onto with the serialised data should be
-	 *        written.
-	 * @throws IOException if I/O errors occur while writing to the underlying stream
-	 */
-	@Deprecated
-	public abstract void writeExternal(ObjectOutput oos) throws IOException;
+	public boolean isInsideBounds();
 
-	/**
-	 * Get the data back from the serialised stream.
-	 * <p>
-	 * <b><code>readExternal()</code> must read the data values in the same order in which they
-	 * where written.</b>
-	 * @param ois
-	 * @throws IOException if I/O errors occur while writing to the underlying stream
-	 * @throws ClassNotFoundException If the class for an object being restored cannot be found.
-	 */
-	@Deprecated
-	public abstract void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException;
-
-	/**
-	 * Helper method to perform the serialisation of the <code>Type</code> object. This method
-	 * defers invocation to <code>writeExternal()</code>
-	 * @param oo The <code>ObjectOutput</code> to use to serialise the data.
-	 * @throws IOException if I/O errors occur while writing to the underlying stream
-	 */
-	@Deprecated
-	public void serialise(ObjectOutput oo) throws IOException {
-		this.writeExternal(oo);
-	}
-
-	/**
-	 * Helper method to perform the de-serialisation of the <code>Type</code> object. This method
-	 * defers invocation to <code>readExternal()</code>
-	 * @param oi The <code>ObjectInput</code> to use to de-serialise the data.
-	 * @throws IOException if I/O errors occur while writing to the underlying stream.
-	 * @throws ClassNotFoundException If the class for an object being restored cannot be found.
-	 */
-	@Deprecated
-	public void deserialise(ObjectInput oi) throws IOException, ClassNotFoundException {
-		this.readExternal(oi);
-	}
 }

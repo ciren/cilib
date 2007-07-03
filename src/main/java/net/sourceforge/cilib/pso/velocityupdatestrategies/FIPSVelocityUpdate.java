@@ -30,9 +30,9 @@ import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.Particle;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
@@ -103,7 +103,7 @@ public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
 		   double informationSum = 0.0;
 		   int numberOfNeighbours = 0;
 				 
-		   for (Iterator<Particle> j = topology.neighbourhood(k); j.hasNext(); ) {
+		   for (Iterator<? extends Particle> j = topology.neighbourhood(k); j.hasNext(); ) {
 			   Particle neighbourParticle = j.next();
 			   numberOfNeighbours++;
 			  

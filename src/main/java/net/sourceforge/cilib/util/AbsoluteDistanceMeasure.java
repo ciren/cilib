@@ -41,21 +41,20 @@ public class AbsoluteDistanceMeasure implements DistanceMeasure {
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.Util.DistanceMeasure#distance(double[], double[])
      */
-    public double distance(Vector x, Vector y) {
-       	if (x.getDimension() != y.getDimension()) {
+	public <T extends Vector> double distance(T x, T y) {
+		if (x.getDimension() != y.getDimension()) {
             throw new IllegalArgumentException("Unmatched argument lengths");
         }
-        
-        double distance = 0;
+		
+		double distance = 0;
         for (int i = 0; i < x.getDimension(); ++i) {
             distance += Math.abs(x.getReal(i) - y.getReal(i)); 
         }
         
         return distance;
-    }
-    
-    
-	public double distance(Collection<? extends Number> x, Collection<? extends Number> y) {
+	}
+	
+	public <T extends Collection<? extends Number>> double distance(T x, T y) {
 		if (x.size() != y.size())
 			throw new IllegalArgumentException("Unmatched argument lengths");
 		

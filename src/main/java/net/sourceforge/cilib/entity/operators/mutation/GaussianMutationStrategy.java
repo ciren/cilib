@@ -65,7 +65,7 @@ public class GaussianMutationStrategy extends MutationStrategy {
 		
 		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext(); ) {
 			Entity current = individual.next(); 
-			Vector chromosome = (Vector) current.get();
+			Vector chromosome = (Vector) current.getContents();
 			
 			for (int i = 0; i < chromosome.getDimension(); i++) {
 				double random = this.getRandomNumber().getUniform(); 
