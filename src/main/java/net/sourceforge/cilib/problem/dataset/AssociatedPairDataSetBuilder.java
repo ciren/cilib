@@ -138,7 +138,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 		int j = 0;
 		for (String element : elements) {
 			if(!element.isEmpty()) {
-				pattern.getNumeric(j++).setReal(element);
+				pattern.getNumeric(j++).set(element);
 			}
 		}
 		// the pattern is added to the "dataset"
