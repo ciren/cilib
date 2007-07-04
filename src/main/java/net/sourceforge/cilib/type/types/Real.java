@@ -137,7 +137,7 @@ public class Real extends Numeric {
 	}
 	
 	public void setBit(String value) {
-		setBit(Boolean.valueOf(value));
+		setBit(Boolean.parseBoolean(value));
 	}
 
 	
@@ -158,7 +158,7 @@ public class Real extends Numeric {
 	
 	@Override
 	public void setInt(String value) {
-		this.value = Integer.valueOf(value).doubleValue();
+		setInt(Integer.parseInt(value));
 	}
 
 	
@@ -178,7 +178,7 @@ public class Real extends Numeric {
 	}
 	
 	public void setReal(String value) {
-		this.value = Double.valueOf(value);
+		setReal(Double.parseDouble(value));
 	}
 
 	
