@@ -5,6 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction;
+import net.sourceforge.cilib.functions.continuous.QuantisationErrorFunction;
+import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
@@ -15,16 +19,22 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AssociatedPairDataSetBuilderTest {
-	
+	private static ClusteringFitnessFunction function = null;
 	private static AssociatedPairDataSetBuilder dataSetBuilder = null;
 	private static Vector centroids = null;
-	
+	private static FunctionOptimisationProblem problem = null;
+
 	@BeforeClass
 	public static void intialise() {
-		dataSetBuilder = new AssociatedPairDataSetBuilder();
-		dataSetBuilder.numberOfClusters = 4;
+		function = new QuantisationErrorFunction();
+		function.setDomain("R(0.0, 8.0)^8");
+		dataSetBuilder = new CachedDistanceDataSetBuilder();
+		dataSetBuilder.setNumberOfClusters(4);
 		dataSetBuilder.setDataSet(new MockClusteringStringDataSet());
-		dataSetBuilder.initialise();
+		function.setDataSet(dataSetBuilder);
+		problem = new FunctionMinimisationProblem();
+		problem.setFunction(function);
+		problem.setDataSetBuilder(dataSetBuilder);
 		centroids = new MixedVector();
 		centroids.append(new Real(0.5));
 		centroids.append(new Real(5.0));

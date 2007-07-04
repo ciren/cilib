@@ -406,7 +406,7 @@ public class MixedVector extends Vector {
 	 * @throws IndexOutOfBoundsException if the <tt>index</tt> exceeds the bounds.
 	 * @throws UnsupportedOperationException if the <tt>Vector</tt> does not contain a <tt>Numeric</tt> object at the given index
 	 */
-	private Numeric getNumeric(int index) {
+	public Numeric getNumeric(int index) {
 		Type tmp = getType(index);
 		if (tmp instanceof Numeric) {
 			return (Numeric) tmp;
@@ -662,22 +662,6 @@ public class MixedVector extends Vector {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	@Override
-	public boolean isInsideBounds() {
-		boolean result = true;
-		
-		for (Type type : this.components) {
-			if (!type.isInsideBounds())	{
-				result = false;
-				break;
-			}
-		}
-		
-		return result;
-	}
-
 
 	public boolean addEdge(Type a, Type b) {
 		return false;

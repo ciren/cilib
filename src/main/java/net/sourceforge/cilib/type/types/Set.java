@@ -33,6 +33,7 @@ import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
 
+
 /**
  * TODO: Fix the copy constructor
  * @author mneethling
@@ -40,6 +41,7 @@ import net.sourceforge.cilib.container.visitor.Visitor;
 
 public class Set<E> implements Graph<E> {
 	
+
 	private static final long serialVersionUID = 3697379819132292696L;
 	private HashSet<E> elements;
 
@@ -144,22 +146,19 @@ public class Set<E> implements Graph<E> {
 	}
 
 	public void randomise() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("randomise() not implemented for " + this.getClass().getName());
 	}
 	
 	public void reset() {
-		
+		throw new UnsupportedOperationException("reset() not implemented for " + this.getClass().getName());
 	}
 	
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("toString() not implemented for " + this.getClass().getName());
 	}
 
 	public String getRepresentation() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("getRepresentation() not implemented for " + this.getClass().getName());
 	}
 
 	
@@ -192,8 +191,7 @@ public class Set<E> implements Graph<E> {
 
 
 	public void accept(Visitor<E> visitor) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("writeExternal() not implemented for " + this.getClass().getName());
 	}
 
 
@@ -234,6 +232,7 @@ public class Set<E> implements Graph<E> {
 	public boolean removeAll(Structure<E> structure) {
 		boolean result = true;
 		
+
 		for (E element : structure) {
 			if (!this.elements.contains(element))
 				result = false;
@@ -259,5 +258,6 @@ public class Set<E> implements Graph<E> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }

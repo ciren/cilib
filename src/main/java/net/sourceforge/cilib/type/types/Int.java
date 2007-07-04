@@ -95,6 +95,11 @@ public class Int extends Numeric {
 		return Integer.valueOf(this.value).hashCode();
 	}
 
+	@Override
+	public void set(String value) {
+		this.value = Integer.parseInt(value);
+	}
+
 	public boolean getBit() {
 		return (this.value == 0) ? false : true;
 	}
@@ -129,16 +134,15 @@ public class Int extends Numeric {
 	}
 	
 	/**
-	 * Determine if the current value for this {@see net.sourceforge.cilib.type.types.Int}
-	 * is defined within the lower and upper bounds, as specified by the domain of the
-	 * problem.
-	 * 
-	 * @return <tt>true</tt> if within the bounds, <tt>false</tt> otherwise
+	 * Determine if the current value for this <tt>Int</tt> is defined within the lower and upper
+	 * bounds, as specified by the domain of the problem.
+	 * @return <tt>true</tt> if within the bounds, <tt>false</tt> otherwise.
 	 */
+	@Override
 	public boolean isInsideBounds() {
 		if (value >= this.getLowerBound() && value < this.getUpperBound())
 			return true;
-		
+
 		return false;
 	}
 
@@ -157,6 +161,11 @@ public class Int extends Numeric {
 		return String.valueOf(this.value);
 	}
 
+	/**
+	 * Get the type representation of this <tt>Int</tt> object as a string.
+	 * 
+	 * @return The String representation of this <tt>Type</tt> object.
+	 */
 	public String getRepresentation() {
 		return "Z(" + Double.valueOf(getLowerBound()).intValue() + "," +
 			Double.valueOf(getUpperBound()).intValue() +")";

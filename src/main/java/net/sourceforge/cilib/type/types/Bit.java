@@ -111,7 +111,26 @@ public class Bit extends Numeric {
 		return Boolean.valueOf(this.state).hashCode();
 	}
 
-	
+	/**
+	 * Sets the state to <tt>true</tt> under one of two conditions:
+	 * <ol>
+	 * <li>if the given parameter can be parsed to a {@linkplain Double} value != <tt>0.0</tt></li>
+	 * <li>if the given parameter is equal, ignoring case, to the String 'true'</li>
+	 * </ol>
+	 * The order above is also the order in which the tests are performed. If the first try fails, a
+	 * {@linkplain NumberFormatException} is thrown, which is immediately caught, and then the second
+	 * approach is tried.
+	 */
+	@Override
+	public void set(String value) {
+		try {
+			state = Double.parseDouble(value) != 0.0;
+		}
+		catch (NumberFormatException nfe) {
+			state = Boolean.parseBoolean(value);
+		}
+	}
+
 	/**
 	 * Return the state of the curent <tt>Bit</tt> object.
 	 * 
@@ -198,23 +217,22 @@ public class Bit extends Numeric {
 		else
 			return state ? 1 : -1;
 	}
-	
-	
+
 	/**
-	 * Determine if the current value for this {@see net.sourceforge.cilib.type.types.Bit}
+	 * Determine if the current value for this <tt>Bit</tt>
 	 * is defined within the lower and upper bounds, as specified by the domain of the
 	 * problem.
 	 * 
-	 * The {@see net.sourceforge.cilib.type.types.Bit} only has 2 possible values,
+	 * The <tt>Bit</tt> only has 2 possible values,
 	 * <tt>true</tt> or <tt>false</tt>
 	 * 
 	 * @return <tt>true</tt> always
 	 */
-	public boolean isInsideBounds() {
+/*	public boolean isInsideBounds() {
 		return true;
 	}
+*/
 
-	
 	/**
 	 * Randomly choose a new valid for the <code>Bit</code> object.
 	 */
@@ -239,7 +257,6 @@ public class Bit extends Numeric {
 		return state ? "1" : "0";		
 	}
 
-	
 	/**
 	 * Get the type representation of this <tt>Bit</tt> object as a string
 	 * 

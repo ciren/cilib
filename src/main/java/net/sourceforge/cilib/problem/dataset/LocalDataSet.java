@@ -31,11 +31,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Edwin Peer
  */
 public class LocalDataSet extends DataSet {
 	private static final long serialVersionUID = -3482617012711168661L;
+	private static Logger log = Logger.getLogger(LocalDataSet.class);
 
 	private String fileName = null;
 
@@ -83,6 +86,7 @@ public class LocalDataSet extends DataSet {
 
 	public InputStream getInputStream() {
 		try {
+			log.info("Using dataset " + fileName);
 			InputStream is = new BufferedInputStream(new FileInputStream(fileName));
 			return is;
 		}

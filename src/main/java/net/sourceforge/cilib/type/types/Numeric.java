@@ -40,7 +40,9 @@ public abstract class Numeric implements Type, Comparable<Numeric> {
 	
 	public abstract boolean equals(Object other);
 	public abstract int hashCode();
-	
+
+	public abstract void set(String value);
+
 	public abstract boolean getBit();
 	public abstract void setBit(boolean value);
 	
@@ -51,9 +53,11 @@ public abstract class Numeric implements Type, Comparable<Numeric> {
 	public abstract void setReal(double value);
 	
 	public abstract int compareTo(Numeric other);
-	
-	public abstract boolean isInsideBounds();
-	
+
+	public boolean isInsideBounds() {
+		return true;
+	}
+
 	public int getDimension() {
 		return 1;
 	}

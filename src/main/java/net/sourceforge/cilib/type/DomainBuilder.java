@@ -68,8 +68,8 @@ public class DomainBuilder {
 	 * except for the default varialbes to default values. 
 	 *
 	 */
-	public DomainBuilder() {		
-		lower = Double.MIN_VALUE;
+	public DomainBuilder() {
+		lower = -Double.MAX_VALUE;
 		upper = Double.MAX_VALUE;
 	}
 	
@@ -240,14 +240,14 @@ public class DomainBuilder {
 		
 		Type builtType = null;		
 		
-		if (lower == Double.MIN_VALUE || upper == Double.MAX_VALUE) { // No Bounds
+		if (lower == -Double.MAX_VALUE || upper == Double.MAX_VALUE) { // No Bounds
 			builtType = domain.create();
 		}
 		else { // Use Bounds
 			builtType = domain.create(lower,upper);
 			
 			// Reset the variables :)
-			this.lower = Double.MIN_VALUE;
+			this.lower = -Double.MAX_VALUE;
 			this.upper = Double.MAX_VALUE;
 		}
 		

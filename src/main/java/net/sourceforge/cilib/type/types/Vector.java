@@ -80,6 +80,8 @@ public abstract class Vector implements Graph<Type>, VectorMath {
 
 	public abstract boolean prepend(Vector vector);
 
+	public abstract Numeric getNumeric(int index);
+
 	public abstract boolean getBit(int index);
 
 	public abstract void setBit(int index, boolean value);
@@ -100,8 +102,62 @@ public abstract class Vector implements Graph<Type>, VectorMath {
 
 	protected abstract Type getType(int index);
 
+	/**
+	 * Get the representation of this <tt>Vector</tt> object in the form expressed by the domain notation.
+	 * This method calls the <code>getRepresentation</code> method for each element in the <tt>Vector</tt>.
+	 * This method is also a bit clever in the sense that it will try to detect elements with the same
+	 * representation that follow on each other, i.e. to return a representation as<br/>
+	 * R(-1.0, 1.0)^3<br/>
+	 * instead of<br/>
+	 * R(-1.0, 1.0),R(-1.0, 1.0),R(-1.0, 1.0)
+	 * NOTE: This method WILL give unexpected behaviour when an element is a <tt>Vector</tt>.
+	 * @return A <code>String</code> representing the <code>Type</code> in domain notation.
+	 */
 	public String getRepresentation() {
-		return this.toString();
+		String representation = "", current = "", previous = "";
+		int dimension = 1;
+
+		for (int i = 0; i < this.getDimension(); i++) {
+			current = this.get(i).getRepresentation();
+			if (current.equals(previous)) {
+				dimension++;
+			}
+			else {	//the else part will always happen for the first element
+				if (dimension > 1) {
+					representation += "^" + String.valueOf(dimension);
+					dimension = 1;
+				}
+				if (i > 0) {		//Puts a ',' before the 'current' element; only when 'current' is not the first element
+						representation += ',';
+				}
+				representation += current;
+			}
+			//remember the previous element, so that we can compare
+			previous = current;
+		}
+
+		//in case the last couple of elements are the same
+		if (dimension > 1) {
+			representation += "^" + String.valueOf(dimension);
+			dimension = 1;
+		}
+
+		return representation;
+	}
+
+	/**
+	 * Determine if all the elements of this <tt>Vector</tt> is defined within the lower and
+	 * upper bounds as specified by the domain of the problem.
+	 * 
+	 * @return <tt>true</tt> if all elements are within the bounds, <tt>false</tt> otherwise.
+	 */
+	public boolean isInsideBounds() {
+		for (Type type : this) {
+			if (!type.isInsideBounds())
+				return false;
+		}
+
+		return true;
 	}
 
 	public abstract Vector subVector(int fromIndex, int toIndex);
@@ -183,8 +239,5 @@ public abstract class Vector implements Graph<Type>, VectorMath {
 		return toString('[', ']', delimiter);
 	}
 
-	public abstract void initialise(int size, Type element);
-
-	public abstract boolean isInsideBounds();
-	
+	public abstract void initialise(int size, Type element);	
 }

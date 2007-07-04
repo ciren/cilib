@@ -79,6 +79,9 @@ public interface Type extends Serializable {
 	 */
 	public int getDimension();
 
+	/**
+	 * All sub-classes should override this method to determine if this <tt>Type</tt> object's value lies within the upper and lower bounds of the domain.
+	 * @return <tt>true</tt> if the value of this <tt>Type</tt> object is within the upper and lower bounds of the domain; <tt>false</tt> otherwise.
+	 */
 	public boolean isInsideBounds();
-
 }

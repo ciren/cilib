@@ -54,7 +54,7 @@ public class Real extends Numeric {
 	
 	public Real(double value) {
 		this.value = value;
-		this.setLowerBound(Double.MIN_VALUE);
+		this.setLowerBound(-Double.MAX_VALUE);
 		this.setUpperBound(Double.MAX_VALUE);
 	}
 	
@@ -111,6 +111,10 @@ public class Real extends Numeric {
 		return Double.valueOf(this.value).hashCode();
 	}
 
+	@Override
+	public void set(String value) {
+		this.value = Double.parseDouble(value);
+	}
 
 	/**
 	 * 
@@ -173,20 +177,18 @@ public class Real extends Numeric {
 	}
 	
 	/**
-	 * Determine if the current value for this {@see net.sourceforge.cilib.type.types.Real}
-	 * is defined within the lower and upper bounds, as specified by the domain of the
-	 * problem.
-	 * 
-	 * @return <tt>true</tt> if within the bounds, <tt>false</tt> otherwise
+	 * Determine if the current value for this <tt>Real</tt> is defined within the lower and upper
+	 * bounds, as specified by the domain of the problem.
+	 * @return <tt>true</tt> if within the bounds, <tt>false</tt> otherwise.
 	 */
+	@Override
 	public boolean isInsideBounds() {
 		if (value >= this.getLowerBound() && value < this.getUpperBound())
 			return true;
-		
-		return false;	
+
+		return false;
 	}
 
-	
 	/**
 	 * Re-randomize the <code>Real</code> object based on the upper and lower bounds
 	 */
@@ -211,9 +213,10 @@ public class Real extends Numeric {
 		return String.valueOf(this.value);		
 	}
 
-	
 	/**
+	 * Get the type representation of this <tt>Real</tt> object as a string.
 	 * 
+	 * @return The String representation of this <tt>Type</tt> object.
 	 */
 	public String getRepresentation() {
 		return "R(" + getLowerBound() + "," + getUpperBound() +")";

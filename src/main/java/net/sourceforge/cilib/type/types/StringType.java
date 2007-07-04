@@ -36,10 +36,6 @@ import java.io.ObjectOutput;
  *
  */
 public class StringType implements Type {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2946972552546398657L;
 	private String string;
 	
@@ -114,18 +110,10 @@ public class StringType implements Type {
 		return toString();
 	}
 
-	
-	/**
-	 * 
-	 */
 	public void writeExternal(ObjectOutput oos) throws IOException {
 		oos.writeUTF(this.string);
 	}
 
-	
-	/**
-	 * 
-	 */
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		this.string = ois.readUTF();
 		

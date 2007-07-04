@@ -29,13 +29,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Vector;
 
 /**
  * @author Gary Pampara
  */
 public abstract class DataSetBuilder implements Iterable<DataSet>, Serializable {
-	protected ArrayList<DataSet> dataSets;
+	protected ArrayList<DataSet> dataSets = null;
+	protected OptimisationProblem problem = null;
 
 	public DataSetBuilder() {
 		this.dataSets = new ArrayList<DataSet>();
@@ -46,6 +48,7 @@ public abstract class DataSetBuilder implements Iterable<DataSet>, Serializable 
 		for (DataSet dataset : rhs.dataSets) {
 			dataSets.add(dataset.clone());
 		}
+		problem = rhs.problem.clone();
 	}
 
 	public abstract DataSetBuilder clone();
@@ -65,5 +68,13 @@ public abstract class DataSetBuilder implements Iterable<DataSet>, Serializable 
 	public abstract void initialise();
 
 	public void uninitialise(Vector centroids) {
+	}
+
+	public void setProblem(OptimisationProblem p) {
+		problem = p;
+	}
+
+	public OptimisationProblem getProblem() {
+		return problem;
 	}
 }

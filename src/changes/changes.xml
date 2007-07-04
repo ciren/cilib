@@ -1,72 +1,125 @@
 <document>
-  <properties>
-    <title>Changes Tester Project</title>
-    <author email="jruiz@exist.com">Johnny R. Ruiz III</author>
-  </properties>
-  <body>
-    <release version="0.7.0" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
-      <action dev="gpampara" type="add">
-        Added the revised Entity heirarchy. This effectively allows for dynamic
-	properties to be associated with all Entity objects. The main driver
-	for the change was the need for extra information with regards to
-	coevolution changes that will come into CILib shortly.
-      </action>
-      <action dev="gpampara" type="update">
-        Refactored some code and made some methods generic. Cleaned up some
-	comments and mainly made sure the tree is currently in a sane state.
-      </action>
-      <action dev="gpampara" type="update">
-        Renamed a few methods to make the intention of the methods more clear.
-      </action>
-      <action dev="gpampara" type="update">
-        Changed the Type system hierarchy by pushing the isInsideBounds() method
-	up into the Type class. This change simplified the DomainParser code.
-      </action>
-      <action dev="gpampara" type="remove">
-        Removed the need for a user defined exception class, as the 
-	description is the main	need and not the new class.
-      </action>
-    </release>
+	<properties>
+		<title>CILib Changes</title>
+		<author email="gpampara@cs.up.ac.za">Gary Pampara</author>
+	</properties>
+	<body>
+		<release version="0.7.1" date="2007-07-05" description="Some additions and changes due to Gary's previous update">
+			<action dev="heatzync" type="add">
+			functions.continuous.IntraClusterDistance.java: A fitness function that measures the
+			intra-cluster distance of a specific clustering caused by specific centroids.
+			</action>
+			<action dev="heatzync" type="add">
+			functions.continuous.InterClusterDistance.java: A fitness function that measures the
+			inter-cluster distance of a specific clustering caused by specific centroids.
+			</action>
+			<action dev="heatzync" type="add">
+			measurement.single.GenericFunctionMeasurement.java: A measurement that takes any function
+			(you have to use the .setFunction() method) and returns the value (or fitness) of that
+			function. This class was created so that it is possible to make use of any of the existing
+			functions in the "functions" package without the need to actually optimise that function,
+			i.e. without using it as a fitness function.
+			</action>
+			<action dev="heatzync" type="add">
+			pso.iterationstrategies.PerElementReinitialisation.java: A boundary constraint that only
+			reinitialises those components of the Vector (inside the Entity) that have move outside of
+			the bounds, as opposed to reinitialising the entire Entity as in the case of the
+			ReinitialisationBoundary class.
+			</action>
+			<action dev="heatzync" type="add">
+			pso.iterationstrategies.ReinitialisationBoundary.java: This class had a spelling mistake in
+			it's name. It was called "ReinitilisationBoundary" before, which has now been renamed (or
+			moved) to "ReinitialisationBoundary".
+			</action>
+			<action dev="heatzync" type="remove">
+			pso.iterationstrategies.ReinitilisationBoundary.java: This class had a spelling mistake in
+			it's name and has been moved to "ReinitialisationBoundary".
+			</action>
+			<action dev="heatzync" type="add">
+			pso.iterationstrategies.BouncingPositionUpdateStrategy.java: Instead of making use of
+			boundary constraints that reinitialise entire Particles (or components thereof), this class
+			is a proactive approach to prevent the Particles from moving outside of the domain. Before
+			moving a Particle to it's new location, this position update strategy first checks to see
+			whether the Particle will be outside of the domain. If not, the Particle is moved. If one of
+			the components of a Particle will be outside of the domain, it is placed very close to the
+			boundary of the domain (but still inside) and the Particle's velocity for that component is
+			inverted (multiplied by -1), effectively making the Particle bounce of the sides of the
+			domain.
+			</action>
+			<action dev="heatzync" type="update">
+			Updated the DataSetBuilder to have a reference to it's (the) Problem so that
+			AssociatedPairDataSetBuilder can call Problem.getDomain().getBuiltRepresentation() so that
+			the Pattern objects that are built resembles the domain, with regard to type as well as
+			upper and lower bounds. Also updated the unit tests that were affected by this change.
+			</action>
+			<action dev="heatzync" type="update">
+			Some classes used Double.MIN_VALUE incorrectly. Double.MIN_VALUE is the smallest double
+			(that can be represented in Java) that is greater than 0.0. The smallest double is actually
+			-Double.MAX_VALUE. Classes that had this bug are type.DomainBuilder, type.types.Real, and
+			maybe others.
+			</action>
+			<action dev="heatzync" type="update">
+			Wrote a getBuiltRepresentation() method for the Vector class.
+			</action>
+			<action dev="heatzync" type="update">
+			Made the getNumeric() method public and added an abstract definition for it to the Vector
+			class.
+			</action>
+			<action dev="heatzync" type="update">
+			Changed the ReinitialisationBoundary class to call the isInsideBounds() method on a type
+			directly, rather than calling it via the DomainParser class.
+			</action>
+			<action dev="heatzync" type="update">
+			Introduced and implemented a set(String) method for the Numeric classes. Each class
+			inheriting from Numeric can now parse the given string and set it's value appropriately.
+			It might be a good idea to do this for other types in the type package as well..?
+			</action>
+		</release>
 
-    <release version="0.6.6" date="2007-03-18" description="Feature release and bug fixes">
-      <action dev="gpampara" type="add">
-        Added support to define functions within the XML specification file or
-	programatically, having the Expression Tree then created and evaluated.
-	ExpressionFunction defines this functionality and relies on the
-	library JEP (http://jep.sourceforge.net)
-      </action>
-      <action dev="gpampara" type="add">
-        Added the new operator system for algorithms using Entities. Main 
-	benefactor at the moment is the EC framework.
-      </action>
-      <action dev="apengelbrecht" type="add">
-        Added support to have all ContinuousFunction classes have the ability
-	to define relative X-axis and Y-axis shifts. Functions are no longer
-	only defined to have their reference point at the origin.
-      </action>
-      <action dev="gpampara" type="update">
-        Added the new changes page to the Maven build prcess to keep track of 
-	the changes made within CILib. Also updated some documentation.
-      </action>
-    </release>
- 
-<!--    <release version="1.1" date="2005-03-01" description="Subsequent release">
-      <action dev="jruiz" type="add">
-        Added additional documentation on how to configure the plugin.
-      </action>
-      <action dev="aramirez" type="fix" issue="MPJIRA-11">
-        Enable retrieving component-specific issues.
-      </action>
-      <action dev="jruiz" type="remove" due-to="Allan Ramirez" due-to-email="aramirez@exist.com">
-        The element type " link " must be terminated by the matching end-tag.
-        Deleted the erroneous code.
-      </action>
-    </release>
+		<release version="0.7.0" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
+			<action dev="gpampara" type="add">
+			Added the revised Entity heirarchy. This effectively allows for dynamic
+			properties to be associated with all Entity objects. The main driver
+			for the change was the need for extra information with regards to
+			coevolution changes that will come into CILib shortly.
+			</action>
+			<action dev="gpampara" type="update">
+			Refactored some code and made some methods generic. Cleaned up some
+			comments and mainly made sure the tree is currently in a sane state.
+			</action>
+			<action dev="gpampara" type="update">
+			Renamed a few methods to make the intention of the methods more clear.
+			</action>
+			<action dev="gpampara" type="update">
+			Changed the Type system hierarchy by pushing the isInsideBounds() method
+			up into the Type class. This change simplified the DomainParser code.
+			</action>
+			<action dev="gpampara" type="remove">
+			Removed the need for a user defined exception class, as the 
+			description is the main	need and not the new class.
+			</action>
+		</release>
 
-    <release version="1.0" date="2005-01-01" description="First release">
-      <action dev="jruiz" type="update">
-        Uploaded documentation on how to use the plugin.
-      </action>
-    </release>-->
-  </body>
+		<release version="0.6.6" date="2007-03-18" description="Feature release and bug fixes">
+			<action dev="gpampara" type="add">
+			Added support to define functions within the XML specification file or
+			programatically, having the Expression Tree then created and evaluated.
+			ExpressionFunction defines this functionality and relies on the
+			library JEP (http://jep.sourceforge.net)
+			</action>
+			<action dev="gpampara" type="add">
+			Added the new operator system for algorithms using Entities. Main 
+			benefactor at the moment is the EC framework.
+			</action>
+			<action dev="apengelbrecht" type="add">
+			Added support to have all ContinuousFunction classes have the ability
+			to define relative X-axis and Y-axis shifts. Functions are no longer
+			only defined to have their reference point at the origin.
+			</action>
+			<action dev="gpampara" type="update">
+			Added the new changes page to the Maven build prcess to keep track of 
+			the changes made within CILib. Also updated some documentation.
+			</action>
+		</release>
+	</body>
 </document>

@@ -26,18 +26,19 @@
 package net.sourceforge.cilib.problem.dataset;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+
+import org.apache.log4j.Logger;
 
 /**
  * Defines a dataset where each pattern in the dataset is associated with a cluster number ('key'). This pattern -> cluster association forms a pair.
@@ -56,6 +57,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
 	private static final long serialVersionUID = -7035524554252462144L;
+	private static Logger log = Logger.getLogger(AssociatedPairDataSetBuilder.class);
 
 	// The datastructure used is an ArrayList that holds Pair entries
 	protected ArrayList<Pattern> patterns = null;
@@ -102,44 +104,24 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 			// every dataset is represented by a file on disk
 			BufferedReader br = new BufferedReader(new InputStreamReader(dataset.getInputStream()));
 			try {
+				Vector builtRepresentation = (Vector) problem.getDomain().getBuiltRepresenation();
+				builtRepresentation = builtRepresentation.subVector(0, (builtRepresentation.size() / numberOfClusters) - 1);
+
 				// every line in a dataset represents a pattern
 				String line = br.readLine();
 				int index = 0;
 				while (line != null) {
-					addToDataSet(index++, line, dataset);
+					addToDataSet(index++, line, dataset, builtRepresentation);
 					line = br.readLine();
 				}
 			}
 			catch (IOException io) {
 				throw new RuntimeException(io);
 			}
-		}
-	}
-
-	public void uninitialise(Vector centroids) {
-		try {
-			FileWriter out = new FileWriter(new File(outputFile));
-			for (Pattern pattern : patterns) {
-				out.write(pattern.data.toString((char) 0, ' ', ' ') + pattern.clas + "\n");
+			catch (NullPointerException npe) {
+				throw new InitialisationException("Make sure that the <function> tag is before the <dataSetBuilder> tag inside a <problem> tag.");
 			}
-			for (int i = 0; i < numberOfClusters; i++) {
-				out.write(getSubCentroid(centroids, i).toString((char) 0, ' ', ' ') + "-1\n");
-			}
-			out.close();
 		}
-		catch (IOException iox) {
-			throw new RuntimeException(iox);
-		}
-
-		int min = (int) ((Numeric) centroids.get(0)).getLowerBound();
-		int max = (int) ((Numeric) centroids.get(0)).getUpperBound();
-		System.out.print("plot [" + min + ":" + max + "][" + min + ":" + max + "] ");
-		for (int i = numberOfClusters - 1; i > -2; --i) {
-			System.out.print("\"" + outputFile + "\" using 1:($3 == " + i + " ? $2 : 1/0)");
-			if (i > -1)
-				System.out.print(", ");
-		}
-		System.out.println();
 	}
 
 	/**
@@ -147,14 +129,18 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	 * @param line a String representing one line of the DataSet
 	 * @param dataset the DataSet in which the given line resides
 	 */
-	private void addToDataSet(int index, String line, DataSet dataset) {
+	private void addToDataSet(int index, String line, DataSet dataset, Vector builtRepresentation) {
 		// split the received line using the regular expression given in the XML file (or
-		// 'patternExpression' in {@link net.sourceforge.cilib.problem.dataset.DataSet})
+		// 'patternExpression' in {@linkplain DataSet})
 		String[] elements = line.split(dataset.getPatternExpression());
-		Vector pattern = new MixedVector();
-		// the elements of the split are stored inside a vector that will form the pattern
+		//	the elements of the split are stored inside a vector that will form the pattern
+		// we construct the pattern based on the builtRepresentation that has been created from the domain that has been set
+		Vector pattern = builtRepresentation.clone();
+		int j = 0;
 		for (String element : elements) {
-			pattern.add(new Real(Double.parseDouble(element)));
+			if(!element.isEmpty()) {
+				pattern.getNumeric(j++).set(element);
+			}
 		}
 		// the pattern is added to the "dataset"
 		patterns.add(new Pattern(index, 0, pattern));
