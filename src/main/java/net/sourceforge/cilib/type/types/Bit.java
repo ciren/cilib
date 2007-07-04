@@ -110,26 +110,13 @@ public class Bit extends Numeric {
 	public int hashCode() {
 		return Boolean.valueOf(this.state).hashCode();
 	}
-
-	/**
-	 * Sets the state to <tt>true</tt> under one of two conditions:
-	 * <ol>
-	 * <li>if the given parameter can be parsed to a {@linkplain Double} value != <tt>0.0</tt></li>
-	 * <li>if the given parameter is equal, ignoring case, to the String 'true'</li>
-	 * </ol>
-	 * The order above is also the order in which the tests are performed. If the first try fails, a
-	 * {@linkplain NumberFormatException} is thrown, which is immediately caught, and then the second
-	 * approach is tried.
-	 */
+	
+	
 	@Override
 	public void set(String value) {
-		try {
-			state = Double.parseDouble(value) != 0.0;
-		}
-		catch (NumberFormatException nfe) {
-			state = Boolean.parseBoolean(value);
-		}
+		setBit(value);		
 	}
+
 
 	/**
 	 * Return the state of the curent <tt>Bit</tt> object.
@@ -148,6 +135,10 @@ public class Bit extends Numeric {
 	 */
 	public void setBit(boolean value) {
 		this.state = value;
+	}
+	
+	public void setBit(String value) {
+		setBit(Boolean.parseBoolean(value));
 	}
 
 	
@@ -177,6 +168,10 @@ public class Bit extends Numeric {
 			this.state = false;
 		else this.state = true;
 	}
+	
+	public void setInt(String value) {
+		setInt(Integer.valueOf(value));
+	}
 
 	
 	/**
@@ -202,6 +197,10 @@ public class Bit extends Numeric {
 		if (value == 0.0)
 			this.state = false;
 		else this.state = true;
+	}
+	
+	public void setReal(String value) {
+		setReal(Double.parseDouble(value));
 	}
 
 	

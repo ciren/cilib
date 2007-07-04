@@ -110,11 +110,14 @@ public class Real extends Numeric {
 	public int hashCode() {
 		return Double.valueOf(this.value).hashCode();
 	}
+	
+	
 
 	@Override
 	public void set(String value) {
-		this.value = Double.parseDouble(value);
+		setReal(value);
 	}
+
 
 	/**
 	 * 
@@ -132,6 +135,10 @@ public class Real extends Numeric {
 			this.value = 0.0;
 		else this.value = 1.0;
 	}
+	
+	public void setBit(String value) {
+		setBit(Boolean.valueOf(value));
+	}
 
 	
 	/**
@@ -146,6 +153,11 @@ public class Real extends Numeric {
 	 * 
 	 */
 	public void setInt(int value) {
+		this.value = Integer.valueOf(value).doubleValue();
+	}
+	
+	@Override
+	public void setInt(String value) {
 		this.value = Integer.valueOf(value).doubleValue();
 	}
 
@@ -163,6 +175,10 @@ public class Real extends Numeric {
 	 */
 	public void setReal(double value) {
 		this.value = value;
+	}
+	
+	public void setReal(String value) {
+		this.value = Double.valueOf(value);
 	}
 
 	

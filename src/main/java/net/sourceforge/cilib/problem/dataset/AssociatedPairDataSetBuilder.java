@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
@@ -139,7 +138,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 		int j = 0;
 		for (String element : elements) {
 			if(!element.isEmpty()) {
-				pattern.getNumeric(j++).set(element);
+				pattern.getNumeric(j++).setReal(element);
 			}
 		}
 		// the pattern is added to the "dataset"

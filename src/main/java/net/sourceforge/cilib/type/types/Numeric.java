@@ -40,17 +40,20 @@ public abstract class Numeric implements Type, Comparable<Numeric> {
 	
 	public abstract boolean equals(Object other);
 	public abstract int hashCode();
-
+	
 	public abstract void set(String value);
 
 	public abstract boolean getBit();
 	public abstract void setBit(boolean value);
+	public abstract void setBit(String value);
 	
 	public abstract int getInt();
 	public abstract void setInt(int value);
+	public abstract void setInt(String value);
 	
 	public abstract double getReal();
 	public abstract void setReal(double value);
+	public abstract void setReal(String value);
 	
 	public abstract int compareTo(Numeric other);
 

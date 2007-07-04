@@ -94,10 +94,11 @@ public class Int extends Numeric {
 	public int hashCode() {
 		return Integer.valueOf(this.value).hashCode();
 	}
-
+	
+	
 	@Override
 	public void set(String value) {
-		this.value = Integer.parseInt(value);
+		setInt(value);
 	}
 
 	public boolean getBit() {
@@ -109,6 +110,10 @@ public class Int extends Numeric {
 			this.value = 0;
 		else this.value = 1;
 	}
+	
+	public void setBit(String value) {
+		setBit(Boolean.parseBoolean(value));
+	}
 
 	public int getInt() {
 		return this.value;
@@ -117,6 +122,11 @@ public class Int extends Numeric {
 	public void setInt(int value) {
 		this.value = value;
 	}
+	
+	@Override
+	public void setInt(String value) {
+		setInt(Integer.parseInt(value));
+	}
 
 	public double getReal() {
 		return Integer.valueOf(value).doubleValue();
@@ -124,6 +134,11 @@ public class Int extends Numeric {
 
 	public void setReal(double value) {
 		this.value = Double.valueOf(value).intValue();
+	}
+	
+	@Override
+	public void setReal(String value) {
+		setReal(Double.parseDouble(value));
 	}
 
 	public int compareTo(Numeric other) {
