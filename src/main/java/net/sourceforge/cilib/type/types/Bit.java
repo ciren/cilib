@@ -170,7 +170,7 @@ public class Bit extends Numeric {
 	}
 	
 	public void setInt(String value) {
-		setInt(Integer.valueOf(value));
+		setInt(Integer.parseInt(value));
 	}
 
 	
