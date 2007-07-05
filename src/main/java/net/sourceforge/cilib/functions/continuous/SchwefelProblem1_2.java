@@ -64,7 +64,7 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
 				sum += x.getReal(j);
 			}
 			
-			sumsq = sum * sum; 
+			sumsq += sum * sum; 
 		}
 		
 		return sumsq;
