@@ -6,6 +6,9 @@
 	<body>
 		<release version="0.6.8" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
 			<action dev="heatzync" type="add">
+				Added a new fitness function (called Salomon) that Segun implemented.
+			</action>
+			<action dev="heatzync" type="add">
 				Added a few fitness functions for intra-cluster based calculations.
 			</action>
 			<action dev="heatzync" type="add">
