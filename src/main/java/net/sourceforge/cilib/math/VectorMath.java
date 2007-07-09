@@ -25,7 +25,7 @@
  */
 package net.sourceforge.cilib.math;
 
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Interface to define operations associated with Vector mathematics.

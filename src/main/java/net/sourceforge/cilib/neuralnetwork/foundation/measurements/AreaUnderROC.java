@@ -5,10 +5,10 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkData;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 public class AreaUnderROC implements Measurement{
 	private static final long serialVersionUID = -8959256964785840633L;

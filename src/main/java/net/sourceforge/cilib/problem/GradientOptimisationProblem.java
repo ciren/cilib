@@ -28,7 +28,7 @@
 
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Optimisation problems that are able to provide gradient information should implement this

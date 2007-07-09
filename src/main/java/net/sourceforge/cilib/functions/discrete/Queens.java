@@ -27,7 +27,7 @@
 package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.functions.DiscreteFunction;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Implementation of the a function to return the fitness of the Queens problem.

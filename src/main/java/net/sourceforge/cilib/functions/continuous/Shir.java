@@ -1,7 +1,7 @@
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The Damavandi function obtained from O.M. Shir and T. Baeck,

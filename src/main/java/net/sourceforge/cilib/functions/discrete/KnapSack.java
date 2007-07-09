@@ -31,7 +31,7 @@ import java.util.Random;
 
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Perform the knapsack problem optimisation.

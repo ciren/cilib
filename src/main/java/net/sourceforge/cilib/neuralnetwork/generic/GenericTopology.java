@@ -17,7 +17,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.GenericTopol
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.SpecificWeightInitialiser;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightExtractingVisitor;
-import net.sourceforge.cilib.type.types.MixedVector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * @author stefanv

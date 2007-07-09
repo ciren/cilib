@@ -31,8 +31,8 @@ import java.util.Vector;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.continuous.MaximumDeratingFunction1;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
@@ -112,7 +112,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             for (int i = 0; i < d_solution.length; i++) {
                 t_solution[i] = d_solution[i].doubleValue();
             }*/
-            net.sourceforge.cilib.type.types.Vector t_solution = new MixedVector(d_solution.length);
+            net.sourceforge.cilib.type.types.container.Vector t_solution = new MixedVector(d_solution.length);
             for (int i = 0; i < d_solution.length; i++) {
             	t_solution.set(i, new Real(d_solution[i].doubleValue()));
             }
@@ -120,7 +120,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             // calcaulate the distance between the solution and the previousely found
             // solution.
             //double distance = distanceMeasure.distance((double[]) solution, t_solution);
-            double distance = distanceMeasure.distance((net.sourceforge.cilib.type.types.Vector) solution, t_solution);
+            double distance = distanceMeasure.distance((net.sourceforge.cilib.type.types.container.Vector) solution, t_solution);
 
             // normalise the distance in the range [0..1].
             distance = normalise(distance);

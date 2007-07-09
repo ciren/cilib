@@ -2,7 +2,7 @@ package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class TuriIndex extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 2457356424874462741L;

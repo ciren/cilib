@@ -29,9 +29,9 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A Decorator pattern class to wrap a normal function to perform Angle Modulation

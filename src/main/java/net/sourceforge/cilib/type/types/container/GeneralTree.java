@@ -1,9 +1,11 @@
-package net.sourceforge.cilib.type.types;
+package net.sourceforge.cilib.type.types.container;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.cilib.container.visitor.PreOrderVisitorDecorator;
+import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.container.visitor.Visitor;
 
 public class GeneralTree<E extends Comparable<E>> implements Tree<E> {
@@ -29,9 +31,11 @@ public class GeneralTree<E extends Comparable<E>> implements Tree<E> {
 	public boolean addSubtree(Tree<E> subtree) {
 		if (subtree == null)
 			throw new IllegalArgumentException("Cannot add a null object as a child of a tree");
+	
+		if (getKey() == null)
+			throw new IllegalStateException("Cannot add a subtree to a tree with a null for the key value");
 		
 		this.nodes.add(subtree);
-		
 		return true;
 	}
 
@@ -44,7 +48,6 @@ public class GeneralTree<E extends Comparable<E>> implements Tree<E> {
 	}
 
 	public int verticies() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -61,12 +64,16 @@ public class GeneralTree<E extends Comparable<E>> implements Tree<E> {
 	}
 
 	public boolean contains(E element) {
-		// TODO: add a body
+		for (Tree<E> e : this.nodes) {
+			if (e.getKey().equals(element))
+				return true;
+		}
+
 		return false;
 	}
 
 	public boolean isEmpty() {
-		return this.nodes.isEmpty();
+		return this.key == null;
 	}
 
 	public boolean remove(E element) {
@@ -82,7 +89,14 @@ public class GeneralTree<E extends Comparable<E>> implements Tree<E> {
 	
 	// TODO: Implement this method 
 	public E remove(int index) {
-		return null;
+		if (index >= this.nodes.size())
+			throw new IndexOutOfBoundsException("");
+		
+		return this.nodes.remove(index).getKey();
+	}
+
+	public boolean remove(Tree<E> subTree) {
+		return this.remove(subTree.getKey());
 	}
 
 	public int size() {
@@ -117,8 +131,25 @@ public class GeneralTree<E extends Comparable<E>> implements Tree<E> {
 	}
 
 	public void accept(Visitor<E> visitor) {
-		// TODO Auto-generated method stub
+		PreOrderVisitorDecorator<E> preOrder = new PreOrderVisitorDecorator<E>(visitor);
+		depthFirstTraversal(preOrder);
+	}
+	
+	private void depthFirstTraversal(PrePostVisitor<E> visitor) {
+		if (visitor.isDone()) {
+			return;
+		}
 		
+		if (!isEmpty()) {
+			visitor.preVisit(getKey());
+			for (int i = 0; i < nodes.size(); i++) {
+				GeneralTree<E> t = (GeneralTree<E>) this.nodes.get(i);
+				System.out.println("traversting" + t.getKey());
+				t.depthFirstTraversal(visitor);
+			}
+			
+			visitor.postVisit(getKey());
+		}	
 	}
 
 	public boolean addAll(Structure<E> structure) {
@@ -129,7 +160,6 @@ public class GeneralTree<E extends Comparable<E>> implements Tree<E> {
 	}
 
 	public Iterator<E> iterator() {
-		//return this.nodes.iterator();
 		return null;
 	}
 

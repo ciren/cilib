@@ -9,7 +9,7 @@ import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParamete
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *  The <tt>VelocityUpdateStrategy</tt> strategy which uses a DE strategy

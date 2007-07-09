@@ -10,9 +10,9 @@ import net.sourceforge.cilib.functions.continuous.QuantisationErrorFunction;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

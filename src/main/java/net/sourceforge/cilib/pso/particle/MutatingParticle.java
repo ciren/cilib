@@ -59,8 +59,8 @@ public class MutatingParticle extends StandardParticle {
 
 	public void move() {
 		
-		net.sourceforge.cilib.type.types.Vector position = getPosition();
-		net.sourceforge.cilib.type.types.Vector velocity = getVelocity();
+		net.sourceforge.cilib.type.types.container.Vector position = getPosition();
+		net.sourceforge.cilib.type.types.container.Vector velocity = getVelocity();
 		
 		for (int i = 0; i < position.getDimension(); ++i) {
 			double result = position.getReal(i) + velocity.getReal(i);
@@ -192,7 +192,7 @@ public class MutatingParticle extends StandardParticle {
 		double tempLower = 0.0;
 		double tempUpper = 0.0;
 		
-		net.sourceforge.cilib.type.types.Vector position = getPosition();
+		net.sourceforge.cilib.type.types.container.Vector position = getPosition();
 		
 		//for (int i = 0; i < position.length; ++i) { // Mutation
 		for (int i = 0; i < position.getDimension(); ++i) {

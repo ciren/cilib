@@ -31,6 +31,8 @@ import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.particle.initialisation.PositionInitialisationStrategy;
+import net.sourceforge.cilib.pso.particle.initialisation.RandomizedPostionInitialisationStrategy;
 import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
 import net.sourceforge.cilib.pso.particle.initialisation.ZeroInitialVelocityStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
@@ -54,7 +56,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     
     protected VelocityInitialisationStrategy velocityInitialisationStrategy;
     // TODO: Factor this out into a Particle intialisation strategy.... keep in mind the heterogeneous swarm thingy
-    //    protected PositionInitialisationStrategy positionInitialisationStrategy;
+    protected PositionInitialisationStrategy positionInitialisationStrategy;
     //    protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
     
     private int id;
@@ -68,6 +70,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 		positionUpdateStrategy = new StandardPositionUpdateStrategy();
 		velocityUpdateStrategy = new StandardVelocityUpdate();
 		
+		positionInitialisationStrategy = new RandomizedPostionInitialisationStrategy();
 		velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
 	}
 
@@ -262,6 +265,15 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	public void setVelocityInitialisationStrategy(
 			VelocityInitialisationStrategy velocityInitialisationStrategy) {
 		this.velocityInitialisationStrategy = velocityInitialisationStrategy;
+	}
+	
+	public PositionInitialisationStrategy getPositionInitialisationStrategy() {
+		return positionInitialisationStrategy;
+	}
+
+	public void setPositionInitialisationStrategy(
+			PositionInitialisationStrategy positionInitialisationStrategy) {
+		this.positionInitialisationStrategy = positionInitialisationStrategy;
 	}
 
 	public int compareTo(Entity o) {

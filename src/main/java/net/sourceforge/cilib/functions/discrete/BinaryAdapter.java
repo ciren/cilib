@@ -28,9 +28,9 @@ package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.functions.Function;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Class to convert a binary vector into a continuous vector for optimisation of

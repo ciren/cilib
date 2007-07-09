@@ -8,7 +8,7 @@ package net.sourceforge.cilib.neuralnetwork.generic.datacontainers;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.Initializable;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
-import net.sourceforge.cilib.type.types.MixedVector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 
 

@@ -28,7 +28,7 @@ package net.sourceforge.cilib.util;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Chebyshev Distance is a special case of the

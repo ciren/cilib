@@ -24,10 +24,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  * 
  */
-package net.sourceforge.cilib.type.types;
+package net.sourceforge.cilib.type.types.container;
 
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -65,22 +64,12 @@ public class Set<E> implements Graph<E> {
 
 	
 	public boolean add(E obj) {
-		//if (obj instanceof Type) {
-			return elements.add((E)obj);
-		//} else {
-			//throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Type");
-		//}
+		return elements.add((E)obj);
 	}
 	
 	public boolean addAll(Structure<E> s) {
-		//if (s instanceof Set) {
-//			Set<T> tmp = (Set<T>) s;
 		for (E element : s)
 			this.elements.add(element);
-		
-	//	} else {
-		//	throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Set");
-		//}
 		
 		return true;
 	}
@@ -98,13 +87,7 @@ public class Set<E> implements Graph<E> {
 	}
 	
 	public boolean equals(Object other)  {
-		//if (other instanceof Set) {
-		//	Set tmp = (Set) other;
-			return this.elements.equals(other);			
-		//}			
-		//else {
-		//	throw new IllegalArgumentException("Argument is not of type: net.sourceforge.cilib.Type.Set");
-		//}		
+		return this.elements.equals(other);			
 	}
 
 	public int hashCode() {		
@@ -162,24 +145,6 @@ public class Set<E> implements Graph<E> {
 	}
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	public boolean add(E parent, E element) {
-		throw new UnsupportedOperationException("Within a set there is no concept of a parent, all elements are equal");
-	}
-
-
 	public int edges() {
 		return 0;
 	}
@@ -212,23 +177,6 @@ public class Set<E> implements Graph<E> {
 	}
 
 
-	public boolean containsAll(Collection<?> c) {
-		return this.elements.containsAll(c);
-	}
-
-
-	public boolean removeAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
-	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
 	public boolean removeAll(Structure<E> structure) {
 		boolean result = true;
 		
@@ -258,6 +206,5 @@ public class Set<E> implements Graph<E> {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 }

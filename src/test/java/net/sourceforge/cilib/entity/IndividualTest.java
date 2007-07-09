@@ -2,9 +2,9 @@ package net.sourceforge.cilib.entity;
 
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;
 

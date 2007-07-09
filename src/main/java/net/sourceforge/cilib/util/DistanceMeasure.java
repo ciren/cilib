@@ -28,7 +28,7 @@ package net.sourceforge.cilib.util;
 
 import java.util.Collection;
 
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Edwin Peer

@@ -29,8 +29,8 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * This is a basic Feedforward Neural network implementation. Its sole purpose is to illustrate the

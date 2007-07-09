@@ -17,8 +17,8 @@ import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPatter
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
 import net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators.FFNNEvaluationMediator;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * @author stefanv

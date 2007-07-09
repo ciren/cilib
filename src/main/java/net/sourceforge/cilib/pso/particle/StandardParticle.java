@@ -24,7 +24,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
-
 package net.sourceforge.cilib.pso.particle;
 
 import java.util.Map;
@@ -34,9 +33,9 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
@@ -122,11 +121,12 @@ public class StandardParticle extends AbstractParticle {
     public void initialise(OptimisationProblem problem) {
         setId(PSO.getNextParticleId());
         
-       	this.properties.put("position", (Vector) problem.getDomain().getBuiltRepresenation().clone());
-		getPosition().randomise();
+        getPositionInitialisationStrategy().initialise(this, problem);
+       	//this.properties.put("position", (Vector) problem.getDomain().getBuiltRepresenation().clone());
+		//getPosition().randomise();
 
 		// Make a deep-copy of the best position
-		this.properties.put("bestPosition", getPosition().clone());
+//		this.properties.put("bestPosition", getPosition().clone());
         
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0

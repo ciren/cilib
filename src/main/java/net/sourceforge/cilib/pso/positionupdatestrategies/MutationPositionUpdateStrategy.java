@@ -123,7 +123,7 @@ public class MutationPositionUpdateStrategy extends
 	private void mutate(Particle particle) {
 		PSO p = (PSO) Algorithm.get();
 
-		net.sourceforge.cilib.type.types.Vector position = (net.sourceforge.cilib.type.types.Vector) particle.getPosition();
+		net.sourceforge.cilib.type.types.container.Vector position = (net.sourceforge.cilib.type.types.container.Vector) particle.getPosition();
 		
 		double tempLower = 0.0;
 		double tempUpper = 0.0;

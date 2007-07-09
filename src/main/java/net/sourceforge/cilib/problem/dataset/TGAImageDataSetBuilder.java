@@ -31,8 +31,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**

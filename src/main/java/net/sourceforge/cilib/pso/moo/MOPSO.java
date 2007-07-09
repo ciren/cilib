@@ -12,7 +12,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.MultiObjectiveParticle;
 import net.sourceforge.cilib.pso.positionupdatestrategies.GaussianPositionUpdateStrategy;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author CIRG

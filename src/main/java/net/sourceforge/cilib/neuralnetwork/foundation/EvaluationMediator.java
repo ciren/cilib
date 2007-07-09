@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 
-import net.sourceforge.cilib.type.types.MixedVector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 
 

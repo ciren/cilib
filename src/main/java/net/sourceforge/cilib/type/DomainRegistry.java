@@ -29,7 +29,7 @@ package net.sourceforge.cilib.type;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Class to perform the needed mappings between a top level domain string

@@ -30,7 +30,7 @@ package net.sourceforge.cilib.problem.mappingproblem;
 
 import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**

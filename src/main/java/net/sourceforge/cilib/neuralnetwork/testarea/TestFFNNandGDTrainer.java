@@ -22,8 +22,8 @@ import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.FFNNgenericT
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.FFNN_GD_TrainingStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.SquaredErrorFunction;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * @author stefanv

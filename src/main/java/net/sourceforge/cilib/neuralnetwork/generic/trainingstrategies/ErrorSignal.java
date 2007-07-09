@@ -9,8 +9,8 @@ package net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * @author stefanv

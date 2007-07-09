@@ -6,12 +6,6 @@
 	<body>
 		<release version="0.6.8" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
 			<action dev="heatzync" type="add">
-				Added a new fitness function (called Salomon) that Segun implemented.
-			</action>
-			<action dev="heatzync" type="add">
-				Added a few fitness functions for intra-cluster based calculations.
-			</action>
-			<action dev="heatzync" type="add">
 			measurement.single.GenericFunctionMeasurement.java: A measurement that takes any function
 			(you have to use the .setFunction() method) and returns the value (or fitness) of that
 			function. This class was created so that it is possible to make use of any of the existing
@@ -25,7 +19,8 @@
 			ReinitialisationBoundary class.
 			</action>
 			<action dev="heatzync" type="update">
-			Refactored a few classes. Corrected some typos.
+			Refactored a few classes. Corrected some typos. Added some more fitness functions for intra-cluster
+			measurements.
 			</action>
 			<action dev="heatzync" type="add">
 			pso.iterationstrategies.BouncingPositionUpdateStrategy.java: Instead of making use of

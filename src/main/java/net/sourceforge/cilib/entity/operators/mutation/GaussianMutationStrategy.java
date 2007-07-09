@@ -33,7 +33,7 @@ import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUp
 import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Andries Engelbrecht

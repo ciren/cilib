@@ -102,7 +102,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         }*/
 
         // add the required number of samples to the trainingSet.
-        net.sourceforge.cilib.type.types.Vector vector = (net.sourceforge.cilib.type.types.Vector) this.getDomain().getBuiltRepresenation();
+        net.sourceforge.cilib.type.types.container.Vector vector = (net.sourceforge.cilib.type.types.container.Vector) this.getDomain().getBuiltRepresenation();
         while (trainingSet.size() < sampleSetSize * trainingSetPercentage) {
             // create a random point within the function domain.
             Double[] p = new Double[function.getDimension()];

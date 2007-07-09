@@ -27,7 +27,7 @@ package net.sourceforge.cilib.problem.dataset;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**

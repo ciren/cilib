@@ -24,7 +24,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package net.sourceforge.cilib.type.types;
+package net.sourceforge.cilib.type.types.container;
 
 import static java.lang.Math.sqrt;
 import static org.junit.Assert.assertEquals;
@@ -34,6 +34,10 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import net.sourceforge.cilib.type.types.Bit;
+import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Real;
 
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;

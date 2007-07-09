@@ -6,8 +6,8 @@ package net.sourceforge.cilib.neuralnetwork.generic.errorfunctions;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * @author Stefan

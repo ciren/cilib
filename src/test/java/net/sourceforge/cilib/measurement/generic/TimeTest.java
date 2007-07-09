@@ -33,7 +33,7 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.generic.Time;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class TimeTest {
 	

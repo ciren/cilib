@@ -31,9 +31,9 @@ import java.io.IOException;
 import java.io.StreamTokenizer;
 
 import net.sourceforge.cilib.type.creator.TypeCreator;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This is an implementation of the Domain string type generator.

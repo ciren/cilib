@@ -10,8 +10,8 @@ import java.util.Random;
 import java.util.StringTokenizer;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 public class RandomDistributionStrategy implements DataDistributionStrategy {
 	

@@ -22,8 +22,8 @@ import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.LayeredGenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * @author stefanv

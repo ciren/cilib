@@ -2,7 +2,7 @@ package net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors;
 
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
-import net.sourceforge.cilib.type.types.MixedVector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 public class WeightExtractingVisitor implements GenericTopologyVisitor {
 	

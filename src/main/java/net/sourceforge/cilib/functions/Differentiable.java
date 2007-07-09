@@ -28,7 +28,7 @@
 
 package net.sourceforge.cilib.functions;
 
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *

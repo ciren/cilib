@@ -3,9 +3,9 @@ package net.sourceforge.cilib.neuralnetwork.foundation.measurements;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 public class ErrorDt implements Measurement {
 	private static final long serialVersionUID = -5027085270461720189L;

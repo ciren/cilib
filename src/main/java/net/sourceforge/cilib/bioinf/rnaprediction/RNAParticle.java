@@ -34,8 +34,8 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * @author marais

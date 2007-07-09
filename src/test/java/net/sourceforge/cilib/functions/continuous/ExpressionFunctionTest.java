@@ -1,8 +1,8 @@
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Before;
 import org.junit.Test;

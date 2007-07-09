@@ -27,7 +27,7 @@
 package net.sourceforge.cilib.moo.archive;
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Andries Engelbrecht

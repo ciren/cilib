@@ -2,7 +2,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class BouncingPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = -2085380951650975909L;

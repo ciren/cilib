@@ -29,7 +29,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.GradientOptimisationProblem;
 import net.sourceforge.cilib.pso.particle.LFDecorator;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *

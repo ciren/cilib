@@ -34,7 +34,7 @@ import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalContro
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * 

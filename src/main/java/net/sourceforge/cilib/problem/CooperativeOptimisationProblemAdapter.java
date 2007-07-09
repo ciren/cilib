@@ -29,7 +29,7 @@ import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.MixedVector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * TODO test this class

@@ -6,7 +6,7 @@ import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class GenericFunctionMeasurement implements Measurement {
 	private static final long serialVersionUID = 3301062975775598397L;

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Gary Pampara

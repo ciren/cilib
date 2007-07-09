@@ -33,7 +33,7 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.measurement.single.BestParticlePosition;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * 

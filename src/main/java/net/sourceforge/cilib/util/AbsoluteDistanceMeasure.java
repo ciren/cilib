@@ -29,7 +29,7 @@ package net.sourceforge.cilib.util;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @deprecated Make use of {@link net.sourceforge.cilib.util.ManhattanDistance Manhattan Distance}. It is the correct name.

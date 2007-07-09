@@ -27,7 +27,7 @@
 package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.functions.DiscreteFunction;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * An implementation of the Knight's Tour problem function. It is important to note

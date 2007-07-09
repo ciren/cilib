@@ -3,8 +3,8 @@ package net.sourceforge.cilib.neuralnetwork.generic.neuron;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 
 //This class is not fully completed and tested.... Draft version

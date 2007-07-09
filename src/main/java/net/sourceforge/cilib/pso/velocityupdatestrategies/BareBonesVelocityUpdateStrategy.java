@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUp
 import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *  The <tt>VelocityUpdateStrategy</tt> strategy for the Bare Bones PSO as

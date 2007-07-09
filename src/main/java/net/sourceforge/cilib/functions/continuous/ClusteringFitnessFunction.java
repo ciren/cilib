@@ -7,7 +7,7 @@ import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This abstract class defines member variables and member functions that can be used by subclasses to calculate the

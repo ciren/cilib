@@ -3,7 +3,7 @@ package net.sourceforge.cilib.functions.continuous;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class ScatterDensityIndex extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 1164537525165848345L;

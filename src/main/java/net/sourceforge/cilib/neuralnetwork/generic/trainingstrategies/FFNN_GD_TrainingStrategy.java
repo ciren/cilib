@@ -16,9 +16,9 @@ import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.LayerIterator;
 import net.sourceforge.cilib.neuralnetwork.generic.Observer;
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 /**
  * @author stefanv

@@ -2,7 +2,7 @@ package net.sourceforge.cilib.neuralnetwork.testarea;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
-import net.sourceforge.cilib.type.types.MixedVector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 public class NNFunctionAdapter extends Function {
 	private static final long serialVersionUID = -8189968864920232174L;

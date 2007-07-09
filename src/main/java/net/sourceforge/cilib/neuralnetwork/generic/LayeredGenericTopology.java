@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
-import net.sourceforge.cilib.type.types.MixedVector;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.MixedVector;
 
 public class LayeredGenericTopology extends GenericTopology {
 	

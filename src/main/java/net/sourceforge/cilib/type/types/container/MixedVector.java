@@ -23,13 +23,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
-package net.sourceforge.cilib.type.types;
+package net.sourceforge.cilib.type.types.container;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Concrete implemetnation of the {@see net.sourceforge.cilib.type.types.Vector}
@@ -678,7 +680,18 @@ public class MixedVector extends Vector {
 
 
 	public boolean isConnected(Type a, Type b) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < this.components.size()-1; i++) {
+			Type tmp = this.components.get(i);
+			
+			if (tmp.equals(a)) {
+				if (this.components.get(i-1).equals(b))
+					return true;
+				if (this.components.get(i+1).equals(b))
+					return true;
+				return false;
+			}
+		}
+		
 		return false;
 	}
 
@@ -689,8 +702,8 @@ public class MixedVector extends Vector {
 
 
 	public void accept(Visitor<Type> visitor) {
-		// TODO Auto-generated method stub
-		
+		for (Type type : this.components)
+			visitor.visit(type);
 	}
 
 }

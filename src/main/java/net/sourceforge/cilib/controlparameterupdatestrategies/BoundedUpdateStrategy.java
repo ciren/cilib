@@ -29,7 +29,7 @@ package net.sourceforge.cilib.controlparameterupdatestrategies;
 
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * 

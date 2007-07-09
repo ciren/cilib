@@ -29,8 +29,8 @@ package net.sourceforge.cilib.pso.particle;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
-import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *

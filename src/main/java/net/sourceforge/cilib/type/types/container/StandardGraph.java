@@ -1,4 +1,4 @@
-package net.sourceforge.cilib.type.types;
+package net.sourceforge.cilib.type.types.container;
 
 import java.util.Collection;
 import java.util.Iterator;

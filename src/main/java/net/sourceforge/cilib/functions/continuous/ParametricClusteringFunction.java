@@ -2,7 +2,7 @@ package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in

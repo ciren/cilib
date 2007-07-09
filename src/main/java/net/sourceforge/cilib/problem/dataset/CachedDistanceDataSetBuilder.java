@@ -1,6 +1,6 @@
 package net.sourceforge.cilib.problem.dataset;
 
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class CachedDistanceDataSetBuilder extends AssociatedPairDataSetBuilder {
 	private static final long serialVersionUID = -8098125665317527403L;

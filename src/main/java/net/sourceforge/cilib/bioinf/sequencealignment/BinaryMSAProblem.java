@@ -34,7 +34,7 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Vector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class represents the Optimization Problem to be solved for the MSA (Binary representation).

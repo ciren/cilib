@@ -1,4 +1,6 @@
-package net.sourceforge.cilib.type.types;
+package net.sourceforge.cilib.type.types.container;
+
+import net.sourceforge.cilib.type.types.Type;
 
 public interface Graph<E> extends Structure<E>, Type {
 	

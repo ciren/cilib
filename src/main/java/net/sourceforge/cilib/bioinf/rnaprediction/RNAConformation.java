@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
-import net.sourceforge.cilib.type.types.Set;
+import net.sourceforge.cilib.type.types.container.Set;
 
 public class RNAConformation extends Set<RNAStem> {
 	/**
