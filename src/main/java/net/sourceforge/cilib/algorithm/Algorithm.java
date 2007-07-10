@@ -310,9 +310,10 @@ public abstract class Algorithm implements Runnable, Serializable {
 	public abstract List<OptimisationSolution> getSolutions();
 	
 	/**
-	 * Generic method to accept a visitor to perform a calculation on the current algorithm. The 
+	 * General method to accept a visitor to perform a calculation on the current algorithm. The 
 	 * operation is generally defered down to the underlying topology associated with the 
-	 * algorithm.
+	 * algorithm, as the algorithm does not contain information, but rather only behaviour to alter
+	 * the candidate solutions that are managed by the <tt>Topology</tt>. 
 	 * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
 	 * @return The result of the visitor operation.
 	 */
