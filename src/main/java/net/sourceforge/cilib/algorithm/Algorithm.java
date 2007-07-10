@@ -29,6 +29,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -307,4 +308,13 @@ public abstract class Algorithm implements Runnable, Serializable {
 	 * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
 	 */
 	public abstract List<OptimisationSolution> getSolutions();
+	
+	/**
+	 * Generic method to accept a visitor to perform a calculation on the current algorithm. The 
+	 * operation is generally defered down to the underlying topology associated with the 
+	 * algorithm.
+	 * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
+	 * @return The result of the visitor operation.
+	 */
+	public abstract double accept(TopologyVisitor visitor);
 }

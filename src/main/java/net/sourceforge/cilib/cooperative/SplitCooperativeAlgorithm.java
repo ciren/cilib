@@ -215,20 +215,8 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	}
 
 	@Override
-	public double getDiameter() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int getPopulationSize() {
 		return subPopulationsAlgorithms.size();
-	}
-
-	@Override
-	public double getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override

@@ -33,6 +33,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
 import net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIterator;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
  * @author Gary Pampara
@@ -102,6 +103,11 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	public void setAlgorithmIterator(AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator) {
 		this.algorithmIterator = algorithmIterator;
 		this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
+	}
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		throw new UnsupportedOperationException("Needs an implementation");
 	}
 
 }

@@ -168,18 +168,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public double getDiameter() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
-	@Override
-	public double getRadius() {
-		return 0;
-	}
-
 	public void setOptimisationProblem(OptimisationProblem problem) {
 		this.mainSwarm.setOptimisationProblem(problem);
 		this.problem = problem;		

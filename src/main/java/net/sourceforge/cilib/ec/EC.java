@@ -38,6 +38,7 @@ import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStr
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -116,18 +117,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	}
 
 	@Override
-	public double getDiameter() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void setOptimisationProblem(OptimisationProblem problem) {
 		this.problem = problem;		
 	}
@@ -187,5 +176,11 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		//TODO: This might not be what you want, change as desired
 		//getBestEntity().setFitness(fitness);
 		getBestEntity().calculateFitness();
+	}
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		getTopology().accept(visitor);
+		return visitor.getResult();
 	}
 }

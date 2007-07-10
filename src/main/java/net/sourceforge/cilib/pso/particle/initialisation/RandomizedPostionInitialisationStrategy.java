@@ -42,6 +42,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  */
 public class RandomizedPostionInitialisationStrategy implements
 		PositionInitialisationStrategy {
+	private static final long serialVersionUID = -47429588645761362L;
 
 	public void initialise(Particle particle, OptimisationProblem problem) {
 		particle.getProperties().put("position", problem.getDomain().getBuiltRepresenation().clone());

@@ -27,6 +27,7 @@
 package net.sourceforge.cilib.stoppingcondition;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
@@ -65,14 +66,20 @@ public class MinimumSwarmDiameter implements StoppingCondition {
 	}
 
 	public double getPercentageCompleted() {
-		if (algorithm.getDiameter() <= minimumSwarmDiameter) {
+		DiameterVisitor diameterVisitor = new DiameterVisitor();
+		algorithm.accept(diameterVisitor);
+		double diameter = diameterVisitor.getResult();
+		
+		if (diameter <= minimumSwarmDiameter) {
 			return 1;
 		}
-		return minimumSwarmDiameter / algorithm.getDiameter();
+		return minimumSwarmDiameter / diameter;
 	}
 
 	public boolean isCompleted() {
-		return algorithm.getDiameter() <= minimumSwarmDiameter;
+		DiameterVisitor diameterVisitor = new DiameterVisitor();
+		algorithm.accept(diameterVisitor);
+		return (diameterVisitor.getResult() <= minimumSwarmDiameter);
 	}
 
 	public void setAlgorithm(Algorithm algorithm) {

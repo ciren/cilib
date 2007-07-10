@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.neuralnetwork.foundation.postSimulation.PostMeasurementSuite;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -97,6 +98,11 @@ public class NeuralNetworkController extends Algorithm {
 
 	public List<OptimisationSolution> getSolutions() {
 		return null;
+	}
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		throw new UnsupportedOperationException("Implementation is required");
 	}
 
 }

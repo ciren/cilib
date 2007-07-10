@@ -36,6 +36,7 @@ import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.DiscreteOptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -227,18 +228,6 @@ public class ACO extends PopulationBasedAlgorithm {
 		
 	}
 
-	@Override
-	public double getDiameter() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	@Override
-	public double getRadius() {
-		return 0;
-	}
-
-	
 	public OptimisationSolution getBestSolution() {
 		// TODO Auto-generated method stub
 		return null;
@@ -247,5 +236,10 @@ public class ACO extends PopulationBasedAlgorithm {
 	public List<OptimisationSolution> getSolutions() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		throw new UnsupportedOperationException("Needs an implementation");
 	}
 }

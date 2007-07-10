@@ -38,8 +38,6 @@ import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
-import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -223,32 +221,8 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		getBestParticle().calculateFitness();
 	}
 
-	public double accept(TopologyVisitor visitor) {
-		getTopology().accept(visitor);
-		return visitor.getResult();
-	}
-
-	// TODO: This does not fit really here.... move to another class PSOUtilities.
-	// Does not really calculate the diameter.
-	/**
-	 * Calculates the diameter of the swarm around the position of the best particle. The diameter is
-	 * calculated using the average Euclidean distance.
-	 * @return The calculated diameter of the swarm.
-	 */
-	public double getDiameter() {
-		DiameterVisitor visitor = new DiameterVisitor();
-		getTopology().accept(visitor);
-		return visitor.getResult();
-	}
-
-	/**
-	 * Calculates the radius of the swarm around the position of the best particle. The radius is
-	 * calculated using the average Euclidean distance.
-	 * @return The calculated radius of the swarm.
-	 */
 	@Override
-	public double getRadius() {
-		RadiusVisitor visitor = new RadiusVisitor(this);
+	public double accept(TopologyVisitor visitor) {
 		getTopology().accept(visitor);
 		return visitor.getResult();
 	}

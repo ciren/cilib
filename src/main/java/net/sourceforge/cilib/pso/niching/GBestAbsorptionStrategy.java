@@ -33,6 +33,7 @@ import java.util.ListIterator;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -58,7 +59,9 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
             
             while(subSwarmsIterator.hasNext()) {
                 PSO subSwarm = (PSO)subSwarmsIterator.next();
-                double subSwarmRadius = subSwarm.getRadius();
+                RadiusVisitor radiusVisitor = new RadiusVisitor(subSwarm);
+                subSwarm.accept(radiusVisitor);
+                double subSwarmRadius = radiusVisitor.getResult();
                 
                 Particle subSwarmBestParticle = subSwarm.getBestParticle();
                 Vector subSwarmBestParticlePosition = (Vector)subSwarmBestParticle.getPosition();

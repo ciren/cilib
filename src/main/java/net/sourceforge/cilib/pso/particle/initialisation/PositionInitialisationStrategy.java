@@ -23,10 +23,12 @@
  */
 package net.sourceforge.cilib.pso.particle.initialisation;
 
+import java.io.Serializable;
+
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
-public interface PositionInitialisationStrategy {
+public interface PositionInitialisationStrategy extends Serializable {
 	
 	public void initialise(Particle particle, OptimisationProblem problem);
 

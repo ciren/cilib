@@ -130,14 +130,4 @@ public class VEPSO extends MultiPopulationBasedAlgorithm {
 		
 	}
 
-	public double getDiameter() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	public double getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

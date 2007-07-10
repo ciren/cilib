@@ -228,20 +228,9 @@ public class Coevolution extends MultiPopulationBasedAlgorithm implements Optimi
 		return null;
 	}
 
-	@Override
-	public double getDiameter() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 	@Override
 	public int getPopulationSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getRadius() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

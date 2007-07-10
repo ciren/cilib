@@ -79,10 +79,10 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	 * Get the diameter of the population
 	 * @return The diameter of the population
 	 */
-	public abstract double getDiameter();
+	//public abstract double getDiameter();
 
 	/**
 	 * @return
 	 */
-	public abstract double getRadius();
+	//public abstract double getRadius();
 }

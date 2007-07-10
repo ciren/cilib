@@ -38,6 +38,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -243,4 +244,9 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 		private OptimisationProblem target;
 		
     }
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		throw new UnsupportedOperationException("Needs an implementation");
+	}
 }

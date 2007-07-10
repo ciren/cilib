@@ -26,13 +26,12 @@
 package net.sourceforge.cilib.functions.continuous;
 
 import static org.junit.Assert.assertEquals;
+import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;
-
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.MixedVector;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Vector;
 
 /**
  * The unit test of the evaluate method for the <@linkplain Salomon> function.
