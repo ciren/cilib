@@ -21,7 +21,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * the (normalized) result = 0, then the two vectors are orthogonal. We can convert this
  * similarity measure to a "distance" by subtracting it from one, which will always give
  * a value between 0 and 2. <strong>This is the approach we follow.</strong>
- * @author Theuns Cloete
  */
 public class CosineDistanceMeasure implements DistanceMeasure {
 
@@ -31,6 +30,7 @@ public class CosineDistanceMeasure implements DistanceMeasure {
 	 * @param y the other vector.
 	 * @return the "distance" (or angle or dot product) (as a double) between the two vectors.
 	 * @throws IllegalArgumentException when the two vectors' dimension differ.
+	 * @TODO: Can this not be replaced with x.dot(y)?
 	 */
 	public <T extends Vector> double distance(T x, T y) {
 		if(x.getDimension() != y.getDimension())
@@ -49,6 +49,9 @@ public class CosineDistanceMeasure implements DistanceMeasure {
 		norm_y = Math.sqrt(norm_y);
 		if(norm_x <= 0.0 || norm_y <= 0.0)
 			throw new ArithmeticException("Division by zero");
+		
+		// TODO: return x.dot(y) ??? 
+		
 		//convert to distance by subtracting from 1
 		return 1.0 - (distance / (norm_x * norm_y));
 	}

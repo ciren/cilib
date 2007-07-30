@@ -32,14 +32,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.AbstractType;
 
 
 /**
  * @author mneethling
  *
  */
-public class RNAStem implements Type, Comparable<RNAStem>, Collection<NucleotidePair>  {
+public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collection<NucleotidePair>  {
 	
 	/**
 	 * 

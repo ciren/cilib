@@ -33,12 +33,16 @@ package net.sourceforge.cilib.problem;
  * 
  * @author Edwin Peer
  */
-public class InferiorFitness implements Fitness {
+public class InferiorFitness extends AbstractFitness {
 
 	private static final long serialVersionUID = -2129092436359289935L;
 
 	private InferiorFitness() {
 		
+	}
+	
+	public InferiorFitness clone() {
+		return instance;
 	}
 	
 	/**

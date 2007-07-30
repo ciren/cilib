@@ -48,7 +48,7 @@ public class Individual extends AbstractEntity {
 	
 	protected String id;
     protected int dimension = 0;
-    protected Fitness fitness;
+//    protected Fitness fitness;
     protected FitnessCalculator fitnessCalculator;
     
     /**
@@ -58,14 +58,15 @@ public class Individual extends AbstractEntity {
         dimension = 0;
         this.properties.put("genes", new MixedVector());
         this.properties.put("penotypes", new MixedVector());
-        fitness = InferiorFitness.instance();
+        this.properties.put("fitness", InferiorFitness.instance());
+//        fitness = InferiorFitness.instance();
         fitnessCalculator = new VectorBasedFitnessCalculator();
     }
     
     
     public Individual(Individual copy) {
         this.dimension = copy.dimension;
-        this.fitness = InferiorFitness.instance();
+//        this.fitness = InferiorFitness.instance();
         this.fitnessCalculator = copy.fitnessCalculator.clone();
         
         for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
@@ -86,7 +87,7 @@ public class Individual extends AbstractEntity {
       * Resets the fitness to <code>InferiorFitness</code>
       */
      public void resetFitness() {
-         this.fitness = InferiorFitness.instance();
+         this.properties.put("fitness", InferiorFitness.instance());
      }     
 
      /**
@@ -106,7 +107,8 @@ public class Individual extends AbstractEntity {
     	 }
     	 
     	 this.dimension = this.getContents().getDimension();
-         this.fitness = InferiorFitness.instance();        
+//         this.fitness = InferiorFitness.instance();
+    	 this.properties.put("fitness", InferiorFitness.instance());
      }     
      
      /**
@@ -135,7 +137,8 @@ public class Individual extends AbstractEntity {
     }
 
     public Fitness getFitness() {
-        return fitness;
+//        return fitness;
+    	return (Fitness) this.properties.get("fitness");
     }
     
     public void calculateFitness() {
@@ -143,7 +146,8 @@ public class Individual extends AbstractEntity {
     }
     
     public void calculateFitness(boolean count) {
-        this.fitness = fitnessCalculator.getFitness(getContents(), count);
+//        this.fitness = fitnessCalculator.getFitness(getContents(), count);
+    	this.properties.put("fitness", fitnessCalculator.getFitness(getContents(), count));
     }
 
     public int getDimension() {

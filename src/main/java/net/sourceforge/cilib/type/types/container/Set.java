@@ -31,6 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.type.types.AbstractType;
 
 
 /**
@@ -38,9 +39,7 @@ import net.sourceforge.cilib.container.visitor.Visitor;
  * @author mneethling
  */
 
-public class Set<E> implements Graph<E> {
-	
-
+public class Set<E> extends AbstractType implements Graph<E> {
 	private static final long serialVersionUID = 3697379819132292696L;
 	private HashSet<E> elements;
 
@@ -48,19 +47,17 @@ public class Set<E> implements Graph<E> {
 		elements = new HashSet<E>();
 	}
 	
-	
 	public Set(Set<E> copy) {
 		this();
 		
-		for (Iterator<E> item = copy.elements.iterator(); item.hasNext(); ) {
-			this.elements.add(item.next());
+		for (E element : copy.elements) {
+			this.elements.add(element);
 		}
 	}	
 	
 	public Set<E> clone() {
 		return new Set<E>(this);
 	}
-	
 
 	
 	public boolean add(E obj) {

@@ -1,11 +1,40 @@
+/*
+ * NaryTree.java
+ * 
+ * Copyright (C) 2004 - CIRG@UP 
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.type.types.container;
 
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.type.types.AbstractType;
 
-public class NaryTree<E extends Comparable<E>> implements Tree<E> {
+public class NaryTree<E extends Comparable<E>> extends AbstractType implements Tree<E> {
 	private static final long serialVersionUID = -1136444941205621381L;
+	
+	private E key;
+	private int degree;
+	private List<Tree<E>> nodes;
 
 	public NaryTree() {
 		
@@ -20,13 +49,22 @@ public class NaryTree<E extends Comparable<E>> implements Tree<E> {
 	}
 	
 	public boolean addSubtree(Tree<E> subTree) {
-		// TODO Auto-generated method stub
+		if (subTree == null)
+			throw new IllegalArgumentException("Cannot add a null object as a child of a tree");
+	
+		if (getKey() == null)
+			throw new IllegalStateException("Cannot add a subtree to a tree with a null for the key value");
+		
+		if (this.nodes.size() < degree) {
+			this.nodes.add(subTree);
+			return true;
+		}
+		
 		return false;
 	}
 
 	public E getKey() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.key;
 	}
 
 	public Tree<E> getSubtree(E element) {
@@ -137,6 +175,12 @@ public class NaryTree<E extends Comparable<E>> implements Tree<E> {
 	public void reset() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

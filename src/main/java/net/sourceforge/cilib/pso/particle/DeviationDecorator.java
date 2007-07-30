@@ -55,7 +55,6 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *	TODO: Edwin, WTF is this? 
  * 
  * 
  * @author Edwin Peer

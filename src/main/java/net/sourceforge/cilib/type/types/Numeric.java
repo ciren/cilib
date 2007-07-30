@@ -31,7 +31,7 @@ package net.sourceforge.cilib.type.types;
  * 
  * @author Gary Pampara
  */
-public abstract class Numeric implements Type, Comparable<Numeric> {
+public abstract class Numeric extends AbstractType implements Comparable<Numeric> {
 	
 	private double lowerBound;
 	private double upperBound;

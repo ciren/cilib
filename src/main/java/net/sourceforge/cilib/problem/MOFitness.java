@@ -30,7 +30,7 @@ package net.sourceforge.cilib.problem;
  * @author Edwin Peer
  *
  */
-public class MOFitness implements Fitness{
+public class MOFitness extends AbstractFitness {
 
 	private static final long serialVersionUID = 1477723759384827131L;
 
@@ -40,6 +40,10 @@ public class MOFitness implements Fitness{
 		for (int i = 0; i < size; ++i) {
 			fitnesses[i] = problem.getFitness(i, solution, count);
 		}
+	}
+	
+	public MOFitness clone() {
+		throw new UnsupportedOperationException("Implement me");
 	}
 	
 	public Double getValue() {

@@ -35,7 +35,7 @@ import java.io.ObjectOutput;
  * @author Gary Pampara
  *
  */
-public class StringType implements Type {
+public class StringType extends AbstractType {
 	private static final long serialVersionUID = 2946972552546398657L;
 	private String string;
 	

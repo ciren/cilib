@@ -26,13 +26,14 @@
 package net.sourceforge.cilib.type.types.container;
 
 import net.sourceforge.cilib.math.VectorMath;
+import net.sourceforge.cilib.type.types.AbstractType;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author Gary Pampara
  */
-public abstract class Vector implements Graph<Type>, VectorMath {
+public abstract class Vector extends AbstractType implements Graph<Type>, VectorMath {
 	public abstract Vector clone();
 
 	public boolean equals(Object other) {

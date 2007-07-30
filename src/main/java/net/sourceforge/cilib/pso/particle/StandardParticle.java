@@ -47,8 +47,8 @@ import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 public class StandardParticle extends AbstractParticle {
     private static final long serialVersionUID = 2610843008637279845L;
     
-    protected Fitness fitness;
-    protected Fitness bestFitness;
+//    protected Fitness fitness;
+//    protected Fitness bestFitness;
 
     protected Particle neighbourhoodBest;
     protected FitnessCalculator fitnessCalculator;
@@ -90,7 +90,7 @@ public class StandardParticle extends AbstractParticle {
     }
     
     public Fitness getBestFitness() {
-        return bestFitness;
+        return (Fitness) this.properties.get("bestFitness");
     }
     
     public Vector getBestPosition() {
@@ -102,7 +102,7 @@ public class StandardParticle extends AbstractParticle {
     }
     
     public Fitness getFitness() {
-        return fitness;
+        return (Fitness) this.properties.get("fitness");
     }
     
     public Particle getNeighbourhoodBest() {
@@ -122,19 +122,14 @@ public class StandardParticle extends AbstractParticle {
         setId(PSO.getNextParticleId());
         
         getPositionInitialisationStrategy().initialise(this, problem);
-       	//this.properties.put("position", (Vector) problem.getDomain().getBuiltRepresenation().clone());
-		//getPosition().randomise();
-
-		// Make a deep-copy of the best position
-//		this.properties.put("bestPosition", getPosition().clone());
         
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
         this.properties.put("velocity", getPosition().clone());
         velocityInitialisationStrategy.initialise(this);
         
-        fitness = InferiorFitness.instance();
-        bestFitness = InferiorFitness.instance();
+        this.properties.put("fitness", InferiorFitness.instance());
+        this.properties.put("bestFitness", InferiorFitness.instance());
         neighbourhoodBest = this;
     }
     
@@ -151,9 +146,11 @@ public class StandardParticle extends AbstractParticle {
      * 
      */
     public void calculateFitness(boolean count) {
-    	this.fitness = fitnessCalculator.getFitness(getPosition(), count);
-    	if (fitness.compareTo(bestFitness) > 0) {
-    		this.bestFitness = fitness;
+    	Fitness fitness = fitnessCalculator.getFitness(getPosition(), count);
+    	this.properties.put("fitness", fitness);
+    	if (fitness.compareTo(getBestFitness()) > 0) {
+//    		this.bestFitness = fitness;
+    		this.properties.put("bestFitness", fitness);
     		this.properties.put("bestPosition", getPosition().clone());
     	}
     }

@@ -31,7 +31,6 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 
 
 /**
- * 
  * @deprecated This class is a temporary measure until we can get the DomainParser
  *             working as intended. the idea is to be able to specify particle
  *             contents via the string and have the randomness applied on initialisation.
