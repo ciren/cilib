@@ -8,6 +8,9 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * @author Theuns Cloete
+ */
 public class GenericFunctionMeasurement implements Measurement {
 	private static final long serialVersionUID = 3301062975775598397L;
 	private Function function = null;
@@ -32,8 +35,8 @@ public class GenericFunctionMeasurement implements Measurement {
 		if (function == null)
 			throw new InitialisationException("The function that should be evaluated has not been set");
 
-		Vector centroids = (Vector)Algorithm.get().getBestSolution().getPosition();
-		return new Real(function.evaluate(centroids));
+		Vector vector = (Vector)Algorithm.get().getBestSolution().getPosition();
+		return new Real(function.evaluate(vector));
 	}
 
 	public Function getFunction() {

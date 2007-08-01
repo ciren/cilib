@@ -30,11 +30,8 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.apache.log4j.Logger;
-
 public class PerElementReinitialisation extends ReinitialisationBoundary {
 	private static final long serialVersionUID = 7080824227269710787L;
-	private static Logger log = Logger.getLogger(PerElementReinitialisation.class);
 
 	@Override
 	public void enforce(Entity entity) {

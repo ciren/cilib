@@ -1,54 +1,51 @@
+/*
+ * DunnIndex.java
+ * 
+ * Created on July 18, 2007
+ *
+ * Copyright (C) 2003 - 2007
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous;
 
-import java.util.ArrayList;
-
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
-import net.sourceforge.cilib.type.types.container.Vector;
-
-public class DunnIndex extends ClusteringFitnessFunction {
+/**
+ * This is the Dunn Validity Index as given in:<br/>
+ * @Article{ dunn1974vi, title = "Well Separated Clusters and Optimal Fuzzy Partitions", author =
+ *           "J. C. Dunn", journal = "Journal of Cybernetics", pages = "95--104", volume = "4", year =
+ *           "1974" }
+ * @author Theuns Cloete
+ */
+public class DunnIndex extends GeneralisedDunnIndex {
 	private static final long serialVersionUID = -7440453719679272149L;
 
-	/**
-	 * The constructor, nothing much is done here, except that it calls the base class' constructor.
-	 * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction}
-	 */
 	public DunnIndex() {
 		super();
 	}
 
 	@Override
-	public double evaluate(Vector centroids) {
-		if(dataset == null)
-			resetDataSet();
-		//assign each pattern in the dataset to its closest centroid
-		dataset.assign(centroids);
-		
-		ArrayList<ArrayList<Pattern>> clusters = dataset.arrangedClusters();
-		int numberOfClusters = dataset.getNumberOfClusters();
-		assert clusters.size() == numberOfClusters;
-		assert numberOfClusters > 0;
+	protected double calculateWithinClusterScatter(int k) {
+		return calculateClusterDiameter(k);
+	}
 
-		double diameter = 0.0, tmp = 0.0;
-		for(ArrayList<Pattern> cluster : clusters) {
-			tmp = calculateClusterDiameter(cluster);
-			if(tmp > diameter) {
-				diameter = tmp;
-			}
-		}
-		if(diameter <= 0)
-			throw new ArithmeticException("Bad things (devision by zero) will happen when the maximum cluster diameter is zero!");
-
-		double dunn = Double.MAX_VALUE;
-		for(int i = 0; i < numberOfClusters - 1; i++) {
-			ArrayList<Pattern> clusterI = clusters.get(i);
-			for(int j = i + 1; j < numberOfClusters; j++) {
-				ArrayList<Pattern> clusterJ = clusters.get(j);
-				tmp = calculateClusterDissimilarity(clusterI, clusterJ) / diameter;
-				if(tmp < dunn) {
-					dunn = tmp;
-				}
-			}
-		}
-		return dunn;
+	@Override
+	protected double calculateBetweenClusterSeperation(int i, int j) {
+		return calculateMinimumSetDistance(i, j);
 	}
 }

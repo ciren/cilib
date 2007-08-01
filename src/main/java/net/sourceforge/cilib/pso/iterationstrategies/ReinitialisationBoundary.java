@@ -27,11 +27,8 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 
 import net.sourceforge.cilib.entity.Entity;
 
-import org.apache.log4j.Logger;
-
 public class ReinitialisationBoundary implements BoundaryConstraint {
 	private static final long serialVersionUID = -512973040124015665L;
-	private static Logger log = Logger.getLogger(ReinitialisationBoundary.class);
 
 	public void enforce(Entity entity) {
 		if (!entity.getContents().isInsideBounds()) {

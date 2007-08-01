@@ -4,6 +4,16 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * Instead of making use of boundary constraints that reinitialise entire Particles (or components
+ * thereof), this class is a proactive approach to prevent the Particles from moving outside of the
+ * domain. Before moving a Particle to it's new location, this position update strategy first checks
+ * to see whether the Particle will be outside of the domain. If not, the Particle is moved. If one
+ * of the components of a Particle will be outside of the domain, it is placed very close to the
+ * boundary of the domain (but still inside) and the Particle's velocity for that component is
+ * inverted (multiplied by -1), effectively making the Particle bounce of the sides of the domain.
+ * @author Theuns Cloete
+ */
 public class BouncingPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = -2085380951650975909L;
 

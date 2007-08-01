@@ -1,92 +1,73 @@
+/*
+ * ParametricClusteringFunction.java
+ * 
+ * Created on July 18, 2007
+ *
+ * Copyright (C) 2003 - 2007
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
-import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in
- * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction) to calculate a parameterised fitness of a
- * particular clustering in the evaluate method.<br/>
- * References:<br/>
- * <p>
- * Mahamed G.H. Omran, "Particle Swarm Optimization Methods for Pattern Recognition and Image Processing",
- * University Of Pretoria, Faculty of Engineering, Built Environment and Information Technology, 251. Section 4.1.1; Page 105.
- * November 2004
- * </p>
+ * {@linkplain ClusteringFitnessFunction} to calculate a parameterised fitness of a particular
+ * clustering in the <tt>calculateFitness</tt> method. See:<br/>
+ * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern Recognition
+ *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
+ *             Pretoria", school = "Computer Science", year = "2004", month = nov, pages = "105"
+ *             address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht" }
  * @author Theuns Cloete
  */
 public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 583965930447258179L;
-	
-	/**Specifies the weight that intra-cluster-distance will contribute to the final fitness*/
+	/** Specifies the weight that intra-cluster-distance will contribute to the final fitness */
 	protected double w1 = 0.0;
-	/**Specifies the weight that inter-cluster-distance will contribute to the final fitness*/
+	/** Specifies the weight that inter-cluster-distance will contribute to the final fitness */
 	protected double w2 = 0.0;
-	/**Stores the calculated zMax value*/
-	protected double zMax = 0.0;
-	/**A flag to know whether zMax has already been calculated*/
-	protected boolean zMaxFlag = false; 
+	/** Stores the calculated zMax value */
+	protected double zMax = -1.0;
 
-	/**
-	 * The constructor calls the base class' constructor {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction}
-	 * and sets both the parameter values (w1 and w2) to be equal to 0.5.
-	 */
 	public ParametricClusteringFunction() {
 		super();
 		w1 = 0.5;
 		w2 = 0.5;
+		zMax = -1.0;
 	}
 
-	/**
-	 * This method is responsible for two things:
-	 * <ol>
-	 *     <li>Assign each pattern in the dataset to its closest centroid. We don't care how this is done, since it is handled
-	 *     by the {@link net.sourceforge.cilib.problem.dataset.ClusterableDataSet} abstraction. This has to be done before the
-	 *     fitness is evaluated for the given centroids vector.</li>
-	 *     <li>Calculate the parameterised fitness with the help of the following values:
-	 *         <ul>
-	 *             <li>maximum average distance between patterns and their respective centroids;</li>
-	 *             <li>minimum distance between centroid pairs; and</li>
-	 *             <li>maximum distance possible between centroids (zMax)</li>
-	 *         </ul>
-	 *     {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction.calculateQuantisationError}
-	 *     </li>
-	 * </ol>
-	 * @param centroids The vector representing the centroid vectors
-	 * @return the parameterised fitness that has been calculated
-	 */
 	@Override
-	public double evaluate(Vector centroids) {
-		//make sure the sum of the parameters equal 1.0
-		if(w1 + w2 != 1.0)
+	public double calculateFitness() {
+		// make sure the sum of the parameters equal 1.0
+		if (w1 + w2 != 1.0)
 			throw new IllegalArgumentException("The sum of w1 and w2 must equal 1.0");
 
-		if(dataset == null)
-			resetDataSet();
-		//assign each pattern in the dataset to its closest centroid
-		dataset.assign(centroids);
-
-		calculateMaximumAverageDistanceBetweenPatternsAndCentroids(centroids);
-		calculateInterClusterDistance(centroids);
-
-		//zMax only needs to be calculated once, because the domain is not supposed to change during a simulation 
-		if(!zMaxFlag)
-			zMax = zMax(dataset, centroids);
-
-		//the fitness should never drop below 0.0, but just in case something goes wrong, we want to know about it
-		double fitness = (w1 * maximumAverageDistance) + (w2 * (zMax - interClusterDistance));
-		if(fitness < 0.0) {
-			System.out.println("w1 = " + w1);
-			System.out.println("maximumAverageDistance = " + maximumAverageDistance);
-			System.out.println("zMax = " + zMax);
-			System.out.println("minimumCentroidDistance = " + interClusterDistance);
-			System.out.println("w2 = " + w2);
-			System.exit(0);
+		// zMax only needs to be calculated once; domain is not supposed to change during a simulation
+		if (zMax < 0.0) {
+			zMax = zMax();
 		}
-		return fitness;
+
+		return (w1 * calculateMaximumAverageDistance()) + (w2 * (zMax - calculateMinimumInterClusterDistance()));
 	}
-	
+
 	/**
 	 * Set the weight that the intra-cluster-distance will contribute to the final fitness
 	 * @param w the weight to which w1 will be set
@@ -94,7 +75,7 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	public void setW1(double w) {
 		w1 = w;
 	}
-	
+
 	/**
 	 * Set the weight that the inter-cluster-distance will contribute to the final fitness
 	 * @param w the weight to which w2 will be set
@@ -102,20 +83,27 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	public void setW2(double w) {
 		w2 = w;
 	}
-	
+
 	/**
-	 * Calculate the maximum distance possible between centroids
-	 * @param centroids The vector representing the centroid vectors
-	 * @return the maximum distance possible between the given centroids
+	 * Calculate the maximum distance possible between two {@linkplain Vector}s. In other words,
+	 * calculate the distance between two {@linkplain Vector}s; where all the elements in the first
+	 * {@linkplain Vector} is set to that element's upper bound and all the elements in the second
+	 * {@linkplain Vector} is set to that element's lower bound.
+	 * @return the maximum distance possible between two {@linkplain Vector}s
 	 */
-	protected double zMax(ClusterableDataSet dataset, Vector centroids) {
-		double zMax = 0.0;
-		double upper = ((Numeric)centroids.get(0)).getUpperBound();
-		double lower = ((Numeric)centroids.get(0)).getLowerBound();
-		int dimension = centroids.size() / dataset.getNumberOfClusters();
-		zMax = Math.pow(upper - lower, 2.0) * dimension;
-		//we only have to calculate zMax once
-		zMaxFlag = true;
-		return Math.sqrt(zMax);
+	protected double zMax() {
+		// first, get the build representation from the domain
+		Vector prototype = (Vector) ((DataSetBuilder)dataset).getProblem().getDomain().getBuiltRepresenation();
+		Vector upper = prototype.clone();
+		Vector lower = prototype.clone();
+
+		// then, set the elements of these Vectors to the upper and lower bounds respectively
+		for (int i = 0; i < upper.size(); i++) {
+			upper.setReal(i, prototype.getNumeric(i).getUpperBound());
+			lower.setReal(i, prototype.getNumeric(i).getLowerBound());
+		}
+
+		// lastly, calculate the distance between the two Vectors
+		return dataset.calculateDistance(upper, lower);
 	}
 }

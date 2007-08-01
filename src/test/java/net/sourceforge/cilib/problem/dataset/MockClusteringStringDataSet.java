@@ -29,22 +29,112 @@ public class MockClusteringStringDataSet extends MockStringDataSet {
 	private static final long serialVersionUID = 5346632651777290824L;
 
 	public MockClusteringStringDataSet() {
-		patternExpression = ",\\s*Class[\\d+]|,\\s*";
-		data = "7.5, 1.5,Class0\n";
-		data += "7.0, 3.5, Class0\n";
-		data += "6.0, 2.0, Class0\n";
-		data += "5.0, 4.0, Class0\n";
-		data += "5.0, 2.5, Class1\n";
-		data += "1.5, 2.0, Class1\n";
-		data += "2.0, 4.0, Class1\n";
-		data += "2.0, 6.0, Class1\n";
-		data += "2.5, 0.5, Class2\n";
-		data += "3.0, 5.0, Class2\n";
-		data += "3.0, 7.0, Class2\n";
-		data += "3.5, 6.5, Class2\n";
-		data += "3.5, 5.0, Class3\n";
-		data += "4.0, 3.0, Class3\n";
-		data += "3.5, 1.0, Class3\n";
-		data += "6.0, 1.0, Class3\n";
+		patternExpression = ",\\s(Class\\d)?";
+
+		data = "5, 1, Class0\n";
+
+		data += "32, 1, Class1\n";
+		data += "33, 1, Class1\n";
+		data += "34, 1, Class1\n";
+		data += "35, 1, Class1\n";
+		data += "36, 1, Class1\n";
+		data += "32, 2, Class1\n";
+		data += "33, 2, Class1\n";
+		data += "34, 2, Class1\n";
+		data += "35, 2, Class1\n";
+		data += "36, 2, Class1\n";
+		data += "32, 3, Class1\n";
+		data += "33, 3, Class1\n";
+		data += "34, 3, Class1\n";
+		data += "35, 3, Class1\n";
+		data += "36, 3, Class1\n";
+		data += "32, 4, Class1\n";
+		data += "33, 4, Class1\n";
+		data += "34, 4, Class1\n";
+		data += "35, 4, Class1\n";
+		data += "36, 4, Class1\n";
+		data += "32, 5, Class1\n";
+		data += "33, 5, Class1\n";
+		data += "34, 5, Class1\n";
+		data += "35, 5, Class1\n";
+		data += "36, 5, Class1\n";
+
+		data += "23, 9, Class2\n";
+		data += "23, 10, Class2\n";
+		data += "22, 11, Class2\n";
+		data += "23, 11, Class2\n";
+		data += "24, 11, Class2\n";
+		data += "22, 12, Class2\n";
+		data += "23, 12, Class2\n";
+		data += "24, 12, Class2\n";
+		data += "22, 13, Class2\n";
+		data += "23, 13, Class2\n";
+		data += "24, 13, Class2\n";
+		data += "23, 14, Class2\n";
+		data += "23, 15, Class2\n";
+
+		data += "16, 18, Class3\n";
+		data += "17, 18, Class3\n";
+		data += "14, 19, Class3\n";
+		data += "15, 19, Class3\n";
+		data += "16, 19, Class3\n";
+		data += "17, 19, Class3\n";
+
+		data += "22, 19, Class4\n";
+		data += "24, 19, Class4\n";
+		data += "26, 19, Class4\n";
+		data += "28, 19, Class4\n";
+
+		data += "13, 20, Class3\n";
+		data += "14, 20, Class3\n";
+		data += "15, 20, Class3\n";
+		data += "16, 20, Class3\n";
+		data += "12, 21, Class3\n";
+		data += "13, 21, Class3\n";
+		data += "14, 21, Class3\n";
+		data += "15, 21, Class3\n";
+		data += "16, 21, Class3\n";
+
+		data += "22, 21, Class4\n";
+		data += "24, 21, Class4\n";
+		data += "26, 21, Class4\n";
+		data += "28, 21, Class4\n";
+
+		data += "12, 22, Class3\n";
+		data += "13, 22, Class3\n";
+		data += "14, 22, Class3\n";
+		data += "15, 22, Class3\n";
+		data += "11, 23, Class3\n";
+		data += "12, 23, Class3\n";
+		data += "13, 23, Class3\n";
+		data += "14, 23, Class3\n";
+
+		data += "22, 23, Class4\n";
+		data += "24, 23, Class4\n";
+		data += "26, 23, Class4\n";
+		data += "28, 23, Class4\n";
+
+		data += "11, 24, Class3\n";
+		data += "12, 24, Class3\n";
+
+		data += "22, 25, Class4\n";
+		data += "24, 25, Class4\n";
+		data += "26, 25, Class4\n";
+		data += "28, 25, Class4\n";
+
+		data += "20, 30, Class5\n";
+
+		data += "17, 38, Class6\n";
+		data += "19, 38, Class6\n";
+		data += "21, 38, Class6\n";
+		data += "18, 39, Class6\n";
+		data += "20, 39, Class6\n";
+		data += "17, 40, Class6\n";
+		data += "21, 40, Class6\n";
+		data += "18, 41, Class6\n";
+		data += "20, 41, Class6\n";
+		data += "17, 42, Class6\n";
+		data += "19, 42, Class6\n";
+		data += "21, 42, Class6\n";
 	}
 }

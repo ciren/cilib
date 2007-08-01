@@ -1,34 +1,46 @@
+/*
+ * ParametricWithQuantisationErrorFunction.java
+ * 
+ * Created on July 18, 2007
+ *
+ * Copyright (C) 2003 - 2007
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous;
-
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in
- * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction) to calculate an improved parameterised fitness
- * of a particular clustering in the evaluate method.<br/>
- * References:<br/>
- * <p>
- * Mahamed G.H. Omran, "Particle Swarm Optimization Methods for Pattern Recognition and Image Processing",
- * University Of Pretoria, Faculty of Engineering, Built Environment and Information Technology, 251. Section 4.2.2; Pages 114 &
- * 115. November 2004
- * </p>
+ * {@linkplain ClusteringFitnessFunction) to calculate an improved parameterised fitness of a
+ * particular clustering in the <tt>calculateFitness</tt> method. See:<br/>
+ * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern Recognition
+ *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
+ *             Pretoria", school = "Computer Science", year = "2004", month = nov, pages = "114 &
+ *             115" address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht" }
  * @author Theuns Cloete
  */
 public class ParametricWithQuantisationErrorFunction extends ParametricClusteringFunction {
 	private static final long serialVersionUID = -2022785065235231801L;
-	
-	/**Specifies the weight that the Quantisation Error will contribute to the final fitness*/
+
+	/** Specifies the weight that the Quantisation Error will contribute to the final fitness */
 	protected double w3 = 0.0;
 
-	/**
-	 * The constructor calls the base class' constructor {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction}
-	 * and sets the parameter values to be:
-	 * <ul>
-	 *     <li>w1 = 0.3</li>
-	 *     <li>w2 = 0.3</li>
-	 *     <li>w3 = 0.4</li>
-	 * </ul>
-	 */
 	public ParametricWithQuantisationErrorFunction() {
 		super();
 		w1 = 0.3;
@@ -36,58 +48,20 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 		w3 = 0.4;
 	}
 
-	/**
-	 * This method is responsible for two things:
-	 * <ol>
-	 *     <li>Assign each pattern in the dataset to its closest centroid. We don't care how this is done, since it is handled
-	 *     by the {@link net.sourceforge.cilib.problem.dataset.ClusterableDataSet} abstraction. This has to be done before the
-	 *     fitness is evaluated for the given centroids vector.</li>
-	 *     <li>Calculate the improved parameterised fitness with the help of the following values:
-	 *         <ul>
-	 *             <li>maximum average distance between patterns and their respective centroids;</li>
-	 *             <li>minimum distance between centroid pairs;</li>
-	 *             <li>maximum distance possible between centroids (zMax); and</li>
-	 *             <li>the quantisation error</li>
-	 *         </ul>
-	 *     {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction.calculateQuantisationError}
-	 *     </li>
-	 * </ol>
-	 * @param centroids The vector representing the centroid vectors
-	 * @return the parameterised fitness that has been calculated
-	 */
 	@Override
-	public double evaluate(Vector centroids) {
-		//make sure the sum of the parameters equal 1.0
-		if(w1 + w2 + w3 != 1.0)
+	public double calculateFitness() {
+		// make sure the sum of the parameters equal 1.0
+		if (w1 + w2 + w3 != 1.0)
 			throw new IllegalArgumentException("The sum of w1, w2 and w3 must equal 1.0");
 
-		if(dataset == null)
-			resetDataSet();
-		//assign each pattern in the dataset to its closest centroid
-		dataset.assign(centroids);
-		
-		calculateQuantisationErrorAndMaximumAverageDistanceBetweenPatternsAndCentroids(centroids);
-		calculateInterClusterDistance(centroids);
-
-		//zMax only needs to be calculated once, because the domain is not supposed to change during a simulation
-		if(!zMaxFlag)
-			zMax = zMax(dataset, centroids);
-
-		//the fitness should never drop below 0.0, but just in case something goes wrong, we want to know about it
-		double fitness = (w1 * maximumAverageDistance) + (w2 * (zMax - interClusterDistance)) + (w3 * quantisationError); 
-		if(fitness < 0.0) {
-			System.out.println("w1 = " + w1);
-			System.out.println("maximumAverageDistance = " + maximumAverageDistance);
-			System.out.println("zMax = " + zMax);
-			System.out.println("w2 = " + w2);
-			System.out.println("minimumCentroidDistance = " + interClusterDistance);
-			System.out.println("w3 = " + w3);
-			System.out.println("quantisationError = " + quantisationError);
-			System.exit(0);
+		// zMax only needs to be calculated once; domain is not supposed to change during a simulation
+		if (zMax < 0.0) {
+			zMax = zMax();
 		}
-		return fitness;
+
+		return (w1 * calculateMaximumAverageDistance()) + (w2 * (zMax - calculateMinimumInterClusterDistance())) + (w3 * calculateQuantisationError());
 	}
-	
+
 	/**
 	 * Set the weight that the Quantisation Error will contribute to the final fitness
 	 * @param w the weight to which w3 will be set

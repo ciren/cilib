@@ -5,6 +5,41 @@
 	</properties>
 	<body>
 		<release version="0.6.8" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
+			<action dev="heatzync" type="update">
+			Improved the implementation and usage of the problem.dataset.AssociatedPairDataSetBuilder
+			and functions.continuous.ClusteringFitnessFunction hierarchies.
+			</action>
+			<action dev="heatzync" type="add">
+			functions.continuous.ScatterSeperationRatio.java is a generalisation for validity indices that
+			make use of the intra-cluster (within-cluster) scatter and inter-cluster (between-cluster)
+			seperation values. These include the Davies-Bouldin index as well as the Dunn indices.
+			</action>
+			<action dev="heatzync" type="add">
+			Two of the Generalised Dunn Indices have been implemented: functions.continuous.DunnIndex33.java
+			and functions.continuous.DunnIndex53.java. functions.continuous.GeneralisedDunnIndex.java was
+			added to help with the implementation.
+			</action>
+			<action dev="heatzync" type="add">
+			functions.continuous.MaulikBandyopadhyayIndex.java: a new Clustering Validity Index
+			functions.continuous.VeenmanReindersBackerIndex.java:  a new Clustering Validity Index
+			</action>
+			<action dev="heatzync" type="rename">
+			functions.continuous.HalkidiVazirgiannisIndex.java was previously called functions.continuous.ScatterDensityIndex.java.
+			</action>
+			<action dev="heatzync" type="rename">
+			problem.dataset.CachingDataSetBuilder.java was previously called problem.dataset.CachedDistanceDataSetBuilder.java.
+			</action>
+			<action dev="heatzync" type="add">
+			measurement.single.NumberOfClustersFormed.java is a new measurement that measures the number
+			of clusters that are formed by the best solution of the current iteration.
+			</action>
+			<action dev="heatzync" type="update">
+			Updated and re-implemented unit tests.
+			</action>
+			<action dev="heatzync" type="remove">
+			Removed functions.continuous.QuantisationErrorTest.java, because its functionality is tested
+			inside functions.continuous.ClusteringFitnessFunctionTest.java.
+			</action>
 			<action dev="heatzync" type="add">
 			measurement.single.GenericFunctionMeasurement.java: A measurement that takes any function
 			(you have to use the .setFunction() method) and returns the value (or fitness) of that

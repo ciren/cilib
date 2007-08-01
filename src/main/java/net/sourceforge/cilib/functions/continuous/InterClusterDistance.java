@@ -1,16 +1,43 @@
+/*
+ * InterClusterDistance.java
+ * 
+ * Created on July 18, 2007
+ *
+ * Copyright (C) 2003 - 2007
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.measurement.single.GenericFunctionMeasurement;
 
+/**
+ * This <i>clustering fitness function</i> will probably never be used to train on directly. The
+ * main reason why it has been implemented is to be able to take measurements of the
+ * <i>inter-cluster distance<i> via the {@linkplain GenericFunctionMeasurement} class.
+ * @author Theuns Cloete
+ */
 public class InterClusterDistance extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 6533014298881438534L;
 
 	@Override
-	public double evaluate(Vector centroids) {
-		if(dataset == null)
-			resetDataSet();
-		//assign each pattern in the dataset to its closest centroid
-		dataset.assign(centroids);
-		return calculateInterClusterDistance(centroids);
+	public double calculateFitness() {
+		return calculateMinimumInterClusterDistance();
 	}
 }

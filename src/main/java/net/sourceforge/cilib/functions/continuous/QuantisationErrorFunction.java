@@ -1,48 +1,49 @@
+/*
+ * QuantisationErrorFunction.java
+ * 
+ * Created on July 18, 2007
+ *
+ * Copyright (C) 2003 - 2007
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science 
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous;
-
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in
- * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction} to calculate the Quantisation Error of a
- * particular clustering in the evaluate method.<br/>
- * References:<br/>
- * <p>
- * Mahamed G.H. Omran, "Particle Swarm Optimization Methods for Pattern Recognition and Image Processing",
- * University Of Pretoria, Faculty of Engineering, Built Environment and Information Technology, 251. Section 4.1.1; Pages 104
- * & 105. November 2004
- * </p>
+ * {@linkplain ClusteringFitnessFunction} to calculate the Quantisation Error of a particular
+ * clustering in the <tt>calculateFitness</tt> method. See: <br/>
+ * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern Recognition
+ *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
+ *             Pretoria", school = "Computer Science", year = "2004", month = nov, address =
+ *             "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht", }
  * @author Theuns Cloete
  */
 public class QuantisationErrorFunction extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = -7008338250315442786L;
 
-	/**
-	 * The constructor, nothing much is done here, except that it calls the base class' constructor.
-	 * {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction}
-	 */
 	public QuantisationErrorFunction() {
 		super();
 	}
 
-	/**
-	 * This method is responsible for two things:
-	 * <ol>
-	 *     <li>Assign each pattern in the dataset to its closest centroid. We don't care how this is done, since it is handled
-	 *     by the {@link net.sourceforge.cilib.problem.dataset.ClusterableDataSet} abstraction. This has to be done before the
-	 *     fitness is evaluated for the given centroids vector.</li>
-	 *     <li>Calculate the Quantisation Error by making use of
-	 *     {@link net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction.calculateQuantisationError}</li>
-	 * </ol>
-	 * @param centroids The vector representing the centroid vectors
-	 * @return the quantisation error that has been calculated
-	 */
 	@Override
-	public double evaluate(Vector centroids) {
-		if(dataset == null)
-			resetDataSet();
-		//assign each pattern in the dataset to its closest centroid
-		dataset.assign(centroids);
-		return calculateQuantisationError(centroids);
+	public double calculateFitness() {
+		return calculateQuantisationError();
 	}
 }

@@ -30,6 +30,8 @@ import java.io.DataInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -42,9 +44,10 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * @TODO: This must be refactored to be a generic DataSetBuilder... the image format should be setable via a strategy
  */
 public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
-
 	private static final long serialVersionUID = 5180881998608485523L;
-	
+	private static Logger log = Logger.getLogger(TGAImageDataSetBuilder.class);
+	private String outputImage = null;
+
 	protected char data[][][] = null;
 	protected char key[][] = null;
 
@@ -69,6 +72,7 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 
 	public TGAImageDataSetBuilder() {
 		distanceMeasure = new EuclideanDistanceMeasure();
+		outputImage = "output.tga";
 	}
 	
 	@Override
@@ -77,7 +81,7 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 			DataInputStream dis = new DataInputStream(dataset.getInputStream());
 			try {
 				readHeader(dis);
-				System.out.print("Reading image data...");
+				log.info("Reading image data...");
 				data = new char[width][height][depth];
 				key = new char[width][height];
 				for(int x = 0; x < width; x++) {
@@ -88,7 +92,7 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 						key[x][y] = (char)0;
 					}
 				}
-				System.out.println("done");
+				log.info("done");
 			}
 			catch (IOException io) {
 				throw new RuntimeException(io);
@@ -98,13 +102,13 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 	
 	public void uninitialise(Vector centroids) {
 		try {
-			FileOutputStream fos = new FileOutputStream(outputFile);
+			FileOutputStream fos = new FileOutputStream(outputImage);
 			writeHeader(fos);
 			System.out.println(centroids);
-//			System.out.print("Writing image data...");
+			log.info("Writing image data...");
 			for(int x = 0; x < width; x++) {
 				for(int y = 0; y < height; y++) {
-					Vector centroid = getSubCentroid(centroids, key[x][y]);
+					Vector centroid = arrangedCentroids.get(key[x][y]);
 					for(int z = 0; z < depth; z++) {
 						fos.write(centroid.getInt(z));
 					}
@@ -112,13 +116,13 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 			}
 			for(int i = 0; i < numberOfClusters * 2; i++) {
 				for(int j = 0; j < width; j++) {
-					Vector centroid = getSubCentroid(centroids, i / 2);
+					Vector centroid = arrangedCentroids.get(i / 2);
 					for(int k = 0; k < depth; k++) {
 						fos.write(centroid.getInt(k));
 					}
 				}
 			}
-//			System.out.println("done");
+			log.info("done");
 		}
 		catch (IOException iox) {
 			throw new RuntimeException(iox);
@@ -190,5 +194,13 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 	@Override
 	public int getNumberOfPatterns() {
 		return width * height;
-	}	
+	}
+
+	public String getOutputImage() {
+		return outputImage;
+	}
+
+	public void setOutputImage(String oi) {
+		outputImage = oi;
+	}
 }

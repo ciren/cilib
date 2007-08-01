@@ -35,10 +35,9 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * @author Theuns Cloete
  */
 public interface ClusterableDataSet {
-
-	public void assign(Vector vector);
-
-	public ArrayList<ArrayList<Pattern>> arrangedClusters();
+	public void arrangeClustersAndCentroids(Vector centroids);
+	public ArrayList<ArrayList<Pattern>> getArrangedClusters();
+	public ArrayList<Vector> getArrangedCentroids();
 
 	public int getNumberOfPatterns();
 
@@ -57,14 +56,6 @@ public interface ClusterableDataSet {
 	public void setNumberOfClusters(int clusters);
 
 	public int getNumberOfClusters();
-
-	public void setNumberOfClasses(int classes);
-
-	public int getNumberOfClasses();
-
-	public Vector getSubCentroid(Vector centroids, int cluster);
-
-	public void setSubCentroid(Vector centroids, Vector centroid, int cluster);
 
 	public Vector getSetMean(ArrayList<Pattern> set);
 
@@ -93,6 +84,10 @@ public interface ClusterableDataSet {
 
 		protected Pattern clone() {
 			return new Pattern(this);
+		}
+
+		public String toString() {
+			return "Index " + index + "; Class " + clas + "; Data " + data;
 		}
 	}
 }

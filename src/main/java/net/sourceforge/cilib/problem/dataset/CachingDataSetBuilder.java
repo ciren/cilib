@@ -4,27 +4,26 @@ import org.apache.log4j.Logger;
 
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class CachedDistanceDataSetBuilder extends AssociatedPairDataSetBuilder {
+public class CachingDataSetBuilder extends AssociatedPairDataSetBuilder {
 	private static final long serialVersionUID = -8098125665317527403L;
-	private static Logger log = Logger.getLogger(CachedDistanceDataSetBuilder.class);
+	private static Logger log = Logger.getLogger(CachingDataSetBuilder.class);
 
 	private Vector mean = null;
 	private Vector variance = null;
 	private double distanceCache[] = null;
 	private int cacheSize = 0;
 
-	public CachedDistanceDataSetBuilder() {
+	public CachingDataSetBuilder() {
 		super();
 	}
 	
-	/**
-	 * Construct the data structure (keyPatternPair) that will contain all the patterns of all the datasets that exist
-	 */
 	@Override
 	public void initialise() {
 		super.initialise();
 		cacheDistances();
+		log.info("Caching dataset mean");
 		mean = getSetMean(patterns);
+		log.info("Caching dataset variance");
 		variance = getSetVariance(patterns);
 	}
 
@@ -40,7 +39,6 @@ public class CachedDistanceDataSetBuilder extends AssociatedPairDataSetBuilder {
 				distanceCache[index] = distanceMeasure.distance(patterns.get(x).data, patterns.get(y).data);
 			}
 		}
-		log.info("Done");
 	}
 
 	@Override
