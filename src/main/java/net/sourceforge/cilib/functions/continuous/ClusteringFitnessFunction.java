@@ -88,6 +88,15 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 		arrangedCentroids = dataset.getArrangedCentroids();
 		clustersFormed = arrangedClusters.size();
 
+		/*
+		 * TODO: Figure out a nice OO way to determine whether this function is being optimised as a
+		 * FunctionMinimisationProblem or FunctionMaximisationProblem and then return the appropriate
+		 * value
+		 */
+		if (clustersFormed < 2) {
+			return worstFitness();
+		}
+
 		return validateFitness(calculateFitness());
 	}
 
@@ -160,9 +169,6 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * @return the minimum inter-cluster distance
 	 */
 	public double calculateMinimumInterClusterDistance() {
-		if (clustersFormed < 2)
-			return -Double.MAX_VALUE;
-
 		double minimumInterClusterDistance = Double.MAX_VALUE;
 
 		for (int i = 0; i < clustersFormed - 1; i++) {
@@ -181,9 +187,6 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * @return the maximum inter-cluster distance
 	 */
 	public double calculateMaximumInterClusterDistance() {
-		if (clustersFormed < 2)
-			return Double.MAX_VALUE;
-
 		double maximumInterClusterDistance = -Double.MAX_VALUE;
 
 		for (int i = 0; i < clustersFormed - 1; i++) {
@@ -281,13 +284,15 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	}
 
 	/**
-	 * Calculate the intra-cluster distance. In other words, the average of the distances between all
-	 * patterns of all clusters and their associated centroids. The calculation is specified in
-	 * Section 3.2 on page 2 of:<br/>
-	 * @Unpublished{ cal99, title = "Determination of Number of Clusters in K-Means Clustering and
-	 *               Application in Colour Image Segmentation", author = "Siddheswar Ray and Rose H.
-	 *               Turi", year = "2000", month = jul }
-	 * @return the inter-cluster distance for all clusters
+	 * Calculate the intra-cluster distance. In other words, the sum of the distances between all
+	 * patterns of all clusters and their associated centroids. The calculation is specified by
+	 * Equation 13 in Section IV on page 124 of:<br/>
+	 * @Article{ 923275, title = "Nonparametric Genetic Clustering: Comparison of Validity Indices",
+	 *           author = "Ujjwal Maulik and Sanghamitra Bandyopadhyay", journal = "IEEE Transactions
+	 *           on Systems, Man, and Cybernetics, Part C: Applications and Reviews", pages =
+	 *           "120--125", volume = "31", number = "1", month = feb, year = "2001", issn =
+	 *           "1094-6977" }
+	 * @return the average intra-cluster distance for all clusters
 	 */
 	public double calculateIntraClusterDistance() {
 		double intraClusterDistance = 0.0;
@@ -300,7 +305,20 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 				intraClusterDistance += dataset.calculateDistance(pattern.data, centroid);
 			}
 		}
-		return intraClusterDistance / dataset.getNumberOfPatterns();
+		return intraClusterDistance;
+	}
+
+	/**
+	 * Calculate the average intra-cluster distance. In other words, the average of the distances between all
+	 * patterns of all clusters and their associated centroids. The calculation is specified in
+	 * Section 3.2 on page 2 of:<br/>
+	 * @Unpublished{ cal99, title = "Determination of Number of Clusters in K-Means Clustering and
+	 *               Application in Colour Image Segmentation", author = "Siddheswar Ray and Rose H.
+	 *               Turi", year = "2000", month = jul }
+	 * @return the average intra-cluster distance for all clusters
+	 */
+	public double calculateAverageIntraClusterDistance() {
+		return calculateIntraClusterDistance() / dataset.getNumberOfPatterns();
 	}
 
 	public ClusterableDataSet getDataSet() {
@@ -333,8 +351,17 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	}
 
 	@Override
-	public Object getMinimum() {
+	public Double getMinimum() {
 		return new Double(0.0);
+	}
+
+	@Override
+	public Double getMaximum() {
+		return new Double(Double.MAX_VALUE);
+	}
+
+	protected Double worstFitness() {
+		return getMaximum();
 	}
 
 	/**

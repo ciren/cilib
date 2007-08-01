@@ -29,12 +29,12 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This is the I(K) Validity Index as given in
+ * This is the I(K) Validity Index as given in Equation 13 in Section IV on page 124 of:<br/>
  * @Article{ 923275, title = "Nonparametric Genetic Clustering: Comparison of Validity Indices",
  *           author = "Ujjwal Maulik and Sanghamitra Bandyopadhyay", journal = "IEEE Transactions on
  *           Systems, Man, and Cybernetics, Part C: Applications and Reviews", pages = "120--125",
- *           volume = "31", number = "1", month = feb, year = "2001", issn = "1094-6977", } I(K)
- *           isn't really a name, so I'm calling it the Maulik-Bandyopadhyay Validity Index
+ *           volume = "31", number = "1", month = feb, year = "2001", issn = "1094-6977", }
+ * NOTE: I(K) isn't really a name, so I'm calling it the Maulik-Bandyopadhyay Validity Index
  * @author Theuns Cloete
  */
 public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
@@ -56,18 +56,15 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
 	}
 
 	private double termTwo() {
-		double numerator = -1.0, denominator = 0.0;
+		// This is the normalizing factor, E_1 which they talk about in the article
+		double intraDatasetDistance = 0.0;
 
-		for (Vector centroid : arrangedCentroids) {
-			for (Pattern pattern : dataset.getPatterns()) {
-				denominator += dataset.calculateDistance(pattern.data, centroid);
-			}
-			if (numerator < 0.0) {
-				numerator = denominator;
-			}
+		Vector mean = dataset.getMean();
+		for (Pattern pattern : dataset.getPatterns()) {
+			intraDatasetDistance += dataset.calculateDistance(pattern.data, mean);
 		}
 
-		return numerator / denominator;
+		return intraDatasetDistance / calculateIntraClusterDistance();
 	}
 
 	private double termThree() {

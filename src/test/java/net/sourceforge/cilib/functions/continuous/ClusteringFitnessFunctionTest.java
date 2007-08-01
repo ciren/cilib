@@ -133,6 +133,11 @@ public class ClusteringFitnessFunctionTest {
 
 	@Test
 	public void testIntraClusterDistance() {
-		assertEquals(427.037141232211 / 93, function.calculateIntraClusterDistance(), roundingError);
+		assertEquals(427.037141232211, function.calculateIntraClusterDistance(), roundingError);
+	}
+
+	@Test
+	public void testAverageIntraClusterDistance() {
+		assertEquals(427.037141232211 / 93, function.calculateAverageIntraClusterDistance(), roundingError);
 	}
 }

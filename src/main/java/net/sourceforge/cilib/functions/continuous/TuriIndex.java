@@ -52,7 +52,7 @@ public class TuriIndex extends ClusteringFitnessFunction {
 	public double calculateFitness() {
 //		gaussian = random.getGaussian(2, 1);
 
-		return /*(c * gaussian + 1) * */(calculateIntraClusterDistance() / calculateMinimumInterClusterDistance());
+		return /*(c * gaussian + 1) * */(calculateAverageIntraClusterDistance() / calculateMinimumInterClusterDistance());
 	}
 
 	public void setC(double c) {

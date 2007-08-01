@@ -395,6 +395,7 @@ public class XMLObjectFactory {
             method.invoke(target, parameters);
         }
         catch (InvocationTargetException ex) {
+      	  ex.printStackTrace();
            error(xml, "Invoking " + target.getClass().getName() + "." + method.getName() + "(" + getParameterString(parameters) + ") caused: " + ex.getTargetException().toString());
         }
         catch (Exception ex) {
