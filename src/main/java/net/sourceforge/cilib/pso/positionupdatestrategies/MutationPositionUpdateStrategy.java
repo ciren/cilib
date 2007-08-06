@@ -108,7 +108,7 @@ public class MutationPositionUpdateStrategy extends
 			}
 		}
 		
-		if (((PSO) Algorithm.get()).getIterations() < decreasingParameter.getParameter()*(double)maximumIterations.getIterations()) {
+		if (((PSO) Algorithm.get()).getIterations() < decreasingParameter.getParameter()*(double)maximumIterations.getMaximumIterations()) {
 			mutate(particle);
 		}
 		
@@ -129,7 +129,7 @@ public class MutationPositionUpdateStrategy extends
 		double tempUpper = 0.0;
 		
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
-			double number = Math.pow((1.0 - (double)p.getIterations()/(maximumIterations.getIterations()*decreasingParameter.getParameter())),1.5);
+			double number = Math.pow((1.0 - (double)p.getIterations()/(maximumIterations.getMaximumIterations()*decreasingParameter.getParameter())),1.5);
 			if (MathUtil.flip(number) == 1)
 			{
 				int dimension = Double.valueOf(randomNumber.getUniform(0, position.getDimension())).intValue();
@@ -164,7 +164,7 @@ public class MutationPositionUpdateStrategy extends
 	 * @return
 	 */
 	private double strangeFunction(PSO p, MaximumIterations max) {
-		return Math.pow(1.0 - (double)p.getIterations()/(max.getIterations()*decreasingParameter.getParameter()),1.5);
+		return Math.pow(1.0 - (double)p.getIterations()/(max.getMaximumIterations()*decreasingParameter.getParameter()),1.5);
 	}
 	
 }

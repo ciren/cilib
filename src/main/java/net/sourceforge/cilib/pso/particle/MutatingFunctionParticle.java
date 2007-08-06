@@ -77,7 +77,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 		if (maximum == null)
 			getStoppingConditionObjects();
 
-		if (((PSO) Algorithm.get()).getIterations() < mutationRate*(double)maximum.getIterations())
+		if (((PSO) Algorithm.get()).getIterations() < mutationRate*(double)maximum.getMaximumIterations())
 			mutate();
 
 	}
@@ -112,12 +112,12 @@ public class MutatingFunctionParticle extends StandardParticle {
 
 
 	private double strangeFunction(PSO p, MaximumIterations max) {
-		return Math.pow(1.0 - (double)p.getIterations()/(max.getIterations()*mutationRate),1.5);
+		return Math.pow(1.0 - (double)p.getIterations()/(max.getMaximumIterations()*mutationRate),1.5);
 	}
 
 	private double function(double t, double y) {
 		double r = random.nextDouble();
-		double part1 = Math.pow((1.0-t/(double)maximum.getIterations()), 5.0);
+		double part1 = Math.pow((1.0-t/(double)maximum.getMaximumIterations()), 5.0);
 		double part2 = Math.pow(r, part1);
 		double part3 = 1.0 - part2;
 		double result = y * part3;
@@ -138,7 +138,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 		
 		//		for (int i = 0; i < position.length; ++i) { // Mutation
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
-	        double number = Math.pow((1.0 - (double)p.getIterations()/(maximum.getIterations()*mutationRate)),1.5);
+	        double number = Math.pow((1.0 - (double)p.getIterations()/(maximum.getMaximumIterations()*mutationRate)),1.5);
 			int dimension = RandomInt(0,position.getDimension());
 			//Quantitative component = (Quantitative) domain.getComponent(dimension);
 			Real real = (Real) position.get(dimension);
@@ -182,7 +182,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 				}
 		}
 		
-		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getIterations() - p.getIterations()) / (double) maximum.getIterations())+endingMutationRate ;
+		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations())+endingMutationRate ;
 
 	}
 

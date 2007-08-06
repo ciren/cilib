@@ -160,7 +160,7 @@ public class CILibHandlerTest {
 		assertTrue(stoppingConditions.get(0) instanceof MaximumIterations);
 		
 		MaximumIterations iterations = (MaximumIterations) stoppingConditions.get(0);
-		assertEquals(1000, iterations.getIterations());
+		assertEquals(1000, iterations.getMaximumIterations());
 				
 		OptimisationProblem problem = (OptimisationProblem) ObjectRegistry.getInstance().getObject("spherical");
 		assertTrue(problem instanceof FunctionMinimisationProblem);
