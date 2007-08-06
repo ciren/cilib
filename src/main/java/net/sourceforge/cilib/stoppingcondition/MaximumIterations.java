@@ -55,7 +55,7 @@ public class MaximumIterations implements StoppingCondition {
 		this.maximumIterations = maximumIterations;
 	}
 
-	public int getIterations() {
+	public int getMaximumIterations() {
 		return maximumIterations;
 	}
 
@@ -67,7 +67,7 @@ public class MaximumIterations implements StoppingCondition {
 		return algorithm.getIterations() >= maximumIterations;
 	}
 
-	public void setIterations(int maximumIterations) {
+	public void setMaximumIterations(int maximumIterations) {
 		this.maximumIterations = maximumIterations;
 	}
 
