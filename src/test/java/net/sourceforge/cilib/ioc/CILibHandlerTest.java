@@ -73,7 +73,7 @@ public class CILibHandlerTest {
 		xmlBuffer.append("<simulator>");
 		xmlBuffer.append("<algorithms>");
 		xmlBuffer.append("  <algorithm id='gbest' class='pso.PSO'>");
-		xmlBuffer.append("    <addStoppingCondition class='stoppingcondition.MaximumIterations' iterations='1000' />");
+		xmlBuffer.append("    <addStoppingCondition class='stoppingcondition.MaximumIterations' maximumIterations='1000' />");
 		xmlBuffer.append("  </algorithm>");
 		xmlBuffer.append("</algorithms>");
 		xmlBuffer.append("<problems>");
