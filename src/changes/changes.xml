@@ -5,6 +5,11 @@
 	</properties>
 	<body>
 		<release version="0.6.8" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
+			<action dev="gpampara" type="update">
+				Fixed some potential bugs in ControlParameterUpdateStrategy code.
+			<action dev="gpampara" type="add" contrib="segen">
+				Added the new structure for the diversity measuement.
+			</action>
 			<action dev="gpampara" type="update" contrib="apengelbrecht">
 				Corrected the manner in which the structure of the PSO iteration strategies are defined (ASynchrounsousIterationStrategy and SynchronousIterationStrategy). The code should be more clear.
 			</action>
