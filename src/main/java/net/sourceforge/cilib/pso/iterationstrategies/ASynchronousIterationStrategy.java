@@ -45,13 +45,25 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
+	 * 
+	 * This is an ASynchronous strategy:
+	 * 1. For all particles:
+	 *    1.1 Update the particle velocity
+	 *    1.2 Update the particle position
+	 *    1.3 Calculate the particle fitness
+	 *    1.4 For all paritcles in the current particle's neighbourhood
+	 *        1.4.1 Update the nieghbourhooh best  
 	 */
 	public void performIteration(PSO algorithm) {
 		Topology<Particle> topology = algorithm.getTopology();
-	   for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
-            Particle current = i.next();
-            //current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
-            current.calculateFitness();
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
+			Particle current = i.next();
+			current.updateVelocity();       // TODO: replace with visitor (will simplify particle interface)
+			current.updatePosition();       // TODO: replace with visitor (will simplify particle interface)
+	           
+			boundaryConstraint.enforce(current);
+	           
+			current.calculateFitness();
             
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
                 Particle other = j.next();
@@ -59,26 +71,7 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
                     other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
             }
-       }
-
-       for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
-           Particle current = i.next();
-           //current.updateVelocity(pso.getVelocityUpdate());      // TODO: replace with visitor (will simplify particle interface)
-           current.updateVelocity();
-           current.updatePosition();                                        // TODO: replace with visitor (will simplify particle interface)
-           
-           boundaryConstraint.enforce(current);
-           
-           //current.setFitness(algorithm.getOptimisationProblem().getFitness(current.getPosition(), true));
-           current.calculateFitness();
-           
-           for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
-               Particle other = j.next();
-               if (current.getBestFitness().compareTo( other.getNeighbourhoodBest().getBestFitness()) > 0) {
-                   other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
-               }
-           }
-       }
+		}
 	}
 
 }

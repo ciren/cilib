@@ -47,28 +47,38 @@ public class SynchronousIterationStrategy extends IterationStrategy<PSO> {
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
+	 * 
+	 * This is an ASynchronous strategy:
+	 * 1. For all particles:
+	 *    1.1 Update the particle velocity
+	 *    1.2 Update the particle position
+	 * 2. For all particles
+	 *    2.1 Calculate the particle fitness
+	 *    2.2 For all paritcles in the current particle's neighbourhood
+	 *        2.2.1 Update the nieghbourhooh best  
 	 */
 	public void performIteration(PSO pso) {
 		Topology<Particle> topology = pso.getTopology();
-	   for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
-            Particle current = i.next();
+
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
+			Particle current = i.next();
+			current.updateVelocity();
+			current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
+	           
+			boundaryConstraint.enforce(current);
+		}
+
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
+			Particle current = i.next();
             current.calculateFitness();
             
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
-                Particle other = j.next();
-                if (current.getSocialBestFitness().compareTo( other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
-                    other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
+            	Particle other = j.next();
+            	if (current.getSocialBestFitness().compareTo( other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+            		other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
             }
-       }
-
-       for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
-           Particle current = i.next();
-           current.updateVelocity();
-           current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
-           
-           boundaryConstraint.enforce(current);
-       }
+		}
 	}
 
 }
