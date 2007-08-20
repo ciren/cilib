@@ -1,5 +1,5 @@
 /*
- * RadiusVisitor.java
+ * TopologyBasedNormlisation.java
  * 
  * Copyright (C) 2003, 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -21,40 +21,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.entity.visitor;
-
-import java.util.Iterator;
+package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
-public class RadiusVisitor extends TopologyVisitor {
+public class TopologyBasedNormalisation extends NormalisationParameter {
+
+	private TopologyVisitor visitor;
 	
-	public RadiusVisitor() {
+	public TopologyBasedNormalisation() {
 		super();
+		visitor = new DiameterVisitor();
+	}
+	
+	@Override
+	public double getValue() {
+		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+		visitor.setDistanceMeasure(distanceMeasure);
+		algorithm.accept(visitor);
+		this.normalisationParameter = visitor.getResult();
+		
+		return this.normalisationParameter;
 	}
 
-	@Override
-	public void visit(Topology topology) {
-		double maxDistance = 0.0;
-    	
-    	Vector swarmBestParticlePosition = (Vector) ((PopulationBasedAlgorithm) Algorithm.get()).getBestSolution().getPosition();
-    	Iterator swarmIterator = topology.iterator();
-    	    	
-    	while(swarmIterator.hasNext()) {
-    		Entity swarmParticle = (Entity) swarmIterator.next();
-    		Vector swarmParticlePosition = (Vector) swarmParticle.getContents();
-    			
-    		double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
-    	
-    		if (actualDistance > maxDistance)
-    			maxDistance = actualDistance;
-    	}
-    	
-    	result = maxDistance;
+	public TopologyVisitor getVisitor() {
+		return visitor;
+	}
+
+	public void setVisitor(TopologyVisitor visitor) {
+		this.visitor = visitor;
 	}
 
 }

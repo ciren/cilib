@@ -59,7 +59,7 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
             
             while(subSwarmsIterator.hasNext()) {
                 PSO subSwarm = (PSO)subSwarmsIterator.next();
-                RadiusVisitor radiusVisitor = new RadiusVisitor(subSwarm);
+                RadiusVisitor radiusVisitor = new RadiusVisitor();
                 subSwarm.accept(radiusVisitor);
                 double subSwarmRadius = radiusVisitor.getResult();
                 

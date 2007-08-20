@@ -1,5 +1,5 @@
 /*
- * RadiusVisitor.java
+ * SpatialCenterInitialisationStrategy.java
  * 
  * Copyright (C) 2003, 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -21,40 +21,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.entity.visitor;
+package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
 
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class RadiusVisitor extends TopologyVisitor {
+public class SpatialCenterInitialisationStrategy extends CenterInitialisationStrategy {
 	
-	public RadiusVisitor() {
-		super();
-	}
-
 	@Override
-	public void visit(Topology topology) {
-		double maxDistance = 0.0;
-    	
-    	Vector swarmBestParticlePosition = (Vector) ((PopulationBasedAlgorithm) Algorithm.get()).getBestSolution().getPosition();
-    	Iterator swarmIterator = topology.iterator();
-    	    	
-    	while(swarmIterator.hasNext()) {
-    		Entity swarmParticle = (Entity) swarmIterator.next();
-    		Vector swarmParticlePosition = (Vector) swarmParticle.getContents();
-    			
-    		double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
-    	
-    		if (actualDistance > maxDistance)
-    			maxDistance = actualDistance;
-    	}
-    	
-    	result = maxDistance;
+	public Vector getCenter() {
+		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+		int numberOfEntities = algorithm.getPopulationSize();
+		
+		Iterator<? extends Entity> averageIterator = algorithm.getTopology().iterator();
+		Entity entity = averageIterator.next();
+        Vector averageEntityPosition = ((Vector) entity.getContents()).clone();
+        
+        while (averageIterator.hasNext()) {
+        	entity = averageIterator.next();
+        	Vector entityContents = (Vector) entity.getContents();
+        	for (int j = 0; j < averageEntityPosition.getDimension(); ++j)
+        	   averageEntityPosition.setReal(j,averageEntityPosition.getReal(j)+entityContents.getReal(j));
+        }
+        
+        for (int j = 0; j < averageEntityPosition.getDimension(); ++j)
+           averageEntityPosition.setReal(j,averageEntityPosition.getReal(j)/numberOfEntities);
+		
+        return averageEntityPosition;
 	}
 
 }

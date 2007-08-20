@@ -1,5 +1,5 @@
 /*
- * TopologyVisitor.java
+ * NormalisationParameter.java
  * 
  * Copyright (C) 2003, 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -21,34 +21,49 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.entity.visitor;
+package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
-import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
-public abstract class TopologyVisitor extends Visitor<Topology> {
+public class NormalisationParameter {
 	
-	protected double result;
+	protected double normalisationParameter;
 	protected DistanceMeasure distanceMeasure;
 	
-	public TopologyVisitor() {
+	public NormalisationParameter() {
+		normalisationParameter = 1.0;
 		distanceMeasure = new EuclideanDistanceMeasure();
 	}
 	
-	public abstract void visit(Topology algorithm);
+	/**
+	 * @return the normalising parameter
+	 */
+	public double getValue() {
+		return this.normalisationParameter;
+	}
 	
-	public double getResult() {
-		return result;
+	/**
+	 * @param
+	 * 
+	 * set the value to be used as a normalisation parameter
+	 */
+	public void setNormalisationParameter(double value) {
+		this.normalisationParameter = value;
 	}
-
+	
+	/**
+	 * @return the distance measure used in the calculation
+	 */
 	public DistanceMeasure getDistanceMeasure() {
-		return distanceMeasure;
+		return this.distanceMeasure;
 	}
-
-	public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
-		this.distanceMeasure = distanceMeasure;
+	
+	/**
+	 * @param distance The distance measure to be used in the normalisation calculation
+	 */
+	public void setDistanceMeasure(DistanceMeasure distance) {
+		this.distanceMeasure = distance;
 	}
 
 }

@@ -1,66 +1,75 @@
 <?xml version="1.0"?>
+
 <!DOCTYPE simulator [
 <!ATTLIST algorithm id ID #IMPLIED>
 <!ATTLIST problem id ID #IMPLIED>
-<!ATTLIST measurements id ID #IMPLIED>]>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
 
 <simulator>
 	<algorithms>
-		<algorithm id="pso_1" class="pso.PSO">
-			<particles value="10"/>
+		<algorithm id="pso1" class="pso.PSO" particles="10">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="100"/>
 			<topology class="entity.topologies.GBestTopology"/>
-			<prototypeParticle class="pso.particle.StandardParticle">
-				<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
-					<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.07"/>
-				</velocityUpdateStrategy>
-			</prototypeParticle>
+			<initialisationStrategy class="algorithm.initialisation.ClonedEntityInitialisationStrategy">
+				<entityType class="pso.particle.StandardParticle">
+					<velocityInitialisationStrategy class="pso.particle.initialisation.RandomInitialVelocityStrategy"/>
+					<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+						<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.07"/>
+					</velocityUpdateStrategy>
+				</entityType>
+			</initialisationStrategy>
 		</algorithm>
-		<algorithm id="pso_2" class="pso.PSO">
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>
-<!--			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
-				<maximumFitnessEvaluations value="100000"/>
-			</addStoppingCondition>-->
-			<particles value="30"/>
-			<topology class="entity.topologies.GBestTopology"/>
-			<prototypeParticle class="pso.particle.StandardParticle">
-				<velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
-					<vMax class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.07"/>
-				</velocityUpdateStrategy>
-			</prototypeParticle>
+		<algorithm id="pso2" class="pso.PSO" particles="20">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="100"/>
+			<initialisationStrategy class="algorithm.initialisation.ClonedEntityInitialisationStrategy">
+				<entityType class="pso.particle.StandardParticle">
+					<velocityInitialisationStrategy class="pso.particle.initialisation.RandomInitialVelocityStrategy"/>
+				</entityType>
+			</initialisationStrategy>
+		</algorithm>
+		<algorithm id="coop" class="cooperative.SplitCooperativeAlgorithm">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="100"/>
+			<addPopulationBasedAlgorithm idref="pso1"/>
+			<addPopulationBasedAlgorithm idref="pso2"/>
+			<addPopulationBasedAlgorithm idref="pso1"/>
+			<addPopulationBasedAlgorithm idref="pso2"/>
+			<addPopulationBasedAlgorithm idref="pso1"/>
+			<addPopulationBasedAlgorithm idref="pso2"/>
+			<splitStrategy class="cooperative.splitstrategies.PerfectSplitStrategy"/>
+			<algorithmIterator class="cooperative.populationiterators.SequentialPopulationIterator"/>
+<!--			<populationIterator class="cooperative.algorithmiterators.RandomAlgorithmIterator"/>-->
+			<contributionUpdateStrategy class="cooperative.contributionupdatestrategies.SelectiveContributionUpdateStrategy"/>
+<!--			<contributionUpdateStrategy class="cooperative.contributionupdatestrategies.StandardContributionUpdateStrategy"/>-->
+			<fitnessUpdateStrategy class="cooperative.fitnessupdatestrategies.StandardFitnessUpdateStrategy"/>
 		</algorithm>
 	</algorithms>
+
 	<problems>
 		<problem id="griewank" class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.Griewank" domain="R(-10.0, 10.0)^6"/>
+			<function class="functions.continuous.Griewank" domain="R(-10.0, 10.0)^36"/>
 		</problem>
 	</problems>
-	<measurements id="measurements" class="simulator.MeasurementSuite" resolution="1" samples="1">
-		<addMeasurement class="measurement.single.Fitness"/>
+
+	<measurements id="fitness" class="simulator.MeasurementSuite" samples="10" resolution="1">
+			<addMeasurement class="measurement.single.Fitness"/>
 	</measurements>
+
 	<simulations>
 		<simulation>
-			<algorithm id="coop" class="algorithm.SplitCooperativeAlgorithm">
-				<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000"/>
-<!--				<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
-					<maximumFitnessEvaluations value="10000"/>
-				</addStoppingCondition>-->
-				<!-- one day, when referencing an algorithm like this (below), the XML parser will give you a reference instead to the algorithm instead of a copy, therefore it will become neccessary to have clone methods for all algorithms. This also holds for problems, measurements, etc. -->
-				<algorithm idref="pso_1"/>
-				<algorithm idref="pso_1"/>
-				<algorithm idref="pso_1"/>
-				<splitStrategy class="algorithm.cooperative.splitstrategies.PerfectSplitStrategy"/>
-				<populationIterator class="algorithm.cooperative.populationiterators.SequentialPopulationIterator"/>
-<!--				<populationIterator class="algorithm.cooperative.populationiterators.RandomPopulationIterator"/>-->
-				<contributionUpdateStrategy class="algorithm.cooperative.contributionupdatestrategies.SelectiveContributionUpdateStrategy"/>
-				<fitnessUpdateStrategy class="algorithm.cooperative.fitnessupdatestrategies.StandardFitnessUpdateStrategy"/>
-			</algorithm>
+			<algorithm idref="coop"/>
 			<problem idref="griewank"/>
-			<measurements idref="measurements" file="data/cooperative-pso.txt"/>
+			<measurements idref="fitness" file="data/coop-pso.txt"/>
 		</simulation>
 		<simulation>
-			<algorithm idref="pso_2"/>
+			<algorithm idref="pso1"/>
 			<problem idref="griewank"/>
-			<measurements idref="measurements" file="data/normal-pso.txt"/>
+			<measurements idref="fitness" file="data/norm-pso1.txt"/>
+		</simulation>
+		<simulation>
+			<algorithm idref="pso2"/>
+			<problem idref="griewank"/>
+			<measurements idref="fitness" file="data/norm-pso2.txt"/>
 		</simulation>
 	</simulations>
 </simulator>

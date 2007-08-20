@@ -31,7 +31,7 @@ package net.sourceforge.cilib.measurement.single;
  * </p><p>
  * References:
  * </p><p><ul><li>
- * T. Blackwell, "Particle Swarms and Population Diversity I: Analysis",
+ * T. Blackwell, "Particle Swarms and Population DiversityOld I: Analysis",
  * Genetic and Evolutionary Computation Conference Workshop on Evolutionary Algorithms for Dynamic Optimization Problems,
  * pages 9--13, 2003.
  * </li><li>
@@ -44,16 +44,22 @@ package net.sourceforge.cilib.measurement.single;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.ChebyshevDistanceMeasure;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 public class SpatialExtent implements Measurement {
 	private static final long serialVersionUID = -6846992935896199456L;
 
+	public SpatialExtent() {
+		
+	}
+	
 	public SpatialExtent(SpatialExtent copy) {
 	}
 	
@@ -67,7 +73,7 @@ public class SpatialExtent implements Measurement {
 
 	public Type getValue() {
 		
-		PSO pso = (PSO) Algorithm.get();
+		/*PSO pso = (PSO) Algorithm.get();
 		
 		Iterator k = pso.getTopology().iterator();
 	    Particle particle = (Particle) k.next();
@@ -96,7 +102,34 @@ public class SpatialExtent implements Measurement {
 	    	if (dimensionDifference > maxDimensionalDifference)
 	    		maxDimensionalDifference = dimensionDifference;
 	    }
-		return new Real(maxDimensionalDifference);
+		return new Real(maxDimensionalDifference);*/
+		
+		
+		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+		DistanceMeasure chebyshevDistance = new ChebyshevDistanceMeasure();
+		double maxDimensionalDifference = 0.0;
+		//PSO pso = (PSO) Algorithm.get();
+		
+		Iterator<? extends Entity> populationIterator_1 = algorithm.getTopology().iterator();
+	    
+	    while (populationIterator_1.hasNext()) {
+	    	Entity entity_1 = populationIterator_1.next();
+	    	Vector entity_1Contents = (Vector) entity_1.getContents();
+	        
+	    	Iterator<? extends Entity> populationIterator_2 = algorithm.getTopology().iterator();
+	    	
+	    	while(populationIterator_2.hasNext()) {
+	    		Entity entity_2 = populationIterator_2.next();
+	    		Vector entity_2Contents = (Vector) entity_2.getContents();
+	    		
+	    		double dimensionalDifference = chebyshevDistance.distance(entity_1Contents, entity_2Contents);
+	    		
+	    		if(dimensionalDifference > maxDimensionalDifference)
+	    			maxDimensionalDifference = dimensionalDifference;
+	    	}
+	    }
+	    
+	    return new Real(maxDimensionalDifference);
 	}
 
 }

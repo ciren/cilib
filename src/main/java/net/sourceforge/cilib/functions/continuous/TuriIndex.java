@@ -25,9 +25,6 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.type.types.container.Vector;
-
 /**
  * This is the Turi Validity Index as given in 
  * Section 3.1.4 on page 66 of Mahamed G. H. Omran's PhD thesis, titled

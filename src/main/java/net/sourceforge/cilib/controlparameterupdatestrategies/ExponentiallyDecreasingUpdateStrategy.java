@@ -1,5 +1,5 @@
 /*
- * TopologyVisitor.java
+ * ExponentiallyDecreasingUpdateStrategy.java
  * 
  * Copyright (C) 2003, 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -21,34 +21,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.entity.visitor;
+package net.sourceforge.cilib.controlparameterupdatestrategies;
 
-import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.algorithm.Algorithm;
 
-public abstract class TopologyVisitor extends Visitor<Topology> {
-	
-	protected double result;
-	protected DistanceMeasure distanceMeasure;
-	
-	public TopologyVisitor() {
-		distanceMeasure = new EuclideanDistanceMeasure();
+public class ExponentiallyDecreasingUpdateStrategy extends BoundedUpdateStrategy {
+	private static final long serialVersionUID = 2703195595193249266L;
+
+	public ExponentiallyDecreasingUpdateStrategy() {
+		super();
 	}
 	
-	public abstract void visit(Topology algorithm);
+	/**
+	 * Copy constructor
+	 * @param copy
+	 */
+	public ExponentiallyDecreasingUpdateStrategy(ExponentiallyDecreasingUpdateStrategy copy) {
+		super(copy);
+	}
 	
-	public double getResult() {
-		return result;
+	@Override
+	public ExponentiallyDecreasingUpdateStrategy clone() {
+		return new ExponentiallyDecreasingUpdateStrategy(this);
 	}
 
-	public DistanceMeasure getDistanceMeasure() {
-		return distanceMeasure;
+	@Override
+	public void update() {
+		double result = Math.exp((-1) * Algorithm.get().getPercentageComplete());
+		this.parameter.setReal(result);
 	}
 
-	public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
-		this.distanceMeasure = distanceMeasure;
+	@Override
+	public void setUpperBound(double value) {
+		super.setUpperBound(value);
+		this.parameter.setReal(value);
 	}
-
+	
 }

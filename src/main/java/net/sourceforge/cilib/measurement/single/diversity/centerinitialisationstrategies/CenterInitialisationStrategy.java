@@ -1,5 +1,5 @@
 /*
- * TopologyVisitor.java
+ * CenterInitialisationStrategy.java
  * 
  * Copyright (C) 2003, 2004 - CIRG@UP 
  * Computational Intelligence Research Group (CIRG@UP)
@@ -21,34 +21,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.entity.visitor;
+package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
 
-import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.type.types.container.Vector;
 
-public abstract class TopologyVisitor extends Visitor<Topology> {
+public abstract class CenterInitialisationStrategy {
 	
-	protected double result;
-	protected DistanceMeasure distanceMeasure;
-	
-	public TopologyVisitor() {
-		distanceMeasure = new EuclideanDistanceMeasure();
-	}
-	
-	public abstract void visit(Topology algorithm);
-	
-	public double getResult() {
-		return result;
-	}
-
-	public DistanceMeasure getDistanceMeasure() {
-		return distanceMeasure;
-	}
-
-	public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
-		this.distanceMeasure = distanceMeasure;
-	}
+	/**
+	 * @return the populationCenter
+	 */
+	public abstract Vector getCenter();
 
 }
