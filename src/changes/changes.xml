@@ -5,6 +5,9 @@
 	</properties>
 	<body>
 		<release version="0.6.8" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
+			<action dev="gpampara" type="update" contrib="apengelbrecht">
+				Corrected the manner in which the structure of the PSO iteration strategies are defined (ASynchrounsousIterationStrategy and SynchronousIterationStrategy). The code should be more clear.
+			</action>
 			<action dev="heatzync" type="update">
 			Improved the implementation and usage of the problem.dataset.AssociatedPairDataSetBuilder
 			and functions.continuous.ClusteringFitnessFunction hierarchies.
