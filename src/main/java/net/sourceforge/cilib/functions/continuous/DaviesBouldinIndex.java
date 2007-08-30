@@ -44,6 +44,7 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
 
 	public DaviesBouldinIndex() {
 		super();
+		q = 2;	// default is 2
 	}
 
 	@Override
@@ -83,8 +84,16 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
 		return Math.pow(withinClusterScatter, 1.0 / q);
 	}
 
+	/**
+	 * The <i>alpha</i> value of the distance measure should correspond to the <i>p</i> value of the 
+	 * Davies-Bouldin Validity Index.
+	 */
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
-		return dataset.calculateDistance(arrangedCentroids.get(i), arrangedCentroids.get(j));
+		return calculateDistance(arrangedCentroids.get(i), arrangedCentroids.get(j));
+	}
+
+	public void setQ(int qu) {
+		q = qu;
 	}
 }

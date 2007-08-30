@@ -55,7 +55,7 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
 		Vector setMean = dataset.getSetMean(cluster);
 
 		for (Pattern pattern : cluster) {
-			averageDistance += dataset.calculateDistance(pattern.data, setMean);
+			averageDistance += calculateDistance(pattern.data, setMean);
 		}
 		return 2.0 * (averageDistance / cluster.size());
 	}

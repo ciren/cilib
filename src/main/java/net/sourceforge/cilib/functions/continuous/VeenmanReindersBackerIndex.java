@@ -27,6 +27,8 @@ package net.sourceforge.cilib.functions.continuous;
 
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -42,24 +44,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 5683593481233814465L;
-	/** The best value for the varianceLimit should be determined empirically; default is 1 */
-	private double varianceLimit = 1.0;
-//	boolean first = true;
+	/** The best value for the varianceLimit should be determined empirically */
+	private ControlParameterUpdateStrategy maximumVariance = null;
 
 	public VeenmanReindersBackerIndex() {
 		super();
-		varianceLimit = 1.0;
+		maximumVariance = new ConstantUpdateStrategy(1.0);	// default variance limit is 1.0
 	}
 
 	@Override
 	public double calculateFitness() {
-//		if (first) {
-//			double variance = dataset.getVariance().norm();
-//			System.out.println("variance: " + variance);
-//			System.out.println("10% of variance: " + variance / 100);
-//			first = false;
-//		}
-
 		if (!holdsConstraint())
 			return Double.MAX_VALUE;
 
@@ -68,9 +62,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 		for (ArrayList<Pattern> cluster : arrangedClusters) {
 			Vector mean = dataset.getSetMean(cluster); // article explicitly uses the mean
 			for (Pattern pattern : cluster) {
-				for (int i = 0; i < mean.size(); i++) {
-					sumOfSquaredError += Math.pow(pattern.data.getReal(i) - mean.getReal(i), 2);
-				}
+				sumOfSquaredError += Math.pow(calculateDistance(pattern.data, mean), 2);
 			}
 		}
 		return sumOfSquaredError /= dataset.getNumberOfPatterns();
@@ -83,7 +75,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 				union.addAll(arrangedClusters.get(i));
 				union.addAll(arrangedClusters.get(j));
 
-				if (dataset.getSetVariance(union).norm() < varianceLimit) {
+				if (dataset.getSetVariance(union).norm() < getMaximumVariance()) {
 					return false;
 				}
 			}
@@ -91,7 +83,15 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 		return true;
 	}
 
-	public void setVarianceLimit(double vl) {
-		varianceLimit = vl;
+	public void setMaximumVariance(ControlParameterUpdateStrategy cpus) {
+		maximumVariance = cpus;
+	}
+
+	private double getMaximumVariance() {
+		return maximumVariance.getParameter();
+	}
+
+	public void updateControlParameters() {
+		maximumVariance.updateParameter();
 	}
 }

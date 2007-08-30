@@ -25,6 +25,8 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -40,24 +42,24 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 583965930447258179L;
-	/** Specifies the weight that intra-cluster-distance will contribute to the final fitness */
-	protected double w1 = 0.0;
-	/** Specifies the weight that inter-cluster-distance will contribute to the final fitness */
-	protected double w2 = 0.0;
+	/** Specifies the weight that influences how much the intra-cluster-distance will contribute to the final fitness */
+	protected ControlParameterUpdateStrategy w1 = null;
+	/** Specifies the weight that influences how much the inter-cluster-distance will contribute to the final fitness */
+	protected ControlParameterUpdateStrategy w2 = null;
 	/** Stores the calculated zMax value */
 	protected double zMax = -1.0;
 
 	public ParametricClusteringFunction() {
 		super();
-		w1 = 0.5;
-		w2 = 0.5;
+		w1 = new ConstantUpdateStrategy(0.5);
+		w2 = new ConstantUpdateStrategy(0.5);
 		zMax = -1.0;
 	}
 
 	@Override
 	public double calculateFitness() {
 		// make sure the sum of the parameters equal 1.0
-		if (w1 + w2 != 1.0)
+		if (getW1() + getW2() != 1.0)
 			throw new IllegalArgumentException("The sum of w1 and w2 must equal 1.0");
 
 		// zMax only needs to be calculated once; domain is not supposed to change during a simulation
@@ -65,23 +67,42 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 			zMax = zMax();
 		}
 
-		return (w1 * calculateMaximumAverageDistance()) + (w2 * (zMax - calculateMinimumInterClusterDistance()));
+		return (getW1() * calculateMaximumAverageDistance()) + (getW2() * (zMax - calculateMinimumInterClusterDistance()));
 	}
 
 	/**
-	 * Set the weight that the intra-cluster-distance will contribute to the final fitness
-	 * @param w the weight to which w1 will be set
+	 * Set the weight that influences how much the intra-cluster-distance will contribute to the final fitness
+	 * @param w the {@linkplain ControlParameterUpdateStrategy} that will control the <tt>w1</tt> weight
 	 */
-	public void setW1(double w) {
+	public void setW1(ControlParameterUpdateStrategy w) {
 		w1 = w;
 	}
 
 	/**
-	 * Set the weight that the inter-cluster-distance will contribute to the final fitness
-	 * @param w the weight to which w2 will be set
+	 * Get the weight that the intra-cluster-distance contributes to the final fitness
+	 * @return the weight that determines how much influence intra-cluster-distance contributes to
+	 *         the final fitness
 	 */
-	public void setW2(double w) {
+	protected double getW1() {
+		return w1.getParameter();
+	}
+
+	/**
+	 * Set the weight that influences how much the inter-cluster-distance will contribute to the
+	 * final fitness
+	 * @param w the {@linkplain ControlParameterUpdateStrategy} that will control the <tt>w2</tt> weight
+	 */
+	public void setW2(ControlParameterUpdateStrategy w) {
 		w2 = w;
+	}
+
+	/**
+	 * Get the weight that determines how much influence inter-cluster-distance contributes to the final fitness
+	 * @return the weight that determines how much influence intra-cluster-distance contributes to
+	 *         the final fitness
+	 */
+	protected double getW2() {
+		return w2.getParameter();
 	}
 
 	/**
@@ -104,6 +125,11 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 		}
 
 		// lastly, calculate the distance between the two Vectors
-		return dataset.calculateDistance(upper, lower);
+		return calculateDistance(upper, lower);
+	}
+
+	public void updateControlParameters() {
+		w1.updateParameter();
+		w2.updateParameter();
 	}
 }

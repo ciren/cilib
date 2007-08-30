@@ -27,28 +27,32 @@ public class BouncingPositionUpdateStrategy implements PositionUpdateStrategy {
 		return new BouncingPositionUpdateStrategy(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy#updatePosition(net.sourceforge.cilib.entity.Particle)
+	 */
 	public void updatePosition(Particle particle) {
 		Vector position = (Vector) particle.getPosition();
 		Vector velocity = (Vector) particle.getVelocity();
+
 		for (int i = 0; i < position.getDimension(); ++i) {
-			Numeric pos_i = position.getNumeric(i);
-			Numeric vel_i = velocity.getNumeric(i);
-			double upper = pos_i.getUpperBound();
-			double lower = pos_i.getLowerBound();
-			double value = pos_i.getReal() + vel_i.getReal();
+			Numeric position_i = position.getNumeric(i);
+			Numeric velocity_i = velocity.getNumeric(i);
+			double upper = position_i.getUpperBound();
+			double lower = position_i.getLowerBound();
+			double value = position_i.getReal() + velocity_i.getReal();
 			double onePercent = (upper - lower) / 100.0;
-			if (value >= upper) {
-				pos_i.setReal(upper - onePercent);
-				vel_i.setReal(vel_i.getReal() * -1);
-//				System.out.println("Reflected from upper: " + pos_i.getReal());
+
+			if (value < lower) {
+				position_i.setReal(lower + onePercent);
+				velocity_i.setReal(velocity_i.getReal() * -1);
 			}
-			else if (value < lower) {
-				pos_i.setReal(lower + onePercent);
-				vel_i.setReal(vel_i.getReal() * -1);
-//				System.out.println("Reflected from lower: " + pos_i.getReal());
+			else if (value >= upper) {
+				position_i.setReal(upper - onePercent);
+				velocity_i.setReal(velocity_i.getReal() * -1);
 			}
 			else {
-				pos_i.setReal(value);
+				position_i.setReal(value);
 			}
 		}
 	}

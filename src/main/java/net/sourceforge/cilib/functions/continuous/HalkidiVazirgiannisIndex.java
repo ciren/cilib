@@ -84,16 +84,16 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 					midDensity = leftDensity = rightDensity = 0;
 
 					for (Pattern pattern : arrangedClusters.get(i)) {
-						if (dataset.calculateDistance(pattern.data, midPoint) <= stdev)
+						if (calculateDistance(pattern.data, midPoint) <= stdev)
 							++midDensity;
-						if (dataset.calculateDistance(pattern.data, leftCentroid) <= stdev)
+						if (calculateDistance(pattern.data, leftCentroid) <= stdev)
 							++leftDensity;
 					}
 
 					for (Pattern pattern : arrangedClusters.get(j)) {
-						if (dataset.calculateDistance(pattern.data, midPoint) <= stdev)
+						if (calculateDistance(pattern.data, midPoint) <= stdev)
 							++midDensity;
-						if (dataset.calculateDistance(pattern.data, rightCentroid) <= stdev)
+						if (calculateDistance(pattern.data, rightCentroid) <= stdev)
 							++rightDensity;
 					}
 

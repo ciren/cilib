@@ -33,6 +33,8 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 import org.apache.log4j.Logger;
 
@@ -44,6 +46,7 @@ import org.apache.log4j.Logger;
 public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	private static Logger log = Logger.getLogger(ClusteringFitnessFunction.class);
 	protected ClusterableDataSet dataset = null;
+	protected DistanceMeasure distanceMeasure = null;
 	protected ArrayList<ArrayList<Pattern>> arrangedClusters = null;
 	protected ArrayList<Vector> arrangedCentroids = null;
 	protected int clustersFormed = 0;
@@ -54,6 +57,8 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * to "R(-5.0, 5.0)^2" but it will probably be overwritten in the XML file.
 	 */
 	public ClusteringFitnessFunction() {
+		super();
+		distanceMeasure = new EuclideanDistanceMeasure();
 		setDomain("R(-5.0, 5.0)^2");
 	}
 
@@ -127,7 +132,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 			Vector centroid = arrangedCentroids.get(i);
 
 			for (Pattern pattern : cluster) {
-				averageDistance += dataset.calculateDistance(pattern.data, centroid);
+				averageDistance += calculateDistance(pattern.data, centroid);
 			}
 			averageDistance /= cluster.size();
 			quantisationError += averageDistance;
@@ -155,7 +160,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 			Vector centroid = arrangedCentroids.get(i);
 
 			for (Pattern pattern : cluster) {
-				averageDistance += dataset.calculateDistance(pattern.data, centroid);
+				averageDistance += calculateDistance(pattern.data, centroid);
 			}
 			averageDistance /= cluster.size();
 			maximumAverageDistance = Math.max(maximumAverageDistance, averageDistance);
@@ -175,7 +180,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 			Vector leftCentroid = arrangedCentroids.get(i);
 			for (int j = i + 1; j < clustersFormed; j++) {
 				Vector rightCentroid = arrangedCentroids.get(j);
-				minimumInterClusterDistance = Math.min(minimumInterClusterDistance, dataset.calculateDistance(leftCentroid, rightCentroid));
+				minimumInterClusterDistance = Math.min(minimumInterClusterDistance, calculateDistance(leftCentroid, rightCentroid));
 			}
 		}
 		return minimumInterClusterDistance;
@@ -193,7 +198,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 			Vector leftCentroid = arrangedCentroids.get(i);
 			for (int j = i + 1; j < clustersFormed; j++) {
 				Vector rightCentroid = arrangedCentroids.get(j);
-				maximumInterClusterDistance = Math.max(maximumInterClusterDistance, dataset.calculateDistance(leftCentroid, rightCentroid));
+				maximumInterClusterDistance = Math.max(maximumInterClusterDistance, calculateDistance(leftCentroid, rightCentroid));
 			}
 		}
 		return maximumInterClusterDistance;
@@ -214,7 +219,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 		for (Pattern leftPattern : arrangedClusters.get(i)) {
 			for (Pattern rightPattern : arrangedClusters.get(j)) {
-				distance = Math.min(distance, dataset.calculateDistance(leftPattern.index, rightPattern.index));
+				distance = Math.min(distance, calculateDistance(leftPattern.index, rightPattern.index));
 			}
 		}
 		return distance;
@@ -235,7 +240,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 		for (Pattern leftPattern : arrangedClusters.get(i)) {
 			for (Pattern rightPattern : arrangedClusters.get(j)) {
-				distance = Math.max(distance, dataset.calculateDistance(leftPattern.index, rightPattern.index));
+				distance = Math.max(distance, calculateDistance(leftPattern.index, rightPattern.index));
 			}
 		}
 		return distance;
@@ -256,7 +261,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 		for (Pattern leftPattern : arrangedClusters.get(i)) {
 			for (Pattern rightPattern : arrangedClusters.get(j)) {
-				distance += dataset.calculateDistance(leftPattern.index, rightPattern.index);
+				distance += calculateDistance(leftPattern.index, rightPattern.index);
 			}
 		}
 		return distance / (arrangedClusters.get(i).size() * arrangedClusters.get(j).size());
@@ -277,7 +282,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 			int leftPattern = cluster.get(i).index;
 			for (int j = i + 1; j < numberOfPatterns; j++) {
 				int rightPattern = cluster.get(j).index;
-				diameter = Math.max(diameter, dataset.calculateDistance(leftPattern, rightPattern));
+				diameter = Math.max(diameter, calculateDistance(leftPattern, rightPattern));
 			}
 		}
 		return diameter;
@@ -297,12 +302,12 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	public double calculateIntraClusterDistance() {
 		double intraClusterDistance = 0.0;
 
-		for (int k = 0; k < clustersFormed; k++) {
-			ArrayList<Pattern> cluster = arrangedClusters.get(k);
-			Vector centroid = arrangedCentroids.get(k);
+		for (int i = 0; i < clustersFormed; i++) {
+			ArrayList<Pattern> cluster = arrangedClusters.get(i);
+			Vector centroid = arrangedCentroids.get(i);
 
 			for (Pattern pattern : cluster) {
-				intraClusterDistance += dataset.calculateDistance(pattern.data, centroid);
+				intraClusterDistance += calculateDistance(pattern.data, centroid);
 			}
 		}
 		return intraClusterDistance;
@@ -348,6 +353,30 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 		else {
 			throw new InitialisationException("Algorithm not initialised yet.");
 		}
+	}
+
+	public void setDistanceMeasure(DistanceMeasure dm) {
+		distanceMeasure = dm;
+	}
+
+	/**
+	 * When the parameters are <tt>int</tt>s, then we need the cached distance.
+	 * @param lhs The index of the one pattern.
+	 * @param rhs The index of the other pattern.
+	 * @return The distance between the patterns with indices <i>lhs</i> and <i>rhs</i>.
+	 */
+	protected double calculateDistance(int lhs, int rhs) {
+		return dataset.calculateDistance(lhs, rhs);
+	}
+
+	/**
+	 * When the parameters are {@linkplain Vector}s, then we just calculate the distance.
+	 * @param lhs The one {@linkplain Vector}.
+	 * @param rhs The other {@linkplain Vector}.
+	 * @return The distance between {@linkplain Vector}s <i>lhs</i> and <i>rhs</i>
+	 */
+	protected double calculateDistance(Vector lhs, Vector rhs) {
+		return distanceMeasure.distance(lhs, rhs);
 	}
 
 	@Override

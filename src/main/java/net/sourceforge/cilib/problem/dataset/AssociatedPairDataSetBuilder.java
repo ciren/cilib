@@ -144,7 +144,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	 * </ol>
 	 * @param centroids the @{@linkplain Vector} that represents the centroids
 	 */
-	public void arrangeClustersAndCentroids(Vector centroids) {
+	public synchronized void arrangeClustersAndCentroids(Vector centroids) {
 		arrangeCentroids(centroids);
 		arrangeClusters();
 		removeEmptyClustersAndCentroids();
@@ -157,7 +157,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	 * @param centroids the centriods {@linkplain Vector} that should be arranged
 	 */
 	private void arrangeCentroids(Vector centroids) {
-		arrangedCentroids = new ArrayList<Vector>();
+		arrangedCentroids = new ArrayList<Vector>(numberOfClusters);
 		int dimension = centroids.size() / numberOfClusters;
 
 		for (int i = 0; i < numberOfClusters; i++) {
@@ -172,16 +172,16 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	 * this method is done, all patterns will <i>belong</i> to it's closest centroid.
 	 */
 	private void arrangeClusters() {
-		arrangedClusters = new ArrayList<ArrayList<Pattern>>();
+		arrangedClusters = new ArrayList<ArrayList<Pattern>>(numberOfClusters);
 
 		for (int i = 0; i < numberOfClusters; i++) {
-			arrangedClusters.add(new ArrayList<Pattern>());
+			arrangedClusters.add(new ArrayList<Pattern>(patterns.size() / numberOfClusters));
 		}
 
 		for (Pattern pattern : patterns) {
 			double minimum = Double.MAX_VALUE;
 			for (int i = 0; i < numberOfClusters; i++) {
-				double distance = distanceMeasure.distance(pattern.data, arrangedCentroids.get(i));
+				double distance = calculateDistance(pattern.data, arrangedCentroids.get(i));
 
 				if (distance < minimum) {
 					minimum = distance;
@@ -206,7 +206,12 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 				arrangedClusters.remove(i);
 				arrangedCentroids.remove(i);
 			}
+			else {
+				arrangedClusters.get(i).trimToSize();
+			}
 		}
+		arrangedClusters.trimToSize();
+		arrangedCentroids.trimToSize();
 	}
 
 	/**

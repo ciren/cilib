@@ -36,7 +36,7 @@ public class CachingDataSetBuilder extends AssociatedPairDataSetBuilder {
 		for(int y = 0; y < numPatterns - 1; y++) {
 			for(int x = y + 1; x < numPatterns; x++) {
 				index = x + (numPatterns * y) - (((y + 1) * (y + 2)) / 2);
-				distanceCache[index] = distanceMeasure.distance(patterns.get(x).data, patterns.get(y).data);
+				distanceCache[index] = calculateDistance(patterns.get(x).data, patterns.get(y).data);
 			}
 		}
 	}

@@ -61,7 +61,7 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
 
 		Vector mean = dataset.getMean();
 		for (Pattern pattern : dataset.getPatterns()) {
-			intraDatasetDistance += dataset.calculateDistance(pattern.data, mean);
+			intraDatasetDistance += calculateDistance(pattern.data, mean);
 		}
 
 		return intraDatasetDistance / calculateIntraClusterDistance();

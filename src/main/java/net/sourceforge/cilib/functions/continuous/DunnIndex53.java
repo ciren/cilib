@@ -57,11 +57,11 @@ public class DunnIndex53 extends DunnIndex33 {
 		Vector rhsMean = dataset.getSetMean(rhs);
 
 		for (Pattern pattern : lhs) {
-			lhsAverage += dataset.calculateDistance(pattern.data, rhsMean);
+			lhsAverage += calculateDistance(pattern.data, rhsMean);
 		}
 
 		for (Pattern pattern : rhs) {
-			rhsAverage += dataset.calculateDistance(pattern.data, lhsMean);
+			rhsAverage += calculateDistance(pattern.data, lhsMean);
 		}
 
 		return (lhsAverage + rhsAverage) / (lhs.size() + rhs.size());

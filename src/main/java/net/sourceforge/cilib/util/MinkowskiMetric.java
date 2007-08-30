@@ -7,11 +7,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The Minkowski Metric is a generic measure of distance. It is defined in:<br/>
- * <strong>Data Clustering: A Review</strong> by A.K. Jain and M.N. Murty and P.J. Flynn<br/>
- * <em>ACM Computing Surveys</em>, pages 264-323, number 3, volume 31, September 1999.<br/>
+ * @Article{ 331504, author = "A. K. Jain and M. N. Murty and P. J. Flynn", title = "Data
+ *           Clustering: A Review", journal = "ACM Computing Surveys", volume = "31", number = "3",
+ *           year = "1999", issn = "0360-0300", pages = "264--323", doi =
+ *           "http://0-doi.acm.org.innopac.up.ac.za:80/10.1145/331499.331504", publisher = "ACM
+ *           Press", address = "New York, NY, USA" }
  * {@link net.sourceforge.cilib.util.ManhattanDistanceMeasure Manhattan Distance} is a special case of the Minkowski Metric with 'alpha' := 1.<br/>
  * {@link net.sourceforge.cilib.util.EuclideanDistanceMeasure Euclidean Distance} is a special case of the Minkowski Metric with 'alpha' := 2.<br/>
- * The default 'alpha' value, when this class is instantiated, is 3.
+ * NOTE: The default 'alpha' value is 0 when this class is instantiated.
  * @author Theuns Cloete
  */
 public class MinkowskiMetric implements DistanceMeasure {
@@ -30,6 +33,9 @@ public class MinkowskiMetric implements DistanceMeasure {
 	 * @param a the value to which 'alpha' should be set
 	 */
 	public MinkowskiMetric(int a) {
+		if(a < 1)
+			throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1");
+
 		alpha = a;
 	}
 
