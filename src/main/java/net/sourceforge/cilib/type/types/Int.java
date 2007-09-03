@@ -149,7 +149,6 @@ public class Int extends Numeric {
 	}
 
 	public void setReal(double value) {
-		System.out.println("setting: "+ value);
 		this.value = Double.valueOf(value).intValue();
 	}
 	
