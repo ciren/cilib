@@ -117,6 +117,24 @@ public class Bit extends Numeric {
 		setBit(value);		
 	}
 
+	
+	@Override
+	public void set(boolean value) {
+		setBit(value);
+	}
+
+
+	@Override
+	public void set(double value) {
+		setReal(value);
+	}
+
+
+	@Override
+	public void set(int value) {
+		setInt(value);		
+	}
+
 
 	/**
 	 * Return the state of the curent <tt>Bit</tt> object.

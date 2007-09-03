@@ -42,7 +42,10 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 	public abstract int hashCode();
 	
 	public abstract void set(String value);
-
+	public abstract void set(boolean value);
+	public abstract void set(int value);
+	public abstract void set(double value);
+	
 	public abstract boolean getBit();
 	public abstract void setBit(boolean value);
 	public abstract void setBit(String value);
@@ -56,6 +59,30 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 	public abstract void setReal(String value);
 	
 	public abstract int compareTo(Numeric other);
+	
+	public final <T extends Numeric> T plus(T other) {
+		Numeric n = other.clone();
+		n.set(this.getReal() + n.getReal());
+		return (T) n;
+	}
+	
+	public final <T extends Numeric> T subtract(T other) {
+		Numeric n = this.clone();
+		n.set(n.getReal() - other.getReal());
+		return (T) n;
+	}
+	
+	public final <T extends Numeric> T multiply(T other) {
+		Numeric n = this.clone();
+		n.set(n.getReal() * other.getReal());
+		return (T) n;
+	}
+	
+	public final <T extends Numeric> T divide(T other) {
+		Numeric n = this.clone();
+		n.set(n.getReal() / other.getReal());
+		return (T) n;
+	}
 
 	public boolean isInsideBounds() {
 		return true;

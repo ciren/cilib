@@ -117,6 +117,24 @@ public class Real extends Numeric {
 	public void set(String value) {
 		setReal(value);
 	}
+	
+
+	@Override
+	public void set(boolean value) {
+		setBit(value);
+	}
+
+
+	@Override
+	public void set(double value) {
+		setReal(value);
+	}
+
+
+	@Override
+	public void set(int value) {
+		setInt(value);
+	}
 
 
 	/**

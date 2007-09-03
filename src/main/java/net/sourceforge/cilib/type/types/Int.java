@@ -100,6 +100,22 @@ public class Int extends Numeric {
 	public void set(String value) {
 		setInt(value);
 	}
+	
+	@Override
+	public void set(boolean value) {
+		setBit(value);
+	}
+
+	@Override
+	public void set(double value) {
+		System.out.println("inside set: " + value);
+		setReal(value);
+	}
+
+	@Override
+	public void set(int value) {
+		setInt(value);
+	}
 
 	public boolean getBit() {
 		return (this.value == 0) ? false : true;
@@ -133,6 +149,7 @@ public class Int extends Numeric {
 	}
 
 	public void setReal(double value) {
+		System.out.println("setting: "+ value);
 		this.value = Double.valueOf(value).intValue();
 	}
 	
