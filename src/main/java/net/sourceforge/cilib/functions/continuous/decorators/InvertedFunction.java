@@ -1,7 +1,7 @@
 /*
- * Shubert.java
+ * InvertedFunction.java
  *
- * Created on June 4, 2003, 1:46 PM
+ * Created on May 19, 2006
  *
  * 
  * Copyright (C) 2003 - 2006 
@@ -25,41 +25,39 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  *   
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
- * <p>Title: CILib</p>
- * <p>Description: CILib (Computational Intelligence Library)</p>
- * <p>Copyright: Copyright (c) 2004</p>
- * <p>Company: </p>
- * @author Clive Naicker
- * @version 1.0
+ * Function implementation to accept a function and to return the reciprocal
+ * of that function value.
+ * 
+ * @author Gary Pampara
  */
+public class InvertedFunction extends ContinuousFunction {
+	private static final long serialVersionUID = -7506823207533866371L;
+	
+	private Function function;
 
-public class Shubert extends ContinuousFunction {
-	private static final long serialVersionUID = 3213789483391643466L;
+	@Override
+	public double evaluate(Vector x) {
+		double innerFunctionValue = function.evaluate(x);
+		
+		if (innerFunctionValue == 0)
+			throw new ArithmeticException("Inner function evaluation equated to 0. Division by zero is undefined");
+		
+		return (1.0 / innerFunctionValue);
+	}
 
-	public Shubert() {
-        setDomain("R(-10, 10)^2");
-    }
-    
-    public Object getMinimum() {
-        return new Double(-186.7309088);
-    }
+	public Function getFunction() {
+		return function;
+	}
 
-    public double evaluate(Vector x) {
-        double result = 1.0;
-        for (int i=0; i < getDimension(); ++i) {
-            double result2 = 0.0;
-            for (int j=1; j<=5; j++) {
-                result2 += j*Math.cos((j+1)*x.getReal(i) + j);
-            }
-            result *= result2;
-        }
-        return result;
-    }
+	public void setFunction(Function function) {
+		this.function = function;
+	}
+
 }

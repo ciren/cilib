@@ -51,6 +51,15 @@ public class EpistaticMichalewicz extends ContinuousFunction {
         setDomain("R(0, 3.141592653589793)^10");
     }
     
+    public Object getMinimum() {
+    	if (this.getDimension() == 5)
+    		return new Double(-4.687);
+    	else if (this.getDimension() == 10)
+    		return new Double(-9.66);
+    	
+    	return new Double(- Double.MAX_VALUE);
+    }
+    
     /** Each function must provide an implementation which returns the function value
      * at the given position. The length of the position array should be the same
      * as the function dimension.
@@ -58,26 +67,22 @@ public class EpistaticMichalewicz extends ContinuousFunction {
      * @param x The position
      *
      */
-    public double evaluate(Vector x) {
-        double sum = 0;
-        
-        double cosTerm = Math.cos(Math.PI / 6);
-        double sinTerm = Math.sin(Math.PI / 6);
-        
-        for (int i = 0; i < getDimension(); ++i) {
-            double y;
-            if ( (i % 2) == 0) {
-                y = x.getReal(i) * cosTerm - x.getReal(i+1) * sinTerm;
-            }
-            else if (i  == (getDimension() - 1)) {
-                y = x.getReal(getDimension() - 1);                
-            }
-            else {
-                y = x.getReal(i-1) * sinTerm + x.getReal(i) * cosTerm;
-            }
-            sum += Math.sin(y) * Math.pow(Math.sin((i+1) * y * y / Math.PI), 2 * m);
-        }
-        return - sum;               
+    public double evaluate(Vector X) {
+        /*double x = X.getReal(0);
+        double y = X.getReal(1);
+
+        double result = Math.sin(x)*Math.pow(Math.sin(x*x/Math.PI), 20);
+        result += Math.sin(y)*Math.pow(Math.sin(y*y/Math.PI), 20);
+        return result;*/
+    	
+    	double sumsq = 0.0;
+    	
+    	for (int i = 0; i < getDimension(); i++) {
+    		double x = X.getReal(i);
+    		sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
+    	}
+    	
+    	return -sumsq;
     }
     
     public int getM() {

@@ -58,7 +58,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
     }
     
     public Object getMinimum() {
-        return new Double(verticalShift);
+        return new Double(0);
     }
 
     public double evaluate(Vector x) {
@@ -66,7 +66,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
         for (int i = 0; i < getDimension(); ++i) {
             tmp += x.getReal(i) * x.getReal(i) - 10.0 * Math.cos(2 * Math.PI * x.getReal(i));
         }
-        return 10*getDimension() + tmp + verticalShift;
+        return 10*getDimension() + tmp;
     }
     
     

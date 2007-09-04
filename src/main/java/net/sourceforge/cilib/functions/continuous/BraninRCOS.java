@@ -84,13 +84,4 @@ public class BraninRCOS extends ContinuousFunction {
         return result;
     }
 
-    /*
-    public static void main(String[] args) {
-        BraninRCOS t = new BraninRCOS();
-        System.out.println(t.evaluate(new double[] {-Math.PI, 12.275}));
-        System.out.println(t.evaluate(new double[] {Math.PI, 2.275}));
-        System.out.println(t.evaluate(new double[] {9.42478, 2.475}));
-    }
-    */
-
 }

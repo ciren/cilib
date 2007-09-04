@@ -29,18 +29,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Edwin Peer
+ * @author Olusegun Olorunda
  */
 public abstract class ContinuousFunction extends Function {
-	protected double verticalShift = 0.0;
-	protected double horizontalShift = 0.0;
-
+	
 	public ContinuousFunction() {
 		// constraint.add(new ContentValidator(new TypeValidator(Real.class)));
 	}
 
 	public ContinuousFunction(ContinuousFunction copy) {
-		verticalShift = copy.verticalShift;
-		horizontalShift = copy.horizontalShift;
+		
 	}
 
 	/*
@@ -77,35 +75,4 @@ public abstract class ContinuousFunction extends Function {
 
 	public abstract double evaluate(Vector x);
 
-	/**
-	 * Get the horizontal shift (X-axis) associated with this function
-	 * @return The horizontal shift in the X-axis
-	 */
-	public double getHorizontalShift() {
-		return horizontalShift;
-	}
-
-	/**
-	 * Set the amount of horizontal shift to be applied to the function during evaluation.
-	 * @param horizontalShift The amount of horizontal shift.
-	 */
-	public void setHorizontalShift(double horizontalShift) {
-		this.horizontalShift = horizontalShift;
-	}
-
-	/**
-	 * Get the vertical shift (Y-axis) associated with this function
-	 * @return The vertical shift in the Y-axis
-	 */
-	public double getVerticalShift() {
-		return verticalShift;
-	}
-
-	/**
-	 * Set the amount of vertical shift to be applied to the function during evaluation.
-	 * @param verticalShift the amount of vertical shift.
-	 */
-	public void setVerticalShift(double verticalShift) {
-		this.verticalShift = verticalShift;
-	}
 }
