@@ -11,6 +11,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class AbsoluteValue extends ContinuousFunction {
+	private static final long serialVersionUID = 1662988096338786773L;
 
 	public AbsoluteValue() {
 		setDomain("R(-100, 100)^30");

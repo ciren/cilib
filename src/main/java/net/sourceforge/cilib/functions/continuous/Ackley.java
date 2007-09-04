@@ -23,6 +23,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Ackley extends ContinuousFunction {
+	private static final long serialVersionUID = -7803711986955989075L;
 
 	public Ackley() {
         setDomain("R(-30, 30)^30");

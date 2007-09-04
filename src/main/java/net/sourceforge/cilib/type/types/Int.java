@@ -108,7 +108,6 @@ public class Int extends Numeric {
 
 	@Override
 	public void set(double value) {
-		System.out.println("inside set: " + value);
 		setReal(value);
 	}
 
