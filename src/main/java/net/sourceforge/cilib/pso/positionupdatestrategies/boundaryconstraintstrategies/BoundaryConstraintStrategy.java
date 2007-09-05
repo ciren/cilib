@@ -5,7 +5,7 @@ import java.io.Serializable;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**
- * This interface defines two methods that will ensure that a <tt>Particle</tt> does not overstep
+ * This interface defines two methods that will ensure that a {@linkplain Particle} does not overstep
  * it's boundaries: {@linkplain #constrainLower(Numeric, Numeric)} and
  * {@linkplain #constrainUpper(Numeric, Numeric)}.
  * @author Wiehann Matthysen
@@ -20,9 +20,9 @@ public interface BoundaryConstraintStrategy extends Serializable {
 	public BoundaryConstraintStrategy clone();
 
 	/**
-	 * This method is called when the position of a particle has left the lower search space
-	 * boundary. It's responsible for updating the position to a new location within the search space
-	 * boundaries. This might also involve modifying the velocity of the particle.
+	 * This method is called when the position of a particle has overstepped the lower boundary of
+	 * the search space. It's responsible for updating the position to a new location within the
+	 * search space boundaries. This might also involve modifying the velocity of the particle.
 	 * @param position The position component of a particle that should be updated to some area
 	 *        within the search space boundaries.
 	 * @param velocity The velocity component of a particle that might also be affected by the
@@ -31,9 +31,9 @@ public interface BoundaryConstraintStrategy extends Serializable {
 	public void constrainLower(Numeric position, Numeric velocity);
 
 	/**
-	 * This method is called when the position of a particle has left the upper search space
-	 * boundary. It's responsible for updating the position to a new location within the search space
-	 * boundaries. This might also involve modifying the velocity of the particle.
+	 * This method is called when the position of a particle has overstepped the upper boundary of
+	 * the search space. It's responsible for updating the position to a new location within the
+	 * search space boundaries. This might also involve modifying the velocity of the particle.
 	 * @param position The position component of a particle that should be updated to some area
 	 *        within the search space boundaries.
 	 * @param velocity The velocity component of a particle that might also be affected by the
