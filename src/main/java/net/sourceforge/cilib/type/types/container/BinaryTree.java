@@ -25,147 +25,207 @@ package net.sourceforge.cilib.type.types.container;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.type.types.AbstractType;
+import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 
-public class BinaryTree<E extends Comparable<E>> extends AbstractType implements Tree<E> {
+public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3537717751647961525L;
+	
+	private AbstractTree<E> left;
+	private AbstractTree<E> right;
+	//private enum Direction {LEFT, RIGHT};
 
 	public BinaryTree() {
+		this(null, null, null);
+	}
+	
+	public BinaryTree(E element) {
+		this(element, new BinaryTree<E>(), new BinaryTree<E>());
+	}
+	
+	public BinaryTree(E key, AbstractTree<E> left, AbstractTree<E> right) {
+		this.key = key;
+		this.left = left;
+		this.right = right;
+	}
+	
+	public BinaryTree(AbstractTree<E> copy) {
 		
 	}
 	
-	public BinaryTree(BinaryTree copy) {
-		
-	}
-	
-	public BinaryTree clone() {
-		return new BinaryTree(this);
+	public AbstractTree<E> clone() {
+		return new BinaryTree<E>(this);
 	}
 
-	public boolean addSubtree(Tree<E> subTree) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public E getKey() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Tree<E> getSubtree(E element) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean addEdge(E a, E b) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public int edges() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public boolean isConnected(E a, E b) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public int verticies() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void accept(Visitor<E> visitor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean add(E element) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean addAll(Structure<E> structure) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void clear() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean contains(E element) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean remove(E element) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	public boolean remove(Tree<E> subtree) {
-		return this.remove(subtree.getKey());
-	}
-
-	public E remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean removeAll(Structure<E> structure) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	@Override
 	public int getDimension() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 2;
 	}
 
+	@Override
 	public String getRepresentation() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
+	@Override
 	public boolean isInsideBounds() {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
+	@Override
 	public void randomise() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
+	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	/**
+	 * Add the provided subtree to the current Tree.
+	 * Addition is by default first the left branch subtree. If the
+	 * left branch already has a defined tree attached, the right
+	 * subtree is assigned.
+	 * 
+	 * @param subTree
+	 * @return <tt>true</tt> if the addition was successful, <tt>false</tt> otherwise  
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean addSubTree(Tree<E> subTree) {
+		if (isEmpty())
+			throw new UnsupportedOperationException("Cannot add a subtree to an empty tree");
+		
+		if (left.isEmpty()) {
+			left = (AbstractTree<E>) subTree;
+			return true;
+		}
+		if (right.isEmpty()) {
+			right = (AbstractTree<E>) subTree;
+			return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public Tree<E> getSubTree(E element) {
+		if (isEmpty())
+			throw new UnsupportedOperationException("Cannot get a subtree from an empty tree");
+		
+		if (!left.isEmpty() && left.getKey().equals(element)) return left;
+		if (!right.isEmpty() && right.getKey().equals(element)) return right;
+		
+		return new BinaryTree<E>();
+	}
+
+	@Override
+	public Tree<E> getSubTree(int index) {
+		if (index < 0 || index >= 2)
+			throw new IndexOutOfBoundsException("BinaryTree subTree indexes of 0 or 1 are ony allowed.");
+		
+		if (index == 0) return left;
+		
+		return right;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Tree<E> removeSubTree(E element) {
+		BinaryTree<E> subTreeFound = (BinaryTree<E>) this.getSubTree(element);
+		
+		if (subTreeFound == left) left = new BinaryTree<E>();
+		if (subTreeFound == right) right = new BinaryTree<E>();
+		
+		return subTreeFound;
+	}
+	
+	// TODO: Is there a nicer way of doing this method?
+	public Tree<E> removeSubTree(int index) {
+		BinaryTree<E> found = (BinaryTree<E>) this.getSubTree(index);
+		return this.removeSubTree(found.getKey());
+	}
+
+	@Override
+	public int edges() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public boolean isConnected(E a, E b) {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	/**
+	 * Convenience method. Defers to {@see BinaryTree#addSubtree(Tree)}
+	 */
+	@Override
+	public boolean add(E element) {
+		return this.addSubTree(new BinaryTree<E>(element));
+	}
+
+	@Override
+	public boolean addAll(Structure<E> structure) {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public void clear() {
+		this.key = null;
+		this.left = null;
+		this.right = null;
+	}
+
+	@Override
+	public boolean contains(E element) {
+		return this.getSubTree(element).isEmpty();
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public boolean remove(E element) {
+		return !this.removeSubTree(element).isEmpty();
+	}
+
+	@Override
+	public E remove(int index) {
+//		return this.re
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public boolean removeAll(Structure<E> structure) {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public int size() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public void depthFirstTraversal(PrePostVisitor<E> visitor) {
+		if (!isEmpty()) {
+			visitor.preVisit(getKey());
+			left.depthFirstTraversal(visitor);
+			visitor.visit(getKey());
+			right.depthFirstTraversal(visitor);
+			visitor.postVisit(getKey());
+		}
+	}
+
+	@Override
+	public boolean isLeaf() {
+		return left.isEmpty() && right.isEmpty();
 	}
 
 }

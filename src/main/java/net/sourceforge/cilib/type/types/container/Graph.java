@@ -25,12 +25,34 @@ package net.sourceforge.cilib.type.types.container;
 
 public interface Graph<E> extends Structure<E> {
 	
-	public int verticies();
+	/**
+	 * Determine the number of vertices contained within the current <tt>Graph</tt>
+	 * structure.
+	 * @return The number of contained vertices.
+	 */
+	public int vertices();
 	
+	/**
+	 * Determine the number of edges contained within the current <tt>Graph</tt>
+	 * structure.
+	 * @return The number of contained edges.
+	 */
 	public int edges();
 	
+	/**
+	 * Create an edge / link between the given two vertices.
+	 * @param a The vertex the edge should emanate from.
+	 * @param b The vertex the edge should be incident to.
+	 * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
+	 */
 	public boolean addEdge(E a, E b);
 	
+	/**
+	 * Determine if <tt>a</tt> and <tt>b</tt> are connected by an edge.
+	 * @param a The vertex the edge should be emanating from.
+	 * @param b The vertex the edge should be incident to.
+	 * @return <tt>true</tt> if an edge is defined, <tt>false</tt> otherwise.
+	 */
 	public boolean isConnected(E a, E b);
 
 }

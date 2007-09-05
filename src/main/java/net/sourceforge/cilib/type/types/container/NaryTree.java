@@ -27,12 +27,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.type.types.AbstractType;
 
-public class NaryTree<E extends Comparable<E>> extends AbstractType implements Tree<E> {
+public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	private static final long serialVersionUID = -1136444941205621381L;
 	
-	private E key;
 	private int degree;
 	private List<Tree<E>> nodes;
 
@@ -40,7 +38,7 @@ public class NaryTree<E extends Comparable<E>> extends AbstractType implements T
 		
 	}
 	
-	public NaryTree(NaryTree copy) {
+	public NaryTree(NaryTree<E> copy) {
 		
 	}
 	
@@ -48,7 +46,7 @@ public class NaryTree<E extends Comparable<E>> extends AbstractType implements T
 		return new NaryTree<E>(this);
 	}
 	
-	public boolean addSubtree(Tree<E> subTree) {
+	public boolean addSubTree(Tree<E> subTree) {
 		if (subTree == null)
 			throw new IllegalArgumentException("Cannot add a null object as a child of a tree");
 	
@@ -63,23 +61,18 @@ public class NaryTree<E extends Comparable<E>> extends AbstractType implements T
 		return false;
 	}
 
-	public E getKey() {
-		return this.key;
-	}
-
-	public Tree<E> getSubtree(E element) {
+	public Tree<E> getSubTree(E element) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean remove(Tree<E> subTree) {
-		// TODO Auto-generated method stub
-		return false;
+	public Tree<E> removeSubTree(E element) {
+		throw new UnsupportedOperationException("Implementation is needed");
 	}
-
-	public boolean addEdge(E a, E b) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	@Override
+	public Tree<E> removeSubTree(int index) {
+		throw new UnsupportedOperationException("Implementation is needed");
 	}
 
 	public int edges() {
@@ -90,11 +83,6 @@ public class NaryTree<E extends Comparable<E>> extends AbstractType implements T
 	public boolean isConnected(E a, E b) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public int verticies() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	public void accept(Visitor<E> visitor) {
@@ -118,11 +106,6 @@ public class NaryTree<E extends Comparable<E>> extends AbstractType implements T
 	}
 
 	public boolean contains(E element) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean isEmpty() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -181,6 +164,17 @@ public class NaryTree<E extends Comparable<E>> extends AbstractType implements T
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Tree<E> getSubTree(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isLeaf() {
+		return this.nodes.size() == 0;
 	}
 	
 	

@@ -23,14 +23,27 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import net.sourceforge.cilib.container.visitor.PrePostVisitor;
+import net.sourceforge.cilib.container.visitor.Visitor;
+
 public interface Tree<E extends Comparable<E>> extends Graph<E> {
 	
 	public E getKey();
 	
-	public boolean addSubtree(Tree<E> subTree);
+	public boolean addSubTree(Tree<E> subTree);
 	
-	public Tree<E> getSubtree(E element);
+	public Tree<E> getSubTree(E element);
 	
-	public boolean remove(Tree<E> subTree);
+	public Tree<E> getSubTree(int index);
+	
+	public Tree<E> removeSubTree(E element);
+	
+	public Tree<E> removeSubTree(int index);
+	
+	public boolean isLeaf();
+	
+	public void depthFirstTraversal(PrePostVisitor<E> visitor);
+	
+	public void breadthFirstTraversal(Visitor<E> visitor);
 	
 }

@@ -147,7 +147,7 @@ public class Set<E> extends AbstractType implements Graph<E> {
 	}
 
 
-	public int verticies() {
+	public int vertices() {
 		return this.elements.size();
 	}
 

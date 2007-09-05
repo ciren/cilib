@@ -57,7 +57,7 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		return count;
 	}
 
-	public int verticies() {
+	public int vertices() {
 		return this.adjacencyMap.size();
 	}
 	
@@ -142,7 +142,7 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	}
 
 	public int getDimension() {
-		return this.verticies();
+		return this.vertices();
 	}
 
 	public String getRepresentation() {

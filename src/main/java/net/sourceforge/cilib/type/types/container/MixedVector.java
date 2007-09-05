@@ -530,7 +530,7 @@ public class MixedVector extends Vector {
 		return m;
 	}
 
-	/**
+ 	/**
 	 * Create a new <tt>Vector</tt> that is the resultant <tt>Vector</tt>
 	 * calculated from the addition of two <tt>Vector</tt> objects.
 	 * 
@@ -581,18 +581,12 @@ public class MixedVector extends Vector {
 	 * Scalar-vector multiplication
 	 * @param scalar the scalar that should be multiplied with each element of this vector
 	 * @return a vector of which the scalar has been multiplied with each element
-	 * @author Theuns Cloete
 	 */
-	public Vector divide(double scalar) {
+	public final Vector divide(double scalar) {
 		if(scalar == 0.0)
 			throw new ArithmeticException("Vector division by zero");
 
-		Vector result = this.clone();
-		for(int i = 0; i < result.size(); i++) {
-			Numeric numeric = (Numeric)result.getType(i);
-			numeric.setReal(numeric.getReal() / scalar);
-		}
-		return result;
+		return this.multiply(1.0 / scalar);
 	}
 
 	public final Vector multiply(Vector vector) {
@@ -611,13 +605,12 @@ public class MixedVector extends Vector {
 	 * Scalar-vector multiplication
 	 * @param scalar the scalar that should be multiplied with each element of this vector
 	 * @return a vector of which the scalar has been multiplied with each element
-	 * @author Theuns Cloete
 	 */
-	public Vector multiply(double scalar) {
-		Vector result = this.clone();
-		for(int i = 0; i < result.size(); i++) {
-			Numeric numeric = (Numeric)result.getType(i);
-			numeric.setReal(numeric.getReal() * scalar);
+	public final Vector multiply(double scalar) {
+		MixedVector result = this.clone();
+		for (Type element : result.components) {
+			Numeric numeric = (Numeric) element;
+			numeric.set(numeric.getReal() * scalar);
 		}
 		return result;
 	}
@@ -696,7 +689,7 @@ public class MixedVector extends Vector {
 	}
 
 
-	public int verticies() {
+	public int vertices() {
 		return this.components.size();
 	}
 

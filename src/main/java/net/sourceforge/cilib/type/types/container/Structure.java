@@ -47,6 +47,11 @@ public interface Structure<E> extends Iterable<E> {
 	
 	public boolean removeAll(Structure<E> structure);
 	
+	/**
+	 * Defines the size of the structure. This could be the length of
+	 * a vector or the number of elements within a tree.
+	 * @return The size of the represented structure.
+	 */
 	public int size();
 	
 	public void accept(Visitor<E> visitor);
