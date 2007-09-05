@@ -55,7 +55,7 @@ public class GraphTest {
 		g.add(4.0);
 		g.add(5.0);
 		
-		assertEquals(5, g.verticies());
+		assertEquals(5, g.vertices());
 	}
 	
 	@Test

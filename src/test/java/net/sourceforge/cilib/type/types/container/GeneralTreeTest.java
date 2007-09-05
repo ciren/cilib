@@ -1,10 +1,7 @@
 package net.sourceforge.cilib.type.types.container;
 
 import static org.junit.Assert.assertEquals;
-
-import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.type.types.container.GeneralTree;
-import net.sourceforge.cilib.type.types.container.Tree;
+import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 
 import org.junit.Test;
 
@@ -21,7 +18,7 @@ public class GeneralTreeTest {
 		
 		assertEquals(2, tree.edges());
 		
-		Tree<Double> child = tree.getSubtree(2.0);
+		Tree<Double> child = tree.getSubTree(2.0);
 		assertEquals(0, child.edges());
 	}
 	
@@ -34,7 +31,7 @@ public class GeneralTreeTest {
 		
 		assertEquals(3, tree.size());
 		
-		Tree<Double> child1 = tree.getSubtree(1.0);
+		Tree<Double> child1 = tree.getSubTree(1.0);
 		child1.add(4.0);
 		
 		assertEquals(1, child1.size());
@@ -47,7 +44,7 @@ public class GeneralTreeTest {
 		assertEquals("0.0,1.0,4.0,2.0,3.0", buffer.toString());
 	}
 	
-	private class PrintingVisitor<E> extends Visitor<E> {
+	private class PrintingVisitor<E> extends PrePostVisitor<E> {
 		private StringBuffer buffer;
 		
 		public PrintingVisitor(StringBuffer buffer) {
