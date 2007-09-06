@@ -26,6 +26,8 @@
  */
 package net.sourceforge.cilib.container;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Gary Pampara
@@ -33,12 +35,15 @@ package net.sourceforge.cilib.container;
  * @param <K>
  * @param <V>
  */
-public class Pair<K extends Comparable<K>, V> 
-		implements Comparable< Pair<K,V> > {
-	
+public class Pair<K extends Comparable<K>, V> implements Comparable<Pair<K,V>>, Serializable {
+	private static final long serialVersionUID = -1557021513377872749L;
 	private K key;
 	private V value;
-	
+
+	public Pair() {
+		this.key = null;
+		this.value = null;
+	}
 	
 	/**
 	 * 
