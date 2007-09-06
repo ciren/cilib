@@ -5,6 +5,13 @@
 	</properties>
 	<body>
 		<release version="0.6.8" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
+			<action dev="heatzync" type="add">
+			Implemented a BoundedPositionUpdateStrategy to be used with the PSO algorithm. This position
+			update strategy takes a BoundaryConstraintStrategy as parameter to achieve the desired effect
+			when a Particle oversteps its boundaries. There are six different boundary constraint strategies:
+			BouncingBoundaryConstraintStrategy, ClampingBoundaryConstraintStrategy, DeflectionBoundaryConstraintStrategy,
+			NearestBoundaryConstraintStrategy, PeriodicBoundaryConstraintStrategy and RandomBoundaryConstraintStrategy
+			</action>
 			<action dev="gpampara" type="update">
 				Fixed some potential bugs in ControlParameterUpdateStrategy code.
 			<action dev="gpampara" type="add" contrib="segen">

@@ -44,9 +44,12 @@ public class BoundedPositionUpdateStrategy implements PositionUpdateStrategy {
 	}
 
 	/**
-	 * Update the position of the <tt>Particle</tt> so that it always stays within the domain
-	 * boundaries. The logic
-	 * @param particle The <tt>Particle</tt> to perform the position update on.
+	 * Update the position of the {@linkplain Particle} so that it always stays within the domain
+	 * boundaries. To achieve this, the specified {@linkplain #boundaryConstraintStrategy} should
+	 * implement the {@linkplain BoundaryConstraintStrategy#constrainLower(Numeric, Numeric)} and
+	 * {@linkplain BoundaryConstraintStrategy#constrainUpper(Numeric, Numeric)} methods.
+	 * @param particle The {@linkplain Particle} to perform the position update on which is not
+	 *        allowed to move outside the domain.
 	 */
 	public void updatePosition(Particle particle) {
 		Vector position = (Vector) particle.getPosition();
@@ -64,7 +67,7 @@ public class BoundedPositionUpdateStrategy implements PositionUpdateStrategy {
 			else if (newPosition >= currentPosition.getUpperBound()) { // crossed the upper boundary
 				boundaryConstraintStrategy.constrainUpper(currentPosition, currentVelocity);
 			}
-			else { // didn't cross any boundary, just update
+			else { // did not cross any boundary; update as normal
 				position.setReal(i, newPosition);
 			}
 		}
