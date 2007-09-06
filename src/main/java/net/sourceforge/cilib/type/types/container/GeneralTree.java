@@ -27,9 +27,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.container.visitor.PreOrderVisitorDecorator;
-import net.sourceforge.cilib.container.visitor.Visitor;
-
 public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3453326928796685749L;
 	
@@ -109,7 +106,6 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 	}
 
 	public Tree<E> removeSubTree(E element) {
-		//return this.remove(subTree.getKey());
 		throw new UnsupportedOperationException("Implement me");
 	}
 	
@@ -132,25 +128,6 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return null;
 	}
 
-	public void randomise() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void reset() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean isConnected(E a, E b) {
-		return false;
-	}
-
-	public void accept(Visitor<E> visitor) {
-		PreOrderVisitorDecorator<E> preOrder = new PreOrderVisitorDecorator<E>(visitor);
-		depthFirstTraversal(preOrder);
-	}
-	
 	public boolean addAll(Structure<E> structure) {
 		for (E e : structure)
 			add(e);
@@ -169,11 +146,6 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return true;
 	}
 
-	public boolean isInsideBounds() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public Tree<E> getSubTree(E element) {
 		for (Tree<E> tree : this.nodes) {
 			if (tree.getKey().equals(element))
@@ -185,8 +157,7 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	@Override

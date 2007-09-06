@@ -9,6 +9,8 @@ import net.sourceforge.cilib.type.types.AbstractType;
 public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType implements Tree<E> {
 
 	protected E key;
+	
+	public abstract AbstractTree<E> clone();
 
 	@Override
 	public void breadthFirstTraversal(Visitor<E> visitor) {
@@ -67,6 +69,26 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 	@Override
 	public int vertices() {
 		throw new UnsupportedOperationException("The number of vertices is not a valid operation for Tree node structures - default value is 1");
+	}
+
+	@Override
+	public void randomise() {
+		throw new UnsupportedOperationException("Not Implemented");		
+	}
+
+	@Override
+	public boolean isInsideBounds() {
+		throw new UnsupportedOperationException("Not Implemented");
+	}
+
+	@Override
+	public void reset() {
+		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public boolean isConnected(E a, E b) {
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 }

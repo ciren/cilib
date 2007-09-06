@@ -30,8 +30,8 @@ import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3537717751647961525L;
 	
-	private AbstractTree<E> left;
-	private AbstractTree<E> right;
+	private BinaryTree<E> left;
+	private BinaryTree<E> right;
 	//private enum Direction {LEFT, RIGHT};
 
 	public BinaryTree() {
@@ -42,17 +42,19 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		this(element, new BinaryTree<E>(), new BinaryTree<E>());
 	}
 	
-	public BinaryTree(E key, AbstractTree<E> left, AbstractTree<E> right) {
+	public BinaryTree(E key, BinaryTree<E> left, BinaryTree<E> right) {
 		this.key = key;
 		this.left = left;
 		this.right = right;
 	}
 	
-	public BinaryTree(AbstractTree<E> copy) {
-		
+	public BinaryTree(BinaryTree<E> copy) {
+		this.key = copy.key;
+		this.left = copy.left.clone();
+		this.right = copy.right.clone();
 	}
 	
-	public AbstractTree<E> clone() {
+	public BinaryTree<E> clone() {
 		return new BinaryTree<E>(this);
 	}
 
@@ -63,21 +65,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 
 	@Override
 	public String getRepresentation() {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	@Override
-	public boolean isInsideBounds() {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	@Override
-	public void randomise() {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	@Override
-	public void reset() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
@@ -102,11 +89,11 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 			throw new UnsupportedOperationException("Cannot add a subtree to an empty tree");
 		
 		if (left.isEmpty()) {
-			left = (AbstractTree<E>) subTree;
+			left = (BinaryTree<E>) subTree;
 			return true;
 		}
 		if (right.isEmpty()) {
-			right = (AbstractTree<E>) subTree;
+			right = (BinaryTree<E>) subTree;
 			return true;
 		}
 		
@@ -137,7 +124,7 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Tree<E> removeSubTree(E element) {
-		BinaryTree<E> subTreeFound = (BinaryTree<E>) this.getSubTree(element);
+		AbstractTree<E> subTreeFound = (AbstractTree<E>) this.getSubTree(element);
 		
 		if (subTreeFound == left) left = new BinaryTree<E>();
 		if (subTreeFound == right) right = new BinaryTree<E>();
@@ -147,17 +134,12 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	
 	// TODO: Is there a nicer way of doing this method?
 	public Tree<E> removeSubTree(int index) {
-		BinaryTree<E> found = (BinaryTree<E>) this.getSubTree(index);
+		AbstractTree<E> found = (AbstractTree<E>) this.getSubTree(index);
 		return this.removeSubTree(found.getKey());
 	}
 
 	@Override
 	public int edges() {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	@Override
-	public boolean isConnected(E a, E b) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
@@ -198,7 +180,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 
 	@Override
 	public E remove(int index) {
-//		return this.re
 		throw new UnsupportedOperationException("Not implemented");
 	}
 

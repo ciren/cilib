@@ -45,7 +45,5 @@ public class BinaryTreeTest {
 	public void removeSubTreeWithIndex() {
 		assertNotNull(doubleTree.removeSubTree(0));
 	}
-	
-	
 
 }

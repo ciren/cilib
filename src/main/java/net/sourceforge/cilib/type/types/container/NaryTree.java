@@ -26,8 +26,6 @@ package net.sourceforge.cilib.type.types.container;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.container.visitor.Visitor;
-
 public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	private static final long serialVersionUID = -1136444941205621381L;
 	
@@ -78,16 +76,6 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	public int edges() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	public boolean isConnected(E a, E b) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void accept(Visitor<E> visitor) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public boolean add(E element) {
@@ -145,21 +133,6 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return null;
 	}
 
-	public boolean isInsideBounds() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void randomise() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void reset() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -176,6 +149,5 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	public boolean isLeaf() {
 		return this.nodes.size() == 0;
 	}
-	
 	
 }
