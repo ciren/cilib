@@ -14,7 +14,7 @@
 				<inertiaWeight class="ControlParameterUpdateStrategies.ConstantUpdateStrategy" parameter="0.729" />
 				<inertiaWeight class="ControlParameterUpdateStrategies.LinearDecreasingUpdateStrategy" range="R(0.3,1.2)" />
 			</velocityUpdate>-->
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="1000">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000">
 			</addStoppingCondition>
 			<particles value="40"/>
 		</algorithm>
