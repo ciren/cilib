@@ -53,7 +53,7 @@ public class Queue<E> implements Iterable<E> {
 	}
 	
 	
-	public Queue clone() {
+	public Queue<E> clone() {
 		return new Queue<E>(this);
 	}
 	

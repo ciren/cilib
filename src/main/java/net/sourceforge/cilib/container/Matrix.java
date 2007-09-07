@@ -73,7 +73,7 @@ public class Matrix<E> implements Cloneable {
 	 * Copy constructor
 	 * @param copy
 	 */
-	public Matrix(Matrix copy) {
+	public Matrix(Matrix<E> copy) {
 		rows = copy.rows;
 		cols = copy.cols;
 		
@@ -91,8 +91,8 @@ public class Matrix<E> implements Cloneable {
 	}
 	
 	
-	public Matrix clone() {
-		return new Matrix(this);
+	public Matrix<E> clone() {
+		return new Matrix<E>(this);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class Matrix<E> implements Cloneable {
 	 * @return <code>true</code> if the matricies are equal
 	 * @return <code>false</code> if the matricies are not equal
 	 */
-	public boolean equals(Matrix target) {
+	public boolean equals(Matrix<?> target) {
 		return false;
 	}
 
