@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class BinaryTreeTest {
 	
-	private AbstractTree<Double> doubleTree;
+	private BinaryTree<Double> doubleTree;
 
 	@Before
 	public void setupBinaryTree() {

@@ -39,7 +39,6 @@ import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
-import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,7 +48,6 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class MixedVectorTest {
-	private static Logger log = Logger.getLogger(MixedVectorTest.class);
 	private static Vector vector;
 	private static Vector tmpVector;
 	
