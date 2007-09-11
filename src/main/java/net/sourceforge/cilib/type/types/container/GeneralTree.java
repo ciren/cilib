@@ -24,17 +24,16 @@
 package net.sourceforge.cilib.type.types.container;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3453326928796685749L;
 	
-	private List<Tree<E>> nodes;
+	private List<Tree<E>> subTrees;
 	
 	public GeneralTree() {
 		key = null;
-		nodes = new ArrayList<Tree<E>>();
+		subTrees = new ArrayList<Tree<E>>();
 	}
 	
 	public GeneralTree(E element) {
@@ -53,16 +52,8 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		if (getKey() == null)
 			throw new IllegalStateException("Cannot add a subtree to a tree with a null for the key value");
 		
-		this.nodes.add(subtree);
+		this.subTrees.add(subtree);
 		return true;
-	}
-
-	/**
-	 * The number of edges emanating from this tree node. Also known as the
-	 * degree of the tree.
-	 */
-	public int edges() {
-		return this.nodes.size();
 	}
 
 	/**
@@ -74,11 +65,11 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 	}
 
 	public void clear() {
-		this.nodes.clear();
+		this.subTrees.clear();
 	}
 
 	public boolean contains(E element) {
-		for (Tree<E> e : this.nodes) {
+		for (Tree<E> e : this.subTrees) {
 			if (e.getKey().equals(element))
 				return true;
 		}
@@ -87,9 +78,9 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 	}
 
 	public boolean remove(E element) {
-		for (Tree<E> tree : this.nodes) {
+		for (Tree<E> tree : this.subTrees) {
 			if (tree.getKey().equals(this.key)) {
-				this.nodes.remove(tree);
+				this.subTrees.remove(tree);
 				return true;
 			}
 		}
@@ -97,12 +88,11 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return false;
 	}
 	
-	// TODO: Implement this method 
 	public E remove(int index) {
-		if (index >= this.nodes.size())
+		if (index >= this.subTrees.size())
 			throw new IndexOutOfBoundsException("");
 		
-		return this.nodes.remove(index).getKey();
+		return this.subTrees.remove(index).getKey();
 	}
 
 	public Tree<E> removeSubTree(E element) {
@@ -111,43 +101,11 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 	
 	@Override
 	public Tree<E> removeSubTree(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int size() {
-		return this.nodes.size();
-	}
-
-	public int getDimension() {
-		return size();
-	}
-
-	public String getRepresentation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean addAll(Structure<E> structure) {
-		for (E e : structure)
-			add(e);
-
-		return true;
-	}
-
-	public Iterator<E> iterator() {
-		return null;
-	}
-
-	public boolean removeAll(Structure<E> structure) {
-		for (E e : structure) {
-			this.remove(e);
-		}
-		return true;
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	public Tree<E> getSubTree(E element) {
-		for (Tree<E> tree : this.nodes) {
+		for (Tree<E> tree : this.subTrees) {
 			if (tree.getKey().equals(element))
 				return tree;
 		}
@@ -165,12 +123,17 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		if (isEmpty()) 
 			throw new UnsupportedOperationException();
 		
-		return this.nodes.get(index);
+		return this.subTrees.get(index);
 	}
 
 	@Override
 	public boolean isLeaf() {
-		return this.nodes.size() == 0;
+		return this.subTrees.size() == 0;
 	}
 
+	@Override
+	public int getDegree() {
+		return this.subTrees.size();
+	}
+	
 }

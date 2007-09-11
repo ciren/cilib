@@ -30,6 +30,8 @@ public interface Tree<E extends Comparable<E>> extends Graph<E> {
 	
 	public E getKey();
 	
+	public void setKey(E element);
+	
 	public boolean addSubTree(Tree<E> subTree);
 	
 	public Tree<E> getSubTree(E element);
@@ -41,6 +43,8 @@ public interface Tree<E extends Comparable<E>> extends Graph<E> {
 	public Tree<E> removeSubTree(int index);
 	
 	public boolean isLeaf();
+	
+	public int getDegree();
 	
 	public void depthFirstTraversal(PrePostVisitor<E> visitor);
 	

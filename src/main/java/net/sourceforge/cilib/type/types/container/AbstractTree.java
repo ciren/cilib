@@ -1,5 +1,8 @@
 package net.sourceforge.cilib.type.types.container;
 
+import java.util.Iterator;
+import java.util.Stack;
+
 import net.sourceforge.cilib.container.Queue;
 import net.sourceforge.cilib.container.visitor.PreOrderVisitorDecorator;
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
@@ -34,11 +37,12 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 	public void depthFirstTraversal(PrePostVisitor<E> visitor) {
 		if (visitor.isDone())
 			return;
+		
 		if (!isEmpty()) {
 			visitor.preVisit(getKey());
-			for (int i = 0; i < this.size(); i++) {
+			for (int i = 0; i < this.size(); i++)
 				this.getSubTree(i).depthFirstTraversal(visitor);
-			}
+
 			visitor.postVisit(getKey());
 		}
 	}
@@ -55,7 +59,12 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 		
 		return this.key;
 	}
-
+	
+	@Override
+	public void setKey(E element) {
+		this.key = element;
+	}
+	
 	@Override
 	public boolean isEmpty() {
 		return this.key == null;
@@ -89,6 +98,99 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 	@Override
 	public boolean isConnected(E a, E b) {
 		throw new UnsupportedOperationException("Not implemented");
+	}
+
+	@Override
+	public boolean addAll(Structure<E> structure) {
+		throw new UnsupportedOperationException("Implementation needed");
+	}
+
+	@Override
+	public boolean removeAll(Structure<E> structure) {
+		throw new UnsupportedOperationException("Implementation needed");
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		return (Iterator<E>) new TreeIterator();
+	}
+	
+	@Override
+	public int size() {
+		return this.getDegree();
+	}
+
+	@Override
+	public int edges() {
+		return this.getDegree();
+	}
+
+	public int getDimension() {
+		throw new UnsupportedOperationException("Implementation needed");
+	}
+
+	@Override
+	public String getRepresentation() {
+		StringBuffer buffer = new StringBuffer();
+		PrintingVisitor<E> visitor = new PrintingVisitor<E>(buffer);
+		this.accept(visitor);
+		
+		return buffer.toString();
+	}
+	
+	@SuppressWarnings("hiding")
+	private class PrintingVisitor<E> extends PrePostVisitor<E> {
+		private StringBuffer buffer;
+		
+		public PrintingVisitor(StringBuffer buffer) {
+			this.buffer = buffer;
+		}
+
+		@Override
+		public void visit(E o) {
+			if (buffer.length() != 0)
+				buffer.append(",");
+			
+			buffer.append(o.toString());			
+		}
+	}
+	
+	/**
+	 * Provides a simple Iterator for trees
+	 */
+	protected class TreeIterator implements Iterator<E> {
+		
+		private Stack<Tree<E>> stack;
+		
+		public TreeIterator() {
+			stack = new Stack<Tree<E>>();
+			stack.push(AbstractTree.this);
+		}
+
+		@Override
+		public boolean hasNext() {
+			return !stack.isEmpty();
+		}
+
+		@Override
+		public E next() {
+			if (stack.isEmpty())
+				throw new UnsupportedOperationException();
+			
+			Tree<E> top = stack.pop();
+			for (int i = top.size() - 1; i >= 0; i--) {
+				Tree<E> subTree = top.getSubTree(i);
+				if (!subTree.isEmpty())
+					stack.push(subTree);
+			}
+			
+			return top.getKey();
+		}
+
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException("Cannot remove a tree using an iterator.");
+		}
 	}
 
 }

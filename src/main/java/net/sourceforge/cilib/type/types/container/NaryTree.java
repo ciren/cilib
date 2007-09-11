@@ -23,17 +23,30 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	private static final long serialVersionUID = -1136444941205621381L;
 	
 	private int degree;
-	private List<Tree<E>> nodes;
+	private List<NaryTree<E>> subTrees;
 
-	public NaryTree() {
-		
+	public NaryTree() {	
+	}
+	
+	public NaryTree(int degree) {
+		this.key = null;
+		this.degree = degree;
+		this.subTrees = null;
+	}
+	
+	public NaryTree(int degree, E element) {
+		this.key = element;
+		this.degree = degree;
+		this.subTrees = new ArrayList<NaryTree<E>>();
+		for (int i = 0; i < degree; i++)
+			this.subTrees.add(new NaryTree<E>(degree));
 	}
 	
 	public NaryTree(NaryTree<E> copy) {
@@ -44,110 +57,127 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return new NaryTree<E>(this);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean addSubTree(Tree<E> subTree) {
-		if (subTree == null)
-			throw new IllegalArgumentException("Cannot add a null object as a child of a tree");
-	
-		if (getKey() == null)
-			throw new IllegalStateException("Cannot add a subtree to a tree with a null for the key value");
+		if (isEmpty())
+			throw new UnsupportedOperationException();
 		
-		if (this.nodes.size() < degree) {
-			this.nodes.add(subTree);
+		for (int i = 0; i < degree; i++) {
+			if (!subTrees.get(i).isEmpty())
+				continue;
+			
+			subTrees.set(i, (NaryTree<E>) subTree);
 			return true;
 		}
 		
 		return false;
 	}
 
+	/**
+	 * Return the subTree with the node value of <tt>element</tt>. If
+	 * such an subTree does not exist, an empty tree is returned.
+	 * 
+	 * @param element The element of the subTree to search for.
+	 * @return The subtree if found else an empty <tt>Tree</tt> object.
+	 */
 	public Tree<E> getSubTree(E element) {
-		// TODO Auto-generated method stub
-		return null;
+		for (int i = 0; i < degree; i++) {
+			NaryTree<E> subTree = subTrees.get(i);
+			if (subTree.isEmpty())
+				continue;
+			
+			if (subTree.getKey().equals(element))
+				return subTree;
+		}
+		
+		return new NaryTree<E>();
 	}
 
 	public Tree<E> removeSubTree(E element) {
-		throw new UnsupportedOperationException("Implementation is needed");
+		if (isEmpty()) 
+			throw new UnsupportedOperationException();
+		
+		NaryTree<E> subTree = (NaryTree<E>) getSubTree(element);
+		int index = subTrees.indexOf(subTree);
+		subTrees.remove(subTree);
+		subTrees.add(index, new NaryTree<E>(degree));
+		return subTree;
 	}
 	
 	@Override
 	public Tree<E> removeSubTree(int index) {
-		throw new UnsupportedOperationException("Implementation is needed");
+		NaryTree<E> subTree = (NaryTree<E>) getSubTree(index);
+		return removeSubTree(subTree.getKey());
 	}
 
-	public int edges() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	/**
+	 * 
+	 */
 	public boolean add(E element) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean addAll(Structure<E> structure) {
-		// TODO Auto-generated method stub
-		return false;
+		NaryTree<E> tree = new NaryTree<E>(degree, element);
+		return this.addSubTree(tree);
 	}
 
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	public boolean contains(E element) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < degree; i++) {
+			Tree<E> subTree = getSubTree(i);
+			if (!subTree.isEmpty())
+				if (subTree.getKey().equals(element))
+					return true;
+		}
+		
 		return false;
-	}
-
-	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public boolean remove(E element) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	public E remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean removeAll(Structure<E> structure) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int getDimension() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public String getRepresentation() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	@Override
 	public Tree<E> getSubTree(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty())
+			throw new UnsupportedOperationException();
+		
+		return this.subTrees.get(index);
 	}
 
 	@Override
 	public boolean isLeaf() {
-		return this.nodes.size() == 0;
+		for (int i = 0; i < degree; i++)
+			if (!subTrees.get(i).isEmpty())
+				return false;
+		
+		return true;
 	}
-	
+
+	@Override
+	public void setKey(E element) {
+		if (!isEmpty())
+			throw new UnsupportedOperationException();
+		
+		this.key = element;
+		this.subTrees = new ArrayList<NaryTree<E>>();
+		for (int i = 0; i < degree; i++) {
+			this.subTrees.add(new NaryTree<E>(degree));
+		}
+	}
+
+	@Override
+	public int getDegree() {
+		return this.degree;
+	}
+
 }

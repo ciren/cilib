@@ -23,7 +23,6 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 
@@ -32,7 +31,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	
 	private BinaryTree<E> left;
 	private BinaryTree<E> right;
-	//private enum Direction {LEFT, RIGHT};
 
 	public BinaryTree() {
 		this(null, null, null);
@@ -56,16 +54,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	
 	public BinaryTree<E> clone() {
 		return new BinaryTree<E>(this);
-	}
-
-	@Override
-	public int getDimension() {
-		return 2;
-	}
-
-	@Override
-	public String getRepresentation() {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
@@ -138,22 +126,12 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return this.removeSubTree(found.getKey());
 	}
 
-	@Override
-	public int edges() {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
 	/**
 	 * Convenience method. Defers to {@see BinaryTree#addSubtree(Tree)}
 	 */
 	@Override
 	public boolean add(E element) {
 		return this.addSubTree(new BinaryTree<E>(element));
-	}
-
-	@Override
-	public boolean addAll(Structure<E> structure) {
-		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
@@ -169,27 +147,12 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	}
 
 	@Override
-	public Iterator<E> iterator() {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	@Override
 	public boolean remove(E element) {
 		return !this.removeSubTree(element).isEmpty();
 	}
 
 	@Override
 	public E remove(int index) {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	@Override
-	public boolean removeAll(Structure<E> structure) {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	@Override
-	public int size() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
@@ -207,6 +170,11 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	@Override
 	public boolean isLeaf() {
 		return left.isEmpty() && right.isEmpty();
+	}
+
+	@Override
+	public int getDegree() {
+		return 2;
 	}
 
 }

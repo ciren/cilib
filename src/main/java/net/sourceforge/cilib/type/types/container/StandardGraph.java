@@ -42,7 +42,7 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		adjacencyMap = new LinkedHashMap<E, List<E>>();
 	}
 	
-	public StandardGraph clone() {
+	public StandardGraph<E> clone() {
 		return null;
 	}
 
