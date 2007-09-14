@@ -15,7 +15,6 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 	
 	public abstract AbstractTree<E> clone();
 
-	@Override
 	public void breadthFirstTraversal(Visitor<E> visitor) {
 		Queue<Tree<E>> queue = new Queue<Tree<E>>();
 		
@@ -33,7 +32,6 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 		}
 	}
 
-	@Override
 	public void depthFirstTraversal(PrePostVisitor<E> visitor) {
 		if (visitor.isDone())
 			return;
@@ -47,12 +45,10 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 		}
 	}
 
-	@Override
 	public void accept(Visitor<E> visitor) {
 		depthFirstTraversal(new PreOrderVisitorDecorator<E>(visitor));		
 	}
 
-	@Override
 	public E getKey() {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Empty trees do not have valid keys");
@@ -60,67 +56,54 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 		return this.key;
 	}
 	
-	@Override
 	public void setKey(E element) {
 		this.key = element;
 	}
 	
-	@Override
 	public boolean isEmpty() {
 		return this.key == null;
 	}
 
-	@Override
 	public boolean addEdge(E a, E b) {
 		throw new UnsupportedOperationException("Arbitary adding of edges is not allowed for Tree structures");
 	}
 
-	@Override
 	public int vertices() {
 		throw new UnsupportedOperationException("The number of vertices is not a valid operation for Tree node structures - default value is 1");
 	}
 
-	@Override
 	public void randomise() {
 		throw new UnsupportedOperationException("Not Implemented");		
 	}
 
-	@Override
 	public boolean isInsideBounds() {
 		throw new UnsupportedOperationException("Not Implemented");
 	}
 
-	@Override
 	public void reset() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
-	@Override
 	public boolean isConnected(E a, E b) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
-	@Override
 	public boolean addAll(Structure<E> structure) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
-	@Override
 	public boolean removeAll(Structure<E> structure) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
-	@Override
 	public Iterator<E> iterator() {
 		return (Iterator<E>) new TreeIterator();
 	}
 	
-	@Override
 	public int size() {
 		return this.getDegree();
 	}
 
-	@Override
 	public int edges() {
 		return this.getDegree();
 	}
@@ -129,7 +112,6 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
-	@Override
 	public String getRepresentation() {
 		StringBuffer buffer = new StringBuffer();
 		PrintingVisitor<E> visitor = new PrintingVisitor<E>(buffer);
@@ -167,12 +149,10 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 			stack.push(AbstractTree.this);
 		}
 
-		@Override
 		public boolean hasNext() {
 			return !stack.isEmpty();
 		}
 
-		@Override
 		public E next() {
 			if (stack.isEmpty())
 				throw new UnsupportedOperationException();
@@ -187,7 +167,6 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 			return top.getKey();
 		}
 
-		@Override
 		public void remove() {
 			throw new UnsupportedOperationException("Cannot remove a tree using an iterator.");
 		}
