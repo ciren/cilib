@@ -56,7 +56,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return new BinaryTree<E>(this);
 	}
 
-	@Override
 	public String toString() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
@@ -71,7 +70,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	 * @return <tt>true</tt> if the addition was successful, <tt>false</tt> otherwise  
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
 	public boolean addSubTree(Tree<E> subTree) {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Cannot add a subtree to an empty tree");
@@ -88,7 +86,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return false;
 	}
 
-	@Override
 	public Tree<E> getSubTree(E element) {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Cannot get a subtree from an empty tree");
@@ -99,7 +96,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return new BinaryTree<E>();
 	}
 
-	@Override
 	public Tree<E> getSubTree(int index) {
 		if (index < 0 || index >= 2)
 			throw new IndexOutOfBoundsException("BinaryTree subTree indexes of 0 or 1 are ony allowed.");
@@ -110,7 +106,6 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public Tree<E> removeSubTree(E element) {
 		AbstractTree<E> subTreeFound = (AbstractTree<E>) this.getSubTree(element);
 		
@@ -129,29 +124,24 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	/**
 	 * Convenience method. Defers to {@see BinaryTree#addSubtree(Tree)}
 	 */
-	@Override
 	public boolean add(E element) {
 		return this.addSubTree(new BinaryTree<E>(element));
 	}
 
-	@Override
 	public void clear() {
 		this.key = null;
 		this.left = null;
 		this.right = null;
 	}
 
-	@Override
 	public boolean contains(E element) {
 		return this.getSubTree(element).isEmpty();
 	}
 
-	@Override
 	public boolean remove(E element) {
 		return !this.removeSubTree(element).isEmpty();
 	}
 
-	@Override
 	public E remove(int index) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
@@ -167,12 +157,10 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		}
 	}
 
-	@Override
 	public boolean isLeaf() {
 		return left.isEmpty() && right.isEmpty();
 	}
 
-	@Override
 	public int getDegree() {
 		return 2;
 	}

@@ -99,7 +99,6 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		throw new UnsupportedOperationException("Implement me");
 	}
 	
-	@Override
 	public Tree<E> removeSubTree(int index) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
@@ -113,12 +112,10 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return null;
 	}
 
-	@Override
 	public String toString() {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
-	@Override
 	public Tree<E> getSubTree(int index) {
 		if (isEmpty()) 
 			throw new UnsupportedOperationException();
@@ -126,12 +123,10 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return this.subTrees.get(index);
 	}
 
-	@Override
 	public boolean isLeaf() {
 		return this.subTrees.size() == 0;
 	}
 
-	@Override
 	public int getDegree() {
 		return this.subTrees.size();
 	}

@@ -104,7 +104,6 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return subTree;
 	}
 	
-	@Override
 	public Tree<E> removeSubTree(int index) {
 		NaryTree<E> subTree = (NaryTree<E>) getSubTree(index);
 		return removeSubTree(subTree.getKey());
@@ -141,12 +140,10 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
-	@Override
 	public String toString() {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
-	@Override
 	public Tree<E> getSubTree(int index) {
 		if (isEmpty())
 			throw new UnsupportedOperationException();
@@ -154,7 +151,6 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		return this.subTrees.get(index);
 	}
 
-	@Override
 	public boolean isLeaf() {
 		for (int i = 0; i < degree; i++)
 			if (!subTrees.get(i).isEmpty())
@@ -175,7 +171,6 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		}
 	}
 
-	@Override
 	public int getDegree() {
 		return this.degree;
 	}
