@@ -26,7 +26,7 @@
  */
 package net.sourceforge.cilib.pso;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -86,7 +86,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		// particles = 20;
 		topology = new GBestTopology<Particle>();
 
-		// prototypeParticle = new StandardParticle();
 		iterationStrategy = new SynchronousIterationStrategy();
 
 		initialisationStrategy = new ClonedEntityInitialisationStrategy();
@@ -129,8 +128,8 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 
 		iterationStrategy.performIteration(this);
 		
-		for (Iterator<Particle> i = this.getTopology().iterator(); i.hasNext();) {
-			i.next().getVelocityUpdateStrategy().updateControlParameters();
+		for (Particle particle : this.getTopology()) {
+			particle.getVelocityUpdateStrategy().updateControlParameters();
 		}
 	}
 
@@ -154,9 +153,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * @return The <code>OptimisationSolution</code> representing the best solution.
 	 */
 	public OptimisationSolution getBestSolution() {
-		OptimisationSolution solution = new OptimisationSolution(this.getOptimisationProblem(), getBestParticle().getBestPosition().clone());
-
-		return solution;
+		return new OptimisationSolution(this.getOptimisationProblem(), getBestParticle().getBestPosition().clone());
 	}
 
 	/**
@@ -165,9 +162,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
 	 */
 	public List<OptimisationSolution> getSolutions() {
-		ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
-		solutions.add(this.getBestSolution());
-		return solutions;
+		return Arrays.asList(getBestSolution());
 	}
 
 	/**
