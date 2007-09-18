@@ -47,9 +47,6 @@ import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 public class StandardParticle extends AbstractParticle {
     private static final long serialVersionUID = 2610843008637279845L;
     
-//    protected Fitness fitness;
-//    protected Fitness bestFitness;
-
     protected Particle neighbourhoodBest;
     protected FitnessCalculator fitnessCalculator;
     
@@ -170,13 +167,6 @@ public class StandardParticle extends AbstractParticle {
     	this.velocityUpdateStrategy.updateVelocity(this);
     }
     
-    /**
-     * 
-     */
-    public Particle getDecorator(Class<?> decorator) {
-        throw new RuntimeException("This is not a decorator");
-    }
-
 	public Type getContents() {
 		return getPosition();
 	}

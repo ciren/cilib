@@ -173,13 +173,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract void updateVelocity();
     
     /**
-     * 
-     * @param decorator
-     * @return
-     */
-    public abstract Particle getDecorator(Class<?> decorator);
-       
-    /**
      * Get the social best fitness for the particle based on the currently employed
      * <code>NeighbourhoodBestUpdateStrategy</code>
      * 

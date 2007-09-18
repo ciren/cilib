@@ -42,7 +42,4 @@ public interface Particle extends Entity {
 	// I don't like this mehtod / idea
 	public String getId();
 	
-	// Don't like this method
-	public Particle getDecorator(Class<?> decorator);
-
 }

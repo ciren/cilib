@@ -197,11 +197,9 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 		positions = new double[observations][getDimension()];
 	}
 
+	@Deprecated
 	public static DeviationDecorator extract(Particle particle) {
-
-		return (DeviationDecorator) particle
-				.getDecorator(DeviationDecorator.class);
-
+		throw new UnsupportedOperationException("Method has been removed");
 	}
 
 	private double[][] positions;

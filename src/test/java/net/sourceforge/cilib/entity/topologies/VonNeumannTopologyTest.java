@@ -245,17 +245,7 @@ public class VonNeumannTopologyTest {
 		}
 
 		public void updateVelocity() {
-		}
-
-		public Particle getDecorator(Class<?> decorator) {
-			return null;
-		}
-
-		
-		
-		
-		
-		
+		}		
 		
 		public int compareTo(Entity o) {
 			// TODO Auto-generated method stub

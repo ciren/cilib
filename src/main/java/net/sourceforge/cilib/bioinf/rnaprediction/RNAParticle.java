@@ -209,10 +209,6 @@ public class RNAParticle extends AbstractParticle {
 		this.velocityUpdateStrategy.updateVelocity(this);
 	}
 
-	public Particle getDecorator(Class<?> decorator) {
-		throw new RuntimeException("This is not a decorator");
-	}
-	
 	public void setRNAFolder(RNAFolder folder) {
 		this.folder = folder;
 	}

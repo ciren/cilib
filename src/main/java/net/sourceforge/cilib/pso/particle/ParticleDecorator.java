@@ -71,19 +71,6 @@ public abstract class ParticleDecorator extends AbstractParticle {
         return target.getBestPosition();
     }
     
-    /*public void setBestPosition(Type bestPosition) {
-    	this.target.setBestPosition(bestPosition);
-    }*/
-    
-    public Particle getDecorator(Class<?> decorator) {
-        if (this.getClass().equals(decorator)) {
-            return this;
-        }
-        else {
-            return target.getDecorator(decorator);
-        }
-    }
-
     public int getDimension() {
         return target.getDimension();
     }

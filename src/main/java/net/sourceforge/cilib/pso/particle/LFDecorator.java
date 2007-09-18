@@ -73,8 +73,9 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
         this.getVelocityUpdateStrategy().updateVelocity(this);
     }
     
+    @Deprecated
     public static LFDecorator extract(Particle particle) {
-        return (LFDecorator) particle.getDecorator(LFDecorator.class);
+    	throw new UnsupportedOperationException("This method has been removed from the CILib API");
     }
 
     public void initialise(OptimisationProblemAdapter problem) {

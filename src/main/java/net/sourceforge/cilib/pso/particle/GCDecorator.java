@@ -107,7 +107,7 @@ public class GCDecorator extends ParticleDecorator {
     }
     
     public static GCDecorator extract(Particle particle) {
-        return (GCDecorator) particle.getDecorator(GCDecorator.class);
+    	throw new UnsupportedOperationException("Unsupported operation");
     }
     
     private double rho;
@@ -116,6 +116,7 @@ public class GCDecorator extends ParticleDecorator {
     
     private boolean fitnessImproved;
     private Particle previousNeighbourhoodBest;
+    
 	@Override
 	public void calculateFitness() {
 		// TODO Auto-generated method stub
