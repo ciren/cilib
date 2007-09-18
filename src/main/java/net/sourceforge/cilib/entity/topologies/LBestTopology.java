@@ -31,6 +31,8 @@ package net.sourceforge.cilib.entity.topologies;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
 
 
@@ -48,13 +50,14 @@ import net.sourceforge.cilib.entity.Entity;
  */
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	private static final long serialVersionUID = 93039445052676571L;
+    private ControlParameterUpdateStrategy neighbourhoodSize;
 
 	/**
      * Creates a new instance of <code>LBestTopology</code>.
      */
     public LBestTopology() {
         super();
-        neighbourhoodSize = 3;
+        neighbourhoodSize = new ConstantUpdateStrategy(3);
     }
     
     public LBestTopology(LBestTopology<E> copy) {
@@ -78,7 +81,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
      *
      * @param neighbourhoodSize The size of the neighbourhood.
      */
-    public void setNeighbourhoodSize(int neighbourhoodSize) {
+    public void setNeighbourhoodSize(ControlParameterUpdateStrategy neighbourhoodSize) {
         this.neighbourhoodSize = neighbourhoodSize;
     }
     
@@ -89,18 +92,17 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
      * @return The size of the neighbourhood.
      */
     public int getNeighbourhoodSize() {
-    	if (super.size() == 0) { // to show a sensible default value in CiClops
-    		return neighbourhoodSize;
-    	}
-        else if (neighbourhoodSize > super.size()) {
+    	int rounded = Long.valueOf(Math.round(neighbourhoodSize.getParameter())).intValue();
+    	
+    	if (super.size() == 0) // to show a sensible default value in CiClops
+    		return rounded;
+    	
+        if (rounded > super.size())
             return super.size();
-        }
-        else {
-            return neighbourhoodSize;
-        }
+        
+        return rounded;
     }
     
-    private int neighbourhoodSize;
     
     private class LBestNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
         
