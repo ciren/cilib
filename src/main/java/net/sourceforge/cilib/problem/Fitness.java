@@ -57,6 +57,8 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	
+	public Fitness clone();
+	
 	/**
 	 * Returns the underlying fitness value.
 	 * 
