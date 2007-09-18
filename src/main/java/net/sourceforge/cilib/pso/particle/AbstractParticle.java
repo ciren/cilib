@@ -177,7 +177,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * @param decorator
      * @return
      */
-    public abstract Particle getDecorator(Class decorator);
+    public abstract Particle getDecorator(Class<?> decorator);
        
     /**
      * Get the social best fitness for the particle based on the currently employed

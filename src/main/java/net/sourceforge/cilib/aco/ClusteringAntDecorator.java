@@ -42,7 +42,7 @@ import net.sourceforge.cilib.type.types.Type;
 public class ClusteringAntDecorator extends Ant {
 	private static final long serialVersionUID = -923470118462293377L;
 	
-	private ClusterableObject ladenObject;
+	private ClusterableObject<Object> ladenObject;
 	private boolean laden = false;
 	private int currentX;
 	private int currentY;
@@ -74,7 +74,7 @@ public class ClusteringAntDecorator extends Ant {
 	 * @param x
 	 * @param y
 	 */
-	public ClusteringAntDecorator(ClusterableObject object, int x, int y) {
+	public ClusteringAntDecorator(ClusterableObject<Object> object, int x, int y) {
 		super();
 		ladenObject = object;
 		currentX = x;
@@ -107,7 +107,7 @@ public class ClusteringAntDecorator extends Ant {
 	 * Sets the current item for the ClusteringAnt
 	 * @param object The object that the ClusteringAnt will be carrying
 	 */
-	public void setCurrentObject(ClusterableObject object) {
+	public void setCurrentObject(ClusterableObject<Object> object) {
 		ladenObject = object;
 	}
 	
@@ -162,7 +162,7 @@ public class ClusteringAntDecorator extends Ant {
 	}
 	
 	// FIXME: This should become a pluggable function!!!!!
-	public double distanceTo(ClusterableObject object) {
+	public double distanceTo(ClusterableObject<Object> object) {
 		if (ladenObject.getType() == object.getType()) {
 			return 0.0;
 		}

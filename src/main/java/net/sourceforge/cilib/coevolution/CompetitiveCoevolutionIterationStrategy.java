@@ -26,11 +26,10 @@
  */
 package net.sourceforge.cilib.coevolution;
 
-import net.sourceforge.cilib.entity.Entity;
-
 import java.util.List;
-import java.util.ListIterator;
+
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 
 
 
@@ -66,8 +65,7 @@ public abstract class CompetitiveCoevolutionIterationStrategy extends Coevolutio
 	public void performIteration(CoevolutionAlgorithm ca) {		
 		List<Entity> opponents = null;
 		
-		 for(ListIterator it=ca.getPopulations().listIterator(); it.hasNext();){
-			 PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
+		 for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
 				for(int i=0; i<currentAlgorithm.getPopulationSize(); i++){
 					Entity e = currentAlgorithm.getTopology().get(i);
 					reset(e);
@@ -82,8 +80,7 @@ public abstract class CompetitiveCoevolutionIterationStrategy extends Coevolutio
 				}
 			}
 		 
-		 for(ListIterator it=ca.getPopulations().listIterator(); it.hasNext();){
-			 PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
+		 for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
 			 currentAlgorithm.performIteration();
 		 }
 	}

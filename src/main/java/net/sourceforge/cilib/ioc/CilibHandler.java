@@ -360,7 +360,7 @@ public class CilibHandler extends DefaultHandler {
 	 * @param clazz The class of the argument to be passed to the method.
 	 * @return The <code>Method</code> of the required method call.
 	 */
-	private Method perfromLookupOfSuperClassAndSuperInterfaces(Object object, String propertyName, Class clazz) {
+	private Method perfromLookupOfSuperClassAndSuperInterfaces(Object object, String propertyName, Class<?> clazz) {
 		
 		if (clazz == null)
 			return null;

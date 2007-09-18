@@ -222,6 +222,7 @@ public class ACO extends PopulationBasedAlgorithm {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setTopology(Topology topology) {
 		// TODO Auto-generated method stub

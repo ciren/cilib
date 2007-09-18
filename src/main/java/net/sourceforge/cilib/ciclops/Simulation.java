@@ -87,7 +87,7 @@ public class Simulation implements AlgorithmListener {
 	/**
 	 * @return Returns the measurements.
 	 */
-	public Collection getMeasurements() {
+	public Collection<Measurement> getMeasurements() {
 		return measurements;
 	}
 

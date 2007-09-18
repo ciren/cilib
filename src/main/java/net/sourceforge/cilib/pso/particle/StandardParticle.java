@@ -173,7 +173,7 @@ public class StandardParticle extends AbstractParticle {
     /**
      * 
      */
-    public Particle getDecorator(Class decorator) {
+    public Particle getDecorator(Class<?> decorator) {
         throw new RuntimeException("This is not a decorator");
     }
 

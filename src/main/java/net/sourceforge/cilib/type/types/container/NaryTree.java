@@ -97,7 +97,7 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		if (isEmpty()) 
 			throw new UnsupportedOperationException();
 		
-		NaryTree<E> subTree = (NaryTree<E>) getSubTree(element);
+		Tree<E> subTree = getSubTree(element);
 		int index = subTrees.indexOf(subTree);
 		subTrees.remove(subTree);
 		subTrees.add(index, new NaryTree<E>(degree));
@@ -105,7 +105,7 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	}
 	
 	public Tree<E> removeSubTree(int index) {
-		NaryTree<E> subTree = (NaryTree<E>) getSubTree(index);
+		Tree<E> subTree = getSubTree(index);
 		return removeSubTree(subTree.getKey());
 	}
 

@@ -88,7 +88,7 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 
 	private class HypercubeNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
 
-        public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, ArrayIterator iterator) {
+        public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, ArrayIterator<T> iterator) {
             if (iterator.getIndex() == -1) {
                 throw new IllegalStateException();
             }

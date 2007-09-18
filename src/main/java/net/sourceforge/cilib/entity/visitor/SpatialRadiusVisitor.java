@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class SpatialRadiusVisitor extends RadiusVisitor {
 	
 	@Override
-	public void visit(Topology topology) {
+	public void visit(Topology<? extends Entity> topology) {
 //		 set radius value to be returned to zero
 		double maxDistance = 0.0;
     	
@@ -59,7 +59,7 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
            spatialCenter.setReal(j,spatialCenter.getReal(j)/numberOfEntities);
 		
         // initialize iterator to be used to calculate radius
-    	Iterator calculateRadiusIterator = topology.iterator();
+    	Iterator<?> calculateRadiusIterator = topology.iterator();
     	
     	// calculate radius
     	while(calculateRadiusIterator.hasNext()) {

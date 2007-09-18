@@ -132,7 +132,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
         return solution;
 	}
 	
-	public IterationStrategy getIterationStrategy() {
+	public IterationStrategy<EC> getIterationStrategy() {
 		return iterationStrategy;
 	}
 

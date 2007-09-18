@@ -82,12 +82,12 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	private double currentPheromoneLevelOfEdge(Edge edge) {
 		double result = 0.0;
 		ACO aco = (ACO) (Algorithm.get());
-		for (Iterator i = aco.getAnts().iterator(); i.hasNext(); ) {
-			TSPAnt ant = (TSPAnt) i.next();
-			ArrayList<Edge> tour = (ArrayList<Edge>) ant.getCurrentTour();
+		for (Ant ant : aco.getAnts()) {
+			TSPAnt tspAnt = (TSPAnt) ant;
+			ArrayList<Edge> tour = (ArrayList<Edge>) tspAnt.getCurrentTour();
 			
 			if (tour.contains(edge)) {
-				result += (Q/ant.getCurrentTourLength());
+				result += (Q/tspAnt.getCurrentTourLength());
 			}
 		}
 		
@@ -101,7 +101,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	 * @param pathLength The current shortest path, path length
 	 * @return The average pheromone of the shortest tour
 	 */
-	private double averagePheromoneOfShortestTour(Edge edge, ArrayList shortestPath, double pathLength) {
+	private double averagePheromoneOfShortestTour(Edge edge, Collection<Edge> shortestPath, double pathLength) {
 		double result = 0.0;
 		
 		if (shortestPath.contains(edge)) {
@@ -127,7 +127,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 
 			double tmp = edge.getWeight();
 			tmp += currentPheromoneLevelOfEdge(edge);
-			tmp += e*averagePheromoneOfShortestTour(edge, (ArrayList) p.getBestSolution(), p.getBestSolutionLength());
+			tmp += e*averagePheromoneOfShortestTour(edge, p.getBestSolution(), p.getBestSolutionLength());
 			
 			edge.setWeight(tmp);
 		}

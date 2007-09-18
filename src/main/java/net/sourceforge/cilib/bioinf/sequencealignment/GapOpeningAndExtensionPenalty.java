@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 /**
  * Method that penalises indels as gap groups.
@@ -64,10 +63,8 @@ public class GapOpeningAndExtensionPenalty implements GapPenaltiesMethod {
 		int openingGapsCounter = 0;
 		int extensionGapsCounter = 0;
 
-		for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+		for (String s : alignment)
 		{
-			String s = (String) l.next();
-			
 			for (int i = 0; i < s.length(); i++)
 			{
 				if(s.charAt(i) == '-')  //first indel of potential group
@@ -89,9 +86,8 @@ public class GapOpeningAndExtensionPenalty implements GapPenaltiesMethod {
 		if (verbose)
 		{
 			System.out.println("Penalty: "+gapPenalty+" ["+openingGapsCounter+" opening gap(s)*"+gapOpeningPenalty+" + "+extensionGapsCounter+" extension gap(s)]*"+gapExtensionPenalty+"]");
-			for (ListIterator j = alignment.listIterator(); j.hasNext(); )
+			for (String s : alignment)
 			{
-				String s = (String) j.next();
 				System.out.println("'" + s + "'");
 			}
 		}

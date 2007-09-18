@@ -24,11 +24,12 @@
 package net.sourceforge.cilib.entity.visitor;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
-public abstract class TopologyVisitor extends Visitor<Topology> {
+public abstract class TopologyVisitor extends Visitor<Topology<? extends Entity>> {
 	
 	protected double result;
 	protected DistanceMeasure distanceMeasure;
@@ -37,7 +38,7 @@ public abstract class TopologyVisitor extends Visitor<Topology> {
 		distanceMeasure = new EuclideanDistanceMeasure();
 	}
 	
-	public abstract void visit(Topology algorithm);
+	public abstract void visit(Topology<? extends Entity> algorithm);
 	
 	public double getResult() {
 		return result;

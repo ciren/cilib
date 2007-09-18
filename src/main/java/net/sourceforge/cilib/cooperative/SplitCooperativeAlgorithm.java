@@ -231,7 +231,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	}
 
 	@Override
-	public void setTopology(Topology topology) {
+	public void setTopology(Topology<? extends Entity> topology) {
 		// TODO Auto-generated method stub
 	}
 }

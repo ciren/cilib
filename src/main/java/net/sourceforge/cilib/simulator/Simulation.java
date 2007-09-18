@@ -97,7 +97,7 @@ public class Simulation extends Thread implements AlgorithmListener {
 				}
 				String type = current.getInterfaces()[0].getName();
 				// System.out.println("type: " + type);
-				Class parameters[] = new Class[1];
+				Class<?> parameters[] = new Class[1];
 				parameters[0] = Class.forName(type);
 				// System.out.println("parameters: " + parameters[0].getName());
 				String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);

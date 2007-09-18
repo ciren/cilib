@@ -270,7 +270,7 @@ public class Graph<V extends Vertex, E extends Edge> {
 			System.out.println( "  # of edges: " + edgeSet.size() );
 
 			System.out.println( "  Vertices and incident edges:" );
-			ListIterator l = vertexSet.listIterator(0);
+			ListIterator<V> l = vertexSet.listIterator(0);
 			while (l.hasNext()) {
 				Vertex v = (Vertex) l.next();
 				System.out.print("\t" + v.toString() + ":");

@@ -168,10 +168,10 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         }*/
 
         double totalFitness = 0.0;
-        Iterator iterator = trainingSet.iterator();
+        Iterator<Double[]> iterator = trainingSet.iterator();
         while (iterator.hasNext()) {
             // get the input value from the training set.
-            Double[] p = (Double[]) iterator.next();
+            Double[] p = iterator.next();
 
             // change the Double[] to a double[] for input to the NN.
             double[] input = convertDoubleArray(p);
@@ -208,10 +208,10 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         }*/
 
         double totalFitness = 0.0;
-        Iterator iterator = testingSet.iterator();
+        Iterator<Double[]> iterator = testingSet.iterator();
         while (iterator.hasNext()) {
             // get the input value from the training set.
-            Double[] p = (Double[]) iterator.next();
+            Double[] p = iterator.next();
 
             // change the Double[] to a double[] for input to the NN.
             double[] input = convertDoubleArray(p);
@@ -274,7 +274,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         return trainingSetPercentage;
     }
 
-    public Vector getTrainingSet() {
+    public Vector<Double[]> getTrainingSet() {
         return trainingSet;
     }
 
@@ -282,7 +282,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         this.trainingSet = trainingSet;
     }
 
-    public Vector getTestingSet() {
+    public Vector<Double[]> getTestingSet() {
         return testingSet;
     }
 

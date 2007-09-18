@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.StringTokenizer;
 
 /**
@@ -69,18 +68,16 @@ public class GapFourFour implements GapPenaltiesMethod {
 		//Iterate through the columns
 		for (int i = 0; i < seqLength; i++)
 		{ 
-			 for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+			 for (String st : alignment)
 			 { 
-				 String st = (String) l.next();  //make that seq a String
 				 if ( st.charAt(i) == '-' ) count++; //gets char at position i
 			 }
 			 
 			 if (count == alignment.size() ) // GOT ONE, PROCEED TO CLEAN UP
 			 {
 				 int which = 0;
-				 for (ListIterator p = alignment.listIterator(); p.hasNext(); )
+				 for (String st1 : alignment)
 				 { 
-					 String st1 = (String) p.next();  //make that seq a String
 					 StringBuffer stB = new StringBuffer(st1);
 					 stB.setCharAt(i, '*');
 					 alignment.set(which, stB.toString());
@@ -91,9 +88,8 @@ public class GapFourFour implements GapPenaltiesMethod {
 		}
 		
 		int which2 = 0;
-		for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+		for (String st : alignment)
 		{ 
-			String st = (String) l.next();  //make that seq a String
 			StringTokenizer st1 = new StringTokenizer(st,"*",false);
 			String t="";
 			while (st1.hasMoreElements()) t += st1.nextElement();
@@ -106,9 +102,8 @@ public class GapFourFour implements GapPenaltiesMethod {
 		int totalNumberGaps = 0;
 		int gapGroups = 0;
 
-		for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+		for (String s : alignment)
 		{
-			String s = (String) l.next();
 			for (int i = 0; i < s.length(); i++)
 			{
 				if (s.charAt(i) == '-')
@@ -142,9 +137,8 @@ public class GapFourFour implements GapPenaltiesMethod {
 			System.out.println("TotalNumberGaps: "+totalNumberGaps);
 			System.out.println("Penalty: "+gapPenalty);
 
-			for (ListIterator j = alignment.listIterator(); j.hasNext(); )
+			for (String s : alignment) 
 			{
-				String s = (String) j.next();
 				System.out.println("'" + s + "'");
 			}
 		}

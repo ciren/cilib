@@ -75,7 +75,7 @@ public abstract class ParticleDecorator extends AbstractParticle {
     	this.target.setBestPosition(bestPosition);
     }*/
     
-    public Particle getDecorator(Class decorator) {
+    public Particle getDecorator(Class<?> decorator) {
         if (this.getClass().equals(decorator)) {
             return this;
         }

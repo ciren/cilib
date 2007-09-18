@@ -71,7 +71,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 //	private static Logger log = Logger.getLogger(PSO.class);
 	private Topology<Particle> topology;
 	private Particle bestParticle;
-	private IterationStrategy iterationStrategy;
+	private IterationStrategy<PSO> iterationStrategy;
 	private InitialisationStrategy initialisationStrategy;
 	private static int currentParticleId = 0;
 	private int particles;
@@ -264,7 +264,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * Get the <code>IterationStrategy</code> of the PSO algorithm
 	 * @return Returns the iterationStrategy.
 	 */
-	public IterationStrategy getIterationStrategy() {
+	public IterationStrategy<PSO> getIterationStrategy() {
 		return iterationStrategy;
 	}
 
@@ -272,7 +272,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * Set the <code>IterationStrategy</code> to be used
 	 * @param iterationStrategy The iterationStrategy to set.
 	 */
-	public void setIterationStrategy(IterationStrategy iterationStrategy) {
+	public void setIterationStrategy(IterationStrategy<PSO> iterationStrategy) {
 		this.iterationStrategy = iterationStrategy;
 	}
 }

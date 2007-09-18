@@ -118,7 +118,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         shortest.add(particle);
         
        	lastRow = entities.size() - 1;
-        lastCol = ((ArrayList) entities.get(lastRow)).size() - 1;
+        lastCol = entities.get(lastRow).size() - 1;
         
         return true;        
     }
@@ -149,7 +149,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         	entities.remove(x);
         }
        	lastRow = entities.size() - 1;
-        lastCol = ((ArrayList) entities.get(lastRow)).size() - 1;        
+        lastCol = entities.get(lastRow).size() - 1;        
     }
     
     
@@ -224,7 +224,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     	private VonNeumannTopology<T> topology;
         
         
-    	public VonNeumannNeighbourhoodIterator(VonNeumannTopology<T> topology, MatrixIterator iterator) {
+    	public VonNeumannNeighbourhoodIterator(VonNeumannTopology<T> topology, MatrixIterator<T> iterator) {
     		if (iterator.getCol() == -1) {
     			throw new IllegalStateException();
     		}	
@@ -253,7 +253,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             			if (row < 0) {
             				row = topology.entities.size() - 1;
             			}
-            			if (col < ((ArrayList) topology.entities.get(row)).size()) {
+            			if (col < topology.entities.get(row).size()) {
             				break;
             			}
             			--row;
@@ -264,7 +264,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             	case EAST: {
             		row = x;
             		col = y + 1;
-            		if (col >= ((ArrayList) topology.entities.get(row)).size()) {
+            		if (col >= topology.entities.get(row).size()) {
             			col = 0;
             		}
             		break;
@@ -277,7 +277,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             			if (row >= topology.entities.size()) {
             				row = 0;
             			}
-            			if (col < ((ArrayList) topology.entities.get(row)).size()) {
+            			if (col < topology.entities.get(row).size()) {
             				break;
             			}
             			++row;
@@ -289,7 +289,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             		row = x;
             		col = y - 1;
             		if (col < 0) {
-            			col = ((ArrayList) topology.entities.get(row)).size() - 1;
+            			col = topology.entities.get(row).size() - 1;
             		}
             		break;
             	}
@@ -318,18 +318,6 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 	public void add(Collection<Particle> set) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");

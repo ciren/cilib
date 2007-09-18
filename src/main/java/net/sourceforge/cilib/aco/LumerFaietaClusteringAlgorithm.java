@@ -62,6 +62,7 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 	}
 	
 	// TODO: Move more of this code into the ClusteringAntDecorator
+	@SuppressWarnings("unchecked")
 	public void algorithmIteration() { // Override this method to perform the needed clustering algorithm
 		Matrix<Object> grid = clusteringOptimisationProblem.getGrid();
 		double randomNumber = -1.0;
@@ -79,7 +80,7 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 				
 				if (randomNumber <= pPickup) {
 					// pick up the item o_i
-					ClusterableObject object = (ClusterableObject) grid.get(ant.getCurrentRow(), ant.getCurrentCol());
+					ClusterableObject<Object> object = (ClusterableObject<Object>) grid.get(ant.getCurrentRow(), ant.getCurrentCol());
 					grid.set(ant.getCurrentRow(), ant.getCurrentCol(), null);
 					ant.setCurrentObject(object);
 				}
@@ -140,8 +141,9 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 	}
 	
 	//FIXME: What happens if the squareNeighbourhood is more than 1?
+	@SuppressWarnings("unchecked")
 	private double neighbourhoodSum(ClusteringAntDecorator ant) {
-		Matrix grid = clusteringOptimisationProblem.getGrid();
+		Matrix<Object> grid = clusteringOptimisationProblem.getGrid();
 		double localGridSize = Math.sqrt(squaredNeighbourhood);
 		
 		int currentX = ant.getCurrentRow();
@@ -151,7 +153,7 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 		
 		for (int i = currentX-1; i < currentX+2*localGridSize; i++) {
 			for (int j = currentY-1; j < currentY+2*localGridSize; j++) {
-				sum += 1.0 - ( ant.distanceTo((ClusterableObject) grid.get(currentX, currentY)) / alpha);
+				sum += 1.0 - ( ant.distanceTo((ClusterableObject<Object>) grid.get(currentX, currentY)) / alpha);
 			}
 		}
 		

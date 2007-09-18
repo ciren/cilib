@@ -8,7 +8,7 @@
 		<algorithms>
 			<algorithm id="ga" class="ec.EC">
 				<populationSize>50</populationSize>
-				<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="2000" />
+				<addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000" />
 			</algorithm>
 		</algorithms>
 		

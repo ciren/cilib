@@ -163,6 +163,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setTopology(Topology topology) {
 		// TODO Auto-generated method stub
@@ -195,7 +196,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	
 	
 
-	public AbsorptionStrategy getAbsorptionStrategy() {
+	public AbsorptionStrategy<PSO> getAbsorptionStrategy() {
 		return absorptionStrategy;
 	}
 
@@ -227,7 +228,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		this.mainSwarmParticle = mainSwarmParticle;
 	}
 
-	public MergeStrategy getMergeStrategy() {
+	public MergeStrategy<PSO> getMergeStrategy() {
 		return mergeStrategy;
 	}
 
@@ -251,7 +252,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		this.subPopulationsAlgorithms = subSwarms;
 	}
 
-	public SwarmCreationStrategy getSwarmCreationStrategy() {
+	public SwarmCreationStrategy<PSO> getSwarmCreationStrategy() {
 		return swarmCreationStrategy;
 	}
 

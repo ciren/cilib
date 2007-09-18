@@ -36,15 +36,15 @@ public class DiameterVisitor extends TopologyVisitor {
 	}
 
 	@Override
-	public void visit(Topology topology) {
+	public void visit(Topology<? extends Entity> topology) {
 		double maxDistance = 0.0;
 		
-    	Iterator k1 = topology.iterator();
+    	Iterator<? extends Entity> k1 = topology.iterator();
         while (k1.hasNext()) {
             Entity p1 = (Entity) k1.next();
         	Vector position1 = (Vector) p1.getContents();
            	
-        	Iterator k2 = topology.iterator();
+        	Iterator<? extends Entity> k2 = topology.iterator();
         	while (k2.hasNext()) {
         		Entity p2 = (Entity) k2.next();
         		Vector position2 = (Vector) p2.getContents();

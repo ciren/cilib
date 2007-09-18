@@ -247,7 +247,7 @@ public class VonNeumannTopologyTest {
 		public void updateVelocity() {
 		}
 
-		public Particle getDecorator(Class decorator) {
+		public Particle getDecorator(Class<?> decorator) {
 			return null;
 		}
 

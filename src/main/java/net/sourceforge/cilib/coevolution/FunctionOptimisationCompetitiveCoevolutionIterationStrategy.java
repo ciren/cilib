@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.coevolution;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
@@ -78,8 +77,8 @@ public class FunctionOptimisationCompetitiveCoevolutionIterationStrategy extends
 		//stPart.setBestFitness(entityFitness);
     	stPart.getProperties().put("bestFitness", entityFitness);
 		
-		for(ListIterator ito=opponents.listIterator();ito.hasNext();) {
-			StandardParticle opp = (StandardParticle)ito.next();
+		for(Entity entity : opponents) {
+			StandardParticle opp = (StandardParticle) entity;
 			Fitness opponentFitness = opp.getFitnessCalculator().getFitness(opp.getPosition(), false);
 			EuclideanDistanceMeasure edm = new EuclideanDistanceMeasure();
 			//System.out.println("PURE distance: " + edm.distance(stPart.getPosition(), opp.getPosition()));

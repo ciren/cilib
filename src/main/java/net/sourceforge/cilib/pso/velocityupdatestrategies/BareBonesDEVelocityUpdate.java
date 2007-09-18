@@ -66,12 +66,12 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 		RandomNumber r1 = new RandomNumber();
 		PSO pso = (PSO) Algorithm.get(); 
 		
-    	Iterator k = pso.getTopology().iterator();
+    	Iterator<Particle> k = pso.getTopology().iterator();
     	int counter = 0;
     	String particleId = particle.getId();
     	Vector position;
         while (k.hasNext() && (counter < 3)) {
-            Particle p = (Particle) k.next();
+            Particle p = k.next();
             if ((p.getId() != particleId) && (rand1.getUniform(0,1) <= 0.5)) { 
             	position = (Vector) p.getPosition();
             	positions.add(counter,position);

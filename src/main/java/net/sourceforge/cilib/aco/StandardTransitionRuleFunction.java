@@ -136,7 +136,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 		if (!((TSPAnt)ant).getTabuList().contains(destinationVertex)) return 0.0;
 		
 		Edge betweenEdge = null;
-		for (ListIterator e = currentVertex.getEmanatingEdges(); e.hasNext();) {
+		for (ListIterator<Edge> e = currentVertex.getEmanatingEdges(); e.hasNext();) {
 			Edge edge = (Edge) e.next();
 			if (edge.getOtherAssociatedVertex(currentVertex) == destinationVertex)
 				betweenEdge = edge;
@@ -157,8 +157,8 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	private double getDenominator(Ant ant, Vertex currentVertex, Vertex destinationVertex) {
 		double counter = 0.0;
 		
-		for (ListIterator e = currentVertex.getEmanatingEdges(); e.hasNext(); ) {
-			Edge edge = (Edge) e.next();
+		for (ListIterator<Edge> e = currentVertex.getEmanatingEdges(); e.hasNext(); ) {
+			Edge edge = e.next();
 			
 			if (edge.getSecondVertex() == destinationVertex) continue;
 			

@@ -73,16 +73,6 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	 * Set the <tt>Topology</tt> for the population-based algorithm
 	 * @param topology The <tt>Topology</tt> to be set
 	 */
-	public abstract void setTopology(Topology topology);
+	public abstract void setTopology(Topology<? extends Entity> topology);
 
-	/**
-	 * Get the diameter of the population
-	 * @return The diameter of the population
-	 */
-	//public abstract double getDiameter();
-
-	/**
-	 * @return
-	 */
-	//public abstract double getRadius();
 }

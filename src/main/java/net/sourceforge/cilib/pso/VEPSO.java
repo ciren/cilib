@@ -30,6 +30,7 @@ package net.sourceforge.cilib.pso;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
@@ -125,7 +126,7 @@ public class VEPSO extends MultiPopulationBasedAlgorithm {
 		return null;
 	}
 
-	public void setTopology(Topology topology) {
+	public void setTopology(Topology<? extends Entity> topology) {
 		// TODO Auto-generated method stub
 		
 	}

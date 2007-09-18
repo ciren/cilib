@@ -56,14 +56,6 @@ public class CoevolutionEntityScore {
 	private ArrayList<Integer> roundsDrawed;
 	
 	/**
-	 * The default constructor should not be used.
-	 */
-	private CoevolutionEntityScore() {
-		//private to avoid use
-		//TODO throw exception
-	}
-	
-	/**
 	 * Create a CoevolutionEntityScore for the given entity.
 	 * @param entity The entity that should be kept score of.
 	 */

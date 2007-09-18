@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.StringTokenizer;
 
 /**
@@ -88,8 +87,7 @@ public class PAM250SoP implements ScoringMethod {
 		if (verbose)
 		{
 			System.out.println("Raw Alignment (no clean up):");
-			for (ListIterator i = alignment.listIterator(); i.hasNext(); ) {
-				String s = (String) i.next();
+			for (String s : alignment) {
 				System.out.println("'" + s + "'");
 			}
 		}
@@ -103,18 +101,16 @@ public class PAM250SoP implements ScoringMethod {
 //		Iterate through the columns
 		for (int i = 0; i < seqLength; i++)
 		{ 
-			 for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+			 for (String st : alignment)
 			 { 
-				 String st = (String) l.next();  //make that seq a String
 				 if ( st.charAt(i) == '-' ) count++; //gets char at position i
 			 }
 			 
 			 if (count == alignment.size() ) // GOT ONE, PROCEED TO CLEAN UP
 			 {
 				 int which = 0;
-				 for (ListIterator p = alignment.listIterator(); p.hasNext(); )
+				 for (String st1 : alignment)
 				 { 
-					 String st1 = (String) p.next();  //make that seq a String
 					 StringBuffer stB = new StringBuffer(st1);
 					 stB.setCharAt(i, '*');
 					 alignment.set(which, stB.toString());
@@ -125,9 +121,8 @@ public class PAM250SoP implements ScoringMethod {
 		}
 		
 		int which2 = 0;
-		for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+		for (String st : alignment)
 		{ 
-			String st = (String) l.next();  //make that seq a String
 			StringTokenizer st1 = new StringTokenizer(st,"*",false);
 			String t="";
 			while (st1.hasMoreElements()) t += st1.nextElement();

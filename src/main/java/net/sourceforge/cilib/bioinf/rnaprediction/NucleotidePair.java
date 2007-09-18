@@ -35,11 +35,13 @@ import java.security.InvalidParameterException;
  *	pair symbols and index into nucleotide string (starting from 1) for each.
  */
 
-public class NucleotidePair implements Comparable {
+public class NucleotidePair implements Comparable<NucleotidePair> {
 
 	@Override
 	public boolean equals (Object o) {
-		if (this.compareTo(o) == 0) {
+		if (!(o instanceof NucleotidePair)) return false;
+			
+		if (this.compareTo((NucleotidePair)o) == 0) {
 			return true;
 		} else {
 			return false;
@@ -71,14 +73,14 @@ public class NucleotidePair implements Comparable {
 		this.base3prime = NucleotideString.getInstance().getNucleotideString().charAt(index3prime-1);
 	}
 
-	public int compareTo(Object o) {
-		if (index5prime == ((NucleotidePair)o).index5prime) {
-			if (index3prime == ((NucleotidePair)o).index3prime)
+	public int compareTo(NucleotidePair o) {
+		if (index5prime == o.index5prime) {
+			if (index3prime == o.index3prime)
 				return 0;
 			else 
-				return this.index3prime - ((NucleotidePair)o).index3prime;
+				return this.index3prime - o.index3prime;
 		} else {
-			return this.index5prime - ((NucleotidePair)o).index5prime;
+			return this.index5prime - o.index5prime;
 		}
 	}
 	

@@ -38,11 +38,11 @@ public class RadiusVisitor extends TopologyVisitor {
 	}
 
 	@Override
-	public void visit(Topology topology) {
+	public void visit(Topology<? extends Entity> topology) {
 		double maxDistance = 0.0;
     	
     	Vector swarmBestParticlePosition = (Vector) ((PopulationBasedAlgorithm) Algorithm.get()).getBestSolution().getPosition();
-    	Iterator swarmIterator = topology.iterator();
+    	Iterator<?> swarmIterator = topology.iterator();
     	    	
     	while(swarmIterator.hasNext()) {
     		Entity swarmParticle = (Entity) swarmIterator.next();

@@ -62,26 +62,8 @@ public class Diameter implements Measurement {
     	return "R";
     }
     
-    public Type getValue() {
-    	/*Delete the below only if PSO.PSO.getDiameter calculates the actual diameter*/
-    	/*PSO pso = (PSO) Algorithm.get();
-    	double maxDistance = 0.0;
-    	
-    	Iterator k1 = pso.getTopology().iterator();
-        while (k1.hasNext()) {
-            Particle p1 = (Particle) k1.next();
-        	Vector position1 = (Vector) p1.getPosition();
-           	
-        	Iterator k2 = pso.getTopology().iterator();
-        	while (k2.hasNext()) {
-        		Particle p2 = (Particle) k2.next();
-        		Vector position2 = (Vector) p2.getPosition();
-        		DistanceMeasure distance = new EuclideanDistanceMeasure();
-        		double actualDistance = distance.distance(position1,position2);
-        		if (actualDistance > maxDistance)
-        			maxDistance = actualDistance;
-        	}
-        }*/
+    @SuppressWarnings("unchecked")
+	public Type getValue() {
     	
     	PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
     	Topology<? extends Entity> topology = algorithm.getTopology();

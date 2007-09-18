@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.problem;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -65,9 +64,8 @@ public class MOOptimisationProblem implements OptimisationProblem {
 
 	public int getFitnessEvaluations() {
 		int sum = 0;
-		Iterator i = problems.iterator();
-		while (i.hasNext()) {
-			OptimisationProblem problem = (OptimisationProblem) i.next();
+		
+		for (OptimisationProblem problem : problems) {
 			sum += problem.getFitnessEvaluations();
 		}
 		return sum;

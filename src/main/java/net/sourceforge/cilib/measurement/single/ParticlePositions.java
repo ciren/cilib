@@ -66,7 +66,7 @@ public class ParticlePositions implements Measurement {
 		
 		PSO pso = (PSO) Algorithm.get();
 		//Iterator i = pso.getTopology().particles();
-		Iterator i = pso.getTopology().iterator();
+		Iterator<Particle> i = pso.getTopology().iterator();
 		while (i.hasNext()) {
 			Particle particle = (Particle) i.next();
 			tmp.append("\nParticle: ");

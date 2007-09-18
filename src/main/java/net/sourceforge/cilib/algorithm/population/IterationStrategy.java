@@ -48,7 +48,7 @@ public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> impl
 		this.operatorPipeline = new ArrayList<Operator>();
 	}
 	
-	public abstract IterationStrategy clone();
+	public abstract IterationStrategy<E> clone();
 	
 
 	/**

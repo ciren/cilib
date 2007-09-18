@@ -161,7 +161,7 @@ public class XMLObjectFactory {
         return xmlRef;
     }
     
-    private Class getClass(Element xml) {
+    private Class<?> getClass(Element xml) {
         // Determine the class to instanciate
         
         String className = "";
@@ -207,7 +207,7 @@ public class XMLObjectFactory {
         return null;
     }
     
-    private Object instanciate(Element xml, Class objectClass) {
+    private Object instanciate(Element xml, Class<?> objectClass) {
         // Attempt to instanciate the class
         Object object = null;
         try {
@@ -362,7 +362,7 @@ public class XMLObjectFactory {
                 boolean match = true;
                 for (int j = 0; j < parameters.length; ++j) {
                     if (methods[i].getParameterTypes()[j].isPrimitive()) {
-                        Class type = methods[i].getParameterTypes()[j];
+                        Class<?> type = methods[i].getParameterTypes()[j];
                         if (parameters[j] instanceof Integer && ! (type.equals(Integer.TYPE) || type.equals(Long.TYPE) || type.equals(Double.TYPE))) {
                             match = false;
                         }

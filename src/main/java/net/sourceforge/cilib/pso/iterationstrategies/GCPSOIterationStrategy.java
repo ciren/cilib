@@ -55,7 +55,7 @@ public class GCPSOIterationStrategy extends IterationStrategy<PSO> {
 	
 	
 	@Override
-	public IterationStrategy clone() {
+	public GCPSOIterationStrategy clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -75,7 +75,7 @@ public class GCPSOIterationStrategy extends IterationStrategy<PSO> {
 	 * Get the decorated <code>IterationStrategy</code>
 	 * @return Returns the strategy.
 	 */
-	public IterationStrategy getStrategy() {
+	public IterationStrategy<PSO> getStrategy() {
 		return strategy;
 	}
 

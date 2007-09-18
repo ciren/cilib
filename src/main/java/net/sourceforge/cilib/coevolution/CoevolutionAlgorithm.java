@@ -28,7 +28,6 @@ package net.sourceforge.cilib.coevolution;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -62,8 +61,7 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{
 	 */
 	public int getPopulationSize() {
 		int sum = 0;
-		for(ListIterator it = subPopulationsAlgorithms.listIterator(); it.hasNext(); ){
-			PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
+		for(PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
 			sum += currentAlgorithm.getPopulationSize();
 		}
 		
@@ -80,17 +78,16 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{
 	 * */
 	public void performInitialisation()	{
 		int populationID = 0;
-		for(ListIterator it = subPopulationsAlgorithms.listIterator(); it.hasNext(); populationID++){
-			PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
+		for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
 			coevolutionIterationStrategy.setEntityType(currentAlgorithm, populationID);
 			currentAlgorithm.performInitialisation();
+			populationID++;
 		}
 	}
 		
 	public OptimisationSolution getBestSolution() {
 		OptimisationSolution bestSolution = subPopulationsAlgorithms.get(0).getBestSolution();
-		for(ListIterator it=subPopulationsAlgorithms.listIterator(); it.hasNext(); ){
-			PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
+		for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
 			if(bestSolution.compareTo(currentAlgorithm.getBestSolution())<0)
 				bestSolution = currentAlgorithm.getBestSolution();
 			}
@@ -103,10 +100,9 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{
 	 */
 	public List<OptimisationSolution> getSolutions() {
 		List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
-		for(ListIterator it=this.getPopulations().listIterator(); it.hasNext();){
-			 PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
+		for (PopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
 			 solutions.addAll(currentAlgorithm.getSolutions());
-		 }
+		}
 		return solutions;
 	}
 	
@@ -163,6 +159,7 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{
 		throw new UnsupportedOperationException("getDiameter() is not supported");
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void setTopology(Topology t) {
 		throw new UnsupportedOperationException("setTopology() is not supported");
 	}

@@ -26,12 +26,12 @@
 
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
+import java.util.ArrayList;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import java.util.ArrayList;
-import java.util.ListIterator;
 
 /**
  * This class serves as a measurement, its puspose is to display the output alignment.
@@ -79,10 +79,8 @@ public class AlignmentVisualizer implements Measurement
 			}
 		}
 		
-		for (ListIterator j = as.listIterator(); j.hasNext(); )
-		{
-			String tmp = (String) j.next();
-			s+=(tmp+"\n");
+		for (String string : as) {
+			s += (string+"\n");
 		}
 		
 		if (fullColumns)

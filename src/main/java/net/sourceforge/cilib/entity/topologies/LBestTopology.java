@@ -104,7 +104,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     
     private class LBestNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
         
-        public LBestNeighbourhoodIterator(LBestTopology<T> topology, ArrayIterator iterator) {
+        public LBestNeighbourhoodIterator(LBestTopology<T> topology, ArrayIterator<T> iterator) {
             if (iterator.getIndex() == -1) {
                 throw new IllegalStateException();
             }

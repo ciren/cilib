@@ -27,8 +27,6 @@
 	 */
 package net.sourceforge.cilib.measurement.multiple;
 
-import java.util.ListIterator;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
@@ -65,8 +63,7 @@ public class CoevolutionFitness implements Measurement{
 	public Type getValue() {
 		CoevolutionAlgorithm ca = (CoevolutionAlgorithm)(Algorithm.get());
 		int bestscore = 0;
-		for(ListIterator it=ca.getPopulations().listIterator(); it.hasNext();){
-			PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
+		for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
 			for(int i=0; i<currentAlgorithm.getPopulationSize(); i++){
 				Entity e = currentAlgorithm.getTopology().get(i);
 				int score = ((CoevolutionEntityScoreboard)(e.getProperties().get("board"))).getWinCount();

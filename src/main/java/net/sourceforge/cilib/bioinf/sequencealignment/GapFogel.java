@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 /**
  * Method that calculates a gap score by linearly or not scale the number of gaps over all columns.
@@ -65,9 +64,7 @@ public class GapFogel implements GapPenaltiesMethod {
 		for (int i = 0; i < seqLength1; i++)
 		{ 
 			//go through all the seqs
-			for (ListIterator l = alignment.listIterator(); l.hasNext(); )
-			{   
-				String currentString = (String) l.next();   //gets the sequence as a String
+			for (String currentString : alignment) {
 				if (currentString.charAt(i) != '-') counter++;  // counts the number of symbols (all non-gap characters in that column)	
 			}	
 			columnPenalty = alignment.size() - counter;							
@@ -81,9 +78,8 @@ public class GapFogel implements GapPenaltiesMethod {
 		if (verbose)
 		{
 			System.out.println("Penalty: "+penalty);
-			for (ListIterator j = alignment.listIterator(); j.hasNext(); )
+			for (String s : alignment) 
 			{
-				String s = (String) j.next();
 				System.out.println("'" + s + "'");
 			}
 		}

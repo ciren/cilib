@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.ListIterator;
 
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -82,12 +81,10 @@ public class BinaryAlignmentCreator
 			// - - - - Start modify solution - - - - 
 		
 			// First go through all the seqs
-			for (ListIterator l = tmp.listIterator(); l.hasNext(); )
-			{ 
+			for (String s : tmp) {
 				int [] dummyArray = new int [gapsArray[counter]];
 				int change = 0;  //keep track of how much gaps inserted for that sequence
 			
-				String s = (String) l.next();  //make that seq a String
 				StringBuffer newRepresentation = new StringBuffer(s);  //copy String seq in a easy structure to modify
 			
 				// *** GAP Positions ***

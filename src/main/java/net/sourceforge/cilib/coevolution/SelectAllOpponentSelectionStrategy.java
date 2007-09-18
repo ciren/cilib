@@ -26,9 +26,9 @@
  */
 package net.sourceforge.cilib.coevolution;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.ListIterator;
+import java.util.List;
+
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 
@@ -57,8 +57,7 @@ public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrateg
 	 */
 	public List<Entity> setCompetitors(List<PopulationBasedAlgorithm> pool) {
 		List<Entity> opponents = new ArrayList<Entity>();
-		for(ListIterator it=pool.listIterator(); it.hasNext(); ){
-			PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)it.next();
+		for(PopulationBasedAlgorithm currentAlgorithm : pool) {
 			for(int i=0; i<currentAlgorithm.getPopulationSize(); i++){
 				opponents.add(currentAlgorithm.getTopology().get(i));
 			}

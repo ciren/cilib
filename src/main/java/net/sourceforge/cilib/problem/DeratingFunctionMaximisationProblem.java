@@ -25,7 +25,6 @@ package net.sourceforge.cilib.problem;
 
 //TODO: Add domain validators to check that this is working on ContinuousFunctions
 
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -69,7 +68,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * It used to add a solution to the vectorSolutions only if the
      * solution is not already in the hashtable.
      */
-    private Hashtable hashtableSolutions = new Hashtable();
+//    private Hashtable hashtableSolutions = new Hashtable();
     /**
      * This is used to calculate the Euclidean distance between the
      * solution that is current being calculated and a solution in the
@@ -101,7 +100,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
 
         // iterate through the number of solutions found that are above the solution
         // threshold and modify the fitness using the derating function.
-        Iterator iterator = vectorSolutions.iterator();
+        Iterator<Double[]> iterator = vectorSolutions.iterator();
         while (iterator.hasNext()) {
             // calculate the distance between the solution and the previousely found
             // solution.
@@ -233,7 +232,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      */
     public void clear() {
         vectorSolutions.clear();
-        hashtableSolutions.clear();
+//        hashtableSolutions.clear();
     }
 
     /**

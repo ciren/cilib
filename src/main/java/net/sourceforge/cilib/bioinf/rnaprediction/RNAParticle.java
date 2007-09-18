@@ -209,7 +209,7 @@ public class RNAParticle extends AbstractParticle {
 		this.velocityUpdateStrategy.updateVelocity(this);
 	}
 
-	public Particle getDecorator(Class decorator) {
+	public Particle getDecorator(Class<?> decorator) {
 		throw new RuntimeException("This is not a decorator");
 	}
 	

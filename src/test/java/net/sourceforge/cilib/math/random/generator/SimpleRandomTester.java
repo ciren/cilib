@@ -48,8 +48,8 @@ public class SimpleRandomTester implements RandomTester {
         int n1 = 0;
         int n2 = 0;
         
-        Iterator i = samples.iterator();
-        double previous = ((Double) i.next()).doubleValue();
+        Iterator<Double> i = samples.iterator();
+        double previous = i.next().doubleValue();
         if (previous >= 0.5) {
             ++n1;
         }

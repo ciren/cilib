@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.StringTokenizer;
 
 /**
@@ -61,11 +60,10 @@ public class MatchFogel implements ScoringMethod
 		{	
 			System.out.println("Raw Alignment (no clean up):");
 					
-			for (ListIterator i = alignment.listIterator(); i.hasNext(); ) 
+			for (String s : alignment) 
 			{
-				String s = (String) i.next();
 				System.out.println("'" + s + "'");
-				}
+			}
 		}
 		
 		/*************************************************************
@@ -79,18 +77,16 @@ public class MatchFogel implements ScoringMethod
 		for (int i = 0; i < seqLength; i++)
 		{ 
 			try{
-			 for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+			 for (String st : alignment)
 			 { 
-				 String st = (String) l.next();  //make that seq a String
 				 if ( st.charAt(i) == '-' ) count++; //gets char at position i
 			 }
 					 
 			 if (count == alignment.size() ) // GOT ONE, PROCEED TO CLEAN UP
 			 {
 				 int which = 0;
-				 for (ListIterator p = alignment.listIterator(); p.hasNext(); )
+				 for (String st1 : alignment)
 				 { 
-					 String st1 = (String) p.next();  //make that seq a String
 					 StringBuffer stB = new StringBuffer(st1);
 					 stB.setCharAt(i, '*');
 					 alignment.set(which, stB.toString());
@@ -107,9 +103,8 @@ public class MatchFogel implements ScoringMethod
 		
 				
 		int which2 = 0;
-		for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+		for (String st : alignment)
 		{ 
-			String st = (String) l.next();  //make that seq a String
 			StringTokenizer st1 = new StringTokenizer(st,"*",false);
 			String t="";
 			
@@ -132,9 +127,8 @@ public class MatchFogel implements ScoringMethod
 			counter = 0;
 	
 			//go through all the seqs
-			for (ListIterator l = alignment.listIterator(); l.hasNext(); )
+			for (String currentString : alignment)
 			{   
-				String currentString = (String) l.next();   //gets the sequence as a String
 				tmpArray[counter] = currentString.charAt(i); //gets a entire column of chars at position i in the alignment
 				counter++;	
 			}	

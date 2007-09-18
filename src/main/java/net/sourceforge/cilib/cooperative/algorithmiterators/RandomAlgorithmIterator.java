@@ -77,8 +77,8 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 	 * @return a clone of this list iterator.
 	 */
 	@Override
-	public RandomAlgorithmIterator clone() {
-		return new RandomAlgorithmIterator(this);
+	public RandomAlgorithmIterator<E> clone() {
+		return new RandomAlgorithmIterator<E>(this);
 	}
 
 	/**

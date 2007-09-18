@@ -226,7 +226,7 @@ public class DomainBuilder {
 		//System.out.println("size before: " + this.representation.size());
 		
 		String type = (String) objectType;
-		Class c = null;
+		Class<?> c = null;
 		TypeCreator domain = null;
 		
 		try {
