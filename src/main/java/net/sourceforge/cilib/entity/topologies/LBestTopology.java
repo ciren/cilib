@@ -35,7 +35,6 @@ import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStra
 import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
 import net.sourceforge.cilib.entity.Entity;
 
-
 /**
  * <p>
  * Implementation of the lbest neighbourhood topology
@@ -46,20 +45,24 @@ import net.sourceforge.cilib.entity.Entity;
  * chapter 6, pp. 212-226. Academic Press Professional, 1996.
  * </li></ul></p>
  *
- * @author  Edwin Peer
+ * @author Edwin Peer
+ * @author Theuns Cloete (converted {@link #neighbourhoodSize} to be a {@linkplain ControlParameterUpdateStrategy}
  */
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	private static final long serialVersionUID = 93039445052676571L;
-    private ControlParameterUpdateStrategy neighbourhoodSize;
+
+	private ControlParameterUpdateStrategy neighbourhoodSize;
 
 	/**
-     * Creates a new instance of <code>LBestTopology</code>.
-     */
-    public LBestTopology() {
-        super();
-        neighbourhoodSize = new ConstantUpdateStrategy(3);
-    }
-    
+	 * Creates a new instance of <code>LBestTopology</code>. The default
+	 * {@link #neighbourhoodSize} is a {@linkplain ConstantUpdateStrategy} with it's parameter set to
+	 * 3.
+	 */
+	public LBestTopology() {
+		super();
+		neighbourhoodSize = new ConstantUpdateStrategy(3);
+	}
+
     public LBestTopology(LBestTopology<E> copy) {
     	super(copy);
     	this.neighbourhoodSize = copy.neighbourhoodSize;
@@ -68,42 +71,46 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     public LBestTopology<E> clone() {
     	return new LBestTopology<E>(this);
     }
-    
-    
-    @SuppressWarnings("unchecked")
+
+	/**
+	 * Recalculate the {@link #neighbourhoodSize} by updating the
+	 * {@link ControlParameterUpdateStrategy} and then construct a new iterator to be returned.
+	 * @return a new iterator for this topology.
+	 */
+	@SuppressWarnings("unchecked")
 	public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
-        return new LBestNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
-    }
-    
-    
-    /**
-     * Sets the number particles in the neighbourhood of each particle. The default is 3.
-     *
-     * @param neighbourhoodSize The size of the neighbourhood.
-     */
-    public void setNeighbourhoodSize(ControlParameterUpdateStrategy neighbourhoodSize) {
-        this.neighbourhoodSize = neighbourhoodSize;
-    }
-    
-    
-    /**
-     * Accessor for the number of particles in a neighbourhood.
-     *
-     * @return The size of the neighbourhood.
-     */
-    public int getNeighbourhoodSize() {
-    	int rounded = Long.valueOf(Math.round(neighbourhoodSize.getParameter())).intValue();
-    	
-    	if (super.size() == 0) // to show a sensible default value in CiClops
-    		return rounded;
-    	
-        if (rounded > super.size())
-            return super.size();
-        
-        return rounded;
-    }
-    
-    
+		neighbourhoodSize.updateParameter();
+		return new LBestNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
+	}
+
+	/**
+	 * Sets the {@linkplain ControlParameterUpdateStrategy} that should be used to determine the
+	 * number of particles in the neighbourhood of each particle. The default is a
+	 * {@linkplain ConstantUpdateStrategy} with the parameter set to 3.
+	 * @param neighbourhoodSize The {@linkplain ControlParameterUpdateStrategy} to use.
+	 */
+	public void setNeighbourhoodSize(ControlParameterUpdateStrategy neighbourhoodSize) {
+		this.neighbourhoodSize = neighbourhoodSize;
+	}
+
+	/**
+	 * Accessor for the number of particles in a neighbourhood. NOTE: This method does not return the
+	 * {@linkplain ControlParameterUpdateStrategy} but the parameter that is changed / updated by it
+	 * rounded to the nearest integer.
+	 * @return The size of the neighbourhood.
+	 */
+	public int getNeighbourhoodSize() {
+		int rounded = Long.valueOf(Math.round(neighbourhoodSize.getParameter())).intValue();
+
+		if (super.size() == 0) // to show a sensible default value in CiClops
+			return rounded;
+
+		if (rounded > super.size())
+			return super.size();
+
+		return rounded;
+	}
+
     private class LBestNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
         
         public LBestNeighbourhoodIterator(LBestTopology<T> topology, ArrayIterator<T> iterator) {
