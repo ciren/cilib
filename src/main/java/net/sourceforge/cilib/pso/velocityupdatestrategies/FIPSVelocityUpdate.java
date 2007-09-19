@@ -94,7 +94,7 @@ public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
 	   Iterator<Particle> k;
 	   for (k = topology.iterator(); k.hasNext(); ) {
 	   	   Particle target = k.next();
-	   	   if (target.getId() == particle.getId()) {
+	   	   if (target.getId().equals(particle.getId())) {
 	   	   	   break;
 	   	   }
 	   } 

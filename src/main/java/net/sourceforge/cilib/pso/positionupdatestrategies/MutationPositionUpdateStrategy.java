@@ -63,7 +63,8 @@ public class MutationPositionUpdateStrategy extends
 		super();
 		
 		decreasingParameter = new LinearDecreasingUpdateStrategy();
-		decreasingParameter.setRange("R(0,1)");
+		decreasingParameter.setUpperBound(1.0);
+		decreasingParameter.setLowerBound(0.0);
 		decreasingParameter.setParameter(1.0);
 		
 		randomNumber = new RandomNumber();
@@ -108,7 +109,7 @@ public class MutationPositionUpdateStrategy extends
 			}
 		}
 		
-		if (((PSO) Algorithm.get()).getIterations() < decreasingParameter.getParameter()*(double)maximumIterations.getMaximumIterations()) {
+		if (Algorithm.get().getIterations() < decreasingParameter.getParameter()*(double)maximumIterations.getMaximumIterations()) {
 			mutate(particle);
 		}
 		
