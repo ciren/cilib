@@ -5,6 +5,10 @@
 	</properties>
 	<body>
 		<release version="0.6.8" date="unconfirmed" description="Entity changes. Feature release with additional bug fixes">
+			<action dev="gpampara" type="update">
+				Corrected many issues regarding generics. The code should be cleaner
+				and have less type warnings.
+			</action>
 			<action dev="gpampara" type="update" contrib="segun">
 				Converted the function shifting into a function decorator and added the
 				ability to rotate functions.

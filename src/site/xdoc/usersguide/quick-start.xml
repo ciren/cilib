@@ -16,50 +16,232 @@
     <p>
     The very first thing we need to do is to compile the library code into
     a jar that we will be able to use. CILib's build process uses 
-    <a href="http://ant.apache.org">Apache Ant</a>. Simply execute 
-    "<code>ant jar</code>" to build the cilib.jar file. The jar will be 
-    placed in the build directory within the root directory of the CILib 
-    source.
+    <a href="http://maven.apache.org">Apache Maven</a>. Simply execute 
+    "<code>mvn</code>" to build the cilib.jar file. The jar will be 
+    placed in the target directory within the root directory of the CILib 
+    project source.
     </p>
     <note>
-    Please ensure that the correct dependency jars are available during the
-    compile and for execution. For the build process, the paths located in the
-    <code>build.properties</code> in the source code root needs to be altered
-    to point to the correct jar files.
+    Please note that the correct dependency jars will be automatically 
+    downloaded via the default means that Maven provides. Please refer to
+    the Maven documentation for configurations available.
     </note>
 
     <source><![CDATA[
-bash-3.1$ ant
-Buildfile: build.xml
+bash-3.1$ mvn
+[INFO] Scanning for projects...
+[INFO] ----------------------------------------------------------------------------
+[INFO] Building cilib
+[INFO]    task-segment: [package]
+[INFO] ----------------------------------------------------------------------------
+[INFO] [resources:resources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:compile]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] [resources:testResources]
+[INFO] Using default encoding to copy filtered resources.
+[INFO] [compiler:testCompile]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] snapshot org.apache.maven.surefire:surefire-booter:2.1-SNAPSHOT: checking for updates from apache.snapshots
+[INFO] snapshot org.apache.maven.surefire:surefire-api:2.1-SNAPSHOT: checking for updates from apache.snapshots
+[INFO] [surefire:test]
+[INFO] Surefire report directory: /home/gpampara/development/test/trunk/target/surefire-reports
 
-compile:
-    [mkdir] Created dir: /home/gpampara/development/cilib/bin
-    [mkdir] Created dir: /home/gpampara/development/cilib/build
-    [mkdir] Created dir: /home/gpampara/development/cilib/build/site/doc
-    [javac] Compiling 474 source files to /home/gpampara/development/cilib/bin
-    [javac] Note: Recompile with -Xlint:deprecation for details.
-    [javac] Note: Some input files use unchecked or unsafe operations.
-    [javac] Note: Recompile with -Xlint:unchecked for details.
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running net.sourceforge.cilib.type.types.IntTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.083 sec
+Running net.sourceforge.cilib.util.EuclideanDistanceMeasureTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 sec
+Running net.sourceforge.cilib.functions.discrete.BinaryAdapterTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 sec
+Running net.sourceforge.cilib.type.types.NumericTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 sec
+Running net.sourceforge.cilib.functions.continuous.RosenbrockTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 sec
+Running net.sourceforge.cilib.measurement.single.FitnessTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.type.creator.ZTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec
+Running net.sourceforge.cilib.functions.continuous.SchwefelTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.measurement.single.BestParticlePositionTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.measurement.multiple.MultipleFitnessTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec
+Running net.sourceforge.cilib.measurement.generic.PercentageCompleteTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec
+Running net.sourceforge.cilib.container.BitArrayTest
+ts run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 sec
+Running net.sourceforge.cilib.problem.MinFitnessTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec
+Running net.sourceforge.cilib.measurement.single.SolutionTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running net.sourceforge.cilib.math.random.generator.ZiffGFSR4Test
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 sec
+Running net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunctionTest
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.221 sec
+Running net.sourceforge.cilib.math.random.generator.MersenneTwisterTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 sec
+Running net.sourceforge.cilib.measurement.single.DiameterTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.math.random.generator.NumericalRecipesRan4Test
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.07 sec
+Running net.sourceforge.cilib.type.RandomInitialiserTest
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 sec
+Running net.sourceforge.cilib.functions.continuous.AckleyTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIteratorTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.089 sec
+Running net.sourceforge.cilib.type.creator.RTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.type.types.container.GeneralTreeTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 sec
+Running net.sourceforge.cilib.math.random.generator.TauswortheTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 sec
+Running net.sourceforge.cilib.problem.MOFitnessTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.math.DiscreteRandomNumberTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running net.sourceforge.cilib.type.creator.TTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running net.sourceforge.cilib.math.RandomNumberTest
+ts run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 sec
+Running net.sourceforge.cilib.measurement.generic.IterationsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.functions.continuous.QuarticTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.functions.continuous.GriewankTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.problem.MaxFitnessTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.type.types.BitTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.math.random.generator.KnuthSubtractiveTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 sec
+Running net.sourceforge.cilib.type.types.RealTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec
+Running net.sourceforge.cilib.problem.dataset.StringDataSetBuilderTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.functions.continuous.SphericalTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.annotations.InitialiserTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running net.sourceforge.cilib.type.DomainParserTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 sec
+Running net.sourceforge.cilib.entity.topologies.TopologyTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running net.sourceforge.cilib.measurement.single.FitnessEvaluationsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+Running net.sourceforge.cilib.type.types.container.MixedVectorTest
+Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.059 sec
+Running net.sourceforge.cilib.type.BitVectorTest
+Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.01 sec
+Running net.sourceforge.cilib.problem.FunctionMinimisationProblemTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running net.sourceforge.cilib.type.types.container.BinaryTreeTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 sec
+Running net.sourceforge.cilib.functions.continuous.SalomonTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 sec
+Running net.sourceforge.cilib.algorithm.GenericAlgorithmTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.05 sec
+Running net.sourceforge.cilib.algorithm.initialisation.EntityCloneInitialisationStrategyTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.033 sec
+Running net.sourceforge.cilib.ioc.CILibHandlerTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 sec
+Running net.sourceforge.cilib.functions.discrete.KnapSackTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.measurement.generic.TimeTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec
+Running net.sourceforge.cilib.util.ChebyshevDistanceMeasureTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec
+Running net.sourceforge.cilib.functions.continuous.ExpressionFunctionTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 sec
+Running net.sourceforge.cilib.util.ManhattanDistanceMeasureTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.math.random.generator.RANLUXTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.169 sec
+Running net.sourceforge.cilib.util.AbsoluteDistanceMeasureTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.type.creator.BTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.entity.comparator.AscendingFitnessCompartorTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec
+Running net.sourceforge.cilib.entity.topologies.VonNeumannTopologyTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 sec
+Running net.sourceforge.cilib.measurement.single.ParticlePositionsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.functions.continuous.AngleModulationTest
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 sec
+Running net.sourceforge.cilib.measurement.multiple.MultipleSolutionsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec
+Running net.sourceforge.cilib.type.types.StringTypeTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.container.MatrixTest
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.03 sec
+Running net.sourceforge.cilib.util.MinkowskiMetricTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.type.BoundsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+Running net.sourceforge.cilib.type.types.container.GraphTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec
+Running net.sourceforge.cilib.entity.IndividualTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec
+Running net.sourceforge.cilib.functions.continuous.RastriginTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.util.CosineDistanceMeasureTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec
+Running net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilderTest
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 sec
+Running net.sourceforge.cilib.measurement.single.FunctionOptimisationErrorTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.functions.continuous.QuadricTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
+Running net.sourceforge.cilib.container.QueueTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec
+Running net.sourceforge.cilib.container.SortedListTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec
+Running net.sourceforge.cilib.measurement.generic.RestartsTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 sec
+Running net.sourceforge.cilib.type.types.container.NaryTreeTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 sec
+Running net.sourceforge.cilib.math.MathUtilTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec
+Running net.sourceforge.cilib.container.graph.GraphTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 sec
+Running net.sourceforge.cilib.entity.initialisation.EntityInitialiserTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 sec
 
-jar:
-    [jar] Building jar: /home/gpampara/development/cilib/build/cilib.jar
+Results :
 
-zip:
-    [zip] Building zip: /home/gpampara/development/cilib/build/cilib-src.zip
+Tests run: 260, Failures: 0, Errors: 0, Skipped: 0
 
-all:
-
-BUILD SUCCESSFUL
-Total time: 17 seconds
+[INFO] [jar:jar]
+[INFO] Building jar: /home/gpampara/development/test/trunk/target/cilib-0.6.8-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 15 seconds
+[INFO] Finished at: Tue Sep 11 07:39:52 SAST 2007
+[INFO] Final Memory: 5M/11M
+[INFO] ------------------------------------------------------------------------
 bash-3.1$ ]]></source>
+
+    <p>
+    Well that's it for compiling the library jar file. Generally you'll be
+    using the jar file as provided within the distribution, extending and 
+    implementing classes where needed.
+    </p>
     </section>
 
 
     <section name="The CILib XML Specification File">
     <p>
     Within the root of the CILib source distribution, you will find a
-    directory named <code>xml</code>. Within this directory is a collection
-    of predefined XML spcifications for algorithm executions using CILib.
+    directory named <code>xml</code>. Within this directory is a small 
+    collection of predefined XML spcifications for algorithm executions 
+    using the CILib library.
     </p>
 
     <p>
