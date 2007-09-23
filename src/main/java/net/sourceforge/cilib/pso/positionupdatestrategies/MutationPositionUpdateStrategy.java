@@ -70,6 +70,17 @@ public class MutationPositionUpdateStrategy extends
 		randomNumber = new RandomNumber();
 	}
 	
+	public MutationPositionUpdateStrategy(MutationPositionUpdateStrategy copy) {
+		super(copy);
+		
+		this.decreasingParameter = copy.decreasingParameter.clone();
+		this.randomNumber = copy.randomNumber;
+	}
+	
+	public MutationPositionUpdateStrategy clone() {
+		return new MutationPositionUpdateStrategy(this);
+	}
+	
 	
 	/**
 	 * Get the <tt>ControlParameterUpdateStrategy</tt> representing the mutation probability.
