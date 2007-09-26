@@ -20,7 +20,7 @@ public class QuarticTest {
 		v.add(new Real(1.0));
 		v.add(new Real(2.0));
 		
-		assertEquals(33.0, function.evaluate(v));
+		assertEquals(33.0, function.evaluate(v), 0);
 	}
 	
 }
