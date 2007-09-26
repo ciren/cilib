@@ -87,17 +87,17 @@
   
   <contributors>
     <contributor>
-      <name></name>
-      <email></email>
+      <name>Andries Engelbrecht</name>
+      <email>engel@cs.up.ac.za</email>
       <url></url>
-      <organisation></organisation>
-      <organisationUrl></organisationUrl>
+      <organisation>University of Pretoria, Department of Computer Science</organisation>
+      <organisationUrl>http://www.cs.up.ac.za</organisationUrl>
       <roles>
         <role></role>
       </roles>
-      <properties>
+      <!--<properties>
         <gtalk></gtalk>
-      </properties>
+      </properties>-->
     </contributor>
   </contributors>
 
