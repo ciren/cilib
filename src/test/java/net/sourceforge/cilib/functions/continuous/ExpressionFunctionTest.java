@@ -24,7 +24,7 @@ public class ExpressionFunctionTest {
 		jep.addVariable("x", 20);
 		jep.parseExpression("x^2");
 		
-		assertEquals(400.0, jep.getValue());
+		assertEquals(400.0, jep.getValue(), Double.MIN_NORMAL);
 	}
 	
 	@Test
@@ -34,13 +34,12 @@ public class ExpressionFunctionTest {
 		jep.addStandardFunctions();
 		
 		jep.parseExpression("10 + x^2 - 10*cos(2*pi*x)");
-		
 		Rastrigin rastrigin = new Rastrigin();
 		rastrigin.setDomain("R(-5.12,5.12)^1");
 		Vector vector = new MixedVector();
 		vector.add(new Real(5.0));
 		
-		assertEquals(rastrigin.evaluate(vector), jep.getValue());
+		assertEquals(rastrigin.evaluate(vector), jep.getValue(), Double.MIN_NORMAL);
 	}
 
 }

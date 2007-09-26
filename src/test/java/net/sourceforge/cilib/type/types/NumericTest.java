@@ -53,15 +53,15 @@ public class NumericTest {
 		Int i = new Int(-3, 3);
 		Bit b = new Bit();
 		
-		assertEquals(-30.0, r.getLowerBound());
-		assertEquals(-3.0, i.getLowerBound());
-		assertEquals(0.0, b.getLowerBound());
+		assertEquals(-30.0, r.getLowerBound(), Double.MIN_NORMAL);
+		assertEquals(-3.0, i.getLowerBound(), Double.MIN_NORMAL);
+		assertEquals(0.0, b.getLowerBound(), Double.MIN_NORMAL);
 		
 		r.setLowerBound(0.0);
 		i.setLowerBound(1);
 		
-		assertEquals(0.0, r.getLowerBound());
-		assertEquals(1.0, i.getLowerBound());
+		assertEquals(0.0, r.getLowerBound(), Double.MIN_NORMAL);
+		assertEquals(1.0, i.getLowerBound(), Double.MIN_NORMAL);
 		
 		try {
 			b.setLowerBound(-8.0);
@@ -77,15 +77,15 @@ public class NumericTest {
 		Int i = new Int(-3, 3);
 		Bit b = new Bit();
 		
-		assertEquals(30.0, r.getUpperBound());
-		assertEquals(3.0, i.getUpperBound());
-		assertEquals(1.0, b.getUpperBound());
+		assertEquals(30.0, r.getUpperBound(), Double.MIN_NORMAL);
+		assertEquals(3.0, i.getUpperBound(), Double.MIN_NORMAL);
+		assertEquals(1.0, b.getUpperBound(), Double.MIN_NORMAL);
 		
 		r.setUpperBound(0.0);
 		i.setUpperBound(1);
 		
-		assertEquals(0.0, r.getUpperBound());
-		assertEquals(1.0, i.getUpperBound());
+		assertEquals(0.0, r.getUpperBound(), Double.MIN_NORMAL);
+		assertEquals(1.0, i.getUpperBound(), Double.MIN_NORMAL);
 		
 		try {
 			b.setUpperBound(8.0);

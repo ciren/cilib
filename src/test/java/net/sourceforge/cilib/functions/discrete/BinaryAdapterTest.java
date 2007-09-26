@@ -102,27 +102,27 @@ public class BinaryAdapterTest {
 		Type t = converted.get(0);
 		assertTrue(t instanceof Numeric);
 		Numeric n = (Numeric) t;
-		assertEquals(15.0, n.getReal());
+		assertEquals(15.0, n.getReal(), Double.MIN_NORMAL);
 
 		bitVector.setBit(3, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
-		assertEquals(14.0, converted.getReal(0));
+		assertEquals(14.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(2, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
-		assertEquals(12.0, converted.getReal(0));
+		assertEquals(12.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(1, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
-		assertEquals(8.0, converted.getReal(0));
+		assertEquals(8.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(0, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
-		assertEquals(0.0, converted.getReal(0));
+		assertEquals(0.0, converted.getReal(0), Double.MIN_NORMAL);
 	}
 	
 	
@@ -143,27 +143,27 @@ public class BinaryAdapterTest {
 		Type t = converted.get(0);
 		assertTrue(t instanceof Numeric);
 		Numeric n = (Numeric) t;
-		assertEquals(15.0, n.getReal());
+		assertEquals(15.0, n.getReal(), Double.MIN_NORMAL);
 
 		bitVector.setBit(3, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(2, converted.getDimension());
-		assertEquals(14.0, converted.getReal(0));
+		assertEquals(14.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(2, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(2, converted.getDimension());
-		assertEquals(12.0, converted.getReal(0));
+		assertEquals(12.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(1, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(2, converted.getDimension());
-		assertEquals(8.0, converted.getReal(0));
+		assertEquals(8.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(0, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(2, converted.getDimension());
-		assertEquals(0.0, converted.getReal(0));
+		assertEquals(0.0, converted.getReal(0), Double.MIN_NORMAL);
 	}
 	
 	@Test
@@ -183,27 +183,27 @@ public class BinaryAdapterTest {
 		Type t = converted.get(0);
 		assertTrue(t instanceof Numeric);
 		Numeric n = (Numeric) t;
-		assertEquals(255.0, n.getReal());
+		assertEquals(255.0, n.getReal(), Double.MIN_NORMAL);
 
 		bitVector.setBit(3, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
-		assertEquals(239.0, converted.getReal(0));
+		assertEquals(239.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(2, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
-		assertEquals(207.0, converted.getReal(0));
+		assertEquals(207.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(1, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
-		assertEquals(143.0, converted.getReal(0));
+		assertEquals(143.0, converted.getReal(0), Double.MIN_NORMAL);
 		
 		bitVector.setBit(0, false);
 		converted = adapter.decodeBitString(bitVector);
 		assertEquals(1, converted.getDimension());
-		assertEquals(15.0, converted.getReal(0));
+		assertEquals(15.0, converted.getReal(0), Double.MIN_NORMAL);
 	}
 
 }

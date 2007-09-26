@@ -144,10 +144,10 @@ public class AngleModulationTest {
 		String test = "1111";
 		String test2 = "1010";
 		
-		assertEquals(15.0, angle.valueOf(test));
-		assertEquals(15.0, angle.valueOf(test, 0, 4));
-		assertEquals(3.0, angle.valueOf(test, 2));
-		assertEquals(10.0, angle.valueOf(test2, 0, 4));
+		assertEquals(15.0, angle.valueOf(test), Double.MIN_NORMAL);
+		assertEquals(15.0, angle.valueOf(test, 0, 4), Double.MIN_NORMAL);
+		assertEquals(3.0, angle.valueOf(test, 2), Double.MIN_NORMAL);
+		assertEquals(10.0, angle.valueOf(test2, 0, 4), Double.MIN_NORMAL);
 	}
 
 }

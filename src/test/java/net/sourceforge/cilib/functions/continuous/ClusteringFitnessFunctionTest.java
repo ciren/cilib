@@ -75,31 +75,31 @@ public class ClusteringFitnessFunctionTest {
 
 	@Test
 	public void testMinimumInterClusterDistance() {
-		assertEquals(Math.sqrt(90), function.calculateMinimumInterClusterDistance());
+		assertEquals(Math.sqrt(90), function.calculateMinimumInterClusterDistance(), roundingError);
 	}
 
 	@Test
 	public void testMaximumInterClusterDistance() {
-		assertEquals(Math.sqrt(1845), function.calculateMaximumInterClusterDistance());
+		assertEquals(Math.sqrt(1845), function.calculateMaximumInterClusterDistance(), roundingError);
 	}
 
 	@Test
 	public void testMinimumSetDistance() {
-		assertEquals(Math.sqrt(388), function.calculateMinimumSetDistance(0, 1));
-		assertEquals(Math.sqrt(389), function.calculateMinimumSetDistance(0, 2));
-		assertEquals(Math.sqrt(405), function.calculateMinimumSetDistance(0, 3));
-		assertEquals(Math.sqrt(925), function.calculateMinimumSetDistance(0, 4));
-		assertEquals(Math.sqrt(1066), function.calculateMinimumSetDistance(0, 5));
-		assertEquals(1.0, function.calculateMinimumSetDistance(1, 2));
-		assertEquals(Math.sqrt(181), function.calculateMinimumSetDistance(1, 3));
-		assertEquals(Math.sqrt(169), function.calculateMinimumSetDistance(1, 4));
-		assertEquals(Math.sqrt(450), function.calculateMinimumSetDistance(1, 5));
-		assertEquals(1.0, function.calculateMinimumSetDistance(2, 3));
-		assertEquals(2.0, function.calculateMinimumSetDistance(2, 4));
-		assertEquals(Math.sqrt(29), function.calculateMinimumSetDistance(2, 5));
-		assertEquals(Math.sqrt(90), function.calculateMinimumSetDistance(3, 4));
-		assertEquals(Math.sqrt(85), function.calculateMinimumSetDistance(3, 5));
-		assertEquals(Math.sqrt(41), function.calculateMinimumSetDistance(4, 5));
+		assertEquals(Math.sqrt(388), function.calculateMinimumSetDistance(0, 1), roundingError);
+		assertEquals(Math.sqrt(389), function.calculateMinimumSetDistance(0, 2), roundingError);
+		assertEquals(Math.sqrt(405), function.calculateMinimumSetDistance(0, 3), roundingError);
+		assertEquals(Math.sqrt(925), function.calculateMinimumSetDistance(0, 4), roundingError);
+		assertEquals(Math.sqrt(1066), function.calculateMinimumSetDistance(0, 5), roundingError);
+		assertEquals(1.0, function.calculateMinimumSetDistance(1, 2), roundingError);
+		assertEquals(Math.sqrt(181), function.calculateMinimumSetDistance(1, 3), roundingError);
+		assertEquals(Math.sqrt(169), function.calculateMinimumSetDistance(1, 4), roundingError);
+		assertEquals(Math.sqrt(450), function.calculateMinimumSetDistance(1, 5), roundingError);
+		assertEquals(1.0, function.calculateMinimumSetDistance(2, 3), roundingError);
+		assertEquals(2.0, function.calculateMinimumSetDistance(2, 4), roundingError);
+		assertEquals(Math.sqrt(29), function.calculateMinimumSetDistance(2, 5), roundingError);
+		assertEquals(Math.sqrt(90), function.calculateMinimumSetDistance(3, 4), roundingError);
+		assertEquals(Math.sqrt(85), function.calculateMinimumSetDistance(3, 5), roundingError);
+		assertEquals(Math.sqrt(41), function.calculateMinimumSetDistance(4, 5), roundingError);
 	}
 
 	@Test
@@ -123,12 +123,12 @@ public class ClusteringFitnessFunctionTest {
 
 	@Test
 	public void testClusterDiameter() {
-		assertEquals(0.0, function.calculateClusterDiameter(0));
-		assertEquals(Math.sqrt(233), function.calculateClusterDiameter(1));
-		assertEquals(Math.sqrt(226), function.calculateClusterDiameter(2));
-		assertEquals(Math.sqrt(34), function.calculateClusterDiameter(3));
-		assertEquals(Math.sqrt(32), function.calculateClusterDiameter(4));
-		assertEquals(Math.sqrt(153), function.calculateClusterDiameter(5));
+		assertEquals(0.0, function.calculateClusterDiameter(0), roundingError);
+		assertEquals(Math.sqrt(233), function.calculateClusterDiameter(1), roundingError);
+		assertEquals(Math.sqrt(226), function.calculateClusterDiameter(2), roundingError);
+		assertEquals(Math.sqrt(34), function.calculateClusterDiameter(3), roundingError);
+		assertEquals(Math.sqrt(32), function.calculateClusterDiameter(4), roundingError);
+		assertEquals(Math.sqrt(153), function.calculateClusterDiameter(5), roundingError);
 	}
 
 	@Test

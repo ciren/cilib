@@ -45,7 +45,7 @@ public class RealTest {
 		Real r = new Real(-10.0);		
 		Real test = r.clone();
 		
-		assertEquals(r.getReal(), test.getReal());
+		assertEquals(r.getReal(), test.getReal(), Double.MIN_NORMAL);
 		assertNotSame(r, test);
 	}
 	

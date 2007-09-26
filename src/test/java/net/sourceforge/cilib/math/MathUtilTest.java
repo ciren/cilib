@@ -26,10 +26,10 @@
  */
 package net.sourceforge.cilib.math;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import net.sourceforge.cilib.math.MathUtil;
+import org.junit.Test;
 
 /**
  * 
@@ -39,8 +39,8 @@ public class MathUtilTest {
 	
 	@Test
 	public void testFactorial() {
-		assertEquals(1.0, MathUtil.factorial(0.0));
-		assertEquals(1.0, MathUtil.factorial(1.0));
+		assertEquals(1.0, MathUtil.factorial(0.0), Double.MIN_NORMAL);
+		assertEquals(1.0, MathUtil.factorial(1.0), Double.MIN_NORMAL);
 		
 		try {
 			MathUtil.factorial(-1.0);
@@ -48,15 +48,15 @@ public class MathUtilTest {
 		}
 		catch (Exception e) {}
 		
-		assertEquals(6.0, MathUtil.factorial(3));
-		assertEquals(720.0, MathUtil.factorial(6));
-		assertEquals(9.33262154439441E157, MathUtil.factorial(100)); 
+		assertEquals(6.0, MathUtil.factorial(3), Double.MIN_NORMAL);
+		assertEquals(720.0, MathUtil.factorial(6), Double.MIN_NORMAL);
+		assertEquals(9.33262154439441E157, MathUtil.factorial(100), Double.MIN_NORMAL); 
 	}
 	
 	
 	@Test
 	public void testCombination() {
-		assertEquals(792.0, MathUtil.combination(12, 5));
+		assertEquals(792.0, MathUtil.combination(12, 5), Double.MIN_NORMAL);
 		
 		try {
 			MathUtil.combination(-1, -5);
@@ -76,9 +76,9 @@ public class MathUtilTest {
 		}
 		catch (Exception e) {}
 		
-		assertEquals(1.0, MathUtil.combination(0, 0));
-		assertEquals(1.0, MathUtil.combination(1, 0));
-		assertEquals(1.0, MathUtil.combination(1, 1));
+		assertEquals(1.0, MathUtil.combination(0, 0), Double.MIN_NORMAL);
+		assertEquals(1.0, MathUtil.combination(1, 0), Double.MIN_NORMAL);
+		assertEquals(1.0, MathUtil.combination(1, 1), Double.MIN_NORMAL);
 	}
 
 }

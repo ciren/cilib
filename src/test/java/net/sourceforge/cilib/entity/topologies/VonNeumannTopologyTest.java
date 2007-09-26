@@ -234,6 +234,10 @@ public class VonNeumannTopologyTest {
 			return null;
 		}
 
+		public void updateControlParameters() {
+			
+		}
+
 		public void setNeighbourhoodBest(Particle particle) {
 		}
 

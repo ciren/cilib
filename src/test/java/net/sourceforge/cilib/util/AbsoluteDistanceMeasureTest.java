@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.util;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +52,7 @@ public class AbsoluteDistanceMeasureTest {
 		distanceMeasure = new ManhattanDistanceMeasure();
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testVectorDistance() {
 		Vector v1 = new MixedVector();
 		Vector v2 = new MixedVector();
@@ -66,18 +65,14 @@ public class AbsoluteDistanceMeasureTest {
 		v2.add(new Real(3.0));
 		v2.add(new Real(4.0));
 		
-		assertEquals(4.0, distanceMeasure.distance(v1, v2));
+		assertEquals(4.0, distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
 		
 		v1.add(new Real(22.0));
 		
-		try {
-			distanceMeasure.distance(v1, v2);
-			fail("Exception is not thrown????");
-		}
-		catch (IllegalArgumentException i) {}
+		distanceMeasure.distance(v1, v2);
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testCollectionDistance() {
 		List<Double> l1 = new ArrayList<Double>();
 		List<Double> l2 = new ArrayList<Double>();
@@ -90,15 +85,11 @@ public class AbsoluteDistanceMeasureTest {
 		l2.add(3.0);
 		l2.add(4.0);
 		
-		assertEquals(4.0, distanceMeasure.distance(l1, l2));
+		assertEquals(4.0, distanceMeasure.distance(l1, l2), Double.MIN_NORMAL);
 		
 		l1.add(11.0);
 		
-		try {
-			distanceMeasure.distance(l1, l2);
-			fail("Exception is not thrown????");
-		}
-		catch (IllegalArgumentException i) {}
+		distanceMeasure.distance(l1, l2);
 	}
 
 }

@@ -96,6 +96,6 @@ public class CosineDistanceMeasureTest {
 		list1.set(0, 3.0);
 		double distance = distanceMeasure.distance(list1, list2);
 		assertTrue(distance >= -1 && distance <= 1);
-		assertEquals(0.0, distance);
+		assertEquals(0.0, distance, Double.MIN_NORMAL);
 	}
 }
