@@ -23,5 +23,8 @@
     <fileSet>
       <directory>src/main/java</directory>
     </fileSet>
+    <fileSet>
+      <directory>src/test/java</directory>
+    </fileSet>
   </fileSets>
 </assembly>
