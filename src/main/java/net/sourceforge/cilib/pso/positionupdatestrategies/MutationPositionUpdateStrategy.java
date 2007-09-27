@@ -30,8 +30,8 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.BoundedUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.LinearDecreasingUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.BoundedControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.LinearDecreasingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.math.random.RandomNumber;
@@ -50,7 +50,7 @@ public class MutationPositionUpdateStrategy extends
 	private static final long serialVersionUID = -8369435727526797836L;
 	
 	private MaximumIterations maximumIterations;
-	private BoundedUpdateStrategy decreasingParameter;
+	private BoundedControlParameter decreasingParameter;
 	private RandomNumber randomNumber;
 	
 	
@@ -62,7 +62,7 @@ public class MutationPositionUpdateStrategy extends
 	public MutationPositionUpdateStrategy() {
 		super();
 		
-		decreasingParameter = new LinearDecreasingUpdateStrategy();
+		decreasingParameter = new LinearDecreasingControlParameter();
 		decreasingParameter.setUpperBound(1.0);
 		decreasingParameter.setLowerBound(0.0);
 		decreasingParameter.setParameter(1.0);
@@ -86,7 +86,7 @@ public class MutationPositionUpdateStrategy extends
 	 * Get the <tt>ControlParameterUpdateStrategy</tt> representing the mutation probability.
 	 * @return Returns the decreasingParameter (<tt>ControlParameterUpdateStrategy</tt>).
 	 */
-	public BoundedUpdateStrategy getDecreasingParameter() {
+	public BoundedControlParameter getDecreasingParameter() {
 		return decreasingParameter;
 	}
 
@@ -95,7 +95,7 @@ public class MutationPositionUpdateStrategy extends
 	 * Set the <tt>ControlParameterUpdateStrategy</tt> representing the mutation probability.
 	 * @param decreasingParameter The <tt>ControlParameterUpdateStrategy</tt> to set.
 	 */
-	public void setDecreasingParameter(BoundedUpdateStrategy decreasingParameter) {
+	public void setDecreasingParameter(BoundedControlParameter decreasingParameter) {
 		this.decreasingParameter = decreasingParameter;
 	}
 	

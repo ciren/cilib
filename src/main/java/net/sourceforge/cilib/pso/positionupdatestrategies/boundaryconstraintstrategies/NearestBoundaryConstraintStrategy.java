@@ -1,7 +1,7 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.type.types.Numeric;
 
@@ -23,10 +23,10 @@ import net.sourceforge.cilib.type.types.Numeric;
 public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
 	private static final long serialVersionUID = 2444348297389576657L;
 
-	private ControlParameterUpdateStrategy terbulenceProbability;
+	private ControlParameter terbulenceProbability;
 
 	public NearestBoundaryConstraintStrategy() {
-		terbulenceProbability = new ConstantUpdateStrategy();
+		terbulenceProbability = new ConstantControlParameter();
 		terbulenceProbability.setParameter(0.0);
 	}
 
@@ -38,11 +38,11 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 		return new NearestBoundaryConstraintStrategy(this);
 	}
 
-	public void setTerbulenceProbability(ControlParameterUpdateStrategy terbulenceProbability) {
+	public void setTerbulenceProbability(ControlParameter terbulenceProbability) {
 		this.terbulenceProbability = terbulenceProbability;
 	}
 
-	public ControlParameterUpdateStrategy getTerbulenceProbability() {
+	public ControlParameter getTerbulenceProbability() {
 		return terbulenceProbability;
 	}
 

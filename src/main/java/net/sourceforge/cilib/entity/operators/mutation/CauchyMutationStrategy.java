@@ -29,8 +29,8 @@ package net.sourceforge.cilib.entity.operators.mutation;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -44,12 +44,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class CauchyMutationStrategy extends MutationStrategy {
 	
 	private double location;
-	private ControlParameterUpdateStrategy scaleStrategy;
+	private ControlParameter scaleStrategy;
 	
 	public CauchyMutationStrategy() {
 		super();
 		this.location = 0;
-		this.scaleStrategy = new ProportionalControlParameterUpdateStrategy();
+		this.scaleStrategy = new ProportionalControlParameter();
 	}
 	
 	public CauchyMutationStrategy(CauchyMutationStrategy copy) {
@@ -98,11 +98,11 @@ public class CauchyMutationStrategy extends MutationStrategy {
 
 	
 	
-	public ControlParameterUpdateStrategy getScaleStrategy() {
+	public ControlParameter getScaleStrategy() {
 		return scaleStrategy;
 	}
 
-	public void setScaleStrategy(ControlParameterUpdateStrategy scaleStrategy) {
+	public void setScaleStrategy(ControlParameter scaleStrategy) {
 		this.scaleStrategy = scaleStrategy;
 	}
 

@@ -25,15 +25,17 @@
  */
 package net.sourceforge.cilib.pso.parameterupdatestrategies;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomizingControlParameter;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
  * This is an implementation of the fully informed PSO, for which there is only one velocity
  * component in addition to the inertia, and therefor the one larger default for the acceleration
  * @author engel
+ * @deprecated this class is invalid and will be replaced by the functionality within the GCVelocityUpdateStrategy
  */
-public class FIPSAcceleration extends RandomisedParameterUpdateStrategy {
+@Deprecated
+public class FIPSAcceleration extends RandomizingControlParameter {
 	private static final long serialVersionUID = -3430086608413297395L;
 	private RandomNumber randomNumber;
 	private double initialisationRange; // This is equal to c1 + c2 in original paper

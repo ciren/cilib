@@ -1,9 +1,9 @@
 /*
- * ConstantUpdateStrategy.java
+ * ProportionalControlParameterUpdateStrategy.java
  *
- * Created on March 18, 2004, 4:23 PM
+ * Created on May 24, 2007
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2007 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria
@@ -26,60 +26,34 @@
  */
 package net.sourceforge.cilib.controlparameterupdatestrategies;
 
-/**
- * @author Gary Pampara
- */
-public class ConstantUpdateStrategy implements ControlParameterUpdateStrategy {
-	private static final long serialVersionUID = 8847038781478109426L;
-	protected double parameter;
+public class ProportionalControlParameter implements ControlParameter {
+	private static final long serialVersionUID = 8415953407107514281L;
+	private double proportion;
 
-	/**
-	 *
-	 */
-	public ConstantUpdateStrategy() {
-
+	public ProportionalControlParameter() {
+		this.proportion = 0.1;
 	}
 
-	public ConstantUpdateStrategy(double value) {
-		this.parameter = value;
+	public ProportionalControlParameter clone() {
+		return null;
 	}
 
-	/**
-	 * @param copy
-	 */
-	public ConstantUpdateStrategy(ConstantUpdateStrategy copy) {
-		this.parameter = copy.parameter;
-	}
-
-	/**
-	 * 
-	 */
-	public ConstantUpdateStrategy clone() {
-		return new ConstantUpdateStrategy(this);
-	}
-
-	/**
-	 * 
-	 */
 	public double getParameter() {
-		return parameter;
+		return this.proportion;
 	}
 
 	public double getParameter(double min, double max) {
-		throw new UnsupportedOperationException("This method is not supported");
+		double diff = max - min;
+		return this.proportion * diff;
 	}
 
-	/**
-	 * 
-	 */
 	public void setParameter(double value) {
-		this.parameter = value;
+		if (value < 0)
+			throw new IllegalArgumentException("The proportion must be positive");
+
+		this.proportion = value;
 	}
 
-	/**
-	 * 
-	 */
 	public void updateParameter() {
-
 	}
 }

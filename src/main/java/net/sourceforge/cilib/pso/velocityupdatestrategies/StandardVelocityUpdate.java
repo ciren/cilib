@@ -26,9 +26,9 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -40,17 +40,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class StandardVelocityUpdate implements VelocityUpdateStrategy {
 	private static final long serialVersionUID = 8204479765311251730L;
 	
-	protected ControlParameterUpdateStrategy inertiaWeight;
-    protected ControlParameterUpdateStrategy socialAcceleration;
-    protected ControlParameterUpdateStrategy cognitiveAcceleration;
-    protected ControlParameterUpdateStrategy vMax;
+	protected ControlParameter inertiaWeight;
+    protected ControlParameter socialAcceleration;
+    protected ControlParameter cognitiveAcceleration;
+    protected ControlParameter vMax;
     
     /** Creates a new instance of StandardVelocityUpdate */
     public StandardVelocityUpdate() {      
-        inertiaWeight = new ConstantUpdateStrategy();
-        cognitiveAcceleration = new RandomisedParameterUpdateStrategy();
-        socialAcceleration = new RandomisedParameterUpdateStrategy();
-        vMax = new ConstantUpdateStrategy();
+        inertiaWeight = new ConstantControlParameter();
+        cognitiveAcceleration = new RandomizingControlParameter();
+        socialAcceleration = new RandomizingControlParameter();
+        vMax = new ConstantControlParameter();
         
         inertiaWeight.setParameter(0.729844);
         cognitiveAcceleration.setParameter(1.496180);
@@ -126,51 +126,51 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     /**
      * @return Returns the cognitiveComponent.
      */
-    public ControlParameterUpdateStrategy getCognitiveAcceleration() {
+    public ControlParameter getCognitiveAcceleration() {
         return cognitiveAcceleration;
     }
 
     /**
      * @param cognitiveComponent The cognitiveComponent to set.
      */
-    public void setCognitiveAcceleration(ControlParameterUpdateStrategy cognitiveComponent) {
+    public void setCognitiveAcceleration(ControlParameter cognitiveComponent) {
         this.cognitiveAcceleration = cognitiveComponent;
     }
 
     /**
      * @return Returns the inertiaComponent.
      */
-    public ControlParameterUpdateStrategy getInertiaWeight() {
+    public ControlParameter getInertiaWeight() {
         return inertiaWeight;
     }
 
     /**
      * @param inertiaComponent The inertiaComponent to set.
      */
-    public void setInertiaWeight(ControlParameterUpdateStrategy inertiaWeight) {
+    public void setInertiaWeight(ControlParameter inertiaWeight) {
         this.inertiaWeight = inertiaWeight;
     }
 
     /**
      * @return Returns the socialComponent.
      */
-    public ControlParameterUpdateStrategy getSocialAcceleration() {
+    public ControlParameter getSocialAcceleration() {
         return socialAcceleration;
     }
 
     /**
      * @param socialComponent The socialComponent to set.
      */
-    public void setSocialAcceleration(ControlParameterUpdateStrategy socialComponent) {
+    public void setSocialAcceleration(ControlParameter socialComponent) {
         this.socialAcceleration = socialComponent;
     }
     
     
-    public ControlParameterUpdateStrategy getVMax() {
+    public ControlParameter getVMax() {
 		return vMax;
 	}
 
-	public void setVMax(ControlParameterUpdateStrategy max) {
+	public void setVMax(ControlParameter max) {
 		vMax = max;
 	}
 

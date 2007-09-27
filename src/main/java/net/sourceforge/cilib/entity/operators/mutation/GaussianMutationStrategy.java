@@ -29,8 +29,8 @@ package net.sourceforge.cilib.entity.operators.mutation;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -42,12 +42,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class GaussianMutationStrategy extends MutationStrategy {
 
 	private double mean;
-	private ControlParameterUpdateStrategy deviationStrategy;
+	private ControlParameter deviationStrategy;
 	
 	public GaussianMutationStrategy() {
 		super();
 		this.mean = 0;
-		this.deviationStrategy = new ProportionalControlParameterUpdateStrategy();
+		this.deviationStrategy = new ProportionalControlParameter();
 	}
 	
 	public GaussianMutationStrategy(GaussianMutationStrategy copy) {
@@ -83,11 +83,11 @@ public class GaussianMutationStrategy extends MutationStrategy {
 		}
 	}
 
-	public ControlParameterUpdateStrategy getDeviationStrategy() {
+	public ControlParameter getDeviationStrategy() {
 		return deviationStrategy;
 	}
 
-	public void setDeviationStrategy(ControlParameterUpdateStrategy deviationStrategy) {
+	public void setDeviationStrategy(ControlParameter deviationStrategy) {
 		this.deviationStrategy = deviationStrategy;
 	}
 

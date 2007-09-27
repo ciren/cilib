@@ -36,7 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  *
  */
-public abstract class BoundedUpdateStrategy implements ControlParameterUpdateStrategy {
+public abstract class BoundedControlParameter implements ControlParameter {
 	
 	protected Real parameter;
 	protected String range = "";
@@ -46,7 +46,7 @@ public abstract class BoundedUpdateStrategy implements ControlParameterUpdateStr
 	 * 
 	 *
 	 */
-	public BoundedUpdateStrategy() {
+	public BoundedControlParameter() {
 		this.parameter = new Real();
 	}
 	
@@ -55,7 +55,7 @@ public abstract class BoundedUpdateStrategy implements ControlParameterUpdateStr
 	 * 
 	 * @param copy
 	 */
-	public BoundedUpdateStrategy(BoundedUpdateStrategy copy) {
+	public BoundedControlParameter(BoundedControlParameter copy) {
 		this.parameter = copy.parameter.clone();
 		this.range = new String(copy.range);
 	}
@@ -64,7 +64,7 @@ public abstract class BoundedUpdateStrategy implements ControlParameterUpdateStr
 	/**
 	 * 
 	 */
-	public abstract BoundedUpdateStrategy clone();
+	public abstract BoundedControlParameter clone();
 
 	
 	/**

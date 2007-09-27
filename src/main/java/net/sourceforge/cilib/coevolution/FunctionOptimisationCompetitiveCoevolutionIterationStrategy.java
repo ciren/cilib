@@ -29,7 +29,7 @@ package net.sourceforge.cilib.coevolution;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -112,7 +112,7 @@ public class FunctionOptimisationCompetitiveCoevolutionIterationStrategy extends
 		sp.getProperties().put("populationID", new Int(populationID));
 		sp.getProperties().put("distance", new Real(0.0));
 		StandardVelocityUpdate svu = new StandardVelocityUpdate();
-		svu.setCognitiveAcceleration(new ConstantUpdateStrategy(0));
+		svu.setCognitiveAcceleration(new ConstantControlParameter(0));
 		sp.setVelocityUpdateStrategy(svu);
 		PSO currentAlgorithm = (PSO)pba;
 		currentAlgorithm.getInitialisationStrategy().setEntityType(sp.clone());

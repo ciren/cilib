@@ -1,7 +1,7 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**
@@ -12,10 +12,10 @@ import net.sourceforge.cilib.type.types.Numeric;
 public class DeflectionBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
 	private static final long serialVersionUID = -1108623232830737053L;
 
-	private ControlParameterUpdateStrategy velocityDampingFactor;
+	private ControlParameter velocityDampingFactor;
 
 	public DeflectionBoundaryConstraintStrategy() {
-		velocityDampingFactor = new ConstantUpdateStrategy();
+		velocityDampingFactor = new ConstantControlParameter();
 		velocityDampingFactor.setParameter(-1.0);
 	}
 
@@ -27,11 +27,11 @@ public class DeflectionBoundaryConstraintStrategy implements BoundaryConstraintS
 		return new DeflectionBoundaryConstraintStrategy(this);
 	}
 
-	public void setVelocityDampingFactor(ControlParameterUpdateStrategy velocityDampingFactor) {
+	public void setVelocityDampingFactor(ControlParameter velocityDampingFactor) {
 		this.velocityDampingFactor = velocityDampingFactor;
 	}
 
-	public ControlParameterUpdateStrategy getVelocityDampingFactor() {
+	public ControlParameter getVelocityDampingFactor() {
 		return velocityDampingFactor;
 	}
 

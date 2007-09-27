@@ -32,8 +32,8 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
@@ -92,8 +92,8 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		
 		mainSwarmParticle = new StandardParticle();
 		StandardVelocityUpdate velocityUpdate = new StandardVelocityUpdate();
-		RandomisedParameterUpdateStrategy socialAcceleration = new RandomisedParameterUpdateStrategy();
-		socialAcceleration.setParameterUpdateStrategy(new ConstantUpdateStrategy(0.0));
+		RandomizingControlParameter socialAcceleration = new RandomizingControlParameter();
+		socialAcceleration.setControlParameter(new ConstantControlParameter(0.0));
 		velocityUpdate.setSocialAcceleration(socialAcceleration);
 		mainSwarmParticle.setVelocityUpdateStrategy(velocityUpdate);
 		

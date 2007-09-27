@@ -27,8 +27,8 @@ package net.sourceforge.cilib.functions.continuous;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -45,11 +45,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 5683593481233814465L;
 	/** The best value for the varianceLimit should be determined empirically */
-	private ControlParameterUpdateStrategy maximumVariance = null;
+	private ControlParameter maximumVariance = null;
 
 	public VeenmanReindersBackerIndex() {
 		super();
-		maximumVariance = new ConstantUpdateStrategy(1.0);	// default variance limit is 1.0
+		maximumVariance = new ConstantControlParameter(1.0);	// default variance limit is 1.0
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 		return true;
 	}
 
-	public void setMaximumVariance(ControlParameterUpdateStrategy cpus) {
+	public void setMaximumVariance(ControlParameter cpus) {
 		maximumVariance = cpus;
 	}
 

@@ -28,8 +28,8 @@ package net.sourceforge.cilib.entity.operators.mutation;
 
 import java.util.List;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.math.random.RandomNumber;
@@ -41,7 +41,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  */
 public abstract class MutationStrategy implements Operator {
 	
-	private ControlParameterUpdateStrategy mutationProbability;
+	private ControlParameter mutationProbability;
 	private RandomNumber randomNumber;
 	private String operator;
 	private MutationOperatorStrategy operatorStrategy;
@@ -50,7 +50,7 @@ public abstract class MutationStrategy implements Operator {
 		operator = "+";
 		operatorStrategy = new AdditionMutationOperatorStrategy();
 		
-		mutationProbability = new ConstantUpdateStrategy(0.3);
+		mutationProbability = new ConstantControlParameter(0.3);
 		randomNumber = new RandomNumber();
 	}
 	
@@ -69,7 +69,7 @@ public abstract class MutationStrategy implements Operator {
 	 * 
 	 * @return
 	 */
-	public ControlParameterUpdateStrategy getMutationProbability() {
+	public ControlParameter getMutationProbability() {
 		return mutationProbability;
 	}
 
@@ -77,8 +77,7 @@ public abstract class MutationStrategy implements Operator {
 	 * 
 	 * @param mutationProbability
 	 */
-	public void setMutationProbability(
-			ControlParameterUpdateStrategy mutationProbability) {
+	public void setMutationProbability(ControlParameter mutationProbability) {
 		this.mutationProbability = mutationProbability;
 	}
 

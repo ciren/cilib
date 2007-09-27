@@ -25,8 +25,8 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -43,16 +43,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 583965930447258179L;
 	/** Specifies the weight that influences how much the intra-cluster-distance will contribute to the final fitness */
-	protected ControlParameterUpdateStrategy w1 = null;
+	protected ControlParameter w1 = null;
 	/** Specifies the weight that influences how much the inter-cluster-distance will contribute to the final fitness */
-	protected ControlParameterUpdateStrategy w2 = null;
+	protected ControlParameter w2 = null;
 	/** Stores the calculated zMax value */
 	protected double zMax = -1.0;
 
 	public ParametricClusteringFunction() {
 		super();
-		w1 = new ConstantUpdateStrategy(0.5);
-		w2 = new ConstantUpdateStrategy(0.5);
+		w1 = new ConstantControlParameter(0.5);
+		w2 = new ConstantControlParameter(0.5);
 		zMax = -1.0;
 	}
 
@@ -74,7 +74,7 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	 * Set the weight that influences how much the intra-cluster-distance will contribute to the final fitness
 	 * @param w the {@linkplain ControlParameterUpdateStrategy} that will control the <tt>w1</tt> weight
 	 */
-	public void setW1(ControlParameterUpdateStrategy w) {
+	public void setW1(ControlParameter w) {
 		w1 = w;
 	}
 
@@ -92,7 +92,7 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	 * final fitness
 	 * @param w the {@linkplain ControlParameterUpdateStrategy} that will control the <tt>w2</tt> weight
 	 */
-	public void setW2(ControlParameterUpdateStrategy w) {
+	public void setW2(ControlParameter w) {
 		w2 = w;
 	}
 

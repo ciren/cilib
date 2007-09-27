@@ -1,7 +1,9 @@
 /*
- * ExponentiallyIncreasingUpdateStrategy.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * LinearIncreasingUpdateStrategy.java
+ *
+ * Created on March 18, 2004, 4:23 PM
+ *
+ * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria
@@ -20,35 +22,45 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
  */
 package net.sourceforge.cilib.controlparameterupdatestrategies;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 
-public class ExponentiallyIncreasingUpdateStrategy extends BoundedUpdateStrategy {
-	private static final long serialVersionUID = -4071463556500656337L;
+/**
+ * @author Gary Pampara
+ */
+public class LinearIncreasingControlParameter extends BoundedControlParameter {
+	private static final long serialVersionUID = -6813625954992761973L;
 
-	public ExponentiallyIncreasingUpdateStrategy() {
+	/**
+	 *
+	 */
+	public LinearIncreasingControlParameter() {
 		super();
 	}
-	
+
 	/**
-	 * Copy constructor
 	 * @param copy
 	 */
-	public ExponentiallyIncreasingUpdateStrategy(ExponentiallyIncreasingUpdateStrategy copy) {
+	public LinearIncreasingControlParameter(LinearIncreasingControlParameter copy) {
 		super(copy);
 	}
-	
-	@Override
-	public ExponentiallyIncreasingUpdateStrategy clone() {
-		return new ExponentiallyIncreasingUpdateStrategy(this);
+
+	/**
+	 * 
+	 */
+	public LinearIncreasingControlParameter clone() {
+		return new LinearIncreasingControlParameter(this);
 	}
 
-	@Override
+	/**
+	 * 
+	 */
 	public void update() {
-		double result = Math.exp(Algorithm.get().getPercentageComplete() - 1);
-		this.parameter.setReal(result);
+		double result = getLowerBound() + (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
+		parameter.setReal(result);
 	}
 
 	@Override

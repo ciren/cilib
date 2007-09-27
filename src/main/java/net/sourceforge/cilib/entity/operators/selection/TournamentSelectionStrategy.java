@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
@@ -43,11 +43,11 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  */
 public class TournamentSelectionStrategy extends SelectionStrategy {
 	
-	private ControlParameterUpdateStrategy tournamentProportion;
+	private ControlParameter tournamentProportion;
 	private RandomNumber randomNumber;
 	
 	public TournamentSelectionStrategy() {
-		this.tournamentProportion = new ProportionalControlParameterUpdateStrategy();
+		this.tournamentProportion = new ProportionalControlParameter();
 	}
 	
 	public TournamentSelectionStrategy(TournamentSelectionStrategy copy) {
@@ -78,11 +78,11 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 		return tournamentEntities.get(0);
 	}
 
-	public ControlParameterUpdateStrategy getTournamentSize() {
+	public ControlParameter getTournamentSize() {
 		return tournamentProportion;
 	}
 
-	public void setTournamentSize(ControlParameterUpdateStrategy tournamentProportion) {
+	public void setTournamentSize(ControlParameter tournamentProportion) {
 		this.tournamentProportion = tournamentProportion;
 	}
 

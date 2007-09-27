@@ -27,7 +27,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -50,8 +50,8 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		
 		// Resetting the social and cognitive components is required to ensure
 		// that during the velocity update process, only 1 random number is used.
-		this.cognitiveAcceleration = new ConstantUpdateStrategy();
-		this.socialAcceleration = new ConstantUpdateStrategy();
+		this.cognitiveAcceleration = new ConstantControlParameter();
+		this.socialAcceleration = new ConstantControlParameter();
 		
 		this.cognitiveAcceleration.setParameter(1.496180);
 		this.socialAcceleration.setParameter(1.496180);

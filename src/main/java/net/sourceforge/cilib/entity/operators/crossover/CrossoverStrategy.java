@@ -28,8 +28,8 @@ package net.sourceforge.cilib.entity.operators.crossover;
 
 import java.util.List;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.Operator;
@@ -41,12 +41,12 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 */
 
 public abstract class CrossoverStrategy implements Operator {
-	private ControlParameterUpdateStrategy crossoverProbability;
+	private ControlParameter crossoverProbability;
 	private RandomNumber randomNumber;
 	
 	
 	public CrossoverStrategy() {
-		crossoverProbability = new ConstantUpdateStrategy(0.5);
+		crossoverProbability = new ConstantControlParameter(0.5);
 		randomNumber = new RandomNumber();
 	}
 	
@@ -64,7 +64,7 @@ public abstract class CrossoverStrategy implements Operator {
 	 * 
 	 * @return
 	 */
-	public ControlParameterUpdateStrategy getCrossoverProbability() {
+	public ControlParameter getCrossoverProbability() {
 		return crossoverProbability;
 	}
 
@@ -72,8 +72,7 @@ public abstract class CrossoverStrategy implements Operator {
 	 * 
 	 * @param crossoverProbability
 	 */
-	public void setCrossoverProbability(
-			ControlParameterUpdateStrategy crossoverProbability) {
+	public void setCrossoverProbability(ControlParameter crossoverProbability) {
 		this.crossoverProbability = crossoverProbability;
 	}
 

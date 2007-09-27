@@ -31,8 +31,8 @@ package net.sourceforge.cilib.entity.topologies;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
@@ -51,7 +51,7 @@ import net.sourceforge.cilib.entity.Entity;
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	private static final long serialVersionUID = 93039445052676571L;
 
-	private ControlParameterUpdateStrategy neighbourhoodSize;
+	private ControlParameter neighbourhoodSize;
 
 	/**
 	 * Creates a new instance of <code>LBestTopology</code>. The default
@@ -60,7 +60,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	 */
 	public LBestTopology() {
 		super();
-		neighbourhoodSize = new ConstantUpdateStrategy(3);
+		neighbourhoodSize = new ConstantControlParameter(3);
 	}
 
     public LBestTopology(LBestTopology<E> copy) {
@@ -89,7 +89,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	 * {@linkplain ConstantUpdateStrategy} with the parameter set to 3.
 	 * @param neighbourhoodSize The {@linkplain ControlParameterUpdateStrategy} to use.
 	 */
-	public void setNeighbourhoodSize(ControlParameterUpdateStrategy neighbourhoodSize) {
+	public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
 		this.neighbourhoodSize = neighbourhoodSize;
 	}
 

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.PSO;
@@ -26,8 +26,8 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 	private RandomNumber rand1;
 	private RandomNumber rand2;
 	private RandomNumber rand3;
-	private ControlParameterUpdateStrategy cognitive;
-	private ControlParameterUpdateStrategy social;
+	private ControlParameter cognitive;
+	private ControlParameter social;
 	
 
 	public BareBonesDEVelocityUpdate() {
@@ -35,8 +35,8 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 		rand1 = new RandomNumber();
 		rand2 = new RandomNumber();
 		rand3 = new RandomNumber();
-		cognitive = new RandomisedParameterUpdateStrategy();
-		social = new RandomisedParameterUpdateStrategy();
+		cognitive = new RandomizingControlParameter();
+		social = new RandomizingControlParameter();
 		
 		cognitive.setParameter(1);
 		social.setParameter(1);

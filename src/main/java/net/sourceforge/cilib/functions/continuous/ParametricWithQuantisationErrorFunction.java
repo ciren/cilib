@@ -25,8 +25,8 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in
@@ -42,13 +42,13 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 	private static final long serialVersionUID = -2022785065235231801L;
 
 	/** Specifies the weight that incluences how much the Quantisation Error will contribute to the final fitness */
-	protected ControlParameterUpdateStrategy w3 = null;
+	protected ControlParameter w3 = null;
 
 	public ParametricWithQuantisationErrorFunction() {
 		super();
-		w1 = new ConstantUpdateStrategy(0.3);
-		w2 = new ConstantUpdateStrategy(0.3);
-		w3 = new ConstantUpdateStrategy(0.4);
+		w1 = new ConstantControlParameter(0.3);
+		w2 = new ConstantControlParameter(0.3);
+		w3 = new ConstantControlParameter(0.4);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 	 * @param w the {@linkplain ControlParameterUpdateStrategy} that will control the <tt>w1</tt>
 	 *        weight
 	 */
-	public void setW3(ControlParameterUpdateStrategy w) {
+	public void setW3(ControlParameter w) {
 		w3 = w;
 	}
 

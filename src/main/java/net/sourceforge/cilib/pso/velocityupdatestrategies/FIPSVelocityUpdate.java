@@ -28,8 +28,8 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
@@ -44,13 +44,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
 	private static final long serialVersionUID = -601384236026398105L;
 	
-	private ControlParameterUpdateStrategy randomComponent;
+	private ControlParameter randomComponent;
 
 	/**
 	 * 
 	 */
 	public FIPSVelocityUpdate() {
-		randomComponent = new ConstantUpdateStrategy();
+		randomComponent = new ConstantControlParameter();
 		randomComponent.setParameter(1.0);
 	}
 	
@@ -69,7 +69,7 @@ public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
 	/**
 	 * @return Returns the randomComponent.
 	 */
-	public ControlParameterUpdateStrategy getRandomComponent() {
+	public ControlParameter getRandomComponent() {
 		return randomComponent;
 	}
 
@@ -77,7 +77,7 @@ public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
 	/**
 	 * @param randomComponent The randomComponent to set.
 	 */
-	public void setRandomComponent(ControlParameterUpdateStrategy randomComponent) {
+	public void setRandomComponent(ControlParameter randomComponent) {
 		this.randomComponent = randomComponent;
 	}
 

@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.MathUtil;
@@ -27,8 +27,8 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 
 	public CoherenceVelocityUpdate() {
 		super();
-		socialAcceleration = new RandomisedParameterUpdateStrategy();
-		cognitiveAcceleration = new RandomisedParameterUpdateStrategy();
+		socialAcceleration = new RandomizingControlParameter();
+		cognitiveAcceleration = new RandomizingControlParameter();
 		socialRandomGenerator = new KnuthSubtractive();
 		cognitiveRandomGenerator = new KnuthSubtractive();
 	}

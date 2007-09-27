@@ -29,8 +29,8 @@ package net.sourceforge.cilib.entity.operators.mutation;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -41,12 +41,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class UniformMutationStrategy extends MutationStrategy {
 
-	private ControlParameterUpdateStrategy minStrategy, maxStrategy;
+	private ControlParameter minStrategy, maxStrategy;
 	
 	public UniformMutationStrategy() {
 		super();
-		minStrategy = new ProportionalControlParameterUpdateStrategy();
-		maxStrategy = new ProportionalControlParameterUpdateStrategy();
+		minStrategy = new ProportionalControlParameter();
+		maxStrategy = new ProportionalControlParameter();
 	}
 	
 	public UniformMutationStrategy(UniformMutationStrategy copy) {

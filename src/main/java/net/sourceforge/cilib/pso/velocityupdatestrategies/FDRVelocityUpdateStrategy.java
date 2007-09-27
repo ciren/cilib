@@ -26,9 +26,9 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.LinearDecreasingUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomisedParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.LinearDecreasingControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Fitness;
@@ -42,13 +42,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 	private static final long serialVersionUID = -7117135203986406944L;
-	protected ControlParameterUpdateStrategy fdrMaximizerAcceleration;
+	protected ControlParameter fdrMaximizerAcceleration;
 	
 	public FDRVelocityUpdateStrategy() {
 		super();
 		
-		inertiaWeight = new LinearDecreasingUpdateStrategy();
-		fdrMaximizerAcceleration = new RandomisedParameterUpdateStrategy();
+		inertiaWeight = new LinearDecreasingControlParameter();
+		fdrMaximizerAcceleration = new RandomizingControlParameter();
 		
 		cognitiveAcceleration.setParameter(1);
         socialAcceleration.setParameter(1);
@@ -121,7 +121,7 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 	/**
 	 * @return the fdrMaximizerAcceleration
 	 */
-	public ControlParameterUpdateStrategy getFdrMaximizerAcceleration() {
+	public ControlParameter getFdrMaximizerAcceleration() {
 		return fdrMaximizerAcceleration;
 	}
 	
@@ -129,7 +129,7 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 	 * @param fdrMaximizerAcceleration
 	 *            the fdrMaximizerAcceleration to set
 	 */
-	public void setFdrMaximizerAcceleration(ControlParameterUpdateStrategy fdrMaximizerAcceleration) {
+	public void setFdrMaximizerAcceleration(ControlParameter fdrMaximizerAcceleration) {
 		this.fdrMaximizerAcceleration = fdrMaximizerAcceleration;
 	}
 	

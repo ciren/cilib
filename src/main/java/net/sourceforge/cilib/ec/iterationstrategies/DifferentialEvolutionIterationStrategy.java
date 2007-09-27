@@ -29,8 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantUpdateStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameterUpdateStrategy;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -49,15 +49,15 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	private static final long serialVersionUID = 8019668923312811974L;	
 	private RandomNumber random1;
 	private RandomNumber random2;
-	private ControlParameterUpdateStrategy crossoverProbability;
-	private ControlParameterUpdateStrategy scaleParameter;
+	private ControlParameter crossoverProbability;
+	private ControlParameter scaleParameter;
 	
 	public DifferentialEvolutionIterationStrategy() {
 		this.random1 = new RandomNumber();
 		this.random2 = new RandomNumber();
 		
-		this.crossoverProbability = new ConstantUpdateStrategy(0.6);
-		this.scaleParameter = new ConstantUpdateStrategy(0.5);
+		this.crossoverProbability = new ConstantControlParameter(0.6);
+		this.scaleParameter = new ConstantControlParameter(0.5);
 	}
 	
 	public DifferentialEvolutionIterationStrategy(DifferentialEvolutionIterationStrategy copy) {
@@ -140,20 +140,19 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		return parents;
 	}
 
-	public ControlParameterUpdateStrategy getCrossoverProbability() {
+	public ControlParameter getCrossoverProbability() {
 		return crossoverProbability;
 	}
 
-	public void setCrossoverProbability(
-			ControlParameterUpdateStrategy crossoverProbability) {
+	public void setCrossoverProbability(ControlParameter crossoverProbability) {
 		this.crossoverProbability = crossoverProbability;
 	}
 
-	public ControlParameterUpdateStrategy getScaleParameter() {
+	public ControlParameter getScaleParameter() {
 		return scaleParameter;
 	}
 
-	public void setScaleParameter(ControlParameterUpdateStrategy scaleParameter) {
+	public void setScaleParameter(ControlParameter scaleParameter) {
 		this.scaleParameter = scaleParameter;
 	}
 

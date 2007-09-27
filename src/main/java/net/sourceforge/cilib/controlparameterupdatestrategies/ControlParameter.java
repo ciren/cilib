@@ -31,13 +31,13 @@ import java.io.Serializable;
  * @author Gary Pampara
  * @author Andries Engelbrecht
  */
-public interface ControlParameterUpdateStrategy extends Serializable {
+public interface ControlParameter extends Serializable {
 	/**
 	 * Clone the current object such that a comaprison of the clone and original object will yield
 	 * two seperate, but duplicate objects.
 	 * @return The cloned <tt>ControlParameterUpdateStrategy</tt>
 	 */
-	public ControlParameterUpdateStrategy clone();
+	public ControlParameter clone();
 
 	/**
 	 * Get the value of the represented parameter.
