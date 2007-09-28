@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package net.sourceforge.cilib.controlparameterupdatestrategies;
+package net.sourceforge.cilib.controlparameter;
 
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.Real;

@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ProportionalControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;

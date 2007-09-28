@@ -28,8 +28,8 @@ package net.sourceforge.cilib.entity.operators.crossover;
 
 import java.util.List;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.Operator;

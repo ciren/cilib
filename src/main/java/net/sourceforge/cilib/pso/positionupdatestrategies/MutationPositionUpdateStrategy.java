@@ -30,8 +30,8 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.BoundedControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.LinearDecreasingControlParameter;
+import net.sourceforge.cilib.controlparameter.BoundedControlParameter;
+import net.sourceforge.cilib.controlparameter.LinearDecreasingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.math.random.RandomNumber;

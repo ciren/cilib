@@ -1,9 +1,9 @@
 /*
- * ProportionalControlParameterUpdateStrategy.java
+ * ConstantUpdateStrategy.java
  *
- * Created on May 24, 2007
+ * Created on March 18, 2004, 4:23 PM
  *
- * Copyright (C) 2003 - 2007 
+ * Copyright (C) 2003 - 2006 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria
@@ -24,36 +24,62 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package net.sourceforge.cilib.controlparameterupdatestrategies;
+package net.sourceforge.cilib.controlparameter;
 
-public class ProportionalControlParameter implements ControlParameter {
-	private static final long serialVersionUID = 8415953407107514281L;
-	private double proportion;
+/**
+ * @author Gary Pampara
+ */
+public class ConstantControlParameter implements ControlParameter {
+	private static final long serialVersionUID = 8847038781478109426L;
+	protected double parameter;
 
-	public ProportionalControlParameter() {
-		this.proportion = 0.1;
+	/**
+	 *
+	 */
+	public ConstantControlParameter() {
+
 	}
 
-	public ProportionalControlParameter clone() {
-		return null;
+	public ConstantControlParameter(double value) {
+		this.parameter = value;
 	}
 
+	/**
+	 * @param copy
+	 */
+	public ConstantControlParameter(ConstantControlParameter copy) {
+		this.parameter = copy.parameter;
+	}
+
+	/**
+	 * 
+	 */
+	public ConstantControlParameter clone() {
+		return new ConstantControlParameter(this);
+	}
+
+	/**
+	 * 
+	 */
 	public double getParameter() {
-		return this.proportion;
+		return parameter;
 	}
 
 	public double getParameter(double min, double max) {
-		double diff = max - min;
-		return this.proportion * diff;
+		throw new UnsupportedOperationException("This method is not supported");
 	}
 
+	/**
+	 * 
+	 */
 	public void setParameter(double value) {
-		if (value < 0)
-			throw new IllegalArgumentException("The proportion must be positive");
-
-		this.proportion = value;
+		this.parameter = value;
 	}
 
+	/**
+	 * 
+	 */
 	public void updateParameter() {
+
 	}
 }

@@ -27,8 +27,8 @@ package net.sourceforge.cilib.functions.continuous;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 

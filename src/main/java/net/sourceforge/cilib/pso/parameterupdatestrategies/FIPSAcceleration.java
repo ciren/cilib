@@ -25,7 +25,7 @@
  */
 package net.sourceforge.cilib.pso.parameterupdatestrategies;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomizingControlParameter;
+import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**

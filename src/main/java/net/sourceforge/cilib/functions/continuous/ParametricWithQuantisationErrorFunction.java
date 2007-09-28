@@ -25,8 +25,8 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in

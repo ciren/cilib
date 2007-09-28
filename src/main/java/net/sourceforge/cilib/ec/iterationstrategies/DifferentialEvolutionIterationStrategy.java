@@ -29,8 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;

@@ -1,7 +1,7 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies;
 
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**

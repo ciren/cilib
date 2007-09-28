@@ -26,9 +26,9 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.LinearDecreasingControlParameter;
-import net.sourceforge.cilib.controlparameterupdatestrategies.RandomizingControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.LinearDecreasingControlParameter;
+import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Fitness;

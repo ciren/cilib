@@ -29,7 +29,7 @@ package net.sourceforge.cilib.coevolution;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.controlparameterupdatestrategies.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
