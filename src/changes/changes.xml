@@ -4,6 +4,13 @@
 		<author email="gpampara@cs.up.ac.za">Gary Pampara</author>
 	</properties>
 	<body>
+		<release version="0.6.9" date="" description="">
+			<action dev="gpampara" type="update">
+				Renamed the ControlParameterUpdateStrategies to ControlParameter
+				classes. Renamed the package name as well and refactored associated
+				classes. Should be simpler now :)
+			</action>
+		</release>
 		<release version="0.6.8" date="2007-09-27" description="Entity changes. Feature release with additional bug fixes">
 			<action dev="gpampara" type="update">
 				Corrected many issues regarding generics. The code should be cleaner
