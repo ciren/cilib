@@ -36,6 +36,8 @@ public abstract class AbstractFitness implements Fitness {
 	public abstract Fitness clone();
 
 	public abstract int compareTo(Fitness o);
+	
+	public abstract boolean equals(Object obj);
 
 	public abstract Double getValue();
 

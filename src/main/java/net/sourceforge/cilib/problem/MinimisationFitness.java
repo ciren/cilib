@@ -70,6 +70,11 @@ public class MinimisationFitness extends AbstractFitness {
 		return -  value.compareTo(other.getValue());
 	}
 
+	public boolean equals(Object obj) {
+		Fitness other = (Fitness) obj;
+		return getValue().equals(other.getValue());
+	}
+
 	public String toString() {
 		return String.valueOf(value);
 	}

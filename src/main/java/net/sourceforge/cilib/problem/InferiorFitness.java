@@ -72,6 +72,11 @@ public class InferiorFitness extends AbstractFitness {
 		}
 	}
 	
+	public boolean equals(Object object) {
+		Fitness otherFitness = (Fitness) object;
+		return getValue().equals(otherFitness.getValue());
+	}
+	
 	/**
 	 * Obtain a reference to the <code>InferiorFitness</code> instance.
 	 * 

@@ -69,6 +69,13 @@ public class MaximisationFitness extends AbstractFitness {
 		return value.compareTo(other.getValue());
 	}
 	
+	public boolean equals(Object obj) {
+		Fitness other = (Fitness) obj;
+		return getValue().equals(other.getValue());
+	}
+
+
+
 	private Double value;
 	
 }

@@ -80,6 +80,14 @@ public class MOFitness extends AbstractFitness {
 			return 0;
 		}
 	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		throw new UnsupportedOperationException("Implementation needed");
+	}
+
+
 
 	Fitness [] fitnesses;
 	
