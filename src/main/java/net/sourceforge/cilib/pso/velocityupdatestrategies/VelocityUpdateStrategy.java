@@ -49,10 +49,10 @@ public interface VelocityUpdateStrategy extends Serializable {
 	 */
     public void updateVelocity(Particle particle);
     
-    
     /**
      * Update the needed control parameters for the <tt>VelocityUpdate</tt>, 
      * if needed.
+     * @param particle The particle for whom the VelocityUpdateStrategy parameters need to be updated.
      */
-    public void updateControlParameters();
+    public void updateControlParameters(Particle particle);
 }

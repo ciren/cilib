@@ -102,7 +102,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     /**
      * 
      */
-    public void updateControlParameters() {
+    public void updateControlParameters(Particle particle) {
     	this.inertiaWeight.updateParameter();
     	this.cognitiveAcceleration.updateParameter();
     	this.socialAcceleration.updateParameter();

@@ -110,7 +110,7 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 		}
 	}
 	
-	public void updateControlParameters() {
+	public void updateControlParameters(Particle particle) {
 		inertiaWeight.updateParameter();
 		cognitiveAcceleration.updateParameter();
 		socialAcceleration.updateParameter();

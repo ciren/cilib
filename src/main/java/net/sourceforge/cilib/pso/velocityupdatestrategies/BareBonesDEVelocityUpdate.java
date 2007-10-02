@@ -95,7 +95,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 	}
 
 
-	public void updateControlParameters() {
+	public void updateControlParameters(Particle particle) {
 		// TODO Auto-generated method stub
 		
 	}
