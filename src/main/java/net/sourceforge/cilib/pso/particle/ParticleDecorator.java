@@ -122,6 +122,10 @@ public abstract class ParticleDecorator extends AbstractParticle {
     	target.updateVelocity();
     }
     
+    public void updateControlParameters() {
+    	target.updateControlParameters();
+    }
+    
     public VelocityUpdateStrategy getVelocityUpdateStrategy() {
     	return target.velocityUpdateStrategy;
     }

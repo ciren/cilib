@@ -30,8 +30,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
+import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
@@ -72,9 +71,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	private Topology<Particle> topology;
 	private Particle bestParticle;
 	private IterationStrategy<PSO> iterationStrategy;
-	private InitialisationStrategy initialisationStrategy;
 	private static int currentParticleId = 0;
-	private int particles;
 
 	/**
 	 * Creates a new instance of <code>PSO</code>. All fields are initialised to reasonable
@@ -83,12 +80,11 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 */
 	public PSO() {
 		super();
-		// particles = 20;
 		topology = new GBestTopology<Particle>();
 
 		iterationStrategy = new SynchronousIterationStrategy();
 
-		initialisationStrategy = new ClonedEntityInitialisationStrategy();
+		initialisationStrategy = new ClonedPopulationInitialisationStrategy();
 		initialisationStrategy.setEntityType(new StandardParticle());
 	}
 
@@ -129,22 +125,8 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		iterationStrategy.performIteration(this);
 		
 		for (Particle particle : this.getTopology()) {
-			particle.getVelocityUpdateStrategy().updateControlParameters();
+			particle.updateControlParameters();
 		}
-	}
-
-	/**
-	 * @return
-	 */
-	public InitialisationStrategy getInitialisationStrategy() {
-		return initialisationStrategy;
-	}
-
-	/**
-	 * @param initialisationStrategy
-	 */
-	public void setInitialisationStrategy(InitialisationStrategy initialisationStrategy) {
-		this.initialisationStrategy = initialisationStrategy;
 	}
 
 	/**
@@ -191,7 +173,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 */
 	@SuppressWarnings("unchecked")
 	public void setTopology(Topology topology) {
-		// log.debug("topology set: " + topology);
 		this.topology = topology;
 	}
 
@@ -228,31 +209,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 */
 	public static int getNextParticleId() {
 		return currentParticleId++;
-	}
-
-	/**
-	 * Set the required number of particles.
-	 * @param particles The required number of particles
-	 */
-	public void setParticles(int particles) {
-		this.particles = particles;
-		this.initialisationStrategy.setNumberOfEntities(particles);
-	}
-
-	/**
-	 * Get the number of particles set
-	 * @return The number of particles
-	 */
-	public int getParticles() {
-		return particles;
-	}
-
-	public int getPopulationSize() {
-		return this.getParticles();
-	}
-
-	public void setPopulationSize(int populationSize) {
-		this.setParticles(populationSize);
 	}
 
 	/**

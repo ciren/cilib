@@ -173,6 +173,11 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract void updateVelocity();
     
     /**
+     * Update the <tt>ControlParameters</tt> associated with the <tt>Particle</tt>.
+     */
+    public abstract void updateControlParameters();
+    
+    /**
      * Get the social best fitness for the particle based on the currently employed
      * <code>NeighbourhoodBestUpdateStrategy</code>
      * 

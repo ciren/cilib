@@ -72,7 +72,7 @@ public class GCDecorator extends ParticleDecorator {
     }
     
     public void updateRho(GCVelocityUpdate vu) {
-        if (getNeighbourhoodBest().getId() == getId()) {
+       /* if (getNeighbourhoodBest().getId() == getId()) {
             if (previousNeighbourhoodBest.getId() != getId()) {
                 rho = GCDecorator.extract(previousNeighbourhoodBest).getRho();
                 successCount = 0;
@@ -99,7 +99,7 @@ public class GCDecorator extends ParticleDecorator {
                     }
                 }
             }
-        }
+        }*/
     }
     
     public double getRho() {

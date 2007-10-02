@@ -146,7 +146,6 @@ public class StandardParticle extends AbstractParticle {
     	Fitness fitness = fitnessCalculator.getFitness(getPosition(), count);
     	this.properties.put("fitness", fitness);
     	if (fitness.compareTo(getBestFitness()) > 0) {
-//    		this.bestFitness = fitness;
     		this.properties.put("bestFitness", fitness);
     		this.properties.put("bestPosition", getPosition().clone());
     	}
@@ -167,6 +166,11 @@ public class StandardParticle extends AbstractParticle {
     	this.velocityUpdateStrategy.updateVelocity(this);
     }
     
+
+    public void updateControlParameters() {
+		this.velocityUpdateStrategy.updateControlParameters(this);
+	}
+
 	public Type getContents() {
 		return getPosition();
 	}

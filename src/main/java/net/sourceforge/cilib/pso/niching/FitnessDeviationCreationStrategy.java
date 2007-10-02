@@ -147,7 +147,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 			        
 			        // create new subswarm
 			        PSO newSubSwarm = new PSO();
-			        newSubSwarm.getInitialisationStrategy().setNumberOfEntities(0);
+			        newSubSwarm.getInitialisationStrategy().setEntityNumber(0);
 			        newSubSwarm.addStoppingCondition(mainSwarm.getStoppingConditions().elementAt(0));
 			        newSubSwarm.setOptimisationProblem(mainSwarm.getOptimisationProblem());
 			        newSubSwarm.initialise();
@@ -241,7 +241,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 			        
 			        // create new subswarm
 			        PSO newSubSwarm = new PSO();
-			        newSubSwarm.getInitialisationStrategy().setNumberOfEntities(0);
+			        newSubSwarm.getInitialisationStrategy().setEntityNumber(0);
 			        newSubSwarm.setOptimisationProblem(pso.getMainSwarm().getOptimisationProblem());
 			        
 			        pso.getMainSwarm().getTopology().remove(p);

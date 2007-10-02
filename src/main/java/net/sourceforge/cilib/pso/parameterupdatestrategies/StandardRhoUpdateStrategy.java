@@ -27,8 +27,6 @@
 package net.sourceforge.cilib.pso.parameterupdatestrategies;
 
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.GCDecorator;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdate;
 
 /**
  * 
@@ -43,12 +41,7 @@ public class StandardRhoUpdateStrategy implements RhoUpdateStrategy {
 	 */
 	public void updateRho(PSO pso) {
 		// TODO: should this be extracted out of the GCDecorator?
-		//Particle bestParticle = pso.getBestParticle(); 
-		//System.out.println("BestParticle: " + bestParticle);
-		//GCDecorator d = GCDecorator.extract(bestParticle);
-		//System.out.println("Decorator: " + d);
-		//System.out.println(d.getVelocityUpdateStrategy());
-		GCDecorator.extract(pso.getBestParticle()).updateRho((GCVelocityUpdate) pso.getBestParticle().getVelocityUpdateStrategy());
+		//GCDecorator.extract(pso.getBestParticle()).updateRho((GCVelocityUpdate) pso.getBestParticle().getVelocityUpdateStrategy());
 	}
 
 }

@@ -152,12 +152,6 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	}
 
 	@Override
-	public void setPopulationSize(int populationSize) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Topology<? extends Entity> getTopology() {
 		// TODO Auto-generated method stub
 		return null;
