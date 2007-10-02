@@ -36,17 +36,17 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * Interface for the InitialisationStrategy.
  * @author Gary Pampara
  */
-public abstract class InitialisationStrategy implements Serializable {
-	protected int entities;
+public abstract class PopulationInitialisationStrategy implements Serializable {
+	protected int entityNumber;
 
-	public abstract InitialisationStrategy clone();
+	public abstract PopulationInitialisationStrategy clone();
 
 	/**
 	 * Set the number of entities that are required.
 	 * @param entityNumber The number of entities to set
 	 */
-	public void setNumberOfEntities(int entityNumber) {
-		this.entities = entityNumber;
+	public void setEntityNumber(int entityNumber) {
+		this.entityNumber = entityNumber;
 	}
 
 	/**
@@ -73,7 +73,7 @@ public abstract class InitialisationStrategy implements Serializable {
 	 * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>
 	 * @return The number of entities to construct
 	 */
-	public int getNumberOfEntities() {
-		return this.entities;
+	public int getEntityNumber() {
+		return this.entityNumber;
 	}
 }

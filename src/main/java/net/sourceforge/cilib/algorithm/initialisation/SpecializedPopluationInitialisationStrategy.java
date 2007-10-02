@@ -34,29 +34,29 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
-public class SpecialisedEntityInitialisationStrategy extends InitialisationStrategy {
+public class SpecializedPopluationInitialisationStrategy extends PopulationInitialisationStrategy {
 	private static final long serialVersionUID = -9146471282965793922L;
 	private List<Entity> entityList;
 
-	public SpecialisedEntityInitialisationStrategy() {
+	public SpecializedPopluationInitialisationStrategy() {
 		this.entityList = new ArrayList<Entity>(40);
 	}
 
-	public SpecialisedEntityInitialisationStrategy(SpecialisedEntityInitialisationStrategy copy) {
+	public SpecializedPopluationInitialisationStrategy(SpecializedPopluationInitialisationStrategy copy) {
 		this.entityList = new ArrayList<Entity>(copy.entityList.size());
 		for (Entity entity : copy.entityList) {
 			this.entityList.add(entity.clone());
 		}
 	}
 
-	public SpecialisedEntityInitialisationStrategy clone() {
-		return new SpecialisedEntityInitialisationStrategy(this);
+	public SpecializedPopluationInitialisationStrategy clone() {
+		return new SpecializedPopluationInitialisationStrategy(this);
 	}
 
 	@Override
 	public Entity getEntityType() {
 		// this needs to be looked at... generalisation breaks here
-		return null;
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	@SuppressWarnings("unchecked")

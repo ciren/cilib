@@ -33,22 +33,22 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 /**
  * @author Gary Pampara
  */
-public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
+public class ClonedPopulationInitialisationStrategy extends PopulationInitialisationStrategy {
 	private static final long serialVersionUID = -7354579791235878648L;
 	private Entity prototypeEntity;
 
-	public ClonedEntityInitialisationStrategy() {
-		entities = 20;
+	public ClonedPopulationInitialisationStrategy() {
+		entityNumber = 20;
 		prototypeEntity = null; // This has to be manually set as Individuals are used in GAs etc...
 	}
 
-	public ClonedEntityInitialisationStrategy(ClonedEntityInitialisationStrategy copy) {
-		this.entities = copy.entities;
+	public ClonedPopulationInitialisationStrategy(ClonedPopulationInitialisationStrategy copy) {
+		this.entityNumber = copy.entityNumber;
 		this.prototypeEntity = copy.prototypeEntity.clone();
 	}
 
-	public ClonedEntityInitialisationStrategy clone() {
-		return new ClonedEntityInitialisationStrategy(this);
+	public ClonedPopulationInitialisationStrategy clone() {
+		return new ClonedPopulationInitialisationStrategy(this);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class ClonedEntityInitialisationStrategy extends InitialisationStrategy {
 		if (prototypeEntity == null)
 			throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
-		for (int i = 0; i < entities; ++i) {
+		for (int i = 0; i < entityNumber; ++i) {
 			Entity entity = (Entity) prototypeEntity.clone();
 
 			entity.initialise(problem);
