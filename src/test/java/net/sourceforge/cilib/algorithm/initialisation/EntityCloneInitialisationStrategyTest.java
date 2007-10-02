@@ -57,9 +57,9 @@ public class EntityCloneInitialisationStrategyTest {
 		FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
 		problem.setFunction(new Rastrigin());
 		
-		InitialisationStrategy initialisationBuilder = new ClonedEntityInitialisationStrategy();
+		PopulationInitialisationStrategy initialisationBuilder = new ClonedPopulationInitialisationStrategy();
 		initialisationBuilder.setEntityType(new StandardParticle());
-		initialisationBuilder.setNumberOfEntities(40); // 40 Particles
+		initialisationBuilder.setEntityNumber(40); // 40 Particles
 		
 		initialisationBuilder.initialise(topology, problem);
 		
@@ -82,9 +82,9 @@ public class EntityCloneInitialisationStrategyTest {
 		FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
 		problem.setFunction(new Rastrigin());
 		
-		InitialisationStrategy initialisationBuilder = new ClonedEntityInitialisationStrategy();
+		PopulationInitialisationStrategy initialisationBuilder = new ClonedPopulationInitialisationStrategy();
 		initialisationBuilder.setEntityType(new Individual());
-		initialisationBuilder.setNumberOfEntities(40); // 40 Individuals
+		initialisationBuilder.setEntityNumber(40); // 40 Individuals
 		
 		initialisationBuilder.initialise(population, problem);
 		
