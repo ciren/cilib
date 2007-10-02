@@ -5,6 +5,18 @@
 	</properties>
 	<body>
 		<release version="0.6.9" date="" description="">
+			<action dev="gpampara" type="delete">
+				Removed the redundant RotatedFunction.
+			</action>
+			<action dev="gpampara" type="update">
+				Refactored the PopulationBasedAlgorithms to have them all reference
+				a PopulationInitialisationStrategy. The PopulationInitialisationStrategy
+				is now the only object that is knowledgeable of the number of Entity
+				objects.
+			</action>
+			<action dev="gpampara" type="update">
+				Refactored the VelocityUpdateStrategy classes. The updateControlParameters() method now accepts a particle. All Particles new implement a updateControlParameters() method.
+			</action>
 			<action dev="gpampara" type="update">
 				Renamed the ControlParameterUpdateStrategies to ControlParameter
 				classes. Renamed the package name as well and refactored associated
