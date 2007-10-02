@@ -72,7 +72,7 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 
 	/**
 	 * Set the weight that influences how much the intra-cluster-distance will contribute to the final fitness
-	 * @param w the {@linkplain ControlParameterUpdateStrategy} that will control the <tt>w1</tt> weight
+	 * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt> weight
 	 */
 	public void setW1(ControlParameter w) {
 		w1 = w;
@@ -90,7 +90,7 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	/**
 	 * Set the weight that influences how much the inter-cluster-distance will contribute to the
 	 * final fitness
-	 * @param w the {@linkplain ControlParameterUpdateStrategy} that will control the <tt>w2</tt> weight
+	 * @param w the {@linkplain ControlParameter} that will control the <tt>w2</tt> weight
 	 */
 	public void setW2(ControlParameter w) {
 		w2 = w;

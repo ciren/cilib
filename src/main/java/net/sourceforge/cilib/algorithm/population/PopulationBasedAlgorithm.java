@@ -27,15 +27,18 @@
 package net.sourceforge.cilib.algorithm.population;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 
 /**
  * Base <tt>Algorithm</tt> class for algorithms that focus on Populations of entities. These
- * include PSO and EC.
+ * include PSO , EC, ACO etc.
  * @author Gary Pampara
  */
 public abstract class PopulationBasedAlgorithm extends Algorithm {
+	protected PopulationInitialisationStrategy initialisationStrategy;
+
 	public PopulationBasedAlgorithm() {
 	}
 
@@ -43,7 +46,6 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 		super(copy);
 	}
 
-	@Override
 	public abstract PopulationBasedAlgorithm clone();
 
 	/**
@@ -55,13 +57,9 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	 * Get the size of the current population within the algorithm.
 	 * @return The size of the current Population
 	 */
-	public abstract int getPopulationSize();
-
-	/**
-	 * Set the size of the current population.
-	 * @param populationSize The new size to be set
-	 */
-	public abstract void setPopulationSize(int populationSize);
+	public int getPopulationSize() {
+		return this.initialisationStrategy.getEntityNumber();
+	}
 
 	/**
 	 * Get the currently associated topology for the algorithm
@@ -74,5 +72,19 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	 * @param topology The <tt>Topology</tt> to be set
 	 */
 	public abstract void setTopology(Topology<? extends Entity> topology);
+
+	/**
+	 * @return
+	 */
+	public PopulationInitialisationStrategy getInitialisationStrategy() {
+		return initialisationStrategy;
+	}
+
+	/**
+	 * @param initialisationStrategy
+	 */
+	public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
+		this.initialisationStrategy = initialisationStrategy;
+	}
 
 }

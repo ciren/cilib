@@ -46,7 +46,7 @@ import net.sourceforge.cilib.entity.Entity;
  * </li></ul></p>
  *
  * @author Edwin Peer
- * @author Theuns Cloete (converted {@link #neighbourhoodSize} to be a {@linkplain ControlParameterUpdateStrategy}
+ * @author Theuns Cloete (converted {@link #neighbourhoodSize} to be a {@linkplain ControlParameter}
  */
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	private static final long serialVersionUID = 93039445052676571L;
@@ -55,7 +55,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 
 	/**
 	 * Creates a new instance of <code>LBestTopology</code>. The default
-	 * {@link #neighbourhoodSize} is a {@linkplain ConstantUpdateStrategy} with it's parameter set to
+	 * {@link #neighbourhoodSize} is a {@linkplain ConstantControlParameter} with it's parameter set to
 	 * 3.
 	 */
 	public LBestTopology() {
@@ -74,7 +74,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 
 	/**
 	 * Recalculate the {@link #neighbourhoodSize} by updating the
-	 * {@link ControlParameterUpdateStrategy} and then construct a new iterator to be returned.
+	 * {@link ControlParameter} and then construct a new iterator to be returned.
 	 * @return a new iterator for this topology.
 	 */
 	@SuppressWarnings("unchecked")
@@ -84,10 +84,10 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	}
 
 	/**
-	 * Sets the {@linkplain ControlParameterUpdateStrategy} that should be used to determine the
+	 * Sets the {@linkplain ControlParameter} that should be used to determine the
 	 * number of particles in the neighbourhood of each particle. The default is a
-	 * {@linkplain ConstantUpdateStrategy} with the parameter set to 3.
-	 * @param neighbourhoodSize The {@linkplain ControlParameterUpdateStrategy} to use.
+	 * {@linkplain ConstantControlParameter} with the parameter set to 3.
+	 * @param neighbourhoodSize The {@linkplain ControlParameter} to use.
 	 */
 	public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
 		this.neighbourhoodSize = neighbourhoodSize;
@@ -95,7 +95,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 
 	/**
 	 * Accessor for the number of particles in a neighbourhood. NOTE: This method does not return the
-	 * {@linkplain ControlParameterUpdateStrategy} but the parameter that is changed / updated by it
+	 * {@linkplain ControlParameter} but the parameter that is changed / updated by it
 	 * rounded to the nearest integer.
 	 * @return The size of the neighbourhood.
 	 */

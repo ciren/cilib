@@ -29,8 +29,7 @@ package net.sourceforge.cilib.ec;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.initialisation.ClonedEntityInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.initialisation.InitialisationStrategy;
+import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
@@ -53,13 +52,12 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	private static final long serialVersionUID = -4324446523858690744L;
 	
 	private OptimisationProblem problem;
-	private InitialisationStrategy initialisationStrategy;
 	private IterationStrategy<EC> iterationStrategy;
 	private Topology<? extends Entity> topology;
 	private Entity bestEntity;
 	
 	public EC() {
-		this.initialisationStrategy = new ClonedEntityInitialisationStrategy();
+		this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
 		this.initialisationStrategy.setEntityType(new Individual());
 		
 		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();			
@@ -93,16 +91,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		}
 		
 		iterationStrategy.performIteration(this);
-	}
-
-	@Override
-	public int getPopulationSize() {
-		return this.initialisationStrategy.getNumberOfEntities();
-	}
-
-	@Override
-	public void setPopulationSize(int populationSize) {
-		this.initialisationStrategy.setNumberOfEntities(populationSize);
 	}
 
 	@Override

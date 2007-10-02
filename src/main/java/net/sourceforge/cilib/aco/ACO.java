@@ -203,19 +203,6 @@ public class ACO extends PopulationBasedAlgorithm {
 	}
 
 	
-	
-	@Override
-	public int getPopulationSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setPopulationSize(int populationSize) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public Topology<Ant> getTopology() {
 		// TODO Auto-generated method stub

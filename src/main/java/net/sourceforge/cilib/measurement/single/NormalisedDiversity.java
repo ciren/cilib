@@ -74,7 +74,7 @@ public class NormalisedDiversity implements Measurement {
 		
 		PSO pso = (PSO) Algorithm.get();
 		
-		int numberParticles = pso.getParticles();
+		int numberParticles = pso.getPopulationSize();
 				        
         Iterator<Particle> k = pso.getTopology().iterator();
         Particle particle = (Particle) k.next();

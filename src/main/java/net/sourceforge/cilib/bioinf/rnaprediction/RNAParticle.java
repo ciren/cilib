@@ -208,6 +208,10 @@ public class RNAParticle extends AbstractParticle {
 	public void updateVelocity() {
 		this.velocityUpdateStrategy.updateVelocity(this);
 	}
+	
+	public void updateControlParameters() {
+		this.velocityUpdateStrategy.updateControlParameters(this);
+	}
 
 	public void setRNAFolder(RNAFolder folder) {
 		this.folder = folder;

@@ -26,10 +26,10 @@
 package net.sourceforge.cilib.entity;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -135,12 +135,12 @@ public interface Entity extends Comparable<Entity>, Serializable {
 	 * Get the properties associate with the <code>Entity</code>
 	 * @return
 	 */
-	public Map<String, Type> getProperties();
+	public Blackboard<String, Type> getProperties();
 
 
 	/**
 	 * Set the properties for the current <code>Entity</code>
 	 * @param properties
 	 */
-	public void setProperties(Map<String, Type> properties);
+	public void setProperties(Blackboard<String, Type> properties);
 }

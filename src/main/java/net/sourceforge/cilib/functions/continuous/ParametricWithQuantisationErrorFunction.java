@@ -68,7 +68,7 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 	/**
 	 * Set the weight that influences how much the Quantisation Error will contribute to the final
 	 * fitness
-	 * @param w the {@linkplain ControlParameterUpdateStrategy} that will control the <tt>w1</tt>
+	 * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt>
 	 *        weight
 	 */
 	public void setW3(ControlParameter w) {

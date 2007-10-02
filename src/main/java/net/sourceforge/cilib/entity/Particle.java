@@ -31,6 +31,8 @@ public interface Particle extends Entity {
 	
 	public void updateVelocity();
 	
+	public void updateControlParameters();
+	
 	public VelocityUpdateStrategy getVelocityUpdateStrategy();
 	
 	public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy);
