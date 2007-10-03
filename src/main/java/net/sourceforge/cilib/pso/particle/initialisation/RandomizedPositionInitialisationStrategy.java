@@ -39,7 +39,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author gpampara
  *
  */
-public class RandomizedPostionInitialisationStrategy implements
+public class RandomizedPositionInitialisationStrategy implements
 		PositionInitialisationStrategy {
 	private static final long serialVersionUID = -47429588645761362L;
 
