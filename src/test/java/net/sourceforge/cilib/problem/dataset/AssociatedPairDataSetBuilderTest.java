@@ -15,13 +15,11 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AssociatedPairDataSetBuilderTest {
-	private static Logger log = Logger.getLogger(AssociatedPairDataSetBuilderTest.class);
 	private static ClusteringFitnessFunction function = null;
 	private static AssociatedPairDataSetBuilder dataSetBuilder = null;
 	private static ArrayList<ArrayList<Pattern>> arrangedClusters = null;
@@ -210,7 +208,7 @@ public class AssociatedPairDataSetBuilderTest {
 		assertEquals(5, dataSetBuilder.getPattern(92).clas);
 	}
 	
-	@Test
+	@Test(expected = IndexOutOfBoundsException.class)
 	public void testArrangedClusters() {
 		assertTrue(arrangedClusters.get(0).get(0).equals(dataSetBuilder.getPattern(0)));
 
@@ -313,15 +311,10 @@ public class AssociatedPairDataSetBuilderTest {
 
 		// the last cluster is empty
 		// should throw an exception (no such element / index out of bounds)
-		try {
-			assertTrue(arrangedClusters.get(6).get(0).equals(dataSetBuilder.getPattern(100)));
-		}
-		catch (IndexOutOfBoundsException iobe) {
-			log.info("Caught '" + iobe.getClass().getSimpleName() + "' correctly: " + iobe.getMessage());
-		}
+		assertTrue(arrangedClusters.get(6).get(0).equals(dataSetBuilder.getPattern(100)));
 	}
 	
-	@Test
+	@Test(expected = IndexOutOfBoundsException.class)
 	public void testArrangedCentroids() {
 		assertTrue(arrangedCentroids.get(0).equals(centroids.subVector(0, 1)));
 
@@ -337,12 +330,7 @@ public class AssociatedPairDataSetBuilderTest {
 
 		// the last centroid is useless, i.e. no pattern "belongs" to it
 		// should throw an exception (no such element / index out of bounds)
-		try {
-			assertTrue(arrangedCentroids.get(6).equals(centroids.subVector(12, 13)));
-		}
-		catch (IndexOutOfBoundsException iobe) {
-			log.info("Caught '" + iobe.getClass().getSimpleName() + "' correctly: " + iobe.getMessage());
-		}
+		assertTrue(arrangedCentroids.get(6).equals(centroids.subVector(12, 13)));
 	}
 
 	@Test

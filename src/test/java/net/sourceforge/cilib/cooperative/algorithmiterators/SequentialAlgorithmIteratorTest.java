@@ -13,6 +13,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+/*
+ * This is not a good unit test. All unit tests are supposed to test atomic actions, not aggregations.
+ * This will need to be refactored. 
+ */
 public class SequentialAlgorithmIteratorTest {
 	private static Logger log = Logger.getLogger(SequentialAlgorithmIterator.class);
 	private AlgorithmIterator<PSO> testIterator = null;
@@ -75,10 +79,6 @@ public class SequentialAlgorithmIteratorTest {
 
 		assertEquals(testIterator.hasNext(), javaIterator.hasNext());
 		assertEquals(testIterator.hasPrevious(), javaIterator.hasPrevious());
-	}
-
-	@Test
-	public void testAdd() {
 	}
 
 	@Test
