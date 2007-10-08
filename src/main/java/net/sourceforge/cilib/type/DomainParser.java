@@ -60,10 +60,11 @@ public class DomainParser {
 	 * @return The instance of the <code>DomainParser</code>
 	 */
 	public static DomainParser getInstance() {
-		if (instance == null)
-			instance = new DomainParser();
-		
-		return instance;
+		return DomainParserHolder.instance;
+	}
+
+	private static class DomainParserHolder {
+		public static DomainParser instance = new DomainParser();
 	}
 	
 	/**

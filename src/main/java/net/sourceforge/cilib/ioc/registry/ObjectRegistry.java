@@ -49,10 +49,7 @@ public class ObjectRegistry {
 	 * @return
 	 */
 	public static ObjectRegistry getInstance() {
-		if (instance == null)
-			instance = new ObjectRegistry();
-		
-		return instance;
+		return ObjectRegistryHolder.instance;
 	}
 	
 	
@@ -82,6 +79,10 @@ public class ObjectRegistry {
 	 */
 	public int size() {
 		return this.objectSet.size();
+	}
+
+	private static class ObjectRegistryHolder {
+		public static final ObjectRegistry instance = new ObjectRegistry();
 	}
 
 }
