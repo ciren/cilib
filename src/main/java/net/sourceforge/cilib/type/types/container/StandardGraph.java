@@ -157,7 +157,7 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		throw new UnsupportedOperationException("reset() is not supportd");	
 	}
 
-	public boolean addAll(Structure<E> structure) {
+	public boolean addAll(Structure<? extends E> structure) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -88,7 +88,7 @@ public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
-	public boolean addAll(Structure<E> structure) {
+	public boolean addAll(Structure<? extends E> structure) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 

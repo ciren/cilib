@@ -144,7 +144,7 @@ public class MixedVector extends Vector {
 	 * @return <tt>true</tt> if this <tt>Vector</tt> changed as a result of the call.
 	 * @throws NullPointerException if the specified collection is null.
 	 */
-	public boolean addAll(Structure<Type> collection) {
+	public boolean addAll(Structure<? extends Type> collection) {
 		for (Type type : collection)
 			components.add(type);
 		

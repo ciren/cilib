@@ -64,7 +64,7 @@ public class Set<E> extends AbstractType implements Graph<E> {
 		return elements.add((E)obj);
 	}
 	
-	public boolean addAll(Structure<E> s) {
+	public boolean addAll(Structure<? extends E> s) {
 		for (E element : s)
 			this.elements.add(element);
 		

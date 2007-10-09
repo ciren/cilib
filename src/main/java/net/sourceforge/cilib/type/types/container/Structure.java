@@ -31,7 +31,7 @@ public interface Structure<E> extends Iterable<E> {
 	
 	public boolean add(E element);
 	
-	public boolean addAll(Structure<E> structure);
+	public boolean addAll(Structure<? extends E> structure);
 	
 	public void clear();
 	
