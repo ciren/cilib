@@ -31,10 +31,11 @@ import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * Concrete implemetnation of the {@see net.sourceforge.cilib.type.types.Vector}
+ * Concrete implementation of the {@see net.sourceforge.cilib.type.types.Vector}
  * class. Any {@see net.sourceforge.cilib.type.types.Type} object may be contained
  * within this object.
  * 
@@ -113,7 +114,6 @@ public class MixedVector extends Vector {
 	 * Initialise this vector to contain 'size' 'element' elements
 	 * @param size the number of elements this vector should contain
 	 * @param element the element that will be cloned and used as each element of this vector
-	 * @author Theuns Cloete
 	 */
 	public void initialise(int size, Type element) {
 		for(int i = 0; i < size; i++)
@@ -654,8 +654,14 @@ public class MixedVector extends Vector {
 
 
 	public final Vector cross(Vector vector) {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.size() != 3 | vector.size() != 3)
+			throw new ArithmeticException("Cannot determine the cross product on non 3-dimensional vectors.");
+
+		Vector result = new MixedVector();
+		result.add(new Real(this.getReal(1)*vector.getReal(2) - this.getReal(2)*vector.getReal(1)));
+		result.add(new Real(-(vector.getReal(2)*this.getReal(0) - vector.getReal(0)*this.getReal(2))));
+		result.add(new Real(this.getReal(0)*vector.getReal(1) - this.getReal(1)*vector.getReal(0)));
+		return result;
 	}
 
 	public boolean addEdge(Type a, Type b) {

@@ -349,6 +349,43 @@ public class MixedVectorTest {
 		v2.setReal(0, -3.0);
 		assertEquals(4.0, v1.dot(v2), 0.0);
 	}
+
+	@Test
+	public void vectorCrossProduct() {
+		Vector v1 = new MixedVector();
+		Vector v2 = new MixedVector();
+
+		v1.add(new Real(1.0));
+		v1.add(new Real(2.0));
+		v1.add(new Real(3.0));
+
+		v2.add(new Real(4.0));
+		v2.add(new Real(5.0));
+		v2.add(new Real(6.0));
+
+		Vector result = v1.cross(v2);
+
+		assertEquals(-3.0, result.getReal(0), 0);
+		assertEquals(6.0, result.getReal(1), 0);
+		assertEquals(-3.0, result.getReal(2), 0);
+	}
+
+	@Test(expected = ArithmeticException.class)
+	public void invalidVectorCrossProduct() {
+		Vector v1 = new MixedVector();
+		Vector v2 = new MixedVector();
+
+		v1.add(new Real(1.0));
+		v1.add(new Real(2.0));
+		v1.add(new Real(3.0));
+
+		v2.add(new Real(4.0));
+		v2.add(new Real(5.0));
+		v2.add(new Real(6.0));
+		v2.add(new Real(7.0));
+
+		v1.cross(v2);
+	}
 		
 	@Test(expected = UnsupportedOperationException.class)
 	public void invalidVectorAddition() {
