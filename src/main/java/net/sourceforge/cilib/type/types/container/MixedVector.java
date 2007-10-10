@@ -654,7 +654,7 @@ public class MixedVector extends Vector {
 
 
 	public final Vector cross(Vector vector) {
-		if (this.size() != 3 | vector.size() != 3)
+		if (this.size() != 3 & vector.size() != 3)
 			throw new ArithmeticException("Cannot determine the cross product on non 3-dimensional vectors.");
 
 		Vector result = new MixedVector();

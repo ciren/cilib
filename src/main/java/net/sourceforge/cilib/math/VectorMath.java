@@ -89,11 +89,11 @@ public interface VectorMath {
 	/**
 	 * Get the cross-product vector based on the current <tt>Vector</tt> and the
 	 * given <tt>Vector</tt>. It is important to note that the cross product is only
-	 * valid for a 3-dimensional vector, if a <tt>Vector</tt> with more dimensions is
-	 * provided, an exception will be thrown.
+	 * valid and defined for a 3-dimensional vector, if a <tt>Vector</tt> with more 
+	 * dimensions is provided, an ArithmeticException will be thrown.
 	 * 
 	 * @param vector The specified <tt>Vector</tt> with with the cross product operation is to be performed.
-	 * @return The orthoganol vector to the current and the specified <tt>Vector</tt>.
+	 * @return The orthogonal vector to the current and the specified <tt>Vector</tt>.
 	 * @throws ArithmeticException if vectors are invalid.
 	 */
 	public Vector cross(Vector vector);
