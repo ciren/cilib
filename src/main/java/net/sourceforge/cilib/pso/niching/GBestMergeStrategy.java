@@ -27,62 +27,146 @@
 package net.sourceforge.cilib.pso.niching;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * 
  * @author Edrich van Loggerenberg
- * @author Shegen
+ * @author Segun
  * @author Gary Pampara
  */
-public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements MergeStrategy<E> {
-	
-	private double threshold;
-	
-	
-	public GBestMergeStrategy() {
-		this.threshold = 0.1;
+public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements
+	MergeStrategy<E>
+{
+
+    private ControlParameter threshold;
+
+    public GBestMergeStrategy()
+    {
+	this.threshold = new ConstantControlParameter(0.001);
+    }
+
+    public void merge(PSO mainSwarm, List<PopulationBasedAlgorithm> subSwarms)
+    {
+	for (ListIterator<PopulationBasedAlgorithm> i = subSwarms.listIterator(); i.hasNext();)
+	{
+	    PSO subSwarm1 = (PSO) i.next();
+
+	    if (subSwarm1 != null)
+	    {
+		Particle gBestParticle1 = subSwarm1.getBestParticle();
+
+		for (ListIterator<PopulationBasedAlgorithm> j = subSwarms.listIterator(); j.hasNext();)
+		{
+		    PSO subSwarm2 = (PSO) j.next();
+
+		    if (subSwarm2 != null)
+		    {
+			if (subSwarm1 != subSwarm2)
+			{
+			    Particle gBestParticle2 = subSwarm2.getBestParticle();
+
+			    if (TestNearZero(getRadius(subSwarm1)) && TestNearZero(getRadius(subSwarm2)))
+			    {
+			    if (normalise(mainSwarm, gBestParticle1, gBestParticle2) < threshold.getParameter())
+				{
+				    subSwarm1.getTopology().addAll(subSwarm2.getTopology());
+				    // the two swarms are now merged, so delete the one
+				    j.remove();
+				    i = subSwarms.listIterator();
+
+				    subSwarm1.getInitialisationStrategy().setEntityNumber(subSwarm1.getTopology().size());
+				    subSwarm2.getInitialisationStrategy().setEntityNumber(subSwarm2.getTopology().size());
+				    //System.out.println("merged (normalised): S1R: " + subSwarm1.getRadius() + " S2R: " + subSwarm2.getRadius());
+				    break;
+				}
+			    }
+			    else
+			    {
+				DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
+				
+				//double distance = distanceMeasure.distance(subSwarm1.getAveragePosition(), subSwarm2.getAveragePosition());
+				//changed from average particle position to best particle position...
+				double distance = distanceMeasure.distance(((Vector)subSwarm1.getBestParticle().getPosition()), ((Vector)subSwarm2.getBestParticle().getPosition()));
+
+				if ((distance < (getRadius(subSwarm1) + getRadius(subSwarm2))) && (distance < 0.001)) // if ((distance < 0.001))
+				{
+				    subSwarm1.getTopology().addAll(subSwarm2.getTopology());
+				    // the two swarms are now merged, so delete the one
+				    j.remove();
+				    i = subSwarms.listIterator();
+
+				    subSwarm1.getInitialisationStrategy().setEntityNumber(subSwarm1.getTopology().size());
+				    subSwarm2.getInitialisationStrategy().setEntityNumber(subSwarm2.getTopology().size());
+				    //System.out.println("merged: " + distance + " S1R: " + subSwarm1.getRadius() + " S2R: " + subSwarm2.getRadius());
+				    break;
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    }
+
+    private double getRadius(PSO subSwarm) {
+    	RadiusVisitor radiusVisitor = new RadiusVisitor();
+    	subSwarm.accept(radiusVisitor);
+    	return radiusVisitor.getResult();
 	}
 
-	
-	@SuppressWarnings("unchecked")
-	public void merge(List<PopulationBasedAlgorithm> subSwarms)
+	public boolean TestNearZero(double value)
+    {
+	if (value < 0.0001)
+	    return true;
+	else
+	    return false;
+    }
+    
+    public double normalise(PSO mainSwarm, Particle gBest1, Particle gBest2)
+    {
+	Real range = (Real) ((Vector) mainSwarm.getOptimisationProblem().getDomain().getBuiltRepresenation().clone()).get(0);
+
+	Vector gBestPos1 = (MixedVector) gBest1.getPosition();
+	Vector gBestPos2 = (MixedVector) gBest2.getPosition();
+
+	Vector v1 = new MixedVector();
+	Vector v2 = new MixedVector();
+
+	for (int i = 0; i < gBest1.getPosition().getDimension(); i++) {
+		v1.append(new Real((gBestPos1.getReal(i) - range.getLowerBound()) / (range.getUpperBound() - range.getLowerBound())));
+		v2.append(new Real((gBestPos2.getReal(i) - range.getLowerBound()) / (range.getUpperBound() - range.getLowerBound())));
+	}
+
+	double sum = 0.0;
+	for (int i = 0; i < gBest1.getPosition().getDimension(); i++)
 	{
-		for (int i = 0; i < subSwarms.size(); i++) {
-			System.out.println("subSwarmsire: " + subSwarms.size());
-			PSO subSwarm1 = (PSO) subSwarms.get(i);
-			Particle gBestParticle1 = subSwarm1.getBestParticle();
-			
-			for (int j = 0; j < subSwarms.size(); j++) {
-				PSO subSwarm2 = (PSO) subSwarms.get(j);
-				
-				if (!subSwarm1.equals(subSwarm2) && subSwarm1 != subSwarm2) // do not compare with itself
-				{
-					Particle gBestParticle2 = subSwarm2.getBestParticle();
-					
-					if(Math.abs(gBestParticle1.getFitness().getValue() - gBestParticle2.getFitness().getValue()) < threshold)
-					{
-						Topology<Particle> subSwarmTopology = subSwarm1.getTopology();
-						subSwarmTopology.addAll(subSwarm2.getTopology());
-						subSwarms.remove(j);
-						subSwarm2 = null; // the two swarms are now merged, so delete the one
-					}
-				}				
-			}	
-		}
+	    sum += (v1.getReal(i) - v2.getReal(i)) * (v1.getReal(i) - v2.getReal(i));
+	    sum = Math.sqrt(sum);
 	}
-	
-	
-	public void setThreshold(double t) {
-		this.threshold = t;
-	}
-		
-	public double getThreshold() {
-		return this.threshold;
-	}
+	return sum;
+}
+
+    public ControlParameter getThreshold()
+    {
+	return threshold;
+    }
+
+    public void setThreshold(ControlParameter threshold)
+    {
+	this.threshold = threshold;
+    }
 
 }

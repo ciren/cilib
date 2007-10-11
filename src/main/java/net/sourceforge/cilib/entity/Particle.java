@@ -1,6 +1,7 @@
 package net.sourceforge.cilib.entity;
 
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
@@ -36,6 +37,10 @@ public interface Particle extends Entity {
 	public VelocityUpdateStrategy getVelocityUpdateStrategy();
 	
 	public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy);
+	
+	public VelocityInitialisationStrategy getVelocityInitialisationStrategy();
+	
+	public void setVelocityInitialisationStrategy(VelocityInitialisationStrategy velocityInitialisationStrategy);
 	
 	public PositionUpdateStrategy getPositionUpdateStrategy();
 	

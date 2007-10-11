@@ -6,6 +6,9 @@
 	<body>
 		<release version="0.6.9" date="" description="">
 			<action dev="gpampara" type="update">
+				Merged the NichePSO code into the source tree. Initial commit - expect some changes.
+			</action>
+			<action dev="gpampara" type="update">
 				Log4J related updates.
 			</action>
 			<action dev="gpampara" type="delete">

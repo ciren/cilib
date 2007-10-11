@@ -29,10 +29,11 @@ package net.sourceforge.cilib.pso.niching;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.pso.PSO;
 
 public interface MergeStrategy<E extends PopulationBasedAlgorithm> {
 	
 	//public Collection<E> merge(Collection<? extends E> name);
 	//public void merge(Collection<? extends E> name, double threshold);
-	public void merge(List<PopulationBasedAlgorithm> subSwarms);
+	public void merge(PSO mainSwarm, List<PopulationBasedAlgorithm> name);
 }

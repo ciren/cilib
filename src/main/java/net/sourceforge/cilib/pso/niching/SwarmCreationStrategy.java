@@ -26,15 +26,11 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
-import java.util.Collection;
-import java.util.List;
-
 import net.sourceforge.cilib.pso.NichePSO;
-import net.sourceforge.cilib.pso.PSO;
 
 public interface SwarmCreationStrategy<E> {
 	
-	public void create(E mainSwarm, Collection<PSO> subSwarms,List<Double> [] mainSwarmParticleFitnesses);
+	//public void create(E mainSwarm, Collection<PSO> subSwarms,List<Double> [] mainSwarmParticleFitnesses);
 	public void create(NichePSO pso);
 	
 }

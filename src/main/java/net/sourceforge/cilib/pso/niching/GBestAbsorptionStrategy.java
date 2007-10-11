@@ -26,62 +26,102 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * 
- *@author 'Segun
- *
+ * @author Segun
+ * 
  */
 
-public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> implements AbsorptionStrategy<E> {
-    
-    @SuppressWarnings("unchecked")
-	public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
-        
-        ListIterator mainSwarmIterator = mainSwarm.getTopology().listIterator();
-        
-        while(mainSwarmIterator.hasNext()) {
-            Particle mainSwarmParticle = (Particle) mainSwarmIterator.next();
-            
-            Iterator subSwarmsIterator = subSwarms.iterator();
-            
-            while(subSwarmsIterator.hasNext()) {
-                PSO subSwarm = (PSO)subSwarmsIterator.next();
-                RadiusVisitor radiusVisitor = new RadiusVisitor();
-                subSwarm.accept(radiusVisitor);
-                double subSwarmRadius = radiusVisitor.getResult();
-                
-                Particle subSwarmBestParticle = subSwarm.getBestParticle();
-                Vector subSwarmBestParticlePosition = (Vector)subSwarmBestParticle.getPosition();
-                Vector mainSwarmParticlePosition = (Vector)mainSwarmParticle.getPosition();
-                
-                DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
-                double distance = distanceMeasure.distance(subSwarmBestParticlePosition, mainSwarmParticlePosition);
-                
-                if(subSwarmRadius >= distance) {
-                	Topology<Particle> subSwarmTopology = subSwarm.getTopology();
-                	subSwarmTopology.add(mainSwarmParticle);
-                    mainSwarmIterator.remove();
-                    break;
-                    // mainSwarm.getTopology().getAll().remove(mainSwarmParticle); // remove the sub-swarm absorbed particle from the main swarm
-                }
-                
-            }
-            
-        }
-        
+public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> implements AbsorptionStrategy<E>
+{
+	private Map<PopulationBasedAlgorithm, Double> subSwarmMinRadius;
+	
+	public GBestAbsorptionStrategy() {
+		this.subSwarmMinRadius = new HashMap<PopulationBasedAlgorithm, Double>();
+	}
+
+    public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms)
+    {
+
+	ListIterator<? extends Entity> mainSwarmIterator = mainSwarm.getTopology().listIterator();
+	while (mainSwarmIterator.hasNext())
+	{
+	    Particle mainSwarmParticle = (Particle) mainSwarmIterator.next();
+
+	    Iterator<PopulationBasedAlgorithm> subSwarmsIterator = subSwarms.iterator();
+	    while (subSwarmsIterator.hasNext())
+	    {
+		PSO subSwarm = (PSO) subSwarmsIterator.next();
+    	double subSwarmRadius = getSmallestRadius(subSwarm); //subSwarm.getRadiusFromGbest();
+
+		Particle subSwarmBestParticle = subSwarm.getBestParticle();
+		Vector subSwarmBestParticlePosition = (Vector) subSwarmBestParticle.getPosition();
+		Vector mainSwarmParticlePosition = (Vector) mainSwarmParticle.getPosition();
+
+		DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
+		double distance = distanceMeasure.distance(subSwarmBestParticlePosition, mainSwarmParticlePosition);
+
+		//System.out.println("Dis: " + distance + " Sub: " + subSwarmRadius);
+		if (distance <= subSwarmRadius)
+		{
+		    mainSwarmIterator.remove();
+
+		    subSwarm.getTopology().add(mainSwarmParticle);
+
+		    RandomizingControlParameter socialAcceleration = new RandomizingControlParameter();
+		    socialAcceleration.setControlParameter(new ConstantControlParameter(1.2));
+		    ((StandardVelocityUpdate) mainSwarmParticle.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration);
+
+		    mainSwarm.getInitialisationStrategy().setEntityNumber(mainSwarm.getTopology().size());
+		    subSwarm.getInitialisationStrategy().setEntityNumber(subSwarm.getTopology().size());
+		    System.out.println("absorbed - D:" + distance + " , R: " + subSwarmRadius + " , PID: " + mainSwarmParticle.getId());
+		    break;
+		}
+
+	    }
+
+	}
+
     }
-    
+
+	private double getSmallestRadius(PSO subSwarm) {
+		double currentRadius;
+		
+		RadiusVisitor radiusVisitor = new RadiusVisitor();
+		subSwarm.accept(radiusVisitor);
+		
+		Double current = this.subSwarmMinRadius.get(subSwarm);
+		
+		if (current == null) {
+			this.subSwarmMinRadius.put(subSwarm, radiusVisitor.getResult());
+			currentRadius = Double.MAX_VALUE;
+		}
+		else
+			currentRadius = current;
+		
+		double smallestRadius = Math.min(currentRadius, radiusVisitor.getResult());
+		
+		this.subSwarmMinRadius.put(subSwarm, smallestRadius);
+		
+		return smallestRadius;
+	}
+
 }

@@ -26,237 +26,233 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.container.Pair;
+import net.sourceforge.cilib.container.SortedList;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.NichePSO;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
+import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
-public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm> implements SwarmCreationStrategy<E> {
-	
-	private List< List<Double> > mainSwarmParticleFitness;
-	private int iterationCount;
-	
-	public FitnessDeviationCreationStrategy() {
-		this.mainSwarmParticleFitness = new ArrayList< List<Double> >(3);
-	}
 
-	/*
-	@SuppressWarnings("unchecked")
-	public Collection<E> create(E mainSwarm, Collection<? extends E> subSwarms) {
-		int iterationNumber = mainSwarm.getIterations();
-		int fitnessCheckInterval = 3;
-		
-		List<Double> [] mainSwarmParticleFitnesses = new ArrayList[fitnessCheckInterval];
-		
-		int listIndex = iterationNumber % fitnessCheckInterval;
-		
-		Iterator mainSwarmIterator = mainSwarm.getTopology().iterator();
-			
-		while(mainSwarmIterator.hasNext()) {
-			Particle mainSwarmParticle = (Particle)mainSwarmIterator.next();
-				
-			mainSwarmParticleFitnesses[listIndex].add(mainSwarmParticle.getFitness().getValue());
-		}
-		
-		if((iterationNumber % fitnessCheckInterval) == 0) {
-			//Iterator mainSwarmIterator = mainSwarm.getTopology().iterator();
-			
-			//while(mainSwarmIterator.hasNext()) {
-				
-			//}
-		}
-		
-		else {
-			// do nothing (for the time being)
-		}
-		
-		return null;
-	}
-	*/
-	
-//	 TODO: Check generics
-	@SuppressWarnings("unchecked")
-	public void create(E mainSwarm, Collection<PSO> subSwarms,List<Double> [] mainSwarmParticleFitnesses)
+
+public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm> implements SwarmCreationStrategy<E>
+{
+    private Hashtable<String, LinkedList<Double>> mainSwarmParticleFitness;
+    private ControlParameter threshold;
+    private int fitnessTraceLength;
+    private int minimumSubSwarmSize;
+
+    public FitnessDeviationCreationStrategy()
+    {
+	this.mainSwarmParticleFitness = new Hashtable<String, LinkedList<Double>>();
+	this.threshold = new ConstantControlParameter(0.0001);
+	this.fitnessTraceLength = 3;
+	this.minimumSubSwarmSize = 2;
+    }
+
+    public void create(NichePSO pso)
+    {
+
+	// remove all particle fitness storage for particles removed from the
+	// main swarm
+	Enumeration<String> e = this.mainSwarmParticleFitness.keys();
+	while (e.hasMoreElements())
 	{
-		int mainSwarmIteration = mainSwarm.getIterations();
-		
-		if( mainSwarmIteration < 3 )
-		{
-			// populate fitnesses
-			Iterator mainSwarmIterator = mainSwarm.getTopology().iterator();
-	        
-	        while(mainSwarmIterator.hasNext())
-	        {
-	            Particle mainSwarmParticle = (Particle)mainSwarmIterator.next();
-	            mainSwarmParticleFitnesses[mainSwarmIteration].add(mainSwarmParticle.getFitness().getValue());
-	        }
-		}
-		else // = 3
-		{
-			mainSwarmIteration = 0;
-			for( int i = 0; i < 3; i++ )
-				mainSwarmParticleFitnesses[i].clear();
-				
-			// perform creation of subwarms
-						
-			for( int j = 0; j < mainSwarm.getTopology().size(); j++ )
-			{
-				double total = 0.0d;
-				for( int i = 0; i < 3; i++ )
-					total += mainSwarmParticleFitnesses[i].get(j);
-				
-				double ave = total / 3.0d;
-								
-				double stdDev = 0.0d;
-				for( int x = 0; x < 3; x++ )
-					stdDev += Math.pow(mainSwarmParticleFitnesses[x].get(j) - ave, 2.0d) / 3.0d;
-				
-				//	 check if last iteration value is correct
-				if( mainSwarmParticleFitnesses[2].get(j) < stdDev )
-				{
-					// find nearest neighbor
-					Particle p = (Particle) mainSwarm.getTopology().get(j);
-					double minDistance = Double.MAX_VALUE;
-					Particle minDistanceParticle = null;
-					
-					Iterator mainSwarmIterator = mainSwarm.getTopology().iterator();
-			        while(mainSwarmIterator.hasNext())
-			        {
-			            Particle mainSwarmParticle = (Particle)mainSwarmIterator.next();
-			            if( p.getId() != mainSwarmParticle.getId() )
-			            {
-			            	DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
-			                double distance = distanceMeasure.distance((Vector)p.getPosition(), (Vector)mainSwarmParticle.getPosition());
-			                
-			                if( distance <= minDistance )
-			                {
-			                	minDistance = distance;
-			                	minDistanceParticle = mainSwarmParticle;
-			                }
-			            }
-			        }
-			        
-			        // create new subswarm
-			        PSO newSubSwarm = new PSO();
-			        newSubSwarm.getInitialisationStrategy().setEntityNumber(0);
-			        newSubSwarm.addStoppingCondition(mainSwarm.getStoppingConditions().elementAt(0));
-			        newSubSwarm.setOptimisationProblem(mainSwarm.getOptimisationProblem());
-			        newSubSwarm.initialise();
-			        
-			        newSubSwarm.getTopology().add(p);
-			        newSubSwarm.getTopology().add(minDistanceParticle);
-			        
-			        mainSwarm.getTopology().remove(p);
-			        mainSwarm.getTopology().remove(minDistanceParticle);
-			        
-			        subSwarms.add(newSubSwarm);
-				}
-			}
-				
-			
-		}
+	    String id = (String) e.nextElement();
+	    Particle p = getParticleWidID(pso.getMainSwarm(), id);
+
+	    if (p == null)
+		this.mainSwarmParticleFitness.remove(id);
 	}
 
-	@SuppressWarnings("unchecked")
-	public void create(NichePSO pso) {
-		
-		//int mainSwarmIteration = pso.getMainSwarm().getIterations();
-		//int mainSwarmIteration = pso.getIterations();
-		this.iterationCount += 1;
-		//System.out.println("iterationCount: " + iterationCount);
-		
-		if( iterationCount <= 3 )
+	// manage the fitness queue representing the last X fitness values for each particle
+	Iterator<Particle> mainSwarmIterator = pso.getMainSwarm().getTopology().iterator();
+	while (mainSwarmIterator.hasNext())
+	{
+	    Particle mainSwarmParticle = (Particle) mainSwarmIterator.next();
+
+	    if (this.mainSwarmParticleFitness.containsKey(mainSwarmParticle.getId()))
+	    {
+		LinkedList<Double> particleFitnessQueue = (LinkedList<Double>) this.mainSwarmParticleFitness.get(mainSwarmParticle.getId());
+
+		if (particleFitnessQueue.size() < fitnessTraceLength)
 		{
-			// populate fitnesses
-			Iterator mainSwarmIterator = pso.getMainSwarm().getTopology().iterator();
-			List<Double> currentIterationFitness = new ArrayList<Double>();
-	        
-	        while(mainSwarmIterator.hasNext())
-	        {
-	            Particle mainSwarmParticle = (Particle)mainSwarmIterator.next();
-	            //mainSwarmParticleFitnesses[mainSwarmIteration].add(mainSwarmParticle.getFitness().getValue());
-	            currentIterationFitness.add(mainSwarmParticle.getFitness().getValue());
-	        }
-	        
-	        this.mainSwarmParticleFitness.add(currentIterationFitness);
-	        //System.out.println("mainSwarmfitness: " + this.mainSwarmParticleFitness.size());
+		    particleFitnessQueue.add(mainSwarmParticle.getFitness().getValue());
 		}
-		else // = 3
+		else
 		{
-			iterationCount = 0;
-			/*mainSwarmIteration = 0;
-			for( int i = 0; i < 3; i++ )
-				mainSwarmParticleFitness.clear();*/
-				
-			// perform creation of subwarms
-						
-			for( int j = 0; j < pso.getMainSwarm().getTopology().size(); j++ )
-			{
-				double total = 0.0d;
-				for( int i = 0; i < 3; i++ ) {
-					//System.out.println(i);
-					//System.out.println(this.mainSwarmParticleFitness.get(i).get(j));
-					total += this.mainSwarmParticleFitness.get(i).get(j);
-				}
-				
-				double ave = total / 3.0d;
-								
-				double stdDev = 0.0d;
-				for( int x = 0; x < 3; x++ )
-					stdDev += Math.pow(mainSwarmParticleFitness.get(x).get(j) - ave, 2.0d) / 3.0d;
-				
-				//	 check if last iteration value is correct
-				if( mainSwarmParticleFitness.get(2).get(j) < stdDev )
-				{
-					// find nearest neighbor
-					Particle p = (Particle) pso.getMainSwarm().getTopology().get(j);
-					double minDistance = Double.MAX_VALUE;
-					Particle minDistanceParticle = null;
-					
-					Iterator mainSwarmIterator = pso.getMainSwarm().getTopology().iterator();
-			        while(mainSwarmIterator.hasNext())
-			        {
-			            Particle mainSwarmParticle = (Particle)mainSwarmIterator.next();
-			            if( p.getId() != mainSwarmParticle.getId() && p != mainSwarmParticle)
-			            {
-			            	DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
-			                double distance = distanceMeasure.distance((Vector)p.getPosition(), (Vector)mainSwarmParticle.getPosition());
-			                
-			                if( distance <= minDistance )
-			                {
-			                	minDistance = distance;
-			                	minDistanceParticle = mainSwarmParticle;
-			                }
-			            }
-			        }
-			        
-			        // create new subswarm
-			        PSO newSubSwarm = new PSO();
-			        newSubSwarm.getInitialisationStrategy().setEntityNumber(0);
-			        newSubSwarm.setOptimisationProblem(pso.getMainSwarm().getOptimisationProblem());
-			        
-			        pso.getMainSwarm().getTopology().remove(p);
-			        pso.getMainSwarm().getTopology().remove(minDistanceParticle);
-			        Topology<Particle> newSubSwarmTopology = newSubSwarm.getTopology();
-			        newSubSwarmTopology.add(p);
-			        newSubSwarmTopology.add(minDistanceParticle);
-			        
-			        pso.getSubSwarms().add(newSubSwarm);
-				}
-			}
-				
-			mainSwarmParticleFitness.clear();
+		    particleFitnessQueue.remove();
+		    particleFitnessQueue.add(mainSwarmParticle.getFitness().getValue());
 		}
-		
+	    }
+	    else
+	    {
+		LinkedList<Double> particleFitnessQueue = new LinkedList<Double>();
+		particleFitnessQueue.add(mainSwarmParticle.getFitness().getValue());
+		this.mainSwarmParticleFitness.put(mainSwarmParticle.getId(), particleFitnessQueue);
+	    }
 	}
 
+	Enumeration<String> n = this.mainSwarmParticleFitness.keys();
+	while (n.hasMoreElements())
+	{
+	    String id = (String) n.nextElement();
+	    LinkedList<Double> particleFitnessQueue = this.mainSwarmParticleFitness.get(id);
+
+	    if (particleFitnessQueue.size() == fitnessTraceLength)
+	    {
+		// fetch the standard deviation
+		Double total = 0.0d;
+		for (Iterator<Double> i = particleFitnessQueue.iterator(); i.hasNext();)
+		    total += i.next();
+
+		Double ave = total / fitnessTraceLength;
+		Double stdDev = 0.0d;
+		for (Iterator<Double> i = particleFitnessQueue.iterator(); i.hasNext();)
+		    stdDev += Math.pow((i.next() - ave), 2);
+
+		stdDev = Math.sqrt(stdDev / fitnessTraceLength);
+
+		// if the standard deviation is lower than the threshold, create a subswarm
+		if (stdDev.compareTo(Double.NaN) != 0)
+		{
+		    if (stdDev < this.threshold.getParameter())
+		    {
+
+//			Particle p = (Particle) pso.getMainSwarm().getParticleWithID(id);
+			Particle p = getParticleWidID(pso.getMainSwarm(), id);
+			if (p != null)
+			{
+
+			    // find the nearest neighbors
+			    DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
+			    mainSwarmIterator = pso.getMainSwarm().getTopology().iterator();
+
+			    SortedList<Pair<Double, Entity>> sortedDistanceList = new SortedList<Pair<Double, Entity>>(new PairDistanceAndParticleComparator());
+			    
+			    while (mainSwarmIterator.hasNext())
+			    {
+				Particle mainSwarmParticle = (Particle) mainSwarmIterator.next();
+
+				if (p.getId().compareToIgnoreCase(mainSwarmParticle.getId()) != 0)
+				{
+
+				    double distance = distanceMeasure.distance((Vector) p.getPosition(), (Vector) mainSwarmParticle.getPosition());
+
+				    Pair<Double, Entity> distanceAndParticle = new Pair<Double, Entity>(distance, mainSwarmParticle);
+				    sortedDistanceList.add(distanceAndParticle);
+				}
+			    }
+
+			    while (sortedDistanceList.size() >= minimumSubSwarmSize)
+				sortedDistanceList.removeLast();			     
+
+			    // create the subswarm
+			    if (sortedDistanceList.size() > 0)
+			    {
+//				Pair<Double, Entity> topDistanceAndParticle = sortedDistanceList.getLast();
+//				double SubSwarmRadius = topDistanceAndParticle.getKey(); //(Double) distances.get(newNeighbours.size() - 1);
+				pso.getMainSwarm().getTopology().remove(p);
+
+				RandomizingControlParameter socialAcceleration = new RandomizingControlParameter();
+				RandomizingControlParameter cognitiveAcceleration = new RandomizingControlParameter();
+				socialAcceleration.setControlParameter(new ConstantControlParameter(1.2));
+				cognitiveAcceleration.setControlParameter(new ConstantControlParameter(1.2));
+
+				((StandardVelocityUpdate) p.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration.clone());
+				((StandardVelocityUpdate) p.getVelocityUpdateStrategy()).setCognitiveAcceleration(cognitiveAcceleration.clone());
+
+				PSO newSubSwarm = new PSO();
+				newSubSwarm.setOptimisationProblem(pso.getMainSwarm().getOptimisationProblem());
+				newSubSwarm.addStoppingCondition(new MaximumIterations(Integer.MAX_VALUE));
+				// impossible to initialize an empty swarm..
+				newSubSwarm.getInitialisationStrategy().setEntityNumber(5);
+				newSubSwarm.initialise();
+				newSubSwarm.setIterationStrategy(pso.getSubSwarmIterationStrategy().clone());
+				newSubSwarm.getInitialisationStrategy().setEntityNumber(0);
+				newSubSwarm.getTopology().clear();
+				newSubSwarm.getTopology().add(p);
+
+				for (int i = 0; i < sortedDistanceList.size(); i++)
+				{
+
+				    Particle current = (Particle) sortedDistanceList.get(i).getValue();
+				    pso.getMainSwarm().getTopology().remove(current);
+
+				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration.clone());
+				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setCognitiveAcceleration(cognitiveAcceleration.clone());
+
+				    newSubSwarm.getTopology().add(current);
+				}
+
+				pso.getSubSwarms().add(newSubSwarm);
+				pso.getMainSwarm().getInitialisationStrategy().setEntityNumber(pso.getMainSwarm().getTopology().size());
+				newSubSwarm.getInitialisationStrategy().setEntityNumber(sortedDistanceList.size() + 1);
+
+				ListIterator<Particle> mi = pso.getMainSwarm().getTopology().listIterator();
+				while (mi.hasNext())
+				{
+				    Particle mainP = (Particle) mi.next();
+				    mainP.setNeighbourhoodBest(mainP);
+				}
+
+				mi = newSubSwarm.getTopology().listIterator();
+				while (mi.hasNext())
+				{
+				    Particle mainP = (Particle) mi.next();
+				    mainP.setNeighbourhoodBest(mainP);
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    }
+
+    private Particle getParticleWidID(PSO mainSwarm, String id) {
+    	for (Particle particle : mainSwarm.getTopology()) {
+    		if (particle.getId().trim().equalsIgnoreCase(id.trim()))
+    			return particle;
+    	}
+    	
+    	return null;
+	}
+
+	public ControlParameter getThreshold()
+    {
+	return threshold;
+    }
+
+    public void setThreshold(ControlParameter threshold)
+    {
+	this.threshold = threshold;
+    }
+
+    public void setTraceLength(int length)
+    {
+	this.fitnessTraceLength = length;
+    }
+
+    public void setMinimumSubSwarmSize(int size)
+    {
+	this.minimumSubSwarmSize = size;
+    }
 }
+
+
