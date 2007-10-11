@@ -67,14 +67,12 @@ public class MixedVectorTest {
 		tmpVector = null;
 	}
 	
-	
 	private void recreateTmpVector() {
 		tmpVector = new MixedVector();
 		tmpVector.append(new Real(1.0));
 		tmpVector.append(new Real(2.0));
 		tmpVector.append(new Real(3.0));
 	}
-	
 	
 	@Test
 	public void testClone() {
@@ -89,7 +87,6 @@ public class MixedVectorTest {
 		}
 	}
 	
-	
 	@Test
 	public void testSet() {
 		vector.setReal(0, 3.0);
@@ -97,7 +94,6 @@ public class MixedVectorTest {
 		vector.setReal(0, 1.0);
 		assertEquals(1.0, vector.getReal(0), 0.0);
 	}
-	
 	
 	@Test
 	public void testNumericGet() {
@@ -112,7 +108,6 @@ public class MixedVectorTest {
 		assertEquals(1.0, t.getReal(), 0.0);
 	}
 	
-	
 	@Test
 	public void testNonNumericGet() {
 		MixedVector m = new MixedVector();
@@ -125,7 +120,6 @@ public class MixedVectorTest {
 		
 		assertNotSame(m.get(0), vector.get(0));
 	}
-	
 	
 	@Test
 	public void testNumericSet() {
@@ -140,7 +134,6 @@ public class MixedVectorTest {
 		assertEquals(1.0, vector.getReal(0), 0.0);
 	}
 	
-	
 	@Test
 	public void testNonNumericSet() {
 		MixedVector m = new MixedVector();
@@ -154,14 +147,12 @@ public class MixedVectorTest {
 		assertSame(v, m.get(1));
 	}
 	
-	
 	@Test
 	public void testDimension() {
 		assertFalse(vector.getDimension() == 3);
 		assertTrue(vector.getDimension() == 4);
 		assertFalse(vector.getDimension() == 5);
 	}
-	
 	
 	@Test
 	public void testInsert() {
@@ -196,7 +187,6 @@ public class MixedVectorTest {
 		catch (Exception e) {}
 	}
 	
-	
 	@Test
 	public void testRemove() {
 		MixedVector m = new MixedVector();
@@ -224,7 +214,6 @@ public class MixedVectorTest {
 		catch (Exception e) {}
 	}
 
-	
 	@Test
 	public void testAdd() {
 		MixedVector m = new MixedVector();
@@ -234,13 +223,11 @@ public class MixedVectorTest {
 		assertEquals(1, m.getDimension());
 	}
 	
-	
 	@Test
 	public void testGetReal() {
 		Object tmp = vector.getReal(0);
 		assertTrue(tmp instanceof Double);
 	}
-	
 	
 	@Test
 	public void testSetReal() {
@@ -251,13 +238,11 @@ public class MixedVectorTest {
 		assertEquals(10.0, m.getReal(0), 0.0);
 	}
 	
-	
 	@Test
 	public void testGetInt() {
 		Object tmp = vector.getInt(0);
 		assertTrue(tmp instanceof Integer);
 	}
-	
 	
 	@Test
 	public void testSetInt() {
@@ -276,13 +261,11 @@ public class MixedVectorTest {
 		assertTrue(m.getBit(2));
 	}
 	
-	
 	@Test
 	public void testGetBit() {
 		Object tmp = vector.getBit(0);
 		assertTrue(tmp instanceof Boolean);
 	}
-	
 	
 	@Test
 	public void testSetBit() {
@@ -292,7 +275,6 @@ public class MixedVectorTest {
 		
 		assertFalse(m.getBit(0));		
 	}
-	
 	
 	@Test
 	public void testRandomize() {
@@ -306,7 +288,6 @@ public class MixedVectorTest {
 		assertFalse(m.getReal(1) == 2.0);
 		assertFalse(m.getReal(2) == 3.0);
 	}
-	
 	
 	@Test
 	public void testVectorNorm() {
@@ -329,7 +310,6 @@ public class MixedVectorTest {
 		m.add(new Real(-2.0));
 		assertEquals(sqrt(24.0), m.norm(), 0.0);
 	}
-	
 	
 	@Test
 	public void testVectorDotProduct() {
@@ -382,6 +362,20 @@ public class MixedVectorTest {
 		v2.add(new Real(4.0));
 		v2.add(new Real(5.0));
 		v2.add(new Real(6.0));
+		v2.add(new Real(7.0));
+
+		v1.cross(v2);
+	}
+	
+	@Test(expected = ArithmeticException.class)
+	public void invalidVectorLengthCrossPorduct() {
+		Vector v1 = new MixedVector();
+		Vector v2 = new MixedVector();
+
+		v1.add(new Real(1.0));
+		v1.add(new Real(2.0));
+
+		v2.add(new Real(4.0));
 		v2.add(new Real(7.0));
 
 		v1.cross(v2);

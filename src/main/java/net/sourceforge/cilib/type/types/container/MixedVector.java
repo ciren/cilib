@@ -45,23 +45,26 @@ import net.sourceforge.cilib.type.types.Type;
 public class MixedVector extends Vector {
 	private static final long serialVersionUID = 136711882764612609L;
 	private ArrayList<Type> components;
-
+	
 	
 	/**
-	 * Create a clone (deep copy) of the <code>MixedVector</code>
-	 * 
-	 * @return The clone of the <code>MixedVector</code>
+	 * Create a default <code>MixedVector</code> with an initial size of 0
+	 *
 	 */
-	public MixedVector clone() {
-		MixedVector clone = new MixedVector(this.components.size());
-		
-		for (int i = 0; i < components.size(); ++i) {
-			clone.components.add(getType(i).clone());
-		}
-		
-		return clone;
+	public MixedVector() {
+		components = new ArrayList<Type>();
 	}
 	
+	
+	/**
+	 * Create a <code>MixedVector</code> with a default size specified by <code>dimension</code>
+	 * 
+	 * @param dimension The size to initialise the <code>MixedVector</code>
+	 */
+	public MixedVector(int dimension) {
+		components = new ArrayList<Type>(dimension);
+		components.ensureCapacity(dimension);
+	}
 	
 	/**
 	 * Create a <code>MixedVector</code> object with a default size of <code>dimension</code>
@@ -90,24 +93,25 @@ public class MixedVector extends Vector {
 		}	
 	}
 	
-	
 	/**
-	 * Create a default <code>MixedVector</code> with an initial size of 0
-	 *
+	 * Copy constructor
+	 * @param copy The Vector to copy
 	 */
-	public MixedVector() {
-		components = new ArrayList<Type>();
+	public MixedVector(MixedVector copy) {
+		this(copy.components.size());
+		
+		for (Type type : copy.components) {
+			components.add(type.clone());
+		}
 	}
 	
-	
 	/**
-	 * Create a <code>MixedVector</code> with a default size specified by <code>dimension</code>
+	 * Create a clone (deep copy) of the <code>MixedVector</code>
 	 * 
-	 * @param dimension The size to initialise the <code>MixedVector</code>
+	 * @return The clone of the <code>MixedVector</code>
 	 */
-	public MixedVector(int dimension) {
-		components = new ArrayList<Type>(dimension);
-		components.ensureCapacity(dimension);
+	public MixedVector clone() {
+		return new MixedVector(this);
 	}
 
 	/**
@@ -544,7 +548,7 @@ public class MixedVector extends Vector {
 
 		Vector result = this.clone();
 		for(int i = 0; i < result.size(); i++) {
-			Numeric numeric = (Numeric)result.getType(i);
+			Numeric numeric = (Numeric) result.getType(i);
 			numeric.setReal(numeric.getReal() + vector.getReal(i));
 		}
 		return result;
@@ -621,7 +625,7 @@ public class MixedVector extends Vector {
 	 * 
 	 * @return The value of the vector norm 
 	 */	
-	public double norm() {
+	public final double norm() {
 		double result = 0.0;
 		
 		for (Type element : this.components) {
@@ -654,7 +658,10 @@ public class MixedVector extends Vector {
 
 
 	public final Vector cross(Vector vector) {
-		if (this.size() != 3 & vector.size() != 3)
+		if (this.size() != vector.size())
+			throw new ArithmeticException("Cannot perform the dot product on vectors with differing dimensions");
+		
+		if (this.size() != 3) // implicitly checks that vector.size() == 3
 			throw new ArithmeticException("Cannot determine the cross product on non 3-dimensional vectors.");
 
 		Vector result = new MixedVector();
@@ -664,8 +671,11 @@ public class MixedVector extends Vector {
 		return result;
 	}
 
+	/**
+	 * @throws UnsupportedOperationException Operation is not supported within Vector
+	 */
 	public boolean addEdge(Type a, Type b) {
-		return false;
+		throw new UnsupportedOperationException("Operation not supported");
 	}
 
 
@@ -678,6 +688,15 @@ public class MixedVector extends Vector {
 	}
 
 
+	/**
+	 * Determine if two objects are connected within the current container. With regard
+	 * to <tt>Vector</tt> objects, this is only true if the two objects are adjacent to
+	 * each other as ordering is a property that is maintained by a <tt>Vector</tt>.
+	 * 
+	 * @param a The first Type
+	 * @param b The second Type
+	 * @return true if the two objects are adjacent, false otherwise.
+	 */
 	public boolean isConnected(Type a, Type b) {
 		for (int i = 0; i < this.components.size()-1; i++) {
 			Type tmp = this.components.get(i);
