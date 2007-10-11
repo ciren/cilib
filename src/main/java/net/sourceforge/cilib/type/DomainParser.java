@@ -40,9 +40,6 @@ public class DomainParser {
 	private DomainBuilder builder;
 	private DomainValidator validator;
 	
-	private static DomainParser instance;
-	
-	
 	/**
 	 * Private constructor used in the singleton design pattern.
 	 * 

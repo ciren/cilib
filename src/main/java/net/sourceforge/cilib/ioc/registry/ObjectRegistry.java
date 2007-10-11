@@ -37,7 +37,6 @@ import java.util.Hashtable;
 public class ObjectRegistry {
 	
 	private Hashtable<String, Object> objectSet;
-	private static ObjectRegistry instance;
 	
 	private ObjectRegistry() {
 		objectSet = new Hashtable<String, Object>();
