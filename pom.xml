@@ -3,7 +3,7 @@
   <groupId>net.sourceforge.cilib</groupId>
   <artifactId>cilib</artifactId>
   <packaging>jar</packaging>
-  <version>0.6.9</version>
+  <version>0.6.10-SNAPSHOT</version>
   <name>cilib</name>
   <description>Collaborative component based framework for developing Computational Intelligence software</description>
   <url>http://cilib.sourceforge.net</url>
@@ -22,9 +22,9 @@
   </organization>
 
   <scm>
-    <connection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/tags/cilib-0.6.9</connection>
-    <developerConnection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/tags/cilib-0.6.9</developerConnection>
-    <url>http://cilib.svn.sourceforge.net/svnroot/cilib/tags/cilib-0.6.9</url>
+    <connection>scm:svn:https://svn.sourceforge.net/svnroot/cilib/trunk</connection>
+    <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/cilib/trunk</developerConnection>
+    <url>http://svn.sourceforge.net/svnroot/cilib/trunk</url>
   </scm>
 
   <mailingLists>
