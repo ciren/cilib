@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.sourceforge.cilib</groupId>
   <artifactId>cilib</artifactId>
   <packaging>jar</packaging>
-  <version>0.6.9-SNAPSHOT</version>
+  <version>0.6.9</version>
   <name>cilib</name>
   <description>Collaborative component based framework for developing Computational Intelligence software</description>
   <url>http://cilib.sourceforge.net</url>
@@ -12,8 +11,8 @@
   <licenses>
     <license>
       <name>GPL</name>
-      <url></url>
-      <distribution></distribution>
+      <url />
+      <distribution />
     </license>
   </licenses>
   
@@ -23,9 +22,9 @@
   </organization>
 
   <scm>
-    <connection>scm:svn:https://svn.sourceforge.net/svnroot/cilib/trunk</connection>
-    <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/cilib/trunk</developerConnection>
-    <url>http://svn.sourceforge.net/svnroot/cilib/trunk</url>
+    <connection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/tags/cilib-0.6.9</connection>
+    <developerConnection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/tags/cilib-0.6.9</developerConnection>
+    <url>http://cilib.svn.sourceforge.net/svnroot/cilib/tags/cilib-0.6.9</url>
   </scm>
 
   <mailingLists>
@@ -89,11 +88,11 @@
     <contributor>
       <name>Andries Engelbrecht</name>
       <email>engel@cs.up.ac.za</email>
-      <url></url>
+      <url />
       <organisation>University of Pretoria, Department of Computer Science</organisation>
       <organisationUrl>http://www.cs.up.ac.za</organisationUrl>
       <roles>
-        <role></role>
+        <role />
       </roles>
       <!--<properties>
         <gtalk></gtalk>
