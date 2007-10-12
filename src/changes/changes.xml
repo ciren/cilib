@@ -5,6 +5,9 @@
 	</properties>
 	<body>
 		<release version="0.6.9" date="" description="">
+			<action dev="gpampara" type="update" due-to="solorunda" due-to-email="olorunda@cs.up.ac.za">
+				Updates to RotatedFunctionDecorator. Specifies whether or not to recreate the rotation matrix based on a ControlParameter.
+			</action>
 			<action dev="gpampara" type="update">
 				Merged the NichePSO code into the source tree. Initial commit - expect some changes.
 			</action>

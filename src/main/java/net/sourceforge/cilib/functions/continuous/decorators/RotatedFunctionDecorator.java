@@ -3,6 +3,8 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -19,9 +21,18 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
 	private ContinuousFunction function;
 	private double[][] rotationMatrix;
 	
+	/**
+	 * Specifies a probability that determines whether the rotationMatrix should be
+	 * re-created for a particular function evaluation.
+	 * 
+	 * Default value is 0.5.
+	 */
+	private ControlParameter rotationProbability;
+	
 	public RotatedFunctionDecorator() {
 		setDomain("R");
 		rotationMatrix = null;
+		rotationProbability = new ConstantControlParameter(0.5);
 	}
 
 	/**
@@ -31,7 +42,10 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
 	 */
 	@Override
 	public double evaluate(Vector x) {
-		if(rotationMatrix == null)
+		RandomNumber rotateOrNot = new RandomNumber();
+		
+		if(rotationMatrix == null
+				|| rotateOrNot.getUniform() < rotationProbability.getParameter())
 			setRotationMatrix();
 		
 		Vector rotatedX = x.clone();
@@ -177,6 +191,20 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
 	 */
 	public void setRotationMatrix() {
 		initializeMatrix();
+	}
+
+	/**
+	 * @return the rotationProbability
+	 */
+	public ControlParameter getRotationProbability() {
+		return rotationProbability;
+	}
+
+	/**
+	 * @param rotationProbability the rotationProbability to set
+	 */
+	public void setRotationProbability(ControlParameter rotationProbability) {
+		this.rotationProbability = rotationProbability;
 	}
 
 }
