@@ -35,7 +35,7 @@
     <menu name="Quick Links">
       <item name="Home" href="/index.html" />
       <item name="Downloads" href="http://sourceforge.net/project/platformdownload.php?group_id=72233&amp;sel_platform=740" />
-      <item name="Wiki" href="/wiki" />
+      <item name="Wiki" href="http://cilib.wiki.sourceforge.net" />
       <item name="API docs" href="/apidocs" />
     </menu>
 
