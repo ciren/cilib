@@ -22,9 +22,9 @@
   </organization>
 
   <scm>
-    <connection>scm:svn:https://svn.sourceforge.net/svnroot/cilib/trunk</connection>
-    <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/cilib/trunk</developerConnection>
-    <url>http://svn.sourceforge.net/svnroot/cilib/trunk</url>
+    <connection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/trunk</connection>
+    <developerConnection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/trunk</developerConnection>
+    <url>http://cilib.svn.sourceforge.net/viewvc/cilib/trunk</url>
   </scm>
 
   <mailingLists>
