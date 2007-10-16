@@ -44,26 +44,26 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 	private static final long serialVersionUID = -823686042197742768L;
 	
 	private RandomNumber randomNumber;
-	private ControlParameter cognitive;
-	private ControlParameter social;
+	private ControlParameter cognitiveAcceleration;
+	private ControlParameter socialAcceleration;
 	
 
 	public BareBonesVelocityUpdateStrategy() {
 		randomNumber = new RandomNumber();
 		
-		cognitive = new RandomizingControlParameter();
-		social = new RandomizingControlParameter();
+		cognitiveAcceleration = new RandomizingControlParameter();
+		socialAcceleration = new RandomizingControlParameter();
 		
-		cognitive.setParameter(1.496180);
-		social.setParameter(1.496180);
+		cognitiveAcceleration.setParameter(1.496180);
+		socialAcceleration.setParameter(1.496180);
 	}
 	
 	
 	public BareBonesVelocityUpdateStrategy(BareBonesVelocityUpdateStrategy copy) {
 		this();
 		
-		cognitive.setParameter(copy.cognitive.getParameter());
-		social.setParameter(copy.social.getParameter());
+		cognitiveAcceleration.setParameter(copy.cognitiveAcceleration.getParameter());
+		socialAcceleration.setParameter(copy.socialAcceleration.getParameter());
 	}
 	
 	
@@ -94,6 +94,26 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 	public void updateControlParameters(Particle particle) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public ControlParameter getCognitiveAcceleration() {
+		return cognitiveAcceleration;
+	}
+
+
+	public void setCognitiveAcceleration(ControlParameter cognitiveAcceleration) {
+		this.cognitiveAcceleration = cognitiveAcceleration;
+	}
+
+
+	public ControlParameter getSocialAcceleration() {
+		return socialAcceleration;
+	}
+
+
+	public void setSocialAcceleration(ControlParameter socialAcceleration) {
+		this.socialAcceleration = socialAcceleration;
 	}
 	
 }
