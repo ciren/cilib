@@ -57,7 +57,7 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 		double range = Math.abs(upper - lower);
 		Numeric previousPosition = position.clone();
 
-		position.set(lower);
+		position.set(lower);	// lower boundary is inclusive
 		if (MathUtil.random() < terbulenceProbability.getParameter()) {
 			position.set(position.getReal() + MathUtil.random() * range);
 		}
@@ -76,7 +76,7 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 		double range = Math.abs(upper - lower);
 		Numeric previousPosition = position.clone();
 
-		position.set(upper);
+		position.set(upper - INFIMUM);	// upper boundary is exclusive
 		if (MathUtil.random() < terbulenceProbability.getParameter()) {
 			position.set(position.getReal() - MathUtil.random() * range);
 		}

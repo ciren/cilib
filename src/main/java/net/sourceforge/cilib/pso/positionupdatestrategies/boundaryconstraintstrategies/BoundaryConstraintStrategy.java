@@ -11,6 +11,11 @@ import net.sourceforge.cilib.type.types.Numeric;
  * @author Wiehann Matthysen
  */
 public interface BoundaryConstraintStrategy extends Serializable {
+	/**
+	 * The term <i>infimum</i> refers to the <i>greatest lower bound</i> in mathematics. This is the value
+	 * that should be subtracted from the upperbound if needed.
+	 */
+	public final double INFIMUM = 0.000000000000001;
 
 	/**
 	 * Clone the stategy by creating a new object with the same contents and values as the current

@@ -1,11 +1,11 @@
 /*
  * FIPSVelocityUpdate.java
- * 
+ *
  * Created on Jun 19, 2004
  *
- *  Copyright (C) 2004 - CIRG@UP 
+ *  Copyright (C) 2007 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import java.util.Iterator;
@@ -30,104 +30,92 @@ import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author engel
- *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * @author Olusegun Olorunda
  */
-public class FIPSVelocityUpdate implements VelocityUpdateStrategy {
-	private static final long serialVersionUID = -601384236026398105L;
-	
+public class FIPSVelocityUpdate extends StandardVelocityUpdate {
+	private static final long serialVersionUID = 6391914534943249737L;
+
 	private ControlParameter randomComponent;
 
-	/**
-	 * 
-	 */
 	public FIPSVelocityUpdate() {
-		randomComponent = new ConstantControlParameter();
-		randomComponent.setParameter(1.0);
+		super();
+		cognitiveAcceleration = new ConstantControlParameter(1.496180);
+		socialAcceleration = new ConstantControlParameter(1.496180);
+		randomComponent = new RandomizingControlParameter();
 	}
-	
-	
+
 	public FIPSVelocityUpdate(FIPSVelocityUpdate copy) {
-		this();
-		randomComponent.setParameter(copy.randomComponent.getParameter());
+		super(copy);
+		this.randomComponent = copy.randomComponent.clone();
 	}
-	
-	
+
 	public FIPSVelocityUpdate clone() {
 		return new FIPSVelocityUpdate(this);
 	}
-	
-	
+
+	@Override
+	public void updateVelocity(Particle particle) {
+		Vector velocity = (Vector) particle.getVelocity();
+		Vector position = (Vector) particle.getPosition();
+
+		Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
+		Iterator<Particle> swarmIterator = topology.iterator();
+
+		while (swarmIterator.hasNext()) {
+			Particle currentTarget = swarmIterator.next();
+			if (currentTarget.getId().equals(particle.getId())) {
+				break;
+			}
+		}
+
+		for (int i = 0; i < particle.getDimension(); ++i) {
+			double informationSum = 0.0;
+			int numberOfNeighbours = 0;
+
+			Iterator<Particle> neighborhoodIterator = topology.neighbourhood(swarmIterator);
+
+			while (neighborhoodIterator.hasNext()) {
+				Particle currentTarget = (Particle) neighborhoodIterator.next();
+				Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
+
+				randomComponent.setParameter(cognitiveAcceleration.getParameter() + socialAcceleration.getParameter());
+
+				informationSum += randomComponent.getParameter() * (currentTargetPosition.getReal(i) - position.getReal(i));
+
+				numberOfNeighbours++;
+			}
+
+			double value = inertiaWeight.getParameter() * (velocity.getReal(i) + (informationSum / numberOfNeighbours));
+
+			velocity.setReal(i, value);
+			// clamp(velocity, i);
+		}
+	}
+
 	/**
-	 * @return Returns the randomComponent.
+	 * @return the randomComponent
 	 */
 	public ControlParameter getRandomComponent() {
 		return randomComponent;
 	}
 
-	
 	/**
-	 * @param randomComponent The randomComponent to set.
+	 * @param randomComponent the randomComponent to set
 	 */
 	public void setRandomComponent(ControlParameter randomComponent) {
 		this.randomComponent = randomComponent;
 	}
 
-	
-	/**
-	 * @see net.sourceforge.cilib.pso.VelocityUpdate#updateVelocity(net.sourceforge.cilib.pso.Particle)
-	 */
-	public void updateVelocity(Particle particle) {
-		Vector velocity = (Vector) particle.getVelocity();
-		Vector position = (Vector) particle.getPosition();
-		
-	   Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
-	   
-	   Iterator<Particle> k;
-	   for (k = topology.iterator(); k.hasNext(); ) {
-	   	   Particle target = k.next();
-	   	   if (target.getId().equals(particle.getId())) {
-	   	   	   break;
-	   	   }
-	   } 
-		
-	   for (int i = 0; i < particle.getDimension(); ++i) {
-		   double informationSum = 0.0;
-		   int numberOfNeighbours = 0;
-				 
-		   for (Iterator<? extends Particle> j = topology.neighbourhood(k); j.hasNext(); ) {
-			   Particle neighbourParticle = j.next();
-			   numberOfNeighbours++;
-			  
-			   Vector nBestPosition = (Vector) neighbourParticle.getBestPosition();
-			   informationSum += randomComponent.getParameter() * (nBestPosition.getReal(i)-position.getReal(i));
-		   }
-			 
-		   double result = 0.729 * velocity.getReal(i)+informationSum/numberOfNeighbours;
-		   velocity.setReal(i, result);
-			 
-		   // TODO: Constriction should be added as a VMax Strategy. Add VMax strategies
-		   //clamp(velocity., i);
-		}
-	}
-
-	
-	/**
-	 * 
-	 */
+	@Override
 	public void updateControlParameters(Particle particle) {
-		// TODO Auto-generated method stub
-		
+		super.updateControlParameters(particle);
+		randomComponent.updateParameter();
 	}
-
-		
-	
 }

@@ -33,8 +33,10 @@ public class PeriodicBoundaryConstraintStrategy implements BoundaryConstraintStr
 		double upper = position.getUpperBound();
 		double lower = position.getLowerBound();
 		double range = Math.abs(upper - lower);
+		Numeric desiredPosition = position.clone();
 
-		position.set(upper - (lower - position.getReal()) % range);
+		desiredPosition.set(position.getReal() + velocity.getReal());
+		position.set(upper - (lower - desiredPosition.getReal()) % range);
 	}
 
 	/*
@@ -45,7 +47,9 @@ public class PeriodicBoundaryConstraintStrategy implements BoundaryConstraintStr
 		double upper = position.getUpperBound();
 		double lower = position.getLowerBound();
 		double range = Math.abs(upper - lower);
+		Numeric desiredPosition = position.clone();
 
-		position.set(lower + (position.getReal() - upper) % range);
+		desiredPosition.set(position.getReal() + velocity.getReal());
+		position.set(lower + (desiredPosition.getReal() - upper) % range);
 	}
 }

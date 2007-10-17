@@ -24,7 +24,7 @@ public class ClampingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
 	 */
 	public void constrainLower(Numeric position, Numeric velocity) {
-		position.set(position.getLowerBound());
+		position.set(position.getLowerBound());	// lower boundary is inclusive
 	}
 
 	/*
@@ -32,6 +32,6 @@ public class ClampingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
 	 */
 	public void constrainUpper(Numeric position, Numeric velocity) {
-		position.set(position.getUpperBound());
+		position.set(position.getUpperBound() - INFIMUM);	// upper boundary is exclusive
 	}
 }

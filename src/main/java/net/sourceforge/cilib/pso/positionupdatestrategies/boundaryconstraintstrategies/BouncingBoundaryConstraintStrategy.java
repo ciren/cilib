@@ -1,15 +1,16 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies;
 
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**
  * Instead of making use of <i>reactive</i> Boundary Constraints that reinitialise an entire
  * {@linkplain Particle} (or components thereof), this class is a <b>proactive</b> approach to
  * prevent the {@linkplain Particle} from moving outside of the domain. The component of the
- * {@linkplain Particle} that will be outside of the domain is placed very close to the boundary of
- * the domain (but still inside) and the corresponding velocity component is inverted (multiplied by
- * -1), effectively making the {@linkplain Particle} bounce off the sides of the domain. The effect
- * achieved is a skewed type of reflection.
+ * {@linkplain Particle} that will be outside of the domain is placed on the boundary of the domain
+ * and the corresponding velocity component is recalculated (inverting the direction), effectively
+ * making the {@linkplain Particle} bounce off the sides of the domain. The effect achieved is a
+ * skewed type of reflection with built-in velocity damping.
  * @author Theuns Cloete
  */
 public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
@@ -31,12 +32,10 @@ public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	 *      net.sourceforge.cilib.type.types.Numeric)
 	 */
 	public void constrainLower(Numeric position, Numeric velocity) {
-		double upper = position.getUpperBound();
-		double lower = position.getLowerBound();
-		double onePercent = (upper - lower) / 100.0;
+		Numeric previousPosition = position.clone();
 
-		position.set(lower + onePercent);
-		velocity.set(velocity.getReal() * -1);
+		position.set(position.getLowerBound());	// lower boundary is inclusive
+		velocity.set(previousPosition.getReal() - position.getReal());
 	}
 
 	/*
@@ -45,11 +44,9 @@ public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	 *      net.sourceforge.cilib.type.types.Numeric)
 	 */
 	public void constrainUpper(Numeric position, Numeric velocity) {
-		double upper = position.getUpperBound();
-		double lower = position.getLowerBound();
-		double onePercent = (upper - lower) / 100.0;
+		Numeric previousPosition = position.clone();
 
-		position.set(upper - onePercent);
-		velocity.set(velocity.getReal() * -1);
+		position.set(position.getUpperBound() - INFIMUM); // upper boundary is exclusive
+		velocity.set(previousPosition.getReal() - position.getReal());
 	}
 }

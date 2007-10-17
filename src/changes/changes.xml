@@ -41,10 +41,10 @@
 				Converted the function shifting into a function decorator and added the
 				ability to rotate functions.
 			</action>
-			<action dev="heatzync" type="add">
-				Implemented a BoundedPositionUpdateStrategy to adjust Particle 
-				behaviour at search space boundaries. Six different boundary have 
-				been added: BouncingBoundaryConstraintStrategy, ClampingBoundaryConstraintStrategy, DeflectionBoundaryConstraintStrategy, NearestBoundaryConstraintStrategy, PeriodicBoundaryConstraintStrategy and RandomBoundaryConstraintStrategy
+			<action dev="heatzync" type="add" contrib="wiehann">
+				Implemented a BoundedPositionUpdateStrategy to adjust Particle behaviour at search
+				space boundaries. Six different boundary constraint strategies have been added:
+				BouncingBoundaryConstraintStrategy, ClampingBoundaryConstraintStrategy, DeflectionBoundaryConstraintStrategy, NearestBoundaryConstraintStrategy, PeriodicBoundaryConstraintStrategy and RandomBoundaryConstraintStrategy
 			</action>
 			<action dev="gpampara" type="update">
 				Fixed some potential bugs in ControlParameterUpdateStrategy code.
