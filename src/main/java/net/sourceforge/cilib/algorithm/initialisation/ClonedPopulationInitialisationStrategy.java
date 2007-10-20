@@ -60,7 +60,6 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 	 */
 	@SuppressWarnings("unchecked")
 	public void initialise(Topology topology, OptimisationProblem problem) {
-
 		if (problem == null)
 			throw new InitialisationException("No problem has been specified");
 
@@ -90,7 +89,6 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 		this.setPrototypeEntity(entityType);
 	}
 
-	@Override
 	public Entity getEntityType() {
 		return this.prototypeEntity;
 	}

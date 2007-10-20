@@ -34,7 +34,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- *
+ * Implementation of the standard / default velocity update equation. 
+ *  
  * @author  Edwin Peer
  */
 public class StandardVelocityUpdate implements VelocityUpdateStrategy {
@@ -60,8 +61,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     
     
     /**
-     * 
-     * @param copy
+     * Copy constructor.
+     * @param copy The object to copy.
      */
     public StandardVelocityUpdate(StandardVelocityUpdate copy) {
     	this.inertiaWeight = copy.inertiaWeight.clone();
@@ -72,7 +73,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     
     
     /**
-     * 
+     * {@inheritDoc}
      */
     public StandardVelocityUpdate clone() {
     	return new StandardVelocityUpdate(this);
@@ -80,7 +81,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
 
     
     /**
-     * 
+     * Perform the velocity update for the given <tt>Particle</tt>.
+     * @param particle The Particle velocity that should be updated. 
      */
     public void updateVelocity(Particle particle) {
     	Vector velocity = (Vector) particle.getVelocity();
@@ -100,7 +102,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     
     
     /**
-     * 
+     * Update the associated <tt>ControlParameter</tt>s for the <tt>VelocityUpdateStrategy</tt>.
+     * {@inheritDoc}
      */
     public void updateControlParameters(Particle particle) {
     	this.inertiaWeight.updateParameter();
@@ -112,8 +115,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     
     /**
      * TODO: Need to have a VMax strategy
-	 * @param velocity
-	 * @param i
+	 * @param velocity The {@link Vector} to be clamped.
+	 * @param i The dimension index to be clamped
 	 */
 	protected void clamp(Vector velocity, int i) {
 		if (velocity.getReal(i) < -vMax.getParameter())
@@ -124,6 +127,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
 
 	
     /**
+     * Gets the <tt>ControlParameter</tt> representing the cognitive component within this
+     * <code>VelocityUpdateStrategy</code>.
      * @return Returns the cognitiveComponent.
      */
     public ControlParameter getCognitiveAcceleration() {
@@ -131,6 +136,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
+     * Set the cognitive component <code>ControlParameter</code>.
      * @param cognitiveComponent The cognitiveComponent to set.
      */
     public void setCognitiveAcceleration(ControlParameter cognitiveComponent) {
@@ -138,13 +144,15 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
-     * @return Returns the inertiaComponent.
+     * Get the <code>ControlParameter</code> representing the inerti weight of the VelocityUpdateStrategy.
+     * @return Returns the inertia component <tt>ControlParameter</tt>. 
      */
     public ControlParameter getInertiaWeight() {
         return inertiaWeight;
     }
 
     /**
+     * Set the <tt>ControlParameter</tt> for the inertia weight of the velocity update equation.
      * @param inertiaComponent The inertiaComponent to set.
      */
     public void setInertiaWeight(ControlParameter inertiaWeight) {
@@ -152,6 +160,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
+     * Get the <tt>ControlParameter</tt> representing the social component of the velocity update equation.
      * @return Returns the socialComponent.
      */
     public ControlParameter getSocialAcceleration() {
@@ -159,17 +168,25 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
+     * Set the <tt>ControlParameter</tt> for the social component.
      * @param socialComponent The socialComponent to set.
      */
     public void setSocialAcceleration(ControlParameter socialComponent) {
         this.socialAcceleration = socialComponent;
     }
     
-    
+    /**
+     * Get the <code>ControlParameter</code> representing the <tt>vMax</tt> component.
+     * @return The <code>ControlParameter</code> for the vMax.
+     */
     public ControlParameter getVMax() {
 		return vMax;
 	}
 
+    /**
+     * Set the <tt>ControlParameter</tt> for the vMax parameter.
+     * @param max The <tt>ControlParameter</tt> to set.
+     */
 	public void setVMax(ControlParameter max) {
 		vMax = max;
 	}

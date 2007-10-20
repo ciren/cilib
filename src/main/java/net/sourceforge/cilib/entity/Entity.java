@@ -87,7 +87,7 @@ public interface Entity extends Comparable<Entity>, Serializable {
 	
 	
 	/**
-	 * Caclulate the fitness of the <code>Entity</code>. This method will increment the
+	 * Caclulate the fitness of the <code>Entity</code> incrementing the
 	 * number of fitness evaluations for the algorithm
 	 */
 	public void calculateFitness();

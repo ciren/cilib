@@ -67,7 +67,6 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  */
 public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = -8234345682394295357L;
-//	private static Logger log = Logger.getLogger(PSO.class);
 	private Topology<Particle> topology;
 	private Particle bestParticle;
 	private IterationStrategy<PSO> iterationStrategy;
