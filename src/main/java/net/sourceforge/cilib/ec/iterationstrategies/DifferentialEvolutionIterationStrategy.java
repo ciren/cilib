@@ -122,7 +122,7 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	 * @param topology The {@see net.sourceforge.cilib.entity.Topology Topology} containing the entites.
 	 * @return A list of unique entities.
 	 */
-	private List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
+	public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
 		List<Entity> parents = new ArrayList<Entity>(3);
 		
 		RandomNumber randomNumber = new RandomNumber();
