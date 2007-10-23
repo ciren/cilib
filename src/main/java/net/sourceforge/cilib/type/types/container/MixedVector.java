@@ -526,7 +526,7 @@ public class MixedVector extends Vector {
 	 */
 	public Vector subVector(int fromIndex, int toIndex) {
 		int length = toIndex - fromIndex + 1;
-		MixedVector m = new MixedVector(length);
+		final MixedVector m = new MixedVector(length);
 		
 		for (int i = fromIndex; i <= toIndex; i++) {
 			m.add(this.get(i));
@@ -546,7 +546,7 @@ public class MixedVector extends Vector {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 
-		Vector result = this.clone();
+		final Vector result = this.clone();
 		for(int i = 0; i < result.size(); i++) {
 			Numeric numeric = (Numeric) result.getType(i);
 			numeric.setReal(numeric.getReal() + vector.getReal(i));
@@ -558,7 +558,7 @@ public class MixedVector extends Vector {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot subtract vectors with differing dimensions");
 
-		Vector result = this.clone();
+		final Vector result = this.clone();
 		for (int i = 0; i < result.size(); i++) {
 			Numeric numeric = (Numeric)result.getType(i);
 			numeric.setReal(numeric.getReal() - vector.getReal(i));
@@ -570,7 +570,7 @@ public class MixedVector extends Vector {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot divide vectors with differing dimensions");
 		
-		Vector result = this.clone();
+		final Vector result = this.clone();
 		for(int i = 0; i < result.size(); i++) {
 			if(vector.getReal(i) == 0.0)
 				throw new ArithmeticException("Vector division by zero caused by element " + i);
@@ -597,7 +597,7 @@ public class MixedVector extends Vector {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot multiply vectors with differing dimensions");
 		
-		Vector result = this.clone();
+		final Vector result = this.clone();
 		for(int i = 0; i < result.size(); i++) {
 			Numeric numeric = (Numeric)result.getType(i);
 			numeric.setReal(numeric.getReal() * vector.getReal(i));
@@ -611,7 +611,7 @@ public class MixedVector extends Vector {
 	 * @return a vector of which the scalar has been multiplied with each element
 	 */
 	public final Vector multiply(double scalar) {
-		MixedVector result = this.clone();
+		final MixedVector result = this.clone();
 		for (Type element : result.components) {
 			Numeric numeric = (Numeric) element;
 			numeric.set(numeric.getReal() * scalar);
@@ -664,7 +664,7 @@ public class MixedVector extends Vector {
 		if (this.size() != 3) // implicitly checks that vector.size() == 3
 			throw new ArithmeticException("Cannot determine the cross product on non 3-dimensional vectors.");
 
-		Vector result = new MixedVector();
+		final Vector result = new MixedVector();
 		result.add(new Real(this.getReal(1)*vector.getReal(2) - this.getReal(2)*vector.getReal(1)));
 		result.add(new Real(-(vector.getReal(2)*this.getReal(0) - vector.getReal(0)*this.getReal(2))));
 		result.add(new Real(this.getReal(0)*vector.getReal(1) - this.getReal(1)*vector.getReal(0)));
