@@ -42,16 +42,22 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 		return null;
 	}
 
+	/**
+	 * Not supported for <tt>Blackboard</tt>
+	 * @throws UnsupportedOperationException always
+	 */
 	@Override
 	public boolean isInsideBounds() {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Not supported");
 	}
 
+	/**
+	 * Not supported for <tt>Blackboard</tt>
+	 * @throws UnsupportedOperationException always
+	 */
 	@Override
 	public void randomise() {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Not supported");
 	}
 
 	@Override

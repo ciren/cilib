@@ -119,7 +119,6 @@ public class StringType extends AbstractType {
 		
 	}
 
-
 	public boolean isInsideBounds() {
 		return false; // There are no bounds for the StringType.
 	}
