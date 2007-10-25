@@ -85,8 +85,10 @@ public class RandomNumber {
 	
 	
 	/**
+	 * Return a random number from the Guassian distribution with a <code>mean</code> of
+	 * 0.0 and a <code>deviation</code> of 1.0
 	 * 
-	 * @return
+	 * @return Random number ~ N(0,1)
 	 */
 	public double getGaussian() {
 		return getGaussian(0.0, 1.0);
@@ -102,7 +104,7 @@ public class RandomNumber {
 	 * THIS WORK PUBLISHED IN TRANSACTIONS ON MATHEMATICAL SOFTWARE,<br>
 	 * VOL. 18, NO. 4, DECEMBER, 1992, PP. 434-435.<br>
 	 * The function returns a normally distributed pseudo-random number<br>
-	 * with a given mean and standard devaiation.  Calls are made to a<br>
+	 * with a given mean and standard deviation.  Calls are made to a<br>
 	 * function subprogram which must return independent random<br>
 	 * numbers uniform in the interval (0,1).
 	 * <p>
@@ -156,8 +158,8 @@ public class RandomNumber {
 	
 	
 	/**
-	 * Convienience method for <code>getGaussian()</code>
-	 * @return A Gaussian number with mean <code>mean</code> and deviation <code>deviation</code>
+	 * Convenience method for <code>getGaussian()</code>
+	 * @return A Guassian number with mean <code>mean</code> and deviation <code>deviation</code>
 	 */
 	public double getNormal(double location, double scale) {
 		return getGaussian(location, scale);
@@ -182,8 +184,6 @@ public class RandomNumber {
 	public double getCauchy(double location, double scale) {
 		double x = randomGenerator.nextDouble(); // Uniform number between 0.0 and 1.0
 
-		//return scale*(Math.tan(Math.PI*(x-0.5))) + location;
-		
 		double term = (x-location)/scale;
 		return (1.0 / scale*Math.PI*(1 + (term*term)));
 	}
@@ -192,7 +192,7 @@ public class RandomNumber {
 	/**
 	 * Get a uniform random number located within <code>0 &lt;= x &lt; 1</code>
 	 * 
-	 * @return
+	 * @return Uniform random number (<code>0 &lt;= x &lt; 1</code>)
 	 */
 	public double getUniform() {
 		return getUniform(0.0, 1.0);
@@ -203,7 +203,7 @@ public class RandomNumber {
 	 * Get the uniform random number located within <code>A &lt;= x &lt; B</code>
 	 * where <code>A == mean</code> and <code>B == deviation</code>
 	 *  
-	 * @return 
+	 * @return Uniform random number (<code>lower &lt;= x &lt; upper</code>)
 	 */
 	public double getUniform(double lower, double upper) {
 		double r = randomGenerator.nextDouble();
