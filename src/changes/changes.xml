@@ -5,6 +5,9 @@
 	</properties>
 	<body>
 		<release version="0.6.9" date="2007-10-12" description="NichePSO update and general maintenence release">
+			<action dev="heatzync" type="add">
+				Implemented a stopping condition that is based on a population's diversity: stoppingcondition.MinimumDiversity.
+			</action>
 			<action dev="gpampara" type="update" due-to="solorunda" due-to-email="olorunda@cs.up.ac.za">
 				Updates to RotatedFunctionDecorator. Specifies whether or not to recreate the rotation matrix based on a ControlParameter.
 			</action>
