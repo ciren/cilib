@@ -7,10 +7,10 @@
   <body>
 	<section name="Including and running CILib within your own source">
 		<p>
-			CILib can asily be intergrated into your project without needing to
+			CILib can asily be intergrated into your project source without needing to
 			specify an XML configuration file. The code must be called directly and
 			built correctly in order to be used without an XML configutration. CILib does, however,
-			create defaults so the algorithm should still be able to execute. It is up to the user
+			create sensible defaults so the algorithm should still be able to execute. It is up to the user
 			to correctly build the type of algorithm required.
 		</p>
 		<p>
@@ -18,7 +18,7 @@
 			project.
 		</p>
 		<ol>
-			<li>Implement one of the Problem interfaces in your code.</li>
+			<li>Implement one of the Problem interfaces in your code (only if needed - a number of predefined problems also exist).</li>
 			<li>Instanciate an Algorithm.</li>
 			<li>Set the problem.</li>
 			<li>Add stopping conditions</li>
@@ -33,8 +33,9 @@
 			concurrently with your code.
 		</p>
 		<note>
-			All classes must provide a default constructor (this is a requirement of 
-			XMLObjectFactory) so sensible defaults have been provided for most properties. 
+			All classes within CILib are created to conform to the JavaBeans spec. This implies that all classes
+			must provide a default constructor and have member variables with names that correspond to the 
+			available getX() and setX(X x) accessor methods. Sensible defaults have been provided for most properties.
 		</note>
 	</section>
 	
@@ -63,10 +64,10 @@ class MyProblem implements OptimisationProblem {
 			</li>
 			<li>
 				<p>
-					Construct a PSO (in this case a GCPSO)
+					Construct a PSO to be used within the optimisation
 				</p>
 				<source><![CDATA[
-    PSO pso = new GCPSO();
+    PSO pso = new PSO();
 ]]></source>
 			</li>
 			<li>
@@ -83,25 +84,32 @@ class MyProblem implements OptimisationProblem {
 					Add stopping conditions. This stops the algorithm execution after 10000 iterations:
 				</p>
 				<source><![CDATA[
-    MaximumIterations maxIter = new maximumIterations(10000);
+    MaximumIterations maxIter = new MaximumIterations(10000);
     pso.addStoppingCondition(maxIter);
 ]]></source>
 			</li>
 			<li>
 				<p>
 					Set any other properties (for this example, we would like to make use of the 
-					Von Neumann Topology with 40 particles, as well as use the ZiffGFSR4 random 
-					number generator for rho updates):
+					Von Neumann Topology with 40 particles). The number of particles for the algorithm
+					are specified using a PopulationInitialisationStrategy, all PopulationBasedAlgorithms
+					specify the size of their populations using the provided PopulationInitialisationStrategy,
+					the default is a cloning strategy:
 				</p>
-				<fixme author="Gary Pampara">
-					Complete this code block.
-				</fixme>
 				<source><![CDATA[
+    pso.setTopology(new VonNeumannTopology<Particle>());
+
+    PopulationInitialisationStrategy intialisation = new ClonedPopulationInitialisationStrategy();
+    initialisation.setEntityNumber(40);
+    initialisation.setEntityType(new StandardParticle());
+    pso.setInitialisationStrategy(initialisation);
 ]]></source>
+				<p>
 				<note>
 					Alternatively, you can make use of the XMLObjectFactory to setup properties
 					in the same way that the simulator does.
 				</note>
+				</p>
 			</li>
 			<li>
 				<p>
