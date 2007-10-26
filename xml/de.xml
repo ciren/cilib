@@ -6,13 +6,13 @@
 
 <simulator>	
 	<algorithms>
-		<algorithm id="de" class="ec.ea.DE">
-			<populationSize>50</populationSize>
-			<parentSelector class="ec.selectionoperators.RandomSelection" />
-			<crossProbability class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="1.0"/>
-			<crossover class="ec.crossoveroperators.DifferentialCrossOver" crossOverFactor="0.8" scalingFactor="0.5"/>			<!-- ons kan die factors, hierso ook vary met verskillende strategies soos velocity component en rate, maar 			niemand doen dit nie, so los dit maar eers as doubles-->
-			<nextGenerationSurvivalSelector class="ec.selectionoperators.ReplacementSelection" />
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="5000" />
+		<algorithm id="de" class="ec.EC">
+			<iterationStrategy class="ec.iterationstrategies.DifferentialEvolutionIterationStrategy"/>
+			<initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+				<entityNumber value="50"/>
+				<entityType class="ec.Individual" />
+			</initialisationStrategy>
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="5000" />
 		</algorithm>
 	</algorithms>
 
