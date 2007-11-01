@@ -228,7 +228,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 		}*/
     	
 		public void resetFitnessCounter() {
-			fitnessEvaluations = 0;
+			fitnessEvaluations.set(0);
 		}
 		
 		

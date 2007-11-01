@@ -25,10 +25,12 @@
  */
 package net.sourceforge.cilib.problem;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 
 /**
- * This is a covenience class that keeps track of the number of fitness evaluations. This class can
+ * This is a convenience class that keeps track of the number of fitness evaluations. This class can
  * be extend instead of implementing {@link OptimisationProblem} directly.
  * <p />
  * The contract of returning an instance of {@link  InferiorFitness} for solutions outside the
@@ -36,15 +38,15 @@ import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
  * @author Edwin Peer
  */
 public abstract class OptimisationProblemAdapter implements OptimisationProblem {
-	protected int fitnessEvaluations;
+	protected AtomicInteger fitnessEvaluations;
 	protected DataSetBuilder dataSetBuilder;
 
 	public OptimisationProblemAdapter() {
-		fitnessEvaluations = 0;
+		fitnessEvaluations = new AtomicInteger(0);
 	}
 
 	public OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
-		fitnessEvaluations = copy.fitnessEvaluations;
+		fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
 		if(copy.dataSetBuilder != null)
 			dataSetBuilder = copy.dataSetBuilder.clone();
 	}
@@ -55,7 +57,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 
 	public final Fitness getFitness(Object solution, boolean count) {
 		if (count) {
-			++fitnessEvaluations;
+			fitnessEvaluations.incrementAndGet();
 		}
 
 		/*
@@ -67,7 +69,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 	}
 
 	public final int getFitnessEvaluations() {
-		return fitnessEvaluations;
+		return fitnessEvaluations.get();
 	}
 
 	public DataSetBuilder getDataSetBuilder() {
