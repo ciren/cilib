@@ -30,8 +30,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * @author Andries Engelbrecht
  */
-public class RandomInitialVelocityStrategy implements
-		VelocityInitialisationStrategy {
+public class RandomInitialVelocityStrategy implements VelocityInitialisationStrategy {
 	private static final long serialVersionUID = -7926839076670354209L;
 
 	public RandomInitialVelocityStrategy() {

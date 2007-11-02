@@ -31,13 +31,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class DomainPercentageVelocityInitialisationStrategy implements
 		VelocityInitialisationStrategy {
 	private static final long serialVersionUID = -7178323673738508287L;
+	private VelocityInitialisationStrategy velocityInitialisationStrategy;
 	private double percentage;
 	
 	public DomainPercentageVelocityInitialisationStrategy() {
+		this.velocityInitialisationStrategy = new RandomInitialVelocityStrategy();
 		this.percentage = 0.1;
 	}
 	
 	public DomainPercentageVelocityInitialisationStrategy(DomainPercentageVelocityInitialisationStrategy copy) {
+		this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.clone();
 		this.percentage = copy.percentage;
 	}
 	
@@ -47,8 +50,9 @@ public class DomainPercentageVelocityInitialisationStrategy implements
 	}
 
 	public void initialise(Particle particle) {
+		velocityInitialisationStrategy.initialise(particle);
+		
 		Vector velocity = (Vector) particle.getVelocity();
-		velocity.randomise();
 		for (int i = 0; i < velocity.getDimension(); ++i)
 			velocity.setReal(i, velocity.getReal(i) * percentage);
 	}
