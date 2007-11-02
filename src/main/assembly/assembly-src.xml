@@ -3,6 +3,7 @@
   <formats>
     <format>tar.gz</format>
     <format>tar.bz2</format>
+    <format>zip</format>
   </formats>
   <fileSets>
     <fileSet>
@@ -10,9 +11,13 @@
         <include>README*</include>
         <include>LICENSE*</include>
         <include>NOTICE*</include>
-	<include>simulator*</include>
 	<include>pom.xml</include>
       </includes>
+    </fileSet>
+    <fileSet>
+      <includes>
+        <include>simulator*</include>
+      </include>
     </fileSet>
     <fileSet>
       <directory>xml</directory>
@@ -21,10 +26,8 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>src/main/java</directory>
-    </fileSet>
-    <fileSet>
-      <directory>src/test/java</directory>
+      <directory>src</directory>
+      <useDefaultExcludes>true</useDefaultExcludes>
     </fileSet>
   </fileSets>
 </assembly>
