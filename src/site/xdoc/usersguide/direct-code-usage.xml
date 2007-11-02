@@ -32,11 +32,15 @@
 			thread. Alternatively, call the run() method directly if you do not want the algorithm to run 
 			concurrently with your code.
 		</p>
-		<note>
+		<p>
+			<strong>Note:</strong>
+			<br/>
+<!--		<note>-->
 			All classes within CILib are created to conform to the JavaBeans spec. This implies that all classes
 			must provide a default constructor and have member variables with names that correspond to the 
 			available getX() and setX(X x) accessor methods. Sensible defaults have been provided for most properties.
-		</note>
+<!--		</note>-->
+		</p>
 	</section>
 	
 	<section name="Implementation Example">
