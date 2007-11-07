@@ -29,12 +29,12 @@
 
 package net.sourceforge.cilib.problem;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *

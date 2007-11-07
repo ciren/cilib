@@ -3,7 +3,6 @@ package net.sourceforge.cilib.entity;
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;
@@ -12,7 +11,7 @@ public class IndividualTest {
 	
 	@Test
 	public void testClone() {
-		Vector genes = new MixedVector(5);
+		Vector genes = new Vector(5);
 		genes.add(new Real(1.0));
 		genes.add(new Real(2.0));
 		genes.add(new Real(3.0));

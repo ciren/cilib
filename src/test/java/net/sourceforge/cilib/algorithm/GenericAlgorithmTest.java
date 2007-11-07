@@ -1,6 +1,6 @@
 package net.sourceforge.cilib.algorithm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

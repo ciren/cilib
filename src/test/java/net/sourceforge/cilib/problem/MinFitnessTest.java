@@ -29,13 +29,10 @@
 
 package net.sourceforge.cilib.problem;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.problem.MinimisationFitness;
 
 
 /**

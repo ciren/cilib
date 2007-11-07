@@ -1,12 +1,12 @@
 package net.sourceforge.cilib.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.BeforeClass;
@@ -26,8 +26,8 @@ public class ChebyshevDistanceMeasureTest {
 
 	@Test
 	public void testVectorDistance() {
-		Vector v1 = new MixedVector();
-		Vector v2 = new MixedVector();
+		Vector v1 = new Vector();
+		Vector v2 = new Vector();
 
 		v1.add(new Real(5.0));
 		v1.add(new Real(3.0));

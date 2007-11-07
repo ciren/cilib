@@ -29,17 +29,16 @@
 
 package net.sourceforge.cilib.problem;
 
+import static org.junit.Assert.assertSame;
+
 import java.util.Random;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.continuous.Ackley;
 import net.sourceforge.cilib.functions.continuous.Spherical;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *

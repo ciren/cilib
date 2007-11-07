@@ -26,13 +26,13 @@
  */
 package net.sourceforge.cilib.type.creator;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.type.creator.T;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * 

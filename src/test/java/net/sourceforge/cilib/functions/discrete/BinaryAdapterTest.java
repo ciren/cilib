@@ -26,18 +26,18 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import static org.junit.Assert.*;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import net.sourceforge.cilib.functions.continuous.Rastrigin;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * 
@@ -89,7 +89,7 @@ public class BinaryAdapterTest {
 		adapter.setBitsPerDimension(4);
 		adapter.setPrecision(0);
 		
-		Vector bitVector = new MixedVector();
+		Vector bitVector = new Vector();
 		for (int i = 0; i < 4; i++) {
 			bitVector.add(new Bit(true));
 		}
@@ -130,7 +130,7 @@ public class BinaryAdapterTest {
 	public void testSimpleDoubleDecoding() {
 		adapter.setBitsPerDimension(4);
 		
-		Vector bitVector = new MixedVector();
+		Vector bitVector = new Vector();
 		for (int i = 0; i < 8; i++) {
 			bitVector.add(new Bit(true));
 		}
@@ -170,7 +170,7 @@ public class BinaryAdapterTest {
 	public void testComplex() {
 		adapter.setBitsPerDimension(8);
 		
-		Vector bitVector = new MixedVector();
+		Vector bitVector = new Vector();
 		for (int i = 0; i < 8; i++) {
 			bitVector.add(new Bit(true));
 		}

@@ -29,15 +29,12 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;
-
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.Schwefel;
-import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
@@ -59,12 +56,12 @@ public class SchwefelTest {
         //double[] x = {1, 2, 3};
         //double[] y = {-1, -2, -3};
         
-        Vector x = new MixedVector();
+        Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         x.append(new Real(3.0));
         
-        Vector y = new MixedVector();
+        Vector y = new Vector();
         y.append(new Real(-1.0));
         y.append(new Real(-2.0));
         y.append(new Real(-3.0));

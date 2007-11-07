@@ -29,14 +29,12 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.Ackley;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import org.junit.Test;
 
 
 /**
@@ -55,7 +53,7 @@ public class AckleyTest {
         ContinuousFunction function = new Ackley();
         function.setDomain("R(-30, 30)^3");
         
-        Vector x = new MixedVector();
+        Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         x.append(new Real(3.0));

@@ -29,10 +29,11 @@
 
 package net.sourceforge.cilib.math.random.generator;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Random;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 
 /**

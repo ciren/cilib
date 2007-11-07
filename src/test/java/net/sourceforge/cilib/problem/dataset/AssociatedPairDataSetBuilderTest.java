@@ -12,7 +12,6 @@ import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.AfterClass;
@@ -38,7 +37,7 @@ public class AssociatedPairDataSetBuilderTest {
 		problem = new FunctionMinimisationProblem();
 		problem.setFunction(function);
 		problem.setDataSetBuilder(dataSetBuilder);
-		centroids = new MixedVector();
+		centroids = new Vector();
 		centroids.append(new Int(1));
 		centroids.append(new Int(1));
 		centroids.append(new Int(33));
@@ -336,7 +335,7 @@ public class AssociatedPairDataSetBuilderTest {
 	@Test
 	public void testSetMean() {
 		Vector calculatedMean = dataSetBuilder.getSetMean(arrangedClusters.get(0));
-		Vector handMean = new MixedVector();
+		Vector handMean = new Vector();
 		handMean.add(new Int(5));
 		handMean.add(new Int(1));
 		for (int i = 0; i < handMean.size(); i++)
@@ -376,7 +375,7 @@ public class AssociatedPairDataSetBuilderTest {
 	@Test
 	public void testMean() {
 		Vector calculatedMean = dataSetBuilder.getMean();
-		Vector handMean = new MixedVector();
+		Vector handMean = new Vector();
 
 		handMean.add(new Real(2147 / 93.0));
 		handMean.add(new Real(1618 / 93.0));
@@ -387,7 +386,7 @@ public class AssociatedPairDataSetBuilderTest {
 	@Test
 	public void testSetVariance() {
 		Vector calculatedVariance = dataSetBuilder.getSetVariance(arrangedClusters.get(0));
-		Vector handVariance = new MixedVector();
+		Vector handVariance = new Vector();
 		handVariance.add(new Int(0));
 		handVariance.add(new Int(0));
 		for (int i = 0; i < handVariance.size(); i++)
@@ -427,7 +426,7 @@ public class AssociatedPairDataSetBuilderTest {
 	@Test
 	public void testVariance() {
 		Vector calculatedVariance = dataSetBuilder.getVariance();
-		Vector handVariance = new MixedVector();
+		Vector handVariance = new Vector();
 
 		handVariance.add(new Real(63.2150537634409));
 		handVariance.add(new Real(140.47311827957));

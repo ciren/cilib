@@ -26,10 +26,10 @@
  */
 package net.sourceforge.cilib.math;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.math.random.RandomNumber;
+
+import org.junit.Test;
 
 /**
  * 

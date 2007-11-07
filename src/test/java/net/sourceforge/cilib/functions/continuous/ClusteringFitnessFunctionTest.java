@@ -7,7 +7,6 @@ import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.CachingDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MockClusteringStringDataSet;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.AfterClass;
@@ -32,7 +31,7 @@ public class ClusteringFitnessFunctionTest {
 		problem = new FunctionMinimisationProblem();
 		problem.setFunction(function);
 		problem.setDataSetBuilder(dataSetBuilder);
-		centroids = new MixedVector();
+		centroids = new Vector();
 		centroids.append(new Int(1));
 		centroids.append(new Int(1));
 		centroids.append(new Int(33));

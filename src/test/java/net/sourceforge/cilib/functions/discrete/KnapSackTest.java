@@ -26,13 +26,11 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.functions.discrete.KnapSack;
+import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.type.types.Bit;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import org.junit.Test;
 
 /**
  * 
@@ -48,7 +46,7 @@ public class KnapSackTest {
 		k.setWeight("1,1,1,1,1");
 		k.setValue("1,1,1,1,1");
 		
-		Vector x = new MixedVector();
+		Vector x = new Vector();
 		x.add(new Bit(true));
 		x.add(new Bit(true));
 		x.add(new Bit(true));

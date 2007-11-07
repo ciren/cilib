@@ -47,13 +47,13 @@ import org.junit.Test;
 /**
  * @author Gary Pampara
  */
-public class MixedVectorTest {
+public class VectorTest {
 	private static Vector vector;
 	private static Vector tmpVector;
 	
 	@BeforeClass
 	public static void setUp() {
-		vector = new MixedVector();
+		vector = new Vector();
 		
 		vector.append(new Real(1));
 		vector.append(new Real(2));
@@ -68,7 +68,7 @@ public class MixedVectorTest {
 	}
 	
 	private void recreateTmpVector() {
-		tmpVector = new MixedVector();
+		tmpVector = new Vector();
 		tmpVector.append(new Real(1.0));
 		tmpVector.append(new Real(2.0));
 		tmpVector.append(new Real(3.0));
@@ -76,8 +76,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testClone() {
-		
-		Vector v = (Vector) vector.clone();
+		Vector v = vector.clone();
 		
 		assertEquals(v.size(), vector.size());
 				
@@ -110,7 +109,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testNonNumericGet() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		Set<Real> realSet = new Set<Real>();
 		
 		m.add(realSet);
@@ -136,9 +135,9 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testNonNumericSet() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		Set<Object> s = new Set<Object>();
-		MixedVector v = new MixedVector();
+		Vector v = new Vector();
 		
 		m.add(s);
 		m.add(v);
@@ -156,7 +155,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testInsert() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		double [] targetResults = { 0.0, 1.0, 2.0, 3.0, 4.0 };
 		
 		m.add(new Real(1.0));
@@ -189,7 +188,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testRemove() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		
 		m.add(new Real(1.0));
 		m.add(new Real(2.2));
@@ -216,7 +215,7 @@ public class MixedVectorTest {
 
 	@Test
 	public void testAdd() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		assertEquals(0, m.getDimension());
 		
 		m.add(new Real(1.0));
@@ -231,7 +230,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testSetReal() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		m.add(new Real(-10.0, 10.0));
 		m.setReal(0, 10.0);
 		
@@ -246,7 +245,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testSetInt() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		m.add(new Int(2));
 		assertEquals(2, m.getInt(0));
 		m.setInt(0, 5);
@@ -269,7 +268,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testSetBit() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		m.add(new Bit());
 		m.setBit(0, false);
 		
@@ -278,7 +277,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testRandomize() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		m.add(new Real(1.0));
 		m.add(new Real(2.0));
 		m.add(new Real(3.0));
@@ -291,7 +290,7 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testVectorNorm() {
-		MixedVector m = new MixedVector();
+		Vector m = new Vector();
 		
 		m.add(new Real(1.0));
 		m.add(new Real(1.0));
@@ -313,8 +312,8 @@ public class MixedVectorTest {
 	
 	@Test
 	public void testVectorDotProduct() {
-		Vector v1 = new MixedVector();
-		Vector v2 = new MixedVector();
+		Vector v1 = new Vector();
+		Vector v2 = new Vector();
 		
 		v1.add(new Real(1.0));
 		v1.add(new Real(2.0));
@@ -332,8 +331,8 @@ public class MixedVectorTest {
 
 	@Test
 	public void vectorCrossProduct() {
-		Vector v1 = new MixedVector();
-		Vector v2 = new MixedVector();
+		Vector v1 = new Vector();
+		Vector v2 = new Vector();
 
 		v1.add(new Real(1.0));
 		v1.add(new Real(2.0));
@@ -352,8 +351,8 @@ public class MixedVectorTest {
 
 	@Test(expected = ArithmeticException.class)
 	public void invalidVectorCrossProduct() {
-		Vector v1 = new MixedVector();
-		Vector v2 = new MixedVector();
+		Vector v1 = new Vector();
+		Vector v2 = new Vector();
 
 		v1.add(new Real(1.0));
 		v1.add(new Real(2.0));
@@ -369,8 +368,8 @@ public class MixedVectorTest {
 	
 	@Test(expected = ArithmeticException.class)
 	public void invalidVectorLengthCrossPorduct() {
-		Vector v1 = new MixedVector();
-		Vector v2 = new MixedVector();
+		Vector v1 = new Vector();
+		Vector v2 = new Vector();
 
 		v1.add(new Real(1.0));
 		v1.add(new Real(2.0));
@@ -383,8 +382,8 @@ public class MixedVectorTest {
 		
 	@Test(expected = UnsupportedOperationException.class)
 	public void invalidVectorAddition() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));
@@ -396,8 +395,8 @@ public class MixedVectorTest {
 
 	@Test
 	public void testPlus() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));
@@ -425,8 +424,8 @@ public class MixedVectorTest {
 	
 	@Test(expected = UnsupportedOperationException.class)
 	public void invalidVectorsubtraction() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));
@@ -438,8 +437,8 @@ public class MixedVectorTest {
 
 	@Test
 	public void testSubtract() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));
@@ -472,8 +471,8 @@ public class MixedVectorTest {
 	
 	@Test(expected = UnsupportedOperationException.class)
 	public void invalidVectorDivision() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 1; i < 11; i++)
 			a.append(new Real(i));
@@ -485,8 +484,8 @@ public class MixedVectorTest {
 	
 	@Test(expected = ArithmeticException.class)
 	public void vectorDivisionByZero() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 1; i < 11; i++)
 			a.append(new Real(i));
@@ -500,8 +499,8 @@ public class MixedVectorTest {
 
 	@Test
 	public void testVectorDivision() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 1; i < 11; i++)
 			a.append(new Real(i));
@@ -535,7 +534,7 @@ public class MixedVectorTest {
 	
 	@Test(expected = ArithmeticException.class) 
 	public void vectorDivisionByScalarZero() {
-		Vector a = new MixedVector();
+		Vector a = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));
@@ -545,7 +544,7 @@ public class MixedVectorTest {
 
 	@Test
 	public void testScalarDivision() {
-		Vector a = new MixedVector();
+		Vector a = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));
@@ -568,8 +567,8 @@ public class MixedVectorTest {
 	
 	@Test(expected = UnsupportedOperationException.class)
 	public void invalidVectorMultiplication() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));
@@ -581,8 +580,8 @@ public class MixedVectorTest {
 
 	@Test
 	public void testVectorMultiplication() {
-		Vector a = new MixedVector();
-		Vector b = new MixedVector();
+		Vector a = new Vector();
+		Vector b = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));
@@ -615,7 +614,7 @@ public class MixedVectorTest {
 
 	@Test
 	public void testScalarMultiplication() {
-		Vector a = new MixedVector();
+		Vector a = new Vector();
 
 		for(int i = 0; i < 10; i++)
 			a.append(new Real(i));

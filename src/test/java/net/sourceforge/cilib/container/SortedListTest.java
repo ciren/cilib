@@ -26,14 +26,13 @@
  */
 package net.sourceforge.cilib.container;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Comparator;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-import net.sourceforge.cilib.container.Pair;
-import net.sourceforge.cilib.container.SortedList;
 import net.sourceforge.cilib.entity.Entity;
+
+import org.junit.Test;
 
 public class SortedListTest {
 

@@ -29,9 +29,9 @@ package net.sourceforge.cilib.functions.continuous;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import net.sourceforge.cilib.functions.continuous.decorators.AngleModulation;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Before;
@@ -127,7 +127,7 @@ public class AngleModulationTest {
 	public void testConversionToBitRepresentationLength() {
 		angle.setFunction(new Rastrigin());
 		
-		Vector testVector = new MixedVector();
+		Vector testVector = new Vector();
 		testVector.append(new Real(0.0));
 		testVector.append(new Real(1.0));
 		testVector.append(new Real(1.0));

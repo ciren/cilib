@@ -35,7 +35,6 @@ import org.junit.Test;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -56,12 +55,12 @@ public class RosenbrockTest {
         //double[] x = {1, 2, 3};
         //double[] y = {3, 2, 1};
         
-        Vector x = new MixedVector();
+        Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         x.append(new Real(3.0));
         
-        Vector y = new MixedVector();
+        Vector y = new Vector();
         y.append(new Real(3.0));
         y.append(new Real(2.0));
         y.append(new Real(1.0));
@@ -74,7 +73,7 @@ public class RosenbrockTest {
         function = new Rosenbrock();
         function.setDomain("R(-2.048, 2.048)^4");
         //double[] z = {1, 2, 3, 4};
-        Vector z = new MixedVector();
+        Vector z = new Vector();
         z.append(new Real(1.0));
         z.append(new Real(2.0));
         z.append(new Real(3.0));

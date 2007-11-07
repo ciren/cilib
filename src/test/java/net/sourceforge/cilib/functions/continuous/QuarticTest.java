@@ -1,13 +1,11 @@
 package net.sourceforge.cilib.functions.continuous;
 
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class QuarticTest {
 
@@ -15,7 +13,7 @@ public class QuarticTest {
 	public void evaluationTest() {
 		Function function = new Quartic();
 		
-		Vector v = new MixedVector();
+		Vector v = new Vector();
 		v.add(new Real(0.0));
 		v.add(new Real(1.0));
 		v.add(new Real(2.0));

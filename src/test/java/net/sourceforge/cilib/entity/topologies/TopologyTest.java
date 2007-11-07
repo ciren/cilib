@@ -1,5 +1,8 @@
 package net.sourceforge.cilib.entity.topologies;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -11,7 +14,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * 

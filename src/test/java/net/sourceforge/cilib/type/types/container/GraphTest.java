@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import net.sourceforge.cilib.type.types.container.Graph;
-import net.sourceforge.cilib.type.types.container.StandardGraph;
-
 import org.junit.Test;
 
 public class GraphTest {
