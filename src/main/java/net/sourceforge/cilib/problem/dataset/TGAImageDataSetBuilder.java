@@ -30,12 +30,11 @@ import java.io.DataInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
-
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+
+import org.apache.log4j.Logger;
 
 /**
  * This class represents an uncompressed RGB(A) TGA (targa) image with origin at the bottom left corner as a DataSet.
@@ -184,7 +183,7 @@ public class TGAImageDataSetBuilder extends AssociatedPairDataSetBuilder {
 	
 	@Override
 	public Pattern getPattern(int index) {
-		Vector tmp = new MixedVector();
+		Vector tmp = new Vector();
 		for(int z = 0; z < depth; z++)
 			tmp.add(new Int((int)data[index % width][index / width][z]));
 		int k = (int)key[index % width][index / width];

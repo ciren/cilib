@@ -9,7 +9,7 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author anna
@@ -38,7 +38,7 @@ public class MovingPeaksOfflineErrorMeasurement implements Measurement {
 	 */
 	public Type getValue() {
 		MovingPeaks func = (MovingPeaks)((FunctionMaximisationProblem)(Algorithm.get().getOptimisationProblem())).getFunction();
-		MixedVector err = new MixedVector();
+		Vector err = new Vector();
 		err.add(new Real(func.get_offline_error()));
 		return err;
 	}

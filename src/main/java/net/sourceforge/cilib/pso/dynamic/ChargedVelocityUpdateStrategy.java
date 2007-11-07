@@ -7,7 +7,6 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -52,7 +51,7 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
     	Vector bestPosition = (Vector) particle.getBestPosition();
     	Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
     	
-    	Vector acceleration = new MixedVector(velocity.getDimension());
+    	Vector acceleration = new Vector(velocity.getDimension());
     	acceleration.initialise(velocity.getDimension(), new Real(0));
     	PSO pso = (PSO)Algorithm.get();
     	Iterator<Particle> iter = null;
@@ -71,7 +70,7 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
 	            if(particle.getId().equals(other.getId())) continue;
 	            double qi = ((ChargedParticle)particle).getCharge();
 	            double qj = other.getCharge();
-	            Vector rij = position.subtract(other.getPosition());
+	            Vector rij = position.subtract((Vector) other.getPosition());
 	            double magnitude = rij.norm();
 	            if(pCore <= magnitude && magnitude <= p) {
 	            	accSum += (qi * qj / Math.pow(magnitude, 3)) * rij.getReal(i);

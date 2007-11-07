@@ -37,7 +37,7 @@ import net.sourceforge.cilib.entity.Entity;
 
 /**
  * <p>
- * Implementation of the lbest neighbourhood topology
+ * Implementation of the Local Best Neighbourhood topology
  * </p><p>
  * References:
  * </p><p><ul><li>

@@ -23,7 +23,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.FFNN_GD_Tr
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.SquaredErrorFunction;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -117,14 +117,14 @@ NNControl.run();
 		
 		
 
-MixedVector in = new MixedVector();
+Vector in = new Vector();
 
 in.add(new Real(0.5));
 in.add(new Real(1.234));
 
 StandardPattern p = new StandardPattern(in, null);
 
-MixedVector result = topo.evaluate(p);
+Vector result = topo.evaluate(p);
 
 System.out.println("test result f(0.5) = 0.25  -->  : " + ((Real)result.get(0)).getReal());
 

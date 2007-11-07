@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This is a basic Feedforward Neural network implementation. Its sole purpose is to illustrate the
@@ -106,7 +106,7 @@ public class FFNNTopology implements NeuralNetworkTopology {
 	 * (non-Javadoc)
 	 * @see net.sourceforge.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#evaluate(net.sourceforge.cilib.NeuralNetwork.Foundation.NNPattern)
 	 */
-	public MixedVector evaluate(NNPattern p) {
+	public Vector evaluate(NNPattern p) {
 		// Still need to check here for right length vector then exception
 		// Does not delete the activation of hidden or output units, used to feed back...
 		// zeroes activation before doing a feedforward though...
@@ -147,7 +147,7 @@ public class FFNNTopology implements NeuralNetworkTopology {
 		}
 
 		// convert to ArrayList...
-		MixedVector temp = new MixedVector();
+		Vector temp = new Vector();
 		output = new ArrayList<Double>();
 		for (int i = 0; i < nrOutput; i++) {
 			temp.add(new Real(outputResult[i]));
@@ -162,8 +162,8 @@ public class FFNNTopology implements NeuralNetworkTopology {
 	 * (non-Javadoc)
 	 * @see net.sourceforge.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#getWeights()
 	 */
-	public MixedVector getWeights() {
-		MixedVector temp = new MixedVector();
+	public Vector getWeights() {
+		Vector temp = new Vector();
 		for (int i = 0; i < nrWeights; i++)
 			temp.add(new Real(weights[i]));
 		return temp;
@@ -173,7 +173,7 @@ public class FFNNTopology implements NeuralNetworkTopology {
 	 * (non-Javadoc)
 	 * @see net.sourceforge.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#setWeights(java.lang.Object)
 	 */
-	public void setWeights(MixedVector w) {
+	public void setWeights(Vector w) {
 		if (w.size() != this.weights.length) {
 			throw new IllegalArgumentException("FFNNTopology: Weight Vector lenghts do not match - " + "FFNN vector size = " + weights.length + ", input = " + w.size());
 		}

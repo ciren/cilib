@@ -33,7 +33,6 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -58,7 +57,7 @@ public class MultipleModalF2 implements Measurement {
 	}
 
 	public Type getValue() {
-		Vector v = new MixedVector();
+		Vector v = new Vector();
 		Collection<OptimisationSolution> p = (Algorithm.get()).getSolutions();
 		
 		Hashtable<Double, Vector> solutionsFound = new Hashtable<Double, Vector>();

@@ -8,7 +8,7 @@ package net.sourceforge.cilib.neuralnetwork.generic.datacontainers;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.Initializable;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 
 
@@ -19,8 +19,8 @@ import net.sourceforge.cilib.type.types.container.MixedVector;
  */
 public class StandardPattern implements NNPattern, Initializable {
 	
-	protected MixedVector input = null;
-	protected MixedVector target = null;
+	protected Vector input = null;
+	protected Vector target = null;
 	
 	
 	
@@ -32,7 +32,7 @@ public class StandardPattern implements NNPattern, Initializable {
 	
 	
 	
-	public StandardPattern(MixedVector input, MixedVector target) {
+	public StandardPattern(Vector input, Vector target) {
 		super();
 		this.input = input;
 		this.target = target;
@@ -48,7 +48,7 @@ public class StandardPattern implements NNPattern, Initializable {
 
 	
 	
-	public MixedVector getInput() {
+	public Vector getInput() {
 		return input;
 	}
 
@@ -63,7 +63,7 @@ public class StandardPattern implements NNPattern, Initializable {
 	}
 
 	
-	public MixedVector getTarget() {
+	public Vector getTarget() {
 		return target;
 	}
 	
@@ -88,11 +88,11 @@ public class StandardPattern implements NNPattern, Initializable {
 		return tmp;
 	}
 
-	public void setInput(MixedVector input) {
+	public void setInput(Vector input) {
 		this.input = input;
 	}
 
-	public void setTarget(MixedVector target) {
+	public void setTarget(Vector target) {
 		this.target = target;
 	}
 	

@@ -18,7 +18,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFuncti
 import net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators.FFNNEvaluationMediator;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -85,13 +85,13 @@ public class TrainAndTestNN {
 		
 		
 		//create a pattern manually and test output
-		MixedVector in = new MixedVector();
+		Vector in = new Vector();
 		
 		in.add(new Real(1)); in.add(new Real(1));
 		
 		StandardPattern p = new StandardPattern(in, null);
 		
-		MixedVector result = NNtopology.evaluate(p);
+		Vector result = NNtopology.evaluate(p);
 		
 		//output line - add any status here that reports on the manual pattern entered.
 		System.out.println("test result: 1 and 1 = 0.6    -->  " + ((Real)result.get(0)).getReal());

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -39,7 +39,7 @@ public class SpecificWeightInitialiser implements GenericTopologyVisitor {
 
 	}
 
-	public void setWeights(MixedVector w) {
+	public void setWeights(Vector w) {
 		
 		weights = new ArrayList<Weight>();
 		for (int i = 0; i < w.size(); i++){

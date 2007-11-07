@@ -4,7 +4,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 
 //This class is not fully completed and tested.... Draft version
@@ -22,12 +22,12 @@ public class MNNNeuronAdapter extends NeuronConfig {
 
 	public Type computeOutput(NeuronConfig n, NNPattern p) {
 		
-		MixedVector inputMNN = new MixedVector();
-		MixedVector weightsMNN = new MixedVector();
+		Vector inputMNN = new Vector();
+		Vector weightsMNN = new Vector();
 		
 		for (int i = 0; i < this.input.length; i++){
-			MixedVector tmpInput = ((MixedVector)input[i].getCurrentOutput());
-			MixedVector tmpWeight = ((MixedVector)inputWeights[i].getWeightValue());
+			Vector tmpInput = ((Vector)input[i].getCurrentOutput());
+			Vector tmpWeight = ((Vector)inputWeights[i].getWeightValue());
 			
 			//copy relevant weights and inputs to vector
 			for (int j = 0; j < tmpInput.size(); j ++){

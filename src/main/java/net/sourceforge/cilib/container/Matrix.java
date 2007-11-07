@@ -25,11 +25,10 @@
  */
 package net.sourceforge.cilib.container;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.ArrayList;
-import java.lang.IndexOutOfBoundsException;
 
 /**
  * Represenstation of a <code>Matrix</code>, with the rows and the columns represented as a 2D array. The 2D array has been implemented as a Object array as the needed data stored within the Matrix is variable

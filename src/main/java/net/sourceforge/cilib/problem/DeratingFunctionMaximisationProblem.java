@@ -26,12 +26,11 @@ package net.sourceforge.cilib.problem;
 //TODO: Add domain validators to check that this is working on ContinuousFunctions
 
 import java.util.Iterator;
-import java.util.Vector;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.continuous.MaximumDeratingFunction1;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
@@ -57,7 +56,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * This vector contains all the solutions (or positions) in the search
      * space that will be modified using the deratingFunction.
      */
-    private Vector<Double[]> vectorSolutions = new Vector<Double[]>();
+    private java.util.Vector<Double[]> vectorSolutions = new java.util.Vector<Double[]>();
     /**
      * This is the Derating Function that will be used to modify the
      * search at every position that is in the vectorSolutions
@@ -111,7 +110,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             for (int i = 0; i < d_solution.length; i++) {
                 t_solution[i] = d_solution[i].doubleValue();
             }*/
-            net.sourceforge.cilib.type.types.container.Vector t_solution = new MixedVector(d_solution.length);
+            Vector t_solution = new Vector(d_solution.length);
             for (int i = 0; i < d_solution.length; i++) {
             	t_solution.set(i, new Real(d_solution[i].doubleValue()));
             }
@@ -119,7 +118,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             // calcaulate the distance between the solution and the previousely found
             // solution.
             //double distance = distanceMeasure.distance((double[]) solution, t_solution);
-            double distance = distanceMeasure.distance((net.sourceforge.cilib.type.types.container.Vector) solution, t_solution);
+            double distance = distanceMeasure.distance((Vector) solution, t_solution);
 
             // normalise the distance in the range [0..1].
             distance = normalise(distance);

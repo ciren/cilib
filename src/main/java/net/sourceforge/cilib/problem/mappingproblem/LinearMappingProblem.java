@@ -32,7 +32,6 @@ import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
 /**
  * This class provides an adapter for implementation of NonlinearMapping
  * evaluation functions.  The class was written in order to make it

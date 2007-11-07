@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 
 
@@ -75,7 +75,7 @@ public abstract class EvaluationMediator implements Initializable{
 	}
 	
 	
-	public void computeErrorIteration(NNError[] err, MixedVector output, NNPattern input){
+	public void computeErrorIteration(NNError[] err, Vector output, NNPattern input){
 		
 		for (int e = 0; e < err.length; e++){
 			err[e].computeIteration(output, input);
@@ -83,7 +83,7 @@ public abstract class EvaluationMediator implements Initializable{
 		
 	}
 	
-	public abstract MixedVector evaluate(NNPattern p);
+	public abstract Vector evaluate(NNPattern p);
 	
 	
 	public NNError[] getErrorDg() {

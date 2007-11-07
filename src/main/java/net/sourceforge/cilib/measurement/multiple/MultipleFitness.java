@@ -32,7 +32,7 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p>Title: CILib</p>
@@ -71,7 +71,7 @@ public class MultipleFitness implements Measurement {
 		}
 		return fitnessValues.toArray();*/
 		
-		MixedVector fitnessValues = new MixedVector();
+		Vector fitnessValues = new Vector();
 		Collection<OptimisationSolution> solutions = Algorithm.get().getSolutions();
 		
 		for (OptimisationSolution solution : solutions) {

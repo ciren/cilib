@@ -34,7 +34,10 @@ import net.sourceforge.cilib.pso.iterationstrategies.BoundaryConstraint;
 import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
 
 /**
- * Generic IterationStrategy class for all Population based algorithms
+ * Generic IterationStrategy class for all Population based algorithms. Each and every IterationStrategy
+ * will have a pipeline available to it in order to specify the needed operators that will be
+ * required to be executed during the iteration. For the implementing classes, a default
+ * pipeline is constructed and made available, this can (as with everything within CILib) be overridden.  
  * 
  * @author Gary Pampara
  */
@@ -63,9 +66,9 @@ public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> impl
 	 * <ol>
 	 *   <li>Parent individuals to be <b>selected</b> in some manner</li>
 	 *   <li>A <b>crossover</b> process to be done on the selected parent individuals to create
-	 *       the offsplring</li>
+	 *       the offspring</li>
 	 *   <li>A <b>mutation</b> process to alter the generated offspring</li>
-	 *   <li><b>Recombine</b> the existing parent individuals and the genereated offspring to create
+	 *   <li><b>Recombine</b> the existing parent individuals and the generated offspring to create
 	 *       the next generation</li>
 	 * </ol>
 	 *       
@@ -80,5 +83,22 @@ public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> impl
 	public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
 		this.boundaryConstraint = boundaryConstraint;
 	}
+
+	/**
+	 * Get the <code>List&lt;Operator&gt;</code> that represents the sequence
+	 * of operators to be performed within the current <tt>IterationStrategy</tt>.
+	 * @return The operator pipeline <code>List&lt;Operator&gt;</code>
+	 */
+	public List<Operator> getOperatorPipeline() {
+		return operatorPipeline;
+	}
+
+	/**
+	 * Set the pipeline to be used within the current <tt>IterationStrategy</tt>
+	 * @param operatorPipeline The pipeline to be used.
+	 */
+	public void setOperatorPipeline(List<Operator> operatorPipeline) {
+		this.operatorPipeline = operatorPipeline;
+	}	
 	
 }

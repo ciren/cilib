@@ -8,7 +8,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class AreaUnderROC implements Measurement{
 	private static final long serialVersionUID = -8959256964785840633L;
@@ -57,7 +57,7 @@ public class AreaUnderROC implements Measurement{
 			
 			//Determine winning output, determine if misclassification
 			NNPattern p = iterDv.value();			
-			MixedVector output = this.topology.evaluate(p);
+			Vector output = this.topology.evaluate(p);
 									
 			int winningOutput = 99999;
 			double winningOutputValue = 0.0;
@@ -156,7 +156,7 @@ public class AreaUnderROC implements Measurement{
 		}
 		String accuracy = String.valueOf(accuracyVal / totalPats);
 		
-		MixedVector v = new MixedVector();
+		Vector v = new Vector();
 		v.add(new Real(AUCtotal));
 		v.add(new StringType(countString));
 		v.add(new StringType(matrix));

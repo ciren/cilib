@@ -31,7 +31,6 @@ import java.util.Random;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -79,8 +78,8 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 		
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				Vector v1 = new MixedVector();
-				Vector v2 = new MixedVector();
+				Vector v1 = new Vector();
+				Vector v2 = new Vector();
 				v1.add(new Real(generatedPoints[i*this.dataDimension]));
 				v1.add(new Real(generatedPoints[i*this.dataDimension+1]));
 			

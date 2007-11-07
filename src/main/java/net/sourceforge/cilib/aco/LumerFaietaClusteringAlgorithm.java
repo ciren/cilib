@@ -27,7 +27,6 @@ package net.sourceforge.cilib.aco;
 
 import java.util.ListIterator;
 
-import net.sourceforge.cilib.aco.ACO;
 import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.Problem;
 

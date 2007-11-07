@@ -56,6 +56,9 @@ public class NewGCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.failureCount = copy.failureCount;
 		this.successCountThreshold = copy.successCountThreshold;
 		this.failureCountThreshold = copy.failureCountThreshold;
+		this.expandCoefficient = copy.expandCoefficient;
+		this.contractCoefficient = copy.contractCoefficient;
+		
 		this.vMax = copy.vMax.clone();
 	}
 

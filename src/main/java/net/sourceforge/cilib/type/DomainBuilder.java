@@ -32,7 +32,6 @@ import java.io.StreamTokenizer;
 
 import net.sourceforge.cilib.type.creator.TypeCreator;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -81,7 +80,7 @@ public class DomainBuilder {
 	 */
 	public Vector build(String expandedDomain) {
 		
-		representation = new MixedVector();
+		representation = new Vector();
 		parser = new StreamTokenizer(new CharArrayReader(expandedDomain.toCharArray()));
 		
 		try {
@@ -114,8 +113,8 @@ public class DomainBuilder {
 		parser.nextToken();
 		
 		if ((char) parser.ttype == '[') {
-			Vector tmp = this.representation;
-			this.representation = new MixedVector();
+			final Vector tmp = this.representation;
+			this.representation = new Vector();
 			buildDomain();
 			
 			parser.nextToken();

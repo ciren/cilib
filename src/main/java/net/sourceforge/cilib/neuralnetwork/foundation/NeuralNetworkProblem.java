@@ -11,7 +11,7 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -50,7 +50,7 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 		return evaluationStrategy.getErrorDt();
 	}
 
-	public MixedVector evaluate(MixedVector in){
+	public Vector evaluate(Vector in){
 		
 		StandardPattern p = new StandardPattern(in,null);
 		return evaluationStrategy.evaluate(p);
@@ -61,7 +61,7 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 		if (count) {
     		++fitnessEvaluations;
     	}
-        this.getTopology().setWeights((MixedVector) solution);
+        this.getTopology().setWeights((Vector) solution);
 			            
 			//Defaults to first error element as the main fitness...
             return evaluationStrategy.getErrorDt()[0];

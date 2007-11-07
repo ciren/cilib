@@ -6,7 +6,7 @@
  */
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
@@ -20,14 +20,14 @@ public interface NNPattern {
 
 	public int getInputLength();
 
-	public MixedVector getInput();
+	public Vector getInput();
 
-	public MixedVector getTarget();
+	public Vector getTarget();
 	
 	public NNPattern clone();
 	
-	public void setInput(MixedVector v);
+	public void setInput(Vector v);
 	
-	public void setTarget(MixedVector t);
+	public void setTarget(Vector t);
 		
 }

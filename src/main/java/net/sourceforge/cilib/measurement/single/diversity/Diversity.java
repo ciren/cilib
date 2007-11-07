@@ -73,7 +73,7 @@ public class Diversity implements Measurement {
 		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
 		int numberOfEntities = algorithm.getPopulationSize();
 		
-		Vector center = populationCenter.getCenter();
+		Vector center = (Vector) populationCenter.getCenter();
 		Iterator<? extends Entity> populationIterator = algorithm.getTopology().iterator();
 		
 		double entitySum = 0.0;

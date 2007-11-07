@@ -29,7 +29,7 @@ import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * TODO test this class
@@ -60,7 +60,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 		domainRegistry = new DomainRegistry();
 		String expandedDomain = "";
 		for (int i = offset; i < offset + dimension; i++) {
-			expandedDomain += ((MixedVector) context.getContents()).get(i).getRepresentation();
+			expandedDomain += ((Vector) context.getContents()).get(i).getRepresentation();
 			if (i < offset + dimension - 1)
 				expandedDomain += ",";
 		}
@@ -101,9 +101,9 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 
 	@Override
 	protected Fitness calculateFitness(Object solution) {
-		MixedVector participant = (MixedVector) solution;
+		Vector participant = (Vector) solution;
 		for (int i = 0; i < dimension; ++i) {
-			((MixedVector) context.getContents()).setReal(offset + i, participant.getReal(i));
+			((Vector) context.getContents()).setReal(offset + i, participant.getReal(i));
 		}
 		return problem.getFitness(context.getContents(), true);
 	}

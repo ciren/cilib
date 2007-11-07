@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * @author Gary Pampara
  */
-public class InvertedFunction extends ContinuousFunction {
+public class InvertedFunctionDecorator extends ContinuousFunction {
 	private static final long serialVersionUID = -7506823207533866371L;
 	
 	private Function function;
@@ -58,6 +58,7 @@ public class InvertedFunction extends ContinuousFunction {
 
 	public void setFunction(Function function) {
 		this.function = function;
+		this.setDomain(function.getDomainRegistry().getDomainString());
 	}
 
 }

@@ -2,7 +2,7 @@ package net.sourceforge.cilib.neuralnetwork.testarea;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class NNFunctionAdapter extends Function {
 	private static final long serialVersionUID = -8189968864920232174L;
@@ -11,7 +11,7 @@ public class NNFunctionAdapter extends Function {
 
 	@Override
 	public Double evaluate(Object in) {
-		mediator.getTopology().setWeights((MixedVector)in);
+		mediator.getTopology().setWeights((Vector)in);
 		mediator.performLearning();
 		return mediator.getErrorDt()[0].getValue();
 	}

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -34,7 +34,7 @@ public class SquaredErrorFunction implements ErrorSignal {
 
 
 	public Type computeRecursiveDelta(Type outputFunctionDerivative,
-			MixedVector delta, ArrayList<Weight> w, Type output) {
+			Vector delta, ArrayList<Weight> w, Type output) {
 		
 		
 		

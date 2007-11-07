@@ -29,7 +29,6 @@ package net.sourceforge.cilib.pso.particle;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -88,8 +87,8 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
     	//previousPosition = new MixedVector(DomainParser.getInstance().getDimension());
     	//previousVelocity = new MixedVector(DomainParser.getInstance().getDimension());
     	
-    	previousPosition = new MixedVector(problem.getDomain().getDimension());
-    	previousVelocity = new MixedVector(problem.getDomain().getDimension());
+    	previousPosition = new Vector(problem.getDomain().getDimension());
+    	previousVelocity = new Vector(problem.getDomain().getDimension());
         
         //gradient = new double[DomainParser.getInstance().getDimension()];
     	gradient = new double[problem.getDomain().getDimension()];

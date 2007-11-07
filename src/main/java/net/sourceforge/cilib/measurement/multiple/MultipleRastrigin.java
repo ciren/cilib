@@ -32,7 +32,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -67,7 +66,7 @@ public class MultipleRastrigin implements Measurement {
 
 	public Type getValue() {
 
-		Vector v = new MixedVector();
+		Vector v = new Vector();
 		Collection<OptimisationSolution> p = (Algorithm.get()).getSolutions();
 
 		ArrayList<Vector> solutionsFound = new ArrayList<Vector>();
@@ -107,7 +106,7 @@ public class MultipleRastrigin implements Measurement {
 
 	private boolean HasSolution(ArrayList<Vector> list, Vector sol1) {
 		for (int i = 0; i < list.size(); i++) {
-			Vector sol2 = (Vector) list.get(i);
+			Vector sol2 = list.get(i);
 			ArrayList<Integer> checks = new ArrayList<Integer>();
 
 			for (int d = 0; d < sol1.size(); d++) {

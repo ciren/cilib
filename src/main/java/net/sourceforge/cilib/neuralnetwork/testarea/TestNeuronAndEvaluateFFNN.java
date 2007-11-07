@@ -18,7 +18,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.ErrorSigna
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.FFNN_GD_TrainingStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.SquaredErrorFunction;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
@@ -53,7 +53,7 @@ public class TestNeuronAndEvaluateFFNN {
 		
 		
 		//alternative weights setter------------------------------------
-		MixedVector weights = new MixedVector();
+		Vector weights = new Vector();
 		
 		weights.add(new Real(0.1));
 		weights.add(new Real(0.4));
@@ -90,15 +90,15 @@ public class TestNeuronAndEvaluateFFNN {
 		
 		//NeuronPipeline neuron = new DotProductSigmoidPipeline(new SigmoidOutputFunction(1));
 		
-		MixedVector ins = new MixedVector();
+		Vector ins = new Vector();
 		ins.add(new Real(-0.765));
 		ins.add(new Real(0.112));
 		
-		MixedVector targt = new MixedVector();
+		Vector targt = new Vector();
 		targt.add(new Real(0.7666));
 		NNPattern p = new StandardPattern(ins,targt);
 		
-		MixedVector result = new MixedVector();
+		Vector result = new Vector();
 		
 		ErrorSignal delta = new SquaredErrorFunction();
 		
@@ -138,7 +138,7 @@ public class TestNeuronAndEvaluateFFNN {
 		
 		FFNNTopology ffnn = new FFNNTopology(2,2,1, 0.5, 0.9);
 		
-		MixedVector weightsB = new MixedVector();
+		Vector weightsB = new Vector();
 		weightsB.add(new Real(0.1));
 		weightsB.add(new Real(0.4));
 		weightsB.add(new Real(0.7));
@@ -155,7 +155,7 @@ public class TestNeuronAndEvaluateFFNN {
 		
 		for (int counter = 0; counter < 100; counter++){
 			
-			result = new MixedVector();
+			result = new Vector();
 			result = ffnn.evaluate(p);
 			real = ((Real)result.get(0)).getReal();
 			

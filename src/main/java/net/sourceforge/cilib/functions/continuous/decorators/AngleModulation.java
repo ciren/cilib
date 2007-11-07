@@ -1,10 +1,9 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -151,7 +150,7 @@ public class AngleModulation extends ContinuousFunction {
 	 * @return
 	 */
 	private Vector decodeBitString(String bits) {
-		Vector vector = new MixedVector();
+		Vector vector = new Vector();
 		
 		for (int i = 0; i < bits.length(); ) {
 			double tmp = valueOf(bits, i, i+requiredBits);

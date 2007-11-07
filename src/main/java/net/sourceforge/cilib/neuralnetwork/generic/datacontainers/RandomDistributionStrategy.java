@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class RandomDistributionStrategy implements DataDistributionStrategy {
 	
@@ -81,8 +81,8 @@ public class RandomDistributionStrategy implements DataDistributionStrategy {
 				if(token.countTokens() <= this.noInputs)
 					throw new IllegalStateException("IOException: Record lengths dont match or too many spaces in line.");
 				
-				MixedVector input = new MixedVector();		
-				MixedVector target = new MixedVector();
+				Vector input = new Vector();		
+				Vector target = new Vector();
 				
 				for (int i = 0; i < noInputs; i++){
 					input.add(new Real(Double.parseDouble(token.nextToken())));

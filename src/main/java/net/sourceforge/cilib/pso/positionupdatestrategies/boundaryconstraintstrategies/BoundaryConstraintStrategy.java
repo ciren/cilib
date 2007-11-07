@@ -2,6 +2,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstr
 
 import java.io.Serializable;
 
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**

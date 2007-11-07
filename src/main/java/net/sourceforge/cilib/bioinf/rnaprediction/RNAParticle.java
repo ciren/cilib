@@ -35,7 +35,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author marais
@@ -47,7 +47,7 @@ public class RNAParticle extends AbstractParticle {
 	public RNAParticle () {
 		position = new RNAConformation();
 		bestPosition = new RNAConformation();
-		velocity = new MixedVector();
+		velocity = new Vector();
 	}
 	
 	public RNAParticle(RNAParticle copy) {
@@ -117,7 +117,7 @@ public class RNAParticle extends AbstractParticle {
 		position = (RNAConformation) i.getInitialPosition(problem);
 		bestPosition.clear();
 		bestPosition.addAll(position);
-		velocity = (MixedVector) i.getInitialVelocity(problem);
+		velocity = (Vector) i.getInitialVelocity(problem);
 		fitness = InferiorFitness.instance();
         bestFitness = InferiorFitness.instance();
         neighbourhoodBest = this;
@@ -221,7 +221,7 @@ public class RNAParticle extends AbstractParticle {
 	
 	private RNAConformation position;
     private RNAConformation bestPosition;
-    private MixedVector velocity;
+    private Vector velocity;
 
     private Fitness fitness;
     private Fitness bestFitness;

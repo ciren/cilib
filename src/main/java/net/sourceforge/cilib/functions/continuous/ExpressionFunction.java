@@ -1,10 +1,10 @@
 package net.sourceforge.cilib.functions.continuous;
 
-import org.apache.log4j.Logger;
-import org.nfunk.jep.JEP;
-
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import org.apache.log4j.Logger;
+import org.nfunk.jep.JEP;
 
 public class ExpressionFunction extends ContinuousFunction {
 

@@ -3,7 +3,7 @@ package net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class PSOMediator extends EvaluationMediator {
 	
@@ -20,7 +20,7 @@ public class PSOMediator extends EvaluationMediator {
 	}
 	
 	
-	public MixedVector evaluate(NNPattern p) {
+	public Vector evaluate(NNPattern p) {
 		return topology.evaluate(p);	
 	}
 	
@@ -35,7 +35,7 @@ public class PSOMediator extends EvaluationMediator {
 		//iterate over each applicable pattern in training dataset
 		while(iteratorDt.hasMore()){
 			
-			MixedVector output = topology.evaluate(iteratorDt.value());
+			Vector output = topology.evaluate(iteratorDt.value());
 			this.nrEvaluationsPerEpoch++;
 			
 			//compute the per pattern error.

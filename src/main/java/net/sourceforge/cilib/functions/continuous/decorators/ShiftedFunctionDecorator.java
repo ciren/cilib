@@ -11,8 +11,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * Characteristics:
  * 
- * f(x) = verticalShift
- * x = (x_i - horizontalShift | i e [1,n])
+ * Let c be a fixed positive number, then:
+ * 
+ * Horizontal Shift:
+ * If g(x) = f(x+c), then
+ *             (c > 0) means that g(x) is f(x) shifted c units to the left
+ *             (c < 0) means that g(x) is f(x) shifted c units to the right
+ * 
+ * Vertical Shift:
+ * If g(x) = f(x) + c, then
+ *             (c > 0) means that g(x) is f(x) shifted c units upwards
+ *             (c < 0) means that g(x) is f(x) shifted c units downwards
  *
  */
 public class ShiftedFunctionDecorator extends ContinuousFunction {
@@ -28,7 +37,8 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
 	}
 	
 	public Object getMinimum() {
-        return new Double(verticalShift);
+		Double functionMinimum = (Double) function.getMinimum();
+        return new Double(functionMinimum + verticalShift);
     }
 
 	/* (non-Javadoc)

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -21,7 +21,7 @@ public interface ErrorSignal {
 	public Type computeBaseDelta(Type desired, Type output, Type outputFunctionDerivative);
 	
 	public Type computeRecursiveDelta(Type outputFunctionDerivative, 
-			MixedVector delta, 
+			Vector delta, 
 			ArrayList<Weight> w, 
 			Type output);
 

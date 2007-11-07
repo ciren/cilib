@@ -1,8 +1,8 @@
 package net.sourceforge.cilib.problem.dataset;
 
-import org.apache.log4j.Logger;
-
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import org.apache.log4j.Logger;
 
 public class CachingDataSetBuilder extends AssociatedPairDataSetBuilder {
 	private static final long serialVersionUID = -8098125665317527403L;

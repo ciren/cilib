@@ -30,7 +30,6 @@ package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -75,7 +74,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     
     /* Returns the gradient of the function at x */    
     public Vector getGradient(Vector x) {
-    	Vector tmp = new MixedVector(x.getDimension());
+    	Vector tmp = new Vector(x.getDimension());
     	    	
     	for (int i = 0; i < x.getDimension(); ++i) {
     		tmp.setReal(i, 2*x.getReal(i));

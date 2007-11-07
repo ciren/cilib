@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import java.util.Iterator;
-import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.BoundedControlParameter;
@@ -39,6 +38,7 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * 
@@ -110,7 +110,7 @@ public class MutationPositionUpdateStrategy extends
 		super.updatePosition(particle);
 		
 		if (maximumIterations == null) {
-			Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
+			java.util.Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
 			for (Iterator<StoppingCondition> i = vector.iterator(); i.hasNext(); ) {
 				StoppingCondition condition = i.next();
 				if (condition instanceof MaximumIterations) {
@@ -135,7 +135,7 @@ public class MutationPositionUpdateStrategy extends
 	private void mutate(Particle particle) {
 		PSO p = (PSO) Algorithm.get();
 
-		net.sourceforge.cilib.type.types.container.Vector position = (net.sourceforge.cilib.type.types.container.Vector) particle.getPosition();
+		Vector position = (Vector) particle.getPosition();
 		
 		double tempLower = 0.0;
 		double tempUpper = 0.0;

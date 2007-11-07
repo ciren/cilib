@@ -55,7 +55,7 @@ public class Diversity implements Measurement {
 				        
         Iterator<? extends Entity> k = algorithm.getTopology().iterator();
         Entity entity = k.next();
-        Vector averageParticlePosition = ((Vector) entity.getContents()).clone();
+        Vector averageParticlePosition = (Vector) entity.getContents().clone();
         while (k.hasNext()) {
         	entity = k.next();
         	Vector v = (Vector) entity.getContents();

@@ -17,7 +17,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.GenericTopol
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.SpecificWeightInitialiser;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightExtractingVisitor;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -80,7 +80,7 @@ public abstract class GenericTopology implements NeuralNetworkTopology, Initiali
 	}
 	
 			
-	public abstract MixedVector evaluate(NNPattern p);
+	public abstract Vector evaluate(NNPattern p);
 		
 	
 	public ArrayList<NeuronConfig> getLayer(int index){
@@ -97,7 +97,7 @@ public abstract class GenericTopology implements NeuralNetworkTopology, Initiali
 	}
 		
 	
-	public MixedVector getWeights(){
+	public Vector getWeights(){
 		WeightExtractingVisitor w = new WeightExtractingVisitor();
 		this.acceptVisitor(w);
 		return w.getWeights();
@@ -118,7 +118,7 @@ public abstract class GenericTopology implements NeuralNetworkTopology, Initiali
 	
 	
 		
-	public void setWeights(MixedVector weights){
+	public void setWeights(Vector weights){
 								
 		//set the weights array (NOT pattern input weights, only network weights
 		SpecificWeightInitialiser v = new SpecificWeightInitialiser();

@@ -30,7 +30,6 @@ package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -73,7 +72,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
     // TODO: check the derivative!!
     public Vector getGradient(Vector x) {
         //double [] tmp = new double [getDimension()];
-        Vector tmp = new MixedVector(getDimension());
+        Vector tmp = new Vector(getDimension());
         
         /*for (int i = 0; i < getDimension(); ++i) {
             tmp[i] = (2.0 * x[i]) + (2.0 * 10 * Math.PI * Math.sin(2.0 * Math.PI * x[i]));

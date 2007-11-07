@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -16,10 +16,10 @@ import net.sourceforge.cilib.type.types.container.MixedVector;
  */
 public interface NeuralNetworkTopology extends Initializable{
 
-	public MixedVector evaluate(NNPattern p);
+	public Vector evaluate(NNPattern p);
 	
-	public MixedVector getWeights();
+	public Vector getWeights();
 	
-	public void setWeights(MixedVector w);
+	public void setWeights(Vector w);
 				
 }

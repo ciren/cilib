@@ -32,6 +32,7 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.NewGCVelocityUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -43,7 +44,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Camiel Castillo
  * Guaranteed Convergence PSO iteration strategy
  * as proposed by F van den Bergh in "A new Locally Convergent Particle Swarm Optimiser"
+ * 
+ * @deprecated This class has been replaced with {@link NewGCVelocityUpdateStrategy}
  */
+@Deprecated
 public class GCIterationStrategy extends IterationStrategy<PSO> {
 	private static final long serialVersionUID = 1183812644462220386L;
 	Particle gbestParticle = null;

@@ -34,7 +34,6 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
@@ -54,9 +53,9 @@ public class StandardParticle extends AbstractParticle {
     public StandardParticle() {
     	super();
     	
-    	properties.put("position", new MixedVector());
-    	properties.put("bestPosition", new MixedVector());
-    	properties.put("velocity", new MixedVector());
+    	properties.put("position", new Vector());
+    	properties.put("bestPosition", new Vector());
+    	properties.put("velocity", new Vector());
         
         fitnessCalculator = new VectorBasedFitnessCalculator();
     }

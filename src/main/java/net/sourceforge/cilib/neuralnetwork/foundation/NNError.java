@@ -7,7 +7,7 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -16,7 +16,7 @@ import net.sourceforge.cilib.type.types.container.MixedVector;
  */
 public interface NNError extends Fitness, Initializable {
 	
-	public void computeIteration(MixedVector output, NNPattern input);
+	public void computeIteration(Vector output, NNPattern input);
 	
 	public void finaliseError();
 	

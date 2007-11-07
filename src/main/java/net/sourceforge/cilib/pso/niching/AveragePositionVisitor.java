@@ -4,7 +4,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class AveragePositionVisitor extends TopologyVisitor {
@@ -12,7 +11,7 @@ public class AveragePositionVisitor extends TopologyVisitor {
 	private Vector averageVector;
 	
 	public AveragePositionVisitor() {
-		this.averageVector = new MixedVector();
+		this.averageVector = new Vector();
 	}
 
 	public void visit(Topology<? extends Entity> topology) {

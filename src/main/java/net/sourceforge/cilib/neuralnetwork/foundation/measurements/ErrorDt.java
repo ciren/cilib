@@ -5,7 +5,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class ErrorDt implements Measurement {
 	private static final long serialVersionUID = -5027085270461720189L;
@@ -36,7 +36,7 @@ public class ErrorDt implements Measurement {
 
 	public Type getValue() {
 		NNError[] errorDt = eval.getErrorDt();
-		MixedVector err = new MixedVector();
+		Vector err = new Vector();
 		
 		for (int i = 0; i < errorDt.length; i++){
 			err.add(new Real(errorDt[i].getValue().doubleValue()));

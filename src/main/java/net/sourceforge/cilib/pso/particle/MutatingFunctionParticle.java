@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.pso.particle;
 
 import java.util.Iterator;
-import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
@@ -35,6 +34,7 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Auralia Edwards
@@ -66,8 +66,8 @@ public class MutatingFunctionParticle extends StandardParticle {
 		/*for (int i = 0; i < position.length; ++i) {
 			position[i] += velocity[i];
 		}*/
-		net.sourceforge.cilib.type.types.container.Vector position = getPosition();
-		net.sourceforge.cilib.type.types.container.Vector velocity = getVelocity();
+		Vector position = (Vector) getPosition();
+		Vector velocity = (Vector) getVelocity();
 		
 		for (int i = 0; i < position.getDimension(); ++i) {
 			double result = position.getReal(i) + velocity.getReal(i);
@@ -83,7 +83,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 	}
 
 	private void getStoppingConditionObjects() {
-		Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
+		java.util.Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
 		for (Iterator<StoppingCondition> i = vector.iterator(); i.hasNext(); ) {
 			StoppingCondition condition = i.next();
 			if (condition instanceof MaximumIterations) {
@@ -134,7 +134,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 		double tempLower = 0.0;
 		double tempUpper = 0.0;
 		
-		net.sourceforge.cilib.type.types.container.Vector position = getPosition();
+		Vector position = getPosition();
 		
 		//		for (int i = 0; i < position.length; ++i) { // Mutation
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation

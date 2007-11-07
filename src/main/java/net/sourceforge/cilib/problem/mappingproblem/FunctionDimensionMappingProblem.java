@@ -35,7 +35,6 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.dataset.StringDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -125,7 +124,7 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
 	
 	
 	private Vector vectorise(String [] parts) {
-		Vector v = new MixedVector();
+		Vector v = new Vector();
 		
 		for (String s : parts) {
 			v.add(new Real(Double.valueOf(s)));

@@ -38,7 +38,6 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -68,11 +67,11 @@ public class ScatterGBestMergeStrategy<E extends PopulationBasedAlgorithm> imple
     {
 	Real range = (Real) ((Vector) mainSwarm.getOptimisationProblem().getDomain().getBuiltRepresenation().clone()).get(0);
 
-	Vector gBestPos1 = (MixedVector) gBest1.getPosition();
-	Vector gBestPos2 = (MixedVector) gBest2.getPosition();
+	Vector gBestPos1 = (Vector) gBest1.getPosition();
+	Vector gBestPos2 = (Vector) gBest2.getPosition();
 
-	Vector v1 = new MixedVector();
-	Vector v2 = new MixedVector();
+	Vector v1 = new Vector();
+	Vector v2 = new Vector();
 
 	for (int i = 0; i < gBest1.getPosition().getDimension(); i++)
 	{

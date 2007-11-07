@@ -122,4 +122,8 @@ public abstract class MutationStrategy implements Operator {
 		return this.operatorStrategy;
 	}
 
+	public void setOperatorStrategy(MutationOperatorStrategy operatorStrategy) {
+		this.operatorStrategy = operatorStrategy;
+	}
+
 }

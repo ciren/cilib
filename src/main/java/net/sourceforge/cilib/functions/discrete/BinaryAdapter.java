@@ -29,7 +29,6 @@ package net.sourceforge.cilib.functions.discrete;
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -145,7 +144,7 @@ public class BinaryAdapter extends DiscreteFunction {
 	 * @return
 	 */
 	public Vector decodeBitString(Vector bits) {
-		Vector vector = new MixedVector();
+		Vector vector = new Vector();
 		
 		for (int i = 0; i < bits.getDimension(); ) {
 			double tmp = valueOf(bits, i, i+this.bitsPerDimension);

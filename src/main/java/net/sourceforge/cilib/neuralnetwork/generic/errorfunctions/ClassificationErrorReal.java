@@ -7,7 +7,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Stefan
@@ -29,7 +29,7 @@ public class ClassificationErrorReal implements NNError {
 	}
 	
 	
-	public void computeIteration(MixedVector output, NNPattern input) {
+	public void computeIteration(Vector output, NNPattern input) {
 		
 		boolean isCorrect = true;
 		

@@ -12,7 +12,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkData;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
@@ -82,7 +82,7 @@ public class MSEErrorFunction implements NNError, Initializable {
 	}
 		
 	
-	public void computeIteration(MixedVector output, NNPattern input) {
+	public void computeIteration(Vector output, NNPattern input) {
 		
 		if (input.getTargetLength() != output.size()){
 			throw new IllegalArgumentException("Output and target lenghts don't match");

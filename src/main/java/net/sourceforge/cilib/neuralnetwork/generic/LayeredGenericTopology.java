@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class LayeredGenericTopology extends GenericTopology {
 	
@@ -26,9 +26,9 @@ public class LayeredGenericTopology extends GenericTopology {
 		super.initialize();
 	}
 	
-	public MixedVector evaluate(NNPattern p){
+	public Vector evaluate(NNPattern p){
 		
-		MixedVector output = new MixedVector();
+		Vector output = new Vector();
 		
 		for (int layer = 0; layer < layerList.size(); layer++){
 			

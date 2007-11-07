@@ -2,16 +2,16 @@ package net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors;
 
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class WeightExtractingVisitor implements GenericTopologyVisitor {
 	
-	MixedVector weights = null;
+	Vector weights = null;
 	
 	
 
 	public WeightExtractingVisitor() {
-		this.weights = new MixedVector();
+		this.weights = new Vector();
 	}
 
 
@@ -28,12 +28,12 @@ public class WeightExtractingVisitor implements GenericTopologyVisitor {
 	}
 
 
-	public MixedVector getWeights() {
+	public Vector getWeights() {
 		return weights;
 	}
 
 
-	public void setWeights(MixedVector weights) {
+	public void setWeights(Vector weights) {
 		throw new IllegalArgumentException("This operation is not supported for this visitor.");
 	}
 	

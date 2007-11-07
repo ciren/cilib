@@ -34,7 +34,6 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
@@ -56,8 +55,8 @@ public class Individual extends AbstractEntity {
      */
     public Individual() {
         dimension = 0;
-        this.properties.put("genes", new MixedVector());
-        this.properties.put("penotypes", new MixedVector());
+        this.properties.put("genes", new Vector());
+        this.properties.put("penotypes", new Vector());
         this.properties.put("fitness", InferiorFitness.instance());
 //        fitness = InferiorFitness.instance();
         fitnessCalculator = new VectorBasedFitnessCalculator();

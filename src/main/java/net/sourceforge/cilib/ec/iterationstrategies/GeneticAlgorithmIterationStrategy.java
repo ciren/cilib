@@ -93,7 +93,6 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 		// Evaluate the fitness values of the generated offspring
 		for (Iterator<Entity> i = offspring.iterator(); i.hasNext(); ) {
 			Entity entity = i.next();
-			//entity.setFitness(ec.getOptimisationProblem().getFitness(entity.get(), false));
 			entity.calculateFitness();
 		}
 		

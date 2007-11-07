@@ -36,7 +36,6 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -156,11 +155,11 @@ public class DirectionalGBestMergeStrategy<E extends PopulationBasedAlgorithm>
     {
 	Real range = (Real) ((Vector) mainSwarm.getOptimisationProblem().getDomain().getBuiltRepresenation().clone()).get(0);
 
-	Vector gBestPos1 = (MixedVector) gBest1.getPosition();
-	Vector gBestPos2 = (MixedVector) gBest2.getPosition();
+	Vector gBestPos1 = (Vector) gBest1.getPosition();
+	Vector gBestPos2 = (Vector) gBest2.getPosition();
 
-	Vector v1 = new MixedVector();
-	Vector v2 = new MixedVector();
+	Vector v1 = new Vector();
+	Vector v2 = new Vector();
 
 	for (int i = 0; i < gBest1.getPosition().getDimension(); i++)
 	{
@@ -203,7 +202,7 @@ public class DirectionalGBestMergeStrategy<E extends PopulationBasedAlgorithm>
 	    newPosition.setReal(i, value);
 	}
 
-	Vector direction = new MixedVector();
+	Vector direction = new Vector();
 	direction = newPosition.subtract((Vector) a.getPosition());
 	
 	return direction;

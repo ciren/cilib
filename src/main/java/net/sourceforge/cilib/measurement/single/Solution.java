@@ -29,7 +29,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Edwin Peer
@@ -54,7 +54,7 @@ public class Solution implements Measurement {
 	public Type getValue() {
 		StringType s = new StringType();
 		
-		MixedVector solution = (MixedVector) Algorithm.get().getBestSolution().getPosition();
+		Vector solution = (Vector) Algorithm.get().getBestSolution().getPosition();
 		
 		//s.setString(buffer.toString());
 		s.setString(solution.toString());

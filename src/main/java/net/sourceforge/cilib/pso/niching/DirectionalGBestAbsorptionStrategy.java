@@ -38,7 +38,6 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -95,8 +94,8 @@ public class DirectionalGBestAbsorptionStrategy<E extends PopulationBasedAlgorit
     
     public Vector CalculateDirectionalVector(Particle a)
     {
-	Vector newPosition = (Vector) a.getPosition().clone();
-	Vector velocity = (Vector) a.getVelocity().clone();
+	 Vector newPosition = (Vector) a.getPosition().clone();
+	Vector velocity =  (Vector) a.getVelocity().clone();
 
 	for (int i = 0; i < newPosition.getDimension(); i++)
 	{
@@ -105,7 +104,7 @@ public class DirectionalGBestAbsorptionStrategy<E extends PopulationBasedAlgorit
 	    newPosition.setReal(i, value);
 	}
 
-	Vector direction = new MixedVector();
+	Vector direction = new Vector();
 	direction = newPosition.subtract((Vector) a.getPosition());
 	
 	return direction;

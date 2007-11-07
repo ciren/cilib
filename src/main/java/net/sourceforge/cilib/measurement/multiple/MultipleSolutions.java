@@ -28,7 +28,6 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -53,7 +52,7 @@ public class MultipleSolutions implements Measurement {
 	}
 	
 	public Type getValue() {		
-		Vector v = new MixedVector();
+		Vector v = new Vector();
 		List<OptimisationSolution> solutions = Algorithm.get().getSolutions();
 		
 		for (OptimisationSolution solution : solutions) {

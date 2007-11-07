@@ -6,7 +6,6 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
@@ -18,12 +17,12 @@ import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 public class CooperativeEntity extends AbstractEntity {
 	private static final long serialVersionUID = -8298684370426283216L;
 	
-	protected MixedVector context = null;
+	protected Vector context = null;
 	protected Fitness fitness = null;
 	protected FitnessCalculator fitnessCalculator;
 
 	public CooperativeEntity() {
-		context = new MixedVector();
+		context = new Vector();
 		fitness = InferiorFitness.instance();
 		fitnessCalculator = new VectorBasedFitnessCalculator();
 	}
@@ -47,8 +46,8 @@ public class CooperativeEntity extends AbstractEntity {
 	}
 
 	public void append(Type value) {
-		if(value instanceof Vector || value instanceof MixedVector)
-			context.append((MixedVector)value);
+		if(value instanceof Vector)
+			context.append((Vector)value);
 		else
 			context.append(value);
 	}
@@ -59,7 +58,7 @@ public class CooperativeEntity extends AbstractEntity {
 	
 	public void update(Entity src, int srcPos, int dstPos, int length) {
 		for(int i = dstPos; i < dstPos + length; ++i) {
-			context.setReal(i, ((MixedVector)src.getContents()).getReal(srcPos + i - dstPos));
+			context.setReal(i, ((Vector)src.getContents()).getReal(srcPos + i - dstPos));
 		}
 	}
 	
@@ -97,17 +96,7 @@ public class CooperativeEntity extends AbstractEntity {
 	}
 
 	public void initialise(OptimisationProblem problem) {
-		context = (MixedVector)problem.getDomain().getBuiltRepresenation().clone();
-	}
-
-	public Type getBehaviouralParameters() {
-		// TODO I don't think we need this
-		throw new UnsupportedOperationException("What exactly are Behvioural Parameters?");
-	}
-
-	public void setBehaviouralParameters(Type behaviouralParameters) {
-		//TODO I don't think we need this
-		throw new UnsupportedOperationException("What exactly are Behvioural Parameters?");
+		context = (Vector) problem.getDomain().getBuiltRepresenation().clone();
 	}
 
 	public void reinitialise() {

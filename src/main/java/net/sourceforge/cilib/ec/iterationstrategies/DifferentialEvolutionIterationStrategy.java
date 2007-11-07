@@ -31,14 +31,12 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.MixedVector;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -91,7 +89,7 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 			Vector position2 = (Vector) parents.get(1).getContents();
 			Vector position3 = (Vector) parents.get(2).getContents();
 			
-			Vector trialVector = new MixedVector();
+			Vector trialVector = new Vector();
 			
 			int i = Double.valueOf(random1.getUniform(0, currentPosition.getDimension())).intValue();
 			for (int j = 0; j < currentPosition.getDimension(); j++) {

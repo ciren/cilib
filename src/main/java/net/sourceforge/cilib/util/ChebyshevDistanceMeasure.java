@@ -43,6 +43,7 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
 		// alpha cannot be directly instantiated to infinity :-)
 	}
 
+	@Override
 	public <T extends Vector> double distance(T x, T y) {
 		/*
 		 * TODO: Consider re-implementing for different sized vectors, especially as everything is

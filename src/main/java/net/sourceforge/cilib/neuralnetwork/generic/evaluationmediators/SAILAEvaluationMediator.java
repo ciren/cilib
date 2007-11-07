@@ -14,7 +14,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
-import net.sourceforge.cilib.type.types.container.MixedVector;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
@@ -100,7 +100,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		iteratorDg = data.getGeneralisationSetIterator();
 		
 		//set the initial error to the error on Dt = 1 pattern.
-		MixedVector tmpO = topology.evaluate(iteratorDt.value());
+		Vector tmpO = topology.evaluate(iteratorDt.value());
 		subsetBeginErrorDt.computeIteration(tmpO, iteratorDt.value());
 		subsetBeginErrorDg.computeIteration(tmpO, iteratorDg.value());
 		subsetBeginErrorDt.finaliseError();
@@ -138,7 +138,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		//iterate over training set
 		while(iteratorDt.hasMore()){
 						
-			MixedVector outputDt = topology.evaluate(iteratorDt.value());
+			Vector outputDt = topology.evaluate(iteratorDt.value());
 						
 			//compute the per pattern error, use it to train the topology stochastically by default
 			this.computeErrorIteration(this.errorDt,outputDt, iteratorDt.value());
@@ -156,7 +156,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		
 		while(iteratorDg.hasMore()){
 			
-			MixedVector outputDg = topology.evaluate(iteratorDg.value());
+			Vector outputDg = topology.evaluate(iteratorDg.value());
 						
 			//compute the per pattern error, use it to train the topology stochastically be default
 			this.computeErrorIteration(this.errorDg, outputDg, iteratorDg.value());
@@ -267,7 +267,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 
 
 	
-	public MixedVector evaluate(NNPattern p) {
+	public Vector evaluate(NNPattern p) {
 		return topology.evaluate(p);
 	}
 	
