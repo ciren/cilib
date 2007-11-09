@@ -198,6 +198,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 
 	@Override
 	public double accept(TopologyVisitor visitor) {
+		visitor.setCurrentAlgorithm(this);
 		getTopology().accept(visitor);
 		return visitor.getResult();
 	}

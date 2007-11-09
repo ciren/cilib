@@ -105,8 +105,9 @@ public class NormalisedDiversity implements Measurement {
 		
 		double diversity = particleSum/numberParticles;
 		
+		Algorithm algorithm = Algorithm.get();
 		DiameterVisitor diameterVisitor = new DiameterVisitor();
-		Algorithm.get().accept(diameterVisitor);
+		algorithm.accept(diameterVisitor);
 		double diameter = diameterVisitor.getResult();
 				
     	return new Real(diversity/diameter);

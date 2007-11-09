@@ -168,6 +168,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 
 	@Override
 	public double accept(TopologyVisitor visitor) {
+		visitor.setCurrentAlgorithm(this);
 		getTopology().accept(visitor);
 		return visitor.getResult();
 	}

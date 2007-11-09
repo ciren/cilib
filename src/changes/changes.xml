@@ -4,7 +4,7 @@
 		<author email="gpampara@cs.up.ac.za">Gary Pampara</author>
 	</properties>
 	<body>
-		<release version="0.6.10" date="" description="">
+		<release version="0.6.10" date="Not yet released" description="">
 			<action dev="gpampara" type="update" issue="1827386">
 				Refactored the Vector types to be more consistent.
 			</action>

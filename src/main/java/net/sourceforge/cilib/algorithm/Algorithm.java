@@ -311,7 +311,7 @@ public abstract class Algorithm implements Runnable, Serializable {
 	
 	/**
 	 * General method to accept a visitor to perform a calculation on the current algorithm. The 
-	 * operation is generally defered down to the underlying topology associated with the 
+	 * operation is generally deferred down to the underlying topology associated with the 
 	 * algorithm, as the algorithm does not contain information, but rather only behaviour to alter
 	 * the candidate solutions that are managed by the <tt>Topology</tt>. 
 	 * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
