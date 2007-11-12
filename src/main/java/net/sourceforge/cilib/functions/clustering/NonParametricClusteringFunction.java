@@ -1,5 +1,5 @@
 /*
- * InterClusterDistance.java
+ * NonParametricClusteringFunction.java
  * 
  * Created on July 18, 2007
  *
@@ -23,22 +23,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
-
-import net.sourceforge.cilib.measurement.single.GenericFunctionMeasurement;
+package net.sourceforge.cilib.functions.clustering;
 
 /**
- * This <i>clustering fitness function</i> will probably never be used to train on directly. The
- * main reason why it has been implemented is to be able to take measurements of the
- * <i>inter-cluster distance<i> via the {@linkplain GenericFunctionMeasurement} class.
+ * This class makes use of the helper/member functions defined and implemented in
+ * {@linkplain ClusteringFitnessFunction) to calculate a non-parameterised fitness of a particular
+ * clustering in the <tt>calculateFitness</tt> method. See:<br/>
+ * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern Recognition
+ *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
+ *             Pretoria", school = "Computer Science", year = "2004", month = nov, pages = "128 &
+ *             129" address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht" }
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class InterClusterDistance extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 6533014298881438534L;
+public class NonParametricClusteringFunction extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = 5712216719378084294L;
+
+	public NonParametricClusteringFunction() {
+		super();
+	}
 
 	@Override
 	public double calculateFitness() {
-		return calculateMinimumInterClusterDistance();
+		return (calculateMaximumAverageDistance() + calculateQuantisationError()) / calculateMinimumInterClusterDistance();
 	}
 }

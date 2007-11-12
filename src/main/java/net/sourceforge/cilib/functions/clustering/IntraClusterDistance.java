@@ -1,5 +1,5 @@
 /*
- * QuantisationErrorFunction.java
+ * IntraClusterDistance.java
  * 
  * Created on July 18, 2007
  *
@@ -23,28 +23,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.clustering;
+
+import net.sourceforge.cilib.measurement.single.GenericFunctionMeasurement;
 
 /**
- * This class makes use of the helper/member functions defined and implemented in
- * {@linkplain ClusteringFitnessFunction} to calculate the Quantisation Error of a particular
- * clustering in the <tt>calculateFitness</tt> method. See: <br/>
- * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern Recognition
- *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
- *             Pretoria", school = "Computer Science", year = "2004", month = nov, address =
- *             "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht", }
+ * This <i>clustering fitness function</i> will probably never be used to train on directly. The
+ * main reason why it has been implemented is to be able to take measurements of the
+ * <i>intra-cluster distance<i> via the {@linkplain GenericFunctionMeasurement} class.
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class QuantisationErrorFunction extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = -7008338250315442786L;
-
-	public QuantisationErrorFunction() {
-		super();
-	}
+public class IntraClusterDistance extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = -4185205766188040942L;
 
 	@Override
 	public double calculateFitness() {
-		return calculateQuantisationError();
+		return calculateAverageIntraClusterDistance();
 	}
 }

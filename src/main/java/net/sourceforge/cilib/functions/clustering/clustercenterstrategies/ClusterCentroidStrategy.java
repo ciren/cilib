@@ -1,5 +1,6 @@
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
+import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**

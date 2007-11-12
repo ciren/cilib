@@ -1,4 +1,4 @@
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.clustering;
 
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;

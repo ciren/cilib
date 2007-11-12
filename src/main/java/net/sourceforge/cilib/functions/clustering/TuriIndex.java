@@ -1,5 +1,5 @@
 /*
- * IntraClusterDistance.java
+ * TuriIndex.java
  * 
  * Created on July 18, 2007
  *
@@ -23,22 +23,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
-
-import net.sourceforge.cilib.measurement.single.GenericFunctionMeasurement;
+package net.sourceforge.cilib.functions.clustering;
 
 /**
- * This <i>clustering fitness function</i> will probably never be used to train on directly. The
- * main reason why it has been implemented is to be able to take measurements of the
- * <i>intra-cluster distance<i> via the {@linkplain GenericFunctionMeasurement} class.
+ * This is the Turi Validity Index as given in 
+ * Section 3.1.4 on page 66 of Mahamed G. H. Omran's PhD thesis, titled
+ * <tt>Particle Swarm Optimization Methods for Pattern Recognition and Image Processing</tt>,
+ * November 2004
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class IntraClusterDistance extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = -4185205766188040942L;
+public class TuriIndex extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = 2457356424874462741L;
+
+	private double c = 0.0;
+//	private RandomNumber random = null;
+//	private double gaussian = 0.0;
+
+	public TuriIndex() {
+		super();
+//		random = new RandomNumber();
+//		gaussian = random.getGaussian(2, 1);
+	}
 
 	@Override
 	public double calculateFitness() {
-		return calculateAverageIntraClusterDistance();
+//		gaussian = random.getGaussian(2, 1);
+
+		return /*(c * gaussian + 1) * */(calculateAverageIntraClusterDistance() / calculateMinimumInterClusterDistance());
+	}
+
+	public void setC(double c) {
+		this.c = c;
 	}
 }

@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.functions.continuous.ClusteringFitnessFunction;
-import net.sourceforge.cilib.functions.continuous.QuantisationErrorFunction;
+import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
+import net.sourceforge.cilib.functions.clustering.QuantisationErrorFunction;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;

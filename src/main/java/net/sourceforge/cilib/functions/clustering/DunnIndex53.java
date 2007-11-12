@@ -1,5 +1,5 @@
 /*
- * DunnIndex33.java
+ * DunnIndex53.java
  * 
  * Created on July 18, 2007
  *
@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This is the Dunn Index 33 due to Equations 22 and 28 in<br/>
+ * This is the Dunn Index 53 due to Equations 24 and 28 in<br/>
  * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C. Bezdek and
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =
@@ -39,34 +39,32 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class DunnIndex33 extends GeneralisedDunnIndex {
-	private static final long serialVersionUID = -3307601269742583865L;
+public class DunnIndex53 extends DunnIndex33 {
+	private static final long serialVersionUID = -5986491658596276019L;
 
-	public DunnIndex33() {
+	public DunnIndex53() {
 		super();
-		clusterCenterStrategy = new ClusterMeanStrategy(this);
 	}
 
 	/**
-	 * This method implements Equation 28 in the above-mentioned article.
-	 */
-	@Override
-	protected double calculateWithinClusterScatter(int k) {
-		double averageDistance = 0.0;
-		ArrayList<Pattern> cluster = arrangedClusters.get(k);
-		Vector center = clusterCenterStrategy.getCenter(k);
-
-		for (Pattern pattern : cluster) {
-			averageDistance += calculateDistance(pattern.data, center);
-		}
-		return 2.0 * (averageDistance / cluster.size());
-	}
-
-	/**
-	 * This method implements Equation 22 in the above-mentioned article.
+	 * This method implements Equation 24 in the above-mentioned article.
 	 */
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
-		return calculateAverageSetDistance(i, j);
+		double lhsAverage = 0.0, rhsAverage = 0.0;
+		ArrayList<Pattern> leftCluster = arrangedClusters.get(i);
+		ArrayList<Pattern> rightCluster = arrangedClusters.get(j);
+		Vector leftCenter = clusterCenterStrategy.getCenter(i);
+		Vector rightCenter = clusterCenterStrategy.getCenter(j);
+
+		for (Pattern pattern : leftCluster) {
+			lhsAverage += calculateDistance(pattern.data, rightCenter);
+		}
+
+		for (Pattern pattern : rightCluster) {
+			rhsAverage += calculateDistance(pattern.data, leftCenter);
+		}
+
+		return (lhsAverage + rhsAverage) / (leftCluster.size() + rightCluster.size());
 	}
 }

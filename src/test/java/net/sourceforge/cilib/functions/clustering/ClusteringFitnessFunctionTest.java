@@ -1,4 +1,4 @@
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.clustering;
 
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;

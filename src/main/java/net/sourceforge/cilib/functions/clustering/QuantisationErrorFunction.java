@@ -1,5 +1,5 @@
 /*
- * TuriIndex.java
+ * QuantisationErrorFunction.java
  * 
  * Created on July 18, 2007
  *
@@ -23,37 +23,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.clustering;
 
 /**
- * This is the Turi Validity Index as given in 
- * Section 3.1.4 on page 66 of Mahamed G. H. Omran's PhD thesis, titled
- * <tt>Particle Swarm Optimization Methods for Pattern Recognition and Image Processing</tt>,
- * November 2004
+ * This class makes use of the helper/member functions defined and implemented in
+ * {@linkplain ClusteringFitnessFunction} to calculate the Quantisation Error of a particular
+ * clustering in the <tt>calculateFitness</tt> method. See: <br/>
+ * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern Recognition
+ *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
+ *             Pretoria", school = "Computer Science", year = "2004", month = nov, address =
+ *             "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht", }
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
-public class TuriIndex extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 2457356424874462741L;
+public class QuantisationErrorFunction extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = -7008338250315442786L;
 
-	private double c = 0.0;
-//	private RandomNumber random = null;
-//	private double gaussian = 0.0;
-
-	public TuriIndex() {
+	public QuantisationErrorFunction() {
 		super();
-//		random = new RandomNumber();
-//		gaussian = random.getGaussian(2, 1);
 	}
 
 	@Override
 	public double calculateFitness() {
-//		gaussian = random.getGaussian(2, 1);
-
-		return /*(c * gaussian + 1) * */(calculateAverageIntraClusterDistance() / calculateMinimumInterClusterDistance());
-	}
-
-	public void setC(double c) {
-		this.c = c;
+		return calculateQuantisationError();
 	}
 }

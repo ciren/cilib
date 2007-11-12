@@ -1,7 +1,8 @@
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
