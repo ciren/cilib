@@ -1,5 +1,5 @@
 /*
- * TuriIndex.java
+ * DunnIndex.java
  * 
  * Created on July 18, 2007
  *
@@ -23,37 +23,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.clustering;
+package net.sourceforge.cilib.functions.clustering.validityindices;
 
 /**
- * This is the Turi Validity Index as given in 
- * Section 3.1.4 on page 66 of Mahamed G. H. Omran's PhD thesis, titled
- * <tt>Particle Swarm Optimization Methods for Pattern Recognition and Image Processing</tt>,
- * November 2004
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
+ * This is the Dunn Validity Index as given in:<br/>
+ * @Article{ dunn1974vi, title = "Well Separated Clusters and Optimal Fuzzy Partitions", author =
+ *           "J. C. Dunn", journal = "Journal of Cybernetics", pages = "95--104", volume = "4", year =
+ *           "1974" }
  * @author Theuns Cloete
  */
-public class TuriIndex extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 2457356424874462741L;
+public class DunnIndex extends GeneralisedDunnIndex {
+	private static final long serialVersionUID = -7440453719679272149L;
 
-	private double c = 0.0;
-//	private RandomNumber random = null;
-//	private double gaussian = 0.0;
-
-	public TuriIndex() {
+	public DunnIndex() {
 		super();
-//		random = new RandomNumber();
-//		gaussian = random.getGaussian(2, 1);
 	}
 
 	@Override
-	public double calculateFitness() {
-//		gaussian = random.getGaussian(2, 1);
-
-		return /*(c * gaussian + 1) * */(calculateAverageIntraClusterDistance() / calculateMinimumInterClusterDistance());
+	protected double calculateWithinClusterScatter(int k) {
+		return calculateClusterDiameter(k);
 	}
 
-	public void setC(double c) {
-		this.c = c;
+	@Override
+	protected double calculateBetweenClusterSeperation(int i, int j) {
+		return calculateMinimumSetDistance(i, j);
 	}
 }
