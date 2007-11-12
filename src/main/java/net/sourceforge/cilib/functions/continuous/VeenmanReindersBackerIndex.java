@@ -40,6 +40,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           "0162-8828", pages = "1273--1280", doi =
  *           "http://dx.doi.org/10.1109/TPAMI.2002.1033218", publisher = "IEEE Computer Society",
  *           address = "Washington, DC, USA", }
+ * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
 public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
@@ -49,20 +50,23 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 
 	public VeenmanReindersBackerIndex() {
 		super();
+		clusterCenterStrategy = new ClusterMeanStrategy(this);
 		maximumVariance = new ConstantControlParameter(1.0);	// default variance limit is 1.0
 	}
 
 	@Override
 	public double calculateFitness() {
 		if (!holdsConstraint())
-			return Double.MAX_VALUE;
+			return worstFitness();
 
 		double sumOfSquaredError = 0.0;
 
-		for (ArrayList<Pattern> cluster : arrangedClusters) {
-			Vector mean = dataset.getSetMean(cluster); // article explicitly uses the mean
+		for (int i = 0; i < arrangedClusters.size(); i++) {
+			ArrayList<Pattern> cluster = arrangedClusters.get(i);
+			Vector center = clusterCenterStrategy.getCenter(i);
+
 			for (Pattern pattern : cluster) {
-				sumOfSquaredError += Math.pow(calculateDistance(pattern.data, mean), 2);
+				sumOfSquaredError += Math.pow(calculateDistance(pattern.data, center), 2);
 			}
 		}
 		return sumOfSquaredError /= dataset.getNumberOfPatterns();

@@ -30,6 +30,7 @@ package net.sourceforge.cilib.functions.continuous;
  * Section 3.1.4 on page 66 of Mahamed G. H. Omran's PhD thesis, titled
  * <tt>Particle Swarm Optimization Methods for Pattern Recognition and Image Processing</tt>,
  * November 2004
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
 public class TuriIndex extends ClusteringFitnessFunction {

@@ -47,10 +47,6 @@ public abstract class GeneralisedDunnIndex extends ScatterSeperationRatio {
 	 */
 	@Override
 	public double calculateFitness() {
-		if (clustersFormed < 2) {
-			return 0.0;
-		}
-
 		double withinScatter = -Double.MAX_VALUE, betweenSeperation = Double.MAX_VALUE;
 
 		cacheWithinClusterScatter();

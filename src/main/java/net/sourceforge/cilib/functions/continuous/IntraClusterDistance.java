@@ -31,6 +31,7 @@ import net.sourceforge.cilib.measurement.single.GenericFunctionMeasurement;
  * This <i>clustering fitness function</i> will probably never be used to train on directly. The
  * main reason why it has been implemented is to be able to take measurements of the
  * <i>intra-cluster distance<i> via the {@linkplain GenericFunctionMeasurement} class.
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
 public class IntraClusterDistance extends ClusteringFitnessFunction {

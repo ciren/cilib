@@ -36,15 +36,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           and Donald W. Bouldin", journal = "IEEE Transactions on Pattern Analysis and Machine
  *           Intelligence", volume = "1", number = "2", year = "1979", pages = "224--227", month =
  *           apr, issn = "0162-8828" }
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
 public class DaviesBouldinIndex extends ScatterSeperationRatio {
 	private static final long serialVersionUID = -5167494843653998358L;
-	private int q = 2;
 
 	public DaviesBouldinIndex() {
 		super();
-		q = 2;	// default is 2
 	}
 
 	@Override
@@ -73,15 +72,12 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
 	protected double calculateWithinClusterScatter(int k) {
 		double withinClusterScatter = 0.0;
 		ArrayList<Pattern> cluster = arrangedClusters.get(k);
-		Vector centroid = arrangedCentroids.get(k);
+		Vector center = clusterCenterStrategy.getCenter(k);
 
 		for (Pattern pattern : cluster) {
-			for (int i = 0; i < centroid.size(); i++) {
-				withinClusterScatter += Math.pow(Math.abs(pattern.data.getReal(i) - centroid.getReal(i)), q);
-			}
+			withinClusterScatter += calculateDistance(pattern.data, center);
 		}
-		withinClusterScatter /= cluster.size();
-		return Math.pow(withinClusterScatter, 1.0 / q);
+		return withinClusterScatter /= cluster.size();
 	}
 
 	/**
@@ -90,10 +86,6 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
 	 */
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
-		return calculateDistance(arrangedCentroids.get(i), arrangedCentroids.get(j));
-	}
-
-	public void setQ(int qu) {
-		q = qu;
+		return calculateDistance(clusterCenterStrategy.getCenter(i), clusterCenterStrategy.getCenter(j));
 	}
 }

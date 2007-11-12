@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           Systems, Man, and Cybernetics, Part C: Applications and Reviews", pages = "120--125",
  *           volume = "31", number = "1", month = feb, year = "2001", issn = "1094-6977", }
  * NOTE: I(K) isn't really a name, so I'm calling it the Maulik-Bandyopadhyay Validity Index
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
 public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
@@ -56,9 +57,13 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
 	}
 
 	private double termTwo() {
-		// This is the normalizing factor, E_1 which they talk about in the article
+		// This is the normalizing factor, E_1 which they talk about in the article.
 		double intraDatasetDistance = 0.0;
 
+		/* E_1 refers to the intra-cluster distance when the dataset is clustered using only one
+		 * cluster. In this case, the dataset mean can be thought of as the dataset's centroid as
+		 * well.
+		 */
 		Vector mean = dataset.getMean();
 		for (Pattern pattern : dataset.getPatterns()) {
 			intraDatasetDistance += calculateDistance(pattern.data, mean);

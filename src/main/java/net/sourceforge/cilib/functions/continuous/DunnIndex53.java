@@ -36,6 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =
  *           "1998", issn = "1083-4419" }
+ * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
 public class DunnIndex53 extends DunnIndex33 {
@@ -51,19 +52,19 @@ public class DunnIndex53 extends DunnIndex33 {
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
 		double lhsAverage = 0.0, rhsAverage = 0.0;
-		ArrayList<Pattern> lhs = arrangedClusters.get(i);
-		ArrayList<Pattern> rhs = arrangedClusters.get(j);
-		Vector lhsMean = dataset.getSetMean(lhs);
-		Vector rhsMean = dataset.getSetMean(rhs);
+		ArrayList<Pattern> leftCluster = arrangedClusters.get(i);
+		ArrayList<Pattern> rightCluster = arrangedClusters.get(j);
+		Vector leftCenter = clusterCenterStrategy.getCenter(i);
+		Vector rightCenter = clusterCenterStrategy.getCenter(j);
 
-		for (Pattern pattern : lhs) {
-			lhsAverage += calculateDistance(pattern.data, rhsMean);
+		for (Pattern pattern : leftCluster) {
+			lhsAverage += calculateDistance(pattern.data, rightCenter);
 		}
 
-		for (Pattern pattern : rhs) {
-			rhsAverage += calculateDistance(pattern.data, lhsMean);
+		for (Pattern pattern : rightCluster) {
+			rhsAverage += calculateDistance(pattern.data, leftCenter);
 		}
 
-		return (lhsAverage + rhsAverage) / (lhs.size() + rhs.size());
+		return (lhsAverage + rhsAverage) / (leftCluster.size() + rightCluster.size());
 	}
 }

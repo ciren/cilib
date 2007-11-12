@@ -37,6 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *                 "Proceedings of the IEEE International Conference on Data Mining", year = "2001",
  *                 isbn = "0-7695-1119-8", pages = "187--194", publisher = "IEEE Computer Society",
  *                 address = "Washington, DC, USA", }
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  */
 public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 1164537525165848345L;
@@ -51,6 +52,10 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 		return calculateWithinClusterScatter() + calculateBetweenClusterSeperation();
 	}
 
+	/**
+	 * NOTE: Variances are always calculated using means, therefore we do not use the
+	 * {@link ClusterCenterStrategy} idea here.
+	 */
 	protected double calculateWithinClusterScatter() {
 		double scattering = 0.0;
 		Vector clusterVariance = null;
@@ -70,30 +75,30 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 	}
 
 	protected double calculateBetweenClusterSeperation() {
-		Vector midPoint = null, leftCentroid = null, rightCentroid = null;
+		Vector midPoint = null, leftCenter = null, rightCenter = null;
 		double density = 0.0;
 		int midDensity = 0, leftDensity = 0, rightDensity = 0;
 
 		for (int i = 0; i < clustersFormed; i++) {
-			leftCentroid = arrangedCentroids.get(i);
+			leftCenter = clusterCenterStrategy.getCenter(i);
 			for (int j = 0; j < clustersFormed; j++) {
 				if (i != j) {
-					rightCentroid = arrangedCentroids.get(j);
-					midPoint = leftCentroid.plus(rightCentroid);
+					rightCenter = clusterCenterStrategy.getCenter(j);
+					midPoint = leftCenter.plus(rightCenter);
 					midPoint = midPoint.divide(2.0);
 					midDensity = leftDensity = rightDensity = 0;
 
 					for (Pattern pattern : arrangedClusters.get(i)) {
 						if (calculateDistance(pattern.data, midPoint) <= stdev)
 							++midDensity;
-						if (calculateDistance(pattern.data, leftCentroid) <= stdev)
+						if (calculateDistance(pattern.data, leftCenter) <= stdev)
 							++leftDensity;
 					}
 
 					for (Pattern pattern : arrangedClusters.get(j)) {
 						if (calculateDistance(pattern.data, midPoint) <= stdev)
 							++midDensity;
-						if (calculateDistance(pattern.data, rightCentroid) <= stdev)
+						if (calculateDistance(pattern.data, rightCenter) <= stdev)
 							++rightDensity;
 					}
 

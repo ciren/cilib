@@ -33,6 +33,7 @@ package net.sourceforge.cilib.functions.continuous;
  *             and Image Processing", author = "Mahamed G.H. Omran", institution = "University Of
  *             Pretoria", school = "Computer Science", year = "2004", month = nov, pages = "128 &
  *             129" address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht" }
+ * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
 public class NonParametricClusteringFunction extends ClusteringFitnessFunction {

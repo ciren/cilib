@@ -40,13 +40,18 @@ import org.apache.log4j.Logger;
 
 /**
  * This abstract class defines member variables and member functions that can be used by subclasses
- * to calculate the fitness of a particular clustering in their respective evaluate methods.
+ * to calculate the fitness of a particular clustering in their respective evaluate methods. This
+ * class makes use of a {@link ClusterCenterStrategy} to enable the user of this class to specify
+ * what is meant by the <i>center</i> of a cluster, because sometimes the <i>centroid</i> is used
+ * and other times the <i>mean</i> is used. By default, the cluster center is interpreted as the
+ * cluster centroid.
  * @author Theuns Cloete
  */
 public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	private static Logger log = Logger.getLogger(ClusteringFitnessFunction.class);
 	protected ClusterableDataSet dataset = null;
 	protected DistanceMeasure distanceMeasure = null;
+	protected ClusterCenterStrategy clusterCenterStrategy = null;
 	protected ArrayList<ArrayList<Pattern>> arrangedClusters = null;
 	protected ArrayList<Vector> arrangedCentroids = null;
 	protected int clustersFormed = 0;
@@ -59,7 +64,8 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	public ClusteringFitnessFunction() {
 		super();
 		distanceMeasure = new EuclideanDistanceMeasure();
-		setDomain("R(-5.0, 5.0)^2");
+		clusterCenterStrategy = new ClusterCentroidStrategy(this);
+//		setDomain("R(-5.0, 5.0)^2");
 	}
 
 	/**
@@ -129,10 +135,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 		for (int i = 0; i < clustersFormed; i++) {
 			double averageDistance = 0.0;
 			ArrayList<Pattern> cluster = arrangedClusters.get(i);
-			Vector centroid = arrangedCentroids.get(i);
+			Vector center = clusterCenterStrategy.getCenter(i);
 
 			for (Pattern pattern : cluster) {
-				averageDistance += calculateDistance(pattern.data, centroid);
+				averageDistance += calculateDistance(pattern.data, center);
 			}
 			averageDistance /= cluster.size();
 			quantisationError += averageDistance;
@@ -142,14 +148,14 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	}
 
 	/**
-	 * Calculate the Maximum Average Distance between the patterns in the dataset and the centroids
+	 * Calculate the Maximum Average Distance between the patterns in the dataset and the centers
 	 * learned so far; see Section 4.1.1 at the bottom of page 105 of:<br/>
 	 * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern
 	 *             Recognition and Image Processing", author = "Mahamed G.H. Omran", institution =
 	 *             "University Of Pretoria", school = "Computer Science", year = "2004", month = nov,
 	 *             address = "Pretoria, South Africa", note = "Supervisor: A. P. Engelbrecht", }
 	 * @return the maximum average distance between the patterns of a cluster and their associated
-	 *         centroid
+	 *         center
 	 */
 	public double calculateMaximumAverageDistance() {
 		double maximumAverageDistance = 0.0;
@@ -157,10 +163,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 		for (int i = 0; i < clustersFormed; i++) {
 			double averageDistance = 0.0;
 			ArrayList<Pattern> cluster = arrangedClusters.get(i);
-			Vector centroid = arrangedCentroids.get(i);
+			Vector center = clusterCenterStrategy.getCenter(i);
 
 			for (Pattern pattern : cluster) {
-				averageDistance += calculateDistance(pattern.data, centroid);
+				averageDistance += calculateDistance(pattern.data, center);
 			}
 			averageDistance /= cluster.size();
 			maximumAverageDistance = Math.max(maximumAverageDistance, averageDistance);
@@ -177,10 +183,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 		double minimumInterClusterDistance = Double.MAX_VALUE;
 
 		for (int i = 0; i < clustersFormed - 1; i++) {
-			Vector leftCentroid = arrangedCentroids.get(i);
+			Vector leftCenter = clusterCenterStrategy.getCenter(i);
 			for (int j = i + 1; j < clustersFormed; j++) {
-				Vector rightCentroid = arrangedCentroids.get(j);
-				minimumInterClusterDistance = Math.min(minimumInterClusterDistance, calculateDistance(leftCentroid, rightCentroid));
+				Vector rightCenter = clusterCenterStrategy.getCenter(j);
+				minimumInterClusterDistance = Math.min(minimumInterClusterDistance, calculateDistance(leftCenter, rightCenter));
 			}
 		}
 		return minimumInterClusterDistance;
@@ -195,10 +201,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 		double maximumInterClusterDistance = -Double.MAX_VALUE;
 
 		for (int i = 0; i < clustersFormed - 1; i++) {
-			Vector leftCentroid = arrangedCentroids.get(i);
+			Vector leftCenter = clusterCenterStrategy.getCenter(i);
 			for (int j = i + 1; j < clustersFormed; j++) {
-				Vector rightCentroid = arrangedCentroids.get(j);
-				maximumInterClusterDistance = Math.max(maximumInterClusterDistance, calculateDistance(leftCentroid, rightCentroid));
+				Vector rightCenter = clusterCenterStrategy.getCenter(j);
+				maximumInterClusterDistance = Math.max(maximumInterClusterDistance, calculateDistance(leftCenter, rightCenter));
 			}
 		}
 		return maximumInterClusterDistance;
@@ -304,10 +310,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 		for (int i = 0; i < clustersFormed; i++) {
 			ArrayList<Pattern> cluster = arrangedClusters.get(i);
-			Vector centroid = arrangedCentroids.get(i);
+			Vector center = clusterCenterStrategy.getCenter(i);
 
 			for (Pattern pattern : cluster) {
-				intraClusterDistance += calculateDistance(pattern.data, centroid);
+				intraClusterDistance += calculateDistance(pattern.data, center);
 			}
 		}
 		return intraClusterDistance;
@@ -357,6 +363,11 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 	public void setDistanceMeasure(DistanceMeasure dm) {
 		distanceMeasure = dm;
+	}
+
+	public void setClusterCenterStrategy(ClusterCenterStrategy ccs) {
+		clusterCenterStrategy = ccs;
+		clusterCenterStrategy.setClusteringFitnessFucntion(this);
 	}
 
 	/**

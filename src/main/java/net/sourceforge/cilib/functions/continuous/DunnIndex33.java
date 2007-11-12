@@ -36,6 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =
  *           "1998", issn = "1083-4419" }
+ * NOTE: By default, the cluster center refers to the cluster mean. See {@link ClusterCenterStrategy}.
  * @author Theuns Cloete
  */
 public class DunnIndex33 extends GeneralisedDunnIndex {
@@ -43,6 +44,7 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
 
 	public DunnIndex33() {
 		super();
+		clusterCenterStrategy = new ClusterMeanStrategy(this);
 	}
 
 	/**
@@ -52,10 +54,10 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
 	protected double calculateWithinClusterScatter(int k) {
 		double averageDistance = 0.0;
 		ArrayList<Pattern> cluster = arrangedClusters.get(k);
-		Vector setMean = dataset.getSetMean(cluster);
+		Vector center = clusterCenterStrategy.getCenter(k);
 
 		for (Pattern pattern : cluster) {
-			averageDistance += calculateDistance(pattern.data, setMean);
+			averageDistance += calculateDistance(pattern.data, center);
 		}
 		return 2.0 * (averageDistance / cluster.size());
 	}
