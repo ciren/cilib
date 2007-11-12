@@ -8,12 +8,11 @@
 			<action dev="gpampara" type="update" issue="1827386">
 				Refactored the Vector types to be more consistent.
 			</action>
-			<action dev="heatzync" type="update" issue="1829410">
-				Moved the Clustering Fitness Functions and Validity Indices into their own package(s): functions.clustering
-				and functions.clustering.validityindices respectively.
+			<action dev="gpampara" type="update" issue="1828379">
+				TopologyVisitor uses the outer algorithm in MultiPopulationBasedAlgorithms.
 			</action>
-			<action dev="heatzync" type="add">
-				Created a ClusterCenterStrategy. Also added two implementations: ClusterCentroidStrategy and ClusterMeanStrategy.
+			<action dev="heatzync" type="update" issue="1829410">
+				Refactor Clustering index functions into different package.
 			</action>
 		</release>
 		<release version="0.6.9" date="2007-10-12" description="NichePSO update and general maintenence release">
