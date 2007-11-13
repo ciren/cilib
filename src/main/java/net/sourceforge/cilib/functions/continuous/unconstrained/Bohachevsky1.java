@@ -65,7 +65,6 @@ public class Bohachevsky1 extends ContinuousFunction {
     public Bohachevsky1() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
-        System.out.println(1 + 2*2*2 - 0.3*Math.cos(3*Math.PI*1) - 0.4*Math.cos(4*Math.PI*2)+0.7);
     }
 
     public Object getMinimum() {
