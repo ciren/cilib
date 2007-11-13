@@ -1,10 +1,11 @@
 /*
- * Bohachevsky1.java
+ * Bohachevsky2Test.java
+ * JUnit based test
  *
- * Created on June 4, 2003, 4:49 PM
+ * Created on November 8, 2007, 06:26 PM
  *
  * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2007 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria
@@ -26,38 +27,40 @@
  *   
  */
 
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+
+import org.junit.Test;
 
 /**
  *
- * @author  engel
+ * @author Andries Engelbrecht
  */
-public class Bohachevsky1 extends ContinuousFunction {
-    
-	private static final long serialVersionUID = 44382638223225638L;
 
-	/** Creates a new instance of Bohachevsky1 */
-    public Bohachevsky1() {
-        //constraint.add(new DimensionValidator(2));
-        setDomain("R(-50, 50)^2");
-    }
+public class Bohachevsky2Test {
 
-    public Object getMinimum() {
-        return new Double(0);
+	public Bohachevsky2Test() {
+        
     }
     
-    /** Each function must provide an implementation which returns the function value
-     * at the given position. The length of the position array should be the same
-     * as the function dimension.
-     *
-     * @param x The position
-     *
-     */
-    public double evaluate(Vector x) {
-        return x.getReal(0)*x.getReal(0) + 2*x.getReal(1)*x.getReal(1) - 0.3*Math.cos(3*Math.PI*x.getReal(0)) - 0.4*Math.cos(4*Math.PI*x.getReal(1))+0.7;
-    }
-    
+    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Beale. */
+    @Test
+    public void testEvaluate() {
+        ContinuousFunction function = new Bohachevsky2();
+        function.setDomain("R(-100,100)^2");
+        
+        Vector x = new Vector();
+        x.append(new Real(1.0));
+        x.append(new Real(2.0));
+           
+        assertEquals(9.6, function.evaluate(x), 0.00000000000001);
+
+        x.setReal(0, 0.0);
+        x.setReal(1, 0.0);
+        assertEquals(0.0, function.evaluate(x), 0.0);
+    } 
 }

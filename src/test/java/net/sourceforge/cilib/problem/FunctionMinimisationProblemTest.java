@@ -34,7 +34,7 @@ import static org.junit.Assert.assertSame;
 import java.util.Random;
 
 import net.sourceforge.cilib.functions.Function;
-import net.sourceforge.cilib.functions.continuous.Ackley;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
 import net.sourceforge.cilib.functions.continuous.Spherical;
 
 import org.junit.BeforeClass;

@@ -1,11 +1,11 @@
 /*
- * AckleyTest.java
+ * BirdTest.java
  * JUnit based test
  *
- * Created on January 21, 2003, 3:17 PM
+ * Created on November 8, 2007, 06:26 PM
  *
  * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2007 
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria
@@ -27,7 +27,7 @@
  *   
  */
 
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -36,28 +36,29 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;
 
-
 /**
  *
- * @author Edwin Peer
+ * @author Andries Engelbrecht
  */
-public class AckleyTest {
-    
-    public AckleyTest() {
+
+
+public class BirdTest {
+
+	public BirdTest() {
         
     }
     
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Ackley. */
+    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Beale. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Ackley();
-        function.setDomain("R(-30, 30)^3");
+        ContinuousFunction function = new Bird();
+        function.setDomain("R(-6.285714286,6.285714286)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
-        x.append(new Real(3.0));
-        assertEquals(7.0164536, function.evaluate(x), 0.000000009);
+           
+        assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
     } 
-    
 }
+
