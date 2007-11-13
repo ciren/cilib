@@ -69,7 +69,7 @@
       <name>Gary Pampara</name>
       <email>gpampara@cs.up.ac.za</email>
       <roles>
-        <role>Developer</role>
+        <role>Lead Developer</role>
       </roles>
       <timezone>2</timezone>
     </developer>
@@ -227,6 +227,34 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+	  <aggregate>true</aggregate>
+	  <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
+	  <docletArtifact>
+	    <groupId>gr.spinellis</groupId>
+	    <artifactId>UmlGraph</artifactId>
+	    <version>4.6</version>
+	  </docletArtifact>
+          <additionalparam>
+             -inferrel -inferdep -hide java.*
+	     -collpackages java.util.* -qualify
+	     -postfixpackage -nodefontsize 9
+	     -nodefontpackagesize 7
+	     -link http://java.sun.com/javase/6/docs/jdk/api/javadoc/doclet/
+	     -link http://java.sun.com/javase/6/docs/api/
+	  </additionalparam>
+	</configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-pmd-plugin</artifactId>
+	<version>2.2</version>
+	<configuration>
+	  <linkXref>true</linkXref>
+	  <sourceEncoding>utf-8</sourceEncoding>
+	  <minimumTokens>100</minimumTokens>
+	  <targetJdk>1.5</targetJdk>
+        </configuration>
       </plugin>
     </plugins>
   </reporting>

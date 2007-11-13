@@ -17,7 +17,7 @@
     <fileSet>
       <includes>
         <include>simulator*</include>
-      </include>
+      </includes>
     </fileSet>
     <fileSet>
       <directory>xml</directory>
