@@ -76,7 +76,7 @@ public class MinkowskiMetric implements DistanceMeasure {
 		Iterator<? extends Number> i = x.iterator();
 		Iterator<? extends Number> j = y.iterator();
 
-		for( ; i.hasNext() && j.hasNext(); ) {
+		while (i.hasNext() && j.hasNext()) {
 			distance += Math.pow(Math.abs(i.next().doubleValue() - j.next().doubleValue()), alpha);
 		}
 		return Math.pow(distance, 1.0 / alpha);

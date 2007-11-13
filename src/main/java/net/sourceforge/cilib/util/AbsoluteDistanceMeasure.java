@@ -62,7 +62,7 @@ public class AbsoluteDistanceMeasure implements DistanceMeasure {
 		Iterator<? extends Number> i = x.iterator();
 		Iterator<? extends Number> j = y.iterator();
 		
-		for ( ; i.hasNext() && j.hasNext(); ) {
+		while (i.hasNext() && j.hasNext()) {
 			Number n1 = i.next();
 			Number n2 = j.next();
 			
