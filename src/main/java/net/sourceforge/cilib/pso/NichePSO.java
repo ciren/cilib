@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -42,7 +41,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.pso.iterationstrategies.GCIterationStrategy;
 import net.sourceforge.cilib.pso.niching.AbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.FitnessDeviationCreationStrategy;
 import net.sourceforge.cilib.pso.niching.GBestAbsorptionStrategy;
@@ -51,6 +49,7 @@ import net.sourceforge.cilib.pso.niching.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.SwarmCreationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.particle.initialisation.DomainPercentageVelocityInitialisationStrategy;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.NewGCVelocityUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -78,8 +77,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	private Particle mainSwarmParticle;
 	private Particle subSwarmParticle;
 	private double maxima = 1.0d;
-	private IterationStrategy<PSO> subswarmIterationStrategy = null;
-	
+	private NewGCVelocityUpdateStrategy subswarmVelocityUpdateStrategy = null;	
 	
 	/**
 	 * 
@@ -88,8 +86,8 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	public NichePSO() {
 		super();
 		
-		if(subswarmIterationStrategy == null)
-		    subswarmIterationStrategy = new GCIterationStrategy();
+		if(subswarmVelocityUpdateStrategy == null)
+		    subswarmVelocityUpdateStrategy = new NewGCVelocityUpdateStrategy();
 				
 		mainSwarm = new PSO();
 		
@@ -160,7 +158,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		}
 		
 		this.mergeStrategy.merge(mainSwarm, this.subPopulationsAlgorithms);
-//		this.absorptionStrategy.absorb(mainSwarm, this.subPopulationsAlgorithms);
+		this.absorptionStrategy.absorb(mainSwarm, this.subPopulationsAlgorithms);
 		this.swarmCreationStrategy.create(this);
 		
 		log.debug("End of iteration");
@@ -190,7 +188,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 
 	public void setOptimisationProblem(OptimisationProblem problem) {
 		this.mainSwarm.setOptimisationProblem(problem);
-		this.problem = problem;		
+		this.problem = problem;
 	}
 
 	public OptimisationProblem getOptimisationProblem() {
@@ -290,22 +288,25 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		throw new UnsupportedOperationException("If you want to use this, you will have to implement it yourself");
 	}
 	
-	public double getMaxima()
-	    {
+	public double getMaxima() {
 		return maxima;
-	    }
-
-	    public void setMaxima(double maxima)
-	    {
-		this.maxima = maxima;
-	    }
-	    
-	public void setSubSwarmIterationStrategy(IterationStrategy<PSO> someStrategy){
-		this.subswarmIterationStrategy = someStrategy;
 	}
 
-	public IterationStrategy<PSO> getSubSwarmIterationStrategy(){
-		return this.subswarmIterationStrategy;
+	public void setMaxima(double maxima) {
+		this.maxima = maxima;
+	}
+	    
+	public NewGCVelocityUpdateStrategy getSubSwarmVelocityUpdateStrategy(){
+		return this.subswarmVelocityUpdateStrategy;
+	}
+	
+	public void setParticles(int particles) {
+		this.mainSwarm.getInitialisationStrategy().setEntityNumber(particles);
+	    
+	}
+
+	public int getParticles() {
+		return this.mainSwarm.getInitialisationStrategy().getEntityNumber();
 	}
 	
 }

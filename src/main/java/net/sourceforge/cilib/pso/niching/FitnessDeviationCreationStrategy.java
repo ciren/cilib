@@ -47,6 +47,7 @@ import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.NewGCVelocityUpdateStrategy;
 
 
 
@@ -183,20 +184,23 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				// impossible to initialize an empty swarm..
 				newSubSwarm.getInitialisationStrategy().setEntityNumber(5);
 				newSubSwarm.initialise();
-				newSubSwarm.setIterationStrategy(pso.getSubSwarmIterationStrategy().clone());
+				//newSubSwarm.setIterationStrategy(pso.getSubSwarmIterationStrategy().clone());
 				newSubSwarm.getInitialisationStrategy().setEntityNumber(0);
 				newSubSwarm.getTopology().clear();
 				newSubSwarm.getTopology().add(p);
+				
+				p.setVelocityUpdateStrategy(new NewGCVelocityUpdateStrategy()); //pso.getSubSwarmVelocityUpdateStrategy().clone());
 
 				for (int i = 0; i < sortedDistanceList.size(); i++)
 				{
-
 				    Particle current = (Particle) sortedDistanceList.get(i).getValue();
 				    pso.getMainSwarm().getTopology().remove(current);
 
 				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration.clone());
 				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setCognitiveAcceleration(cognitiveAcceleration.clone());
 
+				    current.setVelocityUpdateStrategy(new NewGCVelocityUpdateStrategy());
+				    
 				    newSubSwarm.getTopology().add(current);
 				}
 

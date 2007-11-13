@@ -92,7 +92,7 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
 
 		    mainSwarm.getInitialisationStrategy().setEntityNumber(mainSwarm.getTopology().size());
 		    subSwarm.getInitialisationStrategy().setEntityNumber(subSwarm.getTopology().size());
-		    System.out.println("absorbed - D:" + distance + " , R: " + subSwarmRadius + " , PID: " + mainSwarmParticle.getId());
+		    //System.out.println("absorbed - D:" + distance + " , R: " + subSwarmRadius + " , PID: " + mainSwarmParticle.getId());
 		    break;
 		}
 
