@@ -1,9 +1,6 @@
 package net.sourceforge.cilib.pso.dynamic;
 
-import java.util.Map;
-
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Special particle type to use with dynamic algorithms. The extra functionality
@@ -22,17 +19,7 @@ public class DynamicParticle extends StandardParticle {
 	}
 
     public DynamicParticle(DynamicParticle copy) {
-    	this.velocityUpdateStrategy = copy.velocityUpdateStrategy.clone(); // Check this
-    	this.positionUpdateStrategy = copy.positionUpdateStrategy.clone();
-    	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
-    	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.clone();
-    	
-    	this.fitnessCalculator = copy.fitnessCalculator.clone();
-    	
-    	for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
-    		String key = entry.getKey().toString();
-    		this.properties.put(key, entry.getValue().clone());
-    	}
+    	super(copy);
     }
     
     public DynamicParticle clone() {

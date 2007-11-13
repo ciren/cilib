@@ -1,11 +1,8 @@
 package net.sourceforge.cilib.pso.dynamic;
 
-import java.util.Map;
-
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Charged Particle used by charged PSO (ChargedVelocityUpdate). The only difference
@@ -27,17 +24,7 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
 	}
 	
 	public ChargedParticle(ChargedParticle copy) {
-		this.velocityUpdateStrategy = copy.velocityUpdateStrategy.clone(); // Check this
-    	this.positionUpdateStrategy = copy.positionUpdateStrategy.clone();
-    	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
-    	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.clone();
-    	
-    	this.fitnessCalculator = copy.fitnessCalculator.clone();
-    	   
-    	for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
-    		String key = entry.getKey().toString();
-    		this.properties.put(key, entry.getValue().clone());
-    	}
+		super(copy);
 		
 		this.charge = copy.charge;
 		this.chargedParticleInitialisationStrategy = copy.chargedParticleInitialisationStrategy.clone();
