@@ -2,7 +2,6 @@ package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Velocity update strategy for QSO (Quantum PSO). Implemented according
@@ -41,19 +40,7 @@ public class QuantumVelocityUpdateStrategy extends StandardVelocityUpdate {
 	public void updateVelocity(Particle particle) {
 		ChargedParticle checkChargeParticle = (ChargedParticle) particle;
 		if(checkChargeParticle.getCharge() < epsilon) {	// the particle is neutral
-	    	Vector velocity = (Vector) particle.getVelocity();
-	    	Vector position = (Vector) particle.getPosition();
-	    	Vector bestPosition = (Vector) particle.getBestPosition();
-	    	Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-	        
-	        for (int i = 0; i < particle.getDimension(); ++i) {
-	    		double value = inertiaWeight.getParameter()*velocity.getReal(i) 
-	    			+ (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-	    			+ (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
-	    		velocity.setReal(i, value);
-	    		
-	    		clamp(velocity, i);
-	    	}
+			super.updateVelocity(particle);
 		}
     }
 }
