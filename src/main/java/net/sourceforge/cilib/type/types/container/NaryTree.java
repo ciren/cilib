@@ -124,9 +124,8 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	public boolean contains(E element) {
 		for (int i = 0; i < degree; i++) {
 			Tree<E> subTree = getSubTree(i);
-			if (!subTree.isEmpty())
-				if (subTree.getKey().equals(element))
-					return true;
+			if (!subTree.isEmpty() && subTree.getKey().equals(element))
+				return true;
 		}
 		
 		return false;

@@ -168,7 +168,7 @@ public class GraphCreationFactory {
 		int tmpSize = list.size() / 3;
 		
 		for (int i = 0; i < tmpSize; i++) {
-	 		Vertex v = new Vertex(new Integer(i).toString());
+	 		Vertex v = new Vertex(String.valueOf(i));
 	 		graph.addVertex(v);
 	 		System.out.println("Verticies: " + graph.getVertexCount());
 	 		//vertexSet.add(v);

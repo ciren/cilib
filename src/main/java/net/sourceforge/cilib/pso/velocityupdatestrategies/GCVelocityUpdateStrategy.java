@@ -12,11 +12,26 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
+/** 
+ * <p>
+ * An implementation of the Guaranteed Convergence PSO algorithm. The GCPSO is a simple extension
+ * to the normal PSO algorithm and the modifications to the algorithm is implemented as
+ * a simple {@link VelocityUpdateStrategy}
+ * </p><p>
+ * References:
+ * </p><p><ul><li>
+ * F. van den Bergh and A. Engelbrecht, "A new locally convergent particle swarm optimizer,"
+ * in Proceedings of IEEE Conference on Systems, Man and Cybernetics,
+ * (Hammamet, Tunisia), Oct. 2002.
+ * </li><li>
+ * F. van den Bergh, "An Analysis of Particle Swarm Optimizers,"
+ * PhD thesis, Department of Computer Science, 
+ * University of Pretoria, South Africa, 2002.
+ * </li></ul></p>
  * 
  * @TODO: The Rho value should be a vector to hold the rho value for each dimension!
  */
-public class NewGCVelocityUpdateStrategy extends StandardVelocityUpdate {
+public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	private static final long serialVersionUID = 5985694749940610522L;
 	private Random randomNumberGenerator;
 	private double rhoLowerBound = 1.0e-323;
@@ -27,10 +42,10 @@ public class NewGCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	private int failureCountThreshold;
 	
 	private Fitness oldFitness;
-	private double expandCoefficient;
-	private double contractCoefficient;
+	private double rhoExpandCoefficient;
+	private double rhoContractCoefficient;
 
-	public NewGCVelocityUpdateStrategy() {
+	public GCVelocityUpdateStrategy() {
 		super();
 		randomNumberGenerator = new MersenneTwister();
 		oldFitness = InferiorFitness.instance();
@@ -40,13 +55,13 @@ public class NewGCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		failureCount = 0;
 		successCountThreshold = 15;
 		failureCountThreshold = 5;
-		expandCoefficient = 2.0;
-		contractCoefficient = 0.5;
+		rhoExpandCoefficient = 1.2;
+		rhoContractCoefficient = 0.5;
 		
 		vMax = new ConstantControlParameter(100.0); // This needs to be set dynamically - this is not valid for all problems
 	}
 	
-	public NewGCVelocityUpdateStrategy(NewGCVelocityUpdateStrategy copy) {
+	public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
 		super(copy);
 		this.randomNumberGenerator = copy.randomNumberGenerator;
 		this.oldFitness = copy.oldFitness.clone();
@@ -56,15 +71,15 @@ public class NewGCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.failureCount = copy.failureCount;
 		this.successCountThreshold = copy.successCountThreshold;
 		this.failureCountThreshold = copy.failureCountThreshold;
-		this.expandCoefficient = copy.expandCoefficient;
-		this.contractCoefficient = copy.contractCoefficient;
+		this.rhoExpandCoefficient = copy.rhoExpandCoefficient;
+		this.rhoContractCoefficient = copy.rhoContractCoefficient;
 		
 		this.vMax = copy.vMax.clone();
 	}
 
 	@Override
-	public NewGCVelocityUpdateStrategy clone() {
-		return new NewGCVelocityUpdateStrategy(this);
+	public GCVelocityUpdateStrategy clone() {
+		return new GCVelocityUpdateStrategy(this);
 	}
 
 	public void updateVelocity(Particle particle) {
@@ -127,10 +142,10 @@ public class NewGCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		double tmp = 0.0;
 		
 		Numeric component = (Numeric) position.get(0);
-		double average = (component.getUpperBound() - component.getLowerBound()) / expandCoefficient;
+		double average = (component.getUpperBound() - component.getLowerBound()) / rhoExpandCoefficient;
 	
-		if (successCount >= successCountThreshold) tmp = expandCoefficient*rho;
-		if (failureCount >= failureCountThreshold) tmp = contractCoefficient*rho;
+		if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient*rho;
+		if (failureCount >= failureCountThreshold) tmp = rhoContractCoefficient*rho;
 		
 		if (tmp <= rhoLowerBound) tmp = rhoLowerBound;
 		if (tmp >= average) tmp = average;
@@ -170,20 +185,20 @@ public class NewGCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.failureCountThreshold = failureCountThreshold;
 	}
 
-	public double getExpandCoefficient() {
-		return expandCoefficient;
+	public double getRhoExpandCoefficient() {
+		return rhoExpandCoefficient;
 	}
 
-	public void setExpandCoefficient(double expandCoefficient) {
-		this.expandCoefficient = expandCoefficient;
+	public void setRhoExpandCoefficient(double rhoExpandCoefficient) {
+		this.rhoExpandCoefficient = rhoExpandCoefficient;
 	}
 
-	public double getContractCoefficient() {
-		return contractCoefficient;
+	public double getRhoContractCoefficient() {
+		return rhoContractCoefficient;
 	}
 
-	public void setContractCoefficient(double contractCoefficient) {
-		this.contractCoefficient = contractCoefficient;
+	public void setRhoContractCoefficient(double rhoContractCoefficient) {
+		this.rhoContractCoefficient = rhoContractCoefficient;
 	}
 	
 }

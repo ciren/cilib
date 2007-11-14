@@ -47,7 +47,7 @@ import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.NewGCVelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrategy;
 
 
 
@@ -189,7 +189,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				newSubSwarm.getTopology().clear();
 				newSubSwarm.getTopology().add(p);
 				
-				p.setVelocityUpdateStrategy(new NewGCVelocityUpdateStrategy()); //pso.getSubSwarmVelocityUpdateStrategy().clone());
+				p.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy()); //pso.getSubSwarmVelocityUpdateStrategy().clone());
 
 				for (int i = 0; i < sortedDistanceList.size(); i++)
 				{
@@ -199,7 +199,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration.clone());
 				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setCognitiveAcceleration(cognitiveAcceleration.clone());
 
-				    current.setVelocityUpdateStrategy(new NewGCVelocityUpdateStrategy());
+				    current.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
 				    
 				    newSubSwarm.getTopology().add(current);
 				}

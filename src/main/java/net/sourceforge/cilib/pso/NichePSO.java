@@ -49,7 +49,7 @@ import net.sourceforge.cilib.pso.niching.MergeStrategy;
 import net.sourceforge.cilib.pso.niching.SwarmCreationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.particle.initialisation.DomainPercentageVelocityInitialisationStrategy;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.NewGCVelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -77,7 +77,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	private Particle mainSwarmParticle;
 	private Particle subSwarmParticle;
 	private double maxima = 1.0d;
-	private NewGCVelocityUpdateStrategy subswarmVelocityUpdateStrategy = null;	
+	private GCVelocityUpdateStrategy subswarmVelocityUpdateStrategy = null;	
 	
 	/**
 	 * 
@@ -87,7 +87,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		super();
 		
 		if(subswarmVelocityUpdateStrategy == null)
-		    subswarmVelocityUpdateStrategy = new NewGCVelocityUpdateStrategy();
+		    subswarmVelocityUpdateStrategy = new GCVelocityUpdateStrategy();
 				
 		mainSwarm = new PSO();
 		
@@ -296,7 +296,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		this.maxima = maxima;
 	}
 	    
-	public NewGCVelocityUpdateStrategy getSubSwarmVelocityUpdateStrategy(){
+	public GCVelocityUpdateStrategy getSubSwarmVelocityUpdateStrategy(){
 		return this.subswarmVelocityUpdateStrategy;
 	}
 	
