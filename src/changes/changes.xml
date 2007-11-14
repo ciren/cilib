@@ -5,10 +5,13 @@
 	</properties>
 	<body>
 		<release version="0.6.10" date="Not yet released" description="">
-			<action dev="gpampara" type="update" issue="1827386">
-				Refactored the Vector types to be more consistent.
+			<action dev="gpampara" type="fix" issue="1827723">
+				Remove the GCIterationStrategy and related classes.				
 			</action>
-			<action dev="gpampara" type="update" issue="1828379">
+			<action dev="gpampara" type="update" issue="1827386">
+				Refactor the Vector types to be more consistent.
+			</action>
+			<action dev="gpampara" type="fix" issue="1828379">
 				TopologyVisitor uses the outer algorithm in MultiPopulationBasedAlgorithms.
 			</action>
 			<action dev="heatzync" type="update" issue="1829410">
