@@ -1,8 +1,8 @@
 /*
- * BirdTest.java
+ * Braninh.java
  * JUnit based test
  *
- * Created on November 8, 2007, 06:26 PM
+ * Created on November 12, 2007, 01:37 PM
  *
  * 
  * Copyright (C) 2003 - 2007 
@@ -41,24 +41,25 @@ import org.junit.Test;
  * @author Andries Engelbrecht
  */
 
-
-public class BirdTest {
-
-	public BirdTest() {
+public class BraninTest {
+	public BraninTest() {
         
     }
     
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bird. */
+    /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Branin. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Bird();
-        function.setDomain("R(-6.285714286,6.285714286)^2");
+        ContinuousFunction function = new Branin();
+        function.setDomain("R(-5,10),R(0,15)");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
            
-        assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
-    } 
+        assertEquals(21.62763539206238, function.evaluate(x), 0.00000000000001);
+        
+        x.setReal(0, -Math.PI);
+        x.setReal(1, 12.275);
+        assertEquals(0.397887, function.evaluate(x), 0.0000009);
+    } 	
 }
-

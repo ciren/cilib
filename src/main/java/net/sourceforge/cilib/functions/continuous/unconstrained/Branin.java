@@ -1,10 +1,10 @@
 /* 
- * BraninRCOS.java
+ * Branin.java
  *
  * Created on June 4, 2003, 4:57 PM 
  *
  * 
- * Copyright (C) 2003 - 2006  
+ * Copyright (C) 2003 - 2007  
  * Computational Intelligence Research Group (CIRG@UP) 
  * Department of Computer Science 
  * University of Pretoria 
@@ -25,30 +25,44 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */ 
 
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
+
+import java.io.Serializable;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p>Title: CILib</p>
- * <p>Description: CILib (Computational Intelligence Library) The Branin Function.
- * Minima located at (-PI, 12.275), (PI, 2.275), (9.42478, 2.475)
- * All Minima are equal to 0.3978837
+ * <p><b>Booth Function</b></p>
+ * 
+ * <p><b>Reference:</b> X. Yao, Y. Liu, G. Liu, <i>Evolutionary Programming Made Faster</i>,
+ * IEEE Transactions on Evolutionary Computation, 3(1):82--102, 1999</p>
+ * 
+ * <p>Minimum:
+ * <ul>
+ * <li> f(<b>x</b>*) = 0.397887 </li>
+ * <li> <b>x</b>* = (-pi, 12.275), (pi, 2.275), (9.425, 2.425)</li>
+ * <li> for x_1 in [-5,10], x_2 in [0,15]</li>
+ * </ul>
  * </p>
  * 
- * Characteristics:
+ * <p>Characteristics:
  * <ul>
- *  <li>Multimodal</li>
+ * <li>Only defined for 2 dimensions</li>
+ * <li>Has 3 global minima</li>
+ * <li>Unimodal</li>
+ * <li>Seperable</li>
+ * <li>Regular</li>
  * </ul>
+ * </p>
  * 
  * @author Clive Naicker
- * @version 1.0
+ *
  */
 
-public class BraninRCOS extends ContinuousFunction {
-	private static final long serialVersionUID = -8231787667614872490L;
-	
+public class Branin extends ContinuousFunction implements Serializable {
+	private static final long serialVersionUID = -2254223453957430344L;
+
 	private double a = 1.0;
     private double b = 5.1/(4*Math.PI*Math.PI);
     private double c = 5.0/Math.PI;
@@ -56,7 +70,7 @@ public class BraninRCOS extends ContinuousFunction {
     private double e = 10.0;
     private double f = 1.0/(8.0*Math.PI);
 
-    public BraninRCOS() {
+    public Branin() {
 
         a = 1.0;
         b = 5.1/(4*Math.PI*Math.PI);
@@ -64,6 +78,10 @@ public class BraninRCOS extends ContinuousFunction {
         d = 6.0;
         e = 10.0;
         f = 1.0/(8.0*Math.PI);
+        
+        double x1 = 1.0;
+        double x2 = 2.0;
+        System.out.println(a*Math.pow((x2 - b*x1*x1 + c*x1 - d), 2) + e*(1 - f)*Math.cos(x1) + e);
         
         //constraint.add(new DimensionValidator(2));
         //constraint.add(new ContentValidator(0, new QuantitativeBoundValidator(new Double(-5), new Double(15))));
@@ -73,15 +91,14 @@ public class BraninRCOS extends ContinuousFunction {
     }
 
     public Object getMinimum() {
-        return new Double(0.3978873);
+        return new Double(0.397887);
     }
     
     public double evaluate(Vector x) {
         double x1 = x.getReal(0);
         double x2 = x.getReal(1);
 
-        double result = a*Math.pow((x2 - b*x1*x1 + c*x1 - d), 2) + e*(1 - f)*Math.cos(x1) + e;
-        return result;
+        return a*Math.pow((x2 - b*x1*x1 + c*x1 - d), 2) + e*(1 - f)*Math.cos(x1) + e;
     }
 
 }

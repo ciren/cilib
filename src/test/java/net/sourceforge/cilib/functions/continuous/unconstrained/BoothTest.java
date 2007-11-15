@@ -1,8 +1,8 @@
 /*
- * BirdTest.java
+ * Booth.java
  * JUnit based test
  *
- * Created on November 8, 2007, 06:26 PM
+ * Created on November 12, 2007, 00:55 PM
  *
  * 
  * Copyright (C) 2003 - 2007 
@@ -41,24 +41,26 @@ import org.junit.Test;
  * @author Andries Engelbrecht
  */
 
+public class BoothTest {
 
-public class BirdTest {
-
-	public BirdTest() {
+	public BoothTest() {
         
     }
     
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bird. */
+    /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Booth. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Bird();
-        function.setDomain("R(-6.285714286,6.285714286)^2");
+        ContinuousFunction function = new Booth();
+        function.setDomain("R(-10,10)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
            
-        assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
+        assertEquals(5.0, function.evaluate(x), 0.0);
+
+        x.setReal(0, 1.0);
+        x.setReal(1, 3.0);
+        assertEquals(0.0, function.evaluate(x), 0.0);
     } 
 }
-

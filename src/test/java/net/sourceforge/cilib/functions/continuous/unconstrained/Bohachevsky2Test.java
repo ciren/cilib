@@ -47,7 +47,7 @@ public class Bohachevsky2Test {
         
     }
     
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Beale. */
+    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky2. */
     @Test
     public void testEvaluate() {
         ContinuousFunction function = new Bohachevsky2();

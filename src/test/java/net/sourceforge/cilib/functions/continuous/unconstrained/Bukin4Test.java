@@ -1,8 +1,8 @@
 /*
- * BirdTest.java
+ * Bukin4Test.java
  * JUnit based test
  *
- * Created on November 8, 2007, 06:26 PM
+ * Created on November 14, 2007, 2:47 PM
  *
  * 
  * Copyright (C) 2003 - 2007 
@@ -41,24 +41,25 @@ import org.junit.Test;
  * @author Andries Engelbrecht
  */
 
+public class Bukin4Test {
 
-public class BirdTest {
-
-	public BirdTest() {
+	public Bukin4Test() {
         
     }
     
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bird. */
+    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Beale4. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Bird();
-        function.setDomain("R(-6.285714286,6.285714286)^2");
+        ContinuousFunction function = new Bukin4();
+        function.setDomain("R(-15,-5),R(-3,3)");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
-           
-        assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
+        assertEquals(400.11, function.evaluate(x), 0.0);
+        
+        x.setReal(0, -10.0);
+        x.setReal(1, 0.0);
+        assertEquals(0.0, function.evaluate(x), 0.0);
     } 
 }
-
