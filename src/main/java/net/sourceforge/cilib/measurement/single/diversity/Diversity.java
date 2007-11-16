@@ -40,14 +40,15 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * TODO: Add JavaDoc
+ * @author Olusegun Olorunda
  * @author gpampara
  *
  */
 public class Diversity implements Measurement {
 	private static final long serialVersionUID = 7417526206433000209L;
-	private DistanceMeasure distanceMeasure;
-	private CenterInitialisationStrategy populationCenter;
-	private NormalisationParameter normalisationParameter;
+	protected DistanceMeasure distanceMeasure;
+	protected CenterInitialisationStrategy populationCenter;
+	protected NormalisationParameter normalisationParameter;
 	
 	public Diversity() {
 		distanceMeasure = new EuclideanDistanceMeasure();
@@ -76,19 +77,19 @@ public class Diversity implements Measurement {
 		Vector center = (Vector) populationCenter.getCenter();
 		Iterator<? extends Entity> populationIterator = algorithm.getTopology().iterator();
 		
-		double entitySum = 0.0;
+		double distanceSum = 0.0;
 		
 		while (populationIterator.hasNext()) {
 			Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getContents());
-			entitySum += distanceMeasure.distance(center, currentEntityPosition);
+			distanceSum += distanceMeasure.distance(center, currentEntityPosition);
 		}
 		
-		entitySum /= numberOfEntities;
+		distanceSum /= numberOfEntities;
 		
 		normalisationParameter.setDistanceMeasure(distanceMeasure);
-		entitySum /= normalisationParameter.getValue();
+		distanceSum /= normalisationParameter.getValue();
 		
-		return new Real(entitySum);
+		return new Real(distanceSum);
 	}
 
 	/**
