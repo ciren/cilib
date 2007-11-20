@@ -25,15 +25,11 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -56,21 +52,18 @@ public class EuclideanDiversityAroundGBest implements Measurement {
 	}
 
 	public Type getValue() {
-		
 		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		PSO pso = (PSO) algorithm;
 		
-		Vector center = (Vector) pso.getBestParticle().getPosition();
+		Vector center = (Vector) algorithm.getBestSolution().getPosition();
 		DistanceMeasure distance = new EuclideanDistanceMeasure();
 		double diameter = 0;
-		int count = 0;
 
-		Topology<Particle> topology = pso.getTopology();
-		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ++count) {
-			 Entity other = i.next();
-		     diameter += distance.distance(center, (Vector) other.getContents());
+		Topology<? extends Entity> topology = algorithm.getTopology();
+		for (Entity entity : topology) {
+		     diameter += distance.distance(center, (Vector) entity.getContents());
 		}
-		return new Real(diameter/count);
+		
+		return new Real(diameter/topology.size());
 	}
 
 }

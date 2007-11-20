@@ -45,7 +45,8 @@ public class ClusteringOptimisationProblem extends ACOOptimisationProblem {
 	}
 	
 	public ClusteringOptimisationProblem(ClusteringOptimisationProblem copy) {
-		
+		this.dataSetBuilder = copy.dataSetBuilder.clone();
+		this.grid = copy.grid.clone();
 	}
 	
 	public ClusteringOptimisationProblem clone() {

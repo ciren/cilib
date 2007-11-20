@@ -1,8 +1,8 @@
 package net.sourceforge.cilib.type.types;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Simple <tt>Blackboard</tt> implementation.
@@ -16,7 +16,7 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 	private Map<K, V> board;
 	
 	public Blackboard() {
-		this.board = new HashMap<K, V>();
+		this.board = new ConcurrentHashMap<K, V>();
 	}
 	
 	public Blackboard(Blackboard<K, V> copy) {

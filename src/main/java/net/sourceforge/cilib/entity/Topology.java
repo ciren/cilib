@@ -70,7 +70,7 @@ public abstract class Topology<E extends Entity> extends EntityCollection<E> {
     }
     
     /**
-     * Get all the entities witin the topology. 
+     * Get all the entities within the topology. 
      * @return Collection. Data collection of all the entities
      */
     public abstract List<Entity> asList();
