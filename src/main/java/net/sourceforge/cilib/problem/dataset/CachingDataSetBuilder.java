@@ -24,7 +24,7 @@ public class CachingDataSetBuilder extends AssociatedPairDataSetBuilder {
 		log.info("Caching dataset mean");
 		mean = getSetMean(patterns);
 		log.info("Caching dataset variance");
-		variance = getSetVariance(patterns);
+		variance = getSetVariance(patterns, mean);
 	}
 
 	private void cacheDistances() {

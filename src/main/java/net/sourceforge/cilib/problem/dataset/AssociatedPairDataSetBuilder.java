@@ -329,16 +329,15 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	 *                 Mining", year = "2001", isbn = "0-7695-1119-8", pages = "187--194", publisher =
 	 *                 "IEEE Computer Society", address = "Washington, DC, USA" }
 	 */
-	public Vector getSetVariance(ArrayList<Pattern> set) {
+	public Vector getSetVariance(ArrayList<Pattern> set, Vector center) {
 		if (set.isEmpty())
 			throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
 
-		Vector mean = getSetMean(set);
-		Vector variance = mean.clone();
+		Vector variance = center.clone();
 
 		variance.reset();		// initialize the variance to be all zeroes
 		for (Pattern pattern : set) {
-			Vector diffSquare = pattern.data.subtract(mean);
+			Vector diffSquare = pattern.data.subtract(center);
 			diffSquare = diffSquare.multiply(diffSquare);
 			variance = variance.plus(diffSquare);
 		}
@@ -366,6 +365,6 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	 *                 "IEEE Computer Society", address = "Washington, DC, USA" }
 	 */
 	public Vector getVariance() {
-		return getSetVariance(patterns);
+		return getSetVariance(patterns, getMean());
 	}
 }

@@ -67,6 +67,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 			ArrayList<Pattern> cluster = arrangedClusters.get(i);
 			Vector center = clusterCenterStrategy.getCenter(i);
 
+			// H(Y) in the paper refers to the homogeneity of Y (not variance, because we do not divide by |Y|)
 			for (Pattern pattern : cluster) {
 				sumOfSquaredError += Math.pow(calculateDistance(pattern.data, center), 2);
 			}
@@ -81,7 +82,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 				union.addAll(arrangedClusters.get(i));
 				union.addAll(arrangedClusters.get(j));
 
-				if (dataset.getSetVariance(union).norm() < getMaximumVariance()) {
+				if (dataset.getSetVariance(union, dataset.getSetMean(union)).norm() < getMaximumVariance()) {
 					return false;
 				}
 			}

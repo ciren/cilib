@@ -59,7 +59,7 @@ public interface ClusterableDataSet {
 
 	public Vector getSetMean(ArrayList<Pattern> set);
 
-	public Vector getSetVariance(ArrayList<Pattern> set);
+	public Vector getSetVariance(ArrayList<Pattern> set, Vector center);
 
 	public Vector getMean();
 

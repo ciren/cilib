@@ -25,9 +25,8 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
-
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -54,8 +53,9 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 	}
 
 	/**
-	 * NOTE: Variances are always calculated using means, therefore we do not use the
-	 * {@link ClusterCenterStrategy} idea here.
+	 * The variance of the dataset is calculated using the dataset mean, whereas the variance of a specific cluster
+	 * is calculated using the specific cluster's center as determined by the {@link ClusterCenterStrategy}.
+	 * @return the within-cluster-scatter for the specific clustering
 	 */
 	protected double calculateWithinClusterScatter() {
 		double scattering = 0.0;
@@ -63,8 +63,8 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 		Vector datasetVariance = dataset.getVariance();
 
 		stdev = 0.0;
-		for (ArrayList<Pattern> cluster : arrangedClusters) {
-			clusterVariance = dataset.getSetVariance(cluster);
+		for (int i = 0; i < clustersFormed; i++) {
+			clusterVariance = dataset.getSetVariance(arrangedClusters.get(i), clusterCenterStrategy.getCenter(i));
 			double norm = clusterVariance.norm();
 			scattering += norm;
 			stdev += norm;

@@ -5,6 +5,9 @@
 	</properties>
 	<body>
 		<release version="0.6.10" date="Not yet released" description="">
+			<action dev="heatzync" type="fix" issue="1835575">
+				HalkidiVazirgiannisIndex cluster variance calculation.
+			</action>
 			<action dev="gpampara" type="update" issue="1827723">
 				Remove the GCIterationStrategy and related classes.				
 			</action>
