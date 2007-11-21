@@ -81,7 +81,6 @@ public class Branin extends ContinuousFunction implements Serializable {
         
         double x1 = 1.0;
         double x2 = 2.0;
-        System.out.println(a*Math.pow((x2 - b*x1*x1 + c*x1 - d), 2) + e*(1 - f)*Math.cos(x1) + e);
         
         //constraint.add(new DimensionValidator(2));
         //constraint.add(new ContentValidator(0, new QuantitativeBoundValidator(new Double(-5), new Double(15))));
