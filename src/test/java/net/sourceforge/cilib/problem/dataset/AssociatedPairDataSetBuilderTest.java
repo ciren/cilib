@@ -393,30 +393,35 @@ public class AssociatedPairDataSetBuilderTest {
 		for (int i = 0; i < handVariance.size(); i++)
 			assertEquals(handVariance.getInt(i), calculatedVariance.getInt(i));
 
+		calculatedMean = dataSetBuilder.getSetMean(arrangedClusters.get(1));
 		calculatedVariance = dataSetBuilder.getSetVariance(arrangedClusters.get(1), calculatedMean);
 		handVariance.set(0, new Real(6.73076923076923));
 		handVariance.set(1, new Real(3.30769230769231));
 		for (int i = 0; i < handVariance.size(); i++)
 			assertEquals(handVariance.getInt(i), calculatedVariance.getInt(i));
 
+		calculatedMean = dataSetBuilder.getSetMean(arrangedClusters.get(2));
 		calculatedVariance = dataSetBuilder.getSetVariance(arrangedClusters.get(2), calculatedMean);
 		handVariance.set(0, new Real(12.1379310344828));
 		handVariance.set(1, new Real(19.2068965517241));
 		for (int i = 0; i < handVariance.size(); i++)
 			assertEquals(handVariance.getInt(i), calculatedVariance.getInt(i));
 
+		calculatedMean = dataSetBuilder.getSetMean(arrangedClusters.get(3));
 		calculatedVariance = dataSetBuilder.getSetVariance(arrangedClusters.get(3), calculatedMean);
 		handVariance.set(0, new Real(1.61111111111111));
 		handVariance.set(1, new Real(2.5));
 		for (int i = 0; i < handVariance.size(); i++)
 			assertEquals(handVariance.getInt(i), calculatedVariance.getInt(i));
 
+		calculatedMean = dataSetBuilder.getSetMean(arrangedClusters.get(4));
 		calculatedVariance = dataSetBuilder.getSetVariance(arrangedClusters.get(4), calculatedMean);
 		handVariance.set(0, new Real(2.66666666666667));
 		handVariance.set(1, new Real(2.66666666666667));
 		for (int i = 0; i < handVariance.size(); i++)
 			assertEquals(handVariance.getInt(i), calculatedVariance.getInt(i));
 
+		calculatedMean = dataSetBuilder.getSetMean(arrangedClusters.get(5));
 		calculatedVariance = dataSetBuilder.getSetVariance(arrangedClusters.get(5), calculatedMean);
 		handVariance.set(0, new Real(2.23076923076923));
 		handVariance.set(1, new Real(9.30769230769231));
