@@ -34,6 +34,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -43,15 +44,21 @@ import org.junit.Test;
 
 public class Bukin4Test {
 
+	private ContinuousFunction function;
+
 	public Bukin4Test() {
         
     }
+	
+	@Before
+	public void instantiate() {
+		this.function = new Bukin4();
+	}
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Beale4. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Bukin4();
-        function.setDomain("R(-15,-5),R(-3,3)");
+		function.setDomain("R(-15,-5),R(-3,3)");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
@@ -61,5 +68,10 @@ public class Bukin4Test {
         x.setReal(0, -10.0);
         x.setReal(1, 0.0);
         assertEquals(0.0, function.evaluate(x), 0.0);
-    } 
+    }
+    
+    @Test
+    public void minimum() {
+    	assertEquals(0.0, function.getMinimum());
+    }
 }

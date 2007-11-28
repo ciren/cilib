@@ -34,6 +34,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -43,15 +44,21 @@ import org.junit.Test;
 
 public class Bohachevsky2Test {
 
+	private ContinuousFunction function;
+
 	public Bohachevsky2Test() {
         
     }
+	
+	@Before
+	public void instantiate() {
+		this.function = new Bohachevsky2();
+	}
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky2. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Bohachevsky2();
-        function.setDomain("R(-100,100)^2");
+		function.setDomain("R(-100,100)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
@@ -62,5 +69,6 @@ public class Bohachevsky2Test {
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
         assertEquals(0.0, function.evaluate(x), 0.0);
-    } 
+    }
+    
 }

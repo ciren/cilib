@@ -34,6 +34,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -43,15 +44,21 @@ import org.junit.Test;
 
 public class BoothTest {
 
+	private ContinuousFunction function;
+
 	public BoothTest() {
         
     }
+	
+	@Before
+	public void instantiate() {
+		this.function = new Booth();
+	}
     
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Booth. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Booth();
-        function.setDomain("R(-10,10)^2");
+		function.setDomain("R(-10,10)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
@@ -62,5 +69,10 @@ public class BoothTest {
         x.setReal(0, 1.0);
         x.setReal(1, 3.0);
         assertEquals(0.0, function.evaluate(x), 0.0);
-    } 
+    }
+    
+    @Test
+    public void minimum() {
+    	assertEquals(0.0, function.getMinimum());
+    }
 }

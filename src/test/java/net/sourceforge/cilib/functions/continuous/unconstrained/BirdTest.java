@@ -34,6 +34,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -44,21 +45,29 @@ import org.junit.Test;
 
 public class BirdTest {
 
-	public BirdTest() {
-        
-    }
+	private ContinuousFunction function;
+
+	@Before
+	public void instantiate() {
+		this.function = new Bird();
+	}
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bird. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Bird();
-        function.setDomain("R(-6.285714286,6.285714286)^2");
+        function = new Bird();
+		function.setDomain("R(-6.285714286,6.285714286)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
            
         assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
-    } 
+    }
+    
+    @Before
+    public void minimum() {
+    	assertEquals(-106.764537, function.getMinimum());
+    }
 }
 

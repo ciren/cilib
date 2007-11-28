@@ -34,6 +34,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -43,15 +44,21 @@ import org.junit.Test;
 
 public class Bohachevsky3Test {
 
+	private ContinuousFunction function;
+
 	public Bohachevsky3Test() {
         
     }
+	
+	@Before
+	public void instantiate() {
+		this.function = new Bohachevsky3();
+	}
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky3. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Bohachevsky3();
-        function.setDomain("R(-100,100)^2");
+		function.setDomain("R(-100,100)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
