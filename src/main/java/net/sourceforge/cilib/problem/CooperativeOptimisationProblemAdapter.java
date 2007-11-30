@@ -54,7 +54,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 	 */
 	public CooperativeOptimisationProblemAdapter(OptimisationProblem p, CooperativeEntity c, int d, int o) {
 		problem = p;
-		context = c.clone();
+		context = c.getClone();
 		dimension = d;
 		offset = o;
 		domainRegistry = new DomainRegistry();
@@ -76,14 +76,14 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 
 	public CooperativeOptimisationProblemAdapter(CooperativeOptimisationProblemAdapter copy) {
 		super(copy);
-		problem = copy.problem.clone();
-		context = copy.context.clone();
-		domainRegistry = copy.domainRegistry.clone();
+		problem = copy.problem.getClone();
+		context = copy.context.getClone();
+		domainRegistry = copy.domainRegistry.getClone();
 		dimension = copy.dimension;
 		offset = copy.offset;
 	}
 
-	public CooperativeOptimisationProblemAdapter clone() {
+	public CooperativeOptimisationProblemAdapter getClone() {
 		return new CooperativeOptimisationProblemAdapter(this);
 	}
 
@@ -96,7 +96,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 	}
 
 	public void updateContext(CooperativeEntity c) {
-		context = c.clone();
+		context = c.getClone();
 	}
 
 	@Override

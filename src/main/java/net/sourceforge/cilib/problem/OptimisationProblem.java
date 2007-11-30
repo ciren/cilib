@@ -45,7 +45,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
  */
 public interface OptimisationProblem extends Problem {
 	
-	public OptimisationProblem clone();
+	public OptimisationProblem getClone();
     
     /**
      * Returns the fitness of a potential solution to this problem. The solution object is described 

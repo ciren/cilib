@@ -52,7 +52,7 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 	}
 
 	@Override
-	public MatrixDataSetBuilder clone() {
+	public MatrixDataSetBuilder getClone() {
 		return new MatrixDataSetBuilder(this);
 	}
 

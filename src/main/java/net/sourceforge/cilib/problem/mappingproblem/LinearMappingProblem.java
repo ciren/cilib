@@ -53,7 +53,7 @@ public class LinearMappingProblem extends MappingProblem {
 		
 	}
 	
-	public LinearMappingProblem clone() {
+	public LinearMappingProblem getClone() {
 		return new LinearMappingProblem(this);
 	}
 	

@@ -49,7 +49,7 @@ public class MinimisationFitness extends AbstractFitness {
 		this.value = copy.value;
 	}
 	
-	public MinimisationFitness clone() {
+	public MinimisationFitness getClone() {
 		return new MinimisationFitness(this);
 	}
 	

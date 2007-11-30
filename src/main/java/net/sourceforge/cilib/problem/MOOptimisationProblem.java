@@ -46,7 +46,7 @@ public class MOOptimisationProblem implements OptimisationProblem {
 		
 	}
 	
-	public MOOptimisationProblem clone() {
+	public MOOptimisationProblem getClone() {
 		return new MOOptimisationProblem(this);
 	}
 	

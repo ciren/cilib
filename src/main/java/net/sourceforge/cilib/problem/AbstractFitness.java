@@ -33,7 +33,7 @@ package net.sourceforge.cilib.problem;
  */
 public abstract class AbstractFitness implements Fitness {
 	
-	public abstract Fitness clone();
+	public abstract Fitness getClone();
 
 	public abstract int compareTo(Fitness o);
 	

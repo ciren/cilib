@@ -53,7 +53,7 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
 		
 	}
 	
-	public FunctionDimensionMappingProblem clone() {
+	public FunctionDimensionMappingProblem getClone() {
 		return new FunctionDimensionMappingProblem(this);
 	}
 	

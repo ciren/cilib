@@ -80,7 +80,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	}
 
 	@Override
-	public AssociatedPairDataSetBuilder clone() {
+	public AssociatedPairDataSetBuilder getClone() {
 		return new AssociatedPairDataSetBuilder(this);
 	}
 
@@ -123,7 +123,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 		String[] elements = line.split(dataset.getPatternExpression());
 		//	the elements of the split are stored inside a vector that will form the pattern
 		// we construct the pattern based on the builtRepresentation that has been created from the domain that has been set
-		Vector pattern = builtRepresentation.clone();
+		Vector pattern = builtRepresentation.getClone();
 		int j = 0;
 
 		for (String element : elements) {
@@ -312,7 +312,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 		for (Pattern pattern : set) {
 			if (mean == null) {		// initialise the mean to be all zeroes
-				mean = pattern.data.clone();
+				mean = pattern.data.getClone();
 				mean.reset();
 			}
 			mean = mean.plus(pattern.data);
@@ -333,7 +333,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 		if (set.isEmpty())
 			throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
 
-		Vector variance = center.clone();
+		Vector variance = center.getClone();
 
 		variance.reset();		// initialize the variance to be all zeroes
 		for (Pattern pattern : set) {

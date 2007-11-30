@@ -55,7 +55,7 @@ public class StringDataSetBuilder extends TextDataSetBuilder {
 		longestString = new String(rhs.longestString);
 	}
 
-	public StringDataSetBuilder clone() {
+	public StringDataSetBuilder getClone() {
 		return new StringDataSetBuilder(this);
 	}
 

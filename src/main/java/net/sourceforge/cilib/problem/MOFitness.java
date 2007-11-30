@@ -42,7 +42,7 @@ public class MOFitness extends AbstractFitness {
 		}
 	}
 	
-	public MOFitness clone() {
+	public MOFitness getClone() {
 		throw new UnsupportedOperationException("Implement me");
 	}
 	

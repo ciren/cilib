@@ -30,6 +30,8 @@ package net.sourceforge.cilib.problem;
 
 import java.io.Serializable;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 
 /**
  * This is a common abstraction for all problem classes. All problems should extend this interface. 
@@ -37,8 +39,8 @@ import java.io.Serializable;
  *
  * @author  Edwin Peer
  */
-public interface Problem extends Serializable {
+public interface Problem extends Serializable, Cloneable {
 	
-	public Problem clone();
+	public Problem getClone();
     
 }

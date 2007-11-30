@@ -74,7 +74,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
     	
     }
     
-    public FunctionLearningProblem clone() {
+    public FunctionLearningProblem getClone() {
     	return new FunctionLearningProblem(this);
     }
 

@@ -37,7 +37,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
 		super(copy);
 	}
 
-	public FunctionMaximisationProblem clone() {
+	public FunctionMaximisationProblem getClone() {
 		return new FunctionMaximisationProblem(this);
 	}
 

@@ -28,13 +28,15 @@ package net.sourceforge.cilib.problem.dataset;
 import java.io.InputStream;
 import java.io.Serializable;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * This interface provides an abstraction for accessing data sets. The underlying data set can be
  * accessed using either an <code>InputStream</code> or a <code>byte[]</code>
  * @author Edwin Peer
  * @author Theuns Cloete
  */
-public abstract class DataSet implements Serializable {
+public abstract class DataSet implements Cloneable, Serializable {
 	protected String patternExpression = null;
 
 	public DataSet() {
@@ -45,7 +47,7 @@ public abstract class DataSet implements Serializable {
 		patternExpression = new String(rhs.patternExpression);
 	}
 
-	public abstract DataSet clone();
+	public abstract DataSet getClone();
 
 	/**
 	 * Returns the data set as a byte array.

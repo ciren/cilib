@@ -41,7 +41,7 @@ public class InferiorFitness extends AbstractFitness {
 		
 	}
 	
-	public InferiorFitness clone() {
+	public InferiorFitness getClone() {
 		return instance;
 	}
 	

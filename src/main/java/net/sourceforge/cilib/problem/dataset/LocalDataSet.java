@@ -53,7 +53,7 @@ public class LocalDataSet extends DataSet {
 	}
 
 	@Override
-	public LocalDataSet clone() {
+	public LocalDataSet getClone() {
 		return new LocalDataSet(this);
 	}
 

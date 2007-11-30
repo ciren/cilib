@@ -31,11 +31,12 @@ import java.util.Iterator;
 
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * @author Gary Pampara
  */
-public abstract class DataSetBuilder implements Iterable<DataSet>, Serializable {
+public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable, Serializable {
 	protected ArrayList<DataSet> dataSets = null;
 	protected OptimisationProblem problem = null;
 
@@ -46,12 +47,12 @@ public abstract class DataSetBuilder implements Iterable<DataSet>, Serializable 
 	public DataSetBuilder(DataSetBuilder rhs) {
 		dataSets = new ArrayList<DataSet>();
 		for (DataSet dataset : rhs.dataSets) {
-			dataSets.add(dataset.clone());
+			dataSets.add(dataset.getClone());
 		}
-		problem = rhs.problem.clone();
+		problem = rhs.problem.getClone();
 	}
 
-	public abstract DataSetBuilder clone();
+	public abstract DataSetBuilder getClone();
 
 	public void setDataSet(DataSet dataSet) {
 		this.dataSets.add(dataSet);

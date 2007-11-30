@@ -42,7 +42,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
 		super(copy);
 	}
 
-	public FunctionMinimisationProblem clone() {
+	public FunctionMinimisationProblem getClone() {
 		return new FunctionMinimisationProblem(this);
 	}
 

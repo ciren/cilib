@@ -48,10 +48,10 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 	public OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
 		fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
 		if(copy.dataSetBuilder != null)
-			dataSetBuilder = copy.dataSetBuilder.clone();
+			dataSetBuilder = copy.dataSetBuilder.getClone();
 	}
 
-	public abstract OptimisationProblemAdapter clone();
+	public abstract OptimisationProblemAdapter getClone();
 
 	protected abstract Fitness calculateFitness(Object solution);
 
