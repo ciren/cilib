@@ -41,7 +41,7 @@ public class RandomInitialVelocityStrategy implements VelocityInitialisationStra
 		
 	}
 	
-	public RandomInitialVelocityStrategy clone() {
+	public RandomInitialVelocityStrategy getClone() {
 		return new RandomInitialVelocityStrategy(this);
 	}
 

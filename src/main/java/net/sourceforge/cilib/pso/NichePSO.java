@@ -124,7 +124,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		
 	}
 	
-	public NichePSO clone() {
+	public NichePSO getClone() {
 		return new NichePSO(this);
 	}
 

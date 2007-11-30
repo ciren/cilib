@@ -53,7 +53,7 @@ public class VEPSO extends MultiPopulationBasedAlgorithm {
 		
 	}
 	
-	public VEPSO clone() {
+	public VEPSO getClone() {
 		return new VEPSO(this);
 	}
 

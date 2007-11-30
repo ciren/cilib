@@ -5,7 +5,7 @@ import net.sourceforge.cilib.entity.Particle;
 public class GaussianPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = 1888395118987536803L;
 
-	public GaussianPositionUpdateStrategy clone() {
+	public GaussianPositionUpdateStrategy getClone() {
 		return null;
 	}
 	

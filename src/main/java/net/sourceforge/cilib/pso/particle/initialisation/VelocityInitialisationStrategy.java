@@ -26,19 +26,20 @@ package net.sourceforge.cilib.pso.particle.initialisation;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Interface defining the valid tasks available for velocity intialisation
  * 
  * @author Gary Pampara
  */
-public interface VelocityInitialisationStrategy extends Serializable {
+public interface VelocityInitialisationStrategy extends Cloneable, Serializable {
 	
 	/**
 	 * Clone the VeclocityInitialisationStrategy 
 	 * @return A copy of the VelocityInitialisationStrategy
 	 */
-	public VelocityInitialisationStrategy clone();
+	public VelocityInitialisationStrategy getClone();
 	
 	/**
 	 * Initialise the Particle velocity

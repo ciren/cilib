@@ -40,12 +40,12 @@ public class DomainPercentageVelocityInitialisationStrategy implements
 	}
 	
 	public DomainPercentageVelocityInitialisationStrategy(DomainPercentageVelocityInitialisationStrategy copy) {
-		this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.clone();
+		this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
 		this.percentage = copy.percentage;
 	}
 	
 	@Override
-	public DomainPercentageVelocityInitialisationStrategy clone() {
+	public DomainPercentageVelocityInitialisationStrategy getClone() {
 		return new DomainPercentageVelocityInitialisationStrategy(this);
 	}
 

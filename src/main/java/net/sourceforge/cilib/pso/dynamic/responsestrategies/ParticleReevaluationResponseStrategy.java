@@ -21,7 +21,7 @@ public class ParticleReevaluationResponseStrategy implements
 		// empty copy constructor
 	}
 
-	public ParticleReevaluationResponseStrategy clone() {
+	public ParticleReevaluationResponseStrategy getClone() {
 		return new ParticleReevaluationResponseStrategy(this);
 	}
 	

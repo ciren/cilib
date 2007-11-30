@@ -59,7 +59,7 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
         wasNeighbourhoodBest = false;
     }
 
-    public LFDecorator clone() {
+    public LFDecorator getClone() {
         return new LFDecorator(this.getTarget()); //super.clone();
     }
     

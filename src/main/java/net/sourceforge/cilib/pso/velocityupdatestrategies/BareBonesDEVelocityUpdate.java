@@ -57,7 +57,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 	}
 	
 	
-	public BareBonesDEVelocityUpdate clone() {
+	public BareBonesDEVelocityUpdate getClone() {
 		return new BareBonesDEVelocityUpdate(this);
 	}
 	

@@ -89,13 +89,13 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 
 	public PSO(PSO copy) {
 		super(copy);
-		this.topology = copy.topology.clone();
+		this.topology = copy.topology.getClone();
 		this.iterationStrategy = copy.iterationStrategy; // need to clone?
 		this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
 	}
 
 	@Override
-	public PSO clone() {
+	public PSO getClone() {
 		return new PSO(this);
 	}
 
@@ -134,7 +134,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * @return The <code>OptimisationSolution</code> representing the best solution.
 	 */
 	public OptimisationSolution getBestSolution() {
-		return new OptimisationSolution(this.getOptimisationProblem(), getBestParticle().getBestPosition().clone());
+		return new OptimisationSolution(this.getOptimisationProblem(), getBestParticle().getBestPosition().getClone());
 	}
 
 	/**

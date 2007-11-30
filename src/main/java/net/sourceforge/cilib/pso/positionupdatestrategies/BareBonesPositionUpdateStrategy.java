@@ -62,7 +62,7 @@ public class BareBonesPositionUpdateStrategy implements PositionUpdateStrategy {
 	 * @return A <tt>BareBonesPositionUpdateStrategy</tt> object which is a clone of the
 	 *         object whose <code>clone</code> was called.
 	 */
-	public BareBonesPositionUpdateStrategy clone() {
+	public BareBonesPositionUpdateStrategy getClone() {
 		return new BareBonesPositionUpdateStrategy(this);
 	}
 

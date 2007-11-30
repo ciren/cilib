@@ -73,11 +73,11 @@ public class MutationPositionUpdateStrategy extends
 	public MutationPositionUpdateStrategy(MutationPositionUpdateStrategy copy) {
 		super(copy);
 		
-		this.decreasingParameter = copy.decreasingParameter.clone();
+		this.decreasingParameter = copy.decreasingParameter.getClone();
 		this.randomNumber = copy.randomNumber;
 	}
 	
-	public MutationPositionUpdateStrategy clone() {
+	public MutationPositionUpdateStrategy getClone() {
 		return new MutationPositionUpdateStrategy(this);
 	}
 	

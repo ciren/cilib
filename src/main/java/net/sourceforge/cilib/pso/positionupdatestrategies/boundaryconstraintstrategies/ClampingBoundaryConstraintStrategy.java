@@ -15,7 +15,7 @@ public class ClampingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	public ClampingBoundaryConstraintStrategy(ClampingBoundaryConstraintStrategy copy) {
 	}
 
-	public ClampingBoundaryConstraintStrategy clone() {
+	public ClampingBoundaryConstraintStrategy getClone() {
 		return new ClampingBoundaryConstraintStrategy(this);
 	}
 

@@ -153,7 +153,7 @@ public class DirectionalGBestMergeStrategy<E extends PopulationBasedAlgorithm>
 
     public double normalise(PSO mainSwarm, Particle gBest1, Particle gBest2)
     {
-	Real range = (Real) ((Vector) mainSwarm.getOptimisationProblem().getDomain().getBuiltRepresenation().clone()).get(0);
+	Real range = (Real) ((Vector) mainSwarm.getOptimisationProblem().getDomain().getBuiltRepresenation().getClone()).get(0);
 
 	Vector gBestPos1 = (Vector) gBest1.getPosition();
 	Vector gBestPos2 = (Vector) gBest2.getPosition();
@@ -192,8 +192,8 @@ public class DirectionalGBestMergeStrategy<E extends PopulationBasedAlgorithm>
 
     public Vector CalculateDirectionalVector(Particle a)
     {
-	Vector newPosition = (Vector) a.getPosition().clone();
-	Vector velocity = (Vector) a.getVelocity().clone();
+	Vector newPosition = (Vector) a.getPosition().getClone();
+	Vector velocity = (Vector) a.getVelocity().getClone();
 
 	for (int i = 0; i < newPosition.getDimension(); i++)
 	{

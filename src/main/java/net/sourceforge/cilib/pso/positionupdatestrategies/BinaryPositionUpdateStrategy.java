@@ -48,7 +48,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 	}
 	
 	
-	public BinaryPositionUpdateStrategy clone() {
+	public BinaryPositionUpdateStrategy getClone() {
 		return new BinaryPositionUpdateStrategy(this);
 	}
 	

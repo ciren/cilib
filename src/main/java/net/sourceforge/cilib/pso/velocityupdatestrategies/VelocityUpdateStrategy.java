@@ -30,18 +30,19 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  *
  * @author Gary Pampara
  */
-public interface VelocityUpdateStrategy extends Serializable {
+public interface VelocityUpdateStrategy extends Serializable, Cloneable {
 	
 	/**
 	 * Clone the <tt>VelocityUpdateStrategy</tt> object.
 	 * @return A cloned <tt>VelocityUpdateStrategy</tt>
 	 */
-	public VelocityUpdateStrategy clone();
+	public VelocityUpdateStrategy getClone();
 	
 	/**
 	 * Perform the velocity update operation on the specified <tt>Particle</tt>.

@@ -53,7 +53,7 @@ public class CoherenceParticle extends StandardParticle {
     /**
      *
      */
-    public CoherenceParticle clone() {
+    public CoherenceParticle getClone() {
        	return new CoherenceParticle(this);
     }
 

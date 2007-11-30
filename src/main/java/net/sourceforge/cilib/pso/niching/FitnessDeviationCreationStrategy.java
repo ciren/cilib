@@ -175,8 +175,8 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				socialAcceleration.setControlParameter(new ConstantControlParameter(1.2));
 				cognitiveAcceleration.setControlParameter(new ConstantControlParameter(1.2));
 
-				((StandardVelocityUpdate) p.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration.clone());
-				((StandardVelocityUpdate) p.getVelocityUpdateStrategy()).setCognitiveAcceleration(cognitiveAcceleration.clone());
+				((StandardVelocityUpdate) p.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration.getClone());
+				((StandardVelocityUpdate) p.getVelocityUpdateStrategy()).setCognitiveAcceleration(cognitiveAcceleration.getClone());
 
 				PSO newSubSwarm = new PSO();
 				newSubSwarm.setOptimisationProblem(pso.getMainSwarm().getOptimisationProblem());
@@ -196,8 +196,8 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				    Particle current = (Particle) sortedDistanceList.get(i).getValue();
 				    pso.getMainSwarm().getTopology().remove(current);
 
-				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration.clone());
-				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setCognitiveAcceleration(cognitiveAcceleration.clone());
+				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration.getClone());
+				    ((StandardVelocityUpdate) current.getVelocityUpdateStrategy()).setCognitiveAcceleration(cognitiveAcceleration.getClone());
 
 				    current.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
 				    

@@ -39,7 +39,7 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
 	private static final long serialVersionUID = -3511991873784185698L;
 
 	@Override
-	public ASynchronousIterationStrategy clone() {
+	public ASynchronousIterationStrategy getClone() {
 		return new ASynchronousIterationStrategy();
 	}
 

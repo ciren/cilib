@@ -31,16 +31,16 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
 	}
 	
 	public ChargedVelocityUpdateStrategy(ChargedVelocityUpdateStrategy copy) {
-		this.inertiaWeight = copy.inertiaWeight.clone();
-    	this.cognitiveAcceleration = copy.cognitiveAcceleration.clone();
-    	this.socialAcceleration = copy.socialAcceleration.clone();
-    	this.vMax = copy.vMax.clone();
+		this.inertiaWeight = copy.inertiaWeight.getClone();
+    	this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+    	this.socialAcceleration = copy.socialAcceleration.getClone();
+    	this.vMax = copy.vMax.getClone();
     	
     	this.p = copy.p;
     	this.pCore = copy.pCore;
 	}
 	
-	public ChargedVelocityUpdateStrategy clone() {
+	public ChargedVelocityUpdateStrategy getClone() {
 		return new ChargedVelocityUpdateStrategy(this);
 	}
 	

@@ -1,13 +1,14 @@
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.util.Cloneable;
 
-public interface EnvironmentChangeDetectionStrategy {
+public interface EnvironmentChangeDetectionStrategy extends Cloneable {
 	/**
 	 * Clone the <tt>EnvironmentChangeDetectionStrategy</tt> object.
 	 * @return A cloned <tt>EnvironmentChangeDetectionStrategy</tt>
 	 */
-	public EnvironmentChangeDetectionStrategy clone();
+	public EnvironmentChangeDetectionStrategy getClone();
 	
 	/**
 	 * Check the environment in which the specified PSO algorithm is running for changes.

@@ -75,7 +75,7 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 
 	}
 
-	public DeviationDecorator clone() {
+	public DeviationDecorator getClone() {
 
 		return null;
 

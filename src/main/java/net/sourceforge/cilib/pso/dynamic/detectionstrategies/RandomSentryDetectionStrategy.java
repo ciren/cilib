@@ -26,11 +26,11 @@ public class RandomSentryDetectionStrategy implements
 	public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy copy) {
 		this.sentries = copy.sentries;
 		this.theta = copy.theta;
-		this.randomiser = copy.randomiser.clone();
+		this.randomiser = copy.randomiser.getClone();
 	}
 	
 	@Override
-	public RandomSentryDetectionStrategy clone() {
+	public RandomSentryDetectionStrategy getClone() {
 		return new RandomSentryDetectionStrategy(this);
 	}
 	

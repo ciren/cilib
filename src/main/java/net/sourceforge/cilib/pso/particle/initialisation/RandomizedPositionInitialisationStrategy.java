@@ -44,10 +44,10 @@ public class RandomizedPositionInitialisationStrategy implements
 	private static final long serialVersionUID = -47429588645761362L;
 
 	public void initialise(Particle particle, OptimisationProblem problem) {
-		particle.getProperties().put("position", problem.getDomain().getBuiltRepresenation().clone());
+		particle.getProperties().put("position", problem.getDomain().getBuiltRepresenation().getClone());
 		particle.getPosition().randomise();
 		
-		particle.getProperties().put("bestPosition", particle.getPosition().clone());
+		particle.getProperties().put("bestPosition", particle.getPosition().getClone());
 	}
 
 }

@@ -48,7 +48,7 @@ public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
 	}
 	
 		
-	public StandardPositionUpdateStrategy clone() {
+	public StandardPositionUpdateStrategy getClone() {
 		return new StandardPositionUpdateStrategy(this);
 	}
 	

@@ -22,7 +22,7 @@ public class DynamicParticle extends StandardParticle {
     	super(copy);
     }
     
-    public DynamicParticle clone() {
+    public DynamicParticle getClone() {
        	return new DynamicParticle(this);
     }
            

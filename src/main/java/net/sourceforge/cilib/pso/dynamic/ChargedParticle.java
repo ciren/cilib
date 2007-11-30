@@ -27,10 +27,10 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
 		super(copy);
 		
 		this.charge = copy.charge;
-		this.chargedParticleInitialisationStrategy = copy.chargedParticleInitialisationStrategy.clone();
+		this.chargedParticleInitialisationStrategy = copy.chargedParticleInitialisationStrategy.getClone();
 	}
 	
-	public ChargedParticle clone() {
+	public ChargedParticle getClone() {
 		return new ChargedParticle(this);
 	}
 	
@@ -68,7 +68,7 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
         
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
-        this.properties.put("velocity", getPosition().clone());
+        this.properties.put("velocity", getPosition().getClone());
         
         velocityInitialisationStrategy.initialise(this);
         

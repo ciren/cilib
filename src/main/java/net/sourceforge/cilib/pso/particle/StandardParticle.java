@@ -65,23 +65,23 @@ public class StandardParticle extends AbstractParticle {
      * @param copy
      */
     public StandardParticle(StandardParticle copy) {
-    	this.velocityUpdateStrategy = copy.velocityUpdateStrategy.clone(); // Check this
-    	this.positionUpdateStrategy = copy.positionUpdateStrategy.clone();
+    	this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone(); // Check this
+    	this.positionUpdateStrategy = copy.positionUpdateStrategy.getClone();
     	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
-    	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.clone();
+    	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
     	
-    	this.fitnessCalculator = copy.fitnessCalculator.clone();
+    	this.fitnessCalculator = copy.fitnessCalculator.getClone();
     	    	
     	for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
     		String key = entry.getKey().toString();
-    		this.properties.put(key, entry.getValue().clone());
+    		this.properties.put(key, entry.getValue().getClone());
     	}
     }
     
     /**
      * 
      */
-    public StandardParticle clone() {
+    public StandardParticle getClone() {
        	return new StandardParticle(this);
     }
     
@@ -121,7 +121,7 @@ public class StandardParticle extends AbstractParticle {
         
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
-        this.properties.put("velocity", getPosition().clone());
+        this.properties.put("velocity", getPosition().getClone());
         velocityInitialisationStrategy.initialise(this);
         
         this.properties.put("fitness", InferiorFitness.instance());
@@ -146,7 +146,7 @@ public class StandardParticle extends AbstractParticle {
     	this.properties.put("fitness", fitness);
     	if (fitness.compareTo(getBestFitness()) > 0) {
     		this.properties.put("bestFitness", fitness);
-    		this.properties.put("bestPosition", getPosition().clone());
+    		this.properties.put("bestPosition", getPosition().getClone());
     	}
     }
     

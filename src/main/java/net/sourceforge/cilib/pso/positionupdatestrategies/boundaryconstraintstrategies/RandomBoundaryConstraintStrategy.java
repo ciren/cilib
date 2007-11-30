@@ -25,7 +25,7 @@ public class RandomBoundaryConstraintStrategy implements BoundaryConstraintStrat
 	public RandomBoundaryConstraintStrategy(RandomBoundaryConstraintStrategy copy) {
 	}
 
-	public RandomBoundaryConstraintStrategy clone() {
+	public RandomBoundaryConstraintStrategy getClone() {
 		return new RandomBoundaryConstraintStrategy(this);
 	}
 
@@ -46,7 +46,7 @@ public class RandomBoundaryConstraintStrategy implements BoundaryConstraintStrat
 	}
 
 	private void constrain(Numeric position, Numeric velocity) {
-		Numeric previousPosition = position.clone();
+		Numeric previousPosition = position.getClone();
 		position.randomise();
 		velocity.set(position.getReal() - previousPosition.getReal());
 	}

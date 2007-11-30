@@ -21,7 +21,7 @@ public class PeriodicBoundaryConstraintStrategy implements BoundaryConstraintStr
 	public PeriodicBoundaryConstraintStrategy(PeriodicBoundaryConstraintStrategy copy) {
 	}
 
-	public PeriodicBoundaryConstraintStrategy clone() {
+	public PeriodicBoundaryConstraintStrategy getClone() {
 		return new PeriodicBoundaryConstraintStrategy(this);
 	}
 
@@ -33,7 +33,7 @@ public class PeriodicBoundaryConstraintStrategy implements BoundaryConstraintStr
 		double upper = position.getUpperBound();
 		double lower = position.getLowerBound();
 		double range = Math.abs(upper - lower);
-		Numeric desiredPosition = position.clone();
+		Numeric desiredPosition = position.getClone();
 
 		desiredPosition.set(position.getReal() + velocity.getReal());
 		position.set(upper - (lower - desiredPosition.getReal()) % range);
@@ -47,7 +47,7 @@ public class PeriodicBoundaryConstraintStrategy implements BoundaryConstraintStr
 		double upper = position.getUpperBound();
 		double lower = position.getLowerBound();
 		double range = Math.abs(upper - lower);
-		Numeric desiredPosition = position.clone();
+		Numeric desiredPosition = position.getClone();
 
 		desiredPosition.set(position.getReal() + velocity.getReal());
 		position.set(lower + (desiredPosition.getReal() - upper) % range);

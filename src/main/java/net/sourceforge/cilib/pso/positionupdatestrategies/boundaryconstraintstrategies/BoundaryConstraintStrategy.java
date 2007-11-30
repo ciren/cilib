@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This interface defines two methods that will ensure that a {@linkplain Particle} does not overstep
@@ -11,7 +12,7 @@ import net.sourceforge.cilib.type.types.Numeric;
  * {@linkplain #constrainUpper(Numeric, Numeric)}.
  * @author Wiehann Matthysen
  */
-public interface BoundaryConstraintStrategy extends Serializable {
+public interface BoundaryConstraintStrategy extends Cloneable, Serializable {
 	/**
 	 * The term <i>infimum</i> refers to the <i>greatest lower bound</i> in mathematics. This is the value
 	 * that should be subtracted from the upperbound if needed.
@@ -23,7 +24,7 @@ public interface BoundaryConstraintStrategy extends Serializable {
 	 * object.
 	 * @return A clone of the current <tt>BoundaryConstraintStrategy</tt>
 	 */
-	public BoundaryConstraintStrategy clone();
+	public BoundaryConstraintStrategy getClone();
 
 	/**
 	 * This method is called when the position of a particle has overstepped the lower boundary of

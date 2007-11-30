@@ -55,7 +55,7 @@ public class RandomBoundedInitialVelocityStrategy implements
 		this.random1 = copy.random1;
 	}
 	
-	public RandomBoundedInitialVelocityStrategy clone() {
+	public RandomBoundedInitialVelocityStrategy getClone() {
 		return new RandomBoundedInitialVelocityStrategy(this);
 	}
 

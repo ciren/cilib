@@ -64,7 +64,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
 		super(copy);
 		this.randomNumberGenerator = copy.randomNumberGenerator;
-		this.oldFitness = copy.oldFitness.clone();
+		this.oldFitness = copy.oldFitness.getClone();
 		
 		this.rho = copy.rho;
 		this.successCount = copy.successCount;
@@ -74,11 +74,11 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.rhoExpandCoefficient = copy.rhoExpandCoefficient;
 		this.rhoContractCoefficient = copy.rhoContractCoefficient;
 		
-		this.vMax = copy.vMax.clone();
+		this.vMax = copy.vMax.getClone();
 	}
 
 	@Override
-	public GCVelocityUpdateStrategy clone() {
+	public GCVelocityUpdateStrategy getClone() {
 		return new GCVelocityUpdateStrategy(this);
 	}
 
@@ -102,7 +102,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 				clamp(velocity, i);
 			}
 			
-			oldFitness = particle.getFitness().clone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
+			oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
 			return;
 		}
 

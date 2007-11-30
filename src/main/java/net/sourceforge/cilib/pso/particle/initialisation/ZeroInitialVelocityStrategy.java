@@ -42,7 +42,7 @@ public class ZeroInitialVelocityStrategy implements
 		
 	}
 	
-	public ZeroInitialVelocityStrategy clone() {
+	public ZeroInitialVelocityStrategy getClone() {
 		return new ZeroInitialVelocityStrategy(this);
 	}
 

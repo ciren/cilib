@@ -26,10 +26,10 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
 	
 	public QuantumPositionUpdateStrategy(QuantumPositionUpdateStrategy copy) {
 		this.radius = copy.radius;
-		this.randomizer = copy.randomizer.clone();		
+		this.randomizer = copy.randomizer.getClone();		
 	}
 	
-	public QuantumPositionUpdateStrategy clone() {
+	public QuantumPositionUpdateStrategy getClone() {
 		return new QuantumPositionUpdateStrategy(this);
 	}
 	

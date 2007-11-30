@@ -94,8 +94,8 @@ public class DirectionalGBestAbsorptionStrategy<E extends PopulationBasedAlgorit
     
     public Vector CalculateDirectionalVector(Particle a)
     {
-	 Vector newPosition = (Vector) a.getPosition().clone();
-	Vector velocity =  (Vector) a.getVelocity().clone();
+	 Vector newPosition = (Vector) a.getPosition().getClone();
+	Vector velocity =  (Vector) a.getVelocity().getClone();
 
 	for (int i = 0; i < newPosition.getDimension(); i++)
 	{

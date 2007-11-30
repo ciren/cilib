@@ -46,7 +46,7 @@ public class DynamicIterationStrategy extends IterationStrategy<PSO> {
 	}
 	
 	@Override
-	public DynamicIterationStrategy clone() {
+	public DynamicIterationStrategy getClone() {
 		return new DynamicIterationStrategy();
 	}
 

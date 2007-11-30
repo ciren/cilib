@@ -65,17 +65,17 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * @param copy The object to copy.
      */
     public StandardVelocityUpdate(StandardVelocityUpdate copy) {
-    	this.inertiaWeight = copy.inertiaWeight.clone();
-    	this.cognitiveAcceleration = copy.cognitiveAcceleration.clone();
-    	this.socialAcceleration = copy.socialAcceleration.clone();
-    	this.vMax = copy.vMax.clone();
+    	this.inertiaWeight = copy.inertiaWeight.getClone();
+    	this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+    	this.socialAcceleration = copy.socialAcceleration.getClone();
+    	this.vMax = copy.vMax.getClone();
     }
     
     
     /**
      * {@inheritDoc}
      */
-    public StandardVelocityUpdate clone() {
+    public StandardVelocityUpdate getClone() {
     	return new StandardVelocityUpdate(this);
     }
 

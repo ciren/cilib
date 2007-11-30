@@ -47,10 +47,10 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
     }
     
     public LFVelocityUpdate(LFVelocityUpdate copy) {
-    	standard = copy.standard.clone();
+    	standard = copy.standard.getClone();
     }
     
-    public LFVelocityUpdate clone() {
+    public LFVelocityUpdate getClone() {
     	return new LFVelocityUpdate(this);
     }
     

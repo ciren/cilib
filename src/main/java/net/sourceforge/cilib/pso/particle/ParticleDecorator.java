@@ -61,7 +61,7 @@ public abstract class ParticleDecorator extends AbstractParticle {
     	return target;
     }
     
-    public abstract ParticleDecorator clone();
+    public abstract ParticleDecorator getClone();
     
     public Fitness getBestFitness() {
         return target.getBestFitness();

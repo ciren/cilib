@@ -28,10 +28,10 @@ public class BoundedPositionUpdateStrategy implements PositionUpdateStrategy {
 	}
 
 	public BoundedPositionUpdateStrategy(BoundedPositionUpdateStrategy copy) {
-		boundaryConstraintStrategy = copy.boundaryConstraintStrategy.clone();
+		boundaryConstraintStrategy = copy.boundaryConstraintStrategy.getClone();
 	}
 
-	public BoundedPositionUpdateStrategy clone() {
+	public BoundedPositionUpdateStrategy getClone() {
 		return new BoundedPositionUpdateStrategy(this);
 	}
 

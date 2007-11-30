@@ -78,7 +78,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	 * 
 	 * @return
 	 */
-    public abstract Particle clone();
+    public abstract Particle getClone();
 
 	/**
 	 * Returns the String representation of this Particle's ID

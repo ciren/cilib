@@ -46,7 +46,7 @@ public class LinearPositionUpdateStrategy implements PositionUpdateStrategy {
 	}
         
                 
-	public LinearPositionUpdateStrategy clone() {
+	public LinearPositionUpdateStrategy getClone() {
 		return new LinearPositionUpdateStrategy(this);
 	}
         

@@ -28,6 +28,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.util.Cloneable;
 
 
 /**
@@ -35,7 +36,7 @@ import net.sourceforge.cilib.entity.Particle;
  * @author Gary Pampara
  *
  */
-public interface PositionUpdateStrategy extends Serializable {
+public interface PositionUpdateStrategy extends Cloneable, Serializable {
 	
 	/**
 	 * Clone the stategy by creating a new object with the same contents and values
@@ -43,7 +44,7 @@ public interface PositionUpdateStrategy extends Serializable {
 	 * 
 	 * @return A clone of the current <tt>PositionUpdateStrategy</tt>
 	 */
-	public PositionUpdateStrategy clone();
+	public PositionUpdateStrategy getClone();
 	
 	/**
 	 * Update the position of the <tt>Particle</tt>.

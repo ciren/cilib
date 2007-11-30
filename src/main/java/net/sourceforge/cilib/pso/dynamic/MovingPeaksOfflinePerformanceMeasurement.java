@@ -22,7 +22,7 @@ public class MovingPeaksOfflinePerformanceMeasurement implements Measurement {
 	public MovingPeaksOfflinePerformanceMeasurement() {}
 	public MovingPeaksOfflinePerformanceMeasurement(MovingPeaksOfflinePerformanceMeasurement rhs) {}
 	
-	public MovingPeaksOfflinePerformanceMeasurement clone() {
+	public MovingPeaksOfflinePerformanceMeasurement getClone() {
 		return new MovingPeaksOfflinePerformanceMeasurement(this);
 	}
 	

@@ -65,7 +65,7 @@ public class ScatterGBestMergeStrategy<E extends PopulationBasedAlgorithm> imple
 
     public double normalise(PSO mainSwarm, Particle gBest1, Particle gBest2)
     {
-	Real range = (Real) ((Vector) mainSwarm.getOptimisationProblem().getDomain().getBuiltRepresenation().clone()).get(0);
+	Real range = (Real) ((Vector) mainSwarm.getOptimisationProblem().getDomain().getBuiltRepresenation().getClone()).get(0);
 
 	Vector gBestPos1 = (Vector) gBest1.getPosition();
 	Vector gBestPos2 = (Vector) gBest2.getPosition();

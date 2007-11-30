@@ -1,17 +1,19 @@
 package net.sourceforge.cilib.pso.dynamic;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 
 /**
  * Interface for ChargedParticle intialisation
  * 
  * @author Anna Rakitianskaia
  */
-public interface ChargedParticleInitialisationStrategy {	
+public interface ChargedParticleInitialisationStrategy extends Cloneable {	
 	/**
 	 * Clone the ChargedParticleInitialisationStrategy 
 	 * @return A copy of the ChargedParticleInitialisationStrategy
 	 */
-	public ChargedParticleInitialisationStrategy clone();
+	public ChargedParticleInitialisationStrategy getClone();
 	
 	/**
 	 * Initialise the Particle charge

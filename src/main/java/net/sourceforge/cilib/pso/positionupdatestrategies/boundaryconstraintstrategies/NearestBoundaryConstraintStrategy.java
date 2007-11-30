@@ -31,10 +31,10 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 	}
 
 	public NearestBoundaryConstraintStrategy(NearestBoundaryConstraintStrategy copy) {
-		terbulenceProbability = copy.terbulenceProbability.clone();
+		terbulenceProbability = copy.terbulenceProbability.getClone();
 	}
 
-	public NearestBoundaryConstraintStrategy clone() {
+	public NearestBoundaryConstraintStrategy getClone() {
 		return new NearestBoundaryConstraintStrategy(this);
 	}
 
@@ -55,7 +55,7 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 		double upper = position.getUpperBound();
 		double lower = position.getLowerBound();
 		double range = Math.abs(upper - lower);
-		Numeric previousPosition = position.clone();
+		Numeric previousPosition = position.getClone();
 
 		position.set(lower);	// lower boundary is inclusive
 		if (MathUtil.random() < terbulenceProbability.getParameter()) {
@@ -74,7 +74,7 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 		double upper = position.getUpperBound();
 		double lower = position.getLowerBound();
 		double range = Math.abs(upper - lower);
-		Numeric previousPosition = position.clone();
+		Numeric previousPosition = position.getClone();
 
 		position.set(upper - INFIMUM);	// upper boundary is exclusive
 		if (MathUtil.random() < terbulenceProbability.getParameter()) {

@@ -44,7 +44,7 @@ public class VEPSOVelocityUpdate implements VelocityUpdateStrategy {
 		
 	}
 	
-	public VEPSOVelocityUpdate clone() {
+	public VEPSOVelocityUpdate getClone() {
 		return new VEPSOVelocityUpdate(this);
 	}
 	

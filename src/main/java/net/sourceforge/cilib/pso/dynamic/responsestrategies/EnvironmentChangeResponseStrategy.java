@@ -1,13 +1,14 @@
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.util.Cloneable;
 
-public interface EnvironmentChangeResponseStrategy {
+public interface EnvironmentChangeResponseStrategy extends Cloneable {
 	/**
 	 * Clone the <tt>EnvironmentChangeResponseStrategy</tt> object.
 	 * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
 	 */
-	public EnvironmentChangeResponseStrategy clone();
+	public EnvironmentChangeResponseStrategy getClone();
 	
 	/**
 	 * Adapt to environment change.

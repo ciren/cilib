@@ -11,7 +11,6 @@ import net.sourceforge.cilib.type.types.Numeric;
  * and the corresponding velocity component is recalculated (inverting the direction), effectively
  * making the {@linkplain Particle} bounce off the sides of the domain. The effect achieved is a
  * skewed type of reflection with built-in velocity damping.
- * @author Theuns Cloete
  */
 public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
 	private static final long serialVersionUID = -2085380951650975909L;
@@ -22,7 +21,7 @@ public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	public BouncingBoundaryConstraintStrategy(BouncingBoundaryConstraintStrategy rhs) {
 	}
 
-	public BouncingBoundaryConstraintStrategy clone() {
+	public BouncingBoundaryConstraintStrategy getClone() {
 		return new BouncingBoundaryConstraintStrategy(this);
 	}
 
@@ -32,7 +31,7 @@ public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	 *      net.sourceforge.cilib.type.types.Numeric)
 	 */
 	public void constrainLower(Numeric position, Numeric velocity) {
-		Numeric previousPosition = position.clone();
+		Numeric previousPosition = position.getClone();
 
 		position.set(position.getLowerBound());	// lower boundary is inclusive
 		velocity.set(previousPosition.getReal() - position.getReal());
@@ -44,7 +43,7 @@ public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	 *      net.sourceforge.cilib.type.types.Numeric)
 	 */
 	public void constrainUpper(Numeric position, Numeric velocity) {
-		Numeric previousPosition = position.clone();
+		Numeric previousPosition = position.getClone();
 
 		position.set(position.getUpperBound() - INFIMUM); // upper boundary is exclusive
 		velocity.set(previousPosition.getReal() - position.getReal());

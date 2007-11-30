@@ -40,7 +40,7 @@ public class SynchronousIterationStrategy extends IterationStrategy<PSO> {
 
 
 	@Override
-	public SynchronousIterationStrategy clone() {
+	public SynchronousIterationStrategy getClone() {
 		return null;
 	}
 

@@ -53,10 +53,10 @@ public class FIPSVelocityUpdate extends StandardVelocityUpdate {
 
 	public FIPSVelocityUpdate(FIPSVelocityUpdate copy) {
 		super(copy);
-		this.randomComponent = copy.randomComponent.clone();
+		this.randomComponent = copy.randomComponent.getClone();
 	}
 
-	public FIPSVelocityUpdate clone() {
+	public FIPSVelocityUpdate getClone() {
 		return new FIPSVelocityUpdate(this);
 	}
 

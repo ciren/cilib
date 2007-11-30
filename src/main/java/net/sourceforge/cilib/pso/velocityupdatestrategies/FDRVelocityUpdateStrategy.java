@@ -56,14 +56,14 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 	}
 	
 	public FDRVelocityUpdateStrategy(FDRVelocityUpdateStrategy copy) {
-		this.inertiaWeight = copy.inertiaWeight.clone();
-    	this.cognitiveAcceleration = copy.cognitiveAcceleration.clone();
-    	this.socialAcceleration = copy.socialAcceleration.clone();
-    	this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.clone();
-    	this.vMax = copy.vMax.clone();
+		this.inertiaWeight = copy.inertiaWeight.getClone();
+    	this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+    	this.socialAcceleration = copy.socialAcceleration.getClone();
+    	this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.getClone();
+    	this.vMax = copy.vMax.getClone();
 	}
 	
-	public FDRVelocityUpdateStrategy clone() {
+	public FDRVelocityUpdateStrategy getClone() {
 		return new FDRVelocityUpdateStrategy(this);
 	}
 	

@@ -43,7 +43,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 		this();
 	}
 		
-	public DEPositionUpdateStrategy clone() {
+	public DEPositionUpdateStrategy getClone() {
 		return new DEPositionUpdateStrategy(this);
 	}
 	
@@ -88,7 +88,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 			Vector position2 = positions.get(1);
 			Vector position3 = positions.get(2);
 				
-			Vector DEposition = position.clone();
+			Vector DEposition = position.getClone();
 			int j = (int)rand3.getUniform(0,position.getDimension());
 			for (int i = 0; i < position.getDimension(); ++i) {
 				if ((rand4.getUniform(0,1) < crossoverProbability.getGaussian(0.5,0.3)) || (j == i)) {

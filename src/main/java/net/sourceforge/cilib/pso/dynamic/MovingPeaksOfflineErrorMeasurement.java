@@ -22,7 +22,7 @@ public class MovingPeaksOfflineErrorMeasurement implements Measurement {
 	public MovingPeaksOfflineErrorMeasurement() {}
 	public MovingPeaksOfflineErrorMeasurement(MovingPeaksOfflineErrorMeasurement rhs) {}
 	
-	public MovingPeaksOfflineErrorMeasurement clone() {
+	public MovingPeaksOfflineErrorMeasurement getClone() {
 		return new MovingPeaksOfflineErrorMeasurement(this);
 	}
 	

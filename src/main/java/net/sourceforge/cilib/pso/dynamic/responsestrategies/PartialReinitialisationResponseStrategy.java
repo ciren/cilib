@@ -23,11 +23,11 @@ public class PartialReinitialisationResponseStrategy extends
 	
 	public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy copy) {
 		this.reinitialisationRatio = copy.reinitialisationRatio;
-		this.randomiser = copy.randomiser.clone();
+		this.randomiser = copy.randomiser.getClone();
 	}
 
 	@Override
-	public PartialReinitialisationResponseStrategy clone() {
+	public PartialReinitialisationResponseStrategy getClone() {
 		return new PartialReinitialisationResponseStrategy(this);
 	}
 

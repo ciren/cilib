@@ -24,7 +24,7 @@ public class StandardChargedParticleInitialisationStrategy implements
 		this.chargeMagnitude = copy.chargeMagnitude;
 	}
 		
-	public StandardChargedParticleInitialisationStrategy clone() {
+	public StandardChargedParticleInitialisationStrategy getClone() {
 		return new StandardChargedParticleInitialisationStrategy(this);
 	}
 	

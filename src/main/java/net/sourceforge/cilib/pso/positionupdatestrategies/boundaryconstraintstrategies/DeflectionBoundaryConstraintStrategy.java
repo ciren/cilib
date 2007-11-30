@@ -20,10 +20,10 @@ public class DeflectionBoundaryConstraintStrategy implements BoundaryConstraintS
 	}
 
 	public DeflectionBoundaryConstraintStrategy(DeflectionBoundaryConstraintStrategy copy) {
-		velocityDampingFactor = copy.velocityDampingFactor.clone();
+		velocityDampingFactor = copy.velocityDampingFactor.getClone();
 	}
 
-	public DeflectionBoundaryConstraintStrategy clone() {
+	public DeflectionBoundaryConstraintStrategy getClone() {
 		return new DeflectionBoundaryConstraintStrategy(this);
 	}
 
@@ -43,7 +43,7 @@ public class DeflectionBoundaryConstraintStrategy implements BoundaryConstraintS
 		double upper = position.getUpperBound();
 		double lower = position.getLowerBound();
 		double range = Math.abs(upper - lower);
-		Numeric desiredPosition = position.clone();
+		Numeric desiredPosition = position.getClone();
 
 		desiredPosition.set(position.getReal() + velocity.getReal());
 		position.set(lower + (lower - desiredPosition.getReal()) % range);
@@ -58,7 +58,7 @@ public class DeflectionBoundaryConstraintStrategy implements BoundaryConstraintS
 		double upper = position.getUpperBound();
 		double lower = position.getLowerBound();
 		double range = Math.abs(upper - lower);
-		Numeric desiredPosition = position.clone();
+		Numeric desiredPosition = position.getClone();
 
 		desiredPosition.set(position.getReal() + velocity.getReal());
 		position.set(upper - (desiredPosition.getReal() - upper) % range);
