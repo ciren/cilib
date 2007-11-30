@@ -32,7 +32,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 		scalingFactor = new ConstantControlParameter(1);
 	}
 
-    public CoherenceVelocityUpdate clone() {
+    public CoherenceVelocityUpdate getClone() {
     	return new CoherenceVelocityUpdate(this);
     }
 
@@ -41,7 +41,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 //    	this.socialRandomGenerator = new KnuthSubtractive();
 //    	this.cognitiveRandomGenerator = new KnuthSubtractive();
     	this.randomNumber = new RandomNumber();
-    	this.scalingFactor = copy.scalingFactor.clone();
+    	this.scalingFactor = copy.scalingFactor.getClone();
     }
 
 
@@ -53,7 +53,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 
 		double averageParticleVelocity = 0.0;
 		
-		Vector averageVelocity = velocity.clone();
+		Vector averageVelocity = velocity.getClone();
 		averageVelocity.reset();
 		PSO pso = (PSO) Algorithm.get();
 		for (Particle p : pso.getTopology()) {
