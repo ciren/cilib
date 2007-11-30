@@ -4,18 +4,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import net.sourceforge.cilib.type.types.Real;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class BinaryTreeTest {
 	
-	private BinaryTree<Double> doubleTree;
+	private BinaryTree<Real> doubleTree;
 
 	@Before
 	public void setupBinaryTree() {
-		doubleTree = new BinaryTree<Double>(1.0);
-		doubleTree.addSubTree(new BinaryTree<Double>(2.0));
-		doubleTree.addSubTree(new BinaryTree<Double>(3.0));
+		doubleTree = new BinaryTree<Real>(new Real(1.0));
+		doubleTree.addSubTree(new BinaryTree<Real>(new Real(2.0)));
+		doubleTree.addSubTree(new BinaryTree<Real>(new Real(3.0)));
 	}
 	
 	@Test
@@ -32,20 +34,19 @@ public class BinaryTreeTest {
 	
 	@Test
 	public void removalOfSubtreeByKey() {
-		Tree<Double> removed = doubleTree.removeSubTree(2.0);
+		Tree<Real> removed = doubleTree.removeSubTree(new Real(2.0));
 		assertNotNull(removed);
-		assertEquals(2.0, removed.getKey(), 0);
-		assertTrue(doubleTree.getSubTree(2.0).isEmpty());
+		assertEquals(2.0, removed.getKey().getReal(), 0);
+		assertTrue(doubleTree.getSubTree(new Real(2.0)).isEmpty());
 	}
 	
 	@Test
 	public void removeSubTreeWithElement() {
-		assertTrue(doubleTree.remove(2.0));
+		assertTrue(doubleTree.remove(new Real(2.0)));
 	}
 	
 	@Test
 	public void removeSubTreeWithIndex() {
 		assertNotNull(doubleTree.removeSubTree(0));
 	}
-
 }

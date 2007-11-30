@@ -76,7 +76,7 @@ public class VectorTest {
 	
 	@Test
 	public void testClone() {
-		Vector v = vector.clone();
+		Vector v = vector.getClone();
 		
 		assertEquals(v.size(), vector.size());
 				

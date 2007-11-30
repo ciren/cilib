@@ -44,7 +44,7 @@ public class IntTest {
 		Int i = new Int();
 		i.setInt(-10);
 		
-		Int clone = i.clone();
+		Int clone = i.getClone();
 		
 		assertEquals(i.getInt(), clone.getInt());
 		assertNotSame(i, clone);
@@ -80,7 +80,7 @@ public class IntTest {
 	@Test
 	public void testRandomize() {
 		Int i1 = new Int(-300, 300);
-		Int i2 = i1.clone();
+		Int i2 = i1.getClone();
 		
 		assertTrue(i1.getInt() == i2.getInt());
 		i1.randomise();

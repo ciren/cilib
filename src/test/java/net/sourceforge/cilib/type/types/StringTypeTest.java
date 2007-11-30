@@ -41,7 +41,7 @@ public class StringTypeTest {
 	@Test
 	public void testClone() {
 		StringType t = new StringType("test string");
-		StringType clone = t.clone();
+		StringType clone = t.getClone();
 		
 		assertTrue(t.getString().equals(clone.getString()));
 		assertEquals(t.getString(), clone.getString());

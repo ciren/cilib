@@ -45,7 +45,7 @@ public class BitTest {
 	@Test
 	public void testClone() {
 		Bit b = new Bit(false);
-		Bit clone = (Bit) b.clone();
+		Bit clone = (Bit) b.getClone();
 	
 		assertNotSame(b, clone);
 		assertTrue(b.equals(clone));

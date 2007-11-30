@@ -43,7 +43,7 @@ public class RealTest {
 	@Test
 	public void testClone() {
 		Real r = new Real(-10.0);		
-		Real test = r.clone();
+		Real test = r.getClone();
 		
 		assertEquals(r.getReal(), test.getReal(), Double.MIN_NORMAL);
 		assertNotSame(r, test);
@@ -102,7 +102,7 @@ public class RealTest {
 	@Test
 	public void testRandomize() {
 		Real r1 = new Real(-30.0, 30.0);
-		Real r2 = r1.clone();
+		Real r2 = r1.getClone();
 		
 		assertTrue(r1.getReal() == r2.getReal());
 		r1.randomise();
