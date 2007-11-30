@@ -28,7 +28,7 @@ public class CompoundSelection extends SelectionStrategy {
 	}
 	
 	@Override
-	public SelectionStrategy clone() {
+	public SelectionStrategy getClone() {
 		return new CompoundSelection(this);
 	}
 

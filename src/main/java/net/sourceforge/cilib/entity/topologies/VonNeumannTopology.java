@@ -77,7 +77,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     		ArrayList<E> tmpList = new ArrayList<E>(list.size());
     		
     		for (E e : list) {
-    			tmpList.add((E) e.clone());
+    			tmpList.add((E) e.getClone());
     		}
     		
     		this.entities.add(tmpList);
@@ -87,7 +87,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     	this.lastCol = copy.lastCol;
     }
     
-    public VonNeumannTopology<E> clone() {
+    public VonNeumannTopology<E> getClone() {
     	return new VonNeumannTopology<E>(this);
     }
     

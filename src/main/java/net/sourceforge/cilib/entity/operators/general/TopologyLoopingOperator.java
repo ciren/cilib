@@ -13,10 +13,10 @@ public class TopologyLoopingOperator implements Operator {
 	}
 	
 	public TopologyLoopingOperator(TopologyLoopingOperator copy) {
-		this.operator = copy.operator.clone();
+		this.operator = copy.operator.getClone();
 	}
 	
-	public TopologyLoopingOperator clone() {
+	public TopologyLoopingOperator getClone() {
 		return new TopologyLoopingOperator(this);
 	}
 

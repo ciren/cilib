@@ -50,7 +50,7 @@ public abstract class CompetitiveCoevolutionIterationStrategy extends Coevolutio
 	}
 
 	@Override
-	public abstract CompetitiveCoevolutionIterationStrategy clone();
+	public abstract CompetitiveCoevolutionIterationStrategy getClone();
 	
 	public CompetitiveCoevolutionIterationStrategy(CompetitiveCoevolutionIterationStrategy copy) {
 		opponentSelectionStrategy = copy.opponentSelectionStrategy;

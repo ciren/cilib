@@ -31,6 +31,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * This is a generalisation of all Population based algorithms.
  * 
@@ -38,9 +40,9 @@ import java.util.List;
  * @author otter
  */
 public abstract class EntityCollection<E extends Entity> 
-	implements Collection<E>, Iterable<E>, List<E>, Serializable {
+	implements Collection<E>, Iterable<E>, List<E>, Cloneable, Serializable {
 	
-	public abstract EntityCollection<E> clone();
+	public abstract EntityCollection<E> getClone();
        
     /**
      * Adds an entity to the topology

@@ -54,7 +54,7 @@ public class ConstantControlParameter implements ControlParameter {
 	/**
 	 * 
 	 */
-	public ConstantControlParameter clone() {
+	public ConstantControlParameter getClone() {
 		return new ConstantControlParameter(this);
 	}
 

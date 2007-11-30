@@ -69,7 +69,7 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 	 * @return a clone of this list iterator.
 	 */
 	@Override
-	public SequentialAlgorithmIterator<E> clone() {
+	public SequentialAlgorithmIterator<E> getClone() {
 		return new SequentialAlgorithmIterator<E>(this);
 	}
 

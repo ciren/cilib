@@ -27,13 +27,14 @@
 package net.sourceforge.cilib.coevolution;
 
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
  * @author Julien Duhain
  * 
  */
-public abstract class FitnessSharingStrategy {
+public abstract class FitnessSharingStrategy implements Cloneable {
 	
 	public FitnessSharingStrategy() {
 		
@@ -46,5 +47,5 @@ public abstract class FitnessSharingStrategy {
 	 * @return the fitness of the entity
 	 */
 	public abstract Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent);
-	public abstract FitnessSharingStrategy clone();
+	public abstract FitnessSharingStrategy getClone();
 }

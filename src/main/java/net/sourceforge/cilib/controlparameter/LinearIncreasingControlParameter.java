@@ -51,7 +51,7 @@ public class LinearIncreasingControlParameter extends BoundedControlParameter {
 	/**
 	 * 
 	 */
-	public LinearIncreasingControlParameter clone() {
+	public LinearIncreasingControlParameter getClone() {
 		return new LinearIncreasingControlParameter(this);
 	}
 

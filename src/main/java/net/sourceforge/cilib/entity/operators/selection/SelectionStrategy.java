@@ -36,7 +36,7 @@ import net.sourceforge.cilib.entity.operators.Operator;
  */
 public abstract class SelectionStrategy implements Operator {
 	
-	public abstract SelectionStrategy clone();
+	public abstract SelectionStrategy getClone();
 	
 	public abstract Entity select(Topology<Entity> population);
 

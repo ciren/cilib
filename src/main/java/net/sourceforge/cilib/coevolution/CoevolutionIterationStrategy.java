@@ -45,7 +45,7 @@ public abstract class CoevolutionIterationStrategy extends IterationStrategy<Coe
 		
 	}
 	
-	public abstract CoevolutionIterationStrategy clone();
+	public abstract CoevolutionIterationStrategy getClone();
 		
 	public abstract void performIteration(CoevolutionAlgorithm ca);
 	

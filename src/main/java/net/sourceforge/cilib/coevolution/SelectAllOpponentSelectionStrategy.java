@@ -47,7 +47,7 @@ public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrateg
 		
 	}
 	
-	public SelectAllOpponentSelectionStrategy clone() {
+	public SelectAllOpponentSelectionStrategy getClone() {
 		return new SelectAllOpponentSelectionStrategy(this);
 	}
 	

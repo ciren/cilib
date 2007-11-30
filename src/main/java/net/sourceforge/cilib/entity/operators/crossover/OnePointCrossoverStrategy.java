@@ -49,7 +49,7 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 		super(copy);
 	}
 	
-	public OnePointCrossoverStrategy clone() {
+	public OnePointCrossoverStrategy getClone() {
 		return new OnePointCrossoverStrategy(this);
 	}
 	
@@ -70,8 +70,8 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 				int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
 				int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue(); 
 				
-				Entity offspring1 = parent1.clone();
-				Entity offspring2 = parent2.clone();
+				Entity offspring1 = parent1.getClone();
+				Entity offspring2 = parent2.getClone();
 				
 				Vector offspringVector1 = (Vector) offspring1.getContents();
 				Vector offspringVector2 = (Vector) offspring2.getContents();

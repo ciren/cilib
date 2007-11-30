@@ -75,14 +75,14 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 
 	public SplitCooperativeAlgorithm(SplitCooperativeAlgorithm copy) {
 		super(copy);
-		context = copy.context.clone();
+		context = copy.context.getClone();
 		splitStrategy = copy.splitStrategy;
 		fitnessUpdateStrategy = copy.fitnessUpdateStrategy;
 		contributionUpdateStrategy = copy.contributionUpdateStrategy;
 	}
 
 	@Override
-	public SplitCooperativeAlgorithm clone() {
+	public SplitCooperativeAlgorithm getClone() {
 		return new SplitCooperativeAlgorithm(this);
 	}
 
@@ -94,7 +94,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 
 	@Override
 	public OptimisationSolution getBestSolution() {
-		return new OptimisationSolution(optimisationProblem, context.getContents().clone());
+		return new OptimisationSolution(optimisationProblem, context.getContents().getClone());
 	}
 
 	@Override
@@ -186,7 +186,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	// here instead?
 	@Override
 	public void performInitialisation() {
-		context.setContents(optimisationProblem.getDomain().getBuiltRepresenation().clone());
+		context.setContents(optimisationProblem.getDomain().getBuiltRepresenation().getClone());
 		splitStrategy.split(optimisationProblem, context, subPopulationsAlgorithms);
 		context.reset();
 		for (Algorithm participant : subPopulationsAlgorithms) {

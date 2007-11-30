@@ -59,7 +59,7 @@ public class CoevolutionEntityScoreboard implements Type{
 		}	//endFor
 	}
 	
-	public CoevolutionEntityScoreboard clone(){
+	public CoevolutionEntityScoreboard getClone(){
 		return new CoevolutionEntityScoreboard(this);
 	}
 

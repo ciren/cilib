@@ -53,10 +53,10 @@ public class GaussianMutationStrategy extends MutationStrategy {
 	public GaussianMutationStrategy(GaussianMutationStrategy copy) {
 		super(copy);
 		this.mean = copy.mean;
-		this.deviationStrategy = copy.deviationStrategy.clone();
+		this.deviationStrategy = copy.deviationStrategy.getClone();
 	}
 	
-	public GaussianMutationStrategy clone() {
+	public GaussianMutationStrategy getClone() {
 		return new GaussianMutationStrategy(this);
 	}
 	

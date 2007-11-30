@@ -68,11 +68,11 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     	this.entities = new ArrayList<E>(copy.entities.size());
     	for (E entity : copy.entities) {
     		entity.reinitialise();
-    		this.entities.add((E) entity.clone());
+    		this.entities.add((E) entity.getClone());
     	}
     }
     
-    public GBestTopology<E> clone() {
+    public GBestTopology<E> getClone() {
     	return new GBestTopology<E>(this);
     }
     

@@ -43,7 +43,7 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
 		// initialize iterator to be used to calculate spatial center
 		Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm)this.currentAlgorithm).getTopology().iterator();
 		Entity entity = calculateCenterIterator.next();
-        Vector spatialCenter = (Vector) entity.getContents().clone();
+        Vector spatialCenter = (Vector) entity.getContents().getClone();
         
         // calculate center - evaluate sum total of population entity contents
         while (calculateCenterIterator.hasNext()) {

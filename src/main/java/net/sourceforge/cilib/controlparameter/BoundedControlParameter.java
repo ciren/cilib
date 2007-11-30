@@ -56,7 +56,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	 * @param copy
 	 */
 	public BoundedControlParameter(BoundedControlParameter copy) {
-		this.parameter = copy.parameter.clone();
+		this.parameter = copy.parameter.getClone();
 		this.range = new String(copy.range);
 	}
 	
@@ -64,7 +64,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	/**
 	 * 
 	 */
-	public abstract BoundedControlParameter clone();
+	public abstract BoundedControlParameter getClone();
 
 	
 	/**

@@ -8,7 +8,7 @@ import net.sourceforge.cilib.type.types.Type;
 
 public interface Particle extends Entity {
 	
-	public Particle clone();
+	public Particle getClone();
 	
 	public Type getPosition();
 	

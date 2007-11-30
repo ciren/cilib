@@ -28,12 +28,12 @@ public class CooperativeEntity extends AbstractEntity {
 	}
 	
 	public CooperativeEntity(CooperativeEntity rhs) {
-		context = rhs.context.clone();
+		context = rhs.context.getClone();
 		fitness = rhs.fitness;
 		fitnessCalculator = rhs.fitnessCalculator;//.clone();
 	}
 
-	public CooperativeEntity clone() {
+	public CooperativeEntity getClone() {
 		return new CooperativeEntity(this);
 	}
 	
@@ -96,7 +96,7 @@ public class CooperativeEntity extends AbstractEntity {
 	}
 
 	public void initialise(OptimisationProblem problem) {
-		context = (Vector) problem.getDomain().getBuiltRepresenation().clone();
+		context = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
 	}
 
 	public void reinitialise() {

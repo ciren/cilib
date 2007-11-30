@@ -49,7 +49,7 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 		this.neighbourhoodSize = copy.neighbourhoodSize;
 	}
 	
-	public HypercubeTopology<E> clone() {
+	public HypercubeTopology<E> getClone() {
 		return new HypercubeTopology<E>(this);
 	}
 

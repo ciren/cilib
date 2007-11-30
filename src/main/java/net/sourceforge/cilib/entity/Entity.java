@@ -31,19 +31,20 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * This is the super interface which all correpsonding entity implementation and extending interfaces,
+ * This is the super interface which all corresponding entity implementation and extending interfaces,
  * for use in population based algorithms, must implement/extend from. 
  */
-public interface Entity extends Comparable<Entity>, Serializable {
+public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	
 	/**
 	 * Make a clone of the Entity the exact semantics of the clone method will be defined by the classes
 	 * that implements this interface.
 	 * @return the cloned object
 	 */
-	public Entity clone();
+	public Entity getClone();
 
 	
 	/**

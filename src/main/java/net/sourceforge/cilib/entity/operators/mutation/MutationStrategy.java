@@ -57,11 +57,11 @@ public abstract class MutationStrategy implements Operator {
 	public MutationStrategy(MutationStrategy copy) {
 		this.operator = copy.operator;
 		this.operatorStrategy = copy.operatorStrategy;
-		this.mutationProbability = copy.mutationProbability.clone();
-		this.randomNumber = copy.randomNumber.clone();
+		this.mutationProbability = copy.mutationProbability.getClone();
+		this.randomNumber = copy.randomNumber.getClone();
 	}
 	
-	public abstract MutationStrategy clone();
+	public abstract MutationStrategy getClone();
 	
 	public abstract void mutate(List<? extends Entity> entity);
 

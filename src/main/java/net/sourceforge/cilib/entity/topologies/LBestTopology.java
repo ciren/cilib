@@ -68,7 +68,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     	this.neighbourhoodSize = copy.neighbourhoodSize;
     }
     
-    public LBestTopology<E> clone() {
+    public LBestTopology<E> getClone() {
     	return new LBestTopology<E>(this);
     }
 

@@ -51,11 +51,11 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	}
 	
 	public TournamentSelectionStrategy(TournamentSelectionStrategy copy) {
-		this.tournamentProportion = copy.tournamentProportion.clone();
-		this.randomNumber = copy.randomNumber.clone();
+		this.tournamentProportion = copy.tournamentProportion.getClone();
+		this.randomNumber = copy.randomNumber.getClone();
 	}
 	
-	public TournamentSelectionStrategy clone() {
+	public TournamentSelectionStrategy getClone() {
 		return new TournamentSelectionStrategy(this);
 	}
 

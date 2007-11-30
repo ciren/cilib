@@ -54,7 +54,7 @@ public class FunctionOptimisationCompetitiveCoevolutionIterationStrategy extends
 		super(copy);
 	}
 	
-	public FunctionOptimisationCompetitiveCoevolutionIterationStrategy clone() {
+	public FunctionOptimisationCompetitiveCoevolutionIterationStrategy getClone() {
 		return new FunctionOptimisationCompetitiveCoevolutionIterationStrategy(this);
 	}
 	
@@ -71,7 +71,7 @@ public class FunctionOptimisationCompetitiveCoevolutionIterationStrategy extends
     	if (entityFitness.compareTo(stPart.getFitnessCalculator().getFitness(stPart.getBestPosition(), false)) > 0) {
     		//stPart.setBestFitness(entityFitness);
     		stPart.getProperties().put("bestFitness", entityFitness);
-    		stPart.getProperties().put("bestPosition", stPart.getPosition().clone());
+    		stPart.getProperties().put("bestPosition", stPart.getPosition().getClone());
     	}
 		
 		//stPart.setBestFitness(entityFitness);
@@ -115,7 +115,7 @@ public class FunctionOptimisationCompetitiveCoevolutionIterationStrategy extends
 		svu.setCognitiveAcceleration(new ConstantControlParameter(0));
 		sp.setVelocityUpdateStrategy(svu);
 		PSO currentAlgorithm = (PSO)pba;
-		currentAlgorithm.getInitialisationStrategy().setEntityType(sp.clone());
+		currentAlgorithm.getInitialisationStrategy().setEntityType(sp.getClone());
 	}
 	
 }

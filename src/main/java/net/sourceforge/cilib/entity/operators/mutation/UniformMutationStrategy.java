@@ -51,11 +51,11 @@ public class UniformMutationStrategy extends MutationStrategy {
 	
 	public UniformMutationStrategy(UniformMutationStrategy copy) {
 		super(copy);
-		this.minStrategy = copy.minStrategy.clone();
-		this.maxStrategy = copy.maxStrategy.clone();
+		this.minStrategy = copy.minStrategy.getClone();
+		this.maxStrategy = copy.maxStrategy.getClone();
 	}
 	
-	public UniformMutationStrategy clone() {
+	public UniformMutationStrategy getClone() {
 		return new UniformMutationStrategy(this);
 	}
 	

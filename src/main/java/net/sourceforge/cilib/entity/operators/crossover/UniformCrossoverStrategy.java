@@ -48,7 +48,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 		super(copy);
 	}
 	
-	public UniformCrossoverStrategy clone() {
+	public UniformCrossoverStrategy getClone() {
 		return new UniformCrossoverStrategy(this);
 	}
 
@@ -61,8 +61,8 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 			int random2 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
 			
 			//How do we handle variable sizes? Resizing the entities?
-			Entity offspring1 = parentCollection.get(random1).clone();
-			Entity offspring2 = parentCollection.get(random2).clone();
+			Entity offspring1 = parentCollection.get(random1).getClone();
+			Entity offspring2 = parentCollection.get(random2).getClone();
 			
 			if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 				

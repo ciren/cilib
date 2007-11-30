@@ -9,7 +9,7 @@ public abstract class AbstractEntity implements Entity {
 	
 	protected Blackboard<String, Type> properties = new Blackboard<String, Type>();
 	
-	public abstract Entity clone();
+	public abstract Entity getClone();
 
 	public abstract void calculateFitness();
 	

@@ -47,7 +47,7 @@ public abstract class OpponentSelectionStrategy {
 		
 	}
 	
-	public abstract OpponentSelectionStrategy clone();
+	public abstract OpponentSelectionStrategy getClone();
 
 	/**
 	 * selects the opponents from the pool

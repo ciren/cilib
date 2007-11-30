@@ -27,17 +27,19 @@ package net.sourceforge.cilib.controlparameter;
 
 import java.io.Serializable;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * @author Gary Pampara
  * @author Andries Engelbrecht
  */
-public interface ControlParameter extends Serializable {
+public interface ControlParameter extends Cloneable, Serializable {
 	/**
 	 * Clone the current object such that a comaprison of the clone and original object will yield
 	 * two seperate, but duplicate objects.
 	 * @return The cloned <tt>ControlParameterUpdateStrategy</tt>
 	 */
-	public ControlParameter clone();
+	public ControlParameter getClone();
 
 	/**
 	 * Get the value of the represented parameter.

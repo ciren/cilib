@@ -55,10 +55,10 @@ public class CauchyMutationStrategy extends MutationStrategy {
 	public CauchyMutationStrategy(CauchyMutationStrategy copy) {
 		super(copy);
 		this.location = copy.location;
-		this.scaleStrategy = copy.scaleStrategy.clone();
+		this.scaleStrategy = copy.scaleStrategy.getClone();
 	}
 	
-	public CauchyMutationStrategy clone() {
+	public CauchyMutationStrategy getClone() {
 		return new CauchyMutationStrategy(this);
 	}
 

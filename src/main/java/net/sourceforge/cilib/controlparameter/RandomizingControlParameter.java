@@ -55,7 +55,7 @@ public class RandomizingControlParameter implements ControlParameter {
 	 * @param copy
 	 */
 	public RandomizingControlParameter(RandomizingControlParameter copy) {
-		this.controlParameter = copy.controlParameter.clone();
+		this.controlParameter = copy.controlParameter.getClone();
 		this.randomiser = new MersenneTwister();
 	}
 
@@ -63,7 +63,7 @@ public class RandomizingControlParameter implements ControlParameter {
 	 * Clone method.
 	 * @return Return a cloned {@link RandomizingControlParameter}
 	 */
-	public RandomizingControlParameter clone() {
+	public RandomizingControlParameter getClone() {
 		return new RandomizingControlParameter(this);
 	}
 

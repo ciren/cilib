@@ -40,7 +40,7 @@ public class CoevolutionSynchronousIterationStrategy extends IterationStrategy<P
 
 
 	@Override
-	public CoevolutionSynchronousIterationStrategy clone() {
+	public CoevolutionSynchronousIterationStrategy getClone() {
 		return null;
 	}
 

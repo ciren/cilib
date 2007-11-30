@@ -20,7 +20,7 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 		super(copy);
 	}
 	
-	public HybridCooperativeAlgorithm clone() {
+	public HybridCooperativeAlgorithm getClone() {
 		return new HybridCooperativeAlgorithm(this);
 	}
 

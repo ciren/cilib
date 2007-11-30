@@ -52,7 +52,7 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{
 		this.coevolutionIterationStrategy = copy.coevolutionIterationStrategy;
 	}
 	
-	public CoevolutionAlgorithm clone() {
+	public CoevolutionAlgorithm getClone() {
 		return new CoevolutionAlgorithm(this);
 	}
 	

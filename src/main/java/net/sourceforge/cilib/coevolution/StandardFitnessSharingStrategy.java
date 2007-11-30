@@ -45,7 +45,7 @@ public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
 		
 	}
 	
-	public StandardFitnessSharingStrategy clone(){
+	public StandardFitnessSharingStrategy getClone(){
 		return new StandardFitnessSharingStrategy(this);
 	}
 	

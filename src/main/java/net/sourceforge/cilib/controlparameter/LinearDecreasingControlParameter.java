@@ -52,7 +52,7 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
 	/**
 	 * 
 	 */
-	public LinearDecreasingControlParameter clone() {
+	public LinearDecreasingControlParameter getClone() {
 		return new LinearDecreasingControlParameter(this);
 	}
 

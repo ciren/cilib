@@ -58,7 +58,7 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 	}
 	
 	@Override
-	public OpponentSelectionStrategy clone() {
+	public OpponentSelectionStrategy getClone() {
 		return new SelectNOpponentSelectionStrategy(this);
 	}
 

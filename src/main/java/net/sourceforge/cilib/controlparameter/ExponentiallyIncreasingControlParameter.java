@@ -41,7 +41,7 @@ public class ExponentiallyIncreasingControlParameter extends BoundedControlParam
 	}
 	
 	@Override
-	public ExponentiallyIncreasingControlParameter clone() {
+	public ExponentiallyIncreasingControlParameter getClone() {
 		return new ExponentiallyIncreasingControlParameter(this);
 	}
 

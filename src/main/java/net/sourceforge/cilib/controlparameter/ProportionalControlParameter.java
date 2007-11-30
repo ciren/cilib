@@ -34,7 +34,7 @@ public class ProportionalControlParameter implements ControlParameter {
 		this.proportion = 0.1;
 	}
 
-	public ProportionalControlParameter clone() {
+	public ProportionalControlParameter getClone() {
 		return null;
 	}
 

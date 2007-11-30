@@ -51,11 +51,11 @@ public abstract class CrossoverStrategy implements Operator {
 	}
 	
 	public CrossoverStrategy(CrossoverStrategy copy) {
-		this.crossoverProbability = copy.crossoverProbability.clone();
-		this.randomNumber = copy.randomNumber.clone();
+		this.crossoverProbability = copy.crossoverProbability.getClone();
+		this.randomNumber = copy.randomNumber.getClone();
 	}
 	
-	public abstract CrossoverStrategy clone();
+	public abstract CrossoverStrategy getClone();
 	
 	public abstract List<Entity> crossover(Topology<? extends Entity> parentCollection);
 
