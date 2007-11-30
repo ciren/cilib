@@ -236,7 +236,7 @@
 	    <version>4.6</version>
 	  </docletArtifact>
           <additionalparam>
-             -inferrel -inferdep -hide java.*
+             -inferrel -hide java.*
 	     -collpackages java.util.* -qualify
 	     -postfixpackage -nodefontsize 9
 	     -nodefontpackagesize 7
