@@ -4,7 +4,10 @@
 		<author email="gpampara@cs.up.ac.za">Gary Pampara</author>
 	</properties>
 	<body>
-		<release version="0.6.10" date="Not yet released" description="">
+		<release version="0.6.10" date="2007-11-30" description="Major refactoring and bug fix release">
+			<action dev="gpampara" type="fix" issue="1837438">
+				Cloning of generic types. Also changes the manner in which other objects handle cloning.
+			</action>
 			<action dev="heatzync" type="fix" issue="1835575">
 				HalkidiVazirgiannisIndex cluster variance calculation.
 			</action>
