@@ -44,7 +44,6 @@ public class DomainPercentageVelocityInitialisationStrategy implements
 		this.percentage = copy.percentage;
 	}
 	
-	@Override
 	public DomainPercentageVelocityInitialisationStrategy getClone() {
 		return new DomainPercentageVelocityInitialisationStrategy(this);
 	}

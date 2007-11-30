@@ -29,7 +29,6 @@ public class RandomSentryDetectionStrategy implements
 		this.randomiser = copy.randomiser.getClone();
 	}
 	
-	@Override
 	public RandomSentryDetectionStrategy getClone() {
 		return new RandomSentryDetectionStrategy(this);
 	}

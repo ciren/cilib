@@ -53,7 +53,6 @@ public class StringType extends AbstractType {
 		this.string = copy.string;
 	}
 	
-	@Override
 	public StringType getClone() {
 		return new StringType(this);
 	}

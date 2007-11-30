@@ -50,7 +50,6 @@ public class BitStringMatcher extends DiscreteFunction {
 	public BitStringMatcher() {
 	}
 	
-	@Override
 	public BitStringMatcher getClone() {
 		return new BitStringMatcher();
 	}

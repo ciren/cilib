@@ -20,13 +20,11 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 
 	private static final long serialVersionUID = -3586259608521073084L;
 	
-	@Override
 	public LongestCommonSubsequence getClone() {
 		return new LongestCommonSubsequence();
 	}
 
 
-	@Override
 	public double evaluate(Vector x) {
 		double v = 0.0;
 		double l = length(x);

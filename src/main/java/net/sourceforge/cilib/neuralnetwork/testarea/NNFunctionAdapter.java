@@ -16,19 +16,16 @@ public class NNFunctionAdapter extends Function {
 		return mediator.getErrorDt()[0].getValue();
 	}
 
-	@Override
 	public Object getMaximum() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public Object getMinimum() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public NNFunctionAdapter getClone() {
 		return new NNFunctionAdapter();
 	}
