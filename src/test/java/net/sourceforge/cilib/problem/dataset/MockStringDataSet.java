@@ -48,7 +48,7 @@ public class MockStringDataSet extends DataSet {
 	}
 
 	@Override
-	public MockStringDataSet clone() {
+	public MockStringDataSet getClone() {
 		return new MockStringDataSet(this);
 	}
 

@@ -200,7 +200,7 @@ public class VonNeumannTopologyTest {
 		public void setId(String id) {
 			this.id = id;
 		}
-		public DumbParticle clone() {
+		public DumbParticle getClone() {
 			return null;
 		}
 

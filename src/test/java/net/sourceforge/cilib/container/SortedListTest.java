@@ -31,6 +31,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Comparator;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.type.types.Int;
 
 import org.junit.Test;
 
@@ -41,15 +42,15 @@ public class SortedListTest {
 	
 	@Test
 	public void testSortedAddition() {
-		SortedList<Integer> intList = new SortedList<Integer>();
+		SortedList<Int> intList = new SortedList<Int>();
 		
-		intList.add(5);
-		intList.add(8);
-		intList.add(2);
+		intList.add(new Int(5));
+		intList.add(new Int(8));
+		intList.add(new Int(2));
 		
-		assertEquals(2, (int) intList.get(0));
-		assertEquals(5, (int) intList.get(1));
-		assertEquals(8, (int) intList.get(2));
+		assertEquals(2, intList.get(0).getInt());
+		assertEquals(5, intList.get(1).getInt());
+		assertEquals(8, intList.get(2).getInt());
 	}
 	
 	

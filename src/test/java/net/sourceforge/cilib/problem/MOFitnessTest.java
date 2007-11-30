@@ -87,7 +87,7 @@ public class MOFitnessTest {
     		
     	}
     	
-    	public DummyOptimisationProblem clone() {
+    	public DummyOptimisationProblem getClone() {
     		return new DummyOptimisationProblem(this);
     	}
     

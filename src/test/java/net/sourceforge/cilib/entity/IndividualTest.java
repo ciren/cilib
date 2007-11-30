@@ -21,7 +21,7 @@ public class IndividualTest {
 		Individual i = new Individual();
 		i.setContents(genes);
 		
-		Individual clone = i.clone();
+		Individual clone = i.getClone();
 		
 		assertEquals(5, i.getDimension());
 		assertEquals(5, clone.getDimension());
