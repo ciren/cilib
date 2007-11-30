@@ -70,7 +70,7 @@ public class RANLUX extends Random {
         super(seed);
     }
     
-    public RANLUX clone() {
+    public RANLUX getClone() {
     	return new RANLUX();
     }
     

@@ -28,6 +28,7 @@ package net.sourceforge.cilib.math.random;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This class provides the needed functionality to sample random numbers from different
@@ -42,7 +43,7 @@ import net.sourceforge.cilib.math.random.generator.Random;
  * 
  * @author Gary Pampara
  */
-public class RandomNumber {
+public class RandomNumber implements Cloneable {
 	
 	private Random randomGenerator;
 	
@@ -58,10 +59,10 @@ public class RandomNumber {
 	}
 	
 	public RandomNumber(RandomNumber copy) {
-		this.randomGenerator = copy.randomGenerator.clone();
+		this.randomGenerator = copy.randomGenerator.getClone();
 	}
 	
-	public RandomNumber clone() {
+	public RandomNumber getClone() {
 		return new RandomNumber(this);
 	}
 	

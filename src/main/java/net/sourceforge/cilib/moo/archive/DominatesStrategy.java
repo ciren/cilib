@@ -51,7 +51,7 @@ public class DominatesStrategy implements LocalGuideStrategy {
 		 * the new personal best position becomes the current position
 		 */
 		if (particle.getFitness().compareTo(particle.getBestFitness()) == 0)
-			 this.localGuide = (Vector) particle.getPosition().clone();
+			 this.localGuide = (Vector) particle.getPosition().getClone();
 	}
 
 }

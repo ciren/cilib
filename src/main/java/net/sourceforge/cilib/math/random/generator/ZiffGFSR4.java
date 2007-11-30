@@ -84,7 +84,7 @@ public class ZiffGFSR4 extends Random {
         super(seed);
     }
     
-    public ZiffGFSR4 clone() {
+    public ZiffGFSR4 getClone() {
     	return new ZiffGFSR4();
     }
     

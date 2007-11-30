@@ -68,7 +68,7 @@ public class Tausworthe extends Random {
         super(seed);
     }
     
-    public Tausworthe clone() {
+    public Tausworthe getClone() {
     	return new Tausworthe();
     }
     

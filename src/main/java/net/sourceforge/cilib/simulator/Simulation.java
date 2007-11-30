@@ -63,7 +63,7 @@ public class Simulation extends Thread implements AlgorithmListener {
 	private Vector<ProgressListener> progressListeners;
 	private Hashtable<Algorithm, Double> progress;
 
-	public Simulation clone() {
+	public Simulation getClone() {
 		return null;
 	}
 

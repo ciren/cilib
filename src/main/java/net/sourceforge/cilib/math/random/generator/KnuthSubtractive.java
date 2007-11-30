@@ -51,7 +51,7 @@ public class KnuthSubtractive extends Random {
         super(seed);
     }
     
-    public KnuthSubtractive clone() {
+    public KnuthSubtractive getClone() {
     	return new KnuthSubtractive();
     }
     

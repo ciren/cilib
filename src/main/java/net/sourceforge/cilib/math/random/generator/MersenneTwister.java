@@ -3,10 +3,10 @@
  *
  * Created on January 16, 2003, 4:53 PM
  *
- * 
- * Copyright (C) 2003 - 2006 
+ *
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,12 +22,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *  
- * This code is based on the implementation in GSL (GNU Scientific Library) 
- * which is also covered by the GNU General Public License. The original C 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * This code is based on the implementation in GSL (GNU Scientific Library)
+ * which is also covered by the GNU General Public License. The original C
  * source code is Copyright (C) 1998 Brian Gough.
- * 
+ *
  * Comment text ripped from GSL.
  */
 package net.sourceforge.cilib.math.random.generator;
@@ -46,8 +46,8 @@ package net.sourceforge.cilib.math.random.generator;
  * generator used a default seed of 4357 and setting the seed equal to zero
  * reproduces this.
  * </p><p align="right">- Brian Gough</p><p>
- * References: 
- * <ul><li> 
+ * References:
+ * <ul><li>
  * Makoto Matsumoto and Takuji Nishimura, "Mersenne Twister: A
  * 623-dimensionally equidistributed uniform pseudorandom number
  * generator". `ACM Transactions on Modeling and Computer
@@ -57,13 +57,13 @@ package net.sourceforge.cilib.math.random.generator;
  * @author  Edwin Peer
  */
 public class MersenneTwister extends Random {
-    
+
     private static final long serialVersionUID = -4165908582605023476L;
     
 	public MersenneTwister() {
         super(Seeder.getSeed());
     }
-    
+
     public MersenneTwister(long seed) {
         super(seed);
     }
@@ -72,7 +72,7 @@ public class MersenneTwister extends Random {
     	super(Seeder.getSeed());
     }
     
-    public MersenneTwister clone() {
+    public MersenneTwister getClone() {
     	return new MersenneTwister();
     }
     
