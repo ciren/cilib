@@ -48,7 +48,7 @@ public class MultipleModalF5 implements Measurement {
 	public MultipleModalF5(MultipleModalF5 copy) {
 	}
 
-	public MultipleModalF5 clone() {
+	public MultipleModalF5 getClone() {
 		return new MultipleModalF5(this);
 	}
 

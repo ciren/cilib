@@ -48,7 +48,7 @@ public class FunctionOptimisationError implements Measurement {
     public FunctionOptimisationError(FunctionOptimisationError copy) {
     }
     
-    public FunctionOptimisationError clone() {
+    public FunctionOptimisationError getClone() {
     	return new FunctionOptimisationError(this);
     }
 

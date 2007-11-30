@@ -82,18 +82,18 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		
 		for (int i=0; i < prototypeError.length; i++){
 			
-			this.errorDg[i] = prototypeError[i].clone();
+			this.errorDg[i] = prototypeError[i].getClone();
 			this.errorDg[i].setNoPatterns(this.data.getGeneralisationSetSize());
-			this.errorDt[i] = prototypeError[i].clone();
+			this.errorDt[i] = prototypeError[i].getClone();
 			this.errorDt[i].setNoPatterns(this.data.getTrainingSetSize());
-			this.errorDv[i] = prototypeError[i].clone();
+			this.errorDv[i] = prototypeError[i].getClone();
 			this.errorDv[i].setNoPatterns(this.data.getValidationSetSize());
 		}
 		
 		//Always select the first error in the array as the reference for Active learning comparions.
-		subsetBeginErrorDt = prototypeError[0].clone();
+		subsetBeginErrorDt = prototypeError[0].getClone();
 		subsetBeginErrorDt.setNoPatterns(((SAILARealData)data).getNrUpdates());
-		subsetBeginErrorDg = prototypeError[0].clone();
+		subsetBeginErrorDg = prototypeError[0].getClone();
 		subsetBeginErrorDg.setNoPatterns(1);
 		
 		iteratorDt = data.getTrainingSetIterator();
@@ -107,7 +107,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		subsetBeginErrorDg.finaliseError();
 		
 		//set the recorded error for criterion 3 to initial error as well
-		errorDtPrevious = this.prototypeError[0].clone();
+		errorDtPrevious = this.prototypeError[0].getClone();
 		errorDtPrevious.setValue(new Double(9999999));
 		
 		//criterion 4:

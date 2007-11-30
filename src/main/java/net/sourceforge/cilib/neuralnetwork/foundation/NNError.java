@@ -20,7 +20,7 @@ public interface NNError extends Fitness, Initializable {
 	
 	public void finaliseError();
 	
-	public NNError clone();
+	public NNError getClone();
 	
 	public void setValue(Object val);
 	

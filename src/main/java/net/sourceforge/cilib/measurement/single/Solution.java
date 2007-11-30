@@ -43,7 +43,7 @@ public class Solution implements Measurement {
 	public Solution(Solution copy) {
 	}
 	
-	public Solution clone() {
+	public Solution getClone() {
 		return new Solution(this);
 	}
 	

@@ -38,7 +38,7 @@ public class MSEErrorFunction implements NNError, Initializable {
 	
 	public MSEErrorFunction(int noOutputs, int noPatterns, double value) {
 		
-		//this constructor is used by clone() to ensure fewer function calls are made during cloning, as NNErrors are cloned often.
+		//this constructor is used by getClone() to ensure fewer function calls are made during cloning, as NNErrors are cloned often.
 		this.noOutputs = noOutputs;
 		this.noPatterns = noPatterns;
 		this.computationData = 0;
@@ -114,7 +114,7 @@ public class MSEErrorFunction implements NNError, Initializable {
 	}
 	
 	
-	public NNError clone(){
+	public NNError getClone(){
 		MSEErrorFunction tmp = new MSEErrorFunction(this.noOutputs, this.noPatterns, this.value);
 		tmp.computationData = this.computationData;
 		return tmp;

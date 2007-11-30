@@ -54,7 +54,7 @@ public class MinimumFunctionMinimisationError implements StoppingCondition {
 		this.problem = copy.problem;
 	}
 
-	public MinimumFunctionMinimisationError clone() {
+	public MinimumFunctionMinimisationError getClone() {
 		return new MinimumFunctionMinimisationError(this);
 	}
 

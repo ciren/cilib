@@ -49,7 +49,7 @@ public class MaximumRestarts implements StoppingCondition {
 		this.algorithm = copy.algorithm;
 	}
 
-	public MaximumRestarts clone() {
+	public MaximumRestarts getClone() {
 		return new MaximumRestarts(this);
 	}
 

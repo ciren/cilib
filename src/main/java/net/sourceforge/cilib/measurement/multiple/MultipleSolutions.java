@@ -43,7 +43,7 @@ public class MultipleSolutions implements Measurement {
 	public MultipleSolutions(MultipleSolutions copy) {
 	}
 	
-	public MultipleSolutions clone() {
+	public MultipleSolutions getClone() {
 		return new MultipleSolutions(this);
 	}
 

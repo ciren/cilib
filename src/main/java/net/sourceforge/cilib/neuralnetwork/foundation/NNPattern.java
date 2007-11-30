@@ -7,6 +7,7 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Cloneable;
 
 
 /**
@@ -14,7 +15,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * 
  */
-public interface NNPattern {
+public interface NNPattern extends Cloneable {
 
 	public int getTargetLength();
 
@@ -24,7 +25,7 @@ public interface NNPattern {
 
 	public Vector getTarget();
 	
-	public NNPattern clone();
+	public NNPattern getClone();
 	
 	public void setInput(Vector v);
 	

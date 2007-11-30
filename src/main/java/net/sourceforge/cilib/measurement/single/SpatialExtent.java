@@ -63,7 +63,7 @@ public class SpatialExtent implements Measurement {
 	public SpatialExtent(SpatialExtent copy) {
 	}
 	
-	public SpatialExtent clone() {
+	public SpatialExtent getClone() {
 		return new SpatialExtent(this);
 	}
 

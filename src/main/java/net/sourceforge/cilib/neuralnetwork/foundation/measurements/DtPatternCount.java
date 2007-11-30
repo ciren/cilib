@@ -18,7 +18,7 @@ public class DtPatternCount implements Measurement {
 		throw new UnsupportedOperationException("public DtPatternCount(DtPatternCount rhs)");
 	}
 
-	public DtPatternCount clone() {
+	public DtPatternCount getClone() {
 		return new DtPatternCount(this);
 	}
 

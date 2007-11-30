@@ -23,7 +23,7 @@ public class GenericFunctionMeasurement implements Measurement {
 		function = rhs.function;
 	}
 
-	public GenericFunctionMeasurement clone() {
+	public GenericFunctionMeasurement getClone() {
 		return new GenericFunctionMeasurement(this);
 	}
 

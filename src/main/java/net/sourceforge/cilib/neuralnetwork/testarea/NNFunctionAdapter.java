@@ -28,4 +28,9 @@ public class NNFunctionAdapter extends Function {
 		return null;
 	}
 
+	@Override
+	public NNFunctionAdapter getClone() {
+		return new NNFunctionAdapter();
+	}
+
 }

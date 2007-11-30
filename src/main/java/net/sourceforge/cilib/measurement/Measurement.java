@@ -31,6 +31,7 @@ package net.sourceforge.cilib.measurement;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.Cloneable;
 
 
 /**
@@ -40,9 +41,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public interface Measurement extends Serializable {
+public interface Measurement extends Serializable, Cloneable {
 	
-	public Measurement clone();
+	public Measurement getClone();
 	
 	/**
 	 * Get the domain string representing what this measurement's results will conform to.

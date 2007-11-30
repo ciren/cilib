@@ -61,7 +61,7 @@ public class LinearDataIterator implements NeuralNetworkDataIterator {
 		return count;
 	}
 	
-	public NeuralNetworkDataIterator clone(){
+	public NeuralNetworkDataIterator getClone(){
 		LinearDataIterator tmp = new LinearDataIterator(this.data, this.list);
 		tmp.count = this.count;
 		return tmp;

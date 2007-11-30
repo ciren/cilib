@@ -49,7 +49,7 @@ public class BestParticlePosition implements Measurement {
 		
 	}
 	
-	public BestParticlePosition clone() {
+	public BestParticlePosition getClone() {
 		return new BestParticlePosition(this);
 	}
 

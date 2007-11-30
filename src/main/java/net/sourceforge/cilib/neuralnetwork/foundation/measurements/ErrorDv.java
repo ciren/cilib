@@ -20,7 +20,7 @@ public class ErrorDv implements Measurement {
 		throw new UnsupportedOperationException("public ErrorDv(ErrorDv rhs)");
 	}
 
-	public ErrorDv clone() {
+	public ErrorDv getClone() {
 		return new ErrorDv(this);
 	}
 

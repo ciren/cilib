@@ -57,7 +57,7 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
 		this.informativeness = new ArrayList<NNError>();
 		for (int i = 0; i < nrUpdates; i++){
 			mostInformative.add(null);
-			informativeness.add(prototypeError.clone());
+			informativeness.add(prototypeError.getClone());
 			informativeness.get(i).setValue(new Double(-999999));
 		}
 	}
@@ -104,7 +104,7 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
 				Vector output = this.topology.evaluate(p);
 				
 				//determine informativeness of p
-				NNError patternError = prototypeError.clone();
+				NNError patternError = prototypeError.getClone();
 				patternError.computeIteration(output, p);
 				patternError.finaliseError();
 				
@@ -127,7 +127,7 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
 			this.informativeness = new ArrayList<NNError>();
 			for (int i = 0; i < nrUpdates; i++){
 				mostInformative.add(null);
-				informativeness.add(prototypeError.clone());
+				informativeness.add(prototypeError.getClone());
 				informativeness.get(i).setValue(new Double(-999999));
 			}
 		}

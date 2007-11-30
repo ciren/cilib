@@ -47,7 +47,7 @@ public class MaximumFitnessEvaluations implements StoppingCondition {
 		this.algorithm = copy.algorithm;
 	}
 
-	public MaximumFitnessEvaluations clone() {
+	public MaximumFitnessEvaluations getClone() {
 		return new MaximumFitnessEvaluations(this);
 	}
 

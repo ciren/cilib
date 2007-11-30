@@ -47,7 +47,7 @@ public class PercentageComplete implements Measurement {
     public PercentageComplete(PercentageComplete copy) {
     }
     
-    public PercentageComplete clone() {
+    public PercentageComplete getClone() {
     	return new PercentageComplete(this);
     }
     

@@ -33,7 +33,7 @@ public class AreaUnderROC implements Measurement{
 		throw new UnsupportedOperationException("public AreaUnderROC(AreaUnderROC rhs)");
 	}
 
-	public AreaUnderROC clone() {
+	public AreaUnderROC getClone() {
 		return new AreaUnderROC(this);
 	}
 

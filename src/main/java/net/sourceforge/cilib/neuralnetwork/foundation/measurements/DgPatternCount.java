@@ -18,7 +18,7 @@ public class DgPatternCount implements Measurement {
 		throw new UnsupportedOperationException("public DgPatternCount(DgPatternCount rhs)");
 	}
 
-	public DgPatternCount clone() {
+	public DgPatternCount getClone() {
 		return new DgPatternCount(this);
 	}
 

@@ -21,7 +21,7 @@ public class WeightExtractingVisitor implements GenericTopologyVisitor {
 			Weight[] neuronWeights = n.getInputWeights();
 			
 			for (int i = 0; i < neuronWeights.length; i++){
-				weights.add(neuronWeights[i].getWeightValue().clone());
+				weights.add(neuronWeights[i].getWeightValue().getClone());
 			}
 		}
 		

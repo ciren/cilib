@@ -52,7 +52,7 @@ public class MultipleFitness implements Measurement {
 	public MultipleFitness(MultipleFitness copy) {
 	}
 	
-	public MultipleFitness clone() {
+	public MultipleFitness getClone() {
 		return new MultipleFitness(this);
 	}
 

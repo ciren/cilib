@@ -32,7 +32,7 @@ public class NumberOfClustersFormed implements Measurement {
 	public NumberOfClustersFormed(NumberOfClustersFormed rhs) {
 	}
 
-	public NumberOfClustersFormed clone() {
+	public NumberOfClustersFormed getClone() {
 		return new NumberOfClustersFormed(this);
 	}
 

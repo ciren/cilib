@@ -67,7 +67,7 @@ public class StandardPattern implements NNPattern, Initializable {
 		return target;
 	}
 	
-	public NNPattern clone(){
+	public NNPattern getClone(){
 		StandardPattern tmp = new StandardPattern();
 		tmp.setInput(this.input);
 		tmp.setTarget(this.target);

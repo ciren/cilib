@@ -65,11 +65,11 @@ public abstract class EvaluationMediator implements Initializable{
 		
 		for (int i=0; i < prototypeError.length; i++){
 			
-			this.errorDg[i] = prototypeError[i].clone();
+			this.errorDg[i] = prototypeError[i].getClone();
 			this.errorDg[i].setNoPatterns(this.data.getGeneralisationSetSize());
-			this.errorDt[i] = prototypeError[i].clone();
+			this.errorDt[i] = prototypeError[i].getClone();
 			this.errorDt[i].setNoPatterns(this.data.getTrainingSetSize());
-			this.errorDv[i] = prototypeError[i].clone();
+			this.errorDv[i] = prototypeError[i].getClone();
 			this.errorDv[i].setNoPatterns(this.data.getValidationSetSize());
 		}
 	}
@@ -135,7 +135,7 @@ public abstract class EvaluationMediator implements Initializable{
 	}
 	public void resetError(NNError[] err){
 		for (int e = 0; e < err.length; e++){
-			err[e] = prototypeError[e].clone();
+			err[e] = prototypeError[e].getClone();
 		}
 	}
 	
@@ -179,14 +179,14 @@ public abstract class EvaluationMediator implements Initializable{
 		
 		if (this.prototypeError == null){
 			this.prototypeError = new NNError[1];
-			this.prototypeError[0] = proto.clone();
+			this.prototypeError[0] = proto.getClone();
 		}
 		else {
 			NNError[] tmp = new NNError[this.prototypeError.length + 1];
 			for (int i=0; i < this.prototypeError.length; i++){
-				tmp[i] = this.prototypeError[i].clone();			
+				tmp[i] = this.prototypeError[i].getClone();			
 			}
-			tmp[this.prototypeError.length] = proto.clone();
+			tmp[this.prototypeError.length] = proto.getClone();
 			this.prototypeError = tmp;
 		}
 	}

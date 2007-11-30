@@ -55,7 +55,7 @@ public class Time implements Measurement, AlgorithmListener {
 		endTime = copy.endTime;
 	}
 	
-	public Time clone() {
+	public Time getClone() {
 		return new Time(this);
 	}
 	

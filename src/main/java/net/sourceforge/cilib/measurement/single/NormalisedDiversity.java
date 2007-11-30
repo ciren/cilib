@@ -62,7 +62,7 @@ public class NormalisedDiversity implements Measurement {
 	public NormalisedDiversity(NormalisedDiversity copy) {
 	}
 	
-	public NormalisedDiversity clone() {
+	public NormalisedDiversity getClone() {
 		return new NormalisedDiversity(this);
 	}
 
@@ -78,7 +78,7 @@ public class NormalisedDiversity implements Measurement {
 				        
         Iterator<Particle> k = pso.getTopology().iterator();
         Particle particle = (Particle) k.next();
-        Vector averageParticlePosition = (Vector) particle.getPosition().clone();
+        Vector averageParticlePosition = (Vector) particle.getPosition().getClone();
         while (k.hasNext()) {
         	particle = (Particle) k.next();
         	Vector v = (Vector) particle.getPosition();

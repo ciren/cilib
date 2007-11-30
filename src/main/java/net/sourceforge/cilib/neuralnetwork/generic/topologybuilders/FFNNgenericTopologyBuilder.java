@@ -96,7 +96,7 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
 				//set input weights
 				Weight[] w = new Weight[network.get(layer-1).size()];
 				for (int wi = 0; wi < w.length; wi++){
-					w[wi] = prototypeWeight.clone();
+					w[wi] = prototypeWeight.getClone();
 				}
 				neuron2.setInputWeights(w);
 				
@@ -137,7 +137,7 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
 				//set input weights
 				Weight[] w = new Weight[network.get(layer-1).size()];
 				for (int wi = 0; wi < w.length; wi++){
-					w[wi] = prototypeWeight.clone();
+					w[wi] = prototypeWeight.getClone();
 				}
 				neuron2.setInputWeights(w);
 				

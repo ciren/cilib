@@ -47,7 +47,7 @@ public class Iterations implements Measurement {
     public Iterations(Iterations copy) {
     }
     
-    public Iterations clone() {
+    public Iterations getClone() {
     	return new Iterations(this);
     }
     

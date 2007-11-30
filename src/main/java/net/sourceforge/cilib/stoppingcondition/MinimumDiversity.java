@@ -35,15 +35,15 @@ public class MinimumDiversity implements StoppingCondition {
 	}
 
 	public MinimumDiversity(MinimumDiversity rhs) {
-		minimumDiversity = rhs.minimumDiversity.clone();
-		consecutiveIterations = rhs.consecutiveIterations.clone();
-		diversity = rhs.diversity.clone();
+		minimumDiversity = rhs.minimumDiversity.getClone();
+		consecutiveIterations = rhs.consecutiveIterations.getClone();
+		diversity = rhs.diversity.getClone();
 		maximumDiversity = rhs.maximumDiversity;
 		calculatedDiversity = rhs.calculatedDiversity;
 		iterations = rhs.iterations;
 	}
 
-	public MinimumDiversity clone() {
+	public MinimumDiversity getClone() {
 		return new MinimumDiversity(this);
 	}
 

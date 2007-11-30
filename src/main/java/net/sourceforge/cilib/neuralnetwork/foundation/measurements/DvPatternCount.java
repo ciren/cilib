@@ -18,7 +18,7 @@ public class DvPatternCount implements Measurement {
 		throw new UnsupportedOperationException("public DvPatternCount(DvPatternCount rhs)");
 	}
 
-	public DvPatternCount clone() {
+	public DvPatternCount getClone() {
 		return new DvPatternCount(this);
 	}
 

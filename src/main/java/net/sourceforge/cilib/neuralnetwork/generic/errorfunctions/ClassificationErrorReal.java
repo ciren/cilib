@@ -75,7 +75,7 @@ public class ClassificationErrorReal implements NNError {
 		return (Double.valueOf(this.percentageCorrect)).compareTo((Double) ((ClassificationErrorReal) f).getValue());
 	}
 	
-	public NNError clone(){
+	public NNError getClone(){
 		ClassificationErrorReal tmp = new ClassificationErrorReal();
 		tmp.setOutputSensitivityThreshold(this.outputSensitivityThreshold);
 		tmp.percentageCorrect = this.percentageCorrect;

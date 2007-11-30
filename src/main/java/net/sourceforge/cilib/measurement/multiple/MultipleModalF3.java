@@ -48,7 +48,7 @@ public class MultipleModalF3 implements Measurement {
 	public MultipleModalF3(MultipleModalF3 copy) {
 	}
 
-	public MultipleModalF3 clone() {
+	public MultipleModalF3 getClone() {
 		return new MultipleModalF3(this);
 	}
 

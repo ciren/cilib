@@ -47,7 +47,7 @@ public class MultipleModalF1 implements Measurement {
 	public MultipleModalF1(MultipleModalF2 copy) {
 	}
 
-	public MultipleModalF2 clone() {
+	public MultipleModalF2 getClone() {
 		return new MultipleModalF2(this);
 	}
 

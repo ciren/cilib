@@ -62,7 +62,7 @@ public class Diversity implements Measurement {
 		this.normalisationParameter = other.normalisationParameter;
 	}
 	
-	public Diversity clone() {
+	public Diversity getClone() {
 		return new Diversity(this);
 	}
 	

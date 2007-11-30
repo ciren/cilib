@@ -65,7 +65,7 @@ public class OptimiserStalled implements StoppingCondition {
 		this.algorithm = copy.algorithm;
 	}
 
-	public OptimiserStalled clone() {
+	public OptimiserStalled getClone() {
 		return new OptimiserStalled(this);
 	}
 

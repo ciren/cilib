@@ -38,7 +38,7 @@ public class NeuralNetworkController extends Algorithm {
 		throw new UnsupportedOperationException("public NeuralNetworkController(NeuralNetworkController rhs)");
 	}
 
-	public NeuralNetworkController clone() {
+	public NeuralNetworkController getClone() {
 		return new NeuralNetworkController(this);
 	}
 

@@ -47,7 +47,7 @@ public class MaximumIterations implements StoppingCondition {
 		this.algorithm = copy.algorithm;
 	}
 
-	public MaximumIterations clone() {
+	public MaximumIterations getClone() {
 		return new MaximumIterations(this);
 	}
 

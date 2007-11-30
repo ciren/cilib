@@ -52,7 +52,7 @@ public class CoevolutionFitness implements Measurement{
 	
 	}
 	    
-	public CoevolutionFitness clone() {
+	public CoevolutionFitness getClone() {
 		return new CoevolutionFitness(this);
 	}
 

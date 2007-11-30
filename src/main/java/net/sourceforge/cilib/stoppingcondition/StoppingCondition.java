@@ -28,6 +28,7 @@ package net.sourceforge.cilib.stoppingcondition;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * <p>
@@ -42,7 +43,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * </p>
  * @author Edwin Peer
  */
-public interface StoppingCondition extends Serializable {
+public interface StoppingCondition extends Serializable, Cloneable {
 	public static byte _ciclops_exclude_algorithm = 1;
 
 	/**
@@ -70,5 +71,5 @@ public interface StoppingCondition extends Serializable {
 	/**
 	 * @return
 	 */
-	public StoppingCondition clone();
+	public StoppingCondition getClone();
 }

@@ -48,7 +48,7 @@ public class Restarts implements Measurement {
     public Restarts(Restarts copy) {
     }
     
-    public Restarts clone() {
+    public Restarts getClone() {
     	return new Restarts(this);
     }
     

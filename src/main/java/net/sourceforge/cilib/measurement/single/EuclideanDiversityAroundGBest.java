@@ -43,7 +43,7 @@ public class EuclideanDiversityAroundGBest implements Measurement {
 		
 	}
 	
-	public EuclideanDiversityAroundGBest clone() {
+	public EuclideanDiversityAroundGBest getClone() {
 		return new EuclideanDiversityAroundGBest(this);
 	}
 

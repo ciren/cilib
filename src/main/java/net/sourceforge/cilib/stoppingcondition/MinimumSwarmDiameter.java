@@ -53,7 +53,7 @@ public class MinimumSwarmDiameter implements StoppingCondition {
 		this.algorithm = copy.algorithm;
 	}
 
-	public MinimumSwarmDiameter clone() {
+	public MinimumSwarmDiameter getClone() {
 		return new MinimumSwarmDiameter(this);
 	}
 

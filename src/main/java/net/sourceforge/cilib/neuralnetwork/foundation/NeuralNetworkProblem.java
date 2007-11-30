@@ -31,7 +31,7 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 		throw new UnsupportedOperationException("public NeuralNetworkProblem(NeuralNetworkProblem rhs)");
 	}
 
-	public NeuralNetworkProblem clone() {
+	public NeuralNetworkProblem getClone() {
 		return new NeuralNetworkProblem(this);
 	}
 

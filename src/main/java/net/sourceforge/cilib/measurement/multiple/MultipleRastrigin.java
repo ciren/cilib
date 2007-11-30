@@ -48,7 +48,7 @@ public class MultipleRastrigin implements Measurement {
 	public MultipleRastrigin(MultipleRastrigin copy) {
 	}
 
-	public MultipleRastrigin clone() {
+	public MultipleRastrigin getClone() {
 		return new MultipleRastrigin(this);
 	}
 

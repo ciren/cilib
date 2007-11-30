@@ -34,7 +34,7 @@ public class NNOutput implements Measurement {
 		throw new UnsupportedOperationException("public NNOutput(NNOutput rhs)");
 	}
 
-	public NNOutput clone() {
+	public NNOutput getClone() {
 		return new NNOutput(this);
 	}
 

@@ -21,7 +21,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class AverageDiversityAroundAllEntities extends Diversity {
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 898972772053582980L;
+
 	public Type getValue() {
 		
 		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();

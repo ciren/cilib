@@ -47,7 +47,7 @@ public class ParticlePositions implements Measurement {
 	public ParticlePositions(ParticlePositions copy) {
 	}
 	
-	public ParticlePositions clone() {
+	public ParticlePositions getClone() {
 		return new ParticlePositions(this);
 	}
 

@@ -54,7 +54,7 @@ public class Diameter implements Measurement {
     	
     }
     
-    public Diameter clone() {
+    public Diameter getClone() {
     	return new Diameter(this);
     }
     

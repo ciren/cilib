@@ -20,7 +20,7 @@ public class ErrorDt implements Measurement {
 		throw new UnsupportedOperationException("public ErrorDt(ErrorDt rhs)");
 	}
 
-	public ErrorDt clone() {
+	public ErrorDt getClone() {
 		return new ErrorDt(this);
 	}
 

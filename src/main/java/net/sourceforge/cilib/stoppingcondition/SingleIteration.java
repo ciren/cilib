@@ -44,7 +44,7 @@ public class SingleIteration implements StoppingCondition {
 		this.algorithm = copy.algorithm;
 	}
 
-	public SingleIteration clone() {
+	public SingleIteration getClone() {
 		return new SingleIteration(this);
 	}
 

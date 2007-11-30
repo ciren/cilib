@@ -19,7 +19,7 @@ public class RobelOverfittingRho implements Measurement {
 		throw new UnsupportedOperationException("public RobelOverfittingRho(RobelOverfittingRho rhs)");
 	}
 
-	public RobelOverfittingRho clone() {
+	public RobelOverfittingRho getClone() {
 		return new RobelOverfittingRho(this);
 	}
 

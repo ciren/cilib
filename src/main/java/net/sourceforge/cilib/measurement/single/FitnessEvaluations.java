@@ -48,7 +48,7 @@ public class FitnessEvaluations implements Measurement {
     	
     }
     
-    public FitnessEvaluations clone() {
+    public FitnessEvaluations getClone() {
     	return new FitnessEvaluations(this);
     }
   

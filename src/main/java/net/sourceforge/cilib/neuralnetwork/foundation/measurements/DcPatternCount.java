@@ -18,7 +18,7 @@ public class DcPatternCount implements Measurement {
 		throw new UnsupportedOperationException("public DcPatternCount(DcPatternCount rhs)");
 	}
 
-	public DcPatternCount clone() {
+	public DcPatternCount getClone() {
 		return new DcPatternCount(this);
 	}
 
