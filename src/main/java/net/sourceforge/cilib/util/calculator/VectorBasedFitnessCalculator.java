@@ -15,7 +15,7 @@ public class VectorBasedFitnessCalculator implements FitnessCalculator {
 		
 	}
 	
-	public VectorBasedFitnessCalculator clone() {
+	public VectorBasedFitnessCalculator getClone() {
 		return new VectorBasedFitnessCalculator(this);
 	}
 

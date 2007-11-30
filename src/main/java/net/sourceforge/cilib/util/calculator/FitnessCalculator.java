@@ -4,18 +4,19 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Perform the calculation of the fitness for the given <code>Entity</code>, decoupling the
  * <code>Entity</code> from the <code>Problem</code>.
  */
-public interface FitnessCalculator extends Serializable {
+public interface FitnessCalculator extends Serializable, Cloneable {
 	
 	/**
 	 * Clone the current <code>FitnessCalculator</code>
 	 * @return A new instance of the current <code>FitnessCalculator</code>
 	 */
-	public FitnessCalculator clone();
+	public FitnessCalculator getClone();
 
 	/**
 	 * Get the fitness, given the <code>position</code>
