@@ -65,7 +65,7 @@ public class BirdTest {
         assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
     }
     
-    @Before
+    @Test
     public void minimum() {
     	assertEquals(-106.764537, function.getMinimum());
     }
