@@ -46,7 +46,7 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 		super(copy);
 	}
 
-	public abstract PopulationBasedAlgorithm clone();
+	public abstract PopulationBasedAlgorithm getClone();
 
 	/**
 	 * Perform the iteration within the algorithm

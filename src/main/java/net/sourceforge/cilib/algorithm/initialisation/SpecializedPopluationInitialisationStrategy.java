@@ -45,11 +45,11 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
 	public SpecializedPopluationInitialisationStrategy(SpecializedPopluationInitialisationStrategy copy) {
 		this.entityList = new ArrayList<Entity>(copy.entityList.size());
 		for (Entity entity : copy.entityList) {
-			this.entityList.add(entity.clone());
+			this.entityList.add(entity.getClone());
 		}
 	}
 
-	public SpecializedPopluationInitialisationStrategy clone() {
+	public SpecializedPopluationInitialisationStrategy getClone() {
 		return new SpecializedPopluationInitialisationStrategy(this);
 	}
 

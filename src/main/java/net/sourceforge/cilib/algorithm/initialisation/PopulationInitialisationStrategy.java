@@ -31,15 +31,16 @@ import java.io.Serializable;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Interface for the InitialisationStrategy.
  * @author Gary Pampara
  */
-public abstract class PopulationInitialisationStrategy implements Serializable {
+public abstract class PopulationInitialisationStrategy implements Serializable, Cloneable {
 	protected int entityNumber;
 
-	public abstract PopulationInitialisationStrategy clone();
+	public abstract PopulationInitialisationStrategy getClone();
 
 	/**
 	 * Set the number of entities that are required.

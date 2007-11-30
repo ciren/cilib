@@ -25,13 +25,15 @@
  */
 package net.sourceforge.cilib.algorithm;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * Any class can implement this interface to be notified about algorithm events. Classes
  * implementing this interface can be added to the algorithm as an event listener using
  * {@link Algorithm#addAlgorithmListener(AlgorithmListener)}.
  * @author Edwin Peer
  */
-public interface AlgorithmListener {
+public interface AlgorithmListener extends Cloneable {
 	/**
 	 * This event is fired just prior to the execution of the main loop of the algorithm.
 	 * @param e an event containing a reference to the source algorithm.
@@ -56,5 +58,5 @@ public interface AlgorithmListener {
 	 */
 	public void iterationCompleted(AlgorithmEvent e);
 
-	public AlgorithmListener clone();
+	public AlgorithmListener getClone();
 }

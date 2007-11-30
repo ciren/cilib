@@ -33,6 +33,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * <p>
@@ -45,7 +46,7 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * </p>
  * @author Edwin Peer
  */
-public abstract class Algorithm implements Runnable, Serializable {
+public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 
 	private Vector<StoppingCondition> stoppingConditions;
 	private Vector<AlgorithmListener> algorithmListeners;
@@ -76,24 +77,24 @@ public abstract class Algorithm implements Runnable, Serializable {
 	public Algorithm(Algorithm copy) {
 		stoppingConditions = new Vector<StoppingCondition>();
 		for (StoppingCondition stoppingCondition : copy.stoppingConditions) {
-			StoppingCondition clone = stoppingCondition.clone();
+			StoppingCondition clone = stoppingCondition.getClone();
 			clone.setAlgorithm(this);
 			stoppingConditions.add(clone);
 		}
 
 		algorithmListeners = new Vector<AlgorithmListener>();
 		for (AlgorithmListener listen : copy.algorithmListeners) {
-			algorithmListeners.add(listen.clone());
+			algorithmListeners.add(listen.getClone());
 		}
 		
 		running = false;
 		initialised = false;
 
 		if (copy.optimisationProblem != null)
-			optimisationProblem = copy.optimisationProblem.clone();
+			optimisationProblem = copy.optimisationProblem.getClone();
 	}
 
-	public abstract Algorithm clone();
+	public abstract Algorithm getClone();
 
 	public void reset() {
 		// throw new UnimplementedMethodException("'reset()' method not implemented for '" + this.getClass().getName() + "'");

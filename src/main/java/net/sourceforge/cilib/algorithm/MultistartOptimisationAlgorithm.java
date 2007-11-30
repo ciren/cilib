@@ -69,7 +69,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     	
     }
     
-    public MultistartOptimisationAlgorithm clone() {
+    public MultistartOptimisationAlgorithm getClone() {
     	return new MultistartOptimisationAlgorithm(this);
     }
     
@@ -202,7 +202,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     		
     	}
     	
-    	public MultistartProblemAdapter clone() {
+    	public MultistartProblemAdapter getClone() {
     		return new MultistartProblemAdapter(this);
     	}
     	

@@ -44,10 +44,10 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 
 	public ClonedPopulationInitialisationStrategy(ClonedPopulationInitialisationStrategy copy) {
 		this.entityNumber = copy.entityNumber;
-		this.prototypeEntity = copy.prototypeEntity.clone();
+		this.prototypeEntity = copy.prototypeEntity.getClone();
 	}
 
-	public ClonedPopulationInitialisationStrategy clone() {
+	public ClonedPopulationInitialisationStrategy getClone() {
 		return new ClonedPopulationInitialisationStrategy(this);
 	}
 
@@ -67,7 +67,7 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 			throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
 		for (int i = 0; i < entityNumber; ++i) {
-			Entity entity = (Entity) prototypeEntity.clone();
+			Entity entity = (Entity) prototypeEntity.getClone();
 
 			entity.initialise(problem);
 			topology.add(entity);
