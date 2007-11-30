@@ -25,9 +25,11 @@ package net.sourceforge.cilib.type.types;
 
 import java.io.Serializable;
 
-public interface Type extends Serializable {
+import net.sourceforge.cilib.util.Cloneable;
+
+public interface Type extends Serializable, Cloneable {
 	
-	public Type clone();
+	public Type getClone();
 	
 	public boolean equals(Object other);
 

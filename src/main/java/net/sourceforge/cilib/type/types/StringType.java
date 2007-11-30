@@ -54,7 +54,7 @@ public class StringType extends AbstractType {
 	}
 	
 	@Override
-	public StringType clone() {
+	public StringType getClone() {
 		return new StringType(this);
 	}
 	

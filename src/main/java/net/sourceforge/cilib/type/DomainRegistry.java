@@ -30,6 +30,7 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Class to perform the needed mappings between a top level domain string
@@ -38,7 +39,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  *
  */
-public class DomainRegistry implements Serializable {
+public class DomainRegistry implements Cloneable, Serializable {
 	
 	/**
 	 * Generated <u>Serial Version UID</u> for the serialization
@@ -61,10 +62,10 @@ public class DomainRegistry implements Serializable {
 	public DomainRegistry(DomainRegistry copy) {
 		this.domainString = copy.domainString;
 		this.expandedRepresentation = copy.expandedRepresentation;
-		this.builtRepresenation = copy.builtRepresenation.clone();
+		this.builtRepresenation = copy.builtRepresenation.getClone();
 	}
 	
-	public DomainRegistry clone() {
+	public DomainRegistry getClone() {
 		return new DomainRegistry(this);
 	}
 	

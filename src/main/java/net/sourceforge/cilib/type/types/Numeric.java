@@ -26,6 +26,8 @@
 package net.sourceforge.cilib.type.types;
 
 
+
+
 /**
  * Definition of the <tt>Numeric</tt> type.
  * 
@@ -36,7 +38,7 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 	private double lowerBound;
 	private double upperBound;
 	
-	public abstract Numeric clone();
+	public abstract Numeric getClone();
 	
 	public abstract boolean equals(Object other);
 	public abstract int hashCode();

@@ -25,8 +25,12 @@ package net.sourceforge.cilib.type.types.container;
 
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.Cloneable;
 
-public interface Tree<E extends Comparable<E>> extends Graph<E> {
+public interface Tree<E extends Cloneable> extends Graph<E>, Type {
+	
+	public Tree<E> getClone();
 	
 	public E getKey();
 	

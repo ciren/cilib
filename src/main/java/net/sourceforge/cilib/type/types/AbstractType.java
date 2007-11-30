@@ -23,13 +23,10 @@
  */
 package net.sourceforge.cilib.type.types;
 
-
 /**
  * @author Gary Pampara
  */
 public abstract class AbstractType implements Type {
-	
-	public abstract Type clone();
 	
 	/**
 	 * Utility method. Change the values within the <code>Type</code>, randomly, based on the

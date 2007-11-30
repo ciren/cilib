@@ -55,7 +55,7 @@ public class Set<E> extends AbstractType implements Graph<E> {
 		}
 	}	
 	
-	public Set<E> clone() {
+	public Set<E> getClone() {
 		return new Set<E>(this);
 	}
 

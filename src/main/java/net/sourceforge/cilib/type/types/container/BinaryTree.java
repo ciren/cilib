@@ -25,8 +25,9 @@ package net.sourceforge.cilib.type.types.container;
 
 
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
+import net.sourceforge.cilib.util.Cloneable;
 
-public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
+public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3537717751647961525L;
 	
 	private BinaryTree<E> left;
@@ -46,13 +47,15 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 		this.right = right;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public BinaryTree(BinaryTree<E> copy) {
-		this.key = copy.key;
-		this.left = copy.left.clone();
-		this.right = copy.right.clone();
+		this.key = (E) copy.key.getClone();
+		this.left = copy.left.getClone();
+		this.right = copy.right.getClone();
 	}
 	
-	public BinaryTree<E> clone() {
+	@Override
+	public BinaryTree<E> getClone() {
 		return new BinaryTree<E>(this);
 	}
 

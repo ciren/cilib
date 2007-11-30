@@ -84,7 +84,7 @@ public class Real extends Numeric {
 	/**
 	 * 
 	 */
-	public Real clone() {
+	public Real getClone() {
 		return new Real(this);
 	}
 

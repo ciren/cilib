@@ -26,7 +26,9 @@ package net.sourceforge.cilib.type.types.container;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
+import net.sourceforge.cilib.util.Cloneable;
+
+public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3453326928796685749L;
 	
 	private List<Tree<E>> subTrees;
@@ -41,8 +43,18 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 		this.key = element;
 	}
 	
-	public GeneralTree<E> clone() {
-		return null;
+	@SuppressWarnings("unchecked")
+	public GeneralTree(GeneralTree<E> copy) {
+		this((E) copy.key.getClone());
+		
+		for (Tree<E> tree : copy.subTrees) {
+			this.subTrees.add(tree.getClone());
+		}
+	}
+	
+	@Override
+	public GeneralTree<E> getClone() {
+		return new GeneralTree<E>(this);
 	}
 
 	public boolean addSubTree(Tree<E> subtree) {
@@ -129,6 +141,5 @@ public class GeneralTree<E extends Comparable<E>> extends AbstractTree<E> {
 
 	public int getDegree() {
 		return this.subTrees.size();
-	}
-	
+	}	
 }

@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public abstract class AbstractList extends AbstractType implements Graph<Type>, VectorMath {
-	public abstract AbstractList clone();
+	public abstract AbstractList getClone();
 
 	public boolean equals(Object other) {
 		if (other instanceof AbstractList) {
@@ -176,8 +176,8 @@ public abstract class AbstractList extends AbstractType implements Graph<Type>, 
 	 *         <tt>rhs</tt>.
 	 */
 	public static AbstractList append(AbstractList lhs, AbstractList rhs) {
-		AbstractList cat = lhs.clone();
-		cat.append(rhs.clone());
+		AbstractList cat = lhs.getClone();
+		cat.append(rhs.getClone());
 		return cat;
 	}
 
@@ -192,8 +192,8 @@ public abstract class AbstractList extends AbstractType implements Graph<Type>, 
 	 *         <tt>lhs</tt>.
 	 */
 	public static AbstractList prepend(AbstractList lhs, AbstractList rhs) {
-		AbstractList cat = rhs.clone();
-		cat.append(lhs.clone());
+		AbstractList cat = rhs.getClone();
+		cat.append(lhs.getClone());
 		return cat;
 	}
 

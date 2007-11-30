@@ -70,7 +70,7 @@ public class Int extends Numeric {
 	}
 	
 	
-	public Int clone() {
+	public Int getClone() {
 		return new Int(this);
 	}
 

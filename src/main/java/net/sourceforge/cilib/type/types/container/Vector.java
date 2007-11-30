@@ -81,14 +81,14 @@ public class Vector extends AbstractList {
 			components = new ArrayList<Type>();
 			for (int i = 0, offset = 0; i < dimension; ++i, offset += vectorDimension) {
 				for (int j = 0; i < vectorDimension; ++j) {
-					components.add(offset + j, (Type) tmp.get(j).clone());
+					components.add(offset + j, (Type) tmp.get(j).getClone());
 				}
 			}
 		}
 		else {
 			components = new ArrayList<Type>();
 			for (int i = 0; i < dimension; ++i) { 
-				components.add((Type) component.clone());
+				components.add((Type) component.getClone());
 			}
 		}	
 	}
@@ -101,7 +101,7 @@ public class Vector extends AbstractList {
 		this(copy.components.size());
 		
 		for (Type type : copy.components) {
-			components.add(type.clone());
+			components.add(type.getClone());
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class Vector extends AbstractList {
 	 * 
 	 * @return The clone of the <code>MixedVector</code>
 	 */
-	public Vector clone() {
+	public Vector getClone() {
 		return new Vector(this);
 	}
 
@@ -121,7 +121,7 @@ public class Vector extends AbstractList {
 	 */
 	public void initialise(int size, Type element) {
 		for(int i = 0; i < size; i++)
-			components.add(element.clone());
+			components.add(element.getClone());
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class Vector extends AbstractList {
 			Object tmp [] = new Object[getDimension()];
 		
 			for (int i = 0; i < getDimension(); i++) {
-				tmp[i] = getType(i).clone();
+				tmp[i] = getType(i).getClone();
 			}
 		
 			return tmp;
@@ -364,7 +364,7 @@ public class Vector extends AbstractList {
 		Type component = getType(index);
 		
 		if (component instanceof Numeric) {
-			Type result = getType(index).clone();
+			Type result = getType(index).getClone();
 			return result;
 		}
 		else 
@@ -546,7 +546,7 @@ public class Vector extends AbstractList {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
 
-		final Vector result = this.clone();
+		final Vector result = this.getClone();
 		for(int i = 0; i < result.size(); i++) {
 			Numeric numeric = (Numeric) result.getType(i);
 			numeric.setReal(numeric.getReal() + vector.getReal(i));
@@ -558,7 +558,7 @@ public class Vector extends AbstractList {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot subtract vectors with differing dimensions");
 
-		final Vector result = this.clone();
+		final Vector result = this.getClone();
 		for (int i = 0; i < result.size(); i++) {
 			Numeric numeric = (Numeric)result.getType(i);
 			numeric.setReal(numeric.getReal() - vector.getReal(i));
@@ -570,7 +570,7 @@ public class Vector extends AbstractList {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot divide vectors with differing dimensions");
 		
-		final Vector result = this.clone();
+		final Vector result = this.getClone();
 		for(int i = 0; i < result.size(); i++) {
 			if(vector.getReal(i) == 0.0)
 				throw new ArithmeticException("Vector division by zero caused by element " + i);
@@ -597,7 +597,7 @@ public class Vector extends AbstractList {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot multiply vectors with differing dimensions");
 		
-		final Vector result = this.clone();
+		final Vector result = this.getClone();
 		for(int i = 0; i < result.size(); i++) {
 			Numeric numeric = (Numeric)result.getType(i);
 			numeric.setReal(numeric.getReal() * vector.getReal(i));
@@ -611,7 +611,7 @@ public class Vector extends AbstractList {
 	 * @return a vector of which the scalar has been multiplied with each element
 	 */
 	public final Vector multiply(double scalar) {
-		final Vector result = this.clone();
+		final Vector result = this.getClone();
 		for (Type element : result.components) {
 			Numeric numeric = (Numeric) element;
 			numeric.set(numeric.getReal() * scalar);

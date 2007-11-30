@@ -26,7 +26,9 @@ package net.sourceforge.cilib.type.types.container;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
+import net.sourceforge.cilib.util.Cloneable;
+
+public class NaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = -1136444941205621381L;
 	
 	private int degree;
@@ -38,7 +40,7 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 	public NaryTree(int degree) {
 		this.key = null;
 		this.degree = degree;
-		this.subTrees = null;
+		this.subTrees = new ArrayList<NaryTree<E>>();
 	}
 	
 	public NaryTree(int degree, E element) {
@@ -49,11 +51,16 @@ public class NaryTree<E extends Comparable<E>> extends AbstractTree<E> {
 			this.subTrees.add(new NaryTree<E>(degree));
 	}
 	
+	@SuppressWarnings("unchecked")
 	public NaryTree(NaryTree<E> copy) {
-		
+		this(copy.degree);
+		this.key = (E) copy.key.getClone();
+		for (NaryTree<E> subTree : copy.subTrees) {
+			this.subTrees.add(subTree.getClone());
+		}
 	}
 	
-	public NaryTree<E> clone() {
+	public NaryTree<E> getClone() {
 		return new NaryTree<E>(this);
 	}
 	

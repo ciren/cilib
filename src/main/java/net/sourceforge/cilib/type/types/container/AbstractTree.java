@@ -8,12 +8,13 @@ import net.sourceforge.cilib.container.visitor.PreOrderVisitorDecorator;
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.type.types.AbstractType;
+import net.sourceforge.cilib.util.Cloneable;
 
-public abstract class AbstractTree<E extends Comparable<E>> extends AbstractType implements Tree<E> {
+public abstract class AbstractTree<E extends Cloneable> extends AbstractType implements Tree<E> {
 
 	protected E key;
 	
-	public abstract AbstractTree<E> clone();
+	public abstract AbstractTree<E> getClone();
 
 	public void breadthFirstTraversal(Visitor<E> visitor) {
 		Queue<Tree<E>> queue = new Queue<Tree<E>>();

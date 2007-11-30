@@ -81,7 +81,7 @@ public class Bit extends Numeric {
 	 * 
 	 * @return A clone of the current object.
 	 */
-	public Bit clone() {
+	public Bit getClone() {
 		return new Bit(this);
 	}
 
