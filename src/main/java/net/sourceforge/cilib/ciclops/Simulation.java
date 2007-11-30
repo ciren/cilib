@@ -52,7 +52,7 @@ public class Simulation implements AlgorithmListener {
 		measurements = new LinkedList<Measurement>();
 	}
 
-	public Simulation clone() {
+	public Simulation getClone() {
 		return null;
 	}
 

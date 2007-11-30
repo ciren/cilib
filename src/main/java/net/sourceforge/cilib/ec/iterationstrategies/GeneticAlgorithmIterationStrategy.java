@@ -63,16 +63,16 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 	}
 	
 	public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
-		this.crossoverStrategy = copy.crossoverStrategy.clone();
-		this.mutationStrategy = copy.mutationStrategy.clone();
+		this.crossoverStrategy = copy.crossoverStrategy.getClone();
+		this.mutationStrategy = copy.mutationStrategy.getClone();
 		
 		this.operatorPipeline = new ArrayList<Operator>();
 		for (Operator operator : copy.operatorPipeline) {
-			this.operatorPipeline.add(operator.clone());
+			this.operatorPipeline.add(operator.getClone());
 		}
 	}
 	
-	public GeneticAlgorithmIterationStrategy clone() {
+	public GeneticAlgorithmIterationStrategy getClone() {
 		return new GeneticAlgorithmIterationStrategy(this);
 	}
 

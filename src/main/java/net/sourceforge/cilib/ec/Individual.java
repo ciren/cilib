@@ -66,11 +66,11 @@ public class Individual extends AbstractEntity {
     public Individual(Individual copy) {
         this.dimension = copy.dimension;
 //        this.fitness = InferiorFitness.instance();
-        this.fitnessCalculator = copy.fitnessCalculator.clone();
+        this.fitnessCalculator = copy.fitnessCalculator.getClone();
         
         for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
         	String key = entry.getKey().toString();
-    		this.properties.put(key, entry.getValue().clone());
+    		this.properties.put(key, entry.getValue().getClone());
         }
     }
     
@@ -78,11 +78,11 @@ public class Individual extends AbstractEntity {
      * Remember the semantics of clone here on the ID creates a new ID, so in fact it's a new chromosome
      * just with a copy of the genetic structure of the calling entity.
      */
-     public Individual clone() {
+     public Individual getClone() {
     	 return new Individual(this);
      }
-     
-     /**
+
+	/**
       * Resets the fitness to <code>InferiorFitness</code>
       */
      public void resetFitness() {
@@ -97,11 +97,11 @@ public class Individual extends AbstractEntity {
          // ID initialization is done in the clone method...
          // which is always inforced due to the semantciss of the performInitialisation methods         
 
-    	 this.properties.put("genes", (Type) problem.getDomain().getBuiltRepresenation().clone());
+    	 this.properties.put("genes", (Type) problem.getDomain().getBuiltRepresenation().getClone());
     	 this.getContents().randomise();
     		 
     	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
-    		 this.properties.put("penotypes", problem.getBehaviouralDomain().getBuiltRepresenation().clone());
+    		 this.properties.put("penotypes", problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
     		 this.properties.get("penotypes").randomise();
     	 }
     	 

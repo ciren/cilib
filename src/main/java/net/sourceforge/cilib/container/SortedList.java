@@ -33,11 +33,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * 
  * @author Gary Pampara
  */
-public class SortedList<E extends Comparable<E>> extends LinkedList<E> {
+public class SortedList<E extends Comparable<? super E> & Cloneable> extends LinkedList<E> {
 
 	private static final long serialVersionUID = 4170822549076470223L;
 	private Comparator<E> comparator = null;
@@ -75,7 +77,7 @@ public class SortedList<E extends Comparable<E>> extends LinkedList<E> {
 	}
 	
 	
-	public SortedList<E> clone() {
+	public SortedList<E> getClone() {
 		return new SortedList<E>(this);
 	}
 	

@@ -28,10 +28,12 @@ package net.sourceforge.cilib.container;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * @author Gary Pampara
  */
-public class Queue<E> implements Iterable<E> { 
+public class Queue<E> implements Iterable<E>, Cloneable { 
 	
 	private LinkedList<E> queue;
 		
@@ -53,7 +55,7 @@ public class Queue<E> implements Iterable<E> {
 	}
 	
 	
-	public Queue<E> clone() {
+	public Queue<E> getClone() {
 		return new Queue<E>(this);
 	}
 	

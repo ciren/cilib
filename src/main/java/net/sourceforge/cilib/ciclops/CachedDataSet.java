@@ -54,7 +54,7 @@ public class CachedDataSet extends DataSet {
 	}
 
 	@Override
-	public CachedDataSet clone() {
+	public CachedDataSet getClone() {
 		return new CachedDataSet(this);
 	}
 

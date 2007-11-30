@@ -28,6 +28,8 @@ package net.sourceforge.cilib.container;
 
 import java.io.Serializable;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * 
  * @author Gary Pampara
@@ -35,7 +37,7 @@ import java.io.Serializable;
  * @param <K>
  * @param <V>
  */
-public class Pair<K extends Comparable<K>, V> implements Comparable<Pair<K,V>>, Serializable {
+public class Pair<K extends Comparable<K>, V> implements Comparable<Pair<K,V>>, Cloneable, Serializable {
 	private static final long serialVersionUID = -1557021513377872749L;
 	private K key;
 	private V value;
@@ -69,7 +71,7 @@ public class Pair<K extends Comparable<K>, V> implements Comparable<Pair<K,V>>, 
 	/**
 	 * 
 	 */
-	public Pair<K, V> clone() {
+	public Pair<K, V> getClone() {
 		return new Pair<K, V>(this);
 	}
 

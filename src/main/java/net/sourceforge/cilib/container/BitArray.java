@@ -25,6 +25,8 @@
  */
 package net.sourceforge.cilib.container;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 
 /**
  * This class represents an array of bit values and is efficient as the values
@@ -34,7 +36,7 @@ package net.sourceforge.cilib.container;
  *
  * @author Gary Pampara
  */
-public class BitArray {
+public class BitArray implements Cloneable {
 	private int [] bits;
 	private int numberOfBits;
 	private int size;
@@ -84,7 +86,7 @@ public class BitArray {
 	}
 	
 	
-	public BitArray clone() {
+	public BitArray getClone() {
 		return new BitArray(this);
 	}
 

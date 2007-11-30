@@ -66,12 +66,12 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	
 	@SuppressWarnings("unchecked")
 	public EC(EC copy) {
-		this.initialisationStrategy = copy.initialisationStrategy.clone();
-		this.iterationStrategy = copy.iterationStrategy.clone();
-		this.topology = copy.topology.clone();
+		this.initialisationStrategy = copy.initialisationStrategy.getClone();
+		this.iterationStrategy = copy.iterationStrategy.getClone();
+		this.topology = copy.topology.getClone();
 	}
 	
-	public EC clone() {
+	public EC getClone() {
 		return new EC(this);
 	}
 	
@@ -115,7 +115,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	}
 
 	public OptimisationSolution getBestSolution() {
-		OptimisationSolution solution = new OptimisationSolution(problem, getBestEntity().getContents().clone());
+		OptimisationSolution solution = new OptimisationSolution(problem, getBestEntity().getContents().getClone());
         
         return solution;
 	}

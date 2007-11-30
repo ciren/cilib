@@ -60,14 +60,14 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	}
 	
 	public DifferentialEvolutionIterationStrategy(DifferentialEvolutionIterationStrategy copy) {
-		this.random1 = copy.random1.clone();
-		this.random2 = copy.random2.clone();
+		this.random1 = copy.random1.getClone();
+		this.random2 = copy.random2.getClone();
 		
 		this.crossoverProbability = copy.crossoverProbability;
 		this.scaleParameter = copy.scaleParameter;
 	}
 	
-	public DifferentialEvolutionIterationStrategy clone() {
+	public DifferentialEvolutionIterationStrategy getClone() {
 		return new DifferentialEvolutionIterationStrategy(this);
 	}
 

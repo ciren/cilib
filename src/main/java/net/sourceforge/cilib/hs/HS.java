@@ -70,9 +70,9 @@ public class HS extends IterationStrategy<EC> {
 	}
 	
 	public HS(HS copy) {
-		this.random1 = copy.random1.clone();
-		this.random2 = copy.random2.clone();
-		this.random3 = copy.random3.clone();
+		this.random1 = copy.random1.getClone();
+		this.random2 = copy.random2.getClone();
+		this.random3 = copy.random3.getClone();
 		
 		this.HarmonyMemorySize = copy.HarmonyMemorySize;
 		this.HarmonyMemoryConsideringRate = copy.HarmonyMemoryConsideringRate;
@@ -80,7 +80,7 @@ public class HS extends IterationStrategy<EC> {
 		this.DistanceBandwidth = copy.DistanceBandwidth;
 	}
 	
-	public HS clone() {
+	public HS getClone() {
 		return new HS(this);
 	}
 

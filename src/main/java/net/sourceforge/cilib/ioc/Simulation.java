@@ -47,7 +47,7 @@ public class Simulation extends Thread implements AlgorithmListener, Serializabl
 	public Simulation() {
 	}
 
-	public Simulation clone() {
+	public Simulation getClone() {
 		return null;
 	}
 

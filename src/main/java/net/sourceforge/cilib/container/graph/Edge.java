@@ -27,6 +27,9 @@
  */
 package net.sourceforge.cilib.container.graph;
 
+import net.sourceforge.cilib.util.Cloneable;
+
+
 /**
  * This class represents an <code>edge</code> connecting two <code>Vertex</code> nodes in a Graph
  * The Edge can be a uni-directional and well as a bi-directional edge.
@@ -158,7 +161,7 @@ public class Edge implements Cloneable {
 	}
 	
 	
-	public Object clone() {
+	public Object getClone() {
 		Edge clone = null;
 		
 		try {
