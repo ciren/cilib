@@ -68,7 +68,7 @@ public class AlignmentCreator
 			if (((Real)element).getReal() >  UPPER_BOUND) ((Real)element).setReal(UPPER_BOUND);
 		}
 		
-		Vector tmpSolution = solution.clone();  // clone the position vector from particles 
+		Vector tmpSolution = solution.getClone();  // clone the position vector from particles 
 
 		// Clone the ArrayList in tmp by doing a deep copy
 		ArrayList<String> tmp = new ArrayList<String>();

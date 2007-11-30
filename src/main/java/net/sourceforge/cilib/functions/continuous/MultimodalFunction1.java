@@ -35,6 +35,11 @@ public class MultimodalFunction1 extends ContinuousFunction {
 	public MultimodalFunction1() {
         setDomain("R(0, 1)^1");
     }
+	
+	@Override
+	public MultimodalFunction1 getClone() {
+		return new MultimodalFunction1();
+	}
 
     public Object getMinimum() {
         return new Double(0);

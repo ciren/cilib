@@ -104,7 +104,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 		return this.domainRegistry;
 	}
 	
-	public OptimisationProblemAdapter clone()
+	public OptimisationProblemAdapter getClone()
 	{
 		return this;
 	}

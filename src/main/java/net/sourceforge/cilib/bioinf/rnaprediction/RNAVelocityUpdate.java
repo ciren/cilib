@@ -59,11 +59,11 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 		this.closeProbability = copy.closeProbability;
 		this.addRandomProbability = copy.addRandomProbability;
 		
-		this.unionSet = copy.unionSet.clone();
+		this.unionSet = copy.unionSet.getClone();
 	}
 	
 	
-	public RNAVelocityUpdate clone() {
+	public RNAVelocityUpdate getClone() {
 		return new RNAVelocityUpdate(this);
 	}
 	

@@ -46,6 +46,11 @@ public class Shubert extends ContinuousFunction {
 	public Shubert() {
         setDomain("R(-10, 10)^2");
     }
+	
+	@Override
+	public Shubert getClone() {
+		return new Shubert();
+	}
     
     public Object getMinimum() {
         return new Double(-186.7309088);

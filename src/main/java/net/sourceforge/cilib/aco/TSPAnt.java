@@ -77,8 +77,8 @@ public class TSPAnt extends Ant {
 	 * @param copy
 	 */
 	public TSPAnt(TSPAnt copy) {
-		this.transitionRuleFunction = copy.transitionRuleFunction.clone();
-		this.pheromoneUpdate = copy.pheromoneUpdate.clone();
+		this.transitionRuleFunction = copy.transitionRuleFunction.getClone();
+		this.pheromoneUpdate = copy.pheromoneUpdate.getClone();
 		
 		this.currentTour = new ArrayList<Edge>();
 		this.tabuList = new ArrayList<Vertex>();
@@ -92,7 +92,7 @@ public class TSPAnt extends Ant {
 	 * @return A cloned <code>TSPAnt</code> object
 	 * @author Patche by Francois Geldenhuys - fixed the issue with the clone referencing the same container
 	 */
-	public Ant clone() {
+	public Ant getClone() {
 		return new TSPAnt(this);
 	}
 	

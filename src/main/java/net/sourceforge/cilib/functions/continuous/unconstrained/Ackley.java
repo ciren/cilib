@@ -39,6 +39,11 @@ public class Ackley extends ContinuousFunction {
         setDomain("R(-32.768, 32.768)^30");
     }
 	
+	@Override
+	public Ackley getClone() {
+		return new Ackley();
+	}
+	
 	public Object getMinimum() {
         return new Double(0.0);
     }

@@ -47,6 +47,11 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 		randomNumber = new RandomNumber();
 	}
 	
+	@Override
+	public NoisyFunctionDecorator getClone() {
+		return new NoisyFunctionDecorator();
+	}
+	
 	/**
 	 * 
 	 */

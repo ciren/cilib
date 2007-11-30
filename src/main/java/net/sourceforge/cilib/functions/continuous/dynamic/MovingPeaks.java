@@ -43,6 +43,10 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 		exclusionthreshold = (maxcoordinate - mincoordinate) / (2 * (Math.pow(number_of_peaks, 1 / getDimension())));
 		init_peaks();
 	}
+	
+	public MovingPeaks getClone() {
+		return new MovingPeaks();
+	}
 
 	public Object getMinimum() {
 		return new Double(0);

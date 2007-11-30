@@ -25,6 +25,11 @@ public class Damavandi extends ContinuousFunction {
 	public Damavandi() {
         setDomain("R(0, 12)^2");
     }
+	
+	@Override
+	public Damavandi getClone() {
+		return new Damavandi();
+	}
     
     public Object getMinimum() {
         return new Double(0);

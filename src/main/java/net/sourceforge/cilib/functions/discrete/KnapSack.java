@@ -53,6 +53,10 @@ public class KnapSack extends DiscreteFunction {
 		values = new ArrayList<Double>();
 	}
 	
+	@Override
+	public KnapSack getClone() {
+		return new KnapSack();
+	}	
 	
 	public Object getMinimum() {
 		return new Double(0);

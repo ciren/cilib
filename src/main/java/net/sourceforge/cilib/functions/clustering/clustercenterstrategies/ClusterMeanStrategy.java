@@ -29,7 +29,7 @@ public class ClusterMeanStrategy extends ClusterCenterStrategy {
 		if (cluster.isEmpty())
 			throw new IllegalArgumentException("Cannot calculate the mean for an empty cluster");
 
-		Vector mean = cluster.get(0).data.clone();
+		Vector mean = cluster.get(0).data.getClone();
 		mean.reset();
 
 		for (Pattern pattern : cluster) {

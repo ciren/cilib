@@ -38,7 +38,7 @@ public class HydrogenBondFitness extends RNAFitness {
 	public HydrogenBondFitness(HydrogenBondFitness copy) {
 	}
 	
-	public HydrogenBondFitness clone() {
+	public HydrogenBondFitness getClone() {
 		return new HydrogenBondFitness(this);
 	}
 

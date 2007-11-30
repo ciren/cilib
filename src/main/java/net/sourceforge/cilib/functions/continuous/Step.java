@@ -43,6 +43,11 @@ public class Step extends ContinuousFunction {
         setDomain("R(-100.0, 100.0)^30");
     }
     
+    @Override
+    public Step getClone() {
+    	return new Step();
+    }
+    
     public Object getMinimum() {
         return new Double(0);
     }

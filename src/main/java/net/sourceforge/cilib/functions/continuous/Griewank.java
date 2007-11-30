@@ -50,6 +50,10 @@ public class Griewank extends ContinuousFunction {
 	public Griewank() {
         setDomain("R(-600, 600)^30");
     }
+	
+	public Griewank getClone() {
+		return new Griewank();
+	}
     
     public Object getMinimum() {
         return new Double(0);

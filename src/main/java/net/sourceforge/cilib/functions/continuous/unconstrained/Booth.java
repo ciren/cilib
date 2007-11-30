@@ -66,6 +66,11 @@ public class Booth extends ContinuousFunction {
         setDomain("R(-10,10)^2");
     }
 	
+	@Override
+	public Booth getClone() {
+		return new Booth();
+	}
+	
 	public Object getMinimum() {
         return new Double(0.0);
     }

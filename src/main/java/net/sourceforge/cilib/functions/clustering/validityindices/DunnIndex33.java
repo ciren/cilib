@@ -27,6 +27,7 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -69,5 +70,10 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
 		return calculateAverageSetDistance(i, j);
+	}
+
+	@Override
+	public DunnIndex33 getClone() {
+		return new DunnIndex33();
 	}
 }

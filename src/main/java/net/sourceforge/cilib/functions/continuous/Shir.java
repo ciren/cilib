@@ -32,6 +32,11 @@ public class Shir extends ContinuousFunction {
         l5 = 1.0;
         sharpness = 2;
     }
+	
+	@Override
+	public Shir getClone() {
+		return new Shir();
+	}
     
     public Object getMaximum() {
         return new Double(1);

@@ -43,6 +43,11 @@ public class Salomon extends ContinuousFunction {
 	public Salomon() {
 		setDomain("R(-600, 600)^30");
 	}
+	
+	@Override
+	public Salomon getClone() {
+		return new Salomon();
+	}
 
 	public Object getMinimum() {
 		return new Double(0);

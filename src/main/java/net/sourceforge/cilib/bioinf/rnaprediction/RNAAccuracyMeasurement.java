@@ -40,7 +40,7 @@ public class RNAAccuracyMeasurement implements Measurement {
 	public RNAAccuracyMeasurement(RNAAccuracyMeasurement copy) {
 	}
 	
-	public RNAAccuracyMeasurement clone() {
+	public RNAAccuracyMeasurement getClone() {
 		return new RNAAccuracyMeasurement(this);
 	}
 

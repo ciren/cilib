@@ -30,6 +30,11 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
 		verticalScale = 1.0;
 		horizontalScale = 1.0;
 	}
+	
+	@Override
+	public ScaledFunctionDecorator getClone() {
+		return new ScaledFunctionDecorator();
+	}
 
 	public Object getMinimum() {
 		// adds the value of the verticalShift to the original function minimum

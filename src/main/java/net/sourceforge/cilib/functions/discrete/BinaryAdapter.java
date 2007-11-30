@@ -54,6 +54,10 @@ public class BinaryAdapter extends DiscreteFunction {
 		bitsPerDimension = 1;
 		precision = 0;
 	}
+	
+	public BinaryAdapter getClone() {
+		return new BinaryAdapter();
+	}
 
 	
 	/**

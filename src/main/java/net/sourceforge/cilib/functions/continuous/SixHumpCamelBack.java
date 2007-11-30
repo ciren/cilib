@@ -57,6 +57,11 @@ public class SixHumpCamelBack extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-3,3),R(-2,2)");
     }
+	
+	@Override
+	public SixHumpCamelBack getClone() {
+		return new SixHumpCamelBack();
+	}
 
     public Object getMinimum() {
         return new Double(-1.0316);

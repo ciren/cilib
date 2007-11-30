@@ -79,11 +79,11 @@ public class ACO extends PopulationBasedAlgorithm {
 		
 		this.ants = new ArrayList<Ant>(copy.ants.size());
 		for (Ant ant : copy.ants) {
-			this.ants.add(ant.clone());
+			this.ants.add(ant.getClone());
 		}
 	}
 	
-	public ACO clone() {
+	public ACO getClone() {
 		return new ACO(this);
 	}
 	
@@ -98,7 +98,7 @@ public class ACO extends PopulationBasedAlgorithm {
 			throw new RuntimeException("Cannont perform algorithm on a non-existant problem");
 		
 		for (int i = 0; i < numberAnts; ++i) {
-			Ant ant = prototypeAnt.clone();
+			Ant ant = prototypeAnt.getClone();
 			ant.initialise(problem); // Initialise the ants based on the problem
 			ants.add(ant); // Add the ant to the list of ants
 		}

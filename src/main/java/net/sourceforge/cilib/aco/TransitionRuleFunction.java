@@ -26,6 +26,7 @@
 package net.sourceforge.cilib.aco;
 
 import net.sourceforge.cilib.container.graph.Vertex;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * The point of this interface is to enable a generic method for the
@@ -36,7 +37,7 @@ import net.sourceforge.cilib.container.graph.Vertex;
  * 
  * @author Gary Pampara
  */
-public interface TransitionRuleFunction {
+public interface TransitionRuleFunction extends Cloneable {
 	/**
 	 * Get the probability for moving from the current vertex to the connecting vertex
 	 * @param ant The current <code>Ant</code> object
@@ -51,5 +52,5 @@ public interface TransitionRuleFunction {
 	 * Clone the current <tt>TransitionRuleFunction</tt>.
 	 * @return A cloned <tt>TransitionRuleFunction</tt>
 	 */
-	public TransitionRuleFunction clone();
+	public TransitionRuleFunction getClone();
 }

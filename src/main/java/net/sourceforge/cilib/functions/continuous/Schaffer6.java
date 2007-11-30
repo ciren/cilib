@@ -58,6 +58,11 @@ public class Schaffer6 extends ContinuousFunction {
 		setDomain("R(-100.0,100.0)^2");
 	}
 	
+	@Override
+	public Schaffer6 getClone() {
+		return new Schaffer6();
+	}
+	
 	
 	/**
 	 * Initialise the function minimum value.

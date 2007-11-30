@@ -38,7 +38,7 @@ import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 public class TuriIndex extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 2457356424874462741L;
 
-	private double c = 0.0;
+//	private double c = 0.0;
 //	private RandomNumber random = null;
 //	private double gaussian = 0.0;
 
@@ -55,7 +55,12 @@ public class TuriIndex extends ClusteringFitnessFunction {
 		return /*(c * gaussian + 1) * */(calculateAverageIntraClusterDistance() / calculateMinimumInterClusterDistance());
 	}
 
-	public void setC(double c) {
-		this.c = c;
+//	public void setC(double c) {
+//		this.c = c;
+//	}
+
+	@Override
+	public TuriIndex getClone() {
+		return new TuriIndex();
 	}
 }

@@ -46,6 +46,10 @@ public class Queens extends DiscreteFunction {
 	public Queens() {
 		this.boardSize = 8;
 	}
+	
+	public Queens getClone() {
+		return new Queens();
+	}
 
 	/**
 	 * Get the matrix and determine if there are any conflicts. If there are no

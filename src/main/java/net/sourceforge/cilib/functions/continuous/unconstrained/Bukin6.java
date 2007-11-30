@@ -67,6 +67,11 @@ public class Bukin6 extends ContinuousFunction implements Serializable {
         setDomain("R(-15,-5),R(-3,3)");
     }
 	
+	@Override
+	public Bukin6 getClone() {
+		return new Bukin6();
+	}
+	
 	public Object getMinimum() {
         return new Double(0.0);
     }

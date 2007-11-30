@@ -60,7 +60,7 @@ public class ViennaRNAFitness extends RNAFitness {
 	public ViennaRNAFitness(ViennaRNAFitness copy) {
 	}
 	
-	public ViennaRNAFitness clone() {
+	public ViennaRNAFitness getClone() {
 		return new ViennaRNAFitness(this);
 	}
 

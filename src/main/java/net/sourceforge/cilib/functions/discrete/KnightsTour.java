@@ -67,6 +67,10 @@ public class KnightsTour extends DiscreteFunction {
 		this.startY = 0;
 	}
 	
+	public KnightsTour getClone() {
+		return new KnightsTour();
+	}
+	
 	
 	/**
 	 * 

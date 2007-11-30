@@ -42,7 +42,7 @@ public class SimpleRNAFitness extends RNAFitness{
 	public SimpleRNAFitness(SimpleRNAFitness copy) {
 	}
 	
-	public SimpleRNAFitness clone() {
+	public SimpleRNAFitness getClone() {
 		return new SimpleRNAFitness(this);
 	}
 	

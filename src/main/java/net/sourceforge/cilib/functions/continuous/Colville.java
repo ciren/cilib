@@ -44,7 +44,12 @@ public class Colville extends ContinuousFunction {
         setDomain("R(-10, 10)^4");
     }
     
-    public Object getMinimum() {
+    @Override
+	public Colville getClone() {
+		return new Colville();
+	}
+
+	public Object getMinimum() {
         return new Double(0);
     }
     

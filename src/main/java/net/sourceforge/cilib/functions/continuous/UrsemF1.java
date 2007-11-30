@@ -46,6 +46,11 @@ public class UrsemF1 extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-2.5, 3)^2");
     }
+	
+	@Override
+	public UrsemF1 getClone() {
+		return new UrsemF1();
+	}
     
     public Object getMinimum() {
         return new Double(4.81681);

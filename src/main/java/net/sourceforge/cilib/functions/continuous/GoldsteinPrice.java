@@ -46,6 +46,11 @@ public class GoldsteinPrice extends ContinuousFunction {
         setDomain("R(-2, 2)^2");
     }
 	
+	@Override
+	public GoldsteinPrice getClone() {
+		return new GoldsteinPrice();
+	}
+	
 	public Object getMinimum() {
 		return new Double(3.0);
 	}

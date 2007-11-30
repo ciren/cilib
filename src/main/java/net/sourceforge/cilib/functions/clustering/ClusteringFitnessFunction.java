@@ -69,6 +69,8 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 		clusterCenterStrategy = new ClusterCentroidStrategy(this);
 //		setDomain("R(-5.0, 5.0)^2");
 	}
+	
+	public abstract ClusteringFitnessFunction getClone();
 
 	/**
 	 * This method is responsible for various things before the fitness can be returned:

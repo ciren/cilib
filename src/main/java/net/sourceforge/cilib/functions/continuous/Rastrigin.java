@@ -55,6 +55,11 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
 	public Rastrigin() {
         setDomain("R(-5.12, 5.12)^30");
     }
+	
+	@Override
+	public Rastrigin getClone() {
+		return new Rastrigin();
+	}
     
     public Object getMinimum() {
         return new Double(0);

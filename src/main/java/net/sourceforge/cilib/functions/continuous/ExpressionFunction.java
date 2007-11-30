@@ -21,7 +21,7 @@ public class ExpressionFunction extends ContinuousFunction {
 		this.function = copy.function;		
 	}
 	
-	public ExpressionFunction clone() {
+	public ExpressionFunction getClone() {
 		return new ExpressionFunction(this);
 	}
 

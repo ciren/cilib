@@ -69,7 +69,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	/**
 	 * 
 	 */
-	public PheromoneUpdate clone() {
+	public PheromoneUpdate getClone() {
 		return new StandardPheromoneUpdate(this);
 	}
 	

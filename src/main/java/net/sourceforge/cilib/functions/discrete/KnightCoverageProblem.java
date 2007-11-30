@@ -49,7 +49,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
 		
 	}
 	
-	public KnightCoverageProblem clone() {
+	public KnightCoverageProblem getClone() {
 		return new KnightCoverageProblem(this);		
 	}
 

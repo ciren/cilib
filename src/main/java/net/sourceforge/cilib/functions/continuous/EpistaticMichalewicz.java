@@ -51,6 +51,10 @@ public class EpistaticMichalewicz extends ContinuousFunction {
         setDomain("R(0, 3.141592653589793)^10");
     }
     
+    public EpistaticMichalewicz getClone() {
+    	return new EpistaticMichalewicz();
+    }
+    
     public Object getMinimum() {
     	if (this.getDimension() == 5)
     		return new Double(-4.687);

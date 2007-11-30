@@ -52,6 +52,11 @@ public class Himmelblau extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-6, 6)^2");
     }
+	
+	@Override
+	public Himmelblau getClone() {
+		return new Himmelblau();
+	}
 
     public Object getMinimum() {
         return new Double(0);

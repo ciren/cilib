@@ -38,7 +38,7 @@ public class MethewsFitness extends RNAFitness {
 	public MethewsFitness(MethewsFitness copy) {
 	}
 	
-	public MethewsFitness clone() {
+	public MethewsFitness getClone() {
 		return new MethewsFitness(this);
 	}
 

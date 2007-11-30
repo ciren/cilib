@@ -45,7 +45,7 @@ public abstract class Ant extends AbstractEntity {
 	 * @return An <code>Object</code> representing a clone of the current <code>Ant</code> object
 	 * @throws CloneNotSupportedException
 	 */
-	public abstract Ant clone();
+	public abstract Ant getClone();
 
 	/**
 	 * Build a valid tour based on the current <code>DiscreteOptimisationProblem</code> 

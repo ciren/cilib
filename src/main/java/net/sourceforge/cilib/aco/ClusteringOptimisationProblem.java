@@ -45,11 +45,11 @@ public class ClusteringOptimisationProblem extends ACOOptimisationProblem {
 	}
 	
 	public ClusteringOptimisationProblem(ClusteringOptimisationProblem copy) {
-		this.dataSetBuilder = copy.dataSetBuilder.clone();
-		this.grid = copy.grid.clone();
+		this.dataSetBuilder = copy.dataSetBuilder.getClone();
+		this.grid = copy.grid.getClone();
 	}
 	
-	public ClusteringOptimisationProblem clone() {
+	public ClusteringOptimisationProblem getClone() {
 		return new ClusteringOptimisationProblem(this);
 	}
 

@@ -48,7 +48,7 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 		
 	}
 	
-	public RNAOptimisationProblem clone() {
+	public RNAOptimisationProblem getClone() {
 		return new RNAOptimisationProblem(this);
 	}
 	

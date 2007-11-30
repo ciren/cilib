@@ -38,5 +38,9 @@ public class KnightsCoverage extends DiscreteFunction {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public KnightsCoverage getClone() {
+		return new KnightsCoverage();
+	}
 
 }

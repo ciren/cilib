@@ -40,6 +40,8 @@ public abstract class ContinuousFunction extends Function {
 	public ContinuousFunction(ContinuousFunction copy) {
 		
 	}
+	
+	public abstract ContinuousFunction getClone();
 
 	/*
 	 * (non-Javadoc)

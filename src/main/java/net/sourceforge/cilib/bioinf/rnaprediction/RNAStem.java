@@ -253,7 +253,7 @@ public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collec
 	}
 
 	@Override
-	public RNAStem clone() {
+	public RNAStem getClone() {
 		ArrayList<NucleotidePair> pairs = new ArrayList<NucleotidePair>();
 		pairs.addAll(this.basePairs);
 		return new RNAStem(pairs);

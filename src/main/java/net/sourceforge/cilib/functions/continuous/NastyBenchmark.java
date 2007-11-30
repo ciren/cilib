@@ -42,6 +42,11 @@ public class NastyBenchmark extends ContinuousFunction {
 	public NastyBenchmark() {
         setDomain("R(-500, 500)^30");
     }
+	
+	@Override
+	public NastyBenchmark getClone() {
+		return new NastyBenchmark();
+	}
     
     public Object getMinimum() {
         return new Double(0);

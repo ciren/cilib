@@ -42,7 +42,7 @@ public abstract class RNAFitness extends Fitness {
 		this.nucleotides = nuc;		 
 	}
 	
-	public abstract RNAFitness clone();
+	public abstract RNAFitness getClone();
 	
 	public abstract Double getRNAFitness(RNAConformation stems);
 		

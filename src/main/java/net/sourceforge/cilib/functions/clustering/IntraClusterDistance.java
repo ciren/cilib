@@ -41,4 +41,9 @@ public class IntraClusterDistance extends ClusteringFitnessFunction {
 	public double calculateFitness() {
 		return calculateAverageIntraClusterDistance();
 	}
+
+	@Override
+	public IntraClusterDistance getClone() {
+		return new IntraClusterDistance();
+	}
 }

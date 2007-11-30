@@ -31,13 +31,14 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * All functions should inherit from <code>Function</code>
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public abstract class Function implements Serializable {
+public abstract class Function implements Cloneable, Serializable {
 	private DomainRegistry domainRegistry;
 	private DomainRegistry behavioralDomainRegistry;
 
@@ -51,8 +52,8 @@ public abstract class Function implements Serializable {
 	}
 
 	public Function(Function copy) {
-		domainRegistry = copy.domainRegistry.clone();
-		behavioralDomainRegistry = copy.behavioralDomainRegistry.clone();
+		domainRegistry = copy.domainRegistry.getClone();
+		behavioralDomainRegistry = copy.behavioralDomainRegistry.getClone();
 	}
 
 	/**
@@ -144,4 +145,5 @@ public abstract class Function implements Serializable {
 	 * @param x the position
 	 */
 	public abstract Double evaluate(Object x);
+	
 }

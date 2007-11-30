@@ -22,6 +22,11 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
 	public SchwefelProblem2_21() {
         setDomain("R(-100, 100)^30");
     }
+	
+	@Override
+	public SchwefelProblem2_21 getClone() {
+		return new SchwefelProblem2_21();
+	}
     
     public Object getMinimum() {
         return new Double(0);

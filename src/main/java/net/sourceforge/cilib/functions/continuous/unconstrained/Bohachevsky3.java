@@ -66,6 +66,10 @@ public class Bohachevsky3 extends ContinuousFunction {
         setDomain("R(-100, 100)^2");
     }
     
+    public Bohachevsky3 getClone() {
+    	return new Bohachevsky3();
+    }
+    
     /* (non-Javadoc)
 	 * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
 	 */

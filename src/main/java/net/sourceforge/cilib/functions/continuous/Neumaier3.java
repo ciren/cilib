@@ -45,6 +45,11 @@ public class Neumaier3 extends ContinuousFunction {
         setDomain("R(-900, 900)^30");
     }
     
+    @Override
+    public Neumaier3 getClone() {
+    	return new Neumaier3();
+    }
+    
     public Object getMinimum() {
         double dimension = getDimension();
         return new Double((dimension * (dimension + 4) * (dimension - 1)) / 6);

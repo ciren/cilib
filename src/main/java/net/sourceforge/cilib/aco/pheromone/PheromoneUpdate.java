@@ -27,16 +27,17 @@ package net.sourceforge.cilib.aco.pheromone;
 
 import net.sourceforge.cilib.aco.Ant;
 import net.sourceforge.cilib.container.graph.Edge;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * @author Gary Pampara
  */
-public interface PheromoneUpdate {
+public interface PheromoneUpdate extends Cloneable{
 	/**
 	 * 
 	 * @return
 	 */
-	public PheromoneUpdate clone();
+	public PheromoneUpdate getClone();
 	
 	/**
 	 * 

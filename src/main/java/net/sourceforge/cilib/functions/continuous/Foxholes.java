@@ -47,6 +47,10 @@ public class Foxholes extends ContinuousFunction {
 	public Foxholes() {
 		setDomain("R(-65.536,65.536)^2");
 	}
+	
+	public Foxholes getClone() {
+		return new Foxholes();
+	}
 
 	
 	public Object getMinimum() {

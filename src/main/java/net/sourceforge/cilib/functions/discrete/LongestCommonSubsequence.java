@@ -19,6 +19,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class LongestCommonSubsequence extends DiscreteFunction {
 
 	private static final long serialVersionUID = -3586259608521073084L;
+	
+	@Override
+	public LongestCommonSubsequence getClone() {
+		return new LongestCommonSubsequence();
+	}
 
 
 	@Override

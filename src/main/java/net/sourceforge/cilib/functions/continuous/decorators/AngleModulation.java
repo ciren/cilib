@@ -30,6 +30,11 @@ public class AngleModulation extends ContinuousFunction {
 		requiredBits = 0;
 	}
 	
+	@Override
+	public AngleModulation getClone() {
+		return new AngleModulation();
+	}
+	
 	/**
 	 * 
 	 */

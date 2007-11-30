@@ -36,6 +36,11 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
 		horizontalShift = 0.0;
 	}
 	
+	@Override
+	public ShiftedFunctionDecorator getClone() {
+		return new ShiftedFunctionDecorator();
+	}
+	
 	public Object getMinimum() {
 		Double functionMinimum = (Double) function.getMinimum();
         return new Double(functionMinimum + verticalShift);

@@ -41,7 +41,7 @@ public class MathewsFitness extends RNAFitness {
 	public MathewsFitness(MathewsFitness copy) {
 	}
 	
-	public MathewsFitness clone() {
+	public MathewsFitness getClone() {
 		return new MathewsFitness(this);
 	}
 

@@ -93,7 +93,7 @@ public class AlignmentVisualizer implements Measurement
 		this.fullColumns = visualiseMatches;
 	}
 	
-	public AlignmentVisualizer clone()
+	public AlignmentVisualizer getClone()
 	{
 		return this;
 	}

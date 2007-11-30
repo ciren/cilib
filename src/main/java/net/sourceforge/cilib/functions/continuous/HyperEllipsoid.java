@@ -53,6 +53,11 @@ public class HyperEllipsoid extends ContinuousFunction {
         setDomain("R(-5.12,5.12)^30");
     }
     
+    @Override
+    public HyperEllipsoid getClone() {
+    	return new HyperEllipsoid();
+    }
+    
     public Object getMinimum() {
         return new Double(0);
     }

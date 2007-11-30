@@ -54,7 +54,7 @@ public class FASTADataSetBuilder extends DataSetBuilder {
 	}
 
 	@Override
-	public FASTADataSetBuilder clone() {
+	public FASTADataSetBuilder getClone() {
 		return new FASTADataSetBuilder(this);
 	}
 

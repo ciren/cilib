@@ -45,6 +45,11 @@ public class Ripple extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(0, 1)^2");
     }
+	
+	@Override
+	public Ripple getClone() {
+		return new Ripple();
+	}
     
     public Object getMinimum() {
         return new Double(2.2);

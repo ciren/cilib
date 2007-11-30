@@ -17,6 +17,11 @@ public class AbsoluteValue extends ContinuousFunction {
 		setDomain("R(-100, 100)^30");
 	}
 	
+	@Override
+	public AbsoluteValue getClone() {
+		return new AbsoluteValue();
+	}
+
 	public Object getMinimum() {
 		return new Double(0);
 	 }

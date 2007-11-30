@@ -64,6 +64,10 @@ public class Beale extends ContinuousFunction {
         setDomain("R(-4.5,4.5)^2");
     }
 	
+	public Beale getClone() {
+		return new Beale();
+	}
+	
 	public Object getMinimum() {
         return new Double(0.0);
     }

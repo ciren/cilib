@@ -64,6 +64,11 @@ public class Bird extends ContinuousFunction {
         setDomain("R(-6.285714286,6.285714286)^2");
     }
 	
+	@Override
+	public Bird getClone() {
+		return new Bird();
+	}
+	
 	public Object getMinimum() {
         return new Double(-106.764537);
     }

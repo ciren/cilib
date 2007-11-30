@@ -27,6 +27,7 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -87,5 +88,10 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
 		return calculateDistance(clusterCenterStrategy.getCenter(i), clusterCenterStrategy.getCenter(j));
+	}
+
+	@Override
+	public DaviesBouldinIndex getClone() {
+		return new DaviesBouldinIndex();
 	}
 }

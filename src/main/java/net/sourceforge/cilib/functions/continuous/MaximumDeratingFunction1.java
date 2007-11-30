@@ -41,6 +41,11 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
         //constraint.add(new DimensionValidator(1));
         setDomain("R^1");
     }
+    
+    @Override
+    public MaximumDeratingFunction1 getClone() {
+    	return new MaximumDeratingFunction1();
+    }
 
     public Object getMinimum() {
         return new Double(0);

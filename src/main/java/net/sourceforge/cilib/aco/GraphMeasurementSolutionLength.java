@@ -44,7 +44,7 @@ public class GraphMeasurementSolutionLength implements Measurement {
 	public GraphMeasurementSolutionLength(GraphMeasurementSolutionLength copy) {
 	}
 	
-	public GraphMeasurementSolutionLength clone() {
+	public GraphMeasurementSolutionLength getClone() {
 		return new GraphMeasurementSolutionLength(this);
 	}
 

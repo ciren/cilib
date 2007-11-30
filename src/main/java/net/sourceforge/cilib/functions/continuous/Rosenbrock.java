@@ -52,6 +52,11 @@ public class Rosenbrock extends ContinuousFunction {
 	public Rosenbrock() {
         setDomain("R(-2.048, 2.048)^30");
     }
+	
+	@Override
+	public Rosenbrock getClone() {
+		return new Rosenbrock();
+	}
     
     public Object getMinimum() {
         return new Double(0);

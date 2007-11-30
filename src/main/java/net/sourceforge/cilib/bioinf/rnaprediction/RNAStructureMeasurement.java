@@ -42,7 +42,7 @@ public class RNAStructureMeasurement implements Measurement {
 	public RNAStructureMeasurement(RNAStructureMeasurement copy) {
 	}
 	
-	public RNAStructureMeasurement clone() {
+	public RNAStructureMeasurement getClone() {
 		return new RNAStructureMeasurement(this);
 	}
 

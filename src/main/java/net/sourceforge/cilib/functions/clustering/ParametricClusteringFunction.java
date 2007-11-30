@@ -56,6 +56,10 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 		w2 = new ConstantControlParameter(0.5);
 		zMax = -1.0;
 	}
+	
+	public ParametricClusteringFunction getClone() {
+		return new ParametricClusteringFunction();
+	}
 
 	@Override
 	public double calculateFitness() {
@@ -116,8 +120,8 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	protected double zMax() {
 		// first, get the build representation from the domain
 		Vector prototype = (Vector) ((DataSetBuilder)dataset).getProblem().getDomain().getBuiltRepresenation();
-		Vector upper = prototype.clone();
-		Vector lower = prototype.clone();
+		Vector upper = prototype.getClone();
+		Vector lower = prototype.getClone();
 
 		// then, set the elements of these Vectors to the upper and lower bounds respectively
 		for (int i = 0; i < upper.size(); i++) {

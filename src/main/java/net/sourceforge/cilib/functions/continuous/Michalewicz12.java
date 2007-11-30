@@ -62,6 +62,11 @@ public class Michalewicz12 extends ContinuousFunction {
         m = 10;
     }
     
+    @Override
+    public Michalewicz12 getClone() {
+    	return new Michalewicz12();
+    }
+    
     public Object getMinimum() {
     	if (this.getDimension() == 5)
     		return new Double(-4.687);

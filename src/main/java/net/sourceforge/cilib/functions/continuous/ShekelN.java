@@ -46,6 +46,11 @@ public class ShekelN extends ContinuousFunction {
         setDomain("R(0, 10)^4");
     }
     
+    @Override
+    public ShekelN getClone() {
+    	return new ShekelN();
+    }
+    
     public Object getMinimum() {
         switch (n) {
             case 5: return new Double(-10.15320); 

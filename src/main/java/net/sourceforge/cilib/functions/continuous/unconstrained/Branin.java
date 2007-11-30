@@ -79,14 +79,16 @@ public class Branin extends ContinuousFunction implements Serializable {
         e = 10.0;
         f = 1.0/(8.0*Math.PI);
         
-        double x1 = 1.0;
-        double x2 = 2.0;
-        
         //constraint.add(new DimensionValidator(2));
         //constraint.add(new ContentValidator(0, new QuantitativeBoundValidator(new Double(-5), new Double(15))));
         //constraint.add(new ContentValidator(1, new QuantitativeBoundValidator(new Double(0), new Double(15))));
         
         setDomain("R(-5,10),R(0,15)");
+    }
+    
+    @Override
+    public Branin getClone() {
+    	return new Branin();
     }
 
     public Object getMinimum() {

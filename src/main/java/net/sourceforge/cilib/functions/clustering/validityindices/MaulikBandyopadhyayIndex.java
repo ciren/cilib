@@ -82,4 +82,9 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
 			throw new IllegalArgumentException("The p-value cannot be <= 0");
 		p = pu;
 	}
+
+	@Override
+	public MaulikBandyopadhyayIndex getClone() {
+		return new MaulikBandyopadhyayIndex();
+	}
 }

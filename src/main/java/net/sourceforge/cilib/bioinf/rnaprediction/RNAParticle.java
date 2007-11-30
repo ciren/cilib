@@ -52,17 +52,17 @@ public class RNAParticle extends AbstractParticle {
 	
 	public RNAParticle(RNAParticle copy) {
 		this.position = new RNAConformation();
-		this.velocity = copy.velocity.clone();
+		this.velocity = copy.velocity.getClone();
 		this.bestPosition = new RNAConformation();
 		
 		for (Iterator<RNAStem> it = this.position.iterator(); it.hasNext(); )
-			this.position.add(it.next().clone());
+			this.position.add(it.next().getClone());
 		
 		for (Iterator<RNAStem> it = this.bestPosition.iterator(); it.hasNext(); )
-			this.bestPosition.add(it.next().clone());
+			this.bestPosition.add(it.next().getClone());
 	}
 	
-	public RNAParticle clone() {
+	public RNAParticle getClone() {
 		/*RNAParticle clone = new RNAParticle();// super.clone();
        
 		clone.position = new RNAConformation();

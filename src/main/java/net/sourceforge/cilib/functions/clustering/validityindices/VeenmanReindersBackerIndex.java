@@ -101,4 +101,9 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 	public void updateControlParameters() {
 		maximumVariance.updateParameter();
 	}
+
+	@Override
+	public VeenmanReindersBackerIndex getClone() {
+		return new VeenmanReindersBackerIndex();
+	}
 }

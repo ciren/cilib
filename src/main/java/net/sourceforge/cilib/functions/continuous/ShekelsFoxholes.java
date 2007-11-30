@@ -57,6 +57,11 @@ public class ShekelsFoxholes extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-65.536, 65.536)^2");
     }
+    
+    @Override
+    public ShekelsFoxholes getClone() {
+    	return new ShekelsFoxholes();
+    }
 
     public Object getMinimum() {
         return new Double(0.9980038);

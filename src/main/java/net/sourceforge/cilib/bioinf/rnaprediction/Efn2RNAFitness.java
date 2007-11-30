@@ -48,7 +48,7 @@ public class Efn2RNAFitness extends RNAFitness {
 		// @TODO: complete this
 	}
 	
-	public Efn2RNAFitness clone() {
+	public Efn2RNAFitness getClone() {
 		return new Efn2RNAFitness(this);
 	}
 	

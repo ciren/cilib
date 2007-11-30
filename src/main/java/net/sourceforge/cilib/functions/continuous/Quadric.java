@@ -41,6 +41,11 @@ public class Quadric extends ContinuousFunction {
 	public Quadric() {
         setDomain("R(-100, 100)^30");
     }
+	
+	@Override
+	public Quadric getClone() {
+		return new Quadric();
+	}
     
     public Object getMinimum() {
         return new Double(0);

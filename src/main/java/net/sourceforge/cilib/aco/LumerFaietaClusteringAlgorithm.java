@@ -54,7 +54,7 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 			throw new RuntimeException("Cannont perform algorithm on a non-existant problem");
 		
 		for (int i = 0; i < numberAnts; ++i) {
-			Ant ant = this.getPrototypeAnt().clone();
+			Ant ant = this.getPrototypeAnt().getClone();
 			ant.initialise(clusteringOptimisationProblem); // Initialise the ants based on the problem
 			ants.add(ant); // Add the ant to the list of ants
 		}

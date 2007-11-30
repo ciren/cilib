@@ -50,6 +50,11 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 		verticalReflection = false;
 	}
 	
+	@Override
+	public ReflectedFunctionDecorator getClone() {
+		return new ReflectedFunctionDecorator();
+	}
+	
 	public Object getMinimum() {
 		// adds the value of the verticalShift to the original function minimum
 		return function.getMinimum();

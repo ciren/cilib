@@ -95,10 +95,10 @@ public class ClusteringAntDecorator extends Ant {
 	}
 	
 	/**
-	 * The method is a simple clone() method to duplicate the current object
+	 * The method is a simple clone method to duplicate the current object
 	 * @return An <code>Object</code> representing the cloned object
 	 */
-	public ClusteringAntDecorator clone() {
+	public ClusteringAntDecorator getClone() {
 		return new ClusteringAntDecorator(this);
 	}
 

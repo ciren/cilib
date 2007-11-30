@@ -58,7 +58,7 @@ public class GraphOptimisationProblem extends ACOOptimisationProblem {
 		
 	}
 	
-	public GraphOptimisationProblem clone() {
+	public GraphOptimisationProblem getClone() {
 		return new GraphOptimisationProblem(this);
 	}
 

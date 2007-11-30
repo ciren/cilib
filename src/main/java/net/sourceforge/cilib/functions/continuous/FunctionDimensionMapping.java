@@ -54,6 +54,11 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 		
 		setDomain("B^10");
 	}
+	
+	@Override
+	public FunctionDimensionMapping getClone() {
+		return new FunctionDimensionMapping();
+	}
 
 	@Override
 	public double evaluate(Vector x) {

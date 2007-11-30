@@ -29,4 +29,9 @@ public class KHarmonicMeansFunction extends ClusteringFitnessFunction {
 		}
 		return harmonicMean;
 	}
+
+	@Override
+	public KHarmonicMeansFunction getClone() {
+		return new KHarmonicMeansFunction();
+	}
 }

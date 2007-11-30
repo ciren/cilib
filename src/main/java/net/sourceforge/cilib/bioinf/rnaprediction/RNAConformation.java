@@ -61,7 +61,7 @@ public class RNAConformation extends Set<RNAStem> {
 	}
 
 	
-	public RNAConformation clone() {
+	public RNAConformation getClone() {
 		RNAConformation clone = new RNAConformation();
 		clone.addAll(this);
 		clone.bracketRepresentation = new char[NucleotideString.instance.nucleotideString.length()];

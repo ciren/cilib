@@ -36,13 +36,18 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  engel
  */
 public class Schaffer2 extends ContinuousFunction {
-    private static final long serialVersionUID = 7289010453718555694L;
+	private static final long serialVersionUID = 7289010453718555694L;
 
 	/** Creates a new instance of Schaffer */
     public Schaffer2() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
     }
+    
+    @Override
+	public Schaffer2 getClone() {
+		return new Schaffer2();
+	}
     
     public Object getMinimum() {
         return new Double(0);

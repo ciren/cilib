@@ -53,6 +53,11 @@ public class Spherical extends ContinuousFunction implements Differentiable {
 	public Spherical() {
         setDomain("R(-5.12, 5.12)^30");
     }
+	
+	@Override
+	public Spherical getClone() {
+		return new Spherical();
+	}
     
     public Object getMinimum() {
         return new Double(0);

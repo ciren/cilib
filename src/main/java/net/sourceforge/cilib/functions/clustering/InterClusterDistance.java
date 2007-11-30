@@ -41,4 +41,11 @@ public class InterClusterDistance extends ClusteringFitnessFunction {
 	public double calculateFitness() {
 		return calculateMinimumInterClusterDistance();
 	}
+
+	@Override
+	public InterClusterDistance getClone() {
+		return new InterClusterDistance();
+	}
+	
+	
 }

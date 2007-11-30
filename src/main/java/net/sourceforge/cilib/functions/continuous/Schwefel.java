@@ -53,6 +53,11 @@ public class Schwefel extends ContinuousFunction { // ?
 	public Schwefel() {
         setDomain("R(-512.03, 511.97)^30");
     }
+	
+	@Override
+	public Schwefel getClone() {
+		return new Schwefel();
+	}
     
     public Object getMinimum() {
         return new Double(0);

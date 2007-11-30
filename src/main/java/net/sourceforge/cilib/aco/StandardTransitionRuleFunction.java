@@ -71,7 +71,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	/**
 	 * 
 	 */
-	public StandardTransitionRuleFunction clone() {
+	public StandardTransitionRuleFunction getClone() {
 		return new StandardTransitionRuleFunction(this);
 	}
 	

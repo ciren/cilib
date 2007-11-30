@@ -34,6 +34,11 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
 		rotationMatrix = null;
 		rotationProbability = new ConstantControlParameter(0.5);
 	}
+	
+	@Override
+	public RotatedFunctionDecorator getClone() {
+		return new RotatedFunctionDecorator();
+	}
 
 	/**
 	 * Multiplies the argument vector, x, by the transpose of the rotation matrix
@@ -48,7 +53,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
 				|| rotateOrNot.getUniform() < rotationProbability.getParameter())
 			setRotationMatrix();
 		
-		Vector rotatedX = x.clone();
+		Vector rotatedX = x.getClone();
 		rotatedX.reset();
 		
 		for(int j = 0; j < x.getDimension(); j++) {

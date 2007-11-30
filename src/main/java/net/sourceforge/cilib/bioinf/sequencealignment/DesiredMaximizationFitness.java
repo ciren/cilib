@@ -50,7 +50,7 @@ public class DesiredMaximizationFitness implements StoppingCondition {
 		this.desiredFitness = copy.desiredFitness;
 	}
 
-	public DesiredMaximizationFitness clone() {
+	public DesiredMaximizationFitness getClone() {
 		return new DesiredMaximizationFitness(this);
 	}
 

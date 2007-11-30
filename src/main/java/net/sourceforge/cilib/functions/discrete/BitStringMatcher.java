@@ -50,6 +50,11 @@ public class BitStringMatcher extends DiscreteFunction {
 	public BitStringMatcher() {
 	}
 	
+	@Override
+	public BitStringMatcher getClone() {
+		return new BitStringMatcher();
+	}
+	
 	
 	/**
 	 * Set the domain of the function and generate a random bit string. The generated

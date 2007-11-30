@@ -25,6 +25,7 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
+
 /**
  * This is the Dunn Validity Index as given in:<br/>
  * @Article{ dunn1974vi, title = "Well Separated Clusters and Optimal Fuzzy Partitions", author =
@@ -47,5 +48,10 @@ public class DunnIndex extends GeneralisedDunnIndex {
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
 		return calculateMinimumSetDistance(i, j);
+	}
+
+	@Override
+	public DunnIndex getClone() {
+		return new DunnIndex();
 	}
 }

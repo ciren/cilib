@@ -43,7 +43,7 @@ public class GraphMeasurementSolution implements Measurement {
 	public GraphMeasurementSolution(GraphMeasurementSolution copy) {
 	}
 	
-	public GraphMeasurementSolution clone() {
+	public GraphMeasurementSolution getClone() {
 		return new GraphMeasurementSolution(this);
 	}
 	

@@ -50,6 +50,10 @@ public class Easom extends ContinuousFunction {
         setDomain("R(-100, 100)^2");
     }
     
+    public Easom getClone() {
+    	return new Easom();
+    }
+    
     public Object getMinimum() {
         return new Double(-1.0);
     }

@@ -41,6 +41,10 @@ public class InvertedFunctionDecorator extends ContinuousFunction {
 	private static final long serialVersionUID = -7506823207533866371L;
 	
 	private Function function;
+	
+	public InvertedFunctionDecorator getClone() {
+		return new InvertedFunctionDecorator();
+	}
 
 	@Override
 	public double evaluate(Vector x) {
