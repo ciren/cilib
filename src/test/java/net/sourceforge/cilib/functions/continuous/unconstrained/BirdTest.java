@@ -55,7 +55,6 @@ public class BirdTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bird. */
     @Test
     public void testEvaluate() {
-        function = new Bird();
 		function.setDomain("R(-6.285714286,6.285714286)^2");
         
         Vector x = new Vector();
