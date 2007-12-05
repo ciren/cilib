@@ -27,8 +27,11 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.util.Cloneable;
 
-public interface PositionInitialisationStrategy extends Serializable {
+public interface PositionInitialisationStrategy extends Serializable, Cloneable {
+	
+	public PositionInitialisationStrategy getClone();
 	
 	public void initialise(Particle particle, OptimisationProblem problem);
 
