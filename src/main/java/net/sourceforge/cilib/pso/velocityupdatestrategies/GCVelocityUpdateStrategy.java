@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
@@ -30,35 +31,42 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </li></ul></p>
  * 
  * @TODO: The Rho value should be a vector to hold the rho value for each dimension!
+ * 
+ * It is very important to realise the importance of the <code>rho</code> values. <code>rho</code>
+ * determines the local search size of the global best particle and depending on the domain
+ * this could result in poor performance if the <code>rho</code> value is too small or too large depending
+ * on the specified problem domain. For example, a <code>rho</code> value of 1.0 is not a good
+ * value within problems which have a domain that spans <code>[0,1]</code> 
  */
 public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	private static final long serialVersionUID = 5985694749940610522L;
 	private Random randomNumberGenerator;
-	private double rhoLowerBound = 1.0e-323;
-	private double rho;
+	private ControlParameter rhoLowerBound;
+	private ControlParameter rho;
 	private int successCount;
 	private int failureCount;
 	private int successCountThreshold;
 	private int failureCountThreshold;
 	
 	private Fitness oldFitness;
-	private double rhoExpandCoefficient;
-	private double rhoContractCoefficient;
+	private ControlParameter rhoExpandCoefficient;
+	private ControlParameter rhoContractCoefficient;
 
 	public GCVelocityUpdateStrategy() {
 		super();
 		randomNumberGenerator = new MersenneTwister();
 		oldFitness = InferiorFitness.instance();
 		
-		rho = 1.0;
+		rho = new ConstantControlParameter(1.0);
+		rhoLowerBound = new ConstantControlParameter(1.0e-323);
 		successCount = 0;
 		failureCount = 0;
 		successCountThreshold = 15;
 		failureCountThreshold = 5;
-		rhoExpandCoefficient = 1.2;
-		rhoContractCoefficient = 0.5;
+		rhoExpandCoefficient = new ConstantControlParameter(1.2);
+		rhoContractCoefficient = new ConstantControlParameter(0.5);
 		
-		vMax = new ConstantControlParameter(100.0); // This needs to be set dynamically - this is not valid for all problems
+		vMax = new ConstantControlParameter(0.5); // This needs to be set dynamically - this is not valid for all problems
 	}
 	
 	public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
@@ -66,7 +74,8 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.randomNumberGenerator = copy.randomNumberGenerator;
 		this.oldFitness = copy.oldFitness.getClone();
 		
-		this.rho = copy.rho;
+		this.rho = copy.rho.getClone();
+		this.rhoLowerBound = copy.rhoLowerBound.getClone();
 		this.successCount = copy.successCount;
 		this.failureCount = copy.failureCount;
 		this.successCountThreshold = copy.successCountThreshold;
@@ -96,7 +105,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 			for (int i = 0; i < velocity.getDimension(); ++i) {
 				double component = -position.getReal(i) + nBestPosition.getReal(i) 
 					+ this.inertiaWeight.getParameter()*velocity.getReal(i)
-					+ rho*(1-2*randomNumberGenerator.nextDouble());
+					+ rho.getParameter()*(1-2*randomNumberGenerator.nextDouble());
 				
 				velocity.setReal(i, component);
 				clamp(velocity, i);
@@ -142,30 +151,30 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		double tmp = 0.0;
 		
 		Numeric component = (Numeric) position.get(0);
-		double average = (component.getUpperBound() - component.getLowerBound()) / rhoExpandCoefficient;
+		double average = (component.getUpperBound() - component.getLowerBound()) / rhoExpandCoefficient.getParameter();
 	
-		if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient*rho;
-		if (failureCount >= failureCountThreshold) tmp = rhoContractCoefficient*rho;
+		if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient.getParameter()*rho.getParameter();
+		if (failureCount >= failureCountThreshold) tmp = rhoContractCoefficient.getParameter()*rho.getParameter();
 		
-		if (tmp <= rhoLowerBound) tmp = rhoLowerBound;
+		if (tmp <= rhoLowerBound.getParameter()) tmp = rhoLowerBound.getParameter();
 		if (tmp >= average) tmp = average;
 		
-		rho = tmp;
+		rho.setParameter(tmp);
 	}
 
-	public double getRhoLowerBound() {
+	public ControlParameter getRhoLowerBound() {
 		return rhoLowerBound;
 	}
 
-	public void setRhoLowerBound(double rhoLowerBound) {
+	public void setRhoLowerBound(ControlParameter rhoLowerBound) {
 		this.rhoLowerBound = rhoLowerBound;
 	}
 
-	public double getRho() {
+	public ControlParameter getRho() {
 		return rho;
 	}
 
-	public void setRho(double rho) {
+	public void setRho(ControlParameter rho) {
 		this.rho = rho;
 	}
 
@@ -185,19 +194,19 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.failureCountThreshold = failureCountThreshold;
 	}
 
-	public double getRhoExpandCoefficient() {
+	public ControlParameter getRhoExpandCoefficient() {
 		return rhoExpandCoefficient;
 	}
 
-	public void setRhoExpandCoefficient(double rhoExpandCoefficient) {
+	public void setRhoExpandCoefficient(ControlParameter rhoExpandCoefficient) {
 		this.rhoExpandCoefficient = rhoExpandCoefficient;
 	}
 
-	public double getRhoContractCoefficient() {
+	public ControlParameter getRhoContractCoefficient() {
 		return rhoContractCoefficient;
 	}
 
-	public void setRhoContractCoefficient(double rhoContractCoefficient) {
+	public void setRhoContractCoefficient(ControlParameter rhoContractCoefficient) {
 		this.rhoContractCoefficient = rhoContractCoefficient;
 	}
 	
