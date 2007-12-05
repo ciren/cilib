@@ -29,12 +29,15 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * @author Gary Pampara
  */
-public interface NeighbourhoodBestUpdateStrategy extends Serializable {
+public interface NeighbourhoodBestUpdateStrategy extends Serializable, Cloneable {
 	
 	public Fitness getSocialBestFitness(Particle particle);
+	
+	public NeighbourhoodBestUpdateStrategy getClone();
 
 }

@@ -35,6 +35,10 @@ import net.sourceforge.cilib.problem.Fitness;
  */
 public class MemoryNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
 	private static final long serialVersionUID = -6674766322219682030L;
+	
+	public MemoryNeighbourhoodBestUpdateStrategy getClone() {
+		return new MemoryNeighbourhoodBestUpdateStrategy();
+	}
 
 	/**
 	 * Get the social best fitness of the particle. This returns the fitness of the

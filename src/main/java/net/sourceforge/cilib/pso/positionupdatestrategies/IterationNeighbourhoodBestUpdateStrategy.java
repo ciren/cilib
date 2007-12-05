@@ -34,6 +34,9 @@ import net.sourceforge.cilib.problem.Fitness;
 public class IterationNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
 	private static final long serialVersionUID = 9029103734770326975L;
 
+	public IterationNeighbourhoodBestUpdateStrategy getClone() {
+		return new IterationNeighbourhoodBestUpdateStrategy();
+	}
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.PSO.NeighbourhoodBestUpdateStrategy#getSocialBestFitness(net.sourceforge.cilib.PSO.Particle)
 	 */
