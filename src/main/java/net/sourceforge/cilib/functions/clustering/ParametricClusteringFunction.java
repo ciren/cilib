@@ -111,26 +111,16 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	}
 
 	/**
-	 * Calculate the maximum distance possible between two {@linkplain Vector}s. In other words,
-	 * calculate the distance between two {@linkplain Vector}s; where all the elements in the first
-	 * {@linkplain Vector} is set to that element's upper bound and all the elements in the second
-	 * {@linkplain Vector} is set to that element's lower bound.
-	 * @return the maximum distance possible between two {@linkplain Vector}s
+	 * Calculate the maximum distance possible between two {@linkplain Vector}s in the specified
+	 * domain. In other words, calculate the distance between two {@linkplain Vector}s; where all
+	 * the elements in the first {@linkplain Vector} is set to that element's upper bound and all
+	 * the elements in the second {@linkplain Vector} is set to that element's lower bound.
+	 * @return the maximum distance possible between two {@linkplain Vector}s for the specified domain
 	 */
 	protected double zMax() {
-		// first, get the build representation from the domain
 		Vector prototype = (Vector) ((DataSetBuilder)dataset).getProblem().getDomain().getBuiltRepresenation();
-		Vector upper = prototype.getClone();
-		Vector lower = prototype.getClone();
 
-		// then, set the elements of these Vectors to the upper and lower bounds respectively
-		for (int i = 0; i < upper.size(); i++) {
-			upper.setReal(i, prototype.getNumeric(i).getUpperBound());
-			lower.setReal(i, prototype.getNumeric(i).getLowerBound());
-		}
-
-		// lastly, calculate the distance between the two Vectors
-		return calculateDistance(upper, lower);
+		return calculateDistance(prototype.getUpperBounds(), prototype.getLowerBounds());
 	}
 
 	public void updateControlParameters() {

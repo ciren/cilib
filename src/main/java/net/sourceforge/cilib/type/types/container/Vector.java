@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import com.sun.jdi.InvalidTypeException;
+
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
@@ -420,6 +422,68 @@ public class Vector extends AbstractList {
 		else {
 			throw new UnsupportedOperationException("Attempted to perform a numeric operation on non-numeric type");
 		}
+	}
+
+	/**
+	 * Constructs a {@link Vector} from <code>this</code> Vector with each component's value
+	 * set to the upper bound of that component. 
+	 * @throws {@link UnsupportedOperationException} when an element in the {@link Vector}
+	 *         is not a {@link Numeric}
+	 * @return a {@link Vector} with all the elements set to their respective upper bounds
+	 */
+	public Vector getUpperBounds() {
+		Vector upper = this.getClone();
+
+		for(Type element : upper) {
+			try {
+				Numeric numeric = (Numeric) element;
+				numeric.set(numeric.getUpperBound());
+			}
+			catch (ClassCastException cce) {
+				throw new UnsupportedOperationException("Upper Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
+			}
+		}
+		return upper;
+	}
+
+	/**
+	 * Retrieve the upper bound of a specific component in <code>this</code> Vector.
+	 * @param index The index of the component whose upper bound is desired
+	 * @return the upper bound of the component at the given index 
+	 */
+	public double getUpperBound(int index) {
+		return this.getNumeric(index).getUpperBound();
+	}
+
+	/**
+	 * Constructs a {@link Vector} from <code>this</code> Vector with each component's value
+	 * set to the lower bound of that component. 
+	 * @throws {@link UnsupportedOperationException} when an element in the {@link Vector}
+	 *         is not a {@link Numeric}
+	 * @return a {@link Vector} with all the elements set to their respective lower bounds
+	 */
+	public Vector getLowerBounds() {
+		Vector lower = this.getClone();
+
+		for(Type element : lower) {
+			try {
+				Numeric numeric = (Numeric) element;
+				numeric.set(numeric.getLowerBound());
+			}
+			catch (ClassCastException cce) {
+				throw new UnsupportedOperationException("Lower Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
+			}
+		}
+		return lower;
+	}
+
+	/**
+	 * Retrieve the lower bound of a specific component in <code>this</code> Vector.
+	 * @param index The index of the component whose lower bound is desired
+	 * @return the lower bound of the component at the given index 
+	 */
+	public double getLowerBound(int index) {
+		return this.getNumeric(index).getLowerBound();
 	}
 
 	/**

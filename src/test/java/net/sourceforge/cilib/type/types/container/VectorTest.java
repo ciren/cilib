@@ -38,6 +38,7 @@ import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -50,17 +51,19 @@ import org.junit.Test;
 public class VectorTest {
 	private static Vector vector;
 	private static Vector tmpVector;
-	
+
 	@BeforeClass
 	public static void setUp() {
 		vector = new Vector();
-		
-		vector.append(new Real(1));
-		vector.append(new Real(2));
-		vector.append(new Real(3));
-		vector.append(new Real(4));
+
+		for(int i = 1; i < 5; i++) {
+			Numeric element = new Real(i);
+			element.setUpperBound(i * 2);
+			element.setLowerBound(i * -2);
+			vector.append(element);
+		}
 	}
-	
+
 	@AfterClass
 	public static void tearDown() {
 		vector = null;
@@ -145,7 +148,63 @@ public class VectorTest {
 		assertSame(s, m.get(0));
 		assertSame(v, m.get(1));
 	}
-	
+
+	@Test
+	public void testUpperBounds() {
+		int i = 1;
+		for (Type element : vector.getUpperBounds()) {
+			Numeric numeric = (Numeric) element;
+			assertFalse(numeric.isInsideBounds());
+			assertEquals(i++ * 2, numeric.getReal(), 0.0);
+		}
+
+		// test the exception that should be thrown
+		try {
+			vector.add(new Vector());
+			vector.getUpperBounds();
+			fail("Failed to throw Exception");
+		}
+		catch (UnsupportedOperationException uoe) {
+			vector.remove(4);
+			assertEquals(4, vector.size());
+		}
+	}
+
+	@Test
+	public void testUpperBound() {
+		for (int i = 0; i < 4; i++) {
+			assertEquals((i + 1) * 2, vector.getUpperBound(i), 0.0);
+		}
+	}
+
+	@Test
+	public void testLowerBounds() {
+		int i = 1;
+		for (Type element : vector.getLowerBounds()) {
+			Numeric numeric = (Numeric) element;
+			assertTrue(numeric.isInsideBounds());
+			assertEquals(i++ * -2, numeric.getReal(), 0.0);
+		}
+
+		// test the exception that should be thrown
+		try {
+			vector.add(new Vector());
+			vector.getLowerBounds();
+			fail("Failed to throw Exception");
+		}
+		catch (UnsupportedOperationException uoe) {
+			vector.remove(4);
+			assertEquals(4, vector.size());
+		}
+	}
+
+	@Test
+	public void testLowerBound() {
+		for (int i = 0; i < 4; i++) {
+			assertEquals((i + 1) * -2, vector.getLowerBound(i), 0.0);
+		}
+	}
+
 	@Test
 	public void testDimension() {
 		assertFalse(vector.getDimension() == 3);
