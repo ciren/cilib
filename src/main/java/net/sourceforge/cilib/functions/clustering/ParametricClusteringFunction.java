@@ -29,6 +29,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.VectorUtils;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in
@@ -119,8 +120,10 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	 */
 	protected double zMax() {
 		Vector prototype = (Vector) ((DataSetBuilder)dataset).getProblem().getDomain().getBuiltRepresenation();
+		Vector upperBoundVector = VectorUtils.createUpperBoundVector(prototype);
+		Vector lowerBoundVector = VectorUtils.createLowerBoundVector(prototype);
 
-		return calculateDistance(prototype.getUpperBounds(), prototype.getLowerBounds());
+		return calculateDistance(upperBoundVector, lowerBoundVector);
 	}
 
 	public void updateControlParameters() {

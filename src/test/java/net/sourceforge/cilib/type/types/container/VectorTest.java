@@ -38,7 +38,6 @@ import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -147,62 +146,6 @@ public class VectorTest {
 		
 		assertSame(s, m.get(0));
 		assertSame(v, m.get(1));
-	}
-
-	@Test
-	public void testUpperBounds() {
-		int i = 1;
-		for (Type element : vector.getUpperBounds()) {
-			Numeric numeric = (Numeric) element;
-			assertFalse(numeric.isInsideBounds());
-			assertEquals(i++ * 2, numeric.getReal(), 0.0);
-		}
-
-		// test the exception that should be thrown
-		try {
-			vector.add(new Vector());
-			vector.getUpperBounds();
-			fail("Failed to throw Exception");
-		}
-		catch (UnsupportedOperationException uoe) {
-			vector.remove(4);
-			assertEquals(4, vector.size());
-		}
-	}
-
-	@Test
-	public void testUpperBound() {
-		for (int i = 0; i < 4; i++) {
-			assertEquals((i + 1) * 2, vector.getUpperBound(i), 0.0);
-		}
-	}
-
-	@Test
-	public void testLowerBounds() {
-		int i = 1;
-		for (Type element : vector.getLowerBounds()) {
-			Numeric numeric = (Numeric) element;
-			assertTrue(numeric.isInsideBounds());
-			assertEquals(i++ * -2, numeric.getReal(), 0.0);
-		}
-
-		// test the exception that should be thrown
-		try {
-			vector.add(new Vector());
-			vector.getLowerBounds();
-			fail("Failed to throw Exception");
-		}
-		catch (UnsupportedOperationException uoe) {
-			vector.remove(4);
-			assertEquals(4, vector.size());
-		}
-	}
-
-	@Test
-	public void testLowerBound() {
-		for (int i = 0; i < 4; i++) {
-			assertEquals((i + 1) * -2, vector.getLowerBound(i), 0.0);
-		}
 	}
 
 	@Test

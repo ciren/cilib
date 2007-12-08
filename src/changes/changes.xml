@@ -4,10 +4,12 @@
 		<author email="gpampara@cs.up.ac.za">Gary Pampara</author>
 	</properties>
 	<body>
-		<release version="0.6.10" date="2007-11-30" description="Major refactoring and bug fix release">
-			<action dev="heatzync" type="fix" issue="1845509">
-				Implemented getUpperBounds() and getLowerBounds() methods for Vector.
+		<release version="0.6.11" date"Not yet released" description="">
+			<action dev="gpampara" type="fix" issue="1845509" due-to="heatzync">
+				Added a utilty class to provide addition functionality for Vectors.
 			</action>
+		</release>
+		<release version="0.6.10" date="2007-11-30" description="Major refactoring and bug fix release">
 			<action dev="gpampara" type="fix" issue="1837438">
 				Cloning of generic types. Also changes the manner in which other objects handle cloning.
 			</action>
