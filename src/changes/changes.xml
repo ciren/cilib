@@ -4,7 +4,7 @@
 		<author email="gpampara@cs.up.ac.za">Gary Pampara</author>
 	</properties>
 	<body>
-		<release version="0.6.11" date"Not yet released" description="">
+		<release version="0.6.11" date="Not yet released" description="">
 			<action dev="gpampara" type="fix" issue="1845509" due-to="heatzync">
 				Added a utilty class to provide addition functionality for Vectors.
 			</action>
