@@ -1,7 +1,8 @@
-package net.sourceforge.cilib.type.types.container;
+package net.sourceforge.cilib.util;
 
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Utility methods for Vectors
