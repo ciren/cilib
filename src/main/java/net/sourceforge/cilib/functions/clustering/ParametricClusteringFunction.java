@@ -27,9 +27,10 @@ package net.sourceforge.cilib.functions.clustering;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.container.VectorUtils;
+import net.sourceforge.cilib.util.VectorUtils;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in
