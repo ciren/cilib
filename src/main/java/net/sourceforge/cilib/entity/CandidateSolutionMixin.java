@@ -18,14 +18,28 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	private static final long serialVersionUID = 4539668687773346284L;
 	private final Blackboard<String, Type> properties;
 	
+	/**
+	 * Create the Mixin class, providing the reference to the shared {@linkplain Blackboard}
+	 * data structure.
+	 * @param properties The shared {@linkplain Blackboard}
+	 */
 	public CandidateSolutionMixin(Blackboard<String,Type> properties) {
 		this.properties = properties;
 	}
 	
+	/**
+	 * Instantiate a new instance, based on the provided <code>CandidateSolutionMixin</code>.
+	 * This is a shallow copy instantiation. 
+	 * @param copy The template object ot copy.
+	 */
 	public CandidateSolutionMixin(CandidateSolutionMixin copy) {
 		this.properties = copy.properties;
 	}
 	
+	/**
+	 * Get a clone of the current {@linkplain CandidateSolutionMixin}
+	 * @return A shallow clone of the current object - The {@linkplain Blackboard} is not cloned.
+	 */
 	public CandidateSolutionMixin getClone() {
 		return new CandidateSolutionMixin(this);
 	}
@@ -39,10 +53,16 @@ public class CandidateSolutionMixin implements CandidateSolution {
 		return properties.get("content");
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setContents(Type content) {
 		properties.put("content", content);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Fitness getFitness() {
 		return (Fitness) properties.get("fitness");
 	}

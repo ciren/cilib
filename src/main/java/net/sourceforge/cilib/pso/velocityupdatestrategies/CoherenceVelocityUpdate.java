@@ -16,20 +16,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 	private static final long serialVersionUID = -9051938755796130230L;
-	
-//	private Random socialRandomGenerator;
-//	private Random cognitiveRandomGenerator;
-	private RandomNumber randomNumber;
-
 	private ControlParameter scalingFactor;
-
+	private RandomNumber randomNumber;
+	
 	public CoherenceVelocityUpdate() {
 		super();
+		scalingFactor = new ConstantControlParameter(1.0);
 		randomNumber = new RandomNumber();
-//		socialRandomGenerator = new KnuthSubtractive();
-//		cognitiveRandomGenerator = new KnuthSubtractive();
-		
-		scalingFactor = new ConstantControlParameter(1);
 	}
 
     public CoherenceVelocityUpdate getClone() {
@@ -38,10 +31,8 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 
     public CoherenceVelocityUpdate(CoherenceVelocityUpdate copy) {
     	super(copy);
-//    	this.socialRandomGenerator = new KnuthSubtractive();
-//    	this.cognitiveRandomGenerator = new KnuthSubtractive();
-    	this.randomNumber = new RandomNumber();
     	this.scalingFactor = copy.scalingFactor.getClone();
+    	this.randomNumber = copy.randomNumber.getClone();
     }
 
 
@@ -61,11 +52,13 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 			averageVelocity = averageVelocity.plus(particleVelocity);
 			averageParticleVelocity += particleVelocity.norm();
 		}
-		averageVelocity = averageVelocity.divide(pso.getTopology().size());
-		averageParticleVelocity /= pso.getTopology().size();
+		averageVelocity = averageVelocity.divide(particle.getDimension());
+		averageParticleVelocity /= particle.getDimension();
+		
+//		System.out.println("averageVelocity: " + averageVelocity);
 		
 		double swarmCenterVelocity = averageVelocity.norm();
-		double swarmCoherence = swarmCenterVelocity / averageParticleVelocity;
+		double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
 		double sigmoidValue = MathUtil.sigmoid(swarmCoherence);
 		
 
@@ -75,10 +68,11 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 	    			+ (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
 
 	    		double coherenceVelocity = scalingFactor.getParameter() * sigmoidValue * averageVelocity.getReal(i) * randomNumber.getCauchy();
-	    		System.out.println("swam center: " + swarmCenterVelocity);
-	    		System.out.println("average particle: " + averageParticleVelocity);
-	    		System.out.println("sigmoid: " + sigmoidValue);
-	    		System.out.println(coherenceVelocity);
+//	    		System.out.println("swam center: " + swarmCenterVelocity);
+//	    		System.out.println("average particle: " + averageParticleVelocity);
+//	    		System.out.println("sigmoid: " + sigmoidValue);
+//	    		System.out.println(coherenceVelocity);
+//	    		System.out.println("new vlaue: " + (value+coherenceVelocity));
 	    		velocity.setReal(i, value+coherenceVelocity);		
 	    		
 	    		clamp(velocity, i);
@@ -135,6 +129,13 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 //
 //			clamp(velocity, i);
 //		}
+	}
+
+	private double calculateSwarmCoherence(double swarmCenterVelocity, double averageParticleVelocity) {
+		if (averageParticleVelocity == 0.0)
+			return 0.0;
+		
+		return swarmCenterVelocity / averageParticleVelocity;
 	}
 
 
