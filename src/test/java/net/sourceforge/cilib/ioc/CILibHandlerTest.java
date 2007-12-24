@@ -141,7 +141,6 @@ public class CILibHandlerTest {
 			simulation.setAlgorithm(algorithm);
 			simulation.setProblem(problem);
 			
-			//algorithm.setSimulation(simulation);
 			algorithm.setOptimisationProblem(problem);
 			
 			algorithm.initialise();

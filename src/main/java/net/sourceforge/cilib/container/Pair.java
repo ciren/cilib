@@ -37,7 +37,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <K>
  * @param <V>
  */
-public class Pair<K extends Comparable<K>, V> implements Comparable<Pair<K,V>>, Cloneable, Serializable {
+public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair<K,V>>, Cloneable, Serializable {
 	private static final long serialVersionUID = -1557021513377872749L;
 	private K key;
 	private V value;
@@ -113,8 +113,9 @@ public class Pair<K extends Comparable<K>, V> implements Comparable<Pair<K,V>>, 
 	 * @param o
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public int compareTo(Pair<K, V> o) {
-		Comparable<K> t1 = this.key;
+		Comparable<K> t1 = (Comparable<K>) this.key;
 		return t1.compareTo(o.key);
 	}
 	

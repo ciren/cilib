@@ -5,7 +5,7 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Utility methods for Vectors
+ * Utility methods for {@linkplain Vector}s
  */
 public class VectorUtils {
 	

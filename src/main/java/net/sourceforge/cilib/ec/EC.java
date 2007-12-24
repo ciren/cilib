@@ -66,6 +66,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	
 	@SuppressWarnings("unchecked")
 	public EC(EC copy) {
+		super(copy);
 		this.initialisationStrategy = copy.initialisationStrategy.getClone();
 		this.iterationStrategy = copy.iterationStrategy.getClone();
 		this.topology = copy.topology.getClone();

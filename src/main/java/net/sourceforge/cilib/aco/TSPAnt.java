@@ -90,7 +90,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * This method overrides the basic method defined in the Object class to create a clone of the current ant
 	 * @return A cloned <code>TSPAnt</code> object
-	 * @author Patche by Francois Geldenhuys - fixed the issue with the clone referencing the same container
+	 * @author Patch by Francois Geldenhuys - fixed the issue with the clone referencing the same container
 	 */
 	public Ant getClone() {
 		return new TSPAnt(this);
