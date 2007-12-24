@@ -46,7 +46,6 @@ public class MutatingFunctionParticle extends StandardParticle {
 	private double mutationRate;
 	private double startingMutationRate;
 	private double endingMutationRate;
-	//private PsRandom ran;
 	private MersenneTwister random;
 
 	private MaximumIterations maximum;
@@ -59,13 +58,9 @@ public class MutatingFunctionParticle extends StandardParticle {
 		mutationRate = startingMutationRate;
 		maximum = null;
 		random = new MersenneTwister();
-//		ran = new PsRandom();
 	}
 
 	public void move() {
-		/*for (int i = 0; i < position.length; ++i) {
-			position[i] += velocity[i];
-		}*/
 		Vector position = (Vector) getPosition();
 		Vector velocity = (Vector) getVelocity();
 		
@@ -128,32 +123,17 @@ public class MutatingFunctionParticle extends StandardParticle {
 	
 	private void mutate() {
 		PSO p = (PSO) Algorithm.get();
-//		OptimisationProblem prob = p.getOptimisationProblem();
-//		DomainComponent domain = prob.getDomain();
 
 		double tempLower = 0.0;
 		double tempUpper = 0.0;
 		
 		Vector position = getPosition();
 		
-		//		for (int i = 0; i < position.length; ++i) { // Mutation
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
 	        double number = Math.pow((1.0 - (double)p.getIterations()/(maximum.getMaximumIterations()*mutationRate)),1.5);
 			int dimension = RandomInt(0,position.getDimension());
-			//Quantitative component = (Quantitative) domain.getComponent(dimension);
 			Real real = (Real) position.get(dimension);
-			//double range = ((component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())* strangeFunction(p, maximum))/2;\
 			double range = ((real.getUpperBound() - real.getLowerBound())* strangeFunction(p, maximum))/2.0;
-
-			/*if ((position[i] - range) < component.getLowerBound().doubleValue())
-					tempLower = component.getLowerBound().doubleValue();
-				else
-					tempLower = position[i] - range;
-
-				if ((position[i] + range) > component.getUpperBound().doubleValue())
-					tempUpper = component.getUpperBound().doubleValue();
-				else
-					tempUpper = position[i] + range;*/
 			
 			if ((real.getReal()-range) < real.getLowerBound())
 				tempLower = real.getLowerBound();
@@ -167,16 +147,11 @@ public class MutatingFunctionParticle extends StandardParticle {
 
 				// Now reinitialis the number randomly between tempUpper and tempLower
 	
-		 //  double tmp = RandomDouble(tempLower,tempUpper);
-		//	 position[i] = tmp;
-		
 			 if (flip(number) > 0) {
-					//position[i] += function(p.getIterations(),tempUpper - position[i]);
 				 double result = position.getReal(i) + function(p.getIterations(), tempUpper - position.getReal(i));
 				 position.setReal(i, result);
 				}
 				else {
-					//position[i] -= function(p.getIterations(),position[i] - tempLower);
 					double result = position.getReal(i) - function(p.getIterations(),position.getReal(i) - tempLower);
 					position.setReal(i, result);
 				}
@@ -345,19 +320,3 @@ int  flip(double pf){
   if(RandomDouble(0.0,1.0)<=pf)return 1;else return 0;
 }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

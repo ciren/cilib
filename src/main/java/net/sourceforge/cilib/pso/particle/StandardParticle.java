@@ -26,8 +26,6 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
-import java.util.Map;
-
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -53,7 +51,7 @@ public class StandardParticle extends AbstractParticle {
     public StandardParticle() {
     	super();
     	
-    	properties.put("position", new Vector());
+//    	properties.put("position", new Vector());
     	properties.put("bestPosition", new Vector());
     	properties.put("velocity", new Vector());
         
@@ -65,17 +63,13 @@ public class StandardParticle extends AbstractParticle {
      * @param copy
      */
     public StandardParticle(StandardParticle copy) {
+    	super(copy);
     	this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone(); // Check this
     	this.positionUpdateStrategy = copy.positionUpdateStrategy.getClone();
     	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
     	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
     	
     	this.fitnessCalculator = copy.fitnessCalculator.getClone();
-    	    	
-    	for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
-    		String key = entry.getKey().toString();
-    		this.properties.put(key, entry.getValue().getClone());
-    	}
     }
     
     /**
@@ -97,16 +91,12 @@ public class StandardParticle extends AbstractParticle {
     	return getPosition().getDimension();
     }
     
-    public Fitness getFitness() {
-        return (Fitness) this.properties.get("fitness");
-    }
-    
     public Particle getNeighbourhoodBest() {
         return neighbourhoodBest;
     }
     
     public Vector getPosition() {
-    	return (Vector) this.properties.get("position");
+    	return (Vector) getContents();
     }
     
     public Vector getVelocity() {
@@ -168,14 +158,6 @@ public class StandardParticle extends AbstractParticle {
 
     public void updateControlParameters() {
 		this.velocityUpdateStrategy.updateControlParameters(this);
-	}
-
-	public Type getContents() {
-		return getPosition();
-	}
-	
-	public void setContents(Type type) {
-		this.properties.put("position", type);
 	}
 
 	public void setDimension(int dim) {

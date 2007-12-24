@@ -26,11 +26,8 @@
  */
 package net.sourceforge.cilib.ec;
 
-import java.util.Map;
-
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
@@ -47,7 +44,6 @@ public class Individual extends AbstractEntity {
 	
 	protected String id;
     protected int dimension = 0;
-//    protected Fitness fitness;
     protected FitnessCalculator fitnessCalculator;
     
     /**
@@ -55,23 +51,17 @@ public class Individual extends AbstractEntity {
      */
     public Individual() {
         dimension = 0;
-        this.properties.put("genes", new Vector());
+        setContents(new Vector());
         this.properties.put("penotypes", new Vector());
         this.properties.put("fitness", InferiorFitness.instance());
-//        fitness = InferiorFitness.instance();
         fitnessCalculator = new VectorBasedFitnessCalculator();
     }
     
     
     public Individual(Individual copy) {
+    	super(copy);
         this.dimension = copy.dimension;
-//        this.fitness = InferiorFitness.instance();
         this.fitnessCalculator = copy.fitnessCalculator.getClone();
-        
-        for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
-        	String key = entry.getKey().toString();
-    		this.properties.put(key, entry.getValue().getClone());
-        }
     }
     
     /**
@@ -95,9 +85,9 @@ public class Individual extends AbstractEntity {
       */
      public void initialise(OptimisationProblem problem) {
          // ID initialization is done in the clone method...
-         // which is always inforced due to the semantciss of the performInitialisation methods         
+         // which is always enforced due to the semantics of the performInitialisation methods         
 
-    	 this.properties.put("genes", (Type) problem.getDomain().getBuiltRepresenation().getClone());
+    	 this.setContents((Type) problem.getDomain().getBuiltRepresenation().getClone());
     	 this.getContents().randomise();
     		 
     	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
@@ -106,7 +96,6 @@ public class Individual extends AbstractEntity {
     	 }
     	 
     	 this.dimension = this.getContents().getDimension();
-//         this.fitness = InferiorFitness.instance();
     	 this.properties.put("fitness", InferiorFitness.instance());
      }     
      
@@ -118,12 +107,8 @@ public class Individual extends AbstractEntity {
         return this.getFitness().compareTo(o.getFitness());
     }
     
-    public Type getContents() {
-        return this.properties.get("genes");
-    }
-    
     public void setContents(Type type) {
-    	this.properties.put("genes", type);
+    	super.setContents(type);
     	this.dimension = type.getDimension();
     }
 
@@ -135,17 +120,11 @@ public class Individual extends AbstractEntity {
         this.id = id;
     }
 
-    public Fitness getFitness() {
-//        return fitness;
-    	return (Fitness) this.properties.get("fitness");
-    }
-    
     public void calculateFitness() {
     	calculateFitness(true);
     }
     
     public void calculateFitness(boolean count) {
-//        this.fitness = fitnessCalculator.getFitness(getContents(), count);
     	this.properties.put("fitness", fitnessCalculator.getFitness(getContents(), count));
     }
 
@@ -192,7 +171,6 @@ public class Individual extends AbstractEntity {
 
 
 	public void reinitialise() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Implementation is required for this method");
 	}    
 }

@@ -50,14 +50,14 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	/**
 	 * This method compares two Entities with each other. And either return 0, -1 or 1 based on
 	 * some characteristic of an Entity. Usually this characteristic will be the fitness of the Entity.
-	 * @precondition The two entities must have their fitnesses evaluated
+	 * @precondition The two entities must have their fitness' evaluated
 	 * for this method to give the correct result.
 	 */
 	public int compareTo(Entity o);
 	
 	
 	/**
-	 * Get the contents (candidate solution) of the entity. The conents will depend on the subclass.
+	 * Get the contents (candidate solution) of the entity. The contents will depend on the subclass.
 	 * Eg. genes for Individual
 	 *     position for Particle
 	 *     tour for Ant
@@ -72,23 +72,8 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 */
 	public void setContents(Type type);
 	
-	
 	/**
-	 * Returns the ID of the entity.
-	 * @return String - ID
-	 */
-	//public String getId();
-	
-	
-	/**
-	 * Sets the ID of the Entity with the passed String value
-	 * @param ID
-	 */
-	//public void setId(String Id);
-	
-	
-	/**
-	 * Caclulate the fitness of the <code>Entity</code> incrementing the
+	 * Calculate the fitness of the <code>Entity</code> incrementing the
 	 * number of fitness evaluations for the algorithm
 	 */
 	public void calculateFitness();

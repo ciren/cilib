@@ -26,16 +26,18 @@
  */
 package net.sourceforge.cilib.hs;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.algorithm.SingularAlgorithm;
+import net.sourceforge.cilib.container.SortedList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.ec.EC;
-import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
+import net.sourceforge.cilib.entity.Harmony;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.AbstractList;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -48,25 +50,28 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * @author Andries Engelbrecht
  */
-public class HS extends IterationStrategy<EC> {
+public class HS extends SingularAlgorithm {
 	private static final long serialVersionUID = 8019668923312811974L;	
 	private RandomNumber random1;
 	private RandomNumber random2;
 	private RandomNumber random3;
-	private ControlParameter HarmonyMemorySize;
-	private ControlParameter HarmonyMemoryConsideringRate;
-	private ControlParameter PitchAdjustingRate;
-	private ControlParameter DistanceBandwidth;
+	private ControlParameter harmonyMemorySize;
+	private ControlParameter harmonyMemoryConsideringRate;
+	private ControlParameter pitchAdjustingRate;
+	private ControlParameter distanceBandwidth;
+	private SortedList<Harmony> harmonyMemory;
 	
 	public HS() {
 		this.random1 = new RandomNumber();
 		this.random2 = new RandomNumber();
 		this.random3 = new RandomNumber();
 		
-		this.HarmonyMemorySize = new ConstantControlParameter(20); //should be equal to number of individuals
-		this.HarmonyMemoryConsideringRate = new ConstantControlParameter(0.9);
-		this.PitchAdjustingRate = new ConstantControlParameter(0.35);
-		this.DistanceBandwidth = new ConstantControlParameter(0.5);
+		this.harmonyMemorySize = new ConstantControlParameter(20); //should be equal to number of individuals
+		this.harmonyMemoryConsideringRate = new ConstantControlParameter(0.9);
+		this.pitchAdjustingRate = new ConstantControlParameter(0.35);
+		this.distanceBandwidth = new ConstantControlParameter(0.5);
+		
+		this.harmonyMemory = new SortedList<Harmony>();
 	}
 	
 	public HS(HS copy) {
@@ -74,99 +79,112 @@ public class HS extends IterationStrategy<EC> {
 		this.random2 = copy.random2.getClone();
 		this.random3 = copy.random3.getClone();
 		
-		this.HarmonyMemorySize = copy.HarmonyMemorySize;
-		this.HarmonyMemoryConsideringRate = copy.HarmonyMemoryConsideringRate;
-		this.PitchAdjustingRate = copy.PitchAdjustingRate;
-		this.DistanceBandwidth = copy.DistanceBandwidth;
+		this.harmonyMemorySize = copy.harmonyMemorySize.getClone();
+		this.harmonyMemoryConsideringRate = copy.harmonyMemoryConsideringRate.getClone();
+		this.pitchAdjustingRate = copy.pitchAdjustingRate.getClone();
+		this.distanceBandwidth = copy.distanceBandwidth.getClone();
+		
+		this.harmonyMemory = copy.harmonyMemory.getClone();
 	}
 	
 	public HS getClone() {
 		return new HS(this);
 	}
-
-	/**
-	 * 
-	 */
-	public void performIteration(EC ec) {
-		//TO-DO: Make sure that all fitnesses are evaluated initially, and
-		//that FE is incremented only once per iteration
-		
-		//calculate a new harmony
-		AbstractList newHarmony = new Vector();
-		AbstractList vector;
-		int dimension = ec.getTopology().get(0).getDimension();
-		OptimisationProblem problem = (OptimisationProblem) ec.getOptimisationProblem();
-		int newHarmonyIndex;
-		double newHarmonyValue;
-		for (int i = 0; i < dimension; ++i) {
-			double upper = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getUpperBound();
-			double lower = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getLowerBound();
-			if (random1.getUniform() < HarmonyMemoryConsideringRate.getParameter()) {
-				newHarmonyIndex = (int)random2.getUniform(0, ec.getTopology().size()-1);
-				vector = (AbstractList) ec.getTopology().get(newHarmonyIndex).getContents();
-				newHarmonyValue = vector.getReal(i);
-				if (random1.getUniform() < PitchAdjustingRate.getParameter()) {
-					double pitchedValue = newHarmonyValue + random3.getUniform(-1, 1) * DistanceBandwidth.getParameter();
-					if ((pitchedValue > lower) && (pitchedValue < upper))
-						newHarmonyValue = pitchedValue;
-				}
-				newHarmony.add(new Real(newHarmonyValue));
-			}
-			else
-				newHarmony.add(new Real(random3.getUniform(lower, upper)));
-		}
-		
-		Fitness newHarmonyFitness = problem.getFitness(newHarmony, false);
-		
-		//Topology<? extends Entity> topology = ec.getTopology();
-		//for (Iterator<? extends Entity> iterator = topology.iterator(); iterator.hasNext(); ) {
-		//	Entity current = iterator.next();
-		//	current.calculateFitness(false);
-		//}
-		
-		Collections.sort(ec.getTopology(), new DescendingFitnessComparator());
-		
-		//Find worst harmony in harmony memory
-		AbstractList worstHarmony = (AbstractList) ec.getTopology().get(0).getContents();
-		Fitness worstHarmonyFitness = problem.getFitness(worstHarmony, false);
-		//new harmony is better than worse harmony
-		if (newHarmonyFitness.compareTo(worstHarmonyFitness) > 0) {
-			ec.getTopology().get(0).setContents(newHarmony);
-			ec.getTopology().get(0).calculateFitness();
-		}	
-	}	
 	
+	@Override
+	public void performInitialisation() {
+		for (int i = 0; i < harmonyMemorySize.getParameter(); i++) {
+			Harmony harmony = new Harmony();
+			harmony.initialise(getOptimisationProblem());
+			this.harmonyMemory.add(harmony);
+		}
+	}
+
 	public ControlParameter getHarmonyMemoryConsideringRate() {
-		return HarmonyMemoryConsideringRate;
+		return harmonyMemoryConsideringRate;
 	}
 
 	public void setHarmonyMemoryConsideringRate(
 			ControlParameter HarmonyMemoryConsideringRate) {
-		this.HarmonyMemoryConsideringRate = HarmonyMemoryConsideringRate;
+		this.harmonyMemoryConsideringRate = HarmonyMemoryConsideringRate;
 	}
 
 	public ControlParameter getHarmonyMemorySize() {
-		return HarmonyMemorySize;
+		return harmonyMemorySize;
 	}
 
 	public void setHarmonyMemorySize(ControlParameter HarmonyMemorySize) {
-		this.HarmonyMemorySize = HarmonyMemorySize;
+		this.harmonyMemorySize = HarmonyMemorySize;
 	}
 
 	public ControlParameter getPitchAdjustingRate() {
-		return PitchAdjustingRate;
+		return pitchAdjustingRate;
 	}
 
 	public void setPitchAdjustingRate(ControlParameter PitchAdjustingRate) {
-		this.PitchAdjustingRate = PitchAdjustingRate;
+		this.pitchAdjustingRate = PitchAdjustingRate;
 	}
 	
 	public ControlParameter getDistanceBandwidth() {
-		return DistanceBandwidth;
+		return distanceBandwidth;
 	}
 
 	public void setDistanceBandwidth(ControlParameter DistanceBandwidth) {
-		this.DistanceBandwidth = DistanceBandwidth;
+		this.distanceBandwidth = DistanceBandwidth;
+	}
+
+	@Override
+	public void algorithmIteration() {
+		//TO-DO: Make sure that all fitnesses are evaluated initially, and
+		//that FE is incremented only once per iteration
+		
+		//calculate a new harmony
+		Harmony newHarmony = new Harmony();
+		newHarmony.initialise(getOptimisationProblem());
+		Vector newHarmonyVector = (Vector) newHarmony.getContents();
+		
+		OptimisationProblem problem = getOptimisationProblem();
+		Real newHarmonyValue;
+		for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
+			if (random1.getUniform() < harmonyMemoryConsideringRate.getParameter()) {
+				Harmony selectedHarmony = (Harmony) this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
+				Vector selectedHarmonyContents = (Vector) selectedHarmony.getContents();
+				newHarmonyValue = (Real) selectedHarmonyContents.get(i);
+				if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
+					double pitchedValue = newHarmonyValue.getReal() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
+					if ((pitchedValue > newHarmonyValue.getLowerBound()) && (pitchedValue < newHarmonyValue.getUpperBound()))
+						newHarmonyValue.setReal(pitchedValue);
+				}
+				
+				newHarmonyVector.set(i, new Real(newHarmonyValue));
+			}
+			else {
+				double upper = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getUpperBound();
+				double lower = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getLowerBound();
+				newHarmonyVector.set(i, new Real(random3.getUniform(lower, upper)));
+			}
+		}
+		
+		newHarmony.calculateFitness();
+		harmonyMemory.add(newHarmony);
+		harmonyMemory.remove(harmonyMemory.getFirst()); // Remove the worst harmony in the memory
+	}
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		visitor.setCurrentAlgorithm(this);
+//		visitor.visit(algorithm)
+		return 0;
+	}
+
+	@Override
+	public OptimisationSolution getBestSolution() {
+		return new OptimisationSolution(getOptimisationProblem(), this.harmonyMemory.getFirst().getContents());
+	}
+
+	@Override
+	public List<OptimisationSolution> getSolutions() {
+		return Arrays.asList(getBestSolution());
 	}
 }
 

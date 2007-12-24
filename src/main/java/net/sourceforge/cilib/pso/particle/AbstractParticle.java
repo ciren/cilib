@@ -66,12 +66,23 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      *
      */
 	public AbstractParticle() {
+		super();
+		
 		neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
 		positionUpdateStrategy = new StandardPositionUpdateStrategy();
 		velocityUpdateStrategy = new StandardVelocityUpdate();
 		
 		positionInitialisationStrategy = new RandomizedPositionInitialisationStrategy();
 		velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
+	}
+	
+	public AbstractParticle(AbstractParticle copy) {
+		super(copy);
+		this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
+		this.positionUpdateStrategy = copy.getPositionUpdateStrategy().getClone();
+		this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
+		this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
+		this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
 	}
 
 	/**
@@ -109,12 +120,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     
     public abstract void calculateFitness(boolean count);
 
-    /**
-     * Get the Fitness of the current Particle 
-     * @return 
-     */
-    public abstract Fitness getFitness();
-    
     /**
      * 
      * @return
