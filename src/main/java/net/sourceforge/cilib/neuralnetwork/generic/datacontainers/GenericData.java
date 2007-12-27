@@ -37,7 +37,7 @@ public class GenericData implements NeuralNetworkData {
 		this.validationSet = null;
 		
 		this.distributor = null;
-		this.iter = new LinearDataIterator(this, null);
+		this.iter = new LinearDataIterator(null);
 										
 	}
 	
@@ -87,23 +87,23 @@ public class GenericData implements NeuralNetworkData {
 		
 		
 	public NeuralNetworkDataIterator getTrainingSetIterator() {
-		return new LinearDataIterator(this, trainingSet);
+		return new LinearDataIterator(trainingSet);
 	}
 
 
 	
 	public NeuralNetworkDataIterator getGeneralisationSetIterator() {
-		return new LinearDataIterator(this, generalisationSet);
+		return new LinearDataIterator(generalisationSet);
 	}
 
 
 	
 	public NeuralNetworkDataIterator getValidationSetIterator() {
-		return new LinearDataIterator(this, validationSet);
+		return new LinearDataIterator(validationSet);
 	}
 	
 	public NeuralNetworkDataIterator getCandidateSetIterator() {
-		return new LinearDataIterator(this, candidateSet);
+		return new LinearDataIterator(candidateSet);
 	}
 
 

@@ -5,6 +5,9 @@
 	</properties>
 	<body>
 		<release version="0.6.11" date="Not yet released" description="">
+			<action dev="gpampara" type="update" issue="1858834" due-to="Wiehann Matthysen">
+				Cleaned up some redundant object usage.
+			</action>
 			<action dev="gpampara" type="fix" issue="1845509" due-to="heatzync">
 				Added a utilty class to provide addition functionality for Vectors.
 			</action>

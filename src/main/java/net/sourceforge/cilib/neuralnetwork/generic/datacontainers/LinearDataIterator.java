@@ -18,14 +18,12 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
 public class LinearDataIterator implements NeuralNetworkDataIterator {
 	
 	
-	GenericData data = null;
 	int count;
 	ArrayList<NNPattern> list = null;
 	
 
-	public LinearDataIterator(GenericData data, ArrayList<NNPattern> list) {
+	public LinearDataIterator(ArrayList<NNPattern> list) {
 	
-		this.data = data;
 		this.list = list;
 		this.count = 0;
 		
@@ -62,7 +60,7 @@ public class LinearDataIterator implements NeuralNetworkDataIterator {
 	}
 	
 	public NeuralNetworkDataIterator getClone(){
-		LinearDataIterator tmp = new LinearDataIterator(this.data, this.list);
+		LinearDataIterator tmp = new LinearDataIterator(this.list);
 		tmp.count = this.count;
 		return tmp;
 	}
