@@ -41,6 +41,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.pso.iterationstrategies.PerElementReinitialisation;
 import net.sourceforge.cilib.pso.niching.AbsorptionStrategy;
 import net.sourceforge.cilib.pso.niching.FitnessDeviationCreationStrategy;
 import net.sourceforge.cilib.pso.niching.GBestAbsorptionStrategy;
@@ -116,6 +117,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		mainSwarmParticle.setVelocityInitialisationStrategy(new DomainPercentageVelocityInitialisationStrategy());
 		mainSwarm.getInitialisationStrategy().setEntityType(mainSwarmParticle);
 		mainSwarm.addStoppingCondition(new MaximumIterations(Integer.MAX_VALUE));
+		mainSwarm.getIterationStrategy().setBoundaryConstraint(new PerElementReinitialisation());
 				
 		subSwarmParticle = new StandardParticle();
 	}
@@ -148,6 +150,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		if(mainSwarm.getTopology().size() > 1)
 		    mainSwarm.performIteration();
 		
+		this.swarmCreationStrategy.create(this);
 		for (Iterator<PopulationBasedAlgorithm> i = this.subPopulationsAlgorithms.iterator(); i.hasNext(); )
 		{   		    
 			PopulationBasedAlgorithm subSwarm = i.next();
@@ -157,10 +160,9 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 			
 		}
 		
+//		this.absorptionStrategy.absorb(mainSwarm, this.subPopulationsAlgorithms);
 		this.mergeStrategy.merge(mainSwarm, this.subPopulationsAlgorithms);
-		this.absorptionStrategy.absorb(mainSwarm, this.subPopulationsAlgorithms);
-		this.swarmCreationStrategy.create(this);
-		
+				
 		log.debug("End of iteration");
 	}
 
