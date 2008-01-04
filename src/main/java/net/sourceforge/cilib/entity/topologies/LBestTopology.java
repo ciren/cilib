@@ -46,7 +46,6 @@ import net.sourceforge.cilib.entity.Entity;
  * </li></ul></p>
  *
  * @author Edwin Peer
- * @author Theuns Cloete (converted {@link #neighbourhoodSize} to be a {@linkplain ControlParameter}
  */
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	private static final long serialVersionUID = 93039445052676571L;

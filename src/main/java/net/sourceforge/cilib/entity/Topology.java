@@ -29,12 +29,13 @@ package net.sourceforge.cilib.entity;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
  * This an abstract class which extends from the abstract Topology class.
- * All PSO Topologies must inherit from this class.
+ * All {@linkplain PopulationBasedAlgorithm} Topologies must inherit from this class.
  * 
  * @author Gary Pampara
  * @author otter

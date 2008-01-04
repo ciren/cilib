@@ -205,29 +205,29 @@ public class ACO extends PopulationBasedAlgorithm {
 	
 	@Override
 	public Topology<Ant> getTopology() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setTopology(Topology topology) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Implementation is needed");
 	}
 
 	public OptimisationSolution getBestSolution() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Implementation is needed");
 	}
 
 	public List<OptimisationSolution> getSolutions() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Implementation is needed");
 	}
 
-	@Override
 	public double accept(TopologyVisitor visitor) {
 		throw new UnsupportedOperationException("Needs an implementation");
 	}
+
+	public Ant getBestEntity() {
+		throw new UnsupportedOperationException("Implementation is needed");
+	}
+	
 }

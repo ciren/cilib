@@ -102,6 +102,8 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 								throw new EOFException();
 							case StreamTokenizer.TT_WORD:
 								throw new IllegalStateException("Only numerical input expected (line " + tok.lineno() + ")");
+							default:
+								continue;
 						}
 					}
 

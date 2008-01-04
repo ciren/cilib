@@ -33,6 +33,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
 import net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIterator;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
@@ -108,6 +109,14 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	@Override
 	public double accept(TopologyVisitor visitor) {
 		throw new UnsupportedOperationException("Needs an implementation");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Entity getBestEntity() {
+		throw new UnsupportedOperationException("getBestEntity() needs an implementation for MultiPopulationBasedAlgorithms and subclasses.");
 	}
 
 }

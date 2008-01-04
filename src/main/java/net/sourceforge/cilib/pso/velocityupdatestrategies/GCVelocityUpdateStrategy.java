@@ -93,7 +93,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 
 	public void updateVelocity(Particle particle) {
 		PSO pso = (PSO) Algorithm.get();
-		final Particle globalBest = pso.getBestParticle();
+		final Particle globalBest = pso.getBestEntity();
 		
 		if (particle == globalBest) {
 			final Vector velocity = (Vector) particle.getVelocity();
@@ -122,7 +122,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		// Remember NOT to reset the rho value to 1.0
 		PSO pso = (PSO) Algorithm.get();
 		
-		if (particle == pso.getBestParticle()) {
+		if (particle == pso.getBestEntity()) {
 			Fitness newFitness = pso.getOptimisationProblem().getFitness(particle.getPosition(), false);
 			
 			if (!newFitness.equals(oldFitness)) {

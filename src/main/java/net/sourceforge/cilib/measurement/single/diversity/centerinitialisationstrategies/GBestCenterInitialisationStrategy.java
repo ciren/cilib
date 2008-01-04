@@ -25,21 +25,14 @@ package net.sourceforge.cilib.measurement.single.diversity.centerinitialisations
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class GBestCenterInitialisationStrategy extends CenterInitialisationStrategy {
 	
-	/**
-	 * TODO: This is not really nice. Look at making this better. It needs to be more generic
-	 */
 	@Override
 	public Vector getCenter() {
 		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
 		
-		if(algorithm instanceof PSO)
-			return (Vector) (((PSO) algorithm).getBestParticle().getPosition());
-		else
-			return (Vector) algorithm.getBestSolution().getPosition();
+		return (Vector) algorithm.getBestEntity().getContents();
 	}
 }

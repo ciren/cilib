@@ -167,5 +167,5 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{
 	public Topology<? extends Entity> getTopology() {
 		throw new UnsupportedOperationException("getTopology() is not supported");
 	}
-	
+
 }
