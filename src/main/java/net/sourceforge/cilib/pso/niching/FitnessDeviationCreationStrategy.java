@@ -42,12 +42,13 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.NichePSO;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.iterationstrategies.PerElementReinitialisation;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrategy;
 
 
 
@@ -127,7 +128,13 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 		for (Iterator<Double> i = particleFitnessQueue.iterator(); i.hasNext();)
 		    stdDev += Math.pow((i.next() - ave), 2);
 
-		stdDev = Math.sqrt(stdDev / fitnessTraceLength);
+//		stdDev = Math.sqrt(stdDev / fitnessTraceLength);
+//		Vector v = new Vector();
+//		for (Double d : particleFitnessQueue) {
+//			v.add(new Real(d));
+//		}
+//			
+//		stdDev = StatUtils.stdDeviation(v);
 
 		// if the standard deviation is lower than the threshold, create a subswarm
 		if (stdDev.compareTo(Double.NaN) != 0)
@@ -186,6 +193,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				newSubSwarm.initialise();
 				//newSubSwarm.setIterationStrategy(pso.getSubSwarmIterationStrategy().clone());
 				newSubSwarm.getInitialisationStrategy().setEntityNumber(0);
+				newSubSwarm.getIterationStrategy().setBoundaryConstraint(new PerElementReinitialisation());
 				newSubSwarm.getTopology().clear();
 				newSubSwarm.getTopology().add(p);
 				

@@ -63,7 +63,7 @@ public class DirectionalGBestMergeStrategy<E extends PopulationBasedAlgorithm>
 
 	    if (subSwarm1 != null)
 	    {
-		Particle gBestParticle1 = subSwarm1.getBestParticle();
+		Particle gBestParticle1 = subSwarm1.getBestEntity();
 
 		for (ListIterator<PopulationBasedAlgorithm> j = subSwarms.listIterator(); j.hasNext();)
 		{
@@ -73,7 +73,7 @@ public class DirectionalGBestMergeStrategy<E extends PopulationBasedAlgorithm>
 		    {
 			if (subSwarm1 != subSwarm2)
 			{
-			    Particle gBestParticle2 = subSwarm2.getBestParticle();
+			    Particle gBestParticle2 = subSwarm2.getBestEntity();
 
 			    if (CalculateDotProduct(CalculateDirectionalVector(gBestParticle1), CalculateDirectionalVector(gBestParticle2)) < 0.0)
 			    {

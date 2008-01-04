@@ -65,7 +65,7 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements
 
 	    if (subSwarm1 != null)
 	    {
-		Particle gBestParticle1 = subSwarm1.getBestParticle();
+		Particle gBestParticle1 = subSwarm1.getBestEntity();
 
 		for (ListIterator<PopulationBasedAlgorithm> j = subSwarms.listIterator(); j.hasNext();)
 		{
@@ -75,7 +75,7 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements
 		    {
 			if (subSwarm1 != subSwarm2)
 			{
-			    Particle gBestParticle2 = subSwarm2.getBestParticle();
+			    Particle gBestParticle2 = subSwarm2.getBestEntity();
 
 			    if (TestNearZero(getRadius(subSwarm1)) && TestNearZero(getRadius(subSwarm2)))
 			    {
@@ -98,9 +98,9 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements
 				
 				//double distance = distanceMeasure.distance(subSwarm1.getAveragePosition(), subSwarm2.getAveragePosition());
 				//changed from average particle position to best particle position...
-				double distance = distanceMeasure.distance(((Vector)subSwarm1.getBestParticle().getPosition()), ((Vector)subSwarm2.getBestParticle().getPosition()));
+				double distance = distanceMeasure.distance(((Vector)subSwarm1.getBestEntity().getPosition()), ((Vector)subSwarm2.getBestEntity().getPosition()));
 
-				if ((distance < (getRadius(subSwarm1) + getRadius(subSwarm2))) && (distance < 0.001)) // if ((distance < 0.001))
+				if ((distance < (getRadius(subSwarm1) + getRadius(subSwarm2))/2.0) && (distance < 0.001)) // if ((distance < 0.001))
 				{
 				    subSwarm1.getTopology().addAll(subSwarm2.getTopology());
 				    // the two swarms are now merged, so delete the one
