@@ -65,14 +65,6 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 		return this.key == null;
 	}
 
-	public boolean addEdge(E a, E b) {
-		throw new UnsupportedOperationException("Arbitary adding of edges is not allowed for Tree structures");
-	}
-
-	public int vertices() {
-		throw new UnsupportedOperationException("The number of vertices is not a valid operation for Tree node structures - default value is 1");
-	}
-
 	public void randomise() {
 		throw new UnsupportedOperationException("Not Implemented");		
 	}
@@ -82,10 +74,6 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 	}
 
 	public void reset() {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	public boolean isConnected(E a, E b) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
@@ -102,10 +90,6 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 	}
 	
 	public int size() {
-		return this.getDegree();
-	}
-
-	public int edges() {
 		return this.getDegree();
 	}
 

@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * @author Gary Pampara
  */
-public abstract class AbstractList extends AbstractType implements Graph<Type>, VectorMath {
+public abstract class AbstractList extends AbstractType implements Structure<Type>, VectorMath {
 	public abstract AbstractList getClone();
 
 	public boolean equals(Object other) {

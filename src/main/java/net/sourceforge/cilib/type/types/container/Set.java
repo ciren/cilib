@@ -39,7 +39,7 @@ import net.sourceforge.cilib.type.types.AbstractType;
  * @author mneethling
  */
 
-public class Set<E> extends AbstractType implements Graph<E> {
+public class Set<E> extends AbstractType implements Structure<E> {
 	private static final long serialVersionUID = 3697379819132292696L;
 	private HashSet<E> elements;
 
@@ -141,16 +141,6 @@ public class Set<E> extends AbstractType implements Graph<E> {
 		throw new UnsupportedOperationException("getRepresentation() not implemented for " + this.getClass().getName());
 	}
 
-	
-	public int edges() {
-		return 0;
-	}
-
-
-	public int vertices() {
-		return this.elements.size();
-	}
-
 
 	public void accept(Visitor<E> visitor) {
 		throw new UnsupportedOperationException("writeExternal() not implemented for " + this.getClass().getName());
@@ -186,16 +176,6 @@ public class Set<E> extends AbstractType implements Graph<E> {
 		}
 			
 		return result;
-	}
-
-
-	public boolean addEdge(E a, E b) {
-		return false;
-	}
-
-
-	public boolean isConnected(E a, E b) {
-		return false;
 	}
 
 

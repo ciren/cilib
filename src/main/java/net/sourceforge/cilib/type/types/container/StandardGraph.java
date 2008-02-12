@@ -29,6 +29,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.type.types.AbstractType;
@@ -36,10 +38,10 @@ import net.sourceforge.cilib.type.types.AbstractType;
 public class StandardGraph<E extends Comparable<E>> extends AbstractType implements Graph<E> {
 	
 	private static final long serialVersionUID = -5517089079342858152L;
-	private Map<E, List<E>> adjacencyMap;
+	private Map<E, List<Entry<E>>> adjacencyMap;
 	
 	public StandardGraph() {
-		adjacencyMap = new LinkedHashMap<E, List<E>>();
+		adjacencyMap = new LinkedHashMap<E, List<Entry<E>>>();
 	}
 	
 	public StandardGraph<E> getClone() {
@@ -49,8 +51,8 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	public int edges() {
 		int count = 0;
 		
-		Collection<List<E>> edgeLists = this.adjacencyMap.values();
-		for (List<E> list : edgeLists) {
+		Collection<List<Entry<E>>> edgeLists = this.adjacencyMap.values();
+		for (List<Entry<E>> list : edgeLists) {
 			count += list.size();
 		}
 		
@@ -62,11 +64,19 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	}
 	
 	public boolean addEdge(E a, E b) {
+		return addEdge(a, b, 1.0);
+	}
+	
+	public boolean addEdge(E a, E b, Double cost) {
+		return addEdge(a, b, cost, 1.0);
+	}
+	
+	public boolean addEdge(E a, E b, Double cost, Double weight) {
 		if (!contains(a)) return false;
 		if (!contains(b)) return false;
 		
-		List<E> connectedVerticies = this.adjacencyMap.get(a);
-		connectedVerticies.add(b);
+		List<Entry<E>> connectedVerticies = this.adjacencyMap.get(a);
+		connectedVerticies.add(new Entry<E>(b, cost, weight));
 		
 		return true;
 	}
@@ -75,8 +85,14 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		if (!contains(a)) return false;
 		if (!contains(b)) return false;
 		
-		List<E> connectedVerticies = this.adjacencyMap.get(a);
-		return connectedVerticies.contains(b);
+		List<Entry<E>> connectedVerticies = this.adjacencyMap.get(a);
+		
+		for (Entry<E> pair : connectedVerticies) {
+			if (pair.getElement().equals(b))
+				return true;
+		}
+		
+		return false;
 	}
 
 	public void accept(Visitor<E> visitor) {
@@ -87,7 +103,7 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		if (this.adjacencyMap.containsKey(element))
 			return false;
 		
-		this.adjacencyMap.put(element, new LinkedList<E>());
+		this.adjacencyMap.put(element, new LinkedList<Entry<E>>());
 		return true;
 	}
 
@@ -113,9 +129,9 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		
 		this.adjacencyMap.remove(element);
 		
-		Collection<List<E>> lists = this.adjacencyMap.values();
+		Collection<List<Entry<E>>> lists = this.adjacencyMap.values();
 		
-		for (List<E> list : lists) {
+		for (List<Entry<E>> list : lists) {
 			if (list.contains(element))
 				list.remove(element);
 		}
@@ -125,7 +141,7 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	
 	public E remove(int index) {
 		int count = 0;
-		for (Map.Entry<E, List<E>> e : this.adjacencyMap.entrySet()) {
+		for (Map.Entry<E, List<Entry<E>>> e : this.adjacencyMap.entrySet()) {
 			if (count == index) {
 				this.adjacencyMap.remove(e.getKey());
 				return e.getKey();
@@ -176,6 +192,68 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public double distance(E a, E b) {
+		if (!isConnected(a, b))
+			throw new UnsupportedOperationException("Cannot determine the distance. Node(" + a + ") and Node(" + b + ") are not connected");
+		
+		List<Entry<E>> distances = this.adjacencyMap.get(a);
+		for (Entry<E> pair : distances) {
+			if (pair.getElement().equals(b))
+				return pair.getCost();
+		}
+		
+		throw new NoSuchElementException("The distance between Node(" + a + ") and Node(" + b + ") does not exist");
+	}
+	
+	public E getVertex(int index) {
+		Set<E> keySet = this.adjacencyMap.keySet();
+		int count  = 0;
+		
+		for (E element : keySet) {
+			if (count == index) return element;
+			count++;
+		}
+		
+		return null;
+	}
+
+
+	private class Entry<T extends Comparable<T>> {
+		private Double weight;
+		private Double cost;
+		private T element;
+
+		public Entry(T element, Double cost, Double weight) {
+			this.element = element;
+			this.cost = cost;
+			this.weight = weight;
+		}
+
+		public Double getWeight() {
+			return weight;
+		}
+
+		public void setWeight(Double weight) {
+			this.weight = weight;
+		}
+
+		public Double getCost() {
+			return cost;
+		}
+
+		public void setCost(Double cost) {
+			this.cost = cost;
+		}
+
+		public T getElement() {
+			return element;
+		}
+
+		public void setElement(T element) {
+			this.element = element;
+		}
 	}
 
 }

@@ -41,11 +41,15 @@ public interface Graph<E> extends Structure<E> {
 	
 	/**
 	 * Create an edge / link between the given two vertices.
-	 * @param a The vertex the edge should emanate from.
+	 * @param a The vertex the edge should eminate from.
 	 * @param b The vertex the edge should be incident to.
 	 * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
 	 */
 	public boolean addEdge(E a, E b);
+	
+	public boolean addEdge(E a, E b, Double cost);
+	
+	public boolean addEdge(E a, E b, Double cost, Double weight);
 	
 	/**
 	 * Determine if <tt>a</tt> and <tt>b</tt> are connected by an edge.
@@ -54,5 +58,7 @@ public interface Graph<E> extends Structure<E> {
 	 * @return <tt>true</tt> if an edge is defined, <tt>false</tt> otherwise.
 	 */
 	public boolean isConnected(E a, E b);
+	
+	public E getVertex(int index);
 
 }

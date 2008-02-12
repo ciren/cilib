@@ -28,7 +28,7 @@ import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
-public interface Tree<E extends Cloneable> extends Graph<E>, Type {
+public interface Tree<E extends Cloneable> extends Structure<E>, Type {
 	
 	public Tree<E> getClone();
 	

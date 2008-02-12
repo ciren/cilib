@@ -671,54 +671,6 @@ public class Vector extends AbstractList {
 		return result;
 	}
 
-	/**
-	 * @throws UnsupportedOperationException Operation is not supported within Vector
-	 */
-	public boolean addEdge(Type a, Type b) {
-		throw new UnsupportedOperationException("Operation not supported");
-	}
-
-
-	/**
-	 * Return the number of edges in this <tt>Graph</tt> based <tt>Vector</tt>.
-	 * A <tt>Vector</tt> is nothing more than a linear <tt>Graph</tt>
-	 */
-	public int edges() {
-		return this.components.size() - 1;
-	}
-
-
-	/**
-	 * Determine if two objects are connected within the current container. With regard
-	 * to <tt>Vector</tt> objects, this is only true if the two objects are adjacent to
-	 * each other as ordering is a property that is maintained by a <tt>Vector</tt>.
-	 * 
-	 * @param a The first Type
-	 * @param b The second Type
-	 * @return true if the two objects are adjacent, false otherwise.
-	 */
-	public boolean isConnected(Type a, Type b) {
-		for (int i = 0; i < this.components.size()-1; i++) {
-			Type tmp = this.components.get(i);
-			
-			if (tmp.equals(a)) {
-				if (this.components.get(i-1).equals(b))
-					return true;
-				if (this.components.get(i+1).equals(b))
-					return true;
-				return false;
-			}
-		}
-		
-		return false;
-	}
-
-
-	public int vertices() {
-		return this.components.size();
-	}
-
-
 	public void accept(Visitor<Type> visitor) {
 		for (Type type : this.components)
 			visitor.visit(type);
