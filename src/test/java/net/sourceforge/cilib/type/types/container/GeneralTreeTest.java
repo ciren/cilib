@@ -12,15 +12,15 @@ public class GeneralTreeTest {
 	public void creation() {
 		Tree<Real> tree = new GeneralTree<Real>(new Real(3.0));
 		
-		assertEquals(0, tree.edges());
+		assertEquals(0, tree.getDegree());
 		
 		tree.add(new Real(1.0));
 		tree.add(new Real(2.0));
 		
-		assertEquals(2, tree.edges());
+		assertEquals(2, tree.getDegree());
 		
 		Tree<Real> child = tree.getSubTree(new Real(2.0));
-		assertEquals(0, child.edges());
+		assertEquals(0, child.getDegree());
 	}
 	
 	@Test
