@@ -100,6 +100,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		return new NaryTree<E>();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Tree<E> removeSubTree(E element) {
 		if (isEmpty()) 
 			throw new UnsupportedOperationException();

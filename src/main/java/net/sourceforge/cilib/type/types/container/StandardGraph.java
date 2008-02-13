@@ -67,11 +67,11 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		return addEdge(a, b, 1.0);
 	}
 	
-	public boolean addEdge(E a, E b, Double cost) {
+	public boolean addEdge(E a, E b, double cost) {
 		return addEdge(a, b, cost, 1.0);
 	}
 	
-	public boolean addEdge(E a, E b, Double cost, Double weight) {
+	public boolean addEdge(E a, E b, double cost, double weight) {
 		if (!contains(a)) return false;
 		if (!contains(b)) return false;
 		

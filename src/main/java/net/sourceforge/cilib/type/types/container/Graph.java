@@ -47,9 +47,24 @@ public interface Graph<E> extends Structure<E> {
 	 */
 	public boolean addEdge(E a, E b);
 	
-	public boolean addEdge(E a, E b, Double cost);
+	/**
+	 * Create an edge / link between the given two vertices.
+	 * @param a The vertex the edge should eminate from.
+	 * @param b The vertex the edge should be incident to.
+	 * @param cost The cost associated with this edge.
+	 * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
+	 */
+	public boolean addEdge(E a, E b, double cost);
 	
-	public boolean addEdge(E a, E b, Double cost, Double weight);
+	/**
+	 * Create an edge / link between the given two vertices.
+	 * @param a The vertex the edge should eminate from.
+	 * @param b The vertex the edge should be incident to.
+	 * @param cost The cost associated with this edge.
+	 * @param weight The weight value associated with this edge.
+	 * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
+	 */
+	public boolean addEdge(E a, E b, double cost, double weight);
 	
 	/**
 	 * Determine if <tt>a</tt> and <tt>b</tt> are connected by an edge.
