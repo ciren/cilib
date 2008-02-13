@@ -5,6 +5,12 @@
 	</properties>
 	<body>
 		<release version="0.6.11" date="Not yet released" description="">
+		  <action dev="gpampara" type="fix" issue="1891781">
+				Refactored the container classes so that Graph is not a top level interface.
+			</action>
+			<action dev="gpampara" type="update" issue="1891787">
+				Graphs should maintain edge cost and weight information.
+			</action>
 			<action dev="gpampara" type="update" issue="1858834" due-to="Wiehann Matthysen">
 				Cleaned up some redundant object usage.
 			</action>
@@ -19,7 +25,7 @@
 			<action dev="heatzync" type="fix" issue="1835575">
 				HalkidiVazirgiannisIndex cluster variance calculation.
 			</action>
-			<action dev="gpampara" type="update" issue="1827723">
+			<action dev="gpampara" type="remove" issue="1827723">
 				Remove the GCIterationStrategy and related classes.				
 			</action>
 			<action dev="gpampara" type="update" issue="1827386">
