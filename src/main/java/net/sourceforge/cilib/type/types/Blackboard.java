@@ -37,8 +37,7 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 
 	@Override
 	public String getRepresentation() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	/**

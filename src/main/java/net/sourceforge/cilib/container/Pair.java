@@ -127,4 +127,15 @@ public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair
 		return this.getKey().toString();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean equals(Object obj) {
+		Pair<K, V> other = (Pair<K, V>) obj;
+		
+		if (!getKey().equals(other.getKey())) return false;
+		if (!getValue().equals(other.getValue())) return false;
+		
+		return true;
+	}
+	
 }
