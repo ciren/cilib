@@ -43,11 +43,7 @@ public class CosineDistanceMeasureTest {
 		
 		v1.add(new Real(22.0));
 		
-//		try {
-			distanceMeasure.distance(v1, v2);
-//			fail("Exception is not thrown????");
-//		}
-//		catch (IllegalArgumentException i) {}
+		distanceMeasure.distance(v1, v2);
 	}
 	
 	
@@ -70,11 +66,7 @@ public class CosineDistanceMeasureTest {
 		
 		l1.add(11.0);
 		
-//		try {
-			distanceMeasure.distance(l1, l2);
-//			fail("Exception is not thrown????");
-//		}
-//		catch (IllegalArgumentException i) {}
+		distanceMeasure.distance(l1, l2);
 	}
 	
 	@Test
