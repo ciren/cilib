@@ -5,6 +5,9 @@
 	</properties>
 	<body>
 		<release version="0.6.11" date="Not yet released" description="">
+		  <action dev="gpampara" type="update" issue="1835762">
+		  	Added the initial StatsUtil class. Will be refactored over time.
+		  </action>
 		  <action dev="gpampara" type="fix" issue="1891781">
 				Refactored the container classes so that Graph is not a top level interface.
 			</action>
