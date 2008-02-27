@@ -37,6 +37,11 @@ import org.junit.Test;
  */
 public class MathUtilTest {
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void invalidFactorialParameter() {
+		MathUtil.factorial(-1.0);
+	}
+	
 	@Test
 	public void testFactorial() {
 		assertEquals(1.0, MathUtil.factorial(0.0), Double.MIN_NORMAL);
@@ -52,7 +57,6 @@ public class MathUtilTest {
 		assertEquals(720.0, MathUtil.factorial(6), Double.MIN_NORMAL);
 		assertEquals(9.33262154439441E157, MathUtil.factorial(100), Double.MIN_NORMAL); 
 	}
-	
 	
 	@Test
 	public void testCombination() {

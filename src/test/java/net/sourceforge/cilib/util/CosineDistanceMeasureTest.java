@@ -24,7 +24,7 @@ public class CosineDistanceMeasureTest {
 		distanceMeasure = new CosineDistanceMeasure();
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testVectorDistance() {
 		Vector v1 = new Vector();
 		Vector v2 = new Vector();
@@ -43,15 +43,15 @@ public class CosineDistanceMeasureTest {
 		
 		v1.add(new Real(22.0));
 		
-		try {
+//		try {
 			distanceMeasure.distance(v1, v2);
-			fail("Exception is not thrown????");
-		}
-		catch (IllegalArgumentException i) {}
+//			fail("Exception is not thrown????");
+//		}
+//		catch (IllegalArgumentException i) {}
 	}
 	
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testCollectionDistance() {
 		List<Double> l1 = new ArrayList<Double>();
 		List<Double> l2 = new ArrayList<Double>();
@@ -70,11 +70,11 @@ public class CosineDistanceMeasureTest {
 		
 		l1.add(11.0);
 		
-		try {
+//		try {
 			distanceMeasure.distance(l1, l2);
-			fail("Exception is not thrown????");
-		}
-		catch (IllegalArgumentException i) {}
+//			fail("Exception is not thrown????");
+//		}
+//		catch (IllegalArgumentException i) {}
 	}
 	
 	@Test
