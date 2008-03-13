@@ -54,7 +54,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	private OptimisationProblem problem;
 	private IterationStrategy<EC> iterationStrategy;
 	private Topology<? extends Entity> topology;
-//	private Entity bestEntity;
 	
 	public EC() {
 		this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();

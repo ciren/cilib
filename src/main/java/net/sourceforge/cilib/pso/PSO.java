@@ -150,19 +150,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 */
 	public Particle getBestEntity() {
 		return topology.getBestEntity();
-//		if (bestParticle == null) {
-//			Iterator<Particle> i = topology.iterator();
-//			bestParticle = i.next();
-//			Fitness bestFitness = bestParticle.getBestFitness();
-//			while (i.hasNext()) {
-//				Particle particle = i.next();
-//				if (particle.getBestFitness().compareTo(bestFitness) > 0) {
-//					bestParticle = particle;
-//					bestFitness = bestParticle.getBestFitness();
-//				}
-//			}
-//		}
-//		return bestParticle;
 	}
 
 	/**
