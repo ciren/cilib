@@ -34,7 +34,8 @@ import java.util.List;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * This is a generalisation of all Population based algorithms.
+ * This is a generalization for all algorithms that maintain a collection of
+ * {@linkplain Entity} objects. Examples of this would include PSO, EC and ACO.
  * 
  * @author Gary Pampara
  * @author otter
@@ -54,7 +55,7 @@ public abstract class EntityCollection<E extends Entity>
     /**
      * Removes an entity from the topology
      * @param The entity to be removed
-     * @return boolean, true if remove operation was successfull.
+     * @return boolean, true if remove operation was successful.
      */
     public abstract boolean remove(E indiv);
     
@@ -70,7 +71,7 @@ public abstract class EntityCollection<E extends Entity>
     /**
      * Update/replace a specific entity within the topology
      * @param The index within the topology structure
-     * @param The replacment entity
+     * @param The replacement entity
      */
     public abstract E set(int index, E indiv);    
     
@@ -107,8 +108,8 @@ public abstract class EntityCollection<E extends Entity>
     public abstract boolean retainAll(Collection<?> c);
     
     /**
-     * Returns the size of the topology 
-     * @return int - size of topology
+     * Returns the size of the {@linkplain EntityCollection} 
+     * @return The size of {@linkplain EntityCollection}
      */
     public abstract int size();
     
