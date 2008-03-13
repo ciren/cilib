@@ -41,7 +41,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author otter
  */
 public abstract class EntityCollection<E extends Entity> 
-	implements Collection<E>, Iterable<E>, List<E>, Cloneable, Serializable {
+	implements Iterable<E>, List<E>, Cloneable, Serializable {
 	
 	public abstract EntityCollection<E> getClone();
        

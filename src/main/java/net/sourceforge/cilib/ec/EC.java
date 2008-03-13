@@ -54,7 +54,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	private OptimisationProblem problem;
 	private IterationStrategy<EC> iterationStrategy;
 	private Topology<? extends Entity> topology;
-	private Entity bestEntity;
+//	private Entity bestEntity;
 	
 	public EC() {
 		this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
@@ -83,7 +83,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 
 	@Override
 	public void algorithmIteration() {
-		bestEntity = null;
+		this.topology.clearBestEntity();
 		
 		for (Iterator<? extends Entity> i = this.getTopology().iterator(); i.hasNext(); ) {
 			Entity entity = i.next();
@@ -135,20 +135,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	}
 	
 	public Entity getBestEntity() {
-		if (bestEntity == null) {
-			Iterator<? extends Entity> i = topology.iterator();
-			bestEntity = i.next();
-			Fitness bestFitness = bestEntity.getFitness();
-			while (i.hasNext()) {
-				Entity entity = i.next();
-				if (entity.getFitness().compareTo(bestFitness) > 0) {
-					bestEntity = entity;
-					bestFitness = bestEntity.getFitness();
-				}
-			}
-		}
-		
-		return bestEntity;
+		return topology.getBestEntity();
 	}
 
 	public Entity getContribution() {

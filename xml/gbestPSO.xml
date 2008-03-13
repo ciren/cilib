@@ -16,7 +16,6 @@
 			</velocityUpdate>-->
 			<addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000">
 			</addStoppingCondition>
-			<particles value="40"/>
 		</algorithm>
 	</algorithms>
 
@@ -49,10 +48,10 @@
 			<function class="functions.continuous.Colville"/>
 		</problem>
 		<problem id="bohachevsky1" class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.Bohachevsky1"/>
+			<function class="functions.continuous.unconstrained.Bohachevsky1"/>
 		</problem>
 		<problem id="ackley" class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.Ackley"/>
+			<function class="functions.continuous.unconstrained.Ackley"/>
 		</problem>
 		<problem id="schwefel" class="problem.FunctionMinimisationProblem">
 			<function class="functions.continuous.Schwefel"/>

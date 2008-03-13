@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.pso;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
@@ -68,7 +67,6 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
 public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = -8234345682394295357L;
 	private Topology<Particle> topology;
-	private Particle bestParticle;
 	private IterationStrategy<PSO> iterationStrategy;
 	private static int currentParticleId = 0;
 
@@ -119,7 +117,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 */
 	@SuppressWarnings("unchecked")
 	protected void algorithmIteration() {
-		bestParticle = null;
+		this.topology.clearBestEntity();
 
 		iterationStrategy.performIteration(this);
 		
@@ -151,19 +149,20 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * @return The best <code>Particle</code> so far.
 	 */
 	public Particle getBestEntity() {
-		if (bestParticle == null) {
-			Iterator<Particle> i = topology.iterator();
-			bestParticle = i.next();
-			Fitness bestFitness = bestParticle.getBestFitness();
-			while (i.hasNext()) {
-				Particle particle = i.next();
-				if (particle.getBestFitness().compareTo(bestFitness) > 0) {
-					bestParticle = particle;
-					bestFitness = bestParticle.getBestFitness();
-				}
-			}
-		}
-		return bestParticle;
+		return topology.getBestEntity();
+//		if (bestParticle == null) {
+//			Iterator<Particle> i = topology.iterator();
+//			bestParticle = i.next();
+//			Fitness bestFitness = bestParticle.getBestFitness();
+//			while (i.hasNext()) {
+//				Particle particle = i.next();
+//				if (particle.getBestFitness().compareTo(bestFitness) > 0) {
+//					bestParticle = particle;
+//					bestFitness = bestParticle.getBestFitness();
+//				}
+//			}
+//		}
+//		return bestParticle;
 	}
 
 	/**

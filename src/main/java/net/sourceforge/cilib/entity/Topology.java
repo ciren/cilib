@@ -32,6 +32,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
+import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * This an abstract class which extends from the abstract Topology class.
@@ -41,6 +42,8 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  * @author otter
  */
 public abstract class Topology<E extends Entity> extends EntityCollection<E> {
+	
+	private E bestEntity;
 	
 	public abstract Topology<E> getClone();
     
@@ -92,4 +95,33 @@ public abstract class Topology<E extends Entity> extends EntityCollection<E> {
      * @param id The identifier to set
      */
     public abstract void setId(String id);
+    
+    /**
+     * Get the current best {@linkplain Entity} of the {@linkplain Topology}
+     * @return The current best {@linkplain Entity}
+     */
+    public E getBestEntity() {
+    	if (bestEntity == null) {
+			Iterator<E> i = this.iterator();
+			bestEntity = i.next();
+			Fitness bestFitness = bestEntity.getFitness();
+			while (i.hasNext()) {
+				E entity = i.next();
+				if (entity.getFitness().compareTo(bestFitness) > 0) {
+					bestEntity = entity;
+					bestFitness = bestEntity.getFitness();
+				}
+			}
+		}
+		
+		return bestEntity;
+    }
+
+    /**
+     * Clear the current best entity from the topology, thereby forcing a
+     * re-calculation of the best {@linkplain Entity} within the topology.
+     */
+	public void clearBestEntity() {
+		this.bestEntity = null;
+	}
 }
