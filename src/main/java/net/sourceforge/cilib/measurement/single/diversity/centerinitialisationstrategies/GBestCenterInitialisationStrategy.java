@@ -33,6 +33,6 @@ public class GBestCenterInitialisationStrategy extends CenterInitialisationStrat
 	public Vector getCenter() {
 		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
 		
-		return (Vector) algorithm.getBestEntity().getContents();
+		return (Vector) algorithm.getTopology().getBestEntity().getContents();
 	}
 }
