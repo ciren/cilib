@@ -225,9 +225,5 @@ public class ACO extends PopulationBasedAlgorithm {
 	public double accept(TopologyVisitor visitor) {
 		throw new UnsupportedOperationException("Needs an implementation");
 	}
-
-	public Ant getBestEntity() {
-		throw new UnsupportedOperationException("Implementation is needed");
-	}
 	
 }
