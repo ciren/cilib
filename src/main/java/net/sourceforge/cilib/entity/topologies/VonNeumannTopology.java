@@ -135,10 +135,10 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     
     public int size() {
     	int size = 0;
-    	Iterator<ArrayList<E>> i = entities.iterator();
-    	while (i.hasNext()) {
-            size += i.next().size();
-    	}
+    	
+    	for (ArrayList<E> i : entities)
+    		size += i.size();
+    	
     	return size;
     }
     
