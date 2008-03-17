@@ -9,7 +9,7 @@ package net.sourceforge.cilib.neuralnetwork.foundation;
 import java.io.IOException;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.neuralnetwork.foundation.postSimulation.PostMeasurementSuite;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -20,7 +20,7 @@ import net.sourceforge.cilib.problem.Problem;
  * @author stefanv
  *
  */
-public class NeuralNetworkController extends Algorithm {
+public class NeuralNetworkController extends SingularAlgorithm {
 	private static final long serialVersionUID = -904395696777716473L;
 	protected NeuralNetworkProblem problem = null;
 	protected NNError[] errorDt = null;
