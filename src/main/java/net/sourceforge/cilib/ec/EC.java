@@ -115,7 +115,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	}
 
 	public OptimisationSolution getBestSolution() {
-		OptimisationSolution solution = new OptimisationSolution(problem, getBestEntity().getContents().getClone());
+		OptimisationSolution solution = new OptimisationSolution(problem, topology.getBestEntity().getContents().getClone());
         
         return solution;
 	}
@@ -133,24 +133,20 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		return null;
 	}
 	
-	public Entity getBestEntity() {
-		return topology.getBestEntity();
-	}
-
 	public Entity getContribution() {
 		//TODO: This might not be what you want, change as desired
-		return getBestEntity();
+		return this.topology.getBestEntity();
 	}
 
 	public Fitness getContributionFitness() {
 		//TODO: This might not be what you want, change as desired
-		return getBestEntity().getFitness();
+		return this.topology.getBestEntity().getFitness();
 	}
 
 	public void updateContributionFitness(Fitness fitness) {
 		//TODO: This might not be what you want, change as desired
 		//getBestEntity().setFitness(fitness);
-		getBestEntity().calculateFitness();
+		this.topology.getBestEntity().calculateFitness();
 	}
 
 	@Override
