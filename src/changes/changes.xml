@@ -5,6 +5,11 @@
 	</properties>
 	<body>
 		<release version="0.6.11" date="Not yet released" description="">
+			<action dev="gpampara" type="update" issue="1832365">
+				Refactored the Topology classes to determine the best entity from
+				the population. Algorithm classes no longer provide that accessor
+				method.
+			</action>
 		  <action dev="gpampara" type="update" issue="1835762">
 		  	Added the initial StatsUtil class. Will be refactored over time.
 		  </action>
