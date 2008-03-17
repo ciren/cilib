@@ -30,7 +30,6 @@ package net.sourceforge.cilib.entity.topologies;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -160,11 +159,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 	}
 
 	public List<Entity> asList() {
-		List<Entity> list = new ArrayList<Entity>();
-		
-		Collections.copy(list, this.entities);
-		
-		return list;
+		return new ArrayList<Entity>(this.entities);
 	}
 
 
