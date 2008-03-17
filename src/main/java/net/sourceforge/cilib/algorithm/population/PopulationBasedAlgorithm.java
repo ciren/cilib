@@ -87,9 +87,4 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 		this.initialisationStrategy = initialisationStrategy;
 	}
 
-	/**
-	 * Obtain the best performing {@linkplain Entity}
-	 * @return The current best {@linkplain Entity}
-	 */
-	public abstract Entity getBestEntity();
 }

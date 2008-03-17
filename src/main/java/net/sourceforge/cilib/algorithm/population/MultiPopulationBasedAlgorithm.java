@@ -111,12 +111,4 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 		throw new UnsupportedOperationException("Needs an implementation");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Entity getBestEntity() {
-		throw new UnsupportedOperationException("getBestEntity() needs an implementation for MultiPopulationBasedAlgorithms and subclasses.");
-	}
-
 }
