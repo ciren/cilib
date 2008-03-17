@@ -64,8 +64,8 @@ public abstract class Topology<E extends Entity> extends EntityCollection<E> {
      * @param visitor The {@see net.sourceforge.cilib.container.visitor.Visitor} to accept
      */
     public void accept(Visitor<E> visitor) {
-        for (Iterator<E> i = this.iterator(); i.hasNext(); ) {
-            visitor.visit(i.next());
+        for (E element : this) {
+            visitor.visit(element);
         }
     }    
     
