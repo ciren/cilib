@@ -75,7 +75,7 @@ public class EuclideanDiversityAbsorptionStrategy<E extends PopulationBasedAlgor
 		subSwarm.accept(radiusVisitor);
 		double subSwarmRadius = radiusVisitor.getResult();
 
-		Particle subSwarmBestParticle = subSwarm.getBestEntity();
+		Particle subSwarmBestParticle = subSwarm.getTopology().getBestEntity();
 		Vector subSwarmBestParticlePosition = (Vector) subSwarmBestParticle.getPosition();
 		Vector mainSwarmParticlePosition = (Vector) mainSwarmParticle.getPosition();
 
@@ -106,7 +106,7 @@ public class EuclideanDiversityAbsorptionStrategy<E extends PopulationBasedAlgor
 
     private boolean CheckEuclideanDiversityAroundGBest(Particle mainSwarm, PSO subSwarm)
     {
-	Vector center = (Vector) subSwarm.getBestEntity().getPosition();
+	Vector center = (Vector) subSwarm.getTopology().getBestEntity().getPosition();
 	DistanceMeasure distance = new EuclideanDistanceMeasure();
 	double diameter = 0;
 	int count = 0;

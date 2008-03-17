@@ -66,7 +66,7 @@ public class DirectionalGBestAbsorptionStrategy<E extends PopulationBasedAlgorit
                 subSwarm.accept(radiusVisitor);
                 double subSwarmRadius = radiusVisitor.getResult();
                 
-                Particle subSwarmBestParticle = subSwarm.getBestEntity();
+                Particle subSwarmBestParticle = subSwarm.getTopology().getBestEntity();
                 Vector subSwarmBestParticlePosition = (Vector)subSwarmBestParticle.getPosition();
                 Vector mainSwarmParticlePosition = (Vector)mainSwarmParticle.getPosition();
                 

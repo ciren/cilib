@@ -132,7 +132,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * @return The <code>OptimisationSolution</code> representing the best solution.
 	 */
 	public OptimisationSolution getBestSolution() {
-		return new OptimisationSolution(this.getOptimisationProblem(), getBestEntity().getBestPosition().getClone());
+		return new OptimisationSolution(this.getOptimisationProblem(), topology.getBestEntity().getBestPosition().getClone());
 	}
 
 	/**
@@ -142,14 +142,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 */
 	public List<OptimisationSolution> getSolutions() {
 		return Arrays.asList(getBestSolution());
-	}
-
-	/**
-	 * Get the current best particle. This is determined from the personal bests
-	 * @return The best <code>Particle</code> so far.
-	 */
-	public Particle getBestEntity() {
-		return topology.getBestEntity();
 	}
 
 	/**
@@ -171,15 +163,15 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 
 	// TODO: Move down heirarchy into MOPSO????
 	public Particle getContribution() {
-		return getBestEntity();
+		return topology.getBestEntity();
 	}
 
 	public Fitness getContributionFitness() {
-		return getBestEntity().getBestFitness();
+		return topology.getBestEntity().getBestFitness();
 	}
 
 	public void updateContributionFitness(Fitness fitness) {
-		getBestEntity().calculateFitness();
+		topology.getBestEntity().calculateFitness();
 	}
 
 	@Override

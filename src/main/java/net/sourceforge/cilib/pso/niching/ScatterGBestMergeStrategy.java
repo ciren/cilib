@@ -110,7 +110,7 @@ public class ScatterGBestMergeStrategy<E extends PopulationBasedAlgorithm> imple
 
 	    if (subSwarm1 != null)
 	    {
-		Particle gBestParticle1 = subSwarm1.getBestEntity();
+		Particle gBestParticle1 = subSwarm1.getTopology().getBestEntity();
 
 		for (ListIterator<PopulationBasedAlgorithm> j = subSwarms.listIterator(); j.hasNext();)
 		{
@@ -120,7 +120,7 @@ public class ScatterGBestMergeStrategy<E extends PopulationBasedAlgorithm> imple
 		    {
 			if (subSwarm1 != subSwarm2)
 			{
-			    Particle gBestParticle2 = subSwarm2.getBestEntity();
+			    Particle gBestParticle2 = subSwarm2.getTopology().getBestEntity();
 
 			    if (TestNearZero(getRadius(subSwarm1)) && TestNearZero(getRadius(subSwarm2)))
 			    {
