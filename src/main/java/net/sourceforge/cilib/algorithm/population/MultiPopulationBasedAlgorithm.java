@@ -33,7 +33,6 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
 import net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIterator;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
@@ -68,8 +67,10 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 
 	public void reset() {
 		super.reset();
+		
 		for(Algorithm algorithm : subPopulationsAlgorithms)
 			algorithm.reset();
+		
 		algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
 	}
 

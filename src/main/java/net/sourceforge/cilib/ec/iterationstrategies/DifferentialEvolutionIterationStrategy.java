@@ -63,10 +63,13 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		this.random1 = copy.random1.getClone();
 		this.random2 = copy.random2.getClone();
 		
-		this.crossoverProbability = copy.crossoverProbability;
-		this.scaleParameter = copy.scaleParameter;
+		this.crossoverProbability = copy.crossoverProbability.getClone();
+		this.scaleParameter = copy.scaleParameter.getClone();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public DifferentialEvolutionIterationStrategy getClone() {
 		return new DifferentialEvolutionIterationStrategy(this);
 	}
@@ -79,7 +82,6 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		
 		for (Iterator<? extends Entity> iterator = topology.iterator(); iterator.hasNext(); ) {
 			Entity current = iterator.next();
-			//current.setFitness(ec.getOptimisationProblem().getFitness(current.get(), true));
 			current.calculateFitness();
 		
 			List<Entity> parents = getRandomParentEntities(topology);
@@ -139,19 +141,34 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		return parents;
 	}
 
+	/**
+	 * Get the {@linkplain ControlParameter} defining the cross-over probability
+	 * @return The cross-over probability
+	 */
 	public ControlParameter getCrossoverProbability() {
 		return crossoverProbability;
 	}
 
+	/**
+	 * Set the cross-over probability {@linkplain ControlParameter}
+	 * @param crossoverProbability The cross-over probability to set
+	 */
 	public void setCrossoverProbability(ControlParameter crossoverProbability) {
-
 		this.crossoverProbability = crossoverProbability;
 	}
 
+	/**
+	 * Get the {@linkplain ControlParameter} defining the scale parameter
+	 * @return The scale parameter
+	 */
 	public ControlParameter getScaleParameter() {
 		return scaleParameter;
 	}
 
+	/**
+	 * Set the {@linkplain ControlParameter} defining the scale parameter
+	 * @param scaleParameter The {@linkplain ControlParameter} to set
+	 */
 	public void setScaleParameter(ControlParameter scaleParameter) {
 		this.scaleParameter = scaleParameter;
 	}
