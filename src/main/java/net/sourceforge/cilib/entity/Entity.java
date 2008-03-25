@@ -114,8 +114,6 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 */
 	public void reinitialise();
 	
-	public boolean equals(Object o);
-
 
 	/**
 	 * Get the properties associate with the <code>Entity</code>
