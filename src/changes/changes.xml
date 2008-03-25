@@ -5,6 +5,13 @@
 	</properties>
 	<body>
 		<release version="0.6.11" date="Not yet released" description="">
+		  <action dev="gpampara" type="update" issue="1921291">
+			  Refactored the DE implememtation to cater for the DE/x/y/z notation.
+			</action>
+		  <action dev="gpampara" type="fix" issue="1921298">
+			  Refactored the CrossoverStrategy and MutationStrategy classes to make
+				the actions they perform simpler.
+			</action>
 			<action dev="gpampara" type="update" issue="1832365">
 				Refactored the Topology classes to determine the best entity from
 				the population. Algorithm classes no longer provide that accessor
