@@ -27,11 +27,12 @@
 package net.sourceforge.cilib.entity.operators.crossover;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
+import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -41,66 +42,67 @@ import net.sourceforge.cilib.type.types.container.Vector;
 */
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
 	
+	private SelectionStrategy selectionStrategy;
+	
 	public OnePointCrossoverStrategy() {
 		super();
+		this.selectionStrategy = new RandomSelectionStrategy();
 	}
 	
 	public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
 		super(copy);
+		this.selectionStrategy = copy.selectionStrategy.getClone();
 	}
 	
 	public OnePointCrossoverStrategy getClone() {
 		return new OnePointCrossoverStrategy(this);
 	}
 	
-	@Override
-	public List<Entity> crossover(Topology<? extends Entity> parentCollection) {
+	public List<Entity> crossover(List<Entity> parentCollection) {
 		ArrayList<Entity> offspring = new ArrayList<Entity>();
 		offspring.ensureCapacity(parentCollection.size());
 		
-		Collections.shuffle(parentCollection); // This should be a selectionstrategy on the entire population
-		
-		for (int i = 0; i < parentCollection.size(); i++) {
-			// This needs a selection strategy to select the parent individuals!!!!
-			Entity parent1 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()));
-			Entity parent2 = parentCollection.get(this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size()));
+		// This needs a selection strategy to select the parent individuals!!!!
+		Entity parent1 = parentCollection.get(0);
+		Entity parent2 = parentCollection.get(1);
 			
-			if (this.getRandomNumber().getUniform() <= this.getCrossoverProbability().getParameter()) {
-				// Select the pivot point where crossover will occour
-				int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
-				int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue(); 
-				
-				Entity offspring1 = parent1.getClone();
-				Entity offspring2 = parent2.getClone();
-				
-				Vector offspringVector1 = (Vector) offspring1.getContents();
-				Vector offspringVector2 = (Vector) offspring2.getContents();
-				
-				for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
-					offspringVector1.remove(j);
-					offspringVector1.insert(j, offspringVector2.get(j));
-				}
-				
-				for (int j = crossoverPoint; j < offspringVector1.getDimension(); j++) {
-					offspringVector2.remove(j);
-					offspringVector2.insert(j, offspringVector1.get(j));
-				}
-				
-				//OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
-//				offspring1.setFitness(problem.getFitness(offspring1.get(), false));
-//				offspring2.setFitness(problem.getFitness(offspring2.get(), false));
-				offspring1.calculateFitness(false);
-				offspring2.calculateFitness(false);
-						
-				offspring.add(offspring1);
-				offspring.add(offspring2);
+		if (this.getRandomNumber().getUniform() <= this.getCrossoverProbability().getParameter()) {
+			// Select the pivot point where crossover will occour
+			int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
+			int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue(); 
+			
+			Entity offspring1 = parent1.getClone();
+			Entity offspring2 = parent2.getClone();
+			
+			Vector offspringVector1 = (Vector) offspring1.getContents();
+			Vector offspringVector2 = (Vector) offspring2.getContents();
+			
+			for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
+				offspringVector1.remove(j);
+				offspringVector1.insert(j, offspringVector2.get(j));
 			}
+			
+			for (int j = crossoverPoint; j < offspringVector1.getDimension(); j++) {
+				offspringVector2.remove(j);
+				offspringVector2.insert(j, offspringVector1.get(j));
+			}
+				
+			offspring1.calculateFitness(false);
+			offspring2.calculateFitness(false);
+					
+			offspring.add(offspring1);
+			offspring.add(offspring2);
 		}
 		
 		return offspring;
 	}
 
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-		offspring.addAll(this.crossover(topology));
+		List<Entity> parentCollection = new ArrayList<Entity>();
+		
+		parentCollection.add(this.selectionStrategy.select(topology));
+		parentCollection.add(this.selectionStrategy.select(topology));
+		
+		offspring.addAll(this.crossover(parentCollection));
 	}
 }

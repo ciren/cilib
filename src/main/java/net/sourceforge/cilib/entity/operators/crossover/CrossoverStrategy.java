@@ -31,7 +31,6 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
@@ -57,7 +56,7 @@ public abstract class CrossoverStrategy implements Operator {
 	
 	public abstract CrossoverStrategy getClone();
 	
-	public abstract List<Entity> crossover(Topology<? extends Entity> parentCollection);
+	public abstract List<Entity> crossover(List<Entity> parentCollection);
 
 	
 	/**

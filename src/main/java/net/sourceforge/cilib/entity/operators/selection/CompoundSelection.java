@@ -8,7 +8,7 @@ import net.sourceforge.cilib.entity.Topology;
 
 /**
  * This class implements the Composite design pattern to correctly
- * apply a group of selection operators to perform a sepecific selection.
+ * apply a group of selection operators to perform a specific selection.
  * For example, a selection my require an Elitism selection of 10% of the
  * available entities, followed by a greedy fitness selection operator.
  * 
@@ -33,7 +33,7 @@ public class CompoundSelection extends SelectionStrategy {
 	}
 
 	@Override
-	public Entity select(Topology<Entity> population) {
+	public Entity select(Topology<? extends Entity> population) {
 		for (SelectionStrategy selection : selectors) {
 			selection.select(population);
 		}

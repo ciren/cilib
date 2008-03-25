@@ -38,6 +38,8 @@ import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
+ * Perform a tournament selection process on the provided {@linkplain Topology}
+ * with a predefined tournament size.
  * 
  * @author Gary Pampara
  */
@@ -59,7 +61,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 		return new TournamentSelectionStrategy(this);
 	}
 
-	public Entity select(Topology<Entity> population) {
+	public Entity select(Topology<? extends Entity> population) {
 		int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter()*population.size()).intValue();
 		
 		List<Entity> tournamentEntities = new ArrayList<Entity>();

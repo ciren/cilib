@@ -38,6 +38,6 @@ public abstract class SelectionStrategy implements Operator {
 	
 	public abstract SelectionStrategy getClone();
 	
-	public abstract Entity select(Topology<Entity> population);
+	public abstract Entity select(Topology<? extends Entity> population);
 
 }

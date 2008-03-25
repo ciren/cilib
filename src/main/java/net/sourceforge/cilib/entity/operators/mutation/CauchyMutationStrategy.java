@@ -63,7 +63,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
 	}
 
 	/**
-	 * TODO: add comment :) Will wants this one
+	 * Perform the {@code CauchyMutationStrategy} on the given list of {@linkplain Entity} instances.
 	 */
 	@Override
 	public void mutate(List<? extends Entity> entity) {
@@ -74,11 +74,9 @@ public class CauchyMutationStrategy extends MutationStrategy {
 			
 			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 				for (int i = 0; i < chromosome.getDimension(); i++) {
-					double value;
 					Numeric element = (Numeric) chromosome.get(i);
 					double scale = this.scaleStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
-					
-					value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
+					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
 									
 					chromosome.setReal(i, value);
 				}
@@ -96,8 +94,6 @@ public class CauchyMutationStrategy extends MutationStrategy {
 		this.location = location;
 	}
 
-	
-	
 	public ControlParameter getScaleStrategy() {
 		return scaleStrategy;
 	}
@@ -107,7 +103,6 @@ public class CauchyMutationStrategy extends MutationStrategy {
 	}
 
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-		// TODO Auto-generated method stub
 		this.mutate(offspring);
 	}
 	

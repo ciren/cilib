@@ -59,8 +59,6 @@ public class UniformMutationStrategy extends MutationStrategy {
 		return new UniformMutationStrategy(this);
 	}
 	
-	
-	@Override
 	public void mutate(List<? extends Entity> entity) {
 		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext(); ) {
 			Entity current = individual.next(); 
@@ -68,19 +66,14 @@ public class UniformMutationStrategy extends MutationStrategy {
 			
 			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 				for (int i = 0; i < chromosome.getDimension(); i++) {
-					double value;
-									
-					value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getUniform(minStrategy.getParameter(),maxStrategy.getParameter()));
-									
+					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getUniform(minStrategy.getParameter(),maxStrategy.getParameter()));
 					chromosome.setReal(i, value);
 				}
 			}
-	
 		}
 	}
 
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-		// TODO Auto-generated method stub
 		this.mutate(offspring);
 	}
 

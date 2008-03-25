@@ -31,6 +31,8 @@ import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
+import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -40,12 +42,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 public class UniformCrossoverStrategy extends CrossoverStrategy {
 	
+	private SelectionStrategy selectionStrategy;
+	
 	public UniformCrossoverStrategy() {
 		super();
+		this.selectionStrategy = new RandomSelectionStrategy();
 	}
 	
 	public UniformCrossoverStrategy(UniformCrossoverStrategy copy) {
 		super(copy);
+		this.selectionStrategy = copy.selectionStrategy.getClone();
 	}
 	
 	public UniformCrossoverStrategy getClone() {
@@ -53,44 +59,36 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 	}
 
 	@Override
-	public List<Entity> crossover(Topology<? extends Entity> parentCollection) {
+	public List<Entity> crossover(List<Entity> parentCollection) {
 		List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
 		
-		//for (int entity = 0; entity < parentCollection.size(); entity++) {
-			int random1 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
-			int random2 = this.getRandomNumber().getRandomGenerator().nextInt(parentCollection.size());
+		//How do we handle variable sizes? Resizing the entities?
+		Entity offspring1 = parentCollection.get(0).getClone();
+		Entity offspring2 = parentCollection.get(1).getClone();
+		
+		if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 			
-			//How do we handle variable sizes? Resizing the entities?
-			Entity offspring1 = parentCollection.get(random1).getClone();
-			Entity offspring2 = parentCollection.get(random2).getClone();
+			Vector parentChromosome1 = (Vector) parentCollection.get(0).getContents();
+			Vector parentChromosome2 = (Vector) parentCollection.get(1).getContents();
+			Vector offspringChromosome1 = (Vector) offspring1.getContents();
+			Vector offspringChromosome2 = (Vector) offspring2.getContents();
 			
-			if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-				
-				Vector parentChromosome1 = (Vector) parentCollection.get(random1).getContents();
-				Vector parentChromosome2 = (Vector) parentCollection.get(random2).getContents();
-				Vector offspringChromosome1 = (Vector) offspring1.getContents();
-				Vector offspringChromosome2 = (Vector) offspring2.getContents();
-				
-				int sizeParent1 = parentChromosome1.getDimension();
-				int sizeParent2 = parentChromosome2.getDimension();
-			
-				int minDimension = Math.min(sizeParent1, sizeParent2);
-										
-				for (int i = 0; i < minDimension; i++) {
-					if (i%2 == 0) {
-						offspringChromosome1.set(i,parentChromosome1.get(i));
-						offspringChromosome2.set(i,parentChromosome2.get(i));
-					}
-					else {
-						offspringChromosome1.set(i,parentChromosome2.get(i));
-						offspringChromosome2.set(i,parentChromosome1.get(i));	
-					}
+			int sizeParent1 = parentChromosome1.getDimension();
+			int sizeParent2 = parentChromosome2.getDimension();
+		
+			int minDimension = Math.min(sizeParent1, sizeParent2);
+									
+			for (int i = 0; i < minDimension; i++) {
+				if (i%2 == 0) {
+					offspringChromosome1.set(i,parentChromosome1.get(i));
+					offspringChromosome2.set(i,parentChromosome2.get(i));
 				}
+				else {
+					offspringChromosome1.set(i,parentChromosome2.get(i));
+					offspringChromosome2.set(i,parentChromosome1.get(i));	
+				}
+			}
 			
-			
-			//OptimisationProblem problem = ((PopulationBasedAlgorithm) Algorithm.get()).getOptimisationProblem();
-//			offspring1.setFitness(problem.getFitness(offspring1.get(), false));
-//			offspring2.setFitness(problem.getFitness(offspring2.get(), false));
 			offspring1.calculateFitness(false);
 			offspring2.calculateFitness(false);
 			
@@ -103,8 +101,12 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 	
 
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-		offspring.addAll(this.crossover(topology));// TODO Auto-generated method stub
+		List<Entity> parentCollection = new ArrayList<Entity>();
+		
+		parentCollection.add(this.selectionStrategy.select(topology));
+		parentCollection.add(this.selectionStrategy.select(topology));
+		
+		offspring.addAll(this.crossover(parentCollection));
 	}
 		
-
 }

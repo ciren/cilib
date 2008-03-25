@@ -60,7 +60,6 @@ public class GaussianMutationStrategy extends MutationStrategy {
 		return new GaussianMutationStrategy(this);
 	}
 	
-	@Override
 	public void mutate(List<? extends Entity> entity) {
 		
 		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext(); ) {
@@ -70,12 +69,8 @@ public class GaussianMutationStrategy extends MutationStrategy {
 			for (int i = 0; i < chromosome.getDimension(); i++) {
 				double random = this.getRandomNumber().getUniform(); 
 				if (random <= this.getMutationProbability().getParameter()) {
-					double value;
-					//Numeric element = (Numeric) chromosome.get(i);
-					//double deviation = this.deviationStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
 					double deviation = this.getRandomNumber().getGaussian();
-					
-					value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
+					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
 									
 					chromosome.setReal(i, value);
 				}
