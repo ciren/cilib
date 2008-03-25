@@ -2,10 +2,10 @@
  * Algorithm.java
  *
  * Created on January 17, 2003, 4:54 PM
- * 
- * Copyright (C) 2003 - 2006 
+ *
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,7 +21,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.algorithm;
 
@@ -59,7 +59,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	/**
 	 * 
 	 */
-	private transient static ThreadLocal<AlgorithmStack> currentAlgorithmStack = new ThreadLocal<AlgorithmStack>() {
+	private static ThreadLocal<AlgorithmStack> currentAlgorithmStack = new ThreadLocal<AlgorithmStack>() {
 		protected AlgorithmStack initialValue() {
 			return new AlgorithmStack();
 		}
@@ -192,7 +192,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	}
 
 	/**
-	 * Removes an alogorithm event listener
+	 * Removes an algorithm event listener.
 	 * @param listener The {@link AlgorithmListener} to be removed.
 	 */
 	public final void removeAlgorithmListener(AlgorithmListener listener) {
@@ -243,7 +243,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	}
 
 	/**
-	 * Accessor for the top-level algorithm running in the current thread
+	 * Accessor for the top-level algorithm running in the current thread.
 	 * @return the instance of the algorithm that is running in the current thread,.
 	 */
 	public static Algorithm get() {
@@ -289,8 +289,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	}
 
 	/**
-	 * Get the specified <code>OptimisationProblem</code>
-	 * @return The specified <code>OptimisationProblem</code>
+	 * Get the specified {@linkplain OptimisationProblem}.
+	 * @return The specified {@linkplain OptimisationProblem}.
 	 */
 	public OptimisationProblem getOptimisationProblem() {
 		return this.optimisationProblem;
@@ -305,7 +305,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 
 	/**
 	 * Get the collection of best solutions. This result does not actually make sense in the normal
-	 * PSO algorithm, but rather in a MultiObjective optimisation.
+	 * PSO algorithm, but rather in a MultiObjective optimization.
 	 * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
 	 */
 	public abstract List<OptimisationSolution> getSolutions();
