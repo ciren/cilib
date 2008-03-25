@@ -1,11 +1,11 @@
 /*
  * B.java
- * 
+ *
  * Created on Nov 1, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -30,22 +30,28 @@ import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
-public class B implements TypeCreator {
+public final class B implements TypeCreator {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7124782787032789332L;
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type create() {
 		return new Bit();
 	}
 
-	public Type create(double lower, double upper) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public Type create(final double lower, final double upper) {
 		throw new UnsupportedOperationException("Bit types cannot be constructed with bounds");
 	}
 

@@ -1,11 +1,11 @@
 /*
  * Z.java
- * 
+ *
  * Created on Nov 1, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -34,21 +34,25 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  *
  */
-public class Z implements TypeCreator {
+public final class Z implements TypeCreator {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5763440861780552761L;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type create() {
 		return new Int();
 	}
 
-	public Type create(double lower, double upper) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public Type create(final double lower, final double upper) {
 		return new Int(Double.valueOf(lower).intValue(), Double.valueOf(upper).intValue());
 	}
-	
-	
 
 }

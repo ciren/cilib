@@ -1,11 +1,11 @@
 /*
  * TypeCreator.java
- * 
+ *
  * Created on Nov 1, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -40,7 +40,7 @@ public interface TypeCreator {
 	
 	/**
 	 * Create the type in a standard fashion. If the type has the concept of bounds,
-	 * the maxuimum and minimum values for the bounds are used to bound the created
+	 * the maximum and minimum values for the bounds are used to bound the created
 	 * object.
 	 *  
 	 * @return The newly created <tt>Type</tt>

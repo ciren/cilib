@@ -1,11 +1,11 @@
 /*
  * T.java
- * 
+ *
  * Created on Nov 1, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  *
  */
-public class T implements TypeCreator {
+public final class T implements TypeCreator {
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class T implements TypeCreator {
 		return new StringType();
 	}
 
-	public Type create(double lower, double upper) {
+	public Type create(final double lower, final double upper) {
 		throw new UnsupportedOperationException("StringTypes with bounds do not exist");
 	}
 
