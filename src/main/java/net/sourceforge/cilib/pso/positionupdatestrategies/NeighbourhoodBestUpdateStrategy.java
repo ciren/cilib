@@ -3,9 +3,9 @@
  *
  * Created on Oct 14, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -32,12 +32,22 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
+ * Interface specifying the manner in which the neighbourhood best of the
+ * particle is obtained.
+ *
  * @author Gary Pampara
  */
 public interface NeighbourhoodBestUpdateStrategy extends Serializable, Cloneable {
 	
-	public Fitness getSocialBestFitness(Particle particle);
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public NeighbourhoodBestUpdateStrategy getClone();
 
+	/**
+	 * Get the social best fitness (neighbourhood best) of the given particle.
+	 * @param particle The particle to determine the social best fitness from.
+	 * @return The social best (neighbourhood best) {@linkplain Fitness}.
+	 */
+	public Fitness getSocialBestFitness(Particle particle);
 }
