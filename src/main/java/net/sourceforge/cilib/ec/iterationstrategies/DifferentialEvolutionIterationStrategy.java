@@ -25,6 +25,7 @@
 package net.sourceforge.cilib.ec.iterationstrategies;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,8 +35,11 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
+import net.sourceforge.cilib.entity.operators.crossover.DifferentialEvolutionBinomialCrossover;
+import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
+import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -46,25 +50,34 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC> {
 	private static final long serialVersionUID = 8019668923312811974L;	
-	private RandomNumber random1;
-	private RandomNumber random2;
+	private RandomNumber random;
 	private ControlParameter crossoverProbability;
 	private ControlParameter scaleParameter;
+	private ControlParameter numberOfDifferenceVectors;
+	
+	private SelectionStrategy targetVectorSelectionStrategy; // x
+	private CrossoverStrategy crossoverStrategy; // z
 	
 	public DifferentialEvolutionIterationStrategy() {
-		this.random1 = new RandomNumber();
-		this.random2 = new RandomNumber();
+		this.random = new RandomNumber();
 		
 		this.crossoverProbability = new ConstantControlParameter(0.6);
 		this.scaleParameter = new ConstantControlParameter(0.5);
+		this.numberOfDifferenceVectors = new ConstantControlParameter(1);
+		
+		this.targetVectorSelectionStrategy = new RandomSelectionStrategy();
+		this.crossoverStrategy = new DifferentialEvolutionBinomialCrossover();
 	}
 	
 	public DifferentialEvolutionIterationStrategy(DifferentialEvolutionIterationStrategy copy) {
-		this.random1 = copy.random1.getClone();
-		this.random2 = copy.random2.getClone();
+		this.random = copy.random.getClone();
 		
 		this.crossoverProbability = copy.crossoverProbability.getClone();
 		this.scaleParameter = copy.scaleParameter.getClone();
+		this.numberOfDifferenceVectors = copy.numberOfDifferenceVectors.getClone();
+		
+		this.targetVectorSelectionStrategy = copy.targetVectorSelectionStrategy.getClone();
+		this.crossoverStrategy = copy.crossoverStrategy.getClone();
 	}
 	
 	/**
@@ -75,70 +88,87 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	}
 
 	/**
-	 * Implementation of the Scheme 1 strategy for differential evolution 
+	 * Perform an iteration of the DE algorithm defined as the DE/x/y/z implementation.
+	 * @param ec The {@linkplain EC} on which to perform this iteration.
 	 */
 	public void performIteration(EC ec) {
 		Topology<? extends Entity> topology = ec.getTopology();
 		
-		for (Iterator<? extends Entity> iterator = topology.iterator(); iterator.hasNext(); ) {
-			Entity current = iterator.next();
+		for (Entity current : topology) {
 			current.calculateFitness();
-		
-			List<Entity> parents = getRandomParentEntities(topology);
 			
-			Vector currentPosition = (Vector) current.getContents(); 
-			Vector position1 = (Vector) parents.get(0).getContents();
-			Vector position2 = (Vector) parents.get(1).getContents();
-			Vector position3 = (Vector) parents.get(2).getContents();
+			// Create the trial vector by applying mutation
+			Entity targetEntity = targetVectorSelectionStrategy.select(topology);
+			while (targetEntity == current)
+				targetEntity = targetVectorSelectionStrategy.select(topology);
 			
-			Vector trialVector = new Vector();
+			List<Entity> participants = selectEntities(current, topology);
+			Vector differenceVector = determineDistanceVector(participants);
 			
-			int i = Double.valueOf(random1.getUniform(0, currentPosition.getDimension())).intValue();
-			for (int j = 0; j < currentPosition.getDimension(); j++) {
-				if ((random2.getUniform() < crossoverProbability.getParameter()) || (j == i)) {
-					double value = position3.getReal(j);
-					value += scaleParameter.getParameter() * (position1.getReal(j) - position2.getReal(j));
-					
-					trialVector.add(new Real(value));
-				}
-				else {
-					trialVector.add(currentPosition.get(j));
-				}
+			Vector targetVector = (Vector) targetEntity.getContents();
+			Vector trialVector = targetVector.plus(differenceVector.multiply(scaleParameter.getParameter()));
+			
+			// Create the offspring by applying cross-over
+			Entity trialEntity = current.getClone();
+			trialEntity.setContents(trialVector);
+			List<Entity> offspring = this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
+			
+			// Replace the parent (current) if the offspring is better
+			Entity offspringEntity = offspring.get(0);
+			offspringEntity.calculateFitness(false);
+			
+			if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
+				current.setContents(offspring.get(0).getContents());
 			}
-			
-			Fitness trialVectorFitness = ec.getOptimisationProblem().getFitness(trialVector, false);
-			
-			if (trialVectorFitness.compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
-				current.setContents(trialVector);
-			}
-			
-			//this.boundaryConstraint.enforce(current);
 		}
 	}	
-	
+
 	/**
-	 * Get a list of individuals that are suitable to be used within
-	 * the recombination arithmetic operator.
-	 * @param topology The {@see net.sourceforge.cilib.entity.Topology Topology} containing the entites.
-	 * @return A list of unique entities.
+	 * Calculate the {@linkplain Vector} that is the resultant of several difference vectors.
+	 * @param participants The {@linkplain Entity} list to create the difference vectors from. It
+	 *        is very important to note that the {@linkplain Entity} objects within this list
+	 *        should not contain duplicates. If duplicates are contained, this will severely
+	 *        reduce the diversity of the population as not all entities will be considered.
+	 * @return A {@linkplain Vector} representing the resultant of all calculated difference vectors.
 	 */
-	public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
-		List<Entity> parents = new ArrayList<Entity>(3);
+	private Vector determineDistanceVector(List<Entity> participants) {
+		Vector distanceVector = new Vector(participants.get(0).getContents().getDimension(), new Real(0.0));
 		
-		RandomNumber randomNumber = new RandomNumber();
-		
-		int count = 0;
-		
-		while (count < 3) {
-			int random = randomNumber.getRandomGenerator().nextInt(topology.size());
-			Entity parent = topology.get(random);
-			if (!parents.contains(parent)) {
-				parents.add(parent);
-				count++;
-			}
+		for (Iterator<Entity> iterator = participants.iterator(); iterator.hasNext(); ) {
+			Vector first = (Vector) iterator.next().getContents();
+			Vector second = (Vector) iterator.next().getContents();
+			
+			Vector difference = first.subtract(second);
+			distanceVector = distanceVector.plus(difference);
 		}
 		
-		return parents;
+		return distanceVector;
+	}
+
+	/**
+	 * This private method implements the "y" part of the DE/x/y/z structure.
+	 * @param current The current {@linkplain Entity} in the {@linkplain Topology}
+	 * @param topology The current population.
+	 * @return {@linkplain List} containing the entities to be used in the calculation of
+	 *         the difference vectors.
+	 */
+	private List<Entity> selectEntities(Entity current, Topology<? extends Entity> topology) {
+		SelectionStrategy randomSelectionStrategy = new RandomSelectionStrategy();
+		List<Entity> participants = new ArrayList<Entity>();
+		
+		int total = 2 * Double.valueOf(this.numberOfDifferenceVectors.getParameter()).intValue();
+		
+		for (int i = 0; i < total; ) {
+			Entity entity = randomSelectionStrategy.select(topology);
+		
+			if (participants.contains(entity)) continue;
+			if (current == entity) continue;
+			
+			participants.add(entity);
+			i++;
+		}
+		
+		return participants;
 	}
 
 	/**
@@ -173,4 +203,56 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		this.scaleParameter = scaleParameter;
 	}
 
+	/**
+	 * Get the number of difference vectors to create.
+	 * @return The {@linkplain ControlParameter} representing the number of 
+	 *         difference vectors to generate.
+	 */
+	public ControlParameter getNumberOfDifferenceVectors() {
+		return numberOfDifferenceVectors;
+	}
+
+	/**
+	 * Set the number of difference vectors to create during the calculation
+	 * of the trial vector within the DE. 
+	 * @param numberOfDifferenceVectors The {@linkplain ControlParameter} defining the 
+	 *        number of difference vectors to create. 
+	 */
+	public void setNumberOfDifferenceVectors(ControlParameter numberOfDifferenceVectors) {
+		this.numberOfDifferenceVectors = numberOfDifferenceVectors;
+	}
+
+	/**
+	 * Obtain the {@linkplain SelectionStrategy} used to select the target vector.
+	 * @return The {@linkplain SelectionStrategy} of the target vector.
+	 */
+	public SelectionStrategy getTargetVectorSelectionStrategy() {
+		return targetVectorSelectionStrategy;
+	}
+
+	/**
+	 * Set the {@linkplain SelectionStrategy} used to select the target vector within the DE
+	 * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the 
+	 *        selection of the target vector.
+	 */
+	public void setTargetVectorSelectionStrategy(SelectionStrategy targetVectorSelectionStrategy) {
+		this.targetVectorSelectionStrategy = targetVectorSelectionStrategy;
+	}
+
+	/**
+	 * Get the {@linkplain CrossoverStrategy} used to create offspring entities.
+	 * @return The {@linkplain CrossoverStrategy} used to create offspring.
+	 */
+	public CrossoverStrategy getCrossoverStrategy() {
+		return crossoverStrategy;
+	}
+
+	/**
+	 * Set the {@linkplain CrossoverStrategy} used to create offspring entities.
+	 * @param crossoverStrategy The {@linkplain CrossoverStrategy} to create entities.
+	 */
+	public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+		this.crossoverStrategy = crossoverStrategy;
+	}
+	
 }
