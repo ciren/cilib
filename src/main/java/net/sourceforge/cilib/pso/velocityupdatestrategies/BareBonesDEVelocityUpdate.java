@@ -1,14 +1,15 @@
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
-import net.sourceforge.cilib.ec.iterationstrategies.DifferentialEvolutionIterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -68,7 +69,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 		Vector velocity = (Vector) particle.getVelocity();
 		
 		PSO pso = (PSO) Algorithm.get();
-		List<Entity> positions = DifferentialEvolutionIterationStrategy.getRandomParentEntities(pso.getTopology());
+		List<Entity> positions = getRandomParentEntities(pso.getTopology());
 		
 		//select three random individuals, all different and different from particle
 		RandomNumber r1 = new RandomNumber();
@@ -88,6 +89,30 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         }
 	}
 
+	/**
+	 * Get a list of individuals that are suitable to be used within
+	 * the recombination arithmetic operator.
+	 * @param topology The {@see net.sourceforge.cilib.entity.Topology Topology} containing the entites.
+	 * @return A list of unique entities.
+	 */
+	public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
+		List<Entity> parents = new ArrayList<Entity>(3);
+		
+		RandomNumber randomNumber = new RandomNumber();
+		
+		int count = 0;
+		
+		while (count < 3) {
+			int random = randomNumber.getRandomGenerator().nextInt(topology.size());
+			Entity parent = topology.get(random);
+			if (!parents.contains(parent)) {
+				parents.add(parent);
+				count++;
+			}
+		}
+		
+		return parents;
+	}
 
 	public void updateControlParameters(Particle particle) {
 		// TODO Auto-generated method stub
