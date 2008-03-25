@@ -2,10 +2,10 @@
  * Solution.java
  *
  * Created on November 11, 2003, 3:18 PM
- * 
- * Copyright (C) 2003 - 2006 
+ *
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,7 +21,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 package net.sourceforge.cilib.problem;
@@ -29,11 +29,10 @@ package net.sourceforge.cilib.problem;
 import java.io.Serializable;
 
 /**
- * This is a common abstraction for all solution classes. All solutions should extend this interface. 
+ * This is a common abstraction for all solution classes. All solutions should extend this interface.
  * This interface does not declare any methods.
  *
  * @author  Edwin Peer
  */
 public interface Solution extends Serializable {
-    
 }
