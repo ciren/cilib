@@ -56,12 +56,9 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 		this.crossoverStrategy = new UniformCrossoverStrategy();
 		this.mutationStrategy = new GaussianMutationStrategy();
 		
-		TopologyLoopingOperator loopingOperator = new TopologyLoopingOperator();
-		loopingOperator.setOperator(this.crossoverStrategy);
-		this.operatorPipeline.add(loopingOperator);
-		this.operatorPipeline.add(this.mutationStrategy);
+		initialiseOperatorPipeline();
 	}
-	
+
 	public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
 		this.crossoverStrategy = copy.crossoverStrategy.getClone();
 		this.mutationStrategy = copy.mutationStrategy.getClone();
@@ -115,20 +112,55 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 		offspring = null;
 	}
 
+	/**
+	 * Get the currently specified {@linkplain CrossoverStrategy}.
+	 * @return The current {@linkplain CrossoverStrategy}.
+	 */
 	public CrossoverStrategy getCrossoverStrategy() {
 		return crossoverStrategy;
 	}
 
+	/**
+	 * Set the current {@linkplain CrossoverStrategy} and reinitialise the operator pipeline.
+	 * @param crossoverStrategy The {@linkplain CrossoverStrategy} to use.
+	 */
 	public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
 		this.crossoverStrategy = crossoverStrategy;
+		initialiseOperatorPipeline();
 	}
 
+	/**
+	 * Get the currently specified {@linkplain MutationStrategy}.
+	 * @return The current {@linkplain MutationStrategy}.
+	 */
 	public MutationStrategy getMutationStrategy() {
 		return mutationStrategy;
 	}
 
+	/**
+	 * Set the current {@linkplain MutationStrategy} and reinitialise the operator pipeline.
+	 * @param mutationStrategy The {@linkplain MutationStrategy} to use.
+	 */
 	public void setMutationStrategy(MutationStrategy mutationStrategy) {
 		this.mutationStrategy = mutationStrategy;
+		initialiseOperatorPipeline();
+	}
+	
+	/**
+	 * Setup the operator pipeline based on the currently specified {@linkplain CrossoverStrategy}
+	 * and {@linkplain MutationStrategy}.
+	 * 
+	 * The operator is firstly cleared of all elements and then recreated using the current
+	 * {@linkplain Operator} objects.
+	 */
+	private void initialiseOperatorPipeline() {
+		this.operatorPipeline.clear();
+		
+		TopologyLoopingOperator loopingOperator = new TopologyLoopingOperator();
+		loopingOperator.setOperator(this.crossoverStrategy);
+		
+		this.operatorPipeline.add(loopingOperator);
+		this.operatorPipeline.add(this.mutationStrategy);
 	}
 	
 }
