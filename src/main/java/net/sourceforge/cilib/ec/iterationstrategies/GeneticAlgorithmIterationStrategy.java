@@ -114,4 +114,21 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 		offspring.clear();
 		offspring = null;
 	}
+
+	public CrossoverStrategy getCrossoverStrategy() {
+		return crossoverStrategy;
+	}
+
+	public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+		this.crossoverStrategy = crossoverStrategy;
+	}
+
+	public MutationStrategy getMutationStrategy() {
+		return mutationStrategy;
+	}
+
+	public void setMutationStrategy(MutationStrategy mutationStrategy) {
+		this.mutationStrategy = mutationStrategy;
+	}
+	
 }

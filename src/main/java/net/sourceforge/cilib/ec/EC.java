@@ -43,8 +43,8 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
- * Generic EC skeleton agorithm. The algorithm is altered by defining the
- * appropriate {@link net.sourceforge.cilib.ec.iterationstrategies.IterationStrategy}.
+ * Generic EC skeleton algorithm. The algorithm is altered by defining the
+ * appropriate {@linkplain IterationStrategy}.
  * 
  * @author Gary Pampara
  */
@@ -149,7 +149,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		this.topology.getBestEntity().calculateFitness();
 	}
 
-	@Override
 	public double accept(TopologyVisitor visitor) {
 		visitor.setCurrentAlgorithm(this);
 		getTopology().accept(visitor);
