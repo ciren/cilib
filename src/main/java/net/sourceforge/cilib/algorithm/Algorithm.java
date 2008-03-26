@@ -55,9 +55,12 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	private boolean initialised;
 
 	protected OptimisationProblem optimisationProblem;
-	
+
 	/**
-	 * 
+	 * This {@linkplain ThreadLocal} variable maintains the stack of the currently
+	 * executing algorithm. It is defined as a static member and as a result is not
+	 * required to be marked as transient as static members are not allowed to be
+	 * serializable according to the Java Specification.
 	 */
 	private static ThreadLocal<AlgorithmStack> currentAlgorithmStack = new ThreadLocal<AlgorithmStack>() {
 		protected AlgorithmStack initialValue() {
@@ -65,15 +68,24 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 		}
 	};
 
+	/**
+	 * Default constructor for {@linkplain Algorithm} classes. Sets up the correct state
+	 * for the instance and initialises the needed containers needed for the different
+	 * {@linkplain AlgorithmEvent}s that are generated.
+	 */
 	protected Algorithm() {
 		// LoggingSingleton.initialise();
 		stoppingConditions = new Vector<StoppingCondition>();
 		algorithmListeners = new Vector<AlgorithmListener>();
-		
+
 		running = false;
 		initialised = false;
 	}
 
+	/**
+	 * Copy constructor. Create a deep copy of the provided instance and return it.
+	 * @param copy The instance to copy.
+	 */
 	public Algorithm(Algorithm copy) {
 		stoppingConditions = new Vector<StoppingCondition>();
 		for (StoppingCondition stoppingCondition : copy.stoppingConditions) {
@@ -86,7 +98,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 		for (AlgorithmListener listen : copy.algorithmListeners) {
 			algorithmListeners.add(listen.getClone());
 		}
-		
+
 		running = false;
 		initialised = false;
 
@@ -94,10 +106,17 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 			optimisationProblem = copy.optimisationProblem.getClone();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract Algorithm getClone();
 
+
+	/**
+	 * Reset the {@linkplain Algorithm} internals if needed.
+	 */
 	public void reset() {
-		// throw new UnimplementedMethodException("'reset()' method not implemented for '" + this.getClass().getName() + "'");
+		 throw new UnsupportedOperationException("'reset()' method not implemented for '" + this.getClass().getName() + "'");
 	}
 
 	/**
@@ -115,18 +134,35 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 		performInitialisation();
 	}
 
+	/**
+	 * Perform the actions of the current {@linkplain Algorithm} for a single iteration. This
+	 * method calls {@linkplain Algorithm#algorithmIteration()} after it performs some
+	 * internal tasks by maintaining the stack of the currently executing algorithm instances.
+	 */
 	public final void performIteration() {
 		currentAlgorithmStack.get().push(this);
 		algorithmIteration();
 		currentAlgorithmStack.get().pop();
 	}
-	
+
+	/**
+	 * The actual operations that the current {@linkplain Algorithm} performs within a single
+	 * iteration.
+	 */
 	protected abstract void algorithmIteration();
 
+	/**
+	 * Perform the needed initialisation required before the execution of the algorithm
+	 * starts.
+	 */
 	public void performInitialisation() {
 		// subclasses can override the behaviour for this method
 	}
 
+	/**
+	 * Perform the needed unintialisation steps after the algorithm completes it's
+	 * execution.
+	 */
 	public void performUninitialisation() {
 		// subclasses can override the behaviour for this method
 	}
@@ -141,9 +177,9 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 		}
 
 		fireAlgorithmStarted();
-		
+
 		currentAlgorithmStack.get().push(this);
-		
+
 		while (running && (!isFinished())) {
 			performIteration();
 			++iterations;
@@ -249,29 +285,51 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	public static Algorithm get() {
 		return currentAlgorithmStack.get().peek();
 	}
-	
+
+	/**
+	 * Get the current list of {@linkplain StoppingCondition} instances that are
+	 * associated with the current {@linkplain Algorithm}.
+	 * @return The list of {@linkplain StoppingCondition} instances associated with
+	 *         the current {@linkplain Algorithm}.
+	 */
 	public Vector<StoppingCondition> getStoppingConditions() {
 		return this.stoppingConditions;
 	}
 
+	/**
+	 * Fire the {@linkplain AlgorithmEvent} to indicate that the {@linkplain Algorithm}
+	 * has started execution.
+	 */
 	private void fireAlgorithmStarted() {
 		for (AlgorithmListener listener : algorithmListeners) {
 			listener.algorithmStarted(new AlgorithmEvent(this));
 		}
 	}
 
+	/**
+	 * Fire the {@linkplain AlgorithmEvent} to indicate that the {@linkplain Algorithm}
+	 * has finished execution.
+	 */
 	private void fireAlgorithmFinished() {
 		for (AlgorithmListener listener : algorithmListeners) {
 			listener.algorithmFinished(new AlgorithmEvent(this));
 		}
 	}
 
+	/**
+	 * Fire the {@linkplain AlgorithmEvent} to indicate that the {@linkplain Algorithm}
+	 * has been terminated.
+	 */
 	private void fireAlgorithmTerminated() {
 		for (AlgorithmListener listener : algorithmListeners) {
 			listener.algorithmTerminated(new AlgorithmEvent(this));
 		}
 	}
 
+	/**
+	 * Fire the {@linkplain AlgorithmEvent} to indicate that the {@linkplain Algorithm}
+	 * has completed an iteration.
+	 */
 	private void fireIterationCompleted() {
 		for (AlgorithmListener listener : algorithmListeners) {
 			listener.iterationCompleted(new AlgorithmEvent(this));
@@ -309,12 +367,12 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
 	 */
 	public abstract List<OptimisationSolution> getSolutions();
-	
+
 	/**
-	 * General method to accept a visitor to perform a calculation on the current algorithm. The 
-	 * operation is generally deferred down to the underlying topology associated with the 
+	 * General method to accept a visitor to perform a calculation on the current algorithm. The
+	 * operation is generally deferred down to the underlying topology associated with the
 	 * algorithm, as the algorithm does not contain information, but rather only behaviour to alter
-	 * the candidate solutions that are managed by the <tt>Topology</tt>. 
+	 * the candidate solutions that are managed by the <tt>Topology</tt>.
 	 * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
 	 * @return The result of the visitor operation.
 	 */

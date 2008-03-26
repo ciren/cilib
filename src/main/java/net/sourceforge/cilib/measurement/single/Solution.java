@@ -1,11 +1,11 @@
 /*
  * Solution.java
- * 
+ *
  * Created on Jul 24, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2004 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -37,28 +37,42 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Solution implements Measurement {
 	private static final long serialVersionUID = -7485598441585703760L;
 
+	/**
+	 * Default constructor.
+	 */
 	public Solution() {
 	}
-	
+
+	/**
+	 * Copy constructor.
+	 * @param copy The instance to copy.
+	 */
 	public Solution(Solution copy) {
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Solution getClone() {
 		return new Solution(this);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getDomain() {
 		return "T";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type getValue() {
 		StringType s = new StringType();
-		
+
 		Vector solution = (Vector) Algorithm.get().getBestSolution().getPosition();
-		
-		//s.setString(buffer.toString());
 		s.setString(solution.toString());
-		
+
 		return s;
 	}
 
