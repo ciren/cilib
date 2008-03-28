@@ -39,7 +39,7 @@ public class MovingPeaksOfflineErrorMeasurement implements Measurement {
 	public Type getValue() {
 		MovingPeaks func = (MovingPeaks)((FunctionMaximisationProblem)(Algorithm.get().getOptimisationProblem())).getFunction();
 		Vector err = new Vector();
-		err.add(new Real(func.get_offline_error()));
+		err.add(new Real(func.getOfflineError()));
 		return err;
 	}
 }

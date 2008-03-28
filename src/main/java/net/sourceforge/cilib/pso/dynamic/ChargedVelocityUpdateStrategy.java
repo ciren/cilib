@@ -53,7 +53,7 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
     	
     	Vector acceleration = new Vector(velocity.getDimension());
     	acceleration.initialise(velocity.getDimension(), new Real(0));
-    	PSO pso = (PSO)Algorithm.get();
+    	PSO pso = (PSO) Algorithm.get();
     	Iterator<Particle> iter = null;
     	// make iter point to the current particle
     	for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext(); ) {
@@ -66,9 +66,9 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
     	for (int i = 0; i < particle.getDimension(); ++i) {
     		double accSum = 0;
 	    	for (Iterator<Particle> j = pso.getTopology().neighbourhood(iter); j.hasNext(); ) {
-	            ChargedParticle other = (ChargedParticle)j.next();
+	            ChargedParticle other = (ChargedParticle) j.next();
 	            if(particle.getId().equals(other.getId())) continue;
-	            double qi = ((ChargedParticle)particle).getCharge();
+	            double qi = ((ChargedParticle) particle).getCharge();
 	            double qj = other.getCharge();
 	            Vector rij = position.subtract((Vector) other.getPosition());
 	            double magnitude = rij.norm();
@@ -80,10 +80,10 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
     	}
         
         for (int i = 0; i < particle.getDimension(); ++i) {
-    		double value = inertiaWeight.getParameter()*velocity.getReal(i) 
-    			+ (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-    			+ (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter()
-    			+ acceleration.getReal(i);
+    		double value = inertiaWeight.getParameter()*velocity.getReal(i) + 
+    			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
+    			(nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter() +
+    			acceleration.getReal(i);
     		velocity.setReal(i, value);
     		
     		clamp(velocity, i);

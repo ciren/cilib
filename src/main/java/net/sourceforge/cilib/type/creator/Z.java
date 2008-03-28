@@ -22,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.type.creator;
 
@@ -54,5 +53,4 @@ public final class Z implements TypeCreator {
 	public Type create(final double lower, final double upper) {
 		return new Int(Double.valueOf(lower).intValue(), Double.valueOf(upper).intValue());
 	}
-
 }

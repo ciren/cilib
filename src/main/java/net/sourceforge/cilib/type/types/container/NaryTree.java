@@ -1,9 +1,9 @@
 /*
  * NaryTree.java
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2004 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -28,21 +28,38 @@ import java.util.List;
 
 import net.sourceforge.cilib.util.Cloneable;
 
+/**
+ * Implementation of a Nary Tree data structure.
+ * 
+ * @param <E> The type that this {@linkplain Tree} instance is defined to contain. 
+ */
 public class NaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = -1136444941205621381L;
 	
 	private int degree;
 	private List<NaryTree<E>> subTrees;
 
+	/**
+	 * Create an empty {@linkplain NaryTree} instance.
+	 */
 	public NaryTree() {	
 	}
 	
+	/**
+	 * Create an {@linkplain NaryTree} instance with the specified {@code degree}.
+	 * @param degree The specified degree for the {@linkplain NaryTree}.
+	 */
 	public NaryTree(int degree) {
 		this.key = null;
 		this.degree = degree;
 		this.subTrees = new ArrayList<NaryTree<E>>();
 	}
 	
+	/**
+	 * Create a {@linkplain NaryTree} instance, with the given degree and key value.
+	 * @param degree The specified degree for the {@linkplain NaryTree}.
+	 * @param element The key to be maintained by this {@linkplain NaryTree}.
+	 */
 	public NaryTree(int degree, E element) {
 		this.key = element;
 		this.degree = degree;
@@ -51,6 +68,11 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 			this.subTrees.add(new NaryTree<E>(degree));
 	}
 	
+	/**
+	 * Copy constructor. Make a copy of the provided instance. This copy is a deep copy
+	 * of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	@SuppressWarnings("unchecked")
 	public NaryTree(NaryTree<E> copy) {
 		this(copy.degree);
@@ -60,10 +82,16 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public NaryTree<E> getClone() {
 		return new NaryTree<E>(this);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean addSubTree(Tree<E> subTree) {
 		if (isEmpty())
@@ -81,11 +109,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 	}
 
 	/**
-	 * Return the subTree with the node value of <tt>element</tt>. If
-	 * such an subTree does not exist, an empty tree is returned.
-	 * 
-	 * @param element The element of the subTree to search for.
-	 * @return The subtree if found else an empty <tt>Tree</tt> object.
+	 * {@inheritDoc}
 	 */
 	public Tree<E> getSubTree(E element) {
 		for (int i = 0; i < degree; i++) {
@@ -100,6 +124,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		return new NaryTree<E>();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public Tree<E> removeSubTree(E element) {
 		if (isEmpty()) 
@@ -112,23 +139,32 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		return subTree;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Tree<E> removeSubTree(int index) {
 		Tree<E> subTree = getSubTree(index);
 		return removeSubTree(subTree.getKey());
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public boolean add(E element) {
 		NaryTree<E> tree = new NaryTree<E>(degree, element);
 		return this.addSubTree(tree);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void clear() {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean contains(E element) {
 		for (int i = 0; i < degree; i++) {
 			Tree<E> subTree = getSubTree(i);
@@ -139,18 +175,30 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean remove(E element) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public E remove(int index) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Tree<E> getSubTree(int index) {
 		if (isEmpty())
 			throw new UnsupportedOperationException();
@@ -158,6 +206,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		return this.subTrees.get(index);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isLeaf() {
 		for (int i = 0; i < degree; i++)
 			if (!subTrees.get(i).isEmpty())
@@ -166,6 +217,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setKey(E element) {
 		if (!isEmpty())
@@ -178,6 +232,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getDegree() {
 		return this.degree;
 	}

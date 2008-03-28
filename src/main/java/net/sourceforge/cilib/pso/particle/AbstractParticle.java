@@ -1,12 +1,9 @@
 /*
  * Particle.java
  *
- * Created on January 15, 2003, 8:27 PM
- *
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.particle;
 
@@ -86,8 +82,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	}
 
 	/**
-	 * 
-	 * @return
+	 * {@inheritDoc}
 	 */
     public abstract Particle getClone();
 
@@ -114,10 +109,16 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     	this.id = id;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void calculateFitness() {
     	calculateFitness(true);
     }
-    
+   
+    /**
+     * {@inheritDoc}
+     */
     public abstract void calculateFitness(boolean count);
 
     /**

@@ -14,8 +14,14 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 
 	protected E key;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract AbstractTree<E> getClone();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void breadthFirstTraversal(Visitor<E> visitor) {
 		Queue<Tree<E>> queue = new Queue<Tree<E>>();
 		
@@ -33,6 +39,9 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void depthFirstTraversal(PrePostVisitor<E> visitor) {
 		if (visitor.isDone())
 			return;
@@ -46,10 +55,16 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void accept(Visitor<E> visitor) {
 		depthFirstTraversal(new PreOrderVisitorDecorator<E>(visitor));		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public E getKey() {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Empty trees do not have valid keys");
@@ -57,46 +72,81 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 		return this.key;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setKey(E element) {
 		this.key = element;
 	}
 	
+	/**
+	 * Determine if the current {@linkplain Tree} is empty. A {@linkplain Tree} is only
+	 * defined to be empty if the key value is <code>null</code>. ie: <code>getKey() == null</code>.
+	 * @return <code>true</code> if the {@linkplain Tree} is empty, else <code>false</code>.
+	 */
 	public boolean isEmpty() {
 		return this.key == null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void randomise() {
 		throw new UnsupportedOperationException("Not Implemented");		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isInsideBounds() {
 		throw new UnsupportedOperationException("Not Implemented");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void reset() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addAll(Structure<? extends E> structure) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean removeAll(Structure<E> structure) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Iterator<E> iterator() {
 		return (Iterator<E>) new TreeIterator();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int size() {
 		return this.getDegree();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getDimension() {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getRepresentation() {
 		StringBuffer buffer = new StringBuffer();
 		PrintingVisitor<E> visitor = new PrintingVisitor<E>(buffer);
@@ -105,14 +155,26 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 		return buffer.toString();
 	}
 	
+	/**
+	 * {@linkplain PrePostVisitor} to simply print {@linkplain Tree} instances out
+	 * in a flaw textual representation
+	 * @param <E> The type of the node to be visited.
+	 */
 	@SuppressWarnings("hiding")
 	private class PrintingVisitor<E> extends PrePostVisitor<E> {
 		private StringBuffer buffer;
 		
+		/**
+		 * Create a {@linkplain PrintingVisitor} with the specified {@linkplain StringBuffer}.
+		 * @param buffer the {@linkplain StringBuffer} to use.
+		 */
 		public PrintingVisitor(StringBuffer buffer) {
 			this.buffer = buffer;
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void visit(E o) {
 			if (buffer.length() != 0)
@@ -129,15 +191,24 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 		
 		private Stack<Tree<E>> stack;
 		
+		/**
+		 * Create a {@linkplain TreeIterator} instance.
+		 */
 		public TreeIterator() {
 			stack = new Stack<Tree<E>>();
 			stack.push(AbstractTree.this);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		public boolean hasNext() {
 			return !stack.isEmpty();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		public E next() {
 			if (stack.isEmpty())
 				throw new UnsupportedOperationException();
@@ -152,6 +223,9 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 			return top.getKey();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		public void remove() {
 			throw new UnsupportedOperationException("Cannot remove a tree using an iterator.");
 		}

@@ -1,11 +1,9 @@
 /*
  * StringType.java
- * 
- * Created on Oct 18, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.type.types;
 
@@ -39,35 +36,55 @@ public class StringType extends AbstractType {
 	private static final long serialVersionUID = 2946972552546398657L;
 	private String string;
 	
-	
+	/**
+	 * Create an {@linkplain StringType} instance, which is empty and uninitialised.
+	 */
 	public StringType() {
 		string = null;
 	}
 	
-	
+	/**
+	 * Create an instance with the given string as the contents.
+	 * @param string The string value to have.
+	 */
 	public StringType(String string) {
 		this.string = string;
 	}
 	
+	/**
+	 * Copy constructor. Copy the given instance.
+	 * @param copy The instance to copy.
+	 */
 	public StringType(StringType copy) {
 		this.string = copy.string;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public StringType getClone() {
 		return new StringType(this);
 	}
 	
-	
+	/**
+	 * Get the contained string.
+	 * @return the contained {@linkplain String}.
+	 */
 	public String getString() {
 		return this.string;
 	}
 	
-	
+	/**
+	 * Set the contained {@linkplain String} value.
+	 * @param newString The value to be contained by the {@linkplain StringType}.
+	 */
 	public void setString(String newString) {
 		this.string = new String(newString);
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean equals(Object other) {
 		if (other instanceof StringType) {
 			StringType t = (StringType) other;
@@ -80,44 +97,74 @@ public class StringType extends AbstractType {
 		return false;
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int hashCode() {
 		return this.string.hashCode();
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getDimension() {
 		return 1;
 	}
 
-	
+	/**
+	 * This operation does not make sense on a {@linkplain StringType}. 
+	 * See {@link AbstractType#randomise()} for a description of the method intention.
+	 */
 	public void randomise() {
 		throw new UnsupportedOperationException("Randomise string? Are you looking for garbage?");
 	}
 	
+	/**
+	 * This operation does not make sense on a {@linkplain StringType}. 
+	 * See {@link AbstractType#reset()} for a description of the method intention.
+	 */
 	public void reset() {
 		throw new UnsupportedOperationException("Reset string? Are you wanting to make it null or something?");
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		return string;
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getRepresentation() {
 		return toString();
 	}
 
+	/**
+	 * Write the contents of the {@linkplain StringType} to an {@linkplain ObjectOutput}.
+	 * @param oos the {@linkplain ObjectOutput} to write to.
+	 * @throws IOException If an exception occurs. 
+	 */
 	public void writeExternal(ObjectOutput oos) throws IOException {
 		oos.writeUTF(this.string);
 	}
 
+	/**
+	 * Read the contents from a given {@linkplain ObjectInput}.
+	 * @param ois The {@linkplain ObjectInput} to use.
+	 * @throws IOException If an IO problem occurs.
+	 * @throws ClassNotFoundException If the desired class is not found.
+	 */
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		this.string = ois.readUTF();
-		
 	}
 
+	/**
+	 * Determine if the type is within it's bounds specification. This does not make sense
+	 * on a {@linkplain StringType}.
+	 * @return <code>false</code> always.
+	 */
 	public boolean isInsideBounds() {
 		return false; // There are no bounds for the StringType.
 	}

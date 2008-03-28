@@ -22,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.type.creator;
 
@@ -41,10 +40,16 @@ public final class T implements TypeCreator {
 	 */
 	private static final long serialVersionUID = 1198714503772193216L;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type create() {
 		return new StringType();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type create(final double lower, final double upper) {
 		throw new UnsupportedOperationException("StringTypes with bounds do not exist");
 	}

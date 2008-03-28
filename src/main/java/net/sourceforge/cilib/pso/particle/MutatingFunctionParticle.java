@@ -1,11 +1,9 @@
 /*
  * MutatingFunctionParticle.java
- * 
- * Created on Jun 20, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.particle;
 
@@ -50,6 +47,9 @@ public class MutatingFunctionParticle extends StandardParticle {
 
 	private MaximumIterations maximum;
 
+	/**
+	 * Create an instance of the {@linkplain MutatingFunctionParticle} with defined defaults.
+	 */
 	public MutatingFunctionParticle() {
 		super();
 
@@ -60,6 +60,9 @@ public class MutatingFunctionParticle extends StandardParticle {
 		random = new MersenneTwister();
 	}
 
+	/**
+	 * 
+	 */
 	public void move() {
 		Vector position = (Vector) getPosition();
 		Vector velocity = (Vector) getVelocity();
@@ -72,11 +75,14 @@ public class MutatingFunctionParticle extends StandardParticle {
 		if (maximum == null)
 			getStoppingConditionObjects();
 
-		if (((PSO) Algorithm.get()).getIterations() < mutationRate*(double)maximum.getMaximumIterations())
+		PSO pso = (PSO) Algorithm.get();
+		if (pso.getIterations() < mutationRate*(double)maximum.getMaximumIterations())
 			mutate();
-
 	}
 
+	/**
+	 * Get the list of {@linkplain StoppingCondition}s from the {@linkplain Algorithm}.
+	 */
 	private void getStoppingConditionObjects() {
 		java.util.Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
 		for (Iterator<StoppingCondition> i = vector.iterator(); i.hasNext(); ) {
@@ -130,7 +136,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 		Vector position = getPosition();
 		
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
-	        double number = Math.pow((1.0 - (double)p.getIterations()/(maximum.getMaximumIterations()*mutationRate)),1.5);
+	        double number = Math.pow((1.0 - (double) p.getIterations()/(maximum.getMaximumIterations()*mutationRate)), 1.5);
 			int dimension = RandomInt(0,position.getDimension());
 			Real real = (Real) position.get(dimension);
 			double range = ((real.getUpperBound() - real.getLowerBound())* strangeFunction(p, maximum))/2.0;
