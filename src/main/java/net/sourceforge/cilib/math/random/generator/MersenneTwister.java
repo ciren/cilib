@@ -1,9 +1,6 @@
 /*
  * MersenneTwister.java
  *
- * Created on January 16, 2003, 4:53 PM
- *
- *
  * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -23,12 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * This code is based on the implementation in GSL (GNU Scientific Library)
- * which is also covered by the GNU General Public License. The original C
- * source code is Copyright (C) 1998 Brian Gough.
- *
- * Comment text ripped from GSL.
  */
 package net.sourceforge.cilib.math.random.generator;
 
@@ -44,8 +35,8 @@ package net.sourceforge.cilib.math.random.generator;
  * statistical tests.  It uses 624 words of state per generator and is
  * comparable in speed to the other simulation quality generators.  The original
  * generator used a default seed of 4357 and setting the seed equal to zero
- * reproduces this.
  * </p><p align="right">- Brian Gough</p><p>
+ * reproduces this.
  * References:
  * <ul><li>
  * Makoto Matsumoto and Takuji Nishimura, "Mersenne Twister: A
@@ -54,31 +45,58 @@ package net.sourceforge.cilib.math.random.generator;
  * Simulation', Vol. 8, No. 1 (Jan. 1998), Pages 3-30
  * </li></ul></p>
  *
+ * <p>
+ * This code is based on the implementation in GSL (GNU Scientific Library)
+ * which is also covered by the GNU General Public License. The original C
+ * source code is Copyright (C) 1998 Brian Gough.
+ *
+ * Comment text ripped from GSL.
+ *
  * @author  Edwin Peer
  */
 public class MersenneTwister extends Random {
 
     private static final long serialVersionUID = -4165908582605023476L;
-    
+
+    /**
+     * Default Constructor. Initialises the {@linkplain MersenneTwister} with the 
+     * seed value from {@link Seeder#getSeed()}.
+     */
 	public MersenneTwister() {
         super(Seeder.getSeed());
     }
 
+	/**
+	 * Create a {@linkplain MersenneTwister} with the given seed value.
+	 * @param seed The initial seed value to use.
+	 */
     public MersenneTwister(long seed) {
         super(seed);
     }
-    
+
+    /**
+     * Copy constructor. Create an instance with the same seed as the given
+     * instance.
+     * @param copy The instance to copy.
+     */
     public MersenneTwister(MersenneTwister copy) {
     	super(Seeder.getSeed());
     }
-    
+
+    /**
+     * Get a cloned instance of the current object.
+     * @return The cloned instance.
+     */
     public MersenneTwister getClone() {
-    	return new MersenneTwister();
+    	return new MersenneTwister(this);
     }
-    
-    public void setSeed (long seed) {
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setSeed(long seed) {
         data = new long[N];
-        
+
         if (seed == 0) {
             seed = 4357;
         }
@@ -91,6 +109,9 @@ public class MersenneTwister extends Random {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected int next(int bits) {
         if (index >= N) {
             int i;

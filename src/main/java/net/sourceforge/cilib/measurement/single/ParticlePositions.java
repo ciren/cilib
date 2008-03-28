@@ -1,11 +1,9 @@
 /*
  * ParticlePositions.java
- * 
- * Created on Jul 24, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2004 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -41,25 +39,35 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ParticlePositions implements Measurement {
 	private static final long serialVersionUID = -7891715753767819344L;
 
+	/**
+	 * Default constructor.
+	 */
 	public ParticlePositions() {
 	}
 	
+	/**
+	 * Copy constructor.
+	 * @param copy The instance to copy.
+	 */
 	public ParticlePositions(ParticlePositions copy) {
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public ParticlePositions getClone() {
 		return new ParticlePositions(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.Measurement.Measurement#getDomain()
+	/**
+	 * {@inheritDoc}
 	 */
 	public String getDomain() {
 		return "T";
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.Measurement.Measurement#getValue()
+	/**
+	 * {@inheritDoc}
 	 */
 	public Type getValue() {
 		StringBuffer tmp = new StringBuffer();
@@ -87,7 +95,6 @@ public class ParticlePositions implements Measurement {
 		StringType t = new StringType();
 		t.setString(tmp.toString());
 		
-		//return tmp.toString();
 		return t;
 	}
 

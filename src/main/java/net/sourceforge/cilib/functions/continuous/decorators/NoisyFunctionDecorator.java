@@ -1,11 +1,9 @@
 /*
- * NoisyFunction.java
- * 
- * Created on Oct 21, 2005
+ * NoisyFunctionDecorator.java
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
@@ -42,18 +39,24 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 	private ContinuousFunction function;
 	private RandomNumber randomNumber;
 
+	/**
+	 * Create an instance of the decorator and set the domain to "R" by default.
+	 */
 	public NoisyFunctionDecorator() {
 		setDomain("R");
 		randomNumber = new RandomNumber();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public NoisyFunctionDecorator getClone() {
 		return new NoisyFunctionDecorator();
 	}
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public double evaluate(Vector x) {
 		return function.evaluate(x) + randomNumber.getGaussian(); 
@@ -61,6 +64,7 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 	
 	
 	/**
+	 * Get the function that is decorated.
 	 * @return Returns the noisyFunction.
 	 */
 	public ContinuousFunction getFunction() {
@@ -69,7 +73,8 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 
 	
 	/**
-	 * @param noisyFunction The noisyFunction to set.
+	 * Set the decorated function.
+	 * @param function The function to decorate.
 	 */
 	public void setFunction(ContinuousFunction function) {
 		this.function = function;

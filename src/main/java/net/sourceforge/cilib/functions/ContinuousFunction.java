@@ -75,6 +75,11 @@ public abstract class ContinuousFunction extends Function {
 		return d;
 	}
 
+	/**
+	 * Evaluate the function with the given {@linkplain Vector} as input.
+	 * @param x The input {@linkplain Vector}.
+	 * @return The value of the evaluation.
+	 */
 	public abstract double evaluate(Vector x);
 
 }

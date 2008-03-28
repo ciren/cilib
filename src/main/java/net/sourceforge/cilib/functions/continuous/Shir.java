@@ -1,3 +1,26 @@
+/*
+ * Shir.java
+ *
+ * Copyright (C) 2003 - 2006
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -16,12 +39,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * @author  Andries Engelbrecht
  */
-
 public class Shir extends ContinuousFunction {
 	private static final long serialVersionUID = 8157687561496975789L;
 	
-	double l1, l2, l3, l4, l5, sharpness;
+	private double l1, l2, l3, l4, l5, sharpness;
 	
+	/**
+	 * Create an instance of the function. The domain is set to "R(0, 1)^30" by default.
+	 */
 	public Shir() {
         setDomain("R(0, 1)^30");
         
@@ -33,26 +58,35 @@ public class Shir extends ContinuousFunction {
         sharpness = 2;
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Shir getClone() {
 		return new Shir();
 	}
     
+	/**
+	 * {@inheritDoc}
+	 */
     public Object getMaximum() {
         return new Double(1);
     }
     
+    /**
+     * {@inheritDoc}
+     */
 	public double evaluate(Vector x) {
-		double sin_term;
-		double exp_term;
+		double sinTerm;
+		double expTerm;
 		double product = 1.0;
 		
 		for (int i = 0; i < getDimension(); i++) {
-			sin_term = 1.0;
+			sinTerm = 1.0;
 			for (int k = 1; k <= sharpness; k++)
-				sin_term *= Math.sin(l1*Math.PI*x.getReal(i) + l2);
-			exp_term = Math.exp(-l3*((x.getReal(i)-l4)/l5)*((x.getReal(i)-l4)/l5));
-			product *= (sin_term * exp_term); 
+				sinTerm *= Math.sin(l1*Math.PI*x.getReal(i) + l2);
+			expTerm = Math.exp(-l3*((x.getReal(i)-l4)/l5)*((x.getReal(i)-l4)/l5));
+			product *= (sinTerm * expTerm); 
 		}
 		
 		return product;

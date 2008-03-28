@@ -1,12 +1,9 @@
 /*
  * Measurement.java
  *
- * Created on February 4, 2003, 4:04 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.measurement;
 
 import java.io.Serializable;
@@ -43,6 +38,9 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface Measurement extends Serializable, Cloneable {
 	
+	/**
+	 * {@inheritDoc} 
+	 */
 	public Measurement getClone();
 	
 	/**

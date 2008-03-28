@@ -1,8 +1,6 @@
 /*
  * Solution.java
  *
- * Created on November 11, 2003, 3:18 PM
- *
  * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.problem;
 
 import java.io.Serializable;

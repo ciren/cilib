@@ -1,11 +1,9 @@
 /*
  * SelectionStrategy.java
- * 
- * Created on Apr 1, 2006
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003, 2004 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.entity.operators.selection;
 
@@ -36,8 +33,16 @@ import net.sourceforge.cilib.entity.operators.Operator;
  */
 public abstract class SelectionStrategy implements Operator {
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract SelectionStrategy getClone();
 	
+	/**
+	 * Apply the selection strategy and return a single {@linkplain Entity}.
+	 * @param population The {@linkplain Topology} to make the selection from.
+	 * @return The selected {@linkplain Entity}.
+	 */
 	public abstract Entity select(Topology<? extends Entity> population);
 
 }

@@ -56,7 +56,10 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  */
 public interface Fitness extends Type, Comparable<Fitness>, Serializable {
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Fitness getClone();
 	
 	/**
@@ -66,6 +69,9 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	 */
 	public Double getValue();
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int compareTo(Fitness o);
 	
 }

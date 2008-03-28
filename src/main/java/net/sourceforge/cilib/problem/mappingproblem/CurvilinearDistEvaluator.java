@@ -103,7 +103,7 @@ public class CurvilinearDistEvaluator implements MappingEvaluator {
 	 */
 	public void setDistanceMetric(DistanceMetric distanceMetric) {
 		dist = distanceMetric;
-		if(prob != null)
+		if (prob != null)
 			dist.setMappingProblem(prob);
 	}
 

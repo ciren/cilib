@@ -1,8 +1,6 @@
 /*
  * Solution.java
  *
- * Created on Jul 24, 2004
- *
  * Copyright (C) 2004 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science

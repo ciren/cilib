@@ -1,11 +1,9 @@
 /*
  * Topology.java
- * 
- * Created on Aug 5, 2005
  *
- * Copyright (C) 2003, 2004, 2005 - CIRG@UP 
+ * Copyright (C) 2003, 2004, 2005 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,21 +20,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * 
  */
 package net.sourceforge.cilib.entity;
 
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * This an abstract class which extends from the abstract Topology class.
- * All {@linkplain PopulationBasedAlgorithm} Topologies must inherit from this class.
+ * All {@linkplain net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm} 
+ * Topologies must inherit from this class.
  * 
  * @author Gary Pampara
  * @author otter

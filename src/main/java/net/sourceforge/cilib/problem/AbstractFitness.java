@@ -1,9 +1,9 @@
 /*
  * AbstractFitness.java
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -33,44 +33,61 @@ package net.sourceforge.cilib.problem;
  */
 public abstract class AbstractFitness implements Fitness {
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract Fitness getClone();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract int compareTo(Fitness o);
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract boolean equals(Object obj);
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public abstract int hashCode();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract Double getValue();
 
 	/**
-	 * @throws UnsupportedOperationException
+	 * {@inheritDoc}
 	 */
 	public int getDimension() {
 		throw new UnsupportedOperationException("getDimension() does not make sense on a Fitness object.");
 	}
 
 	/**
-	 * @throws UnsupportedOperationException
+	 * {@inheritDoc}
 	 */
 	public String getRepresentation() {
 		throw new UnsupportedOperationException("getRepresentation() does not make sense on a Fitness object.");
 	}
 
 	/**
-	 * @throws UnsupportedOperationException
+	 * {@inheritDoc}
 	 */
 	public boolean isInsideBounds() {
 		throw new UnsupportedOperationException("isInsideBounds() does not make sense on a Fitness object.");
 	}
 
 	/**
-	 * @throws UnsupportedOperationException
+	 * {@inheritDoc}
 	 */
 	public void randomise() {
 		throw new UnsupportedOperationException("randomise() does not make sense on a Fitness object.");
 	}
 
 	/**
-	 * @throws UnsupportedOperationException 
+	 * {@inheritDoc}
 	 */
 	public void reset() {
 		throw new UnsupportedOperationException("reset() does not make sense on a Fitness object.");

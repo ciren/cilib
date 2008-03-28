@@ -3,9 +3,9 @@
  *
  * Created on 13 May 2006
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,12 +22,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
@@ -151,13 +149,9 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		    mainSwarm.performIteration();
 		
 		this.swarmCreationStrategy.create(this);
-		for (Iterator<PopulationBasedAlgorithm> i = this.subPopulationsAlgorithms.iterator(); i.hasNext(); )
-		{   		    
-			PopulationBasedAlgorithm subSwarm = i.next();
-						
+		for (PopulationBasedAlgorithm subSwarm : this.subPopulationsAlgorithms) {   		    
 			log.debug("\tsubswarm size: " + subSwarm.getTopology().size());
 			subSwarm.performIteration();
-			
 		}
 		
 //		this.absorptionStrategy.absorb(mainSwarm, this.subPopulationsAlgorithms);
@@ -204,8 +198,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	public List<OptimisationSolution> getSolutions() {
 		List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
 		
-		for (Iterator<PopulationBasedAlgorithm> i = this.subPopulationsAlgorithms.iterator(); i.hasNext(); ) {
-			PopulationBasedAlgorithm p = i.next();
+		for (PopulationBasedAlgorithm p : this.subPopulationsAlgorithms) {
 			solutions.add(p.getBestSolution());
 		}
 		

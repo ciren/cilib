@@ -38,9 +38,14 @@ public class InferiorFitness extends AbstractFitness {
 	private static final long serialVersionUID = -2129092436359289935L;
 
 	private InferiorFitness() {
-		
 	}
 	
+	/**
+	 * Get the cloned instance of this object. Due to this obect being a
+	 * Singleton, the same instance is returned and is not cloned.
+	 * 
+	 * @see AbstractFitness#getClone()
+	 */
 	public InferiorFitness getClone() {
 		return instance;
 	}
@@ -72,9 +77,19 @@ public class InferiorFitness extends AbstractFitness {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean equals(Object object) {
 		Fitness otherFitness = (Fitness) object;
 		return getValue().equals(otherFitness.getValue());
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public int hashCode() {
+		return getValue().hashCode();
 	}
 	
 	/**

@@ -26,6 +26,8 @@
  */
 package net.sourceforge.cilib.problem;
 
+import java.util.Arrays;
+
 /**
  * @author Edwin Peer
  *
@@ -33,6 +35,7 @@ package net.sourceforge.cilib.problem;
 public class MOFitness extends AbstractFitness {
 
 	private static final long serialVersionUID = 1477723759384827131L;
+	private Fitness [] fitnesses;
 
 	public MOFitness(MOOptimisationProblem problem, Object solution, boolean count) {
 		int size = problem.getProblemCount();
@@ -80,15 +83,33 @@ public class MOFitness extends AbstractFitness {
 			return 0;
 		}
 	}
-	
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public boolean equals(Object obj) {
-		throw new UnsupportedOperationException("Implementation needed");
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(fitnesses);
+		return result;
 	}
 
-
-
-	Fitness [] fitnesses;
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final MOFitness other = (MOFitness) obj;
+		if (!Arrays.equals(fitnesses, other.fitnesses))
+			return false;
+		return true;
+	}
 	
 }

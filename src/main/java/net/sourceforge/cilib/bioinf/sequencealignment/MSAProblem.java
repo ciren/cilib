@@ -59,58 +59,47 @@ public class MSAProblem extends OptimisationProblemAdapter {
 	private int totalGaps;
 	private double weight1 = 1.0, weight2 = 1.0;  // defaults, can be set in the XML configuration
 	
-	public void setWeight1(double weight1) 
-	{
+	public void setWeight1(double weight1) {
 		this.weight1 = weight1;
 	}
 	
-	public double getWeight1()
-	{
+	public double getWeight1() {
 		return weight1;
 	}
 
-	public AlignmentCreator getAlignmentCreator() 
-	{
+	public AlignmentCreator getAlignmentCreator() {
 		return alignmentCreator;
 	}
 	
-	public void setAlignmentCreator(AlignmentCreator alignmentCreator) 
-	{
+	public void setAlignmentCreator(AlignmentCreator alignmentCreator) {
 		this.alignmentCreator = alignmentCreator;
 	}
 	
-	public void setWeight2(double weight2) 
-	{
+	public void setWeight2(double weight2) {
 		this.weight2 = weight2;
 	}
 
-	public MSAProblem()
-	{
+	public MSAProblem() {
 		this.domainRegistry = new DomainRegistry();
 	}
 	
-	public void setGapPenaltyMethod(GapPenaltiesMethod gapPenaltyMethod) 
-	{
+	public void setGapPenaltyMethod(GapPenaltiesMethod gapPenaltyMethod) {
 		this.gapPenaltyMethod = gapPenaltyMethod;
 	}
 	
-	public GapPenaltiesMethod getGapPenaltyMethod() 
-	{
+	public GapPenaltiesMethod getGapPenaltyMethod() {
 		return gapPenaltyMethod;
 	}
 
-	public DomainRegistry getBehaviouralDomain()
-	{
+	public DomainRegistry getBehaviouralDomain() {
 		return this.domainRegistry;
 	}
 	
-	public OptimisationProblemAdapter getClone()
-	{
+	public OptimisationProblemAdapter getClone() {
 		return this;
 	}
 
-	protected Fitness calculateFitness(Object solution)  //	solution = particule position vector
-	{ 
+	protected Fitness calculateFitness(Object solution) { //	solution = particule position vector
 		Vector realValuedPosition = (Vector) solution;
 		//System.out.println("Fitness for matches: "+alignmentCreator.getFitness(strings, realValuedPosition, gapsArray));   // debug purpose
 		//System.out.println("Fitness for gap penalties: "+gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment());  // debug purpose
@@ -122,10 +111,8 @@ public class MSAProblem extends OptimisationProblemAdapter {
 	}
 
 	//	 If gaps are allowed, make it a 20% of sequence length (in XML file). Otherwise set it to 0.
-	public void setMaxSequenceGapsAllowed(int number) 
-	{	
-		if (number < 0)
-		{
+	public void setMaxSequenceGapsAllowed(int number) {	
+		if (number < 0) {
 			this.maxSequenceGapsAllowed = 0;
 			System.out.println("  **  Warning  **  Negative values for specified amount of gaps allowed cannot be negative, set to 0.");
 		} 
@@ -133,8 +120,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 			this.maxSequenceGapsAllowed = number;
 	}
 
-	public DomainRegistry getDomain()  //computes the domain according to the input sequences and amount of gaps to insert
-	{
+	public DomainRegistry getDomain() {  //computes the domain according to the input sequences and amount of gaps to insert
 		if (this.domainRegistry.getDomainString() == null) {
 			DomainParser parser = DomainParser.getInstance();
 			
@@ -163,8 +149,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 			
 			int delta = 0;
 			int c = 0;
-			for (Iterator<String> i = strings.iterator(); i.hasNext(); ) 
-			{
+			for (Iterator<String> i = strings.iterator(); i.hasNext(); ) { 
 				String aSeq = i.next();
 				delta = biggestLength - aSeq.length();
 				gapsArray[c] = delta+maxSequenceGapsAllowed;

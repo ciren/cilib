@@ -1,3 +1,26 @@
+/*
+ * ScaledFunctionDecorator.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
@@ -7,7 +30,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /** 
  * Characteristics:
  * 
- * Let c be a fixed positive number
+ * Let c be a fixed positive number.
  * 
  * Horizontal Scaling: If g(x) = f(cx), then (c > 1) means that g(x) is f(x)
  * compressed in the horizontal direction by a factor of c (0 < c < 1) means
@@ -25,26 +48,33 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
 	private double verticalScale;
 	private double horizontalScale;
 
+	/**
+	 * Create an instance of the decorator. Domain is set to "R" by default.
+	 */
 	public ScaledFunctionDecorator() {
 		setDomain("R");
 		verticalScale = 1.0;
 		horizontalScale = 1.0;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ScaledFunctionDecorator getClone() {
 		return new ScaledFunctionDecorator();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Object getMinimum() {
 		// adds the value of the verticalShift to the original function minimum
 		return new Double(((Double) function.getMinimum()).doubleValue() * verticalScale);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.sourceforge.cilib.functions.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public double evaluate(Vector x) {
@@ -56,15 +86,16 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
 	}
 
 	/**
-	 * @return the function
+	 * Get the decorated function.
+	 * @return The decorated function.
 	 */
 	public ContinuousFunction getFunction() {
 		return function;
 	}
 
 	/**
-	 * @param function
-	 *            the function to set
+	 * Set the function that is to be decorated.
+	 * @param function The function to decorated.
 	 */
 	public void setFunction(ContinuousFunction function) {
 		this.function = function;
@@ -72,15 +103,16 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
 	}
 
 	/**
-	 * @return the horizontalScale
+	 * Get the horizontal scale value.
+	 * @return The horizontal scale value.
 	 */
 	public double getHorizontalScale() {
 		return horizontalScale;
 	}
 
 	/**
-	 * @param horizontalScale
-	 *            the horizontalScale to set
+	 * Set the value of the horizontal scale.
+	 * @param horizontalScale The value of the horizontal scale.
 	 */
 	public void setHorizontalScale(double horizontalScale) {
 		if (horizontalScale <= 0)
@@ -90,15 +122,16 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
 	}
 
 	/**
-	 * @return the verticalScale
+	 * Get the value of the vertical scale.
+	 * @return The vertical scale value.
 	 */
 	public double getVerticalScale() {
 		return verticalScale;
 	}
 
 	/**
-	 * @param verticalScale
-	 *            the verticalScale to set
+	 * Set the value of the vertical scale.
+	 * @param verticalScale The vertical scale to use.
 	 */
 	public void setVerticalScale(double verticalScale) {
 		if (verticalScale <= 0)

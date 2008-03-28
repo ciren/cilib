@@ -67,8 +67,8 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	
 	
 	/**
-	 * 
-	 * @param type
+	 * Set the contents of the current {@linkplain Entity} to the provided {@linkplain Type}.
+	 * @param type the {@linkplain Type} to be set as the contents of the {@linkplain Entity}.
 	 */
 	public void setContents(Type type);
 	

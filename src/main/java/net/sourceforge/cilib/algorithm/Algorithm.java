@@ -1,8 +1,6 @@
 /*
  * Algorithm.java
  *
- * Created on January 17, 2003, 4:54 PM
- *
  * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
