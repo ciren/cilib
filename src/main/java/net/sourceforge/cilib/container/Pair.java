@@ -1,9 +1,7 @@
 /*
  * Pair.java
  *
- * Created on Nov 15, 2005
- *
- * Copyright (C) 2003 - 2006
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -159,13 +157,15 @@ public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair
 		if (key == null) {
 			if (other.key != null)
 				return false;
-		} else if (!key.equals(other.key))
+		} 
+		else if (!key.equals(other.key))
 			return false;
 
 		if (value == null) {
 			if (other.value != null)
 				return false;
-		} else if (!value.equals(other.value))
+		} 
+		else if (!value.equals(other.value))
 			return false;
 
 		return true;

@@ -1,9 +1,7 @@
 /*
  * OptimisationSolution.java
  *
- * Created on November 11, 2003, 3:19 PM
- *
- * Copyright (C) 2003 - 2006
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.problem;
 
 /**
@@ -41,7 +38,7 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
     private Object position;
 	
 	/**
-	 * Contrucs a new instance of <code>OptimisationSolution</code>.
+	 * Constructs a new instance of <code>OptimisationSolution</code>.
 	 * 
 	 * @param problem The optimisation problem for which  this is a solution.
 	 * @param position The position of the solution within the search space of the problem.
@@ -70,7 +67,9 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
         return problem.getFitness(position, false);
     }
     
-    
+    /**
+     * {@inheritDoc}
+     */
     public int compareTo(OptimisationSolution other) {
 		return getFitness().compareTo(other.getFitness());
 	}

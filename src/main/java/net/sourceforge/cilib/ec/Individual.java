@@ -1,11 +1,9 @@
 /*
  * Individual.java
- * 
- * Created on Jun 21, 2005
  *
- * Copyright (C) 2003, 2004, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * 
  */
 package net.sourceforge.cilib.ec;
 
@@ -47,7 +44,7 @@ public class Individual extends AbstractEntity {
     protected FitnessCalculator fitnessCalculator;
     
     /**
-     * Constructor
+     * Create an instance of {@linkplain Individual}.
      */
     public Individual() {
         dimension = 0;
@@ -57,7 +54,10 @@ public class Individual extends AbstractEntity {
         fitnessCalculator = new VectorBasedFitnessCalculator();
     }
     
-    
+    /**
+     * Copy constructor. Creates a copy of the given {@linkplain Individual}.
+     * @param copy The {@linkplain Individual} to copy.
+     */
     public Individual(Individual copy) {
     	super(copy);
         this.dimension = copy.dimension;
@@ -65,23 +65,21 @@ public class Individual extends AbstractEntity {
     }
     
     /**
-     * Remember the semantics of clone here on the ID creates a new ID, so in fact it's a new chromosome
-     * just with a copy of the genetic structure of the calling entity.
+     * {@inheritDoc}
      */
      public Individual getClone() {
     	 return new Individual(this);
      }
 
 	/**
-      * Resets the fitness to <code>InferiorFitness</code>
+      * Resets the fitness to <code>InferiorFitness</code>.
       */
      public void resetFitness() {
          this.properties.put("fitness", InferiorFitness.instance());
      }     
 
      /**
-      * Intialise Individual according to the problem domain. The Type System handles it for us
-      * and thus TODO: intialise must fall away.
+      * {@inheritDoc}
       */
      public void initialise(OptimisationProblem problem) {
          // ID initialization is done in the clone method...
@@ -100,42 +98,71 @@ public class Individual extends AbstractEntity {
      }     
      
      /**
-      * Compare to individuals fitness
-      * See the semantics of the compare for fitnesses...
+      * {@inheritDoc} 
       */
-    public int compareTo(Entity o) {
-        return this.getFitness().compareTo(o.getFitness());
-    }
+     public int compareTo(Entity o) {
+    	 return this.getFitness().compareTo(o.getFitness());
+     }
     
-    public void setContents(Type type) {
-    	super.setContents(type);
-    	this.dimension = type.getDimension();
-    }
+     /**
+      * {@inheritDoc}
+      */
+     public void setContents(Type type) {
+    	 super.setContents(type);
+    	 this.dimension = type.getDimension();
+     }
 
+     /**
+      * Get the identifier assigned to this {@linkplain Individual}.
+      * @return The assigned identifier.
+      */
     public String getId() {
         return id;
     }
 
+    /**
+     * Set the identifier for this {@linkplain Individual}.
+     * @param id The identifier to assign to the {@linkplain Individual}.
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void calculateFitness() {
     	calculateFitness(true);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void calculateFitness(boolean count) {
     	this.properties.put("fitness", fitnessCalculator.getFitness(getContents(), count));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int getDimension() {
         return this.dimension;
     }
 
+    /**
+     * Set the current dimension value for the current {@linkplain Individual}.
+     * @param dim The dimension value to set.
+     */
     public void setDimension(int dim) {
         this.dimension = dim;
     }
     
+    /**
+     * Create a textual representation of the current {@linkplain Individual}. The
+     * returned {@linkplain String} will contain both the genotypes and penotypes for
+     * the current {@linkplain Individual}.
+     * @return The textual representation of this {@linkplain Individual}.
+     */
     public String toString() {
         StringBuffer str = new StringBuffer();
        
@@ -151,8 +178,8 @@ public class Individual extends AbstractEntity {
 
     
     /**
-	 * Return the <tt>Entity</tt> associated behavioural parameters
-	 * @return a <tt>Type</tt> representing the behavioural parameters
+	 * Return the <tt>Entity</tt> associated behavioural parameters.
+	 * @return a <tt>Type</tt> representing the behavioural parameters.
 	 */
 	public Type getBehaviouralParameters() {
 		return this.properties.get("penotypes");
@@ -160,8 +187,8 @@ public class Individual extends AbstractEntity {
 
 	
 	/**
-	 * Set the behavioural parameters for the <tt>Entity</tt>
-	 * @param behaviouralParameters The behavioural parameters to set
+	 * Set the behavioural parameters for the <tt>Entity</tt>.
+	 * @param type The behavioural parameters to set.
 	 */
 	public void setBehaviouralParameters(Type type) {
 		if (type instanceof Vector)
@@ -169,7 +196,9 @@ public class Individual extends AbstractEntity {
 		else throw new RuntimeException("BehaviouralParameters need to be correct type! Please check and correct");
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public void reinitialise() {
 		throw new UnsupportedOperationException("Implementation is required for this method");
 	}    

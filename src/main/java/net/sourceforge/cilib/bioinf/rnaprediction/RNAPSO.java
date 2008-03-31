@@ -1,11 +1,9 @@
 /*
  * RNAPSO.java
- * 
- * Created on 2005/05/26
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -42,13 +39,17 @@ import net.sourceforge.cilib.pso.PSO;
 public class RNAPSO extends PSO {
 	private static final long serialVersionUID = 8034984869522637866L;
 
+	/**
+	 * Create an instance of the {@linkplain RNAPSO}.
+	 */
 	public RNAPSO() {
         super();
     }
 	 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void performInitialisation() {
-		
 		if (getOptimisationProblem() == null) {
            throw new InitialisationException("No problem has been specified");
 		}
@@ -58,8 +59,10 @@ public class RNAPSO extends PSO {
 		this.getInitialisationStrategy().initialise(this.getTopology(), getOptimisationProblem());
 	}
 	
+	/**
+	 * Read the provided data set.
+	 */
 	private void readDataSet() {
-		
 		StringBuilder nucs = new StringBuilder();
 		ArrayList<Integer> struct = new ArrayList<Integer>();
 		int[] intStruct;
@@ -98,10 +101,12 @@ public class RNAPSO extends PSO {
 			System.out.print(struct.size()+" ");
 			System.out.println(struct.toString());
 			
-		} catch (FileNotFoundException f) {
+		} 
+		catch (FileNotFoundException f) {
 			System.out.println("Couldn't find the input file.");
 			System.exit(1);
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			System.out.println("Couldn't read from the input file");
 			System.exit(1);
 		}
@@ -117,6 +122,6 @@ public class RNAPSO extends PSO {
 		//System.out.println(NucleotideString.getInstance().nucleotideString);
 		NucleotideString.getInstance().setKnowStructure(intStruct);
 		//System.out.println(NucleotideString.getInstance().knownStructure.toString());
-		StemGenerator.getInstance().generateStems(NucleotideString.getInstance().getNucleotideString(),false);
+		StemGenerator.getInstance().generateStems(NucleotideString.getInstance().getNucleotideString(), false);
 	}
 }

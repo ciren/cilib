@@ -1,9 +1,9 @@
 /*
  * GeneralTree.java
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -28,21 +28,38 @@ import java.util.List;
 
 import net.sourceforge.cilib.util.Cloneable;
 
+/**
+ * Implementation of the General Tree data structure.
+ * @param <E> The {@linkplain Comparable} and {@linkplain Cloneable} type.
+ */
 public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3453326928796685749L;
 	
 	private List<Tree<E>> subTrees;
 	
+	/**
+	 * Create an instance of a {@linkplain GeneralTree} with a {@code null} key value
+	 * and zero subtrees.
+	 */
 	public GeneralTree() {
 		key = null;
 		subTrees = new ArrayList<Tree<E>>();
 	}
 	
+	/**
+	 * Create an instance of a {@linkplain GeneralTree} with {@code element} defined
+	 * as the key value and an empty set of subtrees.
+	 * @param element The <code>element</code> to set as the key value for the {@linkplain GeneralTree}.
+	 */
 	public GeneralTree(E element) {
 		this();
 		this.key = element;
 	}
-	
+
+	/**
+	 * Copy constructor. Create a deep copy of the given {@linkplain GeneralTree}.
+	 * @param copy The {@linkplain GeneralTree} to copy.
+	 */
 	@SuppressWarnings("unchecked")
 	public GeneralTree(GeneralTree<E> copy) {
 		this((E) copy.key.getClone());
@@ -52,11 +69,17 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public GeneralTree<E> getClone() {
 		return new GeneralTree<E>(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addSubTree(Tree<E> subtree) {
 		if (subtree == null)
 			throw new IllegalArgumentException("Cannot add a null object as a child of a tree");
@@ -69,17 +92,23 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 	}
 
 	/**
-	 * Create an empty tree object and add it to the current tree node.
+	 * {@inheritDoc}
 	 */
 	public boolean add(E element) {
 		Tree<E> subTree = new GeneralTree<E>(element);
 		return addSubTree(subTree);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void clear() {
 		this.subTrees.clear();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean contains(E element) {
 		for (Tree<E> e : this.subTrees) {
 			if (e.getKey().equals(element))
@@ -89,6 +118,9 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean remove(E element) {
 		for (Tree<E> tree : this.subTrees) {
 			if (tree.getKey().equals(this.key)) {
@@ -100,21 +132,46 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 		return false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public E remove(int index) {
 		if (index >= this.subTrees.size())
-			throw new IndexOutOfBoundsException("");
+			throw new IndexOutOfBoundsException("Invalid index provided for sub tree: " + index);
 		
 		return this.subTrees.remove(index).getKey();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Tree<E> removeSubTree(E element) {
-		throw new UnsupportedOperationException("Implement me");
+		int count  = -1;
+		for (Tree<E> subtree : this.subTrees) {
+			count++;
+			if (subtree.getKey().equals(element))
+				break;
+		}
+		
+		if (count >= 0)
+			return removeSubTree(count);
+		
+		return null;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Tree<E> removeSubTree(int index) {
-		throw new UnsupportedOperationException("Implementation needed");
+		if (index >= this.subTrees.size())
+			throw new IndexOutOfBoundsException("Invalid index provided for sub tree: " + index);
+		
+		return this.subTrees.remove(index);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Tree<E> getSubTree(E element) {
 		for (Tree<E> tree : this.subTrees) {
 			if (tree.getKey().equals(element))
@@ -124,10 +181,16 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Tree<E> getSubTree(int index) {
 		if (isEmpty()) 
 			throw new UnsupportedOperationException();
@@ -135,10 +198,16 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 		return this.subTrees.get(index);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isLeaf() {
 		return this.subTrees.size() == 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getDegree() {
 		return this.subTrees.size();
 	}	

@@ -1,8 +1,6 @@
 /*
  * BestMatch.java
  *
- * Created on Mar 16, 2006
- *
  * Copyright (C) 2007 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -23,11 +21,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
@@ -38,20 +34,26 @@ import java.util.StringTokenizer;
  *
  * @author Fabien Zablocki 
  */
-public class BestMatch implements ScoringMethod 
-{
+public class BestMatch implements ScoringMethod {
 	private boolean verbose = false; //default, can be set via XML
 
-	public void setVerbose(boolean verbose) 
-	{
+	/**
+	 * Set the printing verbosity in this ScoringMethod.
+	 * TODO: This should disappear and log4j should be used instead if it is needed.
+	 * @param verbose The value of the switch.
+	 */
+	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
 	}
 	
-	public double getScore(ArrayList<String> alignment)
-	{
+	/**
+	 * Get the score of the given alignment.
+	 * @param alignment The alignment to evaluate.
+	 * @return the alignment score.
+	 */
+	public double getScore(ArrayList<String> alignment) {
 		// prints the current raw alignment in verbose mode
-		if (verbose)
-		{	
+		if (verbose) {	
 			System.out.println("Raw Alignment (no clean up):");
 			
 			for (String s : alignment) { 
@@ -66,14 +68,12 @@ public class BestMatch implements ScoringMethod
 		int count = 0;
 		
 //		Iterate through the columns
-		for (int i = 0; i < seqLength; i++)
-		{ 
+		for (int i = 0; i < seqLength; i++) { 
 			 for (String st : alignment) {
-				 if ( st.charAt(i) == '-' ) count++; //gets char at position i
+				 if (st.charAt(i) == '-') count++; //gets char at position i
 			 }
 			 
-			 if (count == alignment.size() ) // GOT ONE, PROCEED TO CLEAN UP
-			 {
+			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
 				 int which = 0;
 				 for (String st1 : alignment) {
 					 StringBuffer stB = new StringBuffer(st1);
@@ -87,7 +87,7 @@ public class BestMatch implements ScoringMethod
 		
 		int which2 = 0;
 		for (String st : alignment) {
-			StringTokenizer st1 = new StringTokenizer(st,"*",false);
+			StringTokenizer st1 = new StringTokenizer(st, "*", false);
 			String t="";
 			while (st1.hasMoreElements()) t += st1.nextElement();
 			alignment.set(which2, t);
@@ -101,8 +101,7 @@ public class BestMatch implements ScoringMethod
 		Hashtable<Character, Integer> hashTable = new Hashtable<Character, Integer>();
 
 		// Iterate all the chars one column at a time, one hashtable is used for each column then cleared every new iteration
-		for (int i = 0; i < length; i++)
-		{    
+		for (int i = 0; i < length; i++) {    
 			//	go through all the seqs
 			for (String currentString : alignment) { 
 				//if (i >= currentString.length()) continue; //skip if index i is longer than current seq length
@@ -116,11 +115,10 @@ public class BestMatch implements ScoringMethod
 				if (c.charValue() == '-') continue;
 
 				//check if hashtable already has that character
-				if (hashTable.containsKey(new Character(currentString.charAt(i)))) 
-				{
-					Integer count1 = (Integer) hashTable.get(c);//gets the # of that char in hashtable
-					int tmp1 = count1.intValue() + 1;//tmp1 = value+1 , just increments occurence #
-					hashTable.put(c, tmp1);//put the char back along with new value in hashtable
+				if (hashTable.containsKey(new Character(currentString.charAt(i)))) {
+					Integer count1 = (Integer) hashTable.get(c); //gets the # of that char in hashtable
+					int tmp1 = count1.intValue() + 1; //tmp1 = value+1 , just increments occurence #
+					hashTable.put(c, tmp1); //put the char back along with new value in hashtable
 				}
 				else
 					//	if it wasn't in yet, then put in hashtable with value 1
@@ -130,11 +128,9 @@ public class BestMatch implements ScoringMethod
 			// Now add the best alignment value from the hashtable to the fitness
 				int highest = 0;
 			//	cycle through the hastable
-				for (Enumeration<Integer> e = hashTable.elements(); e.hasMoreElements(); ) 
-				{
-					int tmp2 = e.nextElement(); //gets the occurence value
-					if (tmp2 > highest)   //we want to get the max value for that column
-						highest = tmp2;
+				for (Integer e : hashTable.values()) {
+					//we want to get the max value for that column
+					highest = Math.max(e, highest);
 				}
 
 				fitness += highest;  //add the current column highest value to the fitness
@@ -145,5 +141,5 @@ public class BestMatch implements ScoringMethod
 
 		//  Fitness for matches	
 		return fitness;
-		}
 	}
+}

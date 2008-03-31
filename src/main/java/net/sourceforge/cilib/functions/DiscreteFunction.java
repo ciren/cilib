@@ -1,11 +1,9 @@
 /*
  * DiscreteFunction.java
- * 
- * Created on Jul 24, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -32,26 +30,28 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public abstract class DiscreteFunction extends Function {
 
-	public DiscreteFunction() {
-        
+	/**
+	 * Create an instance of {@linkplain DiscreteFunction}.
+	 */
+	protected DiscreteFunction() {
 	}
 	
-	/** 
-	 * @see net.sourceforge.cilib.Functions.Function#getMinimum()
+	/**
+	 * {@inheritDoc} 
 	 */
 	public Object getMinimum() {
-		return new Double(- Double.MAX_VALUE);
+		return new Double(-Double.MAX_VALUE);
 	}
 
 	/**
-	 * @see net.sourceforge.cilib.Functions.Function#getMaximum()
+	 * {@inheritDoc}
 	 */
 	public Object getMaximum() {
 		return new Double(Double.MAX_VALUE);
 	}
 
 	/**
-	 * @see net.sourceforge.cilib.Functions.Function#evaluate(java.lang.Object)
+	 * {@inheritDoc}
 	 */
 	public Double evaluate(Object x) {
 		Double d = null;
@@ -65,5 +65,10 @@ public abstract class DiscreteFunction extends Function {
 		return d;
 	}
 
+	/**
+	 * Evaluate the function output, given the function input, {@code x}.
+	 * @param x The {@linkplain Vector} representing the function input.
+	 * @return The result of the evaluation.
+	 */
 	public abstract double evaluate(Vector x);
 }

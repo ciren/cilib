@@ -31,22 +31,35 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
+ * Create a collection of {@linkplain Entity} objects by cloning the given
+ * prototype {@linkplain Entity}.
+ * 
  * @author Gary Pampara
  */
 public class ClonedPopulationInitialisationStrategy extends PopulationInitialisationStrategy {
 	private static final long serialVersionUID = -7354579791235878648L;
 	private Entity prototypeEntity;
 
+	/**
+	 * Create an instance of the {@linkplain ClonedPopulationInitialisationStrategy}.
+	 */
 	public ClonedPopulationInitialisationStrategy() {
 		entityNumber = 20;
 		prototypeEntity = null; // This has to be manually set as Individuals are used in GAs etc...
 	}
 
+	/**
+	 * Copy constructor. Create a copy of the given instance.
+	 * @param copy The instance to copy.
+	 */
 	public ClonedPopulationInitialisationStrategy(ClonedPopulationInitialisationStrategy copy) {
 		this.entityNumber = copy.entityNumber;
 		this.prototypeEntity = copy.prototypeEntity.getClone();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public ClonedPopulationInitialisationStrategy getClone() {
 		return new ClonedPopulationInitialisationStrategy(this);
 	}
@@ -74,21 +87,38 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 		}
 	}
 
+	/**
+	 * Get the {@linkplain Entity} that has been defined as the prototype to for
+	 * the copies.
+	 * @return The prototype {@linkplain Entity}.
+	 */
 	public Entity getPrototypeEntity() {
 		return prototypeEntity;
 	}
 
 	/**
-	 * @param prototypeEntity
+	 * Set the prototype {@linkplain Entity} for the copy process.
+	 * @see ClonedPopulationInitialisationStrategy#setEntityType(Entity)
+	 * @param prototypeEntity The {@linkplain Entity} to use for the cloning process.
 	 */
 	public void setPrototypeEntity(Entity prototypeEntity) {
 		this.prototypeEntity = prototypeEntity;
 	}
 
+	/**
+	 * Set the prototype {@linkplain Entity} for the copy process.
+	 * @param prototypeEntity The {@linkplain Entity} to use for the cloning process.
+	 */
 	public void setEntityType(Entity entityType) {
 		this.setPrototypeEntity(entityType);
 	}
 
+	/**
+	 * Get the {@linkplain Entity} that has been defined as the prototype to for
+	 * the copies.
+	 * @see ClonedPopulationInitialisationStrategy#getPrototypeEntity()
+	 * @return The prototype {@linkplain Entity}.
+	 */
 	public Entity getEntityType() {
 		return this.prototypeEntity;
 	}

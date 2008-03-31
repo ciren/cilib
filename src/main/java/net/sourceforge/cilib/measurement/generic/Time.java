@@ -1,11 +1,9 @@
-/* Time.java
- * 
- * Created on Feb 16, 2004
+/*
+ * Time.java
  *
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,9 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.measurement.generic;
 
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
@@ -43,27 +40,43 @@ public class Time implements Measurement, AlgorithmListener {
 	private long startTime;
 	private long endTime;
 
+	/**
+	 * Create a default instance of {@linkplain Time}.
+	 */
 	public Time() {
 		running = false;
 		startTime = System.currentTimeMillis();
 		endTime = startTime;
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the given instance.
+	 * @param copy The instance to copy.
+	 */
 	public Time(Time copy) {
 		running = copy.running;
 		startTime = copy.startTime;
 		endTime = copy.endTime;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Time getClone() {
 		return new Time(this);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getDomain() {
 		return "Z";
 		//return "T";
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type getValue() {
 		if (running) {
 			Int t = new Int();
@@ -79,21 +92,33 @@ public class Time implements Measurement, AlgorithmListener {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void algorithmStarted(AlgorithmEvent e) {
 		running = true;
 		startTime = System.currentTimeMillis();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void algorithmFinished(AlgorithmEvent e) {
 		endTime = System.currentTimeMillis();
 		running = false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void algorithmTerminated(AlgorithmEvent e) {
 		endTime = System.currentTimeMillis();
 		running = false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void iterationCompleted(AlgorithmEvent e) {
 		
 	}

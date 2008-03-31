@@ -1,8 +1,6 @@
 /*
  * HS.java
  *
- * Created on August 24, 2007
- *
  * Copyright (C) 2003 -- 2007 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science

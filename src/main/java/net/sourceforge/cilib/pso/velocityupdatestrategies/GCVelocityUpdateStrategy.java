@@ -1,3 +1,26 @@
+/*
+ * GCVelocityUpdateStrategy.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import java.util.Random;
@@ -52,6 +75,9 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	private ControlParameter rhoExpandCoefficient;
 	private ControlParameter rhoContractCoefficient;
 
+	/**
+	 * Create an instance of the GC Velocity Update strategy.
+	 */
 	public GCVelocityUpdateStrategy() {
 		super();
 		randomNumberGenerator = new MersenneTwister();
@@ -69,6 +95,10 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		vMax = new ConstantControlParameter(0.5); // This needs to be set dynamically - this is not valid for all problems
 	}
 	
+	/**
+	 * Copy constructor. Copy the given instance.
+	 * @param copy The instance to copy.
+	 */
 	public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
 		super(copy);
 		this.randomNumberGenerator = copy.randomNumberGenerator;
@@ -86,11 +116,17 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.vMax = copy.vMax.getClone();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public GCVelocityUpdateStrategy getClone() {
 		return new GCVelocityUpdateStrategy(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void updateVelocity(Particle particle) {
 		PSO pso = (PSO) Algorithm.get();
 		final Particle globalBest = pso.getTopology().getBestEntity();
@@ -103,9 +139,9 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 //			final Vector gbestPosition = (Vector) globalBest.getPosition();
 			
 			for (int i = 0; i < velocity.getDimension(); ++i) {
-				double component = -position.getReal(i) + nBestPosition.getReal(i) 
-					+ this.inertiaWeight.getParameter()*velocity.getReal(i)
-					+ rho.getParameter()*(1-2*randomNumberGenerator.nextDouble());
+				double component = -position.getReal(i) + nBestPosition.getReal(i) + 
+					this.inertiaWeight.getParameter()*velocity.getReal(i) +
+					rho.getParameter()*(1-2*randomNumberGenerator.nextDouble());
 				
 				velocity.setReal(i, component);
 				clamp(velocity, i);
@@ -118,6 +154,9 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		super.updateVelocity(particle);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void updateControlParameters(Particle particle) {
 		// Remember NOT to reset the rho value to 1.0
 		PSO pso = (PSO) Algorithm.get();
@@ -162,50 +201,98 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		rho.setParameter(tmp);
 	}
 
+	/**
+	 * Get the lower-bound value for <code>rho</code>.
+	 * @return The lower-bound value for <code>rho</code>.
+	 */
 	public ControlParameter getRhoLowerBound() {
 		return rhoLowerBound;
 	}
 
+	/**
+	 * Set the lower-bound value for <code>rho</code>.
+	 * @param rhoLowerBound The lower-bound to set.
+	 */
 	public void setRhoLowerBound(ControlParameter rhoLowerBound) {
 		this.rhoLowerBound = rhoLowerBound;
 	}
 
+	/**
+	 * Get the current value for <code>rho</code>.
+	 * @return The current value for <code>rho</code>.
+	 */
 	public ControlParameter getRho() {
 		return rho;
 	}
 
+	/**
+	 * Set the value for <code>rho</code>.
+	 * @param rho The value to set.
+	 */
 	public void setRho(ControlParameter rho) {
 		this.rho = rho;
 	}
 
+	/**
+	 * Get the count of success threshold.
+	 * @return The success threshold.
+	 */
 	public int getSuccessCountThreshold() {
 		return successCountThreshold;
 	}
 
+	/**
+	 * Set the threshold of success count value.
+	 * @param successCountThreshold The value to set.
+	 */
 	public void setSuccessCountThreshold(int successCountThreshold) {
 		this.successCountThreshold = successCountThreshold;
 	}
 
+	/**
+	 * Get the count of failure threshold.
+	 * @return The failure threshold.
+	 */
 	public int getFailureCountThreshold() {
 		return failureCountThreshold;
 	}
 
+	/**
+	 * Set the count of failure threshold.
+	 * @param failureCountThreshold The value to set.
+	 */
 	public void setFailureCountThreshold(int failureCountThreshold) {
 		this.failureCountThreshold = failureCountThreshold;
 	}
 
+	/**
+	 * Get the coefficient value for <code>rho</code> expansion.
+	 * @return The expansion coefficient value.
+	 */
 	public ControlParameter getRhoExpandCoefficient() {
 		return rhoExpandCoefficient;
 	}
 
+	/**
+	 * Set the value of the coefficient of expansion. 
+	 * @param rhoExpandCoefficient The value to set.
+	 */
 	public void setRhoExpandCoefficient(ControlParameter rhoExpandCoefficient) {
 		this.rhoExpandCoefficient = rhoExpandCoefficient;
 	}
-
+	
+	/**
+	 * Get the coefficient value for <code>rho</code> contraction.
+	 * @return The contraction coefficient value.
+	 */
 	public ControlParameter getRhoContractCoefficient() {
 		return rhoContractCoefficient;
 	}
 
+	/**
+	 * Set the contraction coefficient value.
+	 * @param rhoContractCoefficient The value to set.
+	 */
 	public void setRhoContractCoefficient(ControlParameter rhoContractCoefficient) {
 		this.rhoContractCoefficient = rhoContractCoefficient;
 	}

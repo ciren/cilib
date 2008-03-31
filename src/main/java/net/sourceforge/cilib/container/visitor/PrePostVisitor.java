@@ -1,11 +1,9 @@
 /*
  * PrePostVisitor.java
  *
- * Created on Jun 1, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,15 +23,28 @@
  */
 package net.sourceforge.cilib.container.visitor;
 
-
 /**
  * @author Gary Pampara
  */
 public class PrePostVisitor<E> extends Visitor<E> {
+	
 	public PrePostVisitor() {
 	}
 	
+	/**
+	 * Pre-visit the given element.
+	 * @param o The object to pre-visit.
+	 */
 	public void preVisit(E o) {};
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void visit(E o) {};
+	
+	/**
+	 * Post-visit the given element.
+	 * @param o The element to post visit.
+	 */
 	public void postVisit(E o) {};
 }

@@ -1,11 +1,9 @@
 /*
  * Visitor.java
  *
- * Created on Jun 1, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -29,11 +27,24 @@ package net.sourceforge.cilib.container.visitor;
  * @author Gary Pampara
  */
 public abstract class Visitor<E> {
-	public Visitor() {
+	
+	/**
+	 * Create the {@linkplain Visitor} instance.
+	 */
+	protected Visitor() {
 	}
 	
+	/**
+	 * Visit the provided object.
+	 * @param o The object to visit.
+	 */
 	public abstract void visit(E o);
 	
+	/**
+	 * Determine if the visitor has completed its visit operation.
+	 * @return <code>true</code> if the visit operation is complete,
+	 *         <code>false</code> otherwise.
+	 */
 	public boolean isDone() {
 		return false;
 	}

@@ -151,7 +151,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 			else
 				tempUpper = real.getReal()+range;
 
-				// Now reinitialis the number randomly between tempUpper and tempLower
+				// Now reinitialise the number randomly between tempUpper and tempLower
 	
 			 if (flip(number) > 0) {
 				 double result = position.getReal(i) + function(p.getIterations(), tempUpper - position.getReal(i));
@@ -184,8 +184,7 @@ public class MutatingFunctionParticle extends StandardParticle {
    number generator can create 900 million different subsequences -- with
    each subsequence having a length of approximately 10^30.
 */
-void RandomInitialise(int ij,int kl)
-{
+void randomInitialise(int ij,int kl) {
    double s,t;
    int ii,i,j,k,l,jj,m;
 
@@ -238,7 +237,7 @@ double RandomUniform()
 
    /* Make sure the initialisation routine has been called */
    if (!test)
-      RandomInitialise(1802,9373);
+      randomInitialise(1802,9373);
 
    uni = u[i97-1] - u[j97-1];
    if (uni <= 0.0)

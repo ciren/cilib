@@ -1,11 +1,9 @@
 /*
- * ControlParameterUpdateStrategy.java
+ * ControlParameter.java
  *
- * Created on Mar 2, 2004
- *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.controlparameter;
 
@@ -48,7 +46,7 @@ public interface ControlParameter extends Cloneable, Serializable {
 	public double getParameter();
 
 	/**
-	 * Get the parameter value based on the provided <code>min</code> and <code>max</min>.
+	 * Get the parameter value based on the provided <code>min</code> and <code>max</code>.
 	 * @param min The minimum value to use in getting the parameter value
 	 * @param max The maximum value to use in getting the parameter value
 	 * @return The value of the represented parameter.
@@ -56,14 +54,13 @@ public interface ControlParameter extends Cloneable, Serializable {
 	public double getParameter(double min, double max);
 
 	/**
-	 * Set the value of the represented parameter
-	 * @param value The value to be used
+	 * Set the value of the represented parameter.
+	 * @param value The value to be used.
 	 */
 	public void setParameter(double value);
 
 	/**
-	 * Update the required and needed parameters contained within this
-	 * <code>ControlParameterUpdateStrategy</code>
+	 * Update the required and needed parameters contained within this {@linkplain ControlParameter}.
 	 */
 	public void updateParameter();
 }

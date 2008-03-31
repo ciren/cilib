@@ -1,11 +1,9 @@
 /*
- * LinearIncreasingUpdateStrategy.java
+ * LinearIncreasingControlParameter.java
  *
- * Created on March 18, 2004, 4:23 PM
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.controlparameter;
 
@@ -35,34 +32,39 @@ public class LinearIncreasingControlParameter extends BoundedControlParameter {
 	private static final long serialVersionUID = -6813625954992761973L;
 
 	/**
-	 *
+	 * Create an instance of {@linkplain LinearDecreasingControlParameter}.
 	 */
 	public LinearIncreasingControlParameter() {
 		super();
 	}
 
 	/**
-	 * @param copy
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
 	 */
 	public LinearIncreasingControlParameter(LinearIncreasingControlParameter copy) {
 		super(copy);
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public LinearIncreasingControlParameter getClone() {
 		return new LinearIncreasingControlParameter(this);
 	}
 
 	/**
-	 * 
+	 * Update the parameter linearly based on the current percentage complete of the running
+	 * {@linkplain Algorithm}. The update is done in an increasing manner.
 	 */
 	public void update() {
 		double result = getLowerBound() + (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
 		parameter.setReal(result);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setLowerBound(double lower) {
 		super.setLowerBound(lower);

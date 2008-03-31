@@ -1,9 +1,7 @@
 /*
  * BinaryMSAProblem.java
  *
- * Created on Apr 24, 2007
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,11 +21,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
@@ -39,8 +35,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * This class represents the Optimization Problem to be solved for the MSA (Binary representation).
  *
- * @author gpampara
- * @author fzablocki
  */
 public class BinaryMSAProblem extends OptimisationProblemAdapter {
 	
@@ -55,77 +49,108 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 	private int smallestLength = Integer.MAX_VALUE;  //for init purpose
 	private int biggestLength = Integer.MIN_VALUE; //for init purpose
 	private int averageLength;  //computed average length of all the input sequences 
-	private int gapsArray []; //holds total num of gaps to be inserted
+	private int [] gapsArray; //holds total num of gaps to be inserted
 	private int totalGaps;
 	private double weight1 = 1.0, weight2 = 1.0;  // defaults, can be set in the XML configuration
-	
-	public void setWeight1(double weight1) 
-	{
-		this.weight1 = weight1;
-	}
-	
-	public double getWeight1()
-	{
-		return weight1;
-	}
 
-	public BinaryAlignmentCreator getAlignmentCreator() 
-	{
-		return alignmentCreator;
-	}
-	
-	public void setAlignmentCreator(BinaryAlignmentCreator alignmentCreator) 
-	{
-		this.alignmentCreator = alignmentCreator;
-	}
-	
-	public void setWeight2(double weight2) 
-	{
-		this.weight2 = weight2;
-	}
-
-	public BinaryMSAProblem()
-	{
+	/**
+	 * Create an instance of the class.
+	 */
+	public BinaryMSAProblem() {
 		this.domainRegistry = new DomainRegistry();
 	}
 	
-	public void setGapPenaltyMethod(GapPenaltiesMethod gapPenaltyMethod) 
-	{
+	/**
+	 * {@inheritDoc}
+	 */
+	public OptimisationProblemAdapter getClone() {
+		return this;
+	}
+	
+	/**
+	 * Set the value of weight1.
+	 * @param weight1 The value to set.
+	 */
+	public void setWeight1(double weight1) {
+		this.weight1 = weight1;
+	}
+	
+	/**
+	 * Get the value of weight1.
+	 * @return The value of weight1.
+	 */
+	public double getWeight1() {
+		return weight1;
+	}
+
+	/**
+	 * Get the alignment creator.
+	 * @return The {@linkplain AlignmentCreator}.
+	 */
+	public BinaryAlignmentCreator getAlignmentCreator() {
+		return alignmentCreator;
+	}
+	
+	/**
+	 * Set the {@linkplain AlignmentCreator}.
+	 * @param alignmentCreator The {@linkplain AlignmentCreator} to set.
+	 */
+	public void setAlignmentCreator(BinaryAlignmentCreator alignmentCreator) {
+		this.alignmentCreator = alignmentCreator;
+	}
+	
+	/**
+	 * Set the value of weight2.
+	 * @param weight2 The value to set.
+	 */
+	public void setWeight2(double weight2) {
+		this.weight2 = weight2;
+	}
+	
+	/**
+	 * Set the strategy to penalize gaps.
+	 * @param gapPenaltyMethod The strategy to set.
+	 */
+	public void setGapPenaltyMethod(GapPenaltiesMethod gapPenaltyMethod) {
 		this.gapPenaltyMethod = gapPenaltyMethod;
 	}
 	
-	public GapPenaltiesMethod getGapPenaltyMethod() 
-	{
+	/**
+	 * Get the current gap penelization method.
+	 * @return The current {@linkplain GapPenaltiesMethod}.
+	 */
+	public GapPenaltiesMethod getGapPenaltyMethod() {
 		return gapPenaltyMethod;
 	}
 
-	public DomainRegistry getBehaviouralDomain()
-	{
+	/**
+	 * {@inheritDoc}
+	 */
+	public DomainRegistry getBehaviouralDomain() {
 		return this.domainRegistry;
 	}
-	
-	public OptimisationProblemAdapter getClone()
-	{
-		return this;
-	}
 
-	protected Fitness calculateFitness(Object solution)  //	solution = particule position vector
-	{ 
+	/**
+	 * {@inheritDoc}
+	 */
+	protected Fitness calculateFitness(Object solution) {  //	solution = particule position vector
 		Vector realValuedPosition = (Vector) solution;
 		//System.out.println("Fitness for matches: "+alignmentCreator.getFitness(strings, realValuedPosition, gapsArray));   // debug purpose
 		//System.out.println("Fitness for gap penalties: "+gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment());  // debug purpose
 		
 		//speed boost: don't calculate gaps penalty at all if weight2=0
 		//final fitness with weights applied
-		if(weight2 == 0.0) return new MaximisationFitness(new Double(weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)));  
-		else return new MaximisationFitness(new Double (weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)- weight2*gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment())));	
+		if (weight2 == 0.0) return new MaximisationFitness(new Double(weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)));  
+		else return new MaximisationFitness(new Double(weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)- weight2*gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment())));	
 	}
 
+	/**
+	 * Set the maximm number of allowable gaps.
+	 * @param number The maximum number allowable.
+	 */
 	//	 If gaps are allowed, make it a 20% of sequence length (in XML file). Otherwise set it to 0.
-	public void setMaxSequenceGapsAllowed(int number) 
-	{	
-		if (number < 0)
-		{
+	public void setMaxSequenceGapsAllowed(int number) {	
+		if (number < 0) {
 			this.maxSequenceGapsAllowed = 0;
 			System.out.println("  **  Warning  **  Negative values for specified amount of gaps allowed cannot be negative, set to 0.");
 		} 
@@ -133,8 +158,10 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 			this.maxSequenceGapsAllowed = number;
 	}
 
-	public DomainRegistry getDomain()  //computes the domain according to the input sequences and amount of gaps to insert
-	{
+	/**
+	 * {@inheritDoc}
+	 */
+	public DomainRegistry getDomain() { //computes the domain according to the input sequences and amount of gaps to insert
 		if (this.domainRegistry.getDomainString() == null) {
 			DomainParser parser = DomainParser.getInstance();
 			
@@ -143,15 +170,14 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 			strings = stringBuilder.getStrings();
 			int totalLength = 0;
 	
-			for (Iterator<String> i = strings.iterator(); i.hasNext(); ) {
-				String result = i.next();
-				totalLength+=result.length();
+			for (String string : strings) {
+				totalLength += string.length();
 				
-				if (result.length() < smallestLength) smallestLength = result.length();
-				if (result.length() > biggestLength) biggestLength = result.length();
+				if (string.length() < smallestLength) smallestLength = string.length();
+				if (string.length() > biggestLength) biggestLength = string.length();
 			}
 			
-			averageLength = (int)Math.round(totalLength/strings.size());  
+			averageLength = (int) Math.round(totalLength/strings.size());  
 			System.out.println("Got "+strings.size()+" sequences of average length: "+averageLength+".");
 				
 			/*
@@ -163,9 +189,7 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 			
 			int delta = 0;
 			int c = 0;
-			for (Iterator<String> i = strings.iterator(); i.hasNext(); ) 
-			{
-				String aSeq = i.next();
+			for (String aSeq : strings) {
 				delta = biggestLength - aSeq.length();
 				gapsArray[c] = delta+maxSequenceGapsAllowed;
 				c++;

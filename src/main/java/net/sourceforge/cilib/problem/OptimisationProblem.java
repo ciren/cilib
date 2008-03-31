@@ -1,12 +1,9 @@
 /*
  * OptimisationProblem.java
  *
- * Created on June 9, 2004
- *
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
@@ -44,14 +39,16 @@ import net.sourceforge.cilib.type.DomainRegistry;
  * @author  Edwin Peer
  */
 public interface OptimisationProblem extends Problem {
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public OptimisationProblem getClone();
     
     /**
      * Returns the fitness of a potential solution to this problem. The solution object is described 
      * by the domain of this problem, see {@link #getDomain()}. An instance of {@link InferiorFitness} 
      * should be returned if the solution falls outside the search space of this problem.
-     * 
      * 
      * @param solution The potential solution found by the optimisation algorithm.
      * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
@@ -76,24 +73,25 @@ public interface OptimisationProblem extends Problem {
     
     /**
      * Returns the domain component that describes the search space of the needed
-     * behavioural characteristics of the problem. This is mainly used for ECs, however,
-     * the use of behavioural parameters with PSO will be investigated.
+     * behavioral characteristics of the problem. This is mainly used for ECs, however,
+     * the use of behavioral parameters with PSO will be investigated.
      * 
-     * @return
+     * @return The domain of the behavioral component
      */
     public DomainRegistry getBehaviouralDomain();
     
     
     /**
-     * 
-     * @return
+     * Get the associated {@linkplain DataSetBuilder}.
+     * @return The currently associated {@linkplain DataSetBuilder}.
      */
     public DataSetBuilder getDataSetBuilder();
     
     
     /**
-     * 
-     * @param dataSet
+     * Set the {@linkplain DataSetBuilder} for this {@linkplain OptimisationProblem}.
+     * @param dataSetBuilder The {@linkplain DataSetBuilder} to be set on the current
+     *        {@linkplain OptimisationProblem}.
      */
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder);
     

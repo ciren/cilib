@@ -1,12 +1,9 @@
 /*
  * MinimisationFitness.java
- * 
- * Created on Jul 24, 2004
  *
- *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -44,41 +41,59 @@ public class MinimisationFitness extends AbstractFitness {
 	public MinimisationFitness(Double value) {
 		this.value = value;
 	}
-	
+
+	/**
+	 * Create a copy of the given {@linkplain MinimisationFitness}.
+	 * @param copy The instance to copy.
+	 */
 	public MinimisationFitness(MinimisationFitness copy) {
 		this.value = copy.value;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public MinimisationFitness getClone() {
 		return new MinimisationFitness(this);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Double getValue() {
 		return value;
 	}
 
 	/**
-	 * Returns superior fitness for smaller fitness values.
-	 * 
-	 * @return 1 for superior fitness, -1 for inferior fitness and 0 for equivalent fitness.
+	 * {@inheritDoc}
 	 */
 	public int compareTo(Fitness other) {
 		if (other == InferiorFitness.instance()) {
 			return 1;
 		}
 		
-		return -  value.compareTo(other.getValue());
+		return -value.compareTo(other.getValue());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean equals(Object obj) {
 		Fitness other = (Fitness) obj;
 		return getValue().equals(other.getValue());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int hashCode() {
 		return value.hashCode();
 	}
 
+	/**
+	 * Get the textual representation of this {@linkplain Fitness} object.
+	 * @return The {@linkplain String} representing this object.
+	 */
 	public String toString() {
 		return String.valueOf(value);
 	}

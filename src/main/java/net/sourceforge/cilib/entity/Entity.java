@@ -48,10 +48,7 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 
 	
 	/**
-	 * This method compares two Entities with each other. And either return 0, -1 or 1 based on
-	 * some characteristic of an Entity. Usually this characteristic will be the fitness of the Entity.
-	 * @precondition The two entities must have their fitness' evaluated
-	 * for this method to give the correct result.
+	 * {@inheritDoc}
 	 */
 	public int compareTo(Entity o);
 	

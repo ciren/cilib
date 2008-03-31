@@ -1,9 +1,7 @@
 /*
  * Structure.java
  *
- * Created on January 17, 2003, 4:54 PM
- *
- * Copyright (C) 2004 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
