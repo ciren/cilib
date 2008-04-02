@@ -1,11 +1,9 @@
 /*
  * MaximumIterations.java
  *
- * Created on January 20, 2003, 10:54 AM
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.stoppingcondition;
 
@@ -37,40 +34,70 @@ public class MaximumIterations implements StoppingCondition {
 	private Algorithm algorithm;
 	private int maximumIterations;
 
-	/** Creates a new instance of MaximumIterationIndicator */
+	/** 
+	 * Creates a new instance of MaximumIterations.
+	 */
 	public MaximumIterations() {
 		maximumIterations = 10000;
 	}
 
+	/**
+	 * Copy constructor. Creates a copy of the given instance.
+	 * @param copy The instance to copy.
+	 */
 	public MaximumIterations(MaximumIterations copy) {
 		this.maximumIterations = copy.maximumIterations;
 		this.algorithm = copy.algorithm;
 	}
 
+	/**
+	 * Create an instance, with the given number of iterations.
+	 * @param maximumIterations The maximum number of iterations.
+	 */
+	public MaximumIterations(int maximumIterations) {
+		this.maximumIterations = maximumIterations;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public MaximumIterations getClone() {
 		return new MaximumIterations(this);
 	}
 
-	public MaximumIterations(int maximumIterations) {
-		this.maximumIterations = maximumIterations;
-	}
-
+	/**
+	 * Get the maximum iteration count.
+	 * @return The maximum iterations.
+	 */
 	public int getMaximumIterations() {
 		return maximumIterations;
 	}
-
-	public double getPercentageCompleted() {
-		return ((double) algorithm.getIterations()) / ((double) maximumIterations);
-	}
-
-	public boolean isCompleted() {
-		return algorithm.getIterations() >= maximumIterations;
-	}
-
+	
+	/**
+	 * Set the maximum number of iterations.
+	 * @param maximumIterations The value to set.
+	 */
 	public void setMaximumIterations(int maximumIterations) {
 		this.maximumIterations = maximumIterations;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public double getPercentageCompleted() {
+		return ((double) algorithm.getIterations()) / ((double) maximumIterations);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean isCompleted() {
+		return algorithm.getIterations() >= maximumIterations;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setAlgorithm(Algorithm algorithm) {
 		this.algorithm = algorithm;
 	}

@@ -1,12 +1,9 @@
 /*
  * Rastrigin.java
  *
- * Created on January 12, 2003, 3:55 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -34,6 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
+ * The rastrigin function.
  * 
  * Characteristics:
  * <ul>
@@ -51,20 +47,32 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Rastrigin extends ContinuousFunction implements Differentiable {
     private static final long serialVersionUID = 447701182683968035L;
 
-
+    /**
+     * Create an instance of the Rastrigin function. The default domain is defined to be
+     * R(-5.12, 5.12)^30
+     */
 	public Rastrigin() {
         setDomain("R(-5.12, 5.12)^30");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Rastrigin getClone() {
 		return new Rastrigin();
 	}
     
+	/**
+	 * {@inheritDoc}
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {
@@ -74,6 +82,9 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
     }
     
     
+    /**
+     * {@inheritDoc}
+     */
     // TODO: check the derivative!!
     public Vector getGradient(Vector x) {
         //double [] tmp = new double [getDimension()];

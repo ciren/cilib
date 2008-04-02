@@ -1,11 +1,9 @@
 /*
  * RNAInitialiser.java
- * 
- * Created on 2005/08/17
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -38,8 +35,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class RNAInitialiser {
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.PSO.Initialiser#getInitialPosition(net.sourceforge.cilib.Problem.OptimisationProblem)
+	/**
+	 * Get the initial position for the {@linkplain Entity}, based on the provided
+	 * {@linkplain Problem}.
+	 * @param problem The problem to base the initialisation on.
+	 * @return The initialised {@linkplain Type}.
 	 */
 	public Type getInitialPosition(OptimisationProblem problem) {
 		RNAConformation position = new RNAConformation();
@@ -52,7 +52,7 @@ public class RNAInitialiser {
 		int percentage = StemGenerator.getInstance().getAllStems().size() / 5;
 		//System.out.println("Initialising particles with "+ percentage + " stems.");
 		
-		for (int count = 0; count < percentage; count++ ) {	
+		for (int count = 0; count < percentage; count++) {	
 			boolean conflicts = false;
 			StemGenerator generator = StemGenerator.getInstance();
 			//System.out.println("StemGenerator: " + generator.getAllStems());
@@ -77,8 +77,10 @@ public class RNAInitialiser {
 		return position;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.PSO.Initialiser#getInitialVelocity(net.sourceforge.cilib.Problem.OptimisationProblem)
+	/**
+	 * Get the initial velocity represented as a type.
+	 * @param problem The problem.
+	 * @return The initial velocity.
 	 */
 	public Type getInitialVelocity(OptimisationProblem problem) {
 		Vector mv = new Vector();

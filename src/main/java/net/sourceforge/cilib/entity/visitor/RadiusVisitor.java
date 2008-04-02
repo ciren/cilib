@@ -1,9 +1,9 @@
 /*
  * RadiusVisitor.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -29,12 +29,21 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * Determine the radius of the current {@linkplain Topology}.
+ */
 public class RadiusVisitor extends TopologyVisitor {
 	
+	/**
+	 * Create an instance of {@linkplain RadiusVisitor}.
+	 */
 	public RadiusVisitor() {
 		super();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void visit(Topology<? extends Entity> topology) {
 		double maxDistance = 0.0;

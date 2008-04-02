@@ -1,12 +1,9 @@
 /*
- * BoundedUpdatedStrategy.java
+ * BoundedControlParameter.java
  *
- * Created on March 18, 2004, 4:23 PM
- *
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.controlparameter;
 
@@ -43,8 +39,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * 
-	 *
+	 * Create an instance of the {@linkplain BoundedControlParameter}.
 	 */
 	public BoundedControlParameter() {
 		this.parameter = new Real();
@@ -52,8 +47,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * 
-	 * @param copy
+	 * Copy constructor.
+	 * @param copy The instance which to copy.
 	 */
 	public BoundedControlParameter(BoundedControlParameter copy) {
 		this.parameter = copy.parameter.getClone();
@@ -62,42 +57,49 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public abstract BoundedControlParameter getClone();
 
 	
 	/**
-	 * Get the value of the represented parameter.
-	 * @return The value of the represented parameter 
+	 * {@inheritDoc} 
 	 */
 	public double getParameter() {
 		return parameter.getReal();
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getParameter(double min, double max) {
 		throw new UnsupportedOperationException("");
 	}
 
 	
 	/**
-	 *  
+	 * {@inheritDoc}
 	 */
 	public void setParameter(double value) {
 		this.parameter.setReal(value);
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public void updateParameter() {
 		update();
 		clamp();
 	}
 	
+	/**
+	 * Update the {@linkplain ControlParameter}.
+	 */
 	protected abstract void update();
 	
+	/**
+	 * Clamp the current paramter vaue between the lower and upper bound values.
+	 */
 	protected void clamp() {
 		if (this.parameter.getReal() < this.parameter.getLowerBound())
 			this.parameter.setReal(this.parameter.getLowerBound());
@@ -108,8 +110,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * 
-	 * @return
+	 * Get the lower bound of the {@linkplain ControlParameter}.
+	 * @return The lower bound value.
 	 */
 	public double getLowerBound() {
 		return this.parameter.getLowerBound();
@@ -117,8 +119,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * 
-	 * @param lower
+	 * Set the value of the lower bound.
+	 * @param lower The value to set.
 	 */
 	public void setLowerBound(double lower) {
 		this.parameter.setLowerBound(lower);
@@ -126,8 +128,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * 
-	 * @return
+	 * Get the upper bound for the {@linkplain ControlParameter}.
+	 * @return The upper bound value.
 	 */
 	public double getUpperBound() {
 		return this.parameter.getUpperBound();
@@ -135,8 +137,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * 
-	 * @param value
+	 * Set the value for the upper bound. 
+	 * @param value The value to set.
 	 */
 	public void setUpperBound(double value) {
 		this.parameter.setUpperBound(value);
@@ -144,8 +146,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 
 	
 	/**
-	 * 
-	 * @return
+	 * Get the range of the {@linkplain BoundedControlParameter}.
+	 * @return The string representing the range of the parameter.
 	 */
 	public String getRange() {
 		return range;
@@ -153,8 +155,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 
 	
 	/**
-	 * 
-	 * @param range
+	 * Set the range of the parameter.
+	 * @param range The domain string representing the range.
 	 */
 	public void setRange(String range) {
 		this.range = range;

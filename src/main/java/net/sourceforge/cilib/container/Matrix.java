@@ -1,11 +1,9 @@
 /*
  * Matrix.java
  *
- * Created on Aug 17, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -27,15 +25,17 @@ package net.sourceforge.cilib.container;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Vector;
 
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Represenstation of a <code>Matrix</code>, with the rows and the columns represented as a 2D array. The 2D array has been implemented as a Object array as the needed data stored within the Matrix is variable
+ * Representation of a <code>Matrix</code>, with the rows and the columns represented 
+ * as a 2D array. The 2D array has been implemented as a Object array as the needed 
+ * data stored within the Matrix is variable.
  * 
  * @author Gary Pampara
+ * @param <E> The parameterized type.
  */
 public class Matrix<E> implements Cloneable {
 	private ArrayList< ArrayList<E> > data; // This is the ArrayList of the 1st dimension
@@ -43,9 +43,9 @@ public class Matrix<E> implements Cloneable {
 	private int cols;
 	
 	/**
-	 * Create a new <code>Matrix</code> object with dimensions: rows x columns
-	 * @param rows The number of rows the <code>Matrix</code> should contain
-	 * @param cols The number of columns the <code>Matrix</code> should contain
+	 * Create a new <code>Matrix</code> object with dimensions: rows x columns.
+	 * @param rows The number of rows the <code>Matrix</code> should contain.
+	 * @param cols The number of columns the <code>Matrix</code> should contain.
 	 */
 	public Matrix(int rows, int cols) {
 		if (rows == 0 || cols == 0) {
@@ -70,9 +70,8 @@ public class Matrix<E> implements Cloneable {
 	
 	
 	/**
-	 * TODO: Unit test to check this
-	 * Copy constructor
-	 * @param copy
+	 * Copy constructor.
+	 * @param copy The instance to copy.
 	 */
 	public Matrix(Matrix<E> copy) {
 		rows = copy.rows;
@@ -80,79 +79,83 @@ public class Matrix<E> implements Cloneable {
 		
 		data = new ArrayList<ArrayList<E>>();
 		
-		for (Iterator<ArrayList<E>> i = data.iterator(); i.hasNext(); ) {
+		for (ArrayList<E> item : data) {
 			ArrayList<E> cloneList = new ArrayList<E>();
-			ArrayList<E> tmp = i.next();
 			
-			for (Iterator<E> j = tmp.iterator(); j.hasNext(); ) {
-				E item = j.next();
-				cloneList.add(item);
-			}
+			for (E j : item)
+				cloneList.add(j);
 		}
 	}
 	
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Matrix<E> getClone() {
 		return new Matrix<E>(this);
 	}
 
 	/**
-	 * Place an <code>Object</code> at a point (row, column) within the <code>Matrix</code>
+	 * Place an <code>Object</code> at a point (row, column) within the <code>Matrix</code>.
 	 * @param row The row where the needed item is located
 	 * @param col The column where the needed item is located
 	 * @param object The <code>Object</code> to place the <code>Matrix</code> at prosition (row, column)
 	 */
 	public void set(int row, int col, E object) {
-		if ((row >= rows || col >= cols) && (row >= 0 || col >= 0)) {
+		if ((row >= rows || col >= cols) && (row >= 0 || col >= 0))
 			throw new IndexOutOfBoundsException("Cannot set item at out of bounds index");
-		}
 
 		ArrayList<E> tmp = data.get(row);
 		tmp.set(col, object);
 	}
 
 	/**
-	 * Return the current item within the grid, located at (row, column)
+	 * Return the current item within the grid, located at (row, column).
 	 * @param row The row where the needed item is located
 	 * @param col The column where the needed item is located
-	 * @return The <code>Object</code> within the <code>Matrix</code> at prosition (row, column)
+	 * @return The <code>Object</code> within the <code>Matrix</code> at position (row, column)
 	 */
 	public E get(int row, int col) {
-		if ((row >= rows || col >= cols) && (row >= 0 || col >= 0)) {
+		if ((row >= rows || col >= cols) && (row >= 0 || col >= 0))
 			throw new IndexOutOfBoundsException("Cannot acces element - index out of bounds");
-		}
 
 		return data.get(row).get(col);
 	}
 
 	/**
-	 * Get the number of columns in the <code>Matrix</code>
-	 * @return The number of columns in the <code>Matrix</code> 
+	 * Get the number of columns in the <code>Matrix</code>.
+	 * @return The number of columns in the <code>Matrix</code>. 
 	 */
 	public int getColumnCount() {
 		return cols; 
 	}
 
 	/**
-	 * Get the number of rows in the <code>Matrix</code>
-	 * @return The number of rows in the <code>Matrix</code> 
+	 * Get the number of rows in the <code>Matrix</code>.
+	 * @return The number of rows in the <code>Matrix</code>. 
 	 */
 	public int getRowCount() {
 		return rows;
 	}
 
 	/**
-	 * Test wheather the current matrix equals a given <code>Matrix</code>
-	 * @param target The <code>Matrix</code> to have the current <code>Matrix</code> evaluated against
-	 * @return <code>true</code> if the matricies are equal
-	 * @return <code>false</code> if the matricies are not equal
+	 * {@inheritDoc}
 	 */
-	public boolean equals(Matrix<?> target) {
+	@Override
+	public boolean equals(Object obj) {
 		return false;
 	}
 
 	/**
-	 * Clear the current <code>Matrix</code> of it's internal state
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	/**
+	 * Clear the current <code>Matrix</code> of it's internal state.
 	 */
 	public void clear() {
 		data = null;
@@ -161,18 +164,17 @@ public class Matrix<E> implements Cloneable {
 		for (int i = 0; i < rows; i++) {
 			ArrayList<E> tmp = new ArrayList<E>();
 
-			for (int j = 0; j < cols; j++) {
+			for (int j = 0; j < cols; j++)
 				tmp.add(null);
-			}
 			
 			data.add(tmp);
 		}
 	}
 
 	/**
-	 * Get a <code>Vector</code> representing the row within the <code>Matrix</code> at the given index
-	 * @param row The row index of the row to be returned, indexed from 0
-	 * @return A <code>Vector</code> representing the row within the <code>Matrix</code> 
+	 * Get a <code>Vector</code> representing the row within the <code>Matrix</code> at the given index.
+	 * @param row The row index of the row to be returned, indexed from 0.
+	 * @return A <code>Vector</code> representing the row within the <code>Matrix</code>. 
 	 */
 	public Collection<E> getRow(int row) {
 		ArrayList<E> tmp = new ArrayList<E>();
@@ -185,9 +187,9 @@ public class Matrix<E> implements Cloneable {
 	}
 
 	/**
-	 * Get a <code>Vector</code> representing the column within the <code>Matrix</code> at the given index
-	 * @param col The column index of the row to be returned, indexed from 0
-	 * @return A <code>Vector</code> representing the column within the <code>Matrix</code>
+	 * Get a <code>Vector</code> representing the column within the <code>Matrix</code> at the given index.
+	 * @param col The column index of the row to be returned, indexed from 0.
+	 * @return A <code>Vector</code> representing the column within the <code>Matrix</code>.
 	 */
 	public Collection<E> getColumn(int col) {
 		Collection<E> tmp = new Vector<E>();
@@ -197,40 +199,5 @@ public class Matrix<E> implements Cloneable {
 
 		return tmp;
 	}
-	
 
-
-	/**
-	 * This method multiplies the current matrix by the given matrix, provided such an operation is
-	 * permitted.
-	 * 
-	 * @param target The target matrix to multiply this matrix against
-	 * @return A Matrix representing the product from the original two matricies
-	 */
-	/*	public Matrix multiply(Matrix target) {
-			Matrix newMatrix = new Matrix(this.getColumnCount(), target.getRowCount()); // m x n
-
-	// TODO: Finsih this off (Brush up on Linear Algebra)
-
-	return newMatrix;
-	}*/
-
-	/**
-	 * Get the identity matrix of matrix with the size (rows, cols)
-	 * 
-	 * @param rows The number of rows in the martix
-	 * @param cols The number of columns in the matrix 
-	 * @return A <code>Matrix</code> object containing an identity matrix
-	 */
-	/*	public static Matrix getIdentityMatrix(int rows, int cols) {
-			int i = 0;
-			int j = 0;
-			Matrix newMatrix = new Matrix(rows, cols);
-
-			while (i != (rows-1) && j != (cols-1) ) {
-			newMatrix.setItemAt(i, j, new Double(1.0));			
-			}
-
-			return newMatrix;
-			}*/
 }

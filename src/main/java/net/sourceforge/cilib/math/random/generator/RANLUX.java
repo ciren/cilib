@@ -70,10 +70,16 @@ public class RANLUX extends Random {
         super(seed);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public RANLUX getClone() {
     	return new RANLUX();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void setSeed(long seed) {
         xdbl = new double[12];
         
@@ -254,6 +260,9 @@ public class RANLUX extends Random {
         ir_old = ir;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     protected int next(int bits) {
         ir = NEXT[ir];
         

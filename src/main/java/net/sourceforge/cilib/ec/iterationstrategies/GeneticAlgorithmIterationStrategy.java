@@ -1,9 +1,9 @@
 /*
  * GeneticAlgorithmIterationStrategy.java
  *
- * Copyright (C) 2003, 2004, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -20,13 +20,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * 
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
@@ -51,7 +49,12 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 
 	private CrossoverStrategy crossoverStrategy;
 	private MutationStrategy mutationStrategy;
-	
+
+	/**
+	 * Create an instance of the {@linkplain IterationStrategy}. Default cross-over
+	 * and mutation operators are {@linkplain UniformCrossoverStrategy} and
+	 * {@linkplain GaussianMutationStrategy} respectively.
+	 */
 	public GeneticAlgorithmIterationStrategy() {
 		this.crossoverStrategy = new UniformCrossoverStrategy();
 		this.mutationStrategy = new GaussianMutationStrategy();
@@ -59,6 +62,10 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 		initialiseOperatorPipeline();
 	}
 
+	/**
+	 * Copy constructor. Create an instance that is a copy of the provided instance.
+	 * @param copy the instance to copy.
+	 */
 	public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
 		this.crossoverStrategy = copy.crossoverStrategy.getClone();
 		this.mutationStrategy = copy.mutationStrategy.getClone();
@@ -69,10 +76,16 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public GeneticAlgorithmIterationStrategy getClone() {
 		return new GeneticAlgorithmIterationStrategy(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public void performIteration(EC ec) {
 		Topology<Entity> offspring = new GBestTopology<Entity>();
@@ -88,22 +101,22 @@ public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
 		//this.mutationStrategy.mutate(crossedOver);
 		
 		// Evaluate the fitness values of the generated offspring
-		for (Iterator<Entity> i = offspring.iterator(); i.hasNext(); ) {
-			Entity entity = i.next();
+		for (Entity entity : offspring) {
 			entity.calculateFitness();
 		}
 		
 		// Perform new population selection
 		Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
-		for (Iterator<Entity> i = offspring.iterator(); i.hasNext(); ) {
-			Entity entity = i.next();
+		for (Entity entity : offspring) {
 			topology.add(entity);
 		}
 		
 		//this.boundaryConstraint.enforce(entity);
 		
 		Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
-		for (ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize()); i.hasNext(); ) {
+		ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize());
+		
+		while (i.hasNext()) {
 			i.next();
 			i.remove();
 		}

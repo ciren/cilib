@@ -1,10 +1,11 @@
 /*
  * DeratingFunctionMaximisationProblem.java
  *
- * Created on June 24, 2003, 21:00 PM
- *
- *
- * Copyright (C) 2003 - Clive Naicker
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.problem;
 
@@ -48,7 +48,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * </p>
  * @author Clive Naicker
  */
-
 public class DeratingFunctionMaximisationProblem extends FunctionMaximisationProblem {
     private static final long serialVersionUID = 6513411928705015979L;
     
@@ -88,7 +87,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
 
     /**
      * Calculates the fitness of a solution with respect to the
-     * modifications to the search space
+     * modifications to the search space.
      * @param solution The solution to calculate the fitness.
      * @return The fitness of the solution.
      */
@@ -103,29 +102,29 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
         while (iterator.hasNext()) {
             // calculate the distance between the solution and the previousely found
             // solution.
-            Double[] d_solution = (Double[]) iterator.next();
+            Double[] distanceSolution = (Double[]) iterator.next();
 
             // convert the object into a double array that we can use.
             /*double[] t_solution = new double[d_solution.length];
             for (int i = 0; i < d_solution.length; i++) {
                 t_solution[i] = d_solution[i].doubleValue();
             }*/
-            Vector t_solution = new Vector(d_solution.length);
-            for (int i = 0; i < d_solution.length; i++) {
-            	t_solution.set(i, new Real(d_solution[i].doubleValue()));
+            Vector tSolution = new Vector(distanceSolution.length);
+            for (int i = 0; i < distanceSolution.length; i++) {
+            	tSolution.set(i, new Real(distanceSolution[i].doubleValue()));
             }
 
             // calcaulate the distance between the solution and the previousely found
             // solution.
             //double distance = distanceMeasure.distance((double[]) solution, t_solution);
-            double distance = distanceMeasure.distance((Vector) solution, t_solution);
+            double distance = distanceMeasure.distance((Vector) solution, tSolution);
 
             // normalise the distance in the range [0..1].
             distance = normalise(distance);
 
             // inorder to evaluate the derating function the distance needs to be
             // a array.
-            double[] dist = { distance };
+            double[] dist = new double[]{ distance };
 
             // modify the fitness.
             if (distance < radius) {
@@ -155,13 +154,13 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
         // add the position of the solution to the vector of solutions.
         // because the solutions are stored in a Vector, the solution needs to be
         // converted into a object of Double[].
-        Double[] t_solution = new Double[solution.length];
-        for (int i = 0; i < t_solution.length; i++) {
+        Double[] tSolution = new Double[solution.length];
+        for (int i = 0; i < tSolution.length; i++) {
             // create memory for the dimesion.
-            t_solution[i] = new Double(solution[i]);
+            tSolution[i] = new Double(solution[i]);
         }
         // add the solution object to the solution to the vector of solution.
-        vectorSolutions.add(t_solution);
+        vectorSolutions.add(tSolution);
     }
 
     /**
@@ -193,7 +192,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
 
     /**
      * This is an accessor method that can be used to set the
-     * deratingFunction that is used to modify the search space
+     * deratingFunction that is used to modify the search space.
      * @param deratingFunction The derating function to use
      * when modifying the search space.
      */
@@ -227,7 +226,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
     }
 
     /**
-     * Removes all solutions from the vectorSolutions
+     * Removes all solutions from the vectorSolutions.
      */
     public void clear() {
         vectorSolutions.clear();

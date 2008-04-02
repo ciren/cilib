@@ -1,11 +1,9 @@
 /*
  * DunnIndex.java
- * 
- * Created on July 18, 2007
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -27,7 +25,9 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 
 /**
- * This is the Dunn Validity Index as given in:<br/>
+ * This is the Dunn Validity Index.
+ * 
+ * This implementation is as given in:<br/>
  * @Article{ dunn1974vi, title = "Well Separated Clusters and Optimal Fuzzy Partitions", author =
  *           "J. C. Dunn", journal = "Journal of Cybernetics", pages = "95--104", volume = "4", year =
  *           "1974" }
@@ -36,20 +36,32 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 public class DunnIndex extends GeneralisedDunnIndex {
 	private static final long serialVersionUID = -7440453719679272149L;
 
+	/**
+	 * Create an instance of this index.
+	 */
 	public DunnIndex() {
 		super();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected double calculateWithinClusterScatter(int k) {
 		return calculateClusterDiameter(k);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
 		return calculateMinimumSetDistance(i, j);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public DunnIndex getClone() {
 		return new DunnIndex();

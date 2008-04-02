@@ -1,11 +1,9 @@
 /*
  * EuclideanDistanceMeasure.java
- * 
- * Created on Apr 14, 2004
  *
- * Copyright (C)  2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,17 +19,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.util;
 
 /**
- * Euclidean Distance is a special case of the {@link net.sourceforge.cilib.util.MinkowskiMetric Minkowski Metric} with 'alpha' := 2.
+ * Euclidean Distance is a special case of the {@linkplain MinkowskiMetric} with 
+ * <code>alpha = 2</code>.
+ * 
  * @author Edwin Peer
  * @author Theuns Cloete
  */
 public class EuclideanDistanceMeasure extends MinkowskiMetric {
+	
+	/**
+	 * Create an instance of the {@linkplain EuclideanDistanceMeasure}.
+	 */
 	public EuclideanDistanceMeasure() {
 		super(2);
 	}

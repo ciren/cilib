@@ -1,12 +1,9 @@
 /*
  * MaximumDeratingFunction1.java
  *
- * Created on June 24, 2003, 2:09 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,65 +19,92 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * 
+ *
+ */
 public class MaximumDeratingFunction1 extends ContinuousFunction {
     private static final long serialVersionUID = -2963512750988478604L;
     
 	private double radius = 0.25;
     private double alpha = 2.0;
 
+    /**
+     * Create an instance of the function. Defualt domain is R^1.
+     */
     public MaximumDeratingFunction1() {
         //constraint.add(new DimensionValidator(1));
         setDomain("R^1");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MaximumDeratingFunction1 getClone() {
     	return new MaximumDeratingFunction1();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(0);
     }
     
+    /**
+     * Set the value of the radius.
+     * @param radius The value to set.
+     */
     public void setRadius(double radius) {
         this.radius = radius;
     }
 
+    /**
+     * Get the value of the radius.
+     * @return The value of the radius.
+     */
     public double getRadius() {
         return radius;
     }
 
+    /**
+     * Set the value of <code>alpha</code>.
+     * @param alpha The value to set.
+     */
     public void setAlpha(double alpha) {
         this.alpha = alpha;
     }
 
+    /**
+     * Get the value of alpha.
+     * @return The value of alpha.
+     */
     public double getAlpha() {
         return alpha;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector parm1) {
         // the derating function is only to be used with Derating Function Problem
         // if the this class is misused, then prcocess will exit inorder to prevent
         // errorneous results.
         //if (parm1.length > 1) {
-    	if (parm1.getDimension() > 1) {
+    	if (parm1.getDimension() > 1)
             throw new RuntimeException("derating function may only be used in one dimension");
-        }
 
-        if (parm1.getReal(0) >= radius) {
+        if (parm1.getReal(0) >= radius)
             return 1.0;
-        }
-        else {
-            return Math.pow(parm1.getReal(0) / radius, alpha);
-        }
+        
+        return Math.pow(parm1.getReal(0) / radius, alpha);
     }
 }
