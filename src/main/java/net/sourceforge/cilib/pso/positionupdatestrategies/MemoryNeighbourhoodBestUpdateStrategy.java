@@ -25,7 +25,7 @@
  */
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
@@ -37,18 +37,17 @@ public class MemoryNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestU
 	private static final long serialVersionUID = -6674766322219682030L;
 	
 	public MemoryNeighbourhoodBestUpdateStrategy getClone() {
-		return new MemoryNeighbourhoodBestUpdateStrategy();
+		return this;
 	}
 
 	/**
-	 * Get the social best fitness of the particle. This returns the fitness of the
-	 * particle's personal best. 
+	 * Get the social best fitness of the entity. This returns the fitness of the
+	 * entity's personal best. 
 	 * 
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy#getSocialBestFitness(net.sourceforge.cilib.pso.Particle)
-	 * @return The fitness of the <code>Particle</code>'s personal best (pbest)
+	 * @return The fitness of the <code>Entity</code>'s personal best (pbest)
 	 */
-	public Fitness getSocialBestFitness(Particle particle) {
-		return particle.getBestFitness();
+	public Fitness getSocialBestFitness(Entity entity) {
+		return entity.getBestFitness();
 	}
 
 }

@@ -32,7 +32,6 @@ import net.sourceforge.cilib.pso.particle.initialisation.RandomizedPositionIniti
 import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
 import net.sourceforge.cilib.pso.particle.initialisation.ZeroInitialVelocityStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
@@ -46,7 +45,6 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
 	
-    protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
     protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
     
@@ -182,38 +180,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Update the <tt>ControlParameters</tt> associated with the <tt>Particle</tt>.
      */
     public abstract void updateControlParameters();
-    
-    /**
-     * Get the social best fitness for the particle based on the currently employed
-     * <code>NeighbourhoodBestUpdateStrategy</code>
-     * 
-     * @see net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy#getSocialBest()
-     * @return A <code>Fitness</code> object representing the best social fitness of
-     *         the current strategy
-	 */
-	public Fitness getSocialBestFitness() {
-		return neighbourhoodBestUpdateStrategy.getSocialBestFitness(this);
-	}
-	
-	/**
-	 * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>
-	 * 
-	 * @see net.sourceforge.cilib.pso.particle#getNeighbourhoodBestUpdateStrategy()
-	 * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
-	 */
-	public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {
-		return this.neighbourhoodBestUpdateStrategy;
-	}
-
-	/**
-	 * Set the <code>NeighbourhoodBestUpdateStrategy</code> to be used by the <code>Particle</code>
-	 * 
-	 * @see net.sourceforge.cilib.pso.particle#setNeighbourhoodBestUpdateStrategy(net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy)
-	 * @param neighbourhoodBestUpdateStrategy The <code>NeighbourhoodBestUpdateStrategy</code> to be used
-	 */
-	public void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy) {
-		this.neighbourhoodBestUpdateStrategy = neighbourhoodBestUpdateStrategy;
-	}
 
 	/**
 	 * Get the current <tt>PostionUpdateStrategy</tt> associated with this <tt>Particle</tt>.
@@ -223,7 +189,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 		return positionUpdateStrategy;
 	}
 	
-	
 	/**
 	 * Set the <tt>PostionUpdateStrategy</tt> for the <tt>Particle</tt>.
 	 * @param positionUpdateStrategy The <tt>PositionUpdateStrategy</tt> to use.
@@ -232,8 +197,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 			PositionUpdateStrategy positionUpdateStrategy) {
 		this.positionUpdateStrategy = positionUpdateStrategy;
 	}
-	
-	
 	
 	/**
 	 * Get the {@see net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy}

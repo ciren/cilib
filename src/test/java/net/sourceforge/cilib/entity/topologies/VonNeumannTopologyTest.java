@@ -266,10 +266,10 @@ public class VonNeumannTopologyTest {
 			
 		}
 
-		public Fitness getSocialBestFitness() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+//		public Fitness getSocialBestFitness() {
+//			// TODO Auto-generated method stub
+//			return null;
+//		}
 
 		public void setContents(Type type) {
 			// TODO Auto-generated method stub

@@ -25,7 +25,7 @@
  */
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
@@ -33,15 +33,13 @@ import net.sourceforge.cilib.problem.Fitness;
  */
 public class IterationNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
 	private static final long serialVersionUID = 9029103734770326975L;
-
+	
 	public IterationNeighbourhoodBestUpdateStrategy getClone() {
-		return new IterationNeighbourhoodBestUpdateStrategy();
+		return this;
 	}
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.PSO.NeighbourhoodBestUpdateStrategy#getSocialBestFitness(net.sourceforge.cilib.PSO.Particle)
-	 */
-	public Fitness getSocialBestFitness(Particle particle) {
-		return particle.getFitness();
+	
+	public Fitness getSocialBestFitness(Entity entity) {
+		return entity.getFitness();
 	}
 
 }

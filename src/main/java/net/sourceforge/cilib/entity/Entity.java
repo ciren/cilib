@@ -29,6 +29,7 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
@@ -90,6 +91,22 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	
 	
 	/**
+	 * Return the best fitness associated with this {@linkplain Entity}, provided a best
+	 * fitness is defined on the {@linkplain Entity}. If a best fitness is not defined, the
+	 * current fitness is returned as it is the best current fitness. {@linkplain Entity}
+	 * objects that need to use this method need to override it in their implementation,
+	 * for example with {@linkplain Particle} objects. 
+	 */
+	public Fitness getBestFitness();
+	
+	/**
+	 * Get the social best fitness of the {@linkplain Entity}. The social best is determined
+	 * but the predefined {@linkplain NeighbourhoodBestUpdateStrategy}.
+	 * @return The social best fitness value.
+	 */
+	public Fitness getSocialBestFitness();
+	
+	/**
 	 * Intialise the Entity to something meaningful and within the problem space.
 	 * The exact semantics of this method is defined by the classes that implements this interface.
 	 * @param problem
@@ -99,29 +116,28 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	
 	
 	/**
-	 * Returns the dimension of the Entity
-	 * @return
+	 * Returns the dimension of the {@linkplain Entity}.
+	 * @return The dimension of the {@linkplain Entity}.
 	 */
 	public int getDimension();
 	
 	
 	/**
-	 * 
-	 *
+	 * Re-initialise the given {@linkplain Entity} within the defined domain.
 	 */
 	public void reinitialise();
 	
 
 	/**
 	 * Get the properties associate with the <code>Entity</code>
-	 * @return
+	 * @return The {@linkplain Blackboard} containing the properties.
 	 */
 	public Blackboard<String, Type> getProperties();
 
 
 	/**
-	 * Set the properties for the current <code>Entity</code>
-	 * @param properties
+	 * Set the properties for the current <code>Entity</code>.
+	 * @param properties The properties to set.
 	 */
 	public void setProperties(Blackboard<String, Type> properties);
 }

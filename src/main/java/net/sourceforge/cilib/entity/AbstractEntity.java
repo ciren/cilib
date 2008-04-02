@@ -26,6 +26,8 @@ package net.sourceforge.cilib.entity;
 import java.util.Map;
 
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -38,12 +40,14 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	
 	protected Blackboard<String, Type> properties = new Blackboard<String, Type>();
 	private final CandidateSolution candidateSolution;
+	protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 
 	/**
 	 * Initialise the candidate solution of the {@linkplain Entity}.
 	 */
 	protected AbstractEntity() {
-		this.candidateSolution = new CandidateSolutionMixin(properties);		
+		this.candidateSolution = new CandidateSolutionMixin(properties);
+		this.neighbourhoodBestUpdateStrategy = new IterationNeighbourhoodBestUpdateStrategy();
 	}
 	
 	/**
@@ -101,6 +105,36 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 */
 	public void setContents(Type contents) {
 		this.candidateSolution.setContents(contents);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public final Fitness getSocialBestFitness() {
+		return this.neighbourhoodBestUpdateStrategy.getSocialBestFitness(this);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public Fitness getBestFitness() {
+		return getFitness();
+	}
+	
+	/**
+	 * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>
+	 * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
+	 */
+	public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {
+		return this.neighbourhoodBestUpdateStrategy;
+	}
+	
+	/**
+	 * Set the <code>NeighbourhoodBestUpdateStrategy</code> to be used by the {@linkplain Entity}.
+	 * @param neighbourhoodBestUpdateStrategy The <code>NeighbourhoodBestUpdateStrategy</code> to be used
+	 */
+	public void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy) {
+		this.neighbourhoodBestUpdateStrategy = neighbourhoodBestUpdateStrategy;
 	}
 	
 }

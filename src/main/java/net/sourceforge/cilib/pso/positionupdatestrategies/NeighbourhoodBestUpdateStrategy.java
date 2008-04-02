@@ -25,13 +25,13 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import java.io.Serializable;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Interface specifying the manner in which the neighbourhood best of the
- * particle is obtained.
+ * {@linkplain Entity} is obtained.
  *
  * @author Gary Pampara
  */
@@ -43,9 +43,9 @@ public interface NeighbourhoodBestUpdateStrategy extends Serializable, Cloneable
 	public NeighbourhoodBestUpdateStrategy getClone();
 
 	/**
-	 * Get the social best fitness (neighbourhood best) of the given particle.
-	 * @param particle The particle to determine the social best fitness from.
+	 * Get the social best fitness (neighbourhood best) of the given {@linkplain Entity}.
+	 * @param entity The Entity to determine the social best fitness from.
 	 * @return The social best (neighbourhood best) {@linkplain Fitness}.
 	 */
-	public Fitness getSocialBestFitness(Particle particle);
+	public Fitness getSocialBestFitness(Entity entity);
 }

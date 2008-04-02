@@ -51,7 +51,6 @@ public class StandardParticle extends AbstractParticle {
     public StandardParticle() {
     	super();
     	
-//    	properties.put("position", new Vector());
     	properties.put("bestPosition", new Vector());
     	properties.put("velocity", new Vector());
         

@@ -101,12 +101,12 @@ public abstract class Topology<E extends Entity> extends EntityCollection<E> {
     	if (bestEntity == null) {
 			Iterator<E> i = this.iterator();
 			bestEntity = i.next();
-			Fitness bestFitness = bestEntity.getFitness();
+			Fitness bestFitness = bestEntity.getSocialBestFitness();
 			while (i.hasNext()) {
 				E entity = i.next();
-				if (entity.getFitness().compareTo(bestFitness) > 0) {
+				if (entity.getSocialBestFitness().compareTo(bestFitness) > 0) {
 					bestEntity = entity;
-					bestFitness = bestEntity.getFitness();
+					bestFitness = bestEntity.getSocialBestFitness();
 				}
 			}
 		}
