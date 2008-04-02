@@ -1,11 +1,9 @@
 /*
  * DiscreteOptimisationProblem.java
  *
- * Created on Sep 12, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -26,13 +24,16 @@
 package net.sourceforge.cilib.problem;
 
 /**
- * This class further extends the logical seperation between a standard type of problem, usually placed
- * in the real valued space, to enable Discrete problems
+ * This class further extends the logical separation between a standard type of problem, usually placed
+ * in the real valued space, to enable Discrete problems.
  * 
  * @author Gary Pampara
  */
 public abstract class DiscreteOptimisationProblem implements OptimisationProblem {
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract DiscreteOptimisationProblem getClone();
 	
 }

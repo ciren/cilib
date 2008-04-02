@@ -23,10 +23,8 @@
  */
 package net.sourceforge.cilib.entity;
 
-import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
@@ -146,8 +144,9 @@ public interface Particle extends Entity {
 	 * @param positionUpdateStrategy The {@linkplain PositionUpdateStrategy} to set.
 	 */
 	public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy);
+
 	
-	// I don't like this mehtod / idea
+	// I don't like this method / idea
 	public String getId();
 	
 }

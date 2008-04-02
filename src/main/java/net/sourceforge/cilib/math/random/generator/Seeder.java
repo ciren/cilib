@@ -1,12 +1,9 @@
 /*
  * Seeder.java
  *
- * Created on July 9, 2003, 11:16 AM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.math.random.generator;
 
@@ -38,20 +35,26 @@ import java.util.Random;
  *
  * @author  Edwin Peer
  */
-public class Seeder {
+public final class Seeder {
 	
 	private static Seeder seeder = null;
     private Random random;
     private int address;
-    
+  
+    /**
+     * 
+     */
     private Seeder() {
- 
         random = new SecureRandom();
         address = getNetworkAddress();
     }
-    
-    public synchronized static long getSeed() {
+ 
 
+    /**
+     * Get a seed value.
+     * @return The seed value.
+     */
+    public static synchronized long getSeed() {
         if (seeder == null) {
             seeder = new Seeder();
         }
@@ -71,7 +74,7 @@ public class Seeder {
             address = InetAddress.getLocalHost().getAddress();
         }
         catch (UnknownHostException ex) {
-            
+        	            
         }
         
         try {
@@ -80,7 +83,7 @@ public class Seeder {
                 Enumeration<InetAddress> addresses = interfaces.nextElement().getInetAddresses();
                 while (addresses.hasMoreElements()) {
                     InetAddress addr = addresses.nextElement();
-                    if (! addr.isLoopbackAddress()) {
+                    if (!addr.isLoopbackAddress()) {
                         address = addr.getAddress();
                     }
                 }
@@ -94,7 +97,7 @@ public class Seeder {
             return 0;
         }
         else {
-            return ((int)address[0]) << 24 | ((int)address[1]) << 16 | ((int) address[2]) << 8 | (int) address[3]; 
+            return ((int) address[0]) << 24 | ((int) address[1]) << 16 | ((int) address[2]) << 8 | (int) address[3]; 
         }
     }
     

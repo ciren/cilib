@@ -1,9 +1,9 @@
 /*
- * TopologyBasedNormlisation.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * TopologyBasedNormalisation.java
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -28,15 +28,24 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
+/**
+ * Normalisation based on the {@linkplain Topology}.
+ */
 public class TopologyBasedNormalisation extends NormalisationParameter {
 
 	private TopologyVisitor visitor;
 	
+	/**
+	 * Create an instance of the {@linkplain TopologyBasedNormalisation}.
+	 */
 	public TopologyBasedNormalisation() {
 		super();
 		visitor = new DiameterVisitor();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double getValue() {
 		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
@@ -47,10 +56,18 @@ public class TopologyBasedNormalisation extends NormalisationParameter {
 		return this.normalisationParameter;
 	}
 
+	/**
+	 * Get the decorated {@linkplain TopologyVisitor}.
+	 * @return The decorated {@linkplain TopologyVisitor}.
+	 */
 	public TopologyVisitor getVisitor() {
 		return visitor;
 	}
 
+	/**
+	 * Set the {@linkplain TopologyVisitor} to be decorated.
+	 * @param visitor The {@linkplain TopologyVisitor} to set.
+	 */
 	public void setVisitor(TopologyVisitor visitor) {
 		this.visitor = visitor;
 	}

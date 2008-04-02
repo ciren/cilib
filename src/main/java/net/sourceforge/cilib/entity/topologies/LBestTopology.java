@@ -1,12 +1,9 @@
 /*
  * LBestTopology.java
  *
- * Created on January 17, 2003, 6:34 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.entity.topologies;
 
 import java.util.Iterator;
@@ -37,7 +32,7 @@ import net.sourceforge.cilib.entity.Entity;
 
 /**
  * <p>
- * Implementation of the Local Best Neighbourhood topology
+ * Implementation of the Local Best Neighbourhood topology.
  * </p><p>
  * References:
  * </p><p><ul><li>
@@ -46,6 +41,7 @@ import net.sourceforge.cilib.entity.Entity;
  * </li></ul></p>
  *
  * @author Edwin Peer
+ * @param <E> The {@linkplain Entity} type.
  */
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	private static final long serialVersionUID = 93039445052676571L;
@@ -62,11 +58,18 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 		neighbourhoodSize = new ConstantControlParameter(3);
 	}
 
+	/**
+	 * Copy constructor. Copy the provided instance.
+	 * @param copy The instance to copy.
+	 */
     public LBestTopology(LBestTopology<E> copy) {
     	super(copy);
     	this.neighbourhoodSize = copy.neighbourhoodSize;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public LBestTopology<E> getClone() {
     	return new LBestTopology<E>(this);
     }
@@ -74,6 +77,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	/**
 	 * Recalculate the {@link #neighbourhoodSize} by updating the
 	 * {@link ControlParameter} and then construct a new iterator to be returned.
+	 * @param iterator The {@linkplain Iterator} to wrap.
 	 * @return a new iterator for this topology.
 	 */
 	@SuppressWarnings("unchecked")

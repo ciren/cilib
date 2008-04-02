@@ -1,11 +1,9 @@
 /*
  * SchwefelProblem2_22.java
- * 
- * Created on Aug 3, 2005
  *
- * Copyright (C) 2003, 2004, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * 
  */
 package net.sourceforge.cilib.functions.continuous;
 
@@ -31,6 +28,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
+ * SchwefelProblem2_22.
+ * 
  * Characteristics:
  * 
  * f(x) = 0;
@@ -43,19 +42,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class SchwefelProblem2_22 extends ContinuousFunction {
     private static final long serialVersionUID = -5004170862929300400L;
 
+    /**
+     * Creates an new instance. Domain is set to R(-10,10)^30 by default.
+     */
 	public SchwefelProblem2_22() {
         setDomain("R(-10, 10)^30");
     }
     
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SchwefelProblem2_22 getClone() {
 		return new SchwefelProblem2_22();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double sum = 0;
         double product = 0;

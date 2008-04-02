@@ -1,9 +1,9 @@
 /*
  * SpatialRadiusVisitor.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -30,18 +30,24 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * Determine the spatial radius of the visited object.
+ */
 public class SpatialRadiusVisitor extends RadiusVisitor {
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void visit(Topology<? extends Entity> topology) {
 //		 set radius value to be returned to zero
 		double maxDistance = 0.0;
     	
 		// get number of entities in the population
-		int numberOfEntities = ((PopulationBasedAlgorithm)this.currentAlgorithm).getPopulationSize();
+		int numberOfEntities = ((PopulationBasedAlgorithm) this.currentAlgorithm).getPopulationSize();
 		
 		// initialize iterator to be used to calculate spatial center
-		Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm)this.currentAlgorithm).getTopology().iterator();
+		Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().iterator();
 		Entity entity = calculateCenterIterator.next();
         Vector spatialCenter = (Vector) entity.getContents().getClone();
         
@@ -50,12 +56,12 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
         	entity = calculateCenterIterator.next();
         	Vector entityContents = (Vector) entity.getContents();
         	for (int j = 0; j < spatialCenter.getDimension(); ++j)
-        	   spatialCenter.setReal(j,spatialCenter.getReal(j)+entityContents.getReal(j));
+        	   spatialCenter.setReal(j, spatialCenter.getReal(j)+entityContents.getReal(j));
         }
         
         // calculate center - evaluate average position of entity contents (spatial center)
         for (int j = 0; j < spatialCenter.getDimension(); ++j)
-           spatialCenter.setReal(j,spatialCenter.getReal(j)/numberOfEntities);
+           spatialCenter.setReal(j, spatialCenter.getReal(j)/numberOfEntities);
 		
         // initialize iterator to be used to calculate radius
     	Iterator<?> calculateRadiusIterator = topology.iterator();

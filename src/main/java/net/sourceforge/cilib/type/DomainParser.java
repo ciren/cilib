@@ -1,11 +1,9 @@
 /*
  * DomainParser.java
- * 
- * Created on Jun 13, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.type;
 
@@ -35,7 +32,7 @@ import net.sourceforge.cilib.type.types.Type;
  * 
  * @author Gary Pampara
  */
-public class DomainParser {
+public final class DomainParser {
 
 	private DomainBuilder builder;
 	private DomainValidator validator;
@@ -72,6 +69,8 @@ public class DomainParser {
 	 * representation required by the rest of CILib.
 	 * 
 	 * @param domain The domain string to be parsed
+	 * @return <code>true</code> if the parsing is successful.
+	 * @throws RuntimeException If the domain string is not valid.
 	 */
 	public boolean parse(String domain) {
 			

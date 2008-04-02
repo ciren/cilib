@@ -1,11 +1,9 @@
 /*
- * MixedVector.java
- * 
- * Created on Oct 18, 2004
+ * Vector.java
  *
- * Copyright (C)  2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.type.types.container;
 
@@ -48,8 +46,7 @@ public class Vector extends AbstractList {
 	
 	
 	/**
-	 * Create a default <code>MixedVector</code> with an initial size of 0
-	 *
+	 * Create a default <code>MixedVector</code> with an initial size of 0.
 	 */
 	public Vector() {
 		components = new ArrayList<Type>();
@@ -57,7 +54,7 @@ public class Vector extends AbstractList {
 	
 	
 	/**
-	 * Create a <code>MixedVector</code> with a default size specified by <code>dimension</code>
+	 * Create a <code>MixedVector</code> with a default size specified by <code>dimension</code>.
 	 * 
 	 * @param dimension The size to initialise the <code>MixedVector</code>
 	 */
@@ -68,10 +65,10 @@ public class Vector extends AbstractList {
 	
 	/**
 	 * Create a <code>MixedVector</code> object with a default size of <code>dimension</code>
-	 * and initialised with a the component <code>commponent</code> 
+	 * and initialised with a the component <code>commponent</code> .
 	 * 
-	 * @param dimension The dimension of the <code>MixedVector</code> required
-	 * @param component The component required for initial values of type <code>Type</code>
+	 * @param dimension The dimension of the <code>MixedVector</code> required.
+	 * @param component The component required for initial values of type <code>Type</code>.
 	 */
 	public Vector(int dimension, Type component) {
 		if (component instanceof Vector) {
@@ -94,8 +91,8 @@ public class Vector extends AbstractList {
 	}
 	
 	/**
-	 * Copy constructor
-	 * @param copy The Vector to copy
+	 * Copy constructor.
+	 * @param copy The Vector to copy.
 	 */
 	public Vector(Vector copy) {
 		this(copy.components.size());
@@ -106,18 +103,16 @@ public class Vector extends AbstractList {
 	}
 	
 	/**
-	 * Create a clone (deep copy) of the <code>MixedVector</code>
-	 * 
-	 * @return The clone of the <code>MixedVector</code>
+	 * {@inheritDoc}
 	 */
 	public Vector getClone() {
 		return new Vector(this);
 	}
 
 	/**
-	 * Initialise this vector to contain 'size' 'element' elements
-	 * @param size the number of elements this vector should contain
-	 * @param element the element that will be cloned and used as each element of this vector
+	 * Initialise this vector to contain 'size' 'element' elements.
+	 * @param size the number of elements this vector should contain.
+	 * @param element the element that will be cloned and used as each element of this vector.
 	 */
 	public void initialise(int size, Type element) {
 		for(int i = 0; i < size; i++)
@@ -158,6 +153,7 @@ public class Vector extends AbstractList {
 	/**
 	 * Appends the supplied <tt>Vector</tt> contents to the current <tt>Vector</tt>.
 	 * This method copies the references of the supplied <tt>Vector</tt>.
+	 * @param vector The {@linkplain Vector} to append.
 	 * @return true always
 	 */
 	public boolean append(AbstractList vector) {
@@ -177,7 +173,7 @@ public class Vector extends AbstractList {
 	/**
 	 * Append the supplied <tt>Vector</tt> to the beginning of the current 
 	 * <tt>Vector</tt>.
-	 * 
+	 * @param vector The {@linkplain Vector} to prepend.
 	 * @return true always
 	 */
 	public boolean prepend(AbstractList vector) {
@@ -195,7 +191,7 @@ public class Vector extends AbstractList {
 	
 	
 	/**
-	 * Remove all the enties in this <tt>Vector</tt>.
+	 * Remove all the entities in this <tt>Vector</tt>.
 	 */
 	public void clear() {
 		this.components.clear();
@@ -297,7 +293,7 @@ public class Vector extends AbstractList {
      */
 	public Object [] toArray() {
 		try {
-			Object tmp [] = new Object[getDimension()];
+			Object [] tmp = new Object[getDimension()];
 		
 			for (int i = 0; i < getDimension(); i++) {
 				tmp[i] = getType(i).getClone();
@@ -336,9 +332,7 @@ public class Vector extends AbstractList {
 	}
 
 	/**
-	 * Return the dimension of the <code>MixedVector</code>
-	 * 
-	 * @return The dimesion of the <code>MixedVector</code>
+	 * {@inheritDoc}
 	 */
 	public int getDimension() {
 		return components.size();
@@ -560,7 +554,7 @@ public class Vector extends AbstractList {
 
 		final Vector result = this.getClone();
 		for (int i = 0; i < result.size(); i++) {
-			Numeric numeric = (Numeric)result.getType(i);
+			Numeric numeric = (Numeric) result.getType(i);
 			numeric.setReal(numeric.getReal() - vector.getReal(i));
 		}
 		return result;
@@ -575,7 +569,7 @@ public class Vector extends AbstractList {
 			if(vector.getReal(i) == 0.0)
 				throw new ArithmeticException("Vector division by zero caused by element " + i);
 
-			Numeric numeric = (Numeric)result.getType(i);
+			Numeric numeric = (Numeric) result.getType(i);
 			numeric.setReal(numeric.getReal() / vector.getReal(i));
 		}
 		return result;

@@ -1,9 +1,9 @@
 /*
  * DifferentialEvolutionIterationStrategy.java
  *
- * Copyright (C) 2003, 2004, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * 
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
@@ -57,7 +56,10 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	
 	private SelectionStrategy targetVectorSelectionStrategy; // x
 	private CrossoverStrategy crossoverStrategy; // z
-	
+
+	/**
+	 * Create an instance of the {@linkplain DifferentialEvolutionIterationStrategy}.
+	 */
 	public DifferentialEvolutionIterationStrategy() {
 		this.random = new RandomNumber();
 		
@@ -69,6 +71,10 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		this.crossoverStrategy = new DifferentialEvolutionBinomialCrossover();
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the given instance.
+	 * @param copy The instance to copy.
+	 */
 	public DifferentialEvolutionIterationStrategy(DifferentialEvolutionIterationStrategy copy) {
 		this.random = copy.random.getClone();
 		
@@ -133,8 +139,9 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	 */
 	private Vector determineDistanceVector(List<Entity> participants) {
 		Vector distanceVector = new Vector(participants.get(0).getContents().getDimension(), new Real(0.0));
+		Iterator<Entity> iterator = participants.iterator();
 		
-		for (Iterator<Entity> iterator = participants.iterator(); iterator.hasNext(); ) {
+		while (iterator.hasNext()) {
 			Vector first = (Vector) iterator.next().getContents();
 			Vector second = (Vector) iterator.next().getContents();
 			
@@ -157,8 +164,9 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 		List<Entity> participants = new ArrayList<Entity>();
 		
 		int total = 2 * Double.valueOf(this.numberOfDifferenceVectors.getParameter()).intValue();
+		int i = 0;
 		
-		for (int i = 0; i < total; ) {
+		while (i < total) {
 			Entity entity = randomSelectionStrategy.select(topology);
 		
 			if (participants.contains(entity)) continue;
@@ -172,32 +180,32 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	}
 
 	/**
-	 * Get the {@linkplain ControlParameter} defining the cross-over probability
-	 * @return The cross-over probability
+	 * Get the {@linkplain ControlParameter} defining the cross-over probability.
+	 * @return The cross-over probability.
 	 */
 	public ControlParameter getCrossoverProbability() {
 		return crossoverProbability;
 	}
 
 	/**
-	 * Set the cross-over probability {@linkplain ControlParameter}
-	 * @param crossoverProbability The cross-over probability to set
+	 * Set the cross-over probability {@linkplain ControlParameter}.
+	 * @param crossoverProbability The cross-over probability to set.
 	 */
 	public void setCrossoverProbability(ControlParameter crossoverProbability) {
 		this.crossoverProbability = crossoverProbability;
 	}
 
 	/**
-	 * Get the {@linkplain ControlParameter} defining the scale parameter
-	 * @return The scale parameter
+	 * Get the {@linkplain ControlParameter} defining the scale parameter.
+	 * @return The scale parameter.
 	 */
 	public ControlParameter getScaleParameter() {
 		return scaleParameter;
 	}
 
 	/**
-	 * Set the {@linkplain ControlParameter} defining the scale parameter
-	 * @param scaleParameter The {@linkplain ControlParameter} to set
+	 * Set the {@linkplain ControlParameter} defining the scale parameter.
+	 * @param scaleParameter The {@linkplain ControlParameter} to set.
 	 */
 	public void setScaleParameter(ControlParameter scaleParameter) {
 		this.scaleParameter = scaleParameter;
@@ -231,7 +239,7 @@ public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC
 	}
 
 	/**
-	 * Set the {@linkplain SelectionStrategy} used to select the target vector within the DE
+	 * Set the {@linkplain SelectionStrategy} used to select the target vector within the DE.
 	 * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the 
 	 *        selection of the target vector.
 	 */

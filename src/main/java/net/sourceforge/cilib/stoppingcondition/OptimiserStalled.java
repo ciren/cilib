@@ -1,11 +1,9 @@
 /*
  * OptimiserStalled.java
  *
- * Created on August 30, 2004, 10:19 PM
- * 
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -48,7 +46,9 @@ public class OptimiserStalled implements StoppingCondition {
 	Algorithm algorithm;
 	OptimisationSolution previousBest;
 
-	/** Creates a new instance of OptimiserStalled */
+	/**
+	 * Creates a new instance of OptimiserStalled.
+	 */
 	public OptimiserStalled() {
 		minChange = 0.05;
 		maxConsecutiveMinChange = 5;
@@ -57,6 +57,10 @@ public class OptimiserStalled implements StoppingCondition {
 		distMeasure = new ManhattanDistanceMeasure();
 	}
 
+	/**
+	 * Copy constructor.
+	 * @param copy The instance to create the copy from.
+	 */
 	public OptimiserStalled(OptimiserStalled copy) {
 		this.minChange = copy.minChange;
 		this.maxConsecutiveMinChange = copy.maxConsecutiveMinChange;
@@ -65,10 +69,16 @@ public class OptimiserStalled implements StoppingCondition {
 		this.algorithm = copy.algorithm;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public OptimiserStalled getClone() {
 		return new OptimiserStalled(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getPercentageCompleted() {
 		// check if this is the first iteration
 		if (previousBest == null) {
@@ -91,6 +101,9 @@ public class OptimiserStalled implements StoppingCondition {
 		return minChangeCounter / maxConsecutiveMinChange;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isCompleted() {
 		if (getPercentageCompleted() == 1.0)
 			return true;
@@ -99,20 +112,25 @@ public class OptimiserStalled implements StoppingCondition {
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setAlgorithm(Algorithm algorithm) {
 		this.algorithm = algorithm;
 	}
 
 	/**
-	 * sets the minimum percentage that the new best location must be from the previous
+	 * sets the minimum percentage that the new best location must be from the previous.
+	 * @param distance The value to set.
 	 */
 	public void setMinimumChange(double distance) {
 		minChange = distance;
 	}
 
 	/**
-	 * sets the maximum consecutive evalutions that an algorithm can improve less then the minimum
+	 * sets the maximum consecutive evalutions that an algorithm can improve less then the minimum.
 	 * percentage. this value relates to evaluations and not iterations.
+	 * @param count The value to set.
 	 */
 	public void setMaxConsecutiveMinChange(int count) {
 		maxConsecutiveMinChange = count;

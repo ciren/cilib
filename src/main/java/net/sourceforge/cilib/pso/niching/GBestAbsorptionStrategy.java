@@ -1,11 +1,9 @@
 /*
  * GBestAbsorptionStrategy.java
  *
- * Created on 13 May 2006
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.niching;
 
@@ -50,19 +47,22 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 /**
  * 
  * @author Segun
- * 
+ * @param <E> The type of {@linkplain PopulationBasedAlgorithm}.
  */
-
-public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> implements AbsorptionStrategy<E>
-{
+public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> implements AbsorptionStrategy<E> {
 	private Map<PopulationBasedAlgorithm, Double> subSwarmMinRadius;
 	
+	/**
+	 * Create an instance of the {@link GBestAbsorptionStrategy}.
+	 */
 	public GBestAbsorptionStrategy() {
 		this.subSwarmMinRadius = new HashMap<PopulationBasedAlgorithm, Double>();
 	}
 
-    public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms)
-    {
+	/**
+	 * {@inheritDoc}
+	 */
+    public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
     	if (subSwarms.isEmpty()) return;
     	
     	Iterator<? extends Entity> mainSwarmIterator = mainSwarm.getTopology().iterator();
@@ -90,18 +90,6 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
 			    continue;
     		}
     	}
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	
     	
 /*    	ListIterator<? extends Entity> mainSwarmIterator = mainSwarm.getTopology().listIterator();
@@ -146,7 +134,7 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
     }
 
 	private SortedList<Pair<Real, PopulationBasedAlgorithm>> determineRadiusToSubSwarms(Entity mainSwarmEntity, List<PopulationBasedAlgorithm> subSwarms) {
-		final Comparator<Pair<Real, PopulationBasedAlgorithm>> comparator = new Comparator<Pair<Real,PopulationBasedAlgorithm>>() {
+		final Comparator<Pair<Real, PopulationBasedAlgorithm>> comparator = new Comparator<Pair<Real, PopulationBasedAlgorithm>>() {
 			public int compare(Pair<Real, PopulationBasedAlgorithm> o1,
 					Pair<Real, PopulationBasedAlgorithm> o2) {
 				return o1.getKey().compareTo(o2.getKey());
@@ -182,7 +170,6 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
 			currentRadius = current;
 		
 		double smallestRadius = Math.min(currentRadius, radiusVisitor.getResult());
-		
 		this.subSwarmMinRadius.put(subSwarm, smallestRadius);
 		
 		return smallestRadius;
