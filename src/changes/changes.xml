@@ -5,6 +5,9 @@
 	</properties>
 	<body>
 		<release version="0.6.11" date="Not yet released" description="">
+		  <action dev="gpampara" type="fix" issue="1931903">
+		    Refactored the NeighbourhoodBestUpdateStrategy references into AbstractEntity from AbstractParticle to correct the introduced Topology.getBestEntity() issue.
+		  </action>
 		  <action dev="gpampara" type="update" issue="1921291">
 			  Refactored the DE implememtation to cater for the DE/x/y/z notation.
 			</action>
