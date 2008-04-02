@@ -1,12 +1,9 @@
 /*
  * KnuthSubtractive.java
  *
- * Created on January 17, 2003, 12:33 AM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,20 +19,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *  
- * This code is based on the implementation in GSL (GNU Scientific Library) 
- * which is also covered by the GNU General Public License. The original C 
- * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler 
- * and Brian Gough.
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.math.random.generator;
-
 
 /**
  * An implementation of Knuth's subtractive random number generator. 
  * This generator is relatively fast but is not considered simulation quality.
+ * 
+ * <p>
+ * This code is based on the implementation in GSL (GNU Scientific Library) 
+ * which is also covered by the GNU General Public License. The original C 
+ * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler 
+ * and Brian Gough.
  *
  * @author  Edwin Peer
  */
@@ -43,18 +39,31 @@ public class KnuthSubtractive extends Random {
     
     private static final long serialVersionUID = 8124520969303604479L;
     
+    /**
+     * Create an instance of {@linkplain KnuthSubtractive}.
+     */
 	public KnuthSubtractive() {
         super(Seeder.getSeed());
     }
     
+	/**
+	 * Create an instance, with the given <code>seed</code> value.
+	 * @param seed The seed value.
+	 */
     public KnuthSubtractive(long seed) {
         super(seed);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public KnuthSubtractive getClone() {
     	return new KnuthSubtractive();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void setSeed(long seed) {
         buffer = new long[56];
         
@@ -92,6 +101,9 @@ public class KnuthSubtractive extends Random {
         y = 31;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     protected int next(int bits) {
         ++x;
         if (x == 56) {

@@ -1,11 +1,9 @@
 /*
- * InitialisationStrategy.java
+ * PopulationInitialisationStrategy.java
  *
- * Created on April 24, 2006, 2:26 PM
- *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
@@ -40,6 +37,9 @@ import net.sourceforge.cilib.util.Cloneable;
 public abstract class PopulationInitialisationStrategy implements Serializable, Cloneable {
 	protected int entityNumber;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract PopulationInitialisationStrategy getClone();
 
 	/**
@@ -51,13 +51,13 @@ public abstract class PopulationInitialisationStrategy implements Serializable, 
 	}
 
 	/**
-	 * Set the entity type to use
-	 * @param entityType The entity type to use
+	 * Set the entity type to use.
+	 * @param entity The entity type to use.
 	 */
 	public abstract void setEntityType(Entity entity);
 
 	/**
-	 * Get the current entity type
+	 * Get the current entity type.
 	 * @return The entity being used.
 	 */
 	public abstract Entity getEntityType();
@@ -71,8 +71,8 @@ public abstract class PopulationInitialisationStrategy implements Serializable, 
 	public abstract void initialise(Topology<? extends Entity> topology, OptimisationProblem problem);
 
 	/**
-	 * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>
-	 * @return The number of entities to construct
+	 * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>.
+	 * @return The number of entities to construct.
 	 */
 	public int getEntityNumber() {
 		return this.entityNumber;

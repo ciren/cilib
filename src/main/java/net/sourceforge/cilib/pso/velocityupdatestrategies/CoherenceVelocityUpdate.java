@@ -1,3 +1,26 @@
+/*
+ * CoherenceVelocityUpdate.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -11,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * Velocity update for the Coher
+ * Velocity update for the Coherence PSO.
  * @author Daniel Lowes
  */
 public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
@@ -19,23 +42,35 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 	private ControlParameter scalingFactor;
 	private RandomNumber randomNumber;
 	
+	/**
+	 * Create an instance of {@linkplain CoherenceVelocityUpdate}.
+	 */
 	public CoherenceVelocityUpdate() {
 		super();
 		scalingFactor = new ConstantControlParameter(1.0);
 		randomNumber = new RandomNumber();
 	}
 
-    public CoherenceVelocityUpdate getClone() {
-    	return new CoherenceVelocityUpdate(this);
-    }
-
+	/**
+	 * Copy constructor. Create a copy of the given instance.
+	 * @param copy The instance to copy.
+	 */
     public CoherenceVelocityUpdate(CoherenceVelocityUpdate copy) {
     	super(copy);
     	this.scalingFactor = copy.scalingFactor.getClone();
     	this.randomNumber = copy.randomNumber.getClone();
     }
 
+    /**
+	 * {@inheritDoc}
+	 */
+    public CoherenceVelocityUpdate getClone() {
+    	return new CoherenceVelocityUpdate(this);
+    }
 
+    /**
+     * {@inheritDoc}
+     */
 	public void updateVelocity(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();
 		Vector position = (Vector) particle.getPosition();
@@ -63,9 +98,9 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 		
 
 		 for (int i = 0; i < particle.getDimension(); ++i) {
-	    		double value = inertiaWeight.getParameter()*velocity.getReal(i) 
-	    			+ (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-	    			+ (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
+	    		double value = inertiaWeight.getParameter()*velocity.getReal(i) + 
+	    			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
+	    			(nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
 
 	    		double coherenceVelocity = scalingFactor.getParameter() * sigmoidValue * averageVelocity.getReal(i) * randomNumber.getCauchy();
 //	    		System.out.println("swam center: " + swarmCenterVelocity);
@@ -131,6 +166,12 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 //		}
 	}
 
+	/**
+	 * Calculate the swarm coherence.
+	 * @param swarmCenterVelocity The swarm center velocity.
+	 * @param averageParticleVelocity The average {@linkplain Particle} velocity.
+	 * @return The swarm coherence value.
+	 */
 	private double calculateSwarmCoherence(double swarmCenterVelocity, double averageParticleVelocity) {
 		if (averageParticleVelocity == 0.0)
 			return 0.0;
@@ -139,7 +180,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 	}
 
 
-	/**
+	/*
 	 * @return Returns the congnitiveRandomGenerator.
 	 */
 //	public Random getCongnitiveRandomGenerator() {

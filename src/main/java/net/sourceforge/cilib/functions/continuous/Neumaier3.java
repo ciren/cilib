@@ -1,12 +1,9 @@
 /*
- * Neumaier.java
+ * Neumaier3.java
  *
- * Created on June 4, 2003, 1:56 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -38,29 +33,33 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Neumaier3 extends ContinuousFunction {
 	private static final long serialVersionUID = 192809046725649930L;
 
-	/** Creates a new instance of Neumaier */
+	/** 
+	 * Creates a new instance of Neumaier. Domain defaults to R(-900, 900)^30
+	 */
     public Neumaier3() {
     	// TODO: Fix this constraint
         // constraint.add(new ContentValidator(new NeumaierValidator()));
         setDomain("R(-900, 900)^30");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Neumaier3 getClone() {
     	return new Neumaier3();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         double dimension = getDimension();
         return new Double((dimension * (dimension + 4) * (dimension - 1)) / 6);
     }
     
-    /** Each function must provide an implementation which returns the function value
-     * at the given position. The length of the position array should be the same
-     * as the function dimension.
-     *
-     * @param x The position
-     *
+    /**
+     * {@inheritDoc}
      */
     public double evaluate(Vector x) {
         double tmp1 = 0;
@@ -73,20 +72,5 @@ public class Neumaier3 extends ContinuousFunction {
         }
         return tmp1 - tmp2;
     }
-    
-    /*private class NeumaierValidator implements Validator {
-        public void validate(DomainComponent component) {
-            double dimension = component.getDimension();
-            for (int i = 0; i < dimension; ++i) {
-                Quantitative tmp = (Quantitative) component.getComponent(i);
-                if (tmp.getLowerBound().intValue() != (- dimension * dimension)) {
-                    throw new ValidationFailedException("Expected lower bound = -" + String.valueOf(dimension) + "^2");
-                }
-                if (tmp.getUpperBound().intValue() != (dimension * dimension)) {
-                    throw new ValidationFailedException("Expected upper bound = " + String.valueOf(dimension) + "^2");
-                }
-            }
-        }
-    }*/ 
     
 }

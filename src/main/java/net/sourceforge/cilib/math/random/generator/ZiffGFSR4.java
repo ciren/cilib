@@ -1,12 +1,9 @@
 /*
  * ZiffGFSR4.java
  *
- * Created on January 16, 2003, 11:47 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,13 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *  
- * This code is based on the implementation in GSL (GNU Scientific Library) 
- * which is also covered by the GNU General Public License. The original C 
- * source code is Copyright (C) 1998 James Theiler 
- * 
- * Comment text ripped from GSL.
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.math.random.generator;
 
@@ -70,20 +61,35 @@ package net.sourceforge.cilib.math.random.generator;
  * random-number generators", `Computers in Physics', 12(4),
  * Jul/Aug 1998, pp 385-392.
  * </li></ul></p>
+ * <p>
+ * This code is based on the implementation in GSL (GNU Scientific Library) 
+ * which is also covered by the GNU General Public License. The original C 
+ * source code is Copyright (C) 1998 James Theiler 
+ * 
  * @author  Edwin Peer
  */
 public class ZiffGFSR4 extends Random {
     
     private static final long serialVersionUID = -1714226372864316570L;
     
+    /**
+     * Create an instance of {@linkplain ZiffGFSR4}.
+     */
 	public ZiffGFSR4() {
         super(Seeder.getSeed());
     }
     
+	/**
+	 * Create an instance with the given seed value.
+	 * @param seed The seed value to use.
+	 */
     public ZiffGFSR4(long seed) {
         super(seed);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public ZiffGFSR4 getClone() {
     	return new ZiffGFSR4();
     }
@@ -92,6 +98,9 @@ public class ZiffGFSR4 extends Random {
         return (69069 * n) & 0xffffffffL;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void setSeed(long seed) {
         ra = new long[M + 1];
         
@@ -126,15 +135,18 @@ public class ZiffGFSR4 extends Random {
         nd = 32;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     protected int next(int bits) {
         nd = (nd + 1) & M; 
         
-        ra[nd] = ra[(nd + M + 1 - A) & M]
-               ^ ra[(nd + M + 1 - B) & M]
-               ^ ra[(nd + M + 1 - C) & M]
-               ^ ra[(nd + M + 1 - D) & M];
+        ra[nd] = ra[(nd + M + 1 - A) & M] ^
+                 ra[(nd + M + 1 - B) & M] ^
+                 ra[(nd + M + 1 - C) & M] ^	
+                 ra[(nd + M + 1 - D) & M];
         
-        return (int) (ra[nd] >>> (32 - bits)) ;
+        return (int) (ra[nd] >>> (32 - bits));
     }
     
     private static final int A = 471;

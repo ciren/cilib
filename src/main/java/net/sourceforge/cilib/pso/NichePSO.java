@@ -1,9 +1,7 @@
 /*
  * NichePSO.java
  *
- * Created on 13 May 2006
- *
- * Copyright (C) 2003 - 2006
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -36,7 +34,6 @@ import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.PerElementReinitialisation;
@@ -119,18 +116,25 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 				
 		subSwarmParticle = new StandardParticle();
 	}
-	
+
+	/**
+	 * Copy constructor. Creates a copy of the given object.
+	 * @param copy The instance to copy.
+	 */
 	public NichePSO(NichePSO copy) {
 		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public NichePSO getClone() {
 		return new NichePSO(this);
 	}
 
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public void performInitialisation() {
 		mainSwarm.initialise();
@@ -138,7 +142,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void algorithmIteration() {
@@ -162,7 +166,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int getPopulationSize() {
@@ -170,31 +174,49 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		return 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Topology<? extends Entity> getTopology() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setTopology(Topology<? extends Entity> topology) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setOptimisationProblem(OptimisationProblem problem) {
 		this.mainSwarm.setOptimisationProblem(problem);
 		this.problem = problem;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public OptimisationProblem getOptimisationProblem() {
 		return this.problem;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public OptimisationSolution getBestSolution() {
 		throw new UnsupportedOperationException("Niching algorithms could possibly not have 1 correct answer. Please call getSolutions()");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<OptimisationSolution> getSolutions() {
 		List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
 		
@@ -205,101 +227,171 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		return solutions;
 	}
 	
-	
 
+	/**
+	 * Get the current {@linkplain AbsorptionStrategy}.
+	 * @return The current {@linkplain AbsorptionStrategy}.
+	 */
 	public AbsorptionStrategy<PSO> getAbsorptionStrategy() {
 		return absorptionStrategy;
 	}
 
+	/**
+	 * Set the {@linkplain AbsorptionStrategy}.
+	 * @param absorptionStrategy The value to set.
+	 */
 	public void setAbsorptionStrategy(AbsorptionStrategy<PSO> absorptionStrategy) {
 		this.absorptionStrategy = absorptionStrategy;
 	}
 
+	/**
+	 * Get the current {@linkplain DistanceMeasure}.
+	 * @return The current {@linkplain DistanceMeasure}.
+	 */
 	public DistanceMeasure getDistanceMeasure() {
 		return distanceMeasure;
 	}
 
+	/**
+	 * Set the {@linkplain DistanceMeasure}.
+	 * @param distanceMeasure The value to set.
+	 */
 	public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
 		this.distanceMeasure = distanceMeasure;
 	}
 
+	/**
+	 * Get the main swarm {@linkplain PSO}.
+	 * @return The main swarm {@linkplain PSO}.
+	 */
 	public PSO getMainSwarm() {
 		return mainSwarm;
 	}
 
+	/**
+	 * Set the main swarm {@linkplain PSO}.
+	 * @param mainSwarm The value to set.
+	 */
 	public void setMainSwarm(PSO mainSwarm) {
 		this.mainSwarm = mainSwarm;
 	}
 
+	/**
+	 * Get the main swarm {@linkplain Particle}.
+	 * @return The main swarm {@linkplain Particle}.
+	 */
 	public Particle getMainSwarmParticle() {
 		return mainSwarmParticle;
 	}
 
+	/**
+	 * Set the main swarm {@linkplain Particle}.
+	 * @param mainSwarmParticle The value to set.
+	 */
 	public void setMainSwarmParticle(Particle mainSwarmParticle) {
 		this.mainSwarmParticle = mainSwarmParticle;
 	}
 
+	/**
+	 * Get the current {@linkplain MergeStrategy}.
+	 * @return The current {@linkplain MergeStrategy}.
+	 */
 	public MergeStrategy<PSO> getMergeStrategy() {
 		return mergeStrategy;
 	}
 
+	/**
+	 * Set the {@linkplain MergeStrategy}.
+	 * @param mergeStrategy The value to set.
+	 */
 	public void setMergeStrategy(MergeStrategy<PSO> mergeStrategy) {
 		this.mergeStrategy = mergeStrategy;
 	}
 
+	/**
+	 * Get the sub swarm {@linkplain Particle}.
+	 * @return The sub swarm {@linkplain Particle}.
+	 */
 	public Particle getSubSwarmParticle() {
 		return subSwarmParticle;
 	}
 
+	/**
+	 * Set the sub swarm {@linkplain Particle}.
+	 * @param subSwarmParticle The value to set.
+	 */
 	public void setSubSwarmParticle(Particle subSwarmParticle) {
 		this.subSwarmParticle = subSwarmParticle;
 	}
 
+	/**
+	 * Get the list of sub swarms.
+	 * @return The list of sub swarms.
+	 */
 	public List<PopulationBasedAlgorithm> getSubSwarms() {
 		return this.subPopulationsAlgorithms;
 	}
 
+	/**
+	 * Set the list of sub swarms.
+	 * @param subSwarms The value to set.
+	 */
 	public void setSubSwarms(List<PopulationBasedAlgorithm> subSwarms) {
 		this.subPopulationsAlgorithms = subSwarms;
 	}
 
+	/**
+	 * Get the sub swarm {@linkplain SwarmCreationStrategy}.
+	 * @return The current {@linkplain SwarmCreationStrategy}. 
+	 */
 	public SwarmCreationStrategy<PSO> getSwarmCreationStrategy() {
 		return swarmCreationStrategy;
 	}
 
+	/**
+	 * Set the {@linkplain SwarmCreationStrategy}.
+	 * @param swarmCreationStrategy The value to set.
+	 */
 	public void setSwarmCreationStrategy(SwarmCreationStrategy<PSO> swarmCreationStrategy) {
 		this.swarmCreationStrategy = swarmCreationStrategy;
 	}
-	
-	public Entity getContribution() {
-		throw new UnsupportedOperationException("If you want to use this, you will have to implement it yourself");
-	}
 
-	public Fitness getContributionFitness() {
-		throw new UnsupportedOperationException("If you want to use this, you will have to implement it yourself");
-	}
-
-	public void updateContributionFitness(Fitness fitness) {
-		throw new UnsupportedOperationException("If you want to use this, you will have to implement it yourself");
-	}
-	
+	/**
+	 * Get the maxima.
+	 * @return The value of the maxima.
+	 */
 	public double getMaxima() {
 		return maxima;
 	}
 
+	/**
+	 * Set the value of the maxima.
+	 * @param maxima The vaue to set.
+	 */
 	public void setMaxima(double maxima) {
 		this.maxima = maxima;
 	}
 	    
+	/**
+	 * Get the sub swarm {@linkplain VelocityUpdateStrategy}.
+	 * @return The {@linkplain VelocityUpdateStrategy} for the sub swarms.
+	 */
 	public GCVelocityUpdateStrategy getSubSwarmVelocityUpdateStrategy(){
 		return this.subswarmVelocityUpdateStrategy;
 	}
 	
+	/**
+	 * Set the number of particles.
+	 * @param particles The value to set.
+	 */
 	public void setParticles(int particles) {
 		this.mainSwarm.getInitialisationStrategy().setEntityNumber(particles);
-	    
 	}
 
+	/**
+	 * Get the number of particles.
+	 * @return The number of particles.
+	 */
 	public int getParticles() {
 		return this.mainSwarm.getInitialisationStrategy().getEntityNumber();
 	}

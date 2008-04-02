@@ -1,11 +1,9 @@
 /*
  * Salomon.java
- * 
- * Created on July 07, 2007
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -29,6 +27,8 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * Salomon function.
+ * <p>
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
@@ -40,19 +40,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Salomon extends ContinuousFunction {
 	private static final long serialVersionUID = -6002240316648057218L;
 
+	/**
+	 * Create an instance of the function. Default domain is set to R(-600, 600)^30
+	 */
 	public Salomon() {
 		setDomain("R(-600, 600)^30");
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Salomon getClone() {
 		return new Salomon();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Object getMinimum() {
 		return new Double(0);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double evaluate(Vector x) {
 		double functionValue = 0.0;

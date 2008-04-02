@@ -1,11 +1,9 @@
 /*
  * FASTADataSetBuilder.java
- * 
- * Created on Mar 6, 2006
  *
- * Copyright (C) 2007 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -45,19 +43,32 @@ public class FASTADataSetBuilder extends DataSetBuilder {
 
 	private ArrayList<String> strings; // data structure that holds the input sequence
 
+	/**
+	 * Create an instance of {@linkplain FASTADataSetBuilder}.
+	 */
 	public FASTADataSetBuilder() {
 		this.strings = new ArrayList<String>();
 	}
 
-	public FASTADataSetBuilder(FASTADataSetBuilder rhs) {
+	/**
+	 * Copy constructor. Copy the given instane.
+	 * @param copy The instance to copy.
+	 */
+	public FASTADataSetBuilder(FASTADataSetBuilder copy) {
 		throw new UnsupportedOperationException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public FASTADataSetBuilder getClone() {
 		return new FASTADataSetBuilder(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	// Used to read in the unalignmed sequences in the FASTA format.
 	public void initialise() {
@@ -72,13 +83,11 @@ public class FASTADataSetBuilder extends DataSetBuilder {
 
 				temp = new String(in.readLine());
 				temp.trim();
-				while (temp != null) // all the sequences in file
-				{
-					if (temp.contains(">")) // it is the description line
-					{
+				while (temp != null) { // all the sequences in file
+					if (temp.contains(">")) { // it is the description line
 						temp = in.readLine();
-						while (!temp.startsWith(">")) // collect sequence without space
-						{
+						
+						while (!temp.startsWith(">")) { // collect sequence without space
 							StringTokenizer st = new StringTokenizer(temp, "\u0020");
 							String p = "";
 
@@ -105,6 +114,10 @@ public class FASTADataSetBuilder extends DataSetBuilder {
 		}
 	}
 
+	/**
+	 * Get the list of build {@linkplain String}s.
+	 * @return The list of {@linkplain String}s.
+	 */
 	public ArrayList<String> getStrings() {
 		return this.strings;
 	}
