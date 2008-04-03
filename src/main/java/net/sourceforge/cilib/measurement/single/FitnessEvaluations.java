@@ -1,12 +1,9 @@
 /*
  * FitnessEvaluations.java
  *
- * Created on February 4, 2003, 8:08 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -40,26 +35,39 @@ import net.sourceforge.cilib.type.types.Type;
 public class FitnessEvaluations implements Measurement {
     private static final long serialVersionUID = 8843539724541605245L;
 
-	/** Creates a new instance of FitnessEvaluations */
+	/** Creates a new instance of FitnessEvaluations. */
     public FitnessEvaluations() {
     }
     
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
     public FitnessEvaluations(FitnessEvaluations copy) {
     	
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public FitnessEvaluations getClone() {
     	return new FitnessEvaluations(this);
     }
   
+    /**
+     * {@inheritDoc}
+     */
     public String getDomain() {
     	return "Z";
     	//return "T";
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Type getValue() {
     	Int i = new Int();
-    	i.setInt((Algorithm.get()).getOptimisationProblem().getFitnessEvaluations());
+    	i.setInt(Algorithm.get().getOptimisationProblem().getFitnessEvaluations());
         
     	//return new Integer(((OptimisationAlgorithm) Algorithm.get()).getOptimisationProblem().getFitnessEvaluations());
     	return i;

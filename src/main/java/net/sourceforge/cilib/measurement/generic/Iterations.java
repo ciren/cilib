@@ -1,12 +1,9 @@
 /*
  * Iterations.java
  *
- * Created on February 4, 2003, 8:33 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.measurement.generic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -40,26 +35,35 @@ import net.sourceforge.cilib.type.types.Type;
 public class Iterations implements Measurement {
     private static final long serialVersionUID = -1689111168205874937L;
 
-	/** Creates a new instance of Iterations */
+	/** Creates a new instance of Iterations. */
     public Iterations() {
     }
     
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
     public Iterations(Iterations copy) {
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Iterations getClone() {
     	return new Iterations(this);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public String getDomain() {
     	return "Z";
     	//return "T";
     }
     
-    /*public Object getValue() {
-        return new Integer(Algorithm.get().getIterations());
-    }*/
-    
+    /**
+     * {@inheritDoc}
+     */
     public Type getValue() {
     	Int i = new Int();
     	i.setInt(Algorithm.get().getIterations());

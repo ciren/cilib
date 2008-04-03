@@ -1,11 +1,9 @@
 /*
  * TournamentSelectionStrategy.java
- * 
- * Created on Apr 1, 2006
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.entity.operators.selection;
 
@@ -48,19 +45,32 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	private ControlParameter tournamentProportion;
 	private RandomNumber randomNumber;
 	
+	/**
+	 * Create a new instance of {@linkplain TournamentSelectionStrategy}.
+	 */
 	public TournamentSelectionStrategy() {
 		this.tournamentProportion = new ProportionalControlParameter();
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the given instance.
+	 * @param copy The instance to copy.
+	 */
 	public TournamentSelectionStrategy(TournamentSelectionStrategy copy) {
 		this.tournamentProportion = copy.tournamentProportion.getClone();
 		this.randomNumber = copy.randomNumber.getClone();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public TournamentSelectionStrategy getClone() {
 		return new TournamentSelectionStrategy(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Entity select(Topology<? extends Entity> population) {
 		int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter()*population.size()).intValue();
 		
@@ -80,14 +90,25 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 		return tournamentEntities.get(0);
 	}
 
+	/**
+	 * Get the defined size of the tournament.
+	 * @return The size of the tournament.
+	 */
 	public ControlParameter getTournamentSize() {
 		return tournamentProportion;
 	}
 
-	public void setTournamentSize(ControlParameter tournamentProportion) {
-		this.tournamentProportion = tournamentProportion;
+	/**
+	 * Set the size of the tournament.
+	 * @param tournamanetSize The size of the tournament to set.
+	 */
+	public void setTournamentSize(ControlParameter tournamanetSize) {
+		this.tournamentProportion = tournamanetSize;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 		offspring.add(this.select((Topology<Entity>) topology));

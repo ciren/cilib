@@ -1,9 +1,9 @@
 /*
  * CenterInitialisationStrategy.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,9 +25,14 @@ package net.sourceforge.cilib.measurement.single.diversity.centerinitialisations
 
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * 
+ *
+ */
 public abstract class CenterInitialisationStrategy {
 	
 	/**
+	 * Get the population center.
 	 * @return the populationCenter
 	 */
 	public abstract Vector getCenter();

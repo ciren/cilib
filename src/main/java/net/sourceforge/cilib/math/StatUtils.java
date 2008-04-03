@@ -8,6 +8,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public final class StatUtils {
 	
+	private StatUtils() {
+	}
+	
 	/**
 	 * 
 	 * @param vector

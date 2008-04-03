@@ -1,11 +1,9 @@
 /*
  * NormalisedDiversity.java
- * 
- * Created on Jul 24, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -59,17 +57,30 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class NormalisedDiversity implements Measurement {
 	private static final long serialVersionUID = 93751729329230145L;
 
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public NormalisedDiversity(NormalisedDiversity copy) {
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public NormalisedDiversity getClone() {
 		return new NormalisedDiversity(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getDomain() {
 		return "R";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type getValue() {
 		
 		PSO pso = (PSO) Algorithm.get();
@@ -83,10 +94,10 @@ public class NormalisedDiversity implements Measurement {
         	particle = (Particle) k.next();
         	Vector v = (Vector) particle.getPosition();
         	for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
-        	   averageParticlePosition.setReal(j,averageParticlePosition.getReal(j)+v.getReal(j));
+        	   averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)+v.getReal(j));
         }
         for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
-           averageParticlePosition.setReal(j,averageParticlePosition.getReal(j)/numberParticles);
+           averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberParticles);
         //System.out.println(averageParticlePosition);
 		
 		Iterator<Particle> i = pso.getTopology().iterator();
@@ -114,6 +125,3 @@ public class NormalisedDiversity implements Measurement {
 	}
 
 }
-	
-		
-		

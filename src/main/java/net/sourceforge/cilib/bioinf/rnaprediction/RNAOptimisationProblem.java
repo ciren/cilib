@@ -1,11 +1,9 @@
 /*
- * RNAOptimisationProblem.java
- * 
- * Created on 2005/05/25
+ * RNAOptimistaionProblem.java
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -44,10 +41,17 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 	protected int fitnessEvaluations;
 	private DataSetBuilder dataSetBuilder;
 	
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public RNAOptimisationProblem(RNAOptimisationProblem copy) {
 		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public RNAOptimisationProblem getClone() {
 		return new RNAOptimisationProblem(this);
 	}
@@ -65,24 +69,39 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 		this.fit = fit;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	protected Fitness calculateFitness(Object solution) {
 		//System.out.println("object type of solution: " + solution.getClass().getName());
 		return new MinimisationFitness(fit.getRNAFitness((RNAConformation) solution));
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
 		this.dataSetBuilder = dataSetBuilder;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public DataSetBuilder getDataSetBuilder() {
 		return this.dataSetBuilder;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public DomainRegistry getDomain() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public DomainRegistry getBehaviouralDomain() {
 		// TODO Auto-generated method stub
 		return null;

@@ -1,11 +1,9 @@
 /*
  * MultipleFitness.java
- * 
- * Created on Jul 24, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -35,6 +33,8 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * Multiple fitness.
+ * 
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
@@ -46,22 +46,38 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class MultipleFitness implements Measurement {
 	private static final long serialVersionUID = -255308745515061075L;
 
+	/**
+	 * Create an instance of {@linkplain MultipleFitness}.
+	 */
 	public MultipleFitness() {
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public MultipleFitness(MultipleFitness copy) {
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public MultipleFitness getClone() {
 		return new MultipleFitness(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getDomain() {
 		//return "?^N";
 		//return "R";
 		return "T";
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type getValue() {
 		/*Vector<Comparable> fitnessValues = new Vector<Comparable>();
 		Collection<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();

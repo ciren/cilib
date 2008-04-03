@@ -1,11 +1,9 @@
 /*
  * Diameter.java
- * 
- * Created on Jul 24, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -46,22 +43,35 @@ import net.sourceforge.cilib.type.types.Type;
 public class Diameter implements Measurement {
     private static final long serialVersionUID = 5136996282460480831L;
 
-	/** Creates a new instance of SwarmDiameter */
+	/** Creates a new instance of SwarmDiameter. */
     public Diameter() {
     }
     
+    /**
+     * Copy constructor. Creates a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
     public Diameter(Diameter copy) {
     	
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Diameter getClone() {
     	return new Diameter(this);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public String getDomain() {
     	return "R";
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
 	public Type getValue() {
     	

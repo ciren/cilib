@@ -1,12 +1,9 @@
 /*
  * Fitness.java
  *
- * Created on February 4, 2003, 8:25 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -41,24 +36,38 @@ public class Fitness implements Measurement {
     
 	private static final long serialVersionUID = 4152219744331703008L;
 
-	/** Creates a new instance of Fitness */
+	/** Creates a new instance of Fitness. */
     public Fitness() {
     }
     
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
     public Fitness(Fitness copy) {
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Fitness getClone() {
     	return new Fitness(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getDomain() {
     	return "R";
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Type getValue() {
     	Number n = (Number) (Algorithm.get()).getBestSolution().getFitness().getValue();    	
     	return new Real(n.doubleValue());
     }
     
 }
+	
