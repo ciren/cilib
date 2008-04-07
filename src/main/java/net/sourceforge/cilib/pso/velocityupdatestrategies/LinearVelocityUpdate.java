@@ -1,11 +1,9 @@
 /*
  * LinearVelocityUpdate.java
- * 
- * Created on Jul 26, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -45,6 +43,9 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 	private Random socialRandomGenerator;
 	private Random cognitiveRandomGenerator;
 
+	/**
+	 * Create an instance of {@linkplain LinearVelocityUpdate}.
+	 */
 	public LinearVelocityUpdate() {
 		super();
 		
@@ -60,9 +61,9 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		cognitiveRandomGenerator = new KnuthSubtractive();
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.PSO.VelocityUpdate#updateVelocity(net.sourceforge.cilib.PSO.Particle)
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public void updateVelocity(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();

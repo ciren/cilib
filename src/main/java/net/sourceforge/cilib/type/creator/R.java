@@ -1,9 +1,7 @@
 /*
  * R.java
  *
- * Created on Jun 13, 2005
- *
- * Copyright (C) 2003 - 2006
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.type.creator;
 
@@ -34,22 +31,17 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public final class R implements TypeCreator {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3393953231231613279L;
 
 	/**
-	 * 
+	 * {@inheritDoc} 
 	 */
 	public Type create() {
 		return new Real();
 	}
 	
 	/**
-	 * @param lower
-	 * @param upper
+	 * {@inheritDoc}
 	 */
 	public Type create(final double lower, final double upper) {
 		return new Real(lower, upper);

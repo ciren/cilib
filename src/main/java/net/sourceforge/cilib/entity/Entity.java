@@ -1,11 +1,9 @@
 /*
  * Entity.java
- * 
- * Created on Aug 3, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.entity;
 
@@ -29,7 +27,6 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
@@ -60,6 +57,8 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 *     position for Particle
 	 *     tour for Ant
 	 *     etc...
+	 *     
+	 * @return The {@linkplain Type} representing the contents of the {@linkplain Entity}.
 	 */ 
 	public Type getContents();
 	
@@ -72,7 +71,7 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	
 	/**
 	 * Calculate the fitness of the <code>Entity</code> incrementing the
-	 * number of fitness evaluations for the algorithm
+	 * number of fitness evaluations for the algorithm.
 	 */
 	public void calculateFitness();
 	
@@ -84,8 +83,8 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	public void calculateFitness(boolean count);
 	
 	/**
-	 * Returns the Entities fitness
-	 * @return Fitness
+	 * Returns the {@linkplain Entity} fitness.
+	 * @return The {@linkplain Fitness} of the {@linkplain Entity}.
 	 */
 	public Fitness getFitness();
 	
@@ -95,7 +94,8 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 * fitness is defined on the {@linkplain Entity}. If a best fitness is not defined, the
 	 * current fitness is returned as it is the best current fitness. {@linkplain Entity}
 	 * objects that need to use this method need to override it in their implementation,
-	 * for example with {@linkplain Particle} objects. 
+	 * for example with {@linkplain Particle} objects.
+	 * @return The associated best {@linkplain Fitness} value. 
 	 */
 	public Fitness getBestFitness();
 	
@@ -109,8 +109,9 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	/**
 	 * Intialise the Entity to something meaningful and within the problem space.
 	 * The exact semantics of this method is defined by the classes that implements this interface.
-	 * @param problem
-	 * @param Take note. The Intialiser is obsolete the new Type System handles it now. Init can be left out now.
+	 * Take note. The Intialiser is obsolete the new Type System handles it now. Init can be left out now.
+	 * 
+	 * @param problem The {@linkplain OptimisationProblem} to based the initialisation on.
 	 */
 	public void initialise(OptimisationProblem problem);
 	
@@ -129,7 +130,7 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	
 
 	/**
-	 * Get the properties associate with the <code>Entity</code>
+	 * Get the properties associate with the <code>Entity</code>.
 	 * @return The {@linkplain Blackboard} containing the properties.
 	 */
 	public Blackboard<String, Type> getProperties();

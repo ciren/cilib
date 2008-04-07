@@ -1,12 +1,9 @@
 /*
  * VonNeumannTopology.java
  *
- * Created on January 18, 2003, 10:42 AM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,9 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.entity.topologies;
 
 import java.util.ArrayList;
@@ -35,7 +31,6 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 
 /**
@@ -52,6 +47,8 @@ import net.sourceforge.cilib.entity.Topology;
  *
  * @author Edwin Peer
  * @author Gary Pampara
+ * 
+ * @param <E> A {@linkplain Entity} instance.
  */
 public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 	private static final long serialVersionUID = -4795901403887110994L;
@@ -70,6 +67,10 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         lastCol = -1;
     }
     
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
     @SuppressWarnings("unchecked")
 	public VonNeumannTopology(VonNeumannTopology<E> copy) {
     	this.entities = new ArrayList<ArrayList<E>>(copy.entities.size());
@@ -87,21 +88,32 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     	this.lastCol = copy.lastCol;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public VonNeumannTopology<E> getClone() {
     	return new VonNeumannTopology<E>(this);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("unchecked")
 	public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         MatrixIterator<E> i = (MatrixIterator<E>) iterator;
         return new VonNeumannNeighbourhoodIterator<E>(this, i);
     }
     
-
+    /**
+     * {@inheritDoc}
+     */
     public Iterator<E> iterator() {
         return new VonNeumannTopologyIterator<E>(this);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public boolean add(E particle) {
     	int min = entities.size();
         ArrayList<E> shortest = null;
@@ -123,17 +135,25 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         return true;        
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public boolean addAll(Collection<? extends E> set) {
     	this.entities.ensureCapacity(this.entities.size()+set.size());
+    	Iterator<? extends E> i = set.iterator();
     	
-    	for (Iterator<? extends E> i = set.iterator(); i.hasNext(); ) {
+    	while (i.hasNext()) {
     		this.add(i.next());
     	}
     	
     	return true;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public int size() {
+    	// TODO: couldn't we just return entities.size()?
     	int size = 0;
     	
     	for (ArrayList<E> i : entities)
@@ -171,10 +191,16 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             col = -1;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public boolean hasNext() {
         	return row != topology.lastRow || col != topology.lastCol;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public T next() {
             if (row == topology.lastRow && col == topology.lastCol) {
                 throw new NoSuchElementException();
@@ -189,6 +215,9 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             return topology.entities.get(row).get(col);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public void remove() {
             if (col == -1) {
                 throw new IllegalStateException();
@@ -203,15 +232,19 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             }
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public int getRow() {
             return row;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public int getCol() {
             return col;
         }
-        
-
     }
     
     private class VonNeumannNeighbourhoodIterator<T extends Entity> implements MatrixIterator<T> {
@@ -234,10 +267,16 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     		index = Direction.CENTER;
     	}
         
+    	/**
+    	 * {@inheritDoc}
+    	 */
         public boolean hasNext() {
             return (index != Direction.DONE);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public T next() {
             switch (index) {
             	case CENTER: { 
@@ -301,6 +340,9 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             return topology.entities.get(row).get(col);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public void remove() {
         	topology.remove(row, col);
         	if (index == Direction.CENTER) {
@@ -308,141 +350,204 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         	}
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public int getRow() {
             return row;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public int getCol() {
             return col;
         }
         
     }
 
-    
-	public void add(Collection<Particle> set) {
-		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean remove(E indiv) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public E get(int index) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public E set(int index, E indiv) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Entity> asList() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isEmpty() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public void clear() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
 
-	public Particle next() {
-		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-	}
-	
-	
-	
-	
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean contains(Object o) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean containsAll(Collection<?> c) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object o) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		return this.entities.hashCode() + this.lastCol*6 + this.lastRow*8;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean remove(Object o) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean removeAll(Collection<?> c) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean retainAll(Collection<?> c) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Object[] toArray() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public <T> T[] toArray(T[] a) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addAll(int index, Collection<? extends E> c) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void add(int index, E element) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public E remove(int index) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int indexOf(Object o) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int lastIndexOf(Object o) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public ListIterator<E> listIterator() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public ListIterator<E> listIterator(int index) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<E> subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getId() {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setId(String id) {
 			

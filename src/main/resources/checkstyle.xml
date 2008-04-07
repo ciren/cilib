@@ -67,7 +67,9 @@
     </module>
 
     <!-- Checks for code blocks -->
-    <module name="AvoidNestedBlocks" />
+    <module name="AvoidNestedBlocks">
+      <property name="allowInSwitchCase" value="true" />
+    </module>
     <module name="EmptyBlock" />
     <module name="LeftCurly" />
     <module name="RightCurly">

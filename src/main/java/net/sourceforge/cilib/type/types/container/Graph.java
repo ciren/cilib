@@ -1,9 +1,9 @@
 /*
  * Graph.java
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,6 +23,11 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+/**
+ * Definition of Graph operations.
+ *
+ * @param <E> The type of the {@linkplain Graph}.
+ */
 public interface Graph<E> extends Structure<E> {
 	
 	/**
@@ -73,7 +78,12 @@ public interface Graph<E> extends Structure<E> {
 	 * @return <tt>true</tt> if an edge is defined, <tt>false</tt> otherwise.
 	 */
 	public boolean isConnected(E a, E b);
-	
+
+	/**
+	 * Get the vertex at the provided <code>index</code>
+	 * @param index The index of the vertex.
+	 * @return The value of the vertex at <code>index</code>. 
+	 */
 	public E getVertex(int index);
 
 }

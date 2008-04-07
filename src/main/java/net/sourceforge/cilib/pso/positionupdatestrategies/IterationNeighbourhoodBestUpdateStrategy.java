@@ -1,11 +1,9 @@
 /*
  * IterationNeighbourhoodBestUpdateStrategy.java
  *
- * Created on Oct 14, 2005
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -34,10 +32,16 @@ import net.sourceforge.cilib.problem.Fitness;
 public class IterationNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
 	private static final long serialVersionUID = 9029103734770326975L;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public IterationNeighbourhoodBestUpdateStrategy getClone() {
 		return this;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Fitness getSocialBestFitness(Entity entity) {
 		return entity.getFitness();
 	}

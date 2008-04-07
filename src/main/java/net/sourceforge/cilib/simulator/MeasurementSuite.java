@@ -1,12 +1,9 @@
 /*
  * MeasurementSuite.java
  *
- * Created on February 5, 2003, 12:56 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.simulator;
 
 import java.io.Serializable;
@@ -50,7 +45,7 @@ public class MeasurementSuite implements Serializable {
     private ArrayList<Measurement> measurements;
     private SynchronizedOutputBuffer buffer;
     
-    /** Creates a new instance of MeasurementSuite */
+    /** Creates a new instance of MeasurementSuite. */
     public MeasurementSuite() {
         measurements = new ArrayList<Measurement>();
         file = "results.txt";
@@ -58,6 +53,9 @@ public class MeasurementSuite implements Serializable {
         resolution = 1;
     }
     
+    /**
+     * Initialise the require output buffers for the {@linkplain MeasurementSuite}. 
+     */
     public void initialise() {
         buffer = new SynchronizedOutputBuffer(file, measurements.size(), samples);
         buffer.write("# 0 - Iterations");
@@ -99,7 +97,7 @@ public class MeasurementSuite implements Serializable {
      * results are logged to file. If the resolution is 10 then results are
      * logged every 10 iterations.
      *
-     * @param The result resolution.
+     * @param resolution The result resolution.
      */
     public void setResolution(int resolution) {
         this.resolution = resolution;
@@ -108,12 +106,16 @@ public class MeasurementSuite implements Serializable {
     /**
      * Accessor for the resolution of the results.
      *
-     * @param The result resolution.
+     * @return The result resolution.
      */
     public int getResolution() {
         return resolution;
     }
     
+    /**
+     * Get the current {@linkplain SynchronizedOutputBuffer}.
+     * @return The current buffer.
+     */
     public SynchronizedOutputBuffer getOutputBuffer() {
         return buffer;
     }
@@ -127,6 +129,12 @@ public class MeasurementSuite implements Serializable {
         measurements.add(measurement);
     }
     
+    /**
+     * Measure the provided {@linkplain Algorithm}. All the current measurements
+     * that are defined for the {@linkplain MeasurementSuite} are applied to the
+     * {@linkplain Algorithm}.
+     * @param algorithm The {@linkplain Algorithm} to measure.
+     */
     public void measure(Algorithm algorithm) {
         for (Measurement measurement : measurements) {
             buffer.writeMeasuredValue(measurement.getValue(), algorithm, measurement);
