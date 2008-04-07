@@ -25,7 +25,9 @@
 
     <module name="ConstantName" />
     <module name="LocalFinalVariableName" />
-    <module name="LocalVariableName" />
+    <module name="LocalVariableName">
+      <property name="format" value="^[a-z][a-zA-Z0-9_]*$" />
+    </module>
     <module name="MemberName" />
     <module name="MethodName" />
     <module name="PackageName" />
@@ -63,7 +65,7 @@
     <!-- Modifier checks -->
     <module name="ModifierOrder" />
     <module name="RedundantModifier">
-      <property name="tokens" value="VARIABLE_DEF, ANNOTATION_FIELD_DEF" />
+      <property name="tokens" value="ANNOTATION_FIELD_DEF" />
     </module>
 
     <!-- Checks for code blocks -->
