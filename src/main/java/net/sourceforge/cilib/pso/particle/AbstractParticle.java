@@ -69,7 +69,11 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 		positionInitialisationStrategy = new RandomizedPositionInitialisationStrategy();
 		velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
 	}
-	
+
+	/**
+	 * Copy constructor. Create a copy of the given instance.
+	 * @param copy The instance to copy.
+	 */
 	public AbstractParticle(AbstractParticle copy) {
 		super(copy);
 		this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
@@ -85,23 +89,23 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract Particle getClone();
 
 	/**
-	 * Returns the String representation of this Particle's ID
-	 * @return the ID of this Particle as a String
+	 * {@inheritDoc}
 	 */
 	public String getId() {
 		return String.valueOf(this.id);
 	}
 
     /**
-     * 
+     * Get the currently associated <code>id</code>.
+     * @param id The value to set. 
      */
     public void setId(String id) {
     	this.id = Integer.parseInt(id);
     }
     
     /**
-     * 
-     * @param id
+     * Set the current <code>id</code> for the {@linkplain Particle}.
+     * @param id The value to set.
      */
     public void setId(int id) {
     	this.id = id;
@@ -120,14 +124,12 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract void calculateFitness(boolean count);
 
     /**
-     * 
-     * @return
+     * {@inheritDoc}
      */
     public abstract Fitness getBestFitness();
     
     /**
-     * 
-     * @return
+     * {@inheritDoc}
      */
     public abstract int getDimension();
    
@@ -171,13 +173,12 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public abstract void updatePosition();
     
     /**
-     * Update the velocity based on the provided <tt>VelocityUpdateStrategy</tt>.
-     * @param vu The <tt>VelocityUpdateStrategy</tt> to use.
+     * {@inheritDoc}
      */
     public abstract void updateVelocity();
     
     /**
-     * Update the <tt>ControlParameters</tt> associated with the <tt>Particle</tt>.
+     * {@inheritDoc}
      */
     public abstract void updateControlParameters();
 
@@ -218,31 +219,42 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	}
 
 	/**
-	 * Get the {@see net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy}
-	 * @return 
+	 * Get the {@linkplain VelocityInitialisationStrategy}.
+	 * @return The current {@linkplain VelocityInitialisationStrategy}.
 	 */
 	public VelocityInitialisationStrategy getVelocityInitialisationStrategy() {
 		return velocityInitialisationStrategy;
 	}
 
 	/**
-	 * Set the velocityInitialisationStrategy
-	 * @param velocityInitialisationStrategy
+	 * Set the velocityInitialisationStrategy.
+	 * @param velocityInitialisationStrategy The value to set.
 	 */
 	public void setVelocityInitialisationStrategy(
 			VelocityInitialisationStrategy velocityInitialisationStrategy) {
 		this.velocityInitialisationStrategy = velocityInitialisationStrategy;
 	}
 	
+	/**
+	 * Get the current {@linkplain PositionInitialisationStrategy}.
+	 * @return The current {@linkplain PositionInitialisationStrategy}.
+	 */
 	public PositionInitialisationStrategy getPositionInitialisationStrategy() {
 		return positionInitialisationStrategy;
 	}
 
+	/**
+	 * Set the {@linkplain PositionInitialisationStrategy} to be used.
+	 * @param positionInitialisationStrategy The value to set.
+	 */
 	public void setPositionInitialisationStrategy(
 			PositionInitialisationStrategy positionInitialisationStrategy) {
 		this.positionInitialisationStrategy = positionInitialisationStrategy;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int compareTo(Entity o) {
 		return getFitness().compareTo(o.getFitness());
 	}

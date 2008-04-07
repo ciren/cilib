@@ -1,12 +1,9 @@
 /*
  * Beale.java
  *
- * Created on November 8, 2007, 10:34 AM
- *
- * 
- * Copyright (C) 2003 - 2007 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
@@ -31,7 +27,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p><b>Beale Function</b></p>
+ * <p><b>Beale Function.</b></p>
  * 
  * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions 
  * for Global Optimization and Performance of Repulsive Particle Swarm Methods</i>
@@ -60,20 +56,29 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Beale extends ContinuousFunction {
 	private static final long serialVersionUID = -7803711986955989075L;
 
+	/**
+	 * Create an instance of {@linkplain Beale}. The default domain is set to R(-4.5, 4.5)^2.
+	 */
 	public Beale() {
         setDomain("R(-4.5,4.5)^2");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Beale getClone() {
 		return new Beale();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Object getMinimum() {
         return new Double(0.0);
     }
-	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
+
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public double evaluate(Vector x) {

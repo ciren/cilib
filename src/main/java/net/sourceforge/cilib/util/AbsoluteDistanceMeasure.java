@@ -1,11 +1,9 @@
 /*
  * AbsoluteDistanceMeasure.java
- * 
- * Created on Apr 14, 2004
  *
- * Copyright (C)  2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.util;
 
@@ -38,9 +35,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 @Deprecated
 public class AbsoluteDistanceMeasure implements DistanceMeasure {
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.Util.DistanceMeasure#distance(double[], double[])
-     */
+	/**
+	 * {@inheritDoc}
+	 */
 	public <T extends Vector> double distance(T x, T y) {
 		if (x.getDimension() != y.getDimension()) {
             throw new IllegalArgumentException("Unmatched argument lengths");
@@ -54,6 +51,9 @@ public class AbsoluteDistanceMeasure implements DistanceMeasure {
         return distance;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public <T extends Collection<? extends Number>> double distance(T x, T y) {
 		if (x.size() != y.size())
 			throw new IllegalArgumentException("Unmatched argument lengths");

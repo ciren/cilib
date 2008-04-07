@@ -1,11 +1,9 @@
 /*
  * DistanceMeasure.java
- * 
- * Created on Apr 14, 2004
  *
- * Copyright (C)  2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.util;
 
@@ -31,13 +28,29 @@ import java.util.Collection;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * Definition of how to determine the distance between two objects.
+ * 
  * @author Edwin Peer
  * @author Gary Pampara
  */
 public interface DistanceMeasure {
 
+	/**
+	 * Determine the distance between the two provided {@linkplain Vector}s.
+	 * @param <T> The {@linkplain Vector} type.
+	 * @param x The first {@linkplain Vector}.
+	 * @param y The second {@linkplain Vector}.
+	 * @return The distance value.
+	 */
 	public <T extends Vector> double distance(T x, T y);
 	
+	/**
+	 * Determine the distance between the two provided {@linkplain Collection}s.
+	 * @param <T> The {@linkplain Collection} type.
+	 * @param x The first {@linkplain Collection}.
+	 * @param y The second {@linkplain Collection}.
+	 * @return The distance value.
+	 */
 	public <T extends Collection<? extends Number>> double distance(T x, T y);
 	
 }

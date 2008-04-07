@@ -167,7 +167,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 
 	}
 
-	double u [] = new double[97];
+	double [] u = new double[97];
 	double c,cd,cm;
 	int i97,j97;
 	boolean test = false;

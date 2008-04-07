@@ -1,11 +1,9 @@
 /*
  * Foxholes.java
- * 
- * Created on Oct 24, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.functions.continuous;
 
@@ -39,24 +36,35 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Foxholes extends ContinuousFunction {
 	private static final long serialVersionUID = 6407823129058106208L;
 	
-	private double a[][] = {
+	private double [][] a = {
 			{-32.0, -16.0, 0.0, 16.0, 32.0},
-			{-32.0, -16.0, 0.0, 16.0, 32.0}
+			{-32.0, -16.0, 0.0, 16.0, 32.0},
 	};
 	
+	/**
+	 * Create an instance of {@linkplain Foxholes}. The default domain is set to R(-65.536,65.536)^2.
+	 */
 	public Foxholes() {
 		setDomain("R(-65.536,65.536)^2");
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Foxholes getClone() {
 		return new Foxholes();
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Object getMinimum() {
 		return new Double(1.0);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	// This impl is according to the function defined by Xin Yao in the FastEP and by the DE guys
 	public double evaluate(Vector x) {
 		double result = 0.002;

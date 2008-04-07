@@ -41,7 +41,8 @@ public class PAM250SoP implements ScoringMethod {
 	private boolean verbose = false;   //default, can be set via XML
 	private boolean weight = false;    //default, can be set via XML
 	private static final char [] AMINO_ACID = {'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 
-		'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'};
+				'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V',
+		};
 	
 	/* PAM (Percent Accepted Mutations) [Dayhoff 1978]. This is needed because amino acids have varying properties.
 	 * It uses the well known PAM250 (pointwise mutations in similar proteins) scoring
@@ -68,7 +69,7 @@ public class PAM250SoP implements ScoringMethod {
 			  {1, -1,  0,  0, -2, -1,  0,  0, -1,  0, -2,  0, -1, -3,  0,  1,  3,  0,  0,  0},
 			  {-6,  2, -4, -7, -8, -5, -7, -7, -3, -5, -2, -3, -4,  0, -6, -2, -5, 17,  0,  0},
 			  {-3, -4, -2, -4,  0, -4, -4, -5,  0, -1, -1, -4, -2,  7, -5, -3, -3,  0, 10,  0},
-			  {0, -2, -2, -2, -2, -2, -2, -1, -2,  4,  2, -2,  2, -1, -1, -1,  0, -6, -2,  4}
+			  {0, -2, -2, -2, -2, -2, -2, -1, -2,  4,  2, -2,  2, -1, -1, -1,  0, -6, -2,  4},
 			};
 
 	public void setVerbose(boolean verbose) {

@@ -1,9 +1,7 @@
 /*
  * ChebyshevDistanceMeasure.java
  *
- * Created on June 18, 2007, 08:21
- *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -39,10 +37,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class ChebyshevDistanceMeasure extends MinkowskiMetric {
 
+	/**
+	 * Create an instance of the {@linkplain ChebyshevDistanceMeasure}.
+	 */
 	public ChebyshevDistanceMeasure() {
 		// alpha cannot be directly instantiated to infinity :-)
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public <T extends Vector> double distance(T x, T y) {
 		/*
@@ -62,6 +66,9 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
 		return maxDistance;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public <T extends Collection<? extends Number>> double distance(T x, T y) {
 		/*
 		 * TODO: Consider re-implementing for different sized collections, especially as everything is
@@ -83,6 +90,9 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
 		return maxDistance;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setAlpha(int a) {
 		throw new IllegalArgumentException("The 'alpha' parameter of the Chebyshev Distance Measure cannot be set directly");
 	}

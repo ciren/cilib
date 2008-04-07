@@ -30,7 +30,8 @@ import org.apache.log4j.Logger;
 import org.nfunk.jep.JEP;
 
 /**
- *
+ * A Function class that defines a function based on a predefined string which is
+ * parsed and interpreted during evaluation.
  */
 public class ExpressionFunction extends ContinuousFunction {
 
@@ -38,19 +39,32 @@ public class ExpressionFunction extends ContinuousFunction {
 	private Logger log = Logger.getLogger(getClass());
 	private JEP parser;
 	private String function;
-	
+
+	/**
+	 * Create a new instance of the {@linkplain ExpressionFunction}.
+	 */
 	public ExpressionFunction() {
 		parser = new JEP();		
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy. 
+	 */
 	public ExpressionFunction(ExpressionFunction copy) {
 		this.function = copy.function;		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public ExpressionFunction getClone() {
 		return new ExpressionFunction(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double evaluate(Vector x) {
 		double result = 0;
@@ -67,10 +81,18 @@ public class ExpressionFunction extends ContinuousFunction {
 		return result;
 	}
 
+	/**
+	 * Get the defined function.
+	 * @return The defined function string.
+	 */
 	public String getFunction() {
 		return function;
 	}
 
+	/**
+	 * Set the parseable function.
+	 * @param function The string to parse and set as the function.
+	 */
 	public void setFunction(String function) {
 		System.out.println("Setting function: " + function);
 		this.function = function;

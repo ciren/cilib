@@ -48,8 +48,8 @@ public class AlignmentCreator
 	private ScoringMethod theMethod;  //interface for the scoring function (BLOSUM, PAM , SumOfPairs, BestMatch)
 	private ArrayList<String> align;
 	private boolean justEvaluate;
-	private final static double UPPER_BOUND = 10000000.0;
-	private final static double LOWER_BOUND = 0.0;
+	private static final double UPPER_BOUND = 10000000.0;
+	private static final double LOWER_BOUND = 0.0;
 	//private String boundsStrategy;
 	
 	public double getFitness(Collection<String> alignment, Vector solution, int gapsArray []) 

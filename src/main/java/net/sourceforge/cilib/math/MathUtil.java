@@ -44,6 +44,9 @@ public final class MathUtil {
 	
 	private static Random randomiser;
 	
+	private MathUtil() {
+	}
+	
 		
 	/**
 	 * Generate the required factorial of the number <code>x</code>
@@ -104,7 +107,7 @@ public final class MathUtil {
 	 * 
 	 * @return
 	 */
-	public synchronized static double random() {
+	public static synchronized double random() {
 		if (randomiser == null)
 			randomiser = new MersenneTwister();
 		
