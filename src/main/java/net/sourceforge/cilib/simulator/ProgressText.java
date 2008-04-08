@@ -1,12 +1,9 @@
 /*
  * ProgressText.java
  *
- * Created on February 9, 2003, 10:50 AM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.simulator;
 
 
@@ -37,7 +32,7 @@ package net.sourceforge.cilib.simulator;
 class ProgressText implements ProgressListener {
     
     /**
-	 * Creates new form ProgressFrame
+	 * Creates new form ProgressFrame.
 	 *
 	 * @param simulations The number of simulations in total.
 	 * */
@@ -50,8 +45,8 @@ class ProgressText implements ProgressListener {
 		if(printedDone) {
 			return;
 		}
-		double percentage = (int)(1000 * event.getPercentage()) / 10.0;
-        int nequals = (int)(50 * event.getPercentage());
+		double percentage = (int) (1000 * event.getPercentage()) / 10.0;
+        int nequals = (int) (50 * event.getPercentage());
 		int i = 0;
 		System.out.print("\rProgress (" + percentage + "%) |");
 		while(i++ < nequals) {
@@ -64,7 +59,8 @@ class ProgressText implements ProgressListener {
 		if(nequals == 50) {
 			printedDone = true;
 			System.out.println(" done.");
-		} else {
+		} 
+		else {
 			System.out.flush();
 		}
     }    

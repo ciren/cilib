@@ -1,12 +1,9 @@
 /*
  * InferiorFitness.java
- * 
- * Created on Jul 24, 2004
  *
- *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -33,7 +30,7 @@ package net.sourceforge.cilib.problem;
  * 
  * @author Edwin Peer
  */
-public class InferiorFitness extends AbstractFitness {
+public final class InferiorFitness extends AbstractFitness {
 
 	private static final long serialVersionUID = -2129092436359289935L;
 

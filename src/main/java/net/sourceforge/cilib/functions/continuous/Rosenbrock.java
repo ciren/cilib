@@ -1,12 +1,9 @@
 /*
  * Rosenbrock.java
  *
- * Created on January 12, 2003, 2:18 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -49,20 +44,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Rosenbrock extends ContinuousFunction {
     private static final long serialVersionUID = -5850480295351224196L;
 
+    /**
+     * Create an instance of {@linkplain Rosenbrock}. Domain is set to R(-2.048, 2.048)^30.
+     */
 	public Rosenbrock() {
         setDomain("R(-2.048, 2.048)^30");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Rosenbrock getClone() {
 		return new Rosenbrock();
 	}
     
+	/**
+	 * {@inheritDoc}
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
-    
-    // TODO: fixme
+
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double tmp = 0;
         /*for (int i = 1; i <= getDimension() / 2; ++i) {

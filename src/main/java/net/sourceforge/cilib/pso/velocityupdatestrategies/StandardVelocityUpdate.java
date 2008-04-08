@@ -1,12 +1,9 @@
 /*
  * StandardVelocityUpdate.java
  *
- * Created on September 22, 2003, 1:03 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
@@ -46,7 +43,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     protected ControlParameter cognitiveAcceleration;
     protected ControlParameter vMax;
     
-    /** Creates a new instance of StandardVelocityUpdate */
+    /** Creates a new instance of StandardVelocityUpdate. */
     public StandardVelocityUpdate() {      
         inertiaWeight = new ConstantControlParameter();
         cognitiveAcceleration = new RandomizingControlParameter();
@@ -91,9 +88,9 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     	Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
         
         for (int i = 0; i < particle.getDimension(); ++i) {
-    		double value = inertiaWeight.getParameter()*velocity.getReal(i) 
-    			+ (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-    			+ (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
+    		double value = inertiaWeight.getParameter()*velocity.getReal(i) + 
+    			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
+    			(nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
     		velocity.setReal(i, value);
     		
     		clamp(velocity, i);
@@ -114,7 +111,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     
     
     /**
-     * TODO: Need to have a VMax strategy
+     * TODO: Need to have a VMax strategy.
 	 * @param velocity The {@link Vector} to be clamped.
 	 * @param i The dimension index to be clamped
 	 */

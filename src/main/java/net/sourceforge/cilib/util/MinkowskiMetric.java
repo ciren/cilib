@@ -52,7 +52,7 @@ public class MinkowskiMetric implements DistanceMeasure {
 	}
 
 	/**
-	 * Instantiate the Minkowski Metric with the specified 'alpha' value
+	 * Instantiate the Minkowski Metric with the specified 'alpha' value.
 	 * @param a the value to which 'alpha' should be set
 	 */
 	public MinkowskiMetric(int a) {

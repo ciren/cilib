@@ -1,9 +1,7 @@
 /*
- * AlignmentVisualizer.java
+ * AlignmentVisualier.java
  *
- * Created on Mar 15, 2007
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
@@ -40,38 +37,33 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Fabien Zablocki
  */
 
-public class AlignmentVisualizer implements Measurement 
-{
+public class AlignmentVisualizer implements Measurement {
 
 	private static final long serialVersionUID = -4912115455897639857L;
 	
 	private boolean fullColumns = true;  //default, can be set via XML
 	private int fullyMatchedColumnCounter;
 
-	public Type getValue()
-	{
+	public Type getValue() {
 		String s = new String();
 		String lineOfStars="";
 		fullyMatchedColumnCounter = 0;
 			
-		ArrayList<String> as = new ArrayList<String>(((AlignmentCreator)((MSAProblem)((Algorithm) Algorithm.get()).getOptimisationProblem()).getAlignmentCreator()).getAlignment());
+		ArrayList<String> as = new ArrayList<String>(((AlignmentCreator) ((MSAProblem) ((Algorithm) Algorithm.get()).getOptimisationProblem()).getAlignmentCreator()).getAlignment());
 		
 		//checks for fully matched columns
-		if (fullColumns)
-		{
+		if (fullColumns) {
 			int seqLength = as.get(0).length();
 			
 			//Iterate through the columns
-			for (int i = 0; i < seqLength; i++)
-			{			
+			for (int i = 0; i < seqLength; i++) {			
 				boolean full = true;
 				char c = as.get(0).charAt(i);
 				
 				for (int j = 1; j < as.size(); j++)
 					if (as.get(j).charAt(i) != c) full = false;
 								
-				if (full)
-				{ 
+				if (full) { 
 					lineOfStars+="*";
 					fullyMatchedColumnCounter++;
 				}
@@ -88,18 +80,15 @@ public class AlignmentVisualizer implements Measurement
 		return new StringType("\n"+s);
 	}
 	
-	public void setFullColumns(boolean visualiseMatches) 
-	{
+	public void setFullColumns(boolean visualiseMatches) {
 		this.fullColumns = visualiseMatches;
 	}
 	
-	public AlignmentVisualizer getClone()
-	{
+	public AlignmentVisualizer getClone() {
 		return this;
 	}
 	
 	public String getDomain() {
-		
 		return "Z";
 	}
 }

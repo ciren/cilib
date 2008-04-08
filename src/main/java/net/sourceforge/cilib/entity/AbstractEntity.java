@@ -64,7 +64,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	}
 	
 	/**
-	 * Get the properties associate with the <code>Entity</code>
+	 * Get the properties associate with the <code>Entity</code>.
 	 * @return The properties within a {@linkplain Blackboard}.
 	 */
 	public Blackboard<String, Type> getProperties() {
@@ -72,7 +72,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	}
 
 	/**
-	 * Set the properties for the current <code>Entity</code>
+	 * Set the properties for the current <code>Entity</code>.
 	 * @param properties The {@linkplain Blackboard} containing the new properties.
 	 */
 	public void setProperties(Blackboard<String, Type> properties) {
@@ -122,7 +122,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	}
 	
 	/**
-	 * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>
+	 * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>.
 	 * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
 	 */
 	public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {

@@ -1,11 +1,9 @@
 /*
- * Vector.java
- * 
- * Created on Oct 16, 2004
+ * AbstractList.java
  *
- * Copyright (C)  2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.type.types.container;
 
@@ -34,8 +32,14 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public abstract class AbstractList extends AbstractType implements Structure<Type>, VectorMath {
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract AbstractList getClone();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean equals(Object other) {
 		if (other instanceof AbstractList) {
 			AbstractList tmp = (AbstractList) other;
@@ -55,6 +59,9 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int hashCode() {
 		int dimension = this.getDimension();
 		int count = (dimension < 5) ? dimension : 5;
@@ -65,10 +72,25 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 		return tmp;
 	}
 
+	/**
+	 * Get the {@linkplain Type} at the given index.
+	 * @param index The index to inspect to return.
+	 * @return The {@linkplain Type} found at <code>index</code>.
+	 */
 	public abstract Type get(int index);
 
+	/**
+	 * Set the {@linkplain Type} at the index <code>index</code>.
+	 * @param index The index to set.
+	 * @param value The value to set.
+	 */
 	public abstract void set(int index, Type value);
 
+	/**
+	 * Insert the provided {@linkplain Type} at the specified {@code index}.
+	 * @param index The index where to insert the {@linkplain Type}.
+	 * @param value The value to set.
+	 */
 	public abstract void insert(int index, Type value);
 
 	public void append(Type value) {
@@ -234,6 +256,9 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 		return tmp.toString();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		return toString('[', ']', ',');
 	}

@@ -1,9 +1,9 @@
 /*
- * ExponentiallyIncreasingUpdateStrategy.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * ExponentiallyIncreasingControlParameter.java
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -33,24 +33,33 @@ public class ExponentiallyIncreasingControlParameter extends BoundedControlParam
 	}
 	
 	/**
-	 * Copy constructor
-	 * @param copy
+	 * Copy constructor. Create a copy of the given instance.
+	 * @param copy The instance to copy.
 	 */
 	public ExponentiallyIncreasingControlParameter(ExponentiallyIncreasingControlParameter copy) {
 		super(copy);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ExponentiallyIncreasingControlParameter getClone() {
 		return new ExponentiallyIncreasingControlParameter(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void update() {
 		double result = Math.exp(Algorithm.get().getPercentageComplete() - 1);
 		this.parameter.setReal(result);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setLowerBound(double lower) {
 		super.setLowerBound(lower);

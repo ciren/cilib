@@ -1,11 +1,9 @@
 /*
  * BitArray.java
  *
- * Created on Jun 23, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -41,7 +39,7 @@ public class BitArray implements Cloneable {
 	private int numberOfBits;
 	private int size;
 
-	private static final int[] bitMasks = {
+	private static final int[] BIT_MASKS = {
 		0x80000000, 0x40000000, 0x20000000, 0x10000000,
 		0x08000000, 0x04000000, 0x02000000, 0x01000000,
 		0x00800000, 0x00400000, 0x00200000, 0x00100000,
@@ -54,7 +52,7 @@ public class BitArray implements Cloneable {
 
 	/**
 	 *  Create a <code>BitArray</code> with the initial number of bits 
-	 *  equal to 32
+	 *  equal to 32.
 	 */
 	public BitArray() {
 		this(32);
@@ -62,7 +60,8 @@ public class BitArray implements Cloneable {
 
 	/**
 	 * Create a <code>BitArray</code> with the initial number of bits specified
-	 * by the parameter <code>numberOfBits</code>
+	 * by the parameter <code>numberOfBits</code>.
+	 * @param numberOfBits The number of bits to set for this {@linkplain BitArray}. 
 	 */
 	public BitArray(int numberOfBits) {
 		if (numberOfBits < 32)
@@ -77,7 +76,10 @@ public class BitArray implements Cloneable {
 		//System.out.println("length: " + bits.length);
 	}
 	
-	
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public BitArray(BitArray copy) {
 		numberOfBits = copy.numberOfBits;
 		size = copy.size;
@@ -86,24 +88,27 @@ public class BitArray implements Cloneable {
 		System.arraycopy(copy.bits, 0, bits, 0, bits.length);		
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public BitArray getClone() {
 		return new BitArray(this);
 	}
 
 	/**
-	 * Return the state of the bit specified at index <code>index</code>
+	 * Return the state of the bit specified at index <code>index</code>.
 	 *
-	 * @param index The index of the sprecified bit
+	 * @param index The index of the specified bit.
 	 * @throws IndexOutOfBoundsException If the specified index value is invalid
+	 * @return Return the bit value at {@code index}.
 	 */
 	public boolean get(int index) throws IndexOutOfBoundsException {
 		if ((index > numberOfBits) | (index < 0))
 			throw new IndexOutOfBoundsException("Cannot access bits that are out of scope");
 
-		int _byte = bits[index>>>5];
-		int mask = bitMasks[index%32];
-		int result = _byte & mask;
+		int byteValue = bits[index>>>5];
+		int mask = BIT_MASKS[index%32];
+		int result = byteValue & mask;
 
 		return (result != 0);
 	}
@@ -119,21 +124,21 @@ public class BitArray implements Cloneable {
 			throw new IndexOutOfBoundsException("Cannot access bits that are out of scope");
 
 		int pos = index >>> 5;
-		bits[pos] |= bitMasks[index%32];
+		bits[pos] |= BIT_MASKS[index%32];
 	}
 
 	/**
-	 * Clear the bit (make it false) located at a specific index
+	 * Clear the bit (make it false) located at a specific index.
 	 *
-	 * @param index The index of the bit to be cleared
-	 * @throws IndexOutOfBoundsException If the specified index value is invalid
+	 * @param index The index of the bit to be cleared.
+	 * @throws IndexOutOfBoundsException If the specified index value is invalid.
 	 */
 	public void clear(int index) throws IndexOutOfBoundsException {
 		if ((index > numberOfBits) | (index < 0))
 			throw new IndexOutOfBoundsException("Cannot access bits that are out of scope");
 
 		int pos = index >>> 5;
-		int mask = bitMasks[index % 32];
+		int mask = BIT_MASKS[index % 32];
 		int isolatedByte = bits[pos] & mask;
 
 		// Now XOR to clear the bit
@@ -162,10 +167,10 @@ public class BitArray implements Cloneable {
 	
 	
 	/**
-	 * 
-	 * @param i
-	 * @param j
-	 * @return
+	 * Get the value of the bits between the provided indexes, {@code i} and {@code j}. 
+	 * @param i The start index.
+	 * @param j The end index.
+	 * @return The value of the bits from indexes {@code i} to {@code j}.
 	 */
 	public double valueOf(int i, int j) {
 		double result = 0.0;

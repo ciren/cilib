@@ -40,84 +40,116 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class EntityCollection<E extends Entity> 
 	implements Iterable<E>, List<E>, Cloneable, Serializable {
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract EntityCollection<E> getClone();
        
     /**
-     * Adds an entity to the topology
-     * @param The entity to be added
+     * Adds an entity to the topology.
+     * @param entity The entity to be added.
+     * @return <code>true</code> if the addition is successful, <code>false</code> otherwise.
      */
-    public abstract boolean add(E ent);
+    public abstract boolean add(E entity);
     
     
     /**
-     * Removes an entity from the topology
-     * @param The entity to be removed
+     * Removes an entity from the topology.
+     * @param entity The entity to be removed.
      * @return boolean, true if remove operation was successful.
      */
-    public abstract boolean remove(E indiv);
+    public abstract boolean remove(E entity);
     
     
     /**
-     * Returns an entity based on it's index number within the topology
-     * @param The index
-     * @return The Individual
+     * {@inheritDoc}
      */
     public abstract E get(int index);
     
     
     /**
-     * Update/replace a specific entity within the topology
-     * @param The index within the topology structure
-     * @param The replacement entity
+     * {@inheritDoc}
      */
-    public abstract E set(int index, E indiv);    
+    public abstract E set(int index, E entity);    
     
     /**
-     * Returns true if there is no entities within the topology 
-     * @return boolean 
+     * {@inheritDoc}
      */
     public abstract boolean isEmpty();
     
     
     /**
-     * Wipe all the entities within the topology
+     * Wipe all the entities within the topology.
+     * {@inheritDoc}
      */ 
     public abstract void clear();
     
+    /**
+     * {@inheritDoc}
+     */
     public abstract boolean contains(Object o);
     
+    /**
+     * {@inheritDoc}
+     */
     public abstract boolean containsAll(Collection<?> c);
     
+    /**
+     * {@inheritDoc}
+     */
     public abstract boolean equals(Object o);
     
+    /**
+     * {@inheritDoc}
+     */
     public abstract int hashCode();
     
     /**
-     * Returns an <code>Iterator</code> over all the Entites within the topology.
-     * @return <code>Iterator<Individual></code> - A Entity iterator.
+     * {@inheritDoc}
      */
     public abstract Iterator<E> iterator();
     
+    /**
+     * {@inheritDoc}
+     */
     public abstract boolean remove(Object o);
     
+    /**
+     * {@inheritDoc}
+     */
     public abstract boolean removeAll(Collection<?> c);
     
+    /**
+     * {@inheritDoc}
+     */
     public abstract boolean retainAll(Collection<?> c);
     
     /**
-     * Returns the size of the {@linkplain EntityCollection} 
-     * @return The size of {@linkplain EntityCollection}
+     * Returns the size of the {@linkplain EntityCollection}. 
+     * @return The size of {@linkplain EntityCollection}.
      */
     public abstract int size();
     
+    /**
+     * {@inheritDoc}
+     */
     public abstract Object [] toArray();
     
-    public abstract <T> T[] toArray(T[] a);
-    
-    
-    
+    /**
+     * {@inheritDoc}
+     */
+    public abstract <T> T[] toArray(T[] a);    
+
+    /**
+     * Get the <code>id</code> associated with this {@linkplain EntityCollection}.
+     * @return The <code>id</code> for this {@linkplain EntityCollection}.
+     */
     public abstract String getId();
     
+    /**
+     * Set the <code>id</code> for this {@linkplain EntityCollection}.
+     * @param id The value to set.
+     */
     public abstract void setId(String id);
 }

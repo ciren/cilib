@@ -1,11 +1,9 @@
 /*
  * ContinuousFunction.java
- * 
- * Created on Jul 24, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -33,35 +31,42 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public abstract class ContinuousFunction extends Function {
 	
+	/**
+	 * Create an instance of {@linkplain ContinuousFunction}.
+	 */
 	public ContinuousFunction() {
 		// constraint.add(new ContentValidator(new TypeValidator(Real.class)));
 	}
 
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public ContinuousFunction(ContinuousFunction copy) {
 		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract ContinuousFunction getClone();
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.Functions.Function#getMinimum()
+	/**
+	 * {@inheritDoc}
 	 */
 	public Object getMinimum() {
 		return new Double(-Double.MAX_VALUE);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.Functions.Function#getMaximum()
+	/**
+	 * {@inheritDoc}
 	 */
 	public Object getMaximum() {
 		return new Double(Double.MAX_VALUE);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.Functions.Function#evaluate(java.lang.Object)
+	/**
+	 * {@inheritDoc}
 	 */
 	public Double evaluate(Object x) {
 		Double d = null;

@@ -1,12 +1,9 @@
 /*
  * ProgressFrame.java
  *
- * Created on February 9, 2003, 10:50 AM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.simulator;
 
 import java.text.NumberFormat;
@@ -38,7 +33,7 @@ class ProgressFrame extends javax.swing.JFrame implements ProgressListener {
     
     private static final long serialVersionUID = 4007873302370282732L;
     
-	/** Creates new form ProgressFrame */
+	/** Creates new form ProgressFrame. */
     public ProgressFrame(int simulations) {
         initComponents();
         jProgressBar1.setMinimum(0);

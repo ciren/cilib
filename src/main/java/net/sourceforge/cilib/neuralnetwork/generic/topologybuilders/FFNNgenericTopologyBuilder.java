@@ -1,8 +1,25 @@
 /*
- * Created on 2005/05/15
+ * FFNNgenericTopologyBuilder.java
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.generic.topologybuilders;
 
@@ -42,8 +59,8 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
 		//check all but last layer sizes - minimum is 2 as bias units are included.
 		for (int i = 0; i < layerSizes.length - 1; i++){
 			if (this.layerSizes[i] <= 1) {
-				throw new IllegalArgumentException("FFNNGenericTopologyBuilder: illegal layer size. Layer " + i + " size = " + this.layerSizes[i] 
-				                                                                                                                               + ".  Total layers = " + this.layerSizes.length + ".  Minimum layer size is 2 as bias units are included.");
+				throw new IllegalArgumentException("FFNNGenericTopologyBuilder: illegal layer size. Layer " + i + " size = " + this.layerSizes[i] +
+						".  Total layers = " + this.layerSizes.length + ".  Minimum layer size is 2 as bias units are included.");
 			}
 		}
 	}
@@ -110,7 +127,8 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
 				neuron2.setTminus1Output(new Real(0));
 				if (layer < (layerSizes.length -1)){
 					neuron2.setOutputNeuron(false);
-				} else neuron2.setOutputNeuron(true);
+				} 
+				else neuron2.setOutputNeuron(true);
 							
 				tmp2.add(neuron2);
 			}

@@ -1,11 +1,9 @@
 /*
  * Bit.java
- * 
- * Created on Jul 18, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.type.types;
 
@@ -67,7 +64,10 @@ public class Bit extends Numeric {
 		this.setUpperBound(1.0);
 	}
 	
-	
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public Bit(Bit copy) {
 		this.state = copy.state;
 		this.setLowerBound(copy.getLowerBound());
@@ -76,10 +76,7 @@ public class Bit extends Numeric {
 	
 	
 	/**
-	 * Create a clone object of the current object. The clone object is created using the
-	 * copy-constructor.
-	 * 
-	 * @return A clone of the current object.
+	 * {@inheritDoc}
 	 */
 	public Bit getClone() {
 		return new Bit(this);
@@ -87,10 +84,7 @@ public class Bit extends Numeric {
 
 	
 	/**
-	 * Determine if this object is equal to another.
-	 * 
-	 * @return <tt>true</tt> if the objects do evaluate equal
-	 *         <tt>false</tt> if the object evalues to false
+	 * {@inheritDoc}
 	 */
 	public boolean equals(Object other) {
 		Bit otherBit = (Bit) other;
@@ -103,33 +97,39 @@ public class Bit extends Numeric {
 
 	
 	/**
-	 * Return the {@see java.lang.Boolean#hashCode()} of this object
-	 * 
-	 * @return The <tt>hashCode</tt> of this object
+	 * {@inheritDoc}
 	 */
 	public int hashCode() {
 		return Boolean.valueOf(this.state).hashCode();
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void set(String value) {
 		setBit(value);		
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void set(boolean value) {
 		setBit(value);
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void set(double value) {
 		setReal(value);
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void set(int value) {
 		setInt(value);		
@@ -155,6 +155,9 @@ public class Bit extends Numeric {
 		this.state = value;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setBit(String value) {
 		setBit(Boolean.parseBoolean(value));
 	}
@@ -187,6 +190,9 @@ public class Bit extends Numeric {
 		else this.state = true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setInt(String value) {
 		setInt(Integer.parseInt(value));
 	}
@@ -216,17 +222,17 @@ public class Bit extends Numeric {
 			this.state = false;
 		else this.state = true;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setReal(String value) {
 		setReal(Double.parseDouble(value));
 	}
 
 	
 	/**
-	 * Compare this <tt>Numeric</tt> object to the given <tt>Numeric</tt> object.
-	 * 
-	 * @return 0 if the states of the objects is the same, else return 1 if the current
-	 *         state is <tt>true</tt>, else return -1
+	 * {@inheritDoc}
 	 */
 	public int compareTo(Numeric other) {
 		if (state == other.getBit())
@@ -234,21 +240,6 @@ public class Bit extends Numeric {
 		else
 			return state ? 1 : -1;
 	}
-
-	/**
-	 * Determine if the current value for this <tt>Bit</tt>
-	 * is defined within the lower and upper bounds, as specified by the domain of the
-	 * problem.
-	 * 
-	 * The <tt>Bit</tt> only has 2 possible values,
-	 * <tt>true</tt> or <tt>false</tt>
-	 * 
-	 * @return <tt>true</tt> always
-	 */
-/*	public boolean isInsideBounds() {
-		return true;
-	}
-*/
 
 	/**
 	 * Randomly choose a new valid for the <code>Bit</code> object.
@@ -275,7 +266,7 @@ public class Bit extends Numeric {
 	}
 
 	/**
-	 * Get the type representation of this <tt>Bit</tt> object as a string
+	 * Get the type representation of this <tt>Bit</tt> object as a string.
 	 * 
 	 * @return The String representation of this <tt>Type</tt> object.
 	 */
@@ -288,7 +279,7 @@ public class Bit extends Numeric {
 	 * Externalise the current object to the provided <tt>ObjectOutput</tt>.
 	 * 
 	 * @param oos The provided <tt>ObjectOutput</tt>
-	 * @throws IOException if an error occours.
+	 * @throws IOException if an error occurs.
 	 */
 	public void writeExternal(ObjectOutput oos) throws IOException {
 		oos.writeBoolean(state);		
@@ -298,8 +289,9 @@ public class Bit extends Numeric {
 	/**
 	 * Externalise the current object to the provided <tt>ObjectInput</tt>.
 	 * 
-	 * @param oos The provided <tt>ObjectInput</tt>
-	 * @throws IOException if an error occours.
+	 * @param ois The provided <tt>ObjectInput</tt>
+	 * @throws IOException if an error occurs.
+	 * @throws ClassNotFoundException if the required class is not found.
 	 */
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		this.state = ois.readBoolean();		
@@ -309,6 +301,7 @@ public class Bit extends Numeric {
 	/**
 	 * Set the lowerBound for this <tt>Bit</tt>.
 	 * 
+	 * @param value The value to set for the lower bound.
 	 * @throws RuntimeExcetption if the lowerBound value to set is not 0.0
 	 */
 	public void setLowerBound(double value) {
