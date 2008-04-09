@@ -50,6 +50,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	 */
 	public TournamentSelectionStrategy() {
 		this.tournamentProportion = new ProportionalControlParameter();
+		this.randomNumber = new RandomNumber();
 	}
 	
 	/**
@@ -80,9 +81,8 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 			double random = randomNumber.getUniform(0, population.size());
 			Entity tmp = population.get(Double.valueOf(random).intValue());
 			
-			if (!tournamentEntities.contains(tmp)) {
+			if (!tournamentEntities.contains(tmp))
 				tournamentEntities.add(tmp);
-			}
 		}
 		
 		Collections.sort(tournamentEntities, new DescendingFitnessComparator());
@@ -104,6 +104,22 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	 */
 	public void setTournamentSize(ControlParameter tournamanetSize) {
 		this.tournamentProportion = tournamanetSize;
+	}
+	
+	/**
+	 * Get the {@linkplain RandomNumber} defined for this {@linkplain SelectionStrategy}. 
+	 * @return The current {@linkplain RandomNumber}.
+	 */
+	public RandomNumber getRandomNumber() {
+		return randomNumber;
+	}
+
+	/**
+	 * Set the {@linkplain RandomNumber} for the {@linkplain TournamentSelectionStrategy}.
+	 * @param randomNumber The {@linkplain RandomNumber} to set.
+	 */
+	public void setRandomNumber(RandomNumber randomNumber) {
+		this.randomNumber = randomNumber;
 	}
 
 	/**
