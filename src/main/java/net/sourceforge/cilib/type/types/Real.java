@@ -217,10 +217,8 @@ public class Real extends Numeric {
 	 * {@inheritDoc} 
 	 */
 	public int compareTo(Numeric other) {
-		if (this.value == other.getReal())
-			return 0;
-		else 
-			return (other.getReal() < value) ? 1 : -1;
+		final Real otherReal = (Real) other;
+		return Double.compare(this.value, otherReal.value);
 	}
 	
 	/**

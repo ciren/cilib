@@ -77,10 +77,15 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 		double cumulativeProb = 0;
 		double valueToPick = random.nextDouble();
 
-		// If the fitness of all the Entities is zero, we randomly select one.
+		// If the fitness' have not been calculated return a random entity. This should NEVER happen.
 		if (totalFitness == InferiorFitness.instance().getValue()) {
 			return population.get(random.nextInt(population.size()));
 		}
+		
+		// If the fitness of all the Entities is zero, we randomly select one. This prevents the case
+		// where it is possible to divide by zero resulting in an ArithmeticException.
+		if (Double.compare(totalFitness, 0.0) == 0)
+			return population.get(random.nextInt(population.size()));
 
 		for (Entity entity : population) {
 			double probability = entity.getFitness().getValue() / totalFitness;
