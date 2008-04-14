@@ -124,7 +124,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
 
             // inorder to evaluate the derating function the distance needs to be
             // a array.
-            double[] dist = new double[]{ distance };
+            double[] dist = new double[] {distance};
 
             // modify the fitness.
             if (distance < radius) {

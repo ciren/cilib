@@ -1,12 +1,9 @@
 /*
  * FunctionOptimisationProblem.java
  *
- * Created on June 17, 2004
- *
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,17 +19,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
 
 /**
- * This class serves as a base class for function optimisation problems using a {@link net.sourceforge.cilib.functions.Function}
+ * This class serves as a base class for function optimisation problems using a {@linkplain Function}.
  *
  * @author  Edwin Peer
  */
@@ -50,6 +45,10 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
         function = null;
     }
     
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
     public FunctionOptimisationProblem(FunctionOptimisationProblem copy) {
    	 super(copy);
     	function = copy.function;

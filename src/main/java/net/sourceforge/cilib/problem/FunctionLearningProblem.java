@@ -1,12 +1,9 @@
 /*
  * FunctionLearningProblem.java
  *
- * Created on June 24, 2003, 21:00 PM
- *
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,9 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
-
 package net.sourceforge.cilib.problem;
 
 // TODO: Add domain validators to check that this is working on ContinuousFunctions
@@ -40,6 +35,10 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
 
+/**
+ * 
+ *
+ */
 public class FunctionLearningProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = -8903112361933892141L;
     
@@ -108,8 +107,8 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             Double[] p = new Double[function.getDimension()];
             for (int i = 0; i < p.length; i++) {
             	Real real = (Real) vector.get(0);
-                double r = real.getUpperBound() * random.nextDouble()
-                	-2.0 * real.getLowerBound() * random.nextDouble();
+                double r = real.getUpperBound() * random.nextDouble() -
+                	2.0 * real.getLowerBound() * random.nextDouble();
                     //((Quantitative) domain.getComponent(0)).getUpperBound().doubleValue() * random.nextDouble()
                         //- 2.0 * ((Quantitative) domain.getComponent(0)).getLowerBound().doubleValue() * random.nextDouble();
                 p[i] = new Double(r);
@@ -196,7 +195,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             totalFitness -= Math.pow(((Double) exp_output[0].getValue()).doubleValue() - output[0], 2.0);
         }
 
-        return new MinimisationFitness(new Double( (totalFitness / trainingSet.size())));
+        return new MinimisationFitness(new Double((totalFitness / trainingSet.size())));
     }
 
     public double getError(Object solution) {

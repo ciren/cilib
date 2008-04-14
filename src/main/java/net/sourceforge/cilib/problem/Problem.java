@@ -1,12 +1,9 @@
 /*
  * Problem.java
  *
- * Created on January 26, 2003, 11:00 AM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.problem;
 
 import java.io.Serializable;
@@ -41,6 +36,9 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface Problem extends Serializable, Cloneable {
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Problem getClone();
     
 }
