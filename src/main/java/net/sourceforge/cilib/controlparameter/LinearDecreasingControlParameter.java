@@ -1,11 +1,9 @@
 /*
- * LinearDecreasingUpdateStrategy.java
+ * LinearDecreasingControlParameter.java
  *
- * Created on March 18, 2004, 4:23 PM
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.controlparameter;
 
@@ -35,7 +32,7 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
 	private static final long serialVersionUID = -7213083955334884076L;
 
 	/**
-	 *
+	 * Create a new instance of {@linkplain LinearDecreasingControlParameter}.
 	 */
 	public LinearDecreasingControlParameter() {
 		super();
@@ -43,27 +40,30 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
 
 	/**
 	 * Copy constructor
-	 * @param copy
+	 * @param copy The instance to copy.
 	 */
 	public LinearDecreasingControlParameter(LinearDecreasingControlParameter copy) {
 		super(copy);
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public LinearDecreasingControlParameter getClone() {
 		return new LinearDecreasingControlParameter(this);
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public void update() {
 		double result = getUpperBound() - (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
 		parameter.setReal(result);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setUpperBound(double value) {
 		super.setUpperBound(value);
