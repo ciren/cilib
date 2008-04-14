@@ -1,7 +1,7 @@
 /*
  * BestParticlePosition.java
  *
- * Copyright (C) 2003 - 2006
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -30,28 +30,44 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Print the position of the best particle in the swarm
+ * Print the position of the best particle in the swarm.
  * 
  * @author Gary Pampara
  */
 public class BestParticlePosition implements Measurement { 
 	private static final long serialVersionUID = 5808686984197365658L;
 
+	/**
+	 * Create a nw instance of {@linkplain BestParticlePosition}.
+	 */
 	public BestParticlePosition() {
     }
 	
+	/**
+	 * Copy the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public BestParticlePosition(BestParticlePosition copy) {
 		
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public BestParticlePosition getClone() {
 		return new BestParticlePosition(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
     public String getDomain() {
     	return "T";
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Type getValue() {
     	Algorithm alg = Algorithm.get();
         Vector solution = (Vector) alg.getBestSolution().getPosition();
