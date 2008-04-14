@@ -1,12 +1,9 @@
 /*
  * Shubert.java
  *
- * Created on June 4, 2003, 1:46 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.functions.continuous;
 
@@ -32,6 +28,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
+ * Shubert function.
+ * 
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
@@ -39,23 +37,34 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Clive Naicker
  * @version 1.0
  */
-
 public class Shubert extends ContinuousFunction {
 	private static final long serialVersionUID = 3213789483391643466L;
 
+	/**
+	 * Create an instance of {@linkplain Shubert}. Domain is set to R(-10,10)^2 by default.
+	 */
 	public Shubert() {
         setDomain("R(-10, 10)^2");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Shubert getClone() {
 		return new Shubert();
 	}
     
+	/**
+	 * {@inheritDoc}
+	 */
     public Object getMinimum() {
         return new Double(-186.7309088);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double result = 1.0;
         for (int i=0; i < getDimension(); ++i) {

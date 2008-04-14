@@ -1,11 +1,9 @@
 /*
  * GoldsteinPrice.java
- * 
- * Created on Mar 14, 2006
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.functions.continuous;
 
@@ -30,7 +27,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The Goldstein-Price function<br><br>
+ * The Goldstein-Price function.<br><br>
  * 
  * Minimum: f(x) = 3; x = (0, -1)<br><br>
  * 
@@ -42,10 +39,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class GoldsteinPrice extends ContinuousFunction {
 	private static final long serialVersionUID = 5635493177950325746L;
 
+	/**
+	 * Create a new instance of {@linkplain GoldsteinPrice}. Domain defaults to R(-2, 2)^2
+	 */
 	public GoldsteinPrice() {
         setDomain("R(-2, 2)^2");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public GoldsteinPrice getClone() {
 		return new GoldsteinPrice();
@@ -55,6 +58,9 @@ public class GoldsteinPrice extends ContinuousFunction {
 		return new Double(3.0);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double evaluate(Vector x) {
 		double part1 = 1 + (x.getReal(0)+x.getReal(1)+1.0)*(x.getReal(0)+x.getReal(1)+1.0)*(19.0 - 14.0*x.getReal(0) + 3*x.getReal(0)*x.getReal(0) - 14*x.getReal(1) + 6*x.getReal(0)*x.getReal(1) + 3*x.getReal(1)*x.getReal(1));

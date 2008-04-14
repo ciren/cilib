@@ -25,10 +25,13 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Olusegun Olorunda
+ * <p>
+ * Class to reflect the wrapped {@linkplain Function} in a horizontal or
+ * vertical fashion.
  * 
  * Characteristics:
  * 
@@ -36,6 +39,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * reflecting on a specific axis.
  * 
  * Setting values in xml works the same as setting string values
+ * 
+ * @author Olusegun Olorunda
  *
  */
 public class ReflectedFunctionDecorator extends ContinuousFunction {
@@ -50,6 +55,9 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 		verticalReflection = false;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ReflectedFunctionDecorator getClone() {
 		return new ReflectedFunctionDecorator();
@@ -79,7 +87,7 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 	}
 
 	/**
-	 * Get the decorated function contained by this instance
+	 * Get the decorated function contained by this instance.
 	 * @return the function
 	 */
 	public ContinuousFunction getFunction() {
@@ -87,7 +95,8 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 	}
 
 	/**
-	 * @param function the function to set
+	 * Set the wrapped function.
+	 * @param function the function to set.
 	 */
 	public void setFunction(ContinuousFunction function) {
 		this.function = function;
@@ -95,42 +104,44 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 	}
 
 	/**
-	 * @return the horizontalReflection
+	 * Get the horizonal reflection.
+	 * @return the horizontalReflection.
 	 */
 	public boolean getHorizontalReflection() {
 		return horizontalReflection;
 	}
 
 	/**
-	 * Invoking this method sets horizontalReflection to true
+	 * Invoking this method sets horizontalReflection to true.
 	 */
 	public void setHorizontalReflection(boolean horizontalReflection) {
 		this.horizontalReflection = horizontalReflection;
 	}
 	
 	/**
-	 * Invoking this method sets horizontalReflection to true
+	 * Invoking this method sets horizontalReflection to true.
 	 */
 	public void setHorizontalReflection(String horizontalReflection) {
 		this.horizontalReflection = Boolean.parseBoolean(horizontalReflection);
 	}
 
 	/**
-	 * @return the verticalReflection
+	 * Get the vertical reflection.
+	 * @return the verticalReflection.
 	 */
 	public boolean getVerticalReflection() {
 		return verticalReflection;
 	}
 
 	/**
-	 * Invoking this method sets verticalReflection to true
+	 * Invoking this method sets verticalReflection to true.
 	 */
 	public void setVerticalReflection(boolean verticalReflection) {
 		this.verticalReflection = verticalReflection;
 	}
 	
 	/**
-	 * Invoking this method sets verticalReflection to true
+	 * Invoking this method sets verticalReflection to true.
 	 */
 	public void setVerticalReflection(String verticalReflection) {
 		this.verticalReflection = Boolean.parseBoolean(verticalReflection);

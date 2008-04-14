@@ -1,15 +1,41 @@
+/*
+ * Damavandi.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * <p>
  * The Damavandi function obtained from N. Damavandi, S. Safavi-Naeini,
- * "A hybrid evolutionary programming method for circuit optimization"
+ * "A hybrid evolutionary programming method for circuit optimization".
  * 
+ * <p>
  * Global Minimum: f(x,y) = 0;  (x,y) = (2, 2)
  * Local Minimum: f(x,y) = 2; (x,y) = (7, 7)
  * 
+ * <p>
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
@@ -41,7 +67,7 @@ public class Damavandi extends ContinuousFunction {
 		
 		double numerator = Math.sin(Math.PI*(x1-2))*Math.sin(Math.PI*(x2-2));
 		double denumerator = Math.PI*Math.PI*(x1-2)*(x2-2);
-		double factor1 = 1 - Math.pow(Math.abs(numerator/denumerator),5);
+		double factor1 = 1 - Math.pow(Math.abs(numerator/denumerator), 5);
 		double factor2 = 2 + (x1-7)*(x1-7) + 2*(x2-7)*(x2-7);
 		
 		return factor1*factor2;

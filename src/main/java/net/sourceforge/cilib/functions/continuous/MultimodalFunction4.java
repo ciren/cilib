@@ -1,11 +1,9 @@
-/* MultimodalFunction4.java
+/*
+ * MultimodalFunction4.java
  *
- * Created on June 24, 2003, 21:00 PM
- * 
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,14 +19,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class MultimodalFunction4 extends ContinuousFunction { 
 	private static final long serialVersionUID = -957215773660609565L;
 

@@ -1,12 +1,9 @@
 /*
  * HyperEllipsoid.java
  *
- * Created on June 4, 2003, 1:20 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -33,7 +28,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- *
+ * HyperEllipsoid.
+ * 
+ * <p>
  * Characteristics:
  * <ul>
  * <li>Unimodal</li>
@@ -48,20 +45,29 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class HyperEllipsoid extends ContinuousFunction {
     private static final long serialVersionUID = 813261964413884141L;
 
-	/** Creates a new instance of HyperEllipsoid */
+	/** Creates a new instance of HyperEllipsoid. Default domain is set to R(-5.12, 5.12)^30 */
     public HyperEllipsoid() {
         setDomain("R(-5.12,5.12)^30");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HyperEllipsoid getClone() {
     	return new HyperEllipsoid();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(0);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {

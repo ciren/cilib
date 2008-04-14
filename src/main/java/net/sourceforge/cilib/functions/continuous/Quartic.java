@@ -1,12 +1,9 @@
 /*
- * Quadric.java
+ * Quartic.java
  *
- * Created on January 12, 2003, 3:46 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,39 +19,55 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * The Quartic function.
  * Source: Evolutionary Programming Made Faster (Xin Yao)
  * @author Gary Pampara
  */
 public class Quartic extends ContinuousFunction {
     private static final long serialVersionUID = 1830591489569513511L;
 
+    /**
+     * Create a new instance of {@linkplain Quadric}. Domain defaults to R(-1.28, 1.28)^30.
+     */
 	public Quartic() {
         setDomain("R(-1.28, 1.28)^30");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Quartic getClone() {
 		return new Quartic();
 	}
     
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * This is extra stuff i hope is added.
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Object getMaximum() {
     	return new Double(1248.2);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
     	double result = 0.0;
     	

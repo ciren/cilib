@@ -1,11 +1,9 @@
 /*
  * ParametricWithQuantisationErrorFunction.java
- * 
- * Created on July 18, 2007
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -42,7 +40,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 public class ParametricWithQuantisationErrorFunction extends ParametricClusteringFunction {
 	private static final long serialVersionUID = -2022785065235231801L;
 
-	/** Specifies the weight that incluences how much the Quantisation Error will contribute to the final fitness */
+	/** Specifies the weight that incluences how much the Quantisation Error will contribute to the final fitness. */
 	protected ControlParameter w3 = null;
 
 	public ParametricWithQuantisationErrorFunction() {
@@ -52,6 +50,9 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 		w3 = new ConstantControlParameter(0.4);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double calculateFitness() {
 		// make sure the sum of the parameters equal 1.0
@@ -68,7 +69,7 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 
 	/**
 	 * Set the weight that influences how much the Quantisation Error will contribute to the final
-	 * fitness
+	 * fitness.
 	 * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt>
 	 *        weight
 	 */
@@ -77,7 +78,7 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 	}
 
 	/**
-	 * Get the weight that the Quantisation Error contributes to the final fitness
+	 * Get the weight that the Quantisation Error contributes to the final fitness.
 	 * @return the weight that determines how much influence the Quantisation Error contributes to
 	 *         the final fitness
 	 */
@@ -85,6 +86,9 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 		return w3.getParameter();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void updateControlParameters() {
 		super.updateControlParameters();
 		w3.updateParameter();

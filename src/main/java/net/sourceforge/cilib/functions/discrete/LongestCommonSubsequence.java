@@ -1,3 +1,26 @@
+/*
+ * LongestCommonSubsequence.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.discrete;
 
 import java.util.Iterator;
@@ -20,6 +43,9 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 
 	private static final long serialVersionUID = -3586259608521073084L;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public LongestCommonSubsequence getClone() {
 		return new LongestCommonSubsequence();
 	}
@@ -29,17 +55,17 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 		double v = 0.0;
 		double l = length(x);
 		double m = matches(x);
-		double K = this.getDataSetSize();
+		double k = this.getDataSetSize();
 		
 		v = l + (30*m);
 		
 		if (l == getShortestString().length())
 			v += 50;
 		
-		if (m == K)
+		if (m == k)
 			v *= 3000;
 		else
-			v *= -1000*(K-m);
+			v *= -1000*(k-m);
 		
 		return v;
 	}
@@ -75,10 +101,11 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 	 */
 	private int length(Vector x) {
 		int count = 0;
+		Iterator<Type> i = x.iterator();
 		
-		for (Iterator<Type> i = x.iterator(); i.hasNext(); ) {
+		while (i.hasNext()) {
 			Numeric n = (Numeric) i.next();
-			if (n.getBit() == true)
+			if (n.getBit())
 				count++;
 		}
 		
@@ -111,7 +138,7 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 		
 		for (int i = 0; i < x.getDimension(); i++) {
 			Numeric n = (Numeric) x.get(i);
-			if (n.getBit() == true)
+			if (n.getBit())
 				result += target.charAt(i);
 		}
 		

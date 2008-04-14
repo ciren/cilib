@@ -1,12 +1,9 @@
 /*
  * Bohachevsky3.java
  *
- * Created on Nveomber 12, 2007, 10:30 AM
- *
- * 
- * Copyright (C) 2003 - 2007 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,17 +19,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p><b>Bohachevsky 3</b></p>
+ * <p><b>Bohachevsky 3.</b></p>
  * 
  * <p><b>Reference:</b> Global Optimization Meta-Heuristics Website,
  * http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/go.htm</p>
@@ -56,23 +51,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * @author Andries Engelbrecht
  */
-
 public class Bohachevsky3 extends ContinuousFunction {
 	private static final long serialVersionUID = -1572998736995724677L;
 
-	/** Creates a new instance of Bohachevsky2 */
+	/** Creates a new instance of Bohachevsky2. Domain defaults to R(-100.0, 100)^2 */
     public Bohachevsky3() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public Bohachevsky3 getClone() {
     	return new Bohachevsky3();
     }
-    
-    /* (non-Javadoc)
-	 * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
-	 */
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
     public double evaluate(Vector x) {
         return x.getReal(0)*x.getReal(0) + 2*x.getReal(1)*x.getReal(1) - 0.3*Math.cos(3*Math.PI*x.getReal(0) + 4*Math.PI*x.getReal(1))+0.3;

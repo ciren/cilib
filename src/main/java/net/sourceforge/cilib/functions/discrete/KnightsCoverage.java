@@ -1,11 +1,9 @@
 /*
  * KnightsCoverage.java
- * 
- * Created on Jan 10, 2006
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,23 +20,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * 
+ *
+ */
 public class KnightsCoverage extends DiscreteFunction {
 
 	private static final long serialVersionUID = -8039165934381145252L;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double evaluate(Vector x) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public KnightsCoverage getClone() {
 		return new KnightsCoverage();
 	}

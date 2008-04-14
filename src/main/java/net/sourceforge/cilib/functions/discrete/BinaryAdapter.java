@@ -1,11 +1,9 @@
 /*
  * BinaryAdapter.java
- * 
- * Created on Feb 28, 2006
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.functions.discrete;
 
@@ -150,7 +147,7 @@ public class BinaryAdapter extends DiscreteFunction {
 	public Vector decodeBitString(Vector bits) {
 		Vector vector = new Vector();
 		
-		for (int i = 0; i < bits.getDimension(); ) {
+		for (int i = 0; i < bits.getDimension();) {
 			double tmp = valueOf(bits, i, i+this.bitsPerDimension);
 			tmp = transform(tmp);
 			
@@ -174,7 +171,7 @@ public class BinaryAdapter extends DiscreteFunction {
 		int n = 1;
 		
 		for (int counter = j-1; counter >= i; counter--) {
-			if (vector.getBit(counter) == true) {
+			if (vector.getBit(counter)) {
 				result += n;
 			}
 			

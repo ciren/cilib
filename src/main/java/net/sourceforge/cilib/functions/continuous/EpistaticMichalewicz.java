@@ -1,12 +1,9 @@
 /*
  * EpistaticMichalewicz.java
  *
- * Created on June 4, 2003, 5:14 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.functions.continuous;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -33,6 +28,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
+ * EpistaticMichalewicz funtion.
+ * 
  * Characteristics:
  * <ul>
  * <li>Multi-modal</li>
@@ -45,12 +42,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class EpistaticMichalewicz extends ContinuousFunction {
 	private static final long serialVersionUID = -4391269929189674709L;
 
-	/** Creates a new instance of EpistaticMichalewicz */
+	/** Creates a new instance of EpistaticMichalewicz. */
     public EpistaticMichalewicz() { 
         m = 10;
         setDomain("R(0, 3.141592653589793)^10");
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public EpistaticMichalewicz getClone() {
     	return new EpistaticMichalewicz();
     }
@@ -61,7 +61,7 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     	else if (this.getDimension() == 10)
     		return new Double(-9.66);
     	
-    	return new Double(- Double.MAX_VALUE);
+    	return new Double(-Double.MAX_VALUE);
     }
     
     /** Each function must provide an implementation which returns the function value
@@ -71,7 +71,7 @@ public class EpistaticMichalewicz extends ContinuousFunction {
      * @param x The position
      *
      */
-    public double evaluate(Vector X) {
+    public double evaluate(Vector input) {
         /*double x = X.getReal(0);
         double y = X.getReal(1);
 
@@ -82,7 +82,7 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     	double sumsq = 0.0;
     	
     	for (int i = 0; i < getDimension(); i++) {
-    		double x = X.getReal(i);
+    		double x = input.getReal(i);
     		sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
     	}
     	

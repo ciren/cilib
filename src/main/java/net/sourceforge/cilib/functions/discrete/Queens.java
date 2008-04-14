@@ -1,11 +1,9 @@
 /*
  * Queens.java
- * 
- * Created on Jan 10, 2006
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.functions.discrete;
 
@@ -39,8 +36,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Queens extends DiscreteFunction {
 	
 	private static final long serialVersionUID = 8900436160526532438L;
-	private final double x_moves [] = { 1, 1,  1,  0, -1, -1, -1, 0 };
-	private final double y_moves [] = { 1, 0, -1, -1, -1,  0,  1, 1 };
+	private final double [] x_moves = {1, 1,  1,  0, -1, -1, -1, 0};
+	private final double [] y_moves = {1, 0, -1, -1, -1,  0,  1, 1};
 	private int boardSize;	
 	
 	public Queens() {
@@ -69,7 +66,7 @@ public class Queens extends DiscreteFunction {
 		
 		for (int row = 0; row < boardSize; row++) {
 			for (int col = 0; col < boardSize; col++) {
-				boolean isQueen = (board[row][col] == 1.0) ? true : false;//x.getBit(row*boardSize+col);
+				boolean isQueen = (board[row][col] == 1.0) ? true : false;
 				
 				if (!isQueen)
 					continue;
@@ -97,7 +94,7 @@ public class Queens extends DiscreteFunction {
 		int newRow = row;
 		int newCol = col;
 		
-		while ( (newRow >= 0 && newRow < boardSize) || (newCol >= 0 && newCol < boardSize) ) {
+		while ((newRow >= 0 && newRow < boardSize) || (newCol >= 0 && newCol < boardSize)) {
 			newRow += x_moves[move];
 			newCol += y_moves[move];
 			
@@ -118,7 +115,7 @@ public class Queens extends DiscreteFunction {
 		
 		for (int row = 0; row < boardSize; row++) {
 			for (int col = 0; col < boardSize; col++) {
-				board[row][col] = (x.getBit(counter++) == true) ? 1.0 : 0.0;
+				board[row][col] = x.getBit(counter++) ? 1.0 : 0.0;
 			}
 		}
 	}

@@ -1,30 +1,26 @@
-/* 
+/*
  * Branin.java
  *
- * Created on June 4, 2003, 4:57 PM 
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
- * 
- * Copyright (C) 2003 - 2007  
- * Computational Intelligence Research Group (CIRG@UP) 
- * Department of Computer Science 
- * University of Pretoria 
- * South Africa 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 2 of the License, or 
- * (at your option) any later version. 
- * 
- * This program is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License 
- * along with this program; if not, write to the Free Software 
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- */ 
-
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import java.io.Serializable;
@@ -59,7 +55,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Clive Naicker
  *
  */
-
 public class Branin extends ContinuousFunction implements Serializable {
 	private static final long serialVersionUID = -2254223453957430344L;
 
@@ -70,8 +65,10 @@ public class Branin extends ContinuousFunction implements Serializable {
     private double e = 10.0;
     private double f = 1.0/(8.0*Math.PI);
 
+    /**
+     * Create a new instance of {@linkplain Branin}. Domain defaults to: <code>R(-5,10),R(0,15)</code>
+     */
     public Branin() {
-
         a = 1.0;
         b = 5.1/(4*Math.PI*Math.PI);
         c = 5.0/Math.PI;
@@ -85,16 +82,27 @@ public class Branin extends ContinuousFunction implements Serializable {
         
         setDomain("R(-5,10),R(0,15)");
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Branin getClone() {
     	return new Branin();
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * The minimum is located at <code>0.397887</code>.
+     */
     public Object getMinimum() {
         return new Double(0.397887);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double x1 = x.getReal(0);
         double x2 = x.getReal(1);
