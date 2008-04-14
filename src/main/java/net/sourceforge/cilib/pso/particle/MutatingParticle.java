@@ -1,11 +1,9 @@
 /*
  * MutatingParticle.java
- * 
- * Created on Jun 20, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,13 +20,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.particle;
 
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -70,14 +68,15 @@ public class MutatingParticle extends StandardParticle {
 		if (maximum == null)
 			getStoppingConditionObjects();
 
-		if (((PSO) Algorithm.get()).getIterations() < mutationRate*(double)maximum.getMaximumIterations())
+		if (((PSO) Algorithm.get()).getIterations() < mutationRate * (double) maximum.getMaximumIterations())
 			mutate();
 
 	}
 
 	private void getStoppingConditionObjects() {
 		java.util.Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
-		for (Iterator<StoppingCondition> i = vector.iterator(); i.hasNext(); ) {
+		Iterator<StoppingCondition> i = vector.iterator();
+		while (i.hasNext()) {
 			StoppingCondition condition = i.next();
 			if (condition instanceof MaximumIterations) {
 				maximum = (MaximumIterations) condition;
@@ -156,7 +155,7 @@ public class MutatingParticle extends StandardParticle {
 
 	private double strangeFunction(PSO p, MaximumIterations max) {
 //		System.out.println();
-		return Math.pow(1.0 - (double)p.getIterations()/(max.getMaximumIterations()*mutationRate),1.5);
+		return Math.pow(1.0 - (double) p.getIterations() / (max.getMaximumIterations() * mutationRate), 1.5);
 	}
 
 	/*private double function(double t, double y) {
@@ -196,10 +195,9 @@ public class MutatingParticle extends StandardParticle {
 		
 		//for (int i = 0; i < position.length; ++i) { // Mutation
 		for (int i = 0; i < position.getDimension(); ++i) {
-			double number = Math.pow((1.0 - (double)p.getIterations()/(maximum.getMaximumIterations()*mutationRate)),1.5);
-			if (flip(number) == 1)
-			{
-				int dimension = RandomInt(0, position.getDimension());
+			double number = Math.pow((1.0 - (double) p.getIterations() / (maximum.getMaximumIterations() * mutationRate)), 1.5);
+			if (MathUtil.flip(number) == 1) {
+				int dimension = randomInt(0, position.getDimension());
 				//Quantitative component = (Quantitative) domain.getComponent(dimension);
 				Real real = (Real) position.get(dimension);
 				//double range = ((component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())* strangeFunction(p, maximum))/2;
@@ -226,19 +224,19 @@ public class MutatingParticle extends StandardParticle {
 					tempUpper = real.getReal()+range;
 
 				// Now reinitialis the number randomly between tempUpper and tempLower
-				double tmp = RandomDouble(tempLower,tempUpper);
+				double tmp = randomDouble(tempLower, tempUpper);
 				//position[i] = tmp;
 				position.setReal(i, tmp);
 			}
 		}
 		
-		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations())+endingMutationRate ;
+		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations())+endingMutationRate;
 
 	}
 
-	double u [] = new double[97];
-	double c,cd,cm;
-	int i97,j97;
+	double [] u = new double[97];
+	double c, cd, cm;
+	int i97, j97;
 	boolean test = false;
 
 /*
@@ -253,10 +251,10 @@ public class MutatingParticle extends StandardParticle {
    number generator can create 900 million different subsequences -- with
    each subsequence having a length of approximately 10^30.
 */
-void RandomInitialise(int ij,int kl)
+void randomInitialise(int ij, int kl)
 {
-   double s,t;
-   int ii,i,j,k,l,jj,m;
+   double s, t;
+   int ii, i, j, k, l, jj, m;
 
    /*
       Handle the seed range errors
@@ -301,13 +299,12 @@ void RandomInitialise(int ij,int kl)
    This is the random number generator proposed by George Marsaglia in
    Florida State University Report: FSU-SCRI-87-50
 */
-double RandomUniform()
-{
+double randomUniform() {
    double uni;
 
    /* Make sure the initialisation routine has been called */
    if (!test)
-      RandomInitialise(1802,9373);
+      randomInitialise(1802, 9373);
 
    uni = u[i97-1] - u[j97-1];
    if (uni <= 0.0)
@@ -340,9 +337,8 @@ double RandomUniform()
   The algorithm uses the ratio of uniforms method of A.J. Kinderman
   and J.F. Monahan augmented with quadratic bounding curves.
 */
-double RandomGaussian(double mean,double stddev)
-{
-   double  q,u,v,x,y;
+double randomGaussian(double mean, double stddev) {
+   double q, u, v, x, y;
 
    /*
       Generate P = (u,v) uniform in rect. enclosing acceptance region
@@ -350,8 +346,8 @@ double RandomGaussian(double mean,double stddev)
       gaussian() requires uniforms > 0, but RandomUniform() delivers >= 0.
    */
    do {
-      u = RandomUniform();
-      v = RandomUniform();
+      u = randomUniform();
+      v = randomUniform();
       if (u <= 0.0 || v <= 0.0) {
           u = 1.0;
           v = 1.0;
@@ -377,23 +373,17 @@ double RandomGaussian(double mean,double stddev)
 /*
    Return random integer within a range, lower -> upper INCLUSIVE
 */
-int RandomInt(int lower, int upper)
-{
-   return((int)(RandomUniform() * (upper - lower + 1)) + lower);
+int randomInt(int lower, int upper) {
+   return((int) (randomUniform() * (upper - lower + 1)) + lower);
 }
 
 /*
    Return random float within a range, lower -> upper
 */
-double RandomDouble(double lower, double upper)
-{
-   return((upper - lower) * RandomUniform() + lower);
+double randomDouble(double lower, double upper) {
+   return((upper - lower) * randomUniform() + lower);
 }
 
-
-int  flip(double pf){
-  if(RandomDouble(0.0,1.0)<=pf)return 1;else return 0;
-}
 }
 
 

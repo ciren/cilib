@@ -26,6 +26,7 @@ package net.sourceforge.cilib.pso.particle;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
@@ -76,7 +77,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 			getStoppingConditionObjects();
 
 		PSO pso = (PSO) Algorithm.get();
-		if (pso.getIterations() < mutationRate*(double)maximum.getMaximumIterations())
+		if (pso.getIterations() < mutationRate * (double) maximum.getMaximumIterations())
 			mutate();
 	}
 
@@ -85,7 +86,8 @@ public class MutatingFunctionParticle extends StandardParticle {
 	 */
 	private void getStoppingConditionObjects() {
 		java.util.Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
-		for (Iterator<StoppingCondition> i = vector.iterator(); i.hasNext(); ) {
+		Iterator<StoppingCondition> i = vector.iterator();
+		while (i.hasNext()) {
 			StoppingCondition condition = i.next();
 			if (condition instanceof MaximumIterations) {
 				maximum = (MaximumIterations) condition;
@@ -113,12 +115,12 @@ public class MutatingFunctionParticle extends StandardParticle {
 
 
 	private double strangeFunction(PSO p, MaximumIterations max) {
-		return Math.pow(1.0 - (double)p.getIterations()/(max.getMaximumIterations()*mutationRate),1.5);
+		return Math.pow(1.0 - (double) p.getIterations() / (max.getMaximumIterations() * mutationRate), 1.5);
 	}
 
 	private double function(double t, double y) {
 		double r = random.nextDouble();
-		double part1 = Math.pow((1.0-t/(double)maximum.getMaximumIterations()), 5.0);
+		double part1 = Math.pow((1.0 - t / (double) maximum.getMaximumIterations()), 5.0);
 		double part2 = Math.pow(r, part1);
 		double part3 = 1.0 - part2;
 		double result = y * part3;
@@ -136,8 +138,8 @@ public class MutatingFunctionParticle extends StandardParticle {
 		Vector position = getPosition();
 		
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
-	        double number = Math.pow((1.0 - (double) p.getIterations()/(maximum.getMaximumIterations()*mutationRate)), 1.5);
-			int dimension = RandomInt(0,position.getDimension());
+	        double number = Math.pow((1.0 - (double) p.getIterations() / (maximum.getMaximumIterations() * mutationRate)), 1.5);
+			int dimension = randomInt(0, position.getDimension());
 			Real real = (Real) position.get(dimension);
 			double range = ((real.getUpperBound() - real.getLowerBound())* strangeFunction(p, maximum))/2.0;
 			
@@ -153,23 +155,23 @@ public class MutatingFunctionParticle extends StandardParticle {
 
 				// Now reinitialise the number randomly between tempUpper and tempLower
 	
-			 if (flip(number) > 0) {
+			 if (MathUtil.flip(number) > 0) {
 				 double result = position.getReal(i) + function(p.getIterations(), tempUpper - position.getReal(i));
 				 position.setReal(i, result);
 				}
 				else {
-					double result = position.getReal(i) - function(p.getIterations(),position.getReal(i) - tempLower);
+					double result = position.getReal(i) - function(p.getIterations(), position.getReal(i) - tempLower);
 					position.setReal(i, result);
 				}
 		}
 		
-		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations())+endingMutationRate ;
+		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations()) + endingMutationRate;
 
 	}
 
 	double [] u = new double[97];
-	double c,cd,cm;
-	int i97,j97;
+	double c, cd, cm;
+	int i97, j97;
 	boolean test = false;
 
 /*
@@ -184,9 +186,9 @@ public class MutatingFunctionParticle extends StandardParticle {
    number generator can create 900 million different subsequences -- with
    each subsequence having a length of approximately 10^30.
 */
-void randomInitialise(int ij,int kl) {
-   double s,t;
-   int ii,i,j,k,l,jj,m;
+void randomInitialise(int ij, int kl) {
+   double s, t;
+   int ii, i, j, k, l, jj, m;
 
    /*
       Handle the seed range errors
@@ -231,13 +233,12 @@ void randomInitialise(int ij,int kl) {
    This is the random number generator proposed by George Marsaglia in
    Florida State University Report: FSU-SCRI-87-50
 */
-double RandomUniform()
-{
+double randomUniform() {
    double uni;
 
    /* Make sure the initialisation routine has been called */
    if (!test)
-      randomInitialise(1802,9373);
+      randomInitialise(1802, 9373);
 
    uni = u[i97-1] - u[j97-1];
    if (uni <= 0.0)
@@ -270,9 +271,8 @@ double RandomUniform()
   The algorithm uses the ratio of uniforms method of A.J. Kinderman
   and J.F. Monahan augmented with quadratic bounding curves.
 */
-double RandomGaussian(double mean,double stddev)
-{
-   double  q,u,v,x,y;
+double randomGaussian(double mean, double stddev) {
+   double q, u, v, x, y;
 
    /*
       Generate P = (u,v) uniform in rect. enclosing acceptance region
@@ -280,8 +280,8 @@ double RandomGaussian(double mean,double stddev)
       gaussian() requires uniforms > 0, but RandomUniform() delivers >= 0.
    */
    do {
-      u = RandomUniform();
-      v = RandomUniform();
+      u = randomUniform();
+      v = randomUniform();
       if (u <= 0.0 || v <= 0.0) {
           u = 1.0;
           v = 1.0;
@@ -307,21 +307,15 @@ double RandomGaussian(double mean,double stddev)
 /*
    Return random integer within a range, lower -> upper INCLUSIVE
 */
-int RandomInt(int lower, int upper)
-{
-   return((int)(RandomUniform() * (upper - lower + 1)) + lower);
+int randomInt(int lower, int upper) {
+   return((int) (randomUniform() * (upper - lower + 1)) + lower);
 }
 
 /*
    Return random float within a range, lower -> upper
 */
-double RandomDouble(double lower, double upper)
-{
-   return((upper - lower) * RandomUniform() + lower);
+double randomDouble(double lower, double upper) {
+   return((upper - lower) * randomUniform() + lower);
 }
 
-
-int  flip(double pf){
-  if(RandomDouble(0.0,1.0)<=pf)return 1;else return 0;
-}
 }

@@ -1,11 +1,9 @@
 /*
  * LinearPositionUpdateStrategy.java
  *
- * Created on Oct 14, 2005
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -50,6 +48,9 @@ public class LinearPositionUpdateStrategy implements PositionUpdateStrategy {
 		return new LinearPositionUpdateStrategy(this);
 	}
         
+	/**
+	 * {@inheritDoc}
+	 */
 	public void updatePosition(Particle particle) {
 		Vector position = (Vector) particle.getPosition();
 		Vector velocity = (Vector) particle.getVelocity();

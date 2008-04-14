@@ -1,11 +1,9 @@
 /*
- * SyncronousIterationStrategy.java
+ * SynchronousIterationStrategy.java
  *
- * Created on Oct 14, 2005
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -39,6 +37,9 @@ public class SynchronousIterationStrategy extends IterationStrategy<PSO> {
 	private static final long serialVersionUID = 6617737228912852220L;
 
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SynchronousIterationStrategy getClone() {
 		return null;
@@ -60,21 +61,20 @@ public class SynchronousIterationStrategy extends IterationStrategy<PSO> {
 	public void performIteration(PSO pso) {
 		Topology<Particle> topology = pso.getTopology();
 
-		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
-			Particle current = i.next();
+		for (Particle current : topology) {
 			current.updateVelocity();
 			current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
 	           
 			boundaryConstraint.enforce(current);
 		}
 
-		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 			Particle current = i.next();
             current.calculateFitness();
             
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
+            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
             	Particle other = j.next();
-            	if (current.getSocialBestFitness().compareTo( other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+            	if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
             		other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
             }

@@ -1,11 +1,9 @@
 /*
  * PSO.java
  *
- * Created on January 18, 2003, 4:08 PM
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso;
 
@@ -76,7 +73,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * <code>null</code> and must be set before {@link #initialise()} is called.
 	 */
 	public PSO() {
-		super();
 		topology = new GBestTopology<Particle>();
 
 		iterationStrategy = new SynchronousIterationStrategy();
@@ -85,6 +81,10 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		initialisationStrategy.setEntityType(new StandardParticle());
 	}
 
+	/**
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public PSO(PSO copy) {
 		super(copy);
 		this.topology = copy.topology.getClone();
@@ -92,6 +92,9 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public PSO getClone() {
 		return new PSO(this);
@@ -174,6 +177,9 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		topology.getBestEntity().calculateFitness();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double accept(TopologyVisitor visitor) {
 		visitor.setCurrentAlgorithm(this);
@@ -182,23 +188,23 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	}
 
 	/**
-	 * Get the next sequential unique particle identifier
-	 * @return The next unique particle identifier
+	 * Get the next sequential unique particle identifier.
+	 * @return The next unique particle identifier.
 	 */
 	public static int getNextParticleId() {
 		return currentParticleId++;
 	}
 
 	/**
-	 * Get the <code>IterationStrategy</code> of the PSO algorithm
-	 * @return Returns the iterationStrategy.
+	 * Get the <code>IterationStrategy</code> of the PSO algorithm.
+	 * @return Returns the iterationStrategy..
 	 */
 	public IterationStrategy<PSO> getIterationStrategy() {
 		return iterationStrategy;
 	}
 
 	/**
-	 * Set the <code>IterationStrategy</code> to be used
+	 * Set the <code>IterationStrategy</code> to be used.
 	 * @param iterationStrategy The iterationStrategy to set.
 	 */
 	public void setIterationStrategy(IterationStrategy<PSO> iterationStrategy) {

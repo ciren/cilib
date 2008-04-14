@@ -1,11 +1,9 @@
 /*
  * LFDecorator.java
  *
- * Created on January 31, 2004, 1:32 PM
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,9 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.particle;
 
 import net.sourceforge.cilib.entity.Particle;
@@ -32,13 +29,13 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * LFDecorator.
  * @author  barlad
  */
 public class LFDecorator extends ParticleDecorator implements Cloneable {
     private static final long serialVersionUID = -7796859060873208936L;
 
-	/** Creates a new instance of LFParticleDecorator */
+	/** Creates a new instance of LFParticleDecorator. */
     public LFDecorator(Particle target) {       
         super(target);  
         
@@ -116,91 +113,91 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
     }
 
     /**
-     * Returns the algorithm parameter variable delta
+     * Returns the algorithm parameter variable delta.
      */
     public double getDelta() {
         return delta;
     }
     
     /**
-     * Sets the algorithm state variable delta
+     * Sets the algorithm state variable delta.
      */
     public void setDelta(double delta) {
         this.delta = delta;
     }
         
     /**
-     * Returns the algorithm parameter variable deltaT
+     * Returns the algorithm parameter variable deltaT.
      */
     public double getDeltaT() {
         return deltaT;
     }
     
     /**
-    * Sets the algorithm parameter variable deltaT
+    * Sets the algorithm parameter variable deltaT.
     */    
     public void setDeltaT(double deltaT) {
         this.deltaT = deltaT;        
     }
     
     /**
-     * Returns the algorithm parameter variable deltaT
+     * Returns the algorithm parameter variable deltaT.
      */
     public double getDefaultDeltaT() {
         return defaultDeltaT;
     }
     
     /**
-    * Sets the algorithm parameter variable deltaT
+    * Sets the algorithm parameter variable deltaT.
     */    
     public void setDefaultDeltaT(double defaultDeltaT) {
         this.defaultDeltaT = defaultDeltaT;        
     }    
     
     /**
-    * Returns the algorithm state variable p
+    * Returns the algorithm state variable p.
     */    
     public double getP() {
         return p;
     }
 
     /**
-    * Sets the algorithm state variable p
+    * Sets the algorithm state variable p.
     */    
     public void setP(double p) {
         this.p = p;
     }
         
     /**
-    * Returns the algorithm parameter variable delta1
+    * Returns the algorithm parameter variable delta1.
     */    
     public double getDelta1() {
         return delta1;
     }
     
     /**
-    * Sets the algorithm parameter variable delta1
+    * Sets the algorithm parameter variable delta1.
     */        
     public void setDelta1(double delta1) {
         this.delta1 = delta1;
     }
     
     /**
-    * Returns the algorithm state variable s
+    * Returns the algorithm state variable s.
     */    
     public int getS() {
         return s;
     }
     
     /**
-    * Sets the algorithm state variable s
+    * Sets the algorithm state variable s.
     */    
     public void setS(int s) {
         this.s = s;
     }
     
     /**
-     * Returns the algorithm state variable m
+     * Returns the algorithm state variable m.
      */
     public int getM() {
         return m;
@@ -211,70 +208,70 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
     }    
         
     /**
-     * Returns the algorithm state variable i
+     * Returns the algorithm state variable i.
      */
     public int getI() {
         return i;
     }
     
     /**
-     * Sets the algorithm state variable i
+     * Sets the algorithm state variable i.
      */    
     public void setI(int i) {
         this.i = i;
     }        
             
     /**
-     * Returns the algorithm state variable j
+     * Returns the algorithm state variable j.
      */
     public int getJ() {
         return j;
     }
 
     /**
-     * Sets the algorithm state variable j
+     * Sets the algorithm state variable j.
      */    
     public void setJ(int j) {
         this.j = j;
     }        
     
     /**
-     * Returns the algorithm parameter variable epsilon
+     * Returns the algorithm parameter variable epsilon.
      */
     public double getEpsilon() {
         return epsilon;
     }
     
     /**
-     * Sets the algorithm parameter variable epsilon
+     * Sets the algorithm parameter variable epsilon.
      */
     public void setEpsilon(double epsilon) {
         this.epsilon = epsilon;
     }    
     
     /**
-     * Returns the position of the particle in the previous step
+     * Returns the position of the particle in the previous step.
      */
     public Vector getPreviousPosition() {
         return previousPosition;
     }
     
     /**
-     * Returns the velocity of the particle in the previous step
+     * Returns the velocity of the particle in the previous step.
      */
     public Vector getPreviousVelocity() {
         return previousVelocity;
     }    
     
     /**
-     * Returns the gradient of the particle
+     * Returns the gradient of the particle.
      */
     public double [] getGradient() {
         return gradient;
     }
     
     /**
-     * Returns the array used to store the future gradient of the particle
+     * Returns the array used to store the future gradient of the particle.
      */    
     public double [] getNextGradient() {
         return nextGradient;

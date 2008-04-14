@@ -1,3 +1,26 @@
+/*
+ * DEPositionUpdateStrategy.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import java.util.ArrayList;
@@ -10,18 +33,17 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/* Implementation of the DE PSO of Hendtlass
+/** Implementation of the DE PSO of Hendtlass.
  * 
  * @author Andries Engelbrecht
  */
-
 /* TO-DO: can the DE strategies be incorporated somehow?
  * 
  */
 public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = -4052606351661988520L;
 	
-	private RandomNumber DEProbability; //Make a parameter to set via xml
+	private RandomNumber differentialEvolutionProbability; //Make a parameter to set via xml
 	private RandomNumber crossoverProbability;
 	private RandomNumber scaleParameter;
 	private RandomNumber rand1;
@@ -30,7 +52,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 	private RandomNumber rand4;
 	
 	public DEPositionUpdateStrategy() {
-       DEProbability = new RandomNumber();
+       differentialEvolutionProbability = new RandomNumber();
        rand1 = new RandomNumber();
        rand2 = new RandomNumber();
        rand3 = new RandomNumber();
@@ -42,7 +64,10 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 	public DEPositionUpdateStrategy(DEPositionUpdateStrategy copy) {
 		this();
 	}
-		
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public DEPositionUpdateStrategy getClone() {
 		return new DEPositionUpdateStrategy(this);
 	}
@@ -51,7 +76,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 		Vector position = (Vector) particle.getPosition();
 		Vector velocity = (Vector) particle.getVelocity();
 			
-		if (rand1.getUniform() < DEProbability.getGaussian(0.8,0.1)) {
+		if (rand1.getUniform() < differentialEvolutionProbability.getGaussian(0.8, 0.1)) {
 			particle.setContents(position.plus(velocity));
 		}
 		else {
@@ -88,14 +113,14 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 			Vector position2 = positions.get(1);
 			Vector position3 = positions.get(2);
 				
-			Vector DEposition = position.getClone();
-			int j = (int)rand3.getUniform(0,position.getDimension());
+			Vector dePosition = position.getClone();
+			int j = Double.valueOf(rand3.getUniform(0, position.getDimension())).intValue();
 			for (int i = 0; i < position.getDimension(); ++i) {
-				if ((rand4.getUniform(0,1) < crossoverProbability.getGaussian(0.5,0.3)) || (j == i)) {
+				if ((rand4.getUniform(0, 1) < crossoverProbability.getGaussian(0.5, 0.3)) || (j == i)) {
 					double value = position1.getReal(i);
-					value += scaleParameter.getGaussian(0.7,0.3) * (position2.getReal(i) - position3.getReal(i));   
+					value += scaleParameter.getGaussian(0.7, 0.3) * (position2.getReal(i) - position3.getReal(i));   
 		    	      
-					DEposition.setReal(i, value);
+					dePosition.setReal(i, value);
 				}
 					//else
 						//DEposition.setReal(i, )add(new Real(position3.getReal(i)));
@@ -103,11 +128,11 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 			
 				
 			//position should only become the offspring if its fitness is better
-			Fitness trialFitness = pso.getOptimisationProblem().getFitness(DEposition, false);
+			Fitness trialFitness = pso.getOptimisationProblem().getFitness(dePosition, false);
 			Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getContents(), false);
 				
 			if (trialFitness.compareTo(currentFitness) > 0) {
-				particle.setContents(DEposition);
+				particle.setContents(dePosition);
 			}			
 		}
 	}

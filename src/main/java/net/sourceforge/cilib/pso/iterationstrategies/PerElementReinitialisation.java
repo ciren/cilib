@@ -1,11 +1,9 @@
 /*
  * PerElementReinitialisation.java
  *
- * Created on June 22, 2007
- *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -30,6 +28,9 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class PerElementReinitialisation extends ReinitialisationBoundary {
 	private static final long serialVersionUID = 7080824227269710787L;
 

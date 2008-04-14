@@ -1,11 +1,9 @@
 /*
  * FitnessDeviationCreationStrategy.java
  *
- * Created on 13 May 2006
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.niching;
 
@@ -50,31 +47,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
-
-
-public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm> implements SwarmCreationStrategy<E>
-{
+/**
+ * 
+ * @author gpampara
+ *
+ * @param <E>
+ */
+public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm> implements SwarmCreationStrategy<E> {
     private Hashtable<String, LinkedList<Double>> mainSwarmParticleFitness;
     private ControlParameter threshold;
     private int fitnessTraceLength;
     private int minimumSubSwarmSize;
 
-    public FitnessDeviationCreationStrategy()
-    {
+    public FitnessDeviationCreationStrategy() {
 	this.mainSwarmParticleFitness = new Hashtable<String, LinkedList<Double>>();
 	this.threshold = new ConstantControlParameter(0.0001);
 	this.fitnessTraceLength = 3;
 	this.minimumSubSwarmSize = 2;
     }
 
-    public void create(NichePSO pso)
-    {
+    public void create(NichePSO pso) {
 
 	// remove all particle fitness storage for particles removed from the
 	// main swarm
 	Enumeration<String> e = this.mainSwarmParticleFitness.keys();
-	while (e.hasMoreElements())
-	{
+	while (e.hasMoreElements()) {
 	    String id = (String) e.nextElement();
 	    Particle p = getParticleWidID(pso.getMainSwarm(), id);
 
@@ -84,26 +81,20 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 
 	// manage the fitness queue representing the last X fitness values for each particle
 	Iterator<Particle> mainSwarmIterator = pso.getMainSwarm().getTopology().iterator();
-	while (mainSwarmIterator.hasNext())
-	{
+	while (mainSwarmIterator.hasNext()) {
 	    Particle mainSwarmParticle = (Particle) mainSwarmIterator.next();
 
-	    if (this.mainSwarmParticleFitness.containsKey(mainSwarmParticle.getId()))
-	    {
+	    if (this.mainSwarmParticleFitness.containsKey(mainSwarmParticle.getId())) {
 		LinkedList<Double> particleFitnessQueue = (LinkedList<Double>) this.mainSwarmParticleFitness.get(mainSwarmParticle.getId());
 
-		if (particleFitnessQueue.size() < fitnessTraceLength)
-		{
+		if (particleFitnessQueue.size() < fitnessTraceLength) 
 		    particleFitnessQueue.add(mainSwarmParticle.getFitness().getValue());
-		}
-		else
-		{
+		else {
 		    particleFitnessQueue.remove();
 		    particleFitnessQueue.add(mainSwarmParticle.getFitness().getValue());
 		}
 	    }
-	    else
-	    {
+	    else {
 		LinkedList<Double> particleFitnessQueue = new LinkedList<Double>();
 		particleFitnessQueue.add(mainSwarmParticle.getFitness().getValue());
 		this.mainSwarmParticleFitness.put(mainSwarmParticle.getId(), particleFitnessQueue);
@@ -111,13 +102,11 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 	}
 
 	Enumeration<String> n = this.mainSwarmParticleFitness.keys();
-	while (n.hasMoreElements())
-	{
+	while (n.hasMoreElements()) {
 	    String id = (String) n.nextElement();
 	    LinkedList<Double> particleFitnessQueue = this.mainSwarmParticleFitness.get(id);
 
-	    if (particleFitnessQueue.size() == fitnessTraceLength)
-	    {
+	    if (particleFitnessQueue.size() == fitnessTraceLength) {
 		// fetch the standard deviation
 		Double total = 0.0d;
 		for (Iterator<Double> i = particleFitnessQueue.iterator(); i.hasNext();)
@@ -137,15 +126,12 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 //		stdDev = StatUtils.stdDeviation(v);
 
 		// if the standard deviation is lower than the threshold, create a subswarm
-		if (stdDev.compareTo(Double.NaN) != 0)
-		{
-		    if (stdDev < this.threshold.getParameter())
-		    {
+		if (stdDev.compareTo(Double.NaN) != 0) {
+		    if (stdDev < this.threshold.getParameter()) {
 
 //			Particle p = (Particle) pso.getMainSwarm().getParticleWithID(id);
 			Particle p = getParticleWidID(pso.getMainSwarm(), id);
-			if (p != null)
-			{
+			if (p != null) {
 
 			    // find the nearest neighbors
 			    DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
@@ -153,15 +139,11 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 
 			    SortedList<Pair<Double, Entity>> sortedDistanceList = new SortedList<Pair<Double, Entity>>(new PairDistanceAndParticleComparator());
 			    
-			    while (mainSwarmIterator.hasNext())
-			    {
+			    while (mainSwarmIterator.hasNext()) {
 				Particle mainSwarmParticle = (Particle) mainSwarmIterator.next();
 
-				if (p.getId().compareToIgnoreCase(mainSwarmParticle.getId()) != 0)
-				{
-
+				if (p.getId().compareToIgnoreCase(mainSwarmParticle.getId()) != 0) {
 				    double distance = distanceMeasure.distance((Vector) p.getPosition(), (Vector) mainSwarmParticle.getPosition());
-
 				    Pair<Double, Entity> distanceAndParticle = new Pair<Double, Entity>(distance, mainSwarmParticle);
 				    sortedDistanceList.add(distanceAndParticle);
 				}
@@ -171,8 +153,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				sortedDistanceList.removeLast();			     
 
 			    // create the subswarm
-			    if (sortedDistanceList.size() > 0)
-			    {
+			    if (sortedDistanceList.size() > 0) {
 //				Pair<Double, Entity> topDistanceAndParticle = sortedDistanceList.getLast();
 //				double SubSwarmRadius = topDistanceAndParticle.getKey(); //(Double) distances.get(newNeighbours.size() - 1);
 				pso.getMainSwarm().getTopology().remove(p);
@@ -199,8 +180,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				
 				p.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy()); //pso.getSubSwarmVelocityUpdateStrategy().clone());
 
-				for (int i = 0; i < sortedDistanceList.size(); i++)
-				{
+				for (int i = 0; i < sortedDistanceList.size(); i++) {
 				    Particle current = (Particle) sortedDistanceList.get(i).getValue();
 				    pso.getMainSwarm().getTopology().remove(current);
 
@@ -217,15 +197,13 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				newSubSwarm.getInitialisationStrategy().setEntityNumber(sortedDistanceList.size() + 1);
 
 				ListIterator<Particle> mi = pso.getMainSwarm().getTopology().listIterator();
-				while (mi.hasNext())
-				{
+				while (mi.hasNext()) {
 				    Particle mainP = (Particle) mi.next();
 				    mainP.setNeighbourhoodBest(mainP);
 				}
 
 				mi = newSubSwarm.getTopology().listIterator();
-				while (mi.hasNext())
-				{
+				while (mi.hasNext()) {
 				    Particle mainP = (Particle) mi.next();
 				    mainP.setNeighbourhoodBest(mainP);
 				}
@@ -246,25 +224,19 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
     	return null;
 	}
 
-	public ControlParameter getThreshold()
-    {
+	public ControlParameter getThreshold() {
 	return threshold;
     }
 
-    public void setThreshold(ControlParameter threshold)
-    {
+    public void setThreshold(ControlParameter threshold) {
 	this.threshold = threshold;
     }
 
-    public void setTraceLength(int length)
-    {
+    public void setTraceLength(int length) {
 	this.fitnessTraceLength = length;
     }
 
-    public void setMinimumSubSwarmSize(int size)
-    {
+    public void setMinimumSubSwarmSize(int size) {
 	this.minimumSubSwarmSize = size;
     }
 }
-
-

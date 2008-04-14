@@ -1,11 +1,9 @@
 /*
- * FindClosestNeighbourParticleVisitor.java
- * 
- * Created on Apr 11, 2004
+ * FindClosetParticleVisitor.java
  *
- * Copyright (C)  2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.pso;
 
@@ -43,9 +40,9 @@ public class FindClosestParticleVisitor extends ParticleVisitor {
         minimum = Double.MAX_VALUE;
         distanceMeasure = new ManhattanDistanceMeasure();
     }
-    
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.PSO.ParticleVisitor#visit(net.sourceforge.cilib.PSO.Particle)
+
+    /**
+     * {@inheritDoc}
      */
     public void visit(Particle particle) {
         if (closest == null && particle.getId() != target.getId()) {

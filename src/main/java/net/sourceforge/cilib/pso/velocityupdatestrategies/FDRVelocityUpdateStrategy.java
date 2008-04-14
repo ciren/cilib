@@ -1,9 +1,9 @@
 /*
  * FDRVelocityUpdateStrategy.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -45,8 +45,6 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 	protected ControlParameter fdrMaximizerAcceleration;
 	
 	public FDRVelocityUpdateStrategy() {
-		super();
-		
 		inertiaWeight = new LinearDecreasingControlParameter();
 		fdrMaximizerAcceleration = new RandomizingControlParameter();
 		
@@ -62,11 +60,17 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
     	this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.getClone();
     	this.vMax = copy.vMax.getClone();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public FDRVelocityUpdateStrategy getClone() {
 		return new FDRVelocityUpdateStrategy(this);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void updateVelocity(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();
 		Vector position = (Vector) particle.getPosition();
@@ -82,14 +86,12 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 			while (swarmIterator.hasNext()) {
 				Particle currentTarget = (Particle) swarmIterator.next();
 				
-				if (currentTarget.getId().equals(particle.getId())) {
-					// do nothing
-				} else {
+				if (!currentTarget.getId().equals(particle.getId())) {
 					Fitness currentTargetFitness = currentTarget.getBestFitness();
 					Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 					
-					double testFDR = (currentTargetFitness.getValue() - particle.getFitness().getValue())
-							/ Math.abs(position.getReal(i) - currentTargetPosition.getReal(i));
+					double fitnessDifference = (currentTargetFitness.getValue() - particle.getFitness().getValue());
+					double testFDR = fitnessDifference / Math.abs(position.getReal(i) - currentTargetPosition.getReal(i));
 					
 					if (testFDR > maxFDR) {
 						maxFDR = testFDR;
@@ -100,16 +102,19 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 			
 			Vector fdrMaximizerPosition = (Vector) fdrMaximizer.getBestPosition();
 			
-			double value = (inertiaWeight.getParameter() * velocity.getReal(i))
-						+ cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i))
-						+ socialAcceleration.getParameter() * (neighbourhoodBestPosition.getReal(i) - position.getReal(i))
-						+ fdrMaximizerAcceleration.getParameter() * (fdrMaximizerPosition.getReal(i) - position.getReal(i));
+			double value = (inertiaWeight.getParameter() * velocity.getReal(i)) +
+						cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) + 
+						socialAcceleration.getParameter() * (neighbourhoodBestPosition.getReal(i) - position.getReal(i)) +
+						fdrMaximizerAcceleration.getParameter() * (fdrMaximizerPosition.getReal(i) - position.getReal(i));
 			
 			velocity.setReal(i, value);
 			clamp(velocity, i);
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void updateControlParameters(Particle particle) {
 		inertiaWeight.updateParameter();
 		cognitiveAcceleration.updateParameter();

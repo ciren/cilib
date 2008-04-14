@@ -1,11 +1,9 @@
 /*
- * ASyncronousIterationStrategy.java
+ * ASynchronousIterationStrategy.java
  *
- * Created on Oct 14, 2005
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -38,6 +36,9 @@ import net.sourceforge.cilib.pso.PSO;
 public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
 	private static final long serialVersionUID = -3511991873784185698L;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ASynchronousIterationStrategy getClone() {
 		return new ASynchronousIterationStrategy();
@@ -56,7 +57,7 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
 	 */
 	public void performIteration(PSO algorithm) {
 		Topology<Particle> topology = algorithm.getTopology();
-		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 			Particle current = i.next();
 			current.updateVelocity();       // TODO: replace with visitor (will simplify particle interface)
 			current.updatePosition();       // TODO: replace with visitor (will simplify particle interface)
@@ -65,9 +66,9 @@ public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
 	           
 			current.calculateFitness();
             
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
+            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();
-                if (current.getSocialBestFitness().compareTo( other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+                if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
                     other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
             }
