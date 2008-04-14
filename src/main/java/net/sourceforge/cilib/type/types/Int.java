@@ -1,11 +1,9 @@
 /*
  * Int.java
- * 
- * Created on Jul 27, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.type.types;
 
@@ -46,34 +43,55 @@ public class Int extends Numeric {
 	private static final long serialVersionUID = 271271478995857543L;
 	private int value;
 	
+	/**
+	 * Create an instance of {@linkplain Int}.
+	 */
 	public Int() {
 		this(Integer.MIN_VALUE, Integer.MAX_VALUE);		
 	}
 
+	/**
+	 * Create an instance of {@linkplain Int} randomly initialised between <code>lower</code>
+	 * and <code>upper</code>.
+	 * @param lower The lower bound.
+	 * @param upper The upper bound.
+	 */
 	public Int(int lower, int upper) {
 		value = Double.valueOf(MathUtil.random()*(upper-lower)).intValue() + lower;
 		setLowerBound(lower);
 		setUpperBound(upper);
 	}
 
+	/**
+	 * Create an {@linkplain Int} with the specified value.
+	 * @param value The value of the {@linkplain Int}. 
+	 */
 	public Int(int value) {
 		this.value = value;
 		setLowerBound(Integer.MIN_VALUE);
 		setUpperBound(Integer.MAX_VALUE);
 	}
 	
-	
+	/**
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy. 
+	 */
 	public Int(Int copy) {
 		this.value = copy.value;
 		this.setLowerBound(copy.getLowerBound());
 		this.setUpperBound(copy.getUpperBound());
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Int getClone() {
 		return new Int(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean equals(Object other) {
 		if (other instanceof Int) {
 			Int i = (Int) other;
@@ -96,66 +114,106 @@ public class Int extends Numeric {
 	}
 	
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void set(String value) {
 		setInt(value);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void set(boolean value) {
 		setBit(value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void set(double value) {
 		setReal(value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void set(int value) {
 		setInt(value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean getBit() {
 		return (this.value == 0) ? false : true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setBit(boolean value) {
-		if (value == false)
-			this.value = 0;
-		else this.value = 1;
+		this.value = (value) ? 1 : 0;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setBit(String value) {
 		setBit(Boolean.parseBoolean(value));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getInt() {
 		return this.value;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setInt(int value) {
 		this.value = value;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setInt(String value) {
 		setInt(Integer.parseInt(value));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getReal() {
 		return Integer.valueOf(value).doubleValue();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setReal(double value) {
 		this.value = Double.valueOf(value).intValue();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setReal(String value) {
 		setReal(Double.parseDouble(value));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int compareTo(Numeric other) {
 		if (this.value == other.getInt())
 			return 0;
@@ -176,17 +234,24 @@ public class Int extends Numeric {
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void randomise() {
 		double tmp = MathUtil.random()*(getUpperBound()-getLowerBound()) + getLowerBound();
 		this.value = Double.valueOf(tmp).intValue();
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void reset() {
 		this.setInt(0);
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		return String.valueOf(this.value);
 	}

@@ -1,3 +1,26 @@
+/*
+ * AbstractTree.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.type.types.container;
 
 import java.util.Iterator;
@@ -10,6 +33,12 @@ import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.type.types.AbstractType;
 import net.sourceforge.cilib.util.Cloneable;
 
+/**
+ * Base class for all {@linkplain Tree} objects. Contains the methods common to
+ * all {@linkplain Tree} objects.
+ * 
+ * @param <E> The {@linkplain Cloneable} type.
+ */
 public abstract class AbstractTree<E extends Cloneable> extends AbstractType implements Tree<E> {
 
 	protected E key;
@@ -157,7 +186,7 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 	
 	/**
 	 * {@linkplain PrePostVisitor} to simply print {@linkplain Tree} instances out
-	 * in a flaw textual representation
+	 * in a flaw textual representation.
 	 * @param <E> The type of the node to be visited.
 	 */
 	@SuppressWarnings("hiding")
@@ -185,7 +214,7 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 	}
 	
 	/**
-	 * Provides a simple Iterator for trees
+	 * Provides a simple Iterator for trees.
 	 */
 	protected class TreeIterator implements Iterator<E> {
 		

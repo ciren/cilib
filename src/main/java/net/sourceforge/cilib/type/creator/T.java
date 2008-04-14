@@ -1,9 +1,7 @@
 /*
  * T.java
  *
- * Created on Nov 1, 2005
- *
- * Copyright (C) 2003 - 2006
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria

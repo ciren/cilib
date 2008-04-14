@@ -1,9 +1,9 @@
 /*
  * Tree.java
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -29,8 +29,8 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- *
- * @param <E>
+ * Definition of the {@linkplain Tree} type.
+ * @param <E> the {@linkplain Cloneable} type.
  */
 public interface Tree<E extends Cloneable> extends Structure<E>, Type {
 	

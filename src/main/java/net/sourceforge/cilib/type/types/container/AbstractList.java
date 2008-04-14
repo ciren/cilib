@@ -29,6 +29,8 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
+ * The basic definition for all {@linkplain Type} objects that are based on a list.
+ * 
  * @author Gary Pampara
  */
 public abstract class AbstractList extends AbstractType implements Structure<Type>, VectorMath {
@@ -120,7 +122,7 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	public abstract void setReal(int index, double value);
 
 	/**
-	 * Create an <code>Object []</code> from this <code>Vector</code>
+	 * Create an <code>Object []</code> from this <code>Vector</code>.
 	 * @return an <code>Object []</code> representing the <code>Vector</code>
 	 */
 	public abstract Object[] toArray();

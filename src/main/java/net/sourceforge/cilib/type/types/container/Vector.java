@@ -240,7 +240,7 @@ public class Vector extends AbstractList {
 	}
 
 	/**
-	 * Remove the <tt>Object</tt> obj from this <tt>Vector</tt>
+	 * Remove the <tt>Object</tt> obj from this <tt>Vector</tt>.
 	 * 
 	 * @param obj element to be removed from this <tt>Vector</tt>, if present.
 	 * @return <tt>true</tt> if the list contained the specified element.
@@ -367,7 +367,7 @@ public class Vector extends AbstractList {
 
 	/**
 	 * Set the element within the <code>MixedVector</code> at index <code>index</code> with
-	 * the object defined by <code>value</code>
+	 * the object defined by <code>value</code>.
 	 * 
 	 * @param index The index within the <code>MixedVector</code>
 	 * @param value The object replacing the original item in the <code>MixedVector</code>
@@ -378,7 +378,7 @@ public class Vector extends AbstractList {
 
 	/**
 	 * Insert a new object within the <code>MixedVector</code> such that the <code>Type</code>
-	 * object will be located between index-1 and index+1
+	 * object will be located between index-1 and index+1.
 	 * 
 	 * @param index The desired index to insert a new <code>Type</code> object.
 	 * @param value The object to be inserted.
@@ -399,7 +399,7 @@ public class Vector extends AbstractList {
 
 	/**
 	 * Get the <code>Numeric</code> component from the <code>MixedVector</code> at index
-	 * <code>index</code>
+	 * <code>index</code>.
 	 * 
 	 * @param index The location of the requested object within the <code>MixedVector</code>
 	 * @return A <code>Numeric</code> representing the object located at index <code>index</code>
@@ -458,7 +458,7 @@ public class Vector extends AbstractList {
 	}
 
 	/**
-	 * Get the real value of the object located at <code>index</code>
+	 * Get the real value of the object located at <code>index</code>.
 	 * 
 	 * @param index The index of the real value to get.
 	 * @return A <code>double</code> value of the object at index <code>index</code>
@@ -468,7 +468,7 @@ public class Vector extends AbstractList {
 	}
 
 	/**
-	 * Set the value of the object located at index <code>index</code> to <code>value</code>
+	 * Set the value of the object located at index <code>index</code> to <code>value</code>.
 	 * 
 	 * @param index The index of the object to be altered.
 	 * @param value The value to be set.
@@ -576,7 +576,7 @@ public class Vector extends AbstractList {
 	}
 
 	/**
-	 * Scalar-vector multiplication
+	 * Scalar-vector multiplication.
 	 * @param scalar the scalar that should be multiplied with each element of this vector
 	 * @return a vector of which the scalar has been multiplied with each element
 	 */
@@ -592,15 +592,15 @@ public class Vector extends AbstractList {
 			throw new UnsupportedOperationException("Cannot multiply vectors with differing dimensions");
 		
 		final Vector result = this.getClone();
-		for(int i = 0; i < result.size(); i++) {
-			Numeric numeric = (Numeric)result.getType(i);
+		for (int i = 0; i < result.size(); i++) {
+			Numeric numeric = (Numeric) result.getType(i);
 			numeric.setReal(numeric.getReal() * vector.getReal(i));
 		}
 		return result;		
 	}
 
 	/**
-	 * Scalar-vector multiplication
+	 * Scalar-vector multiplication.
 	 * @param scalar the scalar that should be multiplied with each element of this vector
 	 * @return a vector of which the scalar has been multiplied with each element
 	 */
