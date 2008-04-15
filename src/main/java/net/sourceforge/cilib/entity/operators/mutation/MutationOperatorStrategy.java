@@ -1,11 +1,9 @@
 /*
  * MutationOperatorStrategy.java
- * 
- * Created on Apr 7, 2006
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
@@ -35,34 +32,34 @@ import net.sourceforge.cilib.type.types.Numeric;
 public interface MutationOperatorStrategy {
 	
 	/**
-	 * Perform the evaluation based on the given parameters
-	 * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}
-	 * @param t2 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}
-	 * @return The result of the evaluation with paramter t1 and t2
+	 * Perform the evaluation based on the given parameters.
+	 * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
+	 * @param t2 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
+	 * @return The result of the evaluation with parameter t1 and t2.
 	 */
 	public double evaluate(Numeric t1, Numeric t2);
 	
 	/**
-	 * Perform the evaluation based on the given parameters
-	 * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}
-	 * @param value The second parameter: double
-	 * @return The result of the evaluation with paramter t1 and t2
+	 * Perform the evaluation based on the given parameters.
+	 * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
+	 * @param value The second parameter: double.
+	 * @return The result of the evaluation with parameter t1 and t2.
 	 */
 	public double evaluate(Numeric t1, double value);
 	
 	/**
-	 * Perform the evaluation based on the given parameters
-	 * @param value The first parameter: double
-	 * @param t1 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}
-	 * @return The result of the evaluation with paramter value and t2
+	 * Perform the evaluation based on the given parameters.
+	 * @param value The first parameter: double.
+	 * @param t1 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
+	 * @return The result of the evaluation with parameter value and t2.
 	 */
 	public double evaluate(double value, Numeric t1);
 	
 	/**
-	 * Perform the evaluation based on the given parameters
-	 * @param t1 The first parameter: double
-	 * @param t2 The second parameter: double
-	 * @return The result of the evaluation with paramter t1 and t2
+	 * Perform the evaluation based on the given parameters.
+	 * @param t1 The first parameter: double.
+	 * @param t2 The second parameter: double.
+	 * @return The result of the evaluation with parameter t1 and t2.
 	 */
 	public double evaluate(double t1, double t2);
 	

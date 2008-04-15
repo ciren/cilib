@@ -1,12 +1,9 @@
 /*
  * GBestTopology.java
  *
- * Created on January 17, 2003, 8:07 PM
- *
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,9 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
-
 package net.sourceforge.cilib.entity.topologies;
 
 import java.util.ArrayList;
@@ -40,7 +35,7 @@ import net.sourceforge.cilib.entity.Topology;
 
 /**
  * <p>
- * Implementation of the gbest neighbourhood topology
+ * Implementation of the gbest neighbourhood topology.
  * </p><p>
  * References:
  * </p><p><ul><li>
@@ -48,6 +43,7 @@ import net.sourceforge.cilib.entity.Topology;
  * chapter 6, pp. 212-226. Academic Press Professional, 1996.
  * </li></ul></p>
  *
+ * @param <E> The {@linkplain Entity} type.
  * @author Edwin Peer
  */
 public class GBestTopology<E extends Entity> extends Topology<E> {
@@ -96,6 +92,12 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
         return entities.size();
     }
 
+    /**
+     * Interface to define the manner in which the iterator is to be constructed for Array types.
+     * @author gpampara
+     *
+     * @param <T> The {@linkplain Entity} type.
+     */
     protected interface ArrayIterator<T extends Entity> extends Iterator<T> {
         public int getIndex();
     }
@@ -172,16 +174,12 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 		this.entities.clear();		
 	}
 
-
-	
-	
-	
-	
-	
 	@Override
-	public boolean contains(Object o) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
+	public boolean contains(Object entity) {
+		return this.entities.contains(entity);
 	}
+	
+	
 
 	@Override
 	public boolean containsAll(Collection<?> c) {

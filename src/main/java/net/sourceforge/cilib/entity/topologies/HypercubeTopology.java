@@ -1,12 +1,9 @@
 /*
  * HypercubeTopology.java
  *
- * Created on January 17, 2003, 8:07 PM
- *
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.entity.topologies;
 
@@ -35,9 +31,9 @@ import net.sourceforge.cilib.entity.Entity;
 /**
  * @author Gareth David
  */
-
 public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 	private static final long serialVersionUID = -8328600903928335004L;
+	private int neighbourhoodSize;
 
 	public HypercubeTopology() {
 		super();
@@ -48,11 +44,17 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 		super(copy);
 		this.neighbourhoodSize = copy.neighbourhoodSize;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public HypercubeTopology<E> getClone() {
 		return new HypercubeTopology<E>(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         return new HypercubeNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
@@ -73,20 +75,13 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
      * @return The size of the neighbourhood.
      */
     public int getNeighbourhoodSize() {
-    	if (super.size() == 0) { // to show a sensible default value in CiClops
-    		return neighbourhoodSize;
-    	}
-        else if (neighbourhoodSize > super.size()) {
-            return super.size();
-        }
-        else {
-            return neighbourhoodSize;
-        }
+   		return neighbourhoodSize;
     }
 
-	private int neighbourhoodSize;
-
 	private class HypercubeNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
+        private HypercubeTopology<T> topology;
+        private int index;
+        private int count;
 
         public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, ArrayIterator<T> iterator) {
             if (iterator.getIndex() == -1) {
@@ -94,9 +89,10 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
             }
             this.topology = topology;
             index = iterator.getIndex();
-            if (index < 0) {
+
+            if (index < 0)
                 index += topology.size();
-            }
+
             count = 0;
         }
 
@@ -112,7 +108,7 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
             if (count >= topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
             }
-			int i = index^((int)Math.pow(2, count));
+			int i = index ^ Double.valueOf(Math.pow(2, count)).intValue();
 			count++;
 
             return topology.entities.get(i);
@@ -120,14 +116,10 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 
         public void remove() {
             topology.entities.remove(index);
-            index = index^((int)Math.pow(2, count));
+            index = index ^ Double.valueOf(Math.pow(2, count)).intValue();
             if (index < 0) {
             	index += topology.size();
             }
         }
-
-        private HypercubeTopology<T> topology;
-        private int index;
-        private int count;
     }
 }

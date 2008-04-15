@@ -1,9 +1,9 @@
 /*
  * TopologyVisitor.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -30,6 +30,11 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
+/**
+ * 
+ * @author gpampara
+ *
+ */
 public abstract class TopologyVisitor extends Visitor<Topology<? extends Entity>> {
 	
 	protected Algorithm currentAlgorithm;

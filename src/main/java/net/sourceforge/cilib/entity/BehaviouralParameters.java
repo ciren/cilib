@@ -1,11 +1,9 @@
 /*
  * BehaviouralParameters.java
- * 
- * Created on Nov 18, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.entity;
 
@@ -36,13 +33,13 @@ import net.sourceforge.cilib.type.types.Type;
 public interface BehaviouralParameters {
 	
 	/**
-	 * Return the <tt>Entity</tt> associated behavioural parameters
+	 * Return the <tt>Entity</tt> associated behavioural parameters.
 	 * @return a <tt>Type</tt> representing the behavioural parameters
 	 */
 	public Type getBehaviouralParameters();
 	
 	/**
-	 * Set the behavioural parameters for the <tt>Entity</tt>
+	 * Set the behavioural parameters for the <tt>Entity</tt>.
 	 * @param behaviouralParameters The behavioural parameters to set
 	 */
 	public void setBehaviouralParameters(Type behaviouralParameters);

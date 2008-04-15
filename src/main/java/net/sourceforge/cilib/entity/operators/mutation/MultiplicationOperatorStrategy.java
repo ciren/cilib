@@ -1,11 +1,9 @@
 /*
- * MultiplicationMutationOperatorStrategy.java
- * 
- * Created on Apr 7, 2006
+ * MultiplicationOperatorStrategy.java
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
@@ -35,18 +32,30 @@ import net.sourceforge.cilib.type.types.Numeric;
  */
 public class MultiplicationOperatorStrategy implements MutationOperatorStrategy {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public double evaluate(Numeric t1, Numeric t2) {
 		return t1.getReal() * t2.getReal();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public double evaluate(Numeric t1, double value) {
 		return t1.getReal() * value;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public double evaluate(double value, Numeric t1) {
 		return value * t1.getReal();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public double evaluate(double t1, double t2) {
 		return t1 * t2;
 	}

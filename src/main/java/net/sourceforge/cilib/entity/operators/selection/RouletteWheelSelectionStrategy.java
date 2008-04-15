@@ -78,9 +78,8 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 		double valueToPick = random.nextDouble();
 
 		// If the fitness' have not been calculated return a random entity. This should NEVER happen.
-		if (totalFitness == InferiorFitness.instance().getValue()) {
-			return population.get(random.nextInt(population.size()));
-		}
+		if (Double.compare(totalFitness, InferiorFitness.instance().getValue()) == 0)
+			throw new UnsupportedOperationException("Cannot perform selection operator on Topology of Entity. Each Entity is incorrectly defined to have an InferiorFitness. Initial Fitness' need to be determined before selection");
 		
 		// If the fitness of all the Entities is zero, we randomly select one. This prevents the case
 		// where it is possible to divide by zero resulting in an ArithmeticException.
