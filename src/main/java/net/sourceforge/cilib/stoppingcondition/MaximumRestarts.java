@@ -36,7 +36,7 @@ public class MaximumRestarts implements StoppingCondition {
 	private int maximumRestarts;
 	private MultistartOptimisationAlgorithm algorithm;
 
-	/** Creates a new instance of MaximumRestarts */
+	/** Creates a new instance of MaximumRestarts. */
 	public MaximumRestarts() {
 		maximumRestarts = 10;
 	}
