@@ -1,11 +1,9 @@
 /*
  * MathUtil.java
- * 
- * Created on Aug 5, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.math;
 
@@ -49,9 +46,9 @@ public final class MathUtil {
 	
 		
 	/**
-	 * Generate the required factorial of the number <code>x</code>
-	 * @param x The number to generate the factorial from
-	 * @return The factorial of <code>x</code>
+	 * Generate the required factorial of the number <code>x</code>.
+	 * @param x The number to generate the factorial from.
+	 * @return The factorial of <code>x</code>.
 	 */
 	public static double factorial(double x) {
 		if (x < 0)
@@ -67,7 +64,7 @@ public final class MathUtil {
 	
 	
 	/**
-	 * Return the combination of <code>n</code> and <code>r</code>
+	 * Return the combination of <code>n</code> and <code>r</code>.
 	 * @param n The ??? 
 	 * @param r >???
 	 * @return The combination of <code>n</code> and <code>r</code>
@@ -76,12 +73,12 @@ public final class MathUtil {
 		if (n < r)
 			throw new IllegalArgumentException("In a combination the following must hold: n >= x");
 		
-		return permutation(n,r) / factorial(r);
+		return permutation(n, r) / factorial(r);
 	}
 	
 	
 	/**
-	 * This is a convienience method providing an alias to <code>combination</code>
+	 * This is a convienience method providing an alias to <code>combination</code>.
 	 * @param n
 	 * @param r
 	 * @return The value of the operation "<code>n</code> choose <code>x</code>"
@@ -122,7 +119,7 @@ public final class MathUtil {
 	 * @return
 	 */
 	public static double sigmoid(double v) {
-		return ( 1/(1+Math.pow(Math.E, -1.0*v)) ); 
+		return (1/(1+Math.pow(Math.E, -1.0*v))); 
 	}
 	
 	
@@ -134,8 +131,18 @@ public final class MathUtil {
 	public static int flip(double prob) {
 		if (randomiser.nextDouble() <= prob)
 			return 1;
-		else 
-			return 0;
-	}	
+
+		return 0;
+	}
+	
+	/**
+	 * Determine the log of the specified <code>value</code> with the provided <code>base</code>.
+	 * @param base The base of the log operation.
+	 * @param value The value to determine the log of.
+	 * @return The log value of <code>value</code> using the base value of <code>base</code>.
+	 */
+	public static double log(double base, double value) {
+		return Math.log(value) / Math.log(base);
+	}
 
 }

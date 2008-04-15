@@ -74,7 +74,7 @@ public final class Seeder {
             address = InetAddress.getLocalHost().getAddress();
         }
         catch (UnknownHostException ex) {
-        	            
+        	ex.printStackTrace();
         }
         
         try {
@@ -90,7 +90,7 @@ public final class Seeder {
             }
         }
         catch (SocketException ex) {
-            
+            ex.printStackTrace();
         }
         
         if (address == null) {
