@@ -1,11 +1,9 @@
 /*
  * IterationStrategy.java
  *
- * Created on Oct 14, 2005
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -40,6 +38,8 @@ import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
  * pipeline is constructed and made available, this can (as with everything within CILib) be overridden.  
  * 
  * @author Gary Pampara
+ * 
+ * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
 public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> implements Serializable {
 	
@@ -94,7 +94,7 @@ public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> impl
 	}
 
 	/**
-	 * Set the pipeline to be used within the current <tt>IterationStrategy</tt>
+	 * Set the pipeline to be used within the current <tt>IterationStrategy</tt>.
 	 * @param operatorPipeline The pipeline to be used.
 	 */
 	public void setOperatorPipeline(List<Operator> operatorPipeline) {
