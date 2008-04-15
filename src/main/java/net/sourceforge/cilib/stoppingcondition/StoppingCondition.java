@@ -1,11 +1,9 @@
 /*
  * StoppingCondition.java
  *
- * Created on January 17, 2003, 5:06 PM
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.stoppingcondition;
 
@@ -44,7 +42,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Edwin Peer
  */
 public interface StoppingCondition extends Serializable, Cloneable {
-	public static byte _ciclops_exclude_algorithm = 1;
+	public static byte CICLOPS_EXCLUDE_ALGORITHM = 1;
 
 	/**
 	 * Determines the percentage complete for the associated algorithm.
