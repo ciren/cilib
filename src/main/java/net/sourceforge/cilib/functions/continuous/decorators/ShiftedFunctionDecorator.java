@@ -27,7 +27,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Olusegun Olorunda
+ * ShiftedFunctionDecorator.
  * 
  * Characteristics:
  * 
@@ -43,6 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *             (c > 0) means that g(x) is f(x) shifted c units upwards
  *             (c < 0) means that g(x) is f(x) shifted c units downwards
  *
+ * @author Olusegun Olorunda
  */
 public class ShiftedFunctionDecorator extends ContinuousFunction {
 	private static final long serialVersionUID = 8687711759870298103L;
@@ -100,7 +101,7 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
 	}
 
 	/**
-	 * Get the horizontal shift (X-axis) associated with this function
+	 * Get the horizontal shift (X-axis) associated with this function.
 	 * @return The horizontal shift in the X-axis
 	 */
 	public double getHorizontalShift() {
@@ -116,7 +117,7 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
 	}
 
 	/**
-	 * Get the vertical shift (Y-axis) associated with this function
+	 * Get the vertical shift (Y-axis) associated with this function.
 	 * @return The vertical shift in the Y-axis
 	 */
 	public double getVerticalShift() {

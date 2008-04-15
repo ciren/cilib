@@ -72,8 +72,7 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
 	public double evaluate(Vector x) {
 		RandomNumber rotateOrNot = new RandomNumber();
 		
-		if(rotationMatrix == null
-				|| rotateOrNot.getUniform() < rotationProbability.getParameter())
+		if(rotationMatrix == null || rotateOrNot.getUniform() < rotationProbability.getParameter())
 			setRotationMatrix();
 		
 		Vector rotatedX = x.getClone();

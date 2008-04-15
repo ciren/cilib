@@ -36,8 +36,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Queens extends DiscreteFunction {
 	
 	private static final long serialVersionUID = 8900436160526532438L;
-	private final double [] x_moves = {1, 1,  1,  0, -1, -1, -1, 0};
-	private final double [] y_moves = {1, 0, -1, -1, -1,  0,  1, 1};
+	private final double [] xMoves = {1, 1,  1,  0, -1, -1, -1, 0};
+	private final double [] yMoves = {1, 0, -1, -1, -1,  0,  1, 1};
 	private int boardSize;	
 	
 	public Queens() {
@@ -60,7 +60,7 @@ public class Queens extends DiscreteFunction {
 	@Override
 	public double evaluate(Vector x) {
 		double fitness = 0;
-		double board [][] = new double[boardSize][boardSize];
+		double [][] board = new double[boardSize][boardSize];
 		
 		initialiseBoard(board, x);
 		
@@ -71,7 +71,7 @@ public class Queens extends DiscreteFunction {
 				if (!isQueen)
 					continue;
 				else {
-					for (int move = 0; move < x_moves.length; move++)
+					for (int move = 0; move < xMoves.length; move++)
 						fitness += determineConflicts(move, row, col, board);
 				}
 			}
@@ -95,8 +95,8 @@ public class Queens extends DiscreteFunction {
 		int newCol = col;
 		
 		while ((newRow >= 0 && newRow < boardSize) || (newCol >= 0 && newCol < boardSize)) {
-			newRow += x_moves[move];
-			newCol += y_moves[move];
+			newRow += xMoves[move];
+			newCol += yMoves[move];
 			
 			if (board[newRow][newCol] == 1.0)
 				conflicts++;

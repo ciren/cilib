@@ -1,9 +1,7 @@
 /*
  * DunnIndex33.java
  *
- * Created on July 18, 2007
- *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -27,13 +25,14 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This is the Dunn Index 33 due to Equations 22 and 28 in<br/>
+ * This is the Dunn Index 33.
+ * 
+ * Due to Equations 22 and 28 in<br/>
  * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C. Bezdek and
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =

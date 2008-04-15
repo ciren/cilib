@@ -27,7 +27,6 @@
 package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainParser;
@@ -81,7 +80,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
         //n - covered n times.
         for(int r =  0; r < 8; r++) {
             for(int k =  0; k < 8; k++) {
-                if( ((Vector)solution).getBit(8*r+k))
+                if (((Vector) solution).getBit(8*r+k))
                     board[r][k] = 'k';
                 else
                     board[r][k] = '0';
@@ -156,28 +155,28 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
             for(int k =  0; k < 8; k++) {
                 if(board[r][k] == 'k') {   //IDENTIFY KNGIHT POSITIONS
                     //A : Left up
-                    if( (r-2 >= 0) && (k-1>= 0) && (board[r-2][k-1] != 'k'))
+                    if ((r-2 >= 0) && (k-1>= 0) && (board[r-2][k-1] != 'k'))
                         board[r-2][k-1]++;          
                     //B
-                    if( (r-2 >= 0) && (k+1 <= (7)) && (board[r-2][k+1] != 'k'))
+                    if ((r-2 >= 0) && (k+1 <= (7)) && (board[r-2][k+1] != 'k'))
                         board[r-2][k+1]++;          
                     //C
-                    if( (r-1 >= 0) && (k+2 <= (7)) && (board[r-1][k+2] != 'k'))
+                    if ((r-1 >= 0) && (k+2 <= (7)) && (board[r-1][k+2] != 'k'))
                         board[r-1][k+2]++;          
                     //D
-                    if( (r+1 <= (7)) && (k+2 <= (7)) && (board[r+1][k+2] != 'k'))
+                    if ((r+1 <= (7)) && (k+2 <= (7)) && (board[r+1][k+2] != 'k'))
                         board[r+1][k+2]++;          
                     //E
-                    if( (r+2 <= (7)) && (k+1 <= (7)) && (board[r+2][k+1] != 'k'))
+                    if ((r+2 <= (7)) && (k+1 <= (7)) && (board[r+2][k+1] != 'k'))
                         board[r+2][k+1]++;          
                     //F
-                    if( (r+2 <= (7)) && (k-1 >= 0) && (board[r+2][k-1] != 'k'))
+                    if ((r+2 <= (7)) && (k-1 >= 0) && (board[r+2][k-1] != 'k'))
                         board[r+2][k-1]++;          
                     //G
-                    if( (r+1 <= (7)) && (k-2 >= 0) && (board[r+1][k-2] != 'k'))
+                    if ((r+1 <= (7)) && (k-2 >= 0) && (board[r+1][k-2] != 'k'))
                         board[r+1][k-2]++;          
                     //H
-                    if( (r-1 >= 0) && (k-2 >= 0) && (board[r-1][k-2] != 'k'))
+                    if ((r-1 >= 0) && (k-2 >= 0) && (board[r-1][k-2] != 'k'))
                         board[r-1][k-2]++;
                 }
             }

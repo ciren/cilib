@@ -27,7 +27,8 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * Generalised Rosenbrock function.
+ * 
  * Characteristics:
  * <ul>
  * <li>Unimodal</li>

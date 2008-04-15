@@ -1,11 +1,9 @@
 /*
  * DaviesBouldinIndex.java
- * 
- * Created on July 18, 2007
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -27,12 +25,13 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This is the Davies-Bouldin Validity Index as given in
+ * This is the Davies-Bouldin Validity Index.
+ * 
+ * Index is given in
  * @Article{ daviesbouldin1979vi, title = "A Cluster Seperation Measure", author = "David L. Davies
  *           and Donald W. Bouldin", journal = "IEEE Transactions on Pattern Analysis and Machine
  *           Intelligence", volume = "1", number = "2", year = "1979", pages = "224--227", month =

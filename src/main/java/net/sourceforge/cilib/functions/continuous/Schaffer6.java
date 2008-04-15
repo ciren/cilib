@@ -30,7 +30,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The Schaffer F6 function
+ * The Schaffer F6 function.
  * 
  * Minimum: f(x,y) = 0; (x,y) = (0,0);
  * 
@@ -74,16 +74,16 @@ public class Schaffer6 extends ContinuousFunction {
 
 	
 	/**
-	 * Evaluate the funcntion and return the evaluation
+	 * Evaluate the function and return the evaluation.
 	 * 
 	 * @param x The input vector to the function
 	 * @return A double value representing the function evaluation
 	 */
-	public double evaluate(Vector x) {
-		double X = x.getReal(0);
-		double Y = x.getReal(1);
+	public double evaluate(Vector input) {
+		double x = input.getReal(0);
+		double y = input.getReal(1);
 		
-		double squared = X*X + Y*Y;
+		double squared = x*x + y*y;
 		double squareRooted = Math.sqrt(squared);
 		
 		double numerator = (Math.sin(squareRooted) * Math.sin(squareRooted)) - 0.5;

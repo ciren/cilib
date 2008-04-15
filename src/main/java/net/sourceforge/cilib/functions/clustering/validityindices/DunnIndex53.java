@@ -1,11 +1,9 @@
 /*
  * DunnIndex53.java
- * 
- * Created on July 18, 2007
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -31,6 +29,8 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * DunnIndex53.
+ * 
  * This is the Dunn Index 53 due to Equations 24 and 28 in<br/>
  * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C. Bezdek and
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:

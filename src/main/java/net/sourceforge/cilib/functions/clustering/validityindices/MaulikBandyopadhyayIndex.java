@@ -1,11 +1,9 @@
 /*
  * MaulikBandyopadhyayIndex.java
- * 
- * Created on July 18, 2007
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -30,6 +28,8 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * MaulikBandyopadhyayIndex.
+ * 
  * This is the I(K) Validity Index as given in Equation 13 in Section IV on page 124 of:<br/>
  * @Article{ 923275, title = "Nonparametric Genetic Clustering: Comparison of Validity Indices",
  *           author = "Ujjwal Maulik and Sanghamitra Bandyopadhyay", journal = "IEEE Transactions on

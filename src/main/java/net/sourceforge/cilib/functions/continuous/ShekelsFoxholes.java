@@ -31,6 +31,8 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * ShekelsFoxholes function.
+ * 
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
@@ -42,15 +44,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ShekelsFoxholes extends ContinuousFunction {
 	private static final long serialVersionUID = 1986501892056164693L;
 	
-	private double[][] A = new double[2][25];
+	private double [][] a = new double[2][25];
 
     public ShekelsFoxholes() {
         int index = 0;
         for (int j=-32; j<=32; j+=16) {
             for (int i=-32; i<=32; i+=16) {
-                A[0][index] = i;
-                A[1][index] = j;
-                index ++;
+                a[0][index] = i;
+                a[1][index] = j;
+                index++;
             }
         }
 
@@ -74,7 +76,7 @@ public class ShekelsFoxholes extends ContinuousFunction {
         for (int i=1; i<=25; i++) {
             double resultJ = 0.0;
             for (int j=0; j<2; j++) {
-                resultJ += Math.pow(x.getReal(j) - A[j][i-1], 6);
+                resultJ += Math.pow(x.getReal(j) - a[j][i-1], 6);
             }
             resultJ = i + resultJ;
             resultI += 1/resultJ;

@@ -52,8 +52,8 @@ public class KnightsTour extends DiscreteFunction {
 	private int startX;
 	private int startY;
 
-	private static final int movementX [] = {  1,  2, 2, 1, -1, -2, -2, -1 };
-	private static final int movementY [] = { -2, -1, 1, 2,  2,  1, -1, -2 };
+	private static final int [] MOVEMENT_X = {1,  2, 2, 1, -1, -2, -2, -1};
+	private static final int [] MOVEMENT_Y = {-2, -1, 1, 2,  2,  1, -1, -2};
 	
 	
 	/**
@@ -104,7 +104,7 @@ public class KnightsTour extends DiscreteFunction {
 		int row = startX;
 		int col = startY;
 		
-		boolean visited [][] = new boolean[boardSize][boardSize];
+		boolean [][] visited = new boolean[boardSize][boardSize];
 		
 		for (int i = 0; i < boardSize; i++) {
 			for (int j = 0; j < boardSize; j++) {
@@ -119,20 +119,20 @@ public class KnightsTour extends DiscreteFunction {
 				if (!visited[row][col]) {
 					fitness++;
 					move++;
-					if (move == ((Double)getMaximum()).doubleValue()-1) break;
+					if (move == ((Double) getMaximum()).doubleValue()-1) break;
 					
 					visited[row][col] = true;
 				}
 				
-				row += movementX[moveNum];
-				col += movementY[moveNum];
+				row += MOVEMENT_X[moveNum];
+				col += MOVEMENT_Y[moveNum];
 				
 				if (0 <= row && row < boardSize && 0 <= col && col < boardSize && !visited[row][col]) {
 					// Nothing to do :)
 				}
 				else {
-					row -= movementX[moveNum];
-					col -= movementY[moveNum];
+					row -= MOVEMENT_X[moveNum];
+					col -= MOVEMENT_Y[moveNum];
 					
 					int test = 0;
 					
@@ -141,8 +141,8 @@ public class KnightsTour extends DiscreteFunction {
 							// Nothing to do :)
 						}
 						else {
-							int newX = row + movementX[k];
-							int newY = col + movementY[k];
+							int newX = row + MOVEMENT_X[k];
+							int newY = col + MOVEMENT_Y[k];
 							
 							if (0 <= newX && newX < boardSize && 0 <= newY && newY < boardSize && !visited[newX][newY]) {
 								row = newX;
