@@ -1,9 +1,7 @@
 /*
  * GapFogel.java
  *
- * Created on Apr 2, 2007
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
@@ -40,19 +37,16 @@ public class GapFogel implements GapPenaltiesMethod {
 	private boolean verbose = false;   // default, can be set via XML
 	private boolean linearScale = true;  // default, can be set via XML. If false, it justs counts the gaps.
 	
-	public void setLinearScale(boolean linearScale) 
-	{
+	public void setLinearScale(boolean linearScale) {
 		this.linearScale = linearScale;
 	}
 	
-	public void setVerbose(boolean verbose)
-	{
+	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
 	}
 		
-	public double getPenalty(ArrayList<String> _alignment) 
-	{
-		this.alignment = _alignment; 
+	public double getPenalty(ArrayList<String> alignmentList) { 
+		this.alignment = alignmentList; 
 																								//setFinalAlignment(alignment);
 		//	Now modify the fitness based on the formula to penalize gaps and gap groups
 		double penalty = 0.0;
@@ -61,8 +55,7 @@ public class GapFogel implements GapPenaltiesMethod {
 		int counter = 0;
 				
 		//Iterate through the columns
-		for (int i = 0; i < seqLength1; i++)
-		{ 
+		for (int i = 0; i < seqLength1; i++) { 
 			//go through all the seqs
 			for (String currentString : alignment) {
 				if (currentString.charAt(i) != '-') counter++;  // counts the number of symbols (all non-gap characters in that column)	
@@ -75,11 +68,9 @@ public class GapFogel implements GapPenaltiesMethod {
 		}
 		
 		//	prints the current alignment if verbose on
-		if (verbose)
-		{
+		if (verbose) {
 			System.out.println("Penalty: "+penalty);
-			for (String s : alignment) 
-			{
+			for (String s : alignment) {
 				System.out.println("'" + s + "'");
 			}
 		}

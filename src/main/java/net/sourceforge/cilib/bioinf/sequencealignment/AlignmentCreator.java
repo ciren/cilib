@@ -1,9 +1,7 @@
 /*
  * AlignmentCreator.java
  *
- * Created on Sep 21, 2005
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
@@ -43,8 +40,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Fabien Zablocki
  * @author gpampara
  */
-public class AlignmentCreator 
-{
+public class AlignmentCreator {
 	private ScoringMethod theMethod;  //interface for the scoring function (BLOSUM, PAM , SumOfPairs, BestMatch)
 	private ArrayList<String> align;
 	private boolean justEvaluate;
@@ -52,20 +48,18 @@ public class AlignmentCreator
 	private static final double LOWER_BOUND = 0.0;
 	//private String boundsStrategy;
 	
-	public double getFitness(Collection<String> alignment, Vector solution, int gapsArray []) 
-	{
+	public double getFitness(Collection<String> alignment, Vector solution, int [] gapsArray) {
 		/*  strategies for boundary enforcement */ 
 		
 		//RandomNumber ran = new RandomNumber();
 		//if(boundsStrategy.matches(""))
 		
-		for (Type element : solution)
-		{
+		for (Type element : solution) {
 			//if (((Real)element).getReal() < 0.0 )((Real)element).setReal( (11/2) * ran.getUniform());
 //			1)every positions < 0 is reset to 0
-			if (((Real)element).getReal() < LOWER_BOUND)((Real)element).setReal(LOWER_BOUND);
+			if (((Real) element).getReal() < LOWER_BOUND)((Real) element).setReal(LOWER_BOUND);
 	//	{/*if (((Int)element).getInt() < 0 )((Int)element).setInt((int)Math.round(((Int)element).getUpperBound() *ran.getUniform()) );
-			if (((Real)element).getReal() >  UPPER_BOUND) ((Real)element).setReal(UPPER_BOUND);
+			if (((Real) element).getReal() >  UPPER_BOUND) ((Real) element).setReal(UPPER_BOUND);
 		}
 		
 		Vector tmpSolution = solution.getClone();  // clone the position vector from particles 
@@ -73,14 +67,12 @@ public class AlignmentCreator
 		// Clone the ArrayList in tmp by doing a deep copy
 		ArrayList<String> tmp = new ArrayList<String>();
 		
-		for (Iterator<String> l = alignment.iterator(); l.hasNext(); )
-		{
+		for (Iterator<String> l = alignment.iterator(); l.hasNext();) {
 			String s = new String(l.next()); 
 			tmp.add(s);
 		}
 		
-		if (!justEvaluate)
-		{
+		if (!justEvaluate) {
 			// Now calculate the change in representation
 			int counter = 0;  //keep track of the ith sequence 
 			int start = 0; // stores index of positions in vector
@@ -97,18 +89,16 @@ public class AlignmentCreator
 				// *** GAP Positions ***
 				//go through #gaps allowed
 				for (int i = 0; i < gapsArray[counter]; i++)  
-					dummyArray [i] = (int)Math.round(tmpSolution.getReal(i+start));  //works if tmpSolution holds either real or int
+					dummyArray[i] = (int) Math.round(tmpSolution.getReal(i+start));  //works if tmpSolution holds either real or int
 				
 				/*Sort the positions in the vector so we can add gaps always from the root (original input sequence) and
 				 by just incrementing position by 1 every loop execution.*/
-				Arrays.sort( dummyArray );
+				Arrays.sort(dummyArray);
 	
-				for (int u = 0; u < gapsArray[counter]; u++)  
-				{
+				for (int u = 0; u < gapsArray[counter]; u++) {
 					int position = dummyArray[u];  //gets the particule positions
 				
-					if (position > -1)  
-					{
+					if (position > -1) {
 						position+=change; //advance 
 						
 						if (position >= newRepresentation.length())
@@ -137,28 +127,23 @@ public class AlignmentCreator
 		return theMethod.getScore(tmp);
 	}
 	
-	public void setScoringMethod(ScoringMethod theMethod) 
-	{
+	public void setScoringMethod(ScoringMethod theMethod) {
 		this.theMethod = theMethod;
 	}
 	
-	public ScoringMethod getTheMethod()
-	{
+	public ScoringMethod getTheMethod() {
 		return theMethod;
 	}
 	
-	public ArrayList<String> getAlignment()
-	{
+	public ArrayList<String> getAlignment() {
 		return align;
 	}
 	
-	public void setAlignment(ArrayList<String> align)
-	{
+	public void setAlignment(ArrayList<String> align) {
 		this.align = align;
 	}
 	
-	public void setJustEvaluate(boolean justEvaluate)
-	{
+	public void setJustEvaluate(boolean justEvaluate) {
 		this.justEvaluate = justEvaluate;
 	}
 }

@@ -1,9 +1,7 @@
 /*
  * BinaryAlignmentCreator.java
  *
- * Created on Mar 2, 2007
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
@@ -41,39 +38,33 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Fabien Zablocki
  */
 
-public class BinaryAlignmentCreator 
-{
+public class BinaryAlignmentCreator {
 	private ScoringMethod theMethod;  //interface for the scoring function (BLOSUM, PAM , SumOfPairs, BestMatch)
 	private ArrayList<String> align;
 	private boolean justEvaluate;
 	
-	public double getFitness(Collection<String> alignment, Vector solution, int gapsArray []) 
-	{
+	public double getFitness(Collection<String> alignment, Vector solution, int [] gapsArray) {
 		//take 4 bits at a time and convert back to int
 		java.util.Vector <Integer> tmpSolution = new java.util.Vector<Integer>();
 		
 		String buff = "";
-		for (int k = 0; k < solution.size(); k+=4)  //experimental on 4 bits, must change to x bits to accomodata larger alignment
-		{
-			for (int l = 0; l < 4; l++)
-			{
+		for (int k = 0; k < solution.size(); k+=4) { //experimental on 4 bits, must change to x bits to accomodata larger alignment
+			for (int l = 0; l < 4; l++) {
 				buff += ""+solution.get(k+l);
 			}
-			tmpSolution.add(new Integer( ((int)buff.charAt(0)-48) *8 + ((int)buff.charAt(1)-48) *4 + ((char)buff.charAt(2)-48)*2 + ((char)buff.charAt(3)-48)*1));
+			tmpSolution.add(new Integer(((int) buff.charAt(0)-48) *8 + ((int) buff.charAt(1)-48) *4 + ((char) buff.charAt(2)-48)*2 + ((char) buff.charAt(3)-48)*1));
 			buff = "";
 		} 
 
 		// Clone the ArrayList in tmp by doing a deep copy
 		ArrayList<String> tmp = new ArrayList<String>();
 		
-		for (Iterator<String> l = alignment.iterator(); l.hasNext(); )
-		{
+		for (Iterator<String> l = alignment.iterator(); l.hasNext();) {
 			String s = new String(l.next()); 
 			tmp.add(s);
 		}
 		
-		if (!justEvaluate)
-		{
+		if (!justEvaluate) {
 			// Now calculate the change in representation
 			int counter = 0;  //keep track of the ith sequence 
 			int start = 0; // stores index of positions in vector
@@ -90,26 +81,22 @@ public class BinaryAlignmentCreator
 				// *** GAP Positions ***
 				// Then go through #gaps allowed
 				for (int i = 0; i < gapsArray[counter]; i++)  
-					dummyArray [i] = (int)Math.round(tmpSolution.elementAt(i+start));
+					dummyArray [i] = (int) Math.round(tmpSolution.elementAt(i+start));
 				
 				/*Sort the positions in the vector so we can add gaps always from the root (original input sequence) and
 				 by just incrementing position by 1 every loop execution.*/
-				Arrays.sort( dummyArray );
+				Arrays.sort(dummyArray);
 	
-				for (int u = 0; u < gapsArray[counter]; u++)  
-				{
+				for (int u = 0; u < gapsArray[counter]; u++) {
 					int position = dummyArray[u];  //gets the particule positions
 				
-					if (position > -1)  
-					{
+					if (position > -1) {
 						position+=change; //advance 
 						
-						if (position >= newRepresentation.length())
-						{
+						if (position >= newRepresentation.length()) {
 							newRepresentation.append('-');  //then append a gap at end of seq (perfect for variable seq length)
 						}
-						else  //marker is in original length range
-						{
+						else { //marker is in original length range
 							newRepresentation.insert(position, '-');  //insert gap at that position
 						}
 				
@@ -134,28 +121,23 @@ public class BinaryAlignmentCreator
 		return theMethod.getScore(tmp);
 	}
 	
-	public void setScoringMethod(ScoringMethod theMethod) 
-	{
+	public void setScoringMethod(ScoringMethod theMethod) {
 		this.theMethod = theMethod;
 	}
 	
-	public ScoringMethod getTheMethod()
-	{
+	public ScoringMethod getTheMethod() {
 		return theMethod;
 	}
 	
-	public ArrayList<String> getAlignment()
-	{
+	public ArrayList<String> getAlignment() {
 		return align;
 	}
 	
-	public void setAlignment(ArrayList<String> align)
-	{
+	public void setAlignment(ArrayList<String> align) {
 		this.align = align;
 	}
 	
-	public void setJustEvaluate(boolean justEvaluate)
-	{
+	public void setJustEvaluate(boolean justEvaluate) {
 		this.justEvaluate = justEvaluate;
 	}
 }

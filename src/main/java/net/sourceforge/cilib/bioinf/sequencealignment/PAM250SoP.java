@@ -1,9 +1,7 @@
 /*
  * PAM250SoP.java
  *
- * Created on Mar 16, 2006
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria

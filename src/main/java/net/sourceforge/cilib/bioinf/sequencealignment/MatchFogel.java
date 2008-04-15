@@ -1,9 +1,7 @@
 /*
- * TotalMatches.java
+ * MatchFogel.java
  *
- * Created on Apr 2, 2007
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
@@ -38,30 +35,24 @@ import java.util.StringTokenizer;
  * 
  * @author Fabien Zablocki 
  */
-public class MatchFogel implements ScoringMethod 
-{
+public class MatchFogel implements ScoringMethod {
 	private boolean verbose = false;  //default, can be set via XML
 	private boolean linearScale = true;  // default, can be set via XML
 
-	public void setVerbose(boolean verbose) 
-	{
+	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
 	}
 	
-	public void setLinearScale(boolean linearScale)
-	{
+	public void setLinearScale(boolean linearScale) {
 		this.linearScale = linearScale;
 	}
 			
-	public double getScore(ArrayList<String> alignment)
-	{
+	public double getScore(ArrayList<String> alignment) {
 		// prints the current raw alignment in verbose mode
-		if (verbose)
-		{	
+		if (verbose) {	
 			System.out.println("Raw Alignment (no clean up):");
 					
-			for (String s : alignment) 
-			{
+			for (String s : alignment) {
 				System.out.println("'" + s + "'");
 			}
 		}
@@ -74,19 +65,15 @@ public class MatchFogel implements ScoringMethod
 		int count = 0;
 			
 //		Iterate through the columns
-		for (int i = 0; i < seqLength; i++)
-		{ 
+		for (int i = 0; i < seqLength; i++)	{ 
 			try{
-			 for (String st : alignment)
-			 { 
-				 if ( st.charAt(i) == '-' ) count++; //gets char at position i
+			 for (String st : alignment) { 
+				 if (st.charAt(i) == '-') count++; //gets char at position i
 			 }
 					 
-			 if (count == alignment.size() ) // GOT ONE, PROCEED TO CLEAN UP
-			 {
+			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
 				 int which = 0;
-				 for (String st1 : alignment)
-				 { 
+				 for (String st1 : alignment) { 
 					 StringBuffer stB = new StringBuffer(st1);
 					 stB.setCharAt(i, '*');
 					 alignment.set(which, stB.toString());
@@ -95,7 +82,8 @@ public class MatchFogel implements ScoringMethod
 			 }
 			 count = 0;
 			 
-			}catch(StringIndexOutOfBoundsException e){
+			} 
+			catch(StringIndexOutOfBoundsException e) {
 				e.getMessage();
 				//System.out.println("i :"+i);
 				}
@@ -103,9 +91,8 @@ public class MatchFogel implements ScoringMethod
 		
 				
 		int which2 = 0;
-		for (String st : alignment)
-		{ 
-			StringTokenizer st1 = new StringTokenizer(st,"*",false);
+		for (String st : alignment)	{ 
+			StringTokenizer st1 = new StringTokenizer(st, "*", false);
 			String t="";
 			
 			while (st1.hasMoreElements()) t += st1.nextElement();
@@ -117,32 +104,28 @@ public class MatchFogel implements ScoringMethod
 		double fitness = 0.0;
 		double columnFitness = 0.0;
 		int seqLength1 = alignment.get(0).length(); 
-		char tmpArray [];
+		char [] tmpArray;
 		int counter;
 				
 		//Iterate through the columns
-		for (int i = 0; i < seqLength1; i++)
-		{ 
+		for (int i = 0; i < seqLength1; i++) { 
 			tmpArray = new char [alignment.size()];
 			counter = 0;
 	
 			//go through all the seqs
-			for (String currentString : alignment)
-			{   
+			for (String currentString : alignment) {   
 				tmpArray[counter] = currentString.charAt(i); //gets a entire column of chars at position i in the alignment
 				counter++;	
 			}	
 			
 			/* START comparisons*/
 			int track = 0;
-			for (int h1 = 0; h1 < alignment.size() ; h1++)  //exept the last
-			{
-				for (int h2 = 1+track; h2 < alignment.size() ; h2++) //starts at 1, not 0
-				{
+			for (int h1 = 0; h1 < alignment.size(); h1++) {  //exept the last
+				for (int h2 = 1+track; h2 < alignment.size(); h2++) { //starts at 1, not 0
 					//MATCH
-					if( tmpArray[h1] == tmpArray[h2] 
+					if(tmpArray[h1] == tmpArray[h2] && 
 					//CONSIDER GAP MATCHES AS A GAP PENALTY, so discard/ignore them with 
-						&& !( tmpArray[h1] == '-' && tmpArray[h2]== '-')
+						!(tmpArray[h1] == '-' && tmpArray[h2]== '-')
 					  ) columnFitness++;
 				}
 				track++;

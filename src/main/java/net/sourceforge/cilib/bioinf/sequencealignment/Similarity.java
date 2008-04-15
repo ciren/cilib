@@ -1,9 +1,7 @@
 /*
- * Smilarity.java
+ * Similarity.java
  *
- * Created on Mar 16, 2006
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
@@ -44,12 +41,11 @@ import java.util.StringTokenizer;
  * 
  * @author fzablocki  
  */
-public class Similarity implements ScoringMethod 
-{
+public class Similarity implements ScoringMethod {
 //	Change those in xml configuration if you want different scores, but these are already the standard.
-	private int MATCH = 2;  //reward for a match
-	private int MISMATCH = 0; // no reward     
-	private int GAP_PENALTY = -1;  //  penalty for a gap, even when (-,-) which is not considered as a match  
+	private int match = 2;  //reward for a match
+	private int mismatch = 0; // no reward     
+	private int gapPenalty = -1;  //  penalty for a gap, even when (-,-) which is not considered as a match  
 	
 	private boolean verbose = false;  //default, can be set via XML
 	private boolean weight = false;   //default, can be set via XML
@@ -58,31 +54,25 @@ public class Similarity implements ScoringMethod
 		this.weight = weight;
 	}
 
-	public void setVerbose(boolean verbose)
-	{
+	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
 	} 
 	
-	public void setMATCH(int match)
-	{
-		this.MATCH = match;
+	public void setMatch(int match) {
+		this.match = match;
 	}
 	
-	public void setMISMATCH(int mismatch)
-	{
-		this.MISMATCH = mismatch;
+	public void setMismatch(int mismatch) {
+		this.mismatch = mismatch;
 	}
 
-	public void setGAP_PENALTY(int gap_penalty)
-	{
-		this.GAP_PENALTY = gap_penalty;
+	public void setGapPenalty(int gapPenalty) {
+		this.gapPenalty = gapPenalty;
 	}
 	
-	public double getScore(ArrayList<String> alignment)
-	{	
+	public double getScore(ArrayList<String> alignment)	{	
 		//	prints the current alignment in verbose mode
-		if (verbose)
-		{
+		if (verbose) {
 			System.out.println("Raw Alignment (no clean up):");
 			for (String s : alignment) {
 				System.out.println("'" + s + "'");
@@ -96,18 +86,14 @@ public class Similarity implements ScoringMethod
 		int count = 0;
 		
 		//	Iterate through the columns
-		for (int i = 0; i < seqLength; i++)
-		{ 
-			 for (String st : alignment)
-			 { 
-				 if ( st.charAt(i) == '-' ) count++; //gets char at position i
+		for (int i = 0; i < seqLength; i++)	{ 
+			 for (String st : alignment) { 
+				 if (st.charAt(i) == '-') count++; //gets char at position i
 			 }
 			 
-			 if (count == alignment.size() ) // GOT ONE, PROCEED TO CLEAN UP
-			 {
+			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
 				 int which = 0;
-				 for (String st1 : alignment)
-				 { 
+				 for (String st1 : alignment) { 
 					 StringBuffer stB = new StringBuffer(st1);
 					 stB.setCharAt(i, '*');
 					 alignment.set(which, stB.toString());
@@ -118,10 +104,9 @@ public class Similarity implements ScoringMethod
 		}
 		
 		int which2 = 0;
-		for (String st : alignment)
-		{ 
-			StringTokenizer st1 = new StringTokenizer(st,"*",false);
-			String t="";
+		for (String st : alignment) { 
+			StringTokenizer st1 = new StringTokenizer(st, "*", false);
+			String t = "";
 			while (st1.hasMoreElements()) t += st1.nextElement();
 			alignment.set(which2, t);
 			which2++;
@@ -132,42 +117,34 @@ public class Similarity implements ScoringMethod
 		double pairwiseFitness = 0.0;
 		int seqLength1 = alignment.get(0).length(); 
 		
-		if (weight)
-		{
+		if (weight) {
 			double matchC = 0;
 			double mismC = 0;
 	
 			//go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
-			for (int j = 0; j < alignment.size()-1; j++ )
-			{   
-				for (int k = j+1; k < alignment.size(); k++ )
-				{
+			for (int j = 0; j < alignment.size()-1; j++) {   
+				for (int k = j+1; k < alignment.size(); k++) {
 					String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
 					String seq2 = (String) alignment.get(k);   //gets the second sequence
 				
 				//	go through all columns, pairwise conmparison
-					for (int i = 0; i < seqLength1; i++)
-					{
+					for (int i = 0; i < seqLength1; i++) {
 						//					MATCH
-						if( seq1.charAt(i) == seq2.charAt(i) 
+						if (seq1.charAt(i) == seq2.charAt(i) && 
 							//CONSIDER GAP MATCHES AS A GAP PENALTY, so discard them with 
-							&& !( seq1.charAt(i) == '-' && seq2.charAt(i) == '-')
-							)
-						{
-							pairwiseFitness+=MATCH;
+							!(seq1.charAt(i) == '-' && seq2.charAt(i) == '-')) {
+							pairwiseFitness+=match;
 							matchC++;
 						}
 					//	MISMATCH
-						else 
-						{	
-							if( ! (seq1.charAt(i) == '-' || seq2.charAt(i) == '-'))
-							{
-								pairwiseFitness+=MISMATCH;
+						else {	
+							if (!(seq1.charAt(i) == '-' || seq2.charAt(i) == '-')) {
+								pairwiseFitness+=mismatch;
 								mismC++;
 							}
 							//GAP_PENALTY
 							else
-								pairwiseFitness+= GAP_PENALTY;
+								pairwiseFitness+= gapPenalty;
 						}
 					}
 				
@@ -178,33 +155,27 @@ public class Similarity implements ScoringMethod
 				}
 			}
 		}
-		else
-		{
+		else {
 //			go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
-			for (int j = 0; j < alignment.size()-1; j++ )
-			{   
-				for (int k = j+1; k < alignment.size(); k++ )
-				{
+			for (int j = 0; j < alignment.size()-1; j++) {   
+				for (int k = j+1; k < alignment.size(); k++) {
 					String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
 					String seq2 = (String) alignment.get(k);   //gets the second sequence
 				
 				//	go through all columns, pairwise conmparison
-					for (int i = 0; i < seqLength1; i++)
-					{
+					for (int i = 0; i < seqLength1; i++) {
 						//					MATCH
-						if( seq1.charAt(i) == seq2.charAt(i) 
+						if (seq1.charAt(i) == seq2.charAt(i) && 
 							//CONSIDER GAP MATCHES AS A GAP PENALTY, so discard them with 
-							&& !( seq1.charAt(i) == '-' && seq2.charAt(i) == '-')
-							)
-							pairwiseFitness+=MATCH;
+							!(seq1.charAt(i) == '-' && seq2.charAt(i) == '-'))
+							pairwiseFitness+=match;
 					//	MISMATCH
-						else 
-						{	
-							if( ! (seq1.charAt(i) == '-' || seq2.charAt(i) == '-'))
-								pairwiseFitness+=MISMATCH;
+						else {	
+							if(!(seq1.charAt(i) == '-' || seq2.charAt(i) == '-'))
+								pairwiseFitness+=mismatch;
 							//GAP_PENALTY
 							else
-								pairwiseFitness+= GAP_PENALTY;
+								pairwiseFitness+= gapPenalty;
 						}
 					}
 				

@@ -1,9 +1,7 @@
 /*
  * DynamicProgramming.java
  *
- * Created on Jan 28, 2007
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 /**
@@ -44,17 +41,15 @@ public class DynamicProgramming {
 	private static final int MISMATCH_PENALTY = 1;
 	private static final int MATCH_PENALTY = 0;
 	
-	public void setSequences(String A, String B)
-	{
-		dnaX = A;
+	public void setSequences(String a, String b) {
+		dnaX = a;
 		M = dnaX.length();
 
-		dnaY = B;
+		dnaY = b;
 		N = dnaY.length();
 	}
 	
-	public void doJob()
-	{
+	public void doJob() {
 		opt = new int[M+1][N+1];
 		System.out.println("->Lengths of DNA segments to align: "+ M + ", "+ N+".");
 
@@ -66,26 +61,22 @@ public class DynamicProgramming {
 	}
 	
 //	computes minimum of three values
-	static int min3(int a, int b, int c)
-	{
+	static int min3(int a, int b, int c) {
 		return Math.min(a, Math.min(b, c));
 	}
 	
 //	 computes base values
-	void init()
-	{
+	void init()	{
 		//System.out.print("->Initializing matrix base values...");
 
 	   	int v=2;
-	  	for (int i = M-1; i >= 0; i--)
-	   	{
+	  	for (int i = M-1; i >= 0; i--) {
 			opt[i][N]+=v;
 			v+=2;
 		}
 
 		int w=2;
-		for (int i = N-1; i >= 0; i--)
-		{
+		for (int i = N-1; i >= 0; i--) {
 			opt[M][i]+=w;
 			w+=2;
 		}
@@ -93,13 +84,11 @@ public class DynamicProgramming {
 		//System.out.println("done.");
 	}
 	
-	void editDistance()
-	{
+	void editDistance() {
 		//System.out.print("->Computing optimal alignment...");
 
 	    for (int i = M-1; i >= 0; i--)
-	    	for (int j = N-1; j >= 0; j--)
-	        {
+	    	for (int j = N-1; j >= 0; j--) {
 				penalty = (dnaX.charAt(i) == dnaY.charAt(j)) ? MATCH_PENALTY : MISMATCH_PENALTY;
 				opt[i][j] = min3(opt[i][j+1]+GAP_PENALTY, opt[i+1][j]+GAP_PENALTY, opt[i+1][j+1]+penalty);
 			}
@@ -109,18 +98,15 @@ public class DynamicProgramming {
 	}
 		
 //	recover optimal alignment by backtracing
-	void recoverAlignment()
-	{
+	void recoverAlignment() {
 		System.out.println("->Recovering optimal alignment...");
 		String seq1 = "", seq2 = "", consensus = "";
 
 		int m = 0, n = 0, minimum;
-		while(m < M && n < N)
-		{
+		while(m < M && n < N) {
 			minimum = min3(opt[m+1][n+1], opt[m+1][n], opt[m][n+1]);
 
-			if (opt[m][n] == minimum || opt[m][n] == minimum+MISMATCH_PENALTY)
-			{
+			if (opt[m][n] == minimum || opt[m][n] == minimum+MISMATCH_PENALTY) {
 				penalty = (dnaX.charAt(m) == dnaY.charAt(n)) ? MATCH_PENALTY : MISMATCH_PENALTY;
 				//System.out.println( dnaX.charAt(m)+" "+ dnaY.charAt(n)+" "+ penalty); 	// VERTICAL DISPLAY
 				seq1+=dnaX.charAt(m);
@@ -130,8 +116,7 @@ public class DynamicProgramming {
 				m++;
 				n++;
 			}
-			else if (opt[m][n] == minimum+GAP_PENALTY && opt[m][n] == opt[m+1][n] + GAP_PENALTY)
-			{
+			else if (opt[m][n] == minimum+GAP_PENALTY && opt[m][n] == opt[m+1][n] + GAP_PENALTY) {
 				//System.out.println( dnaX.charAt(m)+" - "+ GAP_PENALTY);   // VERTICAL DISPLAY
 				seq1+=dnaX.charAt(m);
 				seq2+="-";
@@ -139,8 +124,7 @@ public class DynamicProgramming {
 				//advance down
 				m++;
 			}
-			else if (opt[m][n] == minimum+GAP_PENALTY && opt[m][n] == opt[m][n+1] + GAP_PENALTY)
-			{
+			else if (opt[m][n] == minimum+GAP_PENALTY && opt[m][n] == opt[m][n+1] + GAP_PENALTY) {
 				//System.out.println("- "+ dnaY.charAt(m) + " " + GAP_PENALTY);  // VERTICAL DISPLAY
 				seq1+="-";
 				seq2+=dnaY.charAt(n);
@@ -156,17 +140,14 @@ public class DynamicProgramming {
 	}
 	
 //	 recover LCS itself and print it to standard output
-	void LCS()
-	{
+	void LCS() {
 		opt2 = new int[M+1][N+1];
 		counter = 0;
 		System.out.println("->Computing Longest Common Sequence (LCS)...");
 
 		// compute length of LCS and all subproblems via dynamic programming
-	     for (int i = M-1; i >= 0; i--)
-		 {
-		 	for (int j = N-1; j >= 0; j--)
-		    {
+	     for (int i = M-1; i >= 0; i--) {
+		 	for (int j = N-1; j >= 0; j--) {
 		 	   if (dnaX.charAt(i) == dnaY.charAt(j))
 		 	      opt2[i][j] = opt2[i+1][j+1] + 1;
 		       else
@@ -176,10 +157,8 @@ public class DynamicProgramming {
 
 		// recover LCS itself and print it to standard output (Longest Common Sequence)
 		int i = 0, j = 0;
-		while(i < M && j < N)
-		{
-			if (dnaX.charAt(i) == dnaY.charAt(j))
-		    {
+		while(i < M && j < N) {
+			if (dnaX.charAt(i) == dnaY.charAt(j)) {
 		     	System.out.print(dnaX.charAt(i));
 		     	counter++;
 		        i++;
@@ -191,8 +170,7 @@ public class DynamicProgramming {
 	    System.out.println("\nSize of LCS: "+counter);
 	}
 
-	void displayStat()
-	{
+	void displayStat() {
 		double percentage = (counter*100)/((N+M)/2);
 		System.out.println("Percentage of similarity: "+ percentage + "%.");
 	}
