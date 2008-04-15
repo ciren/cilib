@@ -1,11 +1,9 @@
 /*
- * NeucleotideString.java
- * 
- * Created on 2005/09/01
+ * NucleotideString.java
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -30,16 +27,17 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * @author marais
  * Class which holds the global nucleotide string copy we are folding.
  */
-public class NucleotideString {
+public final class NucleotideString {
 	
-	private NucleotideString () {
+	private NucleotideString() {
 		
 	}
 	
-	public static NucleotideString getInstance () {
+	public static NucleotideString getInstance() {
 		if (instance != null) {
 			return instance;
-		} else {
+		} 
+		else {
 			instance = new NucleotideString();
 			return instance;
 		}
@@ -59,8 +57,8 @@ public class NucleotideString {
 		RNAStem tempStem = new RNAStem();
 		for (int i = 0; i < struct.length; i++) {
 			if (struct[i] != 0) {
-				if (i<struct[i]) {
-					tempStem.add(new NucleotidePair(i+1,struct[i]));
+				if (i < struct[i]) {
+					tempStem.add(new NucleotidePair(i+1, struct[i]));
 				}
 			}
 		}

@@ -1,11 +1,9 @@
 /*
  * StemGenerator.java
- * 
- * Created on 2005/08/17
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -34,7 +31,7 @@ import java.util.ArrayList;
  *
  */
 
-public class StemGenerator {
+public final class StemGenerator {
 	
 	private static StemGenerator instance;
 	private ArrayList<RNAStem> allStems = null;
@@ -61,8 +58,8 @@ public class StemGenerator {
 		System.out.println("StemGenerator.generateStems called!");
 		this.nucleotides = new String(nucleotides);
 		allStems = new ArrayList<RNAStem>();
-		pOn = new PivotString(nucleotides,true);
-		pOff = new PivotString(nucleotides,false);
+		pOn = new PivotString(nucleotides, true);
+		pOff = new PivotString(nucleotides, false);
 		@SuppressWarnings("unused") int index, count;
 		while (pOn.hasNext()) { //for each lined-up configuration
 			pOn.next();
@@ -74,9 +71,9 @@ public class StemGenerator {
 					index = position;
 					RNAStem tempstem = new RNAStem();
 					while (pOn.canBind(index)) {
-						tempstem.add(new NucleotidePair(pOn.get5prime(index)+1,pOn.get3prime(index)+1));
+						tempstem.add(new NucleotidePair(pOn.get5prime(index)+1, pOn.get3prime(index)+1));
 						if (generateSubstems && tempstem.size()>=minStemLength) {
-							allStems.add((RNAStem)tempstem.getClone());
+							allStems.add((RNAStem) tempstem.getClone());
 							//System.out.println("Stem added");
 							//System.out.println(tempstem);
 							//System.out.println();
@@ -128,9 +125,9 @@ public class StemGenerator {
 					index = position;
 					RNAStem tempstem = new RNAStem();
 					while (pOff.canBind(index)) {
-						tempstem.add(new NucleotidePair(pOff.get5prime(index)+1,pOff.get3prime(index)+1));
+						tempstem.add(new NucleotidePair(pOff.get5prime(index)+1, pOff.get3prime(index)+1));
 						if (generateSubstems && tempstem.size()>=minStemLength) {
-							allStems.add((RNAStem)tempstem.getClone());
+							allStems.add((RNAStem) tempstem.getClone());
 							//System.out.println("Stem added");
 							//System.out.println(tempstem);
 							//System.out.println();
@@ -213,7 +210,7 @@ public class StemGenerator {
 			System.out.print("\rSetting conflicts for: "+st.getIndex());
 			for (RNAStem st2 : allStems) {
 				if (st2.slowConflictsWith(st)) {
-					StemConflictTable.getInstance().setBit(st.getIndex(),st2.getIndex());
+					StemConflictTable.getInstance().setBit(st.getIndex(), st2.getIndex());
 				}					
 			}
 		}		
@@ -221,7 +218,7 @@ public class StemGenerator {
 		return allStems;
 	}
 
-	private boolean canBind (char a, char b) {
+	private boolean canBind(char a, char b) {
 		a = Character.toUpperCase(a);
 		b = Character.toUpperCase(b);              
 		if (a == 'A')
@@ -266,7 +263,10 @@ public class StemGenerator {
 		this.nucleotides = nucleotides;
 	}
 	
-	
+
+	/**
+	 *
+	 */
 	public class PivotString {
 		public PivotString(String str, boolean pivotOn) {
 			this.str = str;
@@ -278,20 +278,20 @@ public class StemGenerator {
 		 */
 		public int length() {
 			if (pivotOn)
-				return Math.min(pivot,str.length()-1-pivot);
+				return Math.min(pivot, str.length()-1-pivot);
 			else
-				return Math.min(pivot+1,str.length()-1-pivot);
+				return Math.min(pivot+1, str.length()-1-pivot);
 		}
 		
 		public void reset() {
 			pivot = 0;
 		}
 		
-		public boolean hasNext () {
+		public boolean hasNext() {
 			if (pivot < str.length()-1)
 				return true;
-			else
-				return false;
+
+			return false;
 		}
 		
 		public boolean next() {
@@ -304,13 +304,14 @@ public class StemGenerator {
 			}
 		}
 		
-		public char getNucleotide(int index) throws IndexOutOfBoundsException {
+		public char getNucleotide(int index) {
 			if (pivotOn) {
 				if (index < this.length() && index >= 0)
 					return str.charAt(pivot - index - 1);
 				else 
 					throw new IndexOutOfBoundsException();
-			} else {
+			} 
+			else {
 				if (index < this.length() && index >= 0)
 					return str.charAt(pivot - index);
 				else 
@@ -318,7 +319,7 @@ public class StemGenerator {
 			}
 		}
 		
-		public char getComplimentaryNucleotide(int index) throws IndexOutOfBoundsException {
+		public char getComplimentaryNucleotide(int index) {
 			if (index < this.length() && index >= 0)
 				return str.charAt(pivot + index + 1);
 			else 
@@ -342,17 +343,20 @@ public class StemGenerator {
 					return false;
 				else
 					try {
-						return StemGenerator.getInstance().canBind(getNucleotide(index),getComplimentaryNucleotide(index));
-					} catch (IndexOutOfBoundsException e) {
+						return StemGenerator.getInstance().canBind(getNucleotide(index), getComplimentaryNucleotide(index));
+					} 
+					catch (IndexOutOfBoundsException e) {
 						return false;
 					}
-			} else {
+			} 
+			else {
 				if (index < 2)
 					return false;
 				else
 					try {
-						return StemGenerator.getInstance().canBind(getNucleotide(index),getComplimentaryNucleotide(index));
-					} catch (IndexOutOfBoundsException e) {
+						return StemGenerator.getInstance().canBind(getNucleotide(index), getComplimentaryNucleotide(index));
+					} 
+					catch (IndexOutOfBoundsException e) {
 						return false;
 					}
 			}
@@ -367,7 +371,8 @@ public class StemGenerator {
 				for (int i = pivot-1; i >= 0; i--) {
 					inverted += str.charAt(i);
 				}
-			} else {
+			} 
+			else {
 				for (int i = pivot; i >= 0; i--) {
 					inverted += str.charAt(i);
 				}
@@ -383,7 +388,8 @@ public class StemGenerator {
 			for (j = 1; j < this.length(); j++) {
 				if (this.canBind(j)) {
 					middle += "|";
-				} else {
+				}
+				else {
 					middle += " ";
 				}
 			}

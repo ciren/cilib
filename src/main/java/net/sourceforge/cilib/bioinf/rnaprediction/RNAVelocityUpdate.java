@@ -1,11 +1,9 @@
 /*
  * RNAVelocityUpdate.java
- * 
- * Created on 2005/05/19
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -47,7 +44,7 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 	double closeProbability = 0.6;
 	double addRandomProbability = 0.1;
 	
-	public RNAVelocityUpdate () {
+	public RNAVelocityUpdate() {
 		unionSet = new RNAConformation();
 		r = new KnuthSubtractive();
 	}
@@ -78,8 +75,8 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 	private boolean prob(double threshold) {
 		if (r.nextDouble() < threshold)
 			return true;
-		else
-			return false;
+
+		return false;
 	}
 	
 	/*
@@ -155,13 +152,13 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 				}
 			}
 			//System.out.println("Added "+num+" stems.");
-		} else {
+		} 
+		else {
 			//System.out.println("I'm not the best particle.");
 			for (int i = 0; i < count; i++) {
 				if (prob(addRandomProbability/100)) {
 					index = r.nextInt(allStems.size()); //get random stem to add.
 					closeStems.add(allStems.get(index));
-						
 				}
 			}
 			//System.out.println("Added "+num+" stems.");
