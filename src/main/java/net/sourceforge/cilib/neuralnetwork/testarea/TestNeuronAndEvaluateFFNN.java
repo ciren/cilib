@@ -1,8 +1,25 @@
 /*
- * Created on 2005/03/23
+ * TestNeuronAndEvaluateFFNN.java
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.testarea;
 
@@ -29,7 +46,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class TestNeuronAndEvaluateFFNN {
 	
-	
+	private TestNeuronAndEvaluateFFNN() {
+	}
 	
 	public static void main(String[] args) {
 		
@@ -96,7 +114,7 @@ public class TestNeuronAndEvaluateFFNN {
 		
 		Vector targt = new Vector();
 		targt.add(new Real(0.7666));
-		NNPattern p = new StandardPattern(ins,targt);
+		NNPattern p = new StandardPattern(ins, targt);
 		
 		Vector result = new Vector();
 		
@@ -113,7 +131,7 @@ public class TestNeuronAndEvaluateFFNN {
 			
 			result = topo.evaluate(p);			
 						
-			Double real = ((Real)result.get(0)).getReal();
+			Double real = ((Real) result.get(0)).getReal();
 			
 			System.out.println("-----------------------------------------------------");
 			System.out.println("The final output result: " + real.toString());
@@ -128,7 +146,7 @@ public class TestNeuronAndEvaluateFFNN {
 			 result = topo.evaluate(p);
 		
 		
-		Double real = ((Real)result.get(result.size()-1)).getReal();
+		Double real = ((Real) result.get(result.size()-1)).getReal();
 		
 		
 		System.out.println("The final output after training = result: " + real.toString());
@@ -136,7 +154,7 @@ public class TestNeuronAndEvaluateFFNN {
 		
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		
-		FFNNTopology ffnn = new FFNNTopology(2,2,1, 0.5, 0.9);
+		FFNNTopology ffnn = new FFNNTopology(2, 2, 1, 0.5, 0.9);
 		
 		Vector weightsB = new Vector();
 		weightsB.add(new Real(0.1));
@@ -157,7 +175,7 @@ public class TestNeuronAndEvaluateFFNN {
 			
 			result = new Vector();
 			result = ffnn.evaluate(p);
-			real = ((Real)result.get(0)).getReal();
+			real = ((Real) result.get(0)).getReal();
 			
 			System.out.println("__________________________________________________________");
 			System.out.println("FFNNTopology---- output result: " + real.toString());
@@ -165,7 +183,7 @@ public class TestNeuronAndEvaluateFFNN {
 			
 			ffnn.train();
 			result = ffnn.evaluate(p);
-			real = ((Real)result.get(0)).getReal();
+			real = ((Real) result.get(0)).getReal();
 						
 		}
 		

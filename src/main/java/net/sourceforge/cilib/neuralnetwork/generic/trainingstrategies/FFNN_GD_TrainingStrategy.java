@@ -1,14 +1,30 @@
 /*
- * Created on 2005/02/20
+ * FFNN_GD_TrainingStrategy.java
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
 import net.sourceforge.cilib.neuralnetwork.foundation.TrainingStrategy;
@@ -16,6 +32,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.LayerIterator;
 import net.sourceforge.cilib.neuralnetwork.generic.Observer;
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
+import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -65,20 +82,20 @@ public class FFNN_GD_TrainingStrategy implements TrainingStrategy, Observer {
 	
 	
 	
-	public void updateFanInWeights(NeuronConfig n, Type delta_){
+	public void updateFanInWeights(NeuronConfig n, Type delta){
 		//Wi(t) = Wi(t) + learnRate * delta * input_i    +    momentum * change_Wi(t-1) 
 		
 		//for the case where neuron has neuron-to-neuron inputs
 		Weight[] w = n.getInputWeights();
-		Double temp = -1 * learningRate * ((Real)delta_).getReal();
+		Double temp = -1 * learningRate * ((Real) delta).getReal();
 		
 		for (int i = 0; i < w.length; i++){
 			
-			Double change = temp * ((Real)n.getInput()[i].getCurrentOutput()).getReal();  
+			Double change = temp * ((Real) n.getInput()[i].getCurrentOutput()).getReal();  
 			
-			w[i].setWeightValue(new Real( ((Real)w[i].getWeightValue()).getReal() + 
+			w[i].setWeightValue(new Real(((Real) w[i].getWeightValue()).getReal() + 
 								 change +
-								 (this.momentum * ((Real)w[i].getPreviousChange()).getReal() )     ));
+								 (this.momentum * ((Real) w[i].getPreviousChange()).getReal())));
 			
 			w[i].setPreviousChange(new Real(change));
 		}
@@ -95,7 +112,7 @@ public class FFNN_GD_TrainingStrategy implements TrainingStrategy, Observer {
 	
 	public void invokeTrainer(Object args) {
 		
-		NNPattern p = (NNPattern)args;
+		NNPattern p = (NNPattern) args;
 		ArrayList<NeuronConfig> updateNeuronList = new ArrayList<NeuronConfig>();
 		Vector deltaUpdateList = new Vector();
 				
@@ -104,17 +121,17 @@ public class FFNN_GD_TrainingStrategy implements TrainingStrategy, Observer {
 		Vector prevDeltaList = new Vector(outputIter.getNrNeurons());
 		LayerIterator prevIter = null;
 		
-		for (NeuronConfig Oi = outputIter.value(); outputIter.hasMore(); outputIter.nextNeuron()){
-			Oi = outputIter.value();
+		for (NeuronConfig oi = outputIter.value(); outputIter.hasMore(); outputIter.nextNeuron()){
+			oi = outputIter.value();
 		
 			//for each output, find deltaOi definition using 
 			//error, output and activation derivative
 			Type tmpO = delta.computeBaseDelta(p.getTarget().get(outputIter.currentPosition()), 
-											  	 Oi.getCurrentOutput(), 
-											  	 Oi.computeOutputFunctionDerivativeUsingLastOutput(Oi.getCurrentOutput()) );
+											  	 oi.getCurrentOutput(), 
+											  	 oi.computeOutputFunctionDerivativeUsingLastOutput(oi.getCurrentOutput()));
 		
 			prevDeltaList.add(tmpO);
-			updateNeuronList.add(Oi);
+			updateNeuronList.add(oi);
 			deltaUpdateList.add(tmpO);
 		} //end for Oi
 		
@@ -125,40 +142,40 @@ public class FFNN_GD_TrainingStrategy implements TrainingStrategy, Observer {
 		//Iterate backwards over all remaining layers L = #nrlayers-1 ... 1.  layer 0 not done as input layer
 		
 			LayerIterator layerIter = topology.getLayerIterator(layer);
-			Vector DeltaList = new Vector(layerIter.getNrNeurons());
+			Vector deltaList = new Vector(layerIter.getNrNeurons());
 			
 			//iterate over all neurons in layer L			
-			for (NeuronConfig Li = layerIter.value(); layerIter.hasMore(); layerIter.nextNeuron()){
+			for (NeuronConfig li = layerIter.value(); layerIter.hasMore(); layerIter.nextNeuron()){
 				
-				Li = layerIter.value();
+				li = layerIter.value();
 				
 				//Compute deltaLi for neuron i in layer L, taking recursive 
 				//definition into account.
 				//Only applicable to neurons that backprop (i.e. not Bias unit).
 				//Thus if Li has fanin weights array with length > 1 then perform backprop
 				
-				if (Li.getInputWeights() != null){
+				if (li.getInputWeights() != null){
 								
 					//Weights out of current layer neuron to layer + 1 neurons
 					ArrayList<Weight> w = new ArrayList<Weight>();
 					prevIter.reset();
 										
-					for (NeuronConfig Wi = prevIter.value(); prevIter.hasMore(); prevIter.nextNeuron()){
-						w.add(Wi.getInputWeights()[layerIter.currentPosition()]);
+					for (NeuronConfig wi = prevIter.value(); prevIter.hasMore(); prevIter.nextNeuron()){
+						w.add(wi.getInputWeights()[layerIter.currentPosition()]);
 						//TODO: Fix this up - using static indexing, make dynamic looking for Li in Wi inputlist
 						//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 					}
 					
 					Type tmpL = delta.computeRecursiveDelta(
-							Li.computeOutputFunctionDerivativeUsingLastOutput(Li.getCurrentOutput()),
+							li.computeOutputFunctionDerivativeUsingLastOutput(li.getCurrentOutput()),
 							prevDeltaList,
 							w,
-							Li.getCurrentOutput());
+							li.getCurrentOutput());
 					
-					DeltaList.add(tmpL);
+					deltaList.add(tmpL);
 					
 					
-					updateNeuronList.add(Li);
+					updateNeuronList.add(li);
 					deltaUpdateList.add(tmpL);
 					
 				} //ebd if
