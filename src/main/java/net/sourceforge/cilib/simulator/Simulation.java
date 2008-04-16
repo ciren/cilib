@@ -1,11 +1,9 @@
 /*
  * Simulation.java
  *
- * Created on February 5, 2003, 10:13 AM
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.simulator;
 
 import java.lang.reflect.Method;
@@ -97,7 +93,7 @@ public class Simulation extends Thread implements AlgorithmListener {
 				}
 				String type = current.getInterfaces()[0].getName();
 				// System.out.println("type: " + type);
-				Class<?> parameters[] = new Class[1];
+				Class<?> [] parameters = new Class[1];
 				parameters[0] = Class.forName(type);
 				// System.out.println("parameters: " + parameters[0].getName());
 				String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);
@@ -126,6 +122,7 @@ public class Simulation extends Thread implements AlgorithmListener {
 				threads[i].join();
 			}
 			catch (InterruptedException ex) {
+				ex.printStackTrace();
 			}
 		}
 		measurementSuite.getOutputBuffer().close();

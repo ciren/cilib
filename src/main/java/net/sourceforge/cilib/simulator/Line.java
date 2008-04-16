@@ -1,10 +1,7 @@
 /*
  * Line.java
  *
- * Created on February 6, 2003, 9:24 PM
- *
- *
- * Copyright (C) 2003 - 2006
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,9 +20,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
-
 package net.sourceforge.cilib.simulator;
 
 
@@ -35,7 +30,7 @@ package net.sourceforge.cilib.simulator;
  */
 class Line {
 
-    /** Creates a new instance of Line */
+    /** Creates a new instance of Line. */
     public Line(int elements) {
         this.elements = elements;
         count = 0;
