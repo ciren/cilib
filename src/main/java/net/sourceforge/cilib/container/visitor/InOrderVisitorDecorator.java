@@ -1,11 +1,9 @@
 /*
- * InOrderVisitor.java
+ * InOrderVisitorDecorator.java
  *
- * Created on Jun 1, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -38,6 +36,9 @@ public class InOrderVisitorDecorator<E> extends PrePostVisitor<E> {
 		visitor = v;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void visit(E o) {
 		visitor.visit(o);
 	}

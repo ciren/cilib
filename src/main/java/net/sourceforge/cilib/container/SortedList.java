@@ -1,11 +1,9 @@
 /*
  * SortedList.java
- * 
- * Created on Nov 15, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.container;
 
@@ -36,6 +33,7 @@ import java.util.ListIterator;
 /**
  * 
  * @author Gary Pampara
+ * @param <E> The {@linkplain Comparable} type.
  */
 public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 
@@ -68,10 +66,7 @@ public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 	 */
 	public SortedList(SortedList<E> copy) {
 		super();
-		
-		for (Iterator<E> i = this.iterator(); i.hasNext(); ) {
-			add(i.next());
-		}
+		this.addAll(copy);
 	}
 	
 	
@@ -84,10 +79,10 @@ public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 	 * 
 	 */
 	public boolean add(E e) {
-		int index = Collections.binarySearch(this,e,comparator);
+		int index = Collections.binarySearch(this, e, comparator);
 		
 		if (index < 0)
-			super.add(-index-1,e);
+			super.add(-index-1, e);
 		else
 			super.add(index, e);
 		
@@ -99,9 +94,8 @@ public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 	 * 
 	 */
 	public boolean addAll(Collection<? extends E> c) {
-		for (Iterator<? extends E> i = c.iterator(); i.hasNext(); ) {
-			this.add(i.next());
-		}
+		for (E element : c)
+			this.add(element);
 		
 		return true;		
 	}

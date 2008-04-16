@@ -25,6 +25,7 @@ package net.sourceforge.cilib.container.visitor;
 
 /**
  * @author Gary Pampara
+ * @param <E> The type object.
  */
 public abstract class Visitor<E> {
 	
