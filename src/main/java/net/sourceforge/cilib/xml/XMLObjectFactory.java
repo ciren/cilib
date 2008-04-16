@@ -196,12 +196,18 @@ public class XMLObjectFactory {
         try {
             return Class.forName("net.sourceforge.cilib." + className);
         }
-        catch (ClassNotFoundException e) {  }
+        catch (ClassNotFoundException e) { 
+        	System.out.println("Class not found" + className);
+        	e.printStackTrace();
+        }
         
         try {
             return Class.forName(className);
         }
-        catch (ClassNotFoundException e) { }
+        catch (ClassNotFoundException e) { 
+        	System.out.println("Class not found" + className);
+        	e.printStackTrace();
+        }
         
         error(xml, "Class not found: " + className);
         return null;
@@ -363,16 +369,16 @@ public class XMLObjectFactory {
                 for (int j = 0; j < parameters.length; ++j) {
                     if (methods[i].getParameterTypes()[j].isPrimitive()) {
                         Class<?> type = methods[i].getParameterTypes()[j];
-                        if (parameters[j] instanceof Integer && ! (type.equals(Integer.TYPE) || type.equals(Long.TYPE) || type.equals(Double.TYPE))) {
+                        if (parameters[j] instanceof Integer && !(type.equals(Integer.TYPE) || type.equals(Long.TYPE) || type.equals(Double.TYPE))) {
                             match = false;
                         }
-                        else if (parameters[j] instanceof Long && ! (type.equals(Long.TYPE) || type.equals(Double.TYPE))) {
+                        else if (parameters[j] instanceof Long && !(type.equals(Long.TYPE) || type.equals(Double.TYPE))) {
                             match = false;
                         }
-                        else if (parameters[j] instanceof Double && ! type.equals(Double.TYPE)) {
+                        else if (parameters[j] instanceof Double && !type.equals(Double.TYPE)) {
                             match = false;
                         }
-                        else if (parameters[j] instanceof Boolean && ! type.equals(Boolean.TYPE)) {
+                        else if (parameters[j] instanceof Boolean && !type.equals(Boolean.TYPE)) {
                             match = false;
                         }
                     }
