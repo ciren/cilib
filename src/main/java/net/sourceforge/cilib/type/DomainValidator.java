@@ -209,7 +209,7 @@ public class DomainValidator {
 			return;
 		}
 		
-		if ((char) parser.ttype == '^' ) {
+		if ((char) parser.ttype == '^') {
 			parser.pushBack();
 			return;
 		}

@@ -1,9 +1,9 @@
 /*
  * Type.java
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -27,8 +27,14 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.util.Cloneable;
 
+/**
+ * {@code Type} interface for all type-objects that are used within CIlib.
+ */
 public interface Type extends Serializable, Cloneable {
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type getClone();
 	
 	public boolean equals(Object other);
