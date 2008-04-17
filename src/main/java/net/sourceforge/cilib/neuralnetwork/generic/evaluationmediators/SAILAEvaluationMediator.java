@@ -1,19 +1,36 @@
 /*
- * Created on 2004/11/30
+ * SAILAEvaluationMediator.java
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.SAILARealData;
-import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
+import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.SAILARealData;
+import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -92,7 +109,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		
 		//Always select the first error in the array as the reference for Active learning comparions.
 		subsetBeginErrorDt = prototypeError[0].getClone();
-		subsetBeginErrorDt.setNoPatterns(((SAILARealData)data).getNrUpdates());
+		subsetBeginErrorDt.setNoPatterns(((SAILARealData) data).getNrUpdates());
 		subsetBeginErrorDg = prototypeError[0].getClone();
 		subsetBeginErrorDg.setNoPatterns(1);
 		
@@ -141,7 +158,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 			Vector outputDt = topology.evaluate(iteratorDt.value());
 						
 			//compute the per pattern error, use it to train the topology stochastically by default
-			this.computeErrorIteration(this.errorDt,outputDt, iteratorDt.value());
+			this.computeErrorIteration(this.errorDt, outputDt, iteratorDt.value());
 						
 			trainer.invokeTrainer(iteratorDt.value());
 							
@@ -190,13 +207,13 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		
 		//criterion 2: error decreased by more than 80%
 		//---------------------------------------------
-		double decreasePercentageDt = ((Double)this.errorDt[0].getValue() / (Double)subsetBeginErrorDt.getValue()) * 100;
-		double decreasePercentageDg = ((Double)this.errorDg[0].getValue() / (Double)subsetBeginErrorDg.getValue()) * 100;
+		double decreasePercentageDt = (this.errorDt[0].getValue() / subsetBeginErrorDt.getValue()) * 100;
+		double decreasePercentageDg = (this.errorDg[0].getValue() / subsetBeginErrorDg.getValue()) * 100;
 		
 		if ((decreasePercentageDt < 20.0) || (decreasePercentageDg < 20.0)){
 			terminate = true;
-			System.out.println("___________SAILA Termination criterion 2: error decreased by 80%.  Begin = " + (Double)subsetBeginErrorDt.getValue() + ", end = " +
-			(Double)this.errorDt[0].getValue() );
+			System.out.println("___________SAILA Termination criterion 2: error decreased by 80%.  Begin = " + subsetBeginErrorDt.getValue() + ", end = " +
+			this.errorDt[0].getValue());
 		}
 		
 		
@@ -204,19 +221,19 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		//-------------------------------------------------
 		
 		//update minimum decrease factor
-		if ( (Double)this.errorDt[0].getValue() < (subsetBeginErrorDt.getValue().doubleValue() / 10.0)){
+		if (this.errorDt[0].getValue() < (subsetBeginErrorDt.getValue().doubleValue() / 10.0)) {
 			minimumErrorDecrease /= 10.0;
 		}
 		
-		if( ((errorDtPrevious.getValue() - (Double)this.errorDt[0].getValue()) < minimumErrorDecrease) 
-			&& (errorDtPrevious.getValue() - (Double)this.errorDt[0].getValue() > 0)  ){
+		if(((errorDtPrevious.getValue() - this.errorDt[0].getValue()) < minimumErrorDecrease) && 
+				(errorDtPrevious.getValue() - this.errorDt[0].getValue() > 0)) {
 			terminate = true;
-			System.out.println("___________SAILA Termination criterion 3: average error too small. min = " + minimumErrorDecrease 
-					          + ", actual = " + (errorDtPrevious.getValue() - (Double)this.errorDt[0].getValue()) + ", errorPrev = " + errorDtPrevious.getValue().doubleValue());
+			System.out.println("___________SAILA Termination criterion 3: average error too small. min = " + minimumErrorDecrease + 
+					           ", actual = " + (errorDtPrevious.getValue() - this.errorDt[0].getValue()) + ", errorPrev = " + errorDtPrevious.getValue().doubleValue());
 		}
 				
 		//save the local var this.errorDt[0] as previous
-		errorDtPrevious.setValue(((Double)this.errorDt[0].getValue()).doubleValue());
+		errorDtPrevious.setValue(((Double) this.errorDt[0].getValue()).doubleValue());
 				
 		
 		//criterion 4: Error on Dg increases too much
@@ -224,20 +241,19 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		
 		//averageNew = (averageOld * periodsOld + new_sample) / (periodsOld + 1)
 		epochNumber++;
-		averageErrorDg = ((double)(averageErrorDg * (epochNumber - 1)) + ((Double)this.errorDg[0].getValue()).doubleValue())
-						  / (double)epochNumber;
+		averageErrorDg = ((double) (averageErrorDg * (epochNumber - 1)) + ((Double) this.errorDg[0].getValue()).doubleValue()) / (double) epochNumber;
 		
 		history.add(this.errorDt[0]);
 		double errorDgStdDev = 0;
 		
 		for(int i = 0; i < history.size(); i++){
-			errorDgStdDev += Math.pow(((Double)history.get(i).getValue()).doubleValue() - averageErrorDg, 2);
+			errorDgStdDev += Math.pow(((Double) history.get(i).getValue()).doubleValue() - averageErrorDg, 2);
 		}
 		
-		errorDgStdDev = Math.sqrt(errorDgStdDev / (double)history.size());		
+		errorDgStdDev = Math.sqrt(errorDgStdDev / (double) history.size());		
 		
 		
-		if(((Double)this.errorDg[0].getValue()).doubleValue() > (averageErrorDg + errorDgStdDev)){
+		if (((Double) this.errorDg[0].getValue()).doubleValue() > (averageErrorDg + errorDgStdDev)) {
 			terminate = true;
 			System.out.println("___________SAILA Termination criterion 4: Validation error rising too much, overfitting detected");
 		}
@@ -255,16 +271,12 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 			subsetEpochCounter = 0;
 			
 			//criterion 2 reset
-			((MSEErrorFunction)subsetBeginErrorDt).setValue(((Double)this.errorDt[0].getValue()).doubleValue());
-			((MSEErrorFunction)subsetBeginErrorDg).setValue(((Double)this.errorDg[0].getValue()).doubleValue());
-			
-			
+			((MSEErrorFunction) subsetBeginErrorDt).setValue(((Double) this.errorDt[0].getValue()).doubleValue());
+			((MSEErrorFunction) subsetBeginErrorDg).setValue(((Double) this.errorDg[0].getValue()).doubleValue());
 		}
 		
 		data.shuffleTrainingSet();
-		
 	}
-
 
 	
 	public Vector evaluate(NNPattern p) {

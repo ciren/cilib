@@ -1,3 +1,26 @@
+/*
+ * AreaUnderROC.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.neuralnetwork.foundation.measurements;
 
 import net.sourceforge.cilib.measurement.Measurement;
@@ -10,6 +33,9 @@ import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * TODO: Fill in some javadoc.
+ */
 public class AreaUnderROC implements Measurement{
 	private static final long serialVersionUID = -8959256964785840633L;
 	NeuralNetworkTopology topology;
@@ -40,7 +66,7 @@ public class AreaUnderROC implements Measurement{
 	public Type getValue() {
 		
 		NeuralNetworkDataIterator iterDv = data.getValidationSetIterator();
-		System.out.println("Dv size = " + iterDv.size() );
+		System.out.println("Dv size = " + iterDv.size());
 		
 		this.matrixSize = iterDv.value().getTargetLength();
 		this.confusionMatrix = new int[matrixSize][matrixSize];
@@ -63,9 +89,9 @@ public class AreaUnderROC implements Measurement{
 			double winningOutputValue = 0.0;
 			
 			for (int i = 0; i < output.size(); i++){
-				if(( ((Real)output.get(i)).getReal() >= this.threshold) && (((Real)output.get(i)).getReal() > winningOutputValue)) {
+				if((((Real) output.get(i)).getReal() >= this.threshold) && (((Real) output.get(i)).getReal() > winningOutputValue)) {
 					winningOutput = i;
-					winningOutputValue = ((Real)output.get(i)).getReal();
+					winningOutputValue = ((Real) output.get(i)).getReal();
 				}
 			}			
 			
@@ -74,7 +100,7 @@ public class AreaUnderROC implements Measurement{
 			
 			//look for the class and increment count
 			for (int i = 0; i < p.getTargetLength(); i++){
-				if (((Real)p.getTarget().get(i)).getReal() >= this.threshold){
+				if (((Real) p.getTarget().get(i)).getReal() >= this.threshold){
 					winningClass = i;
 					winningClassCount++;
 				}
@@ -99,13 +125,13 @@ public class AreaUnderROC implements Measurement{
 		
 			
 		//Calculate total AUC for Dv
-		double AUCtotal = 0.0;
+		double totalAUC = 0.0;
 		
 		//for each {Ci, Cj} class combination
 		for (int ci = 0; ci < matrixSize - 1; ci++){
 			
 			for (int cj = ci+1; cj < matrixSize; cj++){
-				AUCtotal += this.calculateAUC(ci, cj);				
+				totalAUC += this.calculateAUC(ci, cj);				
 			}
 		}
 		
@@ -123,7 +149,7 @@ public class AreaUnderROC implements Measurement{
 		}
 		
 		//finalise AUC.
-		AUCtotal = (AUCtotal * 2) / (matrixSize * (matrixSize - 1));
+		totalAUC = (totalAUC * 2) / (matrixSize * (matrixSize - 1));
 		
 		//Build measurement
 		String countString = new String();
@@ -150,14 +176,14 @@ public class AreaUnderROC implements Measurement{
 		
 		double accuracyVal = 0;
 		double totalPats = 0;
-		for (int i = 0; i < this.matrixSize; i++ ){
+		for (int i = 0; i < this.matrixSize; i++){
 			accuracyVal += this.confusionMatrix[i][i];
 			totalPats += this.classCount[i];
 		}
 		String accuracy = String.valueOf(accuracyVal / totalPats);
 		
 		Vector v = new Vector();
-		v.add(new Real(AUCtotal));
+		v.add(new Real(totalAUC));
 		v.add(new StringType(countString));
 		v.add(new StringType(matrix));
 		v.add(new StringType(accuracy));
@@ -181,14 +207,14 @@ public class AreaUnderROC implements Measurement{
 		int c1Total = this.classCount[c1];
 		int c2Total = this.classCount[c2];
 		
-		if ((c1Total == 0) || (c2Total == 0) ){
+		if ((c1Total == 0) || (c2Total == 0)){
 			System.out.println("AUC error - class empty, returning performance of 'random' = 0.5");
 			return 0.5;
 		}
 		
 		//calculate TP and FP rates
-		double c1RateTP = (double)this.confusionMatrix[c1][c1] / (double)c1Total;
-		double c2RateFP = (double)this.confusionMatrix[c2][c1] / (double)c2Total;
+		double c1RateTP = (double) this.confusionMatrix[c1][c1] / (double) c1Total;
+		double c2RateFP = (double) this.confusionMatrix[c2][c1] / (double) c2Total;
 		
 		//calculate AUC approximation for {Ci, Cj} classes, add to AUCtotal
 		double area = 0.0;		

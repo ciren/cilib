@@ -1,8 +1,25 @@
 /*
- * Created on 2004/12/01
+ * MSEErrorFunction.java
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.generic.errorfunctions;
 
@@ -49,11 +66,11 @@ public class MSEErrorFunction implements NNError, Initializable {
 	
 	
 	public void initialize(){
-		if ( (this.noOutputs <= 0) ){
+		if (this.noOutputs <= 0) {
 			throw new IllegalArgumentException("Incorrect noOutputs variable set for class");
 		}
 						
-		if (this.noPatterns < 0){
+		if (this.noPatterns < 0) {
 			throw new IllegalArgumentException("Negative noPatterns variable set for class");
 		}	
 		
@@ -86,11 +103,12 @@ public class MSEErrorFunction implements NNError, Initializable {
 		
 		if (input.getTargetLength() != output.size()){
 			throw new IllegalArgumentException("Output and target lenghts don't match");
-		} else {
+		} 
+		else {
 			
 			for (int i = 0; i < output.size(); i++){
-				this.computationData += Math.pow( ((Real)input.getTarget().get(i)).getReal()
-						- ((Real)output.get(i)).getReal() , 2);
+				this.computationData += Math.pow(((Real) input.getTarget().get(i)).getReal() - 
+						((Real) output.get(i)).getReal(), 2);
 			}			
 			
 		}		
@@ -107,8 +125,8 @@ public class MSEErrorFunction implements NNError, Initializable {
 			throw new IllegalStateException("noPatterns is zero - division by zero");
 		}
 		
-		if (this.computationData != 0){
-			this.value = computationData / ((double)noOutputs * (double)noPatterns);
+		if (this.computationData != 0) {
+			this.value = computationData / ((double) noOutputs * (double) noPatterns);
 		}
 		computationData = 0;
 	}
@@ -144,7 +162,7 @@ public class MSEErrorFunction implements NNError, Initializable {
 	
 	
 	public void setValue(Object val) {
-		value = ((Double)val).doubleValue();
+		value = ((Double) val).doubleValue();
 		computationData = 0;
 	}
 	
