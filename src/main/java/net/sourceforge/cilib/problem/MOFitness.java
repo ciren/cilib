@@ -1,12 +1,9 @@
 /*
- * MOFitness.java 
- * 
- * Created on Aug 27, 2004
+ * MOFitness.java
  *
- *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.problem;
 
@@ -68,7 +65,8 @@ public class MOFitness extends AbstractFitness {
 			if(r < 0) {
 				AdominateB = true;
 				BmaydominateA = false;
-			} else if(r > 0) {
+			} 
+			else if(r > 0) {
 				BdominateA = true;
 				AmaydominateB = false;
 			}
@@ -77,9 +75,11 @@ public class MOFitness extends AbstractFitness {
 
 		if(AdominateB && AmaydominateB) {
 			return -1;
-		} else if(BdominateA && BmaydominateA) {
+		} 
+		else if(BdominateA && BmaydominateA) {
 			return 1;
-		} else {
+		} 
+		else {
 			return 0;
 		}
 	}
