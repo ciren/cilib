@@ -1,11 +1,9 @@
 /*
  * RNAStem.java
- * 
- * Created on 2005/08/17
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -81,10 +78,10 @@ public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collec
 
 	@Override
 	public boolean equals(Object other) {
-		if (this.id == ((RNAStem)other).id)
+		if (this.id == ((RNAStem) other).id)
 			return true;
-		else
-			return false;
+
+		return false;
 		/*
 		if (this.compareTo(other)==0)
 			return true;
@@ -147,12 +144,12 @@ public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collec
 	}
 	
 	/**
-	 * Uses the StemConflictTable Singleton class to look up conflicts quicker
+	 * Uses the StemConflictTable Singleton class to look up conflicts quicker.
 	 * @param otherstem
 	 * @return
 	 */
 	public boolean conflictsWith(RNAStem otherstem) {
-		return StemConflictTable.getInstance().get(this.index,otherstem.index);
+		return StemConflictTable.getInstance().get(this.index, otherstem.index);
 	}
 	
 	/**
@@ -214,7 +211,8 @@ public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collec
 			if (basePairs.containsAll(o.basePairs))
 				if (o.basePairs.containsAll(basePairs))
 					return 0;
-		} catch (ClassCastException e) {
+		} 
+		catch (ClassCastException e) {
 			return -1;
 		}
 		return -1;
@@ -264,27 +262,27 @@ public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collec
 
 	@Override
 	public String toString() {
-		Object sorted[] = basePairs.toArray();
+		Object [] sorted = basePairs.toArray();
 		Arrays.sort(sorted);
 		StringBuffer sb = new StringBuffer();
 		sb.append("\n   ");
-		for (int i = 0; i < sorted.length;i++) {
+		for (int i = 0; i < sorted.length; i++) {
 			sb.append(((NucleotidePair) sorted[i]).get5primeIndex()+" ");
 		}
 		sb.append("\n5'-");
-		for (int i = 0; i < sorted.length;i++) {
+		for (int i = 0; i < sorted.length; i++) {
 			sb.append(((NucleotidePair) sorted[i]).get5primeBase());
 		}
 		sb.append("\n   ");
-		for (int i = 0; i < sorted.length;i++) {
+		for (int i = 0; i < sorted.length; i++) {
 			sb.append("|");
 		}
 		sb.append("\n3'-");
-		for (int i = 0; i < sorted.length;i++) {
+		for (int i = 0; i < sorted.length; i++) {
 			sb.append(((NucleotidePair) sorted[i]).get3primeBase());
 		}
 		sb.append("\n   ");
-		for (int i = 0; i < sorted.length;i++) {
+		for (int i = 0; i < sorted.length; i++) {
 			sb.append(((NucleotidePair) sorted[i]).get3primeIndex()+" ");
 		}
 		return sb.toString();
