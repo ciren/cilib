@@ -1,11 +1,9 @@
 /*
- * GBestAbsorptionStrategy.java
+ * DirectionalGBestAbsorptionStrategy.java
  *
- * Created on 13 May 2006
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.niching;
 
@@ -45,41 +42,37 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 /**
  * 
  *@author Edrich
- *
+ *@param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
-
 public class DirectionalGBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> implements AbsorptionStrategy<E> {
     
     public void absorb(E mainSwarm, List<PopulationBasedAlgorithm> subSwarms) {
         
         ListIterator<? extends Entity> mainSwarmIterator = mainSwarm.getTopology().listIterator();
-        while(mainSwarmIterator.hasNext())
-        {
+        while(mainSwarmIterator.hasNext()) {
             Particle mainSwarmParticle = (Particle) mainSwarmIterator.next();
             
             Iterator<PopulationBasedAlgorithm> subSwarmsIterator = subSwarms.iterator();    
-            while(subSwarmsIterator.hasNext())
-            {            	
-                PSO subSwarm = (PSO)subSwarmsIterator.next();
+            while(subSwarmsIterator.hasNext()) {            	
+                PSO subSwarm = (PSO) subSwarmsIterator.next();
                 
                 RadiusVisitor radiusVisitor = new RadiusVisitor();
                 subSwarm.accept(radiusVisitor);
                 double subSwarmRadius = radiusVisitor.getResult();
                 
                 Particle subSwarmBestParticle = subSwarm.getTopology().getBestEntity();
-                Vector subSwarmBestParticlePosition = (Vector)subSwarmBestParticle.getPosition();
-                Vector mainSwarmParticlePosition = (Vector)mainSwarmParticle.getPosition();
+                Vector subSwarmBestParticlePosition = (Vector) subSwarmBestParticle.getPosition();
+                Vector mainSwarmParticlePosition = (Vector) mainSwarmParticle.getPosition();
                 
                 DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
                 double distance = distanceMeasure.distance(subSwarmBestParticlePosition, mainSwarmParticlePosition);
                                 
-                if(distance <= subSwarmRadius && CalculateDotProduct(CalculateDirectionalVector(subSwarmBestParticle),CalculateDirectionalVector(mainSwarmParticle)) < 0.0)
-                {                   
+                if (distance <= subSwarmRadius && calculateDotProduct(calculateDirectionalVector(subSwarmBestParticle), calculateDirectionalVector(mainSwarmParticle)) < 0.0) {                   
                     subSwarm.getTopology().add(mainSwarmParticle);
                     
                     RandomizingControlParameter socialAcceleration = new RandomizingControlParameter();
                     socialAcceleration.setControlParameter(new ConstantControlParameter(1.2));
-                    ((StandardVelocityUpdate)mainSwarmParticle.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration);
+                    ((StandardVelocityUpdate) mainSwarmParticle.getVelocityUpdateStrategy()).setSocialAcceleration(socialAcceleration);
                                         
                     mainSwarmIterator.remove();
                     //System.out.println("absorbed - D:" + distance + " , R: " + subSwarmRadius + " , PID: " + mainSwarmParticle.getId());
@@ -92,13 +85,11 @@ public class DirectionalGBestAbsorptionStrategy<E extends PopulationBasedAlgorit
         
     }
     
-    public Vector CalculateDirectionalVector(Particle a)
-    {
+    private Vector calculateDirectionalVector(Particle a) {
 	 Vector newPosition = (Vector) a.getPosition().getClone();
 	Vector velocity =  (Vector) a.getVelocity().getClone();
 
-	for (int i = 0; i < newPosition.getDimension(); i++)
-	{
+	for (int i = 0; i < newPosition.getDimension(); i++) {
 	    double value = newPosition.getReal(i);
 	    value += velocity.getReal(i);
 	    newPosition.setReal(i, value);
@@ -110,8 +101,7 @@ public class DirectionalGBestAbsorptionStrategy<E extends PopulationBasedAlgorit
 	return direction;
     }
 
-    public double CalculateDotProduct(Vector a, Vector b)
-    {
+    private double calculateDotProduct(Vector a, Vector b) {
 	return a.dot(b);
     }
     

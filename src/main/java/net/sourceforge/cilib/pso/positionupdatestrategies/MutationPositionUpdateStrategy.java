@@ -1,11 +1,9 @@
 /*
  * MutationPositionUpdateStrategy.java
- * 
- * Created on Nov 30, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
@@ -111,7 +108,8 @@ public class MutationPositionUpdateStrategy extends
 		
 		if (maximumIterations == null) {
 			java.util.Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
-			for (Iterator<StoppingCondition> i = vector.iterator(); i.hasNext(); ) {
+			Iterator<StoppingCondition> i = vector.iterator();
+			while (i.hasNext()) {
 				StoppingCondition condition = i.next();
 				if (condition instanceof MaximumIterations) {
 					maximumIterations = (MaximumIterations) condition;
@@ -120,7 +118,7 @@ public class MutationPositionUpdateStrategy extends
 			}
 		}
 		
-		if (Algorithm.get().getIterations() < decreasingParameter.getParameter()*(double)maximumIterations.getMaximumIterations()) {
+		if (Algorithm.get().getIterations() < decreasingParameter.getParameter()*(double) maximumIterations.getMaximumIterations()) {
 			mutate(particle);
 		}
 		
@@ -141,9 +139,8 @@ public class MutationPositionUpdateStrategy extends
 		double tempUpper = 0.0;
 		
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
-			double number = Math.pow((1.0 - (double)p.getIterations()/(maximumIterations.getMaximumIterations()*decreasingParameter.getParameter())),1.5);
-			if (MathUtil.flip(number) == 1)
-			{
+			double number = Math.pow((1.0 - (double) p.getIterations()/(maximumIterations.getMaximumIterations()*decreasingParameter.getParameter())), 1.5);
+			if (MathUtil.flip(number) == 1) {
 				int dimension = Double.valueOf(randomNumber.getUniform(0, position.getDimension())).intValue();
 				Real real = (Real) position.get(dimension);
 				
@@ -160,7 +157,7 @@ public class MutationPositionUpdateStrategy extends
 					tempUpper = real.getReal()+range;
 
 				// Now reinitialise the number randomly between tempUpper and tempLower
-				double tmp = randomNumber.getUniform(tempLower,tempUpper);
+				double tmp = randomNumber.getUniform(tempLower, tempUpper);
 
 				position.setReal(i, tmp);
 			}
@@ -176,7 +173,7 @@ public class MutationPositionUpdateStrategy extends
 	 * @return
 	 */
 	private double strangeFunction(PSO p, MaximumIterations max) {
-		return Math.pow(1.0 - (double)p.getIterations()/(max.getMaximumIterations()*decreasingParameter.getParameter()),1.5);
+		return Math.pow(1.0 - (double) p.getIterations()/(max.getMaximumIterations()*decreasingParameter.getParameter()), 1.5);
 	}
 	
 }

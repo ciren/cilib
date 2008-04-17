@@ -1,12 +1,9 @@
 /*
  * StandardParticle.java
  *
- * Created on September 22, 2003, 1:29 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.pso.particle;
 
@@ -47,7 +44,7 @@ public class StandardParticle extends AbstractParticle {
     protected Particle neighbourhoodBest;
     protected FitnessCalculator fitnessCalculator;
     
-    /** Creates a new instance of StandardParticle */
+    /** Creates a new instance of StandardParticle. */
     public StandardParticle() {
     	super();
     	
@@ -58,8 +55,8 @@ public class StandardParticle extends AbstractParticle {
     }
     
     /**
-     * Copy Constructor.
-     * @param copy
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
      */
     public StandardParticle(StandardParticle copy) {
     	super(copy);

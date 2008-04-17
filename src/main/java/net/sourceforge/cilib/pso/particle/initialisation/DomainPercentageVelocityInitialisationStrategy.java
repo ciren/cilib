@@ -1,9 +1,9 @@
 /*
  * DomainPercentageVelocityInitialisationStrategy.java
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -26,8 +26,10 @@ package net.sourceforge.cilib.pso.particle.initialisation;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-// TODO: this class should be refactored to use the RandomInitialVelocityStrategy or to be a compound
-//       operation where the velocity is first randomised and then scaled by a percentage
+/**
+ * TODO: this class should be refactored to use the RandomInitialVelocityStrategy or to be a compound
+ * operation where the velocity is first randomised and then scaled by a percentage.
+ */
 public class DomainPercentageVelocityInitialisationStrategy implements
 		VelocityInitialisationStrategy {
 	private static final long serialVersionUID = -7178323673738508287L;
