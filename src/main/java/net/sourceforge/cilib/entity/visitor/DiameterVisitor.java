@@ -1,9 +1,9 @@
 /*
  * DiameterVisitor.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -29,6 +29,10 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * Visitor to determine the size of the diameter of the provided {@linkplain Topology}
+ * within the <code>visit</code> method. 
+ */
 public class DiameterVisitor extends TopologyVisitor {
 	
 	public DiameterVisitor() {
@@ -49,7 +53,7 @@ public class DiameterVisitor extends TopologyVisitor {
         		Entity p2 = (Entity) k2.next();
         		Vector position2 = (Vector) p2.getContents();
 
-        		double actualDistance = distanceMeasure.distance(position1,position2);
+        		double actualDistance = distanceMeasure.distance(position1, position2);
         		if (actualDistance > maxDistance)
         			maxDistance = actualDistance;
         	}

@@ -30,6 +30,7 @@ import net.sourceforge.cilib.entity.Entity;
 
 /**
  * @author Gareth David
+ * @param <E> The {@linkplain Entity} type.
  */
 public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
 	private static final long serialVersionUID = -8328600903928335004L;
