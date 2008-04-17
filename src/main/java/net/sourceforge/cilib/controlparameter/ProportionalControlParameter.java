@@ -1,11 +1,9 @@
 /*
- * ProportionalControlParameterUpdateStrategy.java
+ * ProportionalControlParameter.java
  *
- * Created on May 24, 2007
- *
- * Copyright (C) 2003 - 2007 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +20,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.controlparameter;
 
+/**
+ *
+ */
 public class ProportionalControlParameter implements ControlParameter {
 	private static final long serialVersionUID = 8415953407107514281L;
 	private double proportion;
