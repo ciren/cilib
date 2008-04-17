@@ -1,12 +1,9 @@
 /*
  * Tausworthe.java
  *
- * Created on January 16, 2003, 11:09 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,15 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *  
- * This code is based on the implementation in GSL (GNU Scientific Library) 
- * which is also covered by the GNU General Public License. The original C 
- * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler 
- * and Brian Gough.
- *
- * Comment text ripped from GSL.
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.math.random.generator;
 
@@ -53,6 +42,13 @@ package net.sourceforge.cilib.math.random.generator;
  *  LFSR Generators", `Mathematics of Computation', 68, 225
  *  (1999), 261-269
  * </li></ul></p>
+ * 
+ * This code is based on the implementation in GSL (GNU Scientific Library) 
+ * which is also covered by the GNU General Public License. The original C 
+ * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler 
+ * and Brian Gough.
+ *
+ * Comment text ripped from GSL.
  *
  * @author  Edwin Peer
  */
@@ -72,7 +68,7 @@ public class Tausworthe extends Random {
     	return new Tausworthe();
     }
     
-    private long LCG(long n) {
+    private long getLCG(long n) {
         return (69069 * n) & 0xffffffffL;
     }
     
@@ -81,15 +77,15 @@ public class Tausworthe extends Random {
             seed = 1;
         }
         
-        s1 = LCG(seed);
+        s1 = getLCG(seed);
         if (s1 < 2) {
             s1 += 2;
         }
-        s2 = LCG(s1);
+        s2 = getLCG(s1);
         if (s2 < 8) {
             s2 += 8;
         }
-        s3 = LCG(s2);
+        s3 = getLCG(s2);
         if (s3 < 16) {
             s3 += 16;
         }
