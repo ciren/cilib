@@ -32,6 +32,8 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
+import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
+import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
@@ -42,11 +44,13 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 public abstract class CrossoverStrategy implements Operator {
 	private ControlParameter crossoverProbability;
 	private RandomNumber randomNumber;
+	private SelectionStrategy selectionStrategy;
 	
 	
 	public CrossoverStrategy() {
 		crossoverProbability = new ConstantControlParameter(0.5);
 		randomNumber = new RandomNumber();
+		selectionStrategy = new RandomSelectionStrategy();
 	}
 	
 	public CrossoverStrategy(CrossoverStrategy copy) {
@@ -83,6 +87,14 @@ public abstract class CrossoverStrategy implements Operator {
 
 	public void setRandomNumber(RandomNumber randomNumber) {
 		this.randomNumber = randomNumber;
+	}
+
+	public SelectionStrategy getSelectionStrategy() {
+		return selectionStrategy;
+	}
+
+	public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
+		this.selectionStrategy = selectionStrategy;
 	}
 	
 }

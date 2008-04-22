@@ -28,8 +28,6 @@ import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
-import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -39,16 +37,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 */
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
 	
-	private SelectionStrategy selectionStrategy;
-	
 	public OnePointCrossoverStrategy() {
-		super();
-		this.selectionStrategy = new RandomSelectionStrategy();
 	}
 	
 	public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
 		super(copy);
-		this.selectionStrategy = copy.selectionStrategy.getClone();
 	}
 	
 	public OnePointCrossoverStrategy getClone() {
@@ -97,8 +90,8 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 		List<Entity> parentCollection = new ArrayList<Entity>();
 		
-		parentCollection.add(this.selectionStrategy.select(topology));
-		parentCollection.add(this.selectionStrategy.select(topology));
+		parentCollection.add(getSelectionStrategy().select(topology));
+		parentCollection.add(getSelectionStrategy().select(topology));
 		
 		offspring.addAll(this.crossover(parentCollection));
 	}
