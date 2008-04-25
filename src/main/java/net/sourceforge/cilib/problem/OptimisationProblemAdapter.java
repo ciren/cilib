@@ -78,7 +78,5 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 
 	public void setDataSetBuilder(DataSetBuilder dsb) {
 		dataSetBuilder = dsb;
-		dataSetBuilder.setProblem(this);
-		dataSetBuilder.initialise();
 	}
 }

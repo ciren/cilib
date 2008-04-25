@@ -54,6 +54,11 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     	function = copy.function;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
+    public abstract FunctionOptimisationProblem getClone();
+
 	/**
      * Sets the function that is to be optimised.
      *

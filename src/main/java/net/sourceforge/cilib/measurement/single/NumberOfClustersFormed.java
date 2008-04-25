@@ -7,6 +7,7 @@ import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This measurement measures the number of clusters that were formed during a particular clustering.
@@ -41,11 +42,9 @@ public class NumberOfClustersFormed implements Measurement {
 	}
 
 	public Type getValue() {
-		Algorithm algorithm = Algorithm.get();
-		Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
-		ClusterableDataSet dataset = (ClusterableDataSet) algorithm.getOptimisationProblem().getDataSetBuilder();
-		dataset.arrangeClustersAndCentroids(centroids);
-		return new Int(dataset.getArrangedClusters().size());
+		ClusteringUtils helper = ClusteringUtils.get();
+		Vector centroids = (Vector) Algorithm.get().getBestSolution().getPosition();
+		helper.arrangeClustersAndCentroids(centroids);
+		return new Int(helper.getArrangedCentroids().size());
 	}
-
 }

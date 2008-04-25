@@ -65,9 +65,9 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
 		 * cluster. In this case, the dataset mean can be thought of as the dataset's centroid as
 		 * well.
 		 */
-		Vector mean = dataset.getMean();
-		for (Pattern pattern : dataset.getPatterns()) {
-			intraDatasetDistance += calculateDistance(pattern.data, mean);
+		Vector mean = helper.getDataSetMean();
+		for (Pattern pattern : helper.getPatternsInDataSet()) {
+			intraDatasetDistance += helper.calculateDistance(pattern.data, mean);
 		}
 
 		return intraDatasetDistance / calculateIntraClusterDistance();

@@ -23,7 +23,7 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -71,11 +71,11 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
 	@Override
 	protected double calculateWithinClusterScatter(int k) {
 		double withinClusterScatter = 0.0;
-		ArrayList<Pattern> cluster = arrangedClusters.get(k);
+		Collection<Pattern> cluster = arrangedClusters.get(k).values();
 		Vector center = clusterCenterStrategy.getCenter(k);
 
 		for (Pattern pattern : cluster) {
-			withinClusterScatter += calculateDistance(pattern.data, center);
+			withinClusterScatter += helper.calculateDistance(pattern.data, center);
 		}
 		return withinClusterScatter /= cluster.size();
 	}
@@ -86,7 +86,7 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
 	 */
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
-		return calculateDistance(clusterCenterStrategy.getCenter(i), clusterCenterStrategy.getCenter(j));
+		return helper.calculateDistance(clusterCenterStrategy.getCenter(i), clusterCenterStrategy.getCenter(j));
 	}
 
 	@Override

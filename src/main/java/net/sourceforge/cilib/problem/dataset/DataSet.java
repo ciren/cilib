@@ -37,6 +37,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Theuns Cloete
  */
 public abstract class DataSet implements Cloneable, Serializable {
+	@Deprecated
 	protected String patternExpression = null;
 
 	public DataSet() {

@@ -25,11 +25,21 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
-public class MockClusteringStringDataSet extends MockStringDataSet {
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class MockClusteringStringDataSet extends LocalDataSet {
 	private static final long serialVersionUID = 5346632651777290824L;
 
+	private String data = null;
+
 	public MockClusteringStringDataSet() {
-		patternExpression = ",\\s(Class\\d)?";
+		delimiter = ",\\s";
+		beginIndex = 0;
+		endIndex = 1;
+		classIndex = 2;
 
 		data = "5, 1, Class0\n";
 
@@ -136,5 +146,44 @@ public class MockClusteringStringDataSet extends MockStringDataSet {
 		data += "17, 42, Class6\n";
 		data += "19, 42, Class6\n";
 		data += "21, 42, Class6\n";
+	}
+
+	public MockClusteringStringDataSet(MockClusteringStringDataSet rhs) {
+		data = new String(rhs.data);
+		delimiter = new String(rhs.delimiter);
+		beginIndex = rhs.beginIndex;
+		endIndex = rhs.endIndex;
+		classIndex = rhs.classIndex;
+	}
+
+	@Override
+	public MockClusteringStringDataSet getClone() {
+		return new MockClusteringStringDataSet(this);
+	}
+
+	@Override
+	public byte[] getData() {
+		try {
+			InputStream is = getInputStream();
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+			byte[] buffer = new byte[1024];
+			int len = 0;
+			while ((len = is.read(buffer, 0, buffer.length)) != -1) {
+				bos.write(buffer, 0, len);
+			}
+			bos.close();
+
+			return bos.toByteArray();
+		}
+		catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+	}
+
+	@Override
+	public InputStream getInputStream() {
+		InputStream is = new ByteArrayInputStream(data.getBytes());
+		return is;
 	}
 }

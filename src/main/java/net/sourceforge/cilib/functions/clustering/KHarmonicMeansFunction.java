@@ -41,12 +41,12 @@ public class KHarmonicMeansFunction extends ClusteringFitnessFunction {
 	public double calculateFitness() {
 		double harmonicMean = 0.0;
 
-		for (Pattern pattern : dataset.getPatterns()) {
+		for (Pattern pattern : helper.getPatternsInDataSet()) {
 			double sumOfReciprocals = 0.0;
 
 			for (int i = 0; i < arrangedClusters.size(); i++) {
 				Vector center = clusterCenterStrategy.getCenter(i);
-				sumOfReciprocals += 1.0 / Math.max(calculateDistance(pattern.data, center), Double.MIN_VALUE);		// if the distance == 0.0, use a very small value
+				sumOfReciprocals += 1.0 / Math.max(helper.calculateDistance(pattern.data, center), Double.MIN_VALUE);		// if the distance == 0.0, use a very small value
 			}
 			harmonicMean += clustersFormed / sumOfReciprocals;
 		}

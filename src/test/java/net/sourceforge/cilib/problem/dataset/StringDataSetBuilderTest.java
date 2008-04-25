@@ -13,7 +13,7 @@ public class StringDataSetBuilderTest {
 	@BeforeClass
 	public static void intialise() {
 		dataSetBuilder = new StringDataSetBuilder();
-		dataSetBuilder.setDataSet(new MockStringDataSet());
+		dataSetBuilder.addDataSet(new MockStringDataSet());
 		
 		dataSetBuilder.initialise();
 	}

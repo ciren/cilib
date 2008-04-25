@@ -23,8 +23,9 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
+import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -52,17 +53,17 @@ public class DunnIndex53 extends DunnIndex33 {
 	@Override
 	protected double calculateBetweenClusterSeperation(int i, int j) {
 		double lhsAverage = 0.0, rhsAverage = 0.0;
-		ArrayList<Pattern> leftCluster = arrangedClusters.get(i);
-		ArrayList<Pattern> rightCluster = arrangedClusters.get(j);
+		Collection<Pattern> leftCluster = arrangedClusters.get(i).values();
+		Collection<Pattern> rightCluster = arrangedClusters.get(j).values();
 		Vector leftCenter = clusterCenterStrategy.getCenter(i);
 		Vector rightCenter = clusterCenterStrategy.getCenter(j);
 
 		for (Pattern pattern : leftCluster) {
-			lhsAverage += calculateDistance(pattern.data, rightCenter);
+			lhsAverage += helper.calculateDistance(pattern.data, rightCenter);
 		}
 
 		for (Pattern pattern : rightCluster) {
-			rhsAverage += calculateDistance(pattern.data, leftCenter);
+			rhsAverage += helper.calculateDistance(pattern.data, leftCenter);
 		}
 
 		return (lhsAverage + rhsAverage) / (leftCluster.size() + rightCluster.size());

@@ -23,7 +23,7 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
@@ -45,7 +45,7 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
 
 	public DunnIndex33() {
 		super();
-		clusterCenterStrategy = new ClusterMeanStrategy(this);
+		clusterCenterStrategy = new ClusterMeanStrategy();
 	}
 
 	/**
@@ -54,11 +54,11 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
 	@Override
 	protected double calculateWithinClusterScatter(int k) {
 		double averageDistance = 0.0;
-		ArrayList<Pattern> cluster = arrangedClusters.get(k);
+		Collection<Pattern> cluster = arrangedClusters.get(k).values();
 		Vector center = clusterCenterStrategy.getCenter(k);
 
 		for (Pattern pattern : cluster) {
-			averageDistance += calculateDistance(pattern.data, center);
+			averageDistance += helper.calculateDistance(pattern.data, center);
 		}
 		return 2.0 * (averageDistance / cluster.size());
 	}

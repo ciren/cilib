@@ -2,8 +2,8 @@
  * AssociatedPairDataSetBuilder.java
  * 
  * Created on Feb 23, 2006
- *
- * Copyright (C) 2003 - 2006 
+ *   
+ * Copyright (C) 2003 - 2006
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science 
  * University of Pretoria
@@ -21,62 +21,55 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 package net.sourceforge.cilib.problem.dataset;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.algorithm.InitialisationException;
+import net.sourceforge.cilib.math.StatUtils;
+import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.simulator.Simulation;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
-import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+import net.sourceforge.cilib.util.ClusteringUtils;
+
+import org.apache.log4j.Logger;
 
 /**
- * Defines a dataset where each pattern in the dataset is associated with a cluster number ('key'). This pattern -> cluster association forms a pair.
- * The dataset's indexes will therefore be associated with clusters like follows:<br/>
- * [cluster] - [pattern]<br/>
- *       [0] - [0, 1, ..., i, ..., m]<br/>
- *       [1] - [0, 1, ..., i, ..., m]<br/>
- *       ... - ...<br/>
- *       [j] - [0, 1, ..., i, ..., m]<br/>
- *       ... - ...<br/>
- *       [n] - [0, 1, ..., i, ..., m]<br/>
+ * This class "collects" and holds all the patterns of the {@link DataSet}s specified
+ * through the {@link #addDataSet(DataSet)} method. The name is no longer relevant, because
+ * this class no longer keeps track of cluster assignments. That is now the job of the
+ * {@link ClusteringUtils} class. Therefore, this class' name will probably change to
+ * something like ClusterableDataSetBuilder.
+ * 
  * @author Gary Pampara
  * @author Theuns Cloete
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
 	private static final long serialVersionUID = -7035524554252462144L;
+	private static Logger log = Logger.getLogger(AssociatedPairDataSetBuilder.class);
 
-	// The data structure used is an ArrayList that holds Pattern entries
 	protected ArrayList<Pattern> patterns = null;
-	protected ArrayList<ArrayList<Pattern>> arrangedClusters = null;
-	protected ArrayList<Vector> arrangedCentroids = null;
-	// A DistanceMeasure will be used to calculate the distance between a pattern and a centroid
-	protected DistanceMeasure distanceMeasure = null;
-	// the expert can specify how many clusters there should be
-	protected int numberOfClusters = 0;
+	private Vector cachedMean = null;
+	private double cachedVariance = 0.0;
+	private double distanceCache[] = null;
+	private String identifier = null;
 
 	/**
-	 * Initialise the keyPatternPair data structure using the
-	 * {@link net.sourceforge.cilib.util.EuclideanDistanceMeasure} as the default distance measure
+	 * Initialise the patterns data structure and set the identifier to be blank.
 	 */
 	public AssociatedPairDataSetBuilder() {
 		super();
 		patterns = new ArrayList<Pattern>();
-		distanceMeasure = new EuclideanDistanceMeasure();
+		identifier = "";
 	}
 
 	public AssociatedPairDataSetBuilder(AssociatedPairDataSetBuilder rhs) {
 		super(rhs);
 		patterns = new ArrayList<Pattern>();
 		for (Pattern pattern : rhs.patterns) {
-			patterns.add(pattern.clone());
+			patterns.add(pattern.getClone());
 		}
-		distanceMeasure = rhs.distanceMeasure;
 	}
 
 	@Override
@@ -85,286 +78,172 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	}
 
 	/**
-	 * Construct the data structure that will contain all the patterns of all the datasets that exist
+	 * This method overrides {@link DataSetBuilder#addDataSet(DataSet)} because it works
+	 * completely different than a normal {@link DataSetBuilder}. It takes the fact that
+	 * datasets may already have been parsed by other {@link Simulation}s, {@link Problem}s
+	 * or {@link Thread}s into account. It relies on the {@link DataSetManager} singleton to
+	 * parse and/or retrieve the patterns of the given {@link DataSet}. Then it adds these
+	 * retrieved patterns to the current {@link #patterns} list. This method also builds up
+	 * the {@link #identifier} that uniquely identifies this dataset builder. This identifier
+	 * is used by the {@link DataSetManager} to keep track of this built-up dataset, because
+	 * it might be used by other {@link Simulation}s, {@link Problem}s or {@link Thread}s
+	 * as well.
+	 * 
+	 * @throws IllegalArgumentException when the given {@link DataSet} is not a
+	 *         {@link LocalDataSet}. This is only temporary, because I didn't want to change
+	 *         the more generic {@link DataSet} too much.
+	 * @throws IllegalArgumentException when the patterns that are currently being added have
+	 *         different dimensions than the patterns that have already been collected/built
+	 *         (those in {@link #patterns}).
+	 * @param ds the {@link DataSet} that represents a dataset that should be used when
+	 *        building up the list of patterns that should be clustered
+	 */
+	@Override
+	public void addDataSet(DataSet ds) {
+		if (!(ds instanceof LocalDataSet))
+			throw new IllegalArgumentException("This DataSetBuilder expects a LocalDataSet\nONLY FOR NOW\nBECAUSE I didn't want to change the more generic DataSets");
+
+		LocalDataSet dataset = (LocalDataSet) ds;
+		ArrayList<Pattern> data = DataSetManager.get().getDataFromSet(dataset);
+
+		if (!patterns.isEmpty() && data.get(0).data.getDimension() != patterns.get(0).data.getDimension()) {
+			throw new IllegalArgumentException("Cannot combine datasets of different dimensions");
+		}
+		patterns.addAll(data);
+
+		if (identifier == "") {
+			identifier += dataset.getFile();
+		}
+		else {
+			identifier += "#|#" + dataset.getFile();
+		}
+		//		log.debug(data.size() + " patterns added");
+	}
+
+	/**
+	 * By now, all the needed {@link DataSet}s should have been parsed and added to
+	 * {@link #patterns}. All that needs to be done is to cache the mean, the variance and
+	 * the distances between all patterns of this constructed/combined/built dataset.
 	 */
 	public void initialise() {
-		// run through all the datasets specified in the XML file
-		for (DataSet dataset : this) {
-			// every dataset is represented by a file on disk
-			BufferedReader br = new BufferedReader(new InputStreamReader(dataset.getInputStream()));
-			try {
-				Vector builtRepresentation = (Vector) problem.getDomain().getBuiltRepresenation();
-				builtRepresentation = builtRepresentation.subVector(0, (builtRepresentation.size() / numberOfClusters) - 1);
-
-				// every line in a dataset represents a pattern
-				String line = br.readLine();
-				int index = 0;
-				while (line != null) {
-					addToDataSet(index++, line, dataset, builtRepresentation);
-					line = br.readLine();
-				}
-			}
-			catch (IOException io) {
-				throw new RuntimeException(io);
-			}
-			catch (NullPointerException npe) {
-				throw new InitialisationException("Make sure that the <function> tag is before the <dataSetBuilder> tag inside a <problem> tag.");
-			}
-		}
+		cacheMeanAndVariance();
+		cacheDistances();
 	}
 
 	/**
-	 * Parse the given line using the given dataset's patternExpression and add it to the list of patterns
-	 * @param line a String representing one line of the DataSet
-	 * @param dataset the DataSet in which the given line resides
+	 * Calculate and cache the mean ({@link Vector}) and variance (scalar) of the dataset.
 	 */
-	private void addToDataSet(int index, String line, DataSet dataset, Vector builtRepresentation) {
-		// split the received line using the regular expression given in the XML file (or 'patternExpression' in the DataSet class)
-		String[] elements = line.split(dataset.getPatternExpression());
-		//	the elements of the split are stored inside a vector that will form the pattern
-		// we construct the pattern based on the builtRepresentation that has been created from the domain that has been set
-		Vector pattern = builtRepresentation.getClone();
-		int j = 0;
-
-		for (String element : elements) {
-			if(!element.isEmpty()) {
-				pattern.getNumeric(j++).set(element);
-			}
-		}
-		patterns.add(new Pattern(index, 0, pattern));
+	private void cacheMeanAndVariance() {
+		log.info("Caching dataset mean and variance");
+		cachedMean = StatUtils.meanVector(patterns);
+		cachedVariance = StatUtils.variance(patterns, cachedMean);
 	}
 
 	/**
-	 * The three methods called in this method must be called in that specific order, i.e.
-	 * <ol>
-	 * <li>Arrange the centroids (split them up to be manageable)</li>
-	 * <li>Arrange the clusters (assign patterns to their closest centroids) (depends on Step 1)</li>
-	 * <li>Remove the empty clusters and their associated centroids from the <i>arranged lists</i>,
-	 * thereby finalizing the arranging of clusters (depends on both Steps 1 & 2)</li>
-	 * </ol>
-	 * @param centroids the @{@linkplain Vector} that represents the centroids
+	 * Get the cached mean {@link Vector}.
+	 * 
+	 * @return the {@link #cachedMean}
 	 */
-	public synchronized void arrangeClustersAndCentroids(Vector centroids) {
-		arrangeCentroids(centroids);
-		arrangeClusters();
-		removeEmptyClustersAndCentroids();
-		System.gc();
+	public Vector getMean() {
+		return cachedMean;
 	}
 
 	/**
-	 * Take the given centroids {@linkplain Vector}, split it up and return an {@linkplain ArrayList}
-	 * of {@linkplain Vector}s so that each element in this list consist of a single centroid.
-	 * @param centroids the centriods {@linkplain Vector} that should be arranged
+	 * Get the cached variance (scalar).
+	 * 
+	 * @return the {@link #cachedVariance}
 	 */
-	private void arrangeCentroids(Vector centroids) {
-		arrangedCentroids = new ArrayList<Vector>(numberOfClusters);
-		int dimension = centroids.size() / numberOfClusters;
-
-		for (int i = 0; i < numberOfClusters; i++) {
-			arrangedCentroids.add(centroids.subVector(i * dimension, (i * dimension) + dimension - 1));
-		}
+	public double getVariance() {
+		return cachedVariance;
 	}
 
 	/**
-	 * Assign all patterns to their closest centroid, building up an {@linkplain ArrayList}
-	 * that contains {@linkplain ArrayList}s of {@linkplain Pattern}s. The specific {@linkplain Pattern}'s
-	 * <tt>clas</tt> member variable is updated each time a closer centroid is found. When
-	 * this method is done, all patterns will <i>belong</i> to it's closest centroid.
+	 * Calculate and cache the distances from all patterns to all other patterns. The cache
+	 * structure looks like this (x represents a distance):
+	 *   0 1 2 3 4 5
+	 * 0 0 x x x x x
+	 * 1   0 x x x x
+	 * 2     0 x x x
+	 * 3       0 x x
+	 * 4         0 x
+	 * 5           0
+	 * Although it seems like a 2D structure, it is a 1D array. The zero-values are not
+	 * stored, because zero can be returned when the indices are equal. Only the x values are
+	 * stored.
 	 */
-	private void arrangeClusters() {
-		arrangedClusters = new ArrayList<ArrayList<Pattern>>(numberOfClusters);
-
-		for (int i = 0; i < numberOfClusters; i++) {
-			arrangedClusters.add(new ArrayList<Pattern>(patterns.size() / numberOfClusters));
-		}
-
-		for (Pattern pattern : patterns) {
-			double minimum = Double.MAX_VALUE;
-			for (int i = 0; i < numberOfClusters; i++) {
-				double distance = calculateDistance(pattern.data, arrangedCentroids.get(i));
-
-				if (distance < minimum) {
-					minimum = distance;
-					pattern.clas = i;
-				}
-			}
-			arrangedClusters.get(pattern.clas).add(pattern);
-		}
-	}
-
-	/**
-	 * Empty clusters are caused due to centroids that are not associated with any of the patterns in
-	 * the dataset. Empty clusters should not be included in the calculation of fitness functions or
-	 * validity indices. This method removes the empty clusters from the <tt>arrangedClusters</tt>
-	 * list and also the corresponding centroid from the <tt>arrangedCentroids</tt> list.
-	 */
-	private void removeEmptyClustersAndCentroids() {
-		// traverse list of clusters in reverse due to the way in which the remove(i) method works
-		// i.e to prevent skipping elements, because all elements after i are shift left
-		for (int i = arrangedClusters.size() - 1; i >= 0; i--) {
-			if (arrangedClusters.get(i).isEmpty()) {
-				arrangedClusters.remove(i);
-				arrangedCentroids.remove(i);
-			}
-			else {
-				arrangedClusters.get(i).trimToSize();
+	private void cacheDistances() {
+		log.info("Caching distances between patterns of dataset");
+		ClusteringUtils helper = ClusteringUtils.get();
+		int numPatterns = getNumberOfPatterns();
+		int cacheSize = (numPatterns * (numPatterns - 1)) / 2;
+		distanceCache = new double[cacheSize];
+		int index = 0;
+		for (int y = 0; y < numPatterns - 1; y++) {
+			Vector rhs = patterns.get(y).data;
+			for (int x = y + 1; x < numPatterns; x++) {
+				Vector lhs = patterns.get(x).data;
+				index = x + (numPatterns * y) - (((y + 1) * (y + 2)) / 2);
+				distanceCache[index] = helper.calculateDistance(lhs, rhs);
 			}
 		}
-		arrangedClusters.trimToSize();
-		arrangedCentroids.trimToSize();
 	}
 
 	/**
-	 * Returns the centroids as they have been arranged by the {@linkplain arrangeCentroids} method.
-	 * NOTE: It is guaranteed that this list will not contain <i>unassociated</i> centroids ONLY
-	 * when {@linkplain arrangeClustersAndCentroids} has been called before this method.
-	 * @return an easy manageable list containing the different centroids
+	 * Retrieve the cached distance between the given patterns.
+	 * 
+	 * @throws IllegalArgumentException when either <code>x</code> or <code>y</code> is
+	 *         negative.
+	 * @param x index of the one pattern
+	 * @param y index of the other pattern
+	 * @return the cached distance between the two given patterns
 	 */
-	public ArrayList<Vector> getArrangedCentroids() {
-		return arrangedCentroids;
+	public double getCachedDistance(int x, int y) {
+		if (x < 0 || y < 0)
+			throw new IllegalArgumentException("No pattern at (" + x + ", " + y + ")");
+
+		if (x == y)
+			return 0.0;
+
+		if (y > x) {
+			return getCachedDistance(y, x); // use recursion to swap the x and y index
+		}
+		return distanceCache[x + (getNumberOfPatterns() * y) - (((y + 1) * (y + 2)) / 2)];
 	}
 
 	/**
-	 * Returns the clusters as they have been arranged by the {@linkplain arrangeClusters} method.
-	 * NOTE: It is guaranteed that this list will not contain <i>empty</i> clusters ONLY when
-	 * {@linkplain arrangeClustersAndCentroids} has been called before this method.
-	 * @return an easy manageable list containing the different clusters
+	 * Get all the patterns in this constructed/combined/built dataset.
+	 * 
+	 * @return the {@link #patterns} list
 	 */
-	public ArrayList<ArrayList<Pattern>> getArrangedClusters() {
-		return arrangedClusters;
-	}
-
-	/**
-	 * Get the pattern that is represented by the given index
-	 * @param index the index representing a pattern in the <tt>patterns</tt> ArrayList
-	 * @return the pattern represented by index as a {@linkplain Vector}
-	 */
-	public Pattern getPattern(int index) {
-		return patterns.get(index);
-	}
-
-	/**
-	 * Determine how many patterns are in the dataset(s)
-	 * @return the size of the keyPatternPair ArrayList
-	 */
-	public int getNumberOfPatterns() {
-		return patterns.size();
-	}
-
 	public ArrayList<Pattern> getPatterns() {
 		return patterns;
 	}
 
 	/**
-	 * Set the type of DistanceMeasure that should be used for determining the distance between two
-	 * Vectors.
-	 * @param distanceMeasure any class that inherits from DistanceMeasure can be used
+	 * Get the pattern that is represented by the given index.
+	 * 
+	 * @param i the index representing a pattern in the {@link #patterns}
+	 * @return pattern i of {@link #patterns}
 	 */
-	public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
-		this.distanceMeasure = distanceMeasure;
+	public Pattern getPattern(int i) {
+		return patterns.get(i);
 	}
 
 	/**
-	 * Get the type of DistanceMeasure that should be used for determining the distance between two
-	 * Vectors.
-	 * @return a DistanceMeasure object
+	 * Determine how many patterns are in this constructed/combined/built dataset.
+	 * 
+	 * @return the number of patterns/elements in {@link #patterns}
 	 */
-	public DistanceMeasure getDistanceMeasure() {
-		return this.distanceMeasure;
-	}
-
-	public double calculateDistance(Vector x, Vector y) {
-		return distanceMeasure.distance(x, y);
-	}
-
-	public double calculateDistance(int x, int y) {
-		return distanceMeasure.distance(patterns.get(x).data, patterns.get(y).data);
+	public int getNumberOfPatterns() {
+		return patterns.size();
 	}
 
 	/**
-	 * Set the number of clusters that exist in the dataset that will be optimised.
-	 * @param clusters the value that numberOfClusters will be set to
+	 * Get the identifier that uniquely identifies this constructed/combined/built dataset.
+	 * 
+	 * @return the {@link #identifier}
 	 */
-	public void setNumberOfClusters(int clusters) {
-		if (clusters < 1)
-			throw new IllegalArgumentException("The number of clusters cannot be less than 1");
-
-		numberOfClusters = clusters;
-	}
-
-	public int getNumberOfClusters() {
-		return numberOfClusters;
-	}
-
-	/**
-	 * Calculates the mean {@linkplain Vector} of the given set / cluster as shown in Equation 4.b of:<br/>
-	 * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
-	 *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
-	 *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data
-	 *                 Mining", year = "2001", isbn = "0-7695-1119-8", pages = "187--194", publisher =
-	 *                 "IEEE Computer Society", address = "Washington, DC, USA" }
-	 */
-	public Vector getSetMean(ArrayList<Pattern> set) {
-		if (set.isEmpty())
-			throw new IllegalArgumentException("Cannot calculate the mean for an empty set");
-
-		Vector mean = null;
-
-		for (Pattern pattern : set) {
-			if (mean == null) {		// initialise the mean to be all zeroes
-				mean = pattern.data.getClone();
-				mean.reset();
-			}
-			mean = mean.plus(pattern.data);
-		}
-		return mean.divide(set.size());
-	}
-
-	/**
-	 * Calculates the variance {@linkplain Vector} of the given set / cluster as shown in Equation
-	 * 4.c of:<br/>
-	 * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
-	 *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
-	 *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data
-	 *                 Mining", year = "2001", isbn = "0-7695-1119-8", pages = "187--194", publisher =
-	 *                 "IEEE Computer Society", address = "Washington, DC, USA" }
-	 */
-	public Vector getSetVariance(ArrayList<Pattern> set, Vector center) {
-		if (set.isEmpty())
-			throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
-
-		Vector variance = center.getClone();
-
-		variance.reset();		// initialize the variance to be all zeroes
-		for (Pattern pattern : set) {
-			Vector diffSquare = pattern.data.subtract(center);
-			diffSquare = diffSquare.multiply(diffSquare);
-			variance = variance.plus(diffSquare);
-		}
-		return variance.divide(set.size());
-	}
-
-	/**
-	 * Calculates the mean {@linkplain Vector} of the entire dataset as shown in Equation 4.b of:<br/>
-	 * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
-	 *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
-	 *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data
-	 *                 Mining", year = "2001", isbn = "0-7695-1119-8", pages = "187--194", publisher =
-	 *                 "IEEE Computer Society", address = "Washington, DC, USA" }
-	 */
-	public Vector getMean() {
-		return getSetMean(patterns);
-	}
-
-	/**
-	 * Calculates the variance {@linkplain Vector} of the entire dataset as shown in Equation 4.a of:<br/>
-	 * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
-	 *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
-	 *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data
-	 *                 Mining", year = "2001", isbn = "0-7695-1119-8", pages = "187--194", publisher =
-	 *                 "IEEE Computer Society", address = "Washington, DC, USA" }
-	 */
-	public Vector getVariance() {
-		return getSetVariance(patterns, getMean());
+	public String getIdentifier() {
+		return identifier;
 	}
 }

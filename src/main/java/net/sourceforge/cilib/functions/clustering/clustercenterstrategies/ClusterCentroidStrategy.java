@@ -1,17 +1,17 @@
 package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * The <i>center of a cluster</i> is interpreted as the <i>centroid of a cluster</i>.
  * @author Theuns Cloete
  */
-public class ClusterCentroidStrategy extends ClusterCenterStrategy {
+public class ClusterCentroidStrategy implements ClusterCenterStrategy {
 	private static final long serialVersionUID = -7831635507079248268L;
 
-	public ClusterCentroidStrategy(ClusteringFitnessFunction cff) {
-		super(cff);
+	public ClusterCentroidStrategy() {
+		super();
 	}
 
 	/**
@@ -21,6 +21,6 @@ public class ClusterCentroidStrategy extends ClusterCenterStrategy {
 	 */
 	@Override
 	public Vector getCenter(int i) {
-		return clusteringFitnessFunction.getArrangedCentroids().get(i);
+		return ClusteringUtils.get().getArrangedCentroids().get(i);
 	}
 }

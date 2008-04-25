@@ -26,66 +26,44 @@ package net.sourceforge.cilib.problem.dataset;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * All datasets that will be clustered have to implement this interface.
  * @author Theuns Cloete
  */
 public interface ClusterableDataSet {
-	public void arrangeClustersAndCentroids(Vector centroids);
-	public ArrayList<ArrayList<Pattern>> getArrangedClusters();
-	public ArrayList<Vector> getArrangedCentroids();
 
 	public int getNumberOfPatterns();
 
 	public Pattern getPattern(int index);
 
 	public ArrayList<Pattern> getPatterns();
-
-	public void setDistanceMeasure(DistanceMeasure distanceMeasure);
-
-	public DistanceMeasure getDistanceMeasure();
-
-	public double calculateDistance(Vector lhs, Vector rhs);
-
-	public double calculateDistance(int lhs, int rhs);
-
-	public void setNumberOfClusters(int clusters);
-
-	public int getNumberOfClusters();
-
-	public Vector getSetMean(ArrayList<Pattern> set);
-
-	public Vector getSetVariance(ArrayList<Pattern> set, Vector center);
-
 	public Vector getMean();
+	public double getVariance();
+	public double getCachedDistance(int x, int y);
+	public void initialise();
 
-	public Vector getVariance();
-
-	public class Pattern {
-		public int index = 0;
-		public int clas = 0;
+	public class Pattern implements Cloneable {
+		private String clas = "<not set>";
 		public Vector data = null;
 
-		protected Pattern(int i, int c, Vector d) {
-			index = i;
+		public Pattern(String c, Vector d) {
 			clas = c;
 			data = d;
 		}
 
-		protected Pattern(Pattern rhs) {
-			index = rhs.index;
+		public Pattern(Pattern rhs) {
 			clas = rhs.clas;
 			data = rhs.data;
 		}
 
-		protected Pattern clone() {
+		public Pattern getClone() {
 			return new Pattern(this);
 		}
 
 		public String toString() {
-			return "Index " + index + "; Class " + clas + "; Data " + data;
+			return clas + " -> " + data;
 		}
 	}
 }

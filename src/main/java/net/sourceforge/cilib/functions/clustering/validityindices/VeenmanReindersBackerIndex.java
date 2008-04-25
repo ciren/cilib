@@ -26,11 +26,13 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
+import net.sourceforge.cilib.math.StatUtils;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -52,7 +54,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 
 	public VeenmanReindersBackerIndex() {
 		super();
-		clusterCenterStrategy = new ClusterMeanStrategy(this);
+		clusterCenterStrategy = new ClusterMeanStrategy();
 		maximumVariance = new ConstantControlParameter(1.0);	// default variance limit is 1.0
 	}
 
@@ -64,25 +66,25 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
 		double sumOfSquaredError = 0.0;
 
 		for (int i = 0; i < arrangedClusters.size(); i++) {
-			ArrayList<Pattern> cluster = arrangedClusters.get(i);
+			Collection<Pattern> cluster = arrangedClusters.get(i).values();
 			Vector center = clusterCenterStrategy.getCenter(i);
 
 			// H(Y) in the paper refers to the homogeneity of Y (not variance, because we do not divide by |Y|)
 			for (Pattern pattern : cluster) {
-				sumOfSquaredError += Math.pow(calculateDistance(pattern.data, center), 2);
+				sumOfSquaredError += Math.pow(helper.calculateDistance(pattern.data, center), 2);
 			}
 		}
-		return sumOfSquaredError /= dataset.getNumberOfPatterns();
+		return sumOfSquaredError /= helper.getNumberOfPatternsInDataSet();
 	}
 
 	private boolean holdsConstraint() {
 		for (int i = 0; i < clustersFormed - 1; i++) {
 			for (int j = i + 1; j < clustersFormed; j++) {
-				ArrayList<Pattern> union = new ArrayList<Pattern>();
-				union.addAll(arrangedClusters.get(i));
-				union.addAll(arrangedClusters.get(j));
+				Collection<Pattern> union = new ArrayList<Pattern>();
+				union.addAll(arrangedClusters.get(i).values());
+				union.addAll(arrangedClusters.get(j).values());
 
-				if (dataset.getSetVariance(union, dataset.getSetMean(union)).norm() < getMaximumVariance()) {
+				if (StatUtils.variance(union, helper.getDataSetMean()) < getMaximumVariance()) {
 					return false;
 				}
 			}

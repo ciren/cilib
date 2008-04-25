@@ -71,7 +71,7 @@ public class MinkowskiMetric implements DistanceMeasure {
 	 */
 	public <T extends Vector> double distance(T x, T y) {
 		if(x.getDimension() != y.getDimension())
-			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions");
+			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.getDimension() + " != " + y.getDimension());
 		if(alpha < 1)
 			throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
 
@@ -91,7 +91,7 @@ public class MinkowskiMetric implements DistanceMeasure {
 	 */
 	public <T extends Collection<? extends Number>> double distance(T x, T y) {
 		if (x.size() != y.size())
-			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions");
+			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.size() + " != " + y.size());
 		if(alpha < 1)
 			throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
 

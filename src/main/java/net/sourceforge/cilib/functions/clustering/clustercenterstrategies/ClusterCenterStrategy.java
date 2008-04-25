@@ -25,7 +25,6 @@ package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
 import java.io.Serializable;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -34,25 +33,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * refers to a cluster's {@link ClusterMeanStrategy mean}.
  * @author Theuns Cloete
  */
-public abstract class ClusterCenterStrategy implements Serializable {
-	/** So that we can get hold of the arranged clusters and centroids. */
-	protected ClusteringFitnessFunction clusteringFitnessFunction = null;
-
-	public ClusterCenterStrategy() {
-	}
-
-	public ClusterCenterStrategy(ClusteringFitnessFunction cff) {
-		clusteringFitnessFunction = cff;
-	}
-
+public interface ClusterCenterStrategy extends Serializable {
 	/**
 	 * Sub-classes should implement this method to return the desired center of cluster i.
 	 * @param i The integer representing the cluster for which a center should be returned
 	 * @return a {@link Vector} representing the center of cluster i
 	 */
-	public abstract Vector getCenter(int i);
-
-	public void setClusteringFitnessFucntion(ClusteringFitnessFunction cff) {
-		clusteringFitnessFunction = cff;
-	}
+	public Vector getCenter(int i);
 }

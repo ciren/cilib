@@ -24,6 +24,7 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
+import net.sourceforge.cilib.math.StatUtils;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -64,19 +65,18 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 	 */
 	protected double calculateWithinClusterScatter() {
 		double scattering = 0.0;
-		Vector clusterVariance = null;
-		Vector datasetVariance = dataset.getVariance();
+		double datasetVariance = helper.getDataSetVariance();
+		double clusterVariance = 0.0;
 
 		stdev = 0.0;
 		for (int i = 0; i < clustersFormed; i++) {
-			clusterVariance = dataset.getSetVariance(arrangedClusters.get(i), clusterCenterStrategy.getCenter(i));
-			double norm = clusterVariance.norm();
-			scattering += norm;
-			stdev += norm;
+			clusterVariance = StatUtils.variance(arrangedClusters.get(i).values(), clusterCenterStrategy.getCenter(i));
+			scattering += clusterVariance;
+			stdev += clusterVariance;
 		}
 		stdev = Math.sqrt(stdev);
 		stdev /= clustersFormed;
-		scattering /= datasetVariance.norm();
+		scattering /= datasetVariance;
 		return scattering /= clustersFormed;
 	}
 
@@ -98,17 +98,17 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 					midPoint = midPoint.divide(2.0);
 					midDensity = leftDensity = rightDensity = 0;
 
-					for (Pattern pattern : arrangedClusters.get(i)) {
-						if (calculateDistance(pattern.data, midPoint) <= stdev)
+					for (Pattern pattern : arrangedClusters.get(i).values()) {
+						if (helper.calculateDistance(pattern.data, midPoint) <= stdev)
 							++midDensity;
-						if (calculateDistance(pattern.data, leftCenter) <= stdev)
+						if (helper.calculateDistance(pattern.data, leftCenter) <= stdev)
 							++leftDensity;
 					}
 
-					for (Pattern pattern : arrangedClusters.get(j)) {
-						if (calculateDistance(pattern.data, midPoint) <= stdev)
+					for (Pattern pattern : arrangedClusters.get(j).values()) {
+						if (helper.calculateDistance(pattern.data, midPoint) <= stdev)
 							++midDensity;
-						if (calculateDistance(pattern.data, rightCenter) <= stdev)
+						if (helper.calculateDistance(pattern.data, rightCenter) <= stdev)
 							++rightDensity;
 					}
 

@@ -27,7 +27,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -36,7 +35,6 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable, Serializable {
 	protected ArrayList<DataSet> dataSets = null;
-	protected OptimisationProblem problem = null;
 
 	public DataSetBuilder() {
 		this.dataSets = new ArrayList<DataSet>();
@@ -47,12 +45,11 @@ public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable, Se
 		for (DataSet dataset : rhs.dataSets) {
 			dataSets.add(dataset.getClone());
 		}
-		problem = rhs.problem.getClone();
 	}
 
 	public abstract DataSetBuilder getClone();
 
-	public void setDataSet(DataSet dataSet) {
+	public void addDataSet(DataSet dataSet) {
 		this.dataSets.add(dataSet);
 	}
 
@@ -67,13 +64,5 @@ public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable, Se
 	public abstract void initialise();
 
 	public void uninitialise(Vector centroids) {
-	}
-
-	public void setProblem(OptimisationProblem p) {
-		problem = p;
-	}
-
-	public OptimisationProblem getProblem() {
-		return problem;
 	}
 }

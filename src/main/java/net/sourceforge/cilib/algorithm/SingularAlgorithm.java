@@ -24,14 +24,21 @@
 package net.sourceforge.cilib.algorithm;
 
 /**
- * 
- * @author Gary Pampara
+ * This class is the abstract base for all algorithms that do not
+ * fall within the normal Computational Intelligence type of algorithm.
+ * <p>
+ * Examples of such algorithms will include <tt>KMeans</tt>, <tt>Gradient Decent</tt> etc.
  *
  */
 public abstract class SingularAlgorithm extends Algorithm {
 
-	/**
-	 * 
-	 */
+	public SingularAlgorithm() {
+	}
+
+	public SingularAlgorithm(SingularAlgorithm copy) {
+		super(copy);
+	}
+
 	public abstract void algorithmIteration();
+	
 }

@@ -28,7 +28,6 @@ package net.sourceforge.cilib.functions.clustering;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.VectorUtils;
 
@@ -120,11 +119,11 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	 * @return the maximum distance possible between two {@linkplain Vector}s for the specified domain
 	 */
 	protected double zMax() {
-		Vector prototype = (Vector) ((DataSetBuilder)dataset).getProblem().getDomain().getBuiltRepresenation();
+		Vector prototype = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();
 		Vector upperBoundVector = VectorUtils.createUpperBoundVector(prototype);
 		Vector lowerBoundVector = VectorUtils.createLowerBoundVector(prototype);
 
-		return calculateDistance(upperBoundVector, lowerBoundVector);
+		return helper.calculateDistance(upperBoundVector, lowerBoundVector);
 	}
 
 	public void updateControlParameters() {

@@ -46,19 +46,18 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	}
 
 	/**
-	 * @author Theuns Cloete
-	 * @param rhs The
+	 * @param copy The
 	 *        {@linkplain net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm}
 	 *        that should be copied.
 	 */
 	@SuppressWarnings("unchecked")
-	public MultiPopulationBasedAlgorithm(MultiPopulationBasedAlgorithm rhs) {
-		super(rhs);
+	public MultiPopulationBasedAlgorithm(MultiPopulationBasedAlgorithm copy) {
+		super(copy);
 		subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
-		for (PopulationBasedAlgorithm algorithm : rhs.subPopulationsAlgorithms) {
+		for (PopulationBasedAlgorithm algorithm : copy.subPopulationsAlgorithms) {
 			subPopulationsAlgorithms.add(algorithm.getClone());
 		}
-		algorithmIterator = rhs.algorithmIterator;
+		algorithmIterator = copy.algorithmIterator;
 		algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
 	}
 

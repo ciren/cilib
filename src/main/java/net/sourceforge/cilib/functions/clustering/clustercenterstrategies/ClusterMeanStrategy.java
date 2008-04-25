@@ -23,21 +23,22 @@
  */
 package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
+import net.sourceforge.cilib.math.StatUtils;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * The <i>center of a cluster</i> is interpreted as the <i>mean of a cluster</i>.
  * @author Theuns Cloete
  */
-public class ClusterMeanStrategy extends ClusterCenterStrategy {
+public class ClusterMeanStrategy implements ClusterCenterStrategy {
 	private static final long serialVersionUID = 9080168372118441393L;
 
-	public ClusterMeanStrategy(ClusteringFitnessFunction cff) {
-		super(cff);
+	public ClusterMeanStrategy() {
+		super();
 	}
 
 	/**
@@ -47,17 +48,8 @@ public class ClusterMeanStrategy extends ClusterCenterStrategy {
 	 */
 	@Override
 	public Vector getCenter(int i) {
-		ArrayList<Pattern> cluster = clusteringFitnessFunction.getArrangedClusters().get(i);
+		Collection<Pattern> cluster = ClusteringUtils.get().getArrangedClusters().get(i).values();
 
-		if (cluster.isEmpty())
-			throw new IllegalArgumentException("Cannot calculate the mean for an empty cluster");
-
-		Vector mean = cluster.get(0).data.getClone();
-		mean.reset();
-
-		for (Pattern pattern : cluster) {
-			mean = mean.plus(pattern.data);
-		}
-		return mean.divide(cluster.size());
+		return StatUtils.meanVector(cluster);
 	}
 }
