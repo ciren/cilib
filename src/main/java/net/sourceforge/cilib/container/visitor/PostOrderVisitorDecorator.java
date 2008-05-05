@@ -1,11 +1,9 @@
 /*
- * PostOrderVisitor.java
+ * PostOrderVisitorDecorator.java
  *
- * Created on Jun 1, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -30,6 +28,7 @@ package net.sourceforge.cilib.container.visitor;
  * Traversals in the Containers defined.
  * 
  * @author Gary Pampara
+ * @param <E> The type to be visited.
  */
 public class PostOrderVisitorDecorator<E> extends PrePostVisitor<E> {
 	private Visitor<E> visitor;

@@ -34,7 +34,9 @@ import net.sourceforge.cilib.util.Cloneable;
  * This class represents an <code>edge</code> connecting two <code>Vertex</code> nodes in a Graph
  * The Edge can be a uni-directional and well as a bi-directional edge.
  * @author Gary Pampara
+ * @deprecated This class is no longer used.
  */
+@Deprecated
 public class Edge implements Cloneable {
 	private double weight;
 	private double cost;

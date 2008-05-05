@@ -28,6 +28,7 @@ package net.sourceforge.cilib.container.visitor;
  * Traversals in the Containers defined.
  * 
  * @author Gary Pampara
+ * @param <E> The type element.
  */
 public class InOrderVisitorDecorator<E> extends PrePostVisitor<E> {
 	private Visitor<E> visitor;

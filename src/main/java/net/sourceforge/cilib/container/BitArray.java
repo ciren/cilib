@@ -102,7 +102,7 @@ public class BitArray implements Cloneable {
 	 * @throws IndexOutOfBoundsException If the specified index value is invalid
 	 * @return Return the bit value at {@code index}.
 	 */
-	public boolean get(int index) throws IndexOutOfBoundsException {
+	public boolean get(int index) {
 		if ((index > numberOfBits) | (index < 0))
 			throw new IndexOutOfBoundsException("Cannot access bits that are out of scope");
 
@@ -119,7 +119,7 @@ public class BitArray implements Cloneable {
 	 * @param index The index of the target bit
 	 * @throws IndexOutOfBoundsException If the specified index value is invalid
 	 */
-	public void set(int index) throws IndexOutOfBoundsException {
+	public void set(int index) {
 		if ((index > numberOfBits) | (index < 0))
 			throw new IndexOutOfBoundsException("Cannot access bits that are out of scope");
 
@@ -133,7 +133,7 @@ public class BitArray implements Cloneable {
 	 * @param index The index of the bit to be cleared.
 	 * @throws IndexOutOfBoundsException If the specified index value is invalid.
 	 */
-	public void clear(int index) throws IndexOutOfBoundsException {
+	public void clear(int index) {
 		if ((index > numberOfBits) | (index < 0))
 			throw new IndexOutOfBoundsException("Cannot access bits that are out of scope");
 

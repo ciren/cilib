@@ -1,11 +1,9 @@
 /*
- * DiectedGraph.java
+ * DirectedGraph.java
  *
- * Created on May 31, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -31,15 +29,19 @@ import net.sourceforge.cilib.container.Queue;
 import net.sourceforge.cilib.container.visitor.Visitor;
 
 /**
- * An implementation of a Directed Graph data structure
+ * An implementation of a Directed Graph data structure.
  * 
  * @author Gary Pampara
+ * @param <V> The {@code Vertex} type.
+ * @param <E> The {@code Edge} type.
+ * @deprecated This class is no longer used.
  */
+@Deprecated
 public class DirectedGraph<V extends Vertex, E extends Edge> extends Graph<V, E> {
 
 	/**
-	 * Constructor to create a Direceted Graph class
-	 * @param name The unique name to be give to the Vertex
+	 * Constructor to create a Direceted Graph class.
+	 * @param name The unique name to be give to the Vertex.
 	 */
 	public DirectedGraph(String name) {
 		super(name);
@@ -55,12 +57,13 @@ public class DirectedGraph<V extends Vertex, E extends Edge> extends Graph<V, E>
 	}
 	
 	public void topologicalOrderTraversal(Visitor<Vertex> visitor) {
-		int degree [] = new int[getVertexCount()];
+		int [] degree = new int[getVertexCount()];
 		for (int i = 0; i < getVertexCount(); i++)
 			degree[i] = 0;
 		
-		for (ListIterator<E> l = getEdges(); l.hasNext(); ) {
-			Edge edge = l.next();
+		ListIterator<E> edgeIterator = getEdges();
+		while (edgeIterator.hasNext()) {
+			Edge edge = edgeIterator.next();
 			degree[indexOf(edge.getSecondVertex())]++;
 		}
 		
@@ -73,7 +76,7 @@ public class DirectedGraph<V extends Vertex, E extends Edge> extends Graph<V, E>
 			Vertex vertex = queue.dequeue();
 			visitor.visit(vertex);
 			
-			for (ListIterator<Edge> l = vertex.getEmanatingEdges(); l.hasNext(); ) {
+			for (ListIterator<Edge> l = vertex.getEmanatingEdges(); l.hasNext();) {
 				Edge edge = l.next();
 				Vertex tmpVertex = edge.getSecondVertex();
 				

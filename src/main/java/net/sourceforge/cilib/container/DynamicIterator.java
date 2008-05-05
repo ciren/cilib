@@ -1,11 +1,9 @@
 /*
  * DynamicIterator.java
  *
- * Created on May 18, 2006
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -35,6 +33,7 @@ import java.util.NoSuchElementException;
  * modifications.
  * 
  * @author Gary Pampara
+ * @param <E> The element type.
  */
 public class DynamicIterator<E> implements Iterator<E>, ListIterator<E> {
 	
