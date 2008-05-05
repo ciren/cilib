@@ -1,11 +1,9 @@
 /*
  * OpponentSelectionStrategy.java
- * 
- * Created on 2007/04/27
  *
- * Copyright (C) 2003, 2007 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.coevolution;
 
@@ -33,7 +30,7 @@ import net.sourceforge.cilib.entity.Entity;
 
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution 
+ * Selects parent class of the concrete opponents selection strategies used in competitive coevolution. 
  * @author Julien Duhain
  *
  */
@@ -50,7 +47,7 @@ public abstract class OpponentSelectionStrategy {
 	public abstract OpponentSelectionStrategy getClone();
 
 	/**
-	 * selects the opponents from the pool
+	 * selects the opponents from the pool.
 	 * @param pool the pool of potential opponents
 	 * @return list of selected opponents
 	 */

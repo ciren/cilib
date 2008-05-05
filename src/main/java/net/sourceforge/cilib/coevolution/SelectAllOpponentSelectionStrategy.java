@@ -1,11 +1,9 @@
 /*
  * SelectAllOpponentSelectionStrategy.java
- * 
- * Created on 2007/04/27
  *
- * Copyright (C) 2003, 2007 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.coevolution;
 
@@ -33,14 +30,12 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
- * example of implementation of an OpponentSelectionStrategy 
+ * example of implementation of an OpponentSelectionStrategy. 
  * @author Julien Duhain
- *
  */
 public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrategy{
 		
 	public SelectAllOpponentSelectionStrategy() {
-		super();
 	}
 	
 	public SelectAllOpponentSelectionStrategy(SelectAllOpponentSelectionStrategy copy) {
