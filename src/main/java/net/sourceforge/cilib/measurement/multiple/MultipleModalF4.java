@@ -1,9 +1,11 @@
 /*
  * MultipleModalF4.java
  *
- * Created on 13 October, 2006, 11:57 AM
- *
- * Copyright (C) 2006
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.measurement.multiple;
 
@@ -72,7 +73,7 @@ public class MultipleModalF4 implements Measurement {
 			Vector solution = (Vector) i.next().getPosition();
 			for (int count = 0; count < opt.size(); count++) {
 				double sol = (Double) opt.get(count);
-				if (TestNear(solution.getReal(0), sol)) {
+				if (testNear(solution.getReal(0), sol)) {
 					if (!solutionsFound.containsKey(sol))
 						solutionsFound.put(sol, solution);
 					break;
@@ -88,21 +89,21 @@ public class MultipleModalF4 implements Measurement {
 			v.append(s);
 
 			StringType t = new StringType();
-			t.setString(ComputeDerivative(s.getReal(0)) + "");
+			t.setString(derivative(s.getReal(0)) + "");
 			v.append(t);
 		}
 
 		return v;
 	}
 
-	private boolean TestNear(double solution, double val) {
+	private boolean testNear(double solution, double val) {
 		if (val >= (solution - 0.05) && val <= (solution + 0.05))
 			return true;
 
 		return false;
 	}
 
-	private double ComputeDerivative(double x) {
+	private double derivative(double x) {
 		double k = Math.log(0.25) / Math.pow(0.854, 2.0);
 		double g2 = k * Math.pow((x - 0.08), 2.0);
 		double dg2 = 2.0 * k * (x - 0.08);

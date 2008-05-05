@@ -1,9 +1,11 @@
 /*
  * MultipleModalF3.java
  *
- * Created on 12 October, 2006, 3:26 PM
- *
- * Copyright (C) 2006
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.measurement.multiple;
 
@@ -73,7 +74,7 @@ public class MultipleModalF3 implements Measurement {
 
 			for (int count = 0; count < opt.size(); count++) {
 				double sol = (Double) opt.get(count);
-				if (TestNear(solution.getReal(0), sol)) {
+				if (testNear(solution.getReal(0), sol)) {
 					if (!solutionsFound.containsKey(sol))
 						solutionsFound.put(sol, solution);
 					break;
@@ -87,25 +88,23 @@ public class MultipleModalF3 implements Measurement {
 			Vector s = solutionsFound.get(sols.nextElement());
 			v.append(s);
 			StringType t = new StringType();
-			t.setString(ComputeDerivative(s.getReal(0)) + "");
+			t.setString(computeDerivative(s.getReal(0)) + "");
 			v.append(t);
 		}
 		return v;
 	}
 
-	private boolean TestNear(double solution, double val) {
+	private boolean testNear(double solution, double val) {
 		if (val >= (solution - 0.05) && val <= (solution + 0.05))
 			return true;
 		return false;
 	}
 
-	private double ComputeDerivative(double x) {
-		double df3 = 6.0
-				* Math.pow(
-						Math.sin(5.0 * Math.PI * (Math.pow(x, 0.75) - 0.05)),
-						5.0)
-				* Math.cos(5.0 * Math.PI * (Math.pow(x, 0.75) - 0.05))
-				* ((15.0 * Math.PI * Math.pow(x, -0.25)) / 4.0);
+	private double computeDerivative(double x) {
+		double df3 = 6.0 * 
+			Math.pow(Math.sin(5.0 * Math.PI * (Math.pow(x, 0.75) - 0.05)), 5.0) *
+			Math.cos(5.0 * Math.PI * (Math.pow(x, 0.75) - 0.05)) *
+			((15.0 * Math.PI * Math.pow(x, -0.25)) / 4.0);
 		return df3;
 	}
 }

@@ -1,9 +1,11 @@
 /*
  * MultipleRastrigin.java
  *
- * Created on 12 March, 2007, 11:22 AM
- *
- * Copyright (C) 2007
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.measurement.multiple;
 
@@ -75,7 +76,7 @@ public class MultipleRastrigin implements Measurement {
 			Vector solution = (Vector) i.next().getPosition();
 
 			if (DomainParser.getInstance().isInsideBounds(solution)) {
-				if (!HasSolution(solutionsFound, solution))
+				if (!hasSolution(solutionsFound, solution))
 					solutionsFound.add(solution);
 			}
 		}
@@ -96,7 +97,7 @@ public class MultipleRastrigin implements Measurement {
 
 			for (int i = 0; i < s.size(); i++) {
 				t = new StringType();
-				t.setString(ComputeDerivative(s.getReal(i)) + "");
+				t.setString(derivative(s.getReal(i)) + "");
 				v.append(t);
 			}
 		}
@@ -104,14 +105,14 @@ public class MultipleRastrigin implements Measurement {
 		return v;
 	}
 
-	private boolean HasSolution(ArrayList<Vector> list, Vector sol1) {
+	private boolean hasSolution(ArrayList<Vector> list, Vector sol1) {
 		for (int i = 0; i < list.size(); i++) {
 			Vector sol2 = list.get(i);
 			ArrayList<Integer> checks = new ArrayList<Integer>();
 
 			for (int d = 0; d < sol1.size(); d++) {
-				if (sol2.getReal(d) > (sol1.getReal(d) - threshold)
-						&& sol2.getReal(d) < (sol1.getReal(d) + threshold))
+				if (sol2.getReal(d) > (sol1.getReal(d) - threshold) && 
+					sol2.getReal(d) < (sol1.getReal(d) + threshold))
 					checks.add(1);
 				else
 					checks.add(0);
@@ -130,7 +131,7 @@ public class MultipleRastrigin implements Measurement {
 		return false;
 	}
 
-	private double ComputeDerivative(double xi) {
+	private double derivative(double xi) {
 		return (2.0 * xi) + (20.0 * Math.PI * Math.sin(2.0 * Math.PI * xi));
 	}
 }

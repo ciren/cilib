@@ -1,11 +1,9 @@
 /*
  * EuclideanDiversityAroundGBest.java
- * 
- * Created on Jul 24, 2004
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -36,6 +34,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class EuclideanDiversityAroundGBest implements Measurement {
 	private static final long serialVersionUID = 8221420456303029095L;
 

@@ -1,9 +1,11 @@
 /*
- * MultipleModealF1.java
+ * MultipleModalF1.java
  *
- * Created on 7 September, 2006, 3:50 PM
- *
- * Copyright (C) 2006
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.measurement.multiple;
 
@@ -103,9 +104,9 @@ public class MultipleModalF1 implements Measurement {
 	}
 
 	private double computeDerivative(double x) {
-		double df1 = 30.0 * Math.PI
-				* Math.pow(Math.sin(5.0 * Math.PI * x), 5.0)
-				* Math.cos(5.0 * Math.PI * x);
+		double df1 = 30.0 * Math.PI *
+				Math.pow(Math.sin(5.0 * Math.PI * x), 5.0) *
+				Math.cos(5.0 * Math.PI * x);
 
 		return df1;
 	}
