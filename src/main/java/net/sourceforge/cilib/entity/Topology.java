@@ -37,6 +37,7 @@ import net.sourceforge.cilib.problem.Fitness;
  * 
  * @author Gary Pampara
  * @author otter
+ * @param <E> The {@code Entity} type.
  */
 public abstract class Topology<E extends Entity> extends EntityCollection<E> {
 	
@@ -94,8 +95,8 @@ public abstract class Topology<E extends Entity> extends EntityCollection<E> {
     public abstract void setId(String id);
     
     /**
-     * Get the current best {@linkplain Entity} of the {@linkplain Topology}
-     * @return The current best {@linkplain Entity}
+     * Get the current best {@linkplain Entity} of the {@linkplain Topology}.
+     * @return The current best {@linkplain Entity}.
      */
     public E getBestEntity() {
     	if (bestEntity == null) {

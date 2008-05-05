@@ -1,11 +1,9 @@
 /*
  * CauchyMutationStrategy.java
- * 
- * Created on Apr 1, 2006
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,12 +20,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
@@ -68,8 +64,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
 	@Override
 	public void mutate(List<? extends Entity> entity) {
 
-		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext(); ) {
-			Entity current = individual.next(); 
+		for (Entity current : entity) {
 			Vector chromosome = (Vector) current.getContents();
 			
 			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
