@@ -1,9 +1,9 @@
 /*
- * ExponentiallyDecreasingUpdateStrategy.java
- * 
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * ExponentiallyDecreasingControlParameter.java
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,6 +25,9 @@ package net.sourceforge.cilib.controlparameter;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class ExponentiallyDecreasingControlParameter extends BoundedControlParameter {
 	private static final long serialVersionUID = 2703195595193249266L;
 
@@ -33,8 +36,8 @@ public class ExponentiallyDecreasingControlParameter extends BoundedControlParam
 	}
 	
 	/**
-	 * Copy constructor
-	 * @param copy
+	 * Copy constructor.
+	 * @param copy The instance to copy.
 	 */
 	public ExponentiallyDecreasingControlParameter(ExponentiallyDecreasingControlParameter copy) {
 		super(copy);

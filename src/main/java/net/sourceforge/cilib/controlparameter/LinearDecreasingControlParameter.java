@@ -39,7 +39,7 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
 	}
 
 	/**
-	 * Copy constructor
+	 * Create a copy of the provided instance.
 	 * @param copy The instance to copy.
 	 */
 	public LinearDecreasingControlParameter(LinearDecreasingControlParameter copy) {

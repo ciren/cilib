@@ -26,7 +26,7 @@ package net.sourceforge.cilib.controlparameter;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- * TODO: Complete this javadoc
+ * TODO: Complete this javadoc.
  */
 public class ExponentiallyIncreasingControlParameter extends BoundedControlParameter {
 	private static final long serialVersionUID = -4071463556500656337L;
