@@ -30,7 +30,9 @@ import java.util.zip.GZIPOutputStream;
 
 import net.sourceforge.cilib.measurement.Measurement;
 
-
+/**
+ * TODO: Complete this javadoc.
+ */
 public class MeasurementCollector {
 	
 	public MeasurementCollector(Measurement measurement) {
