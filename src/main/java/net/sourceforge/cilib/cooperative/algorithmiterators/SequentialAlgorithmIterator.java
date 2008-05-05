@@ -1,11 +1,9 @@
 /*
  * SequentialAlgorithmIterator.java
- * 
- * Created on May 24, 2007
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -32,7 +30,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
  * Iterate through a list of {@link Algorithm}s in a sequential order.
- * @author Theuns Cloete
+ * @param <E> The {@code Algorithm} type.
  */
 public class SequentialAlgorithmIterator<E extends Algorithm> implements AlgorithmIterator<E> {
 	protected List<E> algorithms = null;

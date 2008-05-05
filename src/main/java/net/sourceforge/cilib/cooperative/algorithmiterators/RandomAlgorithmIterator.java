@@ -1,11 +1,9 @@
 /*
  * RandomAlgorithmIterator.java
- * 
- * Created on May 24, 2007
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -37,7 +35,8 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * to move forwards and backwards in an iteration even though the order is random. To achieve this
  * an list of random indices are generated and the indices are used as the iteration order. The
  * iteration order will be different for every {@link RandomAlgorithmIterator} object.
- * @author Theuns Cloete
+ * 
+ * @param <E> The {@linkplain Algorithm} type.
  */
 public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgorithmIterator<E> {
 	private ArrayList<Integer> randomNumbers = null;

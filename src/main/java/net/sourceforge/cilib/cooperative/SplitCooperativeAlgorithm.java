@@ -1,11 +1,9 @@
 /*
- * SplitCooperativeAglorithm.java
+ * SplitCooperativeAlgorithm.java
  *
- * Created on January 24, 2003, 11:44 AM
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.cooperative;
 
@@ -63,7 +60,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 	protected ContributionUpdateStrategy contributionUpdateStrategy = null;
 
 	/**
-	 * Creates a new instance of a SplitCooperativeAglorithm
+	 * Creates a new instance of a SplitCooperativeAglorithm.
 	 */
 	public SplitCooperativeAlgorithm() {
 		super();
