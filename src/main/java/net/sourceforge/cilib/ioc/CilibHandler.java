@@ -1,11 +1,9 @@
 /*
- * CILibHandler.java
- * 
- * Created on Jun 2, 2006
+ * CilibHandler.java
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.ioc;
 
@@ -87,7 +84,7 @@ public class CilibHandler extends DefaultHandler {
 	 * @throws SAXException if an error has occoured within the SAX parser
 	 */
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-		if ("".equals (uri)) {
+		if ("".equals(uri)) {
 		    log.debug("start element: " + qName);
 
 		    // Get the associated values, if they exist
@@ -148,7 +145,7 @@ public class CilibHandler extends DefaultHandler {
 	 * @param qName
 	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		if ("".equals (uri))
+		if ("".equals(uri))
 		    log.debug("End element: " + qName);
 		else
 		    log.debug("End element: {" + uri + "}" + localName);
@@ -197,10 +194,12 @@ public class CilibHandler extends DefaultHandler {
 		catch (ClassNotFoundException c) {
 			log.error("Cannot find class [" + className + " for instantiation. Please ensure that the spelling is correct and that the class does exist");
 			c.printStackTrace();
-		} catch (InstantiationException e) {
+		} 
+		catch (InstantiationException e) {
 			log.error("Cannot instanciate class [" + className + "] the class is most probably abstract or an interface");
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} 
+		catch (IllegalAccessException e) {
 			log.error("Cannot create instance of class [" + className + "], the access to the required method / constructor is not accessible from the public namespace");
 			e.printStackTrace();
 		}
@@ -312,7 +311,8 @@ public class CilibHandler extends DefaultHandler {
 			
 			try {
 				method = object.getClass().getMethod(propertyName, value.getClass());
-			} catch (NoSuchMethodException e1) {
+			} 
+			catch (NoSuchMethodException e1) {
 				if (value instanceof Integer) {
 					method = object.getClass().getMethod(propertyName, Integer.TYPE);
 				}
@@ -332,16 +332,20 @@ public class CilibHandler extends DefaultHandler {
 				
 			method.invoke(object, value);
 			
-		} catch (SecurityException e) {
+		} 
+		catch (SecurityException e) {
 			log.error("A security exception was thrown. The call does not have permission to execute.");
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
+		}
+		catch (IllegalArgumentException e) {
 			log.error("An invalid / illegal argument was passed to the method invocation. " + object.toString() + "." + propertyName + "(" + value + ") is an illegal arguement");
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		}
+		catch (IllegalAccessException e) {
 			log.error("Cannot invoke method: " + propertyName + "with argument(s): " + value + " because the access modifiers do not allow it. The access to the method should be public.");
 			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		}
+		catch (InvocationTargetException e) {
 			log.error("An exception occoured during the invocation of the method: " + propertyName + ". The cause of this error is :" + e.getCause().getMessage());
 			e.printStackTrace();
 		}
