@@ -1,11 +1,9 @@
 /*
  * StemConflictTable.java
- * 
- * Created on 2005/10/19
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,14 +19,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
 import net.sourceforge.cilib.container.BitArray;
 
-public class StemConflictTable {
+/**
+ * TODO: Compelte this javadoc.
+ */
+public final class StemConflictTable {
 	
 	private static StemConflictTable instance = null;
 	
@@ -36,22 +36,20 @@ public class StemConflictTable {
 	
 	private int size;
 	
-	private StemConflictTable () {
-		
+	private StemConflictTable() {
 	}
 	
 	public static StemConflictTable getInstance() {
 		if (instance == null) {
 			instance = new StemConflictTable();
-			return instance;
-		} else {
-			return instance;
-		}			
+		}
+		
+		return instance;
 	}
 	
 	/**
-	 * Creates a matrix of dimensions size*size
-	 * @param size
+	 * Creates a matrix of dimensions size*size.
+	 * @param size The size of the matrix.
 	 */
 	public void create(int size) {
 		this.size = size;
@@ -63,7 +61,7 @@ public class StemConflictTable {
 	}
 	
 	/**
-	 * this method will set all the bits to 0;
+	 * this method will set all the bits to 0.
 	 */
 	public void clearAll() {
 		for (int i = 0; i < size; i++) {
@@ -74,9 +72,9 @@ public class StemConflictTable {
 	}
 	
 	/**
-	 * Sets a bit (1) in the matrix
-	 * @param row
-	 * @param col
+	 * Sets a bit (1) in the matrix.
+	 * @param row the row.
+	 * @param col The column.
 	 */
 	public void setBit(int row, int col) {
 		matrix[row].set(col);
@@ -84,18 +82,18 @@ public class StemConflictTable {
 	
 	/**
 	 * Returns the value of a bit.
-	 * @param row
-	 * @param col
-	 * @return the value of the bit at row and col
+	 * @param row The row.
+	 * @param col The column.
+	 * @return the value of the bit at row and col.
 	 */
 	public boolean get(int row, int col) {
 		return matrix[row].get(col);
 	}
 	
 	/**
-	 * Clears a specific bit (0) in the matrix
-	 * @param row
-	 * @param col
+	 * Clears a specific bit (0) in the matrix.
+	 * @param row The row.
+	 * @param col The column.
 	 */
 	public void clear(int row, int col) {
 		matrix[row].clear(col);

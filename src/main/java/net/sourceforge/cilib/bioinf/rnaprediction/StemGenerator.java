@@ -221,28 +221,24 @@ public final class StemGenerator {
 	private boolean canBind(char a, char b) {
 		a = Character.toUpperCase(a);
 		b = Character.toUpperCase(b);              
+		
 		if (a == 'A')
 			if (b == 'U')
 				return true;
-			else
-				return false;
-		else if (a == 'U')
+		
+		if (a == 'U')
 			if (b == 'A' || b == 'G')  //U-G is a wobble pair
 				return true;
-			else
-				return false;
-		else if (a == 'C')
+		
+		if (a == 'C')
 			if (b == 'G')
 				return true;
-			else
-				return false;
-		else if (a == 'G')
+		
+		if (a == 'G')
 			if (b == 'C' || b == 'U')  //G-U is a wobble pair
 				return true;
-			else
-				return false;
-		else
-			return false;
+		
+		return false;
 	}
 	
 	public ArrayList<RNAStem> getAllStems() {

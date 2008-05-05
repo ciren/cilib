@@ -1,11 +1,9 @@
 /*
  * SimpleRNAFitness.java
- * 
- * Created on 2005/08/17
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -56,7 +53,7 @@ public class SimpleRNAFitness extends RNAFitness{
 		for (RNAStem stem : stems) {
 			length += stem.getLength()*2;
 		}
-		return new Double (NucleotideString.getInstance().getNucleotideString().length() - length);
+		return new Double(NucleotideString.getInstance().getNucleotideString().length() - length);
 	}
 	
 }

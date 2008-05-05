@@ -1,11 +1,9 @@
 /*
- * NeucleotidePair.java
- * 
- * Created on 2005/09/01
+ * NucleotidePair.java
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -38,14 +35,34 @@ import java.security.InvalidParameterException;
 public class NucleotidePair implements Comparable<NucleotidePair> {
 
 	@Override
-	public boolean equals (Object o) {
-		if (!(o instanceof NucleotidePair)) return false;
-			
-		if (this.compareTo((NucleotidePair)o) == 0) {
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + base3prime;
+		result = prime * result + base5prime;
+		result = prime * result + index3prime;
+		result = prime * result + index5prime;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		} else {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
+		final NucleotidePair other = (NucleotidePair) obj;
+		if (base3prime != other.base3prime)
+			return false;
+		if (base5prime != other.base5prime)
+			return false;
+		if (index3prime != other.index3prime)
+			return false;
+		if (index5prime != other.index5prime)
+			return false;
+		return true;
 	}
 	
 	@Override
@@ -53,7 +70,7 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 		return new String(index5prime+" "+base5prime+base3prime+" "+index3prime);
 	}
 
-	public NucleotidePair (int index5prime, char base5prime, int index3prime, char base3prime) {
+	public NucleotidePair(int index5prime, char base5prime, int index3prime, char base3prime) {
 		//Check bases contain at least 3 nucs between them		
 		if (index3prime-index5prime < 4)
 			throw new InvalidParameterException("There should be at least 3 bases between index5prime and index3prime.");
@@ -66,7 +83,7 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 		this.base3prime = base3prime;
 	}
 	
-	public NucleotidePair (int index5prime, int index3prime) {
+	public NucleotidePair(int index5prime, int index3prime) {
 		this.index5prime = index5prime;
 		this.index3prime = index3prime;
 		this.base5prime = NucleotideString.getInstance().getNucleotideString().charAt(index5prime-1);
@@ -79,7 +96,8 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 				return 0;
 			else 
 				return this.index3prime - o.index3prime;
-		} else {
+		} 
+		else {
 			return this.index5prime - o.index5prime;
 		}
 	}
@@ -115,7 +133,7 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 	
 	/**
 	 * Returns true if this pair is 'inside' or 'internal' pair of other pair.
-	 * ie i`<i<j<j` where i,j is this pair and i`,j` is other pair
+	 * ie i` &lt; i &lt; j &lt; j` where i,j is this pair and i`,j` is other pair
 	 * @param other
 	 * @return
 	 */	
@@ -128,7 +146,7 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 	
 	/**
 	 * Returns true if other pair is 'inside' or 'internal' to this pair.
-	 * ie i<i`<j`<j where i,j is this pair and i`,j` is other pair
+	 * ie i &lt; i` &lt; j` &lt; j where i,j is this pair and i`,j` is other pair
 	 * @param other
 	 * @return
 	 */	
@@ -141,7 +159,7 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 	
 	/**
 	 * Returns true if the base pairs form a pseudoknot formation.
-	 * Returns false if i<j<i`<j` or i`<j`<i<j
+	 * Returns false if i &lt; j &lt; i` &lt; j` or i` &lt; j` &lt; i &lt; j
 	 * @param other
 	 * @return
 	 */

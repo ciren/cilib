@@ -1,9 +1,7 @@
 /*
  * GapOpeningAndExtensionPenalty.java
  *
- * Created on Sep 21, 2004
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.ArrayList;
@@ -41,39 +38,31 @@ public class GapOpeningAndExtensionPenalty implements GapPenaltiesMethod {
 	private ArrayList<String> alignment;
 	private boolean verbose = false;
 	
-	public void setVerbose(boolean verbose)
-	{
+	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
 	}
 	
-	public void setGapExtensionPenalty(double gapExtensionPenalty) 
-	{
+	public void setGapExtensionPenalty(double gapExtensionPenalty) { 
 		this.gapExtensionPenalty = gapExtensionPenalty;
 	}
 
-	public void setGapOpeningPenalty(double gapOpeningPenalty) 
-	{
+	public void setGapOpeningPenalty(double gapOpeningPenalty) {
 		this.gapOpeningPenalty = gapOpeningPenalty;
 	}
 	
-	public double getPenalty(ArrayList<String> _alignment) 
-	{
-		this.alignment = _alignment;
+	public double getPenalty(ArrayList<String> alignment) {
+		this.alignment = alignment;
 		//	Now modify the fitness based on the formula to penalize gaps and gap groups
 		int openingGapsCounter = 0;
 		int extensionGapsCounter = 0;
 
-		for (String s : alignment)
-		{
-			for (int i = 0; i < s.length(); i++)
-			{
-				if(s.charAt(i) == '-')  //first indel of potential group
-				{
+		for (String s : this.alignment) {
+			for (int i = 0; i < s.length(); i++) {
+				if(s.charAt(i) == '-') { //first indel of potential group
 					openingGapsCounter++;  //increment Opening Gaps
 					
-					while(i < s.length()-1)  //look if any extension
-					{
-						if ( s.charAt(++i) == '-') extensionGapsCounter++;
+					while(i < s.length()-1) {  //look if any extension
+						if (s.charAt(++i) == '-') extensionGapsCounter++;
 						else break;
 					}
 				}
@@ -83,11 +72,9 @@ public class GapOpeningAndExtensionPenalty implements GapPenaltiesMethod {
 		double gapPenalty = (extensionGapsCounter*gapExtensionPenalty) + (openingGapsCounter*gapOpeningPenalty);
 		
 		//	prints the current alignment if verbose on
-		if (verbose)
-		{
+		if (verbose) {
 			System.out.println("Penalty: "+gapPenalty+" ["+openingGapsCounter+" opening gap(s)*"+gapOpeningPenalty+" + "+extensionGapsCounter+" extension gap(s)]*"+gapExtensionPenalty+"]");
-			for (String s : alignment)
-			{
+			for (String s : this.alignment) {
 				System.out.println("'" + s + "'");
 			}
 		}

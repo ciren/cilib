@@ -1,11 +1,9 @@
 /*
  * Efn2RNAFitness.java
- * 
- * Created on 2005/08/17
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,12 +19,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
-import java.util.Iterator;
 
 /** 
  * 
@@ -36,11 +32,10 @@ import java.util.Iterator;
  * with mfold from Michael Zuker.
  * 
  */
-
 public class Efn2RNAFitness extends RNAFitness {
 	private static final long serialVersionUID = 328787448081439602L;
 
-	public Efn2RNAFitness (){
+	public Efn2RNAFitness() {
 		nucleotides = NucleotideString.getInstance().getNucleotideString();
 	}
 	
@@ -67,24 +62,23 @@ public class Efn2RNAFitness extends RNAFitness {
 	 * @return a string containing the conformation in CT format.
 	 */
 	private String toCt(RNAConformation stems) {
-		int confArray[] = new int[131]; //!!!
+		int [] confArray = new int[131]; //!!!
 		//clear array
-		for (int i = 0 ; i < confArray.length; i++) {
+		for (int i = 0; i < confArray.length; i++) {
 			confArray[i] = 0;
 		}
 		//fill in the confArray.
-		for (Iterator<RNAStem> it = stems.iterator(); it.hasNext(); ) {
-			RNAStem stem = it.next();
-			for (int l = 0; l < stem.getLength();l++) {
+//		for (RNAStem stem : stems) {
+//			for (int l = 0; l < stem.getLength(); l++) {
 			// FIXME This line cant be right?
 				//confArray[stem.getP5_index()+l] = stem.getP3_index()-l;				
-			}			
-		}		
+//			}			
+//		}		
 	//	String line = "";
 		StringBuffer outString = new StringBuffer();
 		outString.append(nucleotides.length());
 		outString.append("\n");
-		for (int i = 0; i < nucleotides.length()-1;i++) {
+		for (int i = 0; i < nucleotides.length()-1; i++) {
 			outString.append("\t");
 			outString.append(i+1);	//1
 			outString.append((" "));

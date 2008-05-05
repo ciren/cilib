@@ -1,9 +1,7 @@
 /*
  * ViennaRNAFitness.java
- * 
- * Created on 2005/08/19
  *
- * Copyright (C) 2003, 2005 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -96,7 +93,7 @@ public class ViennaRNAFitness extends RNAFitness {
 		//TODO Memory optimisation (Change to use char array instead of String.) 
 		//Currently a new String object is constructed with every call.
 		//System.out.println("Nucleotides length: "+nucleotides.length()+" representation length: "+stems.getRepresentation().length);
-		energy = Float.valueOf(vfitness(nucleotides,new String(stems.getRepresentation()))).doubleValue();		
+		energy = Float.valueOf(vfitness(nucleotides, new String(stems.getRepresentation()))).doubleValue();		
 		return energy;
 	}
 

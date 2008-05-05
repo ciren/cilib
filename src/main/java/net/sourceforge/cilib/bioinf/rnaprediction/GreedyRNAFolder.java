@@ -1,11 +1,9 @@
 /*
  * GreedyRNAFolder.java
- * 
- * Created on 2005/08/17
  *
- * Copyright (C) 2003, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,8 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
@@ -64,7 +61,7 @@ public class GreedyRNAFolder extends RNAFolder {
 				//check if this stem conflicts with any of the current stems
 				conflicts = false;
 				for (RNAStem currentStem : currentFolding) {		 			
-					if (((RNAStem)tempStem).conflictsWith((RNAStem)currentStem)) {
+					if (((RNAStem) tempStem).conflictsWith((RNAStem) currentStem)) {
 						conflicts = true;
 						break;
 					}
@@ -76,7 +73,7 @@ public class GreedyRNAFolder extends RNAFolder {
 					//test if currentFolding is more fit
 					if (fitness.getRNAFitness(currentFolding).doubleValue() < bestFitness) {
 						bestFitness = fitness.getRNAFitness(currentFolding).doubleValue();
-						bestStem = (RNAStem)tempStem;
+						bestStem = (RNAStem) tempStem;
 					}
 					currentFolding.remove(tempStem);
 				}
