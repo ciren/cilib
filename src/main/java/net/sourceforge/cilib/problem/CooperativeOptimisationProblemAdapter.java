@@ -1,11 +1,9 @@
 /*
  * CooperativeOptimisationProblemAdapter.java
- * 
- * Created on May 25, 2007
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -32,7 +30,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO test this class
+ * TODO test this class.
  * @author Theuns Cloete
  */
 public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAdapter {

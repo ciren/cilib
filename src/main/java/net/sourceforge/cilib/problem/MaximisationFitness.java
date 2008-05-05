@@ -1,12 +1,9 @@
 /*
  * MaximisationFitness.java
- * 
- * Created on Jul 24, 2004
  *
- *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *

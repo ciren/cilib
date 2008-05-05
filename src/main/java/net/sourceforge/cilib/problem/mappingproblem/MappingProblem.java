@@ -1,12 +1,9 @@
 /*
  * MappingProblem.java
  *
- * Created on August 21, 2004, 11:00 AM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.problem.mappingproblem;
 
 import net.sourceforge.cilib.container.Matrix;
@@ -53,7 +48,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	private int inputDimension = -1;
 	private int numvectors = -1;
 	private Matrix<Double> inputs = null;
-	private Matrix<Double> inp_distmatrix = null;	
+	private Matrix<Double> inpDistMatrix = null;	
 	private MappingEvaluator evaluator = null;
 	private DistanceMeasure distanceMeasure = null;
 	
@@ -222,14 +217,14 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 		MatrixDataSetBuilder matrixBuilder = (MatrixDataSetBuilder) dataSetBuilder;
 		inputs = matrixBuilder.getMatrix();
 		
-		inp_distmatrix = new Matrix<Double>(numvectors, numvectors);
+		inpDistMatrix = new Matrix<Double>(numvectors, numvectors);
 		
 		for(int i = 0; i < numvectors; i++) {
-			inp_distmatrix.set(i, i, 0.0);
+			inpDistMatrix.set(i, i, 0.0);
 			for(int j = 0; j < i; j++) {
 				double distance = this.distanceMeasure.distance(inputs.getRow(i), inputs.getRow(j));
-				this.inp_distmatrix.set(i, j, distance);
-				this.inp_distmatrix.set(j, i, distance);
+				this.inpDistMatrix.set(i, j, distance);
+				this.inpDistMatrix.set(j, i, distance);
 			}
 		}
 		
@@ -314,7 +309,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * @author jkroon
 	 */
 	public final double getDistanceInputVect(int i1, int i2) {
-		return inp_distmatrix.get(i2, i1);
+		return inpDistMatrix.get(i2, i1);
 	}
 
 	

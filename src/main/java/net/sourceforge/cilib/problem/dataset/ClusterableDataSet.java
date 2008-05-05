@@ -44,6 +44,9 @@ public interface ClusterableDataSet {
 	public double getCachedDistance(int x, int y);
 	public void initialise();
 
+	/**
+	 * TODO: Complete this javadoc. 
+	 */
 	public class Pattern implements Cloneable {
 		private String clas = "<not set>";
 		public Vector data = null;

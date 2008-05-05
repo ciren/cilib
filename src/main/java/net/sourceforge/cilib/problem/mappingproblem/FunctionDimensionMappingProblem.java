@@ -1,11 +1,9 @@
 /*
  * FunctionDimensionMappingProblem.java
- * 
- * Created on Sep 16, 2006
  *
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.problem.mappingproblem;
 
@@ -39,11 +36,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = -5419400002196415792L;
 	
 	private FunctionDimensionMapping function;	
-	private double higherDimensionDistanceMatrix[][];
+	private double[][] higherDimensionDistanceMatrix;
 	
 	public FunctionDimensionMappingProblem() {
 		function = new FunctionDimensionMapping();
@@ -104,7 +104,7 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
 		StringDataSetBuilder builder = (StringDataSetBuilder) getDataSetBuilder();
 		List<String> data = builder.getStrings();
 		
-		higherDimensionDistanceMatrix = new double [data.size()][data.size()];
+		higherDimensionDistanceMatrix = new double[data.size()][data.size()];
 		
 		for (int i = 0; i < data.size(); i++) {
 			for (int j = 0; j < data.size(); j++) {

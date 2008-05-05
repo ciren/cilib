@@ -1,11 +1,9 @@
 /*
  * AssociatedPairDataSetBuilder.java
- * 
- * Created on Feb 23, 2006
- *   
- * Copyright (C) 2003 - 2006
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,15 +19,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.problem.dataset;
 
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.math.StatUtils;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.simulator.Simulation;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -52,7 +48,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	protected ArrayList<Pattern> patterns = null;
 	private Vector cachedMean = null;
 	private double cachedVariance = 0.0;
-	private double distanceCache[] = null;
+	private double [] distanceCache = null;
 	private String identifier = null;
 
 	/**
@@ -104,7 +100,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 			throw new IllegalArgumentException("This DataSetBuilder expects a LocalDataSet\nONLY FOR NOW\nBECAUSE I didn't want to change the more generic DataSets");
 
 		LocalDataSet dataset = (LocalDataSet) ds;
-		ArrayList<Pattern> data = DataSetManager.get().getDataFromSet(dataset);
+		ArrayList<Pattern> data = DataSetManager.getInstance().getDataFromSet(dataset);
 
 		if (!patterns.isEmpty() && data.get(0).data.getDimension() != patterns.get(0).data.getDimension()) {
 			throw new IllegalArgumentException("Cannot combine datasets of different dimensions");

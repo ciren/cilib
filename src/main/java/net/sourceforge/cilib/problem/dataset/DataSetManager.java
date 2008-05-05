@@ -1,13 +1,33 @@
+/*
+ * DataSetManager.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.problem.dataset;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-
-import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
-import net.sourceforge.cilib.simulator.Simulation;
 
 /**
  * This class is a Singleton and is responsible for managing all the {@link DataSet}s and
@@ -25,10 +45,8 @@ import net.sourceforge.cilib.simulator.Simulation;
  * the more generic {@link DataSet}.<br/> The concrete {@link AssociatedPairDataSetBuilder} is
  * used, but only for now, because I didn't want to change the more generic
  * {@link DataSetBuilder}.
- * 
- * @author Theuns Cloete
  */
-public class DataSetManager implements Serializable {
+public final class DataSetManager implements Serializable {
 	private static final long serialVersionUID = 6735187580654161651L;
 
 	private static volatile DataSetManager instance = null;
@@ -40,7 +58,7 @@ public class DataSetManager implements Serializable {
 		builders = new Hashtable<String, AssociatedPairDataSetBuilder>();
 	}
 
-	public synchronized static DataSetManager get() {
+	public static synchronized DataSetManager getInstance() {
 		if (instance == null) {
 			instance = new DataSetManager();
 		}

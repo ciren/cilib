@@ -1,15 +1,30 @@
+/*
+ * ClusteringProblem.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.problem;
 
-import org.apache.log4j.Logger;
-
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.functions.Function;
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
-import net.sourceforge.cilib.problem.dataset.DataSet;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.DataSetManager;
 import net.sourceforge.cilib.type.DomainParser;
@@ -17,6 +32,8 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
+
+import org.apache.log4j.Logger;
 
 /**
  * This class is used to setup/configure a problem that is capable of clustering the data in
@@ -64,7 +81,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	private int numberOfClusters;
 	private DomainRegistry domainRegistry;
 	private DistanceMeasure distanceMeasure;
-	private int UNINITIALISED = -1;
+	private static final int UNINITIALISED = -1;
 
 	public ClusteringProblem() {
 		super();
@@ -238,7 +255,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 
 		AssociatedPairDataSetBuilder builder = (AssociatedPairDataSetBuilder) dsb;
 
-		dataSetBuilder = DataSetManager.get().getDataSetBuilder(builder);
+		dataSetBuilder = DataSetManager.getInstance().getDataSetBuilder(builder);
 		ClusteringUtils.get().setClusterableDataSet((ClusterableDataSet) dataSetBuilder);
 	}
 

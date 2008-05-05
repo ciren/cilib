@@ -1,11 +1,9 @@
 /*
  * MatrixDataSetBuilder.java
- * 
- * Created on Feb 28, 2006
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -33,7 +31,7 @@ import java.io.StreamTokenizer;
 import net.sourceforge.cilib.container.Matrix;
 
 /**
- * TODO: This needs to implement the reading of a matrix as needed by MappingProblem
+ * TODO: This needs to implement the reading of a matrix as needed by MappingProblem.
  * @author Gary Pampara
  */
 public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
@@ -41,8 +39,8 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 
 	private Matrix<Double> matrix;
 	private int numvectors = 0;
-	private int M = -1;
-	private int D = -1;
+	private int m = -1;
+	private int d = -1;
 
 	public MatrixDataSetBuilder() {
 	}
@@ -75,26 +73,26 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 			if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
 				throw new IllegalStateException("Expected an integer number as the second token in the dataset");
 
-			M = (int) tok.nval;
+			m = (int) tok.nval;
 
-			if (M <= 0)
+			if (m <= 0)
 				throw new IllegalStateException("Need to have a positive number as the input dimensions");
 
-			matrix = new Matrix<Double>(numvectors, M);
+			matrix = new Matrix<Double>(numvectors, m);
 
 			if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
 				throw new IllegalStateException("Expected an integer number as the third token in the dataset");
 
-			D = (int) tok.nval;
+			d = (int) tok.nval;
 
-			if (D <= 0)
+			if (d <= 0)
 				throw new IllegalStateException("Need to have a positive number as the input dimensions");
 
-			if (!(D <= M))
+			if (!(d <= m))
 				throw new IllegalStateException("Output dimension must be less than input dimension");
 
 			for (int i = 0; i < numvectors; i++) {
-				for (int m = 0; m < M; m++) {
+				for (int j = 0; j < m; j++) {
 					int tok_ret = tok.nextToken();
 					while (tok_ret != StreamTokenizer.TT_NUMBER) {
 						switch (tok_ret) {
@@ -107,7 +105,7 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 						}
 					}
 
-					matrix.set(i, m, tok.nval);
+					matrix.set(i, j, tok.nval);
 				}
 			}
 		}
@@ -117,7 +115,7 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 	}
 
 	/**
-	 * Get the constructed {@see net.sourceforge.cilib.container.Matrix Matrix}
+	 * Get the constructed {@see net.sourceforge.cilib.container.Matrix Matrix}.
 	 * @return
 	 */
 	public Matrix<Double> getMatrix() {
@@ -128,13 +126,13 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 	 * @return
 	 */
 	public int getD() {
-		return D;
+		return d;
 	}
 
 	/**
 	 * @return
 	 */
 	public int getM() {
-		return M;
+		return m;
 	}
 }
