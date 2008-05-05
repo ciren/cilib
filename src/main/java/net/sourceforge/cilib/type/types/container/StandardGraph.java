@@ -1,9 +1,9 @@
 /*
  * StandardGraph.java
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -35,6 +35,11 @@ import java.util.Set;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.type.types.AbstractType;
 
+/**
+ * TODO: Complete this javadoc.
+ *
+ * @param <E> The {@code Comparable} type.
+ */
 public class StandardGraph<E extends Comparable<E>> extends AbstractType implements Graph<E> {
 	
 	private static final long serialVersionUID = -5517089079342858152L;

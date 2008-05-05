@@ -90,7 +90,7 @@ public interface Tree<E extends Cloneable> extends Structure<E>, Type {
 	
 	/**
 	 * Determine if the current {@linkplain Tree} node is a leaf node in the current
-	 * structure
+	 * structure.
 	 * @return <code>true</code> if it is a leaf node, <code>false</code> otherwise.
 	 */
 	public boolean isLeaf();

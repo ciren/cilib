@@ -80,7 +80,7 @@ public interface Graph<E> extends Structure<E> {
 	public boolean isConnected(E a, E b);
 
 	/**
-	 * Get the vertex at the provided <code>index</code>
+	 * Get the vertex at the provided <code>index</code>.
 	 * @param index The index of the vertex.
 	 * @return The value of the vertex at <code>index</code>. 
 	 */

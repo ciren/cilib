@@ -32,10 +32,10 @@ import net.sourceforge.cilib.type.types.AbstractType;
 
 
 /**
- * TODO: Fix the copy constructor
+ * TODO: Fix the copy constructor. and Complete javadoc.
  * @author mneethling
+ * @param <E> The type.
  */
-
 public class Set<E> extends AbstractType implements Structure<E> {
 	private static final long serialVersionUID = 3697379819132292696L;
 	private HashSet<E> elements;
@@ -58,7 +58,7 @@ public class Set<E> extends AbstractType implements Structure<E> {
 
 	
 	public boolean add(E obj) {
-		return elements.add((E)obj);
+		return elements.add(obj);
 	}
 	
 	public boolean addAll(Structure<? extends E> s) {

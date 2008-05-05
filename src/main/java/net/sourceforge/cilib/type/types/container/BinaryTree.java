@@ -1,9 +1,9 @@
 /*
  * BinaryTree.java
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ *
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -27,6 +27,11 @@ package net.sourceforge.cilib.type.types.container;
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.util.Cloneable;
 
+/**
+ * TODO: Complete this javadoc.
+ *
+ * @param <E>
+ */
 public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3537717751647961525L;
 	

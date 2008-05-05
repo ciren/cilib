@@ -227,7 +227,8 @@ public class DomainBuilder {
 			c = Class.forName("net.sourceforge.cilib.type.creator." + type);
 			//System.out.println("constructing class: " + c.getName());	
 			domain = (TypeCreator) c.newInstance();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}

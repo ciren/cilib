@@ -1,11 +1,9 @@
 /*
  * DomainRegistry.java
- * 
- * Created on Oct 6, 2005
  *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.type;
 
@@ -42,7 +39,7 @@ import net.sourceforge.cilib.util.Cloneable;
 public class DomainRegistry implements Cloneable, Serializable {
 	
 	/**
-	 * Generated <u>Serial Version UID</u> for the serialization
+	 * Generated <u>Serial Version UID</u> for the serialization.
 	 */
 	private static final long serialVersionUID = 3821361290684036030L;
 	private String domainString;
@@ -53,7 +50,6 @@ public class DomainRegistry implements Cloneable, Serializable {
 	/**
 	 * Construct an instacne of the DomainRegistry that will contioan the needed 
 	 * information about the domain. 
-	 *
 	 */
 	public DomainRegistry() {
 	}
@@ -71,7 +67,7 @@ public class DomainRegistry implements Cloneable, Serializable {
 	
 
 	/**
-	 * Get the string specifying the domain
+	 * Get the string specifying the domain.
 	 * @return Returns the domainString.
 	 */
 	public String getDomainString() {
@@ -79,7 +75,7 @@ public class DomainRegistry implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Set the value of the string representing the domain
+	 * Set the value of the string representing the domain.
 	 * @param domainString The domainString to set.
 	 */
 	public void setDomainString(String domainString) {
@@ -89,7 +85,7 @@ public class DomainRegistry implements Cloneable, Serializable {
 	
 	/**
 	 * Get the string representing the domain, after if has been expanded to
-	 * a dimensional string with a descriptve component for each dimension
+	 * a dimensional string with a descriptve component for each dimension.
 	 * @return Returns the expandedRepresentation.
 	 */
 	public String getExpandedRepresentation() {
@@ -97,7 +93,7 @@ public class DomainRegistry implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Set the value of the expaded domain string 
+	 * Set the value of the expaded domain string.
 	 * @param expandedRepresentation The expandedRepresentation to set.
 	 */
 	public void setExpandedRepresentation(String expandedRepresentation) {
@@ -106,7 +102,7 @@ public class DomainRegistry implements Cloneable, Serializable {
 
 	
 	/**
-	 * Get the instance of the built representation for this domain string
+	 * Get the instance of the built representation for this domain string.
 	 * @return Returns the builtRepresenation.
 	 */
 	public Type getBuiltRepresenation() {
@@ -125,8 +121,8 @@ public class DomainRegistry implements Cloneable, Serializable {
 
 
 	/**
-	 * Get the dimension of the built represenation of the domain string
-	 * @return The dimension of the domain string
+	 * Get the dimension of the built representation of the domain string.
+	 * @return The dimension of the domain string.
 	 */
 	public int getDimension() {
 		return ((Vector) this.builtRepresenation).getDimension();
