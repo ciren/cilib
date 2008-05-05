@@ -23,7 +23,6 @@
  */
 package net.sourceforge.cilib.math;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
@@ -49,7 +48,9 @@ public final class StatUtils {
 
 	/**
 	 * Calculates the mean {@linkplain Vector} of the given set/cluster/collection of
-	 * {@link Pattern}s as shown in Equation 4.b of:<br/>
+	 * {@link Pattern}s.
+	 * 
+	 * This is illustrated in Equation 4.b of:<br/>
 	 * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
 	 *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
 	 *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data
@@ -84,8 +85,9 @@ public final class StatUtils {
 	}
 
 	/**
-	 * Calculates the variance of the given set/cluster/collection of @{link Pattern}s as
-	 * shown in Equation 4.c of:<br/>
+	 * Calculates the variance of the given set/cluster/collection of @{link Pattern}s.
+	 * 
+	 * This is illustrated in Equation 4.c of:<br/>
 	 * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
 	 *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
 	 *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data

@@ -1,12 +1,9 @@
 /*
- * RANLUX.java
+ * <filename>.java
  *
- * Created on January 16, 2003, 8:09 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,14 +19,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *  
- * This code is based on the implementation in GSL (GNU Scientific Library) 
- * which is also covered by the GNU General Public License. The original C 
- * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler 
- * and Brian Gough.
- *
- * Comment text ripped from GSL. 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.math.random.generator;
 
@@ -55,6 +45,14 @@ package net.sourceforge.cilib.math.random.generator;
  * high-quality pseudo-random number generator of Lu"scher",
  * Computer Physics Communications', 79 (1994) 111-114
  * </li></ul></p>
+ * 
+ * <p>
+ * This code is based on the implementation in GSL (GNU Scientific Library) 
+ * which is also covered by the GNU General Public License. The original C 
+ * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler 
+ * and Brian Gough.
+ *
+ * Comment text ripped from GSL.
  *
  * @author  Edwin Peer
  */

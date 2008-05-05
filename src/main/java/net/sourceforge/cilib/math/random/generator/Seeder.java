@@ -31,12 +31,14 @@ import java.security.SecureRandom;
 import java.util.Enumeration;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  * @author  Edwin Peer
  */
 public final class Seeder {
-	
+	private static Logger log = Logger.getLogger(Seeder.class);
 	private static Seeder seeder = null;
     private Random random;
     private int address;
@@ -74,7 +76,7 @@ public final class Seeder {
             address = InetAddress.getLocalHost().getAddress();
         }
         catch (UnknownHostException ex) {
-        	ex.printStackTrace();
+        	log.warn("localhost not found directly. Proceeding.");
         }
         
         try {
@@ -90,7 +92,7 @@ public final class Seeder {
             }
         }
         catch (SocketException ex) {
-            ex.printStackTrace();
+        	log.warn("localhost not found through interfce list. Proceeding.");
         }
         
         if (address == null) {

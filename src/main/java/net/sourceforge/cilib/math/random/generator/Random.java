@@ -27,7 +27,6 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * 
- * @author gpampara
  *
  */
 public abstract class Random extends java.util.Random implements Cloneable {
