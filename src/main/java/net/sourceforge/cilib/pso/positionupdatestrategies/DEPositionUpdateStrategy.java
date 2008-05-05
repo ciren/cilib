@@ -34,11 +34,8 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /** Implementation of the DE PSO of Hendtlass.
- * 
+ * TODO: can the DE strategies be incorporated somehow?
  * @author Andries Engelbrecht
- */
-/* TO-DO: can the DE strategies be incorporated somehow?
- * 
  */
 public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = -4052606351661988520L;

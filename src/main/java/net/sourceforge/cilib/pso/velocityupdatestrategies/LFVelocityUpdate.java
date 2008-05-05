@@ -1,11 +1,9 @@
 /*
  * LFVelocityUpdate.java
  *
- * Created on January 31, 2004, 2:02 PM
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,9 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import net.sourceforge.cilib.entity.Particle;
@@ -41,7 +38,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
 	private StandardVelocityUpdate standard;    
     private GradientOptimisationProblem problem;
     
-    /** Creates a new instance of LFVelocityUpdate */
+    /** Creates a new instance of LFVelocityUpdate. */
     public LFVelocityUpdate() {
         standard = new StandardVelocityUpdate();
     }
@@ -90,7 +87,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             
             // If the particle was not the neighbourhood best in the previous
             // epoch, reinitialise the leapfrog variables.
-            if (! lfParticle.getWasNeighbourhoodBest()) {
+            if (!lfParticle.getWasNeighbourhoodBest()) {
                 deltaT = lfParticle.getDefaultDeltaT();
                                 
                 // Reset state variables
@@ -130,7 +127,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             else {                
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //velocity[l] = delta * velocity[l] / (lenDeltaX);
-                	velocity.setReal(l, delta * velocity.getReal(l) / (lenDeltaX ));
+                	velocity.setReal(l, delta * velocity.getReal(l) / (lenDeltaX));
                 }
                 
                 // LeapFrog Algorithm Step 5b
@@ -169,8 +166,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
 
             boolean repeatEndLoop = true;
             
-            while (repeatEndLoop)
-            {
+            while (repeatEndLoop) {
                 // LeapFrog Algorithm Step 6
                 //double [] functionGradient = getGradient(position);
             	Vector functionGradient = getGradient(position);
@@ -283,7 +279,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
     /**
      *  Returns the dot product of two vectors.
      */
-    private double calculateDotProduct(double x [], double y []) {
+    private double calculateDotProduct(double [] x, double [] y) {
         if (x.length != y.length) {
             throw new RuntimeException("Cannot calculate dot product because vectors are of different sizes.");
         }
@@ -301,7 +297,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
     }    
     
     /**
-     * Returns the gradient of the problem function at the given position
+     * Returns the gradient of the problem function at the given position.
      */
     public Vector getGradient(Vector position) {
         return problem.getGradient(position);

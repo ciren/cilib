@@ -1,11 +1,9 @@
 /*
- * 
  * RandomBoundedInitialVelocityStrategy.java
- * 
  *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,7 +21,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.particle.initialisation;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -39,19 +36,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class RandomBoundedInitialVelocityStrategy implements
 		VelocityInitialisationStrategy {
 	private static final long serialVersionUID = -7926839076670354209L;
-	ControlParameter LowerBound;
-	ControlParameter UpperBound;
+	private ControlParameter lowerBound;
+	private ControlParameter upperBound;
 	private RandomNumber random1;
 
 	public RandomBoundedInitialVelocityStrategy() {
-		this.LowerBound = new ConstantControlParameter(0.1);
-		this.UpperBound = new ConstantControlParameter(0.1);
+		this.lowerBound = new ConstantControlParameter(0.1);
+		this.upperBound = new ConstantControlParameter(0.1);
 		this.random1 = new RandomNumber();
 	}
 	
 	public RandomBoundedInitialVelocityStrategy(RandomBoundedInitialVelocityStrategy copy) {
-		this.LowerBound = copy.LowerBound;
-		this.UpperBound = copy.UpperBound;
+		this.lowerBound = copy.lowerBound;
+		this.upperBound = copy.upperBound;
 		this.random1 = copy.random1;
 	}
 	
@@ -62,22 +59,22 @@ public class RandomBoundedInitialVelocityStrategy implements
 	public void initialise(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();
 		for (int i = 0; i < velocity.getDimension(); i++)
-		   velocity.setReal(i, random1.getUniform(LowerBound.getParameter(), UpperBound.getParameter()));
+		   velocity.setReal(i, random1.getUniform(lowerBound.getParameter(), upperBound.getParameter()));
 	}
 
 	public ControlParameter getLowerBound() {
-		return LowerBound;
+		return lowerBound;
 	}
 
 	public void setLowerBound(ControlParameter lowerBound) {
-		this.LowerBound = lowerBound;
+		this.lowerBound = lowerBound;
 	}
 	
 	public ControlParameter getUpperBound() {
-		return UpperBound;
+		return upperBound;
 	}
 
 	public void setUpperBound(ControlParameter upperBound) {
-		this.UpperBound = upperBound;
+		this.upperBound = upperBound;
 	}
 }

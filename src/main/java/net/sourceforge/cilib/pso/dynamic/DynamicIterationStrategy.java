@@ -1,3 +1,26 @@
+/*
+ * DynamicIterationStrategy.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.pso.dynamic;
 
 import java.util.Iterator;
@@ -34,6 +57,8 @@ public class DynamicIterationStrategy extends IterationStrategy<PSO> {
 	private Double reinitialisationRatio; // percentage of the swarm that is going to be re-initialised in case of an environment change
 
 	/**
+	 * Create a new instance of {@linkplain DynamicIterationStrategy}.
+	 * <p>
 	 * The following defaults are set in the constructor: 
 	 * randomiser is instantiated as a MersenneTwister, 
 	 * theta is set to 0.001, 
@@ -80,7 +105,7 @@ public class DynamicIterationStrategy extends IterationStrategy<PSO> {
 		// TODO: There are actually several ways to check for environment change. Should it be refined into a set of strategies?..		
 
 		boolean envChangeOccured = false;
-		Particle sentry = (Particle)topology.get(randomiser.nextInt(algorithm.getPopulationSize()));
+		Particle sentry = (Particle) topology.get(randomiser.nextInt(algorithm.getPopulationSize()));
 		if(sentry.getFitness().compareTo(InferiorFitness.instance()) != 0) { // check for environmental change only if it's not the 1st iteration
 			double oldSentryFitness = sentry.getFitness().getValue();
 			double newSentryFitness = algorithm.getOptimisationProblem().getFitness(sentry.getPosition(), false).getValue();
@@ -94,7 +119,7 @@ public class DynamicIterationStrategy extends IterationStrategy<PSO> {
 			// 2.1 Reset positions of a certain percentage of particles (the percentage can be set by setting reinitialisationRatio variable)
 			boolean [] used = new boolean[algorithm.getPopulationSize()];
 			for (int i = 0; i < algorithm.getPopulationSize(); ++i) used[i] = false;
-			int numParticlesToReinitialise = (int)Math.floor(algorithm.getPopulationSize() * reinitialisationRatio.doubleValue());
+			int numParticlesToReinitialise = (int) Math.floor(algorithm.getPopulationSize() * reinitialisationRatio.doubleValue());
 			int run = 0;
 			while(run < numParticlesToReinitialise) {
 				++run;
@@ -103,7 +128,7 @@ public class DynamicIterationStrategy extends IterationStrategy<PSO> {
 					int index = randomiser.nextInt(algorithm.getPopulationSize());
 					if(used[index]) continue;
 					// ELSE
-					Particle aParticle = (Particle)topology.get(index);
+					Particle aParticle = (Particle) topology.get(index);
 					Type position = aParticle.getPosition();
 					position.randomise();
 					used[index] = true;
@@ -111,37 +136,36 @@ public class DynamicIterationStrategy extends IterationStrategy<PSO> {
 				}
 			}
 			//	2.2 Reevaluate current position. Update personal best (done by reevaluate()).
-			for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
-				DynamicParticle current = (DynamicParticle)(i.next());
+			for (Particle particle : topology) {
+				DynamicParticle current = (DynamicParticle) particle;
 				current.reevaluate();
 			}
 			// 2.3 Update the neighbourhood best
-			for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
+			for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 				Particle current = i.next();
-	            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
+	            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
 	            	Particle other = j.next();
-	            	if (current.getSocialBestFitness().compareTo( other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+	            	if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
 	            		other.setNeighbourhoodBest(current);
 	                }
 	            }
 			}
 		} // end if
 		// Synchronous PSO iteration:
-		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
-			Particle current = i.next();
+		for (Particle current : topology) {
 			current.updateVelocity();
 			current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
 	           
 			boundaryConstraint.enforce(current);
 		}
 
-		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext(); ) {
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 			Particle current = i.next();
             current.calculateFitness();
             
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext(); ) {
+            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
             	Particle other = j.next();
-            	if (current.getSocialBestFitness().compareTo( other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+            	if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
             		other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
             }

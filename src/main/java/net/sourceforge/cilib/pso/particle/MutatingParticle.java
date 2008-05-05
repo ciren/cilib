@@ -251,8 +251,7 @@ public class MutatingParticle extends StandardParticle {
    number generator can create 900 million different subsequences -- with
    each subsequence having a length of approximately 10^30.
 */
-void randomInitialise(int ij, int kl)
-{
+void randomInitialise(int ij, int kl) {
    double s, t;
    int ii, i, j, k, l, jj, m;
 

@@ -1,5 +1,5 @@
 /*
- * LinearVelocityUpdate.java
+ * LinearVelociyUpdate.java
  *
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * TODO: test this
+ * TODO: test this.
  * 
  * @author engel
  */
@@ -75,9 +75,9 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		float cognitive = cognitiveRandomGenerator.nextFloat();
 		
 		for (int i = 0; i < particle.getDimension(); ++i) {			
-			double tmp = inertiaWeight.getParameter()*velocity.getReal(i)
-				+ cognitive  * cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i))
-				+ social * socialAcceleration.getParameter() * (nBestPosition.getReal(i) - position.getReal(i));
+			double tmp = inertiaWeight.getParameter()*velocity.getReal(i) +
+				cognitive  * cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) +
+				social * socialAcceleration.getParameter() * (nBestPosition.getReal(i) - position.getReal(i));
 			velocity.setReal(i, tmp);
 			
 			clamp(velocity, i);

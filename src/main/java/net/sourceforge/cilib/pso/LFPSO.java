@@ -1,12 +1,9 @@
 /*
  * LFPSO.java
  *
- * Created on January 31, 2004, 1:30 PM
- *
- * 
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso;
 
 import net.sourceforge.cilib.algorithm.GradientOptimisationAlgorithm;
@@ -79,6 +74,7 @@ public class LFPSO extends PSO implements GradientOptimisationAlgorithm {
     
     public void setVelocityUpdate(VelocityUpdateStrategy vu) {
         if (vu instanceof LFVelocityUpdate) {
+        	throw new UnsupportedOperationException("This operation is not valid on the algorithm level");
             //super.setVelocityUpdate(vu);
         }
         else {

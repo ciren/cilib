@@ -1,11 +1,9 @@
 /*
  * MergeStrategy.java
  *
- * Created on 13 May 2006
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.niching;
 
@@ -31,9 +28,12 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.PSO;
 
+/**
+ * TODO: Complete this javadoc.
+ *
+ * @param <E>
+ */
 public interface MergeStrategy<E extends PopulationBasedAlgorithm> {
 	
-	//public Collection<E> merge(Collection<? extends E> name);
-	//public void merge(Collection<? extends E> name, double threshold);
 	public void merge(PSO mainSwarm, List<PopulationBasedAlgorithm> name);
 }

@@ -289,8 +289,8 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
     private int s;
     private double p;
         
-    private double gradient [];
-    private double nextGradient [];
+    private double [] gradient;
+    private double [] nextGradient;
     
     //private double previousVelocity [];    
     //private double previousPosition [];

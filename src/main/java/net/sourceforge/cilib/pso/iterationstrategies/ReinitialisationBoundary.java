@@ -25,6 +25,9 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 
 import net.sourceforge.cilib.entity.Entity;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class ReinitialisationBoundary implements BoundaryConstraint {
 	private static final long serialVersionUID = -512973040124015665L;
 
