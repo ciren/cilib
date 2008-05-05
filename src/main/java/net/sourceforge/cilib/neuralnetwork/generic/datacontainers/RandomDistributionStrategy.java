@@ -1,3 +1,26 @@
+/*
+ * RandomDistributionStrategy.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.neuralnetwork.generic.datacontainers;
 
 import java.io.BufferedReader;
@@ -13,6 +36,9 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class RandomDistributionStrategy implements DataDistributionStrategy {
 	
 	protected BufferedReader inputReader = null;
@@ -61,17 +87,18 @@ public class RandomDistributionStrategy implements DataDistributionStrategy {
 	
 	
 	
-	public void populateData(ArrayList<NNPattern> Dc, 
-							 ArrayList<NNPattern> Dt,
-							 ArrayList<NNPattern> Dg, 
-							 ArrayList<NNPattern> Dv) {
+	public void populateData(ArrayList<NNPattern> dc, 
+							 ArrayList<NNPattern> dt,
+							 ArrayList<NNPattern> dg, 
+							 ArrayList<NNPattern> dv) {
 		
 		try {
 			inputReader = new BufferedReader(new FileReader(file));
-		} catch (FileNotFoundException e) {
+		} 
+		catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("Input data file not found...");
-			
-		}		
+		}
+		
 		try {
 			while(inputReader.ready()) {
 				String line = inputReader.readLine();
@@ -94,10 +121,11 @@ public class RandomDistributionStrategy implements DataDistributionStrategy {
 				StandardPattern tmp = new StandardPattern();
 				tmp.setInput(input);
 				tmp.setTarget(target);
-				Dc.add(tmp);
+				dc.add(tmp);
 				
 			}//end while
-		}catch (IOException e){
+		}
+		catch (IOException e){
 			throw new IllegalStateException("IOException: Data not in correct format");
 		}
 		
@@ -106,30 +134,30 @@ public class RandomDistributionStrategy implements DataDistributionStrategy {
 		//=   Distribute the patterns into Dc, Dt, Dg and Dv   =
 		//======================================================
 		
-		int totalPatterns = Dc.size();
+		int totalPatterns = dc.size();
 		
-		int trainsetSize = (int)Math.floor(totalPatterns * this.percentTrain / 100);
-		int gensetSize = (int)Math.floor(totalPatterns * this.percentGen / 100);
-		int valsetSize = (int)Math.floor(totalPatterns * this.percentVal / 100);
+		int trainsetSize = (int) Math.floor(totalPatterns * this.percentTrain / 100);
+		int gensetSize = (int) Math.floor(totalPatterns * this.percentGen / 100);
+		int valsetSize = (int) Math.floor(totalPatterns * this.percentVal / 100);
 		
-		Collections.shuffle(Dc, this.randomizer);
+		Collections.shuffle(dc, this.randomizer);
 				
 		//initiate val set randomly from Candidate set for valsetSize patterns
 		for (int t = 0; t < valsetSize; t++){			
 			int target = 0;
-			Dv.add(Dc.remove(target));
+			dv.add(dc.remove(target));
 		}
 		
 		//initiate training set randomly from Candidate set for trainsetSize patterns
 		for (int t = 0; t < trainsetSize; t++){
 			int target = 0;
-			Dt.add(Dc.remove(target));
+			dt.add(dc.remove(target));
 		}		
 		
 		//initiate gen set randomly from Candidate set for trainsetSize patterns
 		for (int t = 0; t < gensetSize; t++){
 			int target = 0;
-			Dg.add(Dc.remove(target));
+			dg.add(dc.remove(target));
 		}
 						
 	}

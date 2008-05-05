@@ -1,19 +1,36 @@
 /*
- * Created on 2005/07/06
+ * SAILARealData.java
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.generic.datacontainers;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.neuralnetwork.foundation.Initializable;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
 import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.StandardLayerIterator;
+import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.type.types.Real;
 
 /**
@@ -88,11 +105,11 @@ public class SAILARealData extends GenericData implements Initializable{
 		
 				
 			//Iterate over each pattern p in the Candidate set Dc
-			NeuralNetworkDataIterator DcIter = this.getCandidateSetIterator();
+			NeuralNetworkDataIterator dcIter = this.getCandidateSetIterator();
 			
-			while(DcIter.hasMore()){
+			while(dcIter.hasMore()){
 				
-				NNPattern p = DcIter.value();
+				NNPattern p = dcIter.value();
 				
 				//Evaluate p against current NN topology.
 				this.topology.evaluate(p);
@@ -102,11 +119,11 @@ public class SAILARealData extends GenericData implements Initializable{
 				
 				this.prioritisePattern(p, pInformativeness);
 				
-				DcIter.next();
+				dcIter.next();
 			}//end iterate Dc
 			
 			//remove bestInformative patterns from candidate set Dc and add to training set Dt.
-			while( (candidateSet.size() != 0) && (this.mostInformative.size() > 0) ){
+			while ((candidateSet.size() != 0) && (this.mostInformative.size() > 0)) {
 				this.candidateSet.remove(mostInformative.get(0));
 				this.trainingSet.add(mostInformative.get(0));
 				this.mostInformative.remove(0);
@@ -155,12 +172,12 @@ public class SAILARealData extends GenericData implements Initializable{
 
 
 	
-	protected double normalisedOSVector(NeuronConfig Ok) {
+	protected double normalisedOSVector(NeuronConfig ok) {
 		
-		int nrInputs = Ok.getInput()[0].getInput().length;
+		int nrInputs = ok.getInput()[0].getInput().length;
 		double[] inputVector = new double[nrInputs];
-		double outputDeriv = (1.0 - ((Real)Ok.getCurrentOutput()).getReal() )
-							 * ((Real)Ok.getCurrentOutput()).getReal();
+		double outputDeriv = (1.0 - ((Real) ok.getCurrentOutput()).getReal()) *
+							 ((Real) ok.getCurrentOutput()).getReal();
 		
 		//For each input unit
 		for (int i = 0; i < nrInputs -1; i++){
@@ -168,16 +185,16 @@ public class SAILARealData extends GenericData implements Initializable{
 			inputVector[i] = 0.0;
 		    
 			//Iterate over Hidden units
-			for (int h = 0; h < Ok.getInput().length; h++){
+			for (int h = 0; h < ok.getInput().length; h++){
 								
-				NeuronConfig hidden = Ok.getInput()[h];
+				NeuronConfig hidden = ok.getInput()[h];
 				
 				//check that no bias unit used.
 				if (hidden.getInputWeights() != null){
 					//Evaluate equation E6 from SAILA paper, adding result to the input unit vector.
-					inputVector[i] += ((Real) Ok.getInputWeights()[h].getWeightValue()).getReal() 
-						              * ( (1.0 - ((Real)hidden.getCurrentOutput()).getReal()) * 
-							          ((Real)hidden.getCurrentOutput()).getReal() ) *
+					inputVector[i] += ((Real) ok.getInputWeights()[h].getWeightValue()).getReal() * 
+						              ((1.0 - ((Real) hidden.getCurrentOutput()).getReal()) * 
+							          ((Real) hidden.getCurrentOutput()).getReal()) *
 							          ((Real) hidden.getInputWeights()[i].getWeightValue()).getReal();
 					
 				}

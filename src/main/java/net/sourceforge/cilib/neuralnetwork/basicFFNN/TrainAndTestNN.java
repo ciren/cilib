@@ -1,8 +1,25 @@
 /*
- * Created on 2004/12/29
+ * TrainAndTestNN.java
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.basicFFNN;
 
@@ -25,12 +42,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * 
  */
-public class TrainAndTestNN {
+public final class TrainAndTestNN {
+	
+	private TrainAndTestNN(){
+	}
 	
 	public static void main(String[] args) {
 		
-		NeuralNetworkTopology NNtopology = new FFNNTopology(1, 30, 1, 0.5, 1.0);
-		TrainingStrategy train = new FFNNTrainingStrategy((FFNNTopology)NNtopology);
+		NeuralNetworkTopology neuralNetworkTopology = new FFNNTopology(1, 30, 1, 0.5, 1.0);
+		TrainingStrategy train = new FFNNTrainingStrategy((FFNNTopology) neuralNetworkTopology);
 		
 		GenericData data = null;
 		
@@ -57,7 +77,7 @@ public class TrainAndTestNN {
 		
 		//use the Generic Package's FFNNEvaluationMediator.
 		FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
-		eval.setTopology(NNtopology); 
+		eval.setTopology(neuralNetworkTopology); 
 		eval.setData(data);
 		eval.addPrototypError(err);
 		//eval.addPrototypError(err1);
@@ -65,22 +85,22 @@ public class TrainAndTestNN {
 		//	eval.initialize();
 		
 		
-		NeuralNetworkProblem NNprob = new NeuralNetworkProblem();
-		NNprob.setEvaluationStrategy(eval);
+		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
+		neuralNetworkProblem.setEvaluationStrategy(eval);
 		//	NNprob.initialize();
 		
-		NeuralNetworkController NNControl = new NeuralNetworkController();
-		NNControl.setProblem(NNprob);
+		NeuralNetworkController neuralNetworkController = new NeuralNetworkController();
+		neuralNetworkController.setProblem(neuralNetworkProblem);
 		
-		NNControl.addStoppingCondition(new MaximumIterations(5000));
+		neuralNetworkController.addStoppingCondition(new MaximumIterations(5000));
 		
 		System.out.println("Configuration completed...");
 		//-----------------------------------------------------------------------------------------------------------
 		
-		NNControl.initialise();
+		neuralNetworkController.initialise();
 		//needed by Algorithm...
 		
-		NNControl.run();
+		neuralNetworkController.run();
 		//run Algorithm
 		
 		
@@ -91,10 +111,10 @@ public class TrainAndTestNN {
 		
 		StandardPattern p = new StandardPattern(in, null);
 		
-		Vector result = NNtopology.evaluate(p);
+		Vector result = neuralNetworkTopology.evaluate(p);
 		
 		//output line - add any status here that reports on the manual pattern entered.
-		System.out.println("test result: 1 and 1 = 0.6    -->  " + ((Real)result.get(0)).getReal());
+		System.out.println("test result: 1 and 1 = 0.6    -->  " + ((Real) result.get(0)).getReal());
 		
 		System.out.println("data stats:\n\n");
 		

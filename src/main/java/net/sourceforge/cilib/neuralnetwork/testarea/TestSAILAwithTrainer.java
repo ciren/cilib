@@ -1,11 +1,34 @@
 /*
- * Created on 2005/04/23
+ * TestSAILAwithTrainer.java
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.testarea;
 
+import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
+import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
+import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
+import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
+import net.sourceforge.cilib.neuralnetwork.generic.LayeredGenericTopology;
+import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.RandomDistributionStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.SAILARealData;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
@@ -15,12 +38,6 @@ import net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators.SAILAEval
 import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder;
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.FFNN_GD_TrainingStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.SquaredErrorFunction;
-import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
-import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
-import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
-import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
-import net.sourceforge.cilib.neuralnetwork.generic.LayeredGenericTopology;
-import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -31,8 +48,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class TestSAILAwithTrainer {
+public final class TestSAILAwithTrainer {
 
+	private TestSAILAwithTrainer() {
+		
+	}
 	
 	
 	public static void main(String[] args) {
@@ -88,19 +108,19 @@ public class TestSAILAwithTrainer {
 		eval.addPrototypError(err1);
 		eval.setTrainer(trainer);
 		
-		NeuralNetworkProblem NNprob = new NeuralNetworkProblem();
-		NNprob.setEvaluationStrategy(eval);
+		NeuralNetworkProblem neuralNetworkProb = new NeuralNetworkProblem();
+		neuralNetworkProb.setEvaluationStrategy(eval);
 				
-		NeuralNetworkController NNControl = new NeuralNetworkController();
-		NNControl.setProblem(NNprob);
+		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
+		neuralNetworkControl.setProblem(neuralNetworkProb);
 		
-		NNControl.addStoppingCondition(new MaximumIterations(1000));
+		neuralNetworkControl.addStoppingCondition(new MaximumIterations(1000));
 //		add stopping kondisie
 		
 		System.out.println("Configuration completed...");
 //		-----------------------------------------------------------------------------------------------------------
 
-NNControl.initialise();
+neuralNetworkControl.initialise();
 //needed
 
 System.out.println("TEST SETUP: data stats before training:\n\n");
@@ -112,7 +132,7 @@ System.out.println("validation set size     : " + data.getValidationSetSize());
 System.out.println("Candidate set           : " + data.getCandidateSetSize());
 
 
-NNControl.run();
+neuralNetworkControl.run();
 ////run die stuff
 		
 		
@@ -126,7 +146,7 @@ StandardPattern p = new StandardPattern(in, null);
 
 Vector result = topo.evaluate(p);
 
-System.out.println("test result f(0.5) = 0.25  -->  : " + ((Real)result.get(0)).getReal());
+System.out.println("test result f(0.5) = 0.25  -->  : " + ((Real) result.get(0)).getReal());
 
 System.out.println("data stats:\n\n");
 

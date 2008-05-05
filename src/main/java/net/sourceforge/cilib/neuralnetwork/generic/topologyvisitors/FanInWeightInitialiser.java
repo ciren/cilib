@@ -27,9 +27,10 @@ import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.type.types.Real;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class FanInWeightInitialiser implements GenericTopologyVisitor {
-	
-	
 	
 	public FanInWeightInitialiser() {
 		super();

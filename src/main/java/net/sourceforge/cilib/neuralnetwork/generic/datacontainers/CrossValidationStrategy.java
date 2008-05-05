@@ -1,3 +1,26 @@
+/*
+ * CrossValidationStrategy.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.neuralnetwork.generic.datacontainers;
 
 import java.io.BufferedReader;
@@ -13,6 +36,10 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * TODO: Complete this javadoc.
+ *
+ */
 //Draft class - not tested yet.
 public class CrossValidationStrategy implements DataDistributionStrategy {
 	
@@ -23,8 +50,8 @@ public class CrossValidationStrategy implements DataDistributionStrategy {
 	protected int noInputs;
 	
 	//cross validation number of sets = K
-	protected int K;
-	protected int Koffset;
+	protected int k;
+	protected int kOffset;
 	protected int percentTrain;
 	protected int percentGen;
 	protected int percentCan;
@@ -33,8 +60,8 @@ public class CrossValidationStrategy implements DataDistributionStrategy {
 	public CrossValidationStrategy() {
 		
 		this.noInputs = 999;
-		this.K = 99999;
-		this.Koffset = 999999;
+		this.k = 99999;
+		this.kOffset = 999999;
 		this.file= null;
 		//Default choice, can be set explicitely.
 		this.shuffleRandomizer = new Random(System.currentTimeMillis());
@@ -56,11 +83,11 @@ public class CrossValidationStrategy implements DataDistributionStrategy {
 			throw new IllegalArgumentException("Percentages for data sets do not add up to 100");
 		}
 		
-		if (this.K == 99999) {
+		if (this.k == 99999) {
 			throw new IllegalArgumentException("K-value is not set.");
 		}
 		
-		if (this.Koffset >= this.K) {
+		if (this.kOffset >= this.k) {
 			throw new IllegalArgumentException("K-offset is too large or not set correctly.");
 		}
 				
@@ -70,17 +97,18 @@ public class CrossValidationStrategy implements DataDistributionStrategy {
 	
 	
 	
-	public void populateData(ArrayList<NNPattern> Dc, 
-							 ArrayList<NNPattern> Dt,
-							 ArrayList<NNPattern> Dg, 
-							 ArrayList<NNPattern> Dv) {
+	public void populateData(ArrayList<NNPattern> dc, 
+							 ArrayList<NNPattern> dt,
+							 ArrayList<NNPattern> dg, 
+							 ArrayList<NNPattern> dv) {
 		
 		try {
 			inputReader = new BufferedReader(new FileReader(file));
-		} catch (FileNotFoundException e) {
+		} 
+		catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("Input data file not found...");
-			
 		}		
+	
 		try {
 			while(inputReader.ready()) {
 				String line = inputReader.readLine();
@@ -103,10 +131,11 @@ public class CrossValidationStrategy implements DataDistributionStrategy {
 				StandardPattern tmp = new StandardPattern();
 				tmp.setInput(input);
 				tmp.setTarget(target);
-				Dc.add(tmp);
+				dc.add(tmp);
 				
 			}//end while
-		}catch (IOException e){
+		}
+		catch (IOException e){
 			throw new IllegalStateException("IOException: Data not in correct format");
 		}
 		
@@ -115,29 +144,29 @@ public class CrossValidationStrategy implements DataDistributionStrategy {
 		//=   Distribute the patterns into Dc, Dt, Dg and Dv usinf K-fold crossvalidation  =
 		//==================================================================================
 		
-		int KvalidationSize = (int)Math.floor(Dc.size() / this.K);
-		int trainsetSize = (int)Math.floor( (Dc.size() - KvalidationSize) * this.percentTrain / 100);
-		int gensetSize = (int)Math.floor( (Dc.size() - KvalidationSize) * this.percentGen / 100);
+		int kValidationSize = (int) Math.floor(dc.size() / this.k);
+		int trainsetSize = (int) Math.floor((dc.size() - kValidationSize) * this.percentTrain / 100);
+		int gensetSize = (int) Math.floor((dc.size() - kValidationSize) * this.percentGen / 100);
 				
-		if (Dc.size() % KvalidationSize > 0){
+		if (dc.size() % kValidationSize > 0){
 			throw new IllegalArgumentException("Invalid value for K - total patterns mod K is not zero.");
 		}
 		
-		Collections.shuffle(Dc, this.shuffleRandomizer);
+		Collections.shuffle(dc, this.shuffleRandomizer);
 		
 		//Validation set = Kth set of patterns
-		for (int i = 0; i < KvalidationSize; i++){
-			Dv.add(Dc.remove(this.Koffset * KvalidationSize));
+		for (int i = 0; i < kValidationSize; i++){
+			dv.add(dc.remove(this.kOffset * kValidationSize));
 		}
 		
 		//Generalization set
 		for (int i = 0; i < gensetSize; i++){
-			Dg.add(Dc.remove(0));
+			dg.add(dc.remove(0));
 		}
 		
 		//Training set
 		for (int i = 0; i < trainsetSize; i++){
-			Dt.add(Dc.remove(0));
+			dt.add(dc.remove(0));
 		}
 	}
 
@@ -148,12 +177,12 @@ public class CrossValidationStrategy implements DataDistributionStrategy {
 
 
 	public void setK(int k) {
-		K = k;
+		this.k = k;
 	}
 
 
 	public void setKoffset(int koffset) {
-		Koffset = koffset;
+		kOffset = koffset;
 	}
 
 

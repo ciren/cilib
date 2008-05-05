@@ -1,3 +1,26 @@
+/*
+ * NNOutput.java
+ *
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.neuralnetwork.foundation.measurements;
 
 import java.io.BufferedWriter;
@@ -16,6 +39,9 @@ import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * Measurement to determine the output of a Neural Network.
+ */
 public class NNOutput implements Measurement {
 	private static final long serialVersionUID = -3695723118431143860L;
 	private String inputFile;
@@ -30,7 +56,6 @@ public class NNOutput implements Measurement {
 	}
 
 	public NNOutput(NNOutput rhs) {
-//		super(rhs);
 		throw new UnsupportedOperationException("public NNOutput(NNOutput rhs)");
 	}
 
@@ -56,7 +81,8 @@ public class NNOutput implements Measurement {
 		int iter = Algorithm.get().getIterations();
 		try {
 			out = new BufferedWriter(new FileWriter(this.outputFile + "_" + String.valueOf(iter) + ".txt"));
-		} catch (IOException e1) {
+		} 
+		catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
@@ -70,7 +96,8 @@ public class NNOutput implements Measurement {
 			try {
 				out.write(iteratorDc.value().getInput().toString() + " " + outputDg.toString());
 				out.newLine();
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				e.printStackTrace();
 				throw new IllegalStateException("Problem writing measurement to file...");
 			}
@@ -82,7 +109,8 @@ public class NNOutput implements Measurement {
 		try {
 			out.flush();
 			out.close();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 			throw new IllegalStateException("Problem writing measurement to file...");
 		}
