@@ -548,10 +548,7 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 	 * returns 1 if current best individual is on highest peak, 0 otherwise
 	 */
 	public boolean getRightPeak() {
-		if (this.currentPeak == this.maximumPeak)
-			return true;
-		else
-			return false;
+		return (this.currentPeak == this.maximumPeak);
 	}
 
 	public double[][] getPeakPositions() {
@@ -607,10 +604,16 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 
 	// inner classes
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	interface PeakFunction {
 		public double calculate(double[] gen, int peakNumber);
 	} // Peak_Function
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	class PeakFunction1 implements PeakFunction {
 		public double calculate(double[] gen, int peakNumber) {
 			int j;
@@ -624,6 +627,9 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 		} // calculate
 	}
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	class PeakFunctionCone implements PeakFunction {
 		public double calculate(double[] gen, int peakNumber) {
 			int j;
@@ -633,11 +639,14 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 			for (j = 1; j < getDimension(); j++)
 				dummy += (gen[j] - peak[peakNumber][j]) * (gen[j] - peak[peakNumber][j]);
 			// sqrt of dummy is the distance between gen and peak.
-			return peak[peakNumber][getDimension() + 1] // peak height
-					- (peak[peakNumber][getDimension()] * Math.sqrt(dummy));
+			return peak[peakNumber][getDimension() + 1] -// peak height
+				(peak[peakNumber][getDimension()] * Math.sqrt(dummy));
 		}
 	}
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	class PeakFunctionHilly implements PeakFunction {
 		public double calculate(double[] gen, int peakNumber) {
 			int j;
@@ -651,6 +660,9 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 		}
 	}
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	class PeakFunctionSphere implements PeakFunction {
 		public double calculate(double[] gen, int peakNumber) {
 			int j;
@@ -664,6 +676,9 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 		}
 	}
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	class PeakFunctionTwin implements PeakFunction {
 		public double calculate(double[] gen, int peakNumber) {
 			int j;
@@ -689,21 +704,36 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 		}
 	}
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	interface BasisFunction {
 		public double calculate(double[] gen);
 	}
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	class ConstantBasisFunction implements BasisFunction {
 		public double calculate(double[] gen) {
 			return 0.0;
 		}
 	}
 
+	/**
+	 * TODO: Complete this javadoc.
+	 */
 	class FivePeaksBasisFunction implements BasisFunction {
 		public double calculate(double[] gen) {
 			int i, j;
 			double maximum = -100000.0, dummy;
-			double[][] basisPeak = { {8.0, 64.0, 67.0, 55.0, 4.0, 0.1, 50.0}, {50.0, 13.0, 76.0, 15.0, 7.0, 0.1, 50.0}, {9.0, 19.0, 27.0, 67.0, 24.0, 0.1, 50.0}, {66.0, 87.0, 65.0, 19.0, 43.0, 0.1, 50.0}, {76.0, 32.0, 43.0, 54.0, 65.0, 0.1, 50.0},};
+			double[][] basisPeak = { 
+					{8.0, 64.0, 67.0, 55.0, 4.0, 0.1, 50.0},
+					{50.0, 13.0, 76.0, 15.0, 7.0, 0.1, 50.0},
+					{9.0, 19.0, 27.0, 67.0, 24.0, 0.1, 50.0},
+					{66.0, 87.0, 65.0, 19.0, 43.0, 0.1, 50.0},
+					{76.0, 32.0, 43.0, 54.0, 65.0, 0.1, 50.0},
+				};
 
 			for (i = 0; i < 5; i++) {
 				dummy = (gen[0] - basisPeak[i][0]) * (gen[0] - basisPeak[i][0]);

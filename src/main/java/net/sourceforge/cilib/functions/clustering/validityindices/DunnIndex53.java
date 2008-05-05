@@ -25,7 +25,6 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.Collection;
 
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 

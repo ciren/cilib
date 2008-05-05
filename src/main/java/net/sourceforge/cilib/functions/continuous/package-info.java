@@ -1,5 +1,5 @@
 /*
- * IntraClusterDistance.java
+ * package-info.java
  *
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
@@ -21,28 +21,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.clustering;
-
 /**
- * This <i>clustering fitness function</i> will probably never be used to train on directly. The
- * main reason why it has been implemented is to be able to take measurements of the
- * <i>intra-cluster distance</i> via the {@linkplain GenericFunctionMeasurement} class.
- * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
- * @author Theuns Cloete
+ * TODO: Complete this javadoc.
  */
-public class IntraClusterDistance extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = -4185205766188040942L;
-
-	@Override
-	public double calculateFitness() {
-		return calculateAverageIntraClusterDistance();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IntraClusterDistance getClone() {
-		return new IntraClusterDistance();
-	}
-}
+package net.sourceforge.cilib.functions.continuous;

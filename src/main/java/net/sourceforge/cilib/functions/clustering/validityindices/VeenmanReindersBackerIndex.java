@@ -1,11 +1,9 @@
 /*
  * VeenmanReindersBackerIndex.java
- * 
- * Created on July 18, 2007
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -37,7 +35,9 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This is the Veenman-Reinders-Backer Validity Index as given in Section 1 of<br/>
+ * This is the Veenman-Reinders-Backer Validity Index.
+ * 
+ * The description is given in Section 1 of<br/>
  * @Article{ 628823, author = "Cor J. Veenman and Marcel J. T. Reinders and Eric Backer", title = "A
  *           Maximum Variance Cluster Algorithm", journal = "IEEE Transactions on Pattern Analysis
  *           and Machine Intelligence", volume = "24", number = "9", year = "2002", issn =

@@ -1,11 +1,9 @@
 /*
- * ScatterSeperationRatio.java
- * 
- * Created on July 18, 2007
+ * ScatterSeparationRatio.java
  *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -67,14 +65,13 @@ public abstract class ScatterSeperationRatio extends ClusteringFitnessFunction {
 	protected abstract double calculateBetweenClusterSeperation(int i, int j);
 
 	protected double getBetweenClusterSeperation(int i, int j) {
-		if(i < 0 || j < 0)
+		if (i < 0 || j < 0)
 			throw new IllegalArgumentException("The seperation between clusters " + i + " and " + j + " does not exist");
 	
-		if(i == j)
+		if (i == j)
 			return 0.0;
-	
-		if(j > i)	// swap the i and j values
-		{
+
+		if (j > i) {	// swap the i and j values
 			int tmp = i;
 			i = j;
 			j = tmp;
