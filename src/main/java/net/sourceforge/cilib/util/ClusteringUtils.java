@@ -28,10 +28,8 @@ import java.util.EmptyStackException;
 import java.util.Hashtable;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
-import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -44,14 +42,14 @@ import org.apache.log4j.Logger;
  * {@link ClusteringFitnessFunction}s use this class extensively.
  * 
  */
-public class ClusteringUtils {
+public final class ClusteringUtils {
 	private static final long serialVersionUID = 4878437477807660149L;
 	private static Logger log = Logger.getLogger(ClusteringUtils.class);
 
 	/**
 	 * A thread local instance of this class.
 	 */
-	private transient static ThreadLocal<ClusteringUtils> instance = new ThreadLocal<ClusteringUtils>() {
+	private static transient ThreadLocal<ClusteringUtils> instance = new ThreadLocal<ClusteringUtils>() {
 		protected ClusteringUtils initialValue() {
 			return new ClusteringUtils();
 		}
@@ -267,8 +265,6 @@ public class ClusteringUtils {
 				arrangedClusters.remove(i);
 				arrangedCentroids.remove(i);
 			}
-			else {
-			}
 		}
 		arrangedClusters.trimToSize();
 		arrangedCentroids.trimToSize();
@@ -284,9 +280,9 @@ public class ClusteringUtils {
 	}
 
 	/**
-	 * Get the number of patterns in the {@link #clusterableDataSet};
+	 * Get the number of patterns in the {@link #clusterableDataSet}.
 	 * 
-	 * @return the number of patterns in the {@link #clusterableDataSet}
+	 * @return the number of patterns in the {@link #clusterableDataSet}.
 	 */
 	public int getNumberOfPatternsInDataSet() {
 		return clusterableDataSet.getNumberOfPatterns();

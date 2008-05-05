@@ -1,12 +1,9 @@
 /*
- * Simulator.java
+ * Main.java
  *
- * Created on February 4, 2003, 3:59 PM
- *
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,10 +19,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- *   
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.simulator;
 
 import java.io.File;
@@ -47,7 +42,7 @@ import org.w3c.dom.NodeList;
  *
  * @author  Edwin Peer
  */
-public class Main {
+public final class Main {
     
     /** Creates a new instance of Simulator */
     private Main(Document config, ProgressListener progress) {
@@ -87,10 +82,7 @@ public class Main {
         Document doc = db.parse(new File(args[0]));
         
 		ProgressListener progress = null;
-		if (args.length > 1 && args[1].equals("-noprogress")) {
-			// do nothing.
-		} 
-		else if (args.length > 1 && args[1].equals("-textprogress")) {
+		if (args.length > 1 && args[1].equals("-textprogress")) {
 			progress = new ProgressText(doc.getElementsByTagName("simulation").getLength());
 		} 
 		else { //-guiprogress

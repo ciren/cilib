@@ -40,8 +40,9 @@ import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
- * This algorithm is an implementation of the KMeans Clustering algorithm as
- * described in Section 2 of:
+ * This algorithm is an implementation of the KMeans Clustering algorithm.
+ * <p>
+ * This is the implementation as described in Section 2 of:
  * 
  * @inproceedings{ 2000.Ray.jul, title = "Determination of Number of Clusters in
  *                 K-Means Clustering and Application in Colour Image
