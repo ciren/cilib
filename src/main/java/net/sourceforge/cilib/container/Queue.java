@@ -1,11 +1,7 @@
 /*
- * Queue.java
- *
- * Created on Jun 23, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,6 +21,7 @@
  */
 package net.sourceforge.cilib.container;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -32,37 +29,42 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * @author Gary Pampara
+ * @param <E> The element type.
  */
 public class Queue<E> implements Iterable<E>, Cloneable { 
 	
 	private LinkedList<E> queue;
-		
+
+	/**
+	 * Create a new instance of {@linkplain Queue}.
+	 */
 	public Queue() {
 		this.queue = new LinkedList<E>();
 	}
 	
 	/**
-	 * TODO: What about cloning the internal objects?
-	 * @param copy
+	 * Create an copy of the provided instance. It should be noted that this operation performs
+	 * a shallow copy.
+	 * @param copy The instance to copy.
 	 */
 	public Queue(Queue<E> copy) {
 		this.queue = new LinkedList<E>();
-		
-		for (Iterator<E> i = copy.iterator(); i.hasNext(); ) {
-			this.queue.add(i.next());
-		}
-		
+	
+		Collections.copy(this.queue, copy.queue);
 	}
 	
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Queue<E> getClone() {
 		return new Queue<E>(this);
 	}
 	
 	/**
-	 * Add the given <code>Object</code> to the Queue. This addition will occour at the
-	 * back of the queue, due to the LIFO nature of the data structure 
-	 * @param o The Object to be added to the queue
+	 * Add the given <code>Object</code> to the Queue. This addition will occur at the
+	 * back of the queue, due to the LIFO nature of the data structure.
+	 * @param o The Object to be added to the queue.
 	 */
 	public void enqueue(E o) {
 		queue.add(o); // To enqueue we add the object to the end of the list
@@ -75,7 +77,7 @@ public class Queue<E> implements Iterable<E>, Cloneable {
 	/**
 	 * This method removes an Object and returns the referance to the object to the
 	 * callee.
-	 * @return The Object of the object removed from the Queue
+	 * @return The Object of the object removed from the Queue.
 	 */
 	public E dequeue() {
 		if (!queue.isEmpty())
@@ -88,22 +90,22 @@ public class Queue<E> implements Iterable<E>, Cloneable {
 	}
 
 	/**
-	 * Returns the current size of the Queue
-	 * @returns The size of the queue container
+	 * Returns the current size of the Queue.
+	 * @returns The size of the queue container.
 	 */
 	public int size() {
 		return queue.size();
 	}
 
 	/**
-	 * Clears all the elements currently contained inside the Queue
+	 * Clears all the elements currently contained inside the Queue.
 	 */
 	public void clear() {
 		queue.clear();
 	}
 
 	/**
-	 * Tests if the queue is empty or not
+	 * Tests if the queue is empty or not.
 	 */
 	public boolean isEmpty() {
 		return queue.isEmpty();
@@ -111,20 +113,23 @@ public class Queue<E> implements Iterable<E>, Cloneable {
 
 	/**
 	 * Test if the current Queue contains the desired element.
-	 * @return true If the object is contained
-	 * @return false If the object is not contained 
+	 * @return true If the object is contained.
+	 * @return false If the object is not contained. 
 	 */
 	public boolean contains(E object) {
 		return queue.contains(object);
 	}
 
 	/**
-	 * Returns an iterator to the queue
+	 * Returns an iterator to the queue.
 	 */
 	public Iterator<E> iterator() {
 		return new DynamicIterator<E>(queue);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		return this.queue.toString();
 	}

@@ -1,6 +1,4 @@
 /*
- * PrePostVisitor.java
- *
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -25,6 +23,7 @@ package net.sourceforge.cilib.container.visitor;
 
 /**
  * @author Gary Pampara
+ * @param <E> The element type.
  */
 public class PrePostVisitor<E> extends Visitor<E> {
 	
