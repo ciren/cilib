@@ -38,10 +38,10 @@ public class Edge implements Cloneable {
 	private Vertex secondVertex; // This is the vertex the ends the edge
 	
 	/**
-	 * <code>Edge</code> constructor to create an edge given a starting and ending <code>Vertex</code>
+	 * <code>Edge</code> constructor to create an edge given a starting and ending <code>Vertex</code>.
 	 * 
-	 * @param startVertex The Vertex objec the Edge starts at for a connection
-	 * @param endVertex The Vertex objec the Edge ends at for a connection
+	 * @param startVertex The Vertex objec the Edge starts at for a connection.
+	 * @param endVertex The Vertex objec the Edge ends at for a connection.
 	 */
 	public Edge(Vertex startVertex, Vertex endVertex) {
 		cost = 1.0;
@@ -52,11 +52,11 @@ public class Edge implements Cloneable {
 	
 	/**
 	 * <code>Edge</code> constructor to create an edge given a starting and ending <code>Vertex</code> given
-	 * a value for cost of this <code>Edge</code>
+	 * a value for cost of this <code>Edge</code>.
 	 * 
-	 * @param startVertex The Vertex object the Edge starts at for a connection
-	 * @param endVertex The Vertex object the Edge ends at for a connection
-	 * @param cost The cost associated with this <code>Edge</code>
+	 * @param startVertex The Vertex object the Edge starts at for a connection.
+	 * @param endVertex The Vertex object the Edge ends at for a connection.
+	 * @param cost The cost associated with this <code>Edge</code>.
 	 */
 	public Edge(Vertex startVertex, Vertex endVertex, double cost) {
 		this.firstVertex = startVertex;
@@ -67,12 +67,12 @@ public class Edge implements Cloneable {
 	
 	/**
 	 * <code>Edge</code> constructor to create an edge given a starting and ending <code>Vertex</code> given
-	 * a value for cost of this <code>Edge</code>
+	 * a value for cost of this <code>Edge</code>.
 	 * 
-	 * @param startVertex The Vertex object the Edge starts at for a connection
-	 * @param endVertex The Vertex object the Edge ends at for a connection
-	 * @param cost The cost associated with this <code>Edge</code>
-	 * @param weight The weight associated with this <code>Edge</code>
+	 * @param startVertex The Vertex object the Edge starts at for a connection.
+	 * @param endVertex The Vertex object the Edge ends at for a connection.
+	 * @param cost The cost associated with this <code>Edge</code>.
+	 * @param weight The weight associated with this <code>Edge</code>.
 	 */
 	public Edge(Vertex startVertex, Vertex endVertex, double cost, double weight) {
 		this.firstVertex = startVertex;
@@ -84,9 +84,9 @@ public class Edge implements Cloneable {
 	
 	/**
 	 * Add the needed information about the vertex to the Vertices. This call is implicitly handled by the
-	 * Graph and DirectedGraph with addEdge(Edge)
-	 * @see net.sourceforge.cilib.container.graph.Graph#addEdge
-	 * @see net.sourceforge.cilib.container.graph.DirectedGraph#addEdge
+	 * Graph and DirectedGraph with addEdge(Edge).
+	 * @see net.sourceforge.cilib.container.graph.Graph#addEdge.
+	 * @see net.sourceforge.cilib.container.graph.DirectedGraph#addEdge.
 	 * @param bidirectional It <code>true</code> the edge is an edge on an undirected graph, if <code>false</code>
 	 *                      it is the edge on a directed graph.
 	 */
@@ -106,23 +106,23 @@ public class Edge implements Cloneable {
 	/**
 	 * Get the "cost" of the relavant edge. Based on the application, this 
 	 * could be travelling costs, etc...
-	 * @return related cost of this edge
+	 * @return related cost of this edge.
 	 */
 	public double getCost() {
 		return cost;
 	}
 	
 	/**
-	 * Get the vertex this edge's begining point is attached to
-	 * @return Referance to the edges's starting vertex
+	 * Get the vertex this edge's begining point is attached to.
+	 * @return Referance to the edges's starting vertex.
 	 */
 	public Vertex getFirstVertex() {
 		return firstVertex;
 	}
 	
 	/**
-	 * Get the vertex this edge's ending point is attached to
-	 * @return Referance to the edge's ending vertex 
+	 * Get the vertex this edge's ending point is attached to.
+	 * @return Referance to the edge's ending vertex .
 	 */
 	public Vertex getSecondVertex() {
 		return secondVertex;
@@ -131,8 +131,8 @@ public class Edge implements Cloneable {
 	/**
 	 * Given the Vertex <code>v</code> associated with this <code>Edge</code>, return the "partner" Vertex
 	 * of the Edge. This is the other vertex associated with this edge, given one of ther verticies.
-	 * @param v The <code>Vertex</code> for the edge to return it's partner <code>Vertex</code>
-	 * @return A Vertex which is the partner vertex of <code>v</code>
+	 * @param v The <code>Vertex</code> for the edge to return it's partner <code>Vertex</code>.
+	 * @return A Vertex which is the partner vertex of <code>v</code>.
 	 */
 	public Vertex getOtherAssociatedVertex(Vertex v) {
 		if (v == getFirstVertex())
@@ -141,16 +141,16 @@ public class Edge implements Cloneable {
 	}
 	
 	/**
-	 * Set the weight to be associated with this Edge object
-	 * @param weight The weight to be assigned
+	 * Set the weight to be associated with this Edge object.
+	 * @param weight The weight to be assigned.
 	 */
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 	
 	/**
-	 * Get the weight associated with this egde object
-	 * @return The weight associated with this edge object
+	 * Get the weight associated with this edge object.
+	 * @return The weight associated with this edge object.
 	 */
 	public double getWeight() {
 		return weight;
@@ -179,8 +179,8 @@ public class Edge implements Cloneable {
 	
 	
 	/**
-	 * Return a <code>String</code> representation of the the associated <code>Edge</code> object
-	 * @return The String representing the <code>Edge</code>
+	 * Return a <code>String</code> representation of the the associated <code>Edge</code> object.
+	 * @return The String representing the <code>Edge</code>.
 	 */
 	public String toString() {
 		return firstVertex.toString() + "->" + secondVertex.toString() + " => cost: " + cost + " weight: " + weight;

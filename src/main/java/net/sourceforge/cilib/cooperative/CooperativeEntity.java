@@ -51,7 +51,7 @@ public class CooperativeEntity extends AbstractEntity {
 	public CooperativeEntity(CooperativeEntity rhs) {
 		context = rhs.context.getClone();
 		fitness = rhs.fitness;
-		fitnessCalculator = rhs.fitnessCalculator;//.clone();
+		fitnessCalculator = rhs.fitnessCalculator; //.clone();
 	}
 
 	public CooperativeEntity getClone() {
@@ -68,7 +68,7 @@ public class CooperativeEntity extends AbstractEntity {
 
 	public void append(Type value) {
 		if(value instanceof Vector)
-			context.append((Vector)value);
+			context.append((Vector) value);
 		else
 			context.append(value);
 	}
@@ -79,7 +79,7 @@ public class CooperativeEntity extends AbstractEntity {
 	
 	public void update(Entity src, int srcPos, int dstPos, int length) {
 		for(int i = dstPos; i < dstPos + length; ++i) {
-			context.setReal(i, ((Vector)src.getContents()).getReal(srcPos + i - dstPos));
+			context.setReal(i, ((Vector) src.getContents()).getReal(srcPos + i - dstPos));
 		}
 	}
 	

@@ -73,8 +73,8 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 		
 		int upper = potentialOpponents.size();
 		
-		for(int i=0; i<numberOfOpponents;i++){
-			int selected = (int)random.getUniform(0,upper);
+		for(int i=0; i<numberOfOpponents; i++){
+			int selected = (int) random.getUniform(0, upper);
 			opponents.add(potentialOpponents.get(selected));
 		}
 		return opponents;
