@@ -1,6 +1,4 @@
 /*
- * SchwefelProblem1_2.java
- *
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science

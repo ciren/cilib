@@ -1,11 +1,7 @@
 /*
- * ParametricClusteringFunction.java
- * 
- * Created on July 18, 2007
- *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -27,7 +23,6 @@ package net.sourceforge.cilib.functions.clustering;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
-import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.VectorUtils;
 
@@ -44,11 +39,11 @@ import net.sourceforge.cilib.util.VectorUtils;
  */
 public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 583965930447258179L;
-	/** Specifies the weight that influences how much the intra-cluster-distance will contribute to the final fitness */
+	/** Specifies the weight that influences how much the intra-cluster-distance will contribute to the final fitness. */
 	protected ControlParameter w1 = null;
-	/** Specifies the weight that influences how much the inter-cluster-distance will contribute to the final fitness */
+	/** Specifies the weight that influences how much the inter-cluster-distance will contribute to the final fitness. */
 	protected ControlParameter w2 = null;
-	/** Stores the calculated zMax value */
+	/** Stores the calculated zMax value. */
 	protected double zMax = -1.0;
 
 	public ParametricClusteringFunction() {
@@ -77,17 +72,17 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	}
 
 	/**
-	 * Set the weight that influences how much the intra-cluster-distance will contribute to the final fitness
-	 * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt> weight
+	 * Set the weight that influences how much the intra-cluster-distance will contribute to the final fitness.
+	 * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt> weight.
 	 */
 	public void setW1(ControlParameter w) {
 		w1 = w;
 	}
 
 	/**
-	 * Get the weight that the intra-cluster-distance contributes to the final fitness
+	 * Get the weight that the intra-cluster-distance contributes to the final fitness.
 	 * @return the weight that determines how much influence intra-cluster-distance contributes to
-	 *         the final fitness
+	 *         the final fitness.
 	 */
 	protected double getW1() {
 		return w1.getParameter();
@@ -95,17 +90,17 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 
 	/**
 	 * Set the weight that influences how much the inter-cluster-distance will contribute to the
-	 * final fitness
-	 * @param w the {@linkplain ControlParameter} that will control the <tt>w2</tt> weight
+	 * final fitness.
+	 * @param w the {@linkplain ControlParameter} that will control the <tt>w2</tt> weight.
 	 */
 	public void setW2(ControlParameter w) {
 		w2 = w;
 	}
 
 	/**
-	 * Get the weight that determines how much influence inter-cluster-distance contributes to the final fitness
+	 * Get the weight that determines how much influence inter-cluster-distance contributes to the final fitness.
 	 * @return the weight that determines how much influence intra-cluster-distance contributes to
-	 *         the final fitness
+	 *         the final fitness.
 	 */
 	protected double getW2() {
 		return w2.getParameter();
@@ -116,7 +111,7 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 	 * domain. In other words, calculate the distance between two {@linkplain Vector}s; where all
 	 * the elements in the first {@linkplain Vector} is set to that element's upper bound and all
 	 * the elements in the second {@linkplain Vector} is set to that element's lower bound.
-	 * @return the maximum distance possible between two {@linkplain Vector}s for the specified domain
+	 * @return the maximum distance possible between two {@linkplain Vector}s for the specified domain.
 	 */
 	protected double zMax() {
 		Vector prototype = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();

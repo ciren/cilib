@@ -1,11 +1,7 @@
 /*
- * KnightCoverageProblem.java
- * 
- * Created on Jun 22, 2005
- *
- * Copyright (C) 2003, 2004, 2005 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- * 
  */
 package net.sourceforge.cilib.functions.discrete;
 
@@ -40,7 +35,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * is covered by a valid move.
  * 
  * This problem is an OptimisationProblem and thus based on the <code>OptimisationProblem</code> interface
+ * @deprecated
  */
+@Deprecated
 public class KnightCoverageProblem extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = 3070562330891331356L;
 

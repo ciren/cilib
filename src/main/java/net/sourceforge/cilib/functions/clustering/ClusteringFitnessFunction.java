@@ -1,11 +1,7 @@
 /*
- * ClusteringFitnessFunction.java
- * 
- * Created on July 18, 2007
- *
- * Copyright (C) 2003 - 2007
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -121,14 +117,16 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	public abstract double calculateFitness();
 
 	/**
-	 * Calculate the Quantisation Error as explained in Section 4.1.1 on pages 104 & 105 of:<br/>
+	 * Calculate the Quantisation Error.
+	 * 
+	 * <p>This is explained in Section 4.1.1 on pages 104 & 105 of:<br/>
 	 * 
 	 * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern
 	 *             Recognition and Image Processing", author = "Mahamed G.H. Omran",
 	 *             institution = "University Of Pretoria", school = "Computer Science", year =
 	 *             "2004", month = nov, address = "Pretoria, South Africa", note =
 	 *             "Supervisor: A. P. Engelbrecht", }
-	 * @return the Quantisation Error of the particular clustering
+	 * @return the Quantisation Error of the particular clustering.
 	 */
 	public double calculateQuantisationError() {
 		double quantisationError = 0.0;
@@ -150,7 +148,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 	/**
 	 * Calculate the Maximum Average Distance between the patterns in the dataset and the
-	 * centers learned so far; see Section 4.1.1 at the bottom of page 105 of:<br/>
+	 * centers learned so far.
+	 * 
+	 * <p>
+	 * See Section 4.1.1 at the bottom of page 105 of:<br/>
 	 * 
 	 * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern
 	 *             Recognition and Image Processing", author = "Mahamed G.H. Omran",
@@ -158,7 +159,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 *             "2004", month = nov, address = "Pretoria, South Africa", note =
 	 *             "Supervisor: A. P. Engelbrecht", }
 	 * @return the maximum average distance between the patterns of a cluster and their
-	 *         associated center
+	 *         associated center.
 	 */
 	public double calculateMaximumAverageDistance() {
 		double maximumAverageDistance = 0.0;
@@ -200,7 +201,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * Calculate the longest distance between two clusters. In other words, the longest
 	 * distance between the centroids of any two clusters.
 	 * 
-	 * @return the maximum inter-cluster distance
+	 * @return the maximum inter-cluster distance.
 	 */
 	public double calculateMaximumInterClusterDistance() {
 		double maximumInterClusterDistance = -Double.MAX_VALUE;
@@ -216,7 +217,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	}
 
 	/**
-	 * Calculate the minimum distance between two clusters (sets) as shown in Equation 20 of:<br/>
+	 * Calculate the minimum distance between two clusters (sets).
+	 * 
+	 * <p>
+	 * This is illustrated in Equation 20 of:<br/>
 	 * 
 	 * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
 	 *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
@@ -238,15 +242,17 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	}
 
 	/**
-	 * Calculate the maximum distance between two clusters (sets) as shown in Equation 21 of:<br/>
+	 * Calculate the maximum distance between two clusters (sets).
+	 * 
+	 * <p>Illustrated in Equation 21 of:<br/>
 	 * 
 	 * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
 	 *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
 	 *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
 	 *           "3", month = jun, year = "1998", issn = "1083-4419" }
-	 * @param i the index of the LHS cluster
-	 * @param j the index of the RHS cluster
-	 * @return the longest distance between the patterns of two clusters (sets)
+	 * @param i the index of the LHS cluster.
+	 * @param j the index of the RHS cluster.
+	 * @return the longest distance between the patterns of two clusters (sets).
 	 */
 	public double calculateMaximumSetDistance(int i, int j) {
 		double distance = -Double.MAX_VALUE;
@@ -260,15 +266,18 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	}
 
 	/**
-	 * Calculate the average distance between two clusters (sets) as shown in Equation 22 of:<br/>
+	 * Calculate the average distance between two clusters (sets).
+	 * 
+	 * <p>
+	 * Illustrated in Equation 22 of:<br/>
 	 * 
 	 * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
 	 *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
 	 *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
 	 *           "3", month = jun, year = "1998", issn = "1083-4419" }
-	 * @param i the index of the LHS cluster
-	 * @param j the index of the RHS cluster
-	 * @return the average distance between the patterns of two clusters (sets)
+	 * @param i the index of the LHS cluster.
+	 * @param j the index of the RHS cluster.
+	 * @return the average distance between the patterns of two clusters (sets).
 	 */
 	public double calculateAverageSetDistance(int i, int j) {
 		double distance = 0.0;
@@ -286,8 +295,8 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * patterns (in the set) that are furthest apart. There exists numerous references
 	 * for this calculation.
 	 * 
-	 * @param k the index of the cluster for which the diameter should be calculated
-	 * @return the diameter of the given cluster
+	 * @param k the index of the cluster for which the diameter should be calculated.
+	 * @return the diameter of the given cluster.
 	 */
 	public double calculateClusterDiameter(int k) {
 		double diameter = 0.0;
@@ -340,7 +349,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * @Unpublished{ cal99, title = "Determination of Number of Clusters in K-Means
 	 *               Clustering and Application in Colour Image Segmentation", author =
 	 *               "Siddheswar Ray and Rose H. Turi", year = "2000", month = jul }
-	 * @return the average intra-cluster distance for all clusters
+	 * @return the average intra-cluster distance for all clusters.
 	 */
 	public double calculateAverageIntraClusterDistance() {
 		return calculateIntraClusterDistance() / helper.getNumberOfPatternsInDataSet();
@@ -374,8 +383,8 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * TODO: Or should it return NaN when the fitness drops below 0.0?
 	 * TODO: Or should we throw an exception?
 	 * 
-	 * @param fitness the fitness value that will be validated
-	 * @return the fitness
+	 * @param fitness the fitness value that will be validated.
+	 * @return the fitness.
 	 */
 	protected double validateFitness(double fitness) {
 		if (fitness < 0.0) {
