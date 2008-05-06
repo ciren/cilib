@@ -52,29 +52,29 @@ public class MOFitness extends AbstractFitness {
 	public int compareTo(Fitness other) {
 		MOFitness tmp = (MOFitness) other;
 		
-		boolean AdominateB = false;
-		boolean BdominateA = false;
-		boolean AmaydominateB = true;
-		boolean BmaydominateA = true;
+		boolean aDominateB = false;
+		boolean bDominateA = false;
+		boolean aMaydominateB = true;
+		boolean bMaydominateA = true;
 		
 		for(int i = 0; i < fitnesses.length; i++) {
 			int r = fitnesses[i].compareTo(tmp.fitnesses[i]);
 			
 			if(r < 0) {
-				AdominateB = true;
-				BmaydominateA = false;
+				aDominateB = true;
+				bMaydominateA = false;
 			} 
 			else if(r > 0) {
-				BdominateA = true;
-				AmaydominateB = false;
+				bDominateA = true;
+				aMaydominateB = false;
 			}
 			
 		}
 
-		if(AdominateB && AmaydominateB) {
+		if(aDominateB && aMaydominateB) {
 			return -1;
 		} 
-		else if(BdominateA && BmaydominateA) {
+		else if(bDominateA && bMaydominateA) {
 			return 1;
 		} 
 		else {

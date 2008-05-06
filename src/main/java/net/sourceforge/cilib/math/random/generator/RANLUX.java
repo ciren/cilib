@@ -110,7 +110,7 @@ public class RANLUX extends Random {
         carry = 0;
         ir = 11;
         jr = 7;
-        ir_old = 0;
+        irOld = 0;
     }
     
     private void increment() {
@@ -253,7 +253,7 @@ public class RANLUX extends Random {
             jr = NEXT[jr];
         }
         
-        ir_old = ir;
+        irOld = ir;
     }
     
     /**
@@ -262,7 +262,7 @@ public class RANLUX extends Random {
     protected int next(int bits) {
         ir = NEXT[ir];
         
-        if (ir == ir_old) {
+        if (ir == irOld) {
             increment();
         }
         
@@ -274,7 +274,7 @@ public class RANLUX extends Random {
     private double carry;
     private int ir;
     private int jr;
-    private int ir_old;
+    private int irOld;
     
     private static final int LUXURY = 397;
     private static final double ONE_BIT = 1.0 / 281474976710656.0;

@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2003, 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,6 +25,9 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class GBestCenterInitialisationStrategy extends CenterInitialisationStrategy {
 	
 	@Override

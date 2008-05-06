@@ -92,7 +92,7 @@ public class ZiffGFSR4 extends Random {
     	return new ZiffGFSR4();
     }
     
-    private long LCG(long n) {
+    private long getLCG(long n) {
         return (69069 * n) & 0xffffffffL;
     }
 
@@ -113,7 +113,7 @@ public class ZiffGFSR4 extends Random {
             long t = 0;
             long bit = msb;
             for (int j = 0; j < 32; ++j) {
-                seed = LCG(seed);
+                seed = getLCG(seed);
                 if ((seed & msb) == msb) {
                     t |= bit;
                 }

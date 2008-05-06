@@ -40,8 +40,7 @@ public class KruskalEvaluator implements MappingEvaluator {
 	 * 
 	 * @author jkroon
 	 */
-	public Fitness evaluateMapping(Matrix<Double> dist)
-	{
+	public Fitness evaluateMapping(Matrix<Double> dist) {
 		double above = 0.0;
 		double below = 0.0;
 		

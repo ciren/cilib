@@ -76,20 +76,20 @@ public class LinearMappingProblem extends MappingProblem {
 	 * @author jkroon
 	 */
 	protected final void performMapping(Matrix<Double> input, Vector matrix, Matrix<Double> output) {
-		int D = getOutputDim();
-		int M = getInputDim();
-		int N = getNumInputVectors();
+		int outputDimension = getOutputDim(); // D
+		int inputDimension = getInputDim(); // M
+		int numberOfVectors = getNumInputVectors(); // N
 
-		for(int v = 0; v < N; v++) {
+		for(int v = 0; v < numberOfVectors; v++) {
 			int base = 0;
-			for(int d = 0; d < D; d++) {
+			for(int d = 0; d < outputDimension; d++) {
 				output.set(v, d, 0.0);
-				for(int m = 0; m < M; m++) {
+				for(int m = 0; m < inputDimension; m++) {
 					double value = matrix.getReal(base+m) * input.get(v, m);
 					//output[v][d] += matrix[base + m] * input[v][m];
 					output.set(v, d, value);
 				}
-				base += M;
+				base += inputDimension;
 			}
 		}
 	}
