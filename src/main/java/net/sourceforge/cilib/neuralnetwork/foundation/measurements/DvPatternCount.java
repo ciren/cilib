@@ -28,6 +28,9 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class DvPatternCount implements Measurement {
 	private static final long serialVersionUID = -5428882385996496716L;
 

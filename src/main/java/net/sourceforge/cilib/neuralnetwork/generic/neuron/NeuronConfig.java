@@ -58,7 +58,7 @@ public abstract class NeuronConfig {
 	boolean[] timeStepMap = null;
 	
 	//timestep t-1 output
-	Type Tminus1Output = null;
+	Type tMinus1Output = null;
 	
 	//true if the neuron is an output of the network
 	//used to indicate which neurons in which layers are also output neurons.  This is
@@ -78,7 +78,7 @@ public abstract class NeuronConfig {
 		
 		
 		currentOutput = null;
-		Tminus1Output = null;
+		tMinus1Output = null;
 	}
 	
 	
@@ -91,7 +91,7 @@ public abstract class NeuronConfig {
 		this.patternWeight = null;
 		
 		currentOutput = initValC;
-		Tminus1Output = initValT;
+		tMinus1Output = initValT;
 	}
 	
 	
@@ -110,7 +110,7 @@ public abstract class NeuronConfig {
 		this.patternInputPos = patternInput;
 		this.patternWeight = patternWeight;
 		currentOutput = initialOutput;
-		Tminus1Output = initialOutput;
+		tMinus1Output = initialOutput;
 		
 		System.out.println("\nNeuron Config: -------------------------");
 		if (input != null) System.out.println("input size: " + input.length);
@@ -162,7 +162,7 @@ public abstract class NeuronConfig {
 	}
 	
 	public Type getTminus1Output() {
-		return Tminus1Output;
+		return tMinus1Output;
 	}
 	
 	public void setCurrentOutput(Type currentOutput) {
@@ -192,7 +192,7 @@ public abstract class NeuronConfig {
 	}
 	
 	public void setTminus1Output(Type tminus1Output) {
-		Tminus1Output = tminus1Output;
+		tMinus1Output = tminus1Output;
 	}
 	
 	

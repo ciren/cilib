@@ -49,6 +49,9 @@ import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.SquaredErr
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.Real;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class TestPostMeasure {
 
 	public TestPostMeasure() {
@@ -64,7 +67,7 @@ public class TestPostMeasure {
 		this.learningRate = 0;
 		this.momentum = 0;
 		this.maxIterations = 0;
-		this.DataRandomSeed = 100;
+		this.dataRandomSeed = 100;
 	}
 
 	String problemDataFile, postMeasuresFile;
@@ -72,11 +75,11 @@ public class TestPostMeasure {
 	int perTrain, perGen, perVal, perCan;
 	double learningRate, momentum;
 	int maxIterations;
-	long DataRandomSeed;
+	long dataRandomSeed;
 	
 	public void runSimulation(){
 		
-		NeuralNetworkProblem NNprob = new NeuralNetworkProblem();
+		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
 			FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
 				GenericTopology topo = new LayeredGenericTopology();
 					FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
@@ -99,7 +102,7 @@ public class TestPostMeasure {
 				distributor.setPercentGen(this.perGen);
 				distributor.setPercentVal(this.perVal);
 				distributor.setPercentCan(this.perCan);
-				distributor.setPatternRandomizerSeed(this.DataRandomSeed);
+				distributor.setPatternRandomizerSeed(this.dataRandomSeed);
 				data.setDistributor(distributor);
 			eval.setData(data);	
 			
@@ -113,13 +116,13 @@ public class TestPostMeasure {
 				trainer.setLearningRate(this.learningRate);
 			eval.setTrainer(trainer);
 		
-		NNprob.setEvaluationStrategy(eval);
+		neuralNetworkProblem.setEvaluationStrategy(eval);
 		
 		
 		
-		NeuralNetworkController NNControl = new NeuralNetworkController();
-			NNControl.setProblem(NNprob);
-			NNControl.addStoppingCondition(new MaximumIterations(this.maxIterations));
+		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
+			neuralNetworkControl.setProblem(neuralNetworkProblem);
+			neuralNetworkControl.addStoppingCondition(new MaximumIterations(this.maxIterations));
 			PostMeasurementSuite measures = new PostMeasurementSuite();
 			measures.setOutputFile(this.postMeasuresFile);
 			
@@ -136,23 +139,23 @@ public class TestPostMeasure {
 			measures.addMeasurement(new DvPatternCount());
 			measures.addMeasurement(new RobelOverfittingRho());
 			measures.addMeasurement(new Time());
-			NNControl.setMeasures(measures);
+			neuralNetworkControl.setMeasures(measures);
 		
-		NNControl.initialise();
+		neuralNetworkControl.initialise();
 			
 		
 		System.out.println("Configuration completed...");
 //		-----------------------------------------------------------------------------------------------------------
 		
 		
-		NNControl.run();
+		neuralNetworkControl.run();
 		
 		data.printStatistics();
 		
 	}
 
 	public void setDataRandomSeed(long dataRandomSeed) {
-		DataRandomSeed = dataRandomSeed;
+		this.dataRandomSeed = dataRandomSeed;
 	}
 
 	public void setLayer1size(int layer1size) {
@@ -224,7 +227,7 @@ public class TestPostMeasure {
 		test.setLearningRate(0.5);
 		test.setMomentum(0.9);
 		test.setMaxIterations(1000);
-		test.setDataRandomSeed(((int)Math.random()*1000));
+		test.setDataRandomSeed(((int) Math.random()*1000));
 		test.setProblemDataFile("c:\\masters\\classification\\source\\IrisScaled.txt");
 		test.setPostMeasuresFile("c:\\masters\\classification\\irisFSL.txt");
 		test.runSimulation();

@@ -40,17 +40,17 @@ public class SigmoidOutputFunction implements NeuronFunction{
 	
 	
 	public Type computeFunction(Type in) {
-		return new Real(1.0 / (1.0 + Math.exp(-1.0 *lambda * ((Real)in).getReal())));
+		return new Real(1.0 / (1.0 + Math.exp(-1.0 *lambda * ((Real) in).getReal())));
 	}
 
 
 	public Type computeDerivativeAtPos(Type pos) {
-		return new Real(((Real)computeFunction(pos)).getReal() * (1 - ((Real)computeFunction(pos)).getReal()));
+		return new Real(((Real) computeFunction(pos)).getReal() * (1 - ((Real) computeFunction(pos)).getReal()));
 	}
 
 
 	public Type computeDerivativeUsingLastOutput(Type lastOut) {
-		return new Real( ((Real)lastOut).getReal() * (1 - ((Real)lastOut).getReal()) );
+		return new Real(((Real) lastOut).getReal() * (1 - ((Real) lastOut).getReal()));
 	}
 
 }

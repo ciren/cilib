@@ -70,7 +70,7 @@ public class DotProductNeuronConfig extends NeuronConfig {
 			for (int i = 0; i < n.getInput().length; i++) {
 				double output;
 
-				if (n.getTimeStepMap()[i] == false)
+				if (!n.getTimeStepMap()[i])
 					output = ((Real) n.getInput()[i].getCurrentOutput()).getReal();
 				else
 					output = ((Real) n.getInput()[i].getTminus1Output()).getReal();

@@ -23,7 +23,13 @@ package net.sourceforge.cilib.neuralnetwork.testarea;
 
 import java.util.Random;
 
-public class tester {
+/**
+ * TODO: Complete this javadoc.
+ */
+public final class tester {
+	
+	private tester() {
+	}
 
 	/**
 	 * @param args

@@ -29,6 +29,9 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class RobelOverfittingRho implements Measurement {
 	private static final long serialVersionUID = -3535954032635090424L;
 

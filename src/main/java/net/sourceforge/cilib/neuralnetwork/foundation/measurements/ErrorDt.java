@@ -28,6 +28,9 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * TODO: complete this javadoc.
+ */
 public class ErrorDt implements Measurement {
 	private static final long serialVersionUID = -5027085270461720189L;
 	EvaluationMediator eval;
