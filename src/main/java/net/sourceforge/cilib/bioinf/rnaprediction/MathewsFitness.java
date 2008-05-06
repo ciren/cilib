@@ -1,6 +1,4 @@
 /*
- * MathewsFitness.java
- *
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -27,7 +25,7 @@ import net.sourceforge.cilib.type.types.container.Set;
 
 /**
  * @author mneethling
- *
+ * TODO: Complete this javadoc.
  */
 public class MathewsFitness extends RNAFitness {
 	private static final long serialVersionUID = 4258571695099807985L;

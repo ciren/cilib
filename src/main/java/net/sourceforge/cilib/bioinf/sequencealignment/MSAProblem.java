@@ -1,9 +1,5 @@
 /*
- * MSAProblem.java
- *
- * Created on Sep 14, 2005
- *
- * Copyright (C) 2007 - CIRG@UP
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -23,11 +19,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
@@ -55,7 +49,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 	private int smallestLength = Integer.MAX_VALUE;  //for init purpose
 	private int biggestLength = Integer.MIN_VALUE; //for init purpose
 	private int averageLength;  //computed average length of all the input sequences 
-	private int gapsArray []; //holds total num of gaps to be inserted
+	private int [] gapsArray; //holds total num of gaps to be inserted
 	private int totalGaps;
 	private double weight1 = 1.0, weight2 = 1.0;  // defaults, can be set in the XML configuration
 	
@@ -107,7 +101,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 		//speed boost: don't calculate gaps penalty at all if weight2=0
 		//final fitness with weights applied
 		if(weight2 == 0.0) return new MaximisationFitness(new Double(weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)));  
-		else return new MaximisationFitness(new Double (weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)- weight2*gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment())));	
+		else return new MaximisationFitness(new Double(weight1*alignmentCreator.getFitness(strings, realValuedPosition, gapsArray)- weight2*gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment())));	
 	}
 
 	//	 If gaps are allowed, make it a 20% of sequence length (in XML file). Otherwise set it to 0.
@@ -129,16 +123,15 @@ public class MSAProblem extends OptimisationProblemAdapter {
 			strings = stringBuilder.getStrings();
 			int totalLength = 0;
 	
-			for (Iterator<String> i = strings.iterator(); i.hasNext(); ) {
-				String result = i.next();
-				totalLength+=result.length();
+			for (String result : strings) {
+				totalLength += result.length();
 				
 				if (result.length() < smallestLength) smallestLength = result.length();
 				if (result.length() > biggestLength) biggestLength = result.length();
 			}
 			
-			averageLength = (int)Math.round(totalLength/strings.size());  
-			System.out.println("Got "+strings.size()+" sequences of average length: "+averageLength+".");
+			averageLength = (int) Math.round(totalLength/strings.size());  
+			System.out.println("Got " + strings.size() + " sequences of average length: " + averageLength + ".");
 				
 			/*
 			 * ATTENTION:  An alignment is only valid if all the aligned sequences are of the same length!!!!
@@ -149,8 +142,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 			
 			int delta = 0;
 			int c = 0;
-			for (Iterator<String> i = strings.iterator(); i.hasNext(); ) { 
-				String aSeq = i.next();
+			for (String aSeq : strings) { 
 				delta = biggestLength - aSeq.length();
 				gapsArray[c] = delta+maxSequenceGapsAllowed;
 				c++;

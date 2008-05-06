@@ -1,6 +1,4 @@
 /*
- * BestMatch.java
- *
  * Copyright (C) 2007 - CIRG@UP
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
