@@ -1,9 +1,7 @@
 /*
- * PositionInitialisationStrategy.java
- *
- * Copyright (C) 2004 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -29,6 +27,9 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.util.Cloneable;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public interface PositionInitialisationStrategy extends Serializable, Cloneable {
 	
 	public PositionInitialisationStrategy getClone();

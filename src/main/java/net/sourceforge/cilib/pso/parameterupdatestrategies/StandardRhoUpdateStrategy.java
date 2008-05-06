@@ -1,6 +1,4 @@
 /*
- * StandardRhoUpdateStrategy.java
- *
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -26,9 +24,7 @@ package net.sourceforge.cilib.pso.parameterupdatestrategies;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
- * 
- * @author Gary Pampara
- *
+ * TODO: Complete this javadoc.
  */
 public class StandardRhoUpdateStrategy implements RhoUpdateStrategy {
 

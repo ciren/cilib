@@ -1,10 +1,5 @@
 /*
- * StandardParticle.java
- *
- * Created on September 22, 2003, 1:29 PM
- *
- *
- * Copyright (C) 2003 - 2006
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -24,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.particle;
 
 /**
@@ -36,7 +30,7 @@ package net.sourceforge.cilib.pso.particle;
 public class CoherenceParticle extends StandardParticle {
 	private static final long serialVersionUID = 7558011414998829458L;
 
-    /** Creates a new instance of StandardParticle */
+    /** Creates a new instance of StandardParticle. */
     public CoherenceParticle() {
     	super();
     }

@@ -1,11 +1,7 @@
 /*
- * GBestMergeStrategy.java
- *
- * Created on 13 May 2006
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -22,7 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.pso.niching;
 
@@ -45,6 +40,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * @author Edrich van Loggerenberg
  * @author Segun
  * @author Gary Pampara
+ * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
 public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements MergeStrategy<E> {
 
@@ -68,7 +64,7 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 						if (subSwarm1 != subSwarm2) {
 							Particle gBestParticle2 = subSwarm2.getTopology().getBestEntity();
 
-							if (TestNearZero(getRadius(subSwarm1)) && TestNearZero(getRadius(subSwarm2))) {
+							if (testNearZero(getRadius(subSwarm1)) && testNearZero(getRadius(subSwarm2))) {
 								if (normalise(mainSwarm, gBestParticle1, gBestParticle2) < threshold.getParameter()) {
 									subSwarm1.getTopology().addAll(subSwarm2.getTopology());
 									// the two swarms are now merged, so delete the one
@@ -86,7 +82,7 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 
 								//double distance = distanceMeasure.distance(subSwarm1.getAveragePosition(), subSwarm2.getAveragePosition());
 								//changed from average particle position to best particle position...
-								double distance = distanceMeasure.distance(((Vector)subSwarm1.getTopology().getBestEntity().getPosition()), ((Vector)subSwarm2.getTopology().getBestEntity().getPosition()));
+								double distance = distanceMeasure.distance(((Vector) subSwarm1.getTopology().getBestEntity().getPosition()), ((Vector) subSwarm2.getTopology().getBestEntity().getPosition()));
 
 								if ((distance < (getRadius(subSwarm1) + getRadius(subSwarm2))/2.0) && (distance < 0.001)) { // if ((distance < 0.001))
 									subSwarm1.getTopology().addAll(subSwarm2.getTopology());
@@ -113,11 +109,8 @@ public class GBestMergeStrategy<E extends PopulationBasedAlgorithm> implements M
 		return radiusVisitor.getResult();
 	}
 
-	public boolean TestNearZero(double value) {
-		if (value < 0.0001)
-			return true;
-		else
-			return false;
+	public boolean testNearZero(double value) {
+		return Double.compare(value, 0.0001) < 0;
 	}
 
 	public double normalise(PSO mainSwarm, Particle gBest1, Particle gBest2) {
