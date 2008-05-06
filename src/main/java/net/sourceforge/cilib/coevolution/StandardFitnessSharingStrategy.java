@@ -1,11 +1,7 @@
 /*
- * StandardFitnessSharingStrategy.java
- * 
- * Created on 2007/04/27
- *
- * Copyright (C) 2003, 2007 - CIRG@UP 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -21,24 +17,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
- * 
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.coevolution;
 
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
-import net.sourceforge.cilib.entity.Entity;
 
 /**
- * example of implementation of an FitnessSharingStrategy
+ * example of implementation of an FitnessSharingStrategy.
  * @author Julien Duhain
  *
  */
 public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
 
 	public StandardFitnessSharingStrategy() {
-		super();
 	}
 	
 	public StandardFitnessSharingStrategy(StandardFitnessSharingStrategy copy) {
@@ -50,18 +44,17 @@ public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
 	}
 	
 	/**
-	 * in this case, assign the number of victory to the fitness of the Entity
-	 * @return the modified fitness 
+	 * in this case, assign the number of victory to the fitness of the Entity.
+	 * @return the modified fitness.
 	 */
 	public Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent){
 		
 		//System.out.println("pre fit: " + ent.getFitness().getValue());
-		Fitness f = new MaximisationFitness(
-					((double)(((CoevolutionEntityScoreboard)(ent.getProperties().get("board"))).getWinCount())) 
+		CoevolutionEntityScoreboard board = (CoevolutionEntityScoreboard) ent.getProperties().get("board");
+		Fitness f = new MaximisationFitness(Integer.valueOf(board.getWinCount()).doubleValue()); 
 					//* 
 					//((Real)( ent.getProperties().get("distance"))).getReal()
 					//0.0
-					);
 		//System.out.println("dis: " + ((Real)( ent.getProperties().get("distance"))).getReal());
 		//System.out.println("f: " + f.getValue());
 		ent.getProperties().put("fitness", f);
