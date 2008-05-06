@@ -29,6 +29,9 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class RNAAccuracyMeasurement implements Measurement {
 	private static final long serialVersionUID = -5526205767479118899L;
 
@@ -53,7 +56,7 @@ public class RNAAccuracyMeasurement implements Measurement {
 			totalPairs = getTotalPairs(solution);
 			correctPairs = getCorrectPairs(solution);
 			
-			sb.append("Pairs: " + totalPairs + " Correct: " + correctPairs + "\t" );
+			sb.append("Pairs: " + totalPairs + " Correct: " + correctPairs + "\t");
 		}
 		
 		StringType t = new StringType();
