@@ -30,6 +30,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class FunctionDimensionMapping extends ContinuousFunction {
 	private static final long serialVersionUID = 3785385852226926590L;
 	
@@ -68,7 +71,7 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 		generatedPoints = new double[Double.valueOf(dataDimension*number).intValue()];
 		for (int i = 0; i < generatedPoints.length; i++) {
 			double num = generator.nextDouble();
-			generatedPoints[i] = num;//generator.nextDouble();
+			generatedPoints[i] = num; //generator.nextDouble();
 		}
 		
 		// Now calculate all the distances and create the distance matrix
@@ -94,10 +97,10 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 		// Now determine the fitness of the mapping
 		double fitness = 0.0;
 				
-		double C = 0.0;
+		double c = 0.0;
 		for (int i = 0; i < higherDimensionDistanceMatrix.length; i++) {
 			for (int j = 0; (j < i) && (j < higherDimensionDistanceMatrix.length); j++) {
-				C +=  higherDimensionDistanceMatrix[i][j];
+				c +=  higherDimensionDistanceMatrix[i][j];
 			}
 		}
 		//System.out.println("C: " + C);
@@ -109,7 +112,7 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 				fitness += (numerator * numerator) / d_star;
 			}
 		}
-		return fitness/C;
+		return fitness/c;
 	}
 	
 	

@@ -26,6 +26,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
+ * SchwefelProblem 2_26.
+ * 
  * Characteristics:
  * 
  * f(x) = -12569.5, x = (420.9687,...,420.9687);

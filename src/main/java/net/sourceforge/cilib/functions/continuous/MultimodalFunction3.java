@@ -24,6 +24,9 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+/**
+ * TODO: Complete this javadoc.
+ */
 public class MultimodalFunction3 extends ContinuousFunction {
 	private static final long serialVersionUID = 3687474318232647359L;
 

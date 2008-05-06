@@ -22,7 +22,9 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 /**
- * This is the Generalised Dunn Index due to:<br/>
+ * This is the Generalised Dunn Index.
+ * 
+ *  Illustrated in:<br/>
  * @Article{ 5928407, title = "Some New Indexes of Cluster Validity", author = "James C. Bezdek and
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:
  *           Cybernetics", pages = "301--315", volume = "28", number = "3", month = jun, year =

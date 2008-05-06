@@ -94,7 +94,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
             System.out.println();
         }
    */     
-        this.LCrawler(board);
+        this.crawler(board);
      /*   System.out.println("COVERAGE:");
         for(int r =  0; r < 8; r++) {
             for(int k =  0; k < 8; k++) {
@@ -146,7 +146,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
     /**
      * Little helper function in order to work out the coverage
      */
-    private void LCrawler(char[][] board) {
+    private void crawler(char[][] board) {
         
         for(int r =  0; r < 8; r++) {
             for(int k =  0; k < 8; k++) {
