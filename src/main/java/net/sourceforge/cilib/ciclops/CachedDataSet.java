@@ -36,7 +36,7 @@ import net.sourceforge.cilib.problem.dataset.DataSet;
 public class CachedDataSet extends DataSet {
 	private static final long serialVersionUID = -167393351437644754L;
 
-	public static String CACHE_PATH = "";
+	public static String cachePath = "";
 	private int id;
 
 	public CachedDataSet() {
@@ -87,7 +87,7 @@ public class CachedDataSet extends DataSet {
 	 */
 	public InputStream getInputStream() {
 		try {
-			String fileName = CACHE_PATH + File.pathSeparator + String.valueOf(id) + ".ds";
+			String fileName = cachePath + File.pathSeparator + String.valueOf(id) + ".ds";
 			InputStream is = new BufferedInputStream(new FileInputStream(fileName));
 			return is;
 		}
