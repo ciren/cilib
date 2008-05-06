@@ -1,9 +1,9 @@
 /*
- * MultipleModalF2.java
- *
- * Created on 12 October, 2006, 2:45 PM
- *
- * Copyright (C) 2006
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
 package net.sourceforge.cilib.measurement.multiple;
 
@@ -55,13 +54,13 @@ public class MultipleModalF2 implements Measurement {
 	}
 
 	public Type getValue() {
-		NichePSO nichePSO = ((NichePSO)Algorithm.get());
+		NichePSO nichePSO = (NichePSO) Algorithm.get();
 		
 		System.out.println("set pointsize 3.0");
 		System.out.println("set xrange [0:1]");
 		System.out.println("f(x) = (sin(5*pi*x)**6)*exp(-2*log(2)*((x-0.1)/0.8)**2)");
 		System.out.print("plot f(x), '-' title 'mainSwarm'");
-		for (int i = 0 ; i < nichePSO.getSubSwarms().size(); ++i) {
+		for (int i = 0; i < nichePSO.getSubSwarms().size(); ++i) {
 			System.out.print(", '-' title 'subSwarm" + i + "' with points");
 			System.out.print(", '-' title 'subSwarmRadius" + i + "' with lines");
 		}
