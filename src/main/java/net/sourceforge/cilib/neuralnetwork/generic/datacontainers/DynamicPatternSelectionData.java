@@ -1,8 +1,23 @@
 /*
- * Created on 2005/07/06
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.neuralnetwork.generic.datacontainers;
 
@@ -31,22 +46,18 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
 	
 	
 	public DynamicPatternSelectionData() {
-		
-		super();
-		
 		topology = null;
 		this.prototypeError = null;
 		this.mostInformative = null;
 		this.informativeness = null;
 		this.nrUpdates = 1;
-		
 	}
 	
 	public void initialize(){
 		
 		super.initialize();
 		
-		if ((this.topology == null) || (this.prototypeError == null) ){
+		if ((this.topology == null) || (this.prototypeError == null)) {
 			throw new IllegalArgumentException("Required object was null during initialization");
 		}
 		
@@ -94,11 +105,11 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
 		if(candidateSet.size() != 0){
 						
 			//Iterate over each pattern p in the Candidate set Dc
-			NeuralNetworkDataIterator DcIter = this.getCandidateSetIterator();
+			NeuralNetworkDataIterator dcIter = this.getCandidateSetIterator();
 			
-			while(DcIter.hasMore()){
+			while(dcIter.hasMore()){
 				
-				NNPattern p = DcIter.value();
+				NNPattern p = dcIter.value();
 				
 				//Evaluate p against current NN topology.
 				Vector output = this.topology.evaluate(p);
@@ -108,14 +119,14 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
 				patternError.computeIteration(output, p);
 				patternError.finaliseError();
 				
-				this.prioritisePattern(p,patternError);
+				this.prioritisePattern(p, patternError);
 								
-				DcIter.next();
+				dcIter.next();
 			}//end iterate Dc
 			
 			
 			//remove mostInformative patterns from candidate set Dc and add to training set Dt.
-			while( (candidateSet.size() != 0) && (this.mostInformative.size() > 0) ){
+			while ((candidateSet.size() != 0) && (this.mostInformative.size() > 0)) {
 				this.candidateSet.remove(mostInformative.get(0));
 				this.trainingSet.add(mostInformative.get(0));
 				this.mostInformative.remove(0);

@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.neuralnetwork.generic.neuron;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
@@ -6,7 +27,9 @@ import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPatter
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-
+/**
+ * TODO: Complete this javadoc.
+ */
 //This class is not fully completed and tested.... Draft version
 public class MNNNeuronAdapter extends NeuronConfig {
 	
@@ -26,11 +49,11 @@ public class MNNNeuronAdapter extends NeuronConfig {
 		Vector weightsMNN = new Vector();
 		
 		for (int i = 0; i < this.input.length; i++){
-			Vector tmpInput = ((Vector)input[i].getCurrentOutput());
-			Vector tmpWeight = ((Vector)inputWeights[i].getWeightValue());
+			Vector tmpInput = ((Vector) input[i].getCurrentOutput());
+			Vector tmpWeight = ((Vector) inputWeights[i].getWeightValue());
 			
 			//copy relevant weights and inputs to vector
-			for (int j = 0; j < tmpInput.size(); j ++){
+			for (int j = 0; j < tmpInput.size(); j++){
 				if (tmpWeight.get(j) != null){
 					inputMNN.add(tmpInput.get(j));
 					weightsMNN.add(tmpWeight.get(j));

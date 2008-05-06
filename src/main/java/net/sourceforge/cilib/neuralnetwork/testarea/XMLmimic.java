@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.neuralnetwork.testarea;
 
 import net.sourceforge.cilib.measurement.generic.Time;
@@ -29,11 +50,17 @@ import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.SquaredErr
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.Real;
 
-public class XMLmimic {
+/**
+ * TODO: Complete this javadoc.
+ */
+public final class XMLmimic {
+	
+	private XMLmimic() {
+	}
 	
 	public static void run(){
 		
-		NeuralNetworkProblem NNprob = new NeuralNetworkProblem();
+		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
 			FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
 			//SAILAEvaluationStrategy eval = new SAILAEvaluationStrategy();
 			
@@ -82,13 +109,13 @@ public class XMLmimic {
 				trainer.setLearningRate(0.9);
 			eval.setTrainer(trainer);
 		
-		NNprob.setEvaluationStrategy(eval);
+		neuralNetworkProblem.setEvaluationStrategy(eval);
 		
 		
 		
-		NeuralNetworkController NNControl = new NeuralNetworkController();
-			NNControl.setProblem(NNprob);
-			NNControl.addStoppingCondition(new MaximumIterations(1000));
+		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
+			neuralNetworkControl.setProblem(neuralNetworkProblem);
+			neuralNetworkControl.addStoppingCondition(new MaximumIterations(1000));
 			PostMeasurementSuite measures = new PostMeasurementSuite();
 			measures.setOutputFile("c:\\temp\\data\\dom.txt");
 			AreaUnderROC auc = new AreaUnderROC();
@@ -104,9 +131,9 @@ public class XMLmimic {
 			measures.addMeasurement(new DvPatternCount());
 			measures.addMeasurement(new RobelOverfittingRho());
 			measures.addMeasurement(new Time());
-			NNControl.setMeasures(measures);
+			neuralNetworkControl.setMeasures(measures);
 		
-		NNControl.initialise();
+		neuralNetworkControl.initialise();
 			
 			
 			
@@ -120,7 +147,7 @@ public class XMLmimic {
 
 System.out.println("About to run simulation...");	
 
-NNControl.run();
+neuralNetworkControl.run();
 ////run the stuff
 		
 	
