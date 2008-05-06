@@ -1,6 +1,4 @@
 /*
- * TopologyLoopingOperator.java
- *
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -28,7 +26,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.Operator;
 
 /**
- * TODO: Complete this javadoc
+ * TODO: Complete this javadoc.
  */
 public class TopologyLoopingOperator implements Operator {
 	
