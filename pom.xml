@@ -22,9 +22,9 @@
   </organization>
 
   <scm>
-    <connection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/tags/cilib-0.6.11</connection>
-    <developerConnection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/tags/cilib-0.6.11</developerConnection>
-    <url>http://cilib.svn.sourceforge.net/viewvc/cilib/tags/cilib-0.6.11</url>
+    <connection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/trunk</connection>
+    <developerConnection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/trunk</developerConnection>
+    <url>http://cilib.svn.sourceforge.net/viewvc/cilib/trunk</url>
   </scm>
 
   <mailingLists>
@@ -130,7 +130,7 @@
       <artifactId>commons-math</artifactId>
       <version>1.1</version>
     </dependency>
-    <!--<dependency>
+    <dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
       <version>1.4</version>
@@ -139,7 +139,7 @@
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>1.6</version>
-    </dependency>-->
+    </dependency>
   </dependencies>
   
   <build>
