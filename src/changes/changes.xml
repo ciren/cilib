@@ -4,7 +4,7 @@
 		<author email="gpampara@cs.up.ac.za">Gary Pampara</author>
 	</properties>
 	<body>
-		<release version="0.6.11" date="Not yet released" description="">
+		<release version="0.6.11" date="2008-05-07" description="Long over due release">
 		  <action dev="gpampara" type="fix" issue="1931903">
 		    Refactored the NeighbourhoodBestUpdateStrategy references into AbstractEntity from AbstractParticle to correct the introduced Topology.getBestEntity() issue.
 		  </action>
