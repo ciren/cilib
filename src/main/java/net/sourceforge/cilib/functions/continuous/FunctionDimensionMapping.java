@@ -43,7 +43,10 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 	private int number;
 	
 	private DistanceMeasure measure;
-	
+
+	/**
+	 * Create an instance of {@linkplain FunctionDimensionMapping}.
+	 */
 	public FunctionDimensionMapping() {
 		dataDimension = 2;
 		number = 200;
@@ -53,11 +56,17 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 		setDomain("B^10");
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public FunctionDimensionMapping getClone() {
 		return new FunctionDimensionMapping();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double evaluate(Vector x) {
 		// The vector x is an entities information vector which represents the seed to
@@ -131,6 +140,7 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 	}
 
 	/**
+	 * Get the dimension of the data.
 	 * @return Returns the dimension.
 	 */
 	public double getDataDimension() {
@@ -138,6 +148,7 @@ public class FunctionDimensionMapping extends ContinuousFunction {
 	}
 
 	/**
+	 * Set the dimension of the data.
 	 * @param dimension The dimension to set.
 	 */
 	public void setDataDimension(int dimension) {

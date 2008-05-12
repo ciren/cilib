@@ -52,17 +52,16 @@ public class Easom extends ContinuousFunction {
     public Easom getClone() {
     	return new Easom();
     }
-    
+
+    /**
+	 * Get the minimum of the function. It is defined to be a value of -1.0.
+	 */
     public Object getMinimum() {
         return new Double(-1.0);
     }
     
-    /** Each function must provide an implementation which returns the function value
-     * at the given position. The length of the position array should be the same
-     * as the function dimension.
-     *
-     * @param x The position
-     *
+    /**
+     * {@inheritDoc}
      */
     public double evaluate(Vector x) {
     	double powerTerm1 = -((x.getReal(0)-Math.PI)*(x.getReal(0)-Math.PI));

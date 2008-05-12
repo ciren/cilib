@@ -26,25 +26,38 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- *
+ * TODO: Complete this javadoc.
  * @author  Edwin Peer
  */
 public class NastyBenchmark extends ContinuousFunction {
 	private static final long serialVersionUID = 6848836780892359015L;
 
+	/**
+	 * Create a new instance of {@linkplain NastyBenchmark}.
+	 */
 	public NastyBenchmark() {
         setDomain("R(-500, 500)^30");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public NastyBenchmark getClone() {
 		return new NastyBenchmark();
 	}
     
+	/**
+	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+	 * @return The function minimum value.
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {

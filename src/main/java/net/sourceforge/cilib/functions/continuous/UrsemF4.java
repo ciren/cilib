@@ -36,7 +36,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Clive Naicker
  * @version 1.0
  */
-
 public class UrsemF4 extends ContinuousFunction {
 	private static final long serialVersionUID = 6177837410317967257L;
 
@@ -44,24 +43,30 @@ public class UrsemF4 extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-2, 2)^2");
     }
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public UrsemF4 getClone() {
 		return new UrsemF4();
 	}
 
+	/**
+	 * Get the minimum of the function. It is defined to be a value of <code>1.5</code>.
+	 * @return The function minimum value.
+	 */
     public Object getMinimum() {
         return new Double(1.5);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);
         double result = 3.0*Math.sin(0.5*Math.PI*x + 0.5*Math.PI)*(2.0 - Math.sqrt(x*x + y*y)/4.0);
         return result;
-    }
-
-    public void setDimension(int dimension) {
-        throw new UnsupportedOperationException("setDimension(int) not supported by UrsemF4");
     }
 }

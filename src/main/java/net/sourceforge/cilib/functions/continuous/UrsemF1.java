@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Clive Naicker
  * @version 1.0
  */
-
 public class UrsemF1 extends ContinuousFunction {
 	private static final long serialVersionUID = -2595919942608678319L;
 
@@ -42,7 +41,10 @@ public class UrsemF1 extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-2.5, 3)^2");
     }
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public UrsemF1 getClone() {
 		return new UrsemF1();
@@ -52,6 +54,9 @@ public class UrsemF1 extends ContinuousFunction {
         return new Double(4.81681);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);

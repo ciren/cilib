@@ -25,7 +25,8 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * The Collville function.
+ * 
  * @author  engel
  */
 public class Colville extends ContinuousFunction {

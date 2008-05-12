@@ -44,7 +44,10 @@ public class SchwefelProblem2_26 extends ContinuousFunction {
 	public SchwefelProblem2_26() {
         setDomain("R(-500, 500)^30");
     }
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SchwefelProblem2_26 getClone() {
 		return new SchwefelProblem2_26();
@@ -54,6 +57,9 @@ public class SchwefelProblem2_26 extends ContinuousFunction {
         return new Double(-12569.5);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double sum = 0.0;
         

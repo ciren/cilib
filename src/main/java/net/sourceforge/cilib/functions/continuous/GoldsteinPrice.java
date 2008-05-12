@@ -52,6 +52,9 @@ public class GoldsteinPrice extends ContinuousFunction {
 		return new GoldsteinPrice();
 	}
 	
+	/**
+	 * Get the minimum of the function. The value of the minimum of 3.0.
+	 */
 	public Object getMinimum() {
 		return new Double(3.0);
 	}

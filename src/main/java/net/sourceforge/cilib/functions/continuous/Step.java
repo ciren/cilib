@@ -26,7 +26,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- *
+ * The Step function.
+ * 
+ * <p>
+ * The default domain of the function is defined to be R(-100.0, 100.0)^30
+ * 
  * @author Andries Engelbrecht
  */
 public class Step extends ContinuousFunction {
@@ -36,27 +40,35 @@ public class Step extends ContinuousFunction {
     public Step() {
         setDomain("R(-100.0, 100.0)^30");
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Step getClone() {
     	return new Step();
     }
     
+    /**
+     * Get the defined minimum of the {@linkplain Function}. The minimum is defined to
+     * be the value of 0.0.
+     * @return An {@code Object} containing the value 0.0.
+     */
     public Object getMinimum() {
         return new Double(0);
     }
     
-    
+    /**
+     * Get the defined maximum of the {@linkplain Function}. The maximum value is defined to
+     * be the value of 55.0.
+     * @return An {@code Object} containing the value 55.0.
+     */
     public Object getMaximum() {
     	return new Double(55.0);
     }
     
     /** 
-     * Each function must provide an implementation which returns the function value
-     * at the given position. The length of the position array should be the same
-     * as the function dimension.
-     *
-     * @param x The position
+     * {@inheritDoc}
      */
     public double evaluate(Vector x) {
         double sum = 0.0;

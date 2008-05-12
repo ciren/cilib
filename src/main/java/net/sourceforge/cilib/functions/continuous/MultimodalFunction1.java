@@ -30,19 +30,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class MultimodalFunction1 extends ContinuousFunction {
 	private static final long serialVersionUID = -5261002551096587662L;
 
+	/**
+	 * Create an instance of {@linkplain MultimodalFunction1}.
+	 */
 	public MultimodalFunction1() {
         setDomain("R(0, 1)^1");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public MultimodalFunction1 getClone() {
 		return new MultimodalFunction1();
 	}
 
+	/**
+	 * Get the minimum value of the function. The minimum is defined to be <code>0.0</code>.
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector parm1) {
         double dResult = 0.0;
         for (int i = 0; i < getDimension(); ++i) {

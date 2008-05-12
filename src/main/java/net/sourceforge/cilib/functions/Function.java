@@ -37,21 +37,24 @@ public abstract class Function implements Cloneable, Serializable {
 	private DomainRegistry behavioralDomainRegistry;
 
 	/**
-	 * 
-	 *
+	 * Create a new instance of {@linkplain Function}.
 	 */
 	public Function() {
 		domainRegistry = new DomainRegistry();
 		behavioralDomainRegistry = new DomainRegistry();
 	}
 
+	/**
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public Function(Function copy) {
 		domainRegistry = copy.domainRegistry.getClone();
 		behavioralDomainRegistry = copy.behavioralDomainRegistry.getClone();
 	}
 
 	/**
-	 * @return
+	 * @return The dimension of the function.
 	 */
 	public int getDimension() {
 		return this.getDomainRegistry().getDimension();
@@ -59,7 +62,7 @@ public abstract class Function implements Cloneable, Serializable {
 
 	/**
 	 * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
-	 * @returns The function domain.
+	 * @return The function domain.
 	 */
 	public DomainRegistry getDomainRegistry() {
 		return domainRegistry;
@@ -67,7 +70,7 @@ public abstract class Function implements Cloneable, Serializable {
 
 	/**
 	 * Method added for CiClops compatibility.... not used and do not remove
-	 * @param d
+	 * @param d The {@linkplain DomainRegistry}.
 	 */
 	public void setDomainRegistry(DomainRegistry d) {
 		throw new UnsupportedOperationException("You are not allowed to set the DomainRegistry!");
@@ -88,7 +91,7 @@ public abstract class Function implements Cloneable, Serializable {
 	}
 
 	/**
-	 * @return
+	 * @return The domain {@linkplain String}.
 	 */
 	public String getDomain() {
 		return domainRegistry.getDomainString();
@@ -108,7 +111,7 @@ public abstract class Function implements Cloneable, Serializable {
 	}
 
 	/**
-	 * @param behavioralDomain
+	 * @param behavioralDomain The value to set.
 	 */
 	public void setBehavioralDomain(String behavioralDomain) {
 		DomainParser parser = DomainParser.getInstance();
@@ -137,6 +140,7 @@ public abstract class Function implements Cloneable, Serializable {
 	 * Each function must provide an implementation which returns the function value at the given
 	 * position. The length of the position array should be the same as the function dimension.
 	 * @param x the position
+	 * @return The result of the evaluation.
 	 */
 	public abstract Double evaluate(Object x);
 	

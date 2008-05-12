@@ -52,7 +52,10 @@ public class Schaffer6 extends ContinuousFunction {
 	public Schaffer6() {
 		setDomain("R(-100.0,100.0)^2");
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Schaffer6 getClone() {
 		return new Schaffer6();

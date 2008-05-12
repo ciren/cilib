@@ -52,7 +52,10 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     public EpistaticMichalewicz getClone() {
     	return new EpistaticMichalewicz();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
     	if (this.getDimension() == 5)
     		return new Double(-4.687);
@@ -62,12 +65,8 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     	return new Double(-Double.MAX_VALUE);
     }
     
-    /** Each function must provide an implementation which returns the function value
-     * at the given position. The length of the position array should be the same
-     * as the function dimension.
-     *
-     * @param x The position
-     *
+    /** 
+     * {@inheritDoc}
      */
     public double evaluate(Vector input) {
         /*double x = X.getReal(0);
@@ -87,10 +86,18 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     	return -sumsq;
     }
     
+    /**
+     * Get the current value of <code>M</code>.
+     * @return The value of <code>M</code>.
+     */
     public int getM() {
         return m;
     }
     
+    /**
+     * Set the value of <code>M</code>.
+     * @param m The value to set.
+     */
     public void setM(int m) {
         this.m = m;
     }

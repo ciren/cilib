@@ -45,16 +45,26 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
 	public SchwefelProblem2_21() {
         setDomain("R(-100, 100)^30");
     }
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SchwefelProblem2_21 getClone() {
 		return new SchwefelProblem2_21();
 	}
     
+	/**
+	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+	 * @return The function minimum value.
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double max = Math.abs(x.getReal(0));
         double value;

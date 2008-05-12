@@ -46,19 +46,32 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Schwefel extends ContinuousFunction { // ?
     private static final long serialVersionUID = 3835871629510784855L;
 
+    /**
+     * Create a new instance of {@linkplain Schwefel}.
+     */
 	public Schwefel() {
         setDomain("R(-512.03, 511.97)^30");
     }
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Schwefel getClone() {
 		return new Schwefel();
 	}
     
+	/**
+	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+	 * @return The function minimum value.
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double sum = 0;
         for (int i = 0; i < x.getDimension(); ++i) {

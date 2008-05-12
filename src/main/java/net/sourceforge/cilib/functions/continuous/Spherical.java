@@ -46,15 +46,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Spherical extends ContinuousFunction implements Differentiable {
     private static final long serialVersionUID = 5811377575647995206L;
 
+    /**
+     * Create a new instance of {@linkplain Spherical}.
+     */
 	public Spherical() {
         setDomain("R(-5.12, 5.12)^30");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Spherical getClone() {
 		return new Spherical();
 	}
-    
+
+	/**
+	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+	 * @return The function minimum value.
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
@@ -62,7 +72,10 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     public Object getMaximum() {
     	return new Double(78.6432);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double tmp = 0;
         for (int i = 0; i < x.getDimension(); i++) {
@@ -72,8 +85,9 @@ public class Spherical extends ContinuousFunction implements Differentiable {
         return tmp;
     }
     
-    
-    /* Returns the gradient of the function at x */    
+    /**
+     * {@inheritDoc}
+     */
     public Vector getGradient(Vector x) {
     	Vector tmp = new Vector(x.getDimension());
     	    	

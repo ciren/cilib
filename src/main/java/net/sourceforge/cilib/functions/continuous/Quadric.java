@@ -35,11 +35,18 @@ public class Quadric extends ContinuousFunction {
         setDomain("R(-100, 100)^30");
     }
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Quadric getClone() {
 		return new Quadric();
 	}
-    
+
+	/**
+	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+	 * @return The function minimum value.
+	 */
     public Object getMinimum() {
         return new Double(0);
     }
@@ -48,6 +55,9 @@ public class Quadric extends ContinuousFunction {
     	return new Double(1248.2);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double sumsq = 0;
         for (int i = 0; i < getDimension(); ++i) {

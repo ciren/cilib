@@ -43,16 +43,26 @@ public class UrsemF3 extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-2, 2)^2");
     }
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public UrsemF3 getClone() {
 		return new UrsemF3();
 	}
 
+	/**
+	 * Get the minimum of the function. It is defined to be a value of <code>2.5</code>.
+	 * @return The function minimum value.
+	 */
     public Object getMinimum() {
         return new Double(2.5);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public double evaluate(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);
