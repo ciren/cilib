@@ -28,27 +28,34 @@ import java.util.List;
 import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.pso.iterationstrategies.BoundaryConstraint;
 import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Generic IterationStrategy class for all Population based algorithms. Each and every IterationStrategy
+ * Generic {@linkplain IterationStrategy} class for all population based algorithms. Each and every {@linkplain IterationStrategy}
  * will have a pipeline available to it in order to specify the needed operators that will be
  * required to be executed during the iteration. For the implementing classes, a default
- * pipeline is constructed and made available, this can (as with everything within CILib) be overridden.  
+ * pipeline is constructed and made available, this can (as with everything within CIlib) be overridden.  
  * 
  * @author Gary Pampara
  * 
  * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
-public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> implements Serializable {
+public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> implements Cloneable, Serializable {
 	
 	protected BoundaryConstraint boundaryConstraint;
 	protected List<Operator> operatorPipeline;
 	
+	/**
+	 * Create an instance of the {@linkplain IterationStrategy}.
+	 */
 	public IterationStrategy() {
 		this.boundaryConstraint = new UnconstrainedBoundary();
 		this.operatorPipeline = new ArrayList<Operator>();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract IterationStrategy<E> getClone();
 	
 
@@ -74,10 +81,18 @@ public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> impl
 	 */
 	public abstract void performIteration(E algorithm);
 
+	/**
+	 * Get the currently associated {@linkplain BoundaryConstraint}.
+	 * @return The current {@linkplain BoundaryConstraint}.
+	 */
 	public BoundaryConstraint getBoundaryConstraint() {
 		return boundaryConstraint;
 	}
 
+	/**
+	 * Set the {@linkplain BoundaryConstraint} to maintain within this {@linkplain IterationStrategy}.
+	 * @param boundaryConstraint The {@linkplain BoundaryConstraint} to set.
+	 */
 	public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
 		this.boundaryConstraint = boundaryConstraint;
 	}

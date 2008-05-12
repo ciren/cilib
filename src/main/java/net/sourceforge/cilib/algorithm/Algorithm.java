@@ -37,7 +37,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * stopping criteria, events, threading and measurements. Subclasses of <code>Algorithm</code>
  * must provide an implementation for <code>protected abstract void performIteration()</code>. If
  * a subclass overrides {@link #initialise()} then it must call <code>super.initialise()</code>.
- * Failure to do so will cause an {@link InitialisationException} to be thrown when {@link #run()}
+ * Failure to do so will cause an {@linkplain InitialisationException} to be thrown when {@link #run()}
  * is called.
  * </p>
  * @author Edwin Peer

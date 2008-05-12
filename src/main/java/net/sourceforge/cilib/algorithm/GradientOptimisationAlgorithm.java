@@ -24,7 +24,8 @@ package net.sourceforge.cilib.algorithm;
 import net.sourceforge.cilib.problem.GradientOptimisationProblem;
 
 /**
- *
+ * Enable the notion of a gradient based optimisation. All {@code Algorithm}s that can
+ * be used to optimise a gradient based problem should implement this interface.
  * @author  Edwin Peer
  */
 public interface GradientOptimisationAlgorithm {
@@ -42,6 +43,10 @@ public interface GradientOptimisationAlgorithm {
      */
     public GradientOptimisationProblem getGradientOptimisationProblem();
     
+    /**
+     * Get the number of evaluations that have been performed to determine the gradient.
+     * @return The number of gradient evaluations.
+     */
     public int getGradientEvaluations();
 
 }

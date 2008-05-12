@@ -30,13 +30,23 @@ package net.sourceforge.cilib.algorithm;
  */
 public abstract class SingularAlgorithm extends Algorithm {
 
+	/**
+	 * Create a new instance of {@linkplain SingularAlgorithm}.
+	 */
 	public SingularAlgorithm() {
 	}
 
+	/**
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public SingularAlgorithm(SingularAlgorithm copy) {
 		super(copy);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract void algorithmIteration();
 	
 }

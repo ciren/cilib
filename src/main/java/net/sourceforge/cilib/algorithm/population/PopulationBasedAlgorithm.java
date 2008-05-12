@@ -41,8 +41,7 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	}
 
 	/**
-	 * Copy costructor. Duplicate the state of the current instance into
-	 * a new instance.
+	 * Create a copy of the provided instance.
 	 * @param copy The {@linkplain PopulationBasedAlgorithm} to copy.
 	 */
 	public PopulationBasedAlgorithm(PopulationBasedAlgorithm copy) {

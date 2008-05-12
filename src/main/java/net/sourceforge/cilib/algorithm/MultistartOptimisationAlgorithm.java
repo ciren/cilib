@@ -60,10 +60,19 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         problem = null;
     }
     
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
     public MultistartOptimisationAlgorithm(MultistartOptimisationAlgorithm copy) {
-    	
+    	super(copy);
+    	this.singleIteration = copy.singleIteration.getClone();
+    	this.problem = copy.problem.getClone();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public MultistartOptimisationAlgorithm getClone() {
     	return new MultistartOptimisationAlgorithm(this);
     }
@@ -79,10 +88,17 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         this.algorithm.addStoppingCondition(singleIteration);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public OptimisationProblem getOptimisationProblem() {
     	return problem.getTarget();
     }
     
+    /**
+     * Return the fitness of the solution.
+     * @return The current {@linkplain Fitness}.
+     */
     public Fitness getSolutionFitness() {
         return fitness;
     }
@@ -91,14 +107,23 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         this.problem = new MultistartProblemAdapter(problem);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Entity getContribution() {
         return ((ParticipatingAlgorithm) algorithm).getContribution();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public Fitness getContributionFitness() {
         return ((ParticipatingAlgorithm) algorithm).getContributionFitness();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void updateContributionFitness(Fitness fitness) {
         ((ParticipatingAlgorithm) algorithm).updateContributionFitness(fitness);
     }
@@ -125,6 +150,9 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         algorithm.removeStoppingCondition(condition);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public void performInitialisation() {
         if (problem != null) {
             optimisationAlgorithm.setOptimisationProblem(problem);
@@ -135,6 +163,10 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         solution = optimisationAlgorithm.getBestSolution();
     }
     
+    /**
+     * Perform an algorithm iteration, then restart the {@linkplain Algorithm} and increment
+     * the number of restarts.
+     */
     public void algorithmIteration() { 
         algorithm.run();
         singleIteration.reset();
@@ -161,10 +193,16 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         return restarts;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public OptimisationSolution getBestSolution() {
         return solution;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public List<OptimisationSolution> getSolutions() {
     	// TODO: Fix this so that all the solutions found at the time of each restart are added to the collection
     

@@ -30,16 +30,23 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
- * TODO: Complete this javadoc.
+ * Create a specialised collection of {@linkplain Entity} objects.
  */
 public class SpecializedPopluationInitialisationStrategy extends PopulationInitialisationStrategy {
 	private static final long serialVersionUID = -9146471282965793922L;
 	private List<Entity> entityList;
 
+	/**
+	 * Create an instance of {@linkplain SpecializedPopluationInitialisationStrategy}.
+	 */
 	public SpecializedPopluationInitialisationStrategy() {
 		this.entityList = new ArrayList<Entity>(40);
 	}
 
+	/**
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public SpecializedPopluationInitialisationStrategy(SpecializedPopluationInitialisationStrategy copy) {
 		this.entityList = new ArrayList<Entity>(copy.entityList.size());
 		for (Entity entity : copy.entityList) {
@@ -47,16 +54,25 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public SpecializedPopluationInitialisationStrategy getClone() {
 		return new SpecializedPopluationInitialisationStrategy(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Entity getEntityType() {
 		// this needs to be looked at... generalisation breaks here
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialise(Topology topology, OptimisationProblem problem) {
@@ -72,6 +88,9 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setEntityType(Entity entity) {
 		this.entityList.add(entity);

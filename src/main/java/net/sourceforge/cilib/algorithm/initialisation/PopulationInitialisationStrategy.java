@@ -29,7 +29,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Interface for the InitialisationStrategy.
+ * Interface describing the manner in which populations are initialised.
  * @author Gary Pampara
  */
 public abstract class PopulationInitialisationStrategy implements Serializable, Cloneable {

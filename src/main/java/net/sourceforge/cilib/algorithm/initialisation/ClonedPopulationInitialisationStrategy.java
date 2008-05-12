@@ -103,7 +103,7 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 
 	/**
 	 * Set the prototype {@linkplain Entity} for the copy process.
-	 * @param prototypeEntity The {@linkplain Entity} to use for the cloning process.
+	 * @param entityType The {@linkplain Entity} to use for the cloning process.
 	 */
 	public void setEntityType(Entity entityType) {
 		this.setPrototypeEntity(entityType);

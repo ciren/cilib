@@ -24,11 +24,9 @@ package net.sourceforge.cilib.algorithm;
 /**
  * This exception is thrown whenever an algorithm is run without being properly initialised.
  *
- *
  * @author  Edwin Peer
  */
 public class InitialisationException extends java.lang.RuntimeException {
-    
     private static final long serialVersionUID = -4744059625194428458L;
 
 	/**
