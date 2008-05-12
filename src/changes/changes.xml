@@ -1,243 +1,246 @@
 <document>
-	<properties>
-		<title>CILib Changes</title>
-		<author email="gpampara@cs.up.ac.za">Gary Pampara</author>
-	</properties>
-	<body>
-		<release version="0.6.11" date="2008-05-07" description="Long over due release">
-		  <action dev="gpampara" type="fix" issue="1931903">
-		    Refactored the NeighbourhoodBestUpdateStrategy references into AbstractEntity from AbstractParticle to correct the introduced Topology.getBestEntity() issue.
-		  </action>
-		  <action dev="gpampara" type="update" issue="1921291">
-			  Refactored the DE implememtation to cater for the DE/x/y/z notation.
-			</action>
-		  <action dev="gpampara" type="fix" issue="1921298">
-			  Refactored the CrossoverStrategy and MutationStrategy classes to make
-				the actions they perform simpler.
-			</action>
-			<action dev="gpampara" type="update" issue="1832365">
-				Refactored the Topology classes to determine the best entity from
-				the population. Algorithm classes no longer provide that accessor
-				method.
-			</action>
-		  <action dev="gpampara" type="update" issue="1835762">
-		  	Added the initial StatsUtil class. Will be refactored over time.
-		  </action>
-		  <action dev="gpampara" type="fix" issue="1891781">
-				Refactored the container classes so that Graph is not a top level interface.
-			</action>
-			<action dev="gpampara" type="update" issue="1891787">
-				Graphs should maintain edge cost and weight information.
-			</action>
-			<action dev="gpampara" type="update" issue="1858834" due-to="Wiehann Matthysen">
-				Cleaned up some redundant object usage.
-			</action>
-			<action dev="gpampara" type="fix" issue="1845509" due-to="heatzync">
-				Added a utilty class to provide addition functionality for Vectors.
-			</action>
-		</release>
-		<release version="0.6.10" date="2007-11-30" description="Major refactoring and bug fix release">
-			<action dev="gpampara" type="fix" issue="1837438">
-				Cloning of generic types. Also changes the manner in which other objects handle cloning.
-			</action>
-			<action dev="heatzync" type="fix" issue="1835575">
-				HalkidiVazirgiannisIndex cluster variance calculation.
-			</action>
-			<action dev="gpampara" type="remove" issue="1827723">
-				Remove the GCIterationStrategy and related classes.				
-			</action>
-			<action dev="gpampara" type="update" issue="1827386">
-				Refactor the Vector types to be more consistent.
-			</action>
-			<action dev="gpampara" type="fix" issue="1828379">
-				TopologyVisitor uses the outer algorithm in MultiPopulationBasedAlgorithms.
-			</action>
-			<action dev="heatzync" type="update" issue="1829410">
-				Refactor Clustering index functions into different package.
-			</action>
-		</release>
-		<release version="0.6.9" date="2007-10-12" description="NichePSO update and general maintenence release">
-			<action dev="heatzync" type="add">
-				Implemented a stopping condition that is based on a population's diversity: stoppingcondition.MinimumDiversity.
-			</action>
-			<action dev="gpampara" type="update" due-to="solorunda" due-to-email="olorunda@cs.up.ac.za">
-				Updates to RotatedFunctionDecorator. Specifies whether or not to recreate the rotation matrix based on a ControlParameter.
-			</action>
-			<action dev="gpampara" type="update">
-				Merged the NichePSO code into the source tree. Initial commit - expect some changes.
-			</action>
-			<action dev="gpampara" type="update">
-				Log4J related updates.
-			</action>
-			<action dev="gpampara" type="delete">
-				Removed the redundant RotatedFunction.
-			</action>
-			<action dev="gpampara" type="update">
-				Refactored the PopulationBasedAlgorithms to have them all reference
-				a PopulationInitialisationStrategy. The PopulationInitialisationStrategy
-				is now the only object that is knowledgeable of the number of Entity
-				objects.
-			</action>
-			<action dev="gpampara" type="update">
-				Refactored the VelocityUpdateStrategy classes. The updateControlParameters() method now accepts a particle. All Particles new implement a updateControlParameters() method.
-			</action>
-			<action dev="gpampara" type="update">
-				Renamed the ControlParameterUpdateStrategies to ControlParameter
-				classes. Renamed the package name as well and refactored associated
-				classes. Should be simpler now :)
-			</action>
-		</release>
-		<release version="0.6.8" date="2007-09-27" description="Entity changes. Feature release with additional bug fixes">
-			<action dev="gpampara" type="update">
-				Corrected many issues regarding generics. The code should be cleaner
-				and have less type warnings.
-			</action>
-			<action dev="gpampara" type="update" contrib="segun">
-				Converted the function shifting into a function decorator and added the
-				ability to rotate functions.
-			</action>
-			<action dev="heatzync" type="add" contrib="wiehann">
-				Implemented a BoundedPositionUpdateStrategy to adjust Particle behaviour at search
-				space boundaries. Six different boundary constraint strategies have been added:
-				BouncingBoundaryConstraintStrategy, ClampingBoundaryConstraintStrategy, DeflectionBoundaryConstraintStrategy, NearestBoundaryConstraintStrategy, PeriodicBoundaryConstraintStrategy and RandomBoundaryConstraintStrategy
-			</action>
-			<action dev="gpampara" type="update">
-				Fixed some potential bugs in ControlParameterUpdateStrategy code.
-			</action>
-			<action dev="gpampara" type="add" contrib="segun">
-				Added the new structure for the diversity measuement.
-			</action>
-			<action dev="gpampara" type="update" contrib="apengelbrecht">
-				Corrected the manner in which the structure of the PSO iteration strategies are defined (ASynchrounsousIterationStrategy and SynchronousIterationStrategy). The code should be more clear.
-			</action>
-			<action dev="heatzync" type="update">
-			Improved the implementation and usage of the problem.dataset.AssociatedPairDataSetBuilder
-			and functions.continuous.ClusteringFitnessFunction hierarchies.
-			</action>
-			<action dev="heatzync" type="add">
-			functions.continuous.ScatterSeperationRatio.java is a generalisation for validity indices that
-			make use of the intra-cluster (within-cluster) scatter and inter-cluster (between-cluster)
-			seperation values. These include the Davies-Bouldin index as well as the Dunn indices.
-			</action>
-			<action dev="heatzync" type="add">
-			Two of the Generalised Dunn Indices have been implemented: functions.continuous.DunnIndex33.java
-			and functions.continuous.DunnIndex53.java. functions.continuous.GeneralisedDunnIndex.java was
-			added to help with the implementation.
-			</action>
-			<action dev="heatzync" type="add">
-			functions.continuous.MaulikBandyopadhyayIndex.java: a new Clustering Validity Index
-			functions.continuous.VeenmanReindersBackerIndex.java:  a new Clustering Validity Index
-			</action>
-			<action dev="heatzync" type="rename">
-			functions.continuous.HalkidiVazirgiannisIndex.java was previously called functions.continuous.ScatterDensityIndex.java.
-			</action>
-			<action dev="heatzync" type="rename">
-			problem.dataset.CachingDataSetBuilder.java was previously called problem.dataset.CachedDistanceDataSetBuilder.java.
-			</action>
-			<action dev="heatzync" type="add">
-			measurement.single.NumberOfClustersFormed.java is a new measurement that measures the number
-			of clusters that are formed by the best solution of the current iteration.
-			</action>
-			<action dev="heatzync" type="update">
-			Updated and re-implemented unit tests.
-			</action>
-			<action dev="heatzync" type="remove">
-			Removed functions.continuous.QuantisationErrorTest.java, because its functionality is tested
-			inside functions.continuous.ClusteringFitnessFunctionTest.java.
-			</action>
-			<action dev="heatzync" type="add">
-			measurement.single.GenericFunctionMeasurement.java: A measurement that takes any function
-			(you have to use the .setFunction() method) and returns the value (or fitness) of that
-			function. This class was created so that it is possible to make use of any of the existing
-			functions in the "functions" package without the need to actually optimise that function,
-			i.e. without using it as a fitness function.
-			</action>
-			<action dev="heatzync" type="add">
-			pso.iterationstrategies.PerElementReinitialisation.java: A boundary constraint that only
-			reinitialises those components of the Vector (inside the Entity) that have move outside of
-			the bounds, as opposed to reinitialising the entire Entity as in the case of the
-			ReinitialisationBoundary class.
-			</action>
-			<action dev="heatzync" type="update">
-			Refactored a few classes. Corrected some typos. Added some more fitness functions for intra-cluster
-			measurements.
-			</action>
-			<action dev="heatzync" type="add">
-			pso.iterationstrategies.BouncingPositionUpdateStrategy.java: Instead of making use of
-			boundary constraints that reinitialise entire Particles (or components thereof), this class
-			is a proactive approach to prevent the Particles from moving outside of the domain. Before
-			moving a Particle to it's new location, this position update strategy first checks to see
-			whether the Particle will be outside of the domain. If not, the Particle is moved. If one of
-			the components of a Particle will be outside of the domain, it is placed very close to the
-			boundary of the domain (but still inside) and the Particle's velocity for that component is
-			inverted (multiplied by -1), effectively making the Particle bounce of the sides of the
-			domain.
-			</action>
-			<action dev="heatzync" type="update">
-			Added a reference to the Problem from within the DataSetBuilder.
-			</action>
-			<action dev="heatzync" type="update">
-			Some classes used Double.MIN_VALUE incorrectly. Double.MIN_VALUE is the smallest double
-			(that can be represented in Java) that is greater than 0.0. The smallest double is actually
-			-Double.MAX_VALUE.
-			</action>
-			<action dev="gpampara" type="add">
-			Added the revised Entity heirarchy. This effectively allows for dynamic
-			properties to be associated with all Entity objects. The main driver
-			for the change was the need for extra information with regards to
-			coevolution changes that will come into CILib shortly. Entity
-			implementations such as Particle, Individual and the like now share
-			a datastructure to store their properties within.
-			</action>
-			<action dev="gpampara" type="add">
-		        Added the new classes to the Type system. This change effectively
-			enables the Entity hierarchy change by moving the container classes
-			such as Tree into the Type system so that they can be used within
-			Entities.
+  <properties>
+    <title>CILib Changes</title>
+    <author email="gpampara@cs.up.ac.za">Gary Pampara</author>
+  </properties>
+  <body>
+    <release version="0.7" date="to be confirmed" description="">
+    </release>
+    <release version="0.6.12" date="to be announced" description="">
+    </release>
+    <release version="0.6.11" date="2008-05-07" description="Long over due release">
+      <action dev="gpampara" type="fix" issue="1931903">
+        Refactored the NeighbourhoodBestUpdateStrategy references into AbstractEntity from AbstractParticle to correct the introduced Topology.getBestEntity() issue.
+      </action>
+      <action dev="gpampara" type="update" issue="1921291">
+        Refactored the DE implememtation to cater for the DE/x/y/z notation.
+      </action>
+      <action dev="gpampara" type="fix" issue="1921298">
+        Refactored the CrossoverStrategy and MutationStrategy classes to make
+        the actions they perform simpler.
+      </action>
+      <action dev="gpampara" type="update" issue="1832365">
+        Refactored the Topology classes to determine the best entity from
+        the population. Algorithm classes no longer provide that accessor
+        method.
+      </action>
+      <action dev="gpampara" type="update" issue="1835762">
+        Added the initial StatsUtil class. Will be refactored over time.
+      </action>
+      <action dev="gpampara" type="fix" issue="1891781">
+        Refactored the container classes so that Graph is not a top level interface.
+      </action>
+      <action dev="gpampara" type="update" issue="1891787">
+        Graphs should maintain edge cost and weight information.
+      </action>
+      <action dev="gpampara" type="update" issue="1858834" due-to="Wiehann Matthysen">
+        Cleaned up some redundant object usage.
+      </action>
+      <action dev="gpampara" type="fix" issue="1845509" due-to="heatzync">
+        Added a utilty class to provide addition functionality for Vectors.
+      </action>
+    </release>
+    <release version="0.6.10" date="2007-11-30" description="Major refactoring and bug fix release">
+      <action dev="gpampara" type="fix" issue="1837438">
+        Cloning of generic types. Also changes the manner in which other objects handle cloning.
+      </action>
+      <action dev="heatzync" type="fix" issue="1835575">
+        HalkidiVazirgiannisIndex cluster variance calculation.
+      </action>
+      <action dev="gpampara" type="remove" issue="1827723">
+        Remove the GCIterationStrategy and related classes.       
+      </action>
+      <action dev="gpampara" type="update" issue="1827386">
+        Refactor the Vector types to be more consistent.
+      </action>
+      <action dev="gpampara" type="fix" issue="1828379">
+        TopologyVisitor uses the outer algorithm in MultiPopulationBasedAlgorithms.
+      </action>
+      <action dev="heatzync" type="update" issue="1829410">
+        Refactor Clustering index functions into different package.
+      </action>
+    </release>
+    <release version="0.6.9" date="2007-10-12" description="NichePSO update and general maintenence release">
+      <action dev="heatzync" type="add">
+        Implemented a stopping condition that is based on a population's diversity: stoppingcondition.MinimumDiversity.
+      </action>
+      <action dev="gpampara" type="update" due-to="solorunda" due-to-email="olorunda@cs.up.ac.za">
+        Updates to RotatedFunctionDecorator. Specifies whether or not to recreate the rotation matrix based on a ControlParameter.
+      </action>
+      <action dev="gpampara" type="update">
+        Merged the NichePSO code into the source tree. Initial commit - expect some changes.
+      </action>
+      <action dev="gpampara" type="update">
+        Log4J related updates.
+      </action>
+      <action dev="gpampara" type="delete">
+        Removed the redundant RotatedFunction.
+      </action>
+      <action dev="gpampara" type="update">
+        Refactored the PopulationBasedAlgorithms to have them all reference
+        a PopulationInitialisationStrategy. The PopulationInitialisationStrategy
+        is now the only object that is knowledgeable of the number of Entity
+        objects.
+      </action>
+      <action dev="gpampara" type="update">
+        Refactored the VelocityUpdateStrategy classes. The updateControlParameters() method now accepts a particle. All Particles new implement a updateControlParameters() method.
+      </action>
+      <action dev="gpampara" type="update">
+        Renamed the ControlParameterUpdateStrategies to ControlParameter
+        classes. Renamed the package name as well and refactored associated
+        classes. Should be simpler now :)
+      </action>
+    </release>
+    <release version="0.6.8" date="2007-09-27" description="Entity changes. Feature release with additional bug fixes">
+      <action dev="gpampara" type="update">
+        Corrected many issues regarding generics. The code should be cleaner
+        and have less type warnings.
+      </action>
+      <action dev="gpampara" type="update" contrib="segun">
+        Converted the function shifting into a function decorator and added the
+        ability to rotate functions.
+      </action>
+      <action dev="heatzync" type="add" contrib="wiehann">
+        Implemented a BoundedPositionUpdateStrategy to adjust Particle behaviour at search
+        space boundaries. Six different boundary constraint strategies have been added:
+        BouncingBoundaryConstraintStrategy, ClampingBoundaryConstraintStrategy, DeflectionBoundaryConstraintStrategy, NearestBoundaryConstraintStrategy, PeriodicBoundaryConstraintStrategy and RandomBoundaryConstraintStrategy
+      </action>
+      <action dev="gpampara" type="update">
+        Fixed some potential bugs in ControlParameterUpdateStrategy code.
+      </action>
+      <action dev="gpampara" type="add" contrib="segun">
+        Added the new structure for the diversity measuement.
+      </action>
+      <action dev="gpampara" type="update" contrib="apengelbrecht">
+        Corrected the manner in which the structure of the PSO iteration strategies are defined (ASynchrounsousIterationStrategy and SynchronousIterationStrategy). The code should be more clear.
+      </action>
+      <action dev="heatzync" type="update">
+        Improved the implementation and usage of the problem.dataset.AssociatedPairDataSetBuilder
+        and functions.continuous.ClusteringFitnessFunction hierarchies.
+      </action>
+      <action dev="heatzync" type="add">
+        functions.continuous.ScatterSeperationRatio.java is a generalisation for validity indices that
+        make use of the intra-cluster (within-cluster) scatter and inter-cluster (between-cluster)
+        seperation values. These include the Davies-Bouldin index as well as the Dunn indices.
+      </action>
+      <action dev="heatzync" type="add">
+        Two of the Generalised Dunn Indices have been implemented: functions.continuous.DunnIndex33.java
+        and functions.continuous.DunnIndex53.java. functions.continuous.GeneralisedDunnIndex.java was
+        added to help with the implementation.
+      </action>
+      <action dev="heatzync" type="add">
+        functions.continuous.MaulikBandyopadhyayIndex.java: a new Clustering Validity Index
+        functions.continuous.VeenmanReindersBackerIndex.java:  a new Clustering Validity Index
+      </action>
+      <action dev="heatzync" type="rename">
+        functions.continuous.HalkidiVazirgiannisIndex.java was previously called functions.continuous.ScatterDensityIndex.java.
+      </action>
+      <action dev="heatzync" type="rename">
+        problem.dataset.CachingDataSetBuilder.java was previously called problem.dataset.CachedDistanceDataSetBuilder.java.
+      </action>
+      <action dev="heatzync" type="add">
+        measurement.single.NumberOfClustersFormed.java is a new measurement that measures the number
+        of clusters that are formed by the best solution of the current iteration.
+      </action>
+      <action dev="heatzync" type="update">
+        Updated and re-implemented unit tests.
+      </action>
+      <action dev="heatzync" type="remove">
+        Removed functions.continuous.QuantisationErrorTest.java, because its functionality is tested
+        inside functions.continuous.ClusteringFitnessFunctionTest.java.
+      </action>
+      <action dev="heatzync" type="add">
+        measurement.single.GenericFunctionMeasurement.java: A measurement that takes any function
+        (you have to use the .setFunction() method) and returns the value (or fitness) of that
+        function. This class was created so that it is possible to make use of any of the existing
+        functions in the "functions" package without the need to actually optimise that function,
+        i.e. without using it as a fitness function.
+      </action>
+      <action dev="heatzync" type="add">
+        pso.iterationstrategies.PerElementReinitialisation.java: A boundary constraint that only
+        reinitialises those components of the Vector (inside the Entity) that have move outside of
+        the bounds, as opposed to reinitialising the entire Entity as in the case of the
+        ReinitialisationBoundary class.
+      </action>
+      <action dev="heatzync" type="update">
+        Refactored a few classes. Corrected some typos. Added some more fitness functions for intra-cluster measurements.
+      </action>
+      <action dev="heatzync" type="add">
+        pso.iterationstrategies.BouncingPositionUpdateStrategy.java: Instead of making use of
+        boundary constraints that reinitialise entire Particles (or components thereof), this class
+        is a proactive approach to prevent the Particles from moving outside of the domain. Before
+        moving a Particle to it's new location, this position update strategy first checks to see
+        whether the Particle will be outside of the domain. If not, the Particle is moved. If one of
+        the components of a Particle will be outside of the domain, it is placed very close to the
+        boundary of the domain (but still inside) and the Particle's velocity for that component is
+        inverted (multiplied by -1), effectively making the Particle bounce of the sides of the
+        domain.
+      </action>
+      <action dev="heatzync" type="update">
+        Added a reference to the Problem from within the DataSetBuilder.
+      </action>
+      <action dev="heatzync" type="update">
+        Some classes used Double.MIN_VALUE incorrectly. Double.MIN_VALUE is the smallest double
+        (that can be represented in Java) that is greater than 0.0. The smallest double is actually
+        -Double.MAX_VALUE.
+      </action>
+      <action dev="gpampara" type="add">
+        Added the revised Entity heirarchy. This effectively allows for dynamic
+        properties to be associated with all Entity objects. The main driver
+        for the change was the need for extra information with regards to
+        coevolution changes that will come into CILib shortly. Entity
+        implementations such as Particle, Individual and the like now share
+        a datastructure to store their properties within.
+      </action>
+      <action dev="gpampara" type="add">
+        Added the new classes to the Type system. This change effectively
+        enables the Entity hierarchy change by moving the container classes
+        such as Tree into the Type system so that they can be used within
+        Entities.
 
-			A further modification was the notion that all Trees, Sets and Vectors
-			are essentially special cases of Grpahs. This now means that all 
-			container types extend from Graph&lt;E&gt; interface. The old container
-			code will remain until all the functionality has been ported to the 
-			new packages.
-			</action>
-			<action dev="gpampara" type="update">
-			Refactored some code and made some methods generic. Cleaned up some
-			comments and mainly made sure the tree is currently in a sane state.
-			</action>
-			<action dev="gpampara" type="update">
-			Renamed a few methods to make the intention of the methods more clear.
-			</action>
-			<action dev="gpampara" type="update">
-			Changed the Type system hierarchy by pushing the isInsideBounds() method
-			up into the Type class. This change simplified the DomainParser code.
-			</action>
-			<action dev="gpampara" type="remove">
-			Removed the need for a user defined exception class, as the 
-			description is the main	need and not the new class.
-			</action>
-		</release>
+        A further modification was the notion that all Trees, Sets and Vectors
+        are essentially special cases of Grpahs. This now means that all 
+        container types extend from Graph&lt;E&gt; interface. The old container
+        code will remain until all the functionality has been ported to the 
+        new packages.
+      </action>
+      <action dev="gpampara" type="update">
+        Refactored some code and made some methods generic. Cleaned up some
+        comments and mainly made sure the tree is currently in a sane state.
+      </action>
+      <action dev="gpampara" type="update">
+        Renamed a few methods to make the intention of the methods more clear.
+      </action>
+      <action dev="gpampara" type="update">
+        Changed the Type system hierarchy by pushing the isInsideBounds() method
+        up into the Type class. This change simplified the DomainParser code.
+      </action>
+      <action dev="gpampara" type="remove">
+        Removed the need for a user defined exception class, as the 
+        description is the main need and not the new class.
+      </action>
+    </release>
 
-		<release version="0.6.6" date="2007-03-18" description="Feature release and bug fixes">
-			<action dev="gpampara" type="add">
-			Added support to define functions within the XML specification file or
-			programatically, having the Expression Tree then created and evaluated.
-			ExpressionFunction defines this functionality and relies on the
-			library JEP (http://jep.sourceforge.net)
-			</action>
-			<action dev="gpampara" type="add">
-			Added the new operator system for algorithms using Entities. Main 
-			benefactor at the moment is the EC framework.
-			</action>
-			<action dev="apengelbrecht" type="add">
-			Added support to have all ContinuousFunction classes have the ability
-			to define relative X-axis and Y-axis shifts. Functions are no longer
-			only defined to have their reference point at the origin.
-			</action>
-			<action dev="gpampara" type="update">
-			Added the new changes page to the Maven build prcess to keep track of 
-			the changes made within CILib. Also updated some documentation.
-			</action>
-		</release>
-	</body>
+    <release version="0.6.6" date="2007-03-18" description="Feature release and bug fixes">
+      <action dev="gpampara" type="add">
+        Added support to define functions within the XML specification file or
+        programatically, having the Expression Tree then created and evaluated.
+        ExpressionFunction defines this functionality and relies on the
+        library JEP (http://jep.sourceforge.net)
+      </action>
+      <action dev="gpampara" type="add">
+        Added the new operator system for algorithms using Entities. Main 
+        benefactor at the moment is the EC framework.
+      </action>
+      <action dev="apengelbrecht" type="add">
+        Added support to have all ContinuousFunction classes have the ability
+        to define relative X-axis and Y-axis shifts. Functions are no longer
+        only defined to have their reference point at the origin.
+      </action>
+      <action dev="gpampara" type="update">
+        Added the new changes page to the Maven build prcess to keep track of 
+        the changes made within CILib. Also updated some documentation.
+      </action>
+    </release>
+  </body>
 </document>
