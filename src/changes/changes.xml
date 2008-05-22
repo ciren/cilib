@@ -7,6 +7,18 @@
     <release version="0.7" date="to be confirmed" description="">
     </release>
     <release version="0.6.12" date="to be announced" description="">
+      <action dev="heatzync" type="add" issue="1969423">
+        Added the DataSetManager class to simplify working with data sets.
+      </action>
+      <action dev="heatzync" type="add" issue="1969420">
+        Added the ClusteringUtils class to simplify clustering.
+      </action>
+      <action dev="heatzync" type="add" issue="1969412">
+        Added the KMeansAlgorithm.
+      </action>
+      <action dev="heatzync" type="add" issue="1969406">
+        Added the ClusteringProblem class to simplify setting up a clustering problem.
+      </action>
     </release>
     <release version="0.6.11" date="2008-05-07" description="Long over due release">
       <action dev="gpampara" type="fix" issue="1931903">
