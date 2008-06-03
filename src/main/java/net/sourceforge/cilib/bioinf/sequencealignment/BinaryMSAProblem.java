@@ -28,6 +28,7 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -55,7 +56,7 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 	 * Create an instance of the class.
 	 */
 	public BinaryMSAProblem() {
-		this.domainRegistry = new DomainRegistry();
+		this.domainRegistry = new StringBasedDomainRegistry();
 	}
 	
 	/**
@@ -208,8 +209,6 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 	    	parser.parse(rep);
 	    	
 	    	domainRegistry.setDomainString(rep);
-	    	domainRegistry.setExpandedRepresentation(parser.expandDomainString(rep));
-	    	domainRegistry.setBuiltRepresenation(parser.getBuiltRepresentation());
 		}
 				
 		return domainRegistry;
