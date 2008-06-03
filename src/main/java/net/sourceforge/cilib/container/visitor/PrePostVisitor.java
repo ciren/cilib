@@ -22,11 +22,20 @@
 package net.sourceforge.cilib.container.visitor;
 
 /**
+ * Extension of the default {@linkplain Visitor} to make pre and post visit operations
+ * possible.
+ * <p>
+ * An example of use would be on {@linkplain Tree} containers, whereby the specific
+ * traversal would alter the order in which tree nodes are used.
+ * 
  * @author Gary Pampara
  * @param <E> The element type.
  */
 public class PrePostVisitor<E> extends Visitor<E> {
 	
+	/**
+	 * Create a new instance of {@linkplain PrePostVisitor}.
+	 */
 	public PrePostVisitor() {
 	}
 	

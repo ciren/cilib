@@ -28,11 +28,12 @@ import java.util.LinkedList;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
+ * Basic queue implementation.
+ * 
  * @author Gary Pampara
  * @param <E> The element type.
  */
 public class Queue<E> implements Iterable<E>, Cloneable { 
-	
 	private LinkedList<E> queue;
 
 	/**

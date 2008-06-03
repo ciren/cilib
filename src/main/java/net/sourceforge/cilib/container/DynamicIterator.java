@@ -39,22 +39,39 @@ public class DynamicIterator<E> implements Iterator<E>, ListIterator<E> {
 	private int index;
 	private int lastRet;
 	
+	/**
+	 * Create an instance of {@linkplain DynamicIterator} based on the provided collection.
+	 * @param collection The instance to have the {@linkplain DynamicIterator} iterate over.
+	 */
 	public DynamicIterator(List<E> collection) {
 		this.collection = collection;
 		this.index = 0;
 		this.lastRet = -1;
 	}
 	
+	/**
+	 * Create an instance of {@linkplain DynamicIterator} based on the provided collection, with
+	 * {@code beginIndex} as the starting point for the iteration.
+	 * @param collection The instance to have the {@linkplain DynamicIterator} iterate over.
+	 * @param beginIndex The starting index within the provided collection to start the iteration
+	 *                   process at.
+	 */
 	public DynamicIterator(List<E> collection, int beginIndex) {
 		this.collection = collection;
 		this.index = beginIndex;
 		this.lastRet = -1;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean hasNext() {
 		return (this.index != this.collection.size()) & (this.index < this.collection.size());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public E next() {
 		try {
 			E next = this.collection.get(index);
@@ -66,6 +83,9 @@ public class DynamicIterator<E> implements Iterator<E>, ListIterator<E> {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void remove() {
 		if (lastRet == -1) {
 			throw new IllegalStateException();
@@ -77,10 +97,16 @@ public class DynamicIterator<E> implements Iterator<E>, ListIterator<E> {
 		lastRet = -1;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean hasPrevious() {
 		return this.index != 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public E previous() {
 		try {
 			int i = index - 1;
@@ -93,14 +119,23 @@ public class DynamicIterator<E> implements Iterator<E>, ListIterator<E> {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int nextIndex() {
 		return this.index;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int previousIndex() {
 		return this.index-1;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void set(E o) {
 		if (this.lastRet == -1)
 			throw new IllegalStateException();
@@ -108,6 +143,9 @@ public class DynamicIterator<E> implements Iterator<E>, ListIterator<E> {
 		this.collection.set(lastRet, o);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void add(E o) {
 		this.collection.add(index++, o);
 		this.lastRet = -1;		

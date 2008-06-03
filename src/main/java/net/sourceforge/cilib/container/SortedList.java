@@ -28,20 +28,23 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
- * 
+ * A collection that always provides a list of elements that is sorted. The sort is
+ * specified by the provied {@linkplain Comparator} instance.
  * @author Gary Pampara
  * @param <E> The {@linkplain Comparable} type.
  */
-public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
+public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> implements Cloneable {
 
 	private static final long serialVersionUID = 4170822549076470223L;
 	private Comparator<E> comparator = null;
 	
 	
 	/**
-	 * 
-	 *
+	 * Create a new instance of {@linkplain SortedList} without a {@linkplain Comparator}
+	 * defined.
 	 */
 	public SortedList() {
 		super();
@@ -49,8 +52,8 @@ public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 	
 	
 	/**
-	 * 
-	 * @param comparator
+	 * Create a new instance of {@linkplain SortedList} with the provided {@linkplain Comparator}. 
+	 * @param comparator The {@linkplain Comparator} to use.
 	 */
 	public SortedList(Comparator<E> comparator) {
 		super();
@@ -59,22 +62,26 @@ public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 	
 	
 	/**
-	 * 
-	 * @param copy
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
 	 */
 	public SortedList(SortedList<E> copy) {
 		super();
+		this.comparator = copy.comparator;
 		this.addAll(copy);
 	}
 	
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public SortedList<E> getClone() {
 		return new SortedList<E>(this);
 	}
 	
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public boolean add(E e) {
 		int index = Collections.binarySearch(this, e, comparator);
@@ -89,7 +96,7 @@ public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 	
 	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public boolean addAll(Collection<? extends E> c) {
 		for (E element : c)
@@ -100,6 +107,7 @@ public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 
 	
 	/**
+	 * Get the current {@linkplain Comparator} instance.
 	 * @return Returns the comparator.
 	 */
 	public Comparator<E> getComparator() {
@@ -108,21 +116,30 @@ public class SortedList<E extends Comparable<? super E>> extends LinkedList<E> {
 
 
 	/**
+	 * Set the {@linkplain Comparator} to use.
 	 * @param comparator The comparator to set.
 	 */
 	public void setComparator(Comparator<E> comparator) {
 		this.comparator = comparator;
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Iterator<E> iterator() {
 		return new DynamicIterator<E>(this);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public ListIterator<E> listIterator() {
 		return this.listIterator(0);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public ListIterator<E> listIterator(int index) {
 		return new DynamicIterator<E>(this, index);
 	}

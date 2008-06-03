@@ -22,8 +22,8 @@
 package net.sourceforge.cilib.container.visitor;
 
 /**
- * Simple decorator class that wraps the needed <code>Visitor</code> to make it compatible with In-Order
- * Traversals in the Containers defined.
+ * Simple decorator class that wraps the needed <code>Visitor</code> to make it compatible 
+ * with In-Order Traversals in the Containers defined.
  * 
  * @author Gary Pampara
  * @param <E> The type element.
