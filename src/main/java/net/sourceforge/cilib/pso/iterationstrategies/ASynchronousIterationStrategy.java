@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
@@ -31,7 +31,7 @@ import net.sourceforge.cilib.pso.PSO;
 /**
  * @author Gary Pampara
  */
-public class ASynchronousIterationStrategy extends IterationStrategy<PSO> {
+public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
 	private static final long serialVersionUID = -3511991873784185698L;
 
 	/**

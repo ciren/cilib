@@ -48,8 +48,13 @@ import net.sourceforge.cilib.type.types.Type;
  * 
  * @author Anna Rakitianskaia
  */
-public class DynamicIterationStrategy extends IterationStrategy<PSO> {
+public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 	private static final long serialVersionUID = -4441422301948289718L;
+	
+	private IterationStrategy<PSO> iterationStrategy;
+	//private DetectionStrategy<PSO> detection
+	//private ReactionStrategy<PSO> reaction
+	
 	private Random randomiser; // necessary to randomly pick a sentry particle
 	private Double theta; // environmental change threshold
 	private Double reinitialisationRatio; // percentage of the swarm that is going to be re-initialised in case of an environment change
@@ -73,25 +78,35 @@ public class DynamicIterationStrategy extends IterationStrategy<PSO> {
 		return new DynamicIterationStrategy();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
 	 * 
-	 * Structure of Dynamic iteration strategy with reinitialisation:
+	 * Structure of Dynamic iteration strategy with re-initialisation:
 	 * 
-	 * 1. Check for environment change 
-	 * 2. If the environment has changed,
-	 *    2.1 Reinitialise positions of a certain percentage of particles
-	 *    2.2 For all particles:
-	 *        2.2.1 Reevaluate current position
-	 *        2.2.2 Update personal best
-	 *        2.2.3 Update nieghbourhood best
-	 * 3. For all particles:
-	 *    3.1 Update the particle velocity
-	 *    3.2 Update the particle position
-	 * 4. For all particles
-	 *    4.1 Calculate the particle fitness
-	 *    4.2 For all paritcles in the current particle's neighbourhood
-	 *        4.2.1 Update the nieghbourhood best  
+	 * <ol>
+	 *   <li>Check for environment change</li> 
+	 *   <li>If the environment has changed:</li>
+	 *   <ol>
+	 *     <li>Reinitialise positions of a certain percentage of particles</li>
+	 *     <li>For all particles:</li>
+	 *     <ol>
+	 *       <li>Reevaluate current position</li>
+	 *       <li>Update personal best</li>
+	 *       <li>Update neighbourhood best</li>
+	 *     </ol>
+	 *   </ol>
+	 *   <li>For all particles:</li>
+	 *   <ol>
+	 *     <li>Update the particle velocity</li>
+	 *     <li>Update the particle position</li>
+	 *   </ol>
+	 *   <li>For all particles:</li>
+	 *   <ol>
+	 *     <li>Calculate the particle fitness</li>
+	 *     <li>For all particles in the current particle's neighbourhood</li>
+	 *     <li>Update the neighbourhood best</li>
+	 *   </ol>
+	 * </ol>  
 	 */
 	public void performIteration(PSO algorithm) {
 		Topology<Particle> topology = algorithm.getTopology();
@@ -149,25 +164,8 @@ public class DynamicIterationStrategy extends IterationStrategy<PSO> {
 	            }
 			}
 		} // end if
-		// Synchronous PSO iteration:
-		for (Particle current : topology) {
-			current.updateVelocity();
-			current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
-	           
-			boundaryConstraint.enforce(current);
-		}
-
-		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
-			Particle current = i.next();
-            current.calculateFitness();
-            
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
-            	Particle other = j.next();
-            	if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
-            		other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
-                }
-            }
-		}
+		
+		iterationStrategy.performIteration(algorithm);
 	}
 
 	/**

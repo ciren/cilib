@@ -24,6 +24,7 @@ package net.sourceforge.cilib.pso;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -110,7 +111,7 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		mainSwarmParticle.setVelocityInitialisationStrategy(new DomainPercentageVelocityInitialisationStrategy());
 		mainSwarm.getInitialisationStrategy().setEntityType(mainSwarmParticle);
 		mainSwarm.addStoppingCondition(new MaximumIterations(Integer.MAX_VALUE));
-		mainSwarm.getIterationStrategy().setBoundaryConstraint(new PerElementReinitialisation());
+		((AbstractIterationStrategy<PSO>) mainSwarm.getIterationStrategy()).setBoundaryConstraint(new PerElementReinitialisation());
 				
 		subSwarmParticle = new StandardParticle();
 	}

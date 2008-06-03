@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.container.SortedList;
@@ -172,7 +173,7 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 				newSubSwarm.initialise();
 				//newSubSwarm.setIterationStrategy(pso.getSubSwarmIterationStrategy().clone());
 				newSubSwarm.getInitialisationStrategy().setEntityNumber(0);
-				newSubSwarm.getIterationStrategy().setBoundaryConstraint(new PerElementReinitialisation());
+				((AbstractIterationStrategy<PSO>) newSubSwarm.getIterationStrategy()).setBoundaryConstraint(new PerElementReinitialisation());
 				newSubSwarm.getTopology().clear();
 				newSubSwarm.getTopology().add(p);
 				
