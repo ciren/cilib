@@ -1,64 +1,16 @@
-/*
- * Copyright (C) 2003 - 2008
- * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science
- * University of Pretoria
- * South Africa
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
 package net.sourceforge.cilib.algorithm.population;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import net.sourceforge.cilib.entity.operators.Operator;
-import net.sourceforge.cilib.pso.iterationstrategies.BoundaryConstraint;
-import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
 import net.sourceforge.cilib.util.Cloneable;
 
-/**
- * Generic {@linkplain IterationStrategy} class for all population based algorithms. Each and every {@linkplain IterationStrategy}
- * will have a pipeline available to it in order to specify the needed operators that will be
- * required to be executed during the iteration. For the implementing classes, a default
- * pipeline is constructed and made available, this can (as with everything within CIlib) be overridden.  
- * 
- * @author Gary Pampara
- * 
- * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
- */
-public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> implements Cloneable, Serializable {
-	
-	protected BoundaryConstraint boundaryConstraint;
-	protected List<Operator> operatorPipeline;
-	
-	/**
-	 * Create an instance of the {@linkplain IterationStrategy}.
-	 */
-	public IterationStrategy() {
-		this.boundaryConstraint = new UnconstrainedBoundary();
-		this.operatorPipeline = new ArrayList<Operator>();
-	}
+public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends Cloneable, Serializable {
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	public abstract IterationStrategy<E> getClone();
 	
-
 	/**
 	 * Perform the iteration of the PopulationBasedAlgorithm.
 	 * <p>
@@ -81,37 +33,4 @@ public abstract class IterationStrategy<E extends PopulationBasedAlgorithm> impl
 	 */
 	public abstract void performIteration(E algorithm);
 
-	/**
-	 * Get the currently associated {@linkplain BoundaryConstraint}.
-	 * @return The current {@linkplain BoundaryConstraint}.
-	 */
-	public BoundaryConstraint getBoundaryConstraint() {
-		return boundaryConstraint;
-	}
-
-	/**
-	 * Set the {@linkplain BoundaryConstraint} to maintain within this {@linkplain IterationStrategy}.
-	 * @param boundaryConstraint The {@linkplain BoundaryConstraint} to set.
-	 */
-	public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
-		this.boundaryConstraint = boundaryConstraint;
-	}
-
-	/**
-	 * Get the <code>List&lt;Operator&gt;</code> that represents the sequence
-	 * of operators to be performed within the current <tt>IterationStrategy</tt>.
-	 * @return The operator pipeline <code>List&lt;Operator&gt;</code>
-	 */
-	public List<Operator> getOperatorPipeline() {
-		return operatorPipeline;
-	}
-
-	/**
-	 * Set the pipeline to be used within the current <tt>IterationStrategy</tt>.
-	 * @param operatorPipeline The pipeline to be used.
-	 */
-	public void setOperatorPipeline(List<Operator> operatorPipeline) {
-		this.operatorPipeline = operatorPipeline;
-	}	
-	
 }

@@ -23,7 +23,7 @@ package net.sourceforge.cilib.coevolution;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
@@ -35,7 +35,7 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  * even the normal {@linkplain ASynchronousIterationStrategy}???
  * @author Julien Duhain
  */
-public class CoevolutionSynchronousIterationStrategy extends IterationStrategy<PSO> {
+public class CoevolutionSynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
 	private static final long serialVersionUID = 6617737228912852220L;
 
 	/**

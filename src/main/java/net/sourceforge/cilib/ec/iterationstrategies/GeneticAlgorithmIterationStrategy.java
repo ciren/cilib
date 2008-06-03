@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ListIterator;
 
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -42,7 +42,7 @@ import net.sourceforge.cilib.entity.topologies.GBestTopology;
  * 
  * @author Gary Pampara
  */
-public class GeneticAlgorithmIterationStrategy extends IterationStrategy<EC> {
+public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy<EC> {
 	private static final long serialVersionUID = -2429984051022079804L;
 
 	private CrossoverStrategy crossoverStrategy;

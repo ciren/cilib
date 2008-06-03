@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.ec.EC;
@@ -45,7 +45,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * @author Gary Pampara
  */
-public class DifferentialEvolutionIterationStrategy extends IterationStrategy<EC> {
+public class DifferentialEvolutionIterationStrategy extends AbstractIterationStrategy<EC> {
 	private static final long serialVersionUID = 8019668923312811974L;	
 	private RandomNumber random;
 	private ControlParameter crossoverProbability;
