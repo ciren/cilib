@@ -24,106 +24,50 @@ package net.sourceforge.cilib.type;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Class to perform the needed mappings between a top level domain string
- * and the built representation.
  * 
- * @author Gary Pampara
+ * @author gpampara
  *
  */
-public class DomainRegistry implements Cloneable, Serializable {
+public interface DomainRegistry extends Cloneable, Serializable {
 	
 	/**
-	 * Generated <u>Serial Version UID</u> for the serialization.
+	 * {@inheritDoc}
 	 */
-	private static final long serialVersionUID = 3821361290684036030L;
-	private String domainString;
-	private String expandedRepresentation;
-	private Type builtRepresenation;
+	public DomainRegistry getClone();
 	
-
 	/**
-	 * Construct an instacne of the DomainRegistry that will contioan the needed 
-	 * information about the domain. 
+	 * Set the value of the string representing the domain.
+	 * @param domainString The domainString to set.
 	 */
-	public DomainRegistry() {
-	}
-	
-	
-	public DomainRegistry(DomainRegistry copy) {
-		this.domainString = copy.domainString;
-		this.expandedRepresentation = copy.expandedRepresentation;
-		this.builtRepresenation = copy.builtRepresenation.getClone();
-	}
-	
-	public DomainRegistry getClone() {
-		return new DomainRegistry(this);
-	}
-	
+	public void setDomainString(String domainString);
 
 	/**
 	 * Get the string specifying the domain.
 	 * @return Returns the domainString.
 	 */
-	public String getDomainString() {
-		return domainString;
-	}
+	public String getDomainString();
 
-	/**
-	 * Set the value of the string representing the domain.
-	 * @param domainString The domainString to set.
-	 */
-	public void setDomainString(String domainString) {
-		this.domainString = domainString;
-	}
-	
-	
 	/**
 	 * Get the string representing the domain, after if has been expanded to
 	 * a dimensional string with a descriptve component for each dimension.
 	 * @return Returns the expandedRepresentation.
 	 */
-	public String getExpandedRepresentation() {
-		return expandedRepresentation;
-	}
+	public String getExpandedRepresentation();
 
-	/**
-	 * Set the value of the expaded domain string.
-	 * @param expandedRepresentation The expandedRepresentation to set.
-	 */
-	public void setExpandedRepresentation(String expandedRepresentation) {
-		this.expandedRepresentation = expandedRepresentation;
-	}
-
-	
 	/**
 	 * Get the instance of the built representation for this domain string.
 	 * @return Returns the builtRepresenation.
 	 */
-	public Type getBuiltRepresenation() {
-		return this.builtRepresenation;
-	}
-
-	/**
-	 * Set the representation for this domain string. This may cause an inconsistency
-	 * as the built represenation and the domain string may differ, depending on the
-	 * values of the objects.
-	 * @param builtRepresenation The builtRepresenation to set.
-	 */
-	public void setBuiltRepresenation(Type builtRepresenation) {
-		this.builtRepresenation = builtRepresenation;
-	}
-
+	public Type getBuiltRepresenation();
 
 	/**
 	 * Get the dimension of the built representation of the domain string.
 	 * @return The dimension of the domain string.
 	 */
-	public int getDimension() {
-		return ((Vector) this.builtRepresenation).getDimension();
-	}
-	
+	public int getDimension();
+
 }
+
