@@ -25,6 +25,7 @@ import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -53,7 +54,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 		context = c.getClone();
 		dimension = d;
 		offset = o;
-		domainRegistry = new DomainRegistry();
+		domainRegistry = new StringBasedDomainRegistry();
 		String expandedDomain = "";
 		for (int i = offset; i < offset + dimension; i++) {
 			expandedDomain += ((Vector) context.getContents()).get(i).getRepresentation();
@@ -63,8 +64,6 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 		DomainParser dp = DomainParser.getInstance();
 		if (dp.parse(expandedDomain)) {
 			domainRegistry.setDomainString(expandedDomain);
-			domainRegistry.setExpandedRepresentation(expandedDomain);
-			domainRegistry.setBuiltRepresenation(dp.getBuiltRepresentation());
 		}
 		else
 			throw new InitialisationException("The expanded domain string \"" + expandedDomain + "\" could not be parsed.");

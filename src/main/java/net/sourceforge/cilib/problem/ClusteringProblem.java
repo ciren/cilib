@@ -27,6 +27,7 @@ import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.DataSetManager;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -85,7 +86,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 		super();
 		innerProblem = null;
 		numberOfClusters = UNINITIALISED;
-		domainRegistry = new DomainRegistry();
+		domainRegistry = new StringBasedDomainRegistry();
 		distanceMeasure = new EuclideanDistanceMeasure();
 		// needed so that the unit tests don't get NullPointerExceptions 
 		ClusteringUtils.get().setClusteringProblem(this);
@@ -179,7 +180,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	 * regeneration of the domain string will occur whenever any of the following methods are
 	 * called:
 	 * {@link #setInnerProblem(FunctionOptimisationProblem), {@link #setNumberOfClusters(int)},
-	 * {@link #setDomain(String)} or {@link #setDomainRegistry(DomainRegistry)}.
+	 * {@link #setDomain(String)} or {@link #setDomainRegistry(StringBasedDomainRegistry)}.
 	 */
 	private void regenerateDomain() {
 		if (innerProblem == null || innerProblem.getFunction() == null || domainRegistry == null || numberOfClusters == UNINITIALISED) {
@@ -219,8 +220,6 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 		parser.parse(representation);
 
 		domainRegistry.setDomainString(representation);
-		domainRegistry.setExpandedRepresentation(parser.expandDomainString(representation));
-		domainRegistry.setBuiltRepresenation(parser.getBuiltRepresentation());
 		regenerateDomain();
 	}
 
