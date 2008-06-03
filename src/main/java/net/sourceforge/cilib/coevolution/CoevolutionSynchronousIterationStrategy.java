@@ -27,43 +27,48 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.iterationstrategies.ASynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 
 /**
+ * FIXME: Remove this class. How is it different to the normal {@linkplain SynchronousIterationStrategy}, or
+ * even the normal {@linkplain ASynchronousIterationStrategy}???
  * @author Julien Duhain
  */
 public class CoevolutionSynchronousIterationStrategy extends IterationStrategy<PSO> {
 	private static final long serialVersionUID = 6617737228912852220L;
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public CoevolutionSynchronousIterationStrategy getClone() {
 		return null;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
+	/**
+	 * {@inheritDoc}
 	 */
 	public void performIteration(PSO pso) {
 		Topology<Particle> topology = pso.getTopology();
-	   for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
-            Particle current = i.next();
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
+			Particle current = i.next();
          //   current.calculateFitness(); add this line to get the standard SynchronousIterationStrategy 
-            for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
-                Particle other = j.next();
+			for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
+				Particle other = j.next();
                 if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
                     other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
-            }
-       }
+			}
+		}
 
-       for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
+		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
            Particle current = i.next();
            current.updateVelocity();
            current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
            
            boundaryConstraint.enforce(current);
-       }
+		}
 	}
 
 }

@@ -26,14 +26,24 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 /**
  * Parent class of CompetitiveCoevolutionIterationStrategy and CooperativeCoevolutionIterationStrategy.
- * @author Julien Duhain
- * 
  */
 public abstract class CoevolutionIterationStrategy extends IterationStrategy<CoevolutionAlgorithm>{
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract CoevolutionIterationStrategy getClone();
 		
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract void performIteration(CoevolutionAlgorithm ca);
 	
-	public abstract void setEntityType(PopulationBasedAlgorithm pba, int populationID);
+	/**
+	 * Set the entity type for the provided {@linkplain PopulationBasedAlgorithm}, with
+	 * the given {@code id} value.
+	 * @param algorithm The provided {@linkplain PopulationBasedAlgorithm}.
+	 * @param populationID The {@code id} of the provided population.
+	 */
+	public abstract void setEntityType(PopulationBasedAlgorithm algorithm, int populationID);
 }

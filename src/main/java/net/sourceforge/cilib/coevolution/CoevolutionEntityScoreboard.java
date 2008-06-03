@@ -27,17 +27,10 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * This class provideds a means of keeping a competition
- * history of one specific entity.
- * 
- * @author cornelius gouws
- * 
- * @see CoevolutionEntity
+ * This class provides a means of keeping a competition
+ * history of one specific entity within a {@linkplain CoevolutionAlgorithm}.
  */
 public class CoevolutionEntityScoreboard implements Type {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2524835257237678625L;
 	private ArrayList<CoevolutionEntityScore> scores;
 	
@@ -48,13 +41,20 @@ public class CoevolutionEntityScoreboard implements Type {
 		this.scores = new ArrayList<CoevolutionEntityScore>();
 	}
 	
-	public CoevolutionEntityScoreboard(CoevolutionEntityScoreboard copy) {//I
+	/**
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
+	public CoevolutionEntityScoreboard(CoevolutionEntityScoreboard copy) {
 		this.scores = new ArrayList<CoevolutionEntityScore>();
 		for (CoevolutionEntityScore score : copy.scores) {
 			this.scores.add(score);
-		}	//endFor
+		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public CoevolutionEntityScoreboard getClone(){
 		return new CoevolutionEntityScoreboard(this);
 	}
@@ -96,9 +96,8 @@ public class CoevolutionEntityScoreboard implements Type {
 			if (score.getCompetingEntity() == entity) {
 				return score.getWinCount();
 			}
-		}	//endFor
-		
-		//if have not compete yet
+		}
+
 		return 0;
 	}
 	
@@ -112,7 +111,7 @@ public class CoevolutionEntityScoreboard implements Type {
 		int lose = 0;
 		for (CoevolutionEntityScore score : this.scores) {
 			lose += score.getLoseCount();
-		}	//endFor
+		}
 		return lose;
 	}
 	
@@ -129,9 +128,8 @@ public class CoevolutionEntityScoreboard implements Type {
 			if (score.getCompetingEntity() == entity) {
 				return score.getLoseCount();
 			}
-		}	//endFor
+		}
 		
-		//if have not compete yet
 		return 0;
 	}
 	
@@ -145,7 +143,8 @@ public class CoevolutionEntityScoreboard implements Type {
 		int draw = 0;
 		for (CoevolutionEntityScore score : this.scores) {
 			draw += score.getDrawCount();
-		}	//endFor
+		}
+
 		return draw;
 	}
 	
@@ -162,9 +161,8 @@ public class CoevolutionEntityScoreboard implements Type {
 			if (score.getCompetingEntity() == entity) {
 				return score.getDrawCount();
 			}
-		}	//endFor
+		}
 		
-		//if have not compete yet
 		return 0;
 	}
 	
@@ -178,7 +176,8 @@ public class CoevolutionEntityScoreboard implements Type {
 		int count = 0;
 		for (CoevolutionEntityScore score : this.scores) {
 			count += score.getWinCount() + score.getLoseCount() + score.getDrawCount();
-		}	//endFor
+		}
+		
 		return count;
 	}
 	
@@ -195,9 +194,8 @@ public class CoevolutionEntityScoreboard implements Type {
 			if (score.getCompetingEntity() == entity) {
 				return score.getWinCount() + score.getLoseCount() + score.getDrawCount();
 			}
-		}	//end for
+		}
 		
-		// if have not compete yet
 		return 0;
 	}
 	
@@ -215,7 +213,7 @@ public class CoevolutionEntityScoreboard implements Type {
 				score.win(round);
 				return;
 			}
-		}	//endFor
+		}
 		
 		//if not already in list
 		CoevolutionEntityScore score = new CoevolutionEntityScore(entity);
@@ -237,7 +235,7 @@ public class CoevolutionEntityScoreboard implements Type {
 				score.lose(round);
 				return;
 			}
-		}	//endFor
+		}
 		
 		//if not already in list
 		CoevolutionEntityScore score = new CoevolutionEntityScore(entity);
@@ -259,7 +257,7 @@ public class CoevolutionEntityScoreboard implements Type {
 				score.draw(round);
 				return;
 			}
-		}	//endFor
+		}
 		
 		//if not already in list
 		CoevolutionEntityScore score = new CoevolutionEntityScore(entity);
@@ -268,27 +266,22 @@ public class CoevolutionEntityScoreboard implements Type {
 	}
 
 	public int getDimension() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Implementation not provided");
 	}
 
 	public String getRepresentation() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Implementation not provided");
 	}
 
 	public boolean isInsideBounds() {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Implementation not provided");
 	}
 
 	public void randomise() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Implementation not provided");
 	}
 
 	public void reset() {
 		this.scores = new ArrayList<CoevolutionEntityScore>();
-		
 	}
 }
