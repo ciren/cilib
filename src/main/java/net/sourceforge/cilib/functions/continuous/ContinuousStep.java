@@ -26,18 +26,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * The Step function.
+ * The continuous Step function. It is the same as the normal step function, however,
+ * it is continuous and not discrete.
  * 
  * <p>
  * The default domain of the function is defined to be R(-100.0, 100.0)^30
  * 
  * @author Andries Engelbrecht
  */
-public class Step extends ContinuousFunction {
+public class ContinuousStep extends ContinuousFunction {
     private static final long serialVersionUID = 4962101545621686038L;
 
 	/** Creates a new instance of Step. */
-    public Step() {
+    public ContinuousStep() {
         setDomain("R(-100.0, 100.0)^30");
     }
 
@@ -45,8 +46,8 @@ public class Step extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Step getClone() {
-    	return new Step();
+    public ContinuousStep getClone() {
+    	return new ContinuousStep();
     }
     
     /**
