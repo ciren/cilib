@@ -23,8 +23,8 @@ package net.sourceforge.cilib.functions;
 
 import java.io.Serializable;
 
-import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -40,8 +40,8 @@ public abstract class Function implements Cloneable, Serializable {
 	 * Create a new instance of {@linkplain Function}.
 	 */
 	public Function() {
-		domainRegistry = new DomainRegistry();
-		behavioralDomainRegistry = new DomainRegistry();
+		domainRegistry = new StringBasedDomainRegistry();
+		behavioralDomainRegistry = new StringBasedDomainRegistry();
 	}
 
 	/**
@@ -70,9 +70,9 @@ public abstract class Function implements Cloneable, Serializable {
 
 	/**
 	 * Method added for CiClops compatibility.... not used and do not remove
-	 * @param d The {@linkplain DomainRegistry}.
+	 * @param d The {@linkplain StringBasedDomainRegistry}.
 	 */
-	public void setDomainRegistry(DomainRegistry d) {
+	public void setDomainRegistry(StringBasedDomainRegistry d) {
 		throw new UnsupportedOperationException("You are not allowed to set the DomainRegistry!");
 	}
 
@@ -86,7 +86,7 @@ public abstract class Function implements Cloneable, Serializable {
 	/**
 	 * @param behaviouralDomainRegistry The behaviouralDomainRegistry to set.
 	 */
-	public void setBehaviouralDomainRegistry(DomainRegistry behavioralDomainRegistry) {
+	public void setBehaviouralDomainRegistry(StringBasedDomainRegistry behavioralDomainRegistry) {
 		throw new UnsupportedOperationException("You are not allowed to set the BehaviroalDomainRegistry!");
 	}
 
@@ -98,28 +98,18 @@ public abstract class Function implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Sets the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
+	 * Sets the domain of the function.
 	 * @param representation the string representation for the function domain.
 	 */
 	public void setDomain(String representation) {
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse(representation);
-
-		domainRegistry.setDomainString(representation);
-		domainRegistry.setExpandedRepresentation(parser.expandDomainString(representation));
-		domainRegistry.setBuiltRepresenation(parser.getBuiltRepresentation());
+		this.domainRegistry.setDomainString(representation);
 	}
 
 	/**
 	 * @param behavioralDomain The value to set.
 	 */
 	public void setBehavioralDomain(String behavioralDomain) {
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse(behavioralDomain);
-
-		behavioralDomainRegistry.setDomainString(behavioralDomain);
-		behavioralDomainRegistry.setExpandedRepresentation(parser.expandDomainString(behavioralDomain));
-		behavioralDomainRegistry.setBuiltRepresenation(parser.getBuiltRepresentation());
+		this.behavioralDomainRegistry.setDomainString(behavioralDomain);
 	}
 
 	/**
