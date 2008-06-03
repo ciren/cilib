@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="CILib">
+<project name="CIlib">
   <bannerLeft>
-    <name>CILib</name>
+    <name>CIlib</name>
     <src>http://cilib.sourceforge.net/images/cilib_logo_transparent.png</src>
     <href>http://cilib.sourceforge.net</href>
   </bannerLeft>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document> 
   <properties>
-    <title>CILib - User's Guide - Quick Start</title> 
+    <title>CIlib - User's Guide - Quick Start</title> 
     <author email="gpampara@cs.up.ac.za">Gary Pampara</author>
   </properties> 
   <body>
@@ -9,16 +9,16 @@
 
     <p>
     This is a simple quick start guide to get a very simple algorithm 
-    definition within CILib to execute and to produce output. A few steps 
+    definition within CIlib to execute and to produce output. A few steps 
     are required to get things going, so let's get right into	it.
     </p>
 
     <p>
     The very first thing we need to do is to compile the library code into
-    a jar that we will be able to use. CILib's build process uses 
+    a jar that we will be able to use. CIlib's build process uses 
     <a href="http://maven.apache.org">Apache Maven</a>. Simply execute 
     "<code>mvn</code>" to build the cilib.jar file. The jar will be 
-    placed in the target directory within the root directory of the CILib 
+    placed in the target directory within the root directory of the CIlib 
     project source.
     </p>
     <note>
@@ -236,12 +236,12 @@ bash-3.1$ ]]></source>
     </section>
 
 
-    <section name="The CILib XML Specification File">
+    <section name="The CIlib XML Specification File">
     <p>
-    Within the root of the CILib source distribution, you will find a
+    Within the root of the CIlib source distribution, you will find a
     directory named <code>xml</code>. Within this directory is a small 
     collection of predefined XML spcifications for algorithm executions 
-    using the CILib library.
+    using the CIlib library.
     </p>
 
     <p>
@@ -406,7 +406,7 @@ bash-3.1$ ]]></source>
     <section name="Executing the XML Specification">
     <p>
     Right, now that we have a specification defining the exectutions, the
-    next step is to execute the CILib simulator with the XML file as a
+    next step is to execute the CIlib simulator with the XML file as a
     command line parameter.
     </p>
 

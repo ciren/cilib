@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document> 
   <properties> 
-    <title>CILib - User's Guide - Direct usage in source</title> 
+    <title>CIlib - User's Guide - Direct usage in source</title> 
     <author>Gary Pampara</author>
   </properties> 
   <body>
-	<section name="Including and running CILib within your own source">
+	<section name="Including and running CIlib within your own source">
 		<p>
-			CILib can asily be intergrated into your project source without needing to
+			CIlib can asily be intergrated into your project source without needing to
 			specify an XML configuration file. The code must be called directly and
-			built correctly in order to be used without an XML configutration. CILib does, however,
+			built correctly in order to be used without an XML configutration. CIlib does, however,
 			create sensible defaults so the algorithm should still be able to execute. It is up to the user
 			to correctly build the type of algorithm required.
 		</p>
@@ -36,7 +36,7 @@
 			<strong>Note:</strong>
 			<br/>
 <!--		<note>-->
-			All classes within CILib are created to conform to the JavaBeans spec. This implies that all classes
+			All classes within CIlib are created to conform to the JavaBeans spec. This implies that all classes
 			must provide a default constructor and have member variables with names that correspond to the 
 			available getX() and setX(X x) accessor methods. Sensible defaults have been provided for most properties.
 <!--		</note>-->
@@ -45,7 +45,7 @@
 	
 	<section name="Implementation Example">
 		<p>
-			The following is an example to use CILib within your own code:
+			The following is an example to use CIlib within your own code:
 		</p>
 		<ol>
 			<li>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document> 
   <body>
-    <section name="Overview of CILib">
+    <section name="Overview of CIlib">
     <p>
-    CILib is composed as a collection of 5 hierarchies of component objects.
+    CIlib is composed as a collection of 5 hierarchies of component objects.
     </p>
 
     <ul>
@@ -15,16 +15,16 @@
     </ul>
 
     <p>
-    CILib is a component based framework for Computational Intelligence 
-    software, written in Java. CILib is a complex abstraction in order 
+    CIlib is a component based framework for Computational Intelligence 
+    software, written in Java. CIlib is a complex abstraction in order 
     to simply and effectively perform simulations and executions of 
     Computational Intelligence algorithms.
     </p>
     <p>
-    The design goals of CILib are to ensure simplicity in composing different
+    The design goals of CIlib are to ensure simplicity in composing different
     algorithms, with performance of the algorithm not being as important as
     having an algorithmic framework that is highly generic and simplistic.
-    The power of CILib lies in the ability to compose the required 
+    The power of CIlib lies in the ability to compose the required 
     algorithm quickly and	correctly from the available set of algorithmic
     components.
     </p>
