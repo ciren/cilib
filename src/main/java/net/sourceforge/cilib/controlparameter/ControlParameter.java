@@ -26,13 +26,16 @@ import java.io.Serializable;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
+ * A {@linkplain ControlParameter} is a parameter that is used within most {@linkplain Algorithm}
+ * types. It has the ability to be updated and change over time, if required.
+ * 
  * @author Gary Pampara
  * @author Andries Engelbrecht
  */
 public interface ControlParameter extends Cloneable, Serializable {
 	/**
-	 * Clone the current object such that a comaprison of the clone and original object will yield
-	 * two seperate, but duplicate objects.
+	 * Clone the current object such that a comparison of the clone and original object will yield
+	 * two separate, but duplicate objects.
 	 * @return The cloned <tt>ControlParameterUpdateStrategy</tt>
 	 */
 	public ControlParameter getClone();

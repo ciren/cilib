@@ -24,6 +24,10 @@ package net.sourceforge.cilib.controlparameter;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
+ * A {@linkplain ControlParameter} that is defined to update itself in an linearly
+ * increasing manner. The rate of change within the parameter is based on the percentage
+ * complete of the running {@linkplain Algorithm}.
+ * 
  * @author Gary Pampara
  */
 public class LinearIncreasingControlParameter extends BoundedControlParameter {

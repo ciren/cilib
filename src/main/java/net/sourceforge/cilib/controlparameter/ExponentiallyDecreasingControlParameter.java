@@ -24,11 +24,16 @@ package net.sourceforge.cilib.controlparameter;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- * TODO: Complete this javadoc.
+ * A {@linkplain ControlParameter} that is defined to update itself in an exponentially
+ * decreasing manner. The rate of change within the parameter is based on the percentage
+ * complete of the running {@linkplain Algorithm}.
  */
 public class ExponentiallyDecreasingControlParameter extends BoundedControlParameter {
 	private static final long serialVersionUID = 2703195595193249266L;
 
+	/**
+	 * Create a new instance of {@linkplain ExponentiallyDecreasingControlParameter}.
+	 */
 	public ExponentiallyDecreasingControlParameter() {
 		super();
 	}
@@ -41,17 +46,26 @@ public class ExponentiallyDecreasingControlParameter extends BoundedControlParam
 		super(copy);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ExponentiallyDecreasingControlParameter getClone() {
 		return new ExponentiallyDecreasingControlParameter(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void update() {
 		double result = Math.exp((-1) * Algorithm.get().getPercentageComplete());
 		this.parameter.setReal(result);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setUpperBound(double value) {
 		super.setUpperBound(value);

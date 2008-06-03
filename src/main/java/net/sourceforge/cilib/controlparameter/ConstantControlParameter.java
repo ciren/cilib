@@ -22,6 +22,9 @@
 package net.sourceforge.cilib.controlparameter;
 
 /**
+ * A {@linkplain ControlParameter} to represent a constant value. The specified
+ * value will be maintained until it is altered.
+ * 
  * @author Gary Pampara
  */
 public class ConstantControlParameter implements ControlParameter {
@@ -29,50 +32,59 @@ public class ConstantControlParameter implements ControlParameter {
 	protected double parameter;
 
 	/**
-	 *
+	 * Create a new instance of {@linkplain ConstantControlParameter}.
 	 */
 	public ConstantControlParameter() {
 
 	}
 
+	/**
+	 * Create a new instance of {@linkplain ConstantControlParameter} with the provided
+	 * value as the value for the {@linkplain ControlParameter}.
+	 * @param value The value to set.
+	 */
 	public ConstantControlParameter(double value) {
 		this.parameter = value;
 	}
 
 	/**
-	 * @param copy
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
 	 */
 	public ConstantControlParameter(ConstantControlParameter copy) {
 		this.parameter = copy.parameter;
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public ConstantControlParameter getClone() {
 		return new ConstantControlParameter(this);
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public double getParameter() {
 		return parameter;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public double getParameter(double min, double max) {
 		throw new UnsupportedOperationException("This method is not supported");
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc} 
 	 */
 	public void setParameter(double value) {
 		this.parameter = value;
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	public void updateParameter() {
 

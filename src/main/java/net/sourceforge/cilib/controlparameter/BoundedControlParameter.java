@@ -26,9 +26,12 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * A {@linkplain ControlParameter} instance that is defined to operate within a specific
+ * range of values. The range is defined as a domain string. Any time the parameter exceeds
+ * the bounded range, it will be clamped and brought back to remain on the edges of the
+ * range specified.
  * 
  * @author Gary Pampara
- *
  */
 public abstract class BoundedControlParameter implements ControlParameter {
 	
@@ -45,7 +48,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * Copy constructor.
+	 * Create a copy of the provided instance.
 	 * @param copy The instance which to copy.
 	 */
 	public BoundedControlParameter(BoundedControlParameter copy) {
