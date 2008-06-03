@@ -300,7 +300,7 @@ public class Bit extends Numeric {
 	 * Set the lowerBound for this <tt>Bit</tt>.
 	 * 
 	 * @param value The value to set for the lower bound.
-	 * @throws RuntimeExcetption if the lowerBound value to set is not 0.0
+	 * @throws RuntimeException if the lowerBound value to set is not 0.0
 	 */
 	public void setLowerBound(double value) {
 		if (value == 0.0)
@@ -313,7 +313,8 @@ public class Bit extends Numeric {
 	/**
 	 * Set the upperBound for this <tt>Bit</tt>.
 	 * 
-	 * @throws RuntimeExcetption if the upperBound value to set is not 1.0
+	 * @throws RuntimeException if the upperBound value to set is not 1.0
+	 * @param value The value of the upper bound.
 	 */
 	public void setUpperBound(double value) {
 		if (value == 1.0) 

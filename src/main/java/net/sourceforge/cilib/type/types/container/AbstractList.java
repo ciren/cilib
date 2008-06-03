@@ -32,6 +32,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public abstract class AbstractList extends AbstractType implements Structure<Type>, VectorMath {
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -93,22 +94,55 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 */
 	public abstract void insert(int index, Type value);
 
+	/**
+	 * Add the provided {@linkplain Type} to the end of the current list.
+	 * @param value The {@linkplain Type} to add.
+	 */
 	public void append(Type value) {
 		insert(getDimension(), value);
 	}
 
+	/**
+	 * Add the provided {@linkplain AbstractList} to the end of the current list.
+	 * @param vector The object to add.
+	 * @return <code>true</code> if the operation was successful, <code>false</code> otherwise.
+	 */
 	public abstract boolean append(AbstractList vector);
 
+	/**
+	 * Prepend the provided {@linkplain Type} to the from of this list.
+	 * @param value The {@linkplain Type} to prepend.
+	 */
 	public void prepend(Type value) {
 		insert(0, value);
 	}
 
+	/**
+	 * Add the provided {@linkplain AbstractList} to the start of the current list.
+	 * @param vector The object to add.
+	 * @return <code>true</code> if the operation was successful, <code>false</code> otherwise.
+	 */
 	public abstract boolean prepend(AbstractList vector);
 
+	/**
+	 * Get the {@linkplain Numeric} at the given <code>index</code>.
+	 * @param index The index of the desired {@linkplain Numeric}.
+	 * @return The {@linkplain Numeric} at position <code>index</code>.
+	 */
 	public abstract Numeric getNumeric(int index);
 
+	/**
+	 * Get the bit-value of the {@linkplain Type} at the given <code>index</code>.
+	 * @param index The index of the desired {@linkplain Numeric}.
+	 * @return The bit-value at position <code>index</code>.
+	 */
 	public abstract boolean getBit(int index);
 
+	/**
+	 * Set the value of the {@linkplain Bit} located at position <code>index</code>.
+	 * @param index The index of the bit to set the value.
+	 * @param value The value of the bit to set.
+	 */
 	public abstract void setBit(int index, boolean value);
 
 	public abstract int getInt(int index);
@@ -125,6 +159,11 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 */
 	public abstract Object[] toArray();
 
+	/**
+	 * Get the {@linkplain Type} instance at the given index.
+	 * @param index The position of the {@linkplain Type} to return.
+	 * @return The {@linkplain Type} at index {@literal index}.
+	 */
 	protected abstract Type getType(int index);
 
 	/**
@@ -185,6 +224,12 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 		return true;
 	}
 
+	/**
+	 * Create a sub vector from the current {@linkplain Vector}.
+	 * @param fromIndex The index to start the sub-vector from.
+	 * @param toIndex The last index to end the sub-vector at.
+	 * @return The created sub-vector instance.
+	 */
 	public abstract AbstractList subVector(int fromIndex, int toIndex);
 
 	/**
@@ -267,5 +312,11 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 		return toString('[', ']', delimiter);
 	}
 
+	/**
+	 * Initialise the {@linkplain Type} to contain <code>size</code> elements all of the type
+	 * <code>element</code>.
+	 * @param size The required size
+	 * @param element The {@linkplain Type} to use to initialise the {@linkplain AbstractList}.
+	 */
 	public abstract void initialise(int size, Type element);	
 }
