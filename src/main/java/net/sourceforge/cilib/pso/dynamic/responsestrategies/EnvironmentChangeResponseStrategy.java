@@ -21,22 +21,22 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * TODO: Complete this Javadoc.
  */
-public interface EnvironmentChangeResponseStrategy extends Cloneable {
+public interface EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgorithm> extends Cloneable {
 	/**
 	 * Clone the <tt>EnvironmentChangeResponseStrategy</tt> object.
 	 * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
 	 */
-	public EnvironmentChangeResponseStrategy getClone();
+	public EnvironmentChangeResponseStrategy<E> getClone();
 	
 	/**
 	 * Adapt to environment change.
 	 * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.
 	 */
-	public void respond(PSO algorithm);
+	public void respond(E algorithm);
 }

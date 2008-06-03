@@ -24,7 +24,10 @@ package net.sourceforge.cilib.pso.dynamic;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.EnvironmentChangeDetectionStrategy;
+import net.sourceforge.cilib.pso.dynamic.detectionstrategies.RandomSentryDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.responsestrategies.EnvironmentChangeResponseStrategy;
+import net.sourceforge.cilib.pso.dynamic.responsestrategies.PartialReinitialisationResponseStrategy;
+import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 
 /**
  * Dynamic iteration strategy for PSO in dynamic environments. 
@@ -46,10 +49,10 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 	private static final long serialVersionUID = -4441422301948289718L;
 	
 	private IterationStrategy<PSO> iterationStrategy;
-	//private DetectionStrategy<PSO> detection
-	//private ReactionStrategy<PSO> reaction
-	private EnvironmentChangeDetectionStrategy detectionStrategy;
-	private EnvironmentChangeResponseStrategy responseStrategy;
+	//TODO: private DetectionStrategy<PSO> detection
+	//TODO: private ReactionStrategy<PSO> reaction
+	private EnvironmentChangeDetectionStrategy<PSO> detectionStrategy;
+	private EnvironmentChangeResponseStrategy<PSO> responseStrategy;
 	
 	/**
 	 * Create a new instance of {@linkplain DynamicIterationStrategy}.
@@ -60,11 +63,27 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 	 * reinitialisationRatio is set to 0.5 (reinitialise one half of the swarm)
 	 */
 	public DynamicIterationStrategy() {
+		this.iterationStrategy = new SynchronousIterationStrategy();
+		this.detectionStrategy = new RandomSentryDetectionStrategy<PSO>();
+		this.responseStrategy = new PartialReinitialisationResponseStrategy<PSO>();
 	}
 	
+	/**
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
+	public DynamicIterationStrategy(DynamicIterationStrategy copy) {
+		this.iterationStrategy = copy.iterationStrategy.getClone();
+		this.detectionStrategy = copy.detectionStrategy.getClone();
+		this.responseStrategy = copy.responseStrategy.getClone();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public DynamicIterationStrategy getClone() {
-		return new DynamicIterationStrategy();
+		return new DynamicIterationStrategy(this);
 	}
 
 	/**
@@ -90,27 +109,51 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 		iterationStrategy.performIteration(algorithm);
 	}
 
+	/**
+	 * Get the current {@linkplain IterationStrategy}.
+	 * @return The current {@linkplain IterationStrategy}.
+	 */
 	public IterationStrategy<PSO> getIterationStrategy() {
 		return iterationStrategy;
 	}
 
+	/**
+	 * Set the {@linkplain IterationStrategy} to be used.
+	 * @param iterationStrategy The value to set.
+	 */
 	public void setIterationStrategy(IterationStrategy<PSO> iterationStrategy) {
 		this.iterationStrategy = iterationStrategy;
 	}
 
-	public EnvironmentChangeDetectionStrategy getDetectionStrategy() {
+	/**
+	 * Get the currently defined {@linkplain EnvironmentChangeDetectionStrategy}. 
+	 * @return The current {@linkplain EnvironmentChangeDetectionStrategy}.
+	 */
+	public EnvironmentChangeDetectionStrategy<PSO> getDetectionStrategy() {
 		return detectionStrategy;
 	}
 
-	public void setDetectionStrategy(EnvironmentChangeDetectionStrategy detectionStrategy) {
+	/**
+	 * Set the {@linkplain EnvironmentChangeDetectionStrategy} to be used.
+	 * @param detectionStrategy The {@linkplain EnvironmentChangeDetectionStrategy} to set.
+	 */
+	public void setDetectionStrategy(EnvironmentChangeDetectionStrategy<PSO> detectionStrategy) {
 		this.detectionStrategy = detectionStrategy;
 	}
 
-	public EnvironmentChangeResponseStrategy getResponseStrategy() {
+	/**
+	 * Get the currently defined {@linkplain EnvironmentChangeResponseStrategy},
+	 * @return The current {@linkplain EnvironmentChangeResponseStrategy}.
+	 */
+	public EnvironmentChangeResponseStrategy<PSO> getResponseStrategy() {
 		return responseStrategy;
 	}
 
-	public void setResponseStrategy(EnvironmentChangeResponseStrategy responseStrategy) {
+	/**
+	 * Set the current {@linkplain EnvironmentChangeResponseStrategy} to use.
+	 * @param responseStrategy The {@linkplain EnvironmentChangeResponseStrategy} to set.
+	 */
+	public void setResponseStrategy(EnvironmentChangeResponseStrategy<PSO> responseStrategy) {
 		this.responseStrategy = responseStrategy;
 	}
 }

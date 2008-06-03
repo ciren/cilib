@@ -40,7 +40,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 	 */
 	@Override
 	public SynchronousIterationStrategy getClone() {
-		return null;
+		return this;
 	}
 
 

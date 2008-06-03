@@ -23,17 +23,17 @@ package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
-import net.sourceforge.cilib.pso.PSO;
 
 /**
  * @author Anna Rakitianskaia
  */
-public class RandomSentryDetectionStrategy implements
-		EnvironmentChangeDetectionStrategy {
+public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> implements EnvironmentChangeDetectionStrategy<E> {
 	private int sentries;
 	private double theta; 
 	private Random randomiser;
@@ -44,14 +44,14 @@ public class RandomSentryDetectionStrategy implements
 		randomiser = new MersenneTwister();
 	}
 	
-	public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy copy) {
+	public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy<E> copy) {
 		this.sentries = copy.sentries;
 		this.theta = copy.theta;
 		this.randomiser = copy.randomiser.getClone();
 	}
 	
-	public RandomSentryDetectionStrategy getClone() {
-		return new RandomSentryDetectionStrategy(this);
+	public RandomSentryDetectionStrategy<E> getClone() {
+		return new RandomSentryDetectionStrategy<E>(this);
 	}
 	
 
@@ -62,8 +62,8 @@ public class RandomSentryDetectionStrategy implements
 	 * @param algorithm PSO algorithm that operates in a dynamic environment
 	 * @return true if any changes are detected, false otherwise
 	 */		
-	public boolean detect(PSO algorithm) {
-		Topology<Particle> topology = algorithm.getTopology();
+	public boolean detect(E algorithm) {
+		Topology<? extends Entity> topology = algorithm.getTopology();
 
 		boolean envChangeOccured = false;
 		ArrayList<Particle> sentryList = new ArrayList<Particle>();

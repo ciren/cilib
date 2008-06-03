@@ -21,23 +21,23 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
-import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * TODO: Complete this javadoc.
  */
-public interface EnvironmentChangeDetectionStrategy extends Cloneable {
+public interface EnvironmentChangeDetectionStrategy<E extends PopulationBasedAlgorithm> extends Cloneable {
 	/**
 	 * Clone the <tt>EnvironmentChangeDetectionStrategy</tt> object.
 	 * @return A cloned <tt>EnvironmentChangeDetectionStrategy</tt>
 	 */
-	public EnvironmentChangeDetectionStrategy getClone();
+	public EnvironmentChangeDetectionStrategy<E> getClone();
 	
 	/**
 	 * Check the environment in which the specified PSO algorithm is running for changes.
 	 * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.
 	 * @return true if any changes are detected, false otherwise
 	 */
-	public boolean detect(PSO algorithm);
+	public boolean detect(E algorithm);
 }

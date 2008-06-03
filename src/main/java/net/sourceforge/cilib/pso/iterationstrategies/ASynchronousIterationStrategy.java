@@ -39,7 +39,7 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 	 */
 	@Override
 	public ASynchronousIterationStrategy getClone() {
-		return new ASynchronousIterationStrategy();
+		return this;
 	}
 
 	/* (non-Javadoc)

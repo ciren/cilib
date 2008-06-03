@@ -21,18 +21,19 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
-import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author Anna Rakitianskaia
  */
-public class PartialReinitialisationResponseStrategy extends
-		ParticleReevaluationResponseStrategy {
+public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends
+		ParticleReevaluationResponseStrategy<E> {
 	private double reinitialisationRatio;
 	private Random randomiser;
 	
@@ -42,14 +43,14 @@ public class PartialReinitialisationResponseStrategy extends
 		randomiser = new MersenneTwister();
 	}
 	
-	public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy copy) {
+	public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
 		this.reinitialisationRatio = copy.reinitialisationRatio;
 		this.randomiser = copy.randomiser.getClone();
 	}
 
 	@Override
-	public PartialReinitialisationResponseStrategy getClone() {
-		return new PartialReinitialisationResponseStrategy(this);
+	public PartialReinitialisationResponseStrategy<E> getClone() {
+		return new PartialReinitialisationResponseStrategy<E>(this);
 	}
 
 	/** 
@@ -58,9 +59,9 @@ public class PartialReinitialisationResponseStrategy extends
 	 * @param algorithm PSO algorithm that has to respond to environment change
 	 */
 	@Override
-	public void respond(PSO algorithm) {
+	public void respond(E algorithm) {
 		// Reset positions:
-		Topology<Particle> topology = algorithm.getTopology();
+		Topology<? extends Entity> topology = algorithm.getTopology();
 		int populationSize = algorithm.getPopulationSize();
 		boolean [] used = new boolean[populationSize];
 		for (int i = 0; i < populationSize; ++i) used[i] = false;
