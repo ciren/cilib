@@ -43,7 +43,7 @@ public class CoevolutionSynchronousIterationStrategy extends AbstractIterationSt
 	 */
 	@Override
 	public CoevolutionSynchronousIterationStrategy getClone() {
-		return null;
+		return this;
 	}
 
 	/**
