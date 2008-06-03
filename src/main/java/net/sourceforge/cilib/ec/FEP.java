@@ -82,7 +82,7 @@ public class FEP  {
 	
 	
 	/**
-	 * 
+	 * @param pop The {@linkplain Topology}. 
 	 */
 	protected void performFitnessEvaluation(Topology<Individual> pop) {
         Iterator<Individual> iterator = pop.iterator();
@@ -140,7 +140,6 @@ public class FEP  {
 	/**
 	 * 
 	 */
-	/* This should be abstracted into a selection operator ???? */
 	protected void performNextGenerationFormation() {
 		/*SortedList<Pair<Integer, Entity>> list = new SortedList<Pair<Integer, Entity>>(new AscendingOrderComparator());
 		
