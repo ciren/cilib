@@ -71,7 +71,7 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 	/**
 	 * Gets the next element in the list. This method may be called repeatedly to iterate through the list, or intermixed with calls to previous to go back and forth. (Note that alternating calls to next and previous will return the same element repeatedly.)
 	 * @return the next element in the list.
-	 * @throws {@link NoSuchElementException} when the current index is already at the end of the list.
+	 * @throws NoSuchElementException when the current index is already at the end of the list.
 	 */
 	@SuppressWarnings("unchecked")
 	public E next() {
@@ -84,7 +84,7 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 	/**
 	 * Gets the previous element in the list. This method may be called repeatedly to iterate through the list backwards, or intermixed with calls to next to go back and forth. (Note that alternating calls to next and previous will return the same element repeatedly.)
 	 * @return the previous element in the list.
-	 * @throws {@link NoSuchElementException} when the current index is already at the beginning of the list.
+	 * @throws NoSuchElementException when the current index is already at the beginning of the list.
 	 */
 	@SuppressWarnings("unchecked")
 	public E previous() {
@@ -128,6 +128,7 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 
 	/**
 	 * Inserts the specified element into the list. The element is inserted immediately before the next element that would be returned by next, if any, and after the next element that would be returned by previous, if any. (If the list contains no elements, the new element becomes the sole element on the list.) The new element is inserted before the implicit cursor: a subsequent call to next would be unaffected, and a subsequent call to previous would return the new element. (This call increases by one the value that would be returned by a call to nextIndex  or previousIndex.)
+	 * @param algorithm The {@linkplain Algorithm} to add.
 	 */
 	public void add(E algorithm) {
 		throw new UnsupportedOperationException(this.getClass().getSimpleName() + ".add()");
@@ -136,7 +137,7 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 	/**
 	 * Removes from the list the last element that was returned by next or previous.
 	 * The index of the current element is also repositioned to prevent the iteration from skipping elements (due to the manner in which the .next() and .previous() methods work).
-	 * @throws {@link IndexOutOfBoundsException} when the current element index is past the beginning or end of the list.
+	 * @throws IndexOutOfBoundsException when the current element index is past the beginning or end of the list.
 	 */
 	public void remove() {
 		if (index < 0 || index >= algorithms.size())
@@ -161,6 +162,7 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 	/**
 	 * Sets the list that will be iterated through.
 	 * Sets the current iteration position to -1, i.e. iteration hasn't started yet.
+	 * @param a The list of {@linkplain Algorithm}s to set.
 	 */
 	public void setAlgorithms(List<E> a) {
 		algorithms = a;
