@@ -84,5 +84,15 @@ public class MathUtilTest {
 		assertEquals(1.0, MathUtil.combination(1, 0), Double.MIN_NORMAL);
 		assertEquals(1.0, MathUtil.combination(1, 1), Double.MIN_NORMAL);
 	}
+	
+	@Test
+	public void sigmoid() {
+		assertEquals(0.5, MathUtil.sigmoid(0.0), 0);
+		assertEquals(1.0, MathUtil.sigmoid(Double.POSITIVE_INFINITY), 0);
+		assertEquals(1.0, MathUtil.sigmoid(Double.MAX_VALUE), 0);
+		assertEquals(0.0, MathUtil.sigmoid(-Double.MAX_VALUE), 0);
+		assertEquals(0.0, MathUtil.sigmoid(Double.NEGATIVE_INFINITY), 0);
+		assertEquals(0.5, MathUtil.sigmoid(Double.MIN_VALUE), 0);
+	}
 
 }
