@@ -58,7 +58,7 @@ public class PartialReinitialisationResponseStrategy extends
 	 * @param algorithm PSO algorithm that has to respond to environment change
 	 */
 	@Override
-	public void respondToChange(PSO algorithm) {
+	public void respond(PSO algorithm) {
 		// Reset positions:
 		Topology<Particle> topology = algorithm.getTopology();
 		int populationSize = algorithm.getPopulationSize();

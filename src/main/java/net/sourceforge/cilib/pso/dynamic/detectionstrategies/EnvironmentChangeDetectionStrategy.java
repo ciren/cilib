@@ -39,5 +39,5 @@ public interface EnvironmentChangeDetectionStrategy extends Cloneable {
 	 * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.
 	 * @return true if any changes are detected, false otherwise
 	 */
-	public boolean detectChange(PSO algorithm);
+	public boolean detect(PSO algorithm);
 }

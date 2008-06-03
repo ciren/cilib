@@ -38,5 +38,5 @@ public interface EnvironmentChangeResponseStrategy extends Cloneable {
 	 * Adapt to environment change.
 	 * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.
 	 */
-	public void respondToChange(PSO algorithm);
+	public void respond(PSO algorithm);
 }

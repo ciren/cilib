@@ -50,7 +50,7 @@ public class ParticleReevaluationResponseStrategy implements
 	 * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best.
 	 * @param algorithm PSO algorithm that has to respond to environment change
 	 */
-	public void respondToChange(PSO algorithm) {
+	public void respond(PSO algorithm) {
 		reevaluateParticles(algorithm);
 	}
 	

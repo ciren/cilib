@@ -62,7 +62,7 @@ public class RandomSentryDetectionStrategy implements
 	 * @param algorithm PSO algorithm that operates in a dynamic environment
 	 * @return true if any changes are detected, false otherwise
 	 */		
-	public boolean detectChange(PSO algorithm) {
+	public boolean detect(PSO algorithm) {
 		Topology<Particle> topology = algorithm.getTopology();
 
 		boolean envChangeOccured = false;
