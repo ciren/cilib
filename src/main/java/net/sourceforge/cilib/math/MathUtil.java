@@ -123,7 +123,7 @@ public final class MathUtil {
 	
 	/**
 	 * The generalised sigmoid function. The function is the general case of the sigmoid function
-	 * with the ability to specify the steepness of the function as well as an offest that should
+	 * with the ability to specify the steepness of the function as well as an offset that should
 	 * be taken into consideration. 
 	 * @param steepness The value of the steepness coefficient. The large this value the greater the
 	 *                  potential rate of change for the function will be. The value <tt><b>MUST</b></tt>
@@ -133,6 +133,9 @@ public final class MathUtil {
 	 * @return The value of the sigmoid function. The value returned is: <code>0 &lt;= y &lt;= 1</code>.
 	 */
 	public static double sigmoid(double steepness, double offset, double value) {
+		if (steepness < 0)
+			throw new UnsupportedOperationException("Steepness value for sigmoid function must be >= 0");
+		
 		return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness*(value-offset))));
 	}
 	

@@ -21,84 +21,65 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.security.SecureRandom;
-import java.util.Enumeration;
-import java.util.Random;
-
-import org.apache.log4j.Logger;
 
 /**
  *
  * @author  Edwin Peer
  */
 public final class Seeder {
-	private static Logger log = Logger.getLogger(Seeder.class);
-	private static Seeder seeder = null;
-    private Random random;
-    private int address;
+//	private static Logger log = Logger.getLogger(Seeder.class);
+	private SeedSelectionStrategy seedSelectionStrategy;
+  
   
     /**
-     * 
+     * Create a new instance of the {@linkplain Seeder}. The default {@linkplain SeedSelectionStrategy}
+     * defined is the {@linkplain NetworkBasedSeederStrategy}.  
      */
     private Seeder() {
-        random = new SecureRandom();
-        address = getNetworkAddress();
+    	this.seedSelectionStrategy = new NetworkBasedSeedSelectionStrategy();
     }
- 
+    
+    /**
+     * Get the singleton instance.
+     * @return The singleton instance.
+     */
+    private static Seeder getInstance() {
+    	return SeederHelper.INSTANCE;
+    }
+    
 
     /**
      * Get a seed value.
      * @return The seed value.
      */
     public static synchronized long getSeed() {
-        if (seeder == null) {
-            seeder = new Seeder();
-        }
-        
-        long seed = seeder.random.nextLong();
-        seed ^= System.currentTimeMillis();
-        seed ^= seeder.address;
-        seed ^= ((long) System.identityHashCode(new Object())) << 32;
-        
-        return seed;
+    	return getInstance().seedSelectionStrategy.getSeed();
     }
     
-    private int getNetworkAddress() {
-        byte[] address = null;
-        
-        try {
-            address = InetAddress.getLocalHost().getAddress();
-        }
-        catch (UnknownHostException ex) {
-        	log.warn("localhost not found directly. Proceeding.");
-        }
-        
-        try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
-                Enumeration<InetAddress> addresses = interfaces.nextElement().getInetAddresses();
-                while (addresses.hasMoreElements()) {
-                    InetAddress addr = addresses.nextElement();
-                    if (!addr.isLoopbackAddress()) {
-                        address = addr.getAddress();
-                    }
-                }
-            }
-        }
-        catch (SocketException ex) {
-        	log.warn("localhost not found through interfce list. Proceeding.");
-        }
-        
-        if (address == null) {
-            return 0;
-        }
-        else {
-            return ((int) address[0]) << 24 | ((int) address[1]) << 16 | ((int) address[2]) << 8 | (int) address[3]; 
-        }
+    /**
+     * Get the currently defined {@linkplain SeedSelectionStrategy}.
+     * @return The current {@linkplain SeedSelectionStrategy}.
+     */
+    public static SeedSelectionStrategy getSeederStrategy() {
+    	return getInstance().seedSelectionStrategy;
     }
     
+    /**
+     * Set the {@linkplain SeedSelectionStrategy} to use.
+     * @param seedSelectionStrategy The value to set.
+     */
+    public synchronized static void setSeederStrategy(SeedSelectionStrategy seedSelectionStrategy) {
+    	getInstance().seedSelectionStrategy = seedSelectionStrategy;
+    }
+    
+    /**
+     * This private class is an exploit to the manner in which Java creates instances.
+     * As a result we can create an instance this way and ensure that there will not
+     * be any concurrency problems as a result of multiple calls to getInstance() within
+     * a lazy initialising Singleton.
+     */
+    private static class SeederHelper {
+    	public static final Seeder INSTANCE = new Seeder();
+    }
+        
 }

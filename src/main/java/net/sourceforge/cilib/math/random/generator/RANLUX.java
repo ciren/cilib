@@ -58,10 +58,18 @@ public class RANLUX extends Random {
     
     private static final long serialVersionUID = -2393841490133897078L;
     
+    /**
+     * Create a new instance of {@linkplain RANLUX}.
+     */
 	public RANLUX() {
         super(Seeder.getSeed());
     }
     
+	/**
+	 * Create a new instance of {@linkplain RANLUX} with the provided <code>seed</code>
+	 * value.
+	 * @param seed The initial value for the seed.
+	 */
     public RANLUX(long seed) {
         super(seed);
     }
