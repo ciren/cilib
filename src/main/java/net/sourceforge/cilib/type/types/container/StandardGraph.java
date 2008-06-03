@@ -47,10 +47,18 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		adjacencyMap = new LinkedHashMap<E, List<Entry<E>>>();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public StandardGraph<E> getClone() {
 		return null;
 	}
 
+	/**
+	 * Get the number of edges contained within the {@linkplain Graph}. The number of edges is defined
+	 * as all edges emanating from any given vertex within the structure.
+	 * @return The number of edges contained within the structure.
+	 */
 	public int edges() {
 		int count = 0;
 		
@@ -62,21 +70,51 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		return count;
 	}
 
+	/**
+	 * Get the number of verticies contained within the structure.
+	 * @return The number of vertexes within the structure. 
+	 */
 	public int vertices() {
 		return this.adjacencyMap.size();
 	}
 	
+	/**
+	 * Add a connecting edge between the provided two distinct vertexes. The cost for the connection
+	 * is defined to be a value of <code>1.0</code>.
+	 * @param a The first vertex.
+	 * @param b The second vertex.
+	 * @return <code>true</code> if successful, <code>false</code> otherwise. 
+	 */
 	public boolean addEdge(E a, E b) {
 		return addEdge(a, b, 1.0);
 	}
 	
+	/**
+	 * Add a connecting edge between the provided two distinct vertexes, given the provided 
+	 * <code>cost</code> for the connection. The <code>weight</code> associated with this
+	 * connection is defined to be a value of <code>1.0</code>.
+	 * @param a The first vertex.
+	 * @param b The second vertex.
+	 * @param cost The cost associated with the connection.
+	 * @return <code>true</code> if successful, <code>false</code> otherwise.
+	 */
 	public boolean addEdge(E a, E b, double cost) {
 		return addEdge(a, b, cost, 1.0);
 	}
 	
+	/**
+	 * Add a connecting edge between the provided two distinct vertexes, given the provided 
+	 * <code>cost</code> and <code>weight</code> for the connection.
+	 * @param a The first vertex.
+	 * @param b The second vertex.
+	 * @param cost The cost associated with the connection.
+	 * @param weight The weight associted with the connection.
+	 * @return <code>true</code> if successful, <code>false</code> otherwise.
+	 */
 	public boolean addEdge(E a, E b, double cost, double weight) {
 		if (!contains(a)) return false;
 		if (!contains(b)) return false;
+		if (a == b) return false;
 		
 		List<Entry<E>> connectedVerticies = this.adjacencyMap.get(a);
 		connectedVerticies.add(new Entry<E>(b, cost, weight));
@@ -84,9 +122,17 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		return true;
 	}
 
+	/**
+	 * Determine if the provided vertex objects are connected.
+	 * @param a The first vertex.
+	 * @param b The second vertex.
+	 * @return <code>true</code> if vertex <code>a</code> and <code>b</code> are connected.
+	 *         <code>false</code> otherwise.
+	 */
 	public boolean isConnected(E a, E b) {
 		if (!contains(a)) return false;
 		if (!contains(b)) return false;
+		if (a == b) return false;
 		
 		List<Entry<E>> connectedVerticies = this.adjacencyMap.get(a);
 		
@@ -98,10 +144,16 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void accept(Visitor<E> visitor) {
 		throw new UnsupportedOperationException("accept() for the class " + getClass().getName() + " still needs an implementation");		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean add(E element) {
 		if (this.adjacencyMap.containsKey(element))
 			return false;
@@ -110,22 +162,37 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void clear() {
 		this.adjacencyMap.clear();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean contains(E element) {
 		return this.adjacencyMap.containsKey(element);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isEmpty() {
 		return this.adjacencyMap.isEmpty();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Iterator<E> iterator() {
 		return this.adjacencyMap.keySet().iterator();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean remove(E element) {
 		if (!this.adjacencyMap.containsKey(element))
 			return false;
@@ -142,6 +209,9 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		return true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public E remove(int index) {
 		int count = 0;
 		for (Map.Entry<E, List<Entry<E>>> e : this.adjacencyMap.entrySet()) {
@@ -156,47 +226,83 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int size() {
 		return this.adjacencyMap.size();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getDimension() {
 		return this.vertices();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getRepresentation() {
 		throw new UnsupportedOperationException("getRepresentation() is not supportd");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void randomise() {
 		throw new UnsupportedOperationException("randomise() is not supportd");		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void reset() {
 		throw new UnsupportedOperationException("reset() is not supportd");	
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addAll(Structure<? extends E> structure) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean removeAll(Structure<E> structure) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isInsideBounds() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	/**
+	 * Determine the distance between the provided vertex objects. The distance is defined to the be
+	 * total cost to get from vertex <code>a</code> to vertex <code>b</code>. The distance is only defined
+	 * for vertex objects that are directly connected. Indirect connections need to be traversed by
+	 * a traversal algorithm that determines the distance for the shortest tour or similar criterion.
+	 * @param a The first vertex.
+	 * @param b The second vertex.
+	 * @return The total cost from <code>a</code> to <code>b</code>.
+	 */
 	public double distance(E a, E b) {
 		if (!isConnected(a, b))
 			throw new UnsupportedOperationException("Cannot determine the distance. Node(" + a + ") and Node(" + b + ") are not connected");
@@ -210,6 +316,9 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 		throw new NoSuchElementException("The distance between Node(" + a + ") and Node(" + b + ") does not exist");
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public E getVertex(int index) {
 		Set<E> keySet = this.adjacencyMap.keySet();
 		int count  = 0;
@@ -223,6 +332,12 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	}
 
 
+	/**
+	 * Class to represent the element, cost and weight associated to the connection between
+	 * two distinct vertex objects.
+	 *   
+	 * @param <T> The {@linkplain Comparable} type.
+	 */
 	private class Entry<T extends Comparable<T>> {
 		private Double weight;
 		private Double cost;
