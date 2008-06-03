@@ -41,7 +41,7 @@ public final class VectorUtils {
 	 * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
 	 * set to the upper bound of that component.
 	 * @param vector The {@linkplain Vector} to create the upper bound vector from.
-	 * @throws {@link UnsupportedOperationException} when an element in the {@link Vector}
+	 * @throws UnsupportedOperationException When an element in the {@link Vector}
 	 *         is not a {@link Numeric}
 	 * @return a {@link Vector} with all the elements set to their respective upper bounds
 	 */
@@ -64,7 +64,7 @@ public final class VectorUtils {
 	 * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
 	 * set to the lower bound of that component. 
 	 * @param vector The {@linkplain Vector} from which to create the lower bound vector.
-	 * @throws {@link UnsupportedOperationException} when an element in the {@link Vector}
+	 * @throws UnsupportedOperationException when an element in the {@link Vector}
 	 *         is not a {@link Numeric}
 	 * @return a {@link Vector} with all the elements set to their respective lower bounds
 	 */
