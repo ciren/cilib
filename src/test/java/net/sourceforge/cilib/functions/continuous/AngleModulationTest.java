@@ -31,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.functions.continuous.decorators.AngleModulation;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -100,7 +101,7 @@ public class AngleModulationTest {
 	
 	@Test
 	public void testCalcuateRequiredBits() {
-		DomainRegistry registry = new DomainRegistry();
+		DomainRegistry registry = new StringBasedDomainRegistry();
 		registry.setDomainString("R(-5.12,-5.12)^30");
 		
 		angle.setPrecision(3);

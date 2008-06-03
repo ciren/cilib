@@ -94,5 +94,10 @@ public class MathUtilTest {
 		assertEquals(0.0, MathUtil.sigmoid(Double.NEGATIVE_INFINITY), 0);
 		assertEquals(0.5, MathUtil.sigmoid(Double.MIN_VALUE), 0);
 	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void invalidSigmoid() {
+		MathUtil.sigmoid(-1.0, 0.0, 0.0);
+	}
 
 }

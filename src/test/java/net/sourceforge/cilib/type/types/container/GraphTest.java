@@ -75,5 +75,15 @@ public class GraphTest {
 
 		assertTrue(g.isConnected(1.0, 2.0));
 	}
+	
+	@Test
+	public void simpleDistanceToVertex() {
+		StandardGraph<Double> g = new StandardGraph<Double>();
+		g.add(1.0);
+		g.add(2.0);
+		g.addEdge(1.0, 2.0);
+		
+		assertEquals(1.0, g.distance(1.0, 2.0), 9);
+	}
 
 }
