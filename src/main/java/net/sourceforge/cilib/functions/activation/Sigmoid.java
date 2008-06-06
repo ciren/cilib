@@ -29,7 +29,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.VectorUtils;
 
 /**
- *
+ * The generalised sigmoid function. The function is the general case of the sigmoid function
+ * with the ability to specify the steepness of the function as well as an offset that should
+ * be taken into consideration. 
  */
 public class Sigmoid extends ActivationFunction {
 	private static final long serialVersionUID = 8291966233976579855L;

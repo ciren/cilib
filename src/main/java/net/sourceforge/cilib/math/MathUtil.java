@@ -109,37 +109,6 @@ public final class MathUtil {
 		return randomiser.nextDouble();
 	}
 	
-	
-	
-	/**
-	 * General sigmoid function. The steepness of the function is defined to the <code>1.0</code>, with
-	 * the <code>offset</code> defined to be <code>0.0</code>.
-	 * @param v The value to be evaluated by the sigmoid function.
-	 * @return The returned evaluation of the function.
-	 */
-	public static double sigmoid(double v) {
-		return sigmoid(1.0, 0.0, v);
-	}
-	
-	/**
-	 * The generalised sigmoid function. The function is the general case of the sigmoid function
-	 * with the ability to specify the steepness of the function as well as an offset that should
-	 * be taken into consideration. 
-	 * @param steepness The value of the steepness coefficient. The large this value the greater the
-	 *                  potential rate of change for the function will be. The value <tt><b>MUST</b></tt>
-	 *                  be <code>&gt;= 0</code>.
-	 * @param offset The offset that should be added or subtracted from the value provided in <code>value</code>.
-	 * @param value The value to be evaluated by the sigmoid function.
-	 * @return The value of the sigmoid function. The value returned is: <code>0 &lt;= y &lt;= 1</code>.
-	 */
-	public static double sigmoid(double steepness, double offset, double value) {
-		if (steepness < 0)
-			throw new UnsupportedOperationException("Steepness value for sigmoid function must be >= 0");
-		
-		return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness*(value-offset))));
-	}
-	
-	
 	/**
 	 * 
 	 * @param pf
