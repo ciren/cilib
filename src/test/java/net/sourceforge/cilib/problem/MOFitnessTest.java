@@ -32,6 +32,7 @@ package net.sourceforge.cilib.problem;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -69,7 +70,6 @@ public class MOFitnessTest {
     	
     	assertTrue(f1.compareTo(f2) < 0);
     	assertTrue(f2.compareTo(f1) > 0);
-    	
     }
 
     
@@ -91,8 +91,13 @@ public class MOFitnessTest {
     		return new DummyOptimisationProblem(this);
     	}
     
-		public Fitness getFitness(Object solution, boolean count) {
-			return ((Fitness[])solution)[i];
+		public Fitness getFitness(Type solution, boolean count) {
+			return (Fitness) solution;
+//			return getFitness(new Type[]{solution}, count);
+		}
+		
+		public Fitness getFitness(Type [] solution, boolean count) {
+			return (Fitness) solution[i];
 		}
 
 		public int getFitnessEvaluations() {
