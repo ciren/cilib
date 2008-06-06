@@ -1,11 +1,7 @@
 /*
- * GraphOptimisationProblem.java
- *
- * Created on Jun 11, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -26,12 +22,11 @@
 package net.sourceforge.cilib.aco;
 
 import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
-import net.sourceforge.cilib.container.graph.Edge;
-import net.sourceforge.cilib.container.graph.Graph;
-import net.sourceforge.cilib.container.graph.Vertex;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Graph;
 
 /**
  * A specialised form of a <code>DiscreteOptimisationProblem</code> is a problem defined
@@ -42,7 +37,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
 public class GraphOptimisationProblem extends ACOOptimisationProblem {
 	private static final long serialVersionUID = 1L;
 	
-	protected Graph<Vertex, Edge> graph;
+	protected net.sourceforge.cilib.type.types.container.Graph<Double> graph; //Graph<Vertex, Edge> graph;
 	protected DataSetBuilder dataSetBuilder;
 	
 	/**
@@ -97,7 +92,8 @@ public class GraphOptimisationProblem extends ACOOptimisationProblem {
 	 * 
 	 * @return
 	 */
-	public Graph<Vertex, Edge> getGraph() {
+//	public Graph<Vertex, Edge> getGraph() {
+	public Graph<Double> getGraph() {
 		return graph;
 	}
 
@@ -110,7 +106,7 @@ public class GraphOptimisationProblem extends ACOOptimisationProblem {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.Problem.OptimisationProblem#getFitness(java.lang.Object, boolean)
 	 */
-	public Fitness getFitness(Object solution, boolean count) {
+	public Fitness getFitness(Type solution, boolean count) {
 		throw new UnsupportedOperationException("getFitness() is not supported by a GrahOptimisationProblem");
 	}
 
