@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.util;
 
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -81,6 +82,21 @@ public final class VectorUtils {
 			}
 		}
 		return lower;
+	}
+
+	/**
+	 * Utility method to create a {@linkplain Vector}, given any number of {@linkplain Number} instances.
+	 * @param <T> The type extending {@linkplain Number}.
+	 * @param result The list of values to include within the created {@linkplain Vector}.
+	 * @return The created {@linkplain Vector} object, containing the provided list of items.
+	 */
+	public static <T extends Number> Vector create(T... result) {
+		Vector vector = new Vector();
+		
+		for (T element : result)
+			vector.add(new Real(element.doubleValue()));
+		
+		return vector;
 	}
 
 }
