@@ -3,8 +3,9 @@
   "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 
 <module name="Checker">
-  <module name="PackageHtml" />
+  <!--<module name="JavadocPackage" />-->
   <module name="NewlineAtEndOfFile" />
+  <!--  <module name="PackageHtml" /> -->
 
   <module name="TreeWalker">
     <module name="JavadocType">
@@ -38,7 +39,7 @@
     <!-- Headers in source files -->
     <module name="Header">
       <property name="headerFile" value="src/main/resources/java-header.txt" />
-      <property name="ignoreLines" value="2, 4" />
+      <!--<property name="ignoreLines" value="1" />-->
     </module>
 
     <!-- Import checks -->
@@ -53,7 +54,9 @@
     <!-- Whitespace Violations -->
     <module name="EmptyForIteratorPad" />
     <module name="MethodParamPad" />
-    <module name="NoWhitespaceAfter" />
+    <module name="NoWhitespaceAfter">
+      <property name="tokens" value="BNOT, DEC, DOT, INC, LNOT, UNARY_MINUS, UNARY_PLUS" />
+    </module>
     <module name="NoWhitespaceBefore" />
     <module name="OperatorWrap">
       <property name="option" value="eol" />
@@ -98,9 +101,9 @@
       <property name="format" value="\s+$" />
       <property name="message" value="Line has trailing spaces." />
     </module>-->
-    <module name="TodoComment">
+    <!--<module name="TodoComment">
       <property name="format" value="TODO" />
-    </module>
+    </module>-->
     <module name="UpperEll" />
   </module>
 </module>
