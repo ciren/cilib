@@ -30,6 +30,7 @@ import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author Gary Pampara
@@ -83,7 +84,7 @@ public class ClusteringOptimisationProblem extends ACOOptimisationProblem {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.Problem.OptimisationProblem#getFitness(java.lang.Object, boolean)
 	 */
-	public Fitness getFitness(Object solution, boolean count) {
+	public Fitness getFitness(Type solution, boolean count) {
 		// TODO Auto-generated method stub
 		return null;
 	}

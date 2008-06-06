@@ -104,11 +104,10 @@ public class TSPProblem extends GraphOptimisationProblem {
 	 * have constructed.
 	 */
 	public void degrade(PheromoneUpdate pheromoneUpdate) {
-		Graph<Vertex, Edge> g = super.getGraph();
-		
+		/*Graph<Vertex, Edge> g = super.getGraph();
 		for (ListIterator<Edge> l = g.getEdges(); l.hasNext(); ) {
 			Edge edge = l.next();
 			pheromoneUpdate.evaporate(edge);
-		}
+		}*/
 	}
 }
