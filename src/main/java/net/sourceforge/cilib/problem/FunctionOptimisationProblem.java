@@ -23,6 +23,7 @@ package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This class serves as a base class for function optimisation problems using a {@linkplain Function}.
@@ -97,5 +98,5 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      * @param solution the solution for which an error should be determined
      * @return the error with respect to the optimum solution
      */
-    public abstract double getError(Object solution);
+    public abstract double getError(Type solution);
 }

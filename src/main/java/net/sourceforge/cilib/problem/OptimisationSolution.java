@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.type.types.Type;
+
 /**
  * This class represents a solution to an {@link OptimisationProblem}. It is  responsible for 
  * keeping track of the optimisation problem and position of the solution within the search
@@ -33,7 +35,7 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
 	private static final long serialVersionUID = 2119444179382452329L;
 	
 	private OptimisationProblem problem;
-    private Object position;
+    private Type position;
 	
 	/**
 	 * Constructs a new instance of <code>OptimisationSolution</code>.
@@ -41,7 +43,7 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
 	 * @param problem The optimisation problem for which  this is a solution.
 	 * @param position The position of the solution within the search space of the problem.
 	 */
-    public OptimisationSolution(OptimisationProblem problem, Object position) {
+    public OptimisationSolution(OptimisationProblem problem, Type position) {
     	this.problem = problem;
         this.position = position;
     }
@@ -51,7 +53,7 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
      * 
      * @return The position of this solution in search space.
      */
-    public Object getPosition() {
+    public Type getPosition() {
         return position;
     }
 

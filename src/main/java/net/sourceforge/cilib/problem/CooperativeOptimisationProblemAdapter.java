@@ -26,6 +26,7 @@ import net.sourceforge.cilib.cooperative.CooperativeEntity;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -95,7 +96,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 	}
 
 	@Override
-	protected Fitness calculateFitness(Object solution) {
+	protected Fitness calculateFitness(Type solution) {
 		Vector participant = (Vector) solution;
 		for (int i = 0; i < dimension; ++i) {
 			((Vector) context.getContents()).setReal(offset + i, participant.getReal(i));

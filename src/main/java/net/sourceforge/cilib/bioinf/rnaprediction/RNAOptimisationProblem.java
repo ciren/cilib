@@ -26,6 +26,7 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 
 
 /**
@@ -70,7 +71,7 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected Fitness calculateFitness(Object solution) {
+	protected Fitness calculateFitness(Type solution) {
 		//System.out.println("object type of solution: " + solution.getClass().getName());
 		return new MinimisationFitness(fit.getRNAFitness((RNAConformation) solution));
 	}

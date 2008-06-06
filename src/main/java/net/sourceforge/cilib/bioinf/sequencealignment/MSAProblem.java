@@ -29,6 +29,7 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -94,7 +95,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 		return this;
 	}
 
-	protected Fitness calculateFitness(Object solution) { //	solution = particule position vector
+	protected Fitness calculateFitness(Type solution) { //	solution = particule position vector
 		Vector realValuedPosition = (Vector) solution;
 		//System.out.println("Fitness for matches: "+alignmentCreator.getFitness(strings, realValuedPosition, gapsArray));   // debug purpose
 		//System.out.println("Fitness for gap penalties: "+gapPenaltyMethod.getPenalty(alignmentCreator.getAlignment());  // debug purpose

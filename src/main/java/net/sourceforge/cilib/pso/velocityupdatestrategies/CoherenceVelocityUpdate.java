@@ -25,7 +25,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -39,6 +39,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 	private static final long serialVersionUID = -9051938755796130230L;
 	private ControlParameter scalingFactor;
 	private RandomNumber randomNumber;
+	private Sigmoid sigmoid;
 	
 	/**
 	 * Create an instance of {@linkplain CoherenceVelocityUpdate}.
@@ -47,6 +48,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 		super();
 		scalingFactor = new ConstantControlParameter(1.0);
 		randomNumber = new RandomNumber();
+		sigmoid = new Sigmoid();
 	}
 
 	/**
@@ -92,9 +94,9 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 		
 		double swarmCenterVelocity = averageVelocity.norm();
 		double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
-		double sigmoidValue = MathUtil.sigmoid(swarmCoherence);
 		
-
+		double sigmoidValue = sigmoid.evaluate(swarmCoherence);
+		
 		 for (int i = 0; i < particle.getDimension(); ++i) {
 	    		double value = inertiaWeight.getParameter()*velocity.getReal(i) + 
 	    			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +

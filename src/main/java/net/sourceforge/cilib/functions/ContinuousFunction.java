@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.functions;
 
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -66,7 +67,7 @@ public abstract class ContinuousFunction extends Function {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Double evaluate(Object x) {
+	public Double evaluate(Type x) {
 		Double d = null;
 		try {
 			d = new Double(evaluate((Vector) x));

@@ -26,6 +26,7 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MatrixDataSetBuilder;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -71,7 +72,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 *
 	 * @author jkroon
 	 */
-	protected final Fitness calculateFitness(Object solution) {
+	protected final Fitness calculateFitness(Type solution) {
 		Vector matrix = (Vector) solution;
 		
 		Matrix<Double> distmatrix = new Matrix<Double>(numvectors, numvectors);

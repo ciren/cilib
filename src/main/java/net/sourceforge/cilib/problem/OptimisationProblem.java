@@ -23,6 +23,7 @@ package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Optimisation problems are characterised by a domain that specifies the search space and
@@ -52,7 +53,7 @@ public interface OptimisationProblem extends Problem {
      * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
      * @return The fitness of the solution. 
      */
-    public Fitness getFitness(Object solution, boolean count);
+    public Fitness getFitness(Type solution, boolean count);
     
     /**
      * Returns the number of times the underlying fitness function has been evaluated. 

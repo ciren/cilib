@@ -28,6 +28,7 @@ import net.sourceforge.cilib.problem.dataset.DataSetManager;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -284,7 +285,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	 * @return the fitness of the current clustering
 	 */
 	@Override
-	protected Fitness calculateFitness(Object solution) {
+	protected Fitness calculateFitness(Type solution) {
 		return innerProblem.calculateFitness(solution);
 	}
 }

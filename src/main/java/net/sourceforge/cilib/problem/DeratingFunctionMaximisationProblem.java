@@ -28,6 +28,7 @@ import java.util.Iterator;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.continuous.MaximumDeratingFunction1;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -89,7 +90,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * @param solution The solution to calculate the fitness.
      * @return The fitness of the solution.
      */
-    protected Fitness calculateFitness(Object solution) {
+    protected Fitness calculateFitness(Type solution) {
         // set the initial fitness to the actual fitness value without modification.
         double fitness = ((Double) super.calculateFitness(solution).getValue()).doubleValue();
         double radius = ((MaximumDeratingFunction1) deratingFunction).getRadius();
@@ -122,7 +123,8 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
 
             // inorder to evaluate the derating function the distance needs to be
             // a array.
-            double[] dist = new double[] {distance};
+            Vector dist = new Vector();
+            dist.add(new Real(distance));
 
             // modify the fitness.
             if (distance < radius) {
@@ -138,7 +140,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * @param solution The solution to find the fitness off.
      * @return The fitness of the solution[]
      */
-    public double getRawFitness(Object solution) {
+    public double getRawFitness(Type solution) {
         return ((Double) super.calculateFitness(solution).getValue()).doubleValue();
     }
 

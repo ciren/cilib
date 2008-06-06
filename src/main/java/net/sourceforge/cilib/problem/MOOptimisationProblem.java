@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author Edwin Peer
@@ -45,15 +46,19 @@ public class MOOptimisationProblem implements OptimisationProblem {
 		return new MOOptimisationProblem(this);
 	}
 	
-	public Fitness getFitness(Object solution, boolean count) {
-		return new MOFitness(this, solution, count);
+	public Fitness getFitness(Type[] solutions, boolean count) {
+		return new MOFitness(this, solutions, count);
+	}
+	
+	public Fitness getFitness(Type solution, boolean count) {
+		return new MOFitness(this, new Type[]{solution}, count);
 	}
 	
 	public int getProblemCount() {
 		return problems.size();
 	}
 	
-	public Fitness getFitness(int index, Object solution, boolean count) {
+	public Fitness getFitness(int index, Type solution, boolean count) {
 		return problems.get(index).getFitness(solution, count);
 	}
 

@@ -30,6 +30,7 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.dataset.StringDataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -57,7 +58,7 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
 	
 
 	@Override
-	protected Fitness calculateFitness(Object solution) {
+	protected Fitness calculateFitness(Type solution) {
 		//System.out.println(solution);
 		if (higherDimensionDistanceMatrix == null) {
 			intialiseMatrix();

@@ -23,15 +23,18 @@ package net.sourceforge.cilib.problem;
 
 // TODO: Add domain validators to check that this is working on ContinuousFunctions
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * 
@@ -44,8 +47,8 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
     private int sampleSetSize = 1000;
     private double trainingSetPercentage = 0.7;
     private double testingSetPercentage = 1.0 - trainingSetPercentage;
-    private Vector<Double[]> testingSet = new Vector<Double[]>();
-    private Vector<Double []> trainingSet = new Vector<Double[]>();
+    private List<Double[]> testingSet = new ArrayList<Double[]>();
+    private List<Double []> trainingSet = new ArrayList<Double[]>();
     private Random random = new MersenneTwister(System.currentTimeMillis());
     private NeuralNetworkProblem neuralNetwork = null;
     //private Compound domain = null;
@@ -113,7 +116,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             }
 
             // evaluate the input to determine the largest value for the function.
-            double[] input = convertDoubleArray(p);
+            Vector input = convertDoubleArray(p);
             double result = ((Double) function.evaluate(input)).doubleValue();
             if (result > functionMaxValue) {
                 functionMaxValue = result;
@@ -140,7 +143,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             }
 
             // evaluate the input to determine the largest value for the function.
-            double[] input = convertDoubleArray(p);
+            Vector input = convertDoubleArray(p);
             double result = ((Double) function.evaluate(input)).doubleValue();
             if (result > functionMaxValue) {
                 functionMaxValue = result;
@@ -156,7 +159,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
      * @param solution
      * @return The average of all fitness values from the trainingSample set
      */
-    protected Fitness calculateFitness(Object solution) {
+    protected Fitness calculateFitness(Type solution) {
         //double[] tmp = (double[]) solution;
         // determine if the solution matches the number of weights required for
         // the NN to function.
@@ -171,7 +174,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             Double[] p = iterator.next();
 
             // change the Double[] to a double[] for input to the NN.
-            double[] input = convertDoubleArray(p);
+            Vector input = convertDoubleArray(p);
 
             // calculate the expected output for the input.
             Fitness[] exp_output = new Fitness[1];
@@ -211,7 +214,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             Double[] p = iterator.next();
 
             // change the Double[] to a double[] for input to the NN.
-            double[] input = convertDoubleArray(p);
+            Vector input = convertDoubleArray(p);
 
             // calculate the expected output for the input.
             double[] exp_output = new double[1];
@@ -228,16 +231,18 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         return (double) (totalFitness / testingSet.size());
     }
 
-    private double[] convertDoubleArray(Double[] oldArray) {
+    private Vector convertDoubleArray(Double[] oldArray) {
         // create memory for the new array.
-        double[] newArray = new double[oldArray.length];
+    	Vector vector = new Vector(oldArray.length);
+//        double[] newArray = new double[oldArray.length];
 
         // convert the Double objects into primitive doubles.
         for (int i = 0; i < oldArray.length; i++) {
-            newArray[i] = oldArray[i].doubleValue();
+        	vector.add(new Real(oldArray[i]));
+//            newArray[i] = oldArray[i].doubleValue();
         }
 
-        return newArray;
+        return vector;
     }
 
     /*public DomainComponent getDomain() {
@@ -271,19 +276,19 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         return trainingSetPercentage;
     }
 
-    public Vector<Double[]> getTrainingSet() {
+    public List<Double[]> getTrainingSet() {
         return trainingSet;
     }
 
-    public void setTrainingSet(Vector<Double[]> trainingSet) {
+    public void setTrainingSet(List<Double[]> trainingSet) {
         this.trainingSet = trainingSet;
     }
 
-    public Vector<Double[]> getTestingSet() {
+    public List<Double[]> getTestingSet() {
         return testingSet;
     }
 
-    public void setTestingSet(Vector<Double[]> testingSet) {
+    public void setTestingSet(List<Double[]> testingSet) {
         this.testingSet = testingSet;
     }
 

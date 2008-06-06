@@ -26,6 +26,7 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -59,7 +60,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
      * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
      * @return The fitness of the solution. 
      */
-	protected Fitness calculateFitness(Object solution) {        
+	protected Fitness calculateFitness(Type solution) {        
 /*        //solution, is supposed to be the Genes, which is of Type - Vector.
     	double fftest = 0.0;
         for(int r =  0; r < ((Vector)solution).getDimension(); r++) {

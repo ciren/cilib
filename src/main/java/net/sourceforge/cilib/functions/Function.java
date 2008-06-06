@@ -25,6 +25,7 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -132,6 +133,6 @@ public abstract class Function implements Cloneable, Serializable {
 	 * @param x the position
 	 * @return The result of the evaluation.
 	 */
-	public abstract Double evaluate(Object x);
+	public abstract Double evaluate(Type x);
 	
 }

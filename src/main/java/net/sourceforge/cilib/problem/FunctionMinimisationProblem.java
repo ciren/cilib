@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.type.types.Type;
+
 /**
  * An implementation of {@link OptimisationProblemAdapter} that can be used to find the minimum of
  * any {@link net.sourceforge.cilib.functions.Function}.
@@ -41,7 +43,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
 		return new FunctionMinimisationProblem(this);
 	}
 
-	protected Fitness calculateFitness(Object solution) {
+	protected Fitness calculateFitness(Type solution) {
 		/* Add code to enforce the boundary constraint */
 		return new MinimisationFitness(function.evaluate(solution));
 	}
@@ -59,7 +61,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
 	 * @param The solution for which an error is saught.
 	 * @return The error.
 	 */
-	public double getError(Object solution) {
+	public double getError(Type solution) {
 		return ((Number) function.evaluate(solution)).doubleValue() - ((Number) function.getMinimum()).doubleValue();
 	}
 }

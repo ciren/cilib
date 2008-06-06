@@ -24,6 +24,7 @@ package net.sourceforge.cilib.problem;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This is a convenience class that keeps track of the number of fitness evaluations. This class can
@@ -49,9 +50,9 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 
 	public abstract OptimisationProblemAdapter getClone();
 
-	protected abstract Fitness calculateFitness(Object solution);
+	protected abstract Fitness calculateFitness(Type solution);
 
-	public final Fitness getFitness(Object solution, boolean count) {
+	public final Fitness getFitness(Type solution, boolean count) {
 		if (count) {
 			fitnessEvaluations.incrementAndGet();
 		}

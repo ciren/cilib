@@ -35,6 +35,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.SingleIteration;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * <code>MultistartOptimisationAlgorithm</code> is simply a wrapper. The wrapped 
@@ -246,7 +247,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 		/* (non-Javadoc)
 		 * @see net.sourceforge.cilib.Problem.OptimisationProblemAdapter#calculateFitness(java.lang.Object)
 		 */
-		protected Fitness calculateFitness(Object solution) {
+		protected Fitness calculateFitness(Type solution) {
 			return target.getFitness(solution, true);
 		}
 

@@ -19,55 +19,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions;
+package net.sourceforge.cilib.functions.continuous;
 
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author Gary Pampara
+ * TODO: Complete this javadoc.
  */
-public abstract class DiscreteFunction extends Function {
+public class Step extends ContinuousFunction {
 
+	private static final long serialVersionUID = -3888436745417400797L;
+	
 	/**
-	 * Create an instance of {@linkplain DiscreteFunction}.
+	 * Create an instance of the {@linkplain Step} function.
 	 */
-	protected DiscreteFunction() {
+	public Step() {
+		setDomain("R(-100.0, 100.0)^6");
 	}
 	
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
-	public Object getMinimum() {
-		return new Double(-Double.MAX_VALUE);
+	@Override
+	public Step getClone() {
+		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object getMaximum() {
-		return new Double(Double.MAX_VALUE);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public Double evaluate(Type x) {
-		Double d = null;
-		try {
-			d = new Double(evaluate((Vector) x));
-		}
-		catch (ClassCastException c) {
-			c.printStackTrace();
-		}
+	@Override
+	public double evaluate(Vector x) {
+		double sum = 0.0;
 		
-		return d;
+		for (int i = 0; i < x.getDimension(); i++)
+			sum += Math.floor(x.getReal(i));
+		
+		return sum;
 	}
 
-	/**
-	 * Evaluate the function output, given the function input, {@code x}.
-	 * @param x The {@linkplain Vector} representing the function input.
-	 * @return The result of the evaluation.
-	 */
-	public abstract double evaluate(Vector x);
 }

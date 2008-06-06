@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -33,14 +33,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = -2136786203855125909L;
+	private Sigmoid sigmoid;
+//	private ControlParameter steepness;
+	
 
 	public BinaryPositionUpdateStrategy() {
-		
+//		this.steepness = new ConstantControlParameter(0.5);
+		this.sigmoid = new Sigmoid();
 	}
 	
 	
 	public BinaryPositionUpdateStrategy(BinaryPositionUpdateStrategy copy) {
-
+//		this.steepness = copy.steepness.getClone();
+		this.sigmoid = copy.sigmoid.getClone();
 	}
 	
 	
@@ -56,7 +61,8 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 		Vector velocity = (Vector) particle.getVelocity();
 		
 		for (int i = 0; i < position.getDimension(); i++) {
-			double result = MathUtil.sigmoid(velocity.getReal(i));
+			double result = sigmoid.evaluate(velocity.getReal(i));
+//			double result = MathUtil.sigmoid(this.steepness.getParameter(), 0.0, velocity.getReal(i));
 			double rand = Math.random();
 			
 			if (rand < result) {
@@ -66,6 +72,16 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 				position.setBit(i, false);
 			}
 		}
+	}
+
+
+	public Sigmoid getSigmoid() {
+		return sigmoid;
+	}
+
+
+	public void setSigmoid(Sigmoid sigmoid) {
+		this.sigmoid = sigmoid;
 	}
 	
 }

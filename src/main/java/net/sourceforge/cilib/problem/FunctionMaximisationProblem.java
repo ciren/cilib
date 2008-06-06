@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.type.types.Type;
+
 /**
  * 
  *
@@ -40,7 +42,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
 		return new FunctionMaximisationProblem(this);
 	}
 
-	protected Fitness calculateFitness(Object solution) {
+	protected Fitness calculateFitness(Type solution) {
 		return new MaximisationFitness(function.evaluate(solution));
 	}
 
@@ -57,7 +59,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
 	 * @param The solution for which an error is saught.
 	 * @return The error.
 	 */
-	public double getError(Object solution) {
+	public double getError(Type solution) {
 		return ((Number) function.getMaximum()).doubleValue() - ((Number) function.evaluate(solution)).doubleValue();
 	}
 }

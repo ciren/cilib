@@ -23,6 +23,7 @@ package net.sourceforge.cilib.neuralnetwork.testarea;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -34,7 +35,7 @@ public class NNFunctionAdapter extends Function {
 	private EvaluationMediator mediator;
 
 	@Override
-	public Double evaluate(Object in) {
+	public Double evaluate(Type in) {
 		mediator.getTopology().setWeights((Vector) in);
 		mediator.performLearning();
 		return mediator.getErrorDt()[0].getValue();
