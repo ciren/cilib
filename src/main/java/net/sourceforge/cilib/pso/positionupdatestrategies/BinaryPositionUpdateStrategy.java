@@ -34,21 +34,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = -2136786203855125909L;
 	private Sigmoid sigmoid;
-//	private ControlParameter steepness;
-	
 
+	/**
+	 * Create an instance of {@linkplain BinaryPositionUpdateStrategy}.
+	 */
 	public BinaryPositionUpdateStrategy() {
-//		this.steepness = new ConstantControlParameter(0.5);
 		this.sigmoid = new Sigmoid();
 	}
 	
-	
+	/**
+	 * Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public BinaryPositionUpdateStrategy(BinaryPositionUpdateStrategy copy) {
-//		this.steepness = copy.steepness.getClone();
 		this.sigmoid = copy.sigmoid.getClone();
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public BinaryPositionUpdateStrategy getClone() {
 		return new BinaryPositionUpdateStrategy(this);
 	}
@@ -62,7 +66,6 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 		
 		for (int i = 0; i < position.getDimension(); i++) {
 			double result = sigmoid.evaluate(velocity.getReal(i));
-//			double result = MathUtil.sigmoid(this.steepness.getParameter(), 0.0, velocity.getReal(i));
 			double rand = Math.random();
 			
 			if (rand < result) {
@@ -74,12 +77,18 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 		}
 	}
 
-
+	/**
+	 * Get the sigmoid function used within the update strategy.
+	 * @return The {@linkplain Sigmoid} function used.
+	 */
 	public Sigmoid getSigmoid() {
 		return sigmoid;
 	}
 
-
+	/**
+	 * Set the sigmoid function to use.
+	 * @param sigmoid The function to set.
+	 */
 	public void setSigmoid(Sigmoid sigmoid) {
 		this.sigmoid = sigmoid;
 	}
