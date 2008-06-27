@@ -1,11 +1,7 @@
 /*
- * ClusterableObject.java
- *
- * Created on Jun 30, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -28,15 +24,16 @@ package net.sourceforge.cilib.aco;
 /**
  * Generic wrapper class for general objects. Assign a number to a specific type of object.
  * @author Gary Pampara
+ * @param <T> The element type.
  */
 public class ClusterableObject<T> {
 	private T object;
 	private int type;
 
 	/**
-	 * Constructor to create an object consisting of a type <code>T</code>
-	 * @param obj The object to wrap
-	 * @param type An integer specifying the object type numberically
+	 * Constructor to create an object consisting of a type <code>T</code>.
+	 * @param obj The object to wrap.
+	 * @param type An integer specifying the object type numberically.
 	 */
 	public ClusterableObject(T obj, int type) {
 		this.object = obj;
@@ -44,24 +41,24 @@ public class ClusterableObject<T> {
 	}
 	
 	/**
-	 * Return the wrapped object
-	 * @return The object of type T that was originally wrapped
+	 * Return the wrapped object.
+	 * @return The object of type T that was originally wrapped.
 	 */	
 	public T getObject() {
 		return object;
 	}
 	
 	/**
-	 * Get the integer represenation of the current object
-	 * @return The integer representing this object numerically
+	 * Get the integer representation of the current object.
+	 * @return The integer representing this object numerically.
 	 */
 	public int getType() {
 		return type;
 	}
 	
 	/**
-	 * Set the numerical type of the current <code>ClusterableObject&lt;T&gt;</code> 
-	 * @param typeId The numerical representation of the current object
+	 * Set the numerical type of the current <code>ClusterableObject&lt;T&gt;</code>. 
+	 * @param typeId The numerical representation of the current object.
 	 */
 	public void setType(int typeId) {
 		type = typeId;

@@ -1,11 +1,7 @@
 /*
- * TSPProblem.java
- *
- * Created on Sep 8, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,15 +21,6 @@
  */
 package net.sourceforge.cilib.aco;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.ListIterator;
-
-import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
-import net.sourceforge.cilib.container.graph.Edge;
-import net.sourceforge.cilib.container.graph.Graph;
-import net.sourceforge.cilib.container.graph.Vertex;
 
 /**
  * An implementation of a TSP (Travelling Salesman) based problem. This problem is a <code>DiscreteOptimisationProblem</code>
@@ -43,7 +30,7 @@ import net.sourceforge.cilib.container.graph.Vertex;
  */
 public class TSPProblem extends GraphOptimisationProblem {
 	private static final long serialVersionUID = 7470281924795385913L;
-	
+/*	
 	protected Collection<Edge> bestSolution;
 	protected double bestSolutionLength;
 	
@@ -51,7 +38,7 @@ public class TSPProblem extends GraphOptimisationProblem {
 	 * Initialise the object with the default values. The default values make sense for the manner
 	 * in which the problem is defined and used. Also initialise the manner in which the function and
 	 * the pheromoneUpdates would occour
-	 */
+	 *
 	public TSPProblem() {
 		super();
 		
@@ -62,7 +49,7 @@ public class TSPProblem extends GraphOptimisationProblem {
 	/**
 	 * Set the best solution for the problem
 	 * @param bestSolution The solution to be used as the current best solution
-	 */
+	 *
 	public void setBestSolution(Collection<Edge> bestSolution) {
 		Collection<Edge> clone = new ArrayList<Edge>();
 		
@@ -76,7 +63,7 @@ public class TSPProblem extends GraphOptimisationProblem {
 	/**
 	 * Get the current best solution for the problem
 	 * @return The best solution
-	 */
+	 *
 	public Collection<Edge> getBestSolution() {
 		return bestSolution;
 	}
@@ -84,7 +71,7 @@ public class TSPProblem extends GraphOptimisationProblem {
 	/**
 	 * Set the length of the best solution for the problem
 	 * @param length The length of the best solution
-	 */
+	 *
 	public void setBestSolutionLength(double length) {
 		this.bestSolutionLength = length;
 	}
@@ -92,7 +79,7 @@ public class TSPProblem extends GraphOptimisationProblem {
 	/**
 	 * Get the problem's current best solution's length 
 	 * @return The length of the current best solution for the problem
-	 */
+	 *
 	public double getBestSolutionLength() {
 		return bestSolutionLength;
 	}
@@ -102,7 +89,7 @@ public class TSPProblem extends GraphOptimisationProblem {
 	 * data structure to simulate the pheromone evaporation, after which
 	 * the ants can traverse the graph and reinforce the needed paths they
 	 * have constructed.
-	 */
+	 *
 	public void degrade(PheromoneUpdate pheromoneUpdate) {
 		/*Graph<Vertex, Edge> g = super.getGraph();
 		for (ListIterator<Edge> l = g.getEdges(); l.hasNext(); ) {
@@ -110,4 +97,5 @@ public class TSPProblem extends GraphOptimisationProblem {
 			pheromoneUpdate.evaporate(edge);
 		}*/
 	}
+	*/
 }

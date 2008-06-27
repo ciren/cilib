@@ -1,11 +1,7 @@
 /*
- * GraphMeasurement.java
- *
- * Created on Jun 11, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,19 +21,17 @@
  */
 package net.sourceforge.cilib.aco;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * Measurement to return the length of a solution based on some <code>Graph</code> data structure
+ * Measurement to return the length of a solution based on some <code>Graph</code> data structure.
  * 
  * @author Gary Pampara
  */
 public class GraphMeasurementSolutionLength implements Measurement {
 	private static final long serialVersionUID = -3208485696904109797L;
-	
+	/*
 	public GraphMeasurementSolutionLength() {
 	}
 
@@ -51,7 +45,7 @@ public class GraphMeasurementSolutionLength implements Measurement {
 	/**
 	 * Get the type of Domain
 	 * @return A <code>String</code> representing the type of the domain 
-	 */
+	 *
 	public String getDomain() {
 		return "R";
 	}
@@ -59,15 +53,30 @@ public class GraphMeasurementSolutionLength implements Measurement {
 	/**
 	 * Get the value of the path length of the solution from a TSP-like solution
 	 * @returns The result referenced as an <code>Object</code>
-	 */
+	 *
 	public Type getValue() {	
 		/*ASTSP a = (ASTSP) Algorithm.get();
 		TSPProblem problem = (TSPProblem) a.getDiscreteOptimisationProblem();
-		return new Double(problem.getBestSolutionLength());*/
+		return new Double(problem.getBestSolutionLength());*
 		
 		ASTSP a = (ASTSP) Algorithm.get();
 		TSPProblem problem = (TSPProblem) a.getOptimisationProblem();
 		return new Real(problem.getBestSolutionLength());
+	}*/
+
+	public Measurement getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getDomain() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Type getValue() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

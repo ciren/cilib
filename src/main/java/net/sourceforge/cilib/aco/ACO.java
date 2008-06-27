@@ -1,12 +1,7 @@
 /*
- * ACO.java
- *
- * Created on March 18, 2004, 4:23 PM
- *
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -23,15 +18,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
  */
-
 package net.sourceforge.cilib.aco;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -62,7 +54,7 @@ public class ACO extends PopulationBasedAlgorithm {
 	protected ArrayList<Ant> ants;
 
 	/**
-	 * Create an <code>ACO</code> instance and initialise it with the default values
+	 * Create an <code>ACO</code> instance and initialise it with the default values.
 	 */
 	public ACO() {
 		ants = new ArrayList<Ant>();
@@ -110,93 +102,90 @@ public class ACO extends PopulationBasedAlgorithm {
 	 * the needed calls to the specific <code>Ant</code> class
 	 */
 	public void algorithmIteration() {
-		for (ListIterator<Ant> l = ants.listIterator(); l.hasNext(); ) {
-			Ant a = l.next();
-			a.buildTour(problem);
-			a.calculateFitness(); // Get the cost of the tour the ant's "Fitness"
+		for (Ant ant : ants) {
+			ant.buildTour(problem);
+			ant.calculateFitness(); // Get the cost of the tour the ant's "Fitness"
 		}
 		
-		for (ListIterator<Ant> l = ants.listIterator(); l.hasNext(); ) {
-			Ant a = l.next();
-			a.updateBestSolution(problem);
+		for (Ant ant : ants) {
+			ant.updateBestSolution(problem);
 		}
 
 		// Degrade the pheromones
 		problem.degrade(prototypeAnt.getPheromoneUpdate());
 		
-		for (ListIterator<Ant> l = ants.listIterator(); l.hasNext(); ) {
-			Ant a = l.next();
-			a.updatePheromoneTrail(problem);
+		for (Ant ant : ants) {
+			ant.updatePheromoneTrail(problem);
 		}
 	}
 	
 	/**
-	 * Get the number of ants being used in the algorithm 
-	 * @return The number of ants being used
+	 * Get the number of ants being used in the algorithm. 
+	 * @return The number of ants being used.
 	 */
 	public int getNumberAnts() {
 		return numberAnts;
 	}
 	
 	/**
-	 * Accessor method that sets the number of ants in the algorithm
-	 * @param number The nunber of ants to use
+	 * Accessor method that sets the number of ants in the algorithm.
+	 * @param number The nunber of ants to use.
 	 */
 	public void setNumberAnts(int number) {
 		numberAnts = number;
 	}
 	
 	/**
-	 * Get a container containing all the ant instances
-	 * @return A collection containing all the ant object instances
+	 * Get a container containing all the ant instances.
+	 * @return A collection containing all the ant object instances.
 	 */
 	public Collection<Ant> getAnts() {
 		return ants;
 	}
 	
 	/**
-	 * Get the type of ant used within this algorithm
-	 * @return The object representing the type of ant
+	 * Get the type of ant used within this algorithm.
+	 * @return The object representing the type of ant.
 	 */
 	public Ant getPrototypeAnt() {
 		return prototypeAnt;
 	}
 	
 	/**
-	 * Set the type of ant to use in this algorithm
-	 * @param prototypeAnt The object instance to use in the algorithm
+	 * Set the type of ant to use in this algorithm.
+	 * @param prototypeAnt The object instance to use in the algorithm.
 	 */
 	public void setPrototypeAnt(Ant prototypeAnt) {
 		this.prototypeAnt = prototypeAnt;
 	}
 	
 	/**
-	 * Set the randomizer for this algorithm
-	 * @param randomizer The randomizer object to use
+	 * Set the randomizer for this algorithm.
+	 * @param randomizer The randomizer object to use.
 	 */
 	public void setRandomizer(Random randomizer) {
 		this.randomizer = randomizer;
 	}
 	
 	/**
-	 * Get the associated randomizer object for this algorithm
-	 * @return The associated randomizer for this algorithm
+	 * Get the associated randomizer object for this algorithm.
+	 * @return The associated randomizer for this algorithm.
 	 */
 	public Random getRandomizer() {
 		return randomizer;
 	}
 	
 	/**
-	 * Return a reference to the DiscreteOptimisiationProblem associated with this algorithm
-	 * @return Reference to the DiscreteOptimisationProblem, <code>NULL</code> if none is associated
+	 * Return a reference to the DiscreteOptimisiationProblem associated with this algorithm.
+	 * @return Reference to the DiscreteOptimisationProblem, <code>NULL</code> if none is associated.
 	 */
 	public DiscreteOptimisationProblem getOptimisationProblem() {
 		return problem;
 	}
 	
 	/**
-	 * Set the DiscreteOptimisationProblem needed for this algorithm
-	 * @param problem The DiscreteOptimisiationProblem to use
+	 * Set the DiscreteOptimisationProblem needed for this algorithm.
+	 * @param problem The DiscreteOptimisiationProblem to use.
 	 */
 	public void setOptimisationProblem(OptimisationProblem problem) {
 		this.problem = (ACOOptimisationProblem) problem;

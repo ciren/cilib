@@ -1,11 +1,7 @@
 /*
- * TSPAntDecorator.java
- *
- * Created on Jul 25, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,30 +21,18 @@
  */
 package net.sourceforge.cilib.aco;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.ListIterator;
-import java.util.Random;
-
 import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
-import net.sourceforge.cilib.aco.pheromone.StandardPheromoneUpdate;
-import net.sourceforge.cilib.container.graph.Edge;
-import net.sourceforge.cilib.container.graph.Graph;
-import net.sourceforge.cilib.container.graph.Vertex;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
- * <code>Ant</code> implementation specifically designed for TSP like action
+ * <code>Ant</code> implementation specifically designed for TSP like action.
  * 
  * @author Gary Pampara
  */
 public class TSPAnt extends Ant {
 	private static final long serialVersionUID = 3363231185310380644L;
-	
+	/*
 	protected TransitionRuleFunction transitionRuleFunction;
 	protected PheromoneUpdate pheromoneUpdate;
 	
@@ -59,7 +43,7 @@ public class TSPAnt extends Ant {
 	
 	/**
 	 * Create a <code>TSPAnt</code> with the default values
-	 */
+	 *
 	public TSPAnt() {
 		this.transitionRuleFunction = new StandardTransitionRuleFunction();
 		this.pheromoneUpdate = new StandardPheromoneUpdate();
@@ -75,7 +59,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Copy-constructor.
 	 * @param copy
-	 */
+	 *
 	public TSPAnt(TSPAnt copy) {
 		this.transitionRuleFunction = copy.transitionRuleFunction.getClone();
 		this.pheromoneUpdate = copy.pheromoneUpdate.getClone();
@@ -91,7 +75,7 @@ public class TSPAnt extends Ant {
 	 * This method overrides the basic method defined in the Object class to create a clone of the current ant
 	 * @return A cloned <code>TSPAnt</code> object
 	 * @author Patch by Francois Geldenhuys - fixed the issue with the clone referencing the same container
-	 */
+	 *
 	public Ant getClone() {
 		return new TSPAnt(this);
 	}
@@ -100,7 +84,7 @@ public class TSPAnt extends Ant {
 	 * Create a <code>TSPAnt</code> with the required initialised varaible and specify that
 	 * the <code>Ant</code> should be located at a specific <code>Vertex</code>
 	 * @param currentNode The <code>Vertex</code> where the <code>Ant</code> is to be located
-	 */
+	 *
 	public TSPAnt(Vertex currentNode) {
 		this(); // Call the default constructor		
 		currentVertex = currentNode;
@@ -109,7 +93,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Set the current <code>Vertex</code> to a specific value
 	 * @param v The <code>Vertex</code> to be used
-	 */
+	 *
 	public void setCurrentNode(Vertex v) {
 		currentVertex = v;
 	}
@@ -117,7 +101,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Return the current <code>Vertex</code>
 	 * @return The current <code>Vertex</code> the <code>Ant</code> is occupying
-	 */
+	 *
 	public Vertex getCurrentNode() {
 		return currentVertex;
 	}
@@ -126,7 +110,7 @@ public class TSPAnt extends Ant {
 	 * Create the Tabu List. This list contains all the <code>Vertex</code>(s) that still
 	 * need to be visited by the <code>Ant</code> except for the current <code>Vertex</code>
 	 * @param graph The <code>Graph</code> on which the traversal will be made
-	 */
+	 *
 	public void setTabuList(Graph<Vertex, Edge> graph) {
 		for (ListIterator<Vertex> l = graph.getVertices(); l.hasNext(); )
 			tabuList.add(l.next());
@@ -137,7 +121,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Get the current Tabu list associated with the <code>TSPAnt</code> 
 	 * @return The <code>ArrayList</code> representing the current Tabu list
-	 */
+	 *
 	public ArrayList<Vertex> getTabuList() {
 		return tabuList;
 	}
@@ -146,7 +130,7 @@ public class TSPAnt extends Ant {
 	 * Remove the specified <code>Vertex</code> from the TabuList. This implies that
 	 * the <code>Vertex</code> has already been visited.
 	 * @param v The <code>Vertex</code> to remove from the tabu list
-	 */
+	 *
 	public void removeFromTabuList(Vertex v) {
 		if (tabuList.contains(v)) {
 			tabuList.remove(v);
@@ -156,7 +140,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Return the current tour associated with this ant
 	 * @return A <code>Collection</code> representing the current tour of this ant
-	 */
+	 *
 	public Collection<Edge> getCurrentTour() {
 		return currentTour;
 	}
@@ -164,7 +148,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Get the current length of the tour associated with this ant
 	 * @return The length of the tour associated with this ant
-	 */	
+	 *	
 	public double getCurrentTourLength() {
 		if (currentTourLength > -1.0)
 		  return currentTourLength;
@@ -174,7 +158,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Add the specified <code>Edge</code> to the current tour the <code>Ant</code> is building
 	 * @param e The <code>Edge</code> to be added
-	 */
+	 *
 	public void addToCurrentTour(Edge e) {
 		currentTour.add(e);
 	}
@@ -182,7 +166,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Empty the current tour as well as remove all memory that the <code>Ant</code> has.
 	 *
-	 */
+	 *
 	public void emptyCurrentTour() {
 		tabuList.clear();
 		currentTour.clear();
@@ -196,7 +180,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Calculate the current tour length. This is the length of the tour that the <code>Ant</code>
 	 * has built up.
-	 */
+	 *
 	public void calculateCurrentTourLength() {
 		this.currentTourLength = 0.0;
 		for (ListIterator<Edge> l = currentTour.listIterator(); l.hasNext(); ) {
@@ -214,7 +198,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Build the tour of the <code>Ant</code> based on the manner in which the problem is defined
 	 * @param problem The <code>OptimisationProblem</code> to perform the path walking on
-	 */
+	 *
 	public void buildTour(OptimisationProblem problem) {
 		TSPProblem prob = (TSPProblem) problem;
 		Graph<Vertex, Edge> graph = prob.getGraph();
@@ -256,7 +240,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Caluclate the current fitness of the <code>Ant</code>. The current fitness is the same as
 	 * the length of the tour generated.
-	 */
+	 *
 	public void calculateFitness(boolean count) {
 		calculateCurrentTourLength();
 	}
@@ -264,7 +248,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Changes the /home/gary/workspacecurrent best solution, if needed, and sets the solution within the problem 
 	 * @param problem The problem for the ant to update the best solution on
-	 */
+	 
 	public void updateBestSolution(OptimisationProblem problem) {
 		TSPProblem tspProblem = (TSPProblem) problem;
 		
@@ -277,7 +261,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Update the pheromone trail for this <code>Ant</code>
 	 * @param problem The <code>DiscreteOptimistaionProblem</code> to update the pheromone levels on
-	 */
+	 *
 	public void updatePheromoneTrail(OptimisationProblem problem) {
 		pheromoneUpdate.updatePheromoneTrail(this);
 		emptyCurrentTour();	// Ensure that the ants forget all learned information
@@ -289,15 +273,15 @@ public class TSPAnt extends Ant {
 	 * 
 	 * @param problem The <code>GraphOptimistaionProblem</code> the TSPAnt has referance to
 	 * @param randomizer The random number generator to be used
-	 */
+	 *
 	public void initialise(OptimisationProblem problem) {
 		Random randomizer = new MersenneTwister();
 		GraphOptimisationProblem prob = (GraphOptimisationProblem) problem;
 
-		int numberOfNodes = prob.getGraph().getVertexCount();
+		int numberOfNodes = prob.getGraph().vertices();
 		if (numberOfNodes <= 0) throw new RuntimeException("Cannot work with numberOfNodes <= 0");
 
-		currentVertex = prob.getGraph().getVertexAt(randomizer.nextInt(numberOfNodes));
+		currentVertex = prob.getGraph().getVertex(randomizer.nextInt(numberOfNodes));
 		currentTourLength = Double.MAX_VALUE;
 	}
 	
@@ -305,7 +289,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Get the associated <code>TransitionRuleFunction</code> for the problem
 	 * @return The associated <code>TransitionRuleFunction</code> object
-	 */
+	 *
 	public TransitionRuleFunction getTransitionRuleFunction() {
 		return transitionRuleFunction;
 	}
@@ -313,7 +297,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Set the <code>TransitionRuleFunction</code> to the specified object
 	 * @param function The desired <code>TransitionRuleFunction</code> to be used
-	 */
+	 *
 	public void setTransitionRuleFunction(TransitionRuleFunction function) {
 		this.transitionRuleFunction = function;
 	}
@@ -321,7 +305,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Get the associated <code>PheromoneUpdate</code> for the problem
 	 * @return The associated <code>PheromoneUpdate</code> object
-	 */
+	 *
 	public PheromoneUpdate getPheromoneUpdate() {
 		return pheromoneUpdate;
 	}
@@ -329,7 +313,7 @@ public class TSPAnt extends Ant {
 	/**
 	 * Set the <code>PheromoneUpdate</code> the the specified object
 	 * @param pheromoneUpdate The desired <code>PheromoneUpdate</code> to be used
-	 */
+	 *
 	public void setPheromoneUpdate(PheromoneUpdate pheromoneUpdate) {
 		this.pheromoneUpdate = pheromoneUpdate;
 	}
@@ -403,6 +387,80 @@ public class TSPAnt extends Ant {
 	}
 
 
+	public void reinitialise() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	*/
+
+	@Override
+	public void buildTour(OptimisationProblem problem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void calculateFitness(boolean count) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Ant getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+//	@Override
+//	public Collection<Edge> getCurrentTour() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+	@Override
+	public PheromoneUpdate getPheromoneUpdate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TransitionRuleFunction getTransitionRuleFunction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void initialise(OptimisationProblem problem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateBestSolution(OptimisationProblem problem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updatePheromoneTrail(OptimisationProblem problem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int compareTo(Entity o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getDimension() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
 	public void reinitialise() {
 		// TODO Auto-generated method stub
 		

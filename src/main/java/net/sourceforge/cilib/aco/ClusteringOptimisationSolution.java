@@ -1,11 +1,7 @@
 /*
- * ClusteringOptimisationSolution.java
- *
- * Created on Jul 28, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -28,7 +24,7 @@ package net.sourceforge.cilib.aco;
 import net.sourceforge.cilib.problem.Solution;
 
 /**
- * @author Gary Pampara
+ * TODO: Complete this javadoc.
  */
 public class ClusteringOptimisationSolution implements Solution {
 	private static final long serialVersionUID = -6011660715563403772L;

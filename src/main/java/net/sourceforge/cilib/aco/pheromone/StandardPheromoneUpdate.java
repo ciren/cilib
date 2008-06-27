@@ -1,11 +1,7 @@
 /*
- * StandardPheramoneUpdate.java
- *
- * Created on Jun 11, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,30 +21,25 @@
  */
 package net.sourceforge.cilib.aco.pheromone;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
-import net.sourceforge.cilib.aco.ACO;
-import net.sourceforge.cilib.aco.Ant;
-import net.sourceforge.cilib.aco.TSPAnt;
-import net.sourceforge.cilib.aco.TSPProblem;
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.container.graph.Edge;
 
 /**
  * @author Gary Pampara
  */
 public class StandardPheromoneUpdate implements PheromoneUpdate {
+
+	public PheromoneUpdate getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	// TODO: Must find a better way of doing this - Some or other design pattern must be used to make this more generic
-	private double rho;
+	/*private double rho;
 	private double e;
 	private double Q;
 	
 	/**
 	 * Standard constructor. Defaults the parameters to "standard" (not sure) values
 	 *
-	 */
+	 *
 	public StandardPheromoneUpdate() {
 		this.rho = 0.5;
 		this.e = 5.0;
@@ -58,7 +49,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	/**
 	 * 
 	 * @param copy
-	 */
+	 *
 	public StandardPheromoneUpdate(StandardPheromoneUpdate copy) {
 		this.rho = copy.rho;
 		this.e = copy.e;
@@ -68,7 +59,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	
 	/**
 	 * 
-	 */
+	 *
 	public PheromoneUpdate getClone() {
 		return new StandardPheromoneUpdate(this);
 	}
@@ -78,7 +69,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	 * Determine the current pheromone level on the <code>Edge</code> specified
 	 * @param edge The <code>Edge</code> requires
 	 * @return The current pheromone level of the specified <code>Edge</code>
-	 */
+	 *
 	private double currentPheromoneLevelOfEdge(Edge edge) {
 		double result = 0.0;
 		ACO aco = (ACO) (Algorithm.get());
@@ -100,7 +91,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	 * @param shortestPath The current shortest path
 	 * @param pathLength The current shortest path, path length
 	 * @return The average pheromone of the shortest tour
-	 */
+	 *
 	private double averagePheromoneOfShortestTour(Edge edge, Collection<Edge> shortestPath, double pathLength) {
 		double result = 0.0;
 		
@@ -113,7 +104,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	
 	/**
 	 * 
-	 */
+	 *
 	public void updatePheromoneTrail(Ant ant) {
 		Collection<Edge> tour = ant.getCurrentTour();
 		TSPProblem p = (TSPProblem) ((ACO) Algorithm.get()).getOptimisationProblem();
@@ -135,7 +126,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 
 	/**
 	 * 
-	 */
+	 *
 	public void evaporate(Edge edge) {
 		double currentPheromone = edge.getWeight();
 		double tmp = (1-rho) * currentPheromone;
@@ -146,7 +137,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	/**
 	 * 
 	 * @param rho
-	 */
+	 *
 	public void setRho(double rho) {
 		this.rho = rho;
 	}
@@ -154,7 +145,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	/**
 	 *
 	 * @return
-	 */
+	 *
 	public double getRho() {
 		return rho;
 	}
@@ -162,7 +153,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	/**
 	 * 
 	 * @param e
-	 */
+	 *
 	public void setE(double e) {
 		this.e = e;
 	}
@@ -170,7 +161,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	/**
 	 * 
 	 * @return
-	 */
+	 *
 	public double getE() {
 		return e;
 	}
@@ -178,7 +169,7 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	/**
 	 * 
 	 * @param Q
-	 */
+	 *
 	public void setQ(double Q) {
 		this.Q = Q;
 	}
@@ -186,8 +177,10 @@ public class StandardPheromoneUpdate implements PheromoneUpdate {
 	/**
 	 * 
 	 * @return
-	 */
+	 *
 	public double getQ() {
 		return Q;
 	}
+	
+	*/
 }

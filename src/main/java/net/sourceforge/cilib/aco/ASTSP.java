@@ -1,11 +1,7 @@
 /*
- * ASTSP.java
- * 
- * Created on Apr 28, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,14 +21,9 @@
  */
 package net.sourceforge.cilib.aco;
 
-import java.util.ListIterator;
-
-import net.sourceforge.cilib.container.graph.Edge;
-import net.sourceforge.cilib.container.graph.Graph;
-import net.sourceforge.cilib.container.graph.Vertex;
 
 /**
- * An implementation of the AS Ant Colony Optimisation algorithm
+ * An implementation of the AS Ant Colony Optimisation algorithm.
  * 
  * @author Gary Pampara
  */ 
@@ -40,7 +31,7 @@ public class ASTSP extends ACO {
 	private static final long serialVersionUID = -8685716419439021909L;
 
 	// FIXME: Shouldn't the solutions be kept in the correct extended Solution class?
-	private double tau;
+	/*private double tau;
 		
 	private Graph<Vertex, Edge> graph;
 	
@@ -58,7 +49,7 @@ public class ASTSP extends ACO {
 	
 	/**
 	 * Perform the needed initialisation for the AS algorithm
-	 */
+	 *
 	public void performInitialisation() {
 		super.performInitialisation();
 		
@@ -69,4 +60,6 @@ public class ASTSP extends ACO {
 			edge.setWeight(tau);
 		}
 	}
+	
+	*/
 }

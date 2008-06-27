@@ -1,11 +1,7 @@
 /*
- * ClusteringOptimisationProblem.java
- *
- * Created on Jul 28, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -29,7 +25,8 @@ import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
 import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -54,7 +51,7 @@ public class ClusteringOptimisationProblem extends ACOOptimisationProblem {
 		return new ClusteringOptimisationProblem(this);
 	}
 
-	protected Fitness calculateFitness(Object solution) { // FIXME: What do I do here?
+	protected Fitness calculateFitness(Type solution) { // FIXME: What do I do here?
 		return null;
 	}
 
@@ -97,11 +94,11 @@ public class ClusteringOptimisationProblem extends ACOOptimisationProblem {
 		return 0;
 	}
 
-	public DomainRegistry getDomain() {
+	public StringBasedDomainRegistry getDomain() {
 		throw new RuntimeException("Get domain on ClusteringOptimisationProblem still needs to be defined!");
 	}
 
-	public DomainRegistry getBehaviouralDomain() {
+	public StringBasedDomainRegistry getBehaviouralDomain() {
 		// TODO Auto-generated method stub
 		return null;
 	}

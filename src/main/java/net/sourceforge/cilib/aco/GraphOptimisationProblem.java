@@ -85,7 +85,7 @@ public class GraphOptimisationProblem extends ACOOptimisationProblem {
 	protected void initialiseData() {
 		//GraphCreationFactory factory = new GraphCreationFactory();
 		//graph = factory.createGraphFromDataSet(dataSet);
-		//graph = factory.createStaticGraph();
+//		graph = factory.createStaticGraph();
 	}
 	
 	/**

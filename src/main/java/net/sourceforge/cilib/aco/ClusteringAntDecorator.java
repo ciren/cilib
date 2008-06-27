@@ -1,11 +1,7 @@
 /*
- * ClusteringAntDecorator.java
- *
- * Created on Jun 30, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,11 +21,9 @@
  */
 package net.sourceforge.cilib.aco;
 
-import java.util.Collection;
 import java.util.Random;
 
 import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
-import net.sourceforge.cilib.container.graph.Edge;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -83,8 +77,8 @@ public class ClusteringAntDecorator extends Ant {
 	
 	
 	/**
-	 * Copy construstor
-	 * @param copy
+	 * Copy construstor.
+	 * @param copy.
 	 */
 	public ClusteringAntDecorator(ClusteringAntDecorator copy) {
 		super();
@@ -95,8 +89,8 @@ public class ClusteringAntDecorator extends Ant {
 	}
 	
 	/**
-	 * The method is a simple clone method to duplicate the current object
-	 * @return An <code>Object</code> representing the cloned object
+	 * The method is a simple clone method to duplicate the current object.
+	 * @return An <code>Object</code> representing the cloned object.
 	 */
 	public ClusteringAntDecorator getClone() {
 		return new ClusteringAntDecorator(this);
@@ -104,34 +98,34 @@ public class ClusteringAntDecorator extends Ant {
 
 	
 	/**
-	 * Sets the current item for the ClusteringAnt
-	 * @param object The object that the ClusteringAnt will be carrying
+	 * Sets the current item for the ClusteringAnt.
+	 * @param object The object that the ClusteringAnt will be carrying.
 	 */
 	public void setCurrentObject(ClusterableObject<Object> object) {
 		ladenObject = object;
 	}
 	
 	/**
-	 * Return the current <code>Object</object> the ClusteringAnt is carrying
-	 * @return The current object that is being carried
+	 * Return the current <code>Object</code> the ClusteringAnt is carrying.
+	 * @return The current object that is being carried.
 	 */
 	public Object getCurrentObject() {
 		return ladenObject;
 	}
 	
 	/**
-	 * Returns a logical truth value for if the ClusteringAnt currently is laden with an object
-	 * @return true - If the ClusteringAnt is currently carrying an object
-	 * @return false - If the ClusteringAnt is not currently carrying an object
+	 * Returns a logical truth value for if the ClusteringAnt currently is laden with an object.
+	 * @return true - If the ClusteringAnt is currently carrying an object.
+	 * @return false - If the ClusteringAnt is not currently carrying an object.
 	 */
 	public boolean isLaden() {
 		return laden;
 	}
 
 	/**
-	 * Set the current position on the surface for the ClusteringAnt
-	 * @param x The x-coordinate on the grid
-	 * @param y The y-coordinate on the grid
+	 * Set the current position on the surface for the ClusteringAnt.
+	 * @param x The x-coordinate on the grid.
+	 * @param y The y-coordinate on the grid.
 	 */
 	public void setPosition(int x, int y) {
 		currentX = x;
@@ -139,23 +133,23 @@ public class ClusteringAntDecorator extends Ant {
 	}
 	
 	/**
-	 * Get the current row the ClusteringAnt is located on
-	 * @return The current row value
+	 * Get the current row the ClusteringAnt is located on.
+	 * @return The current row value.
 	 */
 	public int getCurrentRow() {
 		return currentX;
 	}
 	
 	/**
-	 * Get the current column the ClusteringAnt is located on
-	 * @return The current value for the column
+	 * Get the current column the ClusteringAnt is located on.
+	 * @return The current value for the column.
 	 */
 	public int getCurrentCol() {
 		return currentY;
 	}
 
 	/**
-	 * Unload the ant from it's current object
+	 * Unload the ant from it's current object.
 	 */
 	public void unloadCurrentObject() {
 		ladenObject = null;
@@ -201,11 +195,11 @@ public class ClusteringAntDecorator extends Ant {
 	}
 
 	/**
-	 * Return the current tour of the ant. This is not a valid method for a Clustering ant
+	 * Return the current tour of the ant. This is not a valid method for a Clustering ant.
 	 */
-	public Collection<Edge> getCurrentTour() {
-		throw new RuntimeException("Cannot get a current Tour for a clustering ant");
-	}
+//	public Collection<Edge> getCurrentTour() {
+//		throw new RuntimeException("Cannot get a current Tour for a clustering ant");
+//	}
 
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.ACO.Ant#getPheromoneUpdate()
@@ -279,7 +273,7 @@ public class ClusteringAntDecorator extends Ant {
 		return null;
 	}
 
-	public void setId(String Id) {
+	public void setId(String id) {
 		// TODO Auto-generated method stub
 		
 	}

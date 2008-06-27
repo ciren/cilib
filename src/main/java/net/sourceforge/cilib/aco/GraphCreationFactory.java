@@ -1,11 +1,7 @@
 /*
- * GraphCreationFactory.java
- *
- * Created on Jul 8, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,68 +21,78 @@
  */
 package net.sourceforge.cilib.aco;
 
-import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
-import net.sourceforge.cilib.container.graph.Edge;
-import net.sourceforge.cilib.container.graph.Graph;
-import net.sourceforge.cilib.container.graph.Vertex;
-import net.sourceforge.cilib.problem.dataset.DataSet;
+import net.sourceforge.cilib.type.types.container.Graph;
+import net.sourceforge.cilib.type.types.container.StandardGraph;
 
 /**
  * @author Gary Pampara
  */
 public class GraphCreationFactory {
-	private Graph<Vertex, Edge> graph;
+//	private Graph<Vertex, Edge> graph;
 	
+	/**
+	 * Create the instance of the factory.
+	 */
 	public GraphCreationFactory() {
 		//System.out.println("Created the needed factory");
-		graph = new Graph<Vertex, Edge>();
+	//	graph = new Graph<Vertex, Edge>();
 	}
 	
 	/**
 	 * 
-	 * @return
+	 * @return A {@linkplain Graph} that is a small static instance. 
 	 */
-	public Graph<Vertex, Edge> createStaticGraph() {
-		Vertex v1 = new Vertex("1");
-		Vertex v2 = new Vertex("2");
-		Vertex v3 = new Vertex("3");
-		Vertex v4 = new Vertex("4");
-		Vertex v5 = new Vertex("5");
-		Vertex v6 = new Vertex("6");
+	//public Graph<Vertex, Edge> createStaticGraph() {
+	public net.sourceforge.cilib.type.types.container.Graph<Double> createStaticGraph() {
+		net.sourceforge.cilib.type.types.container.Graph<Double> graph = new StandardGraph<Double>();
+//		Vertex v1 = new Vertex("1");
+//		Vertex v2 = new Vertex("2");
+//		Vertex v3 = new Vertex("3");
+//		Vertex v4 = new Vertex("4");
+//		Vertex v5 = new Vertex("5");
+//		Vertex v6 = new Vertex("6");
+		graph.add(1.0);
+		graph.add(2.0);
+		graph.add(3.0);
+		graph.add(4.0);
+		graph.add(5.0);
+		graph.add(6.0);
+		
+//		Edge e1 = new Edge(v1, v2, 1.0);
+//		Edge e2 = new Edge(v2, v3, 1.5);
+//		Edge e3 = new Edge(v3, v4, 2.0);
+//		Edge e4 = new Edge(v2, v4, 2.5);
+//		Edge e5 = new Edge(v3, v1, 3.0);
+//		Edge e6 = new Edge(v4, v5, 14.0);
+//		Edge e7 = new Edge(v5, v1, 11.0);
+//		Edge e8 = new Edge(v5, v6, 33.0);
+//		Edge e9 = new Edge(v6, v4, 12.0);
+		graph.addEdge(1.0, 2.0);
+		graph.addEdge(2.0, 3.0);
+		graph.addEdge(3.0, 4.0);
+		graph.addEdge(2.0, 4.0);
+		graph.addEdge(3.0, 1.0);
+		graph.addEdge(4.0, 5.0);
+		graph.addEdge(5.0, 1.0);
+		graph.addEdge(5.0, 6.0);
+		graph.addEdge(6.0, 4.0);
 
-		Edge e1 = new Edge(v1, v2, 1.0);
-		Edge e2 = new Edge(v2, v3, 1.5);
-		Edge e3 = new Edge(v3, v4, 2.0);
-		Edge e4 = new Edge(v2, v4, 2.5);
-		Edge e5 = new Edge(v3, v1, 3.0);
-		Edge e6 = new Edge(v4, v5, 14.0);
-		Edge e7 = new Edge(v5, v1, 11.0);
-		Edge e8 = new Edge(v5, v6, 33.0);
-		Edge e9 = new Edge(v6, v4, 12.0);
-
-		graph.addVertex(v1);
-		graph.addVertex(v2);
-		graph.addVertex(v3);
-		graph.addVertex(v4);
-		graph.addVertex(v5);
-		graph.addVertex(v6);
-
-		graph.addEdge(e1);
-		graph.addEdge(e2);
-		graph.addEdge(e3);
-		graph.addEdge(e4);
-		graph.addEdge(e5);
-		graph.addEdge(e6);
-		graph.addEdge(e7);
-		graph.addEdge(e8);
-		graph.addEdge(e9);
+//		graph.addVertex(v1);
+//		graph.addVertex(v2);
+//		graph.addVertex(v3);
+//		graph.addVertex(v4);
+//		graph.addVertex(v5);
+//		graph.addVertex(v6);
+//
+//		graph.addEdge(e1);
+//		graph.addEdge(e2);
+//		graph.addEdge(e3);
+//		graph.addEdge(e4);
+//		graph.addEdge(e5);
+//		graph.addEdge(e6);
+//		graph.addEdge(e7);
+//		graph.addEdge(e8);
+//		graph.addEdge(e9);
 
 		return graph;
 	}
@@ -96,100 +102,100 @@ public class GraphCreationFactory {
 	 * @param filename
 	 * @return
 	 */
-	public Graph<Vertex, Edge> createGraphFromFile(String filename) {
-		System.out.println("reading the graph from " + filename);
-		ArrayList<Object> tmpList = new ArrayList<Object>();
-		
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filename));
-			String line = "";
-			
-			while (line != null) {
-				line = reader.readLine();
-				if (line == null) break;
-				
-				//System.out.println(line);
-				String [] tokens = line.split("\\s");
-								
-				for (int i = 0; i < tokens.length; i++) {
-					tmpList.add(tokens[i]);
-				}
-			}
-		}
-		catch (FileNotFoundException f) {
-			throw new RuntimeException(f.getMessage());
-		}
-		catch (EOFException e) {
-			System.out.println("Done reading the input file...");
-		}
-		catch (IOException i) {
-			throw new RuntimeException(i.getMessage());
-		}
-		
-		return calculateGraph(tmpList);
-	}
+//	public Graph<Vertex, Edge> createGraphFromFile(String filename) {
+//		System.out.println("reading the graph from " + filename);
+//		ArrayList<Object> tmpList = new ArrayList<Object>();
+//		
+//		try {
+//			BufferedReader reader = new BufferedReader(new FileReader(filename));
+//			String line = "";
+//			
+//			while (line != null) {
+//				line = reader.readLine();
+//				if (line == null) break;
+//				
+//				//System.out.println(line);
+//				String [] tokens = line.split("\\s");
+//								
+//				for (int i = 0; i < tokens.length; i++) {
+//					tmpList.add(tokens[i]);
+//				}
+//			}
+//		}
+//		catch (FileNotFoundException f) {
+//			throw new RuntimeException(f.getMessage());
+//		}
+//		catch (EOFException e) {
+//			System.out.println("Done reading the input file...");
+//		}
+//		catch (IOException i) {
+//			throw new RuntimeException(i.getMessage());
+//		}
+//		
+//		return calculateGraph(tmpList);
+//	}
 	
 	/**
 	 * @param dataSet
 	 * @return
 	 */
-	public Graph<Vertex, Edge> createGraphFromDataSet(DataSet dataSet) {
-		ArrayList<Object> tmpList = new ArrayList<Object>();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(dataSet.getInputStream()));
-		
-		String line = "";
-		
-		try {
-			while (line != null) {
-				line = reader.readLine();
-				if (line == null) break;
-			
-				String [] tokens = line.split("\\s");
-							
-				for (int i = 0; i < tokens.length; i++) {
-					tmpList.add(tokens[i]);
-				}
-			}
-		}
-		catch (IOException i) {
-			throw new RuntimeException(i.getMessage()); 
-		}
-		
-		return calculateGraph(tmpList);
-	}
+//	public Graph<Vertex, Edge> createGraphFromDataSet(DataSet dataSet) {
+//		ArrayList<Object> tmpList = new ArrayList<Object>();
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(dataSet.getInputStream()));
+//		
+//		String line = "";
+//		
+//		try {
+//			while (line != null) {
+//				line = reader.readLine();
+//				if (line == null) break;
+//			
+//				String [] tokens = line.split("\\s");
+//							
+//				for (int i = 0; i < tokens.length; i++) {
+//					tmpList.add(tokens[i]);
+//				}
+//			}
+//		}
+//		catch (IOException i) {
+//			throw new RuntimeException(i.getMessage()); 
+//		}
+//		
+//		return calculateGraph(tmpList);
+//	}
 
 	/**
 	 * 
 	 * @param list
 	 * @return
 	 */
-	private Graph<Vertex, Edge> calculateGraph(ArrayList<?> list) {
-		System.out.println("Calculating Graph...");
-		int tmpSize = list.size() / 3;
-		
-		for (int i = 0; i < tmpSize; i++) {
-	 		Vertex v = new Vertex(String.valueOf(i));
-	 		graph.addVertex(v);
-	 		System.out.println("Verticies: " + graph.getVertexCount());
-	 		//vertexSet.add(v);
-	 	}
-
-	    for ( int i = 1; i < tmpSize; i++) {
-	    	for (int j = i+1; j <= tmpSize; j++) {
-	    		int x1 = Integer.parseInt((String) list.get((i-1)*3+1));
-	    		int y1 = Integer.parseInt((String) list.get((i-1)*3+2));
-	    		int x2 = Integer.parseInt((String) list.get((j-1)*3+1));
-	    		int y2 = Integer.parseInt((String) list.get((j-1)*3+2));
-	    		double d = distance2D(x1, y1, x2, y2);
-	    		Edge edge = new Edge(graph.getVertexAt(i-1), graph.getVertexAt(j-1), d);
-	    		//System.out.println(i*j + " " + edge);
-	    		//edgeSet.add(edge);
-	    		graph.addEdge(edge);
-	    		//System.out.println(edge);
-	    	}
-	    }
-		return graph; 
-	}
+//	private Graph<Vertex, Edge> calculateGraph(ArrayList<?> list) {
+//		System.out.println("Calculating Graph...");
+//		int tmpSize = list.size() / 3;
+//		
+//		for (int i = 0; i < tmpSize; i++) {
+//	 		Vertex v = new Vertex(String.valueOf(i));
+//	 		graph.addVertex(v);
+//	 		System.out.println("Verticies: " + graph.getVertexCount());
+//	 		//vertexSet.add(v);
+//	 	}
+//
+//	    for ( int i = 1; i < tmpSize; i++) {
+//	    	for (int j = i+1; j <= tmpSize; j++) {
+//	    		int x1 = Integer.parseInt((String) list.get((i-1)*3+1));
+//	    		int y1 = Integer.parseInt((String) list.get((i-1)*3+2));
+//	    		int x2 = Integer.parseInt((String) list.get((j-1)*3+1));
+//	    		int y2 = Integer.parseInt((String) list.get((j-1)*3+2));
+//	    		double d = distance2D(x1, y1, x2, y2);
+//	    		Edge edge = new Edge(graph.getVertexAt(i-1), graph.getVertexAt(j-1), d);
+//	    		//System.out.println(i*j + " " + edge);
+//	    		//edgeSet.add(edge);
+//	    		graph.addEdge(edge);
+//	    		//System.out.println(edge);
+//	    	}
+//	    }
+//		return graph; 
+//	}
 	
 	
 	/**
@@ -205,9 +211,9 @@ public class GraphCreationFactory {
 	 * @param y2 The y cordinate if the second coordinate pairs
 	 * @return The 2D Euclidean distance between the 2 coordinates
 	 */
-	private double distance2D(double x1, double y1, double x2, double y2) {
-		double xComponent = x2 - x1;
-		double yComponent = y2 - y1;
-		return (Math.sqrt( (xComponent*xComponent) + (yComponent*yComponent) ) );
-	}
+//	private double distance2D(double x1, double y1, double x2, double y2) {
+//		double xComponent = x2 - x1;
+//		double yComponent = y2 - y1;
+//		return (Math.sqrt( (xComponent*xComponent) + (yComponent*yComponent) ) );
+//	}
 }

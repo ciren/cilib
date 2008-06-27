@@ -1,11 +1,7 @@
 /*
- * GraphMeasurementSolution.java
- *
- * Created on Jun 11, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,13 +21,7 @@
  */
 package net.sourceforge.cilib.aco;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.container.graph.Edge;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -40,7 +30,22 @@ import net.sourceforge.cilib.type.types.Type;
 public class GraphMeasurementSolution implements Measurement {
 	private static final long serialVersionUID = 6258594733172829219L;
 
-	public GraphMeasurementSolution(GraphMeasurementSolution copy) {
+	public Measurement getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getDomain() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Type getValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*public GraphMeasurementSolution(GraphMeasurementSolution copy) {
 	}
 	
 	public GraphMeasurementSolution getClone() {
@@ -76,5 +81,5 @@ public class GraphMeasurementSolution implements Measurement {
 		t.setString(result.toString());
 		
 		return t;
-	}
+	}*/
 }

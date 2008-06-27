@@ -1,11 +1,7 @@
 /*
- * Ant.java
- * 
- * Created on Apr 28, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,10 +21,7 @@
  */
 package net.sourceforge.cilib.aco;
 
-import java.util.Collection;
-
 import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
-import net.sourceforge.cilib.container.graph.Edge;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
@@ -41,15 +34,15 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  */
 public abstract class Ant extends AbstractEntity {
 	/**
-	 * Return a clone of the current Ant object instance
-	 * @return An <code>Object</code> representing a clone of the current <code>Ant</code> object
-	 * @throws CloneNotSupportedException
+	 * Return a clone of the current Ant object instance.
+	 * @return An <code>Object</code> representing a clone of the current <code>Ant</code> object.
+	 * @throws CloneNotSupportedException.
 	 */
 	public abstract Ant getClone();
 
 	/**
-	 * Build a valid tour based on the current <code>DiscreteOptimisationProblem</code> 
-	 * @param problem The problem to construct a tour on
+	 * Build a valid tour based on the current <code>DiscreteOptimisationProblem</code>. 
+	 * @param problem The problem to construct a tour on.
 	 */
 	public abstract void buildTour(OptimisationProblem problem);
 	
@@ -59,7 +52,7 @@ public abstract class Ant extends AbstractEntity {
 	}
 	
 	/**
-	 * Calculate the fitness of the <code>Ant</code>
+	 * Calculate the fitness of the <code>Ant</code>.
 	 */
 	public abstract void calculateFitness(boolean count);
 
@@ -67,39 +60,39 @@ public abstract class Ant extends AbstractEntity {
 	 * Update the best solution based on the current <code>Problem</code> based on the premis
 	 * that the current solution is better. If not, do not update the best solution.
 	 * 
-	 * @param problem The <code>Problem</code> to have the best solution derived from
+	 * @param problem The <code>Problem</code> to have the best solution derived from.
 	 */
 	public abstract void updateBestSolution(OptimisationProblem problem);
 
 	/**
-	 * Update the <code>Pheromone</code> levels
-	 * @param problem The <code>Problem</code> to have the pheromone levels adjusted
+	 * Update the <code>Pheromone</code> levels.
+	 * @param problem The <code>Problem</code> to have the pheromone levels adjusted.
 	 */
 	public abstract void updatePheromoneTrail(OptimisationProblem problem);
 
 	/**
 	 * Initialise the state of the <code>Ant</code> based on the supplied <code>Problem</code>
-	 * and <code>Randomiser</code>
+	 * and <code>Randomiser</code>.
 	 * 
-	 * @param problem The <code>Problem</code> to be used for the <code>Ant</code> intialisation
+	 * @param problem The <code>Problem</code> to be used for the <code>Ant</code> intialisation.
 	 */
 	public abstract void initialise(OptimisationProblem problem);
 	
 	/**
-	 * Return the current tour created by the <code>Ant</code>
+	 * Return the current tour created by the <code>Ant</code>.
 	 * @return The current generated tour.
 	 */
-	public abstract Collection<Edge> getCurrentTour();
+//	public abstract Collection<Edge> getCurrentTour();
 	
 	/**
-	 * Get a reference to the associated <code>PheromoneUpdate</code> for the <code>Ant</code>
-	 * @return The <code>PheromoneUpdate</code> required for updates
+	 * Get a reference to the associated <code>PheromoneUpdate</code> for the <code>Ant</code>.
+	 * @return The <code>PheromoneUpdate</code> required for updates.
 	 */
 	public abstract PheromoneUpdate getPheromoneUpdate();
 	
 	/**
-	 * Get the associated <code>TransitionRuleFunction</code> for this <code>Ant</code>
-	 * @return The associated <code>TransitionRuleFunction</code>
+	 * Get the associated <code>TransitionRuleFunction</code> for this <code>Ant</code>.
+	 * @return The associated <code>TransitionRuleFunction</code>.
 	 */
 	public abstract TransitionRuleFunction getTransitionRuleFunction();
 }

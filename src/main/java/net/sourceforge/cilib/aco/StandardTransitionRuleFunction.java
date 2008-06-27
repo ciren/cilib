@@ -1,11 +1,7 @@
 /*
- * StandardTransitionRuleFunction.java
- * 
- * Created on Apr 24, 2004
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,23 +21,25 @@
  */
 package net.sourceforge.cilib.aco;
 
-import java.util.ListIterator;
-
-import net.sourceforge.cilib.container.graph.Edge;
-import net.sourceforge.cilib.container.graph.Vertex;
 
 /**
- * This is the StandardTransitionRule used in the cyclic-AS
+ * This is the StandardTransitionRule used in the cyclic-AS.
  *  
  * @author Gary Pampara
  */
 public class StandardTransitionRuleFunction implements TransitionRuleFunction {
-	private double alpha;
+
+	@Override
+	public TransitionRuleFunction getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/*private double alpha;
 	private double beta;
 	
 	/**
 	 * Construct the <code>StandardTransitionRuleFunction</code> with the default values
-	 */
+	 *
 	public StandardTransitionRuleFunction() {
 		alpha = 1.0;
 		beta = 5.0;
@@ -51,7 +49,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	 * Construct the <code>StandardTransitionRuleFunction</code> with the specified values
 	 * @param alpha The proportion for the pheromone levels
 	 * @param beta The proportion for the visibility level
-	 */
+	 *
 	public StandardTransitionRuleFunction(double alpha, double beta) {
 		this.alpha = alpha;
 		this.beta = beta;
@@ -61,7 +59,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	/**
 	 * Copy constructor
 	 * @param copy
-	 */
+	 *
 	public StandardTransitionRuleFunction(StandardTransitionRuleFunction copy) {
 		this.alpha = copy.alpha;
 		this.beta = copy.beta;
@@ -70,7 +68,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	
 	/**
 	 * 
-	 */
+	 *
 	public StandardTransitionRuleFunction getClone() {
 		return new StandardTransitionRuleFunction(this);
 	}
@@ -78,7 +76,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	/**
 	 * Set the alpha value for the <code>TransitionRuleFunction</code>
 	 * @param alpha The new value of alpha
-	 */
+	 *
 	public void setAlpha(double alpha) {
 		this.alpha = alpha;
 	}
@@ -86,7 +84,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	/**
 	 * Get the alpha value of the <code>TransitionRuleFunction</code>
 	 * @return The alpha value of the <code>TransitionRuleFunction</code>
-	 */
+	 *
 	public double getAlpha() {
 		return alpha;
 	}
@@ -94,7 +92,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	/**
 	 * Set the beta value for the <code>TransitionRuleFunction</code>
 	 * @param beta The new value of beta for the <code>TransitionRuleFunction</code>
-	 */
+	 *
 	public void setBeta(double beta) {
 		this.beta = beta;
 	}
@@ -102,7 +100,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	/**
 	 * Get the value of beta for the <code>TransitionRuleFunction</code>
 	 * @return The value of beta for the <code>TransitionRuleFunction</code>
-	 */
+	 *
 	public double getBeta() {
 		return beta;
 	}
@@ -114,7 +112,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	 * @param currentVertex The <code>Vertex</code> the <code>Ant</code> is currently at
 	 * @param destinationVertex The target <code>Vertex</code>
 	 * @see net.sourceforge.cilib.aco.TransitionRuleFunction#getTransitionalProbability()
-	 */
+	 *
 	public double getTransitionalProbability(Ant ant, Vertex currentVertex, Vertex destinationVertex) {
 		double numerator = getNumerator(ant, currentVertex, destinationVertex);
 		double denominator = getDenominator(ant, currentVertex, destinationVertex);
@@ -130,7 +128,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	 * @param currentVertex The current starting <code>Vertex</code>
 	 * @param destinationVertex The destination <code>Vertex</code> for the <code>Ant</code>
 	 * @return double describing the value of the numerator of the funciton
-	 */
+	 *
 	private double getNumerator(Ant ant, Vertex currentVertex, Vertex destinationVertex) {
 		if (currentVertex == destinationVertex) return 0.0;
 		if (!((TSPAnt)ant).getTabuList().contains(destinationVertex)) return 0.0;
@@ -153,7 +151,7 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	 * @param currentVertex The current <code>Vertex<code>
 	 * @param destinationVertex The destination <code>Vertex</code>
 	 * @return double representing the denominator of the function
-	 */
+	 *
 	private double getDenominator(Ant ant, Vertex currentVertex, Vertex destinationVertex) {
 		double counter = 0.0;
 		
@@ -172,8 +170,10 @@ public class StandardTransitionRuleFunction implements TransitionRuleFunction {
 	 * Get the visibility which is defined to be the inverse of the distance of the <code>Edge</code>
 	 * @param edge The <code>Edge</code> to base the visiblity on
 	 * @return The visibility which is the inverse of the distance of the <code>Edge</code>
-	 */
+	 *
 	private double getVisibility(Edge edge) {
 		return (1 / edge.getCost());
 	}
+	
+	*/
 }

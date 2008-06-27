@@ -1,11 +1,7 @@
 /*
- * LumerFaitaClusteringAlgorithm.java
- *
- * Created on Jun 24, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -66,7 +62,7 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 		Matrix<Object> grid = clusteringOptimisationProblem.getGrid();
 		double randomNumber = -1.0;
 		
-		for (ListIterator<Ant> l = ants.listIterator(); l.hasNext(); ) {
+		for (ListIterator<Ant> l = ants.listIterator(); l.hasNext();) {
 			ClusteringAntDecorator ant = (ClusteringAntDecorator) l.next();
 			
 			if (!ant.isLaden() && (grid.get(ant.getCurrentRow(), ant.getCurrentCol()) != null)) {
@@ -103,8 +99,8 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 			boolean moved = false;
 			
 			// TODO: What if the grid size is larger than 3 x 3? Should never be though
-			int movementX [] = { -1,  0,  1, 1, 1, 0, -1, -1};
-			int movementY [] = { -1, -1, -1, 0, 1, 1,  1,  0}; 
+			int [] movementX = {-1,  0,  1, 1, 1, 0, -1, -1};
+			int [] movementY = {-1, -1, -1, 0, 1, 1,  1,  0}; 
 			
 			while (!moved) {
 				//FIXME: FIXME: System.out.println("FIXME FIXME FIXME");
@@ -115,10 +111,10 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 				moved = true;
 				
 				// Now see if any ants are in that block
-				for (ListIterator<Ant> cl = ants.listIterator(); cl.hasNext(); ) {
+				for (ListIterator<Ant> cl = ants.listIterator(); cl.hasNext();) {
 					ClusteringAntDecorator testingAnt = (ClusteringAntDecorator) cl.next();
 					
-					if ( (testingAnt.getCurrentCol() == newX) && (testingAnt.getCurrentRow() == newY) ) {
+					if ((testingAnt.getCurrentCol() == newX) && (testingAnt.getCurrentRow() == newY)) {
 						moved = false;
 						break;
 					}
@@ -152,7 +148,7 @@ public class LumerFaietaClusteringAlgorithm extends ACO {
 		
 		for (int i = currentX-1; i < currentX+2*localGridSize; i++) {
 			for (int j = currentY-1; j < currentY+2*localGridSize; j++) {
-				sum += 1.0 - ( ant.distanceTo((ClusterableObject<Object>) grid.get(currentX, currentY)) / alpha);
+				sum += 1.0 - (ant.distanceTo((ClusterableObject<Object>) grid.get(currentX, currentY)) / alpha);
 			}
 		}
 		

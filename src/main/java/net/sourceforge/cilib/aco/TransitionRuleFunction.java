@@ -1,11 +1,7 @@
 /*
- * TransitionRuleFunction.java
- * 
- * Created on Apr 24, 2004
- * 
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,7 +21,6 @@
  */
 package net.sourceforge.cilib.aco;
 
-import net.sourceforge.cilib.container.graph.Vertex;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -45,7 +40,7 @@ public interface TransitionRuleFunction extends Cloneable {
 	 * @param destinationVertex The desired <code>Vertex</code> to move to
 	 * @return The probability for the ant to move from the current <code>Vertex</code> to the connecting <code>Vertex</code>
 	 */
-	public double getTransitionalProbability(Ant ant, Vertex currentVertex, Vertex destinationVertex);
+	//public double getTransitionalProbability(Ant ant, Vertex currentVertex, Vertex destinationVertex);
 
 	
 	/**

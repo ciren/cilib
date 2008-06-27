@@ -1,11 +1,7 @@
 /*
- * PheromoneUpdate.java
- *
- * Created on Jul 26, 2004
- *
- * Copyright (C) 2003 - 2006 
+ * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science 
+ * Department of Computer Science
  * University of Pretoria
  * South Africa
  *
@@ -25,14 +21,12 @@
  */
 package net.sourceforge.cilib.aco.pheromone;
 
-import net.sourceforge.cilib.aco.Ant;
-import net.sourceforge.cilib.container.graph.Edge;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * @author Gary Pampara
  */
-public interface PheromoneUpdate extends Cloneable{
+public interface PheromoneUpdate extends Cloneable {
 	/**
 	 * 
 	 * @return
@@ -43,11 +37,11 @@ public interface PheromoneUpdate extends Cloneable{
 	 * 
 	 * @param ant
 	 */
-	public void updatePheromoneTrail(Ant ant);
+	//public void updatePheromoneTrail(Ant ant);
 	
 	/**
 	 * 
 	 * @param edge
 	 */
-	public void evaporate(Edge edge);
+	//public void evaporate(Edge edge);
 }
