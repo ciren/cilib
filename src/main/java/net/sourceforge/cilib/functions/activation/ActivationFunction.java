@@ -28,9 +28,28 @@ import net.sourceforge.cilib.type.types.Type;
 public abstract class ActivationFunction extends Function implements Differentiable {
 	private static final long serialVersionUID = 4692200308338537909L;
 	
-	public ActivationFunction() {
+	protected ActivationFunction() {
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract Double evaluate(Type x);
+	
+	/**
+	 * Determine the value of the {@linkplain ActivationFunction} at the provided <code>point</code>.
+	 * The provided <code>point</code> is simply a {@linkplain Number} that is provided as input.
+	 * @param number The input value.
+	 * @return The evaluation of the {@linkplain ActivationFunction}, given <code>number</code> as
+	 *         input.
+	 */
+	public abstract Double evaluate(Number number);
+	
+	/**
+	 * Determine the gradient of the {@linkplain ActivationFunction} at the given point.
+	 * @param number The <code>point</code> at which the gradient is to be determined.
+	 * @return The value of the gradient and the provided input.
+	 */
+	public abstract Double getGradient(Number number);
 
 }

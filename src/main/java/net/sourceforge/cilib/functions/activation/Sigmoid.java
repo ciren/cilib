@@ -38,6 +38,11 @@ public class Sigmoid extends ActivationFunction {
 	private ControlParameter steepness;
 	private ControlParameter offset;
 	
+	/**
+	 * Create a new instance of {@linkplain Sigmoid}. The default instance has the {@code steepness}
+	 * {@linkplain ControlParameter} set to a value of {@code 1.0}, with the {@code offset} defined as
+	 * <code>0.0</code>.
+	 */
 	public Sigmoid() {
 		setDomain("R(0.0, 1.0)");
 		this.steepness = new ConstantControlParameter(1.0);
@@ -68,6 +73,9 @@ public class Sigmoid extends ActivationFunction {
 		return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness.getParameter()*(vector.getReal(0)-offset.getParameter()))));
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Double evaluate(Number number) {
 		Vector vector = new Vector();
 		vector.add(new Real(number.doubleValue()));
@@ -100,6 +108,13 @@ public class Sigmoid extends ActivationFunction {
 		double result = valueAtPoint * (1 - valueAtPoint);
 		
 		return VectorUtils.create(result);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public Double getGradient(Number number) {
+		return getGradient(VectorUtils.create(number)).getReal(0);
 	}
 
 	public ControlParameter getSteepness() {
