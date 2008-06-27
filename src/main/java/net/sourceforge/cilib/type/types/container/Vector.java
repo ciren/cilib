@@ -668,4 +668,29 @@ public class Vector extends AbstractList {
 			visitor.visit(type);
 	}
 
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean equals(Object other) {
+		if (other == this)
+			return true;
+		
+		if ((other == null) || (this.getClass() != other.getClass()))
+			return false;
+		
+		Vector otherList = (Vector) other;
+		return this.components.equals(otherList.components);
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.components == null ? 0 : this.components.hashCode());
+		return hash;
+	}
+
 }
