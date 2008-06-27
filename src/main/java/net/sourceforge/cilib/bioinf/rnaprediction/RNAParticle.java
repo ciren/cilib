@@ -94,6 +94,39 @@ public class RNAParticle extends AbstractParticle {
 		return new RNAParticle(this);
 	}
 	
+	@Override
+	public boolean equals(Object object) {
+		if (this == object)
+			return true;
+		
+		if ((object == null) || (this.getClass() != object.getClass()))
+			return false;
+
+		RNAParticle other = (RNAParticle) object;
+		return super.equals(object) &&
+			(this.bestFitness.equals(other.bestFitness)) &&
+			(this.bestPosition.equals(other.bestPosition)) &&
+			(this.velocity.equals(other.velocity)) &&
+			(this.fitnessCalc.equals(other.fitnessCalc)) &&
+			(this.bestFitness.equals(other.bestFitness)) &&
+			(this.folder.equals(other.folder)) &&
+			(this.neighbourhoodBest.equals(other.neighbourhoodBest));
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + super.hashCode();
+		hash = 31 * hash + (this.bestFitness == null ? 0 : this.bestFitness.hashCode());
+		hash = 31 * hash + (this.bestPosition == null ? 0 : this.bestPosition.hashCode());
+		hash = 31 * hash + (this.velocity == null ? 0 : this.velocity.hashCode());
+		hash = 31 * hash + (this.fitnessCalc == null ? 0 : this.fitnessCalc.hashCode());
+		hash = 31 * hash + (this.bestFitness == null ? 0 : this.bestFitness.hashCode());
+		hash = 31 * hash + (this.folder == null ? 0 : this.folder.hashCode());
+		hash = 31 * hash + (this.neighbourhoodBest == null ? 0 : this.neighbourhoodBest.hashCode());
+		return hash;
+	}
+
 	/**
 	 * Explicitly set the current fitness value.
 	 * @param fitness The {@linkplain Fitness} to set.

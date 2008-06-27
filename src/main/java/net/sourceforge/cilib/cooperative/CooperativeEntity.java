@@ -58,6 +58,29 @@ public class CooperativeEntity extends AbstractEntity {
 		return new CooperativeEntity(this);
 	}
 	
+	@Override
+	public boolean equals(Object object) {
+		if (this == object)
+			return true;
+		
+		if ((object == null) || (this.getClass() != object.getClass()))
+			return false;
+		
+		CooperativeEntity other = (CooperativeEntity) object;
+		return super.equals(other) &&
+			(this.context.equals(other.context)) &&
+			(this.fitness.equals(other.fitness));
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + super.hashCode();
+		hash = 31 * hash + (this.context == null ? 0 : this.context.hashCode());
+		hash = 31 * hash + (this.fitness == null ? 0 : this.fitness.hashCode());
+		return hash;
+	}
+	
 	public void reset() {
 		context.clear();
 	}

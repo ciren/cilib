@@ -29,8 +29,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Simple <tt>Blackboard</tt> implementation.
  * @author gpampara
  *
- * @param <K>
- * @param <V>
+ * @param <K> The key type.
+ * @param <V> The value type.
  */
 public class Blackboard<K, V extends Type> extends AbstractType {
 	private static final long serialVersionUID = -2589625146223946484L;
@@ -105,8 +105,7 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.board.toString();
 	}
 	
 	public V put(K key, V value) {

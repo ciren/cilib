@@ -86,6 +86,27 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	 */
     public abstract Particle getClone();
 
+	@Override
+	public boolean equals(Object object) {
+		if (this == object)
+			return true;
+		
+		if ((object == null) || (this.getClass() != object.getClass()))
+			return false;
+		
+		AbstractParticle other = (AbstractParticle) object;
+		return  super.equals(other) &&
+			(this.id == other.id);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + super.hashCode();
+		hash = 31 * hash + (Integer.valueOf(id).hashCode());
+		return hash;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

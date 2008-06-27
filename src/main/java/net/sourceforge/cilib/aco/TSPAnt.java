@@ -411,12 +411,24 @@ public class TSPAnt extends Ant {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 //	@Override
 //	public Collection<Edge> getCurrentTour() {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
+
+	@Override
+	public boolean equals(Object object) {
+		throw new UnsupportedOperationException("Method is not implemented");
+	}
+
+	@Override
+	public int hashCode() {
+		throw new UnsupportedOperationException("Method is not implemented");
+	}
 
 	@Override
 	public PheromoneUpdate getPheromoneUpdate() {

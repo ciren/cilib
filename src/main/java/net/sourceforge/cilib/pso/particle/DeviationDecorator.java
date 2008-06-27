@@ -34,6 +34,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 	private static final long serialVersionUID = -7919347953251165107L;
+	
+	private double[][] positions;
+	private Fitness[] fitnesses;
+	private int index;
+	private int observations;
+	private boolean enoughObservations;
 
 	public DeviationDecorator(Particle target, int observations) {
 		super(target);
@@ -49,8 +55,24 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 		return null;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		if (this == object)
+			return true;
+		
+		if ((object == null) || (this.getClass() != object.getClass()))
+			return false;
+		
+		throw new UnsupportedOperationException("This method is not implemented.");
+	}
+
+	@Override
+	public int hashCode() {
+		throw new UnsupportedOperationException("This method is not implemented.");
+	}
+
 	/**
-	 * The initialise method overides the parent class initialise method. The
+	 * The initialise method overrides the parent class initialise method. The
 	 * fitness[] and positions[][] instance fields are instantiated.
 	 * 
 	 * @param problem
@@ -137,13 +159,6 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 	public static DeviationDecorator extract(Particle particle) {
 		throw new UnsupportedOperationException("Method has been removed");
 	}
-
-	private double[][] positions;
-	private Fitness[] fitnesses;
-	private int index;
-	private int observations;
-	private boolean enoughObservations;
-
 
 	public int compareTo(Entity o) {
 		// TODO Auto-generated method stub

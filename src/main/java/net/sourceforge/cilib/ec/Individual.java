@@ -38,13 +38,14 @@ public class Individual extends AbstractEntity {
 	private static final long serialVersionUID = -578986147850240655L;
 	
 	protected String id;
-    protected int dimension = 0;
+    protected int dimension;
     protected FitnessCalculator fitnessCalculator;
     
     /**
      * Create an instance of {@linkplain Individual}.
      */
     public Individual() {
+    	id = "";
         dimension = 0;
         setContents(new Vector());
         this.properties.put("penotypes", new Vector());
@@ -68,6 +69,29 @@ public class Individual extends AbstractEntity {
      public Individual getClone() {
     	 return new Individual(this);
      }
+
+	@Override
+	public boolean equals(Object object) {
+		if (this == object)
+			return true;
+		
+		if ((object == null) || (this.getClass() != object.getClass()))
+			return false;
+		
+		Individual other = (Individual) object;
+		return super.equals(other) &&
+			(this.dimension == other.dimension) &&
+			(this.id.equals(other.id));
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + super.hashCode();
+		hash = 31 * hash + Integer.valueOf(dimension).hashCode();
+		hash = 31 * hash + (this.id == null ? 0 : this.id.hashCode());
+		return hash;
+	}
 
 	/**
       * Resets the fitness to <code>InferiorFitness</code>.

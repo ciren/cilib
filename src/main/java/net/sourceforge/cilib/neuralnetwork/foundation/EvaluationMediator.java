@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 
+import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -30,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author stefanv
  *  
  */
-public abstract class EvaluationMediator implements Initializable{
+public abstract class EvaluationMediator extends SingularAlgorithm implements Initializable{
 
 	protected NNError[] prototypeError = null;
 	protected NNError[] errorDg = null;

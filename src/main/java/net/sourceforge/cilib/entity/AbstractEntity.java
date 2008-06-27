@@ -35,7 +35,6 @@ import net.sourceforge.cilib.type.types.Type;
  * values stored within the {@linkplain Entity} itself.
  */
 public abstract class AbstractEntity implements Entity, CandidateSolution {
-	
 	protected Blackboard<String, Type> properties = new Blackboard<String, Type>();
 	private final CandidateSolution candidateSolution;
 	protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
@@ -59,6 +58,32 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
         	String key = entry.getKey().toString();
     		this.properties.put(key, entry.getValue().getClone());
         }
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object object) {
+		if (this == object)
+			return true;
+		
+		if ((object == null) || (this.getClass() != object.getClass()))
+			return false;
+		
+		AbstractEntity other = (AbstractEntity) object;
+		return this.candidateSolution.equals(other.candidateSolution);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.candidateSolution == null ? 0 : this.candidateSolution.hashCode());
+		hash = 31 * hash + (this.properties == null ? 0 : this.properties.hashCode());
+		return hash;
 	}
 	
 	/**

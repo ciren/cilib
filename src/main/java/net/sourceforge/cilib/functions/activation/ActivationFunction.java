@@ -25,6 +25,10 @@ import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.Type;
 
+/**
+ * Activation functions are functions that are typically used within Neurons. This class provides
+ * an abstraction for all functions that can be used in this manner.
+ */
 public abstract class ActivationFunction extends Function implements Differentiable {
 	private static final long serialVersionUID = 4692200308338537909L;
 	

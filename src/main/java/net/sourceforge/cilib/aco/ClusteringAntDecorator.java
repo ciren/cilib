@@ -97,6 +97,16 @@ public class ClusteringAntDecorator extends Ant {
 	}
 
 	
+	@Override
+	public boolean equals(Object object) {
+		throw new UnsupportedOperationException("Method is not implemented");
+	}
+
+	@Override
+	public int hashCode() {
+		throw new UnsupportedOperationException("Method is not implemented");
+	}
+
 	/**
 	 * Sets the current item for the ClusteringAnt.
 	 * @param object The object that the ClusteringAnt will be carrying.

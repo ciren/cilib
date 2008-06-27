@@ -58,11 +58,7 @@ public class StandardParticle extends AbstractParticle {
      */
     public StandardParticle(StandardParticle copy) {
     	super(copy);
-    	this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone(); // Check this
-    	this.positionUpdateStrategy = copy.positionUpdateStrategy.getClone();
     	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
-    	this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
-    	
     	this.fitnessCalculator = copy.fitnessCalculator.getClone();
     }
     
@@ -73,7 +69,25 @@ public class StandardParticle extends AbstractParticle {
        	return new StandardParticle(this);
     }
     
-    public Fitness getBestFitness() {
+    @Override
+	public boolean equals(Object object) {
+    	if (this == object)
+    		return true;
+    	
+    	if ((object == null) || (this.getClass() != object.getClass()))
+    		return false;
+    	
+    	StandardParticle other = (StandardParticle) object;
+		return super.equals(object) && 
+			(this.neighbourhoodBest == null ? true : this.neighbourhoodBest.equals(other.neighbourhoodBest));
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	public Fitness getBestFitness() {
         return (Fitness) this.properties.get("bestFitness");
     }
     

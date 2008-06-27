@@ -48,7 +48,26 @@ public abstract class ParticleDecorator extends AbstractParticle {
         this.target = (AbstractParticle) target;
     }
     
-    public void setTarget(Particle target) {
+    
+    @Override
+	public boolean equals(Object object) {
+    	if (this == object)
+    		return true;
+    	
+    	if ((object == null) || (this.getClass() != object.getClass()))
+    		return false;
+    	
+    	ParticleDecorator other = (ParticleDecorator) object;
+		return super.equals(other) && (this.target.equals(other.target));
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setTarget(Particle target) {
     	this.target = (AbstractParticle) target;
     }
     

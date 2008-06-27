@@ -65,6 +65,25 @@ public class CandidateSolutionMixin implements CandidateSolution {
 		return new CandidateSolutionMixin(this);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		
+		if ((obj == null) || (this.getClass() != obj.getClass()))
+			return false;
+		
+		CandidateSolutionMixin other = (CandidateSolutionMixin) obj;
+		return this.properties.equals(other.properties);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.properties == null ? 0 : this.properties.hashCode());
+		return hash;
+	}
+
 	/**
 	 * Get the associated candidate solution representation that the current {@linkplain Entity}
 	 * represents.
