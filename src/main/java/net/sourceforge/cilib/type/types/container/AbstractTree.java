@@ -37,7 +37,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * 
  * @param <E> The {@linkplain Cloneable} type.
  */
-public abstract class AbstractTree<E extends Cloneable> extends AbstractType implements Tree<E> {
+public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> extends AbstractType implements Tree<E> {
 
 	protected E key;
 	
@@ -45,6 +45,10 @@ public abstract class AbstractTree<E extends Cloneable> extends AbstractType imp
 	 * {@inheritDoc}
 	 */
 	public abstract AbstractTree<E> getClone();
+
+	public abstract boolean equals(Object obj);
+
+	public abstract int hashCode();
 
 	/**
 	 * {@inheritDoc}

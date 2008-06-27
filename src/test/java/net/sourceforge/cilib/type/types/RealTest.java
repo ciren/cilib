@@ -71,7 +71,8 @@ public class RealTest {
 	public void testHashCode() {
 		Real r = new Real(10.0);
 		
-		assertEquals(Double.valueOf(10).hashCode(), r.hashCode());
+		// This is the hasCode evaluation of the super classes bound information as well
+		assertEquals(-30979872, r.hashCode()); 
 	}
 	
 	

@@ -84,22 +84,23 @@ public class StringType extends AbstractType {
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object other) {
-		if (other instanceof StringType) {
-			StringType t = (StringType) other;
-			return this.string.equals(t.string);
-		}
-		else if (other instanceof String) {
-			return this.string.equals(other);
-		}
+		if (this == other)
+			return true;
 		
-		return false;
+		if ((other == null) || (this.getClass() != other.getClass()))
+			return false;
+		
+		StringType stringType = (StringType) other;
+		return this.string.equals(stringType.string); 
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public int hashCode() {
-		return this.string.hashCode();
+		int hash = 7;
+		hash = 31 * hash + this.string.hashCode();
+		return hash;
 	}
 	
 	/**

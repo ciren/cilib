@@ -76,21 +76,25 @@ public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collec
 
 	@Override
 	public boolean equals(Object other) {
-		if (this.id == ((RNAStem) other).id)
+		if (this == other)
 			return true;
-
-		return false;
-		/*
-		if (this.compareTo(other)==0)
-			return true;
-		else
+		
+		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-			*/
+		
+		RNAStem otherStem = (RNAStem) other;
+		return (this.id == otherStem.id) &&
+			(this.index == otherStem.index) && 
+			(this.conflictingStems.equals(otherStem.conflictingStems));
 	}
 
 	@Override
 	public int hashCode() {
-		return this.id;
+		int hash = 7;
+		hash = 31 * hash + this.id;
+		hash = 31 * hash + this.index;
+		hash = 31 * hash + (this.conflictingStems == null ? 0 : this.conflictingStems.hashCode());
+		return hash;
 	}
 
 

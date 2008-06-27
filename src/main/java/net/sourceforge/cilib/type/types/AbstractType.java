@@ -26,6 +26,10 @@ package net.sourceforge.cilib.type.types;
  */
 public abstract class AbstractType implements Type {
 	
+	public abstract boolean equals(Object obj);
+	
+	public abstract int hashCode(); 
+	
 	/**
 	 * Utility method. Change the values within the <code>Type</code>, randomly, based on the
 	 * upper and lower bounds that are defined for that <code>Type</code>

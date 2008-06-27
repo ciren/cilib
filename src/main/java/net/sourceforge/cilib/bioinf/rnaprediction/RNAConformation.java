@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
+import java.util.Arrays;
+
 import net.sourceforge.cilib.type.types.container.Set;
 
 /**
@@ -78,6 +80,26 @@ public class RNAConformation extends Set<RNAStem> {
 		return clone;
 	}
 	
+	@Override
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		
+		if ((other == null) || (this.getClass() != other.getClass()))
+			return false;
+		
+		RNAConformation rnaConformation = (RNAConformation) other;
+		return super.equals(other) && (Arrays.equals(this.bracketRepresentation, rnaConformation.bracketRepresentation));
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + super.hashCode();
+		hash = 31 * hash + (this.bracketRepresentation == null ? 0 : Arrays.hashCode(this.bracketRepresentation));
+		return hash;
+	}
+
 	/**
 	 * Determine if the current {@linkplain RNAConformation} is valid.
 	 * @throws RuntimeException if an invalid confirmation is created.

@@ -65,12 +65,20 @@ public class MaximisationFitness extends AbstractFitness {
 	}
 	
 	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		
+		if ((obj == null) || (this.getClass() != obj.getClass()))
+			return false;
+		
 		Fitness other = (Fitness) obj;
 		return getValue().equals(other.getValue());
 	}
 	
 	public int hashCode() {
-		return value.hashCode();
+		int hash = 7;
+		hash = 31 * hash + (value == null ? 0 : value.hashCode());
+		return hash;
 	}
 	
 	private Double value;

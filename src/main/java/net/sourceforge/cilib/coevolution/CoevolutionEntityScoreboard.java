@@ -59,6 +59,19 @@ public class CoevolutionEntityScoreboard implements Type {
 		return new CoevolutionEntityScoreboard(this);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.scores == null ? 0 : this.scores.hashCode());
+		return hash;
+	}
+
 	/**
 	 * Get a list of all the entities that the entity this
 	 * score board are used for has compete against with the

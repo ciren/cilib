@@ -62,6 +62,30 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		return new BinaryTree<E>(this);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+		
+		if ((obj == null) || (this.getClass() != obj.getClass()))
+			return false;
+		
+		BinaryTree<?> other = (BinaryTree<?>) obj;
+		
+		return this.key.equals(other.key) && 
+			this.left.equals(other.left) && 
+			this.right.equals(other.right);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.key == null ? 0 : this.key.hashCode());
+		hash = 31 * hash + (this.left == null ? 0 : this.left.hashCode());
+		hash = 31 * hash + (this.right == null ? 0 : this.right.hashCode());
+		return hash;
+	}
+
 	public String toString() {
 		throw new UnsupportedOperationException("Not implemented");
 	}

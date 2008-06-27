@@ -33,8 +33,24 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 	
 	public abstract Numeric getClone();
 	
-	public abstract boolean equals(Object other);
-	public abstract int hashCode();
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		
+		if ((other == null) || (this.getClass() != other.getClass()))
+			return false;
+		
+		Numeric numeric = (Numeric) other;
+		return (Double.valueOf(this.lowerBound).equals(Double.valueOf(numeric.lowerBound))) &&
+			(Double.valueOf(this.upperBound).equals(Double.valueOf(numeric.upperBound)));
+	}
+	
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + Double.valueOf(lowerBound).hashCode();
+		hash = 31 * hash + Double.valueOf(upperBound).hashCode();
+		return hash;
+	}
 	
 	public abstract void set(String value);
 	public abstract void set(boolean value);

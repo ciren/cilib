@@ -78,12 +78,21 @@ public class Set<E> extends AbstractType implements Structure<E> {
 		return elements.size();
 	}
 	
-	public boolean equals(Object other)  {
-		return this.elements.equals(other);			
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		
+		if ((other == null) || (this.getClass() != other.getClass()))
+			return false;
+		
+		Set<?> otherSet = (Set<?>) other;
+		return this.elements.equals(otherSet.elements);
 	}
 
-	public int hashCode() {		
-		return this.elements.hashCode();
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.elements == null ? 0 : this.elements.hashCode());
+		return hash;
 	}
 
 	public Iterator<E> iterator() {

@@ -85,12 +85,14 @@ public class Bit extends Numeric {
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object other) {
-		Bit otherBit = (Bit) other;
-		
-		if (getBit() == otherBit.getBit())
+		if (this == other)
 			return true;
 		
-		return false;
+		if ((other == null) || (this.getClass() != other.getClass()))
+			return false;
+		
+		Bit otherBit = (Bit) other;
+		return super.equals(other) && (this.state == otherBit.state);
 	}
 
 	
@@ -98,7 +100,10 @@ public class Bit extends Numeric {
 	 * {@inheritDoc}
 	 */
 	public int hashCode() {
-		return Boolean.valueOf(this.state).hashCode();
+		int hash = 7;
+		hash = 31 * hash + super.hashCode();
+		hash = 31 * hash + Boolean.valueOf(this.state).hashCode();
+		return hash;
 	}
 	
 	/**

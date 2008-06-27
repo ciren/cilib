@@ -68,5 +68,4 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	 * {@inheritDoc}
 	 */
 	public int compareTo(Fitness o);
-	
 }

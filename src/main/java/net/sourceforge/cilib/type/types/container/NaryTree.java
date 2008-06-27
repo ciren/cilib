@@ -86,6 +86,27 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 	public NaryTree<E> getClone() {
 		return new NaryTree<E>(this);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+
+		if ((obj == null) || (this.getClass() != obj.getClass()))
+			return false;
+
+		NaryTree<?> other = (NaryTree<?>) obj;
+
+		return this.key.equals(other.key) && this.subTrees.equals(other.subTrees);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.key == null ? 0 : this.key.hashCode());
+		hash = 31 * hash + (this.subTrees == null ? 0 : this.subTrees.hashCode());
+		return hash;
+	}
 	
 	/**
 	 * {@inheritDoc}

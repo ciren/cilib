@@ -52,6 +52,25 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		
+		if ((obj == null) || (this.getClass() != obj.getClass()))
+			return false;
+		
+		Blackboard<?, ?> other = (Blackboard<?, ?>) obj;
+		return this.board.equals(other.board);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.board == null ? 0 : this.board.hashCode());
+		return hash;
+	}
+
+	@Override
 	public int getDimension() {
 		return this.board.size();
 	}

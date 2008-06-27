@@ -91,14 +91,14 @@ public class Int extends Numeric {
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object other) {
-		if (other instanceof Int) {
-			Int i = (Int) other;
-			
-			if (this.value == i.value)
-				return true;
-		}
+		if (this == other)
+			return true;
 		
-		return false;
+		if ((other == null) || (this.getClass() != other.getClass()))
+			return false;
+		
+		Int otherInt = (Int) other;
+		return super.equals(other) && (this.value == otherInt.value);
 	}
 
 	/**
@@ -108,7 +108,10 @@ public class Int extends Numeric {
 	 * @return The value of this Int representation.
 	 */
 	public int hashCode() {
-		return Integer.valueOf(this.value).hashCode();
+		int hash = 7;
+		hash = 31 * hash + super.hashCode();
+		hash = 31 * hash + Integer.valueOf(this.value).hashCode();
+		return hash;
 	}
 	
 	

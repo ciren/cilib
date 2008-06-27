@@ -63,6 +63,31 @@ public class CoevolutionEntityScore {
 		this.roundsDrawed = new ArrayList<Integer>();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		
+		if ((obj == null) || (this.getClass() != obj.getClass()))
+			return false;
+		
+		CoevolutionEntityScore other = (CoevolutionEntityScore) obj;
+		return (this.entity.equals(other.entity)) &&
+			(this.roundsDrawed.equals(other.roundsDrawed)) &&
+			(this.roundsLost.equals(other.roundsLost)) &&
+			(this.roundsWon.equals(other.roundsWon));
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.entity == null ? 0 : this.entity.hashCode());
+		hash = 31 * hash + (this.roundsDrawed == null ? 0 : this.roundsDrawed.hashCode());
+		hash = 31 * hash + (this.roundsLost == null ? 0 : this.roundsLost.hashCode());
+		hash = 31 * hash + (this.roundsWon == null ? 0 : this.roundsWon.hashCode());
+		return hash;
+	}
+
 	/**
 	 * Get the entity that is kept score of.
 	 * @return The entity that is kept score of.

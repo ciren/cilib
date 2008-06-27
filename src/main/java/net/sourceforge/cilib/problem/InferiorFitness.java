@@ -76,6 +76,12 @@ public final class InferiorFitness extends AbstractFitness {
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object object) {
+		if (this == object)
+			return true;
+		
+		if ((object == null) || (this.getClass() != object.getClass()))
+			return false;
+		
 		Fitness otherFitness = (Fitness) object;
 		return getValue().equals(otherFitness.getValue());
 	}
@@ -84,7 +90,9 @@ public final class InferiorFitness extends AbstractFitness {
 	 * {@inheritDoc}
 	 */
 	public int hashCode() {
-		return getValue().hashCode();
+		int hash = 7;
+		hash = 31 * hash + getValue().hashCode(); 
+		return hash;
 	}
 	
 	/**

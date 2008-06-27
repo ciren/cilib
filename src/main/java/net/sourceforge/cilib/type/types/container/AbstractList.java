@@ -21,8 +21,10 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+
 import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.type.types.AbstractType;
+import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -37,41 +39,10 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 * {@inheritDoc}
 	 */
 	public abstract AbstractList getClone();
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean equals(Object other) {
-		if (other instanceof AbstractList) {
-			AbstractList tmp = (AbstractList) other;
-			int dimension = this.getDimension();
-			if (dimension != tmp.getDimension()) {
-				return false;
-			}
-			for (int i = 0; i < dimension; ++i) {
-				if (!this.get(i).equals(tmp.get(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public int hashCode() {
-		int dimension = this.getDimension();
-		int count = (dimension < 5) ? dimension : 5;
-		int tmp = 0;
-		for (int i = 0; i < count; ++i) {
-			tmp += get(i).hashCode();
-		}
-		return tmp;
-	}
+	
+	public abstract boolean equals(Object obj);
+	
+	public abstract int hashCode();
 
 	/**
 	 * Get the {@linkplain Type} at the given index.

@@ -53,6 +53,25 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	public StandardGraph<E> getClone() {
 		return null;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		
+		if ((obj == null) || (this.getClass() != obj.getClass()))
+			return false;
+		
+		StandardGraph<?> graph = (StandardGraph<?>) obj;
+		return adjacencyMap.equals(graph.adjacencyMap);
+	}
+	
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + (this.adjacencyMap == null ? 0 : this.adjacencyMap.hashCode());
+		return hash;
+	}
 
 	/**
 	 * Get the number of edges contained within the {@linkplain Graph}. The number of edges is defined
@@ -339,8 +358,8 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	 * @param <T> The {@linkplain Comparable} type.
 	 */
 	private class Entry<T extends Comparable<T>> {
-		private Double weight;
-		private Double cost;
+		private double weight;
+		private double cost;
 		private T element;
 
 		public Entry(T element, Double cost, Double weight) {
@@ -371,6 +390,29 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 
 		public void setElement(T element) {
 			this.element = element;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			
+			if ((obj == null) || (this.getClass() != obj.getClass()))
+				return false;
+			
+			Entry<?> other = (Entry<?>) obj;
+			return this.element.equals(other) && 
+				(this.cost == other.cost) && 
+				(this.weight == other.weight);
+		}
+
+		@Override
+		public int hashCode() {
+			int hash = 7;
+			hash = 31 * hash + (element == null ? 0 : element.hashCode());
+			hash = 31 * hash + Double.valueOf(this.cost).hashCode();
+			hash = 31 * hash + Double.valueOf(this.weight).hashCode();
+			return hash;
 		}
 	}
 

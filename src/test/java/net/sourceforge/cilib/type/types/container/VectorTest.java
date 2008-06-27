@@ -636,4 +636,21 @@ public class VectorTest {
 			assertEquals(product.getReal(i), (double)(i * 3.0), 0.0);
 		}
 	}
+	
+	@Test
+	public void equals() {
+		Vector a = new Vector();
+		Vector b = new Vector();
+		
+		a.add(new Real(1.0));
+		a.add(new Real(2.0));
+		
+		b.add(new Real(1.0));
+		b.add(new Real(2.0));
+		
+		assertFalse(a.equals(null));
+		assertTrue(b.equals(b));
+		assertTrue(a.equals(a));
+		assertTrue(a.equals(b));
+	}
 }

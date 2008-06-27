@@ -89,10 +89,9 @@ public class MOFitness extends AbstractFitness {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(fitnesses);
-		return result;
+		int hash = 7;
+		hash = 31 * hash + Arrays.hashCode(fitnesses);
+		return hash;
 	}
 
 	/**
@@ -102,14 +101,12 @@ public class MOFitness extends AbstractFitness {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		
 		final MOFitness other = (MOFitness) obj;
-		if (!Arrays.equals(fitnesses, other.fitnesses))
-			return false;
-		return true;
+		return Arrays.equals(fitnesses, other.fitnesses);
 	}
 	
 }

@@ -91,14 +91,14 @@ public class Real extends Numeric {
 	 * {@inheritDoc} 
 	 */
 	public boolean equals(Object other) {
-		if (other instanceof Real) {
-			Real i = (Real) other;
-			
-			if (this.value == i.value)
-				return true;
-		}
+		if (this == other)
+			return true;
 		
-		return false;
+		if ((other == null) || (this.getClass() != other.getClass()))
+			return false;
+		
+		Real otherReal = (Real) other;
+		return super.equals(other) && (Double.valueOf(this.value).equals(Double.valueOf(otherReal.value))); 
 	}
 
 	
@@ -106,7 +106,10 @@ public class Real extends Numeric {
 	 * {@inheritDoc}
 	 */
 	public int hashCode() {
-		return Double.valueOf(this.value).hashCode();
+		int hash = 7;
+		hash = 31 * hash + super.hashCode();
+		hash = 31 * hash + Double.valueOf(this.value).hashCode();
+		return hash;
 	}
 	
 
