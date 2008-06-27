@@ -95,7 +95,7 @@ public class TSPProblem extends GraphOptimisationProblem {
 		for (ListIterator<Edge> l = g.getEdges(); l.hasNext(); ) {
 			Edge edge = l.next();
 			pheromoneUpdate.evaporate(edge);
-		}*/
+		}
 	}
 	*/
 }

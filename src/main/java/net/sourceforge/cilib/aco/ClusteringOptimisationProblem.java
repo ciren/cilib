@@ -27,7 +27,6 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author Gary Pampara
