@@ -266,17 +266,11 @@ public class VonNeumannTopologyTest {
 			
 		}
 
-//		public Fitness getSocialBestFitness() {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
-
 		public void setContents(Type type) {
 			// TODO Auto-generated method stub
 			
 		}
 
-	
 		public Type getBehaviouralParameters() {
 			// TODO Auto-generated method stub
 			return null;
@@ -302,6 +296,25 @@ public class VonNeumannTopologyTest {
 		public void calculateFitness(boolean count) {
 			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		public boolean equals(Object object) {
+			if (this == object)
+				return true;
+			
+			if ((object == null) || (this.getClass() != object.getClass()))
+				return false;
+			
+			DumbParticle other = (DumbParticle) object;
+			return this.id.equals(other.id);
+		}
+
+		@Override
+		public int hashCode() {
+			int hash = 7;
+			hash = 31 * hash + (this.id == null ? 0 : this.id.hashCode());
+			return hash;
 		}
     	
     }

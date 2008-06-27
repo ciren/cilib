@@ -1,8 +1,12 @@
 package net.sourceforge.cilib.entity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.ec.Individual;
+import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;
@@ -32,6 +36,29 @@ public class IndividualTest {
 		for (int k = 0; k < cloneVector.getDimension(); k++) {
 			assertEquals(genes.get(k), cloneVector.get(k));
 		}
+	}
+	
+	@Test
+	public void equals() {
+		Individual i1 = new Individual();
+		Individual i2 = new Individual();
+		
+		assertTrue(i1.equals(i2));
+		assertTrue(i2.equals(i1));
+		assertTrue(i1.equals(i1));
+		
+		assertFalse(i1.equals(null));
+	}
+	
+	@Test
+	public void hashCodes() {
+		Individual i1 = new Individual();
+		Individual i2 = new Individual();
+		
+		assertTrue(i1.hashCode() == i2.hashCode());
+		
+		i1.setProperties(new Blackboard<String, Type>());
+		assertFalse(i1.hashCode() == i2.hashCode());
 	}
 
 }
