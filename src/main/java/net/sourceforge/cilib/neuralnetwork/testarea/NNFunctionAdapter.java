@@ -23,6 +23,8 @@ package net.sourceforge.cilib.neuralnetwork.testarea;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
+import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
+import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightCountingVisitor;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -33,6 +35,11 @@ public class NNFunctionAdapter extends Function {
 	private static final long serialVersionUID = -8189968864920232174L;
 	
 	private EvaluationMediator mediator;
+	private String intialisationDomain;
+	
+	public NNFunctionAdapter() {
+		intialisationDomain = "";
+	}
 
 	@Override
 	public Double evaluate(Type in) {
@@ -53,6 +60,28 @@ public class NNFunctionAdapter extends Function {
 
 	public NNFunctionAdapter getClone() {
 		return new NNFunctionAdapter();
+	}
+
+	public EvaluationMediator getMediator() {
+		return mediator;
+	}
+
+	public void setMediator(EvaluationMediator mediator) {
+		this.mediator = mediator;
+		mediator.performInitialisation();
+		
+		WeightCountingVisitor visitor = new WeightCountingVisitor();
+		((GenericTopology)mediator.getTopology()).acceptVisitor(visitor);
+		
+		setDomain(this.intialisationDomain + "^" + visitor.getWeightCount());
+	}
+
+	public String getIntialisationDomain() {
+		return intialisationDomain;
+	}
+
+	public void setIntialisationDomain(String intialisationDomain) {
+		this.intialisationDomain = intialisationDomain;
 	}
 
 }

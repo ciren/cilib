@@ -21,9 +21,13 @@
  */
 package net.sourceforge.cilib.neuralnetwork.foundation.measurements;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
+import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkRetrievalVisitor;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -33,10 +37,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class ErrorDv implements Measurement {
 	private static final long serialVersionUID = 3315947215103835233L;
-	EvaluationMediator eval;
 
 	public ErrorDv() {
-		eval = null;
 	}
 
 	public ErrorDv(ErrorDv rhs) {
@@ -49,7 +51,6 @@ public class ErrorDv implements Measurement {
 	}
 
 	public ErrorDv(EvaluationMediator eval) {
-		this.eval = eval;
 	}
 
 	public String getDomain() {
@@ -57,6 +58,19 @@ public class ErrorDv implements Measurement {
 	}
 
 	public Type getValue() {
+		Algorithm algorithm = Algorithm.get();
+		EvaluationMediator eval = null;
+		
+		if (algorithm instanceof SingularAlgorithm) {
+			 eval = (EvaluationMediator) algorithm;
+		}
+		else {
+			OptimisationProblem optimisationProblem = Algorithm.get().getOptimisationProblem();
+			NeuralNetworkRetrievalVisitor visitor = new NeuralNetworkRetrievalVisitor();
+			optimisationProblem.accept(visitor);
+			eval = visitor.getMediator();
+		}
+		
 		NNError[] errorDv = eval.getErrorDv();
 		Vector err = new Vector();
 		
@@ -65,9 +79,5 @@ public class ErrorDv implements Measurement {
 		}
 		
 		return err;
-	}
-
-	public void setEval(EvaluationMediator eval) {
-		this.eval = eval;
 	}
 }

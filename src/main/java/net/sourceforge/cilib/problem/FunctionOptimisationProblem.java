@@ -99,4 +99,10 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      * @return the error with respect to the optimum solution
      */
     public abstract double getError(Type solution);
+
+	@Override
+	public void accept(ProblemVisitor visitor) {
+		visitor.visit(this);
+	}
+    
 }

@@ -94,4 +94,6 @@ public interface OptimisationProblem extends Problem {
      */
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder);
     
+    public void accept(ProblemVisitor visitor);
+    
 }

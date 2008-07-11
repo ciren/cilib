@@ -24,6 +24,7 @@ package net.sourceforge.cilib.neuralnetwork.foundation;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.ProblemVisitor;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -57,7 +58,8 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 			throw new IllegalArgumentException("NeuralNetworkProblem: A required evaluationStrategy object was null during initialization");
 		}
 		
-		this.evaluationStrategy.initialize();
+//		this.evaluationStrategy.initialize();
+		this.evaluationStrategy.performInitialisation();
 	
 	}
 
@@ -116,5 +118,13 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 
 	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
 				
+	}
+
+	public void accept(ProblemVisitor visitor) {
+		throw new UnsupportedOperationException("This method is not implemented");
+	}
+
+	public void changeEnvironment() {
+		throw new UnsupportedOperationException("This method is not implemented");
 	}
 }

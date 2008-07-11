@@ -288,4 +288,5 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	protected Fitness calculateFitness(Type solution) {
 		return innerProblem.calculateFitness(solution);
 	}
+
 }

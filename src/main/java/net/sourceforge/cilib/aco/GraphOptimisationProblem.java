@@ -23,6 +23,7 @@ package net.sourceforge.cilib.aco;
 
 import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.ProblemVisitor;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -125,5 +126,12 @@ public class GraphOptimisationProblem extends ACOOptimisationProblem {
 		throw new RuntimeException("Get behavioural domain on GraphOptimisationProblem still needs to be defined!");
 	}
 
-	
+	public void accept(ProblemVisitor visitor) {
+		throw new UnsupportedOperationException("This method is not implemented");
+	}
+
+	public void changeEnvironment() {
+		throw new UnsupportedOperationException("This method is not implemented");
+	}
+
 }

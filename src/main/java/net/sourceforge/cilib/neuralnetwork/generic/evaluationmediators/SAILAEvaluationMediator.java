@@ -22,13 +22,17 @@
 package net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.SAILARealData;
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -68,7 +72,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 			
 	
 	@Override
-	public void initialize() {
+	public void performInitialisation() {
 		
 		if (this.data == null)  {			
 			throw new IllegalArgumentException("Evaluation Strategy error: required data object was null");
@@ -126,15 +130,15 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 		errorDtPrevious.setValue(new Double(9999999));
 		
 		//criterion 4:
-		history = new ArrayList<NNError>();
-		
-		
+		history = new ArrayList<NNError>();		
 	}
 
 
 
 
-	public void learningEpoch(){
+	@Override
+	public void algorithmIteration() {
+//	public void learningEpoch(){
 					
 		//reset errors
 		this.resetError(this.errorDt);
@@ -279,6 +283,34 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 	
 	public Vector evaluate(NNPattern p) {
 		return topology.evaluate(p);
+	}
+
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public OptimisationSolution getBestSolution() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Algorithm getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<OptimisationSolution> getSolutions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

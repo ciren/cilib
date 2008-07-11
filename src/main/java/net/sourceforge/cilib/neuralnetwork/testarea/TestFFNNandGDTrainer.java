@@ -21,9 +21,11 @@
  */
 package net.sourceforge.cilib.neuralnetwork.testarea;
 
+import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
+import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.BatchTrainingSetEpochStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.LayeredGenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
@@ -32,7 +34,6 @@ import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.RandomDistribu
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.ClassificationErrorReal;
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
-import net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators.FFNNEvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder;
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.FFNN_GD_TrainingStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.SquaredErrorFunction;
@@ -95,7 +96,9 @@ public final class TestFFNNandGDTrainer {
 		err.setNoOutputs(1);
 		NNError err1 = new ClassificationErrorReal();
 
-		FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
+		EvaluationMediator eval = new EvaluationMediator();
+		eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
+//		FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
 		eval.setTopology(topo);
 		eval.setData(data);
 		eval.addPrototypError(err);

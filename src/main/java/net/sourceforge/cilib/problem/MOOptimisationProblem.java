@@ -112,4 +112,12 @@ public class MOOptimisationProblem implements OptimisationProblem {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void accept(ProblemVisitor visitor) {
+		throw new UnsupportedOperationException("This method is not implemented");
+	}
+
+	public void changeEnvironment() {
+		throw new UnsupportedOperationException("This method is not implemented");
+	}
 }

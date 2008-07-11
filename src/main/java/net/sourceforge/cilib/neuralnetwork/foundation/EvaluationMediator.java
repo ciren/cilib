@@ -22,7 +22,14 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 
+import java.util.List;
+
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
+import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.EmptyEpochStrategy;
+import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.EpochStrategy;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -31,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author stefanv
  *  
  */
-public abstract class EvaluationMediator extends SingularAlgorithm implements Initializable{
+public class EvaluationMediator extends SingularAlgorithm {
 
 	protected NNError[] prototypeError = null;
 	protected NNError[] errorDg = null;
@@ -45,15 +52,16 @@ public abstract class EvaluationMediator extends SingularAlgorithm implements In
 	
 	protected int totalEvaluations;
 	
-	
+	private EpochStrategy epochStrategy;
 	
 	public EvaluationMediator() {
-		super();
 		nrEvaluationsPerEpoch = 0;
 		totalEvaluations = 0;
+		
+		this.epochStrategy = new EmptyEpochStrategy();
 	}
 	
-	public void initialize(){
+	public void performInitialisation(){
 		
 		if (this.data == null)  {			
 			throw new IllegalArgumentException("Evaluation Strategy error: required data object was null");
@@ -64,15 +72,17 @@ public abstract class EvaluationMediator extends SingularAlgorithm implements In
 		if (this.prototypeError == null)  {			
 			throw new IllegalArgumentException("Evaluation Strategy error: required prototypeError object was null");
 		}
-		if (this.trainer == null)  {			
-			throw new IllegalArgumentException("Evaluation Strategy error: required trainer object was null");
-		}
+//		if (this.trainer == null)  {			
+//			throw new IllegalArgumentException("Evaluation Strategy error: required trainer object was null");
+//		}
 		
 		//Initialize objects, depth first via Chain of Responsibility pattern.
 		data.initialize();
 		topology.initialize();
-		trainer.setTopology(this.topology);
-		trainer.initialize();
+		if (trainer != null) {
+			trainer.setTopology(this.topology);
+			trainer.initialize();
+		}
 		
 				
 		this.errorDg = new NNError[prototypeError.length];
@@ -88,9 +98,13 @@ public abstract class EvaluationMediator extends SingularAlgorithm implements In
 			this.errorDv[i] = prototypeError[i].getClone();
 			this.errorDv[i].setNoPatterns(this.data.getValidationSetSize());
 		}
+	}	
+	
+	@Override
+	public void algorithmIteration() {
+		this.epochStrategy.performIteration(this);
 	}
-	
-	
+
 	public void computeErrorIteration(NNError[] err, Vector output, NNPattern input){
 		
 		for (int e = 0; e < err.length; e++){
@@ -99,7 +113,11 @@ public abstract class EvaluationMediator extends SingularAlgorithm implements In
 		
 	}
 	
-	public abstract Vector evaluate(NNPattern p);
+	// This might not be needed in this class.
+	public Vector evaluate(NNPattern p) {
+		return topology.evaluate(p);	
+	}
+//	public abstract Vector evaluate(NNPattern p);
 	
 	
 	public NNError[] getErrorDg() {
@@ -135,11 +153,12 @@ public abstract class EvaluationMediator extends SingularAlgorithm implements In
 	}
 	
 	
-	protected abstract void learningEpoch();
+//	protected abstract void learningEpoch();
 	
 	
 	public void performLearning(){
-		learningEpoch();
+//		learningEpoch();
+		algorithmIteration();
 		totalEvaluations += nrEvaluationsPerEpoch;
 		nrEvaluationsPerEpoch = 0;
 		
@@ -222,7 +241,45 @@ public abstract class EvaluationMediator extends SingularAlgorithm implements In
 	public void setTrainer(TrainingStrategy trainer) {
 		this.trainer = trainer;
 	}
+
+	public EpochStrategy getEpochStrategy() {
+		return epochStrategy;
+	}
+
+	public void setEpochStrategy(EpochStrategy epochStrategy) {
+		this.epochStrategy = epochStrategy;
+	}
 	
 	
+	
+	
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public OptimisationSolution getBestSolution() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Algorithm getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OptimisationSolution> getSolutions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void incrementEvaluationsPerEpoch() {
+		this.nrEvaluationsPerEpoch++;
+	}
 
 }

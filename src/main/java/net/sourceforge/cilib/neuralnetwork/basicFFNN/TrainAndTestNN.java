@@ -21,16 +21,17 @@
  */
 package net.sourceforge.cilib.neuralnetwork.basicFFNN;
 
+import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
 import net.sourceforge.cilib.neuralnetwork.foundation.TrainingStrategy;
+import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.BatchTrainingSetEpochStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.GenericData;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.RandomDistributionStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
-import net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators.FFNNEvaluationMediator;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -49,10 +50,9 @@ public final class TrainAndTestNN {
 		
 		NeuralNetworkTopology neuralNetworkTopology = new FFNNTopology(1, 30, 1, 0.5, 1.0);
 		TrainingStrategy train = new FFNNTrainingStrategy((FFNNTopology) neuralNetworkTopology);
-		
+
+		// TODO: This entire data related buildng can be done in a DataBasedProblem class!
 		GenericData data = null;
-		
-		
 		data = new GenericData();
 		RandomDistributionStrategy distributor = new RandomDistributionStrategy();
 		distributor.setFile("c:\\temp\\data\\tester.txt");
@@ -74,17 +74,18 @@ public final class TrainAndTestNN {
 		//NNError err1 = new ClassificationErrorReal();
 		
 		//use the Generic Package's FFNNEvaluationMediator.
-		FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
-		eval.setTopology(neuralNetworkTopology); 
-		eval.setData(data);
-		eval.addPrototypError(err);
+		EvaluationMediator mediator = new EvaluationMediator();
+		mediator.setEpochStrategy(new BatchTrainingSetEpochStrategy());
+		mediator.setTopology(neuralNetworkTopology); 
+		mediator.setData(data);
+		mediator.addPrototypError(err);
 		//eval.addPrototypError(err1);
-		eval.setTrainer(train);
+		mediator.setTrainer(train);
 		//	eval.initialize();
 		
 		
 		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
-		neuralNetworkProblem.setEvaluationStrategy(eval);
+		neuralNetworkProblem.setEvaluationStrategy(mediator);
 		//	NNprob.initialize();
 		
 		NeuralNetworkController neuralNetworkController = new NeuralNetworkController();

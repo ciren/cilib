@@ -62,7 +62,7 @@ public abstract class GenericTopology implements NeuralNetworkTopology, Initiali
 	}
 	
 		
-	public void initialize(){
+	public void initialize() {
 		
 		if (this.topologyBuilder == null)
 			throw new IllegalArgumentException("Required object was null during initialization");

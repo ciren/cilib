@@ -21,9 +21,13 @@
  */
 package net.sourceforge.cilib.neuralnetwork.foundation.measurements;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
+import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkRetrievalVisitor;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -33,14 +37,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class ErrorDt implements Measurement {
 	private static final long serialVersionUID = -5027085270461720189L;
-	EvaluationMediator eval;
 
 	public ErrorDt() {
-		eval = null;
 	}
 
 	public ErrorDt(ErrorDt rhs) {
-//		super(rhs);
 		throw new UnsupportedOperationException("public ErrorDt(ErrorDt rhs)");
 	}
 
@@ -49,9 +50,6 @@ public class ErrorDt implements Measurement {
 	}
 
 	public ErrorDt(EvaluationMediator eval) {
-		super();
-		// TODO Auto-generated constructor stub
-		this.eval = eval;
 	}
 
 	public String getDomain() {
@@ -59,6 +57,19 @@ public class ErrorDt implements Measurement {
 	}
 
 	public Type getValue() {
+		Algorithm algorithm = Algorithm.get();
+		EvaluationMediator eval = null;
+		
+		if (algorithm instanceof SingularAlgorithm) {
+			 eval = (EvaluationMediator) algorithm;
+		}
+		else {
+			OptimisationProblem optimisationProblem = Algorithm.get().getOptimisationProblem();
+			NeuralNetworkRetrievalVisitor visitor = new NeuralNetworkRetrievalVisitor();
+			optimisationProblem.accept(visitor);
+			eval = visitor.getMediator();
+		}
+		
 		NNError[] errorDt = eval.getErrorDt();
 		Vector err = new Vector();
 		
@@ -69,7 +80,4 @@ public class ErrorDt implements Measurement {
 		return err;
 	}
 
-	public void setEval(EvaluationMediator eval) {
-		this.eval = eval;
-	}
 }

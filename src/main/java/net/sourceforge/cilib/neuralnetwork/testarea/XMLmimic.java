@@ -22,9 +22,11 @@
 package net.sourceforge.cilib.neuralnetwork.testarea;
 
 import net.sourceforge.cilib.measurement.generic.Time;
+import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
+import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.BatchTrainingSetEpochStrategy;
 import net.sourceforge.cilib.neuralnetwork.foundation.measurements.AreaUnderROC;
 import net.sourceforge.cilib.neuralnetwork.foundation.measurements.DcPatternCount;
 import net.sourceforge.cilib.neuralnetwork.foundation.measurements.DgPatternCount;
@@ -42,7 +44,6 @@ import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.CrossValidatio
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.GenericData;
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.ClassificationErrorReal;
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
-import net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators.FFNNEvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.FanInWeightInitialiser;
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.FFNN_GD_TrainingStrategy;
@@ -61,7 +62,9 @@ public final class XMLmimic {
 	public static void run(){
 		
 		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
-			FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
+		EvaluationMediator eval = new EvaluationMediator();
+		eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
+//			FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
 			//SAILAEvaluationStrategy eval = new SAILAEvaluationStrategy();
 			
 				//GenericTopology topo = new GenericTopology();

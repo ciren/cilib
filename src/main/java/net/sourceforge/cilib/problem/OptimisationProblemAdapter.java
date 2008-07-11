@@ -23,6 +23,8 @@ package net.sourceforge.cilib.problem;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
+import net.sourceforge.cilib.problem.changestrategy.NoChangeStrategy;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -37,9 +39,11 @@ import net.sourceforge.cilib.type.types.Type;
 public abstract class OptimisationProblemAdapter implements OptimisationProblem {
 	protected AtomicInteger fitnessEvaluations;
 	protected DataSetBuilder dataSetBuilder;
+	private ChangeStrategy changeStrategy;
 
 	public OptimisationProblemAdapter() {
 		fitnessEvaluations = new AtomicInteger(0);
+		changeStrategy = new NoChangeStrategy();
 	}
 
 	public OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
@@ -62,6 +66,8 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 		 * calculateFitness(solution); } else { return InferiorFitness.instance(); }
 		 */
 
+		this.changeStrategy.change(this);
+		
 		return calculateFitness(solution);
 	}
 
@@ -76,4 +82,21 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 	public void setDataSetBuilder(DataSetBuilder dsb) {
 		dataSetBuilder = dsb;
 	}
+
+	public void accept(ProblemVisitor visitor) {
+		throw new UnsupportedOperationException("This method is not implemented");
+	}
+
+	public void changeEnvironment() {
+		throw new UnsupportedOperationException("Problems are static by default. Dynamic problems should override this method");
+	}
+
+	public ChangeStrategy getChangeStrategy() {
+		return changeStrategy;
+	}
+
+	public void setChangeStrategy(ChangeStrategy changeStrategy) {
+		this.changeStrategy = changeStrategy;
+	}
+	
 }

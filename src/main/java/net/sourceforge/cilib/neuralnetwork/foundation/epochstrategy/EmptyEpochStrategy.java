@@ -19,30 +19,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy;
 
-import java.io.Serializable;
-
-import net.sourceforge.cilib.util.Cloneable;
-
+import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 
 /**
- * This is a common abstraction for all problem classes. All problems should extend this interface.
- * All {@linkplain Problem}s are effectively dynamic problems where non-dynamic problems are essentially
- * problems that are "frozen" at an arbitrary time step. 
- *
- * @author  Edwin Peer
+ * An epoch strategy for a Neural Network in which the epoch performs no actions
+ * at all.
  */
-public interface Problem extends Serializable, Cloneable {
-	
+public class EmptyEpochStrategy implements EpochStrategy {
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public Problem getClone();
-	
-	/**
-	 * Change the environment.
-	 */
-	public void changeEnvironment();
-    
+	@Override
+	public void performIteration(EvaluationMediator evaluationMediator) {
+		// This method is intentionally left empty
+	}
+
 }

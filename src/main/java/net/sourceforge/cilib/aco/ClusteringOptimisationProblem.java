@@ -24,6 +24,7 @@ package net.sourceforge.cilib.aco;
 import net.sourceforge.cilib.aco.pheromone.PheromoneUpdate;
 import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.ProblemVisitor;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -101,4 +102,15 @@ public class ClusteringOptimisationProblem extends ACOOptimisationProblem {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void accept(ProblemVisitor visitor) {
+		throw new UnsupportedOperationException("This method is not implemented");
+	}
+
+	@Override
+	public void changeEnvironment() {
+		throw new UnsupportedOperationException("This method is not implemented");
+	}
+
 }

@@ -214,4 +214,5 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 				
 		return domainRegistry;
 	}
+
 }

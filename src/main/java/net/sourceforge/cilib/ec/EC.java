@@ -42,7 +42,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * 
  * @author Gary Pampara
  */
-public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorithm{
+public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = -4324446523858690744L;
 	
 	private OptimisationProblem problem;

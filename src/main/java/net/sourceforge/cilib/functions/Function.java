@@ -107,6 +107,7 @@ public abstract class Function implements Cloneable, Serializable {
 	}
 
 	/**
+	 * Set the behavioural domain of the {@linkplain Function}.
 	 * @param behavioralDomain The value to set.
 	 */
 	public void setBehavioralDomain(String behavioralDomain) {

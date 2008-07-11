@@ -21,9 +21,14 @@
  */
 package net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators;
 
+import java.util.List;
+
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -31,6 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * 
  */
+@Deprecated
 public class FFNNEvaluationMediator extends EvaluationMediator {
 
 	protected NeuralNetworkDataIterator iteratorDt = null;
@@ -43,12 +49,15 @@ public class FFNNEvaluationMediator extends EvaluationMediator {
 
 	public void initialize(){
 				
-		super.initialize();
+//		super.initialize();
+		super.performInitialisation();
 		
 	}
 	
 	
-	public void learningEpoch() {
+//	public void learningEpoch() {
+	@Override
+	public void algorithmIteration() {
 		
 		this.resetError(this.errorDt);
 		this.setErrorNoPatterns(this.errorDt, this.data.getTrainingSetSize());
@@ -100,5 +109,29 @@ public class FFNNEvaluationMediator extends EvaluationMediator {
 	
 	public Vector evaluate(NNPattern p) {
 		return topology.evaluate(p);
+	}
+
+	@Override
+	public double accept(TopologyVisitor visitor) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public OptimisationSolution getBestSolution() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Algorithm getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OptimisationSolution> getSolutions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
