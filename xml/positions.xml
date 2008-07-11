@@ -1,21 +1,17 @@
 <?xml version="1.0"?>
 
 <simulator>
-
-	<simulation>
-
-		<algorithm class="pso.PSO">
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="10000"/>
-		</algorithm>
-
-		<problem class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.Spherical" />
-		</problem>
-
-		<measurements class="simulator.MeasurementSuite" file="pso-positions.txt" resolution="100" samples="1">
-			<addMeasurement class="measurement.single.ParticlePositions"/>
-		</measurements>
-
-	</simulation>
-
+    <simulation>
+        <algorithm class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000"/>
+        </algorithm>
+        
+        <problem class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.Spherical" />
+        </problem>
+        
+        <measurements class="simulator.MeasurementSuite" file="data/pso-positions.txt" resolution="100" samples="1">
+            <addMeasurement class="measurement.single.ParticlePositions"/>
+        </measurements>
+    </simulation>
 </simulator>

@@ -18,7 +18,7 @@
 
 	<problems>
 		<problem id="spherical" class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.Spherical"/>
+			<function class="functions.continuous.Spherical" />
 		</problem>
 		<problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
 			<function class="functions.continuous.Rosenbrock"/>
@@ -33,13 +33,13 @@
 			<function class="functions.continuous.Colville"/>
 		</problem>
 		<problem id="ackley" class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.Ackley"/>
+			<function class="functions.continuous.unconstrained.Ackley"/>
 		</problem>
 	</problems>
 
 	<measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
 		<addMeasurement class="measurement.single.Fitness" />
-		<addMeasurement class="measurement.single.Solution" />
+<!--		<addMeasurement class="measurement.single.Solution" />-->
 	</measurements>
 
 	<simulations>

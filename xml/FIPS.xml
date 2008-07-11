@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!DOCTYPE simulator [
 <!ATTLIST algorithm id ID #IMPLIED>
 <!ATTLIST problem id ID #IMPLIED>
@@ -7,36 +6,39 @@
 ]>
 
 <simulator>
-
-	<algorithms>
-		<algorithm id="gbest" class="pso.PSO">
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="10000">
-			</addStoppingCondition>
-			<particles value="40"/>
-			<prototypeParticle class="pso.particle.StandardParticle">
-				<velocityUpdateStrategy class="pso.velocityupdatestrategies.FIPSVelocityUpdate">
-					<!--<inertiaWeight class="ControlParameterUpdateStrategies.LinearDecreasingUpdateStrategy" range="R(0.2,1.0)" />-->
-					<randomComponent class="pso.parameterupdatestrategies.FIPSAcceleration" parameter="1.0"/>	
-				</velocityUpdateStrategy>
-			</prototypeParticle>
-		</algorithm>
-	</algorithms>
-
-	<problems> 
-		<problem id="spherical" class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.Spherical"/>
-		</problem>
-	</problems>
-
-	<measurements id="fitness" class="simulator.MeasurementSuite" resolution="5" samples="1">
-		<addMeasurement class="measurement.single.Fitness"/>
-	</measurements>
-
-	<simulations>
-		<simulation>
-			<algorithm idref="gbest"/>
-			<problem idref="spherical"/>
-			<measurements idref="fitness" file="data/spherical.FIPS.p20w0.7298c3NoVmax.txt"/>
-		</simulation>
-	</simulations>
+    <algorithms>
+        <algorithm id="gbest" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000">
+            </addStoppingCondition>
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="40"/>
+                <prototypeEntity class="pso.particle.StandardParticle">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.FIPSVelocityUpdate">
+                        <!--<inertiaWeight class="ControlParameterUpdateStrategies.LinearDecreasingUpdateStrategy" range="R(0.2,1.0)" />-->
+                        <!-- TODO: Revisit, constant ?
+                        <randomComponent class="pso.parameterupdatestrategies.FIPSAcceleration" parameter="1.0"/>
+                        -->
+                    </velocityUpdateStrategy>
+                </prototypeEntity>
+            </initialisationStrategy>
+        </algorithm>
+    </algorithms>
+    
+    <problems> 
+        <problem id="spherical" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.Spherical"/>
+        </problem>
+    </problems>
+    
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="5" samples="1">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+    
+    <simulations>
+        <simulation>
+            <algorithm idref="gbest"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" file="data/spherical.FIPS.p20w0.7298c3NoVmax.txt"/>
+        </simulation>
+    </simulations>
 </simulator>

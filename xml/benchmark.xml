@@ -7,36 +7,37 @@
 ]>
 
 <simulator>
-
-	<simulation>
-
-		<algorithm id="gbest" class="pso.PSO">
-			<velocityUpdate class="pso.velocityupdatestrategies.StandardVelocityUpdate">
-				<inertiaWeight class="controlparameterupdatestrategies.ConstantUpdateStrategy" parameter="0.729844"/>
-				<socialComponent class="pso.parameterupdatestrategies.AccelerationUpdateStrategy"> 
-					<parameter value="1.49180"/>
-					<randomiser class="math.random.generator.KnuthSubtractive"/>
-				</socialComponent>
-				<cognitiveComponent class="pso.parameterupdatestrategies.AccelerationUpdateStrategy">
-					<parameter value="1.49180"/>
-					<randomiser class="math.random.generator.KnuthSubtractive"/>
-				</cognitiveComponent>
-			</velocityUpdate>
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="10000"/>
-		</algorithm>
-
-		<problem class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.NastyBenchmark"/>
-		</problem>
-
-		<measurements class="simulator.MeasurementSuite">
-			<file value="data/benchmark.txt"/>
-			<resolution value="1000"/>
-			<samples value="30"/>
-			<addMeasurement class="measurement.single.Fitness"/>
-			<addMeasurement class="measurement.single.Solution"/>
-		</measurements>
-
-	</simulation>
-
+    <simulation>
+        <algorithm id="gbest" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <!--<entityNumber value="20"/>-->
+                <prototypeEntity class="pso.particle.StandardParticle">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                        <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729844"/>
+                        <socialAcceleration class="controlparameter.RandomizingControlParameter"> 
+                            <parameter value="1.49180"/>
+                            <randomiser class="math.random.generator.KnuthSubtractive"/>
+                        </socialAcceleration>
+                        <cognitiveAcceleration class="controlparameter.RandomizingControlParameter"> 
+                            <parameter value="1.49180"/>
+                            <randomiser class="math.random.generator.KnuthSubtractive"/>
+                        </cognitiveAcceleration>
+                    </velocityUpdateStrategy>
+                </prototypeEntity>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000"/>
+        </algorithm>
+        
+        <problem class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.NastyBenchmark"/>
+        </problem>
+        
+        <measurements class="simulator.MeasurementSuite">
+            <file value="data/benchmark.txt"/>
+            <resolution value="1000"/>
+            <samples value="30"/>
+            <addMeasurement class="measurement.single.Fitness"/>
+            <addMeasurement class="measurement.single.Solution"/>
+        </measurements>
+    </simulation>
 </simulator>

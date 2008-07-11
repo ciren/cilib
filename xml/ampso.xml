@@ -1,27 +1,29 @@
 <?xml version="1.0"?>
 
 <simulator>
-	<simulation>
-		<algorithm class="pso.PSO">
-			<addStoppingCondition class="stoppingcondition.MaximumIterations">
-				<iterations value="4000"/>
-			</addStoppingCondition>
-			<particles value="40" />
-			<topology class="entity.topologies.VonNeumannTopology" />
-			<!--			<velocityUpdate class="PSO.StandardVelocityUpdate">
-				<inertiaComponent class="PSO.LinearDecreasingInertia" />
-			</velocityUpdate>-->
-		</algorithm>
-
-		<problem class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.AngleModulation" precision="2">
-				<function class="functions.continuous.Rastrigin" domain="R(-5.12,5.12)^30" />
-			</function>
-		</problem>
-
-		<measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/ampso-quadric.txt">
-			<addMeasurement class="measurement.single.Fitness" />
-			<addMeasurement class="measurement.single.BestParticlePosition" />
-		</measurements>
-	</simulation>
+    <simulation>
+        <algorithm class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="4000" />
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="40"/>
+                <prototypeEntity class="pso.particle.StandardParticle">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                        <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" />
+                    </velocityUpdateStrategy>
+                </prototypeEntity>
+            </initialisationStrategy>
+            <topology class="entity.topologies.VonNeumannTopology" />
+        </algorithm>
+        
+        <problem class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.decorators.AngleModulation" precision="2">
+            <function class="functions.continuous.Rastrigin" domain="R(-5.12,5.12)^30" />
+            </function>
+        </problem>
+        
+        <measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/ampso-quadric.txt">
+            <addMeasurement class="measurement.single.Fitness" />
+            <addMeasurement class="measurement.single.BestParticlePosition" />
+        </measurements>
+    </simulation>
 </simulator>

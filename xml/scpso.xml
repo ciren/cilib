@@ -1,31 +1,42 @@
 <?xml version="1.0"?>
 
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
 <simulator>
-
-	<simulation>
-
-		<algorithm class="algorithm.SplitCoOperativeOptimisationAlgorithm">
-			<participants value="5"/>
-			<algorithmFactory class="xml.XMLAlgorithmFactory">
-				<algorithm class="pso.GCPSO">
-					<topology class="entity.topologies.LBestTopology" neighbourhoodSize="3"/>
-				</algorithm>
-			</algorithmFactory>
-			<addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations">
-				<evaluations>200000</evaluations>
-			</addStoppingCondition>
-
-		</algorithm>
-
-		<problem class="problem.FunctionMinimisationProblem">
-			<function class="functions.continuous.Schwefel" />
-		</problem>
-
-		<measurements class="simulator.MeasurementSuite" file="data/splitcooperative-pso-schwefel.txt" resolution="10">
-			<addMeasurement class="measurement.single.FitnessEvaluations" />
-			<addMeasurement class="measurement.single.FunctionOptimisationError" />
-		</measurements>
-
-	</simulation>
-
+    <algorithms>
+        <algorithm id="gcpso" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <prototypeEntity class="pso.particle.StandardParticle">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.GCVelocityUpdateStrategy"/>
+                </prototypeEntity>
+            </initialisationStrategy>
+            <topology class="entity.topologies.LBestTopology">
+                <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="3"/>
+            </topology>
+        </algorithm>
+    </algorithms>
+    
+    <simulation>
+        <algorithm class="cooperative.SplitCooperativeAlgorithm">
+            <addPopulationBasedAlgorithm idref="gcpso"/>
+            <addPopulationBasedAlgorithm idref="gcpso"/>
+            <addPopulationBasedAlgorithm idref="gcpso"/>
+            <addPopulationBasedAlgorithm idref="gcpso"/>
+            <addPopulationBasedAlgorithm idref="gcpso"/>
+            <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations" maximumFitnessEvaluations="200000"/>
+        </algorithm>
+        
+        <problem class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.Schwefel" />
+        </problem>
+        
+        <measurements class="simulator.MeasurementSuite" file="data/splitcooperative-pso-schwefel.txt" resolution="10">
+            <addMeasurement class="measurement.single.FitnessEvaluations" />
+            <addMeasurement class="measurement.single.FunctionOptimisationError" />
+        </measurements>
+    </simulation>
 </simulator>
