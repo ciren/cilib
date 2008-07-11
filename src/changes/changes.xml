@@ -7,7 +7,10 @@
     <release version="0.7" date="to be confirmed" description="">
     </release>
     <release version="0.6.12" date="to be announced" description="">
-      <action dev="gpampara" type="2008-05-15" issue="1963749">
+      <action dev="gpampara" type="fix" issue="2007991">
+        Allow for measurements to create the directory structure as needed.
+      </action>
+      <action dev="gpampara" type="update" issue="1963749">
         Ability to set the manner in which PRNG's seed values are determined.
       </action>
       <action dev="heatzync" type="add" issue="1969423">
