@@ -70,18 +70,16 @@ class MyProblem implements OptimisationProblem {
 				<p>
 					Construct a PSO to be used within the optimisation
 				</p>
-				<source><![CDATA[
-    PSO pso = new PSO();
-]]></source>
+				<source>PSO pso = new PSO();</source>
 			</li>
 			<li>
 				<p>
 					Set the problem:
 				</p>
-				<source><![CDATA[
+				<source>
     MyProblem problem = new MyProblem();
     pso.setOptimisationProblem(problem);
-]]></source>
+</source>
 			</li>
 			<li>
 				<p>

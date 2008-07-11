@@ -25,7 +25,7 @@
     algorithms, with performance of the algorithm not being as important as
     having an algorithmic framework that is highly generic and simplistic.
     The power of CIlib lies in the ability to compose the required 
-    algorithm quickly and	correctly from the available set of algorithmic
+    algorithm quickly and correctly from the available set of algorithmic
     components.
     </p>
     <p>
@@ -42,33 +42,61 @@
     </section>
 
     <section name="Algorithm Hierarchy">
-    <fixme author="Gary Pampara">
-    Complete this section
-    </fixme>
+    <p>
+    All algorithms are defined within the Algorithm hierarchy, with the Algorithm 
+    class being the super class of all algorithms. The algorithms are then divided 
+    into 3 branches, PopulationBasedAlgorithm (base class of PSO, EC, ACO, etc. 
+    where multiple individuals search in parallel), MultiPopulationBasedAlgorithm 
+    (base class for the algorithms using multiple populations like island GAs, 
+    cooperative PSO) and SingularAlgorithm (base class for algorithms with a single 
+    search like neural networks and K-mean clustering). Algorithms are of course 
+    governed by StoppingConditions. The StoppingConditions determine when an 
+    algorithm terminates.
+    </p>
     </section>
 
     <section name="Problem Hierarchy">
-    <fixme author="Gary Pampara">
-    Complete this section
-    </fixme>
+    <p>
+    The problem hierarchy defines a set of problems that are all OptimisationProblems.
+    An optimisation problem can be Minimisation or Maximisation. All problems will 
+    fall into one of these categories, or into both of them (specifically, 
+    multi-objective problems). Problems can be defined in terms of a classical function,
+    or based on some measure defined over a set.
+    </p>
     </section>
 
     <section name="Measurement Hierarchy">
-    <fixme author="Gary Pampara">
-    Complete this section
-    </fixme>
+    <p>
+    Meaurements are defined to be the output of an algorithm during the execution of the
+    algorithm. You could for example want to trace the fitness of a particle or individual
+    after every 5 iterations of the algorithm. There are a wide selection of measurements,
+    all located within the measurements package within.
+    </p>
     </section>
 
     <section name="Control Parameter Hierarchy">
-    <fixme author="Gary Pampara">
-    Complete this section
-    </fixme>
+    <p>
+    The Control Parameters provide a generic manner to define parameters within algorithms.
+    You may want a control parameter of an algorithm to decrease over time (such as the 
+    mutation rate in a GA), for which the LinearDecreasingControlParameter could be used.
+    Using the XML file these objects can be injected into the containing class.
+    </p>
     </section>
 
     <section name="Type Hierarchy">
-    <fixme author="Gary Pampara">
-    Complete this section
-    </fixme>
+    <p>
+    The Type system is the core of the new versions (as from version 0.5) of CIlib. The 
+    Java defined primitives, such as <source>double</source> and <source>int</source>, are 
+    not used. CIlib relies on the type system which provides its own implementation of 
+    <source>Int</source> and <source>Real</source> (and other types). These classes provide
+    information such as the upper and lower bound on variables of the specific type. Another
+    benefit of the type system is that it enables a short-hand notation to define the 
+    representation of an entity (which can be a particle, an individual, or an ant). For 
+    example, if an entity's domain is defined as <source>R(-30.0,30.0)^30</source>, the 
+    entity will be 30-dimensional where each dimension is a Real object and is randomly 
+    initialized within the range of -30 and 30. As another example, defining the domain
+    as B^30 will result in a 30-dimensional bit representation, with each bit randomly initialised.
+    </p>
     </section>
 <!--
     <section id="overview">
