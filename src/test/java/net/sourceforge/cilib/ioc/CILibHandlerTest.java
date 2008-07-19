@@ -60,7 +60,7 @@ public class CILibHandlerTest {
 	
 	@BeforeClass
 	public static void setup() {
-		StringBuffer xmlBuffer = new StringBuffer();
+		StringBuilder xmlBuffer = new StringBuilder();
 		xmlBuffer.append("<?xml version='1.0' encoding='utf-8'?>");
 		/*xmlBuffer.append("<!DOCTYPE simulator [");
 		xmlBuffer.append("<!ELEMENT simulator (algorithms?, problems?, simulation+)>");

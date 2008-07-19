@@ -37,7 +37,7 @@ public class GeneralTreeTest {
 		
 		assertEquals(1, child1.size());
 		
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		PrintingVisitor<Real> visitor = new PrintingVisitor<Real>(buffer);
 		
 		tree.accept(visitor);
@@ -46,9 +46,9 @@ public class GeneralTreeTest {
 	}
 	
 	private class PrintingVisitor<E> extends PrePostVisitor<E> {
-		private StringBuffer buffer;
+		private StringBuilder buffer;
 		
-		public PrintingVisitor(StringBuffer buffer) {
+		public PrintingVisitor(StringBuilder buffer) {
 			this.buffer = buffer;
 		}
 
