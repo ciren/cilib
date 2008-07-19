@@ -24,17 +24,17 @@ package net.sourceforge.cilib.type.types;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Simple <tt>Blackboard</tt> implementation.
- * @author gpampara
  *
  * @param <K> The key type.
  * @param <V> The value type.
  */
 public class Blackboard<K, V extends Type> extends AbstractType {
 	private static final long serialVersionUID = -2589625146223946484L;
-	private Map<K, V> board;
+	private ConcurrentMap<K, V> board;
 	
 	public Blackboard() {
 		this.board = new ConcurrentHashMap<K, V>();
@@ -43,7 +43,8 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 	public Blackboard(Blackboard<K, V> copy) {
 		for (Map.Entry<K, V> entry : copy.board.entrySet()) {
     		K key = entry.getKey();
-    		this.board.put(key, entry.getValue());
+    		@SuppressWarnings({"unchecked"}) V value = (V) entry.getValue().getClone();
+    		this.board.put(key, value);
     	}
 	}
 
