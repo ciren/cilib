@@ -41,7 +41,7 @@ public interface Problem extends Serializable, Cloneable {
 	public Problem getClone();
 	
 	/**
-	 * Change the environment.
+	 * Change the environment. TODO: this might need to be refactored.
 	 */
 	public void changeEnvironment();
     
