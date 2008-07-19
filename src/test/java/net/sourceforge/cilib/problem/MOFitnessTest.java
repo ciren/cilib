@@ -122,6 +122,14 @@ public class MOFitnessTest {
 		public void setDataSetBuilder(DataSetBuilder dataSet) {
 			// TODO Auto-generated method stub
 		}
+
+		public void accept(ProblemVisitor visitor) {
+			throw new UnsupportedOperationException("This method is not implemented");
+		}
+
+		public void changeEnvironment() {
+			throw new UnsupportedOperationException("This method is not implemented");
+		}
     	
     }
 }
