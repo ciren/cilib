@@ -99,7 +99,7 @@ public class PAM250SoP implements ScoringMethod {
 			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
 				 int which = 0;
 				 for (String st1 : alignment) {
-					 StringBuffer stB = new StringBuffer(st1);
+					 StringBuilder stB = new StringBuilder(st1);
 					 stB.setCharAt(i, '*');
 					 alignment.set(which, stB.toString());
 					 which++;

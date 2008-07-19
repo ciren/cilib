@@ -156,7 +156,7 @@ public class AngleModulation extends ContinuousFunction {
 		double c = x.getReal(2);
 		double d = x.getReal(3);
 		
-		StringBuffer str = new StringBuffer();
+		StringBuilder str = new StringBuilder();
 		
 		for (int i = 0; i < requiredBits*function.getDimension(); i++) {
 			double result =  Math.sin(2*Math.PI*(i-a) * b * Math.cos(2*Math.PI*c*(i-a))) + d;

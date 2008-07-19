@@ -179,7 +179,7 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	 * {@inheritDoc}
 	 */
 	public String getRepresentation() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		PrintingVisitor<E> visitor = new PrintingVisitor<E>(buffer);
 		this.accept(visitor);
 		
@@ -193,13 +193,13 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	 */
 	@SuppressWarnings("hiding")
 	private class PrintingVisitor<E> extends PrePostVisitor<E> {
-		private StringBuffer buffer;
+		private StringBuilder buffer;
 		
 		/**
-		 * Create a {@linkplain PrintingVisitor} with the specified {@linkplain StringBuffer}.
-		 * @param buffer the {@linkplain StringBuffer} to use.
+		 * Create a {@linkplain PrintingVisitor} with the specified {@linkplain StringBuilder}.
+		 * @param buffer the {@linkplain StringBuilder} to use.
 		 */
-		public PrintingVisitor(StringBuffer buffer) {
+		public PrintingVisitor(StringBuilder buffer) {
 			this.buffer = buffer;
 		}
 

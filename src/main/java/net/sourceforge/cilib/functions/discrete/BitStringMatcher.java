@@ -68,7 +68,7 @@ public class BitStringMatcher extends DiscreteFunction {
 		// We need to prepend leading '0's cause the BigInteger removes leading 0's
 		// cause it does not change the value of the number that is represented
 		if (this.targetRandomString.length() != this.numberOfBits) {
-			StringBuffer buf = new StringBuffer(this.targetRandomString);
+			StringBuilder buf = new StringBuilder(this.targetRandomString);
 			int difference = this.numberOfBits - this.targetRandomString.length();
 			
 			for (int i = 0; i < difference; i++) {

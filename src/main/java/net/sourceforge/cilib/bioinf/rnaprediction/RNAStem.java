@@ -266,7 +266,7 @@ public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collec
 	public String toString() {
 		Object [] sorted = basePairs.toArray();
 		Arrays.sort(sorted);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("\n   ");
 		for (int i = 0; i < sorted.length; i++) {
 			sb.append(((NucleotidePair) sorted[i]).get5primeIndex()+" ");

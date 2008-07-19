@@ -257,7 +257,7 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 */
 	public String toString(char first, char last, char delimiter) {
 		int dimension = getDimension();
-		StringBuffer tmp = new StringBuffer(10 * dimension);
+		StringBuilder tmp = new StringBuilder(10 * dimension);
 		if (first != 0)
 			tmp.append(first);
 		if (dimension > 0) {

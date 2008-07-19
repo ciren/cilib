@@ -57,7 +57,7 @@ class Line {
     }
 
     public String toString() {
-    	StringBuffer line = new StringBuffer();
+    	StringBuilder line = new StringBuilder();
         for (int i = 0; i < elements; ++i) {
         	if (values[i] != null) {
                 line.append(values[i].toString());

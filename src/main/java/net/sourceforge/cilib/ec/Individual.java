@@ -186,7 +186,7 @@ public class Individual extends AbstractEntity {
      * @return The textual representation of this {@linkplain Individual}.
      */
     public String toString() {
-        StringBuffer str = new StringBuffer();
+        StringBuilder str = new StringBuilder();
        
         str.append(getContents().toString());
         

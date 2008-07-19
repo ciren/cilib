@@ -73,7 +73,7 @@ public class Efn2RNAFitness extends RNAFitness {
 //			}			
 //		}		
 	//	String line = "";
-		StringBuffer outString = new StringBuffer();
+		StringBuilder outString = new StringBuilder();
 		outString.append(nucleotides.length());
 		outString.append("\n");
 		for (int i = 0; i < nucleotides.length()-1; i++) {

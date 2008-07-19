@@ -74,7 +74,7 @@ public class BinaryAlignmentCreator {
 				int [] dummyArray = new int [gapsArray[counter]];
 				int change = 0;  //keep track of how much gaps inserted for that sequence
 			
-				StringBuffer newRepresentation = new StringBuffer(s);  //copy String seq in a easy structure to modify
+				StringBuilder newRepresentation = new StringBuilder(s);  //copy String seq in a easy structure to modify
 			
 				// *** GAP Positions ***
 				// Then go through #gaps allowed
