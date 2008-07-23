@@ -54,12 +54,12 @@ public class AverageDiversityAroundAllEntities extends Diversity {
 		double totalDistanceSum = 0.0;
 		
 		while (populationCenterIterator.hasNext()) {
-			Vector currentCenter = (Vector) (((Entity) populationCenterIterator.next()).getContents());
+			Vector currentCenter = (Vector) (((Entity) populationCenterIterator.next()).getCandidateSolution());
 			Iterator<? extends Entity> populationIterator = algorithm.getTopology().iterator();
 			double currentDistanceSum = 0.0;
 			
 			while (populationIterator.hasNext()) {
-				Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getContents());
+				Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getCandidateSolution());
 				currentDistanceSum += distanceMeasure.distance(currentCenter, currentEntityPosition);
 			}
 			

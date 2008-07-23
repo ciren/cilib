@@ -26,6 +26,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.CoevolutionEntityScoreboard;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -60,7 +61,7 @@ public class CoevolutionFitness implements Measurement{
 		for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
 			for (int i = 0; i < currentAlgorithm.getPopulationSize(); i++){
 				Entity e = currentAlgorithm.getTopology().get(i);
-				int score = ((CoevolutionEntityScoreboard) (e.getProperties().get("board"))).getWinCount();
+				int score = ((CoevolutionEntityScoreboard) (e.getProperties().get(EntityType.Coevolution.BOARD))).getWinCount();
 				if(bestscore < score){
 					bestscore = score;
 				}

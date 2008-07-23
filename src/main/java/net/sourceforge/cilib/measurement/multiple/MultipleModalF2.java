@@ -77,7 +77,7 @@ public class MultipleModalF2 implements Measurement {
 		int count = 0;
 		for (PopulationBasedAlgorithm subSwarm : nichePSO.getSubSwarms()) {
 			for (Entity paricle : subSwarm.getTopology()) {
-				Vector v = (Vector) paricle.getContents();
+				Vector v = (Vector) paricle.getCandidateSolution();
 				System.out.println(v.toString('\0', '\0', ' ')+"\t"+function(v));
 			}
 			System.out.println("e");

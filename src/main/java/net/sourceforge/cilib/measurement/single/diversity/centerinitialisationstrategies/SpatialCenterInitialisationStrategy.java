@@ -40,11 +40,11 @@ public class SpatialCenterInitialisationStrategy extends CenterInitialisationStr
 		
 		Iterator<? extends Entity> averageIterator = algorithm.getTopology().iterator();
 		Entity entity = averageIterator.next();
-        Vector averageEntityPosition = (Vector) entity.getContents().getClone();
+        Vector averageEntityPosition = (Vector) entity.getCandidateSolution().getClone();
         
         while (averageIterator.hasNext()) {
         	entity = averageIterator.next();
-        	Vector entityContents = (Vector) entity.getContents();
+        	Vector entityContents = (Vector) entity.getCandidateSolution();
         	for (int j = 0; j < averageEntityPosition.getDimension(); ++j)
         	   averageEntityPosition.setReal(j, averageEntityPosition.getReal(j)+entityContents.getReal(j));
         }

@@ -109,13 +109,13 @@ public class SpatialExtent implements Measurement {
 	    
 	    while (populationIterator_1.hasNext()) {
 	    	Entity entity_1 = populationIterator_1.next();
-	    	Vector entity_1Contents = (Vector) entity_1.getContents();
+	    	Vector entity_1Contents = (Vector) entity_1.getCandidateSolution();
 	        
 	    	Iterator<? extends Entity> populationIterator_2 = algorithm.getTopology().iterator();
 	    	
 	    	while(populationIterator_2.hasNext()) {
 	    		Entity entity_2 = populationIterator_2.next();
-	    		Vector entity_2Contents = (Vector) entity_2.getContents();
+	    		Vector entity_2Contents = (Vector) entity_2.getCandidateSolution();
 	    		
 	    		double dimensionalDifference = chebyshevDistance.distance(entity_1Contents, entity_2Contents);
 	    		

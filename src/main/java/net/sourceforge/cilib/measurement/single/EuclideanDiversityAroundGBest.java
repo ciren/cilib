@@ -59,7 +59,7 @@ public class EuclideanDiversityAroundGBest implements Measurement {
 
 		Topology<? extends Entity> topology = algorithm.getTopology();
 		for (Entity entity : topology) {
-		     diameter += distance.distance(center, (Vector) entity.getContents());
+		     diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
 		}
 		
 		return new Real(diameter/topology.size());
