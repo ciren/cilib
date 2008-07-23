@@ -40,13 +40,13 @@ public interface CandidateSolution extends Serializable, Cloneable {
 	 * potential solution.
 	 * @return A {@linkplain Type} representing the solution.
 	 */
-	public Type getContents();
+	public Type getCandidateSolution();
 
 	/**
 	 * Set the solution that the <code>CandidateSolution</code> represents.
 	 * @param contents The potential solution to set.
 	 */
-	public void setContents(Type contents);
+	public void setCandidateSolution(Type contents);
 
 	/**
 	 * Obtain the {@linkplain Fitness} of the current <code>CandidateSolution</code>.

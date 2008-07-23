@@ -59,8 +59,8 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
 		if (parentCollection.size() != 2)
 			throw new UnsupportedOperationException("Cannot use exponential recomination on a parent entity grouping not consisting of 2 entities");
 		
-		Vector parentVector = (Vector) parentCollection.get(0).getContents();
-		Vector trialVector = (Vector) parentCollection.get(1).getContents();
+		Vector parentVector = (Vector) parentCollection.get(0).getCandidateSolution();
+		Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
 		Vector offspringVector = new Vector();
 		
 		int i = Double.valueOf(this.getRandomNumber().getUniform(0, parentVector.getDimension())).intValue();
@@ -73,7 +73,7 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
 		}
 		
 		Entity offspring = parentCollection.get(0).getClone();
-		offspring.setContents(offspringVector);
+		offspring.setCandidateSolution(offspringVector);
 		return Arrays.asList(offspring);
 	}
 

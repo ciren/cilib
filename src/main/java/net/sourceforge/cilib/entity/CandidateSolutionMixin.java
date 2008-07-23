@@ -37,14 +37,14 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class CandidateSolutionMixin implements CandidateSolution {
 	private static final long serialVersionUID = 4539668687773346284L;
-	private final Blackboard<String, Type> properties;
+	private final Blackboard<Enum<?>, Type> properties;
 
 	/**
 	 * Create the Mixin class, providing the reference to the shared {@linkplain Blackboard}
 	 * data structure.
 	 * @param properties The shared {@linkplain Blackboard}
 	 */
-	public CandidateSolutionMixin(Blackboard<String, Type> properties) {
+	public CandidateSolutionMixin(Blackboard<Enum<?>, Type> properties) {
 		this.properties = properties;
 	}
 
@@ -89,22 +89,22 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	 * represents.
 	 * @return A {@linkplain Type} representing the solution of the {@linkplain Entity}
 	 */
-	public Type getContents() {
-		return properties.get("content");
+	public Type getCandidateSolution() {
+		return properties.get(EntityType.CANDIDATE_SOLUTION);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setContents(Type content) {
-		properties.put("content", content);
+	public void setCandidateSolution(Type candidateSolution) {
+		properties.put(EntityType.CANDIDATE_SOLUTION, candidateSolution);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public Fitness getFitness() {
-		return (Fitness) properties.get("fitness");
+		return (Fitness) properties.get(EntityType.FITNESS);
 	}
 
 }

@@ -44,12 +44,12 @@ public class DiameterVisitor extends TopologyVisitor {
     	Iterator<? extends Entity> k1 = topology.iterator();
         while (k1.hasNext()) {
             Entity p1 = (Entity) k1.next();
-        	Vector position1 = (Vector) p1.getContents();
+        	Vector position1 = (Vector) p1.getCandidateSolution();
            	
         	Iterator<? extends Entity> k2 = topology.iterator();
         	while (k2.hasNext()) {
         		Entity p2 = (Entity) k2.next();
-        		Vector position2 = (Vector) p2.getContents();
+        		Vector position2 = (Vector) p2.getCandidateSolution();
 
         		double actualDistance = distanceMeasure.distance(position1, position2);
         		if (actualDistance > maxDistance)

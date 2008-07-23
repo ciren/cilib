@@ -51,7 +51,7 @@ public class RadiusVisitor extends TopologyVisitor {
     	    	
     	while(swarmIterator.hasNext()) {
     		Entity swarmParticle = (Entity) swarmIterator.next();
-    		Vector swarmParticlePosition = (Vector) swarmParticle.getContents();
+    		Vector swarmParticlePosition = (Vector) swarmParticle.getCandidateSolution();
     			
     		double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
     	

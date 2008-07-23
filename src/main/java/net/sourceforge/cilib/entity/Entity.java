@@ -50,22 +50,22 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	
 	
 	/**
-	 * Get the contents (candidate solution) of the entity. The contents will depend on the subclass.
-	 * Eg. genes for Individual
+	 * Get the candidate solution of the entity. The contents will depend on the subclass.
+	 * Eg. genotypes for Individual
 	 *     position for Particle
 	 *     tour for Ant
 	 *     etc...
 	 *     
 	 * @return The {@linkplain Type} representing the contents of the {@linkplain Entity}.
 	 */ 
-	public Type getContents();
+	public Type getCandidateSolution();
 	
 	
 	/**
-	 * Set the contents of the current {@linkplain Entity} to the provided {@linkplain Type}.
+	 * Set the candidate solution of the current {@linkplain Entity} to the provided {@linkplain Type}.
 	 * @param type the {@linkplain Type} to be set as the contents of the {@linkplain Entity}.
 	 */
-	public void setContents(Type type);
+	public void setCandidateSolution(Type type);
 	
 	/**
 	 * Calculate the fitness of the <code>Entity</code> incrementing the
@@ -131,12 +131,12 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 * Get the properties associate with the <code>Entity</code>.
 	 * @return The {@linkplain Blackboard} containing the properties.
 	 */
-	public Blackboard<String, Type> getProperties();
+	public Blackboard<Enum<?>, Type> getProperties();
 
 
 	/**
 	 * Set the properties for the current <code>Entity</code>.
 	 * @param properties The properties to set.
 	 */
-	public void setProperties(Blackboard<String, Type> properties);
+	public void setProperties(Blackboard<Enum<?>, Type> properties);
 }

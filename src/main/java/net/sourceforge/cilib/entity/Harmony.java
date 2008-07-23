@@ -74,8 +74,8 @@ public class Harmony extends AbstractEntity {
 	}
 
 	public void calculateFitness(boolean count) {
-		Fitness fitness = calculator.getFitness(getContents(), count);
-    	this.properties.put("fitness", fitness);
+		Fitness fitness = calculator.getFitness(getCandidateSolution(), count);
+    	this.properties.put(EntityType.FITNESS, fitness);
 	}
 
 	public int compareTo(Entity o) {
@@ -87,19 +87,19 @@ public class Harmony extends AbstractEntity {
 	}
 
 	public int getDimension() {
-		return getContents().getDimension();
+		return getCandidateSolution().getDimension();
 	}
 
 	public void initialise(OptimisationProblem problem) {
 		Type harmony = problem.getDomain().getBuiltRepresenation().getClone();
 		harmony.randomise();
 		
-		setContents(harmony);
-		this.properties.put("fitness", InferiorFitness.instance());
+		setCandidateSolution(harmony);
+		this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
 	}
 
 	public void reinitialise() {
-		getContents().randomise();
+		getCandidateSolution().randomise();
 	}
 
 }

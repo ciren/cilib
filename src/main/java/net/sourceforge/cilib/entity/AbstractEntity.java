@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.Type;
  * values stored within the {@linkplain Entity} itself.
  */
 public abstract class AbstractEntity implements Entity, CandidateSolution {
-	protected Blackboard<String, Type> properties = new Blackboard<String, Type>();
+	protected Blackboard<Enum<?>, Type> properties = new Blackboard<Enum<?>, Type>();
 	private final CandidateSolution candidateSolution;
 	protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 
@@ -54,9 +54,8 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	protected AbstractEntity(AbstractEntity copy) {
 		this();
 		
-		for (Map.Entry<String, Type> entry : copy.properties.entrySet()) {
-        	String key = entry.getKey().toString();
-    		this.properties.put(key, entry.getValue().getClone());
+		for (Map.Entry<Enum<?>, Type> entry : copy.properties.entrySet()) {
+    		this.properties.put(entry.getKey(), entry.getValue().getClone());
         }
 	}
 	
@@ -90,7 +89,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * Get the properties associate with the <code>Entity</code>.
 	 * @return The properties within a {@linkplain Blackboard}.
 	 */
-	public Blackboard<String, Type> getProperties() {
+	public Blackboard<Enum<?>, Type> getProperties() {
 		return properties;
 	}
 
@@ -98,7 +97,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * Set the properties for the current <code>Entity</code>.
 	 * @param properties The {@linkplain Blackboard} containing the new properties.
 	 */
-	public void setProperties(Blackboard<String, Type> properties) {
+	public void setProperties(Blackboard<Enum<?>, Type> properties) {
 		this.properties = properties;
 	}
 
@@ -107,8 +106,8 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * {@linkplain Entity}.
 	 * @return The candidate solution as a {@linkplain Type}.
 	 */
-	public Type getContents() {
-		return this.candidateSolution.getContents();
+	public Type getCandidateSolution() {
+		return this.candidateSolution.getCandidateSolution();
 	}
 
 	/**
@@ -123,11 +122,11 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	/**
 	 * Set the {@linkplain Type} maintained by this {@linkplain Entity}s
 	 * {@linkplain CandidateSolution}.
-	 * @param contents The {@linkplain Type} that will be the new value of the
+	 * @param candidateSolution The {@linkplain Type} that will be the new value of the
 	 *        {@linkplain Entity} {@linkplain CandidateSolution}.
 	 */
-	public void setContents(Type contents) {
-		this.candidateSolution.setContents(contents);
+	public void setCandidateSolution(Type candidateSolution) {
+		this.candidateSolution.setCandidateSolution(candidateSolution);
 	}
 	
 	/**

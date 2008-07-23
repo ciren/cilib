@@ -57,7 +57,7 @@ public class UniformMutationStrategy extends MutationStrategy {
 	public void mutate(List<? extends Entity> entity) {
 		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
 			Entity current = individual.next(); 
-			Vector chromosome = (Vector) current.getContents();
+			Vector chromosome = (Vector) current.getCandidateSolution();
 			
 			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 				for (int i = 0; i < chromosome.getDimension(); i++) {

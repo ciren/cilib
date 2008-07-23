@@ -47,12 +47,12 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
 		// initialize iterator to be used to calculate spatial center
 		Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().iterator();
 		Entity entity = calculateCenterIterator.next();
-        Vector spatialCenter = (Vector) entity.getContents().getClone();
+        Vector spatialCenter = (Vector) entity.getCandidateSolution().getClone();
         
         // calculate center - evaluate sum total of population entity contents
         while (calculateCenterIterator.hasNext()) {
         	entity = calculateCenterIterator.next();
-        	Vector entityContents = (Vector) entity.getContents();
+        	Vector entityContents = (Vector) entity.getCandidateSolution();
         	for (int j = 0; j < spatialCenter.getDimension(); ++j)
         	   spatialCenter.setReal(j, spatialCenter.getReal(j)+entityContents.getReal(j));
         }
@@ -67,7 +67,7 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
     	// calculate radius
     	while(calculateRadiusIterator.hasNext()) {
     		Entity populationEntity = (Entity) calculateRadiusIterator.next();
-    		Vector entityContents = (Vector) populationEntity.getContents();
+    		Vector entityContents = (Vector) populationEntity.getCandidateSolution();
     			
     		double currentDistance = distanceMeasure.distance(spatialCenter, entityContents);
     	
