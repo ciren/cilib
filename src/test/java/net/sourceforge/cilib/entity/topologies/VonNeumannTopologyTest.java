@@ -256,7 +256,7 @@ public class VonNeumannTopologyTest {
 			return 0;
 		}
 
-		public Type getContents() {
+		public Type getCandidateSolution() {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -266,7 +266,7 @@ public class VonNeumannTopologyTest {
 			
 		}
 
-		public void setContents(Type type) {
+		public void setCandidateSolution(Type type) {
 			// TODO Auto-generated method stub
 			
 		}

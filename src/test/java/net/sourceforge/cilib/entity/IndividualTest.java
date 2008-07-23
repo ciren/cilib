@@ -23,7 +23,7 @@ public class IndividualTest {
 		genes.add(new Real(5.0));
 		
 		Individual i = new Individual();
-		i.setContents(genes);
+		i.setCandidateSolution(genes);
 		
 		Individual clone = i.getClone();
 		
@@ -31,7 +31,7 @@ public class IndividualTest {
 		assertEquals(5, clone.getDimension());
 		assertEquals(i.getDimension(), clone.getDimension());
 		
-		Vector cloneVector = (Vector) clone.getContents();
+		Vector cloneVector = (Vector) clone.getCandidateSolution();
 		
 		for (int k = 0; k < cloneVector.getDimension(); k++) {
 			assertEquals(genes.get(k), cloneVector.get(k));
@@ -57,7 +57,7 @@ public class IndividualTest {
 		
 		assertTrue(i1.hashCode() == i2.hashCode());
 		
-		i1.setProperties(new Blackboard<String, Type>());
+		i1.setProperties(new Blackboard<Enum<?>, Type>());
 		assertFalse(i1.hashCode() == i2.hashCode());
 	}
 

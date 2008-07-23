@@ -26,6 +26,7 @@ package net.sourceforge.cilib.entity.operators.selection;
 import junit.framework.Assert;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.MaximisationFitness;
@@ -61,9 +62,9 @@ public class RouletteWheelSelectionStrategyTest {
 	
 	@Test
 	public void selectionAtMinimum() {
-		individual1.getProperties().put("fitness", new MinimisationFitness(0.0));
-		individual2.getProperties().put("fitness", new MinimisationFitness(0.0));
-		individual3.getProperties().put("fitness", new MinimisationFitness(0.0));
+		individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
+		individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
+		individual3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
 		
 		RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
 		Entity entity = rouletteWheelSelectionStrategy.select(topology);
@@ -74,9 +75,9 @@ public class RouletteWheelSelectionStrategyTest {
 	
 	@Test
 	public void selectionOfGreatestProportion() {
-		individual1.getProperties().put("fitness", new MaximisationFitness(98.0));
-		individual2.getProperties().put("fitness", new MaximisationFitness(1.0));
-		individual3.getProperties().put("fitness", new MaximisationFitness(1.0));
+		individual1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(98.0));
+		individual2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
+		individual3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
 		
 		RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
 		Entity entity = rouletteWheelSelectionStrategy.select(topology);
