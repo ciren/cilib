@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
@@ -111,15 +112,15 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
         
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
-        this.properties.put("velocity", getPosition().getClone());
+        this.properties.put(EntityType.Particle.VELOCITY, getPosition().getClone());
         
         velocityInitialisationStrategy.initialise(this);
         
         // Initialise particle charge
         chargedParticleInitialisationStrategy.initialise(this);
         
-        this.properties.put("fitness", InferiorFitness.instance());
-        this.properties.put("bestFitness", InferiorFitness.instance());
+        this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
+        this.properties.put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         neighbourhoodBest = this;
     }
 }

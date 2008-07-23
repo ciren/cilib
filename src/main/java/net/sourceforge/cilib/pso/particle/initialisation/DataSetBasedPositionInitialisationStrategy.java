@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.particle.initialisation;
 
 import net.sourceforge.cilib.clustering.kmeans.CentroidsInitialisationStrategy;
 import net.sourceforge.cilib.clustering.kmeans.DataSetBasedCentroidsInitialisationStrategy;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -64,7 +65,7 @@ public class DataSetBasedPositionInitialisationStrategy implements PositionIniti
 		ClusteringUtils helper = ClusteringUtils.get();
 		Vector centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());
 
-		particle.setContents(centroids);
-		particle.getProperties().put("bestPosition", centroids.getClone());
+		particle.setCandidateSolution(centroids);
+		particle.getProperties().put(EntityType.Particle.BEST_POSITION, centroids.getClone());
 	}
 }

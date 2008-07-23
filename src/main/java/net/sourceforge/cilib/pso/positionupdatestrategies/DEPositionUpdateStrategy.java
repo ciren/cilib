@@ -72,7 +72,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 		Vector velocity = (Vector) particle.getVelocity();
 			
 		if (rand1.getUniform() < differentialEvolutionProbability.getGaussian(0.8, 0.1)) {
-			particle.setContents(position.plus(velocity));
+			particle.setCandidateSolution(position.plus(velocity));
 		}
 		else {
 			ArrayList<Vector> positions = new ArrayList<Vector>(3);
@@ -99,7 +99,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 				int random = rand2.getRandomGenerator().nextInt(pso.getTopology().size());
 				Entity parent = pso.getTopology().get(random);
 				if (!positions.contains(parent)) {
-					positions.add((Vector) parent.getContents());
+					positions.add((Vector) parent.getCandidateSolution());
 					count++;
 				}
 			}
@@ -124,10 +124,10 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 				
 			//position should only become the offspring if its fitness is better
 			Fitness trialFitness = pso.getOptimisationProblem().getFitness(dePosition, false);
-			Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getContents(), false);
+			Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getCandidateSolution(), false);
 				
 			if (trialFitness.compareTo(currentFitness) > 0) {
-				particle.setContents(dePosition);
+				particle.setCandidateSolution(dePosition);
 			}			
 		}
 	}

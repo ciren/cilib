@@ -144,7 +144,7 @@ public class GBestAbsorptionStrategy<E extends PopulationBasedAlgorithm> impleme
 		
 		for (PopulationBasedAlgorithm subSwarm : subSwarms) {
 			PSO pso = (PSO) subSwarm;
-			double distance = distanceMeasure.distance((Vector) mainSwarmEntity.getContents(), (Vector) pso.getTopology().getBestEntity().getPosition());
+			double distance = distanceMeasure.distance((Vector) mainSwarmEntity.getCandidateSolution(), (Vector) pso.getTopology().getBestEntity().getPosition());
 			Pair<Real, PopulationBasedAlgorithm> pair = new Pair<Real, PopulationBasedAlgorithm>(new Real(distance), subSwarm);
 			list.add(pair);
 		}

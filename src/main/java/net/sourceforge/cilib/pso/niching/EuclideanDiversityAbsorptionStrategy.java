@@ -113,7 +113,7 @@ public class EuclideanDiversityAbsorptionStrategy<E extends PopulationBasedAlgor
 
     	for (Iterator<Particle> i = subSwarm.getTopology().iterator(); i.hasNext(); ++count) {
     		Entity other = i.next();
-    		diameter += distance.distance(center, (Vector) other.getContents());
+    		diameter += distance.distance(center, (Vector) other.getCandidateSolution());
     	}
 
     	if ((diameter / (double) count) <= this.threshold.getParameter())

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.particle.initialisation;
 
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
@@ -43,10 +44,10 @@ public class RandomizedPositionInitialisationStrategy implements
 	}
 
 	public void initialise(Particle particle, OptimisationProblem problem) {
-		particle.setContents(problem.getDomain().getBuiltRepresenation().getClone());
+		particle.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
 		particle.getPosition().randomise();
 		
-		particle.getProperties().put("bestPosition", particle.getPosition().getClone());
+		particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
 	}
 
 }

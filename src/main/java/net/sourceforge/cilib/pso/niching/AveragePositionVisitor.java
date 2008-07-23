@@ -49,7 +49,7 @@ public class AveragePositionVisitor extends TopologyVisitor {
 		averageVector.initialise(topology.get(0).getDimension(), new Real(0.0));
 		
 		for (Entity entity : topology)
-			averageVector = averageVector.plus((Vector) entity.getContents());
+			averageVector = averageVector.plus((Vector) entity.getCandidateSolution());
 		
 		averageVector.divide(topology.get(0).getDimension());
 	}

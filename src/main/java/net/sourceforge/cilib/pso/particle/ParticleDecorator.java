@@ -149,12 +149,12 @@ public abstract class ParticleDecorator extends AbstractParticle {
     }
     
         
-    public Type getContents() {
-    	return target.getContents();
+    public Type getCandidateSolution() {
+    	return target.getCandidateSolution();
     }
     
-    public void setContents(Type type) {
-    	this.target.setContents(type);
+    public void setCandidateSolution(Type type) {
+    	this.target.setCandidateSolution(type);
     }
     
     public int compareTo(Entity o) {

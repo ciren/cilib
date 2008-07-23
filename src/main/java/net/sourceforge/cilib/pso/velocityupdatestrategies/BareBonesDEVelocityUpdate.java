@@ -102,8 +102,8 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 		//select three random individuals, all different and different from particle
 		RandomNumber r1 = new RandomNumber();
         
-        Vector position1 = (Vector) positions.get(0).getContents();
-        Vector position2 = (Vector) positions.get(1).getContents();
+        Vector position1 = (Vector) positions.get(0).getCandidateSolution();
+        Vector position2 = (Vector) positions.get(1).getCandidateSolution();
 //        Vector position3 = (Vector) positions.get(2).getContents();
         for (int i = 0; i < particle.getDimension(); ++i) {
         	double r = r1.getUniform(0, 1);

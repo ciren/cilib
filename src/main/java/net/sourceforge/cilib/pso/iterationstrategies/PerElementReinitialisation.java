@@ -35,10 +35,10 @@ public class PerElementReinitialisation extends ReinitialisationBoundary {
 	@Override
 	public void enforce(Entity entity) {
 		try {
-			enforce((Vector) entity.getContents());
+			enforce((Vector) entity.getCandidateSolution());
 		}
 		catch (ClassCastException cce) {
-			enforce((Numeric) entity.getContents());
+			enforce((Numeric) entity.getCandidateSolution());
 		}
 	}
 

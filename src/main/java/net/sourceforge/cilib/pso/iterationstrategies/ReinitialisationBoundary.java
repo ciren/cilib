@@ -30,7 +30,7 @@ public class ReinitialisationBoundary implements BoundaryConstraint {
 	private static final long serialVersionUID = -512973040124015665L;
 
 	public void enforce(Entity entity) {
-		if (!entity.getContents().isInsideBounds()) {
+		if (!entity.getCandidateSolution().isInsideBounds()) {
 //			log.warn("Enity outside bounds; reinitialising");
 			entity.reinitialise();
 		}

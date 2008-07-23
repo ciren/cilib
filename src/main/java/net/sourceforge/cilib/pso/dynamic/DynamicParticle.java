@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
 /**
@@ -51,7 +52,7 @@ public class DynamicParticle extends StandardParticle {
      * Re-evaluate both best and current position of the particle.
      */
     public void reevaluate() {
-    	this.properties.put("bestFitness", fitnessCalculator.getFitness(getBestPosition(), true));
+    	this.properties.put(EntityType.Particle.BEST_FITNESS, fitnessCalculator.getFitness(getBestPosition(), true));
     	this.calculateFitness();
     }
 }
