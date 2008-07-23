@@ -109,12 +109,12 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 			List<Entity> participants = selectEntities(current, topology);
 			Vector differenceVector = determineDistanceVector(participants);
 			
-			Vector targetVector = (Vector) targetEntity.getContents();
+			Vector targetVector = (Vector) targetEntity.getCandidateSolution();
 			Vector trialVector = targetVector.plus(differenceVector.multiply(scaleParameter.getParameter()));
 			
 			// Create the offspring by applying cross-over
 			Entity trialEntity = current.getClone();
-			trialEntity.setContents(trialVector);
+			trialEntity.setCandidateSolution(trialVector);
 			List<Entity> offspring = this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
 			
 			// Replace the parent (current) if the offspring is better
@@ -122,7 +122,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 			offspringEntity.calculateFitness(false);
 			
 			if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
-				current.setContents(offspring.get(0).getContents());
+				current.setCandidateSolution(offspring.get(0).getCandidateSolution());
 			}
 		}
 	}	
@@ -136,12 +136,12 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 	 * @return A {@linkplain Vector} representing the resultant of all calculated difference vectors.
 	 */
 	private Vector determineDistanceVector(List<Entity> participants) {
-		Vector distanceVector = new Vector(participants.get(0).getContents().getDimension(), new Real(0.0));
+		Vector distanceVector = new Vector(participants.get(0).getCandidateSolution().getDimension(), new Real(0.0));
 		Iterator<Entity> iterator = participants.iterator();
 		
 		while (iterator.hasNext()) {
-			Vector first = (Vector) iterator.next().getContents();
-			Vector second = (Vector) iterator.next().getContents();
+			Vector first = (Vector) iterator.next().getCandidateSolution();
+			Vector second = (Vector) iterator.next().getCandidateSolution();
 			
 			Vector difference = first.subtract(second);
 			distanceVector = distanceVector.plus(difference);

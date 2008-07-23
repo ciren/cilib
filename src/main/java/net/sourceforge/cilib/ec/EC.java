@@ -139,7 +139,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	 * {@inheritDoc}
 	 */
 	public OptimisationSolution getBestSolution() {
-		OptimisationSolution solution = new OptimisationSolution(problem, topology.getBestEntity().getContents().getClone());
+		OptimisationSolution solution = new OptimisationSolution(problem, topology.getBestEntity().getCandidateSolution().getClone());
         
         return solution;
 	}

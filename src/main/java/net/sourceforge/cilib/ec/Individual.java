@@ -23,6 +23,7 @@ package net.sourceforge.cilib.ec;
 
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
@@ -47,9 +48,9 @@ public class Individual extends AbstractEntity {
     public Individual() {
     	id = "";
         dimension = 0;
-        setContents(new Vector());
-        this.properties.put("penotypes", new Vector());
-        this.properties.put("fitness", InferiorFitness.instance());
+        setCandidateSolution(new Vector());
+        this.properties.put(EntityType.Individual.PHENOTYPES, new Vector());
+        this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
         fitnessCalculator = new VectorBasedFitnessCalculator();
     }
     
@@ -97,7 +98,7 @@ public class Individual extends AbstractEntity {
       * Resets the fitness to <code>InferiorFitness</code>.
       */
      public void resetFitness() {
-         this.properties.put("fitness", InferiorFitness.instance());
+         this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
      }     
 
      /**
@@ -107,16 +108,16 @@ public class Individual extends AbstractEntity {
          // ID initialization is done in the clone method...
          // which is always enforced due to the semantics of the performInitialisation methods         
 
-    	 this.setContents((Type) problem.getDomain().getBuiltRepresenation().getClone());
-    	 this.getContents().randomise();
+    	 this.setCandidateSolution((Type) problem.getDomain().getBuiltRepresenation().getClone());
+    	 this.getCandidateSolution().randomise();
     		 
     	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
-    		 this.properties.put("penotypes", problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
-    		 this.properties.get("penotypes").randomise();
+    		 this.properties.put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
+    		 this.properties.get(EntityType.Individual.PHENOTYPES).randomise();
     	 }
     	 
-    	 this.dimension = this.getContents().getDimension();
-    	 this.properties.put("fitness", InferiorFitness.instance());
+    	 this.dimension = this.getCandidateSolution().getDimension();
+    	 this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
      }     
      
      /**
@@ -129,8 +130,8 @@ public class Individual extends AbstractEntity {
      /**
       * {@inheritDoc}
       */
-     public void setContents(Type type) {
-    	 super.setContents(type);
+     public void setCandidateSolution(Type type) {
+    	 super.setCandidateSolution(type);
     	 this.dimension = type.getDimension();
      }
 
@@ -161,7 +162,7 @@ public class Individual extends AbstractEntity {
      * {@inheritDoc}
      */
     public void calculateFitness(boolean count) {
-    	this.properties.put("fitness", fitnessCalculator.getFitness(getContents(), count));
+    	this.properties.put(EntityType.FITNESS, fitnessCalculator.getFitness(getCandidateSolution(), count));
     }
 
     /**
@@ -188,11 +189,11 @@ public class Individual extends AbstractEntity {
     public String toString() {
         StringBuilder str = new StringBuilder();
        
-        str.append(getContents().toString());
+        str.append(getCandidateSolution().toString());
         
-        if (this.properties.get("penotypes") != null) {
+        if (this.properties.get(EntityType.Individual.PHENOTYPES) != null) {
         	str.append(" ");
-        	str.append(this.properties.get("penotypes").toString());
+        	str.append(this.properties.get(EntityType.Individual.PHENOTYPES).toString());
         }
         
         return str.toString();
@@ -204,7 +205,7 @@ public class Individual extends AbstractEntity {
 	 * @return a <tt>Type</tt> representing the behavioural parameters.
 	 */
 	public Type getBehaviouralParameters() {
-		return this.properties.get("penotypes");
+		return this.properties.get(EntityType.Individual.PHENOTYPES);
 	}
 
 	
@@ -214,7 +215,7 @@ public class Individual extends AbstractEntity {
 	 */
 	public void setBehaviouralParameters(Type type) {
 		if (type instanceof Vector)
-			this.properties.put("penotypes", type);
+			this.properties.put(EntityType.Individual.PHENOTYPES, type);
 		else throw new RuntimeException("BehaviouralParameters need to be correct type! Please check and correct");
 	}
 
