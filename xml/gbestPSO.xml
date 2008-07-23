@@ -9,15 +9,7 @@
 <simulator>
     <algorithms>
         <algorithm id="gbest" class="pso.PSO">
-            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <prototypeEntity class="pso.particle.StandardParticle">
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
-                        <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729" />
-                        <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" range="R(0.3,1.2)" />
-                    </velocityUpdateStrategy>
-                </prototypeEntity>
-            </initialisationStrategy>
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
+          <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
         </algorithm>
     </algorithms>
 
