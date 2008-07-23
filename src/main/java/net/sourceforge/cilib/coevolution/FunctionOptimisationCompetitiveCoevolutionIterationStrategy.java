@@ -26,6 +26,7 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -65,36 +66,36 @@ public class FunctionOptimisationCompetitiveCoevolutionIterationStrategy extends
 		Fitness entityFitness = stPart.getFitnessCalculator().getFitness(stPart.getPosition(), false);
     	if (entityFitness.compareTo(stPart.getFitnessCalculator().getFitness(stPart.getBestPosition(), false)) > 0) {
     		//stPart.setBestFitness(entityFitness);
-    		stPart.getProperties().put("bestFitness", entityFitness);
-    		stPart.getProperties().put("bestPosition", stPart.getPosition().getClone());
+    		stPart.getProperties().put(EntityType.Particle.BEST_FITNESS, entityFitness);
+    		stPart.getProperties().put(EntityType.Particle.BEST_POSITION, stPart.getPosition().getClone());
     	}
 		
 		//stPart.setBestFitness(entityFitness);
-    	stPart.getProperties().put("bestFitness", entityFitness);
+    	stPart.getProperties().put(EntityType.Particle.BEST_FITNESS, entityFitness);
 		
 		for(Entity entity : opponents) {
 			StandardParticle opp = (StandardParticle) entity;
 			Fitness opponentFitness = opp.getFitnessCalculator().getFitness(opp.getPosition(), false);
 			EuclideanDistanceMeasure edm = new EuclideanDistanceMeasure();
 			//System.out.println("PURE distance: " + edm.distance(stPart.getPosition(), opp.getPosition()));
-			stPart.getProperties().put("distance", new Real(((Real) (stPart.getProperties().get("distance"))).getReal() + edm.distance(stPart.getPosition(), opp.getPosition())));
+			stPart.getProperties().put(EntityType.Coevolution.DISTANCE, new Real(((Real) (stPart.getProperties().get(EntityType.Coevolution.BOARD))).getReal() + edm.distance(stPart.getPosition(), opp.getPosition())));
 			//System.out.println("distance: " + stPart.getProperties().get("distance"));
 			//do not update the opponent's score so that every particles compete the same numbet of times
 			if(entityFitness.compareTo(opponentFitness)>0){ 
-				((CoevolutionEntityScoreboard) (stPart.getProperties().get("board"))).win(opp, ca.getIterations());
+				((CoevolutionEntityScoreboard) (stPart.getProperties().get(EntityType.Coevolution.BOARD))).win(opp, ca.getIterations());
 			}
 			else if(entityFitness.compareTo(opponentFitness)==0){
-				((CoevolutionEntityScoreboard) (stPart.getProperties().get("board"))).draw(opp, ca.getIterations());
+				((CoevolutionEntityScoreboard) (stPart.getProperties().get(EntityType.Coevolution.BOARD))).draw(opp, ca.getIterations());
 			}
 			else{
-				((CoevolutionEntityScoreboard) (stPart.getProperties().get("board"))).lose(opp, ca.getIterations());
+				((CoevolutionEntityScoreboard) (stPart.getProperties().get(EntityType.Coevolution.BOARD))).lose(opp, ca.getIterations());
 			}
 		}
 	}
 	
 	public void reset(Entity e) {
-		((CoevolutionEntityScoreboard) (e.getProperties().get("board"))).reset();
-		((Real) e.getProperties().get("distance")).setReal(0);
+		((CoevolutionEntityScoreboard) (e.getProperties().get(EntityType.Coevolution.BOARD))).reset();
+		((Real) e.getProperties().get(EntityType.Coevolution.DISTANCE)).setReal(0);
 	}
 
 	/**
@@ -103,9 +104,9 @@ public class FunctionOptimisationCompetitiveCoevolutionIterationStrategy extends
 	 */
 	public void setEntityType(PopulationBasedAlgorithm pba, int populationID) {
 		StandardParticle sp = new StandardParticle();
-		sp.getProperties().put("board", new CoevolutionEntityScoreboard());
-		sp.getProperties().put("populationID", new Int(populationID));
-		sp.getProperties().put("distance", new Real(0.0));
+		sp.getProperties().put(EntityType.Coevolution.BOARD, new CoevolutionEntityScoreboard());
+		sp.getProperties().put(EntityType.Coevolution.POPULATION_ID, new Int(populationID));
+		sp.getProperties().put(EntityType.Coevolution.DISTANCE, new Real(0.0));
 		StandardVelocityUpdate svu = new StandardVelocityUpdate();
 		svu.setCognitiveAcceleration(new ConstantControlParameter(0));
 		sp.setVelocityUpdateStrategy(svu);

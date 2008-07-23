@@ -97,20 +97,20 @@ public class CooperativeEntity extends AbstractEntity {
 	}
 	
 	public void append(Entity entity) {
-		append(entity.getContents());
+		append(entity.getCandidateSolution());
 	}
 	
 	public void update(Entity src, int srcPos, int dstPos, int length) {
 		for(int i = dstPos; i < dstPos + length; ++i) {
-			context.setReal(i, ((Vector) src.getContents()).getReal(srcPos + i - dstPos));
+			context.setReal(i, ((Vector) src.getCandidateSolution()).getReal(srcPos + i - dstPos));
 		}
 	}
 	
-	public Type getContents() {
+	public Type getCandidateSolution() {
 		return context;
 	}
 
-	public void setContents(Type type) {
+	public void setCandidateSolution(Type type) {
 		context.clear();
 		append(type);
 	}

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -132,7 +133,7 @@ public class RNAParticle extends AbstractParticle {
 	 * @param fitness The {@linkplain Fitness} to set.
 	 */
 	public void setFitness(Fitness fitness) {
-		this.getProperties().put("fitness", fitness);
+		this.getProperties().put(EntityType.FITNESS, fitness);
         if (fitness.compareTo(bestFitness) > 0) {
             bestFitness = fitness;
 	

@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.coevolution;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 
@@ -48,16 +49,15 @@ public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
 	 * @return the modified fitness.
 	 */
 	public Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent){
-		
 		//System.out.println("pre fit: " + ent.getFitness().getValue());
-		CoevolutionEntityScoreboard board = (CoevolutionEntityScoreboard) ent.getProperties().get("board");
+		CoevolutionEntityScoreboard board = (CoevolutionEntityScoreboard) ent.getProperties().get(EntityType.Coevolution.BOARD);
 		Fitness f = new MaximisationFitness(Integer.valueOf(board.getWinCount()).doubleValue()); 
 					//* 
 					//((Real)( ent.getProperties().get("distance"))).getReal()
 					//0.0
 		//System.out.println("dis: " + ((Real)( ent.getProperties().get("distance"))).getReal());
 		//System.out.println("f: " + f.getValue());
-		ent.getProperties().put("fitness", f);
+		ent.getProperties().put(EntityType.FITNESS, f);
 		return f;
 	}
 	

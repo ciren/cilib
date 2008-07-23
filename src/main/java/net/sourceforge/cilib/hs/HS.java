@@ -192,14 +192,14 @@ public class HS extends SingularAlgorithm {
 		//calculate a new harmony
 		Harmony newHarmony = new Harmony();
 		newHarmony.initialise(getOptimisationProblem());
-		Vector newHarmonyVector = (Vector) newHarmony.getContents();
+		Vector newHarmonyVector = (Vector) newHarmony.getCandidateSolution();
 		
 		OptimisationProblem problem = getOptimisationProblem();
 		Real newHarmonyValue;
 		for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
 			if (random1.getUniform() < harmonyMemoryConsideringRate.getParameter()) {
 				Harmony selectedHarmony = (Harmony) this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
-				Vector selectedHarmonyContents = (Vector) selectedHarmony.getContents();
+				Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
 				newHarmonyValue = (Real) selectedHarmonyContents.get(i);
 				if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
 					double pitchedValue = newHarmonyValue.getReal() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
@@ -236,7 +236,7 @@ public class HS extends SingularAlgorithm {
 	 */
 	@Override
 	public OptimisationSolution getBestSolution() {
-		return new OptimisationSolution(getOptimisationProblem(), this.harmonyMemory.getFirst().getContents());
+		return new OptimisationSolution(getOptimisationProblem(), this.harmonyMemory.getFirst().getCandidateSolution());
 	}
 
 	/**

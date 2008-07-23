@@ -26,6 +26,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.Int;
 
@@ -65,7 +66,7 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 		for(PopulationBasedAlgorithm currentAlgorithm : pool){
 			for(int i=0; i<currentAlgorithm.getPopulationSize(); i++){
 				Entity e = currentAlgorithm.getTopology().get(i);
-				if(pickFromOwnPopulation && e.getProperties().get("populationID") != new Int(i))
+				if(pickFromOwnPopulation && e.getProperties().get(EntityType.Coevolution.POPULATION_ID) != new Int(i))
 					potentialOpponents.add(e);
 			}
 				

@@ -58,7 +58,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 		domainRegistry = new StringBasedDomainRegistry();
 		String expandedDomain = "";
 		for (int i = offset; i < offset + dimension; i++) {
-			expandedDomain += ((Vector) context.getContents()).get(i).getRepresentation();
+			expandedDomain += ((Vector) context.getCandidateSolution()).get(i).getRepresentation();
 			if (i < offset + dimension - 1)
 				expandedDomain += ",";
 		}
@@ -99,9 +99,9 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 	protected Fitness calculateFitness(Type solution) {
 		Vector participant = (Vector) solution;
 		for (int i = 0; i < dimension; ++i) {
-			((Vector) context.getContents()).setReal(offset + i, participant.getReal(i));
+			((Vector) context.getCandidateSolution()).setReal(offset + i, participant.getReal(i));
 		}
-		return problem.getFitness(context.getContents(), true);
+		return problem.getFitness(context.getCandidateSolution(), true);
 	}
 
 	public DomainRegistry getDomain() {
