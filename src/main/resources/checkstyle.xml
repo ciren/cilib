@@ -97,6 +97,7 @@
 
     <!-- Miscellaneous checks -->
     <module name="ArrayTypeStyle" />
+    <module name="EqualsHashCode" />
     <!--<module name="GenericIllegalRegexp">
       <property name="format" value="\s+$" />
       <property name="message" value="Line has trailing spaces." />
