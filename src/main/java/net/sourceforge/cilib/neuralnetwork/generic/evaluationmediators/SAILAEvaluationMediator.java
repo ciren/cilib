@@ -41,7 +41,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class SAILAEvaluationMediator extends EvaluationMediator {
-	
+	private static final long serialVersionUID = 2935988908188126561L;
 	protected NeuralNetworkDataIterator iteratorDt = null;
 	protected NeuralNetworkDataIterator iteratorDg = null;
 	

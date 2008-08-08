@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 @Deprecated
 public class FFNNEvaluationMediator extends EvaluationMediator {
-
+	private static final long serialVersionUID = -7494539615052365168L;
 	protected NeuralNetworkDataIterator iteratorDt = null;
 	protected NeuralNetworkDataIterator iteratorDg = null;
 	

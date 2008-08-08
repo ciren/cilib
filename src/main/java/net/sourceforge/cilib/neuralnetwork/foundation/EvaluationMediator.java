@@ -39,7 +39,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *  
  */
 public class EvaluationMediator extends SingularAlgorithm {
-
+	private static final long serialVersionUID = 1291326641087190123L;
 	protected NNError[] prototypeError = null;
 	protected NNError[] errorDg = null;
 	protected NNError[] errorDt = null;

@@ -29,8 +29,12 @@ package net.sourceforge.cilib.util;
  * This interface was added in order to bypass the current issues with
  * clone() as provided with the JDK. The protected status of Object.clone()
  * prevented some operations that were needed for CILib.
+ * 
+ * Another consideration was the problems associated with Object.clone() as
+ * discussed by Joshua Bloch in Item 11 of the 2nd edition of his book: 
+ * Effective Java.
  */
-public interface Cloneable extends java.lang.Cloneable {
+public interface Cloneable {
 	
 	/**
 	 * Create a cloned copy of the current object and return it. In general
