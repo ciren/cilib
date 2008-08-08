@@ -168,7 +168,7 @@ public class Individual extends AbstractEntity {
      * {@inheritDoc}
      */
     public void calculateFitness(boolean count) {
-    	this.properties.put(EntityType.FITNESS, fitnessCalculator.getFitness(getCandidateSolution(), count));
+    	this.properties.put(EntityType.FITNESS, fitnessCalculator.getFitness(this, count));
     }
 
     /**

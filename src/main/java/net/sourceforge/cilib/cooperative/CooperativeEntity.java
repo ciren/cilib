@@ -153,6 +153,6 @@ public class CooperativeEntity extends AbstractEntity {
 	}
 
 	public void calculateFitness(boolean count) {
-		fitness = fitnessCalculator.getFitness(context, count);
+		fitness = fitnessCalculator.getFitness(this, count);
 	}
 }

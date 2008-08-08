@@ -74,7 +74,7 @@ public class Harmony extends AbstractEntity {
 	}
 
 	public void calculateFitness(boolean count) {
-		Fitness fitness = calculator.getFitness(getCandidateSolution(), count);
+		Fitness fitness = calculator.getFitness(this, count);
     	this.properties.put(EntityType.FITNESS, fitness);
 	}
 

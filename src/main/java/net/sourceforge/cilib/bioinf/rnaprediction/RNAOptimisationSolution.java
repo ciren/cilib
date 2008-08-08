@@ -52,7 +52,7 @@ public class RNAOptimisationSolution extends OptimisationSolution {
     }
     
     /**
-     * Returns the fitness of this solution according to {@link OptimisationProblem#getFitness(Object position, boolean count)}. 
+     * Returns the fitness of this solution according to {@link OptimisationProblem#getFitness(Entity entity, boolean count)}. 
      * Calling this function does not contribute to the number of fitness evaulations maintained by {@link OptimisationProblem}.
      * 
      * @return The fitness of this solution.

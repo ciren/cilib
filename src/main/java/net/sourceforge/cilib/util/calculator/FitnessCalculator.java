@@ -23,8 +23,8 @@ package net.sourceforge.cilib.util.calculator;
 
 import java.io.Serializable;
 
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -40,10 +40,10 @@ public interface FitnessCalculator extends Serializable, Cloneable {
 
 	/**
 	 * Get the fitness, given the <code>position</code>.
-	 * @param position The <code>Type</code> to base the calculation on.
+	 * @param entity The <code>Type</code> to base the calculation on.
 	 * @param count Whether or not the evaluation is to be counted.
 	 * @return A <code>Fitness</code> object representing the fitness of the <code>position</code>.
 	 */
-	public Fitness getFitness(Type position, boolean count);
+	public Fitness getFitness(Entity entity, boolean count);
 
 }
