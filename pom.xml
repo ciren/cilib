@@ -141,7 +141,7 @@
       <version>1.6</version>
     </dependency>
   </dependencies>
-  
+
   <build>
     <defaultGoal>package</defaultGoal>
     <resources>
@@ -282,6 +282,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-checkstyle-plugin</artifactId>
+	<version>2.2-SNAPSHOT</version>
 	<configuration>
 	  <configLocation>src/main/resources/checkstyle.xml</configLocation>
 	</configuration>
