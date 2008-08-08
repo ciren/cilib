@@ -21,10 +21,8 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-
 import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.type.types.AbstractType;
-import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -110,7 +108,7 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	public abstract boolean getBit(int index);
 
 	/**
-	 * Set the value of the {@linkplain Bit} located at position <code>index</code>.
+	 * Set the value of the {@linkplain net.sourceforge.cilib.type.types.Bit} located at position <code>index</code>.
 	 * @param index The index of the bit to set the value.
 	 * @param value The value of the bit to set.
 	 */

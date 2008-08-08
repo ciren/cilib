@@ -71,6 +71,9 @@ public class Individual extends AbstractEntity {
     	 return new Individual(this);
      }
 
+     /**
+      * {@inheritDoc}
+      */
 	@Override
 	public boolean equals(Object object) {
 		if (this == object)
@@ -85,6 +88,9 @@ public class Individual extends AbstractEntity {
 			(this.id.equals(other.id));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;

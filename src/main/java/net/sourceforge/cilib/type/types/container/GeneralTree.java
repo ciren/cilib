@@ -75,6 +75,9 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 		return new GeneralTree<E>(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -88,6 +91,9 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 		return this.key.equals(other.key) && this.subTrees.equals(other.subTrees);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;

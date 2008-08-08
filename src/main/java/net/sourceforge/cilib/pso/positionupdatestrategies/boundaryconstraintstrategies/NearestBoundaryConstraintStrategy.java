@@ -44,27 +44,45 @@ import net.sourceforge.cilib.type.types.Numeric;
 public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
 	private static final long serialVersionUID = 2444348297389576657L;
 
-	private ControlParameter terbulenceProbability;
+	private ControlParameter turbulenceProbability;
 
+	/**
+	 * Create a new instance of {@literal NearestBoundaryConstraintStrategy}.
+	 */
 	public NearestBoundaryConstraintStrategy() {
-		terbulenceProbability = new ConstantControlParameter();
-		terbulenceProbability.setParameter(0.0);
+		turbulenceProbability = new ConstantControlParameter();
+		turbulenceProbability.setParameter(0.0);
 	}
 
+	/**
+	 * Copy constructor. Create a copy o the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public NearestBoundaryConstraintStrategy(NearestBoundaryConstraintStrategy copy) {
-		terbulenceProbability = copy.terbulenceProbability.getClone();
+		turbulenceProbability = copy.turbulenceProbability.getClone();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public NearestBoundaryConstraintStrategy getClone() {
 		return new NearestBoundaryConstraintStrategy(this);
 	}
 
-	public void setTerbulenceProbability(ControlParameter terbulenceProbability) {
-		this.terbulenceProbability = terbulenceProbability;
+	/**
+	 * Set the turbulence probability with the provided {@linkplain ControlParameter}.
+	 * @param turbulenceProbability The value to set.
+	 */
+	public void setTurbulenceProbability(ControlParameter terbulenceProbability) {
+		this.turbulenceProbability = terbulenceProbability;
 	}
 
-	public ControlParameter getTerbulenceProbability() {
-		return terbulenceProbability;
+	/**
+	 * Get the {@linkplain ControlParameter} representing the current turbulence probability.
+	 * @return The turbulence {@linkplain ControlParameter}.
+	 */
+	public ControlParameter getTurbulenceProbability() {
+		return turbulenceProbability;
 	}
 
 	/**
@@ -77,7 +95,7 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 		Numeric previousPosition = position.getClone();
 
 		position.set(lower);	// lower boundary is inclusive
-		if (MathUtil.random() < terbulenceProbability.getParameter()) {
+		if (MathUtil.random() < turbulenceProbability.getParameter()) {
 			position.set(position.getReal() + MathUtil.random() * range);
 		}
 
@@ -94,7 +112,7 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 		Numeric previousPosition = position.getClone();
 
 		position.set(upper - INFIMUM);	// upper boundary is exclusive
-		if (MathUtil.random() < terbulenceProbability.getParameter()) {
+		if (MathUtil.random() < turbulenceProbability.getParameter()) {
 			position.set(position.getReal() - MathUtil.random() * range);
 		}
 

@@ -87,6 +87,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		return new NaryTree<E>(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -100,6 +103,9 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		return this.key.equals(other.key) && this.subTrees.equals(other.subTrees);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;

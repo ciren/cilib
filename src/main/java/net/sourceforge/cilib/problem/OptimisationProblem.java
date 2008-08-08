@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * Optimisation problems are characterised by a domain that specifies the search space and
+ * Optimisation problems are characterized by a domain that specifies the search space and
  * a fitness given a potential solution. This interface ensures that an 
  * {@link net.sourceforge.cilib.algorithm.OptimisationAlgorithm} has 
  * all the information it needs to find a solution to a given optimisation problem. In addition, it is the
@@ -94,6 +94,11 @@ public interface OptimisationProblem extends Problem {
      */
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder);
     
+    /**
+     * Accept the provided {@link net.sourceforge.cilib.container.visitor.Visitor} and 
+     * perform the {@code Visitor#visit(Object)} method.
+     * @param visitor The visitor which has operations to perform.
+     */
     public void accept(ProblemVisitor visitor);
     
 }

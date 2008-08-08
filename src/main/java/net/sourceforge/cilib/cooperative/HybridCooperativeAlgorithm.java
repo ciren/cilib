@@ -37,10 +37,16 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = 4908040536174924734L;
 
+	/**
+	 * Create a new instance of {@literal HybridCooperativeAlgorithm}.
+	 */
 	public HybridCooperativeAlgorithm() {
-		super();
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public HybridCooperativeAlgorithm(HybridCooperativeAlgorithm copy) {
 		super(copy);
 	}

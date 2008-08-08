@@ -43,26 +43,31 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 	
 
 	/**
-	 * Construct an instacne of the DomainRegistry that will contioan the needed 
+	 * Construct an instance of the DomainRegistry that will contain the needed 
 	 * information about the domain. 
 	 */
 	public StringBasedDomainRegistry() {
 	}
 	
-	
+	/**
+	 * Copy Constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public StringBasedDomainRegistry(StringBasedDomainRegistry copy) {
 		this.domainString = copy.domainString;
 		this.expandedRepresentation = copy.expandedRepresentation;
 		this.builtRepresenation = copy.builtRepresenation.getClone();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public StringBasedDomainRegistry getClone() {
 		return new StringBasedDomainRegistry(this);
 	}
 	
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.type.DomainRegistryNew#getDomainString()
+	/**
+	 * {@inheritDoc}
 	 */
 	public String getDomainString() {
 		return domainString;
@@ -81,10 +86,9 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 		setExpandedRepresentation(parser.expandDomainString(domainString));
 		setBuiltRepresenation(parser.getBuiltRepresentation());
 	}
-	
-	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.type.DomainRegistryNew#getExpandedRepresentation()
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public String getExpandedRepresentation() {
 		return expandedRepresentation;
@@ -98,9 +102,8 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 		this.expandedRepresentation = expandedRepresentation;
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.type.DomainRegistryNew#getBuiltRepresenation()
+	/**
+	 * {@inheritDoc}
 	 */
 	public Type getBuiltRepresenation() {
 		return this.builtRepresenation;
@@ -116,9 +119,8 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 		this.builtRepresenation = builtRepresenation;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.type.DomainRegistryNew#getDimension()
+	/**
+	 * {@inheritDoc}
 	 */
 	public int getDimension() {
 		return ((Vector) this.builtRepresenation).getDimension();

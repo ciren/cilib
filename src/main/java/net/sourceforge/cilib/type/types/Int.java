@@ -266,11 +266,22 @@ public class Int extends Numeric {
 		return "Z(" + Double.valueOf(getLowerBound()).intValue() + "," +
 			Double.valueOf(getUpperBound()).intValue() +")";
 	}
-	
+
+	/**
+	 * Write this {@linkplain Int} to the provided {@linkplain ObjectOutput}.
+	 * @param oos The {@linkplain ObjectOutput} to write on.
+	 * @throws IOException If an error occurs during the write operation.
+	 */
 	public void writeExternal(ObjectOutput oos) throws IOException {
-		oos.writeInt(this.value);		
+		oos.writeInt(this.value);
 	}
 
+	/**
+	 * Read off the provided {@linkplain ObjectInput}.
+	 * @param ois The {@linkplain ObjectInput} to read off.
+	 * @throws IOException If an I/O error occurs.
+	 * @throws ClassNotFoundException If the class to instantiate was not found.
+	 */
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		this.value = ois.readInt();		
 	}

@@ -95,6 +95,9 @@ public class RNAParticle extends AbstractParticle {
 		return new RNAParticle(this);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object object) {
 		if (this == object)
@@ -114,6 +117,9 @@ public class RNAParticle extends AbstractParticle {
 			(this.neighbourhoodBest.equals(other.neighbourhoodBest));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;

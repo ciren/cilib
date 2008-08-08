@@ -26,9 +26,9 @@ import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * TODO: Complete this javadoc.
+ * Implementation of a {@literal BinaryTree}.
  *
- * @param <E>
+ * @param <E> The {@linkplain Comparable} and {@linkplain Cloneable} type.
  */
 public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3537717751647961525L;
@@ -36,20 +36,40 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	private BinaryTree<E> left;
 	private BinaryTree<E> right;
 
+	/**
+	 * Create a new instance of {@literal BinaryTree}.
+	 */
 	public BinaryTree() {
 		this(null, null, null);
 	}
 	
+	/**
+	 * Create a new instance of {@literal BinaryTree} with the provided parameter as the value of
+	 * the key.
+	 * @param element The value of the key that the {@literal BinaryTree} should maintain.
+	 */
 	public BinaryTree(E element) {
 		this(element, new BinaryTree<E>(), new BinaryTree<E>());
 	}
 	
+	/**
+	 * Create an instance of {@linkplain BinaryTree} with the provided tree instances as the
+	 * {@literal left} and {@literal right} children, maintaining the provided {@literal key} value.
+	 * @param key The value of the tree to maintain.
+	 * @param left The left child.
+	 * @param right The right child.
+	 */
 	public BinaryTree(E key, BinaryTree<E> left, BinaryTree<E> right) {
 		this.key = key;
 		this.left = left;
 		this.right = right;
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the provided instance. This copy is a deep copy of the
+	 * provided instance.
+	 * @param copy The instance to copy.
+	 */
 	@SuppressWarnings("unchecked")
 	public BinaryTree(BinaryTree<E> copy) {
 		this.key = (E) copy.key.getClone();
@@ -57,11 +77,17 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		this.right = copy.right.getClone();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public BinaryTree<E> getClone() {
 		return new BinaryTree<E>(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this)
@@ -77,6 +103,9 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 			this.right.equals(other.right);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;
@@ -86,6 +115,9 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		return hash;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		throw new UnsupportedOperationException("Not implemented");
 	}
@@ -96,7 +128,7 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	 * left branch already has a defined tree attached, the right
 	 * subtree is assigned.
 	 * 
-	 * @param subTree
+	 * @param subTree The {@linkplain} to add.
 	 * @return <tt>true</tt> if the addition was successful, <tt>false</tt> otherwise  
 	 */
 	@SuppressWarnings("unchecked")
@@ -116,6 +148,9 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Tree<E> getSubTree(E element) {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Cannot get a subtree from an empty tree");
@@ -126,6 +161,9 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		return new BinaryTree<E>();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Tree<E> getSubTree(int index) {
 		if (index < 0 || index >= 2)
 			throw new IndexOutOfBoundsException("BinaryTree subTree indexes of 0 or 1 are ony allowed.");
@@ -135,6 +173,9 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		return right;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	public Tree<E> removeSubTree(E element) {
 		AbstractTree<E> subTreeFound = (AbstractTree<E>) this.getSubTree(element);
@@ -144,7 +185,10 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		
 		return subTreeFound;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	// TODO: Is there a nicer way of doing this method?
 	public Tree<E> removeSubTree(int index) {
 		AbstractTree<E> found = (AbstractTree<E>) this.getSubTree(index);
@@ -152,30 +196,47 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	}
 
 	/**
-	 * Convenience method. Defers to {@see BinaryTree#addSubtree(Tree)}
+	 * Convenience method. Defers to {@see BinaryTree#addSubtree(Tree)}.
+	 * @param element The element to add to the current tree.
+	 * @return The result of the addition from {@see BinaryTree#addSubTree(Tree)}.
 	 */
 	public boolean add(E element) {
 		return this.addSubTree(new BinaryTree<E>(element));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void clear() {
 		this.key = null;
 		this.left = null;
 		this.right = null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean contains(E element) {
 		return this.getSubTree(element).isEmpty();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean remove(E element) {
 		return !this.removeSubTree(element).isEmpty();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public E remove(int index) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void depthFirstTraversal(PrePostVisitor<E> visitor) {
 		if (!isEmpty()) {
@@ -187,10 +248,16 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isLeaf() {
 		return left.isEmpty() && right.isEmpty();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getDegree() {
 		return 2;
 	}

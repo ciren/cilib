@@ -53,5 +53,4 @@ public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends C
 	 * @param algorithm The algorithm to perform the iteration process on.
 	 */
 	public abstract void performIteration(E algorithm);
-
 }

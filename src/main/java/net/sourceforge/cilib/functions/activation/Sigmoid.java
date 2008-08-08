@@ -117,18 +117,34 @@ public class Sigmoid extends ActivationFunction {
 		return getGradient(VectorUtils.create(number)).getReal(0);
 	}
 
+	/**
+	 * Get the {@literal steepness} associated with the {@linkplain Sigmoid}.
+	 * @return The {@linkplain ControlParameter} representing the {@literal steepness}.
+	 */
 	public ControlParameter getSteepness() {
 		return steepness;
 	}
 
+	/**
+	 * Set the {@linkplain ControlParameter} to represent the {@literal steepness} of the function.
+	 * @param steepness The value to set.
+	 */
 	public void setSteepness(ControlParameter steepness) {
 		this.steepness = steepness;
 	}
 
+	/**
+	 * Get the {@literal offset} associated with the function.
+	 * @return The {@linkplain ControlParameter} representing the {@literal offset}.
+	 */
 	public ControlParameter getOffset() {
 		return offset;
 	}
 
+	/**
+	 * Set the {@linkplain ControlParameter} to represent the {@literal offset} of the function.
+	 * @param offset The value to set.
+	 */
 	public void setOffset(ControlParameter offset) {
 		this.offset = offset;
 	}

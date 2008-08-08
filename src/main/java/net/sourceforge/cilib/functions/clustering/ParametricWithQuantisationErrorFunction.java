@@ -41,6 +41,9 @@ public class ParametricWithQuantisationErrorFunction extends ParametricClusterin
 	/** Specifies the weight that incluences how much the Quantisation Error will contribute to the final fitness. */
 	protected ControlParameter w3 = null;
 
+	/**
+	 * Create a new instance of {@literal ParametricWithQuantisationErrorFunction}.
+	 */
 	public ParametricWithQuantisationErrorFunction() {
 		super();
 		w1 = new ConstantControlParameter(0.3);

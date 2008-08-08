@@ -99,6 +99,9 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 			(this.id == other.id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;
