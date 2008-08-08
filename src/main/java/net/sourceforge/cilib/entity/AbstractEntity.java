@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.Type;
  * values stored within the {@linkplain Entity} itself.
  */
 public abstract class AbstractEntity implements Entity, CandidateSolution {
+	private static final long serialVersionUID = 3104817182593047611L;
 	protected Blackboard<Enum<?>, Type> properties = new Blackboard<Enum<?>, Type>();
 	private final CandidateSolution candidateSolution;
 	protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;

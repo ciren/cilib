@@ -32,7 +32,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public abstract class AbstractList extends AbstractType implements Structure<Type>, VectorMath {
-	
+	private static final long serialVersionUID = -7855489699409219241L;
+
 	/**
 	 * {@inheritDoc}
 	 */

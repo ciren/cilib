@@ -112,7 +112,6 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 	 * @throws {@link NoSuchElementException} when the current index is already at the end of the
 	 *         list.
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public E next() {
 		if (index + 1 >= randomNumbers.size())
@@ -129,7 +128,6 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 	 * @throws {@link NoSuchElementException} when the current index is already at the beginning of
 	 *         the list.
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public E previous() {
 		if (index < 0)

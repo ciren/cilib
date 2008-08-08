@@ -33,6 +33,8 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author Gary Pampara
  */
 public abstract class Ant extends AbstractEntity {
+	private static final long serialVersionUID = 4968559594725569381L;
+
 	/**
 	 * Return a clone of the current Ant object instance.
 	 * @return An <code>Object</code> representing a clone of the current <code>Ant</code> object.

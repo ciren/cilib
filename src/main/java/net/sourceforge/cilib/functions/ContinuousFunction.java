@@ -30,6 +30,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public abstract class ContinuousFunction extends Function {
 	
+	private static final long serialVersionUID = -2483529496289508896L;
+
 	/**
 	 * Create an instance of {@linkplain ContinuousFunction}.
 	 */

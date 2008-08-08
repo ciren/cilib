@@ -30,7 +30,8 @@ package net.sourceforge.cilib.problem;
  * <tt>UnsupportedOperationException</tt>.
  */
 public abstract class AbstractFitness implements Fitness {
-	
+	private static final long serialVersionUID = 333988383861109538L;
+
 	/**
 	 * {@inheritDoc}
 	 */

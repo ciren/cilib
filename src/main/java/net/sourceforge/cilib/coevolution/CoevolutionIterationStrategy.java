@@ -28,6 +28,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
  * Parent class of CompetitiveCoevolutionIterationStrategy and CooperativeCoevolutionIterationStrategy.
  */
 public abstract class CoevolutionIterationStrategy implements IterationStrategy<CoevolutionAlgorithm>{
+	private static final long serialVersionUID = 4328495111165515811L;
 
 	/**
 	 * {@inheritDoc}

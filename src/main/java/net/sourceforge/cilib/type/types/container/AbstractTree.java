@@ -38,7 +38,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> The {@linkplain Cloneable} type.
  */
 public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> extends AbstractType implements Tree<E> {
-
+	private static final long serialVersionUID = 9196740766045092902L;
 	protected E key;
 	
 	/**

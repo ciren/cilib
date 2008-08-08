@@ -31,6 +31,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
+	private static final long serialVersionUID = 7944544624736580311L;
+	
 	protected Function function;
 
     /** 

@@ -42,6 +42,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: change this to use the MatrixDataSetBuilder correctly
  */
 public abstract class MappingProblem extends OptimisationProblemAdapter {
+	private static final long serialVersionUID = 8988100373800461079L;
 	
 	private int outputDimension = -1;
 	private int inputDimension = -1;

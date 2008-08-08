@@ -39,7 +39,7 @@ import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
  * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
 public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
-	
+	private static final long serialVersionUID = -2922555178733552167L;
 	protected BoundaryConstraint boundaryConstraint;
 	protected List<Operator> operatorPipeline;
 	

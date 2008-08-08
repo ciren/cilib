@@ -25,6 +25,7 @@ package net.sourceforge.cilib.problem.dataset;
  * TODO: Complete this javadoc.
  */
 public abstract class TextDataSetBuilder extends DataSetBuilder {
+	private static final long serialVersionUID = -6352670028982771507L;
 
 	public abstract void initialise();
 	

@@ -33,6 +33,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  */
 public abstract class PopulationInitialisationStrategy implements Serializable, Cloneable {
+	private static final long serialVersionUID = -3920357703919058930L;
 	protected int entityNumber;
 
 	/**

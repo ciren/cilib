@@ -46,6 +46,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  * @author Gary Pampara
  */
 public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm implements Iterable<PopulationBasedAlgorithm> {
+	private static final long serialVersionUID = -5311450612897848103L;
 	protected List<PopulationBasedAlgorithm> subPopulationsAlgorithms;
 	protected AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator;
 
@@ -62,7 +63,6 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	 * Create a copy of the provided instance.
 	 * @param copy The instance to copy.
 	 */
-	@SuppressWarnings("unchecked")
 	public MultiPopulationBasedAlgorithm(MultiPopulationBasedAlgorithm copy) {
 		super(copy);
 		subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
@@ -90,7 +90,6 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unchecked")
 	public Iterator<PopulationBasedAlgorithm> iterator() {
 		return this.algorithmIterator.getClone();
 	}

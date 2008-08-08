@@ -32,6 +32,8 @@ import net.sourceforge.cilib.problem.DiscreteOptimisationProblem;
 public abstract class ACOOptimisationProblem extends
 		DiscreteOptimisationProblem {
 	
+	private static final long serialVersionUID = 5174873255187336546L;
+
 	/**
 	 * Degrade the problem based on the specific <code>PheromoneUpdate</code>.
 	 * @param pheromoneUpdate The object to use to degrade the problem.

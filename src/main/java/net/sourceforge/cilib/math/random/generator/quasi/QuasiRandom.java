@@ -28,6 +28,8 @@ import net.sourceforge.cilib.math.random.generator.Random;
  *
  */
 public abstract class QuasiRandom extends Random {
+	private static final long serialVersionUID = -1631441422804523649L;
+	
 	protected int dimensions;
 	protected int skipValue;
 

@@ -27,6 +27,7 @@ package net.sourceforge.cilib.type.types;
  * @author Gary Pampara
  */
 public abstract class Numeric extends AbstractType implements Comparable<Numeric> {
+	private static final long serialVersionUID = 3795529161693499589L;
 	
 	private double lowerBound;
 	private double upperBound;

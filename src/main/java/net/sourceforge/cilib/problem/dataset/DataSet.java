@@ -33,6 +33,8 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Theuns Cloete
  */
 public abstract class DataSet implements Cloneable, Serializable {
+	private static final long serialVersionUID = 5190227337412349440L;
+	
 	@Deprecated
 	protected String patternExpression = null;
 

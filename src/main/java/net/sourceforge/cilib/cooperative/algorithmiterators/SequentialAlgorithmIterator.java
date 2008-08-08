@@ -73,7 +73,6 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 	 * @return the next element in the list.
 	 * @throws NoSuchElementException when the current index is already at the end of the list.
 	 */
-	@SuppressWarnings("unchecked")
 	public E next() {
 		if (index + 1 >= algorithms.size())
 			throw new NoSuchElementException("Trying to iterate past the end of the list");
@@ -86,7 +85,6 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 	 * @return the previous element in the list.
 	 * @throws NoSuchElementException when the current index is already at the beginning of the list.
 	 */
-	@SuppressWarnings("unchecked")
 	public E previous() {
 		if (index < 0)
 			throw new NoSuchElementException("Trying to iterate past the beginning of the list");

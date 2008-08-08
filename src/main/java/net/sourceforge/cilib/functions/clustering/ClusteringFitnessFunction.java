@@ -48,6 +48,8 @@ import org.apache.log4j.Logger;
  * @author Theuns Cloete
  */
 public abstract class ClusteringFitnessFunction extends ContinuousFunction {
+	private static final long serialVersionUID = 4834673666638644106L;
+	
 	private static Logger log = Logger.getLogger(ClusteringFitnessFunction.class);
 	protected ClusteringUtils helper = null;
 	protected ClusterCenterStrategy clusterCenterStrategy = null;

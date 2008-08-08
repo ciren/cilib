@@ -39,6 +39,8 @@ import net.sourceforge.cilib.util.Cloneable;
 public abstract class EntityCollection<E extends Entity> 
 	implements Iterable<E>, List<E>, Cloneable, Serializable {
 
+	private static final long serialVersionUID = 4945715866037943822L;
+
 	/**
 	 * {@inheritDoc}
 	 */

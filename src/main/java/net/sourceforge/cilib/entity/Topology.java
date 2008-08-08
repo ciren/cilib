@@ -38,6 +38,7 @@ import net.sourceforge.cilib.problem.Fitness;
  * @param <E> The {@code Entity} type.
  */
 public abstract class Topology<E extends Entity> extends EntityCollection<E> {
+	private static final long serialVersionUID = -9117512234439769226L;
 	
 	private E bestEntity;
 	

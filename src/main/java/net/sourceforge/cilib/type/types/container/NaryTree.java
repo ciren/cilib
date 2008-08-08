@@ -117,7 +117,6 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean addSubTree(Tree<E> subTree) {
 		if (isEmpty())
 			throw new UnsupportedOperationException();
@@ -152,7 +151,6 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unchecked")
 	public Tree<E> removeSubTree(E element) {
 		if (isEmpty()) 
 			throw new UnsupportedOperationException();

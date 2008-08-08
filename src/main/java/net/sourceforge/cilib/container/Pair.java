@@ -112,9 +112,8 @@ public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair
 	 * @param o The {@linkplain Pair} to perform the comparison with.
 	 * @return The result of the comparison.
 	 */
-	@SuppressWarnings("unchecked")
 	public int compareTo(Pair<K, V> o) {
-		Comparable<K> t1 = (Comparable<K>) this.key;
+		K t1 = this.key;
 		return t1.compareTo(o.key);
 	}
 

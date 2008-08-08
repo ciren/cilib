@@ -43,7 +43,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Edwin Peer
  */
 public abstract class Algorithm implements Cloneable, Runnable, Serializable {
-
+	private static final long serialVersionUID = 7197544770653732632L;
 	private Vector<StoppingCondition> stoppingConditions;
 	private Vector<AlgorithmListener> algorithmListeners;
 	private int iterations;

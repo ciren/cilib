@@ -116,7 +116,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * Perform the iteration of the PSO algorithm, use the appropriate <code>IterationStrategy</code>
 	 * to perform the iteration.
 	 */
-	@SuppressWarnings("unchecked")
 	protected void algorithmIteration() {
 		this.topology.clearBestEntity();
 

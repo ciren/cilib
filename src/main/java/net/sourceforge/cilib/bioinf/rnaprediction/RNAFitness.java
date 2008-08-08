@@ -29,6 +29,7 @@ import net.sourceforge.cilib.measurement.single.Fitness;
  * ie. fitness should be minimised.
  */
 public abstract class RNAFitness extends Fitness {
+	private static final long serialVersionUID = 1060703834565988934L;
 
 	public RNAFitness() {
 	}

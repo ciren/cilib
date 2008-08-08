@@ -33,6 +33,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public abstract class ParticleDecorator extends AbstractParticle {
+	private static final long serialVersionUID = -1604818864075431177L;
 	
 	private AbstractParticle target;
 	    

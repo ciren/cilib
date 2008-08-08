@@ -34,6 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public abstract class BoundedControlParameter implements ControlParameter {
+	private static final long serialVersionUID = 3658446987351378005L;
 	
 	protected Real parameter;
 	protected String range = "";

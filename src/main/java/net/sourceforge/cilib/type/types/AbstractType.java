@@ -25,7 +25,8 @@ package net.sourceforge.cilib.type.types;
  * @author Gary Pampara
  */
 public abstract class AbstractType implements Type {
-	
+	private static final long serialVersionUID = 8719572276888639657L;
+
 	public abstract boolean equals(Object obj);
 	
 	public abstract int hashCode(); 

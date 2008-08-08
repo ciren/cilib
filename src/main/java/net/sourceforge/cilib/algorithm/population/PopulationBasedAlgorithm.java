@@ -32,6 +32,8 @@ import net.sourceforge.cilib.entity.Topology;
  * @author Gary Pampara
  */
 public abstract class PopulationBasedAlgorithm extends Algorithm {
+	private static final long serialVersionUID = -4095104893057340895L;
+	
 	protected PopulationInitialisationStrategy initialisationStrategy;
 
 	/**

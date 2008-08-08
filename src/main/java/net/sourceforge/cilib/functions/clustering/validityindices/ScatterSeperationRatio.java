@@ -33,6 +33,8 @@ import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
  * @author Theuns Cloete
  */
 public abstract class ScatterSeperationRatio extends ClusteringFitnessFunction {
+	private static final long serialVersionUID = 6758442782079174817L;
+	
 	protected ArrayList<Double> withinClusterScatterCache = null;
 	protected ArrayList<Double> betweenClusterSeperationCache = null;
 

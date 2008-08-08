@@ -29,6 +29,7 @@ package net.sourceforge.cilib.algorithm;
  *
  */
 public abstract class SingularAlgorithm extends Algorithm {
+	private static final long serialVersionUID = 8524134633474124524L;
 
 	/**
 	 * Create a new instance of {@linkplain SingularAlgorithm}.

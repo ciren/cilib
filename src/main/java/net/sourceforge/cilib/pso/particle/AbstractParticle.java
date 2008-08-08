@@ -42,8 +42,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
-	
-    protected PositionUpdateStrategy positionUpdateStrategy;
+	private static final long serialVersionUID = 7511192728112990230L;
+	protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
     
     protected VelocityInitialisationStrategy velocityInitialisationStrategy;

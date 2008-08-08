@@ -34,6 +34,8 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  */
 public abstract class Function implements Cloneable, Serializable {
+	private static final long serialVersionUID = -4843291761555348251L;
+	
 	private DomainRegistry domainRegistry;
 	private DomainRegistry behavioralDomainRegistry;
 

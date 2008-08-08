@@ -43,7 +43,6 @@ public class LayeredGenericTopology extends GenericTopology {
 	
 	public LayeredGenericTopology() {
 		super();
-	
 	}
 	
 	public void initialize(){

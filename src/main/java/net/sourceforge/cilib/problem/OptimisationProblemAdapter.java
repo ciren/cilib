@@ -37,6 +37,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  */
 public abstract class OptimisationProblemAdapter implements OptimisationProblem {
+	private static final long serialVersionUID = -5008516277429476778L;
+	
 	protected AtomicInteger fitnessEvaluations;
 	protected DataSetBuilder dataSetBuilder;
 	private ChangeStrategy changeStrategy;

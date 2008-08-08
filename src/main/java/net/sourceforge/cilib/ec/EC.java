@@ -64,7 +64,6 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
 	 */
-	@SuppressWarnings("unchecked")
 	public EC(EC copy) {
 		super(copy);
 		this.initialisationStrategy = copy.initialisationStrategy.getClone();
