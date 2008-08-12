@@ -29,10 +29,10 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  *
  */
-public final class MOFitness extends AbstractFitness {
+public class MOFitness extends AbstractFitness {
 
 	private static final long serialVersionUID = 1477723759384827131L;
-	private final Fitness [] fitnesses;
+	private Fitness [] fitnesses;
 
 	public MOFitness(MOOptimisationProblem problem, Type[] solution, boolean count) {
 		int size = problem.getProblemCount();
