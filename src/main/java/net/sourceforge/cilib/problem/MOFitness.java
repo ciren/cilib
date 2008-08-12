@@ -29,10 +29,10 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  *
  */
-public class MOFitness extends AbstractFitness {
+public final class MOFitness extends AbstractFitness {
 
 	private static final long serialVersionUID = 1477723759384827131L;
-	private Fitness [] fitnesses;
+	private final Fitness [] fitnesses;
 
 	public MOFitness(MOOptimisationProblem problem, Type[] solution, boolean count) {
 		int size = problem.getProblemCount();
@@ -48,6 +48,13 @@ public class MOFitness extends AbstractFitness {
 	
 	public Double getValue() {
 		// TODO: Figure out what to do here
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final Fitness setValue(Double value) {
 		throw new UnsupportedOperationException();
 	}
 

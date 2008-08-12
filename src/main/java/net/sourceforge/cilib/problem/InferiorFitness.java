@@ -59,6 +59,14 @@ public final class InferiorFitness extends AbstractFitness {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Fitness setValue(Double value) {
+		return instance();
+	}
+
+	/**
 	 * Returns -1, unless other is also the <code>InferiorFitness</code> instance. 
 	 * 
 	 * @return 0 if other is <code>InferiorFitness</code> instance, -1 otherwise. 
@@ -105,5 +113,5 @@ public final class InferiorFitness extends AbstractFitness {
 	}
 	
 	private static InferiorFitness instance = new InferiorFitness();
-  
+
 }

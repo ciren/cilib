@@ -56,6 +56,13 @@ public abstract class AbstractFitness implements Fitness {
 	 * {@inheritDoc}
 	 */
 	public abstract Double getValue();
+	
+	/**
+	 * Setter that maintains Fitness object immutability by returning
+	 * a new instance of the current class type.
+	 * @param value The desired value of the {@code Fitness} object. 
+	 */
+	public abstract Fitness setValue(Double value);
 
 	/**
 	 * {@inheritDoc}
@@ -91,5 +98,5 @@ public abstract class AbstractFitness implements Fitness {
 	public void reset() {
 		throw new UnsupportedOperationException("reset() does not make sense on a Fitness object.");
 	}
-
+	
 }
