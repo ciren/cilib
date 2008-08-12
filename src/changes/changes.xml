@@ -7,6 +7,9 @@
     <release version="0.7" date="to be confirmed" description="">
     </release>
     <release version="0.6.12" date="to be announced" description="">
+      <action dev="gpampara" type="fix" issue="2046158">
+        Pulled the FitnessCalculator up into AbstractEntity.
+      </action>
       <action dev="gpampara" type="fix" issue="2007991">
         Allow for measurements to create the directory structure as needed.
       </action>
