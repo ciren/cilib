@@ -59,7 +59,6 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	
 	/**
 	 * Returns the underlying fitness value.
-	 * 
 	 * @return the actual fitness value.
 	 */
 	public Double getValue();

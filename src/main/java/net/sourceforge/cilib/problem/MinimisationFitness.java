@@ -34,7 +34,7 @@ public class MinimisationFitness extends AbstractFitness {
 	/**
 	 * Constructs a new <code>MinimisationFitness</code> with the given fitness value.
 	 * 
-	 * @param value The actual vitness value for the problem.
+	 * @param value The actual fitness value for the problem.
 	 */
 	public MinimisationFitness(Double value) {
 		this.value = value;

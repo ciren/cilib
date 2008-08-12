@@ -39,14 +39,33 @@ public interface Type extends Serializable, Cloneable {
 
 	public int hashCode();
 	
+	/**
+	 * Get the representation of this {@code Type} with domain information attached.
+	 * @return The {@code String} representing the {@code Type}s representation.
+	 */
 	public String getRepresentation();
 
+	/**
+	 * Determine if the current type instance is within the defined bounds
+	 * of the domain.
+	 * @return {@literal true} if it is in the bounds, {@literal false} otherwise.
+	 */
 	public boolean isInsideBounds();
 
+	/**
+	 * Get the assigned dimensionality of the current {@code Type} object.
+	 * @return The associated dimension value.
+	 */
 	public int getDimension();
 
+	/**
+	 * Randomise the current {@code Type} instance.
+	 */
 	public void randomise();
 
+	/**
+	 * Reset the current {@code Type} instance to default values.
+	 */
 	public void reset();
 
 }
