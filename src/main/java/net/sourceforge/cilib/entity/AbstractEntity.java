@@ -28,6 +28,8 @@ import net.sourceforge.cilib.pso.positionupdatestrategies.IterationNeighbourhood
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
+import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
  * Abstract class definition for all concrete {@linkplain Entity} objects.
@@ -39,6 +41,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	protected Blackboard<Enum<?>, Type> properties = new Blackboard<Enum<?>, Type>();
 	private final CandidateSolution candidateSolution;
 	protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
+	private FitnessCalculator fitnessCalculator;
 
 	/**
 	 * Initialise the candidate solution of the {@linkplain Entity}.
@@ -46,6 +49,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	protected AbstractEntity() {
 		this.candidateSolution = new CandidateSolutionMixin(properties);
 		this.neighbourhoodBestUpdateStrategy = new IterationNeighbourhoodBestUpdateStrategy();
+		this.fitnessCalculator = new VectorBasedFitnessCalculator();
 	}
 	
 	/**
@@ -53,7 +57,9 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * @param copy The instance to copy.
 	 */
 	protected AbstractEntity(AbstractEntity copy) {
-		this();
+		this.candidateSolution = (CandidateSolution) copy.candidateSolution.getClone();
+		this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
+		this.fitnessCalculator = copy.fitnessCalculator.getClone();
 		
 		for (Map.Entry<Enum<?>, Type> entry : copy.properties.entrySet()) {
     		this.properties.put(entry.getKey(), entry.getValue().getClone());
@@ -158,6 +164,14 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 */
 	public void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy) {
 		this.neighbourhoodBestUpdateStrategy = neighbourhoodBestUpdateStrategy;
+	}
+
+	public FitnessCalculator getFitnessCalculator() {
+		return fitnessCalculator;
+	}
+
+	public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
+		this.fitnessCalculator = fitnessCalculator;
 	}
 	
 }

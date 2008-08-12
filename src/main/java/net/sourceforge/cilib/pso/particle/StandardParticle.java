@@ -29,8 +29,6 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.calculator.FitnessCalculator;
-import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
  *
@@ -41,7 +39,6 @@ public class StandardParticle extends AbstractParticle {
     private static final long serialVersionUID = 2610843008637279845L;
     
     protected Particle neighbourhoodBest;
-    protected FitnessCalculator fitnessCalculator;
     
     /** Creates a new instance of StandardParticle. */
     public StandardParticle() {
@@ -49,8 +46,6 @@ public class StandardParticle extends AbstractParticle {
     	
     	properties.put(EntityType.Particle.BEST_POSITION, new Vector());
     	properties.put(EntityType.Particle.VELOCITY, new Vector());
-        
-        fitnessCalculator = new VectorBasedFitnessCalculator();
     }
     
     /**
@@ -60,7 +55,6 @@ public class StandardParticle extends AbstractParticle {
     public StandardParticle(StandardParticle copy) {
     	super(copy);
     	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
-    	this.fitnessCalculator = copy.fitnessCalculator.getClone();
     }
     
     /**
@@ -141,7 +135,7 @@ public class StandardParticle extends AbstractParticle {
      * 
      */
     public void calculateFitness(boolean count) {
-    	Fitness fitness = fitnessCalculator.getFitness(this, count);
+    	Fitness fitness = getFitnessCalculator().getFitness(this, count);
     	this.properties.put(EntityType.FITNESS, fitness);
     	if (fitness.compareTo(getBestFitness()) > 0) {
     		this.properties.put(EntityType.Particle.BEST_FITNESS, fitness);
@@ -184,13 +178,5 @@ public class StandardParticle extends AbstractParticle {
 	// Reinitialise all the things based on the defined initialisation strategy
 	public void reinitialise() {
 		this.velocityInitialisationStrategy.initialise(this);
-	}
-
-	public FitnessCalculator getFitnessCalculator() {
-		return fitnessCalculator;
-	}
-
-	public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
-		this.fitnessCalculator = fitnessCalculator;
 	}
 }

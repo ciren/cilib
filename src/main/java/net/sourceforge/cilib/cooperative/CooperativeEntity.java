@@ -28,8 +28,6 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.calculator.FitnessCalculator;
-import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
  * 
@@ -40,18 +38,15 @@ public class CooperativeEntity extends AbstractEntity {
 	
 	protected Vector context = null;
 	protected Fitness fitness = null;
-	protected FitnessCalculator fitnessCalculator;
-
+	
 	public CooperativeEntity() {
 		context = new Vector();
 		fitness = InferiorFitness.instance();
-		fitnessCalculator = new VectorBasedFitnessCalculator();
 	}
 	
 	public CooperativeEntity(CooperativeEntity rhs) {
 		context = rhs.context.getClone();
 		fitness = rhs.fitness;
-		fitnessCalculator = rhs.fitnessCalculator; //.clone();
 	}
 
 	public CooperativeEntity getClone() {
@@ -153,6 +148,6 @@ public class CooperativeEntity extends AbstractEntity {
 	}
 
 	public void calculateFitness(boolean count) {
-		fitness = fitnessCalculator.getFitness(this, count);
+		fitness = getFitnessCalculator().getFitness(this, count);
 	}
 }

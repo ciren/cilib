@@ -28,8 +28,6 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.calculator.FitnessCalculator;
-import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
  * @author otter
@@ -40,7 +38,6 @@ public class Individual extends AbstractEntity {
 	
 	protected String id;
     protected int dimension;
-    protected FitnessCalculator fitnessCalculator;
     
     /**
      * Create an instance of {@linkplain Individual}.
@@ -51,7 +48,6 @@ public class Individual extends AbstractEntity {
         setCandidateSolution(new Vector());
         this.properties.put(EntityType.Individual.PHENOTYPES, new Vector());
         this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
-        fitnessCalculator = new VectorBasedFitnessCalculator();
     }
     
     /**
@@ -61,7 +57,6 @@ public class Individual extends AbstractEntity {
     public Individual(Individual copy) {
     	super(copy);
         this.dimension = copy.dimension;
-        this.fitnessCalculator = copy.fitnessCalculator.getClone();
     }
     
     /**
@@ -168,7 +163,7 @@ public class Individual extends AbstractEntity {
      * {@inheritDoc}
      */
     public void calculateFitness(boolean count) {
-    	this.properties.put(EntityType.FITNESS, fitnessCalculator.getFitness(this, count));
+    	this.properties.put(EntityType.FITNESS, getFitnessCalculator().getFitness(this, count));
     }
 
     /**
