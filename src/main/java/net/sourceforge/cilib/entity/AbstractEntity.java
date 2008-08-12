@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.entity;
 
-import java.util.Map;
-
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
@@ -60,10 +58,6 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 		this.candidateSolution = (CandidateSolution) copy.candidateSolution.getClone();
 		this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
 		this.fitnessCalculator = copy.fitnessCalculator.getClone();
-		
-		for (Map.Entry<Enum<?>, Type> entry : copy.properties.entrySet()) {
-    		this.properties.put(entry.getKey(), entry.getValue().getClone());
-        }
 	}
 	
 	/**

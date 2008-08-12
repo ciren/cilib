@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.entity;
 
+import java.util.Map;
+
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
@@ -37,7 +39,7 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class CandidateSolutionMixin implements CandidateSolution {
 	private static final long serialVersionUID = 4539668687773346284L;
-	private final Blackboard<Enum<?>, Type> properties;
+	private Blackboard<Enum<?>, Type> properties;
 
 	/**
 	 * Create the Mixin class, providing the reference to the shared {@linkplain Blackboard}
@@ -54,7 +56,11 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	 * @param copy The template object to copy.
 	 */
 	public CandidateSolutionMixin(CandidateSolutionMixin copy) {
-		this.properties = copy.properties;
+		this.properties = new Blackboard<Enum<?>, Type>();
+		
+		for (Map.Entry<Enum<?>, Type> entry : copy.properties.entrySet()) {
+    		this.properties.put(entry.getKey(), entry.getValue().getClone());
+        }
 	}
 
 	/**
@@ -105,6 +111,14 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	 */
 	public Fitness getFitness() {
 		return (Fitness) properties.get(EntityType.FITNESS);
+	}
+
+	public Blackboard<Enum<?>, Type> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Blackboard<Enum<?>, Type> properties) {
+		this.properties = properties;
 	}
 
 }
