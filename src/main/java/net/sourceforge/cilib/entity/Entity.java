@@ -42,12 +42,10 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 */
 	public Entity getClone();
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	public int compareTo(Entity o);
-	
 	
 	/**
 	 * Get the candidate solution of the entity. The contents will depend on the subclass.
@@ -59,7 +57,6 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 * @return The {@linkplain Type} representing the contents of the {@linkplain Entity}.
 	 */ 
 	public Type getCandidateSolution();
-	
 	
 	/**
 	 * Set the candidate solution of the current {@linkplain Entity} to the provided {@linkplain Type}.
@@ -85,7 +82,6 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 * @return The {@linkplain Fitness} of the {@linkplain Entity}.
 	 */
 	public Fitness getFitness();
-	
 	
 	/**
 	 * Return the best fitness associated with this {@linkplain Entity}, provided a best
@@ -113,26 +109,22 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 */
 	public void initialise(OptimisationProblem problem);
 	
-	
 	/**
 	 * Returns the dimension of the {@linkplain Entity}.
 	 * @return The dimension of the {@linkplain Entity}.
 	 */
 	public int getDimension();
 	
-	
 	/**
 	 * Re-initialise the given {@linkplain Entity} within the defined domain.
 	 */
 	public void reinitialise();
 	
-
 	/**
 	 * Get the properties associate with the <code>Entity</code>.
 	 * @return The {@linkplain Blackboard} containing the properties.
 	 */
 	public Blackboard<Enum<?>, Type> getProperties();
-
 
 	/**
 	 * Set the properties for the current <code>Entity</code>.

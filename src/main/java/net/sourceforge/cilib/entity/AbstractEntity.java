@@ -72,7 +72,9 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 			return false;
 		
 		AbstractEntity other = (AbstractEntity) object;
-		return this.candidateSolution.equals(other.candidateSolution);
+		return (this.candidateSolution.equals(other.candidateSolution)) &&
+			this.neighbourhoodBestUpdateStrategy.equals(other.neighbourhoodBestUpdateStrategy) &&
+			this.fitnessCalculator.equals(other.fitnessCalculator);
 	}
 
 	/**
@@ -89,7 +91,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * Get the properties associate with the <code>Entity</code>.
 	 * @return The properties within a {@linkplain Blackboard}.
 	 */
-	public Blackboard<Enum<?>, Type> getProperties() {
+	public final Blackboard<Enum<?>, Type> getProperties() {
 		return this.candidateSolution.getProperties();
 	}
 
@@ -97,7 +99,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * Set the properties for the current <code>Entity</code>.
 	 * @param properties The {@linkplain Blackboard} containing the new properties.
 	 */
-	public void setProperties(Blackboard<Enum<?>, Type> properties) {
+	public final void setProperties(Blackboard<Enum<?>, Type> properties) {
 		this.candidateSolution.setProperties(properties);
 	}
 
@@ -159,10 +161,18 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 		this.neighbourhoodBestUpdateStrategy = neighbourhoodBestUpdateStrategy;
 	}
 
+	/**
+	 * Get the current {@code FitnessCalculator} for the current {@code Entity}.
+	 * @return The {@code FitnessCalculator} associated with this {@code Entity}.
+	 */
 	public FitnessCalculator getFitnessCalculator() {
 		return fitnessCalculator;
 	}
 
+	/**
+	 * Set the {@code FitnessCalculator} for the current {@code Entity}.
+	 * @param fitnessCalculator The value to set.
+	 */
 	public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
 		this.fitnessCalculator = fitnessCalculator;
 	}
