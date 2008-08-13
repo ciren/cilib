@@ -36,7 +36,7 @@ import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
  */
 public abstract class AbstractEntity implements Entity, CandidateSolution {
 	private static final long serialVersionUID = 3104817182593047611L;
-	protected Blackboard<Enum<?>, Type> properties = new Blackboard<Enum<?>, Type>();
+
 	private final CandidateSolution candidateSolution;
 	protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 	private FitnessCalculator fitnessCalculator;
@@ -45,7 +45,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * Initialise the candidate solution of the {@linkplain Entity}.
 	 */
 	protected AbstractEntity() {
-		this.candidateSolution = new CandidateSolutionMixin(properties);
+		this.candidateSolution = new CandidateSolutionMixin();
 		this.neighbourhoodBestUpdateStrategy = new IterationNeighbourhoodBestUpdateStrategy();
 		this.fitnessCalculator = new VectorBasedFitnessCalculator();
 	}
@@ -82,7 +82,6 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public int hashCode() {
 		int hash = 7;
 		hash = 31 * hash + (this.candidateSolution == null ? 0 : this.candidateSolution.hashCode());
-		hash = 31 * hash + (this.properties == null ? 0 : this.properties.hashCode());
 		return hash;
 	}
 	
@@ -91,7 +90,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * @return The properties within a {@linkplain Blackboard}.
 	 */
 	public Blackboard<Enum<?>, Type> getProperties() {
-		return properties;
+		return this.candidateSolution.getProperties();
 	}
 
 	/**
@@ -99,7 +98,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * @param properties The {@linkplain Blackboard} containing the new properties.
 	 */
 	public void setProperties(Blackboard<Enum<?>, Type> properties) {
-		this.properties = properties;
+		this.candidateSolution.setProperties(properties);
 	}
 
 	/**

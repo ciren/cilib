@@ -112,15 +112,15 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
         
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
-        this.properties.put(EntityType.Particle.VELOCITY, getPosition().getClone());
+        this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
         
         velocityInitialisationStrategy.initialise(this);
         
         // Initialise particle charge
         chargedParticleInitialisationStrategy.initialise(this);
         
-        this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
-        this.properties.put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
+        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         neighbourhoodBest = this;
     }
 }

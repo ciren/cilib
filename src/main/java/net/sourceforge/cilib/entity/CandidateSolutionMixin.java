@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * <p>
- * A <code>CandidateSolution</code> is a potential solution within an optimisation.
+ * A <code>CandidateSolution</code> is a potential solution within an optimization.
  *
  * <p>
  * <code>CandidateSolution</code> is a base class that all concrete <code>Entity</code>
@@ -44,10 +44,9 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	/**
 	 * Create the Mixin class, providing the reference to the shared {@linkplain Blackboard}
 	 * data structure.
-	 * @param properties The shared {@linkplain Blackboard}
 	 */
-	public CandidateSolutionMixin(Blackboard<Enum<?>, Type> properties) {
-		this.properties = properties;
+	public CandidateSolutionMixin() {
+		this.properties = new Blackboard<Enum<?>, Type>();
 	}
 
 	/**
@@ -113,10 +112,16 @@ public class CandidateSolutionMixin implements CandidateSolution {
 		return (Fitness) properties.get(EntityType.FITNESS);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Blackboard<Enum<?>, Type> getProperties() {
 		return properties;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setProperties(Blackboard<Enum<?>, Type> properties) {
 		this.properties = properties;
 	}

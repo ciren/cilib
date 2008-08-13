@@ -75,7 +75,7 @@ public class Harmony extends AbstractEntity {
 
 	public void calculateFitness(boolean count) {
 		Fitness fitness = calculator.getFitness(this, count);
-    	this.properties.put(EntityType.FITNESS, fitness);
+    	this.getProperties().put(EntityType.FITNESS, fitness);
 	}
 
 	public int compareTo(Entity o) {
@@ -95,7 +95,7 @@ public class Harmony extends AbstractEntity {
 		harmony.randomise();
 		
 		setCandidateSolution(harmony);
-		this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
+		this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
 	}
 
 	public void reinitialise() {

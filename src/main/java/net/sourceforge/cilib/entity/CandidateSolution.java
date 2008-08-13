@@ -24,6 +24,7 @@ package net.sourceforge.cilib.entity;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -53,5 +54,17 @@ public interface CandidateSolution extends Serializable, Cloneable {
 	 * @return The current {@linkplain Fitness} value.
 	 */
 	public Fitness getFitness();
+
+	/**
+	 * Set the {@code Blackboard} defining the properties of the {@code CandidateSolution}.
+	 * @param properties The properties to set.
+	 */
+	public void setProperties(Blackboard<Enum<?>, Type> properties);
+
+	/**
+	 * Get the properties associated with this {@code CandidateSolution}.
+	 * @return The properties of the {@code CandidateSolution}.
+	 */
+	public Blackboard<Enum<?>, Type> getProperties();
 
 }

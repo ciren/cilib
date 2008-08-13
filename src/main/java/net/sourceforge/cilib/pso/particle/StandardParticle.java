@@ -44,8 +44,8 @@ public class StandardParticle extends AbstractParticle {
     public StandardParticle() {
     	super();
     	
-    	properties.put(EntityType.Particle.BEST_POSITION, new Vector());
-    	properties.put(EntityType.Particle.VELOCITY, new Vector());
+    	this.getProperties().put(EntityType.Particle.BEST_POSITION, new Vector());
+    	this.getProperties().put(EntityType.Particle.VELOCITY, new Vector());
     }
     
     /**
@@ -83,11 +83,11 @@ public class StandardParticle extends AbstractParticle {
 	}
 
 	public Fitness getBestFitness() {
-        return (Fitness) this.properties.get(EntityType.Particle.BEST_FITNESS);
+        return (Fitness) this.getProperties().get(EntityType.Particle.BEST_FITNESS);
     }
     
     public Vector getBestPosition() {
-    	return (Vector) this.properties.get(EntityType.Particle.BEST_POSITION);
+    	return (Vector) this.getProperties().get(EntityType.Particle.BEST_POSITION);
     }
         
     public int getDimension() {
@@ -103,7 +103,7 @@ public class StandardParticle extends AbstractParticle {
     }
     
     public Vector getVelocity() {
-        return (Vector) this.properties.get(EntityType.Particle.VELOCITY);
+        return (Vector) this.getProperties().get(EntityType.Particle.VELOCITY);
     }
     
     
@@ -114,11 +114,11 @@ public class StandardParticle extends AbstractParticle {
         
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
-        this.properties.put(EntityType.Particle.VELOCITY, getPosition().getClone());
+        this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
         velocityInitialisationStrategy.initialise(this);
         
-        this.properties.put(EntityType.FITNESS, InferiorFitness.instance());
-        this.properties.put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
+        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+        this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         neighbourhoodBest = this;
     }
     
@@ -136,10 +136,10 @@ public class StandardParticle extends AbstractParticle {
      */
     public void calculateFitness(boolean count) {
     	Fitness fitness = getFitnessCalculator().getFitness(this, count);
-    	this.properties.put(EntityType.FITNESS, fitness);
+    	this.getProperties().put(EntityType.FITNESS, fitness);
     	if (fitness.compareTo(getBestFitness()) > 0) {
-    		this.properties.put(EntityType.Particle.BEST_FITNESS, fitness);
-    		this.properties.put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
+    		this.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
+    		this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
     	}
     }
     
