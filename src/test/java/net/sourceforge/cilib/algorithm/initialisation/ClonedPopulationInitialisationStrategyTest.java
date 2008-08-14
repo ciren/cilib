@@ -48,7 +48,7 @@ import org.junit.Test;
  *  
  * @author Gary Pampara
  */
-public class EntityCloneInitialisationStrategyTest {
+public class ClonedPopulationInitialisationStrategyTest {
 	
 	@Test
 	public void intialiseClonedParticleTopology() {
