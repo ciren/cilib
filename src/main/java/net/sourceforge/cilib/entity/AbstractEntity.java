@@ -72,9 +72,9 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 			return false;
 		
 		AbstractEntity other = (AbstractEntity) object;
-		return (this.candidateSolution.equals(other.candidateSolution)) &&
-			this.neighbourhoodBestUpdateStrategy.equals(other.neighbourhoodBestUpdateStrategy) &&
-			this.fitnessCalculator.equals(other.fitnessCalculator);
+		return (this.candidateSolution.equals(other.candidateSolution));// &&
+//			this.neighbourhoodBestUpdateStrategy.equals(other.neighbourhoodBestUpdateStrategy) &&
+//			this.fitnessCalculator.equals(other.fitnessCalculator);
 	}
 
 	/**
