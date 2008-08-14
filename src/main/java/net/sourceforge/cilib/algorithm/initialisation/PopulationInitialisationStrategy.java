@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
-import java.io.Serializable;
-
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -32,7 +30,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * Interface describing the manner in which populations are initialised.
  * @author Gary Pampara
  */
-public abstract class PopulationInitialisationStrategy implements Serializable, Cloneable {
+public abstract class PopulationInitialisationStrategy implements Cloneable {
 	private static final long serialVersionUID = -3920357703919058930L;
 	protected int entityNumber;
 
