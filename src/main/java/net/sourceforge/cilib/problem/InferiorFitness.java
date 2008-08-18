@@ -29,7 +29,6 @@ package net.sourceforge.cilib.problem;
  * @author Edwin Peer
  */
 public final class InferiorFitness extends AbstractFitness {
-
 	private static final long serialVersionUID = -2129092436359289935L;
 
 	private InferiorFitness() {

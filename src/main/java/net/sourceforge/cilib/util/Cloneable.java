@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.util;
 
+import java.io.Serializable;
+
 /**
  * This interface provides a publicly available getClone() method that
  * can be used to obtain a cloned version of the instance on which the
@@ -34,7 +36,7 @@ package net.sourceforge.cilib.util;
  * discussed by Joshua Bloch in Item 11 of the 2nd edition of his book: 
  * Effective Java.
  */
-public interface Cloneable {
+public interface Cloneable extends Serializable {
 	
 	/**
 	 * Create a cloned copy of the current object and return it. In general

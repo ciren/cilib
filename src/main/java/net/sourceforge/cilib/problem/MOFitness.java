@@ -46,6 +46,9 @@ public class MOFitness extends AbstractFitness {
 		throw new UnsupportedOperationException("Implement me");
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Double getValue() {
 		// TODO: Figure out what to do here
 		throw new UnsupportedOperationException();
@@ -58,6 +61,9 @@ public class MOFitness extends AbstractFitness {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int compareTo(Fitness other) {
 		MOFitness tmp = (MOFitness) other;
 		

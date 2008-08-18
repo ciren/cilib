@@ -28,26 +28,34 @@ package net.sourceforge.cilib.problem;
  * That is, larger fitness values have superior fitness.
  */
 public class MaximisationFitness extends AbstractFitness {
-
 	private static final long serialVersionUID = 317110873134837946L;
 
    /**
 	* Constructs a new <code>MaximisationFitness</code> with the given fitness value.
-	* 
 	* @param value The actual fitness value for the problem.
     */
 	public MaximisationFitness(Double value) {
 		this.value = value;
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public MaximisationFitness(MaximisationFitness copy) {
 		this.value = copy.value;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public MaximisationFitness getClone() {
 		return new MaximisationFitness(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Double getValue() {
 		return value;
 	}
