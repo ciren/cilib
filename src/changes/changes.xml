@@ -7,6 +7,9 @@
     <release version="0.7" date="to be confirmed" description="">
     </release>
     <release version="0.6.12" date="to be announced" description="">
+      <action dev="gpampara" type="fix" issue="2061774">
+        Scripts created during the build process.
+      </action>
       <action dev="gpampara" type="fix" issue="2046047">
         Added a new creation method that returns a Fitness object with the
 	provided value.
