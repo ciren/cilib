@@ -29,7 +29,7 @@ import net.sourceforge.cilib.entity.operators.Operator;
  * TODO: Complete this javadoc.
  */
 public class TopologyLoopingOperator implements Operator {
-	
+	private static final long serialVersionUID = 5726039375836229914L;
 	private Operator operator;
 	
 	public TopologyLoopingOperator() {

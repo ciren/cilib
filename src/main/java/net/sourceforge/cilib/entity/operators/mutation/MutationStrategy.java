@@ -35,6 +35,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * @author Gary Pampara
  */
 public abstract class MutationStrategy implements Operator {
+	private static final long serialVersionUID = 6670947597280440404L;
 	
 	private ControlParameter mutationProbability;
 	private RandomNumber randomNumber;
@@ -56,6 +57,9 @@ public abstract class MutationStrategy implements Operator {
 		this.randomNumber = copy.randomNumber.getClone();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract MutationStrategy getClone();
 	
 	public abstract void mutate(List<? extends Entity> entity);
@@ -90,7 +94,7 @@ public abstract class MutationStrategy implements Operator {
 
 	/**
 	 * This sets the operator to be used within the mutation strategy.
-	 * The mustation can be multiplicative or additive.
+	 * The mutation can be multiplicative or additive.
 	 * Valid values for the operator are defined in the list below.<br>
 	 * <p>
 	 * <table border="0">

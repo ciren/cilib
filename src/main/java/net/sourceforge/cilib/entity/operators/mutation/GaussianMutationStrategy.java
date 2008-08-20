@@ -35,7 +35,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class GaussianMutationStrategy extends MutationStrategy {
-
+	private static final long serialVersionUID = -4219155909474892419L;
+	
 	private double mean;
 	private ControlParameter deviationStrategy;
 	

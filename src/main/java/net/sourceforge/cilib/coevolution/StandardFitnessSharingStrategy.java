@@ -32,6 +32,7 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
  *
  */
 public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
+	private static final long serialVersionUID = -495910154501231712L;
 
 	public StandardFitnessSharingStrategy() {
 	}

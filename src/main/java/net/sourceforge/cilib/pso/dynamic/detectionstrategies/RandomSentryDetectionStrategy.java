@@ -33,7 +33,10 @@ import net.sourceforge.cilib.math.random.generator.Random;
 /**
  * @author Anna Rakitianskaia
  */
-public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> implements EnvironmentChangeDetectionStrategy<E> {
+public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> implements 
+		EnvironmentChangeDetectionStrategy<E> {
+	private static final long serialVersionUID = 6254159986113630555L;
+	
 	private int sentries;
 	private double theta; 
 	private Random randomiser;

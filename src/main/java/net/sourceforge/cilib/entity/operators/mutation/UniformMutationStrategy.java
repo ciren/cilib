@@ -35,14 +35,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class UniformMutationStrategy extends MutationStrategy {
-
+	private static final long serialVersionUID = -3951730432882403768L;
 	private ControlParameter minStrategy, maxStrategy;
 	
 	public UniformMutationStrategy() {
 		super();
 		minStrategy = new ProportionalControlParameter();
 		maxStrategy = new ProportionalControlParameter();
-	}
+	}	
 	
 	public UniformMutationStrategy(UniformMutationStrategy copy) {
 		super(copy);
@@ -50,6 +50,9 @@ public class UniformMutationStrategy extends MutationStrategy {
 		this.maxStrategy = copy.maxStrategy.getClone();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public UniformMutationStrategy getClone() {
 		return new UniformMutationStrategy(this);
 	}

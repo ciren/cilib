@@ -37,6 +37,8 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 */
 
 public abstract class CrossoverStrategy implements Operator {
+	private static final long serialVersionUID = -5058325193277909244L;
+	
 	private ControlParameter crossoverProbability;
 	private RandomNumber randomNumber;
 	private SelectionStrategy selectionStrategy;

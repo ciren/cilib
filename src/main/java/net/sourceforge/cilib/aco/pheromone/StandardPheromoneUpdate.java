@@ -26,6 +26,7 @@ package net.sourceforge.cilib.aco.pheromone;
  * @author Gary Pampara
  */
 public class StandardPheromoneUpdate implements PheromoneUpdate {
+	private static final long serialVersionUID = 1235358533559513458L;
 
 	public PheromoneUpdate getClone() {
 		// TODO Auto-generated method stub

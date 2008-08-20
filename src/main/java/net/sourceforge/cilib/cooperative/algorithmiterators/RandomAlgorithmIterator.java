@@ -37,6 +37,8 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * @param <E> The {@linkplain Algorithm} type.
  */
 public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgorithmIterator<E> {
+	private static final long serialVersionUID = 9087345802965469395L;
+	
 	private ArrayList<Integer> randomNumbers = null;
 
 	/**

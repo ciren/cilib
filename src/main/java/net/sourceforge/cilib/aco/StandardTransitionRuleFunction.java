@@ -28,6 +28,7 @@ package net.sourceforge.cilib.aco;
  * @author Gary Pampara
  */
 public class StandardTransitionRuleFunction implements TransitionRuleFunction {
+	private static final long serialVersionUID = -8704458987645721920L;
 
 	@Override
 	public TransitionRuleFunction getClone() {

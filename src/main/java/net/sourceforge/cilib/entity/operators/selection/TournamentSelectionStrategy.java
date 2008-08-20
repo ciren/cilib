@@ -39,7 +39,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * @author Gary Pampara
  */
 public class TournamentSelectionStrategy extends SelectionStrategy {
-	
+	private static final long serialVersionUID = -7520711765609204590L;
 	private ControlParameter tournamentProportion;
 	private RandomNumber randomNumber;
 	

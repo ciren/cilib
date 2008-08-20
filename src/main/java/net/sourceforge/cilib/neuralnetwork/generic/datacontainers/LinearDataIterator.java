@@ -31,6 +31,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
  *
  */
 public class LinearDataIterator implements NeuralNetworkDataIterator {
+	private static final long serialVersionUID = 104673955761529700L;
 	
 	private int count;
 	private ArrayList<NNPattern> list = null;

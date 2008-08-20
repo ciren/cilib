@@ -30,6 +30,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * 
  */
 public abstract class FitnessSharingStrategy implements Cloneable {
+	private static final long serialVersionUID = 6191655650337123237L;
 	
 	public FitnessSharingStrategy() {
 		

@@ -36,6 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class CauchyMutationStrategy extends MutationStrategy {
+	private static final long serialVersionUID = 8576581034467137106L;
 	
 	private double location;
 	private ControlParameter scaleStrategy;

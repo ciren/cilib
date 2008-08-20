@@ -34,6 +34,8 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> The element type.
  */
 public class Queue<E> implements Iterable<E>, Cloneable { 
+	private static final long serialVersionUID = 3294828755221859021L;
+	
 	private LinkedList<E> queue;
 
 	/**

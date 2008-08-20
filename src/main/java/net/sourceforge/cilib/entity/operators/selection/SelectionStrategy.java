@@ -30,7 +30,8 @@ import net.sourceforge.cilib.entity.operators.Operator;
  * @author Gary Pampara
  */
 public abstract class SelectionStrategy implements Operator {
-	
+	private static final long serialVersionUID = 410467686448546547L;
+
 	/**
 	 * {@inheritDoc}
 	 */

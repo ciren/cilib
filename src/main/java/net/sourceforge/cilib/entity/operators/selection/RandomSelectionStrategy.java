@@ -33,6 +33,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  *
  */
 public class RandomSelectionStrategy extends SelectionStrategy {
+	private static final long serialVersionUID = -216894674927488180L;
 	
 	private Random random;
 	

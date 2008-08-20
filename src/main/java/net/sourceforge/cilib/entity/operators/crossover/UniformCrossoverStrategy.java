@@ -34,7 +34,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 */
 
 public class UniformCrossoverStrategy extends CrossoverStrategy {
-	
+	private static final long serialVersionUID = 8912494112973025634L;
+
 	public UniformCrossoverStrategy() {
 	}
 	

@@ -32,6 +32,8 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 @Deprecated
 public class Edge implements Cloneable {
+	private static final long serialVersionUID = 9184643882253530991L;
+	
 	private double weight;
 	private double cost;
 	private Vertex firstVertex;  // This is the vertex that starts the edge

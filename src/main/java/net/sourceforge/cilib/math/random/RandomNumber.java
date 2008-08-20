@@ -39,6 +39,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  */
 public class RandomNumber implements Cloneable {
+	private static final long serialVersionUID = -7960211483219171592L;
 	
 	private Random randomGenerator;
 	

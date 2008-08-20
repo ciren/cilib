@@ -37,6 +37,7 @@ import net.sourceforge.cilib.entity.Topology;
  *
  */
 public class CompoundSelection extends SelectionStrategy {
+	private static final long serialVersionUID = -5547221580096508262L;
 	
 	private List<SelectionStrategy> selectors;
 
@@ -48,6 +49,9 @@ public class CompoundSelection extends SelectionStrategy {
 		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SelectionStrategy getClone() {
 		return new CompoundSelection(this);

@@ -34,6 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class DifferentialEvolutionExponentialCrossover extends CrossoverStrategy {
+	private static final long serialVersionUID = -4811879014933329926L;
 
 	/**
 	 * {@inheritDoc}

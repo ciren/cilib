@@ -34,7 +34,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 * @author Gary Pampara
 */
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
-	
+	private static final long serialVersionUID = 7313531386910938748L;
+
 	public OnePointCrossoverStrategy() {
 	}
 	

@@ -29,7 +29,8 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  */
 public class Weight implements Cloneable {
-	
+	private static final long serialVersionUID = -1229158606594188854L;
+
 	Type weightValue = null;
 	
 	//a multi-purpose variable to track changes - value/menaingdepends on the using class

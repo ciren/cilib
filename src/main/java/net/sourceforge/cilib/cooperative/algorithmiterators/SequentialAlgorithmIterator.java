@@ -31,6 +31,8 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * @param <E> The {@code Algorithm} type.
  */
 public class SequentialAlgorithmIterator<E extends Algorithm> implements AlgorithmIterator<E> {
+	private static final long serialVersionUID = 2996277367501679292L;
+	
 	protected List<E> algorithms = null;
 	protected int index = -1;
 

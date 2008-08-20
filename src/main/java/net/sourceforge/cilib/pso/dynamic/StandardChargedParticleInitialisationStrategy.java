@@ -29,6 +29,7 @@ package net.sourceforge.cilib.pso.dynamic;
 public class StandardChargedParticleInitialisationStrategy implements
 		ChargedParticleInitialisationStrategy {
 	
+	private static final long serialVersionUID = -652103945949329612L;
 	private double chargedRatio; // determines the percentage of the swarm that is to be charged
 	private double chargeMagnitude; // charge magnitude
 	private static int populationSize;

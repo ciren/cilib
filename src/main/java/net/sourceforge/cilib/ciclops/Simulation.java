@@ -36,6 +36,8 @@ import net.sourceforge.cilib.measurement.Measurement;
  * @author Edwin Peer
  */
 public class Simulation implements AlgorithmListener {
+	private static final long serialVersionUID = 3273290641707115790L;
+	
 	private int resolution;
 	private Algorithm algorithm;
 	private Collection<Measurement> measurements;

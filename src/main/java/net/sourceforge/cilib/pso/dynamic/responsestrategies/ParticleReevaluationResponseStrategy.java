@@ -34,7 +34,8 @@ import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
  */
 public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> implements
 		EnvironmentChangeResponseStrategy<E> {
-	
+	private static final long serialVersionUID = -4389695103800841288L;
+
 	public ParticleReevaluationResponseStrategy() {
 		// empty constructor
 	}

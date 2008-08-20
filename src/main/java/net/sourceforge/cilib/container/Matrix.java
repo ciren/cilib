@@ -36,6 +36,8 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> The parameterized type.
  */
 public class Matrix<E> implements Cloneable {
+	private static final long serialVersionUID = 4621194915276987567L;
+	
 	private ArrayList< ArrayList<E> > data; // This is the ArrayList of the 1st dimension
 	private int rows;
 	private int cols;

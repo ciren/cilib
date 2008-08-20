@@ -51,6 +51,7 @@ import net.sourceforge.cilib.problem.ProblemFactory;
  * @author Edwin Peer
  */
 public class Simulation extends Thread implements AlgorithmListener {
+	private static final long serialVersionUID = 8987667794610802908L;
 	private MeasurementSuite measurementSuite;
 	private Algorithm[] algorithms;
 	private Thread[] threads;

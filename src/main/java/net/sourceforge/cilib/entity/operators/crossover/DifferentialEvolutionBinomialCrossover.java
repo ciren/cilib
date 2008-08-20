@@ -33,6 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Binomial crossover operator.
  */
 public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
+	private static final long serialVersionUID = -2939023704055943968L;
 
 	/**
 	 * {@inheritDoc}

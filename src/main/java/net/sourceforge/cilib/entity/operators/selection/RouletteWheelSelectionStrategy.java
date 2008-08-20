@@ -41,6 +41,7 @@ import net.sourceforge.cilib.problem.InferiorFitness;
  * @author Vikash Ranjan Parida
  */
 public class RouletteWheelSelectionStrategy extends SelectionStrategy {
+	private static final long serialVersionUID = 6827649649373047787L;
 	private Random random;
 
 	/**

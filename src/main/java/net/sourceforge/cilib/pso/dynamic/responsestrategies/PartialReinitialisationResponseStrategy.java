@@ -34,6 +34,8 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends
 		ParticleReevaluationResponseStrategy<E> {
+	private static final long serialVersionUID = 4619744183683905269L;
+	
 	private double reinitialisationRatio;
 	private Random randomiser;
 	

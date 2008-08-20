@@ -33,6 +33,8 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  */
 public class BitArray implements Cloneable {
+	private static final long serialVersionUID = 2559265464633882908L;
+	
 	private int [] bits;
 	private int numberOfBits;
 	private int size;

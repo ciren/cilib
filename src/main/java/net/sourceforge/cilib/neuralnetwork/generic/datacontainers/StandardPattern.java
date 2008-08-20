@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class StandardPattern implements NNPattern, Initializable {
-	
+	private static final long serialVersionUID = 6917164648392481566L;
 	protected Vector input = null;
 	protected Vector target = null;
 	
