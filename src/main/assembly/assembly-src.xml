@@ -10,12 +10,10 @@
       <includes>
         <include>README*</include>
         <include>LICENSE*</include>
+	<include>COPYING*</include>
+	<include>AUTHORS*</include>
         <include>NOTICE*</include>
 	<include>pom.xml</include>
-      </includes>
-    </fileSet>
-    <fileSet>
-      <includes>
         <include>simulator*</include>
       </includes>
     </fileSet>

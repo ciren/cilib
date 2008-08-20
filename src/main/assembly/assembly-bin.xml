@@ -9,7 +9,9 @@
     <fileSet>
       <includes>
         <include>README*</include>
+	<include>COPYING*</include>
         <include>LICENSE*</include>
+	<include>AUTHORS*</include>
         <include>NOTICE*</include>
 	<include>simulator*</include>
       </includes>

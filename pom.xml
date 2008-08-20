@@ -160,6 +160,15 @@
       <resource>
         <directory>src/main/resources</directory>
       </resource>
+      <resource>
+        <filtering>true</filtering>
+	<directory>src/main/scripts</directory>
+	<includes>
+	  <include>simulator.sh</include>
+	  <include>simulator.bat</include>
+	</includes>
+	<targetPath>../..</targetPath>
+      </resource>
     </resources>
     <testResources>
       <testResource>
@@ -223,6 +232,22 @@
 	<artifactId>maven-release-plugin</artifactId>
 	<configuration>
 	  <tagBase>https://cilib.svn.sourceforge.net/svnroot/cilib/tags</tagBase>
+	</configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+	<configuration>
+	  <filesets>
+	    <fileset>
+	      <directory>${basedir}</directory>
+	      <includes>
+	        <include>simulator.*</include>
+		<include>cilib.log</include>
+	      </includes>
+	    </fileset>
+	  </filesets>
 	</configuration>
       </plugin>
 

@@ -19,10 +19,10 @@ set XML_FILE=%2
 
 :noServer
 set BASEDIR=%~p0
-set CILIB_JAR=%BASEDIR%build\cilib.jar
+set CILIB_JAR=%BASEDIR%${project.build.finalName}.jar;target\${project.build.finalName}.jar
 
 if not "%CLASSPATH%" == "" goto classPathExist
-set CLASSPATH=%CILIB_JAR%
+set CLASSPATH=%CILIB_JAR%;%CLASSPATH%
 goto runSimulator
 
 :classPathExist
