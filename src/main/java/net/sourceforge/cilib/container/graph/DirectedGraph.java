@@ -21,9 +21,10 @@
  */
 package net.sourceforge.cilib.container.graph;
 
+import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Queue;
 
-import net.sourceforge.cilib.container.Queue;
 import net.sourceforge.cilib.container.visitor.Visitor;
 
 /**
@@ -65,13 +66,13 @@ public class DirectedGraph<V extends Vertex, E extends Edge> extends Graph<V, E>
 			degree[indexOf(edge.getSecondVertex())]++;
 		}
 		
-		Queue<Vertex> queue = new Queue<Vertex>();
+		Queue<Vertex> queue = new LinkedList<Vertex>();
 		for (int i = 0; i < getVertexCount(); i++)
 			if (degree[i] == 0)
-				queue.enqueue(getVertexAt(i));
+				queue.add(getVertexAt(i));
 			
 		while (!queue.isEmpty() && !visitor.isDone()) {
-			Vertex vertex = queue.dequeue();
+			Vertex vertex = queue.remove();
 			visitor.visit(vertex);
 			
 			for (ListIterator<Edge> l = vertex.getEmanatingEdges(); l.hasNext();) {

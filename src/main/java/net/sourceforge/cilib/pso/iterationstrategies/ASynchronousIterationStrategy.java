@@ -55,6 +55,8 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 	 */
 	public void performIteration(PSO algorithm) {
 		Topology<Particle> topology = algorithm.getTopology();
+		topology.update();
+		
 		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 			Particle current = i.next();
 			current.updateVelocity();       // TODO: replace with visitor (will simplify particle interface)

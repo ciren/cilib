@@ -51,6 +51,8 @@ public class CoevolutionSynchronousIterationStrategy extends AbstractIterationSt
 	 */
 	public void performIteration(PSO pso) {
 		Topology<Particle> topology = pso.getTopology();
+		topology.update();
+		
 		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 			Particle current = i.next();
          //   current.calculateFitness(); add this line to get the standard SynchronousIterationStrategy 

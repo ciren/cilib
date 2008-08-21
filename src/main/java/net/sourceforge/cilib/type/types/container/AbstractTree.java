@@ -22,9 +22,10 @@
 package net.sourceforge.cilib.type.types.container;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
-import net.sourceforge.cilib.container.Queue;
 import net.sourceforge.cilib.container.visitor.PreOrderVisitorDecorator;
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.container.visitor.Visitor;
@@ -54,18 +55,18 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	 * {@inheritDoc}
 	 */
 	public void breadthFirstTraversal(Visitor<E> visitor) {
-		Queue<Tree<E>> queue = new Queue<Tree<E>>();
+		Queue<Tree<E>> queue = new LinkedList<Tree<E>>();
 		
 		if (!isEmpty())
-			queue.enqueue(this);
+			queue.add(this);
 		
 		while (!queue.isEmpty() && !visitor.isDone()) {
-			Tree<E> head = queue.dequeue();
+			Tree<E> head = queue.remove();
 			visitor.visit(head.getKey());
-			for (int i = 0; i < head.size(); i++) {
+			for (int i = 0; i < head.getDegree(); i++) {
 				Tree<E> child = head.getSubTree(i);
 				if (!child.isEmpty())
-					queue.enqueue(child);
+					queue.add(child);
 			}
 		}
 	}

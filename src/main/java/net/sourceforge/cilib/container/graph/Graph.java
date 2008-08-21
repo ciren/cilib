@@ -22,9 +22,10 @@
 package net.sourceforge.cilib.container.graph;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Queue;
 
-import net.sourceforge.cilib.container.Queue;
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.container.visitor.Visitor;
 
@@ -233,12 +234,12 @@ public class Graph<V extends Vertex, E extends Edge> {
 		for (int i = 0; i < getVertexCount(); i++)
 			enqueued[i] = false;
 		
-		Queue<Vertex> queue = new Queue<Vertex>();
-		queue.enqueue(startVertex);
+		Queue<Vertex> queue = new LinkedList<Vertex>();
+		queue.add(startVertex);
 		enqueued[indexOf(startVertex)] = true;
 		
 		while (!queue.isEmpty() && !visitor.isDone()) {
-			Vertex vertex = queue.dequeue();
+			Vertex vertex = queue.remove();
 			visitor.visit(vertex);
 			ListIterator<Edge> l = vertex.getEmanatingEdges();
 			while (l.hasNext()) {
@@ -247,7 +248,7 @@ public class Graph<V extends Vertex, E extends Edge> {
 				
 				if (!enqueued[indexOf(tmpVertex)]) {
 					enqueued[indexOf(tmpVertex)] = true;
-					queue.enqueue(tmpVertex);
+					queue.add(tmpVertex);
 				}
 			}
 		}

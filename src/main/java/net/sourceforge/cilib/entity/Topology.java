@@ -42,6 +42,9 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
 	
 	private E bestEntity;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract Topology<E> getClone();
     
     /**
@@ -66,6 +69,11 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
         }
     }    
     
+    /**
+     * Accept a {@code TopologyVisitor} into the {@code Topology} to perform the actions
+     * defined within the {@code TopologyVisitor}.
+     * @param visitor The instance to accept into the {@code Topology}.
+     */
     public void accept(TopologyVisitor visitor) {
     	visitor.visit(this);
     }
@@ -120,5 +128,13 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
      */
 	public void clearBestEntity() {
 		this.bestEntity = null;
+	}
+	
+	/**
+	 * Perform any required updates to the {@linkplain Topology} instance.
+	 * The method in has an empty implementation and needs to be overridden
+	 * within the required subclass.
+	 */
+	public void update() {
 	}
 }

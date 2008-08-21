@@ -97,6 +97,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 	 */
 	public void performIteration(EC ec) {
 		Topology<? extends Entity> topology = ec.getTopology();
+		topology.update();
 		
 		for (Entity current : topology) {
 			current.calculateFitness();

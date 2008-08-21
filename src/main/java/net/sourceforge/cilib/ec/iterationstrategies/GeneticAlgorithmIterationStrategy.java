@@ -87,9 +87,11 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 	@SuppressWarnings("unchecked")
 	public void performIteration(EC ec) {
 		Topology<Entity> offspring = new GBestTopology<Entity>();
+		Topology<Entity> population = (Topology<Entity>) ec.getTopology();
+		population.update();
 		
 		for (Operator operator : operatorPipeline) {
-			operator.performOperation(ec.getTopology(), offspring);
+			operator.performOperation(population, offspring);
 		}
 		
 		// Perform crossover
