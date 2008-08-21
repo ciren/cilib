@@ -62,18 +62,20 @@ public final class MutationOperatorFactory {
 	/**
 	 * Factory method to create the correct operator implementation object.
 	 * @param operatorSymbol A symbol or word describing the symbol
-	 * @return The <tt>MutationOperatorStrategy</tt> associated to the meaning of the operatorSymbol
+	 * @return The <tt>MutationOperatorStrategy</tt> associated to the meaning of the operatorSymbol.
 	 */
 	public static MutationOperatorStrategy getOperatorStrategy(String operatorSymbol) {
-		MutationOperatorStrategy operator = null;
-		
 		if (Operators.ADDITION.contains(operatorSymbol))
 			return new AdditionMutationOperatorStrategy();
 
 		if (Operators.MULTIPLICATION.contains(operatorSymbol))
 			return new MultiplicationOperatorStrategy();
 		
-		return operator;
+		StringBuilder builder = new StringBuilder();
+		builder.append("Cannot determine the type of operator strategy! ");
+		builder.append("Passed in token was: '" + operatorSymbol + "'.\n");
+		builder.append("Please correct the token to be passed into the MutationOperatorFactory.");
+		throw new UnsupportedOperationException(builder.toString());
 	}
 
 }
