@@ -43,8 +43,7 @@ public abstract class MutationStrategy implements Operator {
 	private MutationOperatorStrategy operatorStrategy;
 			
 	public MutationStrategy() {
-		operator = "+";
-		operatorStrategy = new AdditionMutationOperatorStrategy();
+		this.setOperator("+");
 		
 		mutationProbability = new ConstantControlParameter(0.3);
 		randomNumber = new RandomNumber();
@@ -108,9 +107,7 @@ public abstract class MutationStrategy implements Operator {
 	 */
 	public void setOperator(String operator) {
 		this.operator = operator;
-		
-		MutationOperatorFactory factory = new MutationOperatorFactory();
-		this.operatorStrategy = factory.getOperatorStrategy(operator);
+		this.operatorStrategy = MutationOperatorFactory.getOperatorStrategy(operator);
 	}
 	
 	/**

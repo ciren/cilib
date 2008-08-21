@@ -21,51 +21,57 @@
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Factory to return the correct object based on the given symbol / token.
  * 
  * @author Gary Pampara
  */
-public class MutationOperatorFactory {
+public final class MutationOperatorFactory {
 	
-	private final String [] plusKeywords = {"+", "plus", "add", "additive"};
-	private final String [] multiplicationKeywords = {"*", "times", "multiplicative"};
+	private enum Operators {
+		ADDITION("+", "plus", "add", "additive"),
+		MULTIPLICATION("*", "times", "multiplicative");
+		
+		private List<String> operationSynnomymns;
+		
+		private Operators(String... strings) {
+			this.operationSynnomymns = new ArrayList<String>();
+			for (String s : strings)
+				this.operationSynnomymns.add(s);
+		}
+
+		public boolean contains(String operatorSymbol) {
+			for (String string : operationSynnomymns)
+				if (string.compareToIgnoreCase(operatorSymbol) == 0)
+					return true;
+			
+			return false;
+		}
+	}
 	
 	/**
-	 * Create an instance of {@linkplain MutationOperatorFactory}.
+	 * Remove access to the default constructor.
 	 */
-	public MutationOperatorFactory() {
+	private MutationOperatorFactory() {
 	}
 	
 	
 	/**
-	 * Factory method to create the correct operator implemenation object.
+	 * Factory method to create the correct operator implementation object.
 	 * @param operatorSymbol A symbol or word describing the symbol
 	 * @return The <tt>MutationOperatorStrategy</tt> associated to the meaning of the operatorSymbol
 	 */
-	public MutationOperatorStrategy getOperatorStrategy(String operatorSymbol) {
+	public static MutationOperatorStrategy getOperatorStrategy(String operatorSymbol) {
 		MutationOperatorStrategy operator = null;
-		boolean assigned = false;
 		
-		if (!assigned) {
-			for (int i = 0; i < plusKeywords.length; i++) {
-				if (operatorSymbol.compareToIgnoreCase(plusKeywords[i]) == 0) {
-					operator = new AdditionMutationOperatorStrategy();
-					assigned = true;
-					break;
-				}
-			}
-		}
+		if (Operators.ADDITION.contains(operatorSymbol))
+			return new AdditionMutationOperatorStrategy();
 
-		if (!assigned) {
-			for (int i = 0; i < multiplicationKeywords.length; i++) {
-				if (operatorSymbol.compareToIgnoreCase(multiplicationKeywords[i]) == 0) {
-					operator = new MultiplicationOperatorStrategy();
-					assigned = true;
-					break;
-				}
-			}
-		}
+		if (Operators.MULTIPLICATION.contains(operatorSymbol))
+			return new MultiplicationOperatorStrategy();
 		
 		return operator;
 	}

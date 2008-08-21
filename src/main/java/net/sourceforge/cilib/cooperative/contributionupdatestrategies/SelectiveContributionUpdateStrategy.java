@@ -30,7 +30,20 @@ import net.sourceforge.cilib.entity.Entity;
 public class SelectiveContributionUpdateStrategy implements ContributionUpdateStrategy {
 	public void updateContribution(Entity src, int srcPos, CooperativeEntity dst, int dstPos, int length) {
 		//copy participant contribution to context only when the participant's fitness is better than the context's fitness
-		if(src.compareTo(dst) > 0)
-			dst.update(src, srcPos, dstPos, length);
+				
+		// create a clone of the context vector
+		CooperativeEntity dstTest = dst.getClone();
+		
+		// update the clone with the participant contribution vector
+		dstTest.update(src, srcPos, dstPos, length);
+		
+		// calculate new fitness of updated clone
+		dstTest.calculateFitness(false);
+		
+		// if updated clone is better than original context, update context
+		if(dstTest.compareTo(dst) > 0) {
+			dst.setCandidateSolution(dstTest.getCandidateSolution());
+			dst.setFitness(dstTest.getFitness());
+		}
 	}
 }

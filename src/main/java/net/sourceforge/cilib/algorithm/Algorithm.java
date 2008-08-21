@@ -116,7 +116,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	}
 
 	/**
-	 * Intialises the algorithm. Must be called before {@link #run()} is called.
+	 * Initialises the algorithm. Must be called before {@link #run()} is called.
 	 */
 	public final void initialise() {
 		iterations = 0;
