@@ -70,14 +70,14 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Entity select(Topology<? extends Entity> population) {
+	public <T extends Entity> T select(Topology<T> population) {
 		int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter()*population.size()).intValue();
 		
-		List<Entity> tournamentEntities = new ArrayList<Entity>();
+		List<T> tournamentEntities = new ArrayList<T>();
 		
 		while (tournamentEntities.size() < tournamentSize) {
 			double random = randomNumber.getUniform(0, population.size());
-			Entity tmp = population.get(Double.valueOf(random).intValue());
+			T tmp = population.get(Double.valueOf(random).intValue());
 			
 			if (!tournamentEntities.contains(tmp))
 				tournamentEntities.add(tmp);

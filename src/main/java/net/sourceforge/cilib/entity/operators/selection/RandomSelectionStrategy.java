@@ -47,7 +47,7 @@ public class RandomSelectionStrategy extends SelectionStrategy {
 	}
 
 	@Override
-	public Entity select(Topology<? extends Entity> population) {
+	public <T extends Entity> T select(Topology<T> population) {
 		return population.get(random.nextInt(population.size()));
 	}
 

@@ -58,7 +58,7 @@ public class CompoundSelection extends SelectionStrategy {
 	}
 
 	@Override
-	public Entity select(Topology<? extends Entity> population) {
+	public <T extends Entity> T select(Topology<T> population) {
 		for (SelectionStrategy selection : selectors) {
 			selection.select(population);
 		}

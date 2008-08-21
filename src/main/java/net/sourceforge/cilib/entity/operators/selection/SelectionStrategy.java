@@ -40,8 +40,9 @@ public abstract class SelectionStrategy implements Operator {
 	/**
 	 * Apply the selection strategy and return a single {@linkplain Entity}.
 	 * @param population The {@linkplain Topology} to make the selection from.
+	 * @param <T> The Entity type.
 	 * @return The selected {@linkplain Entity}.
 	 */
-	public abstract Entity select(Topology<? extends Entity> population);
+	public abstract <T extends Entity> T select(Topology<T> population);
 
 }

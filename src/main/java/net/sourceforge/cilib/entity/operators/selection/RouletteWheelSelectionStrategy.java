@@ -71,7 +71,7 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Entity select(final Topology<? extends Entity> population) {
+	public <T extends Entity> T select(final Topology<T> population) {
 		double totalFitness = getTotalFitness(population);
 		double cumulativeProb = 0;
 		double valueToPick = random.nextDouble();
@@ -85,7 +85,7 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 		if (Double.compare(totalFitness, 0.0) == 0)
 			return population.get(random.nextInt(population.size()));
 
-		for (Entity entity : population) {
+		for (T entity : population) {
 			double probability = entity.getFitness().getValue() / totalFitness;
 			if (valueToPick < cumulativeProb + probability) {
 				return entity;
