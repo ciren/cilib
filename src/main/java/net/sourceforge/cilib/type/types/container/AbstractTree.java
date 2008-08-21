@@ -54,7 +54,7 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void breadthFirstTraversal(Visitor<E> visitor) {
+	public void breadthFirstTraversal(Visitor<Tree<E>> visitor) {
 		Queue<Tree<E>> queue = new LinkedList<Tree<E>>();
 		
 		if (!isEmpty())
@@ -62,7 +62,7 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 		
 		while (!queue.isEmpty() && !visitor.isDone()) {
 			Tree<E> head = queue.remove();
-			visitor.visit(head.getKey());
+			visitor.visit(head);
 			for (int i = 0; i < head.getDegree(); i++) {
 				Tree<E> child = head.getSubTree(i);
 				if (!child.isEmpty())

@@ -113,6 +113,6 @@ public interface Tree<E extends Cloneable> extends Structure<E>, Type {
 	 * the operation stored within the provided {@linkplain Visitor} instance.
 	 * @param visitor The visitor operation to execute at each node.
 	 */
-	public void breadthFirstTraversal(Visitor<E> visitor);
+	public void breadthFirstTraversal(Visitor<Tree<E>> visitor);
 	
 }
