@@ -97,7 +97,7 @@ public class ABC extends PopulationBasedAlgorithm {
 		
 		forageLimit = copy.forageLimit.getClone();
 		workerBeePercentage = copy.workerBeePercentage.getClone();
-		explorerBeeUpdateLimit = new ConstantControlParameter((ConstantControlParameter)copy.explorerBeeUpdateLimit);
+		explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit.getClone();
 	}
 	
 	/* (non-Javadoc)
