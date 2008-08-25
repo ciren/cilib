@@ -86,13 +86,13 @@ public class ABC extends PopulationBasedAlgorithm {
 	 */
 	public ABC(ABC copy) {
 		super(copy);
-		workerBees = copy.getWorkerTopology().getClone();
-		onlookerBees = copy.getOnlookerTopology().getClone();
+		workerBees = copy.workerBees.getClone();
+		onlookerBees = copy.onlookerBees.getClone();
 		hive.clear();
 		hive.addAll(workerBees);
 		hive.addAll(onlookerBees);
 		
-		explorerBee = new ExplorerBee(copy.explorerBee);
+		explorerBee = copy.explorerBee.getClone();
 		dancingSelectionStrategy = new RouletteWheelSelectionStrategy();
 		
 		forageLimit = copy.forageLimit.getClone();

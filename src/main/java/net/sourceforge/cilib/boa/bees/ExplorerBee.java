@@ -7,6 +7,7 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Represents the explorer bee in the algorithm. To emulate the functionality of the explorer bee in the hive, a random search
@@ -16,7 +17,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andrich
  * 
  */
-public class ExplorerBee {
+public class ExplorerBee implements Cloneable {
+	private static final long serialVersionUID = 1068799535328234923L;
+	
 	private MersenneTwister random;			//generates a random position
 	private int previousUpdatedIteration;	//used to check whether the algorithm has entered a new iteration
 	private int numberOfUpdates;			//how many have occured in current iteration
@@ -41,6 +44,10 @@ public class ExplorerBee {
 		this.previousUpdatedIteration = copy.previousUpdatedIteration;
 		this.numberOfUpdates = copy.numberOfUpdates;
 		this.explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit;
+	}
+	
+	public ExplorerBee getClone() {
+		return new ExplorerBee(this);
 	}
 
 	/**
