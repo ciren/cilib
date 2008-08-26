@@ -36,11 +36,13 @@ public interface Type extends Serializable, Cloneable {
 	public Type getClone();
 	
 	/**
+	 * {@inheritDoc}
 	 * @see Object#equals(Object)
 	 */
 	public boolean equals(Object other);
 
 	/**
+	 * {@inheritDoc}
 	 * @see Object#hashCode()
 	 */
 	public int hashCode();

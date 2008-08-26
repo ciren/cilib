@@ -38,10 +38,17 @@ public class Set<E> extends AbstractType implements Structure<E> {
 	private static final long serialVersionUID = 3697379819132292696L;
 	private HashSet<E> elements;
 
+	/**
+	 * Create a new Set.
+	 */
 	public Set() {
 		elements = new HashSet<E>();
 	}
 	
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The instance to copy.
+	 */
 	public Set(Set<E> copy) {
 		this();
 		
@@ -50,15 +57,23 @@ public class Set<E> extends AbstractType implements Structure<E> {
 		}
 	}	
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Set<E> getClone() {
 		return new Set<E>(this);
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean add(E obj) {
 		return elements.add(obj);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addAll(Structure<? extends E> s) {
 		for (E element : s)
 			this.elements.add(element);
@@ -66,18 +81,30 @@ public class Set<E> extends AbstractType implements Structure<E> {
 		return true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void clear() {
 		elements.clear();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isEmpty() {
 		return elements.isEmpty();
 	}
 		
+	/**
+	 * {@inheritDoc}
+	 */
 	public int size() {
 		return elements.size();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
@@ -89,12 +116,18 @@ public class Set<E> extends AbstractType implements Structure<E> {
 		return this.elements.equals(otherSet.elements);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int hashCode() {
 		int hash = 7;
 		hash = 31 * hash + (this.elements == null ? 0 : this.elements.hashCode());
 		return hash;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Iterator<E> iterator() {
 		return elements.iterator();
 	}
@@ -124,50 +157,72 @@ public class Set<E> extends AbstractType implements Structure<E> {
         return a;
 	}
 
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getDimension() {
 		return elements.size();
 	}
 
+	/**
+	 * Not supported for this container.
+	 */
 	public void randomise() {
 		throw new UnsupportedOperationException("randomise() not implemented for " + this.getClass().getName());
 	}
 	
+	/**
+	 * Not supported for this container.
+	 */
 	public void reset() {
 		throw new UnsupportedOperationException("reset() not implemented for " + this.getClass().getName());
 	}
 	
+	/**
+	 * Not supported for this container.
+	 */
 	public String toString() {
 		throw new UnsupportedOperationException("toString() not implemented for " + this.getClass().getName());
 	}
 
+	/**
+	 * Not supported for this container.
+	 */
 	public String getRepresentation() {
 		throw new UnsupportedOperationException("getRepresentation() not implemented for " + this.getClass().getName());
 	}
 
-
+	/**
+	 * Not supported for this container.
+	 */
 	public void accept(Visitor<E> visitor) {
 		throw new UnsupportedOperationException("writeExternal() not implemented for " + this.getClass().getName());
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean contains(E element) {
 		return this.elements.contains(element);
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean remove(E element) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.elements.remove(element);
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public E remove(int index) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean removeAll(Structure<E> structure) {
 		boolean result = true;
 		
@@ -182,9 +237,10 @@ public class Set<E> extends AbstractType implements Structure<E> {
 		return result;
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isInsideBounds() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

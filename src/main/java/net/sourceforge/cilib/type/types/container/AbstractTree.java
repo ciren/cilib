@@ -47,8 +47,14 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	 */
 	public abstract AbstractTree<E> getClone();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract boolean equals(Object obj);
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract int hashCode();
 
 	/**

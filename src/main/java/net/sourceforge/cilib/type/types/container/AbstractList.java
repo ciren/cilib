@@ -39,8 +39,14 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 */
 	public abstract AbstractList getClone();
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract boolean equals(Object obj);
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public abstract int hashCode();
 
 	/**
@@ -115,12 +121,32 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 */
 	public abstract void setBit(int index, boolean value);
 
+	/**
+	 * Get the value specified at {@code index} as an {@code int}.
+	 * @param index The index of the value to get.
+	 * @return The value at {@code index}.
+	 */
 	public abstract int getInt(int index);
 
+	/**
+	 * Set the value at {@code index} to {@code value}.
+	 * @param index The index of the value to set.
+	 * @param value The value to set.s
+	 */
 	public abstract void setInt(int index, int value);
 
+	/**
+	 * Get the value at {@code index} as a {@code double}.
+	 * @param index The index of the value to get.
+	 * @return The value as a {@code double}.
+	 */
 	public abstract double getReal(int index);
 
+	/**
+	 * Set the value at {@code index} to {@code value}.
+	 * @param index The index of the value to set.
+	 * @param value The value to set.
+	 */
 	public abstract void setReal(int index, double value);
 
 	/**
@@ -278,6 +304,12 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 		return toString('[', ']', ',');
 	}
 
+	/**
+	 * Get the {@code String} representation, using the provided {@literal delimiter}. Also see
+	 * @see Object#toString()
+	 * @param delimiter The delimiter to use.
+	 * @return The {@linkplain String} representation, using the provided delimiter. 
+	 */
 	public String toString(char delimiter) {
 		return toString('[', ']', delimiter);
 	}
