@@ -1,5 +1,23 @@
-/**
- * 
+/*
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.boa;
 
@@ -46,6 +64,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  *
  */
 public class ABC extends PopulationBasedAlgorithm {
+	private static final long serialVersionUID = 7918711449442012960L;
 	
 	private Topology<HoneyBee> workerBees;				//keeps references to the worker bees
 	private Topology<HoneyBee> onlookerBees;			//keeps references to the onlooker bees
@@ -61,7 +80,7 @@ public class ABC extends PopulationBasedAlgorithm {
 	private HoneyBee bestBee;							//reference to best solution found so far
 	
 	/**
-	 * Default contstructor
+	 * Default constructor. Creates a new instance of {@code ABC}.
 	 */
 	public ABC() {
 		this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
@@ -81,8 +100,8 @@ public class ABC extends PopulationBasedAlgorithm {
 	}
 	
 	/**
-	 * Copy constructor
-	 * @param copy ABC reference of which a deep copy is made
+	 * Copy constructor. Creates a copy of the provided instance.
+	 * @param copy ABC reference of which a deep copy is made.
 	 */
 	public ABC(ABC copy) {
 		super(copy);
@@ -100,22 +119,30 @@ public class ABC extends PopulationBasedAlgorithm {
 		explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit.getClone();
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.algorithm.Algorithm#performInitialisation()
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ABC getClone() {
+		return new ABC(this);
+	}
+	
+	/**
+	 * {@inheritDoc}
 	 */
 	public void performInitialisation() {
 		this.initialisationStrategy.initialise(hive, this.optimisationProblem);
 		
 		int i;
-		int numWorkerBees = (int)(workerBeePercentage.getParameter()*hive.size());
+		int numWorkerBees = (int) (workerBeePercentage.getParameter()*hive.size());
 		for (i = 0; i < numWorkerBees; i++) {
-			WorkerBee bee = (WorkerBee)hive.get(i);
+			WorkerBee bee = (WorkerBee) hive.get(i);
 			bee.setForageLimit(this.forageLimit.getClone());
 			this.workerBees.add(hive.get(i));
 		}
 		
 		for (int j = 0; j < initialisationStrategy.getEntityNumber() - numWorkerBees; j++) {
-			WorkerBee worker = (WorkerBee)hive.get(i);
+			WorkerBee worker = (WorkerBee) hive.get(i);
 			OnlookerBee onlooker = new OnlookerBee(worker);
 			hive.remove(i);
 			hive.add(onlooker);
@@ -124,8 +151,8 @@ public class ABC extends PopulationBasedAlgorithm {
 		explorerBee.setExplorerBeeUpdateLimit(this.explorerBeeUpdateLimit);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.algorithm.Algorithm#accept(net.sourceforge.cilib.entity.visitor.TopologyVisitor)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public double accept(TopologyVisitor visitor) {
@@ -134,66 +161,58 @@ public class ABC extends PopulationBasedAlgorithm {
 		return visitor.getResult();
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.algorithm.Algorithm#algorithmIteration()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	protected void algorithmIteration() {
 		for (HoneyBee bee : workerBees) {
 			bee.updatePosition();
 			bee.calculateFitness();
-			if (bestBee == null)
-			{
+			if (bestBee == null) {
 				bestBee = bee.getClone();
 			}
-			else if (bee.getBestFitness().compareTo(bestBee.getBestFitness()) > 0)
-			{
+			else if (bee.getBestFitness().compareTo(bestBee.getBestFitness()) > 0) {
 				bestBee = bee.getClone();
 			}
 		}
 		
 		for (HoneyBee bee : onlookerBees) {
-			HoneyBee selectedBee = (HoneyBee)dancingSelectionStrategy.select(workerBees);
+			HoneyBee selectedBee = (HoneyBee) dancingSelectionStrategy.select(workerBees);
 			bee.setPosition(selectedBee.getPosition().getClone());
 			bee.updatePosition();
 			bee.calculateFitness();
-			if (bestBee == null)
-			{
+			if (bestBee == null) {
 				bestBee = bee;
 			}
-			else if (bee.getBestFitness().compareTo(bestBee.getBestFitness()) > 0)
-			{
+			else if (bee.getBestFitness().compareTo(bestBee.getBestFitness()) > 0) {
 				bestBee = bee;
 			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.algorithm.Algorithm#getBestSolution()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public OptimisationSolution getBestSolution() {
 		if (this.bestBee == null)
 			throw new InitialisationException("Best solution cannot be determined before algorithm is run");
+		
 		return new OptimisationSolution(this.getOptimisationProblem(), bestBee.getPosition());
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.algorithm.Algorithm#getClone()
-	 */
-	@Override
-	public ABC getClone() {
-		return new ABC(this);
-	}
-
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.algorithm.Algorithm#getSolutions()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<OptimisationSolution> getSolutions() {
 		return Arrays.asList(getBestSolution());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Topology<HoneyBee> getTopology() {
 		return this.hive;
 	}
@@ -206,6 +225,9 @@ public class ABC extends PopulationBasedAlgorithm {
 		return this.onlookerBees;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setTopology(Topology<? extends Entity> topology) {
 		throw new UnsupportedOperationException("Method not implemented");
@@ -247,6 +269,5 @@ public class ABC extends PopulationBasedAlgorithm {
 	public void setExplorerBeeUpdateLimit(ControlParameter explorerBeeUpdateLimit) {
 		this.explorerBeeUpdateLimit = explorerBeeUpdateLimit;
 	}
-	
-	private static final long serialVersionUID = 7918711449442012960L;
+
 }

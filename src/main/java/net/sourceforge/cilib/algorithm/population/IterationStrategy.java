@@ -25,6 +25,12 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.util.Cloneable;
 
+/**
+ * Interface to define the manner in which an iteration is defined for a
+ * {@code PopulationBasedAlgorithm}.
+ *
+ * @param <E> The {@code PopulationBasedAlgorithm} type.
+ */
 public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends Cloneable, Serializable {
 	
 	/**

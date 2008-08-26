@@ -28,7 +28,6 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
 public final class NucleotideString {
 	
 	private NucleotideString() {
-		
 	}
 	
 	public static NucleotideString getInstance() {

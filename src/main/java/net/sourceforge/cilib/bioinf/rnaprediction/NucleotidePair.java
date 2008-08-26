@@ -32,6 +32,9 @@ import java.security.InvalidParameterException;
 
 public class NucleotidePair implements Comparable<NucleotidePair> {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -43,6 +46,9 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -63,6 +69,9 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 		return true;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		return new String(index5prime+" "+base5prime+base3prime+" "+index3prime);
@@ -88,6 +97,9 @@ public class NucleotidePair implements Comparable<NucleotidePair> {
 		this.base3prime = NucleotideString.getInstance().getNucleotideString().charAt(index3prime-1);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int compareTo(NucleotidePair o) {
 		if (index5prime == o.index5prime) {
 			if (index3prime == o.index3prime)
