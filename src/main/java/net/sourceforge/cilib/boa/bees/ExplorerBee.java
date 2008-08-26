@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 package net.sourceforge.cilib.boa.bees;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -26,7 +47,8 @@ public class ExplorerBee implements Cloneable {
 	private ControlParameter explorerBeeUpdateLimit;
 
 	/**
-	 * Default constructor
+	 * Default constructor. Creates a new instance of {@code ExplorerBee} with reasonable
+	 * default values.
 	 */
 	public ExplorerBee() {
 		random = new MersenneTwister(Seeder.getSeed());
@@ -36,8 +58,8 @@ public class ExplorerBee implements Cloneable {
 	}
 	
 	/**
-	 * Copy constructor
-	 * @param copy reference to explorer bee that deep copy is made of
+	 * Copy constructor. Creates a copy of the provided instance.
+	 * @param copy reference to explorer bee that deep copy is made of.
 	 */
 	public ExplorerBee(ExplorerBee copy) {
 		this.random = copy.random;
@@ -46,14 +68,17 @@ public class ExplorerBee implements Cloneable {
 		this.explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public ExplorerBee getClone() {
 		return new ExplorerBee(this);
 	}
 
 	/**
-	 * Verifies it is allowed for a worker bee to convert to an explorer bee
-	 * @precondition  an algorithm is on the algorithm stack
-	 * @return whether the search is allowed
+	 * Verifies it is allowed for a worker bee to convert to an explorer bee.
+	 * @precondition  an algorithm is on the algorithm stack.
+	 * @return whether the search is allowed.
 	 */
 	public boolean searchAllowed() {
 		int currentIteration = Algorithm.get().getIterations();
@@ -70,19 +95,19 @@ public class ExplorerBee implements Cloneable {
 	}
 
 	/**
-	 * Returns a new random position
-	 * @precondition an algorithm is on the algorithm stack
-	 * @precondition the search is allowed
-	 * @param position random position with same dimension and bounds as given position
-	 * @return
+	 * Returns a new random position.
+	 * @precondition an algorithm is on the algorithm stack.
+	 * @precondition the search is allowed.
+	 * @param position random position with same dimension and bounds as given position.
+	 * @return The new position.
 	 */
 	public Vector getNewPosition(Vector position) {
 		previousUpdatedIteration = Algorithm.get().getIterations();
 		numberOfUpdates++;
 		Vector newPosition = new Vector(position.size());
 		for (int i = 0; i < position.size(); i++) {
-			double lowerBound = ((Real)position.get(i)).getLowerBound();
-			double upperBound = ((Real)position.get(i)).getUpperBound();
+			double lowerBound = ((Real) position.get(i)).getLowerBound();
+			double upperBound = ((Real) position.get(i)).getUpperBound();
 			Real real = new Real((upperBound-lowerBound)*random.nextDouble() + lowerBound);
 			real.setLowerBound(lowerBound);
 			real.setUpperBound(upperBound);

@@ -1,5 +1,23 @@
-/**
- * 
+/*
+ * Copyright (C) 2003 - 2008
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.boa.bees;
 
@@ -16,7 +34,7 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The entity class for the ABC algortihm that represents the bees
+ * The entity class for the ABC algorithm that represents the bees.
  * @author Andrich
  *
  */
@@ -28,7 +46,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
 	protected int dimension;
 
 	/**
-	 * Default contstructor
+	 * Default constructor. Defines reasonable defaults for common members.
 	 */
 	public AbstractBee() {
 		this.positionUpdateStrategy = new VisualPositionUpdateStategy();
@@ -36,78 +54,84 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
 	}
 
 	/**
-	 * Copy constructor
-	 * @param copy the reference of the bee that is deep copied
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy the reference of the bee that is deep copied.
 	 */
 	public AbstractBee(AbstractBee copy) {
 		super(copy);
-		this.positionUpdateStrategy = copy.getPositionUpdateStrategy().getClone();
+		this.positionUpdateStrategy = copy.positionUpdateStrategy;
 		this.targetSelectionStrategy = copy.targetSelectionStrategy;
 		this.dimension = copy.dimension;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public abstract AbstractBee getClone();
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.abc.bees.HoneyBee#getPositionUpdateStrategy()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public BeePositionUpdateStrategy getPositionUpdateStrategy() {
 		return this.positionUpdateStrategy;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.abc.bees.HoneyBee#updatePosition()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public abstract void updatePosition();
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.entity.Entity#calculateFitness()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void calculateFitness() {
 		this.calculateFitness(true);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.entity.Entity#calculateFitness(boolean)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void calculateFitness(boolean count) {
 		this.getProperties().put(EntityType.FITNESS, getFitnessCalculator().getFitness(this, count));
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.entity.Entity#compareTo(net.sourceforge.cilib.entity.Entity)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int compareTo(Entity o) {
 		return getFitness().compareTo(o.getFitness());
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.entity.Entity#getDimension()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int getDimension() {
 		return this.dimension;
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.abc.bees.HoneyBee#getPosition()
+	/**
+	 * {@inheritDoc}
 	 */
 	public Vector getPosition() {
-		return (Vector)this.getCandidateSolution();
+		return (Vector) this.getCandidateSolution();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setPosition(Vector position) {
 		this.setCandidateSolution(position);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.entity.Entity#initialise(net.sourceforge.cilib.problem.OptimisationProblem)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void initialise(OptimisationProblem problem) {
@@ -118,8 +142,8 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
 		this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
 	}
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.entity.Entity#reinitialise()
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void reinitialise() {
