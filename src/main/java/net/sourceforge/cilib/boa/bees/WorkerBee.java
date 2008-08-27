@@ -79,7 +79,7 @@ public class WorkerBee extends AbstractBee implements HoneyBee {
 			failureCount++;
 			if (failureCount >= forageLimit.getParameter())	{
 				failureCount = 0;
-				ExplorerBee explorerBee = ((ABC) Algorithm.get()).getExplorerBee();
+				ExplorerBee explorerBee = algorithm.getExplorerBee();
 				if (explorerBee.searchAllowed()) {
 					this.setPosition(explorerBee.getNewPosition(this.getPosition()));
 				}

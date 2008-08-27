@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.entity.visitor;
 
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.pso.particle.ParticleVisitor;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
@@ -30,56 +30,48 @@ import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
 /**
  * @author Edwin Peer
  */
-public class ClosestParticleVisitor extends ParticleVisitor {
+public class ClosestParticleVisitor extends TopologyVisitor {
+	
+	private Entity closestEntity;
+	private Entity target;
+	private double distance;
+	private DistanceMeasure distanceMeasure;
+	
+	public ClosestParticleVisitor() {
+		distance = Double.MAX_VALUE;
+		distanceMeasure = new ManhattanDistanceMeasure();
+	}
 
-    public ClosestParticleVisitor(Particle target) {
-        this.target = target;
-        closest = null;
-        minimum = Double.MAX_VALUE;
-        distanceMeasure = new ManhattanDistanceMeasure();
-    }
+	@Override
+	public void visit(Topology<? extends Entity> topology) {
+		for (Entity current : topology) {
+			if (closestEntity == null) closestEntity = current;
+			if (closestEntity.equals(current)) continue;
+			
+			double currentDistance = distanceMeasure.distance((Vector) target.getCandidateSolution(), (Vector) current.getCandidateSolution());
+			
+			if (currentDistance < distance) {
+				this.closestEntity = current;
+				this.distance = currentDistance;
+			}
+			
+		}
+	}
+	
+	public void setTarget(Entity entity) {
+		this.target = entity;
+	}
+	
+	public Entity getClosestEntity() {
+		return this.closestEntity;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public void visit(Particle particle) {
-        if (closest == null && particle.getId() != target.getId()) {
-            closest = particle;
-            Vector closestPosition = (Vector) closest.getPosition();
-            Vector targetPosition = (Vector) target.getPosition();
-            minimum = distanceMeasure.distance(closestPosition, targetPosition); 
-        }
-        else {
-        	Vector particlePosition = (Vector) particle.getPosition();
-        	Vector targetPosition = (Vector) target.getPosition();
-            double tmp = distanceMeasure.distance(particlePosition, targetPosition);
-            if (tmp < minimum) {
-                closest = particle;
-                minimum = tmp;
-            }
-        }
-    }
+	public DistanceMeasure getDistanceMeasure() {
+		return distanceMeasure;
+	}
 
-    public Particle getClosestParticle() {
-        return closest;
-    }
-    
-    /**
-     * @return Returns the distanceMeasure.
-     */
-    public DistanceMeasure getDistanceMeasure() {
-        return distanceMeasure;
-    }
+	public void setDistanceMeasure(DistanceMeasure measure) {
+		this.distanceMeasure = measure;
+	}
 
-    /**
-     * @param distanceMeasure The distanceMeasure to set.
-     */
-    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
-        this.distanceMeasure = distanceMeasure;
-    }
-
-    private Particle closest;
-    private Particle target;
-    private double minimum;
-    private DistanceMeasure distanceMeasure;
 }
