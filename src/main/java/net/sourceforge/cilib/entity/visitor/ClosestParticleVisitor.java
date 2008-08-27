@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso;
+package net.sourceforge.cilib.entity.visitor;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.particle.ParticleVisitor;
@@ -30,9 +30,9 @@ import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
 /**
  * @author Edwin Peer
  */
-public class FindClosestParticleVisitor extends ParticleVisitor {
+public class ClosestParticleVisitor extends ParticleVisitor {
 
-    public FindClosestParticleVisitor(Particle target) {
+    public ClosestParticleVisitor(Particle target) {
         this.target = target;
         closest = null;
         minimum = Double.MAX_VALUE;
