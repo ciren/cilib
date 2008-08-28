@@ -21,23 +21,29 @@
  */
 package net.sourceforge.cilib.coevolution;
 
-import java.util.ArrayList;
 import java.util.List;
-
+import java.util.ArrayList;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.type.types.Int;
 
 /**
- * example of implementation of an OpponentSelectionStrategy. 
+ * example of implementation of an OpponentSelectionStrategy 
  * @author Julien Duhain
+ *
  */
 public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrategy{
-		
-	public SelectAllOpponentSelectionStrategy() {
+	//id of population used when assigning players from own population. if left to -1 then it'l be the population id of the entity
+	int ownPopulationID;
+	
+	public SelectAllOpponentSelectionStrategy(){
+		super();
+		ownPopulationID = -1;
 	}
 	
-	public SelectAllOpponentSelectionStrategy(SelectAllOpponentSelectionStrategy copy) {
-		
+	public SelectAllOpponentSelectionStrategy(SelectAllOpponentSelectionStrategy copy){
+		ownPopulationID = copy.ownPopulationID;
 	}
 	
 	public SelectAllOpponentSelectionStrategy getClone() {
@@ -48,13 +54,25 @@ public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrateg
 	 * @param pool the pool of potential opponents
 	 * @return all entities from all populations in one list
 	 */
-	public List<Entity> setCompetitors(List<PopulationBasedAlgorithm> pool) {
-		List<Entity> opponents = new ArrayList<Entity>();
-		for(PopulationBasedAlgorithm currentAlgorithm : pool) {
-			for(int i=0; i<currentAlgorithm.getPopulationSize(); i++){
-				opponents.add(currentAlgorithm.getTopology().get(i));
+	public CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool) {
+			CoevolutionEvaluationList opponents = new CoevolutionEvaluationList();
+			
+			for(PopulationBasedAlgorithm algorithm: pool){
+				List<EvaluationEntity> algorithmCompetitors = new ArrayList<EvaluationEntity>();
+				for(int i=0; i < algorithm.getPopulationSize(); i++){
+					Entity e =algorithm.getTopology().get(i);
+					int pID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
+					if(pID == populationID && ownPopulationID != -1)
+						pID = ownPopulationID;
+					algorithmCompetitors.add(new EvaluationEntity(e.getCandidateSolution(), pID));
+				}
+				opponents.addEntityList(algorithmCompetitors);
 			}
-		}
+			
 		return opponents;
+	}
+
+	public void setOwnPopulationID(int ownPopulationID) {
+		this.ownPopulationID = ownPopulationID;
 	}
 }

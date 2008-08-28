@@ -19,32 +19,46 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.coevolution;
-
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-
+package net.sourceforge.cilib.games.game;
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution 
- * @author Julien Duhain
- *
+ * @author leo
+ * This class represents any game that takes place in a grid
  */
-public abstract class OpponentSelectionStrategy {
-
-	public OpponentSelectionStrategy(){}
+public abstract class GridGame extends Game {
+	private static final long serialVersionUID = -3460317865794650394L;
 	
-	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
-		
+	//width of the grid
+	protected int gridWidth;
+	//height of the grid
+	protected int gridHeight;
+	/**
+	 * 
+	 */
+	public GridGame() {
+		gridWidth = 0;
+		gridHeight = 0;
+		// TODO Auto-generated constructor stub
+	}
+	/**
+	 * @param other
+	 */
+	public GridGame(GridGame other) {
+		super(other);
+		gridWidth = other.gridWidth;
+		gridHeight = other.gridHeight;
 	}
 	
-	public abstract OpponentSelectionStrategy getClone();
-
-	/**
-	 * selects the opponents from the pool
-	 * @param populationID id of current pop
-	 * @param pool the pool of potential opponents
-	 * @return list of selected opponents
-	 */
-	public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
+	public int getWidth(){
+		return gridWidth;
+	}
+	public int getHeight(){
+		return gridHeight;	
+	}
+	public void setWidth(int width){
+		gridWidth = width;
+	}
+	public void setHeight(int height){
+		gridHeight = height;		
+	}
 }

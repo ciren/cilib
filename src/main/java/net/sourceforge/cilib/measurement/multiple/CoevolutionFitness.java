@@ -24,12 +24,17 @@ package net.sourceforge.cilib.measurement.multiple;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
-import net.sourceforge.cilib.coevolution.CoevolutionEntityScoreboard;
-import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.coevolution.CoevolutionEvaluationList;
+import net.sourceforge.cilib.coevolution.CompetitiveCoevolutionIterationStrategy;
+import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * measurement that prints the number of victory of the best Entity. 
@@ -54,21 +59,26 @@ public class CoevolutionFitness implements Measurement{
 	public String getDomain() {
 		return "Z";
 	}
-	    
+	
 	public Type getValue() {
-		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) Algorithm.get();
-		int bestscore = 0;
-		for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
-			for (int i = 0; i < currentAlgorithm.getPopulationSize(); i++){
-				Entity e = currentAlgorithm.getTopology().get(i);
-				int score = ((CoevolutionEntityScoreboard) (e.getProperties().get(EntityType.Coevolution.BOARD))).getWinCount();
-				if(bestscore < score){
-					bestscore = score;
-				}
-			}
+ 		Vector populationFitnesses = new Vector();
+  		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) Algorithm.get();
+ 		int popID = 1;
+ 		
+ 		for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
+ 			OptimisationSolution solution = currentAlgorithm.getBestSolution();
+ 			CoevolutionEvaluationList competitors = ((CompetitiveCoevolutionIterationStrategy)ca.getCoevolutionIterationStrategy()).getOpponentSelectionStrategy().setCompetitors(popID, ca.getPopulations());
+ 			//	((CompetitiveCoevolutionProblemAdapter)currentAlgorithm.getOptimisationProblem()).incrementEvaluationround(); //???
+ 			Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
+ 			blackboard.put(EntityType.CANDIDATE_SOLUTION, solution.getPosition());
+ 			blackboard.put(EntityType.Coevolution.COMPETITOR_LIST, competitors);
+ 			blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());				
+ 			Fitness val = currentAlgorithm.getOptimisationProblem().getFitness(blackboard, false);
+ 			//PopulationFitnesses.add(new Int(popID));
+ 			populationFitnesses.add(new Real(val.getValue()));
+ 			++popID;
 		}
-					
-		return new Real(bestscore);
-	}
+ 		return populationFitnesses;
+  	}
 	    
 }

@@ -19,32 +19,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.coevolution;
+package net.sourceforge.cilib.games.game.scoring;
 
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-
+import net.sourceforge.cilib.games.game.Game;
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution 
- * @author Julien Duhain
- *
+ * @author leo
+ * This class assigns a fitness to a player after a game has been played
  */
-public abstract class OpponentSelectionStrategy {
-
-	public OpponentSelectionStrategy(){}
-	
-	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
-		
-	}
-	
-	public abstract OpponentSelectionStrategy getClone();
+public abstract class GameScoringStrategy {
 
 	/**
-	 * selects the opponents from the pool
-	 * @param populationID id of current pop
-	 * @param pool the pool of potential opponents
-	 * @return list of selected opponents
+	 * 
 	 */
-	public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
+	public GameScoringStrategy() {
+		// TODO Auto-generated constructor stub
+	}
+	/**
+	 * Assign a {@linkplain Fitness} to each {@linkplain Agent} after the completion of a {@linkplain Game}
+	 * @param game the game object
+	 */
+	public abstract void assignPlayerScores(Game game);
 }

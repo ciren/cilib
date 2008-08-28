@@ -21,23 +21,49 @@
  */
 package net.sourceforge.cilib.coevolution;
 
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * @author Julien Duhain
- * 
+ * @author leo
+ * This class contains the entity data and population id of a coevolution competitor
  */
-public abstract class FitnessSharingStrategy implements Cloneable {
-	private static final long serialVersionUID = 6191655650337123237L;
-	
+public class EvaluationEntity implements Cloneable {
 	/**
-	 * modifies the fitness of the entity according to a specific fitness sharing strategy.
-	 * @param CoevolutionAlgorithm 
-	 * @param ent Entity whose fitness is to be calculated
-	 * @return the fitness of the entity
+	 * 
 	 */
-	public abstract Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent);
-	public abstract FitnessSharingStrategy getClone();
+	private static final long serialVersionUID = 2514848906149566022L;
+	Type entityData;
+	int populationID;
+	/**
+	 * 
+	 */
+	
+	public EvaluationEntity(Type entityData, int populationID) {		
+		this.populationID = populationID;
+		this.entityData = entityData; //no clone, reference to the data
+	}
+	
+	public EvaluationEntity(EvaluationEntity other) {
+		// TODO Auto-generated constructor stub
+		populationID = other.populationID;
+		entityData = other.entityData;
+	}
+	
+	public Type getEntityData(){
+		return entityData;
+	}
+	
+	public int getPopulationID(){
+		return populationID;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.cilib.util.Cloneable#getClone()
+	 */
+	public EvaluationEntity getClone() {
+		// TODO Auto-generated method stub
+		return new EvaluationEntity(this);
+	}
+
 }

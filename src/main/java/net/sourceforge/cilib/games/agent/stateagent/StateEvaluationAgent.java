@@ -19,32 +19,43 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.coevolution;
+package net.sourceforge.cilib.games.agent.stateagent;
 
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-
+import net.sourceforge.cilib.games.agent.Agent;
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution 
- * @author Julien Duhain
- *
+ * @author leo
+ * This class represents all agents that function as state evaluators.
+ * A state evaluator agent makes a decision by ranking each possible game state and choosing the one with the highest rank
  */
-public abstract class OpponentSelectionStrategy {
 
-	public OpponentSelectionStrategy(){}
-	
-	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
-		
-	}
-	
-	public abstract OpponentSelectionStrategy getClone();
+//TODO complete this area of the games framework
+public abstract class StateEvaluationAgent extends Agent {
+	private static final long serialVersionUID = 3576769226785412047L;
 
 	/**
-	 * selects the opponents from the pool
-	 * @param populationID id of current pop
-	 * @param pool the pool of potential opponents
-	 * @return list of selected opponents
+	 * @param playerNo
 	 */
-	public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
+	public StateEvaluationAgent() {
+		super();
+		
+	}
+
+	/**
+	 * @param other
+	 */
+	public StateEvaluationAgent(Agent other) {
+		super(other);
+		// TODO Auto-generated constructor stub
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.cilib.games.agent.Agent#getClone()
+	 */
+	@Override
+	public Agent getClone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

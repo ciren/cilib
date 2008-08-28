@@ -43,7 +43,6 @@ public class MSEErrorFunction implements NNError, Initializable {
 
 	
 	public MSEErrorFunction() {
-		
 		this.value = 0;
 		this.computationData = 0;
 		noOutputs = 0;
@@ -213,6 +212,14 @@ public class MSEErrorFunction implements NNError, Initializable {
 	public void reset() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Fitness newInstance(Double value) {
+		MSEErrorFunction function = new MSEErrorFunction();
+		function.setValue(value);
+		return function;
 	}
 	
 	

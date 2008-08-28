@@ -23,30 +23,38 @@ package net.sourceforge.cilib.coevolution;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;//I
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.problem.coevolution.CoevolutionOptimisationProblem;
+import net.sourceforge.cilib.problem.coevolution.CompetitiveCoevolutionProblemAdapter;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 
+
+
 /**
+ * @author Julien Duhain
  *
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{ 
 	private static final long serialVersionUID = -3859431217295779546L;
 	protected CoevolutionIterationStrategy coevolutionIterationStrategy; 
-	
 	public CoevolutionAlgorithm() {
 		super();
 	}
 	
 	public CoevolutionAlgorithm(CoevolutionAlgorithm copy) {
+		super(copy);
 		this.coevolutionIterationStrategy = copy.coevolutionIterationStrategy;
 	}
 	
+	@Override
 	public CoevolutionAlgorithm getClone() {
 		return new CoevolutionAlgorithm(this);
 	}
@@ -68,13 +76,25 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{
 	}
 	
 	/**
+	 * @return optimization problem cast to type CoevolutionOptimizationProblem
+	 */
+	public CoevolutionOptimisationProblem getCoevolutionOptimisationProblem(){
+		return (CoevolutionOptimisationProblem)optimisationProblem;
+	}
+	/**
 	 * initialises every population.
 	 * 
 	 */
 	public void performInitialisation()	{
-		int populationID = 0;
+		CoevolutionOptimisationProblem problem = getCoevolutionOptimisationProblem();
+		if(problem.getAmountSubPopulations() != subPopulationsAlgorithms.size())
+			throw new RuntimeException("The amount of sub populations specified do not match the amount required by the current problem");
+		
+		int populationID = 1;
 		for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
-			coevolutionIterationStrategy.setEntityType(currentAlgorithm, populationID);
+			//coevolutionIterationStrategy.setEntityType(currentAlgorithm, populationID);
+			problem.initializeEntities(currentAlgorithm, populationID);
+			currentAlgorithm.setOptimisationProblem(new CompetitiveCoevolutionProblemAdapter(populationID, problem.getSubPopulationDomain(populationID), problem));
 			currentAlgorithm.performInitialisation();
 			populationID++;
 		}
@@ -163,4 +183,11 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{
 		throw new UnsupportedOperationException("getTopology() is not supported");
 	}
 
+	@Override
+	public void setOptimisationProblem(OptimisationProblem problem) {
+		// TODO Auto-generated method stub
+		if(!(problem instanceof CoevolutionOptimisationProblem))
+			throw new RuntimeException("Co-evolutionaty algorithms can only optimize problems that impliment the CoevolutionOptimisationProblem interface");
+		super.setOptimisationProblem(problem);
+	}
 }

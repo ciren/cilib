@@ -148,21 +148,6 @@ public class ClassificationErrorReal implements NNError {
 		return new String(Integer.valueOf(this.numberPatternsCorrect).toString());
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public void initialize() {
 		//empty method needed for Chain of Responsibility pattern.
 	}
@@ -196,7 +181,11 @@ public class ClassificationErrorReal implements NNError {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
+
+
+	@Override
+	public Fitness newInstance(Double value) {
+		throw new UnsupportedOperationException("Not supported");
+	}
 	
 }

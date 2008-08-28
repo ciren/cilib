@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.coevolution;
 
+import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.problem.Fitness;
@@ -32,6 +33,10 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
  *
  */
 public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -495910154501231712L;
 
 	public StandardFitnessSharingStrategy() {
@@ -50,8 +55,9 @@ public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
 	 * @return the modified fitness.
 	 */
 	public Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent){
+		
 		//System.out.println("pre fit: " + ent.getFitness().getValue());
-		CoevolutionEntityScoreboard board = (CoevolutionEntityScoreboard) ent.getProperties().get(EntityType.Coevolution.BOARD);
+		EntityScoreboard board = (EntityScoreboard) ent.getProperties().get(EntityType.Coevolution.BOARD);
 		Fitness f = new MaximisationFitness(Integer.valueOf(board.getWinCount()).doubleValue()); 
 					//* 
 					//((Real)( ent.getProperties().get("distance"))).getReal()

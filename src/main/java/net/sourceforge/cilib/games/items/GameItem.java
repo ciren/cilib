@@ -19,32 +19,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.coevolution;
+package net.sourceforge.cilib.games.items;
 
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution 
- * @author Julien Duhain
- *
+ * 
+ * @author leo
+ * Any object that exists in the game.
  */
-public abstract class OpponentSelectionStrategy {
-
-	public OpponentSelectionStrategy(){}
+public abstract class GameItem implements Cloneable {
+	private static final long serialVersionUID = -5725025967973967757L;
 	
-	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
+	protected ItemLocation itemLocation;
+
+	public GameItem(){
 		
 	}
 	
-	public abstract OpponentSelectionStrategy getClone();
+	public GameItem(GameItem other){
+		itemLocation = other.itemLocation.getClone();
+	}
+	
+	public void setLoction(ItemLocation location){
+		itemLocation = location;
+	}
+	
+	public ItemLocation getLocation(){
+		return itemLocation;		
+	}
+	
+	public abstract GameItem getClone();
 
-	/**
-	 * selects the opponents from the pool
-	 * @param populationID id of current pop
-	 * @param pool the pool of potential opponents
-	 * @return list of selected opponents
-	 */
-	public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
 }

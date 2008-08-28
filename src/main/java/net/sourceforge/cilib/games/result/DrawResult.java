@@ -19,32 +19,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.coevolution;
-
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-
+package net.sourceforge.cilib.games.result;
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution 
- * @author Julien Duhain
- *
+ * @author leo
+ * the game resulted in a draw
  */
-public abstract class OpponentSelectionStrategy {
-
-	public OpponentSelectionStrategy(){}
-	
-	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
-		
-	}
-	
-	public abstract OpponentSelectionStrategy getClone();
+public class DrawResult extends AbstractGameResult {
 
 	/**
-	 * selects the opponents from the pool
-	 * @param populationID id of current pop
-	 * @param pool the pool of potential opponents
-	 * @return list of selected opponents
+	 * 
 	 */
-	public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
+	public DrawResult() {
+		// TODO Auto-generated constructor stub
+	}
+
 }

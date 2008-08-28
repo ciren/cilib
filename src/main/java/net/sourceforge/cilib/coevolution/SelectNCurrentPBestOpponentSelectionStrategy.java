@@ -25,21 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.coevolution.OpponentSelectionStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Int;
 
-
-/**
- * Select N opponents out of the other populations.
- * If pickFromOwnPopulation is set to true, opponents can also be selected from the
- * population where the entity belongs 
- * @author Julien Duhain
- *
- */
-public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy {
-
+public class SelectNCurrentPBestOpponentSelectionStrategy extends OpponentSelectionStrategy {
+	
 	protected int numberOfOpponents;
 	protected RandomNumber random;
 	protected boolean pickFromOwnPopulation;
@@ -55,14 +49,14 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 		this.numberOfOpponents = numberOfOpponents;
 	}
 
-	public SelectNOpponentSelectionStrategy(){
+	public SelectNCurrentPBestOpponentSelectionStrategy(){
 		numberOfOpponents = 5;
 		random = new RandomNumber();
 		pickFromOwnPopulation = false;
 		ownPopulationID = -1;
 	}
 	
-	public SelectNOpponentSelectionStrategy(SelectNOpponentSelectionStrategy copy){
+	public SelectNCurrentPBestOpponentSelectionStrategy(SelectNCurrentPBestOpponentSelectionStrategy copy){
 		this.numberOfOpponents = copy.numberOfOpponents;
 		this.pickFromOwnPopulation = copy.pickFromOwnPopulation;
 		this.ownPopulationID = copy.ownPopulationID;
@@ -71,7 +65,7 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 	
 	@Override
 	public OpponentSelectionStrategy getClone() {
-		return new SelectNOpponentSelectionStrategy(this);
+		return new SelectNCurrentPBestOpponentSelectionStrategy(this);
 	}
 
 	@Override
@@ -96,6 +90,9 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 					e = algorithm.getTopology().get(i);
 					//not picking from my pop and this pop is my pop then break;
 					potentialOpponents.add(new EvaluationEntity(e.getCandidateSolution(), pID));		
+					if(e instanceof StandardParticle){
+						potentialOpponents.add(new EvaluationEntity(((StandardParticle)e).getBestPosition(), pID));
+					}
 				}
 				
 				List<EvaluationEntity> selectedOpponents = new ArrayList<EvaluationEntity>();
@@ -125,3 +122,4 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 	}
 
 }
+

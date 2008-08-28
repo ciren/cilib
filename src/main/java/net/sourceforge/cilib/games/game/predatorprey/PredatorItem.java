@@ -19,32 +19,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.coevolution;
+package net.sourceforge.cilib.games.game.predatorprey;
 
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-
+import net.sourceforge.cilib.games.items.GridLocation;
+import net.sourceforge.cilib.games.items.PlayerItem;
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution 
- * @author Julien Duhain
+ * @author leo
  *
  */
-public abstract class OpponentSelectionStrategy {
-
-	public OpponentSelectionStrategy(){}
-	
-	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
-		
-	}
-	
-	public abstract OpponentSelectionStrategy getClone();
+public class PredatorItem extends PlayerItem {
 
 	/**
-	 * selects the opponents from the pool
-	 * @param populationID id of current pop
-	 * @param pool the pool of potential opponents
-	 * @return list of selected opponents
+	 * 
 	 */
-	public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
+	private static final long serialVersionUID = -4134550960577913392L;
+
+	/**
+	 * @param playerNo
+	 */
+	public PredatorItem(int playerNo, int gridWidth, int gridHeight) {
+		super(playerNo);
+		// TODO Auto-generated constructor stub
+		itemLocation = new GridLocation(2, gridWidth, gridHeight);
+	}
+
+	/**
+	 * @param Other
+	 */
+	public PredatorItem(PlayerItem Other) {
+		super(Other);
+		// TODO Auto-generated constructor stub
+	}
+
 }
