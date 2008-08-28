@@ -67,5 +67,12 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	 * {@inheritDoc}
 	 */
 	public int compareTo(Fitness o);
+	
+	/**
+	 * Creation method that maintains Fitness object immutability by returning
+	 * a new instance of the current class type.
+	 * @param value The desired value of the {@code Fitness} object. 
+	 */
+	public Fitness newInstance(Double value);
 
 }

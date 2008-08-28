@@ -57,7 +57,7 @@ public class MOFitness extends AbstractFitness {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final Fitness setValue(Double value) {
+	public final Fitness newInstance(Double value) {
 		throw new UnsupportedOperationException();
 	}
 

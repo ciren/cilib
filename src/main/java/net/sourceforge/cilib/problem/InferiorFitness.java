@@ -61,7 +61,7 @@ public final class InferiorFitness extends AbstractFitness {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Fitness setValue(Double value) {
+	public final Fitness newInstance(Double value) {
 		return instance();
 	}
 

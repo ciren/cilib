@@ -58,11 +58,9 @@ public abstract class AbstractFitness implements Fitness {
 	public abstract Double getValue();
 	
 	/**
-	 * Setter that maintains Fitness object immutability by returning
-	 * a new instance of the current class type.
-	 * @param value The desired value of the {@code Fitness} object. 
+	 * {@inheritDoc}
 	 */
-	public abstract Fitness setValue(Double value);
+	public abstract Fitness newInstance(Double value);
 
 	/**
 	 * {@inheritDoc}

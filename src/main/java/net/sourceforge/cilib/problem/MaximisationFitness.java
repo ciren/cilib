@@ -63,7 +63,7 @@ public class MaximisationFitness extends AbstractFitness {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final Fitness setValue(Double value) {
+	public final Fitness newInstance(Double value) {
 		return new MaximisationFitness(value);
 	}
 

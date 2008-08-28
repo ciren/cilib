@@ -64,7 +64,7 @@ public class MinimisationFitness extends AbstractFitness {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Fitness setValue(Double value) {
+	public final Fitness newInstance(Double value) {
 		return new MinimisationFitness(value);
 	}
 
