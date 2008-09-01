@@ -96,7 +96,7 @@ public abstract class MutationStrategy implements Operator {
 	 * The mutation can be multiplicative or additive.
 	 * Valid values for the operator are defined in the list below.<br>
 	 * <p>
-	 * <table border="0">
+	 * <table border="1">
 	 * <tr><td>Multiplicative:</td><td>Additive:</td></tr>
 	 * <tr><td>*</td><td>+</td></tr>
 	 * <tr><td>times</td><td>plus, add</td></tr>

@@ -30,8 +30,10 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.problem.MinimisationFitness;
 
 /**
  * Perform a tournament selection process on the provided {@linkplain Topology}
@@ -51,7 +53,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	public TournamentSelectionStrategy() {
 		this.tournamentProportion = new ProportionalControlParameter();
 		this.randomNumber = new RandomNumber();
-		this.entityComparator = new DescendingFitnessComparator();
+		this.entityComparator = null;
 	}
 	
 	/**
@@ -86,6 +88,12 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 				tournamentEntities.add(tmp);
 		}
 		
+		// The following code needs to be refactored. Could a getComparator() method on the fitness classes be useful?
+		boolean minimisation = tournamentEntities.get(0).getFitness() instanceof MinimisationFitness;
+		
+		if (this.entityComparator == null)
+			this.entityComparator = minimisation ? new AscendingFitnessComparator() : new DescendingFitnessComparator();
+			
 		Collections.sort(tournamentEntities, this.entityComparator);
 		
 		return tournamentEntities.get(0);
