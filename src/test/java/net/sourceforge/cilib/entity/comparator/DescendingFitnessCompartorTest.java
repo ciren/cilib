@@ -45,8 +45,8 @@ import org.junit.Test;
  * 
  * @author Gary Pampara
  */
-public class AscendingFitnessCompartorTest {
-
+public class DescendingFitnessCompartorTest {
+	
 	@Test
 	public void simpleDataStructure() {
 		Entity entity1 = new Individual();
@@ -58,9 +58,9 @@ public class AscendingFitnessCompartorTest {
 		entity3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
 		
 		List<Entity> entities = Arrays.asList(entity1, entity2, entity3);
-		Collections.sort(entities, new AscendingFitnessComparator());
+		Collections.sort(entities, new DescendingFitnessComparator());
 		
-		assertThat(entity1, is(entities.get(0)));
+		assertThat(entity1, is(entities.get(2)));
 	}
-
+	
 }

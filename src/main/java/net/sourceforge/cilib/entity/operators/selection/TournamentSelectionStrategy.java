@@ -23,6 +23,7 @@ package net.sourceforge.cilib.entity.operators.selection;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -42,6 +43,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	private static final long serialVersionUID = -7520711765609204590L;
 	private ControlParameter tournamentProportion;
 	private RandomNumber randomNumber;
+	private Comparator<Entity> entityComparator;
 	
 	/**
 	 * Create a new instance of {@linkplain TournamentSelectionStrategy}.
@@ -49,6 +51,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	public TournamentSelectionStrategy() {
 		this.tournamentProportion = new ProportionalControlParameter();
 		this.randomNumber = new RandomNumber();
+		this.entityComparator = new DescendingFitnessComparator();
 	}
 	
 	/**
@@ -83,7 +86,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 				tournamentEntities.add(tmp);
 		}
 		
-		Collections.sort(tournamentEntities, new DescendingFitnessComparator());
+		Collections.sort(tournamentEntities, this.entityComparator);
 		
 		return tournamentEntities.get(0);
 	}
@@ -126,6 +129,22 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	@SuppressWarnings("unchecked")
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 		offspring.add(this.select((Topology<Entity>) topology));
+	}
+
+	/**
+	 * Get the {@linkplain Comparator} used in the comparisons of the tournament participants.
+	 * @return The current {@linkplain Comparator}.
+	 */
+	public Comparator<Entity> getEntityComparator() {
+		return entityComparator;
+	}
+
+	/**
+	 * Set the {@linkplain Comparator} to be used for the tournament comparisons.
+	 * @param entityComparator The {@linkplain Comparator} to set.
+	 */
+	public void setEntityComparator(Comparator<Entity> entityComparator) {
+		this.entityComparator = entityComparator;
 	}
 	
 }
