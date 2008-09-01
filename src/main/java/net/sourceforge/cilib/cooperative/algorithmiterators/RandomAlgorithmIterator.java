@@ -39,14 +39,14 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgorithmIterator<E> {
 	private static final long serialVersionUID = 9087345802965469395L;
 	
-	private ArrayList<Integer> randomNumbers = null;
+	private List<Integer> randomNumbers = null;
 
 	/**
 	 * Construct a new {@link RandomAlgorithmIterator}.
 	 */
 	public RandomAlgorithmIterator() {
 		super();
-		randomNumbers = new ArrayList<Integer>();
+		randomNumbers = generateRandomSequence();;
 	}
 
 	/**
@@ -56,8 +56,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 	 */
 	public RandomAlgorithmIterator(List<E> a) {
 		super(a);
-		randomNumbers = new ArrayList<Integer>();
-		generateRandomSequence();
+		randomNumbers = generateRandomSequence();
 	}
 
 	/**
@@ -68,7 +67,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 	@SuppressWarnings("unchecked")
 	public RandomAlgorithmIterator(RandomAlgorithmIterator rhs) {
 		super(rhs);
-		randomNumbers = rhs.randomNumbers;
+		randomNumbers = generateRandomSequence();
 	}
 
 	/**
@@ -88,22 +87,25 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 	 * @throws IllegalStateException when the number of elements does not correspond with the number
 	 *         of random indices.
 	 */
-	private void generateRandomSequence() {
+	private List<Integer> generateRandomSequence() {
+		List<Integer> list = new ArrayList<Integer>();
 		RandomNumber generator = new RandomNumber();
 		Integer random = null;
-		randomNumbers.clear();
+
 		for (int i = 0; i < algorithms.size(); i++) {
 			// make sure each index is used only once
 			do {
 				random = new Integer((int) generator.getUniform(0, algorithms.size()));
 			}
-			while (randomNumbers.contains(random));
+			while (list.contains(random));
 
-			randomNumbers.add(random);
+			list.add(random);
 		}
 
-		if (randomNumbers.size() != algorithms.size())
+		if (list.size() != algorithms.size())
 			throw new IllegalStateException("The number of algorithms does not correspond with the number of random indices");
+		
+		return list;
 	}
 
 	/**
