@@ -276,7 +276,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 
 	/**
 	 * Accessor for the top-level currently executing algorithm running in the current thread.
-	 * @return the instance of the algorithm that is running in the current thread,.
+	 * @return the instance of the algorithm that is running in the current thread.
 	 */
 	public static Algorithm get() {
 		return currentAlgorithmStack.get().peek();

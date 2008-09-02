@@ -23,22 +23,21 @@ package net.sourceforge.cilib.algorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Maintain the currently running algorithm stack. The current algorithm will be
  * on the top of the stack.
  */
 public class AlgorithmStack {
-	private Deque<Algorithm> algorithmStack;
+	private Stack<Algorithm> algorithmStack;
 	
 	/**
 	 * Create a new {@linkplain AlgorithmStack} instance.
 	 */
 	public AlgorithmStack() {
-		this.algorithmStack = new LinkedList<Algorithm>();
+		this.algorithmStack = new Stack<Algorithm>();
 	}
 	
 	/**
