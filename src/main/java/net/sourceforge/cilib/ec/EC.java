@@ -31,7 +31,6 @@ import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStr
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -192,12 +191,4 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 		this.topology.getBestEntity().calculateFitness();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double accept(TopologyVisitor visitor) {
-		visitor.setCurrentAlgorithm(this);
-		getTopology().accept(visitor);
-		return visitor.getResult();
-	}
 }

@@ -25,6 +25,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
  * Base <tt>Algorithm</tt> class for algorithms that focus on Populations of entities. These
@@ -94,6 +95,15 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	 */
 	public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
 		this.initialisationStrategy = initialisationStrategy;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public double accept(TopologyVisitor visitor) {
+		visitor.setCurrentAlgorithm(this);
+		getTopology().accept(visitor);
+		return visitor.getResult();
 	}
 
 }

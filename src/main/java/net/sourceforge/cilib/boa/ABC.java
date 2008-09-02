@@ -38,7 +38,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.selection.RouletteWheelSelectionStrategy;
 import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
@@ -149,16 +148,6 @@ public class ABC extends PopulationBasedAlgorithm {
 			onlookerBees.add(onlooker);
 		}
 		explorerBee.setExplorerBeeUpdateLimit(this.explorerBeeUpdateLimit);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double accept(TopologyVisitor visitor) {
-		visitor.setCurrentAlgorithm(this);
-		this.getTopology().accept(visitor);
-		return visitor.getResult();
 	}
 
 	/**

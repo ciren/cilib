@@ -32,8 +32,11 @@ public class UnconstrainedBoundary implements BoundaryConstraint {
 
 	private static final long serialVersionUID = -6672863576480662484L;
 
+	/**
+	 * This enforcement of the boundary constraint does nothing.
+	 */
 	public void enforce(Entity entity) {
-		// Do nothing as there is no boudary contraint to enforce
+		// Do nothing as there is no boundary constraint to enforce
 	}
 
 }

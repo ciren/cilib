@@ -31,7 +31,6 @@ import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
@@ -172,16 +171,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 
 	public void updateContributionFitness(Fitness fitness) {
 		topology.getBestEntity().calculateFitness();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double accept(TopologyVisitor visitor) {
-		visitor.setCurrentAlgorithm(this);
-		getTopology().accept(visitor);
-		return visitor.getResult();
 	}
 
 	/**

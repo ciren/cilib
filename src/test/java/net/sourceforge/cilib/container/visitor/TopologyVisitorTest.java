@@ -21,7 +21,8 @@
  */
 package net.sourceforge.cilib.container.visitor;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
@@ -58,7 +59,7 @@ public class TopologyVisitorTest {
 		
 		pso.accept(visitor);
 		
-		assertTrue(pso == visitor.getCurrentAlgorithm());
+		assertThat(pso, is(visitor.getCurrentAlgorithm()));
 	}
 
 }
