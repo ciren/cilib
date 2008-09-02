@@ -21,21 +21,24 @@
  */
 package net.sourceforge.cilib.algorithm;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Maintain the currently running algorithm stack. The current algorithm will be
  * on the top of the stack.
  */
 public class AlgorithmStack {
-	
-	private Stack<Algorithm> algorithmStack;
+	private Deque<Algorithm> algorithmStack;
 	
 	/**
 	 * Create a new {@linkplain AlgorithmStack} instance.
 	 */
 	public AlgorithmStack() {
-		this.algorithmStack = new Stack<Algorithm>();
+		this.algorithmStack = new LinkedList<Algorithm>();
 	}
 	
 	/**
@@ -60,6 +63,17 @@ public class AlgorithmStack {
 	 */
 	public synchronized Algorithm peek() {
 		return this.algorithmStack.peek();
+	}
+	
+	/**
+	 * Return an unmodifiable list of {@code Algorithm} instances. The list is the path of currently
+	 * running algorithms. The returned list will have a size {@literal > 1}, if and only if
+	 * the algorithm is a composition of other algorithms.
+	 * @return An unmodifiable list of algorithms instances.
+	 */
+	public synchronized List<Algorithm> asList() {
+		List<Algorithm> list = new ArrayList<Algorithm>(this.algorithmStack);
+		return Collections.unmodifiableList(list);
 	}
 
 }
