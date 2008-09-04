@@ -50,8 +50,8 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 	 * @param element The <code>element</code> to set as the key value for the {@linkplain GeneralTree}.
 	 */
 	public GeneralTree(E element) {
-		this();
 		this.key = element;
+		this.subTrees = new ArrayList<Tree<E>>();
 	}
 
 	/**
@@ -60,7 +60,8 @@ public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends Ab
 	 */
 	@SuppressWarnings("unchecked")
 	public GeneralTree(GeneralTree<E> copy) {
-		this((E) copy.key.getClone());
+		this.key = (E) copy.key.getClone();
+		this.subTrees = new ArrayList<Tree<E>>();
 		
 		for (Tree<E> tree : copy.subTrees) {
 			this.subTrees.add(tree.getClone());

@@ -41,6 +41,8 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 	 * Create an empty {@linkplain NaryTree} instance.
 	 */
 	public NaryTree() {	
+		this.key = null;
+		this.subTrees = new ArrayList<NaryTree<E>>();
 	}
 	
 	/**

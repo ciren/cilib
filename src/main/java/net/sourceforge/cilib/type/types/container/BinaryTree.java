@@ -131,6 +131,7 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	 * @param subTree The {@linkplain} to add.
 	 * @return <tt>true</tt> if the addition was successful, <tt>false</tt> otherwise  
 	 */
+	@Override
 	public boolean addSubTree(Tree<E> subTree) {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Cannot add a subtree to an empty tree");
