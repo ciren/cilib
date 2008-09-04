@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.algorithm;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
@@ -42,7 +41,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * </p>
  * @author Edwin Peer
  */
-public abstract class Algorithm implements Cloneable, Runnable, Serializable {
+public abstract class Algorithm implements Cloneable, Runnable {
 	private static final long serialVersionUID = 7197544770653732632L;
 	private Vector<StoppingCondition> stoppingConditions;
 	private Vector<AlgorithmListener> algorithmListeners;
@@ -59,6 +58,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * serializable according to the Java Specification.
 	 */
 	private static ThreadLocal<AlgorithmStack> currentAlgorithmStack = new ThreadLocal<AlgorithmStack>() {
+		@Override
 		protected AlgorithmStack initialValue() {
 			return new AlgorithmStack();
 		}
@@ -105,6 +105,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract Algorithm getClone();
 
 
@@ -167,6 +168,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * Executes the algorithm.
 	 * @exception InitialisationException algorithm was not properly initialised.
 	 */
+	@Override
 	public void run() {
 		if (!initialised) {
 			throw new InitialisationException("Algorithm not initialised");

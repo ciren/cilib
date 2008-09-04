@@ -97,6 +97,9 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 		return new PSO(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void reset() {
 		super.reset();
@@ -107,6 +110,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * Perform the required initialisation for the algorithm. Create the particles and add then to
 	 * the specified topology.
 	 */
+	@Override
 	public void performInitialisation() {
 		this.initialisationStrategy.initialise(this.topology, this.getOptimisationProblem());
 	}
@@ -115,6 +119,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * Perform the iteration of the PSO algorithm, use the appropriate <code>IterationStrategy</code>
 	 * to perform the iteration.
 	 */
+	@Override
 	protected void algorithmIteration() {
 		this.topology.clearBestEntity();
 
@@ -130,6 +135,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * particles.
 	 * @return The <code>OptimisationSolution</code> representing the best solution.
 	 */
+	@Override
 	public OptimisationSolution getBestSolution() {
 		return new OptimisationSolution(this.getOptimisationProblem(), topology.getBestEntity().getBestPosition().getClone());
 	}
@@ -139,6 +145,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * PSO algorithm, but rather in a MultiObjective optimisation.
 	 * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
 	 */
+	@Override
 	public List<OptimisationSolution> getSolutions() {
 		return Arrays.asList(getBestSolution());
 	}
@@ -147,6 +154,7 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * Sets the particle topology used. The default is {@link GBestTopology}.
 	 * @param A class that implements the {@link Topology} interface.
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public void setTopology(Topology topology) {
 		this.topology = topology;
@@ -156,19 +164,29 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	 * Accessor for the topology being used.
 	 * @return The {@link Topology} being used.
 	 */
+	@Override
 	public Topology<Particle> getTopology() {
 		return topology;
 	}
 
 	// TODO: Move down heirarchy into MOPSO????
+	@Override
 	public Particle getContribution() {
 		return topology.getBestEntity();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public Fitness getContributionFitness() {
 		return topology.getBestEntity().getBestFitness();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void updateContributionFitness(Fitness fitness) {
 		topology.getBestEntity().calculateFitness();
 	}
