@@ -32,7 +32,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
+ * @deprecated This class is no longer really valid.
  */
+@Deprecated
 public class NeuralNetworkProblem implements OptimisationProblem, Initializable {
 	private static final long serialVersionUID = -5790791148649131742L;
 	protected int fitnessEvaluations;

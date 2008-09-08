@@ -165,7 +165,7 @@ public class RandomNumber implements Cloneable {
 	
 	
 	/**
-	 * Convienience method to obtain a Cauchy number. The distribution has a <code>mean</code>
+	 * Convenience method to obtain a Cauchy number. The distribution has a <code>mean</code>
 	 * of <code>0.0</code> and a <code>deviation</code> of <code>1.0</code>.
 	 * @return A cauchy number in the given distribution.
 	 */

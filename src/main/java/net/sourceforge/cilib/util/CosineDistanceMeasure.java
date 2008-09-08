@@ -64,8 +64,8 @@ public class CosineDistanceMeasure implements DistanceMeasure {
 			x_i = x.getReal(i);
 			y_i = y.getReal(i);
 			distance += x_i * y_i;
-			norm_x += Math.pow(x_i, 2.0);
-			norm_y += Math.pow(y_i, 2.0);
+			norm_x += x_i * x_i;
+			norm_y += y_i * y_i;
 		}
 		norm_x = Math.sqrt(norm_x);
 		norm_y = Math.sqrt(norm_y);
@@ -98,8 +98,8 @@ public class CosineDistanceMeasure implements DistanceMeasure {
 			x_i = i.next().doubleValue();
 			y_i = j.next().doubleValue();
 			distance += x_i * y_i;
-			norm_x += Math.pow(x_i, 2.0);
-			norm_y += Math.pow(y_i, 2.0);
+			norm_x += x_i * x_i;
+			norm_y += y_i * y_i;
 		}
 		norm_x = Math.sqrt(norm_x);
 		norm_y = Math.sqrt(norm_y);

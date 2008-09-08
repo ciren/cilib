@@ -33,8 +33,9 @@ import net.sourceforge.cilib.problem.Problem;
 
 /**
  * @author stefanv
- *
+ * @deprecated This class is no longer viable - Please see {@linkplain EvaluationMediator}
  */
+@Deprecated
 public class NeuralNetworkController extends SingularAlgorithm {
 	private static final long serialVersionUID = -904395696777716473L;
 	protected NeuralNetworkProblem problem = null;

@@ -39,7 +39,7 @@ import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 
 /**
- * 
+ * TODO: Complete this javadoc.
  * @author Gary Pampara
  */
 public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy<EC> {
@@ -77,6 +77,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public GeneticAlgorithmIterationStrategy getClone() {
 		return new GeneticAlgorithmIterationStrategy(this);
 	}
@@ -84,6 +85,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public void performIteration(EC ec) {
 		Topology<Entity> offspring = new GBestTopology<Entity>();

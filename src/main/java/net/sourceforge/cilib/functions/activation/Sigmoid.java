@@ -76,6 +76,7 @@ public class Sigmoid extends ActivationFunction {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Double evaluate(Number number) {
 		Vector vector = new Vector();
 		vector.add(new Real(number.doubleValue()));
@@ -113,6 +114,7 @@ public class Sigmoid extends ActivationFunction {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Double getGradient(Number number) {
 		return getGradient(VectorUtils.create(number)).getReal(0);
 	}

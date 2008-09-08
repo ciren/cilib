@@ -38,6 +38,7 @@ public abstract class ActivationFunction extends Function implements Differentia
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract Double evaluate(Type x);
 	
 	/**
