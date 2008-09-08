@@ -85,6 +85,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
     public abstract Particle getClone();
 
     /**
@@ -117,6 +118,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public String getId() {
 		return String.valueOf(this.id);
 	}
@@ -140,6 +142,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     /**
      * {@inheritDoc}
      */
+	@Override
     public void calculateFitness() {
     	calculateFitness(true);
     }
@@ -147,34 +150,40 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     /**
      * {@inheritDoc}
      */
+	@Override
     public abstract void calculateFitness(boolean count);
 
     /**
      * {@inheritDoc}
      */
+	@Override
     public abstract Fitness getBestFitness();
     
     /**
      * {@inheritDoc}
      */
+	@Override
     public abstract int getDimension();
    
     /**
      * Get the position of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s position.
      */
+	@Override
     public abstract Type getPosition();
     
     /**
      * Get the best position of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s best position.
      */
+	@Override
     public abstract Type getBestPosition();
     
     /**
      * Get the velocity representation of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s velocity.
      */
+	@Override
     public abstract Type getVelocity();
 
     /**
@@ -183,33 +192,39 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * 
      * @param particle The particle to use as the current particle's neighhod best particle
      */
+	@Override
     public abstract void setNeighbourhoodBest(Particle particle);
     
     /**
      * Get the current <tt>Particle</tt>'s neighbourhood best.
      * @return The neighbourhood best of the <tt>Particle</tt>
      */
+	@Override
     public abstract Particle getNeighbourhoodBest();
     
     /**
      * Update the position of the <tt>Particle</tt>.
      */
+	@Override
     public abstract void updatePosition();
     
     /**
      * {@inheritDoc}
      */
+	@Override
     public abstract void updateVelocity();
     
     /**
      * {@inheritDoc}
      */
+	@Override
     public abstract void updateControlParameters();
 
 	/**
 	 * Get the current <tt>PostionUpdateStrategy</tt> associated with this <tt>Particle</tt>.
 	 * @return The currently associated <tt>PositionUpdateStrategy</tt>.
 	 */
+	@Override
 	public PositionUpdateStrategy getPositionUpdateStrategy() {
 		return positionUpdateStrategy;
 	}
@@ -218,6 +233,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	 * Set the <tt>PostionUpdateStrategy</tt> for the <tt>Particle</tt>.
 	 * @param positionUpdateStrategy The <tt>PositionUpdateStrategy</tt> to use.
 	 */
+	@Override
 	public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy) {
 		this.positionUpdateStrategy = positionUpdateStrategy;
 	}
@@ -228,6 +244,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	 * 
 	 * @return Returns the velocityUpdateStrategy.
 	 */
+	@Override
 	public VelocityUpdateStrategy getVelocityUpdateStrategy() {
 		return velocityUpdateStrategy;
 	}
@@ -236,6 +253,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	 * Set the velocity updating strategy for the particle.
 	 * @param velocityUpdateStrategy The velocityUpdateStrategy to set.
 	 */
+	@Override
 	public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
 		this.velocityUpdateStrategy = velocityUpdateStrategy;
 	}
@@ -244,6 +262,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	 * Get the {@linkplain VelocityInitialisationStrategy}.
 	 * @return The current {@linkplain VelocityInitialisationStrategy}.
 	 */
+	@Override
 	public VelocityInitialisationStrategy getVelocityInitialisationStrategy() {
 		return velocityInitialisationStrategy;
 	}
@@ -252,6 +271,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	 * Set the velocityInitialisationStrategy.
 	 * @param velocityInitialisationStrategy The value to set.
 	 */
+	@Override
 	public void setVelocityInitialisationStrategy(
 			VelocityInitialisationStrategy velocityInitialisationStrategy) {
 		this.velocityInitialisationStrategy = velocityInitialisationStrategy;
@@ -276,6 +296,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public int compareTo(Entity o) {
 		return getFitness().compareTo(o.getFitness());
 	}

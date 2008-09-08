@@ -48,6 +48,14 @@ public class Harmony extends AbstractEntity {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public Harmony getClone() {
+		return new Harmony(this);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
@@ -69,27 +77,44 @@ public class Harmony extends AbstractEntity {
 		return hash;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void calculateFitness() {
 		calculateFitness(true);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void calculateFitness(boolean count) {
 		Fitness fitness = calculator.getFitness(this, count);
     	this.getProperties().put(EntityType.FITNESS, fitness);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public int compareTo(Entity o) {
 		return this.getFitness().compareTo(o.getFitness());
 	}
 
-	public Harmony getClone() {
-		return new Harmony(this);
-	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public int getDimension() {
 		return getCandidateSolution().getDimension();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void initialise(OptimisationProblem problem) {
 		Type harmony = problem.getDomain().getBuiltRepresenation().getClone();
 		harmony.randomise();
@@ -98,6 +123,10 @@ public class Harmony extends AbstractEntity {
 		this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void reinitialise() {
 		getCandidateSolution().randomise();
 	}

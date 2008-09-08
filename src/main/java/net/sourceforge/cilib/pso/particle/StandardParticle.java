@@ -58,8 +58,9 @@ public class StandardParticle extends AbstractParticle {
     }
     
     /**
-     * 
+     * {@inheritDoc}
      */
+	@Override
     public StandardParticle getClone() {
        	return new StandardParticle(this);
     }
@@ -82,31 +83,58 @@ public class StandardParticle extends AbstractParticle {
 		return super.hashCode();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public Fitness getBestFitness() {
         return (Fitness) this.getProperties().get(EntityType.Particle.BEST_FITNESS);
     }
     
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public Vector getBestPosition() {
     	return (Vector) this.getProperties().get(EntityType.Particle.BEST_POSITION);
     }
         
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public int getDimension() {
     	return getPosition().getDimension();
     }
     
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public Particle getNeighbourhoodBest() {
         return neighbourhoodBest;
     }
     
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public Vector getPosition() {
     	return (Vector) getCandidateSolution();
     }
     
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public Vector getVelocity() {
         return (Vector) this.getProperties().get(EntityType.Particle.VELOCITY);
     }
     
-    
+    /**
+	 * {@inheritDoc}
+	 */
+	@Override
     public void initialise(OptimisationProblem problem) {
         setId(PSO.getNextParticleId());
         
@@ -122,18 +150,19 @@ public class StandardParticle extends AbstractParticle {
         neighbourhoodBest = this;
     }
     
-    
     /**
-     * 
-     */
+	 * {@inheritDoc}
+	 */
+	@Override
     public void updatePosition() {
     	this.positionUpdateStrategy.updatePosition(this);
     }
     
 
-    /**
-     * 
-     */
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public void calculateFitness(boolean count) {
     	Fitness fitness = getFitnessCalculator().getFitness(this, count);
     	this.getProperties().put(EntityType.FITNESS, fitness);
@@ -142,40 +171,56 @@ public class StandardParticle extends AbstractParticle {
     		this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
     	}
     }
-    
-    /**
-     * 
-     */
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public void setNeighbourhoodBest(Particle particle) {
         neighbourhoodBest = particle;
     }
     
-    
-    /**
-     * 
-     */
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public void updateVelocity() {
     	this.velocityUpdateStrategy.updateVelocity(this);
     }
     
-
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
     public void updateControlParameters() {
 		this.velocityUpdateStrategy.updateControlParameters(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setDimension(int dim) {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Type getBehaviouralParameters() {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setBehaviouralParameters(Type type) {
 			
 	}
 
-	// Reinitialise all the things based on the defined initialisation strategy
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void reinitialise() {
 		this.velocityInitialisationStrategy.initialise(this);
 	}

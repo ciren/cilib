@@ -91,6 +91,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * Get the properties associate with the <code>Entity</code>.
 	 * @return The properties within a {@linkplain Blackboard}.
 	 */
+	@Override
 	public final Blackboard<Enum<?>, Type> getProperties() {
 		return this.candidateSolution.getProperties();
 	}
@@ -99,6 +100,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * Set the properties for the current <code>Entity</code>.
 	 * @param properties The {@linkplain Blackboard} containing the new properties.
 	 */
+	@Override
 	public final void setProperties(Blackboard<Enum<?>, Type> properties) {
 		this.candidateSolution.setProperties(properties);
 	}
@@ -108,6 +110,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * {@linkplain Entity}.
 	 * @return The candidate solution as a {@linkplain Type}.
 	 */
+	@Override
 	public Type getCandidateSolution() {
 		return this.candidateSolution.getCandidateSolution();
 	}
@@ -117,6 +120,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * {@linkplain Entity}.
 	 * @return The {@linkplain Fitness} of the candidate solution.
 	 */
+	@Override
 	public Fitness getFitness() {
 		return this.candidateSolution.getFitness();
 	}
@@ -127,6 +131,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * @param candidateSolution The {@linkplain Type} that will be the new value of the
 	 *        {@linkplain Entity} {@linkplain CandidateSolution}.
 	 */
+	@Override
 	public void setCandidateSolution(Type candidateSolution) {
 		this.candidateSolution.setCandidateSolution(candidateSolution);
 	}
@@ -134,6 +139,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final Fitness getSocialBestFitness() {
 		return this.neighbourhoodBestUpdateStrategy.getSocialBestFitness(this);
 	}
@@ -141,6 +147,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Fitness getBestFitness() {
 		return getFitness();
 	}

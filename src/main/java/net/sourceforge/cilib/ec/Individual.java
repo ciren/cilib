@@ -63,6 +63,7 @@ public class Individual extends AbstractEntity {
     /**
      * {@inheritDoc}
      */
+	@Override
      public Individual getClone() {
     	 return new Individual(this);
      }
@@ -106,6 +107,7 @@ public class Individual extends AbstractEntity {
      /**
       * {@inheritDoc}
       */
+	 @Override
      public void initialise(OptimisationProblem problem) {
          // ID initialization is done in the clone method...
          // which is always enforced due to the semantics of the performInitialisation methods         
@@ -125,6 +127,7 @@ public class Individual extends AbstractEntity {
      /**
       * {@inheritDoc} 
       */
+	 @Override
      public int compareTo(Entity o) {
     	 return this.getFitness().compareTo(o.getFitness());
      }
@@ -132,6 +135,7 @@ public class Individual extends AbstractEntity {
      /**
       * {@inheritDoc}
       */
+	 @Override
      public void setCandidateSolution(Type type) {
     	 super.setCandidateSolution(type);
     	 this.dimension = type.getDimension();
@@ -156,6 +160,7 @@ public class Individual extends AbstractEntity {
     /**
      * {@inheritDoc}
      */
+	@Override
     public void calculateFitness() {
     	calculateFitness(true);
     }
@@ -163,6 +168,7 @@ public class Individual extends AbstractEntity {
     /**
      * {@inheritDoc}
      */
+	@Override
     public void calculateFitness(boolean count) {
     	this.getProperties().put(EntityType.FITNESS, this.getFitnessCalculator().getFitness(this, count));
     }
@@ -170,6 +176,7 @@ public class Individual extends AbstractEntity {
     /**
      * {@inheritDoc}
      */
+	@Override
     public int getDimension() {
         return this.dimension;
     }
@@ -188,6 +195,7 @@ public class Individual extends AbstractEntity {
      * the current {@linkplain Individual}.
      * @return The textual representation of this {@linkplain Individual}.
      */
+	@Override
     public String toString() {
         StringBuilder str = new StringBuilder();
        
@@ -224,6 +232,7 @@ public class Individual extends AbstractEntity {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void reinitialise() {
 		throw new UnsupportedOperationException("Implementation is required for this method");
 	}    
