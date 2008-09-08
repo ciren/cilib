@@ -28,7 +28,6 @@ package net.sourceforge.cilib.functions.discrete;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import net.sourceforge.cilib.functions.continuous.Rastrigin;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -65,7 +64,7 @@ public class BinaryAdapterTest {
 	/**
 	 * Test the process of setting the bits per dimension.
 	 */
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void testDimensionSettings() {
 		adapter.setBitsPerDimension(5);
 		assertEquals(5, adapter.getBitsPerDimension());
@@ -73,11 +72,7 @@ public class BinaryAdapterTest {
 		adapter.setBitsPerDimension(0);
 		assertEquals(0, adapter.getBitsPerDimension());
 		
-		try {
-			adapter.setBitsPerDimension(-9);
-			fail("Cannot use negative bits!!");
-		}
-		catch (Exception e) {}
+		adapter.setBitsPerDimension(-9);
 	}
 	
 	
