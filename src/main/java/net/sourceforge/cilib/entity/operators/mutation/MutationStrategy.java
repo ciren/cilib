@@ -59,9 +59,15 @@ public abstract class MutationStrategy implements Operator {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract MutationStrategy getClone();
-	
-	public abstract void mutate(List<? extends Entity> entity);
+
+	/**
+	 * Perform the mutation operation on the provided list of offspring individuals.
+	 * @param offspringList The list of {@linkplain Entity} instances to perform a
+	 *                      mutation on.
+	 */
+	public abstract void mutate(List<? extends Entity> offspringList);
 
 	/**
 	 * 
@@ -111,7 +117,7 @@ public abstract class MutationStrategy implements Operator {
 	}
 	
 	/**
-	 * Get the defined {@link net.sourceforge.cilib.entity.operators.mutation.MutationOperatorStrategy}. 
+	 * Get the defined {@link net.sourceforge.cilib.offspringList.operators.mutation.MutationOperatorStrategy}.
 	 * @return
 	 */
 	public MutationOperatorStrategy getOperatorStrategy() {

@@ -51,13 +51,20 @@ public class GaussianMutationStrategy extends MutationStrategy {
 		this.mean = copy.mean;
 		this.deviationStrategy = copy.deviationStrategy.getClone();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public GaussianMutationStrategy getClone() {
 		return new GaussianMutationStrategy(this);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void mutate(List<? extends Entity> entity) {
-		
 		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
 			Entity current = individual.next(); 
 			Vector chromosome = (Vector) current.getCandidateSolution();
@@ -90,6 +97,10 @@ public class GaussianMutationStrategy extends MutationStrategy {
 		this.mean = mean;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 		this.mutate(offspring);		
 	}

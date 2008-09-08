@@ -52,13 +52,17 @@ public class CauchyMutationStrategy extends MutationStrategy {
 		this.location = copy.location;
 		this.scaleStrategy = copy.scaleStrategy.getClone();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public CauchyMutationStrategy getClone() {
 		return new CauchyMutationStrategy(this);
 	}
 
 	/**
-	 * Perform the {@code CauchyMutationStrategy} on the given list of {@linkplain Entity} instances.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void mutate(List<? extends Entity> entity) {
@@ -96,6 +100,10 @@ public class CauchyMutationStrategy extends MutationStrategy {
 		this.scaleStrategy = scaleStrategy;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 		this.mutate(offspring);
 	}

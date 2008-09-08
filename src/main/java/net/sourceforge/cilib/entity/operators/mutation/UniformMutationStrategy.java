@@ -53,10 +53,15 @@ public class UniformMutationStrategy extends MutationStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public UniformMutationStrategy getClone() {
 		return new UniformMutationStrategy(this);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void mutate(List<? extends Entity> entity) {
 		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
 			Entity current = individual.next(); 
@@ -71,6 +76,10 @@ public class UniformMutationStrategy extends MutationStrategy {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 		this.mutate(offspring);
 	}

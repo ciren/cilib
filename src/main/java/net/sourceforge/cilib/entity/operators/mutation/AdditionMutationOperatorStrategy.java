@@ -24,9 +24,8 @@ package net.sourceforge.cilib.entity.operators.mutation;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**
- * 
+ * TODO: Complete this javadoc
  * @author Gary Pampara
- *
  */
 public class AdditionMutationOperatorStrategy implements
 		MutationOperatorStrategy {
@@ -34,6 +33,7 @@ public class AdditionMutationOperatorStrategy implements
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public double evaluate(Numeric t1, Numeric t2) {
 		return t1.getReal() + t2.getReal();
 	}
@@ -41,6 +41,7 @@ public class AdditionMutationOperatorStrategy implements
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public double evaluate(Numeric t1, double value) {
 		return t1.getReal() + value;
 	}
@@ -48,6 +49,7 @@ public class AdditionMutationOperatorStrategy implements
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public double evaluate(double value, Numeric t1) {
 		return value + t1.getReal();
 	}
@@ -55,6 +57,7 @@ public class AdditionMutationOperatorStrategy implements
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public double evaluate(double t1, double t2) {
 		return t1 + t2;
 	}

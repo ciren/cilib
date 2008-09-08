@@ -28,13 +28,13 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * 
  * @author gpampara
- *
  */
 public interface Operator extends Cloneable {
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Operator getClone();
 
 	/**

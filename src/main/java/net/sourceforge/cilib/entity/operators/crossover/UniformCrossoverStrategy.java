@@ -32,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 *
 * @author  Andries Engelbrecht
 */
-
 public class UniformCrossoverStrategy extends CrossoverStrategy {
 	private static final long serialVersionUID = 8912494112973025634L;
 
@@ -42,11 +41,18 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 	public UniformCrossoverStrategy(UniformCrossoverStrategy copy) {
 		super(copy);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public UniformCrossoverStrategy getClone() {
 		return new UniformCrossoverStrategy(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Entity> crossover(List<Entity> parentCollection) {
 		List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
@@ -56,7 +62,6 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 		Entity offspring2 = parentCollection.get(1).getClone();
 		
 		if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-			
 			Vector parentChromosome1 = (Vector) parentCollection.get(0).getCandidateSolution();
 			Vector parentChromosome2 = (Vector) parentCollection.get(1).getCandidateSolution();
 			Vector offspringChromosome1 = (Vector) offspring1.getCandidateSolution();
@@ -89,6 +94,10 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 	}
 	
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 		List<Entity> parentCollection = new ArrayList<Entity>();
 		

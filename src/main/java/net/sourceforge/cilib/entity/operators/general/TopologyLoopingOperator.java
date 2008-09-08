@@ -39,11 +39,22 @@ public class TopologyLoopingOperator implements Operator {
 	public TopologyLoopingOperator(TopologyLoopingOperator copy) {
 		this.operator = copy.operator.getClone();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public TopologyLoopingOperator getClone() {
 		return new TopologyLoopingOperator(this);
 	}
 
+	/**
+	 * Perform the {@code TopologyLoopingOperator} by looping over the topology and
+	 * delegate the operation to the wrapped operator.
+	 * @param topology The {@linkplain Topology} to perform the operations on.
+	 * @param offspring The {@linkplain Topology} of offspring individuals.
+	 */
+	@Override
 	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 		if (operator == null)
 			throw new RuntimeException("Cannot perform a loop over the topology. The operator to apply has not been defined");
