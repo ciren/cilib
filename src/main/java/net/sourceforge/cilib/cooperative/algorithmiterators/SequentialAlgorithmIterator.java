@@ -130,6 +130,7 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 	 * Inserts the specified element into the list. The element is inserted immediately before the next element that would be returned by next, if any, and after the next element that would be returned by previous, if any. (If the list contains no elements, the new element becomes the sole element on the list.) The new element is inserted before the implicit cursor: a subsequent call to next would be unaffected, and a subsequent call to previous would return the new element. (This call increases by one the value that would be returned by a call to nextIndex  or previousIndex.)
 	 * @param algorithm The {@linkplain Algorithm} to add.
 	 */
+	@Override
 	public void add(E algorithm) {
 		throw new UnsupportedOperationException(this.getClass().getSimpleName() + ".add()");
 	}

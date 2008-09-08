@@ -33,6 +33,7 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface AlgorithmIterator<E> extends ListIterator<E>, Cloneable {
 
+	@Override
 	public AlgorithmIterator<E> getClone();
 
 	public E current();

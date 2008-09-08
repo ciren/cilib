@@ -46,7 +46,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 	 */
 	public RandomAlgorithmIterator() {
 		super();
-		randomNumbers = generateRandomSequence();;
+		randomNumbers = generateRandomSequence();
 	}
 
 	/**
