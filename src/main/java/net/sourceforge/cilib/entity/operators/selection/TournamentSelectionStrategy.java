@@ -80,12 +80,11 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 		
 		List<T> tournamentEntities = new ArrayList<T>();
 		
-		while (tournamentEntities.size() < tournamentSize) {
+		for (int i = 0; i < tournamentSize; i++) {
 			double random = randomNumber.getUniform(0, population.size());
 			T tmp = population.get(Double.valueOf(random).intValue());
 			
-			if (!tournamentEntities.contains(tmp))
-				tournamentEntities.add(tmp);
+			tournamentEntities.add(tmp);
 		}
 		
 		// The following code needs to be refactored. Could a getComparator() method on the fitness classes be useful?
