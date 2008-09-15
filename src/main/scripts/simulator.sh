@@ -5,6 +5,6 @@ if [ "$1" == "-server" ] ; then
 	shift
 fi
 
-[ "$CLASSPATH" != "" ] && CLASSPATH="${project.build.finalName}.jar:target/${project.build.finalName}.jar:${CLASSPATH}" || CLASSPATH="${CILIBJAR}"
+CLASSPATH="${project.build.finalName}.jar:target/${project.build.finalName}.jar:${CLASSPATH}"
 
-nice java $JAVA_OPTS -Xms1000M -Xmx2000M net.sourceforge.cilib.simulator.Main $@ -textprogress
+nice java $JAVA_OPTS -Xms1000M -Xmx2000M -cp $CLASSPATH net.sourceforge.cilib.simulator.Main $@ -textprogress
