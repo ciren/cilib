@@ -139,6 +139,7 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	public final void performIteration() {
 		currentAlgorithmStack.get().push(this);
 		algorithmIteration();
+		iterations++;
 		currentAlgorithmStack.get().pop();
 	}
 
@@ -180,8 +181,6 @@ public abstract class Algorithm implements Cloneable, Runnable {
 
 		while (running && (!isFinished())) {
 			performIteration();
-			++iterations;
-
 			fireIterationCompleted();
 		}
 
