@@ -31,6 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @deprecated Replaced by {@see net.sourceforge.cilib.pso.positionupdatestrategies.LinearPositionUpdateStrategy}
  *
  */
+@Deprecated
 public class BareBonesPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = -6562797054222387899L;
 

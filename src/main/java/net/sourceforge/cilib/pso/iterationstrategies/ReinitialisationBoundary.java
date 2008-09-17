@@ -29,9 +29,11 @@ import net.sourceforge.cilib.entity.Entity;
 public class ReinitialisationBoundary implements BoundaryConstraint {
 	private static final long serialVersionUID = -512973040124015665L;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void enforce(Entity entity) {
 		if (!entity.getCandidateSolution().isInsideBounds()) {
-//			log.warn("Enity outside bounds; reinitialising");
 			entity.reinitialise();
 		}
 	}

@@ -21,14 +21,12 @@
  */
 package net.sourceforge.cilib.pso.iterationstrategies;
 
-import java.io.Serializable;
-
 import net.sourceforge.cilib.entity.Entity;
 
 /**
  *
  */
-public interface BoundaryConstraint extends Serializable {
+public interface BoundaryConstraint extends Cloneable {
 	
 	/**
 	 * Enforce the defined boundary constraint on the provided {@linkplain Entity}.

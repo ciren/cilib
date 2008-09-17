@@ -32,6 +32,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class PerElementReinitialisation extends ReinitialisationBoundary {
 	private static final long serialVersionUID = 7080824227269710787L;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void enforce(Entity entity) {
 		try {
@@ -60,7 +63,6 @@ public class PerElementReinitialisation extends ReinitialisationBoundary {
 
 	private void enforce(Numeric numeric) {
 		if (!numeric.isInsideBounds()) {
-//			log.warn("Element (" + numeric + ") outside of " + numeric.getRepresentation());
 			numeric.randomise();
 		}
 	}
