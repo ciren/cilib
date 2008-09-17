@@ -56,7 +56,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * presents the gradual distributed real-coded genetic algorithms, a type of
  * heterogeneous distributed real-coded genetic algorithms that apply a different
  * crossover operator to each subpopulation. The importance of this operator on the
- * genetic algorithm’s performance allowed us to differentiate between the
+ * genetic algorithm's performance allowed us to differentiate between the
  * subpopulations in this fashion. Using crossover operators presented
  * for real-coded genetic algorithms, we implement three instances of gradual
  * distributed real-coded genetic algorithms. Experimental results show that the
