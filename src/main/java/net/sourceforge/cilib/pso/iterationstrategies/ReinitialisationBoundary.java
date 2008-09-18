@@ -32,9 +32,18 @@ public class ReinitialisationBoundary implements BoundaryConstraint {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
+	public Object getClone() {
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void enforce(Entity entity) {
 		if (!entity.getCandidateSolution().isInsideBounds()) {
 			entity.reinitialise();
 		}
 	}
+
 }

@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.iterationstrategies;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  *
