@@ -4,8 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 
-import net.sourceforge.cilib.boa.ABC;
-import net.sourceforge.cilib.boa.bees.HoneyBee;
+import net.sourceforge.cilib.boa.bee.HoneyBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;

@@ -2,7 +2,7 @@ package net.sourceforge.cilib.boa.bees;
 
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
-import net.sourceforge.cilib.boa.bees.WorkerBee;
+import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;

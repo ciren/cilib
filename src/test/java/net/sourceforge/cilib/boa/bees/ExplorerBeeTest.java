@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.boa.ABC;
-import net.sourceforge.cilib.boa.bees.WorkerBee;
+import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.Rastrigin;
