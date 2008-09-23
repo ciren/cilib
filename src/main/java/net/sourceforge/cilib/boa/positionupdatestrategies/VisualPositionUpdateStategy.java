@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.boa.positionupdatestrategies;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.boa.bees.HoneyBee;
+import net.sourceforge.cilib.boa.bee.HoneyBee;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;

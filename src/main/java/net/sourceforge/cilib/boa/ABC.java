@@ -27,10 +27,10 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.boa.bees.ExplorerBee;
-import net.sourceforge.cilib.boa.bees.HoneyBee;
-import net.sourceforge.cilib.boa.bees.OnlookerBee;
-import net.sourceforge.cilib.boa.bees.WorkerBee;
+import net.sourceforge.cilib.boa.bee.ExplorerBee;
+import net.sourceforge.cilib.boa.bee.HoneyBee;
+import net.sourceforge.cilib.boa.bee.OnlookerBee;
+import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
@@ -129,6 +129,7 @@ public class ABC extends PopulationBasedAlgorithm {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void performInitialisation() {
 		this.initialisationStrategy.initialise(hive, this.optimisationProblem);
 		
@@ -167,7 +168,7 @@ public class ABC extends PopulationBasedAlgorithm {
 		}
 		
 		for (HoneyBee bee : onlookerBees) {
-			HoneyBee selectedBee = (HoneyBee) dancingSelectionStrategy.select(workerBees);
+			HoneyBee selectedBee = dancingSelectionStrategy.select(workerBees);
 			bee.setPosition(selectedBee.getPosition().getClone());
 			bee.updatePosition();
 			bee.calculateFitness();
@@ -202,6 +203,7 @@ public class ABC extends PopulationBasedAlgorithm {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Topology<HoneyBee> getTopology() {
 		return this.hive;
 	}
