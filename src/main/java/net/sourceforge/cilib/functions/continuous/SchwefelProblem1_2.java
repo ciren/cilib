@@ -42,7 +42,7 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
 	private static final long serialVersionUID = -65519037071861168L;
 
 	public SchwefelProblem1_2() {
-		setDomain("R(-100,100)^30)");
+		setDomain("R(-100,100)^30");
 	}
 	
 	/**
