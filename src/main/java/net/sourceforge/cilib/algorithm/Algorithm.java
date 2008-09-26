@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.algorithm;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -43,8 +43,8 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class Algorithm implements Cloneable, Runnable {
 	private static final long serialVersionUID = 7197544770653732632L;
-	private Vector<StoppingCondition> stoppingConditions;
-	private Vector<AlgorithmListener> algorithmListeners;
+	private List<StoppingCondition> stoppingConditions;
+	private List<AlgorithmListener> algorithmListeners;
 	private int iterations;
 	private volatile boolean running;
 	private boolean initialised;
@@ -71,8 +71,8 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	 */
 	protected Algorithm() {
 		// LoggingSingleton.initialise();
-		stoppingConditions = new Vector<StoppingCondition>();
-		algorithmListeners = new Vector<AlgorithmListener>();
+		stoppingConditions = new ArrayList<StoppingCondition>();
+		algorithmListeners = new ArrayList<AlgorithmListener>();
 
 		running = false;
 		initialised = false;
@@ -83,14 +83,14 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	 * @param copy The instance to copy.
 	 */
 	public Algorithm(Algorithm copy) {
-		stoppingConditions = new Vector<StoppingCondition>();
+		stoppingConditions = new ArrayList<StoppingCondition>();
 		for (StoppingCondition stoppingCondition : copy.stoppingConditions) {
 			StoppingCondition clone = stoppingCondition.getClone();
 			clone.setAlgorithm(this);
 			stoppingConditions.add(clone);
 		}
 
-		algorithmListeners = new Vector<AlgorithmListener>();
+		algorithmListeners = new ArrayList<AlgorithmListener>();
 		for (AlgorithmListener listen : copy.algorithmListeners) {
 			algorithmListeners.add(listen.getClone());
 		}
@@ -298,7 +298,7 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	 * @return The list of {@linkplain StoppingCondition} instances associated with
 	 *         the current {@linkplain Algorithm}.
 	 */
-	public Vector<StoppingCondition> getStoppingConditions() {
+	public List<StoppingCondition> getStoppingConditions() {
 		return this.stoppingConditions;
 	}
 

@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.positionupdatestrategies;
 
-import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.BoundedControlParameter;
@@ -105,10 +105,8 @@ public class MutationPositionUpdateStrategy extends
 		super.updatePosition(particle);
 		
 		if (maximumIterations == null) {
-			java.util.Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
-			Iterator<StoppingCondition> i = vector.iterator();
-			while (i.hasNext()) {
-				StoppingCondition condition = i.next();
+			List<StoppingCondition> conditions = (Algorithm.get()).getStoppingConditions();
+			for (StoppingCondition condition : conditions) {
 				if (condition instanceof MaximumIterations) {
 					maximumIterations = (MaximumIterations) condition;
 					break;

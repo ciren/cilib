@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
-import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.math.MathUtil;
@@ -83,10 +83,9 @@ public class MutatingFunctionParticle extends StandardParticle {
 	 * Get the list of {@linkplain StoppingCondition}s from the {@linkplain Algorithm}.
 	 */
 	private void getStoppingConditionObjects() {
-		java.util.Vector<StoppingCondition> vector = (Algorithm.get()).getStoppingConditions();
-		Iterator<StoppingCondition> i = vector.iterator();
-		while (i.hasNext()) {
-			StoppingCondition condition = i.next();
+		List<StoppingCondition> conditions = (Algorithm.get()).getStoppingConditions();
+		
+		for(StoppingCondition condition : conditions) {
 			if (condition instanceof MaximumIterations) {
 				maximum = (MaximumIterations) condition;
 				break;
