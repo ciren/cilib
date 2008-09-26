@@ -38,10 +38,16 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
 		super(copy);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public FunctionMaximisationProblem getClone() {
 		return new FunctionMaximisationProblem(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	protected Fitness calculateFitness(Type solution) {
 		return new MaximisationFitness(function.evaluate(solution));
 	}

@@ -56,8 +56,18 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 
 	public abstract OptimisationProblemAdapter getClone();
 
+	/**
+	 * Determine the {@code Fitness} of the current {@linkplain Problem} instance
+	 * based on the provided {@code solution}.
+	 * @param solution The {@linkplain Type} representing the candidate solution.
+	 * @return The {@linkplain Fitness} of the {@code solution} in the current {@linkplain Problem}.
+	 * @see OptimisationProblemAdapter#getFitness(Type, boolean)
+	 */
 	protected abstract Fitness calculateFitness(Type solution);
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final Fitness getFitness(Type solution, boolean count) {
 		if (count) {
 			fitnessEvaluations.incrementAndGet();
@@ -73,18 +83,30 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 		return calculateFitness(solution);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final int getFitnessEvaluations() {
 		return fitnessEvaluations.get();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public DataSetBuilder getDataSetBuilder() {
 		return this.dataSetBuilder;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setDataSetBuilder(DataSetBuilder dsb) {
 		dataSetBuilder = dsb;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void accept(ProblemVisitor visitor) {
 		throw new UnsupportedOperationException("This method is not implemented");
 	}
@@ -93,10 +115,18 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 		throw new UnsupportedOperationException("Problems are static by default. Dynamic problems should override this method");
 	}
 
+	/**
+	 * Get the current Problem change strategy.
+	 * @return The current {@linkplain ChangeStrategy}.
+	 */
 	public ChangeStrategy getChangeStrategy() {
 		return changeStrategy;
 	}
 
+	/**
+	 * Set the {@linkplain ChangeStrategy} for this problem. 
+	 * @param changeStrategy The {@linkplain ChangeStrategy} to set.
+	 */
 	public void setChangeStrategy(ChangeStrategy changeStrategy) {
 		this.changeStrategy = changeStrategy;
 	}

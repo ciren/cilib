@@ -71,13 +71,6 @@ public class MOOptimisationProblem implements OptimisationProblem {
 		return sum;
 	}
 
-	/*public DomainComponent getDomain() {
-		return problems.get(0).getDomain();
-	}*/
-	/*public Domain getDomain() {
-		return Domain.getInstance();
-	}*/
-
 	public void addOptimisationProblem(OptimisationProblem problem) {
 		// TODO: Check problem domains match using DomainValidators. 
 		problems.add(problem);

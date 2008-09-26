@@ -36,7 +36,10 @@ public class GradientFunctionMinimisationProblem extends FunctionMinimisationPro
     public GradientFunctionMinimisationProblem() {
         super();
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public Vector getGradient(Vector position) {
         return ((Differentiable) getFunction()).getGradient(position);
     }

@@ -39,10 +39,16 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
 		super(copy);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public FunctionMinimisationProblem getClone() {
 		return new FunctionMinimisationProblem(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	protected Fitness calculateFitness(Type solution) {
 		/* Add code to enforce the boundary constraint */
 		return new MinimisationFitness(function.evaluate(solution));
