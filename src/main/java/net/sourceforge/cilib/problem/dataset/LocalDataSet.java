@@ -34,7 +34,8 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents a local dataset, i.e. a local file on disk that contains lines that
@@ -57,7 +58,7 @@ import org.apache.log4j.Logger;
  */
 public class LocalDataSet extends DataSet {
 	private static final long serialVersionUID = -3482617012711168661L;
-	private static Logger log = Logger.getLogger(LocalDataSet.class);
+	private static Logger logger = LoggerFactory.getLogger(LocalDataSet.class);
 
 	protected String fileName = null;
 	protected String delimiter = null;
@@ -153,7 +154,7 @@ public class LocalDataSet extends DataSet {
 		ArrayList<Pattern> patterns = new ArrayList<Pattern>();
 		BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream()));
 
-		log.info("Parsing " + fileName);
+		logger.info("Parsing " + fileName);
 		try {
 			// every line in a dataset represents a pattern
 			String line = br.readLine();

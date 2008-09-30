@@ -26,12 +26,15 @@ import java.util.EmptyStackException;
 import java.util.Hashtable;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
+import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A class that simplifies clustering when making use of a {@link ClusteringProblem}, a
@@ -42,7 +45,7 @@ import org.apache.log4j.Logger;
  */
 public final class ClusteringUtils {
 	private static final long serialVersionUID = 4878437477807660149L;
-	private static Logger log = Logger.getLogger(ClusteringUtils.class);
+	private static Logger logger = LoggerFactory.getLogger(ClusteringUtils.class);
 
 	/**
 	 * A thread local instance of this class.
@@ -81,10 +84,10 @@ public final class ClusteringUtils {
 				clusteringProblem = (ClusteringProblem) algorithm.getOptimisationProblem();
 				clusterableDataSet = (ClusterableDataSet) clusteringProblem.getDataSetBuilder();
 
-				log.info("Initialised Algorithm found: " + ClusteringUtils.class.getSimpleName() + " is now configured");
+				logger.info("Initialised Algorithm found: " + ClusteringUtils.class.getSimpleName() + " is now configured");
 			}
 			catch (EmptyStackException ese) {
-				log.error("Preliminary: Algorithm not initialised yet");
+				logger.error("Preliminary: Algorithm not initialised yet");
 				// there is no active algorithm when running the unit test
 				// we need to return, otherwise it will break
 				return;
@@ -230,13 +233,13 @@ public final class ClusteringUtils {
 		}
 
 		//	for (Hashtable<Integer, Pattern> cluster : originalClusters) {
-		//		log.debug("begin cluster: " + cluster.size());
+		//		logger.debug("begin cluster: " + cluster.size());
 		//		Enumeration<Integer> e = cluster.keys();
 		//		while(e.hasMoreElements()) {
 		//			Integer i = e.nextElement();
-		//			log.debug(i + " -> " + cluster.get(i).data);
+		//			logger.debug(i + " -> " + cluster.get(i).data);
 		//		}
-		//		log.debug("done");
+		//		logger.debug("done");
 		//	}
 	}
 

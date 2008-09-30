@@ -6,8 +6,10 @@ import java.util.NoSuchElementException;
 
 import net.sourceforge.cilib.pso.PSO;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,7 +20,7 @@ import static org.junit.Assert.assertFalse;
  * This will need to be refactored. 
  */
 public class SequentialAlgorithmIteratorTest {
-	private static Logger log = Logger.getLogger(SequentialAlgorithmIterator.class);
+	private static Logger logger = LoggerFactory.getLogger(SequentialAlgorithmIteratorTest.class);
 	private AlgorithmIterator<PSO> testIterator = null;
 	private ArrayList<PSO> listOfPSOs = null;
 
@@ -54,7 +56,7 @@ public class SequentialAlgorithmIteratorTest {
 			testIterator.next();
 		}
 		catch (NoSuchElementException nsee) {
-			log.info("Caught 'NoSuchelementException' correctly: " + nsee.getMessage());
+			logger.info("Caught 'NoSuchelementException' correctly: " + nsee.getMessage());
 		}
 
 		assertEquals(testIterator.hasNext(), javaIterator.hasNext());
@@ -74,7 +76,7 @@ public class SequentialAlgorithmIteratorTest {
 			testIterator.previous();
 		}
 		catch (NoSuchElementException nsee) {
-			log.info("Caught 'NoSuchelementException' correctly: " + nsee.getMessage());
+			logger.info("Caught 'NoSuchelementException' correctly: " + nsee.getMessage());
 		}
 
 		assertEquals(testIterator.hasNext(), javaIterator.hasNext());
@@ -92,20 +94,18 @@ public class SequentialAlgorithmIteratorTest {
 					testIterator.remove();
 				}
 				catch (IndexOutOfBoundsException iobe) {
-					log.info("Caught 'IndexOutOfBoundsException' correctly: " + iobe.getMessage());
+					logger.info("Caught 'IndexOutOfBoundsException' correctly: " + iobe.getMessage());
 				}
 	
 				try {
 					testIterator.set(new PSO());
 				}
 				catch (IndexOutOfBoundsException iobe) {
-					log.info("Caught 'IndexOutOfBoundsException' correctly: " + iobe.getMessage());
+					logger.info("Caught 'IndexOutOfBoundsException' correctly: " + iobe.getMessage());
 				}
 			}
 
 			testIterator.next();
-//			if (i > 1 && i < 4)
-//				testIterator.add(new PSO());
 			if (i > 4 && i < 7)
 				testIterator.remove();
 			if (i > 7 && i < 10) {

@@ -31,7 +31,6 @@ package net.sourceforge.cilib.container;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -53,7 +52,6 @@ public class BitArrayTest {
 	@Test
 	public void testBitArrayGet() {
 		BitArray b = new BitArray(); // default with 32 bits
-
 		assertEquals(false, b.get(10));
 	}
 
@@ -68,22 +66,16 @@ public class BitArrayTest {
 		assertEquals(true, b.get(30));
 	}
 
-	@Test
-	public void testBitArrayBounds() {
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void lowerBound() {
 		BitArray b = new BitArray();
+		b.get(-1);
+	}
 
-		try {
-			b.get(-1);
-		}
-		catch (Exception e) {
-			try {
-				b.get(33);
-			}
-			catch (Exception e2) {
-				return;
-			}
-		}
-		fail("Accessing invalid ranges!");
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void upperBound() {
+		BitArray b = new BitArray();
+		b.get(33);
 	}
 
 	@Test
@@ -116,7 +108,6 @@ public class BitArrayTest {
 	@Test
 	public void testBitArrayBitLength() {
 		BitArray b = new BitArray(60);
-
 		assertEquals(60, b.length());
 	}
 }

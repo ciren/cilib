@@ -29,7 +29,8 @@ import java.util.Stack;
 
 import net.sourceforge.cilib.ioc.registry.ObjectRegistry;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -43,7 +44,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class CilibHandler extends DefaultHandler {
 	
-	private static Logger log = Logger.getLogger(CilibHandler.class);
+	private static Logger log = LoggerFactory.getLogger(CilibHandler.class);
 	private Stack<Object> stack;
 	private List<Simulation> simulations;
 	

@@ -23,11 +23,12 @@ package net.sourceforge.cilib.problem.dataset;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sourceforge.cilib.math.StatUtils;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
-
-import org.apache.log4j.Logger;
 
 /**
  * This class "collects" and holds all the patterns of the {@link DataSet}s specified
@@ -41,7 +42,7 @@ import org.apache.log4j.Logger;
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
 	private static final long serialVersionUID = -7035524554252462144L;
-	private static Logger log = Logger.getLogger(AssociatedPairDataSetBuilder.class);
+	private static Logger log = LoggerFactory.getLogger(AssociatedPairDataSetBuilder.class);
 
 	protected ArrayList<Pattern> patterns = null;
 	private Vector cachedMean = null;

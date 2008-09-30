@@ -75,9 +75,9 @@ public class RouletteWheelSelectionStrategyTest {
 	
 	@Test
 	public void selectionOfGreatestProportion() {
-		individual1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(98.0));
-		individual2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
-		individual3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
+		individual1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(99.0));
+		individual2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+		individual3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 		
 		RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
 		Entity entity = rouletteWheelSelectionStrategy.select(topology);

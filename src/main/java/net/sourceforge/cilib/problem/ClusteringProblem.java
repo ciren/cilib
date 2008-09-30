@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.problem;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
@@ -32,8 +35,6 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
-
-import org.apache.log4j.Logger;
 
 /**
  * This class is used to setup/configure a problem that is capable of clustering the data in
@@ -75,7 +76,7 @@ import org.apache.log4j.Logger;
  */
 public class ClusteringProblem extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = 7027242527499147957L;
-	private static Logger log = Logger.getLogger(ClusteringProblem.class);
+	private static Logger logger = LoggerFactory.getLogger(ClusteringProblem.class);
 
 	private FunctionOptimisationProblem innerProblem;
 	private int numberOfClusters;
@@ -185,7 +186,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	 */
 	private void regenerateDomain() {
 		if (innerProblem == null || innerProblem.getFunction() == null || domainRegistry == null || numberOfClusters == UNINITIALISED) {
-			log.warn("Preliminary: ClusteringProblem not completely configured yet");
+			logger.warn("Preliminary: ClusteringProblem not completely configured yet");
 			return;
 		}
 

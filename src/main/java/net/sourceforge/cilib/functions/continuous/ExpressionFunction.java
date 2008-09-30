@@ -24,17 +24,18 @@ package net.sourceforge.cilib.functions.continuous;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.apache.log4j.Logger;
 import org.nfunk.jep.JEP;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Function class that defines a function based on a predefined string which is
  * parsed and interpreted during evaluation.
  */
 public class ExpressionFunction extends ContinuousFunction {
-
 	private static final long serialVersionUID = -7072775317449355858L;
-	private Logger log = Logger.getLogger(getClass());
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	private JEP parser;
 	private String function;
 
@@ -68,12 +69,12 @@ public class ExpressionFunction extends ContinuousFunction {
 		double result = 0;
 		
 		for (int i = 0; i < x.getDimension(); i++) {
-			log.debug("Parameter value: " + x.getReal(i));
+			logger.debug("Parameter value: " + x.getReal(i));
 			parser.addVariable("x", x.getReal(i));
-			log.debug("Parser value: " + parser.getValue());
+			logger.debug("Parser value: " + parser.getValue());
 			result += parser.getValue();
 			
-			log.debug("hasError? : " + parser.getErrorInfo());
+			logger.debug("hasError? : " + parser.getErrorInfo());
 		}
 		
 		return result;

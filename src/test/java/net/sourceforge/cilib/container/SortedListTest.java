@@ -37,9 +37,6 @@ import org.junit.Test;
 
 public class SortedListTest {
 
-	public SortedListTest(){
-	}
-	
 	@Test
 	public void testSortedAddition() {
 		SortedList<Int> intList = new SortedList<Int>();

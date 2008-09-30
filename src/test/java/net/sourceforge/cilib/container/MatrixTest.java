@@ -30,7 +30,6 @@
 package net.sourceforge.cilib.container;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
@@ -48,9 +47,6 @@ import org.junit.Test;
  */
 public class MatrixTest {
 	
-	public MatrixTest() {
-	}
-
 	@Test
 	public void testMatrixCreation() {
 		Matrix<Double> m = new Matrix<Double>(3, 3);
@@ -58,16 +54,9 @@ public class MatrixTest {
 		assertEquals(3, m.getRowCount());
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testMatrixExceptionCreation() {
-		try {
-			Matrix<Double> m = new Matrix<Double>(0, 0);
-			assertNotNull(m);
-		}
-		catch (IllegalArgumentException i) {
-			return;
-		}
-		fail("Expected IllegalArgumentException");
+		new Matrix<Double>(0, 0);
 	}
 
 	@Test
@@ -76,10 +65,10 @@ public class MatrixTest {
 
 		for (int i = 0; i < m.getRowCount(); i++) {
 			for (int j = 0; j < m.getColumnCount(); j++) {
-				Integer tmp = new Integer(i*j);
+				int tmp = i*j;
 				m.set(i, j, tmp);
 				assertSame(tmp, m.get(i, j));
-				assertEquals(tmp.intValue(), m.get(i, j).intValue());
+				assertEquals(tmp, m.get(i, j).intValue());
 			}
 		}
 	}
@@ -188,8 +177,6 @@ public class MatrixTest {
 			
 			if (i2.hasNext()) assertEquals(m.get(1, i), i2.next());
 			else fail();
-			//assertEquals(m.get(0, i), );
-			//assertEquals(m.get(1, i), v2.elementAt(i));
 		}
 	}
 

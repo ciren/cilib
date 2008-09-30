@@ -25,14 +25,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
-
-import org.apache.log4j.Logger;
 
 /**
  * This abstract class defines member variables and member functions that can be used by
@@ -50,7 +51,7 @@ import org.apache.log4j.Logger;
 public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	private static final long serialVersionUID = 4834673666638644106L;
 	
-	private static Logger log = Logger.getLogger(ClusteringFitnessFunction.class);
+	private static Logger log = LoggerFactory.getLogger(ClusteringFitnessFunction.class);
 	protected ClusteringUtils helper = null;
 	protected ClusterCenterStrategy clusterCenterStrategy = null;
 	protected ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = null;
@@ -389,8 +390,8 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 */
 	protected double validateFitness(double fitness) {
 		if (fitness < 0.0) {
-			log.fatal(this.getClass().getSimpleName() + " fitness < 0.0 : " + fitness);
-			log.fatal("Number of clusters formed = " + clustersFormed);
+			log.error(this.getClass().getSimpleName() + " fitness < 0.0 : " + fitness);
+			log.error("Number of clusters formed = " + clustersFormed);
 		}
 		return fitness;
 	}

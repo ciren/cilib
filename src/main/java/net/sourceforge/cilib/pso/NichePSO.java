@@ -46,11 +46,13 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.particle.initialisation.DomainPercentageVelocityInitialisationStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
+import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of the NichePSO algorithm.
@@ -61,7 +63,7 @@ import org.apache.log4j.Logger;
 public class NichePSO extends MultiPopulationBasedAlgorithm {
 	private static final long serialVersionUID = 2056933096612146989L;
 
-	private static Logger log = Logger.getLogger(NichePSO.class);
+	private static Logger logger = LoggerFactory.getLogger(NichePSO.class);
 	
 	private OptimisationProblem problem;
 	private PSO mainSwarm;
@@ -145,22 +147,22 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 	 */
 	@Override
 	public void algorithmIteration() {
-		log.debug("Beginning iteration");
-		log.debug("\tmainSwarm particle #: " + mainSwarm.getTopology().size());
+		logger.debug("Beginning iteration");
+		logger.debug("\tmainSwarm particle #: " + mainSwarm.getTopology().size());
 		
 		if(mainSwarm.getTopology().size() > 1)
 		    mainSwarm.performIteration();
 		
 		this.swarmCreationStrategy.create(this);
 		for (PopulationBasedAlgorithm subSwarm : this.subPopulationsAlgorithms) {   		    
-			log.debug("\tsubswarm size: " + subSwarm.getTopology().size());
+			logger.debug("\tsubswarm size: " + subSwarm.getTopology().size());
 			subSwarm.performIteration();
 		}
 		
 //		this.absorptionStrategy.absorb(mainSwarm, this.subPopulationsAlgorithms);
 		this.mergeStrategy.merge(mainSwarm, this.subPopulationsAlgorithms);
 				
-		log.debug("End of iteration");
+		logger.debug("End of iteration");
 	}
 
 	
