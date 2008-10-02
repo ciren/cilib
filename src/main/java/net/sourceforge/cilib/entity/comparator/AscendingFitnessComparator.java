@@ -28,7 +28,8 @@ import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * Comparator to order {@linkplain Entity} instances based on fitness values.
- * This comparator results in a ascending order.
+ * This comparator results in a ascending order. This ordering is effectively
+ * an ordering of entity instances from the "least fit" to the "most fit".
  * 
  * @author Gary Pampara
  */
