@@ -37,8 +37,8 @@ public class StandardParticleTest {
 		p1.setNeighbourhoodBest(p1);
 		p2.setNeighbourhoodBest(p1);
 		
-		assertTrue(p1.equals(p2));
-		assertTrue(p1.hashCode() == p2.hashCode());
+		assertFalse(p1.equals(p2));
+		assertFalse(p1.hashCode() == p2.hashCode());
 		assertFalse(p1.equals(null));
 	}
 	
@@ -47,7 +47,7 @@ public class StandardParticleTest {
 		Particle p1 = new StandardParticle();
 		Particle p2 = new StandardParticle();
 		
-		assertTrue(p1.hashCode() == p2.hashCode());
+		assertTrue(p1.hashCode() != p2.hashCode());
 	}
 
 }

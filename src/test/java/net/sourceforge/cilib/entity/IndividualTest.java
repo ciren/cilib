@@ -65,8 +65,8 @@ public class IndividualTest {
 		Individual i1 = new Individual();
 		Individual i2 = new Individual();
 		
-		assertTrue(i1.equals(i2));
-		assertTrue(i2.equals(i1));
+		assertFalse(i1.equals(i2));
+		assertFalse(i2.equals(i1));
 		assertTrue(i1.equals(i1));
 		
 		assertFalse(i1.equals(null));
@@ -77,10 +77,7 @@ public class IndividualTest {
 		Individual i1 = new Individual();
 		Individual i2 = new Individual();
 		
-		assertTrue(i1.hashCode() == i2.hashCode());
-		
-		i1.setProperties(new Blackboard<Enum<?>, Type>());
-		assertFalse(i1.hashCode() == i2.hashCode());
+		assertTrue(i1.hashCode() != i2.hashCode());
 	}
 
 }

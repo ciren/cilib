@@ -38,6 +38,7 @@ import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.jmock.Mockery;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -46,7 +47,7 @@ import org.junit.Test;
  * @author Edwin Peer
  */
 public class VonNeumannTopologyTest {
-    
+
     public VonNeumannTopologyTest() {
     }
     
@@ -82,8 +83,8 @@ public class VonNeumannTopologyTest {
     	i = square.iterator();
     	int count = 0;
     	while (i.hasNext()) {
-    		Particle particle = (Particle) i.next();
-    		assertEquals(String.valueOf(id[count]), particle.getId());
+    		DumbParticle particle = (DumbParticle) i.next();
+    		assertEquals(String.valueOf(id[count]), particle.getParticleName());
     		++count;
     	}
     	assertEquals(9, count);
@@ -91,8 +92,8 @@ public class VonNeumannTopologyTest {
     	i = irregular.iterator();
     	count = 0;
     	while (i.hasNext()) {
-    		Particle particle = (Particle) i.next();
-    		assertEquals(String.valueOf(id[count]), particle.getId());
+    		DumbParticle particle = (DumbParticle) i.next();
+    		assertEquals(String.valueOf(id[count]), particle.getParticleName());
     		++count;
     	}
     	assertEquals(10, count);
@@ -101,19 +102,19 @@ public class VonNeumannTopologyTest {
     @Test
     public void testNeighbourhoodIteration() {
     	Iterator<Particle> i = square.iterator();
-    	Particle p = null;
+    	DumbParticle p = null;
     	for (int c = 0; c < 5; ++c) {
-    		p = (Particle) i.next();
+    		p = (DumbParticle) i.next();
     	}
-    	assertEquals("4", p.getId());
+    	assertEquals("4", p.getParticleName());
 
     	Iterator<Particle> j = square.neighbourhood(i);
     	
     	int count = 0;
     	int nid[] = {4, 3, 8, 6, 2};
     	while (j.hasNext()) {
-    		p = (Particle) j.next();
-    		assertEquals(String.valueOf(nid[count]), p.getId());
+    		p = (DumbParticle) j.next();
+    		assertEquals(String.valueOf(nid[count]), p.getParticleName());
     		++count;
     	}
     	assertEquals(5, count);
@@ -125,46 +126,46 @@ public class VonNeumannTopologyTest {
     	catch (NoSuchElementException ex) { }
     
     	i = irregular.iterator();
-    	p = (Particle) i.next();
-    	assertEquals("1", p.getId());
+    	p = (DumbParticle) i.next();
+    	assertEquals("1", p.getParticleName());
     	
     	j = irregular.neighbourhood(i);
     	
     	count = 0;
     	int nnid[] = {1, 10, 3, 2, 7};
     	while (j.hasNext()) {
-    		p = (Particle) j.next();
-    		assertEquals(String.valueOf(nnid[count]), p.getId());
+    		p = (DumbParticle) j.next();
+    		assertEquals(String.valueOf(nnid[count]), p.getParticleName());
     		++count;
     	}
     	assertEquals(5, count);
     	
     	for (int c = 0; c < 8; ++c) {
-    		p = (Particle) i.next();
+    		p = (DumbParticle) i.next();
     	}
-    	assertEquals("9", p.getId());
+    	assertEquals("9", p.getParticleName());
     	
     	j = irregular.neighbourhood(i);
     	
     	count = 0;
     	int nnnid[] = {9, 8, 5, 7, 6};
     	while (j.hasNext()) {
-    		p = (Particle) j.next();
-    		assertEquals(String.valueOf(nnnid[count]), p.getId());
+    		p = (DumbParticle) j.next();
+    		assertEquals(String.valueOf(nnnid[count]), p.getParticleName());
     		++count;
     	}
     	assertEquals(5, count);
     	
-    	p = (Particle) i.next();
-    	assertEquals("10", p.getId());
+    	p = (DumbParticle) i.next();
+    	assertEquals("10", p.getParticleName());
     	
     	j = irregular.neighbourhood(i);
     	
     	count = 0;
     	int nnnnid[] = {10, 5, 10, 1, 10};
     	while (j.hasNext()) {
-    		p = (Particle) j.next();
-    		assertEquals(String.valueOf(nnnnid[count]), p.getId());
+    		p = (DumbParticle) j.next();
+    		assertEquals(String.valueOf(nnnnid[count]), p.getParticleName());
     		++count;
     	}
     	assertEquals(5, count);
@@ -180,18 +181,18 @@ public class VonNeumannTopologyTest {
     private static class DumbParticle extends AbstractParticle {
 		private static final long serialVersionUID = 4273664052866515691L;
 		
-		private String id;
+		private String name;
     	
-    	public DumbParticle(String id) {
-    		this.id = id;
+    	public DumbParticle(String name) {
+    		this.name = name;
     	}
     	
-		public String getId() {
-			return id;
+		public String getParticleName() {
+			return name;
 		}
 		
 		public void setId(String id) {
-			this.id = id;
+			this.name = id;
 		}
 		public DumbParticle getClone() {
 			return null;
@@ -300,13 +301,13 @@ public class VonNeumannTopologyTest {
 				return false;
 			
 			DumbParticle other = (DumbParticle) object;
-			return this.id.equals(other.id);
+			return this.name.equals(other.name);
 		}
 
 		@Override
 		public int hashCode() {
 			int hash = 7;
-			hash = 31 * hash + (this.id == null ? 0 : this.id.hashCode());
+			hash = 31 * hash + (this.name == null ? 0 : this.name.hashCode());
 			return hash;
 		}
     	
