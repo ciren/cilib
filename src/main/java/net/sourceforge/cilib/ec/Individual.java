@@ -112,7 +112,7 @@ public class Individual extends AbstractEntity {
          // ID initialization is done in the clone method...
          // which is always enforced due to the semantics of the performInitialisation methods         
 
-    	 this.setCandidateSolution((Type) problem.getDomain().getBuiltRepresenation().getClone());
+    	 this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
     	 this.getCandidateSolution().randomise();
     		 
     	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
