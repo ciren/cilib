@@ -126,14 +126,6 @@ public class CooperativeEntity extends AbstractEntity {
 		fitness = f;
 	}
 
-	public String getId() {
-		throw new UnsupportedOperationException("If you want to use this, implement it");
-	}
-	
-	public void setId(String i) {
-		throw new UnsupportedOperationException("If you want to use this, implement it");
-	}
-
 	public void initialise(OptimisationProblem problem) {
 		context = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
 	}
