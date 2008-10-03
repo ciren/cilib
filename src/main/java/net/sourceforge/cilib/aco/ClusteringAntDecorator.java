@@ -278,16 +278,6 @@ public class ClusteringAntDecorator extends Ant {
 		
 	}
 
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setId(String id) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void reinitialise() {
 		// TODO Auto-generated method stub
 		
