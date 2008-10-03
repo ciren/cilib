@@ -167,8 +167,6 @@ public class RNAParticle extends AbstractParticle {
 	 */
 	public void initialise(OptimisationProblem problem) {
 		RNAInitialiser i = new RNAInitialiser();
-		this.setId(String.valueOf(PSO.getNextParticleId()));
-		
 		position = (RNAConformation) i.getInitialPosition(problem);
 		bestPosition.clear();
 		bestPosition.addAll(position);
