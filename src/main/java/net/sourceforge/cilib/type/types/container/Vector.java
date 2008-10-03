@@ -76,14 +76,14 @@ public class Vector extends AbstractList {
 			components = new ArrayList<Type>();
 			for (int i = 0, offset = 0; i < dimension; ++i, offset += vectorDimension) {
 				for (int j = 0; i < vectorDimension; ++j) {
-					components.add(offset + j, (Type) tmp.get(j).getClone());
+					components.add(offset + j, tmp.get(j).getClone());
 				}
 			}
 		}
 		else {
 			components = new ArrayList<Type>();
 			for (int i = 0; i < dimension; ++i) { 
-				components.add((Type) component.getClone());
+				components.add(component.getClone());
 			}
 		}	
 	}
@@ -103,6 +103,7 @@ public class Vector extends AbstractList {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Vector getClone() {
 		return new Vector(this);
 	}

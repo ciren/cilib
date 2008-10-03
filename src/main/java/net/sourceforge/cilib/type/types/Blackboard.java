@@ -48,6 +48,7 @@ public class Blackboard<K, V extends Type> extends AbstractType {
     	}
 	}
 
+	@Override
 	public Blackboard<K, V> getClone() {
 		return new Blackboard<K, V>(this);
 	}

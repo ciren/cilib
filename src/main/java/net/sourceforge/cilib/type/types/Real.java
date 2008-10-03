@@ -82,6 +82,7 @@ public class Real extends Numeric {
 	/**
 	 * {@inheritDoc} 
 	 */
+	@Override
 	public Real getClone() {
 		return new Real(this);
 	}
@@ -90,6 +91,7 @@ public class Real extends Numeric {
 	/**
 	 * {@inheritDoc} 
 	 */
+	@Override
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
@@ -98,13 +100,14 @@ public class Real extends Numeric {
 			return false;
 		
 		Real otherReal = (Real) other;
-		return super.equals(other) && (Double.valueOf(this.value).equals(Double.valueOf(otherReal.value))); 
+		return Double.compare(this.value, otherReal.value) == 0 && super.equals(other);
 	}
 
 	
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public int hashCode() {
 		int hash = 7;
 		hash = 31 * hash + super.hashCode();
