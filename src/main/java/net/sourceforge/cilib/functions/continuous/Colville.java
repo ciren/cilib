@@ -43,7 +43,7 @@ public class Colville extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    @Override
+	@Override
 	public Colville getClone() {
 		return new Colville();
 	}
@@ -51,6 +51,7 @@ public class Colville extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
+	@Override
 	public Object getMinimum() {
         return new Double(0);
     }
