@@ -36,14 +36,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Individual extends AbstractEntity {
 	private static final long serialVersionUID = -578986147850240655L;
 	
-	protected String id;
     protected int dimension;
     
     /**
      * Create an instance of {@linkplain Individual}.
      */
     public Individual() {
-    	id = "";
         dimension = 0;
         setCandidateSolution(new Vector());
         this.getProperties().put(EntityType.Individual.PHENOTYPES, new Vector());
@@ -57,7 +55,6 @@ public class Individual extends AbstractEntity {
     public Individual(Individual copy) {
     	super(copy);
         this.dimension = copy.dimension;
-        this.id = "";
     }
     
     /**
@@ -81,8 +78,7 @@ public class Individual extends AbstractEntity {
 		
 		Individual other = (Individual) object;
 		return super.equals(other) &&
-			(this.dimension == other.dimension) &&
-			(this.id.equals(other.id));
+			(this.dimension == other.dimension);
 	}
 
 	/**
@@ -93,7 +89,6 @@ public class Individual extends AbstractEntity {
 		int hash = 7;
 		hash = 31 * hash + super.hashCode();
 		hash = 31 * hash + Integer.valueOf(dimension).hashCode();
-		hash = 31 * hash + (this.id == null ? 0 : this.id.hashCode());
 		return hash;
 	}
 
@@ -140,22 +135,6 @@ public class Individual extends AbstractEntity {
     	 super.setCandidateSolution(type);
     	 this.dimension = type.getDimension();
      }
-
-     /**
-      * Get the identifier assigned to this {@linkplain Individual}.
-      * @return The assigned identifier.
-      */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Set the identifier for this {@linkplain Individual}.
-     * @param id The identifier to assign to the {@linkplain Individual}.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * {@inheritDoc}
