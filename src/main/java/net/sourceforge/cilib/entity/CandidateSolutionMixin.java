@@ -66,6 +66,7 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	 * Get a clone of the current {@linkplain CandidateSolutionMixin}.
 	 * @return A shallow clone of the current object - The {@linkplain Blackboard} is not cloned.
 	 */
+	@Override
 	public CandidateSolutionMixin getClone() {
 		return new CandidateSolutionMixin(this);
 	}
