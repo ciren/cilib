@@ -78,7 +78,7 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
     	Iterator<Particle> iter = null;
     	// make iter point to the current particle
     	for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext();) {
-    		if(i.next().getId().equals(particle.getId())) { 
+    		if(i.next().getId() == particle.getId()) { 
     			iter = i;
     			break;
     		}
@@ -88,10 +88,10 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
     		double accSum = 0;
 	    	for (Iterator<Particle> j = pso.getTopology().neighbourhood(iter); j.hasNext();) {
 	            ChargedParticle other = (ChargedParticle) j.next();
-	            if(particle.getId().equals(other.getId())) continue;
+	            if(particle.getId() == other.getId()) continue;
 	            double qi = ((ChargedParticle) particle).getCharge();
 	            double qj = other.getCharge();
-	            Vector rij = position.subtract((Vector) other.getPosition());
+	            Vector rij = position.subtract(other.getPosition());
 	            double magnitude = rij.norm();
 	            if(pCore <= magnitude && magnitude <= p) {
 	            	accSum += (qi * qj / Math.pow(magnitude, 3)) * rij.getReal(i);

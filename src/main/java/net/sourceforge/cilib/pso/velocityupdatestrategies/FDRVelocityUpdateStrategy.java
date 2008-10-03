@@ -103,7 +103,7 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 			while (swarmIterator.hasNext()) {
 				Particle currentTarget = (Particle) swarmIterator.next();
 				
-				if (!currentTarget.getId().equals(particle.getId())) {
+				if (currentTarget.getId() != particle.getId()) {
 					Fitness currentTargetFitness = currentTarget.getBestFitness();
 					Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 					

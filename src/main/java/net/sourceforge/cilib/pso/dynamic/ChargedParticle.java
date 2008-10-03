@@ -106,8 +106,6 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
 	
 	@Override
 	public void initialise(OptimisationProblem problem) {
-        setId(PSO.getNextParticleId());
-        
         getPositionInitialisationStrategy().initialise(this, problem);
         
         // Create the velocity vector by cloning the position and setting all the values

@@ -115,30 +115,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 		return hash;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getId() {
-		return String.valueOf(this.id);
-	}
-
-    /**
-     * Get the currently associated <code>id</code>.
-     * @param id The value to set. 
-     */
-    public void setId(String id) {
-    	this.id = Integer.parseInt(id);
-    }
-    
-    /**
-     * Set the current <code>id</code> for the {@linkplain Particle}.
-     * @param id The value to set.
-     */
-    public void setId(int id) {
-    	this.id = id;
-    }
-    
     /**
      * {@inheritDoc}
      */

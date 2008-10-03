@@ -53,13 +53,13 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * @param <E>
  */
 public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm> implements SwarmCreationStrategy<E> {
-    private Hashtable<String, LinkedList<Double>> mainSwarmParticleFitness;
+    private Hashtable<Long, LinkedList<Double>> mainSwarmParticleFitness;
     private ControlParameter threshold;
     private int fitnessTraceLength;
     private int minimumSubSwarmSize;
 
     public FitnessDeviationCreationStrategy() {
-	this.mainSwarmParticleFitness = new Hashtable<String, LinkedList<Double>>();
+	this.mainSwarmParticleFitness = new Hashtable<Long, LinkedList<Double>>();
 	this.threshold = new ConstantControlParameter(0.0001);
 	this.fitnessTraceLength = 3;
 	this.minimumSubSwarmSize = 2;
@@ -69,9 +69,9 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 
 	// remove all particle fitness storage for particles removed from the
 	// main swarm
-	Enumeration<String> e = this.mainSwarmParticleFitness.keys();
+	Enumeration<Long> e = this.mainSwarmParticleFitness.keys();
 	while (e.hasMoreElements()) {
-	    String id = (String) e.nextElement();
+	    Long id = (Long) e.nextElement();
 	    Particle p = getParticleWidID(pso.getMainSwarm(), id);
 
 	    if (p == null)
@@ -100,9 +100,9 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 	    }
 	}
 
-	Enumeration<String> n = this.mainSwarmParticleFitness.keys();
+	Enumeration<Long> n = this.mainSwarmParticleFitness.keys();
 	while (n.hasMoreElements()) {
-	    String id = (String) n.nextElement();
+	    Long id = (Long) n.nextElement();
 	    LinkedList<Double> particleFitnessQueue = this.mainSwarmParticleFitness.get(id);
 
 	    if (particleFitnessQueue.size() == fitnessTraceLength) {
@@ -139,9 +139,9 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 			    SortedList<Pair<Double, Entity>> sortedDistanceList = new SortedList<Pair<Double, Entity>>(new PairDistanceAndParticleComparator());
 			    
 			    while (mainSwarmIterator.hasNext()) {
-				Particle mainSwarmParticle = (Particle) mainSwarmIterator.next();
+				Particle mainSwarmParticle = mainSwarmIterator.next();
 
-				if (p.getId().compareToIgnoreCase(mainSwarmParticle.getId()) != 0) {
+				if (p.getId() != mainSwarmParticle.getId()) {
 				    double distance = distanceMeasure.distance((Vector) p.getPosition(), (Vector) mainSwarmParticle.getPosition());
 				    Pair<Double, Entity> distanceAndParticle = new Pair<Double, Entity>(distance, mainSwarmParticle);
 				    sortedDistanceList.add(distanceAndParticle);
@@ -214,9 +214,9 @@ public class FitnessDeviationCreationStrategy<E extends PopulationBasedAlgorithm
 	}
     }
 
-    private Particle getParticleWidID(PSO mainSwarm, String id) {
+    private Particle getParticleWidID(PSO mainSwarm, Long id) {
     	for (Particle particle : mainSwarm.getTopology()) {
-    		if (particle.getId().trim().equalsIgnoreCase(id.trim()))
+    		if (particle.getId() == id)
     			return particle;
     	}
     	

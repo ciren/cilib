@@ -93,14 +93,10 @@ public abstract class ParticleDecorator extends AbstractParticle {
     public Fitness getFitness() {
         return target.getFitness();
     }
-    
-    public String getId() {
-        return target.getId();
-    }
-    
-    public void setId(String id) { 
-    	this.target.setId(id);
-    }
+
+	public long getId() {
+		return target.getId();
+	}
     
     public Particle getNeighbourhoodBest() {
         return target.getNeighbourhoodBest();

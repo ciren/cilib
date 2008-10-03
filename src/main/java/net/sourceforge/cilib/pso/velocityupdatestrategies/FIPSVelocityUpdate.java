@@ -66,7 +66,7 @@ public class FIPSVelocityUpdate extends StandardVelocityUpdate {
 
 		while (swarmIterator.hasNext()) {
 			Particle currentTarget = swarmIterator.next();
-			if (currentTarget.getId().equals(particle.getId())) {
+			if (currentTarget.getId() == particle.getId()) {
 				break;
 			}
 		}
