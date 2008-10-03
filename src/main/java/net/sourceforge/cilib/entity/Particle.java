@@ -143,8 +143,4 @@ public interface Particle extends Entity {
 	 */
 	public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy);
 
-	
-	// I don't like this method / idea
-	public String getId();
-	
 }

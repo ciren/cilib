@@ -37,6 +37,7 @@ import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 public abstract class AbstractEntity implements Entity, CandidateSolution {
 	private static final long serialVersionUID = 3104817182593047611L;
 
+	private long id;
 	private final CandidateSolution candidateSolution;
 	protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 	private FitnessCalculator fitnessCalculator;
@@ -45,6 +46,8 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * Initialise the candidate solution of the {@linkplain Entity}.
 	 */
 	protected AbstractEntity() {
+		this.id = EntityIdFactory.getNextId();
+		
 		this.candidateSolution = new CandidateSolutionMixin();
 		this.neighbourhoodBestUpdateStrategy = new IterationNeighbourhoodBestUpdateStrategy();
 		this.fitnessCalculator = new VectorBasedFitnessCalculator();
@@ -55,6 +58,8 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * @param copy The instance to copy.
 	 */
 	protected AbstractEntity(AbstractEntity copy) {
+		this.id = EntityIdFactory.getNextId();
+		
 		this.candidateSolution = (CandidateSolution) copy.candidateSolution.getClone();
 		this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
 		this.fitnessCalculator = copy.fitnessCalculator.getClone();
@@ -72,9 +77,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 			return false;
 		
 		AbstractEntity other = (AbstractEntity) object;
-		return (this.candidateSolution.equals(other.candidateSolution));// &&
-//			this.neighbourhoodBestUpdateStrategy.equals(other.neighbourhoodBestUpdateStrategy) &&
-//			this.fitnessCalculator.equals(other.fitnessCalculator);
+		return (this.id == other.id) && (this.candidateSolution.equals(other.candidateSolution));
 	}
 
 	/**
@@ -83,6 +86,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	@Override
 	public int hashCode() {
 		int hash = 7;
+		hash = 31 * hash + (int)(id ^ (id >>> 32));
 		hash = 31 * hash + (this.candidateSolution == null ? 0 : this.candidateSolution.hashCode());
 		return hash;
 	}
@@ -183,5 +187,11 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public void setFitnessCalculator(FitnessCalculator fitnessCalculator) {
 		this.fitnessCalculator = fitnessCalculator;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public long getId() {
+		return this.id;
+	}
 }

@@ -40,11 +40,13 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 * that implements this interface.
 	 * @return the cloned object
 	 */
+	@Override
 	public Entity getClone();
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public int compareTo(Entity o);
 	
 	/**
@@ -131,4 +133,10 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 * @param properties The properties to set.
 	 */
 	public void setProperties(Blackboard<Enum<?>, Type> properties);
+
+	/**
+	 * Get the identifier associated with the {@code Entity} instance.
+	 * @return The associated identifier.
+	 */
+	public long getId();
 }
