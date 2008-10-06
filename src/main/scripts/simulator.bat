@@ -1,3 +1,25 @@
+@REM
+@REM Copyright (C) 2003 - 2008
+@REM Computational Intelligence Research Group (CIRG@UP)
+@REM Department of Computer Science
+@REM University of Pretoria
+@REM South Africa
+@REM 
+@REM This program is free software; you can redistribute it and/or modify
+@REM it under the terms of the GNU General Public License as published by
+@REM the Free Software Foundation; either version 2 of the License, or
+@REM (at your option) any later version.
+@REM 
+@REM This program is distributed in the hope that it will be useful,
+@REM but WITHOUT ANY WARRANTY; without even the implied warranty of
+@REM MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@REM GNU General Public License for more details.
+@REM 
+@REM You should have received a copy of the GNU General Public License
+@REM along with this program; if not, write to the Free Software
+@REM Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+@REM
+
 @echo off
 
 REM
@@ -29,6 +51,6 @@ goto runSimulator
 set CLASSPATH=%CLASSPATH%;%CILIB_JAR%
 
 :runSimulator
-java %JAVA_OPT% net.sourceforge.cilib.simulator.Main %XML_FILE% -textprogress
+mvn exec:exec -Dexec.executable='java' -Dexec.args="-classpath %classpath net.sourceforge.cilib.simulator.Main %XML_FILE% -textprogress"
 
 @echo on
