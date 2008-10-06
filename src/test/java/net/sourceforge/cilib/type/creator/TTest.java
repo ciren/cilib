@@ -50,18 +50,10 @@ public class TTest {
 		assertTrue(t instanceof StringType);
 	}
 	
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
 	public void testCreateBounds() {
-		Type t = null;
-		try {
-			t = creator.create(0, 3);
-		}
-		catch (Exception e) {
-			assertTrue(t == null);
-			return;
-		}
-		
-		fail("No exception generated!");
+		Type t = creator.create(0, 3);
+		assertTrue(t == null);
 	}
 
 }
