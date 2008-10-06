@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.ec.iterationstrategies;
 
 import net.sourceforge.cilib.entity.operators.creation.CreationStrategy;
-import net.sourceforge.cilib.entity.operators.creation.CurrentToRandCreationStrategy;
+import net.sourceforge.cilib.entity.operators.creation.RandCreationStrategy;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 	 */
 	public DifferentialEvolutionIterationStrategy() {
 		this.targetVectorSelectionStrategy = new RandomSelectionStrategy();
-		this.trialVectorCreationStrategy = new CurrentToRandCreationStrategy();
+		this.trialVectorCreationStrategy = new RandCreationStrategy();
 		this.crossoverStrategy = new DifferentialEvolutionBinomialCrossover();
 	}
 	

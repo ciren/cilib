@@ -36,7 +36,7 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-public class CurrentToRandCreationStrategy implements CreationStrategy {
+public class RandCreationStrategy implements CreationStrategy {
 	private static final long serialVersionUID = 930740770470361009L;
 	
 	private ControlParameter scaleParameter;
@@ -45,7 +45,7 @@ public class CurrentToRandCreationStrategy implements CreationStrategy {
 	/**
 	 * Create a new instance of {@code CurrentToRandCreationStrategy}.
 	 */
-	public CurrentToRandCreationStrategy() {
+	public RandCreationStrategy() {
 		this.scaleParameter = new ConstantControlParameter(0.5);
 		this.numberOfDifferenceVectors = new ConstantControlParameter(1);
 	}
@@ -54,7 +54,7 @@ public class CurrentToRandCreationStrategy implements CreationStrategy {
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
 	 */
-	public CurrentToRandCreationStrategy(CurrentToRandCreationStrategy copy) {
+	public RandCreationStrategy(RandCreationStrategy copy) {
 		this.scaleParameter = copy.scaleParameter.getClone();
 		this.numberOfDifferenceVectors = copy.numberOfDifferenceVectors.getClone();
 	}
@@ -64,8 +64,8 @@ public class CurrentToRandCreationStrategy implements CreationStrategy {
 	 * @return A copy of the current instance.
 	 */
 	@Override
-	public CurrentToRandCreationStrategy getClone() {
-		return new CurrentToRandCreationStrategy(this);
+	public RandCreationStrategy getClone() {
+		return new RandCreationStrategy(this);
 	}
 
 	@Override
