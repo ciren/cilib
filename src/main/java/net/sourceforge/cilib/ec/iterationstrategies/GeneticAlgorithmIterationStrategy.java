@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.ec.iterationstrategies;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ListIterator;
 
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
+import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -36,6 +36,7 @@ import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy
 import net.sourceforge.cilib.entity.operators.general.TopologyLoopingOperator;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
+import net.sourceforge.cilib.entity.topologies.ECTopologyHolder;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 
 /**
@@ -67,11 +68,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 	public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
 		this.crossoverStrategy = copy.crossoverStrategy.getClone();
 		this.mutationStrategy = copy.mutationStrategy.getClone();
-		
-		this.operatorPipeline = new ArrayList<Operator>();
-		for (Operator operator : copy.operatorPipeline) {
-			this.operatorPipeline.add(operator.getClone());
-		}
+		this.operatorPipeline = copy.operatorPipeline.getClone();
 	}
 	
 	/**
@@ -84,6 +81,8 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @param ec The EC algorithm to perform the iteration on.
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -92,9 +91,12 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 		Topology<Entity> population = (Topology<Entity>) ec.getTopology();
 		population.update();
 		
-		for (Operator operator : operatorPipeline) {
-			operator.performOperation(population, offspring);
-		}
+		ECTopologyHolder holder = new ECTopologyHolder(population);
+//		holder.setCurrent(population);
+//		holder.setOffspring(offspring);
+		
+//		operatorPipeline.performOperation(population, offspring);
+		operatorPipeline.performOperation(holder);
 		
 		// Perform crossover
 		//List<Entity> crossedOver = this.crossoverStrategy.crossover(ec.getTopology());
@@ -103,13 +105,14 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 		//this.mutationStrategy.mutate(crossedOver);
 		
 		// Evaluate the fitness values of the generated offspring
-		for (Entity entity : offspring) {
+		for (Entity entity : holder.getModifiable()) {
 			entity.calculateFitness();
 		}
 		
 		// Perform new population selection
 		Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
-		for (Entity entity : offspring) {
+//		for (Entity entity : offspring) {
+		for (Entity entity : holder.getModifiable()) {
 			topology.add(entity);
 		}
 		

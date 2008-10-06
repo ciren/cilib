@@ -29,23 +29,20 @@ import net.sourceforge.cilib.util.Cloneable;
  * This class contains the entity data and population id of a coevolution competitor
  */
 public class EvaluationEntity implements Cloneable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2514848906149566022L;
+
 	Type entityData;
 	int populationID;
+
 	/**
 	 * 
 	 */
-	
 	public EvaluationEntity(Type entityData, int populationID) {		
 		this.populationID = populationID;
 		this.entityData = entityData; //no clone, reference to the data
 	}
 	
 	public EvaluationEntity(EvaluationEntity other) {
-		// TODO Auto-generated constructor stub
 		populationID = other.populationID;
 		entityData = other.entityData;
 	}
@@ -61,8 +58,8 @@ public class EvaluationEntity implements Cloneable {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.util.Cloneable#getClone()
 	 */
+	@Override
 	public EvaluationEntity getClone() {
-		// TODO Auto-generated method stub
 		return new EvaluationEntity(this);
 	}
 
