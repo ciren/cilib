@@ -25,23 +25,18 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
 /**
- * TODO: Complete this javadoc.
- *
+ * Entity definition for a Harmony.
  */
 public class Harmony extends AbstractEntity {
 	private static final long serialVersionUID = -4941414797957384798L;
-	private VectorBasedFitnessCalculator calculator;
 	
 	public Harmony() {
-		this.calculator = new VectorBasedFitnessCalculator();
 	}
 	
 	public Harmony(Harmony copy) {
 		super(copy);
-		this.calculator = copy.calculator.getClone();
 	}
 	
 	/**
@@ -54,6 +49,8 @@ public class Harmony extends AbstractEntity {
 	
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @param object The object to compare.
 	 */
 	@Override
 	public boolean equals(Object object) {
@@ -90,7 +87,7 @@ public class Harmony extends AbstractEntity {
 	 */
 	@Override
 	public void calculateFitness(boolean count) {
-		Fitness fitness = calculator.getFitness(this, count);
+		Fitness fitness = getFitnessCalculator().getFitness(this, count);
     	this.getProperties().put(EntityType.FITNESS, fitness);
 	}
 

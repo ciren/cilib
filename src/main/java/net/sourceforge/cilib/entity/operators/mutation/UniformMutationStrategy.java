@@ -27,7 +27,7 @@ import java.util.ListIterator;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -80,8 +80,10 @@ public class UniformMutationStrategy extends MutationStrategy {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-		this.mutate(offspring);
+//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+	public void performOperation(TopologyHolder holder) {
+//		this.mutate(holder.getOffpsring());
+		throw new UnsupportedOperationException("This needs to be fixed");
 	}
 
 }

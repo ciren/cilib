@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.entity.operators;
 
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -44,6 +44,7 @@ public interface Operator extends Cloneable {
 	 * @param topology The current {@linkplain Topology}.
 	 * @param offspring The {@linkplain Topology} containing the generated offspring.
 	 */
-	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring);
+//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring);
+	public void performOperation(TopologyHolder holder);
 
 }

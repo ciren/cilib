@@ -67,6 +67,8 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @param object The object to compare equality.
 	 */
 	@Override
 	public boolean equals(Object object) {
@@ -191,6 +193,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public long getId() {
 		return this.id;
 	}

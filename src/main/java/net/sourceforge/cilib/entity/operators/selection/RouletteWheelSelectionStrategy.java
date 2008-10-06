@@ -23,6 +23,7 @@ package net.sourceforge.cilib.entity.operators.selection;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -101,8 +102,12 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-		offspring.add(select(topology));
+//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+	public void performOperation(TopologyHolder holder) {
+//		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
+		Topology<? extends Entity> topology = holder.getTopology();
+//		offspring.add(select(topology));
+		holder.add(select(topology));
 	}
 
 	/**

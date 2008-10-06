@@ -32,6 +32,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
+import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 
@@ -133,9 +134,13 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unchecked")
-	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-		offspring.add(this.select((Topology<Entity>) topology));
+//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+	public void performOperation(TopologyHolder holder) {
+//		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
+		Topology<? extends Entity> topology = holder.getTopology();
+		
+//		offspring.add(this.select(topology));
+		holder.add(select(topology));
 	}
 
 	/**

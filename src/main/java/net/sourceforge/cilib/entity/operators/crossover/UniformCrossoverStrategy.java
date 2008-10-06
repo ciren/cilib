@@ -26,6 +26,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -98,13 +99,18 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+	public void performOperation(TopologyHolder holder) {
 		List<Entity> parentCollection = new ArrayList<Entity>();
 		
+		Topology<? extends Entity> topology = holder.getTopology();
+//		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
+		
 		parentCollection.add(getSelectionStrategy().select(topology));
 		parentCollection.add(getSelectionStrategy().select(topology));
 		
-		offspring.addAll(this.crossover(parentCollection));
+//		offspring.addAll(this.crossover(parentCollection));
+		holder.addAll(this.crossover(parentCollection));
 	}
 		
 }

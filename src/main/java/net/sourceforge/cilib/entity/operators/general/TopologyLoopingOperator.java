@@ -24,6 +24,7 @@ package net.sourceforge.cilib.entity.operators.general;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.Operator;
+import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 
 /**
  * TODO: Complete this javadoc.
@@ -55,12 +56,16 @@ public class TopologyLoopingOperator implements Operator {
 	 * @param offspring The {@linkplain Topology} of offspring individuals.
 	 */
 	@Override
-	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+	public void performOperation(TopologyHolder holder) {
 		if (operator == null)
 			throw new RuntimeException("Cannot perform a loop over the topology. The operator to apply has not been defined");
 		
+		Topology<? extends Entity> topology = holder.getTopology();
+		
 		for (int i = 0; i < topology.size(); i++)
-			operator.performOperation(topology, offspring);
+//			operator.performOperation(topology, offspring);
+			operator.performOperation(holder);
 	}
 
 	public Operator getOperator() {
