@@ -34,7 +34,6 @@ import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.DifferentialEvolutionBinomialCrossover;
 import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
 import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Evolutionary Strategy to implement the Differential Evolutionary Algorithm.

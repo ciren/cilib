@@ -78,7 +78,8 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 		 * calculateFitness(solution); } else { return InferiorFitness.instance(); }
 		 */
 
-		this.changeStrategy.change(this);
+		if (this.changeStrategy.change(this))
+			changeEnvironment();
 		
 		return calculateFitness(solution);
 	}

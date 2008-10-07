@@ -25,7 +25,7 @@ package net.sourceforge.cilib.problem.changestrategy;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
- * Interface detailing the potential operations that may be applied to the current problem.
+ * Interface used to determine if change operations should be applied to the current problem.
  * 
  * This is particularly useful in Dynamic Environments when the need to alter the
  * problem search space.
@@ -39,7 +39,8 @@ public interface ChangeStrategy {
 	/**
 	 * Perform a change on the provided {@code problem} instance.
 	 * @param problem The problem on which a change is to be applied.
+	 * @return
 	 */
-	void change(Problem problem);
+	public boolean change(Problem problem);
 
 }
