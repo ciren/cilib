@@ -38,12 +38,16 @@ public class OnlookerBee extends AbstractBee implements HoneyBee {
 	 */
 	public OnlookerBee() {
 	}
+
+	public OnlookerBee(AbstractBee bee) {
+		super(bee);
+	}
 	
 	/**
 	 * Copy constructor. Creates a copy of the provided instance.
 	 * @param copy reference that is deep copied.
 	 */
-	public OnlookerBee(AbstractBee copy) {
+	public OnlookerBee(OnlookerBee copy) {
 		super(copy);
 	}
 
