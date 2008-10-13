@@ -37,7 +37,6 @@ public class KnuthSubtractiveTest {
     public KnuthSubtractiveTest() {
     }
     
-    /** Test of next method, of class za.ac.up.cs.ailib.Random.NumericalRecipesRan3. */
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();

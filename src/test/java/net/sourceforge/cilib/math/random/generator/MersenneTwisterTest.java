@@ -38,8 +38,6 @@ public class MersenneTwisterTest {
       
     }
     
-    
-    /** Test of next method, of class za.ac.up.cs.ailib.Random.MersenneTwister. */
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
