@@ -43,14 +43,26 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
 	}
 
 	/**
+	 * <p>
 	 * Perform the cross-over based on the binomial method for recombination. The given
 	 * <code>parentCollection</code> should only contain two {@linkplain Entity} objects,
 	 * as the crossover operator is only defined for two {@linkplain Entity}s.
-	 * 
+	 * </p>
 	 * <p>
 	 * It is VERY important that the order in which the parents are presented is consistent.
 	 * The first {@linkplain Entity} within the collection MUST be the <code>trialVector</code>
 	 * {@linkplain Entity}, followed by the target parent {@linkplain Entity}.
+	 * </p>
+	 * <p>
+	 * This method implements the following logic:
+	 * </p>
+	 * <pre>
+	 * for j = 1, ..., x_n:
+	 *   if ( (U(0,1) < P_c) || (j == i) )
+	 *     x'_{i,j}(t) = trialVector_{i,j}(t)
+	 *   else
+	 *     x'_{i,j}(t) = x_{i,j}(t)
+	 * </pre>
 	 *
 	 * @param parentCollection the collection of parent {@linkplain Entity} objects.
 	 * @throws UnsupportedOperationException if the number of parents does not equal the size value of 2.
@@ -62,15 +74,15 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
 		
 		Vector parentVector = (Vector) parentCollection.get(0).getCandidateSolution();
 		Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
-		Vector offspringVector = new Vector();
+		Vector offspringVector = parentVector.getClone();
 		
 		int i = Double.valueOf(this.getRandomNumber().getUniform(0, parentVector.getDimension())).intValue();
 		
 		for (int j = 0; j < parentVector.getDimension(); j++) {
 			if ((getRandomNumber().getUniform() < this.getCrossoverProbability().getParameter()) || (j == i))
-				offspringVector.add(new Real(trialVector.getReal(j)));
-			else 
-				offspringVector.add(new Real(parentVector.getReal(j)));
+				offspringVector.setReal(j, trialVector.getReal(j));
+//			else
+//				offspringVector.add(new Real(parentVector.getReal(j)));
 		}
 		
 		Entity offspring = parentCollection.get(0).getClone();
