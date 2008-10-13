@@ -69,6 +69,12 @@ public interface VectorMath {
 	 * @return The value of the vector norm 
 	 */	
 	public double norm();
+
+	/**
+	 * Create a unit vector from the current Vector.
+	 * @return The created unit vector.
+	 */
+	public Vector normalize();
 	
 	
 	/**

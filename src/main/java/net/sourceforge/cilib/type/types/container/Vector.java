@@ -631,6 +631,16 @@ public class Vector extends AbstractList {
 		return Math.sqrt(result);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final Vector normalize() {
+		Vector local = getClone();
+		double value = local.norm();
+
+		return local.divide(value);
+	}
+
 
 	/**
 	 * @throws ArithmeticException
