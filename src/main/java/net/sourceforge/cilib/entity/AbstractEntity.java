@@ -25,7 +25,6 @@ import java.util.Comparator;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;

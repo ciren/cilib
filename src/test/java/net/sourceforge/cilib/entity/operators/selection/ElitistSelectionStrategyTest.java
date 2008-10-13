@@ -29,8 +29,6 @@ import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-
-import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import org.junit.Test;
 
