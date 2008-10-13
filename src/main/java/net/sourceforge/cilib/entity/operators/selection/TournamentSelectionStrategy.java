@@ -30,11 +30,8 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
-import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.RandomNumber;
-import net.sourceforge.cilib.problem.MinimisationFitness;
 
 /**
  * Perform a tournament selection process on the provided {@linkplain Topology}
@@ -46,7 +43,6 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	private static final long serialVersionUID = -7520711765609204590L;
 	private ControlParameter tournamentProportion;
 	private RandomNumber randomNumber;
-	private Comparator<Entity> entityComparator;
 	
 	/**
 	 * Create a new instance of {@linkplain TournamentSelectionStrategy}.
@@ -54,7 +50,6 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	public TournamentSelectionStrategy() {
 		this.tournamentProportion = new ProportionalControlParameter();
 		this.randomNumber = new RandomNumber();
-		this.entityComparator = null;
 	}
 	
 	/**
@@ -88,13 +83,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 			tournamentEntities.add(tmp);
 		}
 		
-		// The following code needs to be refactored. Could a getComparator() method on the fitness classes be useful?
-		boolean minimisation = tournamentEntities.get(0).getFitness() instanceof MinimisationFitness;
-		
-		if (this.entityComparator == null)
-			this.entityComparator = minimisation ? new AscendingFitnessComparator() : new DescendingFitnessComparator();
-			
-		Collections.sort(tournamentEntities, this.entityComparator);
+		Collections.sort(tournamentEntities, tournamentEntities.get(0).getComparator());
 		
 		return tournamentEntities.get(0);
 	}
@@ -143,20 +132,4 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 		holder.add(select(topology));
 	}
 
-	/**
-	 * Get the {@linkplain Comparator} used in the comparisons of the tournament participants.
-	 * @return The current {@linkplain Comparator}.
-	 */
-	public Comparator<Entity> getEntityComparator() {
-		return entityComparator;
-	}
-
-	/**
-	 * Set the {@linkplain Comparator} to be used for the tournament comparisons.
-	 * @param entityComparator The {@linkplain Comparator} to set.
-	 */
-	public void setEntityComparator(Comparator<Entity> entityComparator) {
-		this.entityComparator = entityComparator;
-	}
-	
 }

@@ -23,8 +23,10 @@ package net.sourceforge.cilib.entity;
 
 import java.io.Serializable;
 
+import java.util.Comparator;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
@@ -139,4 +141,16 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 * @return The associated identifier.
 	 */
 	public long getId();
+
+	/**
+	 * Obtain the required {@link Comparator}. In general this method
+	 * will return the type of {@link Comparator} based on the
+	 * {@link Fitness} object assocaited with the current {@link Entity}.
+	 * @return The correct comparator for the {@link Entity}. In general
+	 *         a {@link net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator} 
+	 *         will be returned for minimization problems, with a
+	 *         {@link net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator}
+	 *         returned for maximization problems.
+	 */
+	public Comparator<Entity> getComparator();
 }

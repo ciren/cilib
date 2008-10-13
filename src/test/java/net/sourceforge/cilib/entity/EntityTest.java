@@ -19,42 +19,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-package net.sourceforge.cilib.entity.operators.selection;
-
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+package net.sourceforge.cilib.entity;
 
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
-
+import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
+import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
+import org.junit.Assert;
 import org.junit.Test;
 
-public class ElitistSelectionStrategyTest {
-	
+/**
+ *
+ * @author gpampara
+ */
+public class EntityTest {
+
 	@Test
-	public void selectionOfMostFit() {
-		Individual indiv1 = new Individual();
-		Individual indiv2 = new Individual();
-		Individual indiv3 = new Individual();
-		
-		indiv1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
-		indiv2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
-		indiv3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
+	public void ascendingFitnessComparator() {
+		Entity entity = new Individual();
+		entity.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
 
-		Topology<Individual> population = new GBestTopology<Individual>();
-		population.add(indiv1);
-		population.add(indiv2);
-		population.add(indiv3);
-		
-		ElitistSelectionStrategy selector = new ElitistSelectionStrategy();
-		final Individual selected = selector.select(population);
+		Assert.assertTrue(entity.getComparator() instanceof AscendingFitnessComparator);
+	}
 
-		assertThat(selected.getFitness(), is(indiv2.getFitness()));
+	@Test
+	public void descendingFitnessComparator() {
+		Entity entity = new Individual();
+		entity.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
+
+		Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
 	}
 
 }

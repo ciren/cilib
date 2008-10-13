@@ -28,7 +28,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 
@@ -62,7 +61,7 @@ public class ElitistSelectionStrategy extends SelectionStrategy {
 		Topology<T> tmp = new GBestTopology<T>();
 		tmp.addAll(population);
 		
-		Collections.sort(tmp, new DescendingFitnessComparator()); // FIXME: This my need to be dynamic.... potential issues here
+		Collections.sort(tmp, tmp.get(0).getComparator());
 		
 		return tmp.get(0);
 	}
