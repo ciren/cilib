@@ -30,6 +30,8 @@ package net.sourceforge.cilib.problem;
 public class MinimisationFitness extends AbstractFitness {
 	private static final long serialVersionUID = 8380821922737298435L;
 
+	private Double value;
+	
 	/**
 	 * Constructs a new <code>MinimisationFitness</code> with the given fitness value.
 	 * @param value The actual fitness value for the problem.
@@ -109,6 +111,5 @@ public class MinimisationFitness extends AbstractFitness {
 	public String toString() {
 		return String.valueOf(value);
 	}
-	
-	private Double value;
+
 }

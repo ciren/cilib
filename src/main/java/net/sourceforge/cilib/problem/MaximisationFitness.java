@@ -30,6 +30,8 @@ package net.sourceforge.cilib.problem;
 public class MaximisationFitness extends AbstractFitness {
 	private static final long serialVersionUID = 317110873134837946L;
 
+	private Double value;
+
    /**
 	* Constructs a new <code>MaximisationFitness</code> with the given fitness value.
 	* @param value The actual fitness value for the problem.
@@ -101,7 +103,5 @@ public class MaximisationFitness extends AbstractFitness {
 		hash = 31 * hash + (value == null ? 0 : value.hashCode());
 		return hash;
 	}
-	
-	private Double value;
 	
 }
