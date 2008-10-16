@@ -28,12 +28,12 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Determine the radius of the current {@linkplain Topology}.
+ * Determine the radius of the current {@linkplain net.sourceforge.cilib.entity.Topology topology}.
  */
 public class RadiusVisitor extends TopologyVisitor {
 	
 	/**
-	 * Create an instance of {@linkplain RadiusVisitor}.
+	 * Create an instance of {@code RadiusVisitor}.
 	 */
 	public RadiusVisitor() {
 		super();

@@ -38,11 +38,10 @@ public interface Operator extends Cloneable {
 	public Operator getClone();
 
 	/**
-	 * Perform the operator operation given the current {@linkplain Topology} and a
-	 * {@linkplain Topology} for offspring.
-	 * 
-	 * @param topology The current {@linkplain Topology}.
-	 * @param offspring The {@linkplain Topology} containing the generated offspring.
+	 * Perform the operator operation given the current {@link net.sourceforge.cilib.entity.topologies.TopologyHolder}.
+	 *
+	 * @param holder The {@link net.sourceforge.cilib.entity.topologies.TopologyHolder} representing the required
+	 *               {@link net.sourceforge.cilib.entity.Topology} instances.
 	 */
 //	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring);
 	public void performOperation(TopologyHolder holder);

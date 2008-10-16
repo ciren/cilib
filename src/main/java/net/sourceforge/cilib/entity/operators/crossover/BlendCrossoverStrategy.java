@@ -32,45 +32,46 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * <p>
- * BibTex entry:<br/> <code>
- * &#64;ARTICLE{00843494,<br>
- * title={Gradual distributed real-coded genetic algorithms},<br>
- * author={{Francisco Herrera} and {Manuel Lozano}},<br>
- * journal={IEEE Trans. Evolutionary Computation},<br>
- * year={2000},<br>
- * month={April},<br>
- * volume={4},<br>
- * number={1},<br>
- * pages={ 43-63},<br>
+ * <p>Implementation of the blend cross-over strategy.</p>
+ * 
+ * <p>BibTeX entry:</p>
+ * <pre>
+ * &#64;ARTICLE{00843494,
+ * title={Gradual distributed real-coded genetic algorithms},
+ * author={{Francisco Herrera} and {Manuel Lozano}},
+ * journal={IEEE Trans. Evolutionary Computation},
+ * year={2000},
+ * month={April},
+ * volume={4},
+ * number={1},
+ * pages={ 43-63},
  * abstract={ A major problem in the use of genetic algorithms is premature
- * convergence, a premature stagnation of the search caused by the lack of diversity in
- * the population. One approach for dealing with this problem is the distributed
- * genetic algorithm model. Its basic idea is to keep, in parallel, several
- * subpopulations that are processed by genetic algorithms, with each one being
- * independent of the others.Furthermore, a migration mechanism produces a chromosome
- * exchange between the subpopulations. Making distinctions between the subpopulations
- * by applying genetic algorithms with different configurations, we obtain the
- * so-called heterogeneous distributed genetic algorithms. These algorithms represent
- * a promising way for introducing a correct exploration/exploitation balance in order
- * to avoid premature convergence and reach approximate final solutions. This paper
- * presents the gradual distributed real-coded genetic algorithms, a type of
- * heterogeneous distributed real-coded genetic algorithms that apply a different
- * crossover operator to each subpopulation. The importance of this operator on the
- * genetic algorithm's performance allowed us to differentiate between the
- * subpopulations in this fashion. Using crossover operators presented
- * for real-coded genetic algorithms, we implement three instances of gradual
- * distributed real-coded genetic algorithms. Experimental results show that the
- * proposals consistently outperform sequential real-coded genetic algorithms and
- * homogeneous distributed realcoded genetic algorithms, which are equivalent to them
- * and other mechanisms presented in the literature. These proposals offer two
- * important advantages at the same time: better reliability and accuracy.},<br> 
+ *   convergence, a premature stagnation of the search caused by the lack of diversity in
+ *   the population. One approach for dealing with this problem is the distributed
+ *   genetic algorithm model. Its basic idea is to keep, in parallel, several
+ *   subpopulations that are processed by genetic algorithms, with each one being
+ *   independent of the others.Furthermore, a migration mechanism produces a chromosome
+ *   exchange between the subpopulations. Making distinctions between the subpopulations
+ *   by applying genetic algorithms with different configurations, we obtain the
+ *   so-called heterogeneous distributed genetic algorithms. These algorithms represent
+ *   a promising way for introducing a correct exploration/exploitation balance in order
+ *   to avoid premature convergence and reach approximate final solutions. This paper
+ *   presents the gradual distributed real-coded genetic algorithms, a type of
+ *   heterogeneous distributed real-coded genetic algorithms that apply a different
+ *   crossover operator to each subpopulation. The importance of this operator on the
+ *   genetic algorithm's performance allowed us to differentiate between the
+ *   subpopulations in this fashion. Using crossover operators presented
+ *   for real-coded genetic algorithms, we implement three instances of gradual
+ *   distributed real-coded genetic algorithms. Experimental results show that the
+ *   proposals consistently outperform sequential real-coded genetic algorithms and
+ *   homogeneous distributed realcoded genetic algorithms, which are equivalent to them
+ *   and other mechanisms presented in the literature. These proposals offer two
+ *   important advantages at the same time: better reliability and accuracy.},
  * keywords={ Crossover operator, distributed genetic algorithms, multiresolution,
- * premature convergence, selective pressure},<br>
- * doi={ },<br>
- * ISSN={ }, }<br>
- * </code>
- * </p>
+ *   premature convergence, selective pressure},
+ * doi={ },
+ * ISSN={ }, }
+ * </pre>
  * 
  * @author Olusegun Olorunda
  */

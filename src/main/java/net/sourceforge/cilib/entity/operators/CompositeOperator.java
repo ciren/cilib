@@ -60,11 +60,18 @@ public class CompositeOperator implements Operator {
 //			operator.performOperation(topology, offspring);
 			operator.performOperation(holder);
 	}
-	
+
+	/**
+	 * Add an {@linkplain net.sourceforge.cilib.entity.operators.Operator operator} to the composite.
+	 * @param operator The instance to add.
+	 */
 	public void add(Operator operator) {
 		this.operators.add(operator);
 	}
 
+	/**
+	 * Clear the composite.
+	 */
 	public void clear() {
 		this.operators.clear();
 	}
