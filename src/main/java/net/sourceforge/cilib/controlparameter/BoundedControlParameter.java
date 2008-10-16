@@ -26,10 +26,10 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * A {@linkplain ControlParameter} instance that is defined to operate within a specific
- * range of values. The range is defined as a domain string. Any time the parameter exceeds
- * the bounded range, it will be clamped and brought back to remain on the edges of the
- * range specified.
+ * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter} instance
+ * that is defined to operate within a specific range of values. The range is defined as a domain string.
+ * Any time the parameter exceeds the bounded range, it will be clamped and brought back to remain on
+ * the edges of the range specified.
  * 
  * @author Gary Pampara
  */
@@ -41,7 +41,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * Create an instance of the {@linkplain BoundedControlParameter}.
+	 * Create an instance of the {@code BoundedControlParameter}.
 	 */
 	public BoundedControlParameter() {
 		this.parameter = new Real();
@@ -95,7 +95,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	}
 	
 	/**
-	 * Update the {@linkplain ControlParameter}.
+	 * Update the paramter.
 	 */
 	protected abstract void update();
 	
@@ -110,9 +110,9 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	}
 	
 	
-	
 	/**
-	 * Get the lower bound of the {@linkplain ControlParameter}.
+	 * Get the lower bound of the
+	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control paramter}.
 	 * @return The lower bound value.
 	 */
 	public double getLowerBound() {
@@ -130,7 +130,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	
 	
 	/**
-	 * Get the upper bound for the {@linkplain ControlParameter}.
+	 * Get the upper bound for the 
+	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}.
 	 * @return The upper bound value.
 	 */
 	public double getUpperBound() {
@@ -148,7 +149,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 
 	
 	/**
-	 * Get the range of the {@linkplain BoundedControlParameter}.
+	 * Get the range of the {@linkplain net.sourceforge.cilib.controlparameter.BoundedControlParameter}.
 	 * @return The string representing the range of the parameter.
 	 */
 	public String getRange() {

@@ -26,11 +26,14 @@ import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
- * A {@linkplain ControlParameter} that is defined to return a constant multiplied with a
- * random number.
+ * <p>
+ * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
+ * that is defined to return a constant multiplied with a random number.
+ * </p>
  * <p>
  * This class defined the required functionality for the <tt>AccelerationComponent</tt> within a
  * <tt>VelocityUpdate</tt>.
+ * </p>
  * @author Gary Pampara
  * @author Andries Engelbrecht
  */
@@ -40,9 +43,9 @@ public class RandomizingControlParameter implements ControlParameter {
 	protected Random randomiser;
 
 	/**
-	 * Create a new {@linkplain RandomizingControlParameter} instance. This object will be 
-	 * instantiated by default with a contained {@linkplain ControlParameter} and a 
-	 * {@linkplain MersenneTwister} as the random number generator.
+	 * Create a new {@code RandomizingControlParameter} instance. This object will be 
+	 * instantiated by default with a contained {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}
+	 * and a {@linkplain net.sourceforge.cilib.math.random.generator.MersenneTwister} as the random number generator.
 	 */
 	public RandomizingControlParameter() {
 		this.controlParameter = new ConstantControlParameter();

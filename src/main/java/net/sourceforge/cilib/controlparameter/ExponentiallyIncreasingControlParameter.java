@@ -24,15 +24,16 @@ package net.sourceforge.cilib.controlparameter;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- * A {@linkplain ControlParameter} that is defined to update itself in an exponentially
- * increasing manner. The rate of change within the parameter is based on the percentage
- * complete of the running {@linkplain Algorithm}.
+ * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
+ * that is defined to update itself in an exponentially increasing manner. The rate of change
+ * within the parameter is based on the percentage complete of the running
+ * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
  */
 public class ExponentiallyIncreasingControlParameter extends BoundedControlParameter {
 	private static final long serialVersionUID = -4071463556500656337L;
 
 	/**
-	 * Create a new instance of {@linkplain ExponentiallyIncreasingControlParameter}.
+	 * Create a new instance of {@code ExponentiallyIncreasingControlParameter}.
 	 */
 	public ExponentiallyIncreasingControlParameter() {
 		super();

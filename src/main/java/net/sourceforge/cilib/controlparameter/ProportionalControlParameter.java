@@ -23,14 +23,15 @@ package net.sourceforge.cilib.controlparameter;
 
 
 /**
- * A {@linkplain ControlParameter} that is defined to return a proportional value.
+ * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
+ * that is defined to return a proportional value.
  */
 public class ProportionalControlParameter implements ControlParameter {
 	private static final long serialVersionUID = 8415953407107514281L;
 	private double proportion;
 
 	/**
-	 * Create a new {@linkplain ProportionalControlParameter} instance. The default proportion
+	 * Create a new {@code ProportionalControlParameter} instance. The default proportion
 	 * value is defined to be 0.1 (10%).
 	 */
 	public ProportionalControlParameter() {

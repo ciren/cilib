@@ -24,9 +24,10 @@ package net.sourceforge.cilib.controlparameter;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- * A {@linkplain ControlParameter} that is defined to update itself in an linearly
- * increasing manner. The rate of change within the parameter is based on the percentage
- * complete of the running {@linkplain Algorithm}.
+ * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
+ * that is defined to update itself in an linearly increasing manner. The rate of change
+ * within the parameter is based on the percentage complete of the running
+ * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
  * 
  * @author Gary Pampara
  */
@@ -34,7 +35,7 @@ public class LinearIncreasingControlParameter extends BoundedControlParameter {
 	private static final long serialVersionUID = -6813625954992761973L;
 
 	/**
-	 * Create an instance of {@linkplain LinearDecreasingControlParameter}.
+	 * Create an instance of {@code LinearDecreasingControlParameter}.
 	 */
 	public LinearIncreasingControlParameter() {
 		super();
@@ -57,7 +58,8 @@ public class LinearIncreasingControlParameter extends BoundedControlParameter {
 
 	/**
 	 * Update the parameter linearly based on the current percentage complete of the running
-	 * {@linkplain Algorithm}. The update is done in an increasing manner.
+	 * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
+	 * The update is done in an increasing manner.
 	 */
 	public void update() {
 		double result = getLowerBound() + (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();

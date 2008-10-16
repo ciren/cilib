@@ -22,8 +22,8 @@
 package net.sourceforge.cilib.controlparameter;
 
 /**
- * A {@linkplain ControlParameter} to represent a constant value. The specified
- * value will be maintained until it is altered.
+ * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
+ * to represent a constant value. The specified value will be maintained until it is altered.
  * 
  * @author Gary Pampara
  */
@@ -32,15 +32,15 @@ public class ConstantControlParameter implements ControlParameter {
 	protected double parameter;
 
 	/**
-	 * Create a new instance of {@linkplain ConstantControlParameter}.
+	 * Create a new instance of {@code ConstantControlParameter}.
 	 */
 	public ConstantControlParameter() {
 
 	}
 
 	/**
-	 * Create a new instance of {@linkplain ConstantControlParameter} with the provided
-	 * value as the value for the {@linkplain ControlParameter}.
+	 * Create a new instance of {@linkplain net.sourceforge.cilib.controlparameter.ConstantControlParameter}
+	 * with the provided value as the value for the {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}.
 	 * @param value The value to set.
 	 */
 	public ConstantControlParameter(double value) {
@@ -87,6 +87,6 @@ public class ConstantControlParameter implements ControlParameter {
 	 * {@inheritDoc}
 	 */
 	public void updateParameter() {
-
+		// Nothing to update - This paramter is constant.
 	}
 }
