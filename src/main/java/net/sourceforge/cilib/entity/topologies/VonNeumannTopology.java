@@ -388,7 +388,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Entity> asList() {
+	public List<E> asList() {
 		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 

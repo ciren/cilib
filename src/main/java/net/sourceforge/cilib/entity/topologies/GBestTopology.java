@@ -158,8 +158,9 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 		return particle;
 	}
 
-	public List<Entity> asList() {
-		return new ArrayList<Entity>(this.entities);
+	@Override
+	public List<E> asList() {
+		return new ArrayList<E>(this.entities);
 	}
 
 
