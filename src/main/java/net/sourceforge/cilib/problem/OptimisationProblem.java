@@ -26,14 +26,15 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
+ * <p>
  * Optimisation problems are characterized by a domain that specifies the search space and
  * a fitness given a potential solution. This interface ensures that an 
- * {@link net.sourceforge.cilib.algorithm.OptimisationAlgorithm} has 
+ * {@linkplain net.sourceforge.cilib.algorithm.OptimisationAlgorithm optimization algorithm} has
  * all the information it needs to find a solution to a given optimisation problem. In addition, it is the
  * responsibility of an optimisation problem to keep track of the number of times the fitness has
  * been evaluated.
- * <p />
- * All optimisation problems must implement this interface.
+ * </p>
+ * <p>All optimisation problems must implement this interface.</p>
  *
  * @author  Edwin Peer
  */
@@ -45,9 +46,10 @@ public interface OptimisationProblem extends Problem {
 	public OptimisationProblem getClone();
     
     /**
-     * Returns the fitness of a potential solution to this problem. The solution object is described 
-     * by the domain of this problem, see {@link #getDomain()}. An instance of {@link InferiorFitness} 
-     * should be returned if the solution falls outside the search space of this problem.
+     * Returns the fitness of a potential solution to this problem. The solution object is described
+     * by the domain of this problem, see {@link #getDomain()}. An instance of
+	 * {@link net.sourceforge.cilib.problem.InferiorFitness} should be returned if the solution
+	 * falls outside the search space of this problem.
      * 
      * @param solution The potential solution found by the optimisation algorithm.
      * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
@@ -65,7 +67,7 @@ public interface OptimisationProblem extends Problem {
     /**
      * Returns the domain component that describes the search space for this problem.
      * 
-     * @return A {@link net.sourceforge.cilib.Domain.Component} object representing the search space.
+     * @return A {@link net.sourceforge.cilib.type.DomainRegistry} object representing the search space.
      */
     public DomainRegistry getDomain();
     
@@ -81,22 +83,23 @@ public interface OptimisationProblem extends Problem {
     
     
     /**
-     * Get the associated {@linkplain DataSetBuilder}.
-     * @return The currently associated {@linkplain DataSetBuilder}.
+     * Get the associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
+     * @return The currently associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
      */
     public DataSetBuilder getDataSetBuilder();
     
     
     /**
-     * Set the {@linkplain DataSetBuilder} for this {@linkplain OptimisationProblem}.
-     * @param dataSetBuilder The {@linkplain DataSetBuilder} to be set on the current
-     *        {@linkplain OptimisationProblem}.
+     * Set the {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} for this
+	 * {@link net.sourceforge.cilib.problem.OptimisationProblem optimistion problem}.
+     * @param dataSetBuilder The {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}
+	 *                       to be set on the current {@link net.sourceforge.cilib.problem.OptimisationProblem}.
      */
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder);
     
     /**
      * Accept the provided {@link net.sourceforge.cilib.container.visitor.Visitor} and 
-     * perform the {@code Visitor#visit(Object)} method.
+     * perform the {@link net.sourceforge.cilib.container.visitor.Visitor#visit(Object)} method.
      * @param visitor The visitor which has operations to perform.
      */
     public void accept(ProblemVisitor visitor);

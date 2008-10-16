@@ -24,7 +24,7 @@ package net.sourceforge.cilib.problem;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * An implementation of {@link OptimisationProblemAdapter} that can be used to find the minimum of
+ * An implementation of {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} that can be used to find the minimum of
  * any {@link net.sourceforge.cilib.functions.Function}.
  * @author Edwin Peer
  */
@@ -64,7 +64,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
 	 * function incorrectly reports its minimum value then it is possible for error values to be
 	 * negative.
 	 * </p>
-	 * @param The solution for which an error is saught.
+	 * @param solution The solution for which an error is saught.
 	 * @return The error.
 	 */
 	public double getError(Type solution) {

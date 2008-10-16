@@ -70,7 +70,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * This is used to calculate the Euclidean distance between the
      * solution that is current being calculated and a solution in the
      * vectorSolutions
-     * @seealso calculateFitness(Object solution)
+     * @see #calculateFitness(net.sourceforge.cilib.type.types.Type)
      */
     private DistanceMeasure distanceMeasure;
 
@@ -92,7 +92,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      */
     protected Fitness calculateFitness(Type solution) {
         // set the initial fitness to the actual fitness value without modification.
-        double fitness = ((Double) super.calculateFitness(solution).getValue()).doubleValue();
+        double fitness = (super.calculateFitness(solution).getValue()).doubleValue();
         double radius = ((MaximumDeratingFunction1) deratingFunction).getRadius();
 
         // iterate through the number of solutions found that are above the solution
@@ -101,7 +101,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
         while (iterator.hasNext()) {
             // calculate the distance between the solution and the previousely found
             // solution.
-            Double[] distanceSolution = (Double[]) iterator.next();
+            Double[] distanceSolution = iterator.next();
 
             // convert the object into a double array that we can use.
             /*double[] t_solution = new double[d_solution.length];
@@ -128,7 +128,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
 
             // modify the fitness.
             if (distance < radius) {
-                fitness = fitness * ((Double) getDeratingFunction().evaluate(dist)).doubleValue();
+                fitness = fitness * (getDeratingFunction().evaluate(dist)).doubleValue();
             }
         }
         return new MaximisationFitness(new Double(fitness));
@@ -141,7 +141,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * @return The fitness of the solution[]
      */
     public double getRawFitness(Type solution) {
-        return ((Double) super.calculateFitness(solution).getValue()).doubleValue();
+        return (super.calculateFitness(solution).getValue()).doubleValue();
     }
 
     /**

@@ -62,7 +62,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
 	 * function incorrectly reports its maximum value then it is possible for error values to be
 	 * negative.
 	 * </p>
-	 * @param The solution for which an error is saught.
+	 * @param solution The solution for which an error is saught.
 	 * @return The error.
 	 */
 	public double getError(Type solution) {

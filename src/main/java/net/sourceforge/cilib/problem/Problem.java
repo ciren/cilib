@@ -25,11 +25,10 @@ import java.io.Serializable;
 
 import net.sourceforge.cilib.util.Cloneable;
 
-
 /**
  * This is a common abstraction for all problem classes. All problems should extend this interface.
- * All {@linkplain Problem}s are effectively dynamic problems where non-dynamic problems are essentially
- * problems that are "frozen" at an arbitrary time step. 
+ * All {@linkplain net.sourceforge.cilib.problem.Problem problems} are effectively dynamic problems
+ * where non-dynamic problems are essentially problems that are "frozen" at an arbitrary time step. 
  *
  * @author  Edwin Peer
  */

@@ -29,11 +29,14 @@ import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
+ * <p>
  * This is a convenience class that keeps track of the number of fitness evaluations. This class can
- * be extend instead of implementing {@link OptimisationProblem} directly.
- * <p />
- * The contract of returning an instance of {@link  InferiorFitness} for solutions outside the
- * problem search space is implemented by {@link #getFitness(Object solution, boolean count)}
+ * be extend instead of implementing {@link net.sourceforge.cilib.problem.OptimisationProblem} directly.
+ * </p>
+ * <p>
+ * The contract of returning an instance of {@link net.sourceforge.cilib.problem.InferiorFitness} for
+ * solutions outside the problem search space is implemented by {@link #getFitness(Type, boolean)}
+ * </p>
  * @author Edwin Peer
  */
 public abstract class OptimisationProblemAdapter implements OptimisationProblem {
@@ -58,10 +61,10 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 	public abstract OptimisationProblemAdapter getClone();
 
 	/**
-	 * Determine the {@code Fitness} of the current {@linkplain Problem} instance
+	 * Determine the {@code Fitness} of the current {@link Problem} instance
 	 * based on the provided {@code solution}.
-	 * @param solution The {@linkplain Type} representing the candidate solution.
-	 * @return The {@linkplain Fitness} of the {@code solution} in the current {@linkplain Problem}.
+	 * @param solution The {@link net.sourceforge.cilib.type.types.Type} representing the candidate solution.
+	 * @return The {@link Fitness} of the {@code solution} in the current {@linkplain Problem}.
 	 * @see OptimisationProblemAdapter#getFitness(Type, boolean)
 	 */
 	protected abstract Fitness calculateFitness(Type solution);
@@ -113,21 +116,24 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 		throw new UnsupportedOperationException("This method is not implemented");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void changeEnvironment() {
 		throw new UnsupportedOperationException("Problems are static by default. Dynamic problems should override this method");
 	}
 
 	/**
 	 * Get the current Problem change strategy.
-	 * @return The current {@linkplain ChangeStrategy}.
+	 * @return The current {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy}.
 	 */
 	public ChangeStrategy getChangeStrategy() {
 		return changeStrategy;
 	}
 
 	/**
-	 * Set the {@linkplain ChangeStrategy} for this problem. 
-	 * @param changeStrategy The {@linkplain ChangeStrategy} to set.
+	 * Set the {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} for this problem. 
+	 * @param changeStrategy The {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} to set.
 	 */
 	public void setChangeStrategy(ChangeStrategy changeStrategy) {
 		this.changeStrategy = changeStrategy;

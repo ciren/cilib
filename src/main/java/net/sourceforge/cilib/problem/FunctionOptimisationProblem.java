@@ -36,11 +36,11 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
 	protected Function function;
 
     /** 
-     * Creates a new instance of <code>FunctionOptimisationProblem</code> with <code>null</code> function.
+     * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
      * Remember to always set a {@link net.sourceforge.cilib.functions.Function} before attempting to apply 
      * an {@link net.sourceforge.cilib.algorithm.OptimisationAlgorithm} to this problem.
      *
-     * {@see #setFunction(net.sourceforge.cilib.Functions.Function}
+     * @see #setFunction(net.sourceforge.cilib.Functions.Function
      */
     public FunctionOptimisationProblem() {
         function = null;
