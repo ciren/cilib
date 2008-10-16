@@ -53,9 +53,7 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
 	 * The first {@linkplain Entity} within the collection MUST be the <code>trialVector</code>
 	 * {@linkplain Entity}, followed by the target parent {@linkplain Entity}.
 	 * </p>
-	 * <p>
-	 * This method implements the following logic:
-	 * </p>
+	 * <p>This method implements the following logic:</p>
 	 * <pre>
 	 * for j = 1, ..., x_n:
 	 *   if ( (U(0,1) < P_c) || (j == i) )
@@ -74,15 +72,13 @@ public class DifferentialEvolutionBinomialCrossover extends CrossoverStrategy {
 		
 		Vector parentVector = (Vector) parentCollection.get(0).getCandidateSolution();
 		Vector trialVector = (Vector) parentCollection.get(1).getCandidateSolution();
-		Vector offspringVector = parentVector.getClone();
+		Vector offspringVector = parentVector.getClone(); // Make the offspring look like the parent vector
 		
 		int i = Double.valueOf(this.getRandomNumber().getUniform(0, parentVector.getDimension())).intValue();
 		
 		for (int j = 0; j < parentVector.getDimension(); j++) {
 			if ((getRandomNumber().getUniform() < this.getCrossoverProbability().getParameter()) || (j == i))
 				offspringVector.setReal(j, trialVector.getReal(j));
-//			else
-//				offspringVector.add(new Real(parentVector.getReal(j)));
 		}
 		
 		Entity offspring = parentCollection.get(0).getClone();
