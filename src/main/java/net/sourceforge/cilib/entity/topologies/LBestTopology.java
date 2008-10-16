@@ -119,7 +119,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
                 throw new IllegalStateException();
             }
             this.topology = topology;
-            index = iterator.getIndex() - (topology.getNeighbourhoodSize() / 2) - 1; // TODO: get ediwn to explain this
+            index = iterator.getIndex() - (topology.getNeighbourhoodSize() / 2) - 1;
             if (index < 0) {
                 index += topology.size();
             }

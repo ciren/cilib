@@ -35,8 +35,6 @@ public final class tester {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
 		Random ran1 = new Random(System.currentTimeMillis());
 		Random ran2 = new Random(System.currentTimeMillis());
 

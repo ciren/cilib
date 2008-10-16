@@ -131,8 +131,7 @@ public class CooperativeEntity extends AbstractEntity {
 	}
 
 	public void reinitialise() {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Methd not implemented");
 	}
 	
 	public void calculateFitness() {

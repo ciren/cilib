@@ -284,8 +284,10 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	 * {@inheritDoc}
 	 */
 	public boolean addAll(Structure<? extends E> structure) {
-		// TODO Auto-generated method stub
-		return false;
+		for (E element : structure)
+			add(element);
+
+		return true;
 	}
 
 	/**

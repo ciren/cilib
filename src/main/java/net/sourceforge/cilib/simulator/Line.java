@@ -32,13 +32,6 @@ class Line {
     public Line(int elements) {
         this.elements = elements;
         count = 0;
-        /**
-         * 2004-03-15  C. Naicker:
-         * @todo This was changed as a java.lang.ArrayStoreException
-         * was thrown when any other Object which is not a Number
-         * was used in setElement(int index, Object value)
-         */
-        // values = new Number[elements];
         values = new Object[elements];
         for (int i = 0; i < elements; ++i) {
             values[i] = null;
@@ -56,6 +49,7 @@ class Line {
         return (count == elements);
     }
 
+	@Override
     public String toString() {
     	StringBuilder line = new StringBuilder();
         for (int i = 0; i < elements; ++i) {
