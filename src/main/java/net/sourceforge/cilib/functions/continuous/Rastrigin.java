@@ -83,17 +83,11 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
     /**
      * {@inheritDoc}
      */
-    // TODO: check the derivative!!
     public Vector getGradient(Vector x) {
-        //double [] tmp = new double [getDimension()];
         Vector tmp = new Vector(getDimension());
         
-        /*for (int i = 0; i < getDimension(); ++i) {
-            tmp[i] = (2.0 * x[i]) + (2.0 * 10 * Math.PI * Math.sin(2.0 * Math.PI * x[i]));
-        }*/
-        
         for (int i = 0; i < getDimension(); ++i) {
-        	tmp.setReal(i, (2.0 * x.getReal(i)) + (2.0 * 10 * Math.PI * Math.sin(2.0 * Math.PI * x.getReal(i))));
+        	tmp.setReal(i, (2.0 * x.getReal(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.getReal(i))));
         }
         
         return tmp;

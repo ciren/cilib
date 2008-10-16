@@ -194,102 +194,62 @@ public class VonNeumannTopologyTest {
 		public void setId(String id) {
 			this.name = id;
 		}
+
 		public DumbParticle getClone() {
-			return null;
-		}
-
-		public void setFitness(Fitness fitness) {
-		}
-
-		public Fitness getFitness() {
-			return null;
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public Fitness getBestFitness() {
-			return null;
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public int getDimension() {
-			return 0;
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public void initialise(OptimisationProblem problem) {
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public Vector getPosition() {
-			return null;
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public Vector getBestPosition() {
-			return null;
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public Vector getVelocity() {
-			return null;
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public void updateControlParameters() {
-			
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public void setNeighbourhoodBest(Particle particle) {
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public Particle getNeighbourhoodBest() {
-			return null;
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public void updatePosition() {
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		public void updateVelocity() {
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}		
 		
-		public int compareTo(Entity o) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		public Type getCandidateSolution() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public void setDimension(int dim) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public void setCandidateSolution(Type type) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public Type getBehaviouralParameters() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public void setBehaviouralParameters(Type type) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		
-		public void setBestPosition(Type bestPosition) {
-			// TODO Auto-generated method stub
-			
-		}
-
 		public void reinitialise() {
-			// TODO Auto-generated method stub
-			
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		@Override
 		public void calculateFitness(boolean count) {
-			// TODO Auto-generated method stub
-			
+			throw new UnsupportedOperationException("Mocked object - not allowed");
 		}
 
 		@Override
