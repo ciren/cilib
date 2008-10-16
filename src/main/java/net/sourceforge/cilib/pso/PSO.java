@@ -62,7 +62,6 @@ public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgori
 	private static final long serialVersionUID = -8234345682394295357L;
 	private Topology<Particle> topology;
 	private IterationStrategy<PSO> iterationStrategy;
-//	private static int currentParticleId = 0;
 
 	/**
 	 * Creates a new instance of <code>PSO</code>. All fields are initialised to reasonable

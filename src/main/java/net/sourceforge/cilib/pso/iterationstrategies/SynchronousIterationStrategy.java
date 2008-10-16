@@ -29,6 +29,8 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
+ * Implementation of the synchronous iteration strategy for PSO.
+ * 
  * @author Gary Pampara
  */
 public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
@@ -44,17 +46,20 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
+	/** 
+	 * <p>This is an ASynchronous strategy:</p>
+	 * <ol>
+	 * <li>For all particles:</li>
+	 * <ol><li>Update the particle velocity</li>
+	 *     <li>Update the particle position</li></ol>
+	 * <li>For all particles:</li>
+	 * <ol><li>Calculate the particle fitness</li>
+	 *     <li>For all paritcles in the current particle's neighbourhood:</li>
+	 *     <ol><li>Update the nieghbourhooh best</li></ol></ol>
+	 * </ol>
 	 * 
-	 * This is an ASynchronous strategy:
-	 * 1. For all particles:
-	 *    1.1 Update the particle velocity
-	 *    1.2 Update the particle position
-	 * 2. For all particles
-	 *    2.1 Calculate the particle fitness
-	 *    2.2 For all paritcles in the current particle's neighbourhood
-	 *        2.2.1 Update the nieghbourhooh best  
+	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
+	 * @param pso The {@link PSO} to have an iteration applied.
 	 */
 	public void performIteration(PSO pso) {
 		Topology<Particle> topology = pso.getTopology();
@@ -62,7 +67,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 
 		for (Particle current : topology) {
 			current.updateVelocity();
-			current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
+			current.updatePosition(); // TODO: replace with visitor (will simplify particle interface)
 	           
 			boundaryConstraint.enforce(current);
 		}
