@@ -76,7 +76,7 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 			throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
 		for (int i = 0; i < entityNumber; ++i) {
-			Entity entity = (Entity) prototypeEntity.getClone();
+			Entity entity = prototypeEntity.getClone();
 
 			entity.initialise(problem);
 			topology.add(entity);

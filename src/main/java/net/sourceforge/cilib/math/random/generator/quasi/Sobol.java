@@ -67,7 +67,7 @@ public class Sobol extends QuasiRandom {
 			currentPoint = nextPoint();
 			currentIndex = 0;
 		}
-		int value = (int) ((int) Math.round(2.0 * (currentPoint[currentIndex] *
+		int value = ((int) Math.round(2.0 * (currentPoint[currentIndex] *
 				Integer.MAX_VALUE - Integer.MAX_VALUE)) >>> (32 - bits));
 		++calls;
 		if (calls % 2 == 0)

@@ -37,7 +37,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
  * Generic EC skeleton algorithm. The algorithm is altered by defining the
- * appropriate {@linkplain IterationStrategy}.
+ * appropriate {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
  * 
  * @author Gary Pampara
  */
@@ -49,7 +49,7 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	private Topology<? extends Entity> topology;
 	
 	/**
-	 * Create a new instance of {@linkplain EC}.
+	 * Create a new instance of {@code EC}.
 	 */
 	public EC() {
 		this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
@@ -143,15 +143,16 @@ public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorit
 	}
 	
 	/**
-	 * Get the {@linkplain IterationStrategy} for the current {@linkplain EC}.
-	 * @return The current {@linkplain IterationStrategy}.
+	 * Get the {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy} for the current 
+	 * {@code EC}.
+	 * @return The current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
 	 */
 	public IterationStrategy<EC> getIterationStrategy() {
 		return iterationStrategy;
 	}
 
 	/**
-	 * Set the current {@linkplain IterationStrategy}.
+	 * Set the current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
 	 * @param iterationStrategy The value to set.
 	 */
 	@SuppressWarnings("unchecked")

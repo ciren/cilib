@@ -182,8 +182,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
     }
 
 	public DomainRegistry getBehaviouralDomain() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Method not implemented.");
 	}
 
 }

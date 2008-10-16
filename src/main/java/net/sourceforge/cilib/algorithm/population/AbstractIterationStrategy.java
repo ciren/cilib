@@ -26,7 +26,7 @@ import net.sourceforge.cilib.pso.iterationstrategies.BoundaryConstraint;
 import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
 
 /**
- * Generic {@linkplain IterationStrategy} class for all population based algorithms. Each and every {@linkplain IterationStrategy}
+ * Generic {@code IterationStrategy} class for all population based algorithms. Each and every {@link IterationStrategy}
  * will have a pipeline available to it in order to specify the needed operators that will be
  * required to be executed during the iteration. For the implementing classes, a default
  * pipeline is constructed and made available, this can (as with everything within CIlib) be overridden.  

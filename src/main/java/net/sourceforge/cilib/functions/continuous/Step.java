@@ -32,7 +32,7 @@ public class Step extends ContinuousFunction {
 	private static final long serialVersionUID = -3888436745417400797L;
 	
 	/**
-	 * Create an instance of the {@linkplain Step} function.
+	 * Create an instance of the {@code Step} function.
 	 */
 	public Step() {
 		setDomain("R(-100.0, 100.0)^6");

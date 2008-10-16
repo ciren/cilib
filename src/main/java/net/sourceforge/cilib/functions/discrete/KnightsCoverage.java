@@ -37,8 +37,7 @@ public class KnightsCoverage extends DiscreteFunction {
 	 */
 	@Override
 	public double evaluate(Vector x) {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Method not implemented.");
 	}
 	
 	/**

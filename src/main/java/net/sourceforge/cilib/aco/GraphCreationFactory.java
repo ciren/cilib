@@ -40,7 +40,7 @@ public class GraphCreationFactory {
 	
 	/**
 	 * 
-	 * @return A {@linkplain Graph} that is a small static instance. 
+	 * @return A {@code Graph} that is a small static instance. 
 	 */
 	//public Graph<Vertex, Edge> createStaticGraph() {
 	public net.sourceforge.cilib.type.types.container.Graph<Double> createStaticGraph() {
