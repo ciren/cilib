@@ -188,7 +188,6 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	/**
 	 * {@inheritDoc}
 	 */
-	// TODO: Is there a nicer way of doing this method?
 	public Tree<E> removeSubTree(int index) {
 		AbstractTree<E> found = (AbstractTree<E>) this.getSubTree(index);
 		return this.removeSubTree(found.getKey());
