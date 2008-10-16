@@ -44,7 +44,7 @@ public class Griewank extends ContinuousFunction {
     private static final long serialVersionUID = 1095225532651577254L;
 
     /**
-     * Create an instance of {@linkplain Griewank}. The default domain is set to R(-600, 600)^30
+     * Create an instance of {@code Griewank}. The default domain is set to R(-600, 600)^30
      */
 	public Griewank() {
         setDomain("R(-600, 600)^30");

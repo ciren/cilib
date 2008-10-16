@@ -42,16 +42,16 @@ public abstract class ActivationFunction extends Function implements Differentia
 	public abstract Double evaluate(Type x);
 	
 	/**
-	 * Determine the value of the {@linkplain ActivationFunction} at the provided <code>point</code>.
+	 * Determine the value of the {@link ActivationFunction} at the provided <code>point</code>.
 	 * The provided <code>point</code> is simply a {@linkplain Number} that is provided as input.
 	 * @param number The input value.
-	 * @return The evaluation of the {@linkplain ActivationFunction}, given <code>number</code> as
+	 * @return The evaluation of the {@link ActivationFunction}, given <code>number</code> as
 	 *         input.
 	 */
 	public abstract Double evaluate(Number number);
 	
 	/**
-	 * Determine the gradient of the {@linkplain ActivationFunction} at the given point.
+	 * Determine the gradient of the {@link ActivationFunction} at the given point.
 	 * @param number The <code>point</code> at which the gradient is to be determined.
 	 * @return The value of the gradient and the provided input.
 	 */

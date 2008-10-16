@@ -39,9 +39,9 @@ public class Sigmoid extends ActivationFunction {
 	private ControlParameter offset;
 	
 	/**
-	 * Create a new instance of {@linkplain Sigmoid}. The default instance has the {@code steepness}
-	 * {@linkplain ControlParameter} set to a value of {@code 1.0}, with the {@code offset} defined as
-	 * <code>0.0</code>.
+	 * Create a new instance of {@code Sigmoid}. The default instance has the {@code steepness}
+	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter} set
+	 * to a value of {@code 1.0}, with the {@code offset} defined as {@code 0.0}.
 	 */
 	public Sigmoid() {
 		setDomain("R(0.0, 1.0)");

@@ -33,7 +33,7 @@ public abstract class ContinuousFunction extends Function {
 	private static final long serialVersionUID = -2483529496289508896L;
 
 	/**
-	 * Create an instance of {@linkplain ContinuousFunction}.
+	 * Create an instance of {@code ContinuousFunction}.
 	 */
 	public ContinuousFunction() {
 		// constraint.add(new ContentValidator(new TypeValidator(Real.class)));
@@ -82,8 +82,8 @@ public abstract class ContinuousFunction extends Function {
 	}
 
 	/**
-	 * Evaluate the function with the given {@linkplain Vector} as input.
-	 * @param x The input {@linkplain Vector}.
+	 * Evaluate the function with the given {@link net.sourceforge.cilib.type.types.container.Vector} as input.
+	 * @param x The input {@link net.sourceforge.cilib.type.types.container.Vector}.
 	 * @return The value of the evaluation.
 	 */
 	public abstract double evaluate(Vector x);

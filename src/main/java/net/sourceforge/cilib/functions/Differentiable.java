@@ -28,5 +28,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Edwin Peer
  */
 public interface Differentiable {
+
+	/**
+	 * Obtain the gradient {@code Vector} for the provided input {@code Vector}.
+	 * The gradient is, naturally, the derivative of the
+	 * {@link net.sourceforge.cilib.functions.Function} which implements this
+	 * interface.
+	 * @param x The provided input {@code Vector} to calculate the derivative at.
+	 * @return A {@link net.sourceforge.cilib.type.types.container.Vector} containing
+	 *         the gradient of the provided input.
+	 */
     public Vector getGradient(Vector x);
 }

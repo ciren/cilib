@@ -47,7 +47,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     private static final long serialVersionUID = 5811377575647995206L;
 
     /**
-     * Create a new instance of {@linkplain Spherical}.
+     * Create a new instance of {@code Spherical}.
      */
 	public Spherical() {
         setDomain("R(-5.12, 5.12)^30");
@@ -68,7 +68,11 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
+	/**
+	 * {@inheritDoc}
+	 * @return The function maximum defined in the default range of the function.
+	 */
     public Object getMaximum() {
     	return new Double(78.6432);
     }
