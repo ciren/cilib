@@ -31,6 +31,9 @@
     <release version="0.7" date="to be confirmed" description="">
     </release>
     <release version="0.6.12" date="to be announced" description="Bee's Algorithm added">
+      <action dev="gpampara" type="fix" issue="2149357">
+        Entity objects return the correct type of Comparator they need.
+      </action>
       <action dev="gpampara" type="fix" issue="2112021">
         Corrected a sequencing issue. Coevolutionary algorithms should
 	behave as expected.
