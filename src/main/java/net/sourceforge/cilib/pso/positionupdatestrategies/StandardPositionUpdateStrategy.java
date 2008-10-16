@@ -35,7 +35,7 @@ public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
 	private static final long serialVersionUID = 5547754413670196513L;
 
 	/**
-	 * Create an new instance of {@linkplain StandardPositionUpdateStrategy}.
+	 * Create an new instance of {@code StandardPositionUpdateStrategy}.
 	 */
 	public StandardPositionUpdateStrategy() {
 

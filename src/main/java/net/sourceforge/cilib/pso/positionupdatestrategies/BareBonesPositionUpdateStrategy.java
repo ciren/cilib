@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * 
  * @author Gary Pampara
  * @author Andries Engelbrecht
- * @deprecated Replaced by {@see net.sourceforge.cilib.pso.positionupdatestrategies.LinearPositionUpdateStrategy}
+ * @deprecated Refer to {@linkplain net.sourceforge.cilib.pso.positionupdatestrategies.LinearPositionUpdateStrategy the replacing class}.
  *
  */
 @Deprecated

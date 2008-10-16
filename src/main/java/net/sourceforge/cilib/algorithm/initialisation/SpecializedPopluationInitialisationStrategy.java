@@ -30,14 +30,14 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
- * Create a specialised collection of {@linkplain Entity} objects.
+ * Create a specialised collection of {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
  */
 public class SpecializedPopluationInitialisationStrategy extends PopulationInitialisationStrategy {
 	private static final long serialVersionUID = -9146471282965793922L;
 	private List<Entity> entityList;
 
 	/**
-	 * Create an instance of {@linkplain SpecializedPopluationInitialisationStrategy}.
+	 * Create an instance of {@code SpecializedPopluationInitialisationStrategy}.
 	 */
 	public SpecializedPopluationInitialisationStrategy() {
 		this.entityList = new ArrayList<Entity>(40);

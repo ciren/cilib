@@ -27,8 +27,8 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
- * Create a collection of {@linkplain Entity} objects by cloning the given
- * prototype {@linkplain Entity}.
+ * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
+ * by cloning the given prototype {@link net.sourceforge.cilib.entity.Entity}.
  * 
  * @author Gary Pampara
  */
@@ -37,7 +37,7 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 	private Entity prototypeEntity;
 
 	/**
-	 * Create an instance of the {@linkplain ClonedPopulationInitialisationStrategy}.
+	 * Create an instance of the {@code ClonedPopulationInitialisationStrategy}.
 	 */
 	public ClonedPopulationInitialisationStrategy() {
 		entityNumber = 20;
@@ -84,36 +84,37 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 	}
 
 	/**
-	 * Get the {@linkplain Entity} that has been defined as the prototype to for
+	 * Get the {@linkplain net.sourceforge.cilib.entity.Entity entity} that has been defined as the prototype to for
 	 * the copies.
-	 * @return The prototype {@linkplain Entity}.
+	 * @return The prototype {@code Entity}.
 	 */
 	public Entity getPrototypeEntity() {
 		return prototypeEntity;
 	}
 
 	/**
-	 * Set the prototype {@linkplain Entity} for the copy process.
+	 * Set the prototype {@linkplain net.sourceforge.cilib.entity.Entity entity} for the copy process.
 	 * @see ClonedPopulationInitialisationStrategy#setEntityType(Entity)
-	 * @param prototypeEntity The {@linkplain Entity} to use for the cloning process.
+	 * @param prototypeEntity The {@linkplain net.sourceforge.cilib.entity.Entity entity} to use
+	 *                        for the cloning process.
 	 */
 	public void setPrototypeEntity(Entity prototypeEntity) {
 		this.prototypeEntity = prototypeEntity;
 	}
 
 	/**
-	 * Set the prototype {@linkplain Entity} for the copy process.
-	 * @param entityType The {@linkplain Entity} to use for the cloning process.
+	 * Set the prototype {@linkplain net.sourceforge.cilib.entity.Entity entity} for the copy process.
+	 * @param entityType The {@code Entity} to use for the cloning process.
 	 */
 	public void setEntityType(Entity entityType) {
 		this.setPrototypeEntity(entityType);
 	}
 
 	/**
-	 * Get the {@linkplain Entity} that has been defined as the prototype to for
-	 * the copies.
+	 * Get the {@linkplain net.sourceforge.cilib.entity.Entity entity} that has been defined as
+	 * the prototype to for the copies.
 	 * @see ClonedPopulationInitialisationStrategy#getPrototypeEntity()
-	 * @return The prototype {@linkplain Entity}.
+	 * @return The prototype {@code Entity}.
 	 */
 	public Entity getEntityType() {
 		return this.prototypeEntity;
