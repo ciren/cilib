@@ -99,7 +99,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	 */
 	public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
 		super(copy);
-		this.randomNumberGenerator = copy.randomNumberGenerator;
+		this.randomNumberGenerator = new MersenneTwister();
 		this.oldFitness = copy.oldFitness.getClone();
 		
 		this.rho = copy.rho.getClone();
@@ -108,8 +108,8 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.failureCount = copy.failureCount;
 		this.successCountThreshold = copy.successCountThreshold;
 		this.failureCountThreshold = copy.failureCountThreshold;
-		this.rhoExpandCoefficient = copy.rhoExpandCoefficient;
-		this.rhoContractCoefficient = copy.rhoContractCoefficient;
+		this.rhoExpandCoefficient = copy.rhoExpandCoefficient.getClone();
+		this.rhoContractCoefficient = copy.rhoContractCoefficient.getClone();
 		
 		this.vMax = copy.vMax.getClone();
 	}
@@ -132,9 +132,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		if (particle == globalBest) {
 			final Vector velocity = (Vector) particle.getVelocity();
 			final Vector position = (Vector) particle.getPosition();
-//			final Vector pBestPosition = (Vector) particle.getBestPosition();
 			final Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getPosition();
-//			final Vector gbestPosition = (Vector) globalBest.getPosition();
 			
 			for (int i = 0; i < velocity.getDimension(); ++i) {
 				double component = -position.getReal(i) + nBestPosition.getReal(i) + 
