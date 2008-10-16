@@ -24,8 +24,8 @@ package net.sourceforge.cilib.problem;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * This class represents a solution to an {@link OptimisationProblem}. It is  responsible for 
- * keeping track of the optimisation problem and position of the solution within the search
+ * This class represents a solution to an {@link net.sourceforge.cilib.problem.OptimisationProblem}.
+ * It is responsible for keeping track of the optimisation problem and position of the solution within the search
  * space.
  *
  * @author  Edwin Peer
@@ -38,7 +38,7 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
     private Type position;
 	
 	/**
-	 * Constructs a new instance of <code>OptimisationSolution</code>.
+	 * Constructs a new instance of {@code OptimisationSolution}.
 	 * 
 	 * @param problem The optimisation problem for which  this is a solution.
 	 * @param position The position of the solution within the search space of the problem.
@@ -58,8 +58,9 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
     }
 
     /**
-     * Returns the fitness of this solution according to {@link OptimisationProblem#getFitness(Object position, boolean count)}. 
-     * Calling this function does not contribute to the number of fitness evaulations maintained by {@link OptimisationProblem}.
+     * Returns the fitness of this solution according to {@link net.sourceforge.cilib.problem.OptimisationProblem#getFitness(Type, boolean)}. 
+     * Calling this function does not contribute to the number of fitness evaulations maintained by 
+	 * {@link net.sourceforge.cilib.problem.OptimisationProblem}.
      * 
      * @return The fitness of this solution.
      */

@@ -75,8 +75,9 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	/**
 	 * This method overrides {@link DataSetBuilder#addDataSet(DataSet)} because it works
 	 * completely different than a normal {@link DataSetBuilder}. It takes the fact that
-	 * datasets may already have been parsed by other {@link Simulation}s, {@link Problem}s
-	 * or {@link Thread}s into account. It relies on the {@link DataSetManager} singleton to
+	 * datasets may already have been parsed by other {@linkplain net.sourceforge.cilib.simulator.Simulation simulations},
+	 * {@linkplain net.sourceforge.cilib.problem.Problem problems} or
+	 * {@linkplain java.lang.Thread threads} into account. It relies on the {@link DataSetManager} singleton to
 	 * parse and/or retrieve the patterns of the given {@link DataSet}. Then it adds these
 	 * retrieved patterns to the current {@link #patterns} list. This method also builds up
 	 * the {@link #identifier} that uniquely identifies this dataset builder. This identifier

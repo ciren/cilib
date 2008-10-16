@@ -45,9 +45,10 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 	/**
 	 * Creates an OptimisationProblemAdapter that has the specified dimension starting at the given
 	 * offset (index) position of the full given problem.
-	 * @param problem the full problem that is being split up
-	 * @param dimension the dimension that that this sub-problem should be
-	 * @param offset the offset (index) position in the full-problem where this sub-problem should
+	 * @param p problem the full problem that is being split up
+	 * @param c Reference to the {@link net.sourceforge.cilib.cooperative.CooperativeEntity}
+	 * @param d dimension the dimension that that this sub-problem should be
+	 * @param o offset the offset (index) position in the full-problem where this sub-problem should
 	 *        start
 	 */
 	public CooperativeOptimisationProblemAdapter(OptimisationProblem p, CooperativeEntity c, int d, int o) {

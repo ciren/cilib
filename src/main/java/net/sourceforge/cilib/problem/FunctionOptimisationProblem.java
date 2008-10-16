@@ -26,7 +26,8 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * This class serves as a base class for function optimisation problems using a {@linkplain Function}.
+ * This class serves as a base class for function optimisation problems using a 
+ * {@link net.sourceforge.cilib.functions.Function}.
  *
  * @author  Edwin Peer
  */
@@ -38,9 +39,9 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     /** 
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
      * Remember to always set a {@link net.sourceforge.cilib.functions.Function} before attempting to apply 
-     * an {@link net.sourceforge.cilib.algorithm.OptimisationAlgorithm} to this problem.
+     * an {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm} to this problem.
      *
-     * @see #setFunction(net.sourceforge.cilib.Functions.Function
+     * @see #setFunction(net.sourceforge.cilib.Functions.Function)
      */
     public FunctionOptimisationProblem() {
         function = null;

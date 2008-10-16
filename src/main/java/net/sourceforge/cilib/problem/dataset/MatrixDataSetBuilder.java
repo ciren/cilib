@@ -47,6 +47,9 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 		throw new UnsupportedOperationException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public MatrixDataSetBuilder getClone() {
 		return new MatrixDataSetBuilder(this);
@@ -114,21 +117,21 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 
 	/**
 	 * Get the constructed {@see net.sourceforge.cilib.container.Matrix Matrix}.
-	 * @return
+	 * @return The current {@code Matrix} instance.
 	 */
 	public Matrix<Double> getMatrix() {
 		return this.matrix;
 	}
 
 	/**
-	 * @return
+	 * @return The value of <em>d</em>.
 	 */
 	public int getD() {
 		return d;
 	}
 
 	/**
-	 * @return
+	 * @return The current value of <em>m</em>.
 	 */
 	public int getM() {
 		return m;
