@@ -120,43 +120,4 @@ public final class DomainParser {
 		return builder.getBuiltRepresenation();
 	}
 
-
-
-	/**
-	 * Test if the solution provided is within the search space of the problem. If
-	 * the provided solution is not in the search space, then the solution is not
-	 * inside and hence is invalid.
-	 *  
-	 * @param solution The provided solution to test
-	 * 
-	 * @return <code>true</code> if the solution is contained within the search space of the problem; 
-	 *         <code>false</code> if the solution is not contained within the search space of the problem
-	 */
-	public boolean isInsideBounds(Object solution) {
-//		boolean result = true;
-		Type type = (Type) solution;
-		
-		return type.isInsideBounds();
-//		
-//		if (solution instanceof Vector) {
-//			Vector vector = (Vector) solution;
-//		
-//			for (int i = 0; i < vector.getDimension(); i++) {
-//				Type t = vector.get(i);
-//			
-//				if (t instanceof Vector) {
-//					result = isInsideBounds(t);
-//				}
-//				else if (t instanceof Numeric) {
-//					Numeric numeric = (Numeric) t;
-//					result = numeric.isInsideBounds();
-//				}
-//			
-//				if (!result)
-//					break;
-//			}
-//		}
-//		
-//		return result;
-	}
 }
