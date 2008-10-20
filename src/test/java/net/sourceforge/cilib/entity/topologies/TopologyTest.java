@@ -84,7 +84,7 @@ public class TopologyTest {
 	@Test
 	public void testGeneric() {
 		PSO p = new PSO();
-		List<Entity> list = p.getTopology().asList();
+		List<Particle> list = p.getTopology().asList();
 		
 		assertEquals(p.getTopology().size(), list.size());
 		
