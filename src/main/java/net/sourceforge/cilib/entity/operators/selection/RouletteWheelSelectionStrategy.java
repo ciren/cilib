@@ -27,6 +27,7 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.MinimisationFitness;
 
 /**
  * This class implements Roulette Wheel selection, also known as proportionate
@@ -73,8 +74,11 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 	 */
 	@Override
 	public <T extends Entity> T select(final Topology<T> population) {
-		double totalFitness = getTotalFitness(population);
-		double cumulativeProb = 0;
+		double minimumFitness = getMinimumFitness(population);
+		double maximumFitness = getMaximumFitness(population);
+
+		double totalFitness = getTotalFitness(population, minimumFitness, maximumFitness);
+		double cumulativeProb = 0.0;
 		double valueToPick = random.nextDouble();
 
 		// If the fitness' have not been calculated return a random entity. This should NEVER happen.
@@ -87,7 +91,7 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 			return population.get(random.nextInt(population.size()));
 
 		for (T entity : population) {
-			double probability = entity.getFitness().getValue() / totalFitness;
+			double probability = getScaledFitness(entity, minimumFitness, maximumFitness) / totalFitness;
 			if (valueToPick < cumulativeProb + probability) {
 				return entity;
 			}
@@ -117,13 +121,63 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 	 * @param topology The {@linkplain Topology} to use.
 	 * @return The sum total of the fitness values.
 	 */
-	private double getTotalFitness(final Topology<? extends Entity> topology) {
+	private double getTotalFitness(final Topology<? extends Entity> topology, double minimum, double maximum) {
 		double totalFitness = 0;
 		for (Entity entity : topology) {
-			totalFitness += entity.getFitness().getValue();
+			totalFitness += getScaledFitness(entity, minimum, maximum);
 		}
 
 		return totalFitness;
+	}
+
+	/**
+	 * Get the minimum fitness value of the entire population.
+	 * @param topology The topology to determine the fitness of.
+	 * @return The minimum fitness value of the entire topology / population.
+	 */
+	private double getMinimumFitness(final Topology<? extends Entity> topology) {
+		double minimum = Double.MAX_VALUE;
+
+		for (Entity entity : topology)
+			minimum = Math.min(minimum, entity.getFitness().getValue().doubleValue());
+
+		return minimum;
+	}
+
+	/**
+	 * Get the maximum current fitness within the topology.
+	 * @param topology The topology to determine the maximum fitness of.
+	 * @return The maximum fitness within the entire topology / population.
+	 */
+	private double getMaximumFitness(final Topology<? extends Entity> topology) {
+		double maximum = -Double.MAX_VALUE;
+
+		for (Entity entity : topology)
+			maximum = Math.max(maximum, entity.getFitness().getValue().doubleValue());
+		
+		return maximum;
+	}
+
+	/**
+	 * Determine the scaled fitness of the provided entity. This fitness value is
+	 * a fitness value that is scaled to <code>(0, 1]</code>.
+	 * @param entity The entity for which the scaled fitness value is to be calculated.
+	 * @param minimum The minimum fitness value in the current topology.
+	 * @param maximum The maximum fitness value in the current topology.
+	 * @return The scaled fitness value of the entity.
+	 */
+	private double getScaledFitness(Entity entity, double minimum, double maximum) {
+		double result = 0.0;
+		if (entity.getFitness() instanceof MinimisationFitness)
+			result = 1.0 / (1.0 + entity.getFitness().getValue().doubleValue() - minimum);
+		else
+			result = 1.0 / (1.0 + maximum - entity.getFitness().getValue().doubleValue()); // Maximisation case
+
+		if (Double.compare(result, Double.NaN) == 0) return result;
+		if (result <= 0.0 & result > 1.0)
+			throw new ArithmeticException("Scaling should prevent this. The value returned should be: 0.0 < x <= 1.0");
+
+		return result;
 	}
 
 	/**

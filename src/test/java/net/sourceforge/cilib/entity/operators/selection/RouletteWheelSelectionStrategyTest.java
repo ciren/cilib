@@ -23,6 +23,7 @@
  */
 package net.sourceforge.cilib.entity.operators.selection;
 
+
 import junit.framework.Assert;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
@@ -30,11 +31,21 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.MaximisationFitness;
-import net.sourceforge.cilib.problem.MinimisationFitness;
 
+import net.sourceforge.cilib.problem.MinimisationFitness;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * <p>
+ * Tests to test the behaviour of RouletteWheelSelection, in both the minimization
+ * and maximization cases.
+ * </p>
+ * <p>
+ * It should be noted that all the values within the tests are extremely exaggerated
+ * so that the tests almost always pass.
+ * </p>
+ */
 public class RouletteWheelSelectionStrategyTest {
 	
 	private Topology<Individual> topology;
@@ -61,29 +72,30 @@ public class RouletteWheelSelectionStrategyTest {
 	}
 	
 	@Test
-	public void selectionAtMinimum() {
-		individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-		individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-		individual3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-		
+	public void minimizationSelection() {
+		individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
+		individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
+		individual3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
+
 		RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
 		Entity entity = rouletteWheelSelectionStrategy.select(topology);
-		
+
 		Assert.assertNotNull(entity);
 		Assert.assertTrue(topology.contains(entity));
+		Assert.assertEquals(entity, individual3);
 	}
-	
+
 	@Test
-	public void selectionOfGreatestProportion() {
-		individual1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(99.0));
+	public void maximizationSelection() {
+		individual1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0));  // Should be the best entity
 		individual2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 		individual3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
-		
+
 		RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
 		Entity entity = rouletteWheelSelectionStrategy.select(topology);
-		
+
 		Assert.assertNotNull(entity);
 		Assert.assertTrue(entity.equals(individual1));
 	}
-	
+
 }
