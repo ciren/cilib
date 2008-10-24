@@ -23,7 +23,6 @@ package net.sourceforge.cilib.entity.operators.selection;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
