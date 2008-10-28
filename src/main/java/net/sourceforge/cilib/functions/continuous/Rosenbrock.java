@@ -61,6 +61,7 @@ public class Rosenbrock extends ContinuousFunction {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
     public Object getMinimum() {
         return new Double(0);
     }
@@ -68,6 +69,7 @@ public class Rosenbrock extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
+	@Override
     public double evaluate(Vector x) {
         double tmp = 0;
         /*for (int i = 1; i <= getDimension() / 2; ++i) {
