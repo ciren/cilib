@@ -32,7 +32,7 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * <p>
- * All algorithms in CILib should be subclasses of <code>Algorithm</code>. This class handles
+ * All algorithms in CIlib should be subclasses of <code>Algorithm</code>. This class handles
  * stopping criteria, events, threading and measurements. Subclasses of <code>Algorithm</code>
  * must provide an implementation for <code>protected abstract void performIteration()</code>. If
  * a subclass overrides {@link #initialise()} then it must call <code>super.initialise()</code>.
@@ -70,7 +70,6 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	 * {@linkplain AlgorithmEvent}s that are generated.
 	 */
 	protected Algorithm() {
-		// LoggingSingleton.initialise();
 		stoppingConditions = new ArrayList<StoppingCondition>();
 		algorithmListeners = new ArrayList<AlgorithmListener>();
 
