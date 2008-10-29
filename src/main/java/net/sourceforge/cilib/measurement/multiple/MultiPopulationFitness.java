@@ -75,7 +75,7 @@ public class MultiPopulationFitness implements Measurement {
 
 		Vector fitness = new Vector();
 		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) Algorithm.get();
-		for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
+		for(PopulationBasedAlgorithm currentAlgorithm : ca) {
 			Fitness best = null;
 			for(Entity e: currentAlgorithm.getTopology().asList()){
 				if(best == null || ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0)

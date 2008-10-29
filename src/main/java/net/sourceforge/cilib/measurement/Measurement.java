@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.measurement;
 
-import java.io.Serializable;
 
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
@@ -34,11 +33,12 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public interface Measurement extends Serializable, Cloneable {
+public interface Measurement extends Cloneable {
 	
 	/**
 	 * {@inheritDoc} 
 	 */
+	@Override
 	public Measurement getClone();
 	
 	/**

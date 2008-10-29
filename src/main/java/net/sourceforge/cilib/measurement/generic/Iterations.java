@@ -66,7 +66,6 @@ public class Iterations implements Measurement {
     	Int i = new Int();
     	i.setInt(Algorithm.get().getIterations());
     	
-        //return new Integer(Algorithm.get().getIterations());
     	return i;
     }
     

@@ -65,7 +65,7 @@ public class CoevolutionFitness implements Measurement{
   		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) Algorithm.get();
  		int popID = 1;
  		
- 		for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
+ 		for(PopulationBasedAlgorithm currentAlgorithm : ca) {
  			OptimisationSolution solution = currentAlgorithm.getBestSolution();
  			CoevolutionEvaluationList competitors = ((CompetitiveCoevolutionIterationStrategy)ca.getCoevolutionIterationStrategy()).getOpponentSelectionStrategy().setCompetitors(popID, ca.getPopulations());
  			//	((CompetitiveCoevolutionProblemAdapter)currentAlgorithm.getOptimisationProblem()).incrementEvaluationround(); //???
