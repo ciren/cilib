@@ -62,9 +62,9 @@ public class Fitness implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue() {
-    	Number n = (Number) (Algorithm.get()).getBestSolution().getFitness().getValue();    	
-    	return new Real(n.doubleValue());
+    public Type getValue(Algorithm algorithm) {
+    	double fitness = algorithm.getBestSolution().getFitness().getValue();
+    	return new Real(fitness);
     }
     
 }

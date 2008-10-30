@@ -76,7 +76,7 @@ public class MultipleFitness implements Measurement {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		/*Vector<Comparable> fitnessValues = new Vector<Comparable>();
 		Collection<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
 		for (Iterator i=solutions.iterator(); i.hasNext(); ) {
@@ -86,7 +86,7 @@ public class MultipleFitness implements Measurement {
 		return fitnessValues.toArray();*/
 		
 		Vector fitnessValues = new Vector();
-		Collection<OptimisationSolution> solutions = Algorithm.get().getSolutions();
+		Collection<OptimisationSolution> solutions = algorithm.getSolutions();
 		
 		for (OptimisationSolution solution : solutions) {
 			Double fitness = solution.getFitness().getValue();

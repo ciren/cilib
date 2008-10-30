@@ -67,10 +67,10 @@ public class ParticlePositions implements Measurement {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		StringBuilder tmp = new StringBuilder();
 		
-		PSO pso = (PSO) Algorithm.get();
+		PSO pso = (PSO) algorithm;
 		//Iterator i = pso.getTopology().particles();
 		Iterator<Particle> i = pso.getTopology().iterator();
 		while (i.hasNext()) {

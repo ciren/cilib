@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -75,7 +76,7 @@ public class Time implements Measurement, AlgorithmListener {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		if (running) {
 			Int t = new Int();
 			t.setReal(Long.valueOf(System.currentTimeMillis() - startTime));

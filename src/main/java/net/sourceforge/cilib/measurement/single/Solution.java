@@ -63,10 +63,10 @@ public class Solution implements Measurement {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		StringType s = new StringType();
 
-		Vector solution = (Vector) Algorithm.get().getBestSolution().getPosition();
+		Vector solution = (Vector) algorithm.getBestSolution().getPosition();
 		s.setString(solution.toString());
 
 		return s;

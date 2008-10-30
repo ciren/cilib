@@ -60,9 +60,9 @@ public class NumberOfClustersFormed implements Measurement {
 		return "Z";
 	}
 
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		ClusteringUtils helper = ClusteringUtils.get();
-		Vector centroids = (Vector) Algorithm.get().getBestSolution().getPosition();
+		Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
 		helper.arrangeClustersAndCentroids(centroids);
 		return new Int(helper.getArrangedCentroids().size());
 	}

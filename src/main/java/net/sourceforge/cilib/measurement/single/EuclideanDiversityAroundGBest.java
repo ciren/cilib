@@ -50,14 +50,14 @@ public class EuclideanDiversityAroundGBest implements Measurement {
 		return "R";
 	}
 
-	public Type getValue() {
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+	public Type getValue(Algorithm algorithm) {
+		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 		
 		Vector center = (Vector) algorithm.getBestSolution().getPosition();
 		DistanceMeasure distance = new EuclideanDistanceMeasure();
 		double diameter = 0;
 
-		Topology<? extends Entity> topology = algorithm.getTopology();
+		Topology<? extends Entity> topology = populationBasedAlgorithm.getTopology();
 		for (Entity entity : topology) {
 		     diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
 		}

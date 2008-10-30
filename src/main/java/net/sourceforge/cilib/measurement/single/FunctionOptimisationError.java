@@ -50,8 +50,7 @@ public class FunctionOptimisationError implements Measurement {
     	//return "T";
     }
     
-    public Type getValue() {
-    	Algorithm algorithm = Algorithm.get();
+    public Type getValue(Algorithm algorithm) {
     	FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
     	
     	Double d = new Double(problem.getError(algorithm.getBestSolution().getPosition()));

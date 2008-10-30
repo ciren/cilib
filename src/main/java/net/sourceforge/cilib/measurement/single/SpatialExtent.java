@@ -66,7 +66,7 @@ public class SpatialExtent implements Measurement {
 		return "R";
 	}
 
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		
 		/*PSO pso = (PSO) Algorithm.get();
 		
@@ -100,18 +100,18 @@ public class SpatialExtent implements Measurement {
 		return new Real(maxDimensionalDifference);*/
 		
 		
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 		DistanceMeasure chebyshevDistance = new ChebyshevDistanceMeasure();
 		double maxDimensionalDifference = 0.0;
 		//PSO pso = (PSO) Algorithm.get();
 		
-		Iterator<? extends Entity> populationIterator_1 = algorithm.getTopology().iterator();
+		Iterator<? extends Entity> populationIterator_1 = populationBasedAlgorithm.getTopology().iterator();
 	    
 	    while (populationIterator_1.hasNext()) {
 	    	Entity entity_1 = populationIterator_1.next();
 	    	Vector entity_1Contents = (Vector) entity_1.getCandidateSolution();
 	        
-	    	Iterator<? extends Entity> populationIterator_2 = algorithm.getTopology().iterator();
+	    	Iterator<? extends Entity> populationIterator_2 = populationBasedAlgorithm.getTopology().iterator();
 	    	
 	    	while(populationIterator_2.hasNext()) {
 	    		Entity entity_2 = populationIterator_2.next();

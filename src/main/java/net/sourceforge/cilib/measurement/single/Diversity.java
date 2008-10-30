@@ -65,12 +65,12 @@ public class Diversity implements Measurement {
 		return "R";
 	}
 
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		int numberOfEntities = algorithm.getPopulationSize();
+		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+		int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
 				        
-        Iterator<? extends Entity> k = algorithm.getTopology().iterator();
+        Iterator<? extends Entity> k = populationBasedAlgorithm.getTopology().iterator();
         Entity entity = k.next();
         Vector averageParticlePosition = (Vector) entity.getCandidateSolution().getClone();
         while (k.hasNext()) {
@@ -81,9 +81,8 @@ public class Diversity implements Measurement {
         }
         for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberOfEntities);
-        //System.out.println(averageParticlePosition);
 		
-		Iterator<? extends Entity> i = algorithm.getTopology().iterator();
+		Iterator<? extends Entity> i = populationBasedAlgorithm.getTopology().iterator();
 		double particleSum = 0.0;
 		while (i.hasNext()) {
 			entity = i.next();

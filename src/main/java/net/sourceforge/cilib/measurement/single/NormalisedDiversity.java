@@ -79,9 +79,9 @@ public class NormalisedDiversity implements Measurement {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		
-		PSO pso = (PSO) Algorithm.get();
+		PSO pso = (PSO) algorithm;
 		
 		int numberParticles = pso.getPopulationSize();
 				        
@@ -114,9 +114,8 @@ public class NormalisedDiversity implements Measurement {
 		
 		double diversity = particleSum/numberParticles;
 		
-		Algorithm algorithm = Algorithm.get();
 		DiameterVisitor diameterVisitor = new DiameterVisitor();
-		algorithm.accept(diameterVisitor);
+		pso.accept(diameterVisitor);
 		double diameter = diameterVisitor.getResult();
 				
     	return new Real(diversity/diameter);

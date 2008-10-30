@@ -63,12 +63,9 @@ public class FitnessEvaluations implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue() {
-    	Int i = new Int();
-    	i.setInt(Algorithm.get().getOptimisationProblem().getFitnessEvaluations());
-        
-    	//return new Integer(((OptimisationAlgorithm) Algorithm.get()).getOptimisationProblem().getFitnessEvaluations());
-    	return i;
+    public Type getValue(Algorithm algorithm) {
+		int evaluations = algorithm.getOptimisationProblem().getFitnessEvaluations();
+    	return new Int(evaluations);
     }    
     
 }

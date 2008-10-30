@@ -68,12 +68,12 @@ public class Diversity implements Measurement {
 		return "R";
 	}
 	
-	public Type getValue() {
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		int numberOfEntities = algorithm.getPopulationSize();
+	public Type getValue(Algorithm algorithm) {
+		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+		int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
 		
 		Vector center = (Vector) populationCenter.getCenter();
-		Iterator<? extends Entity> populationIterator = algorithm.getTopology().iterator();
+		Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
 		
 		double distanceSum = 0.0;
 		

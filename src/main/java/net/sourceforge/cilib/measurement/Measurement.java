@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.measurement;
 
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -53,5 +54,5 @@ public interface Measurement extends Cloneable {
 	 * on the domain string defined {@see Measurement#getDomain()}
 	 * @return The <tt>Type</tt> representing the value of the measurement
 	 */
-	public Type getValue();
+	public Type getValue(Algorithm algorithm);
 }

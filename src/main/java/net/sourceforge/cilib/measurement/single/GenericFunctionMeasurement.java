@@ -68,11 +68,11 @@ public class GenericFunctionMeasurement implements Measurement {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		if (function == null)
 			throw new InitialisationException("The function that should be evaluated has not been set");
 
-		Vector vector = (Vector) Algorithm.get().getBestSolution().getPosition();
+		Vector vector = (Vector) algorithm.getBestSolution().getPosition();
 		return new Real(function.evaluate(vector));
 	}
 

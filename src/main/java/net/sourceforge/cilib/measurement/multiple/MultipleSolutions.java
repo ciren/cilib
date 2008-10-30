@@ -50,9 +50,9 @@ public class MultipleSolutions implements Measurement {
 		return "T";
 	}
 	
-	public Type getValue() {		
+	public Type getValue(Algorithm algorithm) {
 		Vector v = new Vector();
-		List<OptimisationSolution> solutions = Algorithm.get().getSolutions();
+		List<OptimisationSolution> solutions = algorithm.getSolutions();
 		
 		for (OptimisationSolution solution : solutions) {
 			v.append((Vector) solution.getPosition());

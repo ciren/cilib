@@ -66,9 +66,8 @@ public class BestParticlePosition implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue() {
-    	Algorithm alg = Algorithm.get();
-        Vector solution = (Vector) alg.getBestSolution().getPosition();
+    public Type getValue(Algorithm algorithm) {
+        Vector solution = (Vector) algorithm.getBestSolution().getPosition();
         
         StringType t = new StringType();
         t.setString(solution.toString());

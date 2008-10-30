@@ -70,9 +70,9 @@ public class Diameter implements Measurement {
     /**
      * {@inheritDoc}
      */
-	public Type getValue() {
-    	PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-    	Topology<? extends Entity> topology = algorithm.getTopology();
+	public Type getValue(Algorithm algorithm) {
+    	PopulationBasedAlgorithm popAlg = (PopulationBasedAlgorithm) algorithm;
+    	Topology<? extends Entity> topology = popAlg.getTopology();
     	
     	DiameterVisitor visitor = new DiameterVisitor();
         topology.accept(visitor);

@@ -49,12 +49,8 @@ public class PercentageComplete implements Measurement {
     	//return "T";
     }
     
-    public Type getValue() {
-        //return new Double(Algorithm.get().getPercentageComplete());
-    	
-    	Double d = new Double(Algorithm.get().getPercentageComplete());
-    	
-    	return new Real(d.doubleValue());
+    public Type getValue(Algorithm algorithm) {
+    	return new Real(algorithm.getPercentageComplete());
     }
     
 }

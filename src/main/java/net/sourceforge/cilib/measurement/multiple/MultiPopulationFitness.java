@@ -71,10 +71,10 @@ public class MultiPopulationFitness implements Measurement {
 	 * @see net.sourceforge.cilib.measurement.Measurement#getValue()
 	 */
 	@Override
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 
 		Vector fitness = new Vector();
-		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) Algorithm.get();
+		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
 		for(PopulationBasedAlgorithm currentAlgorithm : ca) {
 			Fitness best = null;
 			for(Entity e: currentAlgorithm.getTopology().asList()){

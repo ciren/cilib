@@ -62,9 +62,9 @@ public class Iterations implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue() {
+    public Type getValue(Algorithm algorithm) {
     	Int i = new Int();
-    	i.setInt(Algorithm.get().getIterations());
+    	i.setInt(algorithm.getIterations());
     	
     	return i;
     }

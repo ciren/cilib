@@ -60,9 +60,9 @@ public class CoevolutionFitness implements Measurement{
 		return "Z";
 	}
 	
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
  		Vector populationFitnesses = new Vector();
-  		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) Algorithm.get();
+  		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
  		int popID = 1;
  		
  		for(PopulationBasedAlgorithm currentAlgorithm : ca) {
