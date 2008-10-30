@@ -25,9 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
+import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -382,4 +384,5 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	 * @return The result of the visitor operation.
 	 */
 	public abstract double accept(TopologyVisitor visitor);
+
 }
