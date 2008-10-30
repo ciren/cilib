@@ -75,7 +75,6 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
     			maxDistance = currentDistance;
     	}
     	
-    	// return result
     	result = maxDistance;
 	}
 
