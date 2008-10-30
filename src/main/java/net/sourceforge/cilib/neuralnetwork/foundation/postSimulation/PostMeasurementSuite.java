@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Type;
@@ -84,7 +85,7 @@ public class PostMeasurementSuite {
 		
 		
 		for (int i = 0; i < this.measures.size(); i++){
-			Type result = measures.get(i).getValue();
+			Type result = measures.get(i).getValue(Algorithm.get());
 			
 			if (i <= this.measures.size()-2){
 				out.write(result.toString() + ",");
