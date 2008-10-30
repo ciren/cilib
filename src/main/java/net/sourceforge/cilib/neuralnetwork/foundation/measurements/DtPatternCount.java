@@ -50,8 +50,8 @@ public class DtPatternCount implements Measurement {
 		return "Z";
 	}
 
-	public Type getValue() {
-		int size = ((NeuralNetworkProblem) ((NeuralNetworkController) Algorithm.get()).getOptimisationProblem()).getEvaluationStrategy().getData().getTrainingSetSize();
+	public Type getValue(Algorithm algorithm) {
+		int size = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getData().getTrainingSetSize();
 		return new Int(size);
 	}
 }

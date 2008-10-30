@@ -50,8 +50,8 @@ public class DvPatternCount implements Measurement {
 		return "Z";
 	}
 
-	public Type getValue() {
-		int size = ((NeuralNetworkProblem) ((NeuralNetworkController) Algorithm.get()).getOptimisationProblem()).getEvaluationStrategy().getData().getValidationSetSize();
+	public Type getValue(Algorithm algorithm) {
+		int size = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getData().getValidationSetSize();
 		return new Int(size);
 	}
 }

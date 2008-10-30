@@ -50,8 +50,8 @@ public class DcPatternCount implements Measurement {
 		return "Z";
 	}
 
-	public Type getValue() {
-		int size = ((NeuralNetworkProblem) ((NeuralNetworkController) Algorithm.get()).getOptimisationProblem()).getEvaluationStrategy().getData().getCandidateSetSize();
+	public Type getValue(Algorithm algorithm) {
+		int size = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getData().getCandidateSetSize();
 		return new Int(size);
 	}
 }

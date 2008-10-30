@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.neuralnetwork.foundation.measurements;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkData;
@@ -61,7 +62,7 @@ public class AreaUnderROC implements Measurement{
 		return new AreaUnderROC(this);
 	}
 
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		
 		NeuralNetworkDataIterator iterDv = data.getValidationSetIterator();
 		System.out.println("Dv size = " + iterDv.size());

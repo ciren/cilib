@@ -56,15 +56,14 @@ public class ErrorDt implements Measurement {
 		return "T";
 	}
 
-	public Type getValue() {
-		Algorithm algorithm = Algorithm.get();
+	public Type getValue(Algorithm algorithm) {
 		EvaluationMediator eval = null;
 		
 		if (algorithm instanceof SingularAlgorithm) {
 			 eval = (EvaluationMediator) algorithm;
 		}
 		else {
-			OptimisationProblem optimisationProblem = Algorithm.get().getOptimisationProblem();
+			OptimisationProblem optimisationProblem = algorithm.getOptimisationProblem();
 			NeuralNetworkRetrievalVisitor visitor = new NeuralNetworkRetrievalVisitor();
 			optimisationProblem.accept(visitor);
 			eval = visitor.getMediator();

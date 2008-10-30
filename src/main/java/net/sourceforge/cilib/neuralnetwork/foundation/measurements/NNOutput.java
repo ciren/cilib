@@ -65,8 +65,8 @@ public class NNOutput implements Measurement {
 		return "T";
 	}
 
-	public Type getValue() {
-		this.topology = ((NeuralNetworkProblem) ((NeuralNetworkController) Algorithm.get()).getOptimisationProblem()).getEvaluationStrategy().getTopology();
+	public Type getValue(Algorithm algorithm) {
+		this.topology = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getTopology();
 		
 		GenericData data = new GenericData();
 		RandomDistributionStrategy distributor = new RandomDistributionStrategy();
