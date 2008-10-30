@@ -46,8 +46,8 @@ public class RNAAccuracyMeasurement implements Measurement {
 		return "?";
 	}
 
-	public Type getValue() {
-		Collection<OptimisationSolution> solutions = ((RNAPSO) Algorithm.get()).getSolutions();
+	public Type getValue(Algorithm algorithm) {
+		Collection<OptimisationSolution> solutions = algorithm.getSolutions();
 		StringBuilder sb = new StringBuilder();
 		//Iterator i = solutions.iterator();
 		for (OptimisationSolution solution : solutions) {

@@ -51,8 +51,8 @@ public class RNAStructureMeasurement implements Measurement {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.Measurement.Measurement#getValue()
 	 */
-	public Type getValue() {
-		OptimisationSolution os = Algorithm.get().getBestSolution();
+	public Type getValue(Algorithm algorithm) {
+		OptimisationSolution os = algorithm.getBestSolution();
 		RNAConformation conf = (RNAConformation) os.getPosition();
 		
 		StringType t = new StringType();
