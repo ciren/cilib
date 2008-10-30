@@ -88,7 +88,7 @@ public class MinimumDiversity implements StoppingCondition {
 	 */
 	public boolean isCompleted() {
 		updateControlParameters();
-		calculatedDiversity = ((Real) diversity.getValue()).getReal();
+		calculatedDiversity = ((Real) diversity.getValue(Algorithm.get())).getReal();
 		maximumDiversity = Math.max(maximumDiversity, calculatedDiversity);
 
 		iterations = calculatedDiversity < minimumDiversity.getParameter() ? iterations + 1 : 0;
