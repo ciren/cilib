@@ -54,8 +54,8 @@ public class MovingPeaksOfflinePerformanceMeasurement implements Measurement {
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.measurement.Measurement#getValue()
 	 */
-	public Type getValue() {
-		MovingPeaks func = (MovingPeaks) ((FunctionMaximisationProblem) (Algorithm.get().getOptimisationProblem())).getFunction();
+	public Type getValue(Algorithm algorithm) {
+		MovingPeaks func = (MovingPeaks) ((FunctionMaximisationProblem) (algorithm.getOptimisationProblem())).getFunction();
 		Vector err = new Vector();
 		err.add(new Real(func.getOfflinePerformance()));
 		return err;
