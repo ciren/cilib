@@ -107,7 +107,7 @@ public class Simulation implements AlgorithmListener {
 			Iterator<Measurement> i = measurements.iterator();
 			for (int index = 0; i.hasNext(); ++index) {
 				Measurement measurement = i.next();
-				sample.get(index).serialiseValue(measurement.getValue());
+				sample.get(index).serialiseValue(measurement.getValue(e.getSource()));
 			}
 		}
 	}
@@ -121,7 +121,7 @@ public class Simulation implements AlgorithmListener {
 				algorithm.addAlgorithmListener((AlgorithmListener) measurement);
 			}
 			MeasurementCollector mc = new MeasurementCollector(measurement);
-			mc.serialiseValue(measurement.getValue());
+			mc.serialiseValue(measurement.getValue(e.getSource()));
 			sample.add(mc);
 		}
 	}
