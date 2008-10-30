@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * The <code>MeasurementSuite</code> is essentially a collection of measurements.
@@ -135,7 +136,8 @@ public class MeasurementSuite implements Serializable {
      */
     public void measure(Algorithm algorithm) {
         for (Measurement measurement : measurements) {
-            buffer.writeMeasuredValue(measurement.getValue(), algorithm, measurement);
+			Type value = measurement.getValue(algorithm);
+            buffer.writeMeasuredValue(value, algorithm, measurement);
         }
     }	
 
