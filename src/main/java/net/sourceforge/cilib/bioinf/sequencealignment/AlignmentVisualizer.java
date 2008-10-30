@@ -42,12 +42,12 @@ public class AlignmentVisualizer implements Measurement {
 	private boolean fullColumns = true;  //default, can be set via XML
 	private int fullyMatchedColumnCounter;
 
-	public Type getValue() {
+	public Type getValue(Algorithm algorithm) {
 		String s = new String();
 		String lineOfStars="";
 		fullyMatchedColumnCounter = 0;
 			
-		ArrayList<String> as = new ArrayList<String>(((AlignmentCreator) ((MSAProblem) ((Algorithm) Algorithm.get()).getOptimisationProblem()).getAlignmentCreator()).getAlignment());
+		ArrayList<String> as = new ArrayList<String>(((AlignmentCreator) ((MSAProblem) algorithm.getOptimisationProblem()).getAlignmentCreator()).getAlignment());
 		
 		//checks for fully matched columns
 		if (fullColumns) {
