@@ -87,7 +87,7 @@ public abstract class Function implements Cloneable, Serializable {
 	}
 
 	/**
-	 * @param behaviouralDomainRegistry The behaviouralDomainRegistry to set.
+	 * @param behavioralDomainRegistry The behaviouralDomainRegistry to set.
 	 */
 	public void setBehaviouralDomainRegistry(StringBasedDomainRegistry behavioralDomainRegistry) {
 		throw new UnsupportedOperationException("You are not allowed to set the BehaviroalDomainRegistry!");

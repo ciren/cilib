@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.entity.operators;
 
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.util.Cloneable;
 

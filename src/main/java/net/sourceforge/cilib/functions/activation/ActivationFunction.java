@@ -31,9 +31,6 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public abstract class ActivationFunction extends Function implements Differentiable {
 	private static final long serialVersionUID = 4692200308338537909L;
-	
-	protected ActivationFunction() {
-	}
 
 	/**
 	 * {@inheritDoc}
