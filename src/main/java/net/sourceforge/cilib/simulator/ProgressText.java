@@ -27,7 +27,7 @@ package net.sourceforge.cilib.simulator;
  * 
  * @author  jkroon
  */
-class ProgressText implements ProgressListener {
+public class ProgressText implements ProgressListener {
     
     /**
 	 * Creates new form ProgressFrame.

@@ -62,6 +62,8 @@ public final class Main {
 			if(progress != null) {
 	            simulation.addProgressListener(progress);
 			}
+			
+			simulation.initialise();
             simulation.run();
             simulation = null;
             System.gc();

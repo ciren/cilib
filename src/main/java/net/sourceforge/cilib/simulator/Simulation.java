@@ -104,9 +104,13 @@ public class Simulation extends Thread implements AlgorithmListener {
 			catch (Exception ex) {
 				throw new InitialisationException(algorithms[i].getClass().getName() + " does not support problems of type " + problem.getClass().getName());
 			}
-			algorithms[i].initialise();
 			progress.put(algorithms[i], new Double(0));
 		}
+	}
+
+	public void initialise() {
+		for (Algorithm algorithm : algorithms)
+			algorithm.initialise();
 	}
 
 	/**
