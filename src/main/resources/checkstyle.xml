@@ -60,12 +60,6 @@
     <module name="StaticVariableName" />
     <module name="TypeName" />
 
-    <!-- Headers in source files -->
-    <module name="Header">
-      <property name="headerFile" value="src/main/resources/java-header.txt" />
-      <!--<property name="ignoreLines" value="1" />-->
-    </module>
-
     <!-- Import checks -->
     <module name="IllegalImport" />
     <module name="RedundantImport" />
