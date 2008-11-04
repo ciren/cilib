@@ -11,27 +11,27 @@
     <algorithms>
         <algorithm id="gcpso-gbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.GCVelocityUpdateStrategy"/>
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.GBestTopology" />
             <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations"/>
         </algorithm>
         <algorithm id="gcpso-lbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.GCVelocityUpdateStrategy"/>
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology" />
             <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations" />
         </algorithm>
         <algorithm id="gcpso-vn" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.GCVelocityUpdateStrategy"/>
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.VonNeumannTopology" />
             <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations" />

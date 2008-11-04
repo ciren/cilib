@@ -10,9 +10,9 @@
     <algorithms>
         <algorithm id="gcpso" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.GCVelocityUpdateStrategy"/>
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology">
                 <neighbourhoodSize class="controlparameter.ConstantControlParameter" parameter="3"/>

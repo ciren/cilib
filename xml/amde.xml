@@ -10,7 +10,7 @@
             <iterationStrategy class="ec.iterationstrategies.DifferentialEvolutionIterationStrategy"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="50"/>
-                <prototypeEntity class="ec.Individual"/>
+                <entityType class="ec.Individual"/>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="50000" />
         </algorithm>

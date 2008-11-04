@@ -11,7 +11,7 @@
         <algorithm id="gbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <!--<entityNumber value="20"/>-->
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
                         <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729844"/>
                         <socialAcceleration class="controlparameter.RandomizingControlParameter"> 
@@ -23,7 +23,7 @@
                             <randomiser class="math.random.generator.KnuthSubtractive"/>
                         </cognitiveAcceleration>
                     </velocityUpdateStrategy>
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000"/>
         </algorithm>

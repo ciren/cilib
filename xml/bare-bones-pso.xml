@@ -12,10 +12,10 @@
             <iterationStrategy class="pso.iterationstrategies.ASynchronousIterationStrategy" />
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="20"/>
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <positionUpdateStrategy class="pso.positionupdatestrategies.BareBonesPositionUpdateStrategy" />
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.BareBonesVelocityUpdateStrategy" />
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
         </algorithm>

@@ -12,10 +12,10 @@
             <algorithm class="pso.PSO">
                 <topology class="entity.topologies.VonNeumannTopology"/>
                 <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                    <prototypeEntity class="pso.particle.StandardParticle">
+                    <entityType class="pso.particle.StandardParticle">
                         <positionUpdateStrategy class="pso.positionupdatestrategies.BareBonesPositionUpdateStrategy" />
                         <velocityUpdateStrategy class="pso.velocityupdatestrategies.BareBonesVelocityUpdateStrategy"/>
-                    </prototypeEntity>
+                    </entityType>
                 </initialisationStrategy>
                 <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
             </algorithm>

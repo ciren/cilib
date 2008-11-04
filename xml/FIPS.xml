@@ -12,14 +12,14 @@
             </addStoppingCondition>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.FIPSVelocityUpdate">
                         <!--<inertiaWeight class="ControlParameterUpdateStrategies.LinearDecreasingUpdateStrategy" range="R(0.2,1.0)" />-->
                         <!-- TODO: Revisit, constant ?
                         <randomComponent class="pso.parameterupdatestrategies.FIPSAcceleration" parameter="1.0"/>
                         -->
                     </velocityUpdateStrategy>
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
         </algorithm>
     </algorithms>

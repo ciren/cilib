@@ -5,11 +5,11 @@
         <algorithm class="pso.PSO">
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
                         <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" range="R(0.4, 1.4)" />
                     </velocityUpdateStrategy>
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
         </algorithm>
         

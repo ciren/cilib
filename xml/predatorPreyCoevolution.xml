@@ -8,7 +8,7 @@
 
 <simulator>
 	
-	<problem id="pp" class="problem.CompetitiveCoevolutionGameLearningOptimizationProblem" amountEvaluations="10">
+	<problem id="pp" class="problem.coevolution.CompetitiveCoevolutionGameLearningOptimizationProblem" amountEvaluations="10">
 		<game class="games.game.predatorprey.PredatorPreyGame">
 			<agent class="games.agent.NeuralAgent" hiddenNodes="2"> 
 				<neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">

@@ -6,11 +6,11 @@
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="4000" />
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
-                <prototypeEntity class="pso.particle.StandardParticle">
+                <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
                         <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" />
                     </velocityUpdateStrategy>
-                </prototypeEntity>
+                </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.VonNeumannTopology" />
         </algorithm>

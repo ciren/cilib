@@ -10,9 +10,9 @@
 		  
 		  <algorithms>
 			  <algorithm id="abc" class="boa.ABC">
-				  <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="100" >
+				  <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="40" >
 					  
-					  <entityType class="boa.bees.WorkerBee"/>
+					  <entityType class="boa.bee.WorkerBee"/>
 				  </initialisationStrategy>
 				  <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000">
 				  </addStoppingCondition>
@@ -78,12 +78,12 @@
 				  <problem idref="spherical"/>
 				  <measurements idref="fitness" file="data/test/abc_rastrigin.txt"/>
 			  </simulation>
-			  <!--<simulation>
+			  <simulation>
 				  <algorithm idref="abc"/>
 				  <problem idref="griewank"/>
 				  <measurements idref="fitness" file="data/test/abc_griewank.txt"/>
 			  </simulation>
-			  <simulation>
+			  <!--<simulation>
 				  <algorithm idref="abc"/>
 				  <problem idref="rastrigin"/>
 				  <measurements idref="fitness" file="data/test/abc_rastrigin.txt"/>

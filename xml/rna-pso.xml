@@ -9,27 +9,29 @@
 <simulator>
 
 	<algorithms>
-		<algorithm id="rnapso" class="bioinf.RNAPSO">
-			<initialiser class="bioinf.RNAInitialiser"/>  	
+		<algorithm id="rnapso" class="bioinf.rnaprediction.RNAPSO">
+			<!--<initialiser class="bioinf.rnaprediction.RNAInitialiser"/>  	-->
 			<topology class="entity.topologies.VonNeumannTopology" />
-			<prototypeParticle class="bioinf.RNAParticle"/>
-			<addStoppingCondition class="stoppingcondition.MaximumIterations" iterations="2000"/>
-			<particles value="2"/>
-			<velocityUpdate class="bioinf.RNAVelocityUpdate" />
+			<!--<prototypeParticle class="bioinf.rnaprediction.RNAParticle"/>-->
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+			<!--<particles value="2"/>-->
+			<!--<velocityUpdate class="bioinf.rnaprediction.RNAVelocityUpdate" />-->
 		</algorithm>
 	</algorithms>
 
 	<problems> 
-		<problem id="rnaprob" class="bioinf.RNAOptimisationProblem">
-			<fitnessCalculator class="bioinf.SimpleRNAFitness" />
-			<dataSet class="simulator.LocalDataSet" file="data/rna-input.txt"/>
+		<problem id="rnaprob" class="bioinf.rnaprediction.RNAOptimisationProblem">
+			<fitnessCalculator class="bioinf.rnaprediction.SimpleRNAFitness" />
+			<!--<dataSetBuilder class="problem.dataset.StringDataSetBuilder">
+				<addDataSet class="problem.dataset.LocalDataSet" file="data/rna-input.txt"/>
+			</dataSetBuilder>-->
 		</problem>
 
 	</problems>
 
 	<measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
 		<addMeasurement class="measurement.single.Fitness"/>
-		<addMeasurement class="bioinf.RNAStructureMeasurement"/>
+		<addMeasurement class="bioinf.rnaprediction.RNAStructureMeasurement"/>
 	</measurements>
 
 	<simulations>
