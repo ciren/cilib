@@ -35,11 +35,18 @@ import java.util.concurrent.ConcurrentMap;
 public class Blackboard<K, V extends Type> extends AbstractType {
 	private static final long serialVersionUID = -2589625146223946484L;
 	private ConcurrentMap<K, V> board;
-	
+
+	/**
+	 * Create a new empty {@code Blackboard} container.
+	 */
 	public Blackboard() {
 		this.board = new ConcurrentHashMap<K, V>();
 	}
-	
+
+	/**
+	 * Copy constructor. Create a copy of the provided instance.
+	 * @param copy The isntance to copy.
+	 */
 	public Blackboard(Blackboard<K, V> copy) {
 		for (Map.Entry<K, V> entry : copy.board.entrySet()) {
     		K key = entry.getKey();
@@ -48,11 +55,18 @@ public class Blackboard<K, V extends Type> extends AbstractType {
     	}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @return
+	 */
 	@Override
 	public Blackboard<K, V> getClone() {
 		return new Blackboard<K, V>(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -65,6 +79,9 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 		return this.board.equals(other.board);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;
@@ -72,11 +89,18 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 		return hash;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getDimension() {
 		return this.board.size();
 	}
 
+	/**
+	 * Obtain the representation of the current {@code Blackboard}.
+	 * @return The {@code String} representation.
+	 */
 	@Override
 	public String getRepresentation() {
 		throw new UnsupportedOperationException("Implementation needed");
@@ -100,24 +124,45 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 		throw new UnsupportedOperationException("Not supported");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void reset() {
 		this.board.clear();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		return this.board.toString();
 	}
-	
+
+	/**
+	 * Put the provided key / value pair into the {@code Blackboard}.
+	 * @param key The key value for the pair.
+	 * @param value The value associated with the key.
+	 * @return The provided value.
+	 */
 	public V put(K key, V value) {
 		return this.board.put(key, value);
 	}
-	
+
+	/**
+	 * Get the value associated with the provided key, {@code null} otherwise.
+	 * @param key The key to obtained the value of.
+	 * @return The associated value to the key.
+	 */
 	public V get(K key) {
 		return this.board.get(key);
 	}
-	
+
+	/**
+	 * Obtain a {@code Set} of key / value pairs.
+	 * @return The set of values.
+	 */
 	public Set<Map.Entry<K, V>> entrySet() {
 		return this.board.entrySet();
 	}
