@@ -39,6 +39,10 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 	private RNAFitness fit;
 	protected int fitnessEvaluations;
 	private DataSetBuilder dataSetBuilder;
+
+	public RNAOptimisationProblem() {
+		
+	}
 	
 	/**
 	 * Copy constructor. Create a copy of the provided instance.

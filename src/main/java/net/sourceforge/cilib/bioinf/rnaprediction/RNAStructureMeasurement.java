@@ -34,6 +34,9 @@ import net.sourceforge.cilib.type.types.Type;
 public class RNAStructureMeasurement implements Measurement {
 	private static final long serialVersionUID = 5649656748412723897L;
 
+	public RNAStructureMeasurement() {
+	}
+
 	public RNAStructureMeasurement(RNAStructureMeasurement copy) {
 	}
 	
