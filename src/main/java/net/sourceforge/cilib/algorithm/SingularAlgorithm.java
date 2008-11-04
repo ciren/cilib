@@ -21,9 +21,6 @@
  */
 package net.sourceforge.cilib.algorithm;
 
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.Type;
-
 /**
  * This class is the abstract base for all algorithms that do not
  * fall within the normal Computational Intelligence type of algorithm.
@@ -51,6 +48,7 @@ public abstract class SingularAlgorithm extends Algorithm {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract void algorithmIteration();
 
 }

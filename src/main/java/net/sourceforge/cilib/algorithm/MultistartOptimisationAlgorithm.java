@@ -103,7 +103,11 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     public Fitness getSolutionFitness() {
         return fitness;
     }
-    
+
+	/**
+	 * Set the optimisation problem.
+	 * @param problem The problem to set.
+	 */
     public void setOptimisationProblem(OptimisationProblem problem) {
         this.problem = new MultistartProblemAdapter(problem);
     }
@@ -251,16 +255,6 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 			return target.getFitness(solution, true);
 		}
 
-		/* (non-Javadoc)
-		 * @see net.sourceforge.cilib.Problem.OptimisationProblemAdapter#getDomain()
-		 */
-		/*public DomainComponent getDomain() {
-			return target.getDomain();
-		}*/
-		/*public Domain getDomain() {
-			return Domain.getInstance();
-		}*/
-    	
 		public void resetFitnessCounter() {
 			fitnessEvaluations.set(0);
 		}
@@ -279,6 +273,9 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 		
     }
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double accept(TopologyVisitor visitor) {
 		throw new UnsupportedOperationException("Needs an implementation");

@@ -84,30 +84,11 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 	}
 
 	/**
-	 * Get the {@linkplain net.sourceforge.cilib.entity.Entity entity} that has been defined as the prototype to for
-	 * the copies.
-	 * @return The prototype {@code Entity}.
-	 */
-	public Entity getPrototypeEntity() {
-		return prototypeEntity;
-	}
-
-	/**
-	 * Set the prototype {@linkplain net.sourceforge.cilib.entity.Entity entity} for the copy process.
-	 * @see ClonedPopulationInitialisationStrategy#setEntityType(Entity)
-	 * @param prototypeEntity The {@linkplain net.sourceforge.cilib.entity.Entity entity} to use
-	 *                        for the cloning process.
-	 */
-	public void setPrototypeEntity(Entity prototypeEntity) {
-		this.prototypeEntity = prototypeEntity;
-	}
-
-	/**
 	 * Set the prototype {@linkplain net.sourceforge.cilib.entity.Entity entity} for the copy process.
 	 * @param entityType The {@code Entity} to use for the cloning process.
 	 */
 	public void setEntityType(Entity entityType) {
-		this.setPrototypeEntity(entityType);
+		this.prototypeEntity = entityType;
 	}
 
 	/**

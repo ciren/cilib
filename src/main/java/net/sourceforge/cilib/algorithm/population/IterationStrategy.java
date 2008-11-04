@@ -36,6 +36,7 @@ public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends C
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract IterationStrategy<E> getClone();
 	
 	/**

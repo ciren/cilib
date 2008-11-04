@@ -29,9 +29,6 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
 import net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIterator;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Algorithm class to describe the notion of aggregated {@linkplain PopulationBasedAlgorithm} instances.

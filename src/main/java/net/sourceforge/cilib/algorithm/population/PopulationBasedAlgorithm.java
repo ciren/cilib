@@ -26,8 +26,6 @@ import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationSt
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Base <tt>Algorithm</tt> class for algorithms that focus on Populations of entities. These
@@ -56,11 +54,13 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract PopulationBasedAlgorithm getClone();
 
 	/**
 	 * Perform the iteration within the algorithm.
 	 */
+	@Override
 	protected abstract void algorithmIteration();
 
 	/**
@@ -102,6 +102,7 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public double accept(TopologyVisitor visitor) {
 		visitor.setCurrentAlgorithm(this);
 		getTopology().accept(visitor);
