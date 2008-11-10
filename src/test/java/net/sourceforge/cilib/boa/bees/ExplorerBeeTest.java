@@ -57,7 +57,7 @@ public class ExplorerBeeTest {
 		ClonedPopulationInitialisationStrategy initStrategy = new ClonedPopulationInitialisationStrategy();
 		initStrategy.setEntityNumber(10);
 		WorkerBee bee = new WorkerBee();
-		initStrategy.setPrototypeEntity(bee);
+		initStrategy.setEntityType(bee);
 		abc.setForageLimit(new ConstantControlParameter(-1));
 		abc.setInitialisationStrategy(initStrategy);
 		abc.setWorkerBeePercentage(new ConstantControlParameter(0.5));
