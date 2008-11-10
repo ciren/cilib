@@ -77,6 +77,7 @@ public class StandardSwarmCreationStrategy implements SwarmCreationStrategy {
 		// Calculate the current deviation values.
 		Map<Entity, Double> deviations = new HashMap<Entity, Double>(this.mainSwarmFitnesses.size());
 		for (Map.Entry<Entity, List<Fitness>> entity : mainSwarmFitnesses.entrySet()) {
+			throw new UnsupportedOperationException("This part of the method needs to be implemented");
 		}
 
 		// Determine if sub swarms should be created.
@@ -107,6 +108,7 @@ public class StandardSwarmCreationStrategy implements SwarmCreationStrategy {
 		PSO subSwarm = new PSO();
 		subSwarm.getTopology().add((Particle) entity);
 		subSwarm.getTopology().add((Particle) closestEntity);
+		System.out.println("This implementation needs to be completed!!");
 
 		return subSwarm;
 	}
