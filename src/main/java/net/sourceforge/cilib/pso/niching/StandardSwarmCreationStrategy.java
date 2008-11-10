@@ -20,18 +20,20 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sourceforge.cilib.pso.niching;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import net.sourceforge.cilib.container.Pair;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  *
@@ -39,15 +41,74 @@ import net.sourceforge.cilib.problem.Fitness;
  */
 public class StandardSwarmCreationStrategy implements SwarmCreationStrategy {
 
-	private Map<Entity, Pair<Fitness, Integer>> deviations;
+	private Map<Entity, List<Fitness>> mainSwarmFitnesses;
+	private int fitnessTraceLength;
+	private double threshold;
 
 	public StandardSwarmCreationStrategy() {
-		this.deviations = new HashMap<Entity, Pair<Fitness, Integer>>();
+		this.mainSwarmFitnesses = new HashMap<Entity, List<Fitness>>();
+		this.fitnessTraceLength = 3;
+		this.threshold = 0.001;
 	}
 
 	@Override
 	public void create(NichePSO algorithm) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		// Remove any particles that are no longer contained within the main swarm
+		PopulationBasedAlgorithm mainSwarm = algorithm.getMainSwarm();
+		for (Entity entity : mainSwarmFitnesses.keySet()) {
+			if (!mainSwarm.getTopology().contains(entity))
+				this.mainSwarmFitnesses.remove(entity);
+		}
+
+		// Update the current fitness trace for each entity in the main swarm
+		for (Entity entity : mainSwarm.getTopology()) {
+			if (!this.mainSwarmFitnesses.containsKey(entity)) {
+				this.mainSwarmFitnesses.put(entity, Arrays.asList(entity.getFitness()));
+				continue;
+			}
+
+			List<Fitness> fitnessTrace = this.mainSwarmFitnesses.get(entity);
+			if (fitnessTrace.size() >= fitnessTraceLength)
+				fitnessTrace.remove(0);
+
+			fitnessTrace.add(entity.getFitness());
+		}
+
+		// Calculate the current deviation values.
+		Map<Entity, Double> deviations = new HashMap<Entity, Double>(this.mainSwarmFitnesses.size());
+		for (Map.Entry<Entity, List<Fitness>> entity : mainSwarmFitnesses.entrySet()) {
+		}
+
+		// Determine if sub swarms should be created.
+		for (Map.Entry<Entity, Double> deviation : deviations.entrySet()) {
+			if (Double.compare(deviation.getValue().doubleValue(), threshold) < 0) {
+				PopulationBasedAlgorithm subSwarm = createSubSwarm(deviation.getKey(), mainSwarm);
+				algorithm.addPopulationBasedAlgorithm(subSwarm);
+			}
+		}
+	}
+
+	private PopulationBasedAlgorithm createSubSwarm(Entity entity, PopulationBasedAlgorithm mainSwarm) {
+		Entity closestEntity = null;
+		mainSwarm.getTopology().remove(entity);
+		double closest = Double.MAX_VALUE;
+		DistanceMeasure measure = new EuclideanDistanceMeasure();
+
+		for (Entity other : mainSwarm.getTopology()) {
+			double distance = measure.distance((Vector) entity.getCandidateSolution(), (Vector) other.getCandidateSolution());
+			if (distance < closest) {
+				closest = distance;
+				closestEntity = other;
+			}
+		}
+
+		mainSwarm.getTopology().remove(closestEntity); // Remove the closet entity from the main swarm
+
+		PSO subSwarm = new PSO();
+		subSwarm.getTopology().add((Particle) entity);
+		subSwarm.getTopology().add((Particle) closestEntity);
+
+		return subSwarm;
 	}
 
 }

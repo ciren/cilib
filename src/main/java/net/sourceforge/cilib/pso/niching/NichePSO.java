@@ -123,4 +123,8 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 		return list;
 	}
 
+	public PopulationBasedAlgorithm getMainSwarm() {
+		return this.mainSwarm;
+	}
+
 }
