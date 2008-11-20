@@ -22,8 +22,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 -->
-
-<document> 
+<document>
   <properties>
     <title>Welcome to CIlib</title>
     <author email="gpampara@cs.up.ac.za">Gary Pampara</author>
@@ -36,34 +35,58 @@
         Computational Intelligence</a> software in:
       </p>
       <ul>
-        <li><a href="http://en.wikipedia.org/wiki/Swarm_Intelligence">Swarm Intelligence</a></li>
-        <li><a href="http://en.wikipedia.org/wiki/Evolutionary_Computation">Evolutionary Computation</a></li>
-	  <ul>
-	    <li><a href="http://en.wikipedia.org/wiki/Genetic_algorithms">Genetic Algorithms</a></li>
-	    <li><a href="http://en.wikipedia.org/wiki/Evolutionary_programming">Evolutionary Programming</a></li>
-	    <li><a href="http://en.wikipedia.org/wiki/Evolution_strategy">Evolutionary Strategies</a></li>
-	    <li><a href="http://en.wikipedia.org/wiki/Genetic_programming">Genetic Programming</a></li>
-	    <li><a href="http://en.wikipedia.org/wiki/Differential_evolution">Differential Evolution</a></li>
-	    <li><a href="http://en.wikipedia.org/wiki/Harmony_search">Harmony Search</a></li>
-	    <li><a href="http://en.wikipedia.org/wiki/Bee_colony_optimization">Bee Optimization Algorithms</a></li>
-	  </ul>
-        <li><a href="http://en.wikipedia.org/wiki/Neural_network">Neural Networks</a></li>
-        <li><a href="http://en.wikipedia.org/wiki/Artificial_immune_systems">Artifical Immune Systems</a></li>
-        <li><a href="http://en.wikipedia.org/wiki/Fuzzy_Logic">Fuzzy Logic</a></li>
-        <li><a href="">Game Playing</a></li>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/Swarm_Intelligence">Swarm Intelligence</a>
+        </li>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/Evolutionary_Computation">Evolutionary Computation</a>
+        </li>
+        <ul>
+          <li>
+            <a href="http://en.wikipedia.org/wiki/Genetic_algorithms">Genetic Algorithms</a>
+          </li>
+          <li>
+            <a href="http://en.wikipedia.org/wiki/Evolutionary_programming">Evolutionary Programming</a>
+          </li>
+          <li>
+            <a href="http://en.wikipedia.org/wiki/Evolution_strategy">Evolutionary Strategies</a>
+          </li>
+          <li>
+            <a href="http://en.wikipedia.org/wiki/Genetic_programming">Genetic Programming</a>
+          </li>
+          <li>
+            <a href="http://en.wikipedia.org/wiki/Differential_evolution">Differential Evolution</a>
+          </li>
+          <li>
+            <a href="http://en.wikipedia.org/wiki/Harmony_search">Harmony Search</a>
+          </li>
+          <li>
+            <a href="http://en.wikipedia.org/wiki/Bee_colony_optimization">Bee Optimization Algorithms</a>
+          </li>
+        </ul>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/Neural_network">Neural Networks</a>
+        </li>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/Artificial_immune_systems">Artifical Immune Systems</a>
+        </li>
+        <li>
+          <a href="http://en.wikipedia.org/wiki/Fuzzy_Logic">Fuzzy Logic</a>
+        </li>
+        <li>
+          <a href="">Game Playing</a>
+        </li>
       </ul>
       <p>
         CIlib is maintained by the <a href="http://cirg.cs.up.ac.za/">Computational Intelligence Reasearch Group</a> hosted by the <a href="http://www.cs.up.ac.za/">Department of Computer Science</a>
         at the <a href="http://www.up.ac.za">University of Pretoria</a> in <a href="http://www.southafrica.net/">South Africa</a>.
       </p>
     </section>
-
     <section name="Licensing Information">
       <p>
-        CIlib is distributred under the <a href="http://www.fsf.org/licenses/gpl.html">GPL</a>.
+        CIlib is distributred under the <a href="http://www.fsf.org/licenses/gpl-2.0.html">GPL</a>.
       </p>
-      <p>
-        <a href="http://cilib.sourceforge.net/GPLApproval.pdf">Approval</a> for publishing University of Pretoria <a href="http://re.up.ac.za/ip.html">Intellectual Property</a>.
+      <p><a href="http://cilib.sourceforge.net/GPLApproval.pdf">Approval</a> for publishing University of Pretoria <a href="http://re.up.ac.za/ip.html">Intellectual Property</a>.
       </p>
     </section>
   </body>
