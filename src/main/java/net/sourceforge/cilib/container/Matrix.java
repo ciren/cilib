@@ -35,6 +35,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  * @param <E> The parameterized type.
  */
+@Deprecated
 public class Matrix<E> implements Cloneable {
 	private static final long serialVersionUID = 4621194915276987567L;
 	
