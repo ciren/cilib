@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -36,6 +38,7 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 	
 	private ContinuousFunction function;
 	private RandomNumber randomNumber;
+    private ControlParameter variance;
 
 	/**
 	 * Create an instance of the decorator and set the domain to "R" by default.
@@ -43,6 +46,7 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 	public NoisyFunctionDecorator() {
 		setDomain("R");
 		randomNumber = new RandomNumber();
+        this.variance = new ConstantControlParameter(1.0);
 	}
 	
 	/**
@@ -57,7 +61,7 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 	 * {@inheritDoc}
 	 */
 	public double evaluate(Vector x) {
-		return function.evaluate(x) + randomNumber.getGaussian(); 
+		return function.evaluate(x) + randomNumber.getGaussian(0.0, this.variance.getParameter());
 	}
 	
 	
@@ -78,6 +82,15 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 		this.function = function;
 		this.setDomain(function.getDomainRegistry().getDomainString());
 	}
-	
+
+    public ControlParameter getVariance() {
+        return variance;
+    }
+
+    public void setVariance(ControlParameter variance) {
+        this.variance = variance;
+    }
+
+
 
 }
