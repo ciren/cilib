@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -69,17 +70,18 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 	 */
 	@Override
 	public double evaluate(Vector x) {
-		
-		if(horizontalReflection) {
+		Vector tmp = x.getClone();
+
+		if (horizontalReflection) {
 			for (int i = 0; i < x.getDimension(); i++) {
-				x.setReal(i, -x.getReal(i));
+				tmp.setReal(i, -x.getReal(i));
 			}
 		}
 		
 		if(verticalReflection)
-			return -function.evaluate(x);
+			return -function.evaluate(tmp);
 		
-		return function.evaluate(x);
+		return function.evaluate(tmp);
 	}
 
 	/**

@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -76,11 +77,13 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
 	 */
 	@Override
 	public double evaluate(Vector x) {
+        Vector tmp = new Vector();
+
 		for (int i = 0; i < x.getDimension(); i++) {
-			x.setReal(i, x.getReal(i) + horizontalShift);
+			tmp.add(new Real(x.getReal(i) + horizontalShift));
 		}
 		
-		return function.evaluate(x) + verticalShift;
+		return function.evaluate(tmp) + verticalShift;
 	}
 
 	/**

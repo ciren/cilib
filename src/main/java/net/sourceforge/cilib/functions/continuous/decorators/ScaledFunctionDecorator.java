@@ -76,11 +76,13 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
 	 */
 	@Override
 	public double evaluate(Vector x) {
+        Vector tmp = x.getClone();
+
 		for (int i = 0; i < x.getDimension(); i++) {
-			x.setReal(i, (horizontalScale * x.getReal(i)));
+			tmp.setReal(i, (horizontalScale * x.getReal(i)));
 		}
 
-		return (verticalScale * function.evaluate(x));
+		return (verticalScale * function.evaluate(tmp));
 	}
 
 	/**
