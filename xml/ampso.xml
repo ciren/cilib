@@ -7,9 +7,9 @@
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <entityNumber value="40"/>
                 <entityType class="pso.particle.StandardParticle">
-                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
+                  <!--  <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
                         <inertiaWeight class="controlparameter.LinearDecreasingControlParameter" />
-                    </velocityUpdateStrategy>
+                    </velocityUpdateStrategy>-->
                 </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.VonNeumannTopology" />

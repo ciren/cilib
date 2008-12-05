@@ -186,7 +186,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		double tmp = 0.0;
 		
 		Numeric component = (Numeric) position.get(0);
-		double average = (component.getUpperBound() - component.getLowerBound()) / rhoExpandCoefficient.getParameter();
+		double average = (component.getBounds().getUpperBound() - component.getBounds().getLowerBound()) / rhoExpandCoefficient.getParameter();
 	
 		if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient.getParameter()*rho.getParameter();
 		if (failureCount >= failureCountThreshold) tmp = rhoContractCoefficient.getParameter()*rho.getParameter();

@@ -56,8 +56,7 @@ public class Int extends Numeric {
 	 */
 	public Int(int lower, int upper) {
 		value = Double.valueOf(MathUtil.random()*(upper-lower)).intValue() + lower;
-		setLowerBound(lower);
-		setUpperBound(upper);
+        this.setBounds(BoundsFactory.create(lower, upper));
 	}
 
 	/**
@@ -66,8 +65,7 @@ public class Int extends Numeric {
 	 */
 	public Int(int value) {
 		this.value = value;
-		setLowerBound(Integer.MIN_VALUE);
-		setUpperBound(Integer.MAX_VALUE);
+        this.setBounds(BoundsFactory.create(Integer.MIN_VALUE, Integer.MAX_VALUE));
 	}
 	
 	/**
@@ -76,8 +74,7 @@ public class Int extends Numeric {
 	 */
 	public Int(Int copy) {
 		this.value = copy.value;
-		this.setLowerBound(copy.getLowerBound());
-		this.setUpperBound(copy.getUpperBound());
+        this.setBounds(copy.getBounds());
 	}
 	
 	/**
@@ -229,17 +226,14 @@ public class Int extends Numeric {
 	 */
 	@Override
 	public boolean isInsideBounds() {
-		if (value >= this.getLowerBound() && value < this.getUpperBound())
-			return true;
-
-		return false;
+        return this.getBounds().isInsideBounds(value);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void randomise() {
-		double tmp = MathUtil.random()*(getUpperBound()-getLowerBound()) + getLowerBound();
+		double tmp = MathUtil.random()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
 		this.value = Double.valueOf(tmp).intValue();
 	}
 	
@@ -263,8 +257,8 @@ public class Int extends Numeric {
 	 * @return The String representation of this <tt>Type</tt> object.
 	 */
 	public String getRepresentation() {
-		return "Z(" + Double.valueOf(getLowerBound()).intValue() + "," +
-			Double.valueOf(getUpperBound()).intValue() +")";
+		return "Z(" + Double.valueOf(getBounds().getLowerBound()).intValue() + "," +
+			Double.valueOf(getBounds().getUpperBound()).intValue() +")";
 	}
 
 	/**

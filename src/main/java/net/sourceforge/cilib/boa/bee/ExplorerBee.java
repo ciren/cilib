@@ -26,7 +26,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Seeder;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -104,16 +103,11 @@ public class ExplorerBee implements Cloneable {
 	public Vector getNewPosition(Vector position) {
 		previousUpdatedIteration = Algorithm.get().getIterations();
 		numberOfUpdates++;
-		Vector newPosition = new Vector(position.size());
-		for (int i = 0; i < position.size(); i++) {
-			double lowerBound = ((Real) position.get(i)).getLowerBound();
-			double upperBound = ((Real) position.get(i)).getUpperBound();
-			Real real = new Real((upperBound-lowerBound)*random.nextDouble() + lowerBound);
-			real.setLowerBound(lowerBound);
-			real.setUpperBound(upperBound);
-			newPosition.add(real);
-		}
-		return newPosition;
+
+        Vector newPosition = position.getClone();
+        newPosition.randomise();
+
+        return newPosition;
 	}
 
 	public ControlParameter getExplorerBeeUpdateLimit() {

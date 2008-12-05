@@ -108,8 +108,8 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             Double[] p = new Double[function.getDimension()];
             for (int i = 0; i < p.length; i++) {
             	Real real = (Real) vector.get(0);
-                double r = real.getUpperBound() * random.nextDouble() -
-                	2.0 * real.getLowerBound() * random.nextDouble();
+                double r = real.getBounds().getUpperBound() * random.nextDouble() -
+                	2.0 * real.getBounds().getLowerBound() * random.nextDouble();
                     //((Quantitative) domain.getComponent(0)).getUpperBound().doubleValue() * random.nextDouble()
                         //- 2.0 * ((Quantitative) domain.getComponent(0)).getLowerBound().doubleValue() * random.nextDouble();
                 p[i] = new Double(r);

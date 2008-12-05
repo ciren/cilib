@@ -68,7 +68,7 @@ public class RealTest {
 		Real r = new Real(10.0);
 		
 		// This is the hasCode evaluation of the super classes bound information as well
-		assertEquals(-30979872, r.hashCode()); 
+		assertEquals(-486200953, r.hashCode());
 	}
 	
 	

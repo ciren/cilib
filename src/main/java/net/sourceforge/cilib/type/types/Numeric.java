@@ -28,9 +28,12 @@ package net.sourceforge.cilib.type.types;
  */
 public abstract class Numeric extends AbstractType implements Comparable<Numeric> {
 	private static final long serialVersionUID = 3795529161693499589L;
-	
-	private double lowerBound;
-	private double upperBound;
+
+    private Bounds bounds;
+
+    protected Numeric() {
+        this.bounds = new Bounds();
+    }
 	
 	/**
 	 * {@inheritDoc}
@@ -48,8 +51,9 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 			return false;
 		
 		Numeric numeric = (Numeric) other;
-		return (Double.valueOf(this.lowerBound).equals(Double.valueOf(numeric.lowerBound))) &&
-			(Double.valueOf(this.upperBound).equals(Double.valueOf(numeric.upperBound)));
+//		return (Double.valueOf(this.lowerBound).equals(Double.valueOf(numeric.lowerBound))) &&
+//			(Double.valueOf(this.upperBound).equals(Double.valueOf(numeric.upperBound)));
+        return this.bounds.equals(numeric.bounds);
 	}
 	
 	/**
@@ -57,8 +61,9 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 	 */
 	public int hashCode() {
 		int hash = 7;
-		hash = 31 * hash + Double.valueOf(lowerBound).hashCode();
-		hash = 31 * hash + Double.valueOf(upperBound).hashCode();
+        hash = 31 * hash + this.bounds.hashCode();
+//		hash = 31 * hash + Double.valueOf(lowerBound).hashCode();
+//		hash = 31 * hash + Double.valueOf(upperBound).hashCode();
 		return hash;
 	}
 	
@@ -160,32 +165,17 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 	public int getDimension() {
 		return 1;
 	}
+
+    public Bounds getBounds() {
+        return bounds;
+    }
+
+    public void setBounds(Bounds bounds) {
+        this.bounds = bounds;
+    }
+
+    public void setBounds(double lower, double upper) {
+        this.setBounds(BoundsFactory.create(lower, upper));
+    }
 	
-	/**
-	 * @return Returns the lowerBound.
-	 */
-	public double getLowerBound() {
-		return lowerBound;
-	}
-
-	/**
-	 * @param lowerBound The lowerBound to set.
-	 */
-	public void setLowerBound(double lowerBound) {
-		this.lowerBound = lowerBound;
-	}
-
-	/**
-	 * @return Returns the upperBound.
-	 */
-	public double getUpperBound() {
-		return upperBound;
-	}
-
-	/**
-	 * @param upperBound The upperBound to set.
-	 */
-	public void setUpperBound(double upperBound) {
-		this.upperBound = upperBound;
-	}
 }

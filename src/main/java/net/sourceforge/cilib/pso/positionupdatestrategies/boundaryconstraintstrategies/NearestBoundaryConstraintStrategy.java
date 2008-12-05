@@ -89,8 +89,8 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 	 * {@inheritDoc}
 	 */
 	public void constrainLower(Numeric position, Numeric velocity) {
-		double upper = position.getUpperBound();
-		double lower = position.getLowerBound();
+		double upper = position.getBounds().getUpperBound();
+		double lower = position.getBounds().getLowerBound();
 		double range = Math.abs(upper - lower);
 		Numeric previousPosition = position.getClone();
 
@@ -106,8 +106,8 @@ public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStra
 	 * {@inheritDoc}
 	 */
 	public void constrainUpper(Numeric position, Numeric velocity) {
-		double upper = position.getUpperBound();
-		double lower = position.getLowerBound();
+		double upper = position.getBounds().getUpperBound();
+		double lower = position.getBounds().getLowerBound();
 		double range = Math.abs(upper - lower);
 		Numeric previousPosition = position.getClone();
 

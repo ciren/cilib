@@ -53,7 +53,7 @@ public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	public void constrainLower(Numeric position, Numeric velocity) {
 		Numeric previousPosition = position.getClone();
 
-		position.set(position.getLowerBound());	// lower boundary is inclusive
+		position.set(position.getBounds().getLowerBound());	// lower boundary is inclusive
 		velocity.set(previousPosition.getReal() - position.getReal());
 	}
 
@@ -65,7 +65,7 @@ public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStr
 	public void constrainUpper(Numeric position, Numeric velocity) {
 		Numeric previousPosition = position.getClone();
 
-		position.set(position.getUpperBound() - INFIMUM); // upper boundary is exclusive
+		position.set(position.getBounds().getUpperBound() - INFIMUM); // upper boundary is exclusive
 		velocity.set(previousPosition.getReal() - position.getReal());
 	}
 }

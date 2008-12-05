@@ -50,8 +50,8 @@ public class PercentageCompleteTest {
 		assertTrue(vector.get(0) instanceof Real);
 		
 		Real r = (Real) vector.get(0);
-		assertEquals(0.0, r.getLowerBound(), Double.MIN_NORMAL);
-		assertEquals(1.0, r.getUpperBound(), Double.MIN_NORMAL);
+		assertEquals(0.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
+		assertEquals(1.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
 	}
 
 }

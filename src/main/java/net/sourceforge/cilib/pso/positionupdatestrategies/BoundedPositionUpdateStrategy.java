@@ -82,10 +82,10 @@ public class BoundedPositionUpdateStrategy implements PositionUpdateStrategy {
 			double newPosition = position.getReal(i);
 			newPosition += velocity.getReal(i);
 
-			if (newPosition < currentPosition.getLowerBound()) { // crossed the lower boundary
+			if (newPosition < currentPosition.getBounds().getLowerBound()) { // crossed the lower boundary
 				boundaryConstraintStrategy.constrainLower(currentPosition, currentVelocity);
 			}
-			else if (newPosition >= currentPosition.getUpperBound()) { // crossed the upper boundary
+			else if (newPosition >= currentPosition.getBounds().getUpperBound()) { // crossed the upper boundary
 				boundaryConstraintStrategy.constrainUpper(currentPosition, currentVelocity);
 			}
 			else { // did not cross any boundary; update as normal

@@ -71,7 +71,7 @@ public class DissipativeStep {
             		//(d.getUpperBound() - d.getLowerBound());
             		(component.getUpperBound() - component.getLowerBound());*/
             	Vector velocity = (Vector) particle.getVelocity();
-            	velocity.setReal(i, randomGenerator.nextFloat()*(component.getUpperBound() - component.getLowerBound()));
+            	velocity.setReal(i, randomGenerator.nextFloat()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound()));
             }
         }
         if (randomGenerator.nextFloat() < positionThreshold) {
@@ -86,7 +86,7 @@ public class DissipativeStep {
             	//* (d.getUpperBound() - d.getLowerBound()) + d.getLowerBound();
             	* (component.getUpperBound() - component.getLowerBound()) + component.getLowerBound();*/
             	Vector position = (Vector) particle.getPosition();
-            	position.setReal(i, randomGenerator.nextDouble()*(component.getUpperBound() - component.getLowerBound())+ component.getLowerBound());
+            	position.setReal(i, randomGenerator.nextDouble()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound())+ component.getBounds().getLowerBound());
             }
         }
     }

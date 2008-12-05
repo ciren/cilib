@@ -140,15 +140,15 @@ public class MutationPositionUpdateStrategy extends
 				int dimension = Double.valueOf(randomNumber.getUniform(0, position.getDimension())).intValue();
 				Real real = (Real) position.get(dimension);
 				
-				double range = ((real.getUpperBound() - real.getLowerBound())* strangeFunction(p, maximumIterations))/2.0;
+				double range = ((real.getBounds().getUpperBound() - real.getBounds().getLowerBound())* strangeFunction(p, maximumIterations))/2.0;
 
-				if ((real.getReal()-range) < real.getLowerBound())
-					tempLower = real.getLowerBound();
+				if ((real.getReal()-range) < real.getBounds().getLowerBound())
+					tempLower = real.getBounds().getLowerBound();
 				else
 					tempLower = real.getReal()-range;
 				
-				if ((real.getReal()+range) > real.getUpperBound())
-					tempUpper = real.getUpperBound();
+				if ((real.getReal()+range) > real.getBounds().getUpperBound())
+					tempUpper = real.getBounds().getUpperBound();
 				else
 					tempUpper = real.getReal()+range;
 

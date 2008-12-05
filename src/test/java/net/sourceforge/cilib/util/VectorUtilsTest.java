@@ -22,6 +22,7 @@
 
 package net.sourceforge.cilib.util;
 
+import net.sourceforge.cilib.type.types.BoundsFactory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -43,8 +44,9 @@ public class VectorUtilsTest {
 
 		for(int i = 1; i < 5; i++) {
 			Numeric element = new Real(i);
-			element.setUpperBound(i * 2);
-			element.setLowerBound(i * -2);
+            element.setBounds(BoundsFactory.create(i*-2, i*2));
+//			element.setUpperBound(i * 2);
+//			element.setLowerBound(i * -2);
 			vector.append(element);
 		}
 	}

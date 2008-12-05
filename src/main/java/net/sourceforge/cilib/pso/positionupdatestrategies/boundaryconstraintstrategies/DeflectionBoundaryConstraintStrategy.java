@@ -61,8 +61,8 @@ public class DeflectionBoundaryConstraintStrategy implements BoundaryConstraintS
 	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
 	 */
 	public void constrainLower(Numeric position, Numeric velocity) {
-		double upper = position.getUpperBound();
-		double lower = position.getLowerBound();
+		double upper = position.getBounds().getUpperBound();
+		double lower = position.getBounds().getLowerBound();
 		double range = Math.abs(upper - lower);
 		Numeric desiredPosition = position.getClone();
 
@@ -76,8 +76,8 @@ public class DeflectionBoundaryConstraintStrategy implements BoundaryConstraintS
 	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
 	 */
 	public void constrainUpper(Numeric position, Numeric velocity) {
-		double upper = position.getUpperBound();
-		double lower = position.getLowerBound();
+		double upper = position.getBounds().getUpperBound();
+		double lower = position.getBounds().getLowerBound();
 		double range = Math.abs(upper - lower);
 		Numeric desiredPosition = position.getClone();
 

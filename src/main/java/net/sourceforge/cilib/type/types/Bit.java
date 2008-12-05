@@ -45,9 +45,9 @@ public class Bit extends Numeric {
 	 */
 	public Bit() {
 		this.state = new MersenneTwister().nextBoolean();
-		
-		this.setLowerBound(0.0);
-		this.setUpperBound(1.0);
+		super.setBounds(BoundsFactory.create(0.0, 1.0));
+//		this.setLowerBound(0.0);
+//		this.setUpperBound(1.0);
 	}
 	
 	
@@ -57,9 +57,7 @@ public class Bit extends Numeric {
 	 */
 	public Bit(boolean state) {
 		this.state = state;
-		
-		this.setLowerBound(0.0);
-		this.setUpperBound(1.0);
+		super.setBounds(BoundsFactory.create(0.0, 1.0));
 	}
 	
 	/**
@@ -68,8 +66,7 @@ public class Bit extends Numeric {
 	 */
 	public Bit(Bit copy) {
 		this.state = copy.state;
-		this.setLowerBound(copy.getLowerBound());
-		this.setUpperBound(copy.getUpperBound());
+        super.setBounds(copy.getBounds());
 	}
 	
 	
@@ -300,31 +297,27 @@ public class Bit extends Numeric {
 		this.state = ois.readBoolean();		
 	}
 
-	
-	/**
-	 * Set the lowerBound for this <tt>Bit</tt>.
-	 * 
-	 * @param value The value to set for the lower bound.
-	 * @throws RuntimeException if the lowerBound value to set is not 0.0
-	 */
-	public void setLowerBound(double value) {
-		if (value == 0.0)
-			super.setLowerBound(0.0);
-		else
-			throw new RuntimeException("Bit cannot have it's lowerBound adjusted. Bit is defined to have a lowerBound of 0.0");
-	}
-	
-	
-	/**
-	 * Set the upperBound for this <tt>Bit</tt>.
-	 * 
-	 * @throws RuntimeException if the upperBound value to set is not 1.0
-	 * @param value The value of the upper bound.
-	 */
-	public void setUpperBound(double value) {
-		if (value == 1.0) 
-			super.setUpperBound(1.0);
-		else
-			throw new RuntimeException("Bit cannot have it's upperBound adjusted. Bit is defined to have a upperBound of 1.0");
-	}
+    /**
+     * Set the bounds for the current {@code Bit} instance. This method is not a valid
+     * operation and as a result throws a {@code UnsupportedOperationException}.
+     * @param bounds The bounds to set.
+     * @throws UnsupportedOperationException Bit instances cannot have arbitary bounds.
+     */
+    @Override
+    public void setBounds(Bounds bounds) {
+        throw new UnsupportedOperationException("Bounds may not be altered for Bit instances.");
+    }
+
+    /**
+     * Set the bounds for the current {@code Bit} instance. This method is not a valid
+     * operation and as a result throws a {@code UnsupportedOperationException}.
+     * @param lower The lower bound value.
+     * @param upper The upperbound value.
+     * @throws UnsupportedOperationException Bit instances cannot have arbitary bounds.
+     */
+    @Override
+    public void setBounds(double lower, double upper) {
+        throw new UnsupportedOperationException("Bounds may not be altered for Bit instances.");
+    }
+
 }

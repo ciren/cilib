@@ -195,23 +195,23 @@ public class HS extends SingularAlgorithm {
 		Vector newHarmonyVector = (Vector) newHarmony.getCandidateSolution();
 		
 		OptimisationProblem problem = getOptimisationProblem();
-		Real newHarmonyValue;
+//		Real newHarmonyValue;
 		for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
 			if (random1.getUniform() < harmonyMemoryConsideringRate.getParameter()) {
 				Harmony selectedHarmony = (Harmony) this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
 				Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
-				newHarmonyValue = (Real) selectedHarmonyContents.get(i);
+				Real newHarmonyValue = (Real) selectedHarmonyContents.get(i).getClone();
 				if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
 					double pitchedValue = newHarmonyValue.getReal() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
-					if ((pitchedValue > newHarmonyValue.getLowerBound()) && (pitchedValue < newHarmonyValue.getUpperBound()))
+					if ((pitchedValue > newHarmonyValue.getBounds().getLowerBound()) && (pitchedValue < newHarmonyValue.getBounds().getUpperBound()))
 						newHarmonyValue.setReal(pitchedValue);
 				}
 				
-				newHarmonyVector.set(i, new Real(newHarmonyValue));
+				newHarmonyVector.set(i, newHarmonyValue);
 			}
 			else {
-				double upper = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getUpperBound();
-				double lower = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getLowerBound();
+				double upper = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getBounds().getUpperBound();
+				double lower = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getBounds().getLowerBound();
 				newHarmonyVector.set(i, new Real(random3.getUniform(lower, upper)));
 			}
 		}

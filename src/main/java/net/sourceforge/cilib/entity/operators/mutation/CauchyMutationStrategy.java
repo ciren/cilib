@@ -72,7 +72,7 @@ public class CauchyMutationStrategy extends MutationStrategy {
 			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 				for (int i = 0; i < chromosome.getDimension(); i++) {
 					Numeric element = (Numeric) chromosome.get(i);
-					double scale = this.scaleStrategy.getParameter(element.getLowerBound(), element.getUpperBound());
+					double scale = this.scaleStrategy.getParameter(element.getBounds().getLowerBound(), element.getBounds().getUpperBound());
 					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
 									
 					chromosome.setReal(i, value);

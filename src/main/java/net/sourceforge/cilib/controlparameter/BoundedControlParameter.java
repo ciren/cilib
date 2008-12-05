@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.controlparameter;
 
 import net.sourceforge.cilib.type.DomainParser;
+import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.BoundsFactory;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -103,10 +105,10 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	 * Clamp the current paramter vaue between the lower and upper bound values.
 	 */
 	protected void clamp() {
-		if (this.parameter.getReal() < this.parameter.getLowerBound())
-			this.parameter.setReal(this.parameter.getLowerBound());
-		else if (this.parameter.getReal() > this.parameter.getUpperBound())
-			this.parameter.setReal(this.parameter.getUpperBound());
+		if (this.parameter.getReal() < this.parameter.getBounds().getLowerBound())
+			this.parameter.setReal(this.parameter.getBounds().getLowerBound());
+		else if (this.parameter.getReal() > this.parameter.getBounds().getUpperBound())
+			this.parameter.setReal(this.parameter.getBounds().getUpperBound());
 	}
 	
 	
@@ -116,7 +118,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	 * @return The lower bound value.
 	 */
 	public double getLowerBound() {
-		return this.parameter.getLowerBound();
+		return this.parameter.getBounds().getLowerBound();
 	}
 	
 	
@@ -125,7 +127,9 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	 * @param lower The value to set.
 	 */
 	public void setLowerBound(double lower) {
-		this.parameter.setLowerBound(lower);
+//		this.parameter.getBounds().setLowerBound(lower);
+        Bounds bounds = parameter.getBounds();
+        this.parameter.setBounds(lower, bounds.getUpperBound());
 	}
 	
 	
@@ -135,7 +139,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	 * @return The upper bound value.
 	 */
 	public double getUpperBound() {
-		return this.parameter.getUpperBound();
+		return this.parameter.getBounds().getUpperBound();
 	}
 	
 	
@@ -144,7 +148,9 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	 * @param value The value to set.
 	 */
 	public void setUpperBound(double value) {
-		this.parameter.setUpperBound(value);
+//		this.parameter.getBounds().setUpperBound(value);
+        Bounds bounds = parameter.getBounds();
+        this.parameter.setBounds(bounds.getLowerBound(), value);
 	}
 
 	

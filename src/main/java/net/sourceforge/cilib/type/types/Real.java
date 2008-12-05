@@ -49,8 +49,8 @@ public class Real extends Numeric {
 	 */
 	public Real(double value) {
 		this.value = value;
-		this.setLowerBound(-Double.MAX_VALUE);
-		this.setUpperBound(Double.MAX_VALUE);
+        Bounds bounds = BoundsFactory.create(-Double.MAX_VALUE, Double.MAX_VALUE);
+        this.setBounds(bounds);
 	}
 	
 	
@@ -63,9 +63,8 @@ public class Real extends Numeric {
 		double bottom = (lower == Double.NEGATIVE_INFINITY) ? -Double.MAX_VALUE : lower;
 		double top = (upper == Double.POSITIVE_INFINITY) ? Double.MAX_VALUE : upper;
 		value = (top-bottom)*MathUtil.random() + bottom;
-		
-		setLowerBound(lower);
-		setUpperBound(upper);
+
+        this.setBounds(BoundsFactory.create(lower, upper));
 	}
 	
 	/**
@@ -74,8 +73,7 @@ public class Real extends Numeric {
 	 */
 	public Real(Real copy) {
 		this.value = copy.value;
-		this.setLowerBound(copy.getLowerBound());
-		this.setUpperBound(copy.getUpperBound());
+        this.setBounds(copy.getBounds());
 	}
 	
 	
@@ -232,17 +230,14 @@ public class Real extends Numeric {
 	 */
 	@Override
 	public boolean isInsideBounds() {
-		if (value >= this.getLowerBound() && value < this.getUpperBound())
-			return true;
-
-		return false;
+        return getBounds().isInsideBounds(value);
 	}
 
 	/**
 	 * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
 	 */
 	public void randomise() {
-		this.value = (getUpperBound()-getLowerBound())*MathUtil.random() + getLowerBound();
+		this.value = (getBounds().getUpperBound()-getBounds().getLowerBound())*MathUtil.random() + getBounds().getLowerBound();
 	}
 	
 	
@@ -268,7 +263,7 @@ public class Real extends Numeric {
 	 * @return The String representation of this <tt>Type</tt> object.
 	 */
 	public String getRepresentation() {
-		return "R(" + getLowerBound() + "," + getUpperBound() +")";
+		return "R(" + getBounds().getLowerBound() + "," + getBounds().getUpperBound() +")";
 	}
 
 	

@@ -52,7 +52,7 @@ public final class VectorUtils {
 		for(Type element : upper) {
 			try {
 				Numeric numeric = (Numeric) element;
-				numeric.set(numeric.getUpperBound());
+				numeric.set(numeric.getBounds().getUpperBound());
 			}
 			catch (ClassCastException cce) {
 				throw new UnsupportedOperationException("Upper Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
@@ -75,7 +75,7 @@ public final class VectorUtils {
 		for(Type element : lower) {
 			try {
 				Numeric numeric = (Numeric) element;
-				numeric.set(numeric.getLowerBound());
+				numeric.set(numeric.getBounds().getLowerBound());
 			}
 			catch (ClassCastException cce) {
 				throw new UnsupportedOperationException("Lower Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
