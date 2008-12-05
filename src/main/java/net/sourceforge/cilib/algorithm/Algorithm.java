@@ -127,7 +127,9 @@ public abstract class Algorithm implements Cloneable, Runnable {
 			throw new InitialisationException("No stopping conditions specified");
 		}
 
+        currentAlgorithmStack.get().push(this);
 		performInitialisation();
+        currentAlgorithmStack.get().pop();
 	}
 
 	/**
