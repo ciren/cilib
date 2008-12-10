@@ -22,8 +22,8 @@
 
 package net.sourceforge.cilib.type.types;
 
-import java.lang.ref.WeakReference;
-import java.util.WeakHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents the bounds information for all Numeric types in
@@ -33,7 +33,7 @@ import java.util.WeakHashMap;
  */
 public class BoundsFactory {
 
-    private final static WeakHashMap<Integer, WeakReference<Bounds>> bounds = new WeakHashMap<Integer, WeakReference<Bounds>>();
+    private final static Map<Integer, Bounds> bounds = new HashMap<Integer, Bounds>();
 
     /**
      * Create a new {@code Bounds} object, or alternatively return a precreated instance.
@@ -56,9 +56,9 @@ public class BoundsFactory {
 
         if (!bounds.containsKey(key)) {
             Bounds bound = new Bounds(lowerBound, upperBound);
-            bounds.put(key, new WeakReference<Bounds>(bound));
+            bounds.put(key, bound);
         }
 
-        return bounds.get(key).get();
+        return bounds.get(key);
     }
 }
