@@ -71,6 +71,9 @@ public class CandidateSolutionMixin implements CandidateSolution {
 		return new CandidateSolutionMixin(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -83,6 +86,9 @@ public class CandidateSolutionMixin implements CandidateSolution {
 		return this.properties.equals(other.properties);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public int hashCode() {
 		int hash = 7;

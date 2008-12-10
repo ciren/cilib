@@ -25,8 +25,9 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * 
- * @author gpampara
+ * Interface to define all operators within the general structure of CIlib. All
+ * operator instances should implement this interface to ensure that generic
+ * use of operators is possible between different types of algorithms.
  */
 public interface Operator extends Cloneable {
 

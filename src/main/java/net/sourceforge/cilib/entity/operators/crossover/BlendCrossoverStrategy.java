@@ -89,6 +89,9 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
 		this.alpha = copy.alpha.getClone();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public BlendCrossoverStrategy getClone() {
 		return new BlendCrossoverStrategy(this);

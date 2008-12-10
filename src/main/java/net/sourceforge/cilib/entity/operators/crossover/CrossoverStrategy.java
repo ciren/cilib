@@ -51,7 +51,10 @@ public abstract class CrossoverStrategy implements Operator {
 		this.crossoverProbability = copy.crossoverProbability.getClone();
 		this.randomNumber = copy.randomNumber.getClone();
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	public abstract CrossoverStrategy getClone();
 	
 	public abstract List<Entity> crossover(List<Entity> parentCollection);

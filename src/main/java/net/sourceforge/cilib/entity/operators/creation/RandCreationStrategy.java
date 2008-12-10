@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.entity.operators.creation;
 
 import java.util.ArrayList;
@@ -68,6 +67,9 @@ public class RandCreationStrategy implements CreationStrategy {
 		return new RandCreationStrategy(this);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology) {
 		List<Entity> participants = selectEntities(current, topology);
@@ -130,6 +132,9 @@ public class RandCreationStrategy implements CreationStrategy {
 		return participants;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public void performOperation(TopologyHolder holder) {
 		throw new UnsupportedOperationException("Not supported yet. This may need some more refactoring. May require looping operator?");

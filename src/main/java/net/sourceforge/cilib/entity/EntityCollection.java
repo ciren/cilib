@@ -59,12 +59,10 @@ public interface EntityCollection<E extends Entity>
      */
     public boolean remove(E entity);
     
-    
     /**
      * {@inheritDoc}
      */
     public E get(int index);
-    
     
     /**
      * {@inheritDoc}
@@ -76,9 +74,8 @@ public interface EntityCollection<E extends Entity>
      */
     public boolean isEmpty();
     
-    
     /**
-     * Wipe all the entities within the topology.
+     * Remove all the entities from the topology.
      * {@inheritDoc}
      */ 
     public void clear();

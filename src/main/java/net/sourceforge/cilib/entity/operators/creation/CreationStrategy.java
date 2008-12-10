@@ -26,6 +26,10 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.Operator;
 
+/**
+ * Creation operator definition. The manner in which new {@code Entity} instances
+ * are created is specified.
+ */
 public interface CreationStrategy extends Operator {
 
 	@Override

@@ -27,14 +27,24 @@ import java.util.List;
 
 import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 
+/**
+ * Create a composte list of {@code Operator} instances.
+ */
 public class CompositeOperator implements Operator {
 	private static final long serialVersionUID = -807046469432710581L;
 	private List<Operator> operators;
-	
+
+    /**
+     * Create an new instance and initialize the internal operator list.
+     */
 	public CompositeOperator() {
 		this.operators = new ArrayList<Operator>();
 	}
-	
+
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
 	public CompositeOperator(CompositeOperator copy) {
 		this.operators = new ArrayList<Operator>();
 		

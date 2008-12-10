@@ -202,6 +202,12 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 		return this.id;
 	}
 
+    /**
+     * Get the correct {@code Comparator} to use for this {@code Entity}, based
+     * on the type of {@link net.sourceforge.cilib.problem.Problem}.
+     * @return The correct {@link java.util.Comparator} for the current
+     *         {@linkplain net.sourceforge.cilib.entity.Entity}.
+     */
 	@Override
 	public final Comparator<Entity> getComparator() {
 		return (getFitness() instanceof MinimisationFitness) ?

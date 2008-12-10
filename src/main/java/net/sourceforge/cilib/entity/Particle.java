@@ -28,8 +28,7 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * 
- *
+ * Definition of a particle.
  */
 public interface Particle extends Entity {
 	

@@ -43,7 +43,10 @@ public class OnePointCrossoverStrategy extends CrossoverStrategy {
 	public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
 		super(copy);
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	public OnePointCrossoverStrategy getClone() {
 		return new OnePointCrossoverStrategy(this);
 	}
