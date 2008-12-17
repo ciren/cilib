@@ -85,6 +85,7 @@ public class MersenneTwister extends Random {
      * Get a cloned instance of the current object.
      * @return The cloned instance.
      */
+    @Override
     public MersenneTwister getClone() {
     	return new MersenneTwister(this);
     }
@@ -92,11 +93,12 @@ public class MersenneTwister extends Random {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSeed(long seed) {
         data = new long[N];
 
         if (seed == 0) {
-            seed = 4357;
+            seed = 5489L;
         }
 
         data[0] = seed & 0xffffffffL;
@@ -110,28 +112,24 @@ public class MersenneTwister extends Random {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected int next(int bits) {
         if (index >= N) {
             int i;
             for (i = 0; i < N - M; ++i) {
                 long y = (data[i] & UPPER_MASK) | (data[i + 1] & LOWER_MASK);
                 data[i] = data[i + M] ^ (y >>> 1);
-                if ((y & 1L) == 1L) {
-                    data[i] ^= 0x9908b0dfL;
-                }
+                magic(y, data, i);
             }
             for (; i < N - 1; ++i) {
                 long y = (data[i] & UPPER_MASK) | (data[i + 1] & LOWER_MASK);
                 data[i] = data[i + (M - N)] ^ (y >>> 1);
-                if ((y & 1L) == 1L) {
-                    data[i] ^= 0x9908b0dfL;
-                }
+                magic(y, data, i);
             }
             long y = (data[N - 1] & UPPER_MASK) | (data[0] & LOWER_MASK);
             data[N - 1] = data[M - 1] ^ (y >>> 1);
-            if ((y & 1L) == 1L) {
-                data[N - 1] ^= 0x9908b0dfL;
-            }
+            magic(y, data, i);
+
             index = 0;
         }
         
@@ -145,7 +143,22 @@ public class MersenneTwister extends Random {
         
         return (int) ((k & 0xffffffffL) >>> (32 - bits));
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double nextDouble() {
+       double result = (((long)next(26) << 27) + next(27)) / (double)(1L << 53);
+       index--;
+       return result;
+    }
+
+    private void magic(long y, long[] data, int i) {
+        if ((y & 0x1L) == 1L)
+            data[i] ^= 0x9908b0dfL;
+    }
+
     private long[] data;
     private int index;
     
