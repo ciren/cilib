@@ -29,6 +29,9 @@
   </properties>
   <body>
     <release version="0.7" date="January 2009" description="">
+      <action dev="gpampara" type="fix" issue="2444407" due-to="Nelis Franken">
+        Applied patch to correct the MersenneTwister.
+      </action>
     </release>
     <release version="0.6.12" date="2008-12-13" description="Bee's Algorithm added">
       <action dev="gpampara" type="fix" issue="2149357">

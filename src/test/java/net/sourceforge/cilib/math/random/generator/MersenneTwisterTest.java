@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -49,5 +50,27 @@ public class MersenneTwisterTest {
         }
         assertTrue("Samples are not random", tester.hasRandomSamples());
     }    
-    
+
+    /**
+     * TODO: check the number of digits after the decimal point....
+     * should it be more?
+     */
+    @Test
+    public void sequence() {
+        Random r = new MersenneTwister(5489L);
+        
+        Assert.assertEquals(0.81472369, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.13547700, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.90579193, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.83500858, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.12698681, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.96886777, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.91337586, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.22103404, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.63235925, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.30816705, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.09754040, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.54722060, r.nextDouble(), 0.00000001);
+        Assert.assertEquals(0.27849822, r.nextDouble(), 0.00000001);
+    }
 }
