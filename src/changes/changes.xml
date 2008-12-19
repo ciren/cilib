@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
 
     Copyright (C) 2003 - 2008
@@ -21,14 +22,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 -->
-
 <document>
   <properties>
     <title>CILib Changes</title>
     <author email="gpampara at users.sourceforge.net">Gary Pampara</author>
   </properties>
   <body>
-    <release version="0.7" date="to be confirmed" description="">
+    <release version="0.7" date="January 2009" description="">
     </release>
     <release version="0.6.12" date="2008-12-13" description="Bee's Algorithm added">
       <action dev="gpampara" type="fix" issue="2149357">
@@ -286,7 +286,6 @@
         description is the main need and not the new class.
       </action>
     </release>
-
     <release version="0.6.6" date="2007-03-18" description="Feature release and bug fixes">
       <action dev="gpampara" type="add">
         Added support to define functions within the XML specification file or
