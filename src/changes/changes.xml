@@ -29,6 +29,9 @@
   </properties>
   <body>
     <release version="0.7" date="January 2009" description="">
+      <action dev="gpampara" type="fix" issue="2283761">
+        Added the functionality to maintain the state of measurements.
+      </action>
       <action dev="gpampara" type="fix" issue="2444407" due-to="Nelis Franken">
         Applied patch to correct the MersenneTwister.
       </action>
