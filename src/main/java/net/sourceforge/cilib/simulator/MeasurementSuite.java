@@ -21,11 +21,13 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import net.sourceforge.cilib.measurement.MeasurementStateManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.measurement.StateAwareMeasurement;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -43,6 +45,8 @@ public class MeasurementSuite implements Serializable {
     private int resolution;
     private ArrayList<Measurement> measurements;
     private SynchronizedOutputBuffer buffer;
+    private MeasurementStateManager measurementStateManager;
+    
     
     /** Creates a new instance of MeasurementSuite. */
     public MeasurementSuite() {
@@ -50,6 +54,7 @@ public class MeasurementSuite implements Serializable {
         file = "results.txt";
         samples = 30;
         resolution = 1;
+        measurementStateManager = new MeasurementStateManager();
     }
     
     /**
@@ -70,6 +75,14 @@ public class MeasurementSuite implements Serializable {
      */
     public void setFile(String file) {
         this.file = file;
+    }
+
+    /**
+     * Get the current specified filename.
+     * @return The current file name.
+     */
+    public String getFile() {
+        return this.file;
     }
     
     /**
@@ -118,7 +131,11 @@ public class MeasurementSuite implements Serializable {
     public SynchronizedOutputBuffer getOutputBuffer() {
         return buffer;
     }
-    
+
+    public void setOutputBuffer(SynchronizedOutputBuffer buffer) {
+        this.buffer = buffer;
+    }
+
     /**
      * Adds a measurement to the suite.
      * 
@@ -131,14 +148,27 @@ public class MeasurementSuite implements Serializable {
     /**
      * Measure the provided {@linkplain Algorithm}. All the current measurements
      * that are defined for the {@linkplain MeasurementSuite} are applied to the
-     * {@linkplain Algorithm}.
+     * {@linkplain Algorithm}. Any measurements that are 
+     * {@linkplain StateAwareMeasurement state aware} instances will
+     * automatically have their internal state saved and restored
+     * as measurements are taken on the current {@linkplain Algorithm}.
      * @param algorithm The {@linkplain Algorithm} to measure.
      */
     public void measure(Algorithm algorithm) {
         for (Measurement measurement : measurements) {
-			Type value = measurement.getValue(algorithm);
+            Type value = null;
+            
+            if (measurement instanceof StateAwareMeasurement) {
+                StateAwareMeasurement stateAwareMeasurement = (StateAwareMeasurement) measurement;
+                measurementStateManager.setState(algorithm, stateAwareMeasurement);
+                value = measurement.getValue(algorithm);
+                measurementStateManager.getState(algorithm, stateAwareMeasurement);
+            }
+            else
+                value = measurement.getValue(algorithm);
+            
             buffer.writeMeasuredValue(value, algorithm, measurement);
         }
-    }	
+    }
 
 }
