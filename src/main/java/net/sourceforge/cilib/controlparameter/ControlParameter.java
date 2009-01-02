@@ -38,7 +38,7 @@ public interface ControlParameter extends Cloneable, Serializable {
 	/**
 	 * Clone the current object such that a comparison of the clone and original object will yield
 	 * two separate, but duplicate objects.
-	 * @return The cloned <tt>ControlParameterUpdateStrategy</tt>
+	 * @return The cloned <tt>ControlParameter</tt>
 	 */
 	public ControlParameter getClone();
 
