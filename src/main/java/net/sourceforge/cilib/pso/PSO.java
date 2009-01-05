@@ -26,7 +26,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
@@ -58,7 +58,7 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public class PSO extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
+public class PSO extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = -8234345682394295357L;
 	private Topology<Particle> topology;
 	private IterationStrategy<PSO> iterationStrategy;

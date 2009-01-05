@@ -24,7 +24,6 @@ package net.sourceforge.cilib.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -81,7 +80,7 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	 * Copy constructor. Create a deep copy of the provided instance and return it.
 	 * @param copy The instance to copy.
 	 */
-	public Algorithm(Algorithm copy) {
+	protected Algorithm(Algorithm copy) {
 		stoppingConditions = new ArrayList<StoppingCondition>();
 		for (StoppingCondition stoppingCondition : copy.stoppingConditions) {
 			StoppingCondition clone = stoppingCondition.getClone();
@@ -374,15 +373,5 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	 * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
 	 */
 	public abstract List<OptimisationSolution> getSolutions();
-
-	/**
-	 * General method to accept a visitor to perform a calculation on the current algorithm. The
-	 * operation is generally deferred down to the underlying topology associated with the
-	 * algorithm, as the algorithm does not contain information, but rather only behaviour to alter
-	 * the candidate solutions that are managed by the <tt>Topology</tt>.
-	 * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
-	 * @return The result of the visitor operation.
-	 */
-	public abstract double accept(TopologyVisitor visitor);
 
 }

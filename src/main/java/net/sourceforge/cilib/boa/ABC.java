@@ -26,7 +26,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.boa.bee.ExplorerBee;
 import net.sourceforge.cilib.boa.bee.HoneyBee;
 import net.sourceforge.cilib.boa.bee.OnlookerBee;
@@ -62,7 +62,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author Andrich
  *
  */
-public class ABC extends PopulationBasedAlgorithm {
+public class ABC extends SinglePopulationBasedAlgorithm {
 	private static final long serialVersionUID = 7918711449442012960L;
 	
 	private Topology<HoneyBee> workerBees;				//keeps references to the worker bees

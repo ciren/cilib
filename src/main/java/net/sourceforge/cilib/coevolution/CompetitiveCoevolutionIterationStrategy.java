@@ -61,7 +61,8 @@ public class CompetitiveCoevolutionIterationStrategy extends CoevolutionIteratio
 		 for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
 			 //new round of competitions
 			 ((CompetitiveCoevolutionProblemAdapter)currentAlgorithm.getOptimisationProblem()).incrementEvaluationround();			
-			for(int i=0; i<currentAlgorithm.getPopulationSize(); i++){				
+
+             for(int i=0; i<currentAlgorithm.getPopulationSize(); i++){
 				Entity e = currentAlgorithm.getTopology().get(i);
 				CoevolutionEvaluationList opponents = opponentSelectionStrategy.setCompetitors(((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt(), ca.getPopulations());
 				e.getProperties().put(EntityType.Coevolution.COMPETITOR_LIST, opponents); 

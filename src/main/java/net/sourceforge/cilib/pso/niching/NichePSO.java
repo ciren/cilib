@@ -29,9 +29,7 @@ import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationSt
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -45,6 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author gpampara
  */
 public class NichePSO extends MultiPopulationBasedAlgorithm {
+    private static final long serialVersionUID = 3575627467034673738L;
 
 	private PopulationBasedAlgorithm mainSwarm;
 	private SwarmCreationStrategy swarmCreationStrategy;
@@ -94,16 +93,6 @@ public class NichePSO extends MultiPopulationBasedAlgorithm {
 
 	@Override
 	public PopulationBasedAlgorithm getClone() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public Topology<? extends Entity> getTopology() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public void setTopology(Topology<? extends Entity> topology) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 

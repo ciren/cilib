@@ -26,8 +26,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
 import net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIterator;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
@@ -78,6 +81,7 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	/**
 	 * {@inheritDoc}
 	 */
+    @Override
 	public void reset() {
 		super.reset();
 		
@@ -90,6 +94,7 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	/**
 	 * {@inheritDoc}
 	 */
+    @Override
 	public Iterator<PopulationBasedAlgorithm> iterator() {
 		return this.algorithmIterator.getClone();
 	}
@@ -160,5 +165,25 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 		throw new UnsupportedOperationException("Needs an implementation");
 	}
 
-	
+    @Override
+    public int getPopulationSize() {
+        // TODO: Should this method return the size as the sum of each subpopulation?
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Topology<? extends Entity> getTopology() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public PopulationInitialisationStrategy getInitialisationStrategy() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

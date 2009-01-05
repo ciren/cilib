@@ -25,7 +25,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
@@ -41,7 +41,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * 
  * @author Gary Pampara
  */
-public class EC extends PopulationBasedAlgorithm implements ParticipatingAlgorithm {
+public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = -4324446523858690744L;
 	
 	private OptimisationProblem problem;

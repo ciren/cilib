@@ -25,7 +25,6 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -113,26 +112,4 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 		
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getPopulationSize() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Topology<? extends Entity> getTopology() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setTopology(Topology<? extends Entity> topology) {
-	}
 }

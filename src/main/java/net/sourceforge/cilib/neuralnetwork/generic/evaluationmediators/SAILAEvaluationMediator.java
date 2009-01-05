@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
@@ -283,13 +282,6 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 	
 	public Vector evaluate(NNPattern p) {
 		return topology.evaluate(p);
-	}
-
-
-	@Override
-	public double accept(TopologyVisitor visitor) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 

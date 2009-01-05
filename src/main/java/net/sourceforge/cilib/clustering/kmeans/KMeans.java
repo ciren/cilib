@@ -28,7 +28,6 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.math.StatUtils;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
@@ -155,15 +154,6 @@ public class KMeans extends SingularAlgorithm {
 
 		// this first centroid will do
 		return tmp.subVector(0, centroid.getDimension() - 1);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double accept(TopologyVisitor visitor) {
-		visitor.setCurrentAlgorithm(this);
-		return 0;
 	}
 
 	/**

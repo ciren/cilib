@@ -55,6 +55,7 @@ public class IndexedSplitStrategy implements SplitStrategy {
 	 * @see net.sourceforge.cilib.cooperative.splitstrategies.SplitStrategy#split(net.sourceforge.cilib.problem.OptimisationProblem,
 	 *      net.sourceforge.cilib.cooperative.CooperativeEntity, java.util.List)
 	 */
+    @Override
 	public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations) {
 		if (populations.size() < 2)
 			throw new IllegalArgumentException("There should at least be two Cooperating populations in a Cooperative Algorithm");

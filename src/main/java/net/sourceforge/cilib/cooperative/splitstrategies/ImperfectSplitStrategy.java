@@ -39,6 +39,7 @@ public class ImperfectSplitStrategy extends IndexedSplitStrategy {
 /*	public ImperfectSplitStrategy() {
 	}
 */
+    @Override
 	public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations) {
 		if (populations.size() < 2)
 			throw new InitialisationException("There should at least be two Cooperating populations in a Cooperative Algorithm");

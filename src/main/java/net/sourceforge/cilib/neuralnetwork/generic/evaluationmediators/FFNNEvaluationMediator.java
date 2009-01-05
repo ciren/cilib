@@ -112,12 +112,6 @@ public class FFNNEvaluationMediator extends EvaluationMediator {
 	}
 
 	@Override
-	public double accept(TopologyVisitor visitor) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public OptimisationSolution getBestSolution() {
 		// TODO Auto-generated method stub
 		return null;

@@ -34,7 +34,6 @@ import net.sourceforge.cilib.cooperative.fitnessupdatestrategies.StandardFitness
 import net.sourceforge.cilib.cooperative.splitstrategies.PerfectSplitStrategy;
 import net.sourceforge.cilib.cooperative.splitstrategies.SplitStrategy;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.CooperativeOptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -209,19 +208,4 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 		}
 	}
 
-	@Override
-	public int getPopulationSize() {
-		return subPopulationsAlgorithms.size();
-	}
-
-	@Override
-	public Topology<? extends Entity> getTopology() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setTopology(Topology<? extends Entity> topology) {
-		// TODO Auto-generated method stub
-	}
 }

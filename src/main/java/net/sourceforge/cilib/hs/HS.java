@@ -29,7 +29,6 @@ import net.sourceforge.cilib.container.SortedList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Harmony;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -219,16 +218,6 @@ public class HS extends SingularAlgorithm {
 		newHarmony.calculateFitness();
 		harmonyMemory.add(newHarmony);
 		harmonyMemory.remove(harmonyMemory.getFirst()); // Remove the worst harmony in the memory
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double accept(TopologyVisitor visitor) {
-		visitor.setCurrentAlgorithm(this);
-//		visitor.visit(algorithm)
-		return 0;
 	}
 
 	/**

@@ -24,7 +24,7 @@ package net.sourceforge.cilib.coevolution;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;//I
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.coevolution.CoevolutionOptimisationProblem;
@@ -42,7 +42,7 @@ import net.sourceforge.cilib.type.DomainRegistry;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm{ 
+public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 	private static final long serialVersionUID = -3859431217295779546L;
 	protected CoevolutionIterationStrategy coevolutionIterationStrategy; 
 	public CoevolutionAlgorithm() {

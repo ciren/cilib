@@ -35,7 +35,8 @@ public interface CoevolutionOptimisationProblem {
 	/**
 	 * This method evaluates an entity with regards to a number of groups of entities depending on the instance of the problem
 	 * @param the population of the solution to be evaluated
-	 * @param entityData the blackboard of the {@linkplain Entity} being evaluated. This contains the solution vector, scoreboard and competitor list
+	 * @param entityData The blackboard of the {@linkplain net.sourceforge.cilib.entity.Entity} being evaluated.
+     *                   This contains the solution vector, scoreboard and competitor list.
 	 * @return the entitie's fitness
 	 */
 	public Fitness evaluateEntity(int populationID, int evaluationRound, Blackboard<Enum<?>, Type> entityData);
