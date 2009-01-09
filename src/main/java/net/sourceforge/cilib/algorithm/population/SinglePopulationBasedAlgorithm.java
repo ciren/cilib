@@ -27,8 +27,8 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
 /**
- * Base <tt>Algorithm</tt> class for algorithms that focus on Populations of entities. These
- * include PSO , EC, ACO etc.
+ * Base class for algorithms that focus on a single populations of entities.
+ * These types of algoruthms typically include PSO , EC, ACO etc.
  * @author Gary Pampara
  */
 public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgorithm {
@@ -66,14 +66,15 @@ public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgo
 	 * Get the size of the current population within the algorithm.
 	 * @return The size of the current Population.
 	 */
+	@Override
 	public int getPopulationSize() {
 		return this.initialisationStrategy.getEntityNumber();
 	}
 
 	/**
-	 * Get the currently associated topology for the algorithm.
-	 * @return The currently associated topology.
+	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract Topology<? extends Entity> getTopology();
 	
 	/**
@@ -86,6 +87,7 @@ public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgo
 	 * Get the currently set {@linkplain PopulationInitialisationStrategy}.
 	 * @return The current {@linkplain PopulationInitialisationStrategy}.
 	 */
+	@Override
 	public PopulationInitialisationStrategy getInitialisationStrategy() {
 		return initialisationStrategy;
 	}
@@ -94,6 +96,7 @@ public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgo
 	 * Set the {@linkplain PopulationInitialisationStrategy} to be used.
 	 * @param initialisationStrategy The {@linkplain PopulationInitialisationStrategy} to use.
 	 */
+	@Override
 	public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
 		this.initialisationStrategy = initialisationStrategy;
 	}

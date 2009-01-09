@@ -31,8 +31,8 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
- *
- * @author gpampara
+ * Base class for all algorithms that manage a collection of
+ * {@linkplain Entity entities} in some manner.
  */
 public abstract class PopulationBasedAlgorithm extends Algorithm {
 
@@ -73,7 +73,10 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
     @Override
     public abstract List<OptimisationSolution> getSolutions();
 
-    
+    /**
+	 * Get the current collection (population) of {@linkplain Entity entities}.
+	 * @return The current population.
+	 */
     public abstract Topology<? extends Entity> getTopology();
 
     /**
@@ -86,7 +89,11 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	 */
 	public abstract double accept(TopologyVisitor visitor);
 
-    public abstract void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy);
+    /**
+	 *
+	 * @param initialisationStrategy
+	 */
+	public abstract void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy);
 
     public abstract PopulationInitialisationStrategy getInitialisationStrategy();
 

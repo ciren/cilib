@@ -51,11 +51,13 @@ public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorit
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract AbstractIterationStrategy<E> getClone();
 	
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract void performIteration(E algorithm);
 
 	/**

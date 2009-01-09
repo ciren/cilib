@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Maintain the currently running algorithm stack. The current algorithm will be
- * on the top of the stack.
+ * Maintain the currently running algorithm stack. The currently executing
+ * algorithm will be on the top of the stack.
  */
 public class AlgorithmStack {
 	private Stack<Algorithm> algorithmStack;
