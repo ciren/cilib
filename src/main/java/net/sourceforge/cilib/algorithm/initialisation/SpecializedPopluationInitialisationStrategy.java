@@ -30,9 +30,9 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
- * Create a specialised collection of {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
+ * Initialise a specialised collection of {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
  */
-public class SpecializedPopluationInitialisationStrategy extends PopulationInitialisationStrategy {
+public class SpecializedPopluationInitialisationStrategy implements PopulationInitialisationStrategy {
 	private static final long serialVersionUID = -9146471282965793922L;
 	private List<Entity> entityList;
 
@@ -62,9 +62,14 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Note that this method does not return a value, but rather throws
+	 * an exception as the method does <u>not</u> make sense in the
+	 * context of this class.
+	 * @return
+	 * @throws UnsupportedOperationException The type of entity is not defined,
+	 *         as there may be various specialied types of entities added to the
+	 *         list of initialisation entities.
 	 */
-	@Override
 	public Entity getEntityType() {
 		// this needs to be looked at... generalisation breaks here
 		throw new UnsupportedOperationException("Implementation needed");
@@ -74,7 +79,6 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	@Override
 	public void initialise(Topology topology, OptimisationProblem problem) {
 		if (problem == null)
 			throw new InitialisationException("No problem has been specified");
@@ -89,10 +93,32 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Add defined entities to the current list of entities to be initialised.
+	 * @param entity The Entity to add during the population initialisation.
 	 */
 	@Override
 	public void setEntityType(Entity entity) {
 		this.entityList.add(entity);
+	}
+
+	/**
+	 * This method does not make sence in the context of this class. You cannot
+	 * determine the number entities, as they are dynamically defined.
+	 * @param entityNumber The number of entities
+	 * @throws UnsupportedOperationException Cannot determine the number of entities ahead of time.
+	 */
+	@Override
+	public void setEntityNumber(int entityNumber) {
+		throw new UnsupportedOperationException("Cannot defined the number of sepcialized entity instances.");
+	}
+
+	/**
+	 * Get the number entities that have been added to this
+	 * {@linkplain PopulationInitialisationStrategy intialization strategy}.
+	 * @return The number of defined entities.
+	 */
+	@Override
+	public int getEntityNumber() {
+		return this.entityList.size();
 	}
 }

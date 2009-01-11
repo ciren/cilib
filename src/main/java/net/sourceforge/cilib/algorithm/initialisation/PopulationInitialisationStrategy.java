@@ -30,34 +30,31 @@ import net.sourceforge.cilib.util.Cloneable;
  * Interface describing the manner in which populations are initialised.
  * @author Gary Pampara
  */
-public abstract class PopulationInitialisationStrategy implements Cloneable {
-	private static final long serialVersionUID = -3920357703919058930L;
-	protected int entityNumber;
+public interface PopulationInitialisationStrategy extends Cloneable {
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract PopulationInitialisationStrategy getClone();
+	@Override
+	public PopulationInitialisationStrategy getClone();
 
 	/**
 	 * Set the number of entities that are required.
 	 * @param entityNumber The number of entities to set
 	 */
-	public void setEntityNumber(int entityNumber) {
-		this.entityNumber = entityNumber;
-	}
+	public void setEntityNumber(int entityNumber);
 
 	/**
 	 * Set the entity type to use.
 	 * @param entity The entity type to use.
 	 */
-	public abstract void setEntityType(Entity entity);
+	public void setEntityType(Entity entity);
 
 	/**
 	 * Get the current entity type.
 	 * @return The entity being used.
 	 */
-	public abstract Entity getEntityType();
+	public Entity getEntityType();
 
 	/**
 	 * Initialise the {@see net.sourceforge.cilib.entity.Entity} collection based on the given
@@ -65,13 +62,11 @@ public abstract class PopulationInitialisationStrategy implements Cloneable {
 	 * @param topology The topology to initialise with Entity objects
 	 * @param problem The Problem to based the initialisation on
 	 */
-	public abstract void initialise(Topology<? extends Entity> topology, OptimisationProblem problem);
+	public void initialise(Topology<? extends Entity> topology, OptimisationProblem problem);
 
 	/**
 	 * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>.
 	 * @return The number of entities to construct.
 	 */
-	public int getEntityNumber() {
-		return this.entityNumber;
-	}
+	public int getEntityNumber();
 }

@@ -32,9 +32,10 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  *
  * @author Gary Pampara
  */
-public class ClonedPopulationInitialisationStrategy extends PopulationInitialisationStrategy {
+public class ClonedPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
 	private static final long serialVersionUID = -7354579791235878648L;
 	private Entity prototypeEntity;
+	private int entityNumber;
 
 	/**
 	 * Create an instance of the {@code ClonedPopulationInitialisationStrategy}.
@@ -99,5 +100,15 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
 	 */
 	public Entity getEntityType() {
 		return this.prototypeEntity;
+	}
+
+	@Override
+	public void setEntityNumber(int entityNumber) {
+		this.entityNumber = entityNumber;
+	}
+
+	@Override
+	public int getEntityNumber() {
+		return this.entityNumber;
 	}
 }
