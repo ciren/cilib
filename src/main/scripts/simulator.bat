@@ -51,6 +51,6 @@ goto runSimulator
 set CLASSPATH=%CLASSPATH%;%CILIB_JAR%
 
 :runSimulator
-mvn exec:exec -Dexec.executable="java" -Dexec.args="-classpath %classpath net.sourceforge.cilib.simulator.Main %XML_FILE% -textprogress"
+java -cp %CLASSPATH% net.sourceforge.cilib.simulator.Main %XML_FILE% -textprogress
 
 @echo on

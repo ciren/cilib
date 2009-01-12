@@ -26,5 +26,4 @@ if [ "$1" == "-server" ] ; then
 	shift
 fi
 
-#nice java $JAVA_OPTS -Xms1000M -Xmx2000M -cp $CLASSPATH net.sourceforge.cilib.simulator.Main $@ -textprogress
-mvn exec:exec -Dexec.executable='java' -Dexec.args="-classpath %classpath net.sourceforge.cilib.simulator.Main $@ -textprogress"
+nice java $JAVA_OPTS -Xms1000M -Xmx2000M -cp ${project.build.finalName}.jar:target/${project.build.finalName}.jar:$CLASSPATH net.sourceforge.cilib.simulator.Main $@ -textprogress
