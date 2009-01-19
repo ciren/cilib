@@ -8,7 +8,6 @@
   <name>cilib</name>
   <description>Collaborative component based framework for developing Computational Intelligence software</description>
   <url>http://cilib.sourceforge.net</url>
-
   <licenses>
     <license>
       <name>GPL</name>
@@ -16,18 +15,15 @@
       <distribution>manual</distribution>
     </license>
   </licenses>
-
   <organization>
     <name>CIRG</name>
     <url>http://cirg.cs.up.ac.za</url>
   </organization>
-
   <scm>
-    <connection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/trunk</connection>
-    <developerConnection>scm:svn:https://cilib.svn.sourceforge.net/svnroot/cilib/trunk</developerConnection>
-    <url>http://cilib.svn.sourceforge.net/viewvc/cilib/trunk</url>
+    <connection>scm:git:http://github.com/gpampara/cilib.git/</connection>
+    <developerConnection>scm:git:git://github.com/gpampara/cilib.git</developerConnection>
+    <url>http://github.com/gpampara/cilib</url>
   </scm>
-
   <mailingLists>
     <mailingList>
       <name>CILib User List</name>
@@ -51,7 +47,6 @@
       <archive>http://sourceforge.net/mailarchive/forum.php?forum=cilib-announce</archive>
     </mailingList>
   </mailingLists>
-
   <issueManagement>
     <system>sourceforge</system>
     <url>http://sourceforge.net/tracker/?group_id=72233</url>
@@ -62,7 +57,6 @@
       <url>sftp://web.sourceforge.net/home/groups/c/ci/cilib/htdocs</url>
     </site>
   </distributionManagement>
-
   <developers>
     <developer>
       <id>gpampara</id>
@@ -84,7 +78,6 @@
       <timezone>2</timezone>
     </developer>
   </developers>
-
   <contributors>
     <contributor>
       <name>Andries Engelbrecht</name>
@@ -97,7 +90,6 @@
       </roles>
     </contributor>
   </contributors>
-
   <dependencies>
     <dependency>
       <groupId>sun.jdk</groupId>
@@ -160,7 +152,6 @@
       <version>1.6</version>
     </dependency>
   </dependencies>
-
   <build>
     <defaultGoal>package</defaultGoal>
     <resources>
@@ -307,7 +298,6 @@
       </plugin>-->
     </plugins>
   </build>
-
   <reporting>
     <plugins>
       <plugin>
