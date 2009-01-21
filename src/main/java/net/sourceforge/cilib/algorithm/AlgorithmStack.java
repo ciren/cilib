@@ -21,9 +21,7 @@
  */
 package net.sourceforge.cilib.algorithm;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 import java.util.Stack;
 
 /**
@@ -65,14 +63,18 @@ public class AlgorithmStack {
     }
 
     /**
-     * Return an unmodifiable list of {@code Algorithm} instances. The list is the path of currently
+     * <p>
+     * Return an immutable list of {@code Algorithm} instances. The list is the path of currently
      * running algorithms. The returned list will have a size {@literal > 1}, if and only if
      * the algorithm is a composition of other algorithms.
-     * @return An unmodifiable list of algorithms instances.
+     * </p>
+     * <p>
+     * It is <b>important to realise that the result of this method is a snapshot in time</b> and
+     * will change if the reference is maintained.
+     * </p>
+     * @return An immutable list of algorithms instances.
      */
     public synchronized List<Algorithm> asList() {
-        List<Algorithm> list = new ArrayList<Algorithm>(this.algorithmStack);
-        return Collections.unmodifiableList(list);
+        return ImmutableList.copyOf(this.algorithmStack);
     }
-
 }
