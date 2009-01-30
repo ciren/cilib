@@ -32,6 +32,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -138,7 +139,7 @@ public class MutationPositionUpdateStrategy extends
 			double number = Math.pow((1.0 - (double) p.getIterations()/(maximumIterations.getMaximumIterations()*decreasingParameter.getParameter())), 1.5);
 			if (MathUtil.flip(number) == 1) {
 				int dimension = Double.valueOf(randomNumber.getUniform(0, position.getDimension())).intValue();
-				Real real = (Real) position.get(dimension);
+				Numeric real = (Numeric) position.get(dimension);
 				
 				double range = ((real.getBounds().getUpperBound() - real.getBounds().getLowerBound())* strangeFunction(p, maximumIterations))/2.0;
 
