@@ -218,9 +218,7 @@ public class Bit extends Numeric {
 	 * @param value The double value to be used to set the state.
 	 */
 	public void setReal(double value) {
-		if (value == 0.0)
-			this.state = false;
-		else this.state = true;
+		this.state = (Double.compare(value, 0.5) < 0) ? false : true;
 	}
 
 	/**
@@ -244,7 +242,7 @@ public class Bit extends Numeric {
 	/**
 	 * Randomly choose a new valid for the <code>Bit</code> object.
 	 */
-	public void randomise() {
+	public void randomize() {
 		this.state = new MersenneTwister().nextBoolean();
 	}
 	

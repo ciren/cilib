@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentMap;
  * @param <K> The key type.
  * @param <V> The value type.
  */
-public class Blackboard<K, V extends Type> extends AbstractType {
+public class Blackboard<K, V extends Type> implements Type {
 	private static final long serialVersionUID = -2589625146223946484L;
 	private ConcurrentMap<K, V> board;
 
@@ -92,42 +92,6 @@ public class Blackboard<K, V extends Type> extends AbstractType {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public int getDimension() {
-		return this.board.size();
-	}
-
-	/**
-	 * Obtain the representation of the current {@code Blackboard}.
-	 * @return The {@code String} representation.
-	 */
-	@Override
-	public String getRepresentation() {
-		throw new UnsupportedOperationException("Implementation needed");
-	}
-
-	/**
-	 * Not supported for <tt>Blackboard</tt>.
-	 * @throws UnsupportedOperationException always
-	 */
-	@Override
-	public boolean isInsideBounds() {
-		throw new UnsupportedOperationException("Not supported");
-	}
-
-	/**
-	 * Not supported for <tt>Blackboard</tt>.
-	 * @throws UnsupportedOperationException always
-	 */
-	@Override
-	public void randomise() {
-		throw new UnsupportedOperationException("Not supported");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public void reset() {
 		this.board.clear();
 	}

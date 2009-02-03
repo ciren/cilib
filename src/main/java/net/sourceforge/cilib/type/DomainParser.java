@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.type;
 
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * Implementation of the Facade pattern to remove the complexity of actually performing
@@ -116,7 +117,7 @@ public final class DomainParser {
 	 * 
 	 * @return The constructed domain string as a <tt>Type</tt>.
 	 */
-	public Type getBuiltRepresentation() {
+	public StructuredType getBuiltRepresentation() {
 		return builder.getBuiltRepresenation();
 	}
 

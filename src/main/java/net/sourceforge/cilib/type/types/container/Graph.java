@@ -26,7 +26,7 @@ package net.sourceforge.cilib.type.types.container;
  *
  * @param <E> The type of the {@linkplain Graph}.
  */
-public interface Graph<E> extends Structure<E> {
+public interface Graph<E> extends StructuredType<E> {
 	
 	/**
 	 * Determine the number of vertices contained within the current <tt>Graph</tt>

@@ -79,7 +79,7 @@ public class IntTest {
 		Int i2 = i1.getClone();
 		
 		assertTrue(i1.getInt() == i2.getInt());
-		i1.randomise();
+		i1.randomize();
 		assertTrue(i1.getInt() != i2.getInt());
 	}
 

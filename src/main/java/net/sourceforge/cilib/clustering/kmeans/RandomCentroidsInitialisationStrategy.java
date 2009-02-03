@@ -53,7 +53,7 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
 	public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
 		Vector centroids = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
 
-		centroids.randomise();
+		centroids.randomize();
 		return centroids;
 	}
 }

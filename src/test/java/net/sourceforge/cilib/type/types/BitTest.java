@@ -97,7 +97,7 @@ public class BitTest {
 	public void testRandomize() {
 		Bit b1 = new Bit(true);
 		Bit b2 = new Bit(true);
-		b2.randomise();
+		b2.randomize();
 		
 		if (b2.getBit())
 			assertTrue(b1.getBit() == b2.getBit());

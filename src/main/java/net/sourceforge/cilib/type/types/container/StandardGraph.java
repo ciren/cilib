@@ -31,14 +31,13 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.type.types.AbstractType;
 
 /**
  * TODO: Complete this javadoc.
  *
  * @param <E> The {@code Comparable} type.
  */
-public class StandardGraph<E extends Comparable<E>> extends AbstractType implements Graph<E> {
+public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	
 	private static final long serialVersionUID = -5517089079342858152L;
 	private Map<E, List<Entry<E>>> adjacencyMap;
@@ -283,7 +282,7 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean addAll(Structure<? extends E> structure) {
+	public boolean addAll(StructuredType<? extends E> structure) {
 		for (E element : structure)
 			add(element);
 
@@ -293,7 +292,7 @@ public class StandardGraph<E extends Comparable<E>> extends AbstractType impleme
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean removeAll(Structure<E> structure) {
+	public boolean removeAll(StructuredType<E> structure) {
 		// TODO Auto-generated method stub
 		return false;
 	}

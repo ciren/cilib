@@ -27,6 +27,7 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -101,7 +102,7 @@ public class CooperativeEntity extends AbstractEntity {
 		}
 	}
 	
-	public Type getCandidateSolution() {
+	public StructuredType getCandidateSolution() {
 		return context;
 	}
 

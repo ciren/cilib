@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.type;
 
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -39,7 +40,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 	private static final long serialVersionUID = 3821361290684036030L;
 	private String domainString;
 	private String expandedRepresentation;
-	private Type builtRepresenation;
+	private StructuredType builtRepresenation;
 	
 
 	/**
@@ -105,7 +106,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Type getBuiltRepresenation() {
+	public StructuredType getBuiltRepresenation() {
 		return this.builtRepresenation;
 	}
 
@@ -115,7 +116,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 	 * values of the objects.
 	 * @param builtRepresenation The builtRepresenation to set.
 	 */
-	public void setBuiltRepresenation(Type builtRepresenation) {
+	public void setBuiltRepresenation(StructuredType builtRepresenation) {
 		this.builtRepresenation = builtRepresenation;
 	}
 

@@ -220,19 +220,9 @@ public class Int extends Numeric {
 	}
 	
 	/**
-	 * Determine if the current value for this <tt>Int</tt> is defined within the lower and upper
-	 * bounds, as specified by the domain of the problem.
-	 * @return <tt>true</tt> if within the bounds, <tt>false</tt> otherwise.
-	 */
-	@Override
-	public boolean isInsideBounds() {
-        return this.getBounds().isInsideBounds(value);
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
-	public void randomise() {
+	public void randomize() {
 		double tmp = MathUtil.random()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
 		this.value = Double.valueOf(tmp).intValue();
 	}

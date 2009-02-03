@@ -21,11 +21,10 @@
  */
 package net.sourceforge.cilib.entity;
 
-import java.io.Serializable;
-
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -34,20 +33,20 @@ import net.sourceforge.cilib.util.Cloneable;
  * solution the <code>CandidateSolution</code> represents together with its
  * associated {@linkplain Fitness} value.
  */
-public interface CandidateSolution extends Serializable, Cloneable {
+public interface CandidateSolution extends Cloneable {
 
 	/**
 	 * Get the contents of the <code>CandidateSoltion</code>. i.e.: The
 	 * potential solution.
 	 * @return A {@linkplain Type} representing the solution.
 	 */
-	public Type getCandidateSolution();
+	public StructuredType getCandidateSolution();
 
 	/**
 	 * Set the solution that the <code>CandidateSolution</code> represents.
 	 * @param contents The potential solution to set.
 	 */
-	public void setCandidateSolution(Type contents);
+	public void setCandidateSolution(StructuredType contents);
 
 	/**
 	 * Obtain the {@linkplain Fitness} of the current <code>CandidateSolution</code>.

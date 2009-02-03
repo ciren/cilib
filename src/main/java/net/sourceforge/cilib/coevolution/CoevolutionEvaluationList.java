@@ -24,13 +24,14 @@ package net.sourceforge.cilib.coevolution;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.cilib.type.types.Resetable;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author leo
  * This class maintains a list of competitors for a coevolution problem
  */
-public class CoevolutionEvaluationList implements Type{
+public class CoevolutionEvaluationList implements Type, Resetable {
 	/**
 	 * 
 	 */
@@ -96,27 +97,10 @@ public class CoevolutionEvaluationList implements Type{
 		return new CoevolutionEvaluationList(this); //does this make sense?
 	}
 
-	@Override
 	public int getDimension() {
 		return evaluationEntities.size();//does this make sense?
 	}
 
-	@Override
-	public String getRepresentation() {
-		throw new RuntimeException("This operation is not supported");
-	}
-
-	@Override
-	public boolean isInsideBounds() {
-		throw new RuntimeException("This operation is not supported");
-	}
-
-	@Override
-	public void randomise() {
-		throw new RuntimeException("This operation is not supported");
-	}
-
-	@Override
 	public void reset() {
 		evaluationEntities = new ArrayList<List<EvaluationEntity>>();//does this make sense?
 		amountEntitiesPerList = 0;

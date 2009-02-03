@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Before;
@@ -56,7 +57,7 @@ public class VectorUtilsTest {
 		int i = 1;
 		for (Type element : VectorUtils.createUpperBoundVector(vector)) {
 			Numeric numeric = (Numeric) element;
-			assertFalse(numeric.isInsideBounds());
+			assertFalse(TypeUtil.isInsideBounds(numeric));
 			assertEquals(i++ * 2, numeric.getReal(), 0.0);
 		}
 	}
@@ -72,7 +73,7 @@ public class VectorUtilsTest {
 		int i = 1;
 		for (Type element : VectorUtils.createLowerBoundVector(vector)) {
 			Numeric numeric = (Numeric) element;
-			assertTrue(numeric.isInsideBounds());
+			assertTrue(TypeUtil.isInsideBounds(numeric));
 			assertEquals(i++ * -2, numeric.getReal(), 0.0);
 		}
 	}

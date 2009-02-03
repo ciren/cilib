@@ -25,13 +25,14 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.type.types.Resetable;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This class provides a means of keeping a competition
  * history of one specific entity within a {@linkplain CoevolutionAlgorithm}.
  */
-public class EntityScoreboard implements Type {
+public class EntityScoreboard implements Type, Resetable {
 	private static final long serialVersionUID = -2524835257237678625L;
 	private ArrayList<EntityScore> scores;
 	

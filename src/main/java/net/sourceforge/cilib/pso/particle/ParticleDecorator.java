@@ -27,6 +27,7 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  *
@@ -146,11 +147,11 @@ public abstract class ParticleDecorator extends AbstractParticle {
     }
     
         
-    public Type getCandidateSolution() {
+    public StructuredType getCandidateSolution() {
     	return target.getCandidateSolution();
     }
     
-    public void setCandidateSolution(Type type) {
+    public void setCandidateSolution(StructuredType type) {
     	this.target.setCandidateSolution(type);
     }
     

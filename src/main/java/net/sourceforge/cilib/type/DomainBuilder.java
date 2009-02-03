@@ -27,6 +27,7 @@ import java.io.StreamTokenizer;
 
 import net.sourceforge.cilib.type.creator.TypeCreator;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -95,7 +96,7 @@ public class DomainBuilder {
 	 * 
 	 * @return The constructed <tt>Type</tt> object representing the domain string.
 	 */
-	public Type getBuiltRepresenation() {
+	public StructuredType getBuiltRepresenation() {
 		return this.representation;
 	}
 	

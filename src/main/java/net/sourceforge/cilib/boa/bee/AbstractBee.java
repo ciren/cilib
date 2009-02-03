@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.boa.bee;
 
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.boa.positionupdatestrategies.BeePositionUpdateStrategy;
 import net.sourceforge.cilib.boa.positionupdatestrategies.VisualPositionUpdateStategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
@@ -135,9 +136,10 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
 	@Override
 	public void initialise(OptimisationProblem problem) {
 		this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-		this.getCandidateSolution().randomise();
+		TypeUtil.randomize(this.getCandidateSolution());
+//		this.getCandidateSolution().randomise();
 
-		this.dimension = this.getCandidateSolution().getDimension();
+		this.dimension = this.getCandidateSolution().size();
 		this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
 	}
 

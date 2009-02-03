@@ -23,14 +23,13 @@ package net.sourceforge.cilib.type.types.container;
 
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Definition of the {@linkplain Tree} type.
  * @param <E> the {@linkplain Cloneable} type.
  */
-public interface Tree<E extends Cloneable> extends Structure<E>, Type {
+public interface Tree<E extends Cloneable> extends StructuredType<E> {
 	
 	/**
 	 * {@inheritDoc}

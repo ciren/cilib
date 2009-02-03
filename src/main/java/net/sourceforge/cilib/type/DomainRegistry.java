@@ -24,6 +24,7 @@ package net.sourceforge.cilib.type;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -61,7 +62,7 @@ public interface DomainRegistry extends Cloneable, Serializable {
 	 * Get the instance of the built representation for this domain string.
 	 * @return Returns the builtRepresenation.
 	 */
-	public Type getBuiltRepresenation();
+	public StructuredType getBuiltRepresenation();
 
 	/**
 	 * Get the dimension of the built representation of the domain string.

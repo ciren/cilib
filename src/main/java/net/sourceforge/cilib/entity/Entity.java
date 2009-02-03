@@ -29,6 +29,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -60,13 +61,13 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
 	 *     
 	 * @return The {@linkplain Type} representing the contents of the {@linkplain Entity}.
 	 */ 
-	public Type getCandidateSolution();
+	public StructuredType getCandidateSolution();
 	
 	/**
 	 * Set the candidate solution of the current {@linkplain Entity} to the provided {@linkplain Type}.
 	 * @param type the {@linkplain Type} to be set as the contents of the {@linkplain Entity}.
 	 */
-	public void setCandidateSolution(Type type);
+	public void setCandidateSolution(StructuredType type);
 	
 	/**
 	 * Calculate the fitness of the <code>Entity</code> incrementing the

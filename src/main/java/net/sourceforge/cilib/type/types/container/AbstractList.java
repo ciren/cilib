@@ -21,17 +21,16 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import net.sourceforge.cilib.math.VectorMath;
-import net.sourceforge.cilib.type.types.AbstractType;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.TypeUtil;
 
 /**
  * The basic definition for all {@linkplain Type} objects that are based on a list.
  * 
  * @author Gary Pampara
  */
-public abstract class AbstractList extends AbstractType implements Structure<Type>, VectorMath {
+public abstract class AbstractList implements StructuredType<Type> {
 	private static final long serialVersionUID = -7855489699409219241L;
 
 	/**
@@ -75,7 +74,8 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 * @param value The {@linkplain Type} to add.
 	 */
 	public void append(Type value) {
-		insert(getDimension(), value);
+		int position = TypeUtil.getDimension(this);
+		insert(position, value);
 	}
 
 	/**
@@ -177,8 +177,8 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 		String representation = "", current = "", previous = "";
 		int dimension = 1;
 
-		for (int i = 0; i < this.getDimension(); i++) {
-			current = this.get(i).getRepresentation();
+		for (int i = 0; i < size(); i++) {
+			current = TypeUtil.getRepresentation(this.get(i));
 			if (current.equals(previous)) {
 				dimension++;
 			}
@@ -213,7 +213,7 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 */
 	public boolean isInsideBounds() {
 		for (Type type : this) {
-			if (!type.isInsideBounds())
+			if (!TypeUtil.isInsideBounds(type))
 				return false;
 		}
 
@@ -281,7 +281,7 @@ public abstract class AbstractList extends AbstractType implements Structure<Typ
 	 * @return a <tt>String</tt> representing this <tt>Vector</tt>
 	 */
 	public String toString(char first, char last, char delimiter) {
-		int dimension = getDimension();
+		int dimension = size();
 		StringBuilder tmp = new StringBuilder(10 * dimension);
 		if (first != 0)
 			tmp.append(first);

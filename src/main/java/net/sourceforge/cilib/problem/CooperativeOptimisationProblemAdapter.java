@@ -27,6 +27,7 @@ import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -59,7 +60,8 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 		domainRegistry = new StringBasedDomainRegistry();
 		String expandedDomain = "";
 		for (int i = offset; i < offset + dimension; i++) {
-			expandedDomain += ((Vector) context.getCandidateSolution()).get(i).getRepresentation();
+			String tmp = TypeUtil.getRepresentation(((Vector) context.getCandidateSolution()).get(i));
+			expandedDomain += tmp;//((Vector) context.getCandidateSolution()).get(i).getRepresentation();
 			if (i < offset + dimension - 1)
 				expandedDomain += ",";
 		}

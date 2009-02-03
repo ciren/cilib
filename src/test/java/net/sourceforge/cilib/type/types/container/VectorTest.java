@@ -54,8 +54,6 @@ public class VectorTest {
 		for(int i = 1; i < 5; i++) {
 			Numeric element = new Real(i);
             element.setBounds(i*-2, i*2);
-//			element.getBounds().setUpperBound(i * 2);
-//			element.getBounds().setLowerBound(i * -2);
 			vector.append(element);
 		}
 	}
@@ -280,7 +278,7 @@ public class VectorTest {
 		m.add(new Real(1.0));
 		m.add(new Real(2.0));
 		m.add(new Real(3.0));
-		m.randomise();
+		m.randomize();
 		
 		assertFalse(m.getReal(0) == 1.0);
 		assertFalse(m.getReal(1) == 2.0);

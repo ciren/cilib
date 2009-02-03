@@ -222,33 +222,23 @@ public class Real extends Numeric {
 		final Real otherReal = (Real) other;
 		return Double.compare(this.value, otherReal.value);
 	}
-	
-	/**
-	 * Determine if the current value for this <tt>Real</tt> is defined within the lower and upper
-	 * bounds, as specified by the domain of the problem.
-	 * @return <tt>true</tt> if within the bounds, <tt>false</tt> otherwise.
-	 */
-	@Override
-	public boolean isInsideBounds() {
-        return getBounds().isInsideBounds(value);
-	}
 
 	/**
 	 * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
 	 */
-	public void randomise() {
+	public void randomize() {
 		this.value = (getBounds().getUpperBound()-getBounds().getLowerBound())*MathUtil.random() + getBounds().getLowerBound();
 	}
-	
-	
+
+
 	/**
 	 * Set the value of the <tt>Real</tt> to a default value of 0.0.
 	 */
 	public void reset() {
 		this.setReal(0.0);
 	}
-	
-	
+
+
 	/**
 	 * Return a <code>String</code> representation of the <code>Real</code> object.
 	 * @return A <code>String</code> representing the object instance.

@@ -102,7 +102,7 @@ public class RealTest {
 		Real r2 = r1.getClone();
 		
 		assertTrue(r1.getReal() == r2.getReal());
-		r1.randomise();
+		r1.randomize();
 		assertTrue(r1.getReal() != r2.getReal());
 	}
 	

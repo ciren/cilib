@@ -105,7 +105,7 @@ public class ExplorerBee implements Cloneable {
 		numberOfUpdates++;
 
         Vector newPosition = position.getClone();
-        newPosition.randomise();
+        newPosition.randomize();
 
         return newPosition;
 	}

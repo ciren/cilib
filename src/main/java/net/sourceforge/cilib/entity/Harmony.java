@@ -21,10 +21,12 @@
  */
 package net.sourceforge.cilib.entity;
 
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * Entity definition for a Harmony.
@@ -105,7 +107,7 @@ public class Harmony extends AbstractEntity {
 	 */
 	@Override
 	public int getDimension() {
-		return getCandidateSolution().getDimension();
+		return getCandidateSolution().size();
 	}
 
 	/**
@@ -113,8 +115,8 @@ public class Harmony extends AbstractEntity {
 	 */
 	@Override
 	public void initialise(OptimisationProblem problem) {
-		Type harmony = problem.getDomain().getBuiltRepresenation().getClone();
-		harmony.randomise();
+		StructuredType harmony = problem.getDomain().getBuiltRepresenation().getClone();
+		TypeUtil.randomize(harmony);
 		
 		setCandidateSolution(harmony);
 		this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
@@ -125,7 +127,7 @@ public class Harmony extends AbstractEntity {
 	 */
 	@Override
 	public void reinitialise() {
-		getCandidateSolution().randomise();
+		TypeUtil.randomize(getCandidateSolution());
 	}
 
 }

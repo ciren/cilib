@@ -24,6 +24,7 @@ package net.sourceforge.cilib.pso.iterationstrategies;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -62,8 +63,10 @@ public class PerElementReinitialisation extends ReinitialisationBoundary {
 	}
 
 	private void enforce(Numeric numeric) {
-		if (!numeric.isInsideBounds()) {
-			numeric.randomise();
+		if (!TypeUtil.isInsideBounds(numeric)) {
+//		if (!numeric.isInsideBounds()) {
+			TypeUtil.randomize(numeric);
+//			numeric.randomise();
 		}
 	}
 }

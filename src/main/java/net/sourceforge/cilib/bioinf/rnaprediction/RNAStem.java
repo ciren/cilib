@@ -27,14 +27,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.type.types.AbstractType;
+import net.sourceforge.cilib.type.types.Type;
 
 
 /**
  * @author mneethling
  *
  */
-public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collection<NucleotidePair>  {
+public class RNAStem implements Type, Comparable<RNAStem>, Collection<NucleotidePair>  {
 	
 	/**
 	 * 
@@ -290,31 +290,6 @@ public class RNAStem extends AbstractType implements Comparable<RNAStem>, Collec
 		return sb.toString();
 	}
 
-	public void randomise() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void reset() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public String getRepresentation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getDimension() {
-		return 1;
-	}
-
-	public boolean isInsideBounds() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	
 	/**
 	 * Nucleotide string example:
 	 * 5'              3'

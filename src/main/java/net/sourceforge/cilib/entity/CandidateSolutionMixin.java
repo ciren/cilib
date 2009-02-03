@@ -26,6 +26,7 @@ import java.util.Map;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * <p>
@@ -101,14 +102,14 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	 * represents.
 	 * @return A {@linkplain Type} representing the solution of the {@linkplain Entity}
 	 */
-	public Type getCandidateSolution() {
-		return properties.get(EntityType.CANDIDATE_SOLUTION);
+	public StructuredType getCandidateSolution() {
+		return (StructuredType) properties.get(EntityType.CANDIDATE_SOLUTION);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setCandidateSolution(Type candidateSolution) {
+	public void setCandidateSolution(StructuredType candidateSolution) {
 		properties.put(EntityType.CANDIDATE_SOLUTION, candidateSolution);
 	}
 

@@ -26,7 +26,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.type.types.AbstractType;
 
 
 /**
@@ -34,7 +33,7 @@ import net.sourceforge.cilib.type.types.AbstractType;
  * @author mneethling
  * @param <E> The type.
  */
-public class Set<E> extends AbstractType implements Structure<E> {
+public class Set<E> implements StructuredType<E> {
 	private static final long serialVersionUID = 3697379819132292696L;
 	private HashSet<E> elements;
 
@@ -74,7 +73,7 @@ public class Set<E> extends AbstractType implements Structure<E> {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean addAll(Structure<? extends E> s) {
+	public boolean addAll(StructuredType<? extends E> s) {
 		for (E element : s)
 			this.elements.add(element);
 		
@@ -223,7 +222,7 @@ public class Set<E> extends AbstractType implements Structure<E> {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean removeAll(Structure<E> structure) {
+	public boolean removeAll(StructuredType<E> structure) {
 		boolean result = true;
 		
 

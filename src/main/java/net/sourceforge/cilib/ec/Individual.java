@@ -24,9 +24,11 @@ package net.sourceforge.cilib.ec;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -108,14 +110,14 @@ public class Individual extends AbstractEntity {
          // which is always enforced due to the semantics of the performInitialisation methods         
 
     	 this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-    	 this.getCandidateSolution().randomise();
+		 TypeUtil.randomize(this.getCandidateSolution());
     		 
     	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
     		 this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
-    		 this.getProperties().get(EntityType.Individual.PHENOTYPES).randomise();
+			 TypeUtil.randomize(this.getProperties().get(EntityType.Individual.PHENOTYPES));
     	 }
     	 
-    	 this.dimension = this.getCandidateSolution().getDimension();
+    	 this.dimension = this.getCandidateSolution().size();
     	 this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
      }     
      
@@ -131,9 +133,9 @@ public class Individual extends AbstractEntity {
       * {@inheritDoc}
       */
 	 @Override
-     public void setCandidateSolution(Type type) {
+     public void setCandidateSolution(StructuredType type) {
     	 super.setCandidateSolution(type);
-    	 this.dimension = type.getDimension();
+    	 this.dimension = type.size();
      }
 
     /**

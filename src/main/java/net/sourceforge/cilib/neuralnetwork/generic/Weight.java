@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.neuralnetwork.generic;
 
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -49,7 +50,8 @@ public class Weight implements Cloneable {
 		super();
 		this.weightValue = w.getClone();
 		this.previousChange = w.getClone();
-		this.previousChange.reset();
+		TypeUtil.reset(this.previousChange);
+//		this.previousChange.reset();
 	}
 
 	

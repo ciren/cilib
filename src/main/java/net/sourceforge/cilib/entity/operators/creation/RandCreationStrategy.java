@@ -93,7 +93,7 @@ public class RandCreationStrategy implements CreationStrategy {
 	 * @return A {@linkplain Vector} representing the resultant of all calculated difference vectors.
 	 */
 	private Vector determineDistanceVector(List<Entity> participants) {
-		Vector distanceVector = new Vector(participants.get(0).getCandidateSolution().getDimension(), new Real(0.0));
+		Vector distanceVector = new Vector(participants.get(0).getCandidateSolution().size(), new Real(0.0));
 		Iterator<Entity> iterator = participants.iterator();
 		
 		while (iterator.hasNext()) {

@@ -45,7 +45,7 @@ public class RandomInitialVelocityStrategy implements VelocityInitialisationStra
 
 	public void initialise(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();
-		velocity.randomise();
+		velocity.randomize();
 	}
 
 }

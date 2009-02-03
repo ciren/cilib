@@ -26,8 +26,11 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.math.VectorMath;
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.Resetable;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -38,7 +41,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  * @author Edwin Peer
  */
-public class Vector extends AbstractList {
+public class Vector extends AbstractList implements Resetable, VectorMath {
 	private static final long serialVersionUID = 136711882764612609L;
 	private ArrayList<Type> components;
 	
@@ -142,7 +145,7 @@ public class Vector extends AbstractList {
 	 * @return <tt>true</tt> if this <tt>Vector</tt> changed as a result of the call.
 	 * @throws NullPointerException if the specified collection is null.
 	 */
-	public boolean addAll(Structure<? extends Type> collection) {
+	public boolean addAll(StructuredType<? extends Type> collection) {
 		for (Type type : collection)
 			components.add(type);
 		
@@ -255,7 +258,7 @@ public class Vector extends AbstractList {
 	 * @throws UnsupportedOperationException - if the removeAll method is not supported by this collection. 
 	 * @throws NullPointerException - if the specified collection is null.
 	 */
-	public boolean removeAll(Structure<Type> collection) {
+	public boolean removeAll(StructuredType<Type> collection) {
 		for (Type type : collection)
 			components.remove(type);
 		
@@ -280,7 +283,7 @@ public class Vector extends AbstractList {
      * @return  the number of elements in this list.
      */
     public int size() {
-    	return this.getDimension();
+		return this.components.size();
     }
 
     /**
@@ -493,9 +496,9 @@ public class Vector extends AbstractList {
 	 * Re-Randomise the contents of the structure based on the lower and uppper bounds
 	 * enforced on the <code>Type</code>.
 	 */
-	public void randomise() {
+	public void randomize() {
 		for (int i = 0; i < components.size(); i++) {
-			this.getType(i).randomise();
+			TypeUtil.randomize(getType(i));
 		}
 	}
 
@@ -506,7 +509,7 @@ public class Vector extends AbstractList {
 	 */
 	public void reset() {
 		for (int i = 0; i < components.size(); i++) {
-			this.getType(i).reset();
+			TypeUtil.reset(this.getType(i));
 		}
 	}
 
@@ -675,8 +678,12 @@ public class Vector extends AbstractList {
 	}
 
 	public void accept(Visitor<Type> visitor) {
-		for (Type type : this.components)
+		for (Type type : this.components) {
+			if (visitor.isDone())
+				return;
+			
 			visitor.visit(type);
+		}
 	}
 
 

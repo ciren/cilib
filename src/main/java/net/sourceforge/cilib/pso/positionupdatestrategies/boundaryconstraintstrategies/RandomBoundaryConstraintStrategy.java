@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies;
 
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.TypeUtil;
 
 /**
  * If a particle oversteps the boundary it gets randomly re-initialised within the boundary and its
@@ -82,7 +83,7 @@ public class RandomBoundaryConstraintStrategy implements BoundaryConstraintStrat
 	 */
 	private void constrain(Numeric position, Numeric velocity) {
 		Numeric previousPosition = position.getClone();
-		position.randomise();
+		TypeUtil.randomize(position);
 		velocity.set(position.getReal() - previousPosition.getReal());
 	}
 }

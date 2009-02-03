@@ -30,6 +30,7 @@ import net.sourceforge.cilib.pso.positionupdatestrategies.IterationNeighbourhood
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
 
@@ -121,7 +122,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 * @return The candidate solution as a {@linkplain Type}.
 	 */
 	@Override
-	public Type getCandidateSolution() {
+	public StructuredType getCandidateSolution() {
 		return this.candidateSolution.getCandidateSolution();
 	}
 
@@ -142,7 +143,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 *        {@linkplain Entity} {@linkplain CandidateSolution}.
 	 */
 	@Override
-	public void setCandidateSolution(Type candidateSolution) {
+	public void setCandidateSolution(StructuredType candidateSolution) {
 		this.candidateSolution.setCandidateSolution(candidateSolution);
 	}
 	

@@ -92,13 +92,15 @@ public class GridLocation extends ItemLocation {
 
 	@Override
 	public void moveItem(Type amount) {
-		// TODO Auto-generated method stub
 		if(!(amount instanceof Vector))
 			throw new RuntimeException("can only add a vector to gridlocation");
+
+		Vector amountVector = (Vector) amount;
 		Vector np = position.getClone();
-		for(int i = 0; i < amount.getDimension(); ++i){
-			np.setInt(i, ((Vector)amount).getInt(i) + position.getInt(i));
+		for(int i = 0; i < amountVector.size(); ++i){
+			np.setInt(i, amountVector.getInt(i) + position.getInt(i));
 		}
+		
 		if(np.isInsideBounds()){
 			position = np;
 		}

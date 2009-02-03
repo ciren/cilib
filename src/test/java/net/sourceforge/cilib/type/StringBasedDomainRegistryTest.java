@@ -39,7 +39,7 @@ public class StringBasedDomainRegistryTest {
 
         Vector matrix = (Vector) registry.getBuiltRepresenation();
         Assert.assertEquals(10, matrix.getDimension());
-        Assert.assertEquals(10, matrix.get(0).getDimension());
+        Assert.assertEquals(10, ((Vector) matrix.get(0)).size());
         Assert.assertTrue(matrix.isInsideBounds());
     }
 }

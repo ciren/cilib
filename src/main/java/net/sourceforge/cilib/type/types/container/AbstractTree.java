@@ -29,7 +29,6 @@ import java.util.Stack;
 import net.sourceforge.cilib.container.visitor.PreOrderVisitorDecorator;
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.type.types.AbstractType;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -38,7 +37,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * 
  * @param <E> The {@linkplain Cloneable} type.
  */
-public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> extends AbstractType implements Tree<E> {
+public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> implements Tree<E> {
 	private static final long serialVersionUID = 9196740766045092902L;
 	protected E key;
 	
@@ -150,14 +149,14 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean addAll(Structure<? extends E> structure) {
+	public boolean addAll(StructuredType<? extends E> structure) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean removeAll(Structure<E> structure) {
+	public boolean removeAll(StructuredType<E> structure) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
 

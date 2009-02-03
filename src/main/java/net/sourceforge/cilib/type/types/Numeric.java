@@ -26,7 +26,7 @@ package net.sourceforge.cilib.type.types;
  * 
  * @author Gary Pampara
  */
-public abstract class Numeric extends AbstractType implements Comparable<Numeric> {
+public abstract class Numeric implements Type, BoundedType, Resetable, Comparable<Numeric> {
 	private static final long serialVersionUID = 3795529161693499589L;
 
     private Bounds bounds;
@@ -62,8 +62,6 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 	public int hashCode() {
 		int hash = 7;
         hash = 31 * hash + this.bounds.hashCode();
-//		hash = 31 * hash + Double.valueOf(lowerBound).hashCode();
-//		hash = 31 * hash + Double.valueOf(upperBound).hashCode();
 		return hash;
 	}
 	
@@ -150,30 +148,17 @@ public abstract class Numeric extends AbstractType implements Comparable<Numeric
 	 */
 	public abstract int compareTo(Numeric other);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isInsideBounds() {
-		return true;
-	}
-
-	/**
-	 * Return the dimension of the {@linkplain Type}. {@linkplain Numeric} objects are defined to
-	 * have a dimension of {@literal 1}.
-	 * @return The dimension value of 1. 
-	 */
-	public int getDimension() {
-		return 1;
-	}
-
+	@Override
     public Bounds getBounds() {
         return bounds;
     }
 
+	@Override
     public void setBounds(Bounds bounds) {
         this.bounds = bounds;
     }
 
+	@Override
     public void setBounds(double lower, double upper) {
         this.setBounds(BoundsFactory.create(lower, upper));
     }

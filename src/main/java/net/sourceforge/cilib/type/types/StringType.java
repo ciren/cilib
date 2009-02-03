@@ -30,7 +30,7 @@ import java.io.ObjectOutput;
  * @author Gary Pampara
  *
  */
-public class StringType extends AbstractType {
+public class StringType implements Type {
 	private static final long serialVersionUID = 2946972552546398657L;
 	private String string;
 	
@@ -118,14 +118,6 @@ public class StringType extends AbstractType {
 		throw new UnsupportedOperationException("Randomise string? Are you looking for garbage?");
 	}
 	
-	/**
-	 * This operation does not make sense on a {@linkplain StringType}. 
-	 * See {@link AbstractType#reset()} for a description of the method intention.
-	 */
-	public void reset() {
-		throw new UnsupportedOperationException("Reset string? Are you wanting to make it null or something?");
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */

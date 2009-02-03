@@ -24,13 +24,17 @@ package net.sourceforge.cilib.type.types.container;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Description for all objects that maintain a structure or collection of objects.
  *
  * @param <E> the type of object the {@linkplain Structure} may contain.
  */
-public interface Structure<E> extends Iterable<E> {
+public interface StructuredType<E> extends Iterable<E>, Type {
+
+	@Override
+	public StructuredType getClone();
 	
 	/**
 	 * Add the given <code>element</code> to the current {@linkplain Structure}.
@@ -45,7 +49,7 @@ public interface Structure<E> extends Iterable<E> {
 	 * @param structure The containing object of elements to add.
 	 * @return <code>true</code> if successful, <code>false</code> otherwise.
 	 */
-	public boolean addAll(Structure<? extends E> structure);
+	public boolean addAll(StructuredType<? extends E> structure);
 	
 	/**
 	 * Clear all contained object instances from the current {@linkplain Structure}.
@@ -70,6 +74,7 @@ public interface Structure<E> extends Iterable<E> {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Iterator<E> iterator();
 	
 	/**
@@ -91,11 +96,12 @@ public interface Structure<E> extends Iterable<E> {
 	 * @param structure The listing of instances to be removed.
 	 * @return <code>true</code> if successful, <code>false</code> otherwise.
 	 */
-	public boolean removeAll(Structure<E> structure);
+	public boolean removeAll(StructuredType<E> structure);
 	
 	/**
 	 * Defines the size of the structure. This could be the length of
-	 * a vector or the number of elements within a tree.
+	 * a vector (the vector dimensionality) or the number of elements within
+	 * a tree.
 	 * @return The size of the represented structure.
 	 */
 	public int size();
