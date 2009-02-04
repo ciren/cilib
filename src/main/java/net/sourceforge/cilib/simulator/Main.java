@@ -85,10 +85,13 @@ public final class Main {
 		if (args.length > 1 && args[1].equals("-textprogress")) {
 			progress = new ProgressText(doc.getElementsByTagName("simulation").getLength());
 		} 
-		else { //-guiprogress
+		else if (args.length > 1 && args[1].equals("-guiprogress")) { //-guiprogress
 			ProgressFrame pf = new ProgressFrame(doc.getElementsByTagName("simulation").getLength());
 			pf.setVisible(true);
 			progress = pf;
+		}
+		else {
+			progress = new NoProgress();
 		}
 		
         Main simulator = new Main(doc, progress);
