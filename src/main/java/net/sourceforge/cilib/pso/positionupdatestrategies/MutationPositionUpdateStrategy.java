@@ -156,7 +156,7 @@ public class MutationPositionUpdateStrategy extends
 				// Now reinitialise the number randomly between tempUpper and tempLower
 				double tmp = randomNumber.getUniform(tempLower, tempUpper);
 
-				position.setReal(i, tmp);
+				position.setReal(dimension, tmp);
 			}
 		}
 
