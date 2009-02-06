@@ -162,5 +162,7 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
     public void setBounds(double lower, double upper) {
         this.setBounds(BoundsFactory.create(lower, upper));
     }
+
+	public abstract String getRepresentation();
 	
 }

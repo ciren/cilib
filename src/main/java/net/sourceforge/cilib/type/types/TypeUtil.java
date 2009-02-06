@@ -118,7 +118,26 @@ public final class TypeUtil {
 	 * @return A <code>String</code> representing the <code>Type</code> in domain notation.
 	 */
 	public static String getRepresentation(Type candidateSolution) {
-		throw new UnsupportedOperationException();
+		StringBuilder builder = new StringBuilder();
+
+		if (candidateSolution instanceof StructuredType) {
+			StructuredType structuredType = (StructuredType) candidateSolution;
+
+			builder.append("[");
+			for (Iterator<?> iterator = structuredType.iterator(); iterator.hasNext();) {
+				Type type = (Type) iterator.next();
+				builder.append(getRepresentation(type));
+				builder.append(",");
+			}
+			builder.append("]");
+		}
+
+		if (candidateSolution instanceof Numeric) {
+			Numeric numeric = (Numeric) candidateSolution;
+			builder.append(numeric.getRepresentation());
+		}
+
+		return builder.toString();
 	}
 
 	/**
