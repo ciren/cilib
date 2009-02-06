@@ -217,7 +217,7 @@ public class HS extends SingularAlgorithm {
 		
 		newHarmony.calculateFitness();
 		harmonyMemory.add(newHarmony);
-		harmonyMemory.remove(harmonyMemory.getFirst()); // Remove the worst harmony in the memory
+		harmonyMemory.remove(harmonyMemory.get(0)/*getFirst()*/); // Remove the worst harmony in the memory
 	}
 
 	/**
@@ -225,7 +225,7 @@ public class HS extends SingularAlgorithm {
 	 */
 	@Override
 	public OptimisationSolution getBestSolution() {
-		return new OptimisationSolution(getOptimisationProblem(), this.harmonyMemory.getFirst().getCandidateSolution());
+		return new OptimisationSolution(getOptimisationProblem(), this.harmonyMemory.get/*First()*/(0).getCandidateSolution());
 	}
 
 	/**

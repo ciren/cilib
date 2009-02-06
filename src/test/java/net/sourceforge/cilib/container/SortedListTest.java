@@ -19,22 +19,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.container;
 
+import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Comparator;
 
+import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.Int;
 
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 public class SortedListTest {
 
 	@Test
-	public void testSortedAddition() {
+	public void addition() {
 		SortedList<Int> intList = new SortedList<Int>();
 		
 		intList.add(new Int(5));
@@ -48,7 +50,7 @@ public class SortedListTest {
 	
 	
 	@Test
-	public void testSortedPairAddition() {
+	public void sortedPairAddition() {
 		SortedList<Pair<Integer, Entity>> pairList = new SortedList<Pair<Integer, Entity>>(new PairComparator());
 		
 		Pair<Integer, Entity> p1 = new Pair<Integer, Entity>(3, null);
@@ -69,14 +71,55 @@ public class SortedListTest {
 		assertEquals(3,  (int) pairList.get(3).getKey());
 		assertEquals(99, (int) pairList.get(4).getKey());
 	}
+
+	/**
+	 * This test determines that the element set at the specified index will
+	 * be changed, but in order to maintain the sorted structure of the list,
+	 * the list is immediately sorted again to make sure that the elements
+	 * remain sorted.
+	 */
+	@Test
+	public void setValue() {
+		SortedList<Int> list = new SortedList<Int>();
+
+		list.add(new Int(3));
+		list.add(new Int(1));
+		list.add(new Int(12));
+
+		list.set(0, new Int(4));
+
+		assertEquals(3, list.get(0).getInt());
+		assertEquals(4, list.get(1).getInt());
+		assertEquals(12, list.get(2).getInt());
+	}
+
+	@Test
+	public void addCollection() {
+		SortedList<Int> list = new SortedList<Int>();
+
+		list.add(new Int(0));
+		list.add(new Int(200));
+
+		List<Int> v = new ArrayList<Int>();
+		v.add(new Int(4));
+		v.add(new Int(1));
+		v.add(new Int(50));
+
+		list.addAll(list.size()-1, v);
+
+		assertEquals(0, list.get(0).getInt());
+		assertEquals(1, list.get(1).getInt());
+		assertEquals(4, list.get(2).getInt());
+		assertEquals(50, list.get(3).getInt());
+		assertEquals(200, list.get(4).getInt());
+	}
 	
 	
 	private class PairComparator implements Comparator<Pair<Integer, Entity>> {
-
+		@Override
 		public int compare(Pair<Integer, Entity> o1, Pair<Integer, Entity> o2) {
 			return o1.getKey().compareTo(o2.getKey());
 		}
-		
 	}
 	
 }
