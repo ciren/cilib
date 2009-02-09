@@ -27,7 +27,7 @@ package net.sourceforge.cilib.problem;
  * 
  * @author Edwin Peer
  */
-public class MinimisationFitness extends AbstractFitness {
+public class MinimisationFitness implements Fitness {
 	private static final long serialVersionUID = 8380821922737298435L;
 
 	private Double value;
@@ -51,6 +51,7 @@ public class MinimisationFitness extends AbstractFitness {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public MinimisationFitness getClone() {
 		return new MinimisationFitness(this);
 	}

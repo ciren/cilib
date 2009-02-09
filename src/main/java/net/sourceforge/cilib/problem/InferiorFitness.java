@@ -28,7 +28,7 @@ package net.sourceforge.cilib.problem;
  * 
  * @author Edwin Peer
  */
-public final class InferiorFitness extends AbstractFitness {
+public final class InferiorFitness implements Fitness {
 	private static final long serialVersionUID = -2129092436359289935L;
 
 	private InferiorFitness() {
@@ -37,8 +37,6 @@ public final class InferiorFitness extends AbstractFitness {
 	/**
 	 * Get the cloned instance of this object. Due to this obect being a
 	 * Singleton, the same instance is returned and is not cloned.
-	 * 
-	 * @see AbstractFitness#getClone()
 	 */
 	public InferiorFitness getClone() {
 		return instance;
@@ -51,7 +49,7 @@ public final class InferiorFitness extends AbstractFitness {
 	 * Double.NaN will ensure that some of the Measurements do get an value, even if
 	 * the value is Double.NaN
 	 * 
-	 * @return null
+	 * @return Double.NaN as the value is always inferior.
 	 */
 	public Double getValue() {
 		return Double.NaN;

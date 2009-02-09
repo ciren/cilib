@@ -27,7 +27,7 @@ package net.sourceforge.cilib.problem;
  * This class implements the <code>Comparable</code> interface for a maximisation problem. 
  * That is, larger fitness values have superior fitness.
  */
-public class MaximisationFitness extends AbstractFitness {
+public class MaximisationFitness implements Fitness {
 	private static final long serialVersionUID = 317110873134837946L;
 
 	private Double value;

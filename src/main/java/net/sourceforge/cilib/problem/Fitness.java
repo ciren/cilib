@@ -55,6 +55,7 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Fitness getClone();
 	
 	/**
@@ -64,8 +65,16 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	public Double getValue();
 	
 	/**
-	 * {@inheritDoc}
+	 * Compare the current fitness instance to the provided instance. Returns
+	 * a negative integer, zero and a positive integer as this object is
+	 * less than, equal to or greater than the specified object.
+	 *
+	 * @param o The fitness to be compared.
+	 * @return a negative integer, zero or a positive integer if this object is
+	 *         less than, equal to or greater than the specified object.
+	 * @see java.lang.Comparable
 	 */
+	@Override
 	public int compareTo(Fitness o);
 	
 	/**

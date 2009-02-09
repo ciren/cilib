@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  *
  */
-public class MOFitness extends AbstractFitness {
+public class MOFitness implements Fitness {
 
 	private static final long serialVersionUID = 1477723759384827131L;
 	private Fitness [] fitnesses;
