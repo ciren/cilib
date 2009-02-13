@@ -33,6 +33,8 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
+import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
 
 /**
  * This algorithm is an implementation of the KMeans Clustering algorithm.
@@ -59,13 +61,13 @@ public class KMeans extends SingularAlgorithm {
 
 	private CentroidsInitialisationStrategy centroidsInitialisationStrategy = null;
 	private Vector centroids = null;
-//	private FitnessCalculator calculator;
+	private FitnessCalculator<Vector> calculator;
 
 	/**
 	 * Create an instance of {@linkplain KMeans}.
 	 */
 	public KMeans() {
-//		calculator = new VectorBasedFitnessCalculator();
+		calculator = new StructuredTypeFitnessCalculator<Vector>();
 		centroidsInitialisationStrategy = new RandomCentroidsInitialisationStrategy();
 	}
 
@@ -76,7 +78,7 @@ public class KMeans extends SingularAlgorithm {
 	public KMeans(KMeans copy) {
 		super(copy);
 		centroids = copy.centroids.getClone();
-//		calculator = copy.calculator.getClone();
+		calculator = copy.calculator.getClone();
 	}
 
 	/**
@@ -103,7 +105,7 @@ public class KMeans extends SingularAlgorithm {
 	 */
 	@Override
 	public void algorithmIteration() {
-//		calculator.getFitness(centroids, true);
+		calculator.getFitness(centroids, true);
 
 		// the fitness calculation step already arranged the clusters and centroids for us
 		ClusteringUtils helper = ClusteringUtils.get();

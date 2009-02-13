@@ -21,9 +21,6 @@
  */
 package net.sourceforge.cilib.util.calculator;
 
-import java.io.Serializable;
-
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -31,12 +28,12 @@ import net.sourceforge.cilib.util.Cloneable;
  * Perform the calculation of the fitness for the given <code>Entity</code>, decoupling the
  * <code>Entity</code> from the <code>Problem</code>.
  */
-public interface FitnessCalculator extends Serializable, Cloneable {
+public interface FitnessCalculator<T> extends Cloneable {
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public FitnessCalculator getClone();
+	public FitnessCalculator<T> getClone();
 
 	/**
 	 * Get the fitness, given the <code>position</code>.
@@ -44,6 +41,6 @@ public interface FitnessCalculator extends Serializable, Cloneable {
 	 * @param count Whether or not the evaluation is to be counted.
 	 * @return A <code>Fitness</code> object representing the fitness of the <code>position</code>.
 	 */
-	public Fitness getFitness(Entity entity, boolean count);
+	public Fitness getFitness(T entity, boolean count);
 
 }

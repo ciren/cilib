@@ -29,7 +29,7 @@ import net.sourceforge.cilib.problem.Fitness;
  * 
  *
  */
-public class EntityBasedFitnessCalculator implements FitnessCalculator {
+public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {
 	private static final long serialVersionUID = -5053760817332028741L;
 
 	public EntityBasedFitnessCalculator() {
