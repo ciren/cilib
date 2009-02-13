@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
-import net.sourceforge.cilib.util.calculator.VectorBasedFitnessCalculator;
+import net.sourceforge.cilib.util.calculator.EntityBasedFitnessCalculator;
 
 /**
  * Abstract class definition for all concrete {@linkplain Entity} objects.
@@ -55,7 +55,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 		
 		this.candidateSolution = new CandidateSolutionMixin();
 		this.neighbourhoodBestUpdateStrategy = new IterationNeighbourhoodBestUpdateStrategy();
-		this.fitnessCalculator = new VectorBasedFitnessCalculator();
+		this.fitnessCalculator = new EntityBasedFitnessCalculator();
 	}
 	
 	/**
