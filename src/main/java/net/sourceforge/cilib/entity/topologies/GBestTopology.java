@@ -197,7 +197,8 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
 	@Override
 	public boolean remove(Object o) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
+		E entity = (E) o;
+		return this.remove(entity);
 	}
 
 	@Override

@@ -153,30 +153,9 @@ public class ClassificationErrorReal implements NNError {
 	}
 
 
-	public int getDimension() {
-		throw new UnsupportedOperationException("Method not implemented.");
-	}
-
-
-	public String getRepresentation() {
-		throw new UnsupportedOperationException("Method not implemented.");
-	}
-
-
 	public boolean isInsideBounds() {
 		return false;
 	}
-
-
-	public void randomise() {
-		throw new UnsupportedOperationException("Method not implemented.");		
-	}
-
-
-	public void reset() {
-		throw new UnsupportedOperationException("Method not implemented.");
-	}
-
 
 	@Override
 	public Fitness newInstance(Double value) {

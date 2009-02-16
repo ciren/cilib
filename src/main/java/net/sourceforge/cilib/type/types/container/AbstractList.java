@@ -211,14 +211,14 @@ public abstract class AbstractList implements StructuredType<Type> {
 	 * 
 	 * @return <tt>true</tt> if all elements are within the bounds, <tt>false</tt> otherwise.
 	 */
-	public boolean isInsideBounds() {
-		for (Type type : this) {
-			if (!TypeUtil.isInsideBounds(type))
-				return false;
-		}
-
-		return true;
-	}
+//	public boolean isInsideBounds() {
+//		for (Type type : this) {
+//			if (!TypeUtil.isInsideBounds(type))
+//				return false;
+//		}
+//
+//		return true;
+//	}
 
 	/**
 	 * Create a sub vector from the current {@linkplain Vector}.

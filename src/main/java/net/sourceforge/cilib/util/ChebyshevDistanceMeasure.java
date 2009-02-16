@@ -24,6 +24,9 @@ package net.sourceforge.cilib.util;
 import java.util.Collection;
 import java.util.Iterator;
 
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -46,17 +49,23 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T extends Vector> double distance(T x, T y) {
+	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
 		/*
 		 * TODO: Consider re-implementing for different sized vectors, especially as everything is
 		 * equivalent relative to infinity
 		 */
-		if (x.getDimension() != y.getDimension())
+		if (x.size() != y.size())
 			throw new IllegalArgumentException("Cannot calculate Chebyshev Metric for vectors of different dimensions");
 
+		Iterator<T> xIterator = x.iterator();
+		Iterator<T> yIterator = y.iterator();
+
 		double maxDistance = 0.0;
-		for (int i = 0; i < x.getDimension(); ++i) {
-			double distance = Math.abs(x.getReal(i) - y.getReal(i));
+		for (int i = 0; i < x.size(); ++i) {
+			Numeric xElement = (Numeric) xIterator.next();
+			Numeric yElement = (Numeric) yIterator.next();
+
+			double distance = Math.abs(xElement.getReal() - yElement.getReal());
 			if (distance > maxDistance)
 				maxDistance = distance;
 		}

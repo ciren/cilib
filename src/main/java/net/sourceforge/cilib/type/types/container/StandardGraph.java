@@ -254,34 +254,6 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getDimension() {
-		return this.vertices();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getRepresentation() {
-		throw new UnsupportedOperationException("getRepresentation() is not supportd");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void randomise() {
-		throw new UnsupportedOperationException("randomise() is not supportd");		
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void reset() {
-		throw new UnsupportedOperationException("reset() is not supportd");	
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean addAll(StructuredType<? extends E> structure) {
 		for (E element : structure)
 			add(element);
@@ -293,14 +265,6 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	 * {@inheritDoc}
 	 */
 	public boolean removeAll(StructuredType<E> structure) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isInsideBounds() {
 		// TODO Auto-generated method stub
 		return false;
 	}

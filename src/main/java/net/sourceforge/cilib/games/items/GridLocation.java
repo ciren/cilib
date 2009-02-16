@@ -23,6 +23,7 @@ package net.sourceforge.cilib.games.items;
 
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -87,7 +88,10 @@ public class GridLocation extends ItemLocation {
 	public Double getDistance(DistanceMeasure measure, ItemLocation other) {
 		if(!(other instanceof GridLocation))
 			throw new RuntimeException("can only determine the distance between two gridlocation itemlocations");
-		return measure.distance(position, ((GridLocation)other).getPosition());
+		Vector vector = ((GridLocation)other).getPosition();
+		double result = measure.distance(position, vector);
+
+		return result;
 	}
 
 	@Override
@@ -101,7 +105,7 @@ public class GridLocation extends ItemLocation {
 			np.setInt(i, amountVector.getInt(i) + position.getInt(i));
 		}
 		
-		if(np.isInsideBounds()){
+		if(TypeUtil.isInsideBounds(np)){
 			position = np;
 		}
 	}

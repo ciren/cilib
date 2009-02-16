@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.util;
 
 import static org.junit.Assert.assertEquals;
@@ -30,7 +29,6 @@ import java.util.List;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -40,15 +38,10 @@ import org.junit.Test;
  */
 public class AbsoluteDistanceMeasureTest {
 	
-	private static DistanceMeasure distanceMeasure;
-	
-	@BeforeClass
-	public static void setUp() {
-		distanceMeasure = new ManhattanDistanceMeasure();
-	}
-	
 	@Test(expected = IllegalArgumentException.class)
 	public void testVectorDistance() {
+		DistanceMeasure distanceMeasure = new ManhattanDistanceMeasure();
+		
 		Vector v1 = new Vector();
 		Vector v2 = new Vector();
 		
@@ -69,6 +62,8 @@ public class AbsoluteDistanceMeasureTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCollectionDistance() {
+		DistanceMeasure distanceMeasure = new ManhattanDistanceMeasure();
+
 		List<Double> l1 = new ArrayList<Double>();
 		List<Double> l2 = new ArrayList<Double>();
 		

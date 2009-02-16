@@ -19,12 +19,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,22 +30,17 @@ import java.util.List;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * @author Theuns Cloete
  */
 public class CosineDistanceMeasureTest {
-	private static DistanceMeasure distanceMeasure = null;
-
-	@BeforeClass
-	public static void setUp() {
-		distanceMeasure = new CosineDistanceMeasure();
-	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testVectorDistance() {
+		DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
+		
 		Vector v1 = new Vector();
 		Vector v2 = new Vector();
 		
@@ -71,6 +64,8 @@ public class CosineDistanceMeasureTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCollectionDistance() {
+		DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
+
 		List<Double> l1 = new ArrayList<Double>();
 		List<Double> l2 = new ArrayList<Double>();
 		
@@ -91,22 +86,29 @@ public class CosineDistanceMeasureTest {
 		distanceMeasure.distance(l1, l2);
 	}
 	
-	@Test
+	@Test(expected=ArithmeticException.class)
 	public void testSingleDimension() {
+		DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
+		
 		List<Double> list1 = new ArrayList<Double>(1);
 		List<Double> list2 = new ArrayList<Double>(1);
 		
 		list1.add(0.0);
 		list2.add(1.0);
 		
-		try {
-			distanceMeasure.distance(list1, list2);
-			fail("Exception is not thrown????");
-		}
-		catch(ArithmeticException a) {
-		}
+		distanceMeasure.distance(list1, list2);
+	}
 
-		list1.set(0, 3.0);
+	@Test
+	public void testDistanceCalculation() {
+		DistanceMeasure distanceMeasure = new CosineDistanceMeasure();
+
+		List<Double> list1 = new ArrayList<Double>(1);
+		List<Double> list2 = new ArrayList<Double>(1);
+
+		list1.add(3.0);
+		list2.add(1.0);
+
 		double distance = distanceMeasure.distance(list1, list2);
 		assertTrue(distance >= -1 && distance <= 1);
 		assertEquals(0.0, distance, Double.MIN_NORMAL);

@@ -24,18 +24,27 @@ package net.sourceforge.cilib.util;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * The Minkowski Metric is a generic measure of distance. It is defined in:<br/>
- * @Article{ 331504, author = "A. K. Jain and M. N. Murty and P. J. Flynn", title = "Data
+ * <pre>
+ * Article{ 331504, author = "A. K. Jain and M. N. Murty and P. J. Flynn", title = "Data
  *           Clustering: A Review", journal = "ACM Computing Surveys", volume = "31", number = "3",
  *           year = "1999", issn = "0360-0300", pages = "264--323", doi =
  *           "http://0-doi.acm.org.innopac.up.ac.za:80/10.1145/331499.331504", publisher = "ACM
  *           Press", address = "New York, NY, USA" }
+ * </pre>
+ * 
+ * <p>
  * {@link net.sourceforge.cilib.util.ManhattanDistanceMeasure Manhattan Distance} is a special case of the Minkowski Metric with 'alpha' := 1.<br/>
- * {@link net.sourceforge.cilib.util.EuclideanDistanceMeasure Euclidean Distance} is a special case of the Minkowski Metric with 'alpha' := 2.<br/>
+ * {@link net.sourceforge.cilib.util.EuclideanDistanceMeasure Euclidean Distance} is a special case of the Minkowski Metric with 'alpha' := 2.
+ * </p>
+ * <p>
  * NOTE: The default 'alpha' value is 0 when this class is instantiated.
+ * </p>
  * @author Theuns Cloete
  */
 public class MinkowskiMetric implements DistanceMeasure {
@@ -67,15 +76,21 @@ public class MinkowskiMetric implements DistanceMeasure {
 	 * @return the distance (as a double) between the two vectors.
 	 * @throws IllegalArgumentException when the two vectors' dimension differ.
 	 */
-	public <T extends Vector> double distance(T x, T y) {
-		if(x.getDimension() != y.getDimension())
-			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.getDimension() + " != " + y.getDimension());
+	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
+		if(x.size() != y.size())
+			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.size() + " != " + y.size());
 		if(alpha < 1)
 			throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
 
+		Iterator<T> xIterator = x.iterator();
+		Iterator<T> yIterator = y.iterator();
+		
 		double distance = 0.0;
-		for(int i = 0; i < x.getDimension(); ++i) {
-			distance += Math.pow(Math.abs(x.getReal(i) - y.getReal(i)), alpha);
+		for(int i = 0; i < x.size(); ++i) {
+			Numeric xElement = (Numeric) xIterator.next();
+			Numeric yElement = (Numeric) yIterator.next();
+
+			distance += Math.pow(Math.abs(xElement.getReal() - yElement.getReal()), alpha);
 		}
 		return Math.pow(distance, 1.0 / alpha);
 	}

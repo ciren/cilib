@@ -30,22 +30,17 @@ import java.util.List;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * @author Theuns Cloete
  */
 public class ManhattanDistanceMeasureTest {
-	private static DistanceMeasure distanceMeasure;
-
-	@BeforeClass
-	public static void setUp() {
-		distanceMeasure = new ManhattanDistanceMeasure();
-	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testVectorDistance() {
+		DistanceMeasure distanceMeasure = new ManhattanDistanceMeasure();
+		
 		Vector v1 = new Vector();
 		Vector v2 = new Vector();
 		
@@ -67,6 +62,8 @@ public class ManhattanDistanceMeasureTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCollectionDistance() {
+		DistanceMeasure distanceMeasure = new ManhattanDistanceMeasure();
+		
 		List<Double> l1 = new ArrayList<Double>();
 		List<Double> l2 = new ArrayList<Double>();
 		
@@ -87,6 +84,8 @@ public class ManhattanDistanceMeasureTest {
 	
 	@Test
 	public void testSingleDimension() {
+		DistanceMeasure distanceMeasure = new ManhattanDistanceMeasure();
+		
 		List<Double> list1 = new ArrayList<Double>(1);
 		List<Double> list2 = new ArrayList<Double>(1);
 		

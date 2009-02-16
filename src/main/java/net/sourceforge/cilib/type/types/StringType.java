@@ -106,30 +106,8 @@ public class StringType implements Type {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getDimension() {
-		return 1;
-	}
-
-	/**
-	 * This operation does not make sense on a {@linkplain StringType}. 
-	 * See {@link AbstractType#randomise()} for a description of the method intention.
-	 */
-	public void randomise() {
-		throw new UnsupportedOperationException("Randomise string? Are you looking for garbage?");
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
 	public String toString() {
 		return string;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getRepresentation() {
-		return toString();
 	}
 
 	/**
@@ -149,15 +127,6 @@ public class StringType implements Type {
 	 */
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		this.string = ois.readUTF();
-	}
-
-	/**
-	 * Determine if the type is within it's bounds specification. This does not make sense
-	 * on a {@linkplain StringType}.
-	 * @return <code>false</code> always.
-	 */
-	public boolean isInsideBounds() {
-		return false; // There are no bounds for the StringType.
 	}
 
 }

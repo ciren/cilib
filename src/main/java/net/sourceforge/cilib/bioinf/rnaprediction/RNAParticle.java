@@ -159,7 +159,7 @@ public class RNAParticle extends AbstractParticle {
 	 * {@inheritDoc}
 	 */
 	public int getDimension() {
-		return position.getDimension();
+		return position.size();
 	}
 
 	/**

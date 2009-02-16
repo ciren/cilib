@@ -233,22 +233,6 @@ public class EntityScoreboard implements Type, Resetable {
 		}
 	}
 
-	public int getDimension() {
-		throw new UnsupportedOperationException("Implementation not provided");
-	}
-
-	public String getRepresentation() {
-		throw new UnsupportedOperationException("Implementation not provided");
-	}
-
-	public boolean isInsideBounds() {
-		throw new UnsupportedOperationException("Implementation not provided");
-	}
-
-	public void randomise() {
-		throw new UnsupportedOperationException("Implementation not provided");
-	}
-
 	public void reset() {
 		this.scores = new ArrayList<EntityScore>();
 	}

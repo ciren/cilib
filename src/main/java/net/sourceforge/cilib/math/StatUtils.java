@@ -111,14 +111,11 @@ public final class StatUtils {
 	}
 
 	private static double[] unwrap(Vector vector) {
-		Double [] a = new Double[vector.getDimension()];
-		a = vector.toArray(a);
-		
-		double[] result = new double[a.length];
-		for (int i = 0; i < a.length; i++)
-			result[i] = a[i].doubleValue();
-		
-		return result;
+		double[] unwrapped = new double[vector.getDimension()];
+		for (int i = 0; i < vector.getDimension(); i++)
+			unwrapped[i] = vector.getReal(i);
+
+		return unwrapped;
 	}
 
 	/**

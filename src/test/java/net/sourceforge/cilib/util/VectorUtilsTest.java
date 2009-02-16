@@ -46,8 +46,6 @@ public class VectorUtilsTest {
 		for(int i = 1; i < 5; i++) {
 			Numeric element = new Real(i);
             element.setBounds(BoundsFactory.create(i*-2, i*2));
-//			element.setUpperBound(i * 2);
-//			element.setLowerBound(i * -2);
 			vector.append(element);
 		}
 	}

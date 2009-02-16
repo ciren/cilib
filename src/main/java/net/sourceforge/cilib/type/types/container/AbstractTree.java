@@ -128,27 +128,6 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void randomise() {
-		throw new UnsupportedOperationException("Not Implemented");		
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isInsideBounds() {
-		throw new UnsupportedOperationException("Not Implemented");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void reset() {
-		throw new UnsupportedOperationException("Not implemented");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public boolean addAll(StructuredType<? extends E> structure) {
 		throw new UnsupportedOperationException("Implementation needed");
 	}
@@ -172,13 +151,6 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	 */
 	public int size() {
 		return this.getDegree();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getDimension() {
-		throw new UnsupportedOperationException("Implementation needed");
 	}
 
 	/**

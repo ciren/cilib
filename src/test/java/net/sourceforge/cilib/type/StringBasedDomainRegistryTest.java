@@ -22,6 +22,7 @@
 
 package net.sourceforge.cilib.type;
 
+import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,6 +41,6 @@ public class StringBasedDomainRegistryTest {
         Vector matrix = (Vector) registry.getBuiltRepresenation();
         Assert.assertEquals(10, matrix.getDimension());
         Assert.assertEquals(10, ((Vector) matrix.get(0)).size());
-        Assert.assertTrue(matrix.isInsideBounds());
+        Assert.assertTrue(TypeUtil.isInsideBounds(matrix));
     }
 }

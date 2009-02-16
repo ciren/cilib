@@ -178,42 +178,10 @@ public class MSEErrorFunction implements NNError, Initializable {
 
 
 	
-	
-	
-	
-	
-	
-	
-	
-	public int getDimension() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-	public String getRepresentation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 	public boolean isInsideBounds() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
-	public void randomise() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public void reset() {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Override
 	public Fitness newInstance(Double value) {

@@ -24,14 +24,19 @@ package net.sourceforge.cilib.util;
 import java.util.Collection;
 import java.util.Iterator;
 
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * <p>
  * The Cosine Distance Measure (or vector dot product) is not a distance measure, but
  * rather a similarity metric. It is defined in:<br/>
  * <strong>Learning structure and concepts in data through data clustering</strong>
- * by Gregory James Hamerly<br/>
- * 2003<br/>
+ * by Gregory James Hamerly, 2003
+ * </p>
+ * <p>
  * More positive values indicate similarity. The vector dot product is the sum of the
  * product of each attribute from two vectors being compared. Here we use a normalized
  * version of the metric so that the dot product is always a value between -1 and 1. The
@@ -42,6 +47,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * the (normalized) result = 0, then the two vectors are orthogonal. We can convert this
  * similarity measure to a "distance" by subtracting it from one, which will always give
  * a value between 0 and 2. <strong>This is the approach we follow.</strong>
+ * </p>
  */
 public class CosineDistanceMeasure implements DistanceMeasure {
 
@@ -54,15 +60,20 @@ public class CosineDistanceMeasure implements DistanceMeasure {
 	 * @throws IllegalArgumentException when the two vectors' dimension differ.
 	 * @TODO: Can this not be replaced with x.dot(y)?
 	 */
-	public <T extends Vector> double distance(T x, T y) {
-		if(x.getDimension() != y.getDimension())
+	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
+		if(x.size() != y.size())
 			throw new IllegalArgumentException("Cannot calculate Cosine Distance for vectors of different dimensions");
+
+		Iterator<T> xIterator = x.iterator();
+		Iterator<T> yIterator = y.iterator();
 
 		double distance = 0.0, norm_x = 0.0, norm_y = 0.0;
 		double x_i = 0.0, y_i = 0.0;
-		for(int i = 0; i < x.getDimension(); ++i) {
-			x_i = x.getReal(i);
-			y_i = y.getReal(i);
+		for(int i = 0; i < x.size(); ++i) {
+			Numeric xElement = (Numeric) xIterator.next();
+			Numeric yElement = (Numeric) yIterator.next();
+			x_i = xElement.getReal();
+			y_i = yElement.getReal();
 			distance += x_i * y_i;
 			norm_x += x_i * x_i;
 			norm_y += y_i * y_i;

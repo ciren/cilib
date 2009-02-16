@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.util;
 
 import static org.junit.Assert.assertEquals;
@@ -30,22 +29,17 @@ import java.util.List;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * @author Theuns Cloete
  */
 public class MinkowskiMetricTest {
-	private static MinkowskiMetric distanceMeasure = null;
-
-	@BeforeClass
-	public static void setUp() {
-		distanceMeasure = new MinkowskiMetric(3);
-	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testVectorDistance() {
+		DistanceMeasure distanceMeasure = new MinkowskiMetric(3);
+		
 		Vector v1 = new Vector();
 		Vector v2 = new Vector();
 		
@@ -67,6 +61,8 @@ public class MinkowskiMetricTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testCollectionDistance() {
+		DistanceMeasure distanceMeasure = new MinkowskiMetric(3);
+		
 		List<Double> l1 = new ArrayList<Double>();
 		List<Double> l2 = new ArrayList<Double>();
 		
@@ -87,6 +83,8 @@ public class MinkowskiMetricTest {
 	
 	@Test
 	public void testSingleDimension() {
+		DistanceMeasure distanceMeasure = new MinkowskiMetric(3);
+		
 		List<Double> list1 = new ArrayList<Double>(1);
 		List<Double> list2 = new ArrayList<Double>(1);
 		

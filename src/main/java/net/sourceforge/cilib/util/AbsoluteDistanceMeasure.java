@@ -24,7 +24,9 @@ package net.sourceforge.cilib.util;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * @deprecated Make use of {@link net.sourceforge.cilib.util.ManhattanDistance Manhattan Distance}. It is the correct name.
@@ -36,14 +38,20 @@ public class AbsoluteDistanceMeasure implements DistanceMeasure {
 	/**
 	 * {@inheritDoc}
 	 */
-	public <T extends Vector> double distance(T x, T y) {
-		if (x.getDimension() != y.getDimension()) {
+	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
+		if (x.size() != y.size()) {
             throw new IllegalArgumentException("Unmatched argument lengths");
         }
-		
+
+		Iterator<T> xIterator = x.iterator();
+		Iterator<T> yIterator = y.iterator();
+
 		double distance = 0;
-        for (int i = 0; i < x.getDimension(); ++i) {
-            distance += Math.abs(x.getReal(i) - y.getReal(i)); 
+        for (int i = 0; i < x.size(); ++i) {
+			Numeric xNumeric = (Numeric) xIterator.next();
+			Numeric yNumeric = (Numeric) yIterator.next();
+
+            distance += Math.abs(xNumeric.getReal() - yNumeric.getReal());
         }
         
         return distance;

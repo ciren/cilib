@@ -23,7 +23,8 @@ package net.sourceforge.cilib.util;
 
 import java.util.Collection;
 
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * Definition of how to determine the distance between two objects.
@@ -34,13 +35,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public interface DistanceMeasure {
 
 	/**
-	 * Determine the distance between the two provided {@linkplain Vector}s.
-	 * @param <T> The {@linkplain Vector} type.
-	 * @param x The first {@linkplain Vector}.
-	 * @param y The second {@linkplain Vector}.
-	 * @return The distance value.
+	 * Determine the distance between the two provided {@link StructuredType}
+	 * instances.
+	 * @param <T>
+	 * @param <U>
+	 * @param x The first object from which the calculation is to be performed.
+	 * @param y The second object from which the calculation is to be performed.
+	 * @return The distance between the provided instances.
 	 */
-	public <T extends Vector> double distance(T x, T y);
+	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y);
 	
 	/**
 	 * Determine the distance between the two provided {@linkplain Collection}s.
