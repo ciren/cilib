@@ -32,7 +32,7 @@ public class MaximumIterations implements StoppingCondition {
 	private Algorithm algorithm;
 	private int maximumIterations;
 
-	/** 
+	/**
 	 * Creates a new instance of MaximumIterations.
 	 */
 	public MaximumIterations() {
@@ -55,7 +55,7 @@ public class MaximumIterations implements StoppingCondition {
 	public MaximumIterations(int maximumIterations) {
 		this.maximumIterations = maximumIterations;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -70,7 +70,7 @@ public class MaximumIterations implements StoppingCondition {
 	public int getMaximumIterations() {
 		return maximumIterations;
 	}
-	
+
 	/**
 	 * Set the maximum number of iterations.
 	 * @param maximumIterations The value to set.

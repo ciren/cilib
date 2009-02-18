@@ -32,12 +32,12 @@ public final class R implements TypeCreator {
 	private static final long serialVersionUID = -3393953231231613279L;
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public Type create() {
 		return new Real();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -32,11 +32,11 @@ import org.w3c.dom.Element;
  * @author  Edwin Peer
  */
 public class XMLMeasurementFactory extends XMLObjectFactory implements MeasurementFactory {
-    
+
 	public XMLMeasurementFactory() {
 		super(null);
 	}
-	
+
     /** Creates a new instance of XMLMeasurementFactory. */
     public XMLMeasurementFactory(Document xmlDocument, Element xmlMeasurementDescription) {
         super(xmlDocument, xmlMeasurementDescription);
@@ -44,20 +44,20 @@ public class XMLMeasurementFactory extends XMLObjectFactory implements Measureme
             error(xmlMeasurementDescription, "Expected <measurement> tag");
         }
     }
-    
+
     public XMLMeasurementFactory(Element xmlMeasurementDescription) {
         super(xmlMeasurementDescription);
         if (!xmlMeasurementDescription.getTagName().equals("measurement")) {
             error(xmlMeasurementDescription, "Expected <measurement> tag");
         }
     }
-    
+
     public Measurement newMeasurement() {
         return (Measurement) newObject();
-    }    
-    
+    }
+
     public void setMeasurement(Measurement measurement) {
         // hack to make CiClops introspector work properly
     }
-    
+
 }

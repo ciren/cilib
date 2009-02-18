@@ -32,7 +32,7 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = 3537717751647961525L;
-	
+
 	private BinaryTree<E> left;
 	private BinaryTree<E> right;
 
@@ -42,7 +42,7 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	public BinaryTree() {
 		this(null, null, null);
 	}
-	
+
 	/**
 	 * Create a new instance of {@literal BinaryTree} with the provided parameter as the value of
 	 * the key.
@@ -51,7 +51,7 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	public BinaryTree(E element) {
 		this(element, new BinaryTree<E>(), new BinaryTree<E>());
 	}
-	
+
 	/**
 	 * Create an instance of {@linkplain BinaryTree} with the provided tree instances as the
 	 * {@literal left} and {@literal right} children, maintaining the provided {@literal key} value.
@@ -64,7 +64,7 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		this.left = left;
 		this.right = right;
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance. This copy is a deep copy of the
 	 * provided instance.
@@ -76,7 +76,7 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 		this.left = copy.left.getClone();
 		this.right = copy.right.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -92,14 +92,14 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	public boolean equals(Object obj) {
 		if (obj == this)
 			return true;
-		
+
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
-		
+
 		BinaryTree<?> other = (BinaryTree<?>) obj;
-		
-		return this.key.equals(other.key) && 
-			this.left.equals(other.left) && 
+
+		return this.key.equals(other.key) &&
+			this.left.equals(other.left) &&
 			this.right.equals(other.right);
 	}
 
@@ -127,15 +127,15 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	 * Addition is by default first the left branch subtree. If the
 	 * left branch already has a defined tree attached, the right
 	 * subtree is assigned.
-	 * 
+	 *
 	 * @param subTree The {@linkplain} to add.
-	 * @return <tt>true</tt> if the addition was successful, <tt>false</tt> otherwise  
+	 * @return <tt>true</tt> if the addition was successful, <tt>false</tt> otherwise
 	 */
 	@Override
 	public boolean addSubTree(Tree<E> subTree) {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Cannot add a subtree to an empty tree");
-		
+
 		if (left.isEmpty()) {
 			left = (BinaryTree<E>) subTree;
 			return true;
@@ -144,7 +144,7 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 			right = (BinaryTree<E>) subTree;
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -154,10 +154,10 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	public Tree<E> getSubTree(E element) {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Cannot get a subtree from an empty tree");
-		
+
 		if (!left.isEmpty() && left.getKey().equals(element)) return left;
 		if (!right.isEmpty() && right.getKey().equals(element)) return right;
-		
+
 		return new BinaryTree<E>();
 	}
 
@@ -167,9 +167,9 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	public Tree<E> getSubTree(int index) {
 		if (index < 0 || index >= 2)
 			throw new IndexOutOfBoundsException("BinaryTree subTree indexes of 0 or 1 are ony allowed.");
-		
+
 		if (index == 0) return left;
-		
+
 		return right;
 	}
 
@@ -178,10 +178,10 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
 	 */
 	public Tree<E> removeSubTree(E element) {
 		AbstractTree<E> subTreeFound = (AbstractTree<E>) this.getSubTree(element);
-		
+
 		if (subTreeFound == left) left = new BinaryTree<E>();
 		if (subTreeFound == right) right = new BinaryTree<E>();
-		
+
 		return subTreeFound;
 	}
 

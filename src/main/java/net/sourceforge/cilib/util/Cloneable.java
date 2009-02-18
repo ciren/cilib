@@ -38,11 +38,11 @@ import java.io.Serializable;
  * Another consideration was the problems associated with {@code Object.clone()}
  * as discussed by Joshua Bloch.
  * </p>
- * 
+ *
  * @see "Item 11 of the 2<sup>nd</sup> edition of <emp>Effective Java</emp> by Joshua Bloch."
  */
 public interface Cloneable extends Serializable {
-	
+
 	/**
 	 * Create a cloned copy of the current object and return it. In general
 	 * the created copy will be a deep copy of the provided instance. As

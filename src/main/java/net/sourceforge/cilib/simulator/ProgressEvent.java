@@ -27,7 +27,7 @@ package net.sourceforge.cilib.simulator;
  * @author  Edwin Peer
  */
 public class ProgressEvent {
-    
+
     /**
 	 * Creates a new instance of ProgressEvent with a given completion percentage.
 	 * @param percentage The current percentage value.
@@ -35,7 +35,7 @@ public class ProgressEvent {
     public ProgressEvent(double percentage) {
         this.percentage = percentage;
     }
-    
+
     /**
      * Accessor for the percentage completed.
      * @return The percentage
@@ -43,6 +43,6 @@ public class ProgressEvent {
     public double getPercentage() {
         return percentage;
     }
-    
+
     private double percentage;
 }

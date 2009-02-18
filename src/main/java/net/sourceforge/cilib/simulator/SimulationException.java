@@ -26,7 +26,7 @@ package net.sourceforge.cilib.simulator;
  * @author  Edwin Peer
  */
 public class SimulationException extends java.lang.RuntimeException {
-    
+
     private static final long serialVersionUID = -3913611751781282569L;
 
 	/**
@@ -34,8 +34,8 @@ public class SimulationException extends java.lang.RuntimeException {
      */
     public SimulationException() {
     }
-    
-    
+
+
     /**
      * Constructs an instance of <code>SimulationException</code> with the specified detail message.
      * @param msg the detail message.

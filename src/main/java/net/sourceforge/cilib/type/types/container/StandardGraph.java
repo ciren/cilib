@@ -38,33 +38,33 @@ import net.sourceforge.cilib.container.visitor.Visitor;
  * @param <E> The {@code Comparable} type.
  */
 public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
-	
+
 	private static final long serialVersionUID = -5517089079342858152L;
 	private Map<E, List<Entry<E>>> adjacencyMap;
-	
+
 	public StandardGraph() {
 		adjacencyMap = new LinkedHashMap<E, List<Entry<E>>>();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public StandardGraph<E> getClone() {
 		return null;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
-		
+
 		StandardGraph<?> graph = (StandardGraph<?>) obj;
 		return adjacencyMap.equals(graph.adjacencyMap);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		int hash = 7;
@@ -79,36 +79,36 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	 */
 	public int edges() {
 		int count = 0;
-		
+
 		Collection<List<Entry<E>>> edgeLists = this.adjacencyMap.values();
 		for (List<Entry<E>> list : edgeLists) {
 			count += list.size();
 		}
-		
+
 		return count;
 	}
 
 	/**
 	 * Get the number of verticies contained within the structure.
-	 * @return The number of vertexes within the structure. 
+	 * @return The number of vertexes within the structure.
 	 */
 	public int vertices() {
 		return this.adjacencyMap.size();
 	}
-	
+
 	/**
 	 * Add a connecting edge between the provided two distinct vertexes. The cost for the connection
 	 * is defined to be a value of <code>1.0</code>.
 	 * @param a The first vertex.
 	 * @param b The second vertex.
-	 * @return <code>true</code> if successful, <code>false</code> otherwise. 
+	 * @return <code>true</code> if successful, <code>false</code> otherwise.
 	 */
 	public boolean addEdge(E a, E b) {
 		return addEdge(a, b, 1.0);
 	}
-	
+
 	/**
-	 * Add a connecting edge between the provided two distinct vertexes, given the provided 
+	 * Add a connecting edge between the provided two distinct vertexes, given the provided
 	 * <code>cost</code> for the connection. The <code>weight</code> associated with this
 	 * connection is defined to be a value of <code>1.0</code>.
 	 * @param a The first vertex.
@@ -119,9 +119,9 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	public boolean addEdge(E a, E b, double cost) {
 		return addEdge(a, b, cost, 1.0);
 	}
-	
+
 	/**
-	 * Add a connecting edge between the provided two distinct vertexes, given the provided 
+	 * Add a connecting edge between the provided two distinct vertexes, given the provided
 	 * <code>cost</code> and <code>weight</code> for the connection.
 	 * @param a The first vertex.
 	 * @param b The second vertex.
@@ -133,10 +133,10 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 		if (!contains(a)) return false;
 		if (!contains(b)) return false;
 		if (a == b) return false;
-		
+
 		List<Entry<E>> connectedVerticies = this.adjacencyMap.get(a);
 		connectedVerticies.add(new Entry<E>(b, cost, weight));
-		
+
 		return true;
 	}
 
@@ -151,14 +151,14 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 		if (!contains(a)) return false;
 		if (!contains(b)) return false;
 		if (a == b) return false;
-		
+
 		List<Entry<E>> connectedVerticies = this.adjacencyMap.get(a);
-		
+
 		for (Entry<E> pair : connectedVerticies) {
 			if (pair.getElement().equals(b))
 				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -166,7 +166,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	 * {@inheritDoc}
 	 */
 	public void accept(Visitor<E> visitor) {
-		throw new UnsupportedOperationException("accept() for the class " + getClass().getName() + " still needs an implementation");		
+		throw new UnsupportedOperationException("accept() for the class " + getClass().getName() + " still needs an implementation");
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	public boolean add(E element) {
 		if (this.adjacencyMap.containsKey(element))
 			return false;
-		
+
 		this.adjacencyMap.put(element, new LinkedList<Entry<E>>());
 		return true;
 	}
@@ -214,19 +214,19 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	public boolean remove(E element) {
 		if (!this.adjacencyMap.containsKey(element))
 			return false;
-		
+
 		this.adjacencyMap.remove(element);
-		
+
 		Collection<List<Entry<E>>> lists = this.adjacencyMap.values();
-		
+
 		for (List<Entry<E>> list : lists) {
 			if (list.contains(element))
 				list.remove(element);
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -237,10 +237,10 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 				this.adjacencyMap.remove(e.getKey());
 				return e.getKey();
 			}
-			
-			count++;				
+
+			count++;
 		}
-		
+
 		return null;
 	}
 
@@ -277,7 +277,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	/**
 	 * Determine the distance between the provided vertex objects. The distance is defined to the be
 	 * total cost to get from vertex <code>a</code> to vertex <code>b</code>. The distance is only defined
@@ -290,28 +290,28 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	public double distance(E a, E b) {
 		if (!isConnected(a, b))
 			throw new UnsupportedOperationException("Cannot determine the distance. Node(" + a + ") and Node(" + b + ") are not connected");
-		
+
 		List<Entry<E>> distances = this.adjacencyMap.get(a);
 		for (Entry<E> pair : distances) {
 			if (pair.getElement().equals(b))
 				return pair.getCost();
 		}
-		
+
 		throw new NoSuchElementException("The distance between Node(" + a + ") and Node(" + b + ") does not exist");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public E getVertex(int index) {
 		Set<E> keySet = this.adjacencyMap.keySet();
 		int count  = 0;
-		
+
 		for (E element : keySet) {
 			if (count == index) return element;
 			count++;
 		}
-		
+
 		return null;
 	}
 
@@ -319,7 +319,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	/**
 	 * Class to represent the element, cost and weight associated to the connection between
 	 * two distinct vertex objects.
-	 *   
+	 *
 	 * @param <T> The {@linkplain Comparable} type.
 	 */
 	private class Entry<T extends Comparable<T>> {
@@ -361,13 +361,13 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
-			
+
 			if ((obj == null) || (this.getClass() != obj.getClass()))
 				return false;
-			
+
 			Entry<?> other = (Entry<?>) obj;
-			return this.element.equals(other) && 
-				(this.cost == other.cost) && 
+			return this.element.equals(other) &&
+				(this.cost == other.cost) &&
 				(this.weight == other.weight);
 		}
 

@@ -34,7 +34,7 @@ public class PropertyBasedFitnessCalculator implements
 	private static final long serialVersionUID = -5225410711497956675L;
 
 	/**
-	 * 
+	 *
 	 */
 	public PropertyBasedFitnessCalculator() {
 	}

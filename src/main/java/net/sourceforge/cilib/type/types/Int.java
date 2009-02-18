@@ -29,23 +29,23 @@ import net.sourceforge.cilib.math.MathUtil;
 
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
 public class Int extends Numeric {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 271271478995857543L;
 	private int value;
-	
+
 	/**
 	 * Create an instance of {@linkplain Int}.
 	 */
 	public Int() {
-		this(Integer.MIN_VALUE, Integer.MAX_VALUE);		
+		this(Integer.MIN_VALUE, Integer.MAX_VALUE);
 	}
 
 	/**
@@ -61,22 +61,22 @@ public class Int extends Numeric {
 
 	/**
 	 * Create an {@linkplain Int} with the specified value.
-	 * @param value The value of the {@linkplain Int}. 
+	 * @param value The value of the {@linkplain Int}.
 	 */
 	public Int(int value) {
 		this.value = value;
         this.setBounds(BoundsFactory.create(Integer.MIN_VALUE, Integer.MAX_VALUE));
 	}
-	
+
 	/**
 	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy. 
+	 * @param copy The instance to copy.
 	 */
 	public Int(Int copy) {
 		this.value = copy.value;
         this.setBounds(copy.getBounds());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -90,10 +90,10 @@ public class Int extends Numeric {
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
-		
+
 		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-		
+
 		Int otherInt = (Int) other;
 		return super.equals(other) && (this.value == otherInt.value);
 	}
@@ -101,7 +101,7 @@ public class Int extends Numeric {
 	/**
 	 * Return the value of the object itself. This is accordance to the manner
 	 * in which {@see java.lang.Integer#hashCode()} operates.
-	 * 
+	 *
 	 * @return The value of this Int representation.
 	 */
 	public int hashCode() {
@@ -110,8 +110,8 @@ public class Int extends Numeric {
 		hash = 31 * hash + Integer.valueOf(this.value).hashCode();
 		return hash;
 	}
-	
-	
+
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -119,7 +119,7 @@ public class Int extends Numeric {
 	public void set(String value) {
 		setInt(value);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -157,7 +157,7 @@ public class Int extends Numeric {
 	public void setBit(boolean value) {
 		this.value = (value) ? 1 : 0;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -178,7 +178,7 @@ public class Int extends Numeric {
 	public void setInt(int value) {
 		this.value = value;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -200,7 +200,7 @@ public class Int extends Numeric {
 	public void setReal(double value) {
 		this.value = Double.valueOf(value).intValue();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -218,7 +218,7 @@ public class Int extends Numeric {
 		else
 			return (other.getInt() < this.value) ? 1 : -1;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -226,7 +226,7 @@ public class Int extends Numeric {
 		double tmp = MathUtil.random()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
 		this.value = Double.valueOf(tmp).intValue();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -243,7 +243,7 @@ public class Int extends Numeric {
 
 	/**
 	 * Get the type representation of this <tt>Int</tt> object as a string.
-	 * 
+	 *
 	 * @return The String representation of this <tt>Type</tt> object.
 	 */
 	public String getRepresentation() {
@@ -267,6 +267,6 @@ public class Int extends Numeric {
 	 * @throws ClassNotFoundException If the class to instantiate was not found.
 	 */
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-		this.value = ois.readInt();		
+		this.value = ois.readInt();
 	}
 }

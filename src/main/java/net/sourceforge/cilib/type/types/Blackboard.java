@@ -71,10 +71,10 @@ public class Blackboard<K, V extends Type> implements Type {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
-		
+
 		Blackboard<?, ?> other = (Blackboard<?, ?>) obj;
 		return this.board.equals(other.board);
 	}

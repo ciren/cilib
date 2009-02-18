@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  * {@link ClusterableDataSet} and a {@link ClusteringFitnessFunction}. <br/> This
  * class is not dependent on a {@link ClusteringFitnessFunction}, but the
  * {@link ClusteringFitnessFunction}s use this class extensively.
- * 
+ *
  */
 public final class ClusteringUtils {
 	private static final long serialVersionUID = 4878437477807660149L;
@@ -97,7 +97,7 @@ public final class ClusteringUtils {
 
 	/**
 	 * Return the current instance of this class.
-	 * 
+	 *
 	 * @return the current {@link #instance} of this class.
 	 */
 	public static ClusteringUtils get() {
@@ -107,7 +107,7 @@ public final class ClusteringUtils {
 	/**
 	 * This class only deals with {@link ClusteringProblem}s. Other problems are not
 	 * allowed.
-	 * 
+	 *
 	 * @param cp the {@link ClusteringProblem} used throughout the current clustering
 	 */
 	public void setClusteringProblem(ClusteringProblem cp) {
@@ -116,7 +116,7 @@ public final class ClusteringUtils {
 
 	/**
 	 * Get the {@link ClusteringProblem} used throughout the current clustering.
-	 * 
+	 *
 	 * @return the {@link #clusteringProblem}
 	 */
 	public ClusteringProblem getClusteringProblem() {
@@ -126,7 +126,7 @@ public final class ClusteringUtils {
 	/**
 	 * This class only deals with {@link ClusterableDataSet}s. Other datasets/dataset
 	 * builders are not allowed.
-	 * 
+	 *
 	 * @param cds the {@link ClusterableDataSet} used throughout the current clustering
 	 */
 	public void setClusterableDataSet(ClusterableDataSet cds) {
@@ -135,7 +135,7 @@ public final class ClusteringUtils {
 
 	/**
 	 * Get the {@link ClusterableDataSet} used throughout the current clustering.
-	 * 
+	 *
 	 * @return the {@link #clusterableDataSet}
 	 */
 	public ClusterableDataSet getClusterableDataSet() {
@@ -145,7 +145,7 @@ public final class ClusteringUtils {
 	/**
 	 * A central point where distances can be calculated. This is to prevent various
 	 * different distance measures from being used in the same clustering algorithm/problem.
-	 * 
+	 *
 	 * @param lhs the one {@link Vector}
 	 * @param rhs the other {@link Vector}
 	 * @return the distance between the two given vectors calculated using the current
@@ -158,7 +158,7 @@ public final class ClusteringUtils {
 	/**
 	 * A central point where the cached distance between the two given patterns can be
 	 * retrieved.
-	 * 
+	 *
 	 * @param x index of the one pattern
 	 * @param y index of the other pattern
 	 * @return the cached distance between the two given patterns
@@ -176,7 +176,7 @@ public final class ClusteringUtils {
 	 * <li>Remove the empty clusters and their associated centroids from the <i>arranged
 	 * lists</i>, thereby finalizing the arranging of clusters (depends on both Steps 1 & 2)</li>
 	 * </ol>
-	 * 
+	 *
 	 * @param centroids the @{@linkplain Vector} that represents the centroids
 	 */
 	public void arrangeClustersAndCentroids(Vector centroids) {
@@ -189,7 +189,7 @@ public final class ClusteringUtils {
 	 * Take the given centroids {@linkplain Vector}, split it up and construct an
 	 * {@linkplain ArrayList} of {@linkplain Vector}s so that each element in this list
 	 * consist of a single centroid.
-	 * 
+	 *
 	 * @param centroids the centriods {@linkplain Vector} that should be split up and arranged
 	 */
 	private void arrangeCentroids(Vector centroids) {
@@ -273,7 +273,7 @@ public final class ClusteringUtils {
 
 	/**
 	 * Get the patterns in the {@link #clusterableDataSet}.
-	 * 
+	 *
 	 * @return the patterns in the {@link #clusterableDataSet}
 	 */
 	public ArrayList<Pattern> getPatternsInDataSet() {
@@ -282,7 +282,7 @@ public final class ClusteringUtils {
 
 	/**
 	 * Get the number of patterns in the {@link #clusterableDataSet}.
-	 * 
+	 *
 	 * @return the number of patterns in the {@link #clusterableDataSet}.
 	 */
 	public int getNumberOfPatternsInDataSet() {
@@ -292,7 +292,7 @@ public final class ClusteringUtils {
 	/**
 	 * Get the structure that represents the split-up centroids <em>before</em> the
 	 * non-associated centroids were removed.
-	 * 
+	 *
 	 * @return an {@link ArrayList} of {@link Vector}s that may contain centroids that are
 	 *         not associated with any patterns
 	 */
@@ -303,7 +303,7 @@ public final class ClusteringUtils {
 	/**
 	 * Get the structure that represents the split-up centroids <em>after</em> the
 	 * non-associated centroids have been removed.
-	 * 
+	 *
 	 * @return an {@link ArrayList} of {@link Vector}s that does NOT contain centroids that
 	 *         are NOT associated with any patterns
 	 */
@@ -314,7 +314,7 @@ public final class ClusteringUtils {
 	/**
 	 * Get the structure that represents the seperate clusters <em>before</em> the empty
 	 * clusters were removed.
-	 * 
+	 *
 	 * @return an {@link ArrayList} of {@link Hashtable}s that may contain empty clusters
 	 */
 	public ArrayList<Hashtable<Integer, Pattern>> getOriginalClusters() {
@@ -324,7 +324,7 @@ public final class ClusteringUtils {
 	/**
 	 * Get the structure that represents the seperate clusters <em>after</em> the empty
 	 * clusters have been removed.
-	 * 
+	 *
 	 * @return an {@link ArrayList} of {@link Hashtable}s that does NOT contain empty
 	 *         clusters
 	 */
@@ -334,7 +334,7 @@ public final class ClusteringUtils {
 
 	/**
 	 * Get the mean {@link Vector} that has been cached by the {@link #clusterableDataSet}.
-	 * 
+	 *
 	 * @return a {@link Vector} that represents the mean of all the patterns inside the
 	 *         {@link #clusterableDataSet}
 	 */
@@ -344,7 +344,7 @@ public final class ClusteringUtils {
 
 	/**
 	 * Get the variance (scalar) thas been cached by the {@link #clusterableDataSet}.
-	 * 
+	 *
 	 * @return a double that represents the variance of all the patterns inside the
 	 *         {@link #clusterableDataSet}
 	 */

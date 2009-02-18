@@ -53,30 +53,30 @@ public class AbsoluteDistanceMeasure implements DistanceMeasure {
 
             distance += Math.abs(xNumeric.getReal() - yNumeric.getReal());
         }
-        
+
         return distance;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public <T extends Collection<? extends Number>> double distance(T x, T y) {
 		if (x.size() != y.size())
 			throw new IllegalArgumentException("Unmatched argument lengths");
-		
+
 		double distance = 0;
 		Iterator<? extends Number> i = x.iterator();
 		Iterator<? extends Number> j = y.iterator();
-		
+
 		while (i.hasNext() && j.hasNext()) {
 			Number n1 = i.next();
 			Number n2 = j.next();
-			
+
 			double tmp = Math.abs(n1.doubleValue() - n2.doubleValue());
-			
+
 			distance += tmp;
 		}
-		
+
 		return distance;
 	}
 

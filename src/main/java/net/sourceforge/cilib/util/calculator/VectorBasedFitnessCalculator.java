@@ -26,20 +26,20 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * 
+ *
  *
  */
 public class VectorBasedFitnessCalculator implements FitnessCalculator {
 	private static final long serialVersionUID = -5053760817332028741L;
 
 	public VectorBasedFitnessCalculator() {
-		
+
 	}
-	
+
 	public VectorBasedFitnessCalculator(VectorBasedFitnessCalculator copy) {
-		
+
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

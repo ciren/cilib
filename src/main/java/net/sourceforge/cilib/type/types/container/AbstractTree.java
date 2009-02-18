@@ -34,13 +34,13 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * Base class for all {@linkplain Tree} objects. Contains the methods common to
  * all {@linkplain Tree} objects.
- * 
+ *
  * @param <E> The {@linkplain Cloneable} type.
  */
 public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> implements Tree<E> {
 	private static final long serialVersionUID = 9196740766045092902L;
 	protected E key;
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -61,10 +61,10 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	 */
 	public void breadthFirstTraversal(Visitor<Tree<E>> visitor) {
 		Queue<Tree<E>> queue = new LinkedList<Tree<E>>();
-		
+
 		if (!isEmpty())
 			queue.add(this);
-		
+
 		while (!queue.isEmpty() && !visitor.isDone()) {
 			Tree<E> head = queue.remove();
 			visitor.visit(head);
@@ -82,7 +82,7 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	public void depthFirstTraversal(PrePostVisitor<E> visitor) {
 		if (visitor.isDone())
 			return;
-		
+
 		if (!isEmpty()) {
 			visitor.preVisit(getKey());
 			for (int i = 0; i < this.size(); i++)
@@ -96,7 +96,7 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	 * {@inheritDoc}
 	 */
 	public void accept(Visitor<E> visitor) {
-		depthFirstTraversal(new PreOrderVisitorDecorator<E>(visitor));		
+		depthFirstTraversal(new PreOrderVisitorDecorator<E>(visitor));
 	}
 
 	/**
@@ -105,17 +105,17 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	public E getKey() {
 		if (isEmpty())
 			throw new UnsupportedOperationException("Empty trees do not have valid keys");
-		
+
 		return this.key;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public void setKey(E element) {
 		this.key = element;
 	}
-	
+
 	/**
 	 * Determine if the current {@linkplain Tree} is empty. A {@linkplain Tree} is only
 	 * defined to be empty if the key value is <code>null</code>. ie: <code>getKey() == null</code>.
@@ -145,7 +145,7 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	public Iterator<E> iterator() {
 		return (Iterator<E>) new TreeIterator();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -160,10 +160,10 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 		StringBuilder buffer = new StringBuilder();
 		PrintingVisitor<E> visitor = new PrintingVisitor<E>(buffer);
 		this.accept(visitor);
-		
+
 		return buffer.toString();
 	}
-	
+
 	/**
 	 * {@linkplain PrePostVisitor} to simply print {@linkplain Tree} instances out
 	 * in a flaw textual representation.
@@ -172,7 +172,7 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 	@SuppressWarnings("hiding")
 	private class PrintingVisitor<E> extends PrePostVisitor<E> {
 		private StringBuilder buffer;
-		
+
 		/**
 		 * Create a {@linkplain PrintingVisitor} with the specified {@linkplain StringBuilder}.
 		 * @param buffer the {@linkplain StringBuilder} to use.
@@ -188,18 +188,18 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 		public void visit(E o) {
 			if (buffer.length() != 0)
 				buffer.append(",");
-			
-			buffer.append(o.toString());			
+
+			buffer.append(o.toString());
 		}
 	}
-	
+
 	/**
 	 * Provides a simple Iterator for trees.
 	 */
 	protected class TreeIterator implements Iterator<E> {
-		
+
 		private Stack<Tree<E>> stack;
-		
+
 		/**
 		 * Create a {@linkplain TreeIterator} instance.
 		 */
@@ -221,14 +221,14 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
 		public E next() {
 			if (stack.isEmpty())
 				throw new UnsupportedOperationException();
-			
+
 			Tree<E> top = stack.pop();
 			for (int i = top.size() - 1; i >= 0; i--) {
 				Tree<E> subTree = top.getSubTree(i);
 				if (!subTree.isEmpty())
 					stack.push(subTree);
 			}
-			
+
 			return top.getKey();
 		}
 

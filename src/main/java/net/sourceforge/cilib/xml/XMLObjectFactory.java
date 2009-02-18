@@ -36,7 +36,7 @@ import org.w3c.dom.Text;
 
 /**
  * <p>
- * The <code>XMLObjectFactory</code> can be used to manage the construction of any object 
+ * The <code>XMLObjectFactory</code> can be used to manage the construction of any object
  * based on an XML description. This class uses reflection to set properties
  * and call arbitrary methods of the object under contruction.
  * </p>
@@ -60,42 +60,42 @@ import org.w3c.dom.Text;
  *   // object according to the configuration in the given XML element
  *   Object object = factory.newObject();
  * </pre>
- * 
+ *
  * <p>
  * Each time <code>XMLObjectFactory</code> encounters a class attribute in the XML, an
  * instance of the specified class is instanciated. Nested elements are
- * interpreted as either properties to be set or methods to be called on this 
+ * interpreted as either properties to be set or methods to be called on this
  * newly constructed object. If no class attribute is specified then the element
  * is interpreted as a Java primitive type or a string. Elements can be nested in
  * a hierarchical fashion to handle the construction of complex objects.
  * </p>
  * <p>
  * Note: Requires the Java API for XML processing (JAXP).
- * </p> 
+ * </p>
  *
  * See: <a href="http://www.sourceforge.net/projects/cilib/">Factory Demo</a> for XML samples.
- * 
+ *
  * @author  Edwin Peer
  */
 
 // TODO: Rewrite to use SAX instead of maintaining a DOM tree.
 public class XMLObjectFactory {
-	
+
 	private Document xmlDocument;
     private Element xmlObjectDescription;
-    
+
     /**
      * Creates a new instance of <code>XMLObjectFactory</code> for constructing objects
      * given an XML description.
      *
      * @param xmlObjectDescription An XML element that describes the objects to be constructed by this factory.
-     * 
+     *
      */
     public XMLObjectFactory(Element xmlObjectDescription) {
         this.xmlDocument = null;
         this.xmlObjectDescription = xmlObjectDescription;
     }
-    
+
     /**
      * Creates a new instance of <code>XMLObjectFactory</code> for constructing objects
      * given an XML description and an XML document for handling idrefs.
@@ -107,11 +107,11 @@ public class XMLObjectFactory {
         this.xmlDocument = xmlDocument;
         this.xmlObjectDescription = xmlObjectDescription;
     }
-        
+
     /**
      * Constructs a new {@link java.lang.Object} based on the underlying XML object description.
      *
-     * @exception FactoryException In case the object cannot be constructed. 
+     * @exception FactoryException In case the object cannot be constructed.
      * @return A new {@link java.lang.Object} constructed according to the given description.
      */
     public Object newObject() {
@@ -120,9 +120,9 @@ public class XMLObjectFactory {
 
     @SuppressWarnings("unchecked")
 	private Object newObject(Element xml) {
-        
+
         Class objectClass = getClass(xml);
-        
+
         if (objectClass.getName().matches("^.*XML[a-zA-Z]+Factory$")) {
             Object[] parameters = {xmlDocument, getFirstChildElement(xml)};
             Class[] types = {Document.class, Element.class};
@@ -133,13 +133,13 @@ public class XMLObjectFactory {
                 error(xml, ex.getMessage());
             }
         }
-        
+
         Object object = instanciate(xml, objectClass);
-       
+
         setup(object, xml);
-        
+
         performAnnotationActions(object);
-        
+
         return object;
     }
 
@@ -153,10 +153,10 @@ public class XMLObjectFactory {
         }
         return xmlRef;
     }
-    
+
     private Class<?> getClass(Element xml) {
         // Determine the class to instanciate
-        
+
         String className = "";
         if (xml.hasAttribute("idref")) {
             className = getReferencedElement(xml).getAttribute("class");
@@ -167,7 +167,7 @@ public class XMLObjectFactory {
         if (className.length() == 0) {
             error(xml, "No class specified");
         }
-        
+
         /*
         Package pkg = this.getClass().getPackage();
         if (pkg != null) {
@@ -175,9 +175,9 @@ public class XMLObjectFactory {
                 return Class.forName(pkg.getName() + "."  + className);
             }
             catch (ClassNotFoundException e) { }
-            
+
             if (pkg.getName().indexOf('.') != -1) {
-                
+
                 try {
                     return Class.forName(pkg.getName().substring(0, pkg.getName().lastIndexOf('.')) + "." + className);
                 }
@@ -185,27 +185,27 @@ public class XMLObjectFactory {
             }
         }
        */
-        
+
         try {
             return Class.forName("net.sourceforge.cilib." + className);
         }
-        catch (ClassNotFoundException e) { 
+        catch (ClassNotFoundException e) {
         	System.out.println("Class not found" + className);
         	e.printStackTrace();
         }
-        
+
         try {
             return Class.forName(className);
         }
-        catch (ClassNotFoundException e) { 
+        catch (ClassNotFoundException e) {
         	System.out.println("Class not found" + className);
         	e.printStackTrace();
         }
-        
+
         error(xml, "Class not found: " + className);
         return null;
     }
-    
+
     private Object instanciate(Element xml, Class<?> objectClass) {
         // Attempt to instanciate the class
         Object object = null;
@@ -215,11 +215,11 @@ public class XMLObjectFactory {
         catch (Exception ex) {
             error(xml, "Could not instanciate " + objectClass.getName());
         }
-        
+
         return object;
     }
-    
-    private void setup(Object object, Element xml) {        
+
+    private void setup(Object object, Element xml) {
         // handle any referenced element
         if (xml.hasAttribute("idref")) {
             setup(object, getReferencedElement(xml));
@@ -234,7 +234,7 @@ public class XMLObjectFactory {
             }
             invokeSetMethod(xml, object, attribute.getName(), newObject(attribute.getValue()));
         }
-        
+
         // handle sub-elements of current element
         for (Element e = getFirstChildElement(xml); e != null; e = getNextSiblingElement(e)) {
             if (e.hasAttribute("value")) {
@@ -265,14 +265,14 @@ public class XMLObjectFactory {
                             error(ee, "Can't create object from null text");
                         }
                         parameters.add(newObject(text.getNodeValue()));
-                    }        
+                    }
                 }
                 invokeMethod(e, object, e.getTagName(), parameters.toArray());
             }
         }
     }
-   
-    
+
+
     private Element getNextSiblingElement(Node current) {
         current = current.getNextSibling();
         while (current != null && current.getNodeType() != Node.ELEMENT_NODE) {
@@ -280,7 +280,7 @@ public class XMLObjectFactory {
         }
         return (Element) current;
     }
-    
+
     private Element getFirstChildElement(Node current) {
         current = current.getFirstChild();
         while (current != null && current.getNodeType() != Node.ELEMENT_NODE) {
@@ -288,7 +288,7 @@ public class XMLObjectFactory {
         }
         return (Element) current;
     }
-    
+
     private Text getFirstChildText(Node current) {
         current = current.getFirstChild();
         while (current != null && current.getNodeType() != Node.TEXT_NODE) {
@@ -296,9 +296,9 @@ public class XMLObjectFactory {
         }
         return (Text) current;
     }
-    
+
     private Object newObject(String value) {
-        try { 
+        try {
             return Integer.valueOf(value.trim());
         }
         catch (NumberFormatException e) { }
@@ -327,13 +327,13 @@ public class XMLObjectFactory {
             invokeMethod(xml, target, name, parameter);
         }
     }
-    
+
     private void invokeSetMethod(Element xml, Object target, String property, Object value) {
         String setMethodName = "set" + property.substring(0, 1).toUpperCase() + property.substring(1);
         Object[] parameters = { value };
         invokeMethod(xml, target, setMethodName, parameters);
     }
-    
+
     private String getParameterString(Object[] parameters) {
         boolean comma = false;
         String parameterString = "";
@@ -343,13 +343,13 @@ public class XMLObjectFactory {
             }
             parameterString += parameters[i].getClass().getName();
             comma = true;
-        }        
+        }
         return parameterString;
     }
-    
+
     private void invokeMethod(Element xml, Object target, String methodName, Object[] parameters) {
         Method method = null;
-        
+
         // Find the method
         Method[] methods = target.getClass().getMethods();
         for (int i = 0; i < methods.length; ++i) {
@@ -385,11 +385,11 @@ public class XMLObjectFactory {
                 }
             }
         }
-        
+
         if (method == null) {
-            error(xml, target.getClass().getName() + " does not expose a " + methodName + "(" + getParameterString(parameters) + ") method");            
+            error(xml, target.getClass().getName() + " does not expose a " + methodName + "(" + getParameterString(parameters) + ") method");
         }
-        
+
         try {
             method.invoke(target, parameters);
         }
@@ -403,14 +403,14 @@ public class XMLObjectFactory {
     }
 
     protected void error(Element element, String message) {
-        throw new FactoryException("In <" + element.getTagName() + "> : " + message); 
+        throw new FactoryException("In <" + element.getTagName() + "> : " + message);
     }
-    
-    
+
+
     /**
      * Cycle through all the declared methods, invoking any with the @Initialiser
      * annotation applied to them
-     * 
+     *
      * @param object The <tt>Object</tt> to be inspected
      */
     private void performAnnotationActions(Object object) {
@@ -419,18 +419,18 @@ public class XMLObjectFactory {
     			//System.out.println("Annotation: Initialiser is applied to: " + method.toGenericString());
     			try {
 					method.invoke(object);
-				} 
+				}
     			catch (IllegalArgumentException e) {
 					e.printStackTrace();
-				} 
+				}
     			catch (IllegalAccessException e) {
 					e.printStackTrace();
-				} 
+				}
     			catch (InvocationTargetException e) {
 					e.printStackTrace();
 				}
     		}
     	}
     }
-    
+
 }

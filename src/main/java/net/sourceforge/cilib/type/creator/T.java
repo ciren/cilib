@@ -25,17 +25,17 @@ import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
 public final class T implements TypeCreator {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1198714503772193216L;
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

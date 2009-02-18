@@ -27,21 +27,21 @@ package net.sourceforge.cilib.type.types.container;
  * @param <E> The type of the {@linkplain Graph}.
  */
 public interface Graph<E> extends StructuredType<E> {
-	
+
 	/**
 	 * Determine the number of vertices contained within the current <tt>Graph</tt>
 	 * structure.
 	 * @return The number of contained vertices.
 	 */
 	public int vertices();
-	
+
 	/**
 	 * Determine the number of edges contained within the current <tt>Graph</tt>
 	 * structure.
 	 * @return The number of contained edges.
 	 */
 	public int edges();
-	
+
 	/**
 	 * Create an edge / link between the given two vertices.
 	 * @param a The vertex the edge should eminate from.
@@ -49,7 +49,7 @@ public interface Graph<E> extends StructuredType<E> {
 	 * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
 	 */
 	public boolean addEdge(E a, E b);
-	
+
 	/**
 	 * Create an edge / link between the given two vertices.
 	 * @param a The vertex the edge should eminate from.
@@ -58,7 +58,7 @@ public interface Graph<E> extends StructuredType<E> {
 	 * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
 	 */
 	public boolean addEdge(E a, E b, double cost);
-	
+
 	/**
 	 * Create an edge / link between the given two vertices.
 	 * @param a The vertex the edge should eminate from.
@@ -68,7 +68,7 @@ public interface Graph<E> extends StructuredType<E> {
 	 * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
 	 */
 	public boolean addEdge(E a, E b, double cost, double weight);
-	
+
 	/**
 	 * Determine if <tt>a</tt> and <tt>b</tt> are connected by an edge.
 	 * @param a The vertex the edge should be emanating from.
@@ -80,7 +80,7 @@ public interface Graph<E> extends StructuredType<E> {
 	/**
 	 * Get the vertex at the provided <code>index</code>.
 	 * @param index The index of the vertex.
-	 * @return The value of the vertex at <code>index</code>. 
+	 * @return The value of the vertex at <code>index</code>.
 	 */
 	public E getVertex(int index);
 

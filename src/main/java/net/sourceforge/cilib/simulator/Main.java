@@ -41,14 +41,14 @@ import org.w3c.dom.NodeList;
  * @author  Edwin Peer
  */
 public final class Main {
-    
+
     /** Creates a new instance of Simulator */
     private Main(Document config, ProgressListener progress) {
         this.config = config;
 		this.progress = progress;
         simulations = config.getElementsByTagName("simulation");
     }
-    
+
     private void runSimulations() {
         for (int i = 0; i < simulations.getLength(); ++i) {
 			if(progress != null)
@@ -62,29 +62,29 @@ public final class Main {
 			if(progress != null) {
 	            simulation.addProgressListener(progress);
 			}
-			
+
 			simulation.initialise();
             simulation.run();
             simulation = null;
             System.gc();
         }
     }
-    
+
     public static void main(String[] args) throws Exception {
 		if (args.length < 1) {
             System.err.println("Usage: Simulator <simulation-config.xml> [-noprogress|-textprogress|-guiprogress]");
             System.exit(1);
         }
-       	
+
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         // dbf.setValidating(true);
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File(args[0]));
-        
+
 		ProgressListener progress = null;
 		if (args.length > 1 && args[1].equals("-textprogress")) {
 			progress = new ProgressText(doc.getElementsByTagName("simulation").getLength());
-		} 
+		}
 		else if (args.length > 1 && args[1].equals("-guiprogress")) { //-guiprogress
 			ProgressFrame pf = new ProgressFrame(doc.getElementsByTagName("simulation").getLength());
 			pf.setVisible(true);
@@ -93,12 +93,12 @@ public final class Main {
 		else {
 			progress = new NoProgress();
 		}
-		
+
         Main simulator = new Main(doc, progress);
-        simulator.runSimulations(); 
+        simulator.runSimulations();
         System.exit(0);
     }
-    
+
     private Document config;
     private NodeList simulations;
     private ProgressListener progress;

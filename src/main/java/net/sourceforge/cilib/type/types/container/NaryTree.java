@@ -28,23 +28,23 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Implementation of a Nary Tree data structure.
- * 
- * @param <E> The type that this {@linkplain Tree} instance is defined to contain. 
+ *
+ * @param <E> The type that this {@linkplain Tree} instance is defined to contain.
  */
 public class NaryTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
 	private static final long serialVersionUID = -1136444941205621381L;
-	
+
 	private int degree;
 	private List<NaryTree<E>> subTrees;
 
 	/**
 	 * Create an empty {@linkplain NaryTree} instance.
 	 */
-	public NaryTree() {	
+	public NaryTree() {
 		this.key = null;
 		this.subTrees = new ArrayList<NaryTree<E>>();
 	}
-	
+
 	/**
 	 * Create an {@linkplain NaryTree} instance with the specified {@code degree}.
 	 * @param degree The specified degree for the {@linkplain NaryTree}.
@@ -54,7 +54,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		this.degree = degree;
 		this.subTrees = new ArrayList<NaryTree<E>>();
 	}
-	
+
 	/**
 	 * Create a {@linkplain NaryTree} instance, with the given degree and key value.
 	 * @param degree The specified degree for the {@linkplain NaryTree}.
@@ -67,7 +67,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		for (int i = 0; i < degree; i++)
 			this.subTrees.add(new NaryTree<E>(degree));
 	}
-	
+
 	/**
 	 * Copy constructor. Make a copy of the provided instance. This copy is a deep copy
 	 * of the provided instance.
@@ -81,7 +81,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 			this.subTrees.add(subTree.getClone());
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -115,22 +115,22 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		hash = 31 * hash + (this.subTrees == null ? 0 : this.subTrees.hashCode());
 		return hash;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean addSubTree(Tree<E> subTree) {
 		if (isEmpty())
 			throw new UnsupportedOperationException();
-		
+
 		for (int i = 0; i < degree; i++) {
 			if (!subTrees.get(i).isEmpty())
 				continue;
-			
+
 			subTrees.set(i, (NaryTree<E>) subTree);
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -142,11 +142,11 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 			NaryTree<E> subTree = subTrees.get(i);
 			if (subTree.isEmpty())
 				continue;
-			
+
 			if (subTree.getKey().equals(element))
 				return subTree;
 		}
-		
+
 		return new NaryTree<E>();
 	}
 
@@ -154,16 +154,16 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 	 * {@inheritDoc}
 	 */
 	public Tree<E> removeSubTree(E element) {
-		if (isEmpty()) 
+		if (isEmpty())
 			throw new UnsupportedOperationException();
-		
+
 		Tree<E> subTree = getSubTree(element);
 		int index = subTrees.indexOf(subTree);
 		subTrees.remove(subTree);
 		subTrees.add(index, new NaryTree<E>(degree));
 		return subTree;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -196,7 +196,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 			if (!subTree.isEmpty() && subTree.getKey().equals(element))
 				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -227,7 +227,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 	public Tree<E> getSubTree(int index) {
 		if (isEmpty())
 			throw new UnsupportedOperationException();
-		
+
 		return this.subTrees.get(index);
 	}
 
@@ -238,7 +238,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 		for (int i = 0; i < degree; i++)
 			if (!subTrees.get(i).isEmpty())
 				return false;
-		
+
 		return true;
 	}
 
@@ -249,7 +249,7 @@ public class NaryTree<E extends Comparable<? super E> & Cloneable> extends Abstr
 	public void setKey(E element) {
 		if (!isEmpty())
 			throw new UnsupportedOperationException();
-		
+
 		this.key = element;
 		this.subTrees = new ArrayList<NaryTree<E>>();
 		for (int i = 0; i < degree; i++) {

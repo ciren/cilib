@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  *           "http://0-doi.acm.org.innopac.up.ac.za:80/10.1145/331499.331504", publisher = "ACM
  *           Press", address = "New York, NY, USA" }
  * </pre>
- * 
+ *
  * <p>
  * {@link net.sourceforge.cilib.util.ManhattanDistanceMeasure Manhattan Distance} is a special case of the Minkowski Metric with 'alpha' := 1.<br/>
  * {@link net.sourceforge.cilib.util.EuclideanDistanceMeasure Euclidean Distance} is a special case of the Minkowski Metric with 'alpha' := 2.
@@ -84,7 +84,7 @@ public class MinkowskiMetric implements DistanceMeasure {
 
 		Iterator<T> xIterator = x.iterator();
 		Iterator<T> yIterator = y.iterator();
-		
+
 		double distance = 0.0;
 		for(int i = 0; i < x.size(); ++i) {
 			Numeric xElement = (Numeric) xIterator.next();

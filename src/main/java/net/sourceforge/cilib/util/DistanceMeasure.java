@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * Definition of how to determine the distance between two objects.
- * 
+ *
  * @author Edwin Peer
  * @author Gary Pampara
  */
@@ -44,7 +44,7 @@ public interface DistanceMeasure {
 	 * @return The distance between the provided instances.
 	 */
 	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y);
-	
+
 	/**
 	 * Determine the distance between the two provided {@linkplain Collection}s.
 	 * @param <T> The {@linkplain Collection} type.
@@ -53,5 +53,5 @@ public interface DistanceMeasure {
 	 * @return The distance value.
 	 */
 	public <T extends Collection<? extends Number>> double distance(T x, T y);
-	
+
 }

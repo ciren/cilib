@@ -28,9 +28,9 @@ import java.text.NumberFormat;
  * @author  Edwin Peer
  */
 class ProgressFrame extends javax.swing.JFrame implements ProgressListener {
-    
+
     private static final long serialVersionUID = 4007873302370282732L;
-    
+
 	/** Creates new form ProgressFrame. */
     public ProgressFrame(int simulations) {
         initComponents();
@@ -45,7 +45,7 @@ class ProgressFrame extends javax.swing.JFrame implements ProgressListener {
         nf.setMaximumFractionDigits(1);
         this.simulations = simulations;
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -83,26 +83,26 @@ class ProgressFrame extends javax.swing.JFrame implements ProgressListener {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         System.exit(0);
     }//GEN-LAST:event_formWindowClosing
-    
-    
+
+
     public void handleProgressEvent(ProgressEvent event) {
         double percentage = 100 * event.getPercentage();
         jProgressBar1.setValue((int) percentage);
         jProgressBar1.setString(nf.format(percentage) + "%");
-    }    
+    }
 
     public void setSimulation(int simulation) {
         jProgressBar2.setValue(simulation);
         jProgressBar2.setString(String.valueOf(simulation) + "/" + String.valueOf(simulations));
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration//GEN-END:variables
-    
+
     private NumberFormat nf;
     private int simulations;
 }

@@ -35,7 +35,7 @@ import net.sourceforge.cilib.measurement.Measurement;
  * @author  Edwin Peer
  */
 public class SynchronizedOutputBuffer {
-    
+
     /** Creates a new instance of SynchronizedOutputBuffer. */
     public SynchronizedOutputBuffer(String file, int measurements, int samples) {
         try {
@@ -63,7 +63,7 @@ public class SynchronizedOutputBuffer {
         sampleMap = new HashMap<Algorithm, Integer>();
         lineMap = new HashMap<Integer, Line>();
     }
-    
+
     public synchronized void writeDescription(Measurement measurement) {
         int column = getMeasurementId(measurement) * samples + 1;
         String description = measurement.getClass().getName();
@@ -72,7 +72,7 @@ public class SynchronizedOutputBuffer {
             writeLine("# " + String.valueOf(column + i) + " - " + description + " (" + String.valueOf(i) + ")");
         }
     }
-    
+
     public synchronized void writeMeasuredValue(Object value, Algorithm algorithm, Measurement measurement) {
         Integer key = new Integer(algorithm.getIterations());
         Line line;
@@ -87,16 +87,16 @@ public class SynchronizedOutputBuffer {
         int measurementId = getMeasurementId(measurement);
         line.setElement(measurementId * samples + sampleId, value);
         if (line.isFull()) {
-            writeLine(String.valueOf(key.intValue()) + " " + line.toString()); 
+            writeLine(String.valueOf(key.intValue()) + " " + line.toString());
             lineMap.remove(key);
         }
     }
-        
-    
+
+
     public synchronized void write(String string) {
         writeLine(string);
     }
-    
+
     public synchronized void flush() {
         try {
             writer.flush();
@@ -105,7 +105,7 @@ public class SynchronizedOutputBuffer {
             throw new SimulationException(ex.toString());
         }
     }
-    
+
     public synchronized void close() {
         try {
             writer.close();
@@ -114,7 +114,7 @@ public class SynchronizedOutputBuffer {
             throw new SimulationException(ex.toString());
         }
     }
-    
+
     protected void writeLine(String string) {
         try {
             writer.write(string);
@@ -123,9 +123,9 @@ public class SynchronizedOutputBuffer {
         }
         catch (IOException ex) {
             throw new SimulationException(ex.toString());
-        }        
+        }
     }
-    
+
     protected int getMeasurementId(Measurement measurement) {
         if (measurementMap.containsKey(measurement)) {
             return ((Integer) measurementMap.get(measurement)).intValue();
@@ -135,7 +135,7 @@ public class SynchronizedOutputBuffer {
             return nextMeasurementId++;
         }
     }
-    
+
     protected int getSampleId(Algorithm algorithm) {
         if (sampleMap.containsKey(algorithm)) {
             return ((Integer) sampleMap.get(algorithm)).intValue();
@@ -145,7 +145,7 @@ public class SynchronizedOutputBuffer {
             return nextSampleId++;
         }
     }
-    
+
     private int samples;
     private int measurements;
     private int nextSampleId;

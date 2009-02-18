@@ -32,7 +32,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * <code>Entity</code> from the <code>Problem</code>.
  */
 public interface FitnessCalculator extends Serializable, Cloneable {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

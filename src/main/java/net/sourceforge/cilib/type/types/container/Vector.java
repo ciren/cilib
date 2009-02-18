@@ -37,37 +37,37 @@ import net.sourceforge.cilib.type.types.Type;
  * Concrete implementation of the {@see net.sourceforge.cilib.type.types.Vector}
  * class. Any {@see net.sourceforge.cilib.type.types.Type} object may be contained
  * within this object.
- * 
+ *
  * @author Gary Pampara
  * @author Edwin Peer
  */
 public class Vector extends AbstractList implements Resetable, VectorMath {
 	private static final long serialVersionUID = 136711882764612609L;
 	private ArrayList<Type> components;
-	
-	
+
+
 	/**
 	 * Create a default <code>MixedVector</code> with an initial size of 0.
 	 */
 	public Vector() {
 		components = new ArrayList<Type>();
 	}
-	
-	
+
+
 	/**
 	 * Create a <code>MixedVector</code> with a default size specified by <code>dimension</code>.
-	 * 
+	 *
 	 * @param dimension The size to initialise the <code>MixedVector</code>
 	 */
 	public Vector(int dimension) {
 		components = new ArrayList<Type>(dimension);
 		components.ensureCapacity(dimension);
 	}
-	
+
 	/**
 	 * Create a <code>MixedVector</code> object with a default size of <code>dimension</code>
 	 * and initialised with a the component <code>commponent</code> .
-	 * 
+	 *
 	 * @param dimension The dimension of the <code>MixedVector</code> required.
 	 * @param component The component required for initial values of type <code>Type</code>.
 	 */
@@ -85,24 +85,24 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 		}
 		else {
 			components = new ArrayList<Type>();
-			for (int i = 0; i < dimension; ++i) { 
+			for (int i = 0; i < dimension; ++i) {
 				components.add(component.getClone());
 			}
-		}	
+		}
 	}
-	
+
 	/**
 	 * Copy constructor.
 	 * @param copy The Vector to copy.
 	 */
 	public Vector(Vector copy) {
 		this(copy.components.size());
-		
+
 		for (Type type : copy.components) {
 			components.add(type.getClone());
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -123,15 +123,15 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Add an object to the end of the <code>MixedVector</code>.
-	 * 
+	 *
 	 * @param t The <code>Type</code> object to add.
 	 * @return <tt>true</tt> (as per the general contract of Collection.add).
 	 */
 	public boolean add(Type t) {
 		return components.add(t);
 	}
-	
-	
+
+
 	/**
 	 * Appends all of the elements in the specified Collection to the end of
      * this list, in the order that they are returned by the
@@ -140,7 +140,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
      * is in progress.  (This implies that the behavior of this call is
      * undefined if the specified Collection is this list, and this
      * list is nonempty.)
-     * 
+     *
 	 * @param collection The <tt>Collection</tt> to be added.
 	 * @return <tt>true</tt> if this <tt>Vector</tt> changed as a result of the call.
 	 * @throws NullPointerException if the specified collection is null.
@@ -148,10 +148,10 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public boolean addAll(StructuredType<? extends Type> collection) {
 		for (Type type : collection)
 			components.add(type);
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Appends the supplied <tt>Vector</tt> contents to the current <tt>Vector</tt>.
 	 * This method copies the references of the supplied <tt>Vector</tt>.
@@ -161,19 +161,19 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public boolean append(AbstractList vector) {
 		if (vector == null)
 			throw new NullPointerException("Cannot append a null reference to Vector object");
-		
+
 		int capacity = this.components.size() + vector.size();
 		this.components.ensureCapacity(capacity);
-		
+
 		for (Type t : vector) {
 			this.components.add(t);
 		}
 		return true;
 	}
-	
+
 
 	/**
-	 * Append the supplied <tt>Vector</tt> to the beginning of the current 
+	 * Append the supplied <tt>Vector</tt> to the beginning of the current
 	 * <tt>Vector</tt>.
 	 * @param vector The {@linkplain Vector} to prepend.
 	 * @return true always
@@ -181,40 +181,40 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public boolean prepend(AbstractList vector) {
 		if (vector == null)
 			throw new NullPointerException("Cannot prepend a null reference to Vector object");
-		
+
 		int capacity = this.components.size() + vector.size();
 		this.components.ensureCapacity(capacity);
-		
+
 		for (int i = vector.size()-1; i >= 0; i--) {
 			prepend(vector.getType(i));
 		}
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * Remove all the entities in this <tt>Vector</tt>.
 	 */
 	public void clear() {
 		this.components.clear();
 	}
-	
-	
+
+
 	/**
 	 * Deterime if the given object is contained within the <tt>MixedVector</tt>.
-	 * 
+	 *
 	 * @param obj The object to examined for containment
 	 * @return <tt>true</tt> if the object is contained<br><tt>false</tt> otherwise.
 	 */
 	public boolean contains(Type obj) {
 		return components.contains(obj);
 	}
-	
-	
+
+
 	/**
 	 * Determine if the entire given collection is contained within this
 	 * <tt>MixedVector</tt>.
-	 * 
+	 *
 	 * @param collection The {@see java.util.Collection} to be examined for containment.
 	 * @return <tt>true</tt> if the collection is contained, <tt>false</tt> otherwise.
 	 */
@@ -234,7 +234,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Returns the elements in this <tt>Vector</tt> in the proper sequence.
-	 * 
+	 *
 	 * @return an iterator over the elements in this <tt>Vector</tt> in proper sequence.
 	 */
 	public Iterator<Type> iterator() {
@@ -243,31 +243,31 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Remove the <tt>Object</tt> obj from this <tt>Vector</tt>.
-	 * 
+	 *
 	 * @param obj element to be removed from this <tt>Vector</tt>, if present.
 	 * @return <tt>true</tt> if the list contained the specified element.
 	 */
 	public boolean remove(Type obj) {
-		return this.components.remove(obj);		
+		return this.components.remove(obj);
 	}
-	
+
 	/**
 	 * Remove the <tt>Collection</tt> of objects from this <tt>Vector</tt>.
-	 * 
+	 *
 	 * @return <tt>true</tt> if this collection changed as a result of the call.
-	 * @throws UnsupportedOperationException - if the removeAll method is not supported by this collection. 
+	 * @throws UnsupportedOperationException - if the removeAll method is not supported by this collection.
 	 * @throws NullPointerException - if the specified collection is null.
 	 */
 	public boolean removeAll(StructuredType<Type> collection) {
 		for (Type type : collection)
 			components.remove(type);
-		
+
 		return true;
 	}
 
 	/**
 	 * Retains only the specified in the objects contained in the specified collection.
-	 * 
+	 *
 	 * @param c elements to be retained in this collection.
 	 * @return <tt>true</tt> if this collection changed as a result of the call.
 	 * @throws UnsupportedOperationException - if the retainAll method is not supported by this Collection.
@@ -296,11 +296,11 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public Object [] toArray() {
 		try {
 			Object [] tmp = new Object[getDimension()];
-		
+
 			for (int i = 0; i < getDimension(); i++) {
 				tmp[i] = getType(i).getClone();
 			}
-		
+
 			return tmp;
 		}
 		catch (Exception e) {
@@ -344,33 +344,33 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	 * This method returns the current <code>Type</code> at index <code>index</code>. The returned <code>Type</code>
 	 * is a <b>clone</b> of the original to avoid issues with the references to the same objects, provided that the
 	 * requested object is an instance or sub class of <code>Numeric</code>. The use of this method is not regarded
-	 * as correct in this instance and the use of <code>getReal(), getInt()</code> and <code>getBit()</code> 
-	 * is preferred. 
-	 * 
+	 * as correct in this instance and the use of <code>getReal(), getInt()</code> and <code>getBit()</code>
+	 * is preferred.
+	 *
 	 * If the returned type is expected to be something other than a <code>Numeric</code>, but still an object located
-	 * with in the Types heirarchy, the <code>Type</code> will be returned <b><i>without</i></b> any cloning. 
-	 * 
+	 * with in the Types heirarchy, the <code>Type</code> will be returned <b><i>without</i></b> any cloning.
+	 *
 	 * @param index The index of the requested <code>Type</code>
-	 * 
+	 *
 	 * @return A clone of the <tt>Type</tt> object specificed at the given index.
-	 * 
+	 *
 	 * @throws IndexOutOfBoundsException if the <tt>index</tt> exceeds the bounds.
 	 */
 	public Type get(int index) {
 		Type component = getType(index);
-		
+
 		if (component instanceof Numeric) {
 			Type result = getType(index).getClone();
 			return result;
 		}
-		else 
+		else
 			return component;
 	}
 
 	/**
 	 * Set the element within the <code>MixedVector</code> at index <code>index</code> with
 	 * the object defined by <code>value</code>.
-	 * 
+	 *
 	 * @param index The index within the <code>MixedVector</code>
 	 * @param value The object replacing the original item in the <code>MixedVector</code>
 	 */
@@ -381,7 +381,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	/**
 	 * Insert a new object within the <code>MixedVector</code> such that the <code>Type</code>
 	 * object will be located between index-1 and index+1.
-	 * 
+	 *
 	 * @param index The desired index to insert a new <code>Type</code> object.
 	 * @param value The object to be inserted.
 	 */
@@ -402,7 +402,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	/**
 	 * Get the <code>Numeric</code> component from the <code>MixedVector</code> at index
 	 * <code>index</code>.
-	 * 
+	 *
 	 * @param index The location of the requested object within the <code>MixedVector</code>
 	 * @return A <code>Numeric</code> representing the object located at index <code>index</code>
 	 * @throws IndexOutOfBoundsException if the <tt>index</tt> exceeds the bounds.
@@ -417,11 +417,11 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 			throw new UnsupportedOperationException("Attempted to perform a numeric operation on non-numeric type");
 		}
 	}
-	
+
 	/**
 	 * Get the <tt>boolean</tt> represenation of the bit value represented
 	 * at index <tt>index</tt> within this <tt>Vector</tt> object.
-	 * 
+	 *
 	 * @param index The index of the object that the bit value must be returned.
 	 * @return The boolean value represenation of the bit.
 	 */
@@ -431,7 +431,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Set the value located at the specified index to the given value.
-	 * 
+	 *
 	 * @param index The index of the contained <tt>Type</tt>.
 	 * @param value The value to be set.
 	 */
@@ -441,9 +441,9 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Get the integer value of the object located at the specified index.
-	 * 
+	 *
 	 * @param index The location of the requested object.
-	 * @return The int value representation the of the object located at the specified index. 
+	 * @return The int value representation the of the object located at the specified index.
 	 */
 	public int getInt(int index) {
 		return this.getNumeric(index).getInt();
@@ -451,7 +451,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Set the value located at the specified index to the given value.
-	 * 
+	 *
 	 * @param index The index of the contained <tt>Type</tt>.
 	 * @param value The value to be set.
 	 */
@@ -461,7 +461,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Get the real value of the object located at <code>index</code>.
-	 * 
+	 *
 	 * @param index The index of the real value to get.
 	 * @return A <code>double</code> value of the object at index <code>index</code>
 	 */
@@ -471,7 +471,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Set the value of the object located at index <code>index</code> to <code>value</code>.
-	 * 
+	 *
 	 * @param index The index of the object to be altered.
 	 * @param value The value to be set.
 	 */
@@ -481,14 +481,14 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Get the specified <tt>Type</tt> object at the given index.
-	 * 
+	 *
 	 * @return The reference to the <tt>Type</tt> object at index <tt>index</tt>.
 	 * @throws IndexOutOfBoundsException if the <tt>index</tt> exceeds the bounds.
 	 */
 	protected Type getType(int index) {
 		if (index >= components.size())
 			throw new IndexOutOfBoundsException("Cannot find object at index: " + index);
-		
+
 		return this.components.get(index);
 	}
 
@@ -504,7 +504,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Reset all every component within this vector to it's standard default value
-	 * as defined and accepted by developers everywhere. The value of the components 
+	 * as defined and accepted by developers everywhere. The value of the components
 	 * will be 0.0, 0, or false.
 	 */
 	public void reset() {
@@ -515,7 +515,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 
 	/**
 	 * Get the subrange from the current <tt>Vector</tt> as a <tt>Vector</tt>.
-	 * 
+	 *
 	 * @param fromIndex The starting index for the subrange
 	 * @param toIndex The ending index for the subrange.
 	 * @return A <tt>Vector</tt> object representing the sub range of the original <tt>Vector</tt>
@@ -523,7 +523,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public Vector subVector(int fromIndex, int toIndex) {
 		int length = toIndex - fromIndex + 1;
 		final Vector m = new Vector(length);
-		
+
 		for (int i = fromIndex; i <= toIndex; i++) {
 			m.add(this.get(i));
 		}
@@ -533,7 +533,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
  	/**
 	 * Create a new <tt>Vector</tt> that is the resultant <tt>Vector</tt>
 	 * calculated from the addition of two <tt>Vector</tt> objects.
-	 * 
+	 *
 	 * @return The resultant <tt>Vector</tt> object.
 	 * @throws UnsupportedOperationException if the current <tt>Vector</tt> and the given <tt>Vector</tt> do
 	 * 			not have the same dimensions.
@@ -565,7 +565,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public final Vector divide(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot divide vectors with differing dimensions");
-		
+
 		final Vector result = this.getClone();
 		for(int i = 0; i < result.size(); i++) {
 			if(vector.getReal(i) == 0.0)
@@ -592,13 +592,13 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public final Vector multiply(Vector vector) {
 		if (this.components.size() != vector.size())
 			throw new UnsupportedOperationException("Cannot multiply vectors with differing dimensions");
-		
+
 		final Vector result = this.getClone();
 		for (int i = 0; i < result.size(); i++) {
 			Numeric numeric = (Numeric) result.getType(i);
 			numeric.setReal(numeric.getReal() * vector.getReal(i));
 		}
-		return result;		
+		return result;
 	}
 
 	/**
@@ -618,19 +618,19 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	/**
 	 * Calculate the norm of this Vector object. All the elements must
 	 * be of type {@see net.sourceforge.cilib.type.types.Numeric}.
-	 * 
-	 * @return The value of the vector norm 
-	 */	
+	 *
+	 * @return The value of the vector norm
+	 */
 	public final double norm() {
 		double result = 0.0;
-		
+
 		for (Type element : this.components) {
 			if (element instanceof Numeric) {
 				Numeric n = (Numeric) element;
 				result += n.getReal() * n.getReal();
 			}
 		}
-		
+
 		return Math.sqrt(result);
 	}
 
@@ -652,13 +652,13 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 		if (this.size() != vector.size()) {
 			throw new ArithmeticException("Cannot perform the dot product on vectors with differing dimensions");
 		}
-		
+
 		double result = 0.0;
-		
+
 		for (int i = 0; i < size(); i++) {
 			result += this.getReal(i) * vector.getReal(i);
 		}
-		
+
 		return result;
 	}
 
@@ -666,7 +666,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public final Vector cross(Vector vector) {
 		if (this.size() != vector.size())
 			throw new ArithmeticException("Cannot perform the dot product on vectors with differing dimensions");
-		
+
 		if (this.size() != 3) // implicitly checks that vector.size() == 3
 			throw new ArithmeticException("Cannot determine the cross product on non 3-dimensional vectors.");
 
@@ -681,7 +681,7 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 		for (Type type : this.components) {
 			if (visitor.isDone())
 				return;
-			
+
 			visitor.visit(type);
 		}
 	}
@@ -693,10 +693,10 @@ public class Vector extends AbstractList implements Resetable, VectorMath {
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
-		
+
 		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-		
+
 		Vector otherList = (Vector) other;
 		return this.components.equals(otherList.components);
 	}

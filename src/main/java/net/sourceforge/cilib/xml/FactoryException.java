@@ -26,7 +26,7 @@ package net.sourceforge.cilib.xml;
  * @author  Edwin Peer
  */
 public class FactoryException extends java.lang.RuntimeException {
-    
+
 	private static final long serialVersionUID = 4346897322028501090L;
 
 	/**
@@ -34,7 +34,7 @@ public class FactoryException extends java.lang.RuntimeException {
      */
     public FactoryException() {
     }
-        
+
     /**
      * Constructs an instance of <code>FactoryException</code> with the specified detail message.
      * @param msg the detail message.

@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.TypeUtil;
 
 /**
  * The basic definition for all {@linkplain Type} objects that are based on a list.
- * 
+ *
  * @author Gary Pampara
  */
 public abstract class AbstractList implements StructuredType<Type> {
@@ -37,12 +37,12 @@ public abstract class AbstractList implements StructuredType<Type> {
 	 * {@inheritDoc}
 	 */
 	public abstract AbstractList getClone();
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public abstract boolean equals(Object obj);
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -208,7 +208,7 @@ public abstract class AbstractList implements StructuredType<Type> {
 	/**
 	 * Determine if all the elements of this <tt>Vector</tt> is defined within the lower and
 	 * upper bounds as specified by the domain of the problem.
-	 * 
+	 *
 	 * @return <tt>true</tt> if all elements are within the bounds, <tt>false</tt> otherwise.
 	 */
 //	public boolean isInsideBounds() {
@@ -308,7 +308,7 @@ public abstract class AbstractList implements StructuredType<Type> {
 	 * Get the {@code String} representation, using the provided {@literal delimiter}. Also see
 	 * @see Object#toString()
 	 * @param delimiter The delimiter to use.
-	 * @return The {@linkplain String} representation, using the provided delimiter. 
+	 * @return The {@linkplain String} representation, using the provided delimiter.
 	 */
 	public String toString(char delimiter) {
 		return toString('[', ']', delimiter);
@@ -320,5 +320,5 @@ public abstract class AbstractList implements StructuredType<Type> {
 	 * @param size The required size
 	 * @param element The {@linkplain Type} to use to initialise the {@linkplain AbstractList}.
 	 */
-	public abstract void initialise(int size, Type element);	
+	public abstract void initialise(int size, Type element);
 }

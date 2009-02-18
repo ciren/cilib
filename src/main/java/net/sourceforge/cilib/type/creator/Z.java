@@ -25,14 +25,14 @@ import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
 public final class Z implements TypeCreator {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5763440861780552761L;
 

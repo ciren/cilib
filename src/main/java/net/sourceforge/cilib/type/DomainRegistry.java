@@ -28,17 +28,17 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * 
+ *
  * @author gpampara
  *
  */
 public interface DomainRegistry extends Cloneable, Serializable {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public DomainRegistry getClone();
-	
+
 	/**
 	 * Set the value of the string representing the domain.
 	 * @param domainString The domainString to set.

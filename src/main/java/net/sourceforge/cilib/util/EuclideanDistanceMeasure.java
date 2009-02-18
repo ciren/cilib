@@ -22,14 +22,14 @@
 package net.sourceforge.cilib.util;
 
 /**
- * Euclidean Distance is a special case of the {@linkplain MinkowskiMetric} with 
+ * Euclidean Distance is a special case of the {@linkplain MinkowskiMetric} with
  * <code>alpha = 2</code>.
- * 
+ *
  * @author Edwin Peer
  * @author Theuns Cloete
  */
 public class EuclideanDistanceMeasure extends MinkowskiMetric {
-	
+
 	/**
 	 * Create an instance of the {@linkplain EuclideanDistanceMeasure}.
 	 */

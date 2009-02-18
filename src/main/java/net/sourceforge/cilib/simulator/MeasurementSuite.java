@@ -39,15 +39,15 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class MeasurementSuite implements Serializable {
 	private static final long serialVersionUID = 8021290553229945841L;
-	
+
 	private String file;
     private int samples;
     private int resolution;
     private ArrayList<Measurement> measurements;
     private SynchronizedOutputBuffer buffer;
     private MeasurementStateManager measurementStateManager;
-    
-    
+
+
     /** Creates a new instance of MeasurementSuite. */
     public MeasurementSuite() {
         measurements = new ArrayList<Measurement>();
@@ -56,9 +56,9 @@ public class MeasurementSuite implements Serializable {
         resolution = 1;
         measurementStateManager = new MeasurementStateManager();
     }
-    
+
     /**
-     * Initialise the require output buffers for the {@linkplain MeasurementSuite}. 
+     * Initialise the require output buffers for the {@linkplain MeasurementSuite}.
      */
     public void initialise() {
         buffer = new SynchronizedOutputBuffer(file, measurements.size(), samples);
@@ -67,7 +67,7 @@ public class MeasurementSuite implements Serializable {
             buffer.writeDescription(measurement);
         }
     }
-    
+
     /**
      * Sets the output file to record the measurements in.
      *
@@ -84,7 +84,7 @@ public class MeasurementSuite implements Serializable {
     public String getFile() {
         return this.file;
     }
-    
+
     /**
      * Sets the number of samples to take for each measurement. Each sample results
      * in the experiment being performed again.
@@ -94,7 +94,7 @@ public class MeasurementSuite implements Serializable {
     public void setSamples(int samples) {
         this.samples = samples;
     }
-    
+
     /**
      * Accessor for the number of samples to take for each measurement.
      *
@@ -103,9 +103,9 @@ public class MeasurementSuite implements Serializable {
     public int getSamples() {
         return samples;
     }
-    
+
     /**
-     * Sets the resolution of the results. The resolution determines how offen 
+     * Sets the resolution of the results. The resolution determines how offen
      * results are logged to file. If the resolution is 10 then results are
      * logged every 10 iterations.
      *
@@ -114,7 +114,7 @@ public class MeasurementSuite implements Serializable {
     public void setResolution(int resolution) {
         this.resolution = resolution;
     }
-    
+
     /**
      * Accessor for the resolution of the results.
      *
@@ -123,7 +123,7 @@ public class MeasurementSuite implements Serializable {
     public int getResolution() {
         return resolution;
     }
-    
+
     /**
      * Get the current {@linkplain SynchronizedOutputBuffer}.
      * @return The current buffer.
@@ -138,17 +138,17 @@ public class MeasurementSuite implements Serializable {
 
     /**
      * Adds a measurement to the suite.
-     * 
+     *
      * @param measurement The measurement to be added.
      */
     public void addMeasurement(Measurement measurement) {
         measurements.add(measurement);
     }
-    
+
     /**
      * Measure the provided {@linkplain Algorithm}. All the current measurements
      * that are defined for the {@linkplain MeasurementSuite} are applied to the
-     * {@linkplain Algorithm}. Any measurements that are 
+     * {@linkplain Algorithm}. Any measurements that are
      * {@linkplain StateAwareMeasurement state aware} instances will
      * automatically have their internal state saved and restored
      * as measurements are taken on the current {@linkplain Algorithm}.
@@ -157,7 +157,7 @@ public class MeasurementSuite implements Serializable {
     public void measure(Algorithm algorithm) {
         for (Measurement measurement : measurements) {
             Type value = null;
-            
+
             if (measurement instanceof StateAwareMeasurement) {
                 StateAwareMeasurement stateAwareMeasurement = (StateAwareMeasurement) measurement;
                 measurementStateManager.setState(algorithm, stateAwareMeasurement);
@@ -166,7 +166,7 @@ public class MeasurementSuite implements Serializable {
             }
             else
                 value = measurement.getValue(algorithm);
-            
+
             buffer.writeMeasuredValue(value, algorithm, measurement);
         }
     }

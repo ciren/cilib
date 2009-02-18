@@ -43,19 +43,19 @@ public class Set<E> implements StructuredType<E> {
 	public Set() {
 		elements = new HashSet<E>();
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
 	 */
 	public Set(Set<E> copy) {
 		this();
-		
+
 		for (E element : copy.elements) {
 			this.elements.add(element);
 		}
-	}	
-	
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -69,48 +69,48 @@ public class Set<E> implements StructuredType<E> {
 	public boolean add(E obj) {
 		return elements.add(obj);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean addAll(StructuredType<? extends E> s) {
 		for (E element : s)
 			this.elements.add(element);
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public void clear() {
 		elements.clear();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean isEmpty() {
 		return elements.isEmpty();
 	}
-		
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public int size() {
 		return elements.size();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
-		
+
 		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-		
+
 		Set<?> otherSet = (Set<?>) other;
 		return this.elements.equals(otherSet.elements);
 	}
@@ -131,22 +131,22 @@ public class Set<E> implements StructuredType<E> {
 		return elements.iterator();
 	}
 
-	public Object[] toArray() {		
+	public Object[] toArray() {
 		Object[] result = new Object[size()];
 		Iterator<E> e = iterator();
 		for (int i=0; e.hasNext(); i++)
 		    result[i] = e.next();
 		return result;
 	}
-	
-	
+
+
 	public <T> T[] toArray(T[] a) {
 		int size = this.elements.size();
 		Object [] result = a;
 		if (a.length < size) {
 			result = (Object []) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
 		}
-		
+
 		Iterator<E> it = iterator();
 		//Object[] result = a;
         for (int i=0; i<size; i++)
@@ -169,14 +169,14 @@ public class Set<E> implements StructuredType<E> {
 	public void randomise() {
 		throw new UnsupportedOperationException("randomise() not implemented for " + this.getClass().getName());
 	}
-	
+
 	/**
 	 * Not supported for this container.
 	 */
 	public void reset() {
 		throw new UnsupportedOperationException("reset() not implemented for " + this.getClass().getName());
 	}
-	
+
 	/**
 	 * Not supported for this container.
 	 */
@@ -224,7 +224,7 @@ public class Set<E> implements StructuredType<E> {
 	 */
 	public boolean removeAll(StructuredType<E> structure) {
 		boolean result = true;
-		
+
 
 		for (E element : structure) {
 			if (!this.elements.contains(element))
@@ -232,7 +232,7 @@ public class Set<E> implements StructuredType<E> {
 			else
 				this.elements.remove(element);
 		}
-			
+
 		return result;
 	}
 

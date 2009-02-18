@@ -30,14 +30,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Utility methods for {@linkplain Vector}s.
  */
 public final class VectorUtils {
-	
+
 	/**
 	 * Default constructor. Specified constructor to be private so that an instance
 	 * of this utility class cannot be created.
 	 */
 	private VectorUtils() {
 	}
-	
+
 	/**
 	 * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
 	 * set to the upper bound of that component.
@@ -60,10 +60,10 @@ public final class VectorUtils {
 		}
 		return upper;
 	}
-	
+
 	/**
 	 * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
-	 * set to the lower bound of that component. 
+	 * set to the lower bound of that component.
 	 * @param vector The {@linkplain Vector} from which to create the lower bound vector.
 	 * @throws UnsupportedOperationException when an element in the {@link Vector}
 	 *         is not a {@link Numeric}
@@ -92,10 +92,10 @@ public final class VectorUtils {
 	 */
 	public static <T extends Number> Vector create(T... result) {
 		Vector vector = new Vector();
-		
+
 		for (T element : result)
 			vector.add(new Real(element.doubleValue()));
-		
+
 		return vector;
 	}
 

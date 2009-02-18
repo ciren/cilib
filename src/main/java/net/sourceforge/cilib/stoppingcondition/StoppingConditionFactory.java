@@ -26,6 +26,6 @@ package net.sourceforge.cilib.stoppingcondition;
  * @author  Edwin Peer
  */
 public interface StoppingConditionFactory {
-    
+
     public StoppingCondition newStoppingCondition();
 }

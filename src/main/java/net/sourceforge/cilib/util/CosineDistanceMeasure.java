@@ -82,9 +82,9 @@ public class CosineDistanceMeasure implements DistanceMeasure {
 		norm_y = Math.sqrt(norm_y);
 		if(norm_x <= 0.0 || norm_y <= 0.0)
 			throw new ArithmeticException("Division by zero");
-		
-		// TODO: return x.dot(y) ??? 
-		
+
+		// TODO: return x.dot(y) ???
+
 		//convert to distance by subtracting from 1
 		return 1.0 - (distance / (norm_x * norm_y));
 	}

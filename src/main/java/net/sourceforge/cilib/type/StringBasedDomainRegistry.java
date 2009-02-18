@@ -28,12 +28,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Class to perform the needed mappings between a top level domain string
  * and the built representation.
- * 
+ *
  * @author Gary Pampara
  *
  */
 public class StringBasedDomainRegistry implements DomainRegistry {
-	
+
 	/**
 	 * Generated <u>Serial Version UID</u> for the serialization.
 	 */
@@ -41,15 +41,15 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 	private String domainString;
 	private String expandedRepresentation;
 	private StructuredType builtRepresenation;
-	
+
 
 	/**
-	 * Construct an instance of the DomainRegistry that will contain the needed 
-	 * information about the domain. 
+	 * Construct an instance of the DomainRegistry that will contain the needed
+	 * information about the domain.
 	 */
 	public StringBasedDomainRegistry() {
 	}
-	
+
 	/**
 	 * Copy Constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -59,14 +59,14 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 		this.expandedRepresentation = copy.expandedRepresentation;
 		this.builtRepresenation = copy.builtRepresenation.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public StringBasedDomainRegistry getClone() {
 		return new StringBasedDomainRegistry(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -80,7 +80,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 	 */
 	public void setDomainString(String domainString) {
 		this.domainString = domainString;
-		
+
 		DomainParser parser = DomainParser.getInstance();
 		parser.parse(domainString);
 
@@ -126,6 +126,6 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 	public int getDimension() {
 		return ((Vector) this.builtRepresenation).getDimension();
 	}
-	
+
 }
 

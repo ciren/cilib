@@ -26,21 +26,21 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
 public class StringType implements Type {
 	private static final long serialVersionUID = 2946972552546398657L;
 	private String string;
-	
+
 	/**
 	 * Create an {@linkplain StringType} instance, which is empty and uninitialised.
 	 */
 	public StringType() {
 		string = null;
 	}
-	
+
 	/**
 	 * Create an instance with the given string as the contents.
 	 * @param string The string value to have.
@@ -48,7 +48,7 @@ public class StringType implements Type {
 	public StringType(String string) {
 		this.string = string;
 	}
-	
+
 	/**
 	 * Copy constructor. Copy the given instance.
 	 * @param copy The instance to copy.
@@ -63,7 +63,7 @@ public class StringType implements Type {
 	public StringType getClone() {
 		return new StringType(this);
 	}
-	
+
 	/**
 	 * Get the contained string.
 	 * @return the contained {@linkplain String}.
@@ -71,7 +71,7 @@ public class StringType implements Type {
 	public String getString() {
 		return this.string;
 	}
-	
+
 	/**
 	 * Set the contained {@linkplain String} value.
 	 * @param newString The value to be contained by the {@linkplain StringType}.
@@ -86,12 +86,12 @@ public class StringType implements Type {
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
-		
+
 		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-		
+
 		StringType stringType = (StringType) other;
-		return this.string.equals(stringType.string); 
+		return this.string.equals(stringType.string);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class StringType implements Type {
 		hash = 31 * hash + this.string.hashCode();
 		return hash;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -113,7 +113,7 @@ public class StringType implements Type {
 	/**
 	 * Write the contents of the {@linkplain StringType} to an {@linkplain ObjectOutput}.
 	 * @param oos the {@linkplain ObjectOutput} to write to.
-	 * @throws IOException If an exception occurs. 
+	 * @throws IOException If an exception occurs.
 	 */
 	public void writeExternal(ObjectOutput oos) throws IOException {
 		oos.writeUTF(this.string);

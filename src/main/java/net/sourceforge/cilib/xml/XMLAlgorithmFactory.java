@@ -32,11 +32,11 @@ import org.w3c.dom.Element;
  * @author  Edwin Peer
  */
 public class XMLAlgorithmFactory extends XMLObjectFactory implements AlgorithmFactory {
-    
+
 	public XMLAlgorithmFactory() {
 		super(null);
 	}
-	
+
     /** Creates a new instance of XMLAlgorithmFactory. */
     public XMLAlgorithmFactory(Document xmlDocument, Element xmlAlgorithmDescription) {
         super(xmlDocument, xmlAlgorithmDescription);
@@ -44,14 +44,14 @@ public class XMLAlgorithmFactory extends XMLObjectFactory implements AlgorithmFa
             error(xmlAlgorithmDescription, "Expected <algorithm> tag");
         }
     }
-    
+
     public XMLAlgorithmFactory(Element xmlAlgorithmDescription) {
         super(xmlAlgorithmDescription);
         if (!xmlAlgorithmDescription.getTagName().equals("algorithm")) {
             error(xmlAlgorithmDescription, "Expected <algorithm> tag");
         }
     }
-    
+
     /** Returns a newly constructed algorithm.
      *
      * @return A new {@link Algorithm}.
@@ -59,10 +59,10 @@ public class XMLAlgorithmFactory extends XMLObjectFactory implements AlgorithmFa
      */
     public Algorithm newAlgorithm() {
         return (Algorithm) newObject();
-    }  
-    
-    public void setAlgorithm(Algorithm algorithm) {
-        // hack to make CiClops introspector work properly 
     }
-    
+
+    public void setAlgorithm(Algorithm algorithm) {
+        // hack to make CiClops introspector work properly
+    }
+
 }

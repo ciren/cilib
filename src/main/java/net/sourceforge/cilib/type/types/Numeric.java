@@ -23,7 +23,7 @@ package net.sourceforge.cilib.type.types;
 
 /**
  * Definition of the <tt>Numeric</tt> type.
- * 
+ *
  * @author Gary Pampara
  */
 public abstract class Numeric implements Type, BoundedType, Resetable, Comparable<Numeric> {
@@ -34,28 +34,28 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
     protected Numeric() {
         this.bounds = new Bounds();
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public abstract Numeric getClone();
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
-		
+
 		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-		
+
 		Numeric numeric = (Numeric) other;
 //		return (Double.valueOf(this.lowerBound).equals(Double.valueOf(numeric.lowerBound))) &&
 //			(Double.valueOf(this.upperBound).equals(Double.valueOf(numeric.upperBound)));
         return this.bounds.equals(numeric.bounds);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -64,79 +64,79 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
         hash = 31 * hash + this.bounds.hashCode();
 		return hash;
 	}
-	
+
 	/**
 	 * Set the value of the {@linkplain Numeric}.
 	 * @param value The {@linkplain String} value to be parsed.
 	 */
 	public abstract void set(String value);
-	
+
 	/**
 	 * Set the value of the {@linkplain Numeric}.
 	 * @param value The {@literal boolean} value representing the value for this {@linkplain Type}.
 	 */
 	public abstract void set(boolean value);
-	
+
 	/**
 	 * Set the value of the {@linkplain Numeric}.
 	 * @param value The {@literal int} value representing the value for this {@linkplain Type}.
 	 */
 	public abstract void set(int value);
-	
+
 	/**
 	 * Set the value of the {@linkplain Numeric}.
 	 * @param value The {@literal double} value representing the value for this {@linkplain Type}.
 	 */
 	public abstract void set(double value);
-	
+
 	/**
 	 * Get the value of this {@linkplain Numeric}.
 	 * @return The value of this {@linkplain Numeric} as a {@literal boolean}.
 	 */
 	public abstract boolean getBit();
-	
+
 	/**
 	 * Set the bit value with the provided value.
 	 * @param value The value to set.
 	 */
 	public abstract void setBit(boolean value);
-	
+
 	/**
 	 * Set the bit value with the provided value.
 	 * @param value The value to set.
 	 */
 	public abstract void setBit(String value);
-	
+
 	/**
 	 * Get the value of this {@linkplain Numeric}.
 	 * @return The value of this {@linkplain Numeric} as a {@literal int}.
 	 */
 	public abstract int getInt();
-	
+
 	/**
 	 * Set the integer value with the provided value.
 	 * @param value The value to set.
 	 */
 	public abstract void setInt(int value);
-	
+
 	/**
 	 * Set the integer value with the provided value.
 	 * @param value The value to set.
 	 */
 	public abstract void setInt(String value);
-	
+
 	/**
 	 * Get the value of this {@linkplain Numeric}.
 	 * @return The value of this {@linkplain Numeric} as a {@literal double}.
 	 */
 	public abstract double getReal();
-	
+
 	/**
 	 * Set the real value with the provided value.
 	 * @param value The value to set.
 	 */
 	public abstract void setReal(double value);
-	
+
 	/**
 	 * Set the real value with the provided value.
 	 * @param value The value to set.
@@ -164,5 +164,5 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
     }
 
 	public abstract String getRepresentation();
-	
+
 }

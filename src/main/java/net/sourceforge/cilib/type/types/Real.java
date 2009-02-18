@@ -35,14 +35,14 @@ public class Real extends Numeric {
 	private static final long serialVersionUID = 5290504438178510485L;
 	private double value;
 
-	
+
 	/**
 	 * Create the instance with a random value.
 	 */
 	public Real() {
 		this(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 	}
-	
+
 	/**
 	 * Create the instance with the given value.
 	 * @param value The value of the {@linkplain Real}.
@@ -52,8 +52,8 @@ public class Real extends Numeric {
         Bounds bounds = BoundsFactory.create(-Double.MAX_VALUE, Double.MAX_VALUE);
         this.setBounds(bounds);
 	}
-	
-	
+
+
 	/**
 	 * Create the <code>Real</code> instance with the initial value which is random between <code>lower</code> and <code>upper</code>.
 	 * @param lower The lower boundary for the random number.
@@ -66,7 +66,7 @@ public class Real extends Numeric {
 
         this.setBounds(BoundsFactory.create(lower, upper));
 	}
-	
+
 	/**
 	 * Copy construtor.
 	 * @param copy The instance to copy.
@@ -75,10 +75,10 @@ public class Real extends Numeric {
 		this.value = copy.value;
         this.setBounds(copy.getBounds());
 	}
-	
-	
+
+
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Real getClone() {
@@ -87,21 +87,21 @@ public class Real extends Numeric {
 
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
-		
+
 		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-		
+
 		Real otherReal = (Real) other;
 		return Double.compare(this.value, otherReal.value) == 0 && super.equals(other);
 	}
 
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -112,16 +112,16 @@ public class Real extends Numeric {
 		hash = 31 * hash + Double.valueOf(this.value).hashCode();
 		return hash;
 	}
-	
+
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void set(String value) {
 		setReal(value);
 	}
-	
+
 
 	/**
 	 * {@inheritDoc}
@@ -154,14 +154,14 @@ public class Real extends Numeric {
 		return (this.value == 0.0) ? false : true;
 	}
 
-	
+
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public void setBit(boolean value) {
 		this.value = value ? 1.0 : 0.0;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -169,7 +169,7 @@ public class Real extends Numeric {
 		setBit(Boolean.parseBoolean(value));
 	}
 
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -177,14 +177,14 @@ public class Real extends Numeric {
 		return Double.valueOf(this.value).intValue();
 	}
 
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public void setInt(int value) {
 		this.value = Integer.valueOf(value).doubleValue();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -192,21 +192,21 @@ public class Real extends Numeric {
 	public void setInt(String value) {
 		setInt(Integer.parseInt(value));
 	}
-	
+
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public double getReal() {
 		return this.value;
 	}
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public void setReal(double value) {
 		this.value = value;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -214,9 +214,9 @@ public class Real extends Numeric {
 		setReal(Double.parseDouble(value));
 	}
 
-	
+
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public int compareTo(Numeric other) {
 		final Real otherReal = (Real) other;
@@ -244,19 +244,19 @@ public class Real extends Numeric {
 	 * @return A <code>String</code> representing the object instance.
 	 */
 	public String toString() {
-		return String.valueOf(this.value);		
+		return String.valueOf(this.value);
 	}
 
 	/**
 	 * Get the type representation of this <tt>Real</tt> object as a string.
-	 * 
+	 *
 	 * @return The String representation of this <tt>Type</tt> object.
 	 */
 	public String getRepresentation() {
 		return "R(" + getBounds().getLowerBound() + "," + getBounds().getUpperBound() +")";
 	}
 
-	
+
 	/**
 	 * Serialize the {@linkplain Real} to the provided {@linkplain ObjectOutput}.
 	 * @param oos The provided {@linkplain ObjectOutput}.
@@ -266,7 +266,7 @@ public class Real extends Numeric {
 		oos.writeDouble(this.value);
 	}
 
-	
+
 	/**
 	 * Read the {@linkplain Real} from the provided {@linkplain ObjectInput}.
 	 * @param ois The provided {@linkplain ObjectInput}.
@@ -276,5 +276,5 @@ public class Real extends Numeric {
 	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
 		this.value = ois.readDouble();
 	}
-	
+
 }

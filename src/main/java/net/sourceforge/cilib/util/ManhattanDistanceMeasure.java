@@ -26,7 +26,7 @@ package net.sourceforge.cilib.util;
  * @author Theuns Cloete
  */
 public class ManhattanDistanceMeasure extends MinkowskiMetric {
-	
+
 	/**
 	 * Create an instance of the {@linkplain ManhattanDistanceMeasure}.
 	 */

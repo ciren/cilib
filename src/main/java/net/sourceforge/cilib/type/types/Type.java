@@ -27,13 +27,13 @@ import net.sourceforge.cilib.util.Cloneable;
  * {@code Type} interface for all type-objects that are used within CIlib.
  */
 public interface Type extends Cloneable {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Type getClone();
-	
+
 	/**
 	 * {@inheritDoc}
 	 * @see Object#equals(Object)

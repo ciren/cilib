@@ -64,7 +64,7 @@ public class MinimumSwarmDiameter implements StoppingCondition {
 		DiameterVisitor diameterVisitor = new DiameterVisitor();
 		algorithm.accept(diameterVisitor);
 		double diameter = diameterVisitor.getResult();
-		
+
 		if (diameter <= minimumSwarmDiameter) {
 			return 1;
 		}
