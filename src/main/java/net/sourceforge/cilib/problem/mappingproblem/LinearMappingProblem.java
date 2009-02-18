@@ -39,17 +39,17 @@ public class LinearMappingProblem extends MappingProblem {
 	private static final long serialVersionUID = -8250226009646654027L;
 
 	public LinearMappingProblem() {
-		
+
 	}
-	
+
 	public LinearMappingProblem(LinearMappingProblem copy) {
-		
+
 	}
-	
+
 	public LinearMappingProblem getClone() {
 		return new LinearMappingProblem(this);
 	}
-	
+
 	/**
 	 * This function performs the actual mapping.  It is only used by this
 	 * class and should never be required by any of the subclasses, who
@@ -59,7 +59,7 @@ public class LinearMappingProblem extends MappingProblem {
 	 * dimension of the output vector (D).  This is not checked for as the
 	 * function will not break should this not hold - it just doesn't make
 	 * sense.
-	 * 
+	 *
 	 * The structure of the matrix is a typical "C" convention, how the data
 	 * is stored depends on whether you look at the input and output vectors
 	 * as row or column vectors.  In the case of column vectors the indexes

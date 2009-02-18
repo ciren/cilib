@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Edwin Peer
  */
 public class GradientFunctionMinimisationProblem extends FunctionMinimisationProblem implements GradientOptimisationProblem {
-    
+
 	private static final long serialVersionUID = 4139167463799605466L;
 
 	/** Creates a new instance of GradientFunctionMinimisationProblem. */
@@ -43,5 +43,5 @@ public class GradientFunctionMinimisationProblem extends FunctionMinimisationPro
     public Vector getGradient(Vector position) {
         return ((Differentiable) getFunction()).getGradient(position);
     }
-    
+
 }

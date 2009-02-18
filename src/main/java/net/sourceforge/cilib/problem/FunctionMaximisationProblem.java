@@ -24,7 +24,7 @@ package net.sourceforge.cilib.problem;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * 
+ *
  *
  */
 public class FunctionMaximisationProblem extends FunctionOptimisationProblem {

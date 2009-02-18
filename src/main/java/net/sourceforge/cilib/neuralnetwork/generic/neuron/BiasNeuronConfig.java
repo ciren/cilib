@@ -39,39 +39,39 @@ public class BiasNeuronConfig extends NeuronConfig {
 		super(pipeIndex, initValC, initValT);
 	}
 
-	public BiasNeuronConfig(NeuronConfig[] input, 
+	public BiasNeuronConfig(NeuronConfig[] input,
 							Weight[] inputWeights,
-							boolean[] timeStepMap, 
-							int patternInput, 
+							boolean[] timeStepMap,
+							int patternInput,
 							Weight patternWeight,
 							Type initialOutput) {
-		
+
 		super(input, inputWeights, timeStepMap, patternInput, patternWeight,
 				initialOutput);
 	}
-	
-	
+
+
 	public Type computeOutput(NeuronConfig n, NNPattern p) {
 		return new Real(-1);
 	}
 
-	
+
 	public Type computeOutputFunctionDerivativeAtPos(Type pos) {
 		return null;
 	}
 
-	
+
 	public Type computeOutputFunctionDerivativeUsingLastOutput(
 			Type lastOutput) {
 		return null;
 	}
 
-	
+
 	public Type computeActivationFunctionDerivativeAtPos(Type pos) {
 		return null;
 	}
 
-	
+
 	public Type computeActivationFunctionDerivativeUsingLastOutput(
 			Type lastOutput) {
 		return null;

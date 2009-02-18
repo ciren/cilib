@@ -28,19 +28,19 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author stefanv
  */
 public interface NeuralNetworkDataIterator extends Cloneable {
-	
+
 	public void next();
-	
+
 	public boolean hasMore();
-	
+
 	public void reset();
-	
+
 	public NNPattern value();
-	
+
 	public int size();
-	
+
 	public int currentPos();
-	
+
 	public NeuralNetworkDataIterator getClone();
 
 }

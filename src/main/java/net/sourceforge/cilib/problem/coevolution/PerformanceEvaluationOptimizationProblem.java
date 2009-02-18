@@ -28,20 +28,20 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 /**
  * @author leo
  * This class represents all kinds of problems where an entity's fitness is determined by performing
- * a task a number of times. 
+ * a task a number of times.
  * For example when a game player is optimized the fitness is determined by playing the game a number of times and assigning a score
  * based on the entities performance in the game.
  */
 public abstract class PerformanceEvaluationOptimizationProblem extends
 		OptimisationProblemAdapter {
 	private static final long serialVersionUID = -736481594565770996L;
-	
+
 	protected int amountEvaluations;
 	//this class determines how the fitness values from each evaluation will be combined
 	protected FitnessCalculationStrategy fitnessCalculation;
 	//scoring strategy
 	/**
-	 * 
+	 *
 	 */
 	public PerformanceEvaluationOptimizationProblem() {
 		amountEvaluations = 1;

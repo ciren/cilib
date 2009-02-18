@@ -39,13 +39,13 @@ public class GameLearningOptimizationProblem extends
 		PerformanceEvaluationOptimizationProblem {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5779885760175795987L;
 	protected Game game;
 
 	/**
-	 * 
+	 *
 	 */
 	public GameLearningOptimizationProblem() {
 
@@ -91,10 +91,10 @@ public class GameLearningOptimizationProblem extends
 	 * @param currentPlayerID the id of the player being optimized
 	 * @param currentScore the score's
 	 */
-	public void playGame(int currentPlayerID, EntityScore currentScore){	
+	public void playGame(int currentPlayerID, EntityScore currentScore){
 		for(int i = 0; i < amountEvaluations; ++i){
 			game.playGame();
-			game.setEntityScore(currentPlayerID, currentScore);	
+			game.setEntityScore(currentPlayerID, currentScore);
 		}
 	}
 
@@ -106,7 +106,7 @@ public class GameLearningOptimizationProblem extends
 		//one fixed set of competitors
 		if(!(solution instanceof Blackboard))
 			throw new RuntimeException("Please use the PropertyBasedFitnessCalculator with the entity optimizing the game");
-		
+
 		//for each game, add the score {win/lose/tie : score} to a scoreboard. then use the scoring strategy to assign a score to the player
 		EntityScore score = new EntityScore(1,1); //in the case of optimizing against static opponents the opponent id is not so important, or is it?!?
 		// initialize the first player, which is the one being optimized, to the contents of solution
@@ -116,7 +116,7 @@ public class GameLearningOptimizationProblem extends
 		playGame(1, score);
 		EntityScoreboard board = new EntityScoreboard();//(EntityScoreboard)((Blackboard<Enum<?>, Type>)solution).get(EntityType.Coevolution.BOARD);
 		board.mergeEntityScore(score);
-		//need to store the entityscoreboard and current competition round in blackboard. should I put them in the blackboard here, or somewhere else? 
+		//need to store the entityscoreboard and current competition round in blackboard. should I put them in the blackboard here, or somewhere else?
 		return fitnessCalculation.calculateFitnessFromScoreBoard(board, 1);
 	}
 

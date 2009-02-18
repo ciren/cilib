@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * <p>
  * Optimisation problems are characterized by a domain that specifies the search space and
- * a fitness given a potential solution. This interface ensures that an 
+ * a fitness given a potential solution. This interface ensures that an
  * {@linkplain net.sourceforge.cilib.algorithm.OptimisationAlgorithm optimization algorithm} has
  * all the information it needs to find a solution to a given optimisation problem. In addition, it is the
  * responsibility of an optimisation problem to keep track of the number of times the fitness has
@@ -44,51 +44,51 @@ public interface OptimisationProblem extends Problem {
 	 * {@inheritDoc}
 	 */
 	public OptimisationProblem getClone();
-    
+
     /**
      * Returns the fitness of a potential solution to this problem. The solution object is described
      * by the domain of this problem, see {@link #getDomain()}. An instance of
 	 * {@link net.sourceforge.cilib.problem.InferiorFitness} should be returned if the solution
 	 * falls outside the search space of this problem.
-     * 
+     *
      * @param solution The potential solution found by the optimisation algorithm.
      * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
-     * @return The fitness of the solution. 
+     * @return The fitness of the solution.
      */
     public Fitness getFitness(Type solution, boolean count);
-    
+
     /**
-     * Returns the number of times the underlying fitness function has been evaluated. 
-     * 
+     * Returns the number of times the underlying fitness function has been evaluated.
+     *
      * @return The number fitness evaluations.
      */
     public int getFitnessEvaluations();
-    
+
     /**
      * Returns the domain component that describes the search space for this problem.
-     * 
+     *
      * @return A {@link net.sourceforge.cilib.type.DomainRegistry} object representing the search space.
      */
     public DomainRegistry getDomain();
-    
-    
+
+
     /**
      * Returns the domain component that describes the search space of the needed
      * behavioral characteristics of the problem. This is mainly used for ECs, however,
      * the use of behavioral parameters with PSO will be investigated.
-     * 
+     *
      * @return The domain of the behavioral component
      */
     public DomainRegistry getBehaviouralDomain();
-    
-    
+
+
     /**
      * Get the associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
      * @return The currently associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
      */
     public DataSetBuilder getDataSetBuilder();
-    
-    
+
+
     /**
      * Set the {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} for this
 	 * {@link net.sourceforge.cilib.problem.OptimisationProblem optimistion problem}.
@@ -96,12 +96,12 @@ public interface OptimisationProblem extends Problem {
 	 *                       to be set on the current {@link net.sourceforge.cilib.problem.OptimisationProblem}.
      */
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder);
-    
+
     /**
-     * Accept the provided {@link net.sourceforge.cilib.container.visitor.Visitor} and 
+     * Accept the provided {@link net.sourceforge.cilib.container.visitor.Visitor} and
      * perform the {@link net.sourceforge.cilib.container.visitor.Visitor#visit(Object)} method.
      * @param visitor The visitor which has operations to perform.
      */
     public void accept(ProblemVisitor visitor);
-    
+
 }

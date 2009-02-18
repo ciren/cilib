@@ -24,7 +24,7 @@ package net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 
 /**
- * Define the epoch strategy to be used within a Neural Network. 
+ * Define the epoch strategy to be used within a Neural Network.
  */
 public interface EpochStrategy {
 
@@ -33,5 +33,5 @@ public interface EpochStrategy {
 	 * @param evaluationMediator The Neural Network to perform the epoch on.
 	 */
 	public void performIteration(EvaluationMediator evaluationMediator);
-	
+
 }

@@ -39,18 +39,18 @@ public class CurvilinearCompEvaluator implements MappingEvaluator {
 	 * @param dist The distrance matrix for the generated output vectors.
 	 *
 	 * @return the fitness as a double, wrapped inside a Fitness.
-	 * 
+	 *
 	 * @author jkroon
 	 */
 	public Fitness evaluateMapping(Matrix<Double> dist) {
 		int numvect = prob.getNumInputVectors();
 		double res = 0.0;
-		
+
 		for(int i = 0; i < numvect; i++)
 			for(int j = i + 1; j < numvect; j++) {
 				double inp = prob.getDistanceInputVect(i, j);
 				double tmp = inp - dist.get(i, j);
-			
+
 				res += tmp * tmp * f(inp);
 			}
 
@@ -86,6 +86,6 @@ public class CurvilinearCompEvaluator implements MappingEvaluator {
 	public void setMappingProblem(MappingProblem prob) {
 		this.prob = prob;
 	}
-	
+
 	private MappingProblem prob;
 }

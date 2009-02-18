@@ -27,11 +27,11 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This interface is an abstraction for the fitness of a solution to an optimisation problem.
- * The actual fitness value (as determined by the {@link OptimisationProblem} in question) 
+ * The actual fitness value (as determined by the {@link OptimisationProblem} in question)
  * can be obtained by calling {@link #getValue()} while fitnesses can be compared using the
  * standard Java <code>Comparable</code> interface.
  * <p />
- * <b>Example:</b> <br /> 
+ * <b>Example:</b> <br />
  * <code>
  * Fitness a = ...; <br />
  * Fitness b = ...; <br />
@@ -47,7 +47,7 @@ import net.sourceforge.cilib.type.types.Type;
  *  // a and b are equally fit <br />
  * } <br />
  * </code> <br />
- * 
+ *
  * @author Edwin Peer
  */
 public interface Fitness extends Type, Comparable<Fitness>, Serializable {
@@ -57,13 +57,13 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	 */
 	@Override
 	public Fitness getClone();
-	
+
 	/**
 	 * Returns the underlying fitness value.
 	 * @return the actual fitness value.
 	 */
 	public Double getValue();
-	
+
 	/**
 	 * Compare the current fitness instance to the provided instance. Returns
 	 * a negative integer, zero and a positive integer as this object is
@@ -76,11 +76,11 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
 	 */
 	@Override
 	public int compareTo(Fitness o);
-	
+
 	/**
 	 * Creation method that maintains Fitness object immutability by returning
 	 * a new instance of the current class type.
-	 * @param value The desired value of the {@code Fitness} object. 
+	 * @param value The desired value of the {@code Fitness} object.
 	 */
 	public Fitness newInstance(Double value);
 

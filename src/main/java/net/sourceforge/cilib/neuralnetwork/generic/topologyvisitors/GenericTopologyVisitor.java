@@ -26,10 +26,10 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 /**
  * @author stefanv
  *
- * 
+ *
  */
 public interface GenericTopologyVisitor {
-	
+
 	public void visitNeuronConfig(NeuronConfig n);
 
 }

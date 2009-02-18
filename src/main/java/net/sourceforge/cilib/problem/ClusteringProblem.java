@@ -47,7 +47,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * {@link #innerProblem}) that may either be a {@link net.sourceforge.cilib.problem.FunctionMinimisationProblem} or a
  * {@link net.sourceforge.cilib.problem.FunctionMaximisationProblem}. The
  * {@link net.sourceforge.cilib.problem.FunctionOptimisationProblem} in turn
- * makes use of a {@link net.sourceforge.cilib.functions.Function function} that determines 
+ * makes use of a {@link net.sourceforge.cilib.functions.Function function} that determines
  * the fitness of the problem being optimised. Because we are clustering data in a dataset,
  * this function should be a {@link net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction}.
  * </p>
@@ -81,7 +81,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * This class also provides a <em>central point</em> for specifying the {@link #distanceMeasure} that should be used
  * for calculating distances throughout the entire clustering process.
  * </p>
- * 
+ *
  * @see #regenerateDomain()
  * @author Theuns Cloete
  */
@@ -101,7 +101,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 		numberOfClusters = UNINITIALISED;
 		domainRegistry = new StringBasedDomainRegistry();
 		distanceMeasure = new EuclideanDistanceMeasure();
-		// needed so that the unit tests don't get NullPointerExceptions 
+		// needed so that the unit tests don't get NullPointerExceptions
 		ClusteringUtils.get().setClusteringProblem(this);
 	}
 
@@ -122,12 +122,12 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 
 	/**
 	 * Sets the problem that will be used to optimise the clustering. This is in most cases a
-	 * {@link net.sourceforge.cilib.problem.FunctionOptimisationProblem} that either optimises 
+	 * {@link net.sourceforge.cilib.problem.FunctionOptimisationProblem} that either optimises
 	 * the fitness as calculated by a {@link net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction}.
 	 * Once the problem is set (changed), the domain of the
 	 * {@link net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction} is automatically
 	 * {@link #regenerateDomain() regenerated}.
-	 * 
+	 *
 	 * @see #regenerateDomain()
 	 * @param fop a {@linkplain net.sourceforge.cilib.problem.FunctionOptimisationProblem} that should take a
 	 *        {@link net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction} that drives the
@@ -151,7 +151,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	 * used to optimise this clustering. Once the number of clusters is set (changed), the
 	 * domain of the {@link net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction}
 	 * is automatically {@link #regenerateDomain() regenerated}.
-	 * 
+	 *
 	 * @see #regenerateDomain()
 	 * @param noc the user-specified <em>number of clusters</em> that should be used to
 	 *        optimise this clustering
@@ -164,7 +164,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	/**
 	 * Return the actual domain of the problem's dataset, i.e. NOT the duplicated domain
 	 * string as used by the clustering fitness function.
-	 * 
+	 *
 	 * @return the {@link #domainRegistry} of this clustering problem
 	 */
 	public DomainRegistry getDomainRegistry() {
@@ -175,7 +175,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	 * Set the actual domain of the problem's dataset. Once this domain registry is set
 	 * (changed), the domain of the {@link net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction}
 	 * is automatically {@link #regenerateDomain() regenerated}.
-	 * 
+	 *
 	 * @see #regenerateDomain()
 	 * @param dr the {@link #domainRegistry} of this clustering problem
 	 */
@@ -214,7 +214,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	/**
 	 * Return the actual domain of the problem's dataset, i.e. NOT the duplicated domain
 	 * string as used by the clustering fitness function.
-	 * 
+	 *
 	 * @return the {@link #domainRegistry} of this clustering problem
 	 */
 	public DomainRegistry getBehaviouralDomain() {
@@ -225,7 +225,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	 * Sets the domain of the dataset being clustered. Once this domain string is set
 	 * (changed), the domain of the {@link net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction}
 	 * is automatically {@link #regenerateDomain() regenerated}.
-	 * 
+	 *
 	 * @see #regenerateDomain()
 	 * @param representation a {@link String} representing the domain of the dataset being
 	 *        clustered
@@ -241,7 +241,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	/**
 	 * Return the domain as used by the configured fitness function, i.e. NOT the simplified
 	 * domain string of the problem's dataset.
-	 * 
+	 *
 	 * @return the {@link #innerProblem}'s {@linkplain net.sourceforge.cilib.problem.FunctionOptimisationProblem#function function's}
 	 *         domain registry
 	 */
@@ -253,7 +253,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	 * Use the {@link DataSetManager} singleton to parse and/or retrieve the given
 	 * {@link DataSetBuilder}. Then use the {@link ClusteringUtils} per-thread singleton to
 	 * set the {@link DataSetBuilder} as the current dataset for this clustering.
-	 * 
+	 *
 	 * @throws IllegalArgumentException when the given {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} is not an
 	 *         {@link net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder}. This is only temporary, because I
 	 *         didn't want to change the more generic {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} too much.
@@ -274,7 +274,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	/**
 	 * Set the {@link net.sourceforge.cilib.util.DistanceMeasure} that will be used for all distance calculations
 	 * throughout a clustering.
-	 * 
+	 *
 	 * @param dm the desired {@link net.sourceforge.cilib.util.DistanceMeasure}
 	 */
 	public void setDistanceMeasure(DistanceMeasure dm) {
@@ -285,7 +285,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	 * This method will be called from
 	 * {@link net.sourceforge.cilib.util.ClusteringUtils#calculateDistance(Vector, Vector)} which is the
 	 * <em>central point</em> for distance calculations during a clustering.
-	 * 
+	 *
 	 * @return the {@link #distanceMeasure}
 	 */
 	public DistanceMeasure getDistanceMeasure() {
@@ -295,7 +295,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 	/**
 	 * We are actually optimising the {@link #innerProblem}, so use it to calculate the
 	 * fitness.
-	 * 
+	 *
 	 * @return the fitness of the current clustering
 	 */
 	@Override

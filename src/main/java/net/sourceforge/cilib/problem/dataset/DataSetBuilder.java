@@ -32,8 +32,8 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  */
 public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable, Serializable {
+
 	private static final long serialVersionUID = 5252204062214206898L;
-	
 	protected ArrayList<DataSet> dataSets = null;
 
 	public DataSetBuilder() {

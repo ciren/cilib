@@ -37,11 +37,11 @@ public interface NNPattern extends Cloneable {
 	public Vector getInput();
 
 	public Vector getTarget();
-	
+
 	public NNPattern getClone();
-	
+
 	public void setInput(Vector v);
-	
+
 	public void setTarget(Vector t);
-		
+
 }

@@ -43,7 +43,7 @@ public interface ClusterableDataSet {
 	public void initialise();
 
 	/**
-	 * TODO: Complete this javadoc. 
+	 * TODO: Complete this javadoc.
 	 */
 	public class Pattern implements Cloneable {
 		private static final long serialVersionUID = 8831874859964777328L;

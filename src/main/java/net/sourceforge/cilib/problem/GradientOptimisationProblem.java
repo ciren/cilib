@@ -25,21 +25,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Optimisation problems that are able to provide gradient information should implement this
- * interface. Some optimisation algorithms are able to exploit this information. 
+ * interface. Some optimisation algorithms are able to exploit this information.
  * <p />
- * 
+ *
  * This interface only applies to continuous valued problems.
  *
  * @author  Edwin Peer
  */
 public interface GradientOptimisationProblem {
-    
+
 	/**
 	 * Returns the gradient of the optimisation problem at the given position.
-	 * 
+	 *
 	 * @param position the position.
 	 * @return the gradient at position.
 	 */
     public abstract Vector getGradient(Vector position);
-    
+
 }

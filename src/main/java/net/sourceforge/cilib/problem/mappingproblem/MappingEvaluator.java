@@ -52,5 +52,5 @@ public interface MappingEvaluator {
 	 * @author jkroon
 	 */
 	public void setMappingProblem(MappingProblem prob);
-	
+
 }

@@ -47,12 +47,12 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 		GameLearningOptimizationProblem implements
 		CoevolutionOptimisationProblem {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 8633162433294415179L;
 
 	/**
-	 * 
+	 *
 	 */
 	public CompetitiveCoevolutionGameLearningOptimizationProblem() {
 	}
@@ -75,7 +75,7 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 		//select an opponent from each pool of opponents
 		//play!
 		game.initializeAgent(populationID, entityData.get(EntityType.CANDIDATE_SOLUTION));
-		int competitorGroup = 1;		
+		int competitorGroup = 1;
 		EntityScoreboard scoreBoard = (EntityScoreboard)entityData.get(EntityType.Coevolution.BOARD);
 		if(fitnessCalculation.getAmountHistoricGames() == 0){ // dont keep a history
 			scoreBoard.clearScoreBoard();
@@ -83,7 +83,7 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 		else if(evaluationRound > fitnessCalculation.getAmountHistoricGames()){
 			scoreBoard.removeScores(evaluationRound - fitnessCalculation.getAmountHistoricGames());
 		}
-		
+
 		CoevolutionEvaluationList entities = (CoevolutionEvaluationList)entityData.get(EntityType.Coevolution.COMPETITOR_LIST);
 		for(int i = 0; i < entities.getAmountEntitesPerList(); ++i)
 		{
@@ -101,7 +101,7 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 		//fitness assignment.calculateFitness(scoreBoard, currentEvalutionRound);
 		return fitnessCalculation.calculateFitnessFromScoreBoard(scoreBoard, evaluationRound);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -116,7 +116,7 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 	@Override
 	public void initializeEntities(PopulationBasedAlgorithm pba,
 			int populationID) {
-	
+
 		//if before algorithm.initialize then this
 		Entity sp = pba.getInitialisationStrategy().getEntityType().getClone();
 		sp.getProperties().put(EntityType.Coevolution.BOARD, new EntityScoreboard());
@@ -130,10 +130,10 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 			((AbstractParticle)sp).setFitnessCalculator(new PropertyBasedFitnessCalculator());
 		else
 			throw new RuntimeException("Invalid entity type, entity must inherit from Abstract Entity to support Fitness Calculator");
-		
+
 		pba.getInitialisationStrategy().setEntityType(sp.getClone());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

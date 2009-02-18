@@ -28,38 +28,38 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author leo
- * This class is used by any population in a competitive coevolution algorithm. It contains the neccesary 
+ * This class is used by any population in a competitive coevolution algorithm. It contains the neccesary
  */
 public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAdapter {
 	//Id of the poulation
-	int populationID; 
+	int populationID;
 	//domainregistry for the population
-	DomainRegistry domain;	
+	DomainRegistry domain;
 	//the coevolution problem
-	CoevolutionOptimisationProblem coevolutionProblem;	
+	CoevolutionOptimisationProblem coevolutionProblem;
 	//the current evaluation round
 	int evaluationRound;
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6940622506198881027L;
 	/**
-	 * 
+	 *
 	 */
 	public CompetitiveCoevolutionProblemAdapter(int populationID, DomainRegistry domain, CoevolutionOptimisationProblem coevolutionProblem) {
 		evaluationRound = 0;
 		this.populationID = populationID;
 		this.domain = domain;
 		this.coevolutionProblem = coevolutionProblem;
-	} 
-	
+	}
+
 	public CompetitiveCoevolutionProblemAdapter(CompetitiveCoevolutionProblemAdapter other){
 		populationID = other.populationID;
 		domain = other.domain;
 		coevolutionProblem = other.coevolutionProblem;
 		evaluationRound = other.evaluationRound;
 	}
-	
+
 	public void incrementEvaluationround(){
 		++evaluationRound;
 	}

@@ -28,20 +28,20 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This is a common abstraction for all problem classes. All problems should extend this interface.
  * All {@linkplain net.sourceforge.cilib.problem.Problem problems} are effectively dynamic problems
- * where non-dynamic problems are essentially problems that are "frozen" at an arbitrary time step. 
+ * where non-dynamic problems are essentially problems that are "frozen" at an arbitrary time step.
  *
  * @author  Edwin Peer
  */
 public interface Problem extends Serializable, Cloneable {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public Problem getClone();
-	
+
 	/**
 	 * Change the environment. TODO: this might need to be refactored.
 	 */
 	public void changeEnvironment();
-    
+
 }

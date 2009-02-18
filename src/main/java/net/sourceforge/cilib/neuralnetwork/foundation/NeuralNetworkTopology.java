@@ -27,14 +27,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * @author stefanv
  * TODO: Complete this javadoc.
- * 
+ *
  */
 public interface NeuralNetworkTopology extends Initializable{
 
 	public Vector evaluate(NNPattern p);
-	
+
 	public Vector getWeights();
-	
+
 	public void setWeights(Vector w);
-				
+
 }

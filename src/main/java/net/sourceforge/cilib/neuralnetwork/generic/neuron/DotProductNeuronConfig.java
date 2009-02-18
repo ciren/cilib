@@ -41,10 +41,10 @@ public class DotProductNeuronConfig extends NeuronConfig {
 		super(pipeIndex, initValC, initValT);
 	}
 
-	public DotProductNeuronConfig(NeuronConfig[] input, 
+	public DotProductNeuronConfig(NeuronConfig[] input,
 			Weight[] inputWeights,
-			boolean[] timeStepMap, 
-			int patternInput, 
+			boolean[] timeStepMap,
+			int patternInput,
 			Weight patternWeight,
 			Type initialOutput) {
 

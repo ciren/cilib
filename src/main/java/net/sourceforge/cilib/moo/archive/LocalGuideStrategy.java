@@ -28,10 +28,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public interface LocalGuideStrategy {
-	
+
 	public Vector getLocalGuide();
-	
+
 	public void setLocalGuide(Vector newLocalGuide);
-	
+
 	public void updateLocalGuide(Particle particle);
 }

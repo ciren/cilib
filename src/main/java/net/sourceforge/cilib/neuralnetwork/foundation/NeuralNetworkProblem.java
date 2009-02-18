@@ -39,10 +39,10 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 	private static final long serialVersionUID = -5790791148649131742L;
 	protected int fitnessEvaluations;
 	protected EvaluationMediator evaluationStrategy = null;
-	
+
 	public NeuralNetworkProblem(){
 		this.evaluationStrategy = null;
-		this.fitnessEvaluations = 0;	
+		this.fitnessEvaluations = 0;
 	}
 
 	public NeuralNetworkProblem(NeuralNetworkProblem rhs) {
@@ -55,14 +55,14 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 	}
 
 	public void initialize(){
-				
+
 		if (this.evaluationStrategy == null) {
 			throw new IllegalArgumentException("NeuralNetworkProblem: A required evaluationStrategy object was null during initialization");
 		}
-		
+
 //		this.evaluationStrategy.initialize();
 		this.evaluationStrategy.performInitialisation();
-	
+
 	}
 
 	public NNError[] learningEpoch(){
@@ -76,12 +76,12 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 	}
 
 	public Fitness getFitness(Type solution, boolean count) {
-		
+
 		if (count) {
     		++fitnessEvaluations;
     	}
         this.getTopology().setWeights((Vector) solution);
-			            
+
 			//Defaults to first error element as the main fitness...
             return evaluationStrategy.getErrorDt()[0];
 	}
@@ -119,7 +119,7 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
 	}
 
 	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
-				
+
 	}
 
 	public void accept(ProblemVisitor visitor) {

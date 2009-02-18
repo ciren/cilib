@@ -38,31 +38,31 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * OptimisationProblemAdapter.
  *
  * @author jkroon
- * 
+ *
  * TODO: change this to use the MatrixDataSetBuilder correctly
  */
 public abstract class MappingProblem extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = 8988100373800461079L;
-	
+
 	private int outputDimension = -1;
 	private int inputDimension = -1;
 	private int numvectors = -1;
 	private Matrix<Double> inputs = null;
-	private Matrix<Double> inpDistMatrix = null;	
+	private Matrix<Double> inpDistMatrix = null;
 	private MappingEvaluator evaluator = null;
 	private DistanceMeasure distanceMeasure = null;
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 *
 	 */
 	public MappingProblem() {
 		this.evaluator = new CurvilinearCompEvaluator();
 		this.distanceMeasure = new EuclideanDistanceMeasure();
 	}
-	
-	
+
+
 	/**
 	 * Calculates the fitness of the given matrix.  This wraps arounds the
 	 * {@see evaluateMapping} function.  It may call evaluateMapping multiple
@@ -75,12 +75,12 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 */
 	protected final Fitness calculateFitness(Type solution) {
 		Vector matrix = (Vector) solution;
-		
+
 		Matrix<Double> distmatrix = new Matrix<Double>(numvectors, numvectors);
 		Matrix<Double> outputs = new Matrix<Double>(numvectors, outputDimension);
 
 		performMapping(inputs, matrix, outputs);
-			
+
 		matrix = null;
 
 		for(int a = 0; a < numvectors; a++) {
@@ -120,12 +120,12 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * matrix in order to perform the mapping.
 	 *
 	 * @return The size of the mapping matrix.
-	 * 
+	 *
 	 * @author jkroon
 	 */
 	protected abstract int getMatrixSize();
 
-	
+
 	/**
 	 * Returns the DomainComponent representing this mapping.  The actual
 	 * ^ depends on the mapping scheme, so your mapping scheme will need
@@ -151,19 +151,19 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 		return domain;
 	}*/
 
-	
+
 	/**
 	 * Gets the value of M, the input dimension.
 	 *
 	 * @return The current value of M.
-	 * 
+	 *
 	 * @author jkroon
 	 */
 	public final int getInputDim() {
 		return inputDimension;
 	}
 
-	
+
 	/**
 	 * Gets the value of D, the output dimension.
 	 *
@@ -174,8 +174,8 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	public final int getOutputDim() {
 		return outputDimension;
 	}
-	
-	
+
+
 	/**
 	 * This function retrieves the number of input vectors that forms
 	 * part of the dataset.
@@ -186,7 +186,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 		return numvectors;
 	}
 
-	
+
 	/**
 	 * This function sets the evaluator to use.
 	 *
@@ -198,8 +198,8 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 		this.evaluator = evaluator;
 		evaluator.setMappingProblem(this);
 	}
-	
-	
+
+
 	/**
 	 * This method is used during initialisation by the Simulator to provide us
 	 * with out DataSet.  This method loads the actual data from the DataSet.
@@ -207,18 +207,18 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * @param dataset The dataset from which to retrieve the data.
 	 *
 	 * @author jkroon
-	 * 
+	 *
 	 * TODO: Get this to work!!!
-	 * 
+	 *
 	 */
 	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
 		super.setDataSetBuilder(dataSetBuilder);
-		
+
 		MatrixDataSetBuilder matrixBuilder = (MatrixDataSetBuilder) dataSetBuilder;
 		inputs = matrixBuilder.getMatrix();
-		
+
 		inpDistMatrix = new Matrix<Double>(numvectors, numvectors);
-		
+
 		for(int i = 0; i < numvectors; i++) {
 			inpDistMatrix.set(i, i, 0.0);
 			for(int j = 0; j < i; j++) {
@@ -227,14 +227,14 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 				this.inpDistMatrix.set(j, i, distance);
 			}
 		}
-		
+
 	}
-		
+
 		/*this.dataSetBuilder = dataSetBuilder;
-		
+
 		try {
 			InputStream is = this.dataSetBuilder.getDataSet(0).getInputStream();
-			
+
 			StreamTokenizer tok = new StreamTokenizer(new InputStreamReader(is));
 
 			if(tok.nextToken() != StreamTokenizer.TT_NUMBER)
@@ -254,7 +254,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 				throw new IllegalStateException("Need to have a positive number as the input dimensions");
 
 			inputs = new double[numvectors][M];
-			
+
 			if(tok.nextToken() != StreamTokenizer.TT_NUMBER)
 				throw new IllegalStateException("Expected an integer number as the third token in the dataset");
 
@@ -262,7 +262,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 
 			if(D <= 0)
 				throw new IllegalStateException("Need to have a positive number as the input dimensions");
-				
+
 			if(!(D <= M))
 				throw new IllegalStateException("Output dimension must be less than input dimension");
 
@@ -278,7 +278,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 							throw new IllegalStateException("Only numerical input expected (line " + tok.lineno() + ")");
 						}
 					}
-						
+
 					inputs[i][m] = tok.nval;
 
 				}
@@ -293,7 +293,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 		for(int i = 0; i < numvectors; i++) {
 			inp_distmatrix[i][i] = 0.0;
 			for(int j = 0; j < i; j++)
-				inp_distmatrix[i][j] = inp_distmatrix[j][i] = 
+				inp_distmatrix[i][j] = inp_distmatrix[j][i] =
 					calcDistance(inputs[i], inputs[j]);
 		}
 	}*/
@@ -305,12 +305,12 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
 	 * @param i2 Index of the second vector
 	 *
 	 * @return the distance between the two vectors.
-	 * 
+	 *
 	 * @author jkroon
 	 */
 	public final double getDistanceInputVect(int i1, int i2) {
 		return inpDistMatrix.get(i2, i1);
 	}
 
-	
+
 }

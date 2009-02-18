@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 //This class is not fully completed and tested.... Draft version
 public class MNNNeuronAdapter extends NeuronConfig {
-	
+
 	GenericTopology topology;
 
 	public Type computeActivationFunctionDerivativeAtPos(Type pos) {
@@ -44,14 +44,14 @@ public class MNNNeuronAdapter extends NeuronConfig {
 	}
 
 	public Type computeOutput(NeuronConfig n, NNPattern p) {
-		
+
 		Vector inputMNN = new Vector();
 		Vector weightsMNN = new Vector();
-		
+
 		for (int i = 0; i < this.input.length; i++){
 			Vector tmpInput = ((Vector) input[i].getCurrentOutput());
 			Vector tmpWeight = ((Vector) inputWeights[i].getWeightValue());
-			
+
 			//copy relevant weights and inputs to vector
 			for (int j = 0; j < tmpInput.size(); j++){
 				if (tmpWeight.get(j) != null){

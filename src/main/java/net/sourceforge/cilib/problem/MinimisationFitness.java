@@ -22,16 +22,16 @@
 package net.sourceforge.cilib.problem;
 
 /**
- * This class implements the <code>Comparable</code> interface for a minimisation problem. 
+ * This class implements the <code>Comparable</code> interface for a minimisation problem.
  * That is, smaller fitness values have superior fitness.
- * 
+ *
  * @author Edwin Peer
  */
 public class MinimisationFitness implements Fitness {
 	private static final long serialVersionUID = 8380821922737298435L;
 
 	private Double value;
-	
+
 	/**
 	 * Constructs a new <code>MinimisationFitness</code> with the given fitness value.
 	 * @param value The actual fitness value for the problem.
@@ -47,7 +47,7 @@ public class MinimisationFitness implements Fitness {
 	public MinimisationFitness(MinimisationFitness copy) {
 		this.value = copy.value;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -55,7 +55,7 @@ public class MinimisationFitness implements Fitness {
 	public MinimisationFitness getClone() {
 		return new MinimisationFitness(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -78,7 +78,7 @@ public class MinimisationFitness implements Fitness {
 		if (other == InferiorFitness.instance()) {
 			return 1;
 		}
-		
+
 		return -value.compareTo(other.getValue());
 	}
 
@@ -88,14 +88,14 @@ public class MinimisationFitness implements Fitness {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
-		
+
 		Fitness other = (Fitness) obj;
 		return getValue().equals(other.getValue());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

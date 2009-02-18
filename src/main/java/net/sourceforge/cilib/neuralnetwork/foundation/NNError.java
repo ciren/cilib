@@ -25,30 +25,30 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO: Complete this javadoc. 
+ * TODO: Complete this javadoc.
  */
 public interface NNError extends Fitness, Initializable {
-	
+
 	public void computeIteration(Vector output, NNPattern input);
-	
+
 	public void finaliseError();
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public NNError getClone();
-	
+
 	public void setValue(Object val);
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public Double getValue();
-	
+
 	public String getName();
-	
+
 	public void setNoPatterns(int noPatterns);
-	
+
 	public void setNoOutputs(int nr);
-	
+
 }

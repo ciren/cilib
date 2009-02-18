@@ -58,29 +58,29 @@ public class NeuralNetworkController extends SingularAlgorithm {
 	}
 
 	public void performInitialisation() {
-    	    	
+
 		if (this.problem == null){
 			throw new IllegalArgumentException("NeuralNetworkController: Required NNProblem object was null during initialization");
 		}
-		
+
 		this.problem.initialize();
 	}
 
 	public void performUninitialisation() {
-		
+
 		if (this.measures != null){
 			try {
 				measures.performMeasurement();
-			} 
+			}
 			catch (IOException e) {
 				throw new IllegalStateException("Problem writing Simulation measures to file");
 			}
 		}
-		
+
 	}
 
 	public void algorithmIteration() {
-		
+
 		errorDt = problem.learningEpoch();
 		System.out.println("------------   Epoch " + this.getIterations() + " completed, error list :   ------------");
 		for (int i = 0; i < errorDt.length; i++) {
@@ -97,13 +97,13 @@ public class NeuralNetworkController extends SingularAlgorithm {
 	}
 
 	public void setOptimisationProblem(OptimisationProblem problem) {
-		this.problem = (NeuralNetworkProblem) problem;		
+		this.problem = (NeuralNetworkProblem) problem;
 	}
 
 	public OptimisationProblem getOptimisationProblem() {
 		return this.problem;
 	}
-	
+
 	public void setMeasures(PostMeasurementSuite measures) {
 		this.measures = measures;
 	}

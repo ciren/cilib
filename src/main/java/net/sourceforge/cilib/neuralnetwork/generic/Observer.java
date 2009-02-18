@@ -24,10 +24,10 @@ package net.sourceforge.cilib.neuralnetwork.generic;
 /**
  * @author stefanv
  *
- * 
+ *
  */
 public interface Observer {
-	
+
 	/**
 	 * @TODO
 	 */

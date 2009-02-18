@@ -58,7 +58,7 @@ public class ErrorDt implements Measurement {
 
 	public Type getValue(Algorithm algorithm) {
 		EvaluationMediator eval = null;
-		
+
 		if (algorithm instanceof SingularAlgorithm) {
 			 eval = (EvaluationMediator) algorithm;
 		}
@@ -68,14 +68,14 @@ public class ErrorDt implements Measurement {
 			optimisationProblem.accept(visitor);
 			eval = visitor.getMediator();
 		}
-		
+
 		NNError[] errorDt = eval.getErrorDt();
 		Vector err = new Vector();
-		
+
 		for (int i = 0; i < errorDt.length; i++){
 			err.add(new Real(errorDt[i].getValue().doubleValue()));
 		}
-		
+
 		return err;
 	}
 

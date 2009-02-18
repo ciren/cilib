@@ -32,48 +32,48 @@ public class StochasticTrainingGeneralisationEpochStrategy implements
 	public void performIteration(EvaluationMediator evaluationMediator) {
 		evaluationMediator.resetError(evaluationMediator.getErrorDt());
 		evaluationMediator.setErrorNoPatterns(evaluationMediator.getErrorDt(), evaluationMediator.getData().getTrainingSetSize());
-		
+
 		evaluationMediator.resetError(evaluationMediator.getErrorDg());
-		evaluationMediator.setErrorNoPatterns(evaluationMediator.getErrorDg(), evaluationMediator.getData().getGeneralisationSetSize());	
-		
+		evaluationMediator.setErrorNoPatterns(evaluationMediator.getErrorDg(), evaluationMediator.getData().getGeneralisationSetSize());
+
 		NeuralNetworkDataIterator iteratorDt = evaluationMediator.getData().getTrainingSetIterator();
-				
+
 		evaluationMediator.getTrainer().preEpochActions(null);
-		
+
 		//iterate over each applicable pattern in training dataset
 		while(iteratorDt.hasMore()){
-			
+
 			Vector output = evaluationMediator.getTopology().evaluate(iteratorDt.value());
 			evaluationMediator.incrementEvaluationsPerEpoch();
-					
+
 			//compute the per pattern error, use it to train the topology stochastically be default
 			evaluationMediator.computeErrorIteration(evaluationMediator.getErrorDt(), output, iteratorDt.value());
-						
+
 			evaluationMediator.getTrainer().invokeTrainer(iteratorDt.value());
-						
+
 			iteratorDt.next();
 		}
-		
+
 		evaluationMediator.getTrainer().postEpochActions(null);
-		
+
 		//determine generalization error
 		//==========================
 		NeuralNetworkDataIterator iteratorDg = evaluationMediator.getData().getGeneralisationSetIterator();
-				
+
 		while(iteratorDg.hasMore()){
-			
+
 			Vector outputDg = evaluationMediator.getTopology().evaluate(iteratorDg.value());
-						
+
 			//compute the per pattern error, use it to train the topology stochastically be default
 			evaluationMediator.computeErrorIteration(evaluationMediator.getErrorDg(), outputDg, iteratorDg.value());
-									
+
 			iteratorDg.next();
 		}
-				
+
 		//finalise errors
 		evaluationMediator.finaliseErrors(evaluationMediator.getErrorDt());
 		evaluationMediator.finaliseErrors(evaluationMediator.getErrorDg());
-				
+
 		evaluationMediator.getData().shuffleTrainingSet();
 	}
 

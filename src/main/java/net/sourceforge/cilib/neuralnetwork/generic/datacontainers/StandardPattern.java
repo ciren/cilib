@@ -36,17 +36,17 @@ public class StandardPattern implements NNPattern, Initializable {
 	private static final long serialVersionUID = 6917164648392481566L;
 	protected Vector input = null;
 	protected Vector target = null;
-	
-	
-	
+
+
+
 	public StandardPattern() {
 		super();
 		this.input = null;
 		this.target = null;
 	}
-	
-	
-	
+
+
+
 	public StandardPattern(Vector input, Vector target) {
 		super();
 		this.input = input;
@@ -61,37 +61,37 @@ public class StandardPattern implements NNPattern, Initializable {
 		}
 	}
 
-	
-	
+
+
 	public Vector getInput() {
 		return input;
 	}
 
-	
+
 	public int getInputLength() {
 		return input.size();
 	}
 
-	
+
 	public int getTargetLength() {
 		return target.size();
 	}
 
-	
+
 	public Vector getTarget() {
 		return target;
 	}
-	
+
 	public NNPattern getClone(){
 		StandardPattern tmp = new StandardPattern();
 		tmp.setInput(this.input);
 		tmp.setTarget(this.target);
 		return tmp;
 	}
-	
+
 	public String toString(){
 		String tmp = new String();
-		tmp += "{";		
+		tmp += "{";
 		for (int i = 0; i < input.size(); i++){
 			tmp+= (input.get(i) + " ");
 		}
@@ -110,8 +110,8 @@ public class StandardPattern implements NNPattern, Initializable {
 	public void setTarget(Vector target) {
 		this.target = target;
 	}
-	
-	
 
-		
+
+
+
 }

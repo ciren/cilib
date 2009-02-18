@@ -32,45 +32,45 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
  */
 public class StandardLayerIterator implements LayerIterator {
 
-	
+
 	int currentNeuron = 0;
 	ArrayList<NeuronConfig> layer = null;
-	
-	
-	
+
+
+
 	public StandardLayerIterator(ArrayList<NeuronConfig> layer) {
 		this.layer = layer;
 		currentNeuron = 0;
 	}
-	
-	
+
+
 	public void nextNeuron() {
 		currentNeuron++;
 	}
 
-	
+
 	public NeuronConfig value() {
 		return layer.get(currentNeuron);
 	}
 
-	
-	
+
+
 	public int getNrNeurons() {
 		return layer.size();
 	}
-	
+
 	public boolean hasMore(){
 		return currentNeuron < layer.size();
 	}
 
 
-	
+
 	public void reset() {
 		currentNeuron = 0;
 	}
 
 
-	
+
 	public int currentPosition() {
 		return currentNeuron;
 	}

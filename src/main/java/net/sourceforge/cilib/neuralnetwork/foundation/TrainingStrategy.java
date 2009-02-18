@@ -25,16 +25,16 @@ package net.sourceforge.cilib.neuralnetwork.foundation;
 /**
  * @author stefanv
  *
- * 
+ *
  */
 public interface TrainingStrategy extends Initializable{
-	
+
 	public void invokeTrainer(Object args);
-	
+
 	public void preEpochActions(Object args);
-	
+
 	public void postEpochActions(Object args);
-	
+
 	public void setTopology(NeuralNetworkTopology topo);
 
 }

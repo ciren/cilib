@@ -55,23 +55,23 @@ import net.sourceforge.cilib.type.types.Real;
  * TODO: Complete this javadoc.
  */
 public final class XMLmimic {
-	
+
 	private XMLmimic() {
 	}
-	
+
 	public static void run(){
-		
+
 		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
 		EvaluationMediator eval = new EvaluationMediator();
 		eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
 //			FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
 			//SAILAEvaluationStrategy eval = new SAILAEvaluationStrategy();
-			
+
 				//GenericTopology topo = new GenericTopology();
 				GenericTopology topo = new LayeredGenericTopology();
 					FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
 						Weight base= new Weight();
-							base.setWeightValue(new Real(0.5)); 
+							base.setWeightValue(new Real(0.5));
 							base.setPreviousChange(new Real(0));
 					builder.setPrototypeWeight(base);
 					builder.addLayer(5);
@@ -80,7 +80,7 @@ public final class XMLmimic {
 				topo.setTopologyBuilder(builder);
 				topo.setWeightInitialiser(new FanInWeightInitialiser());
 			eval.setTopology(topo);
-			
+
 				GenericData data = new GenericData();
 				//RandomDistributionStrategy distrib = new RandomDistributionStrategy();
 				CrossValidationStrategy distrib = new CrossValidationStrategy();
@@ -98,24 +98,24 @@ public final class XMLmimic {
 			//	distrib.setPatternRandomizerSeed(200);
 				data.setDistributor(distrib);
 			eval.setData(data);
-			
+
 				NNError err = new MSEErrorFunction();
 				err.setNoOutputs(3);
 				//err.setNoPatterns(1000);		//direct settings wont work in XML
 				NNError err1 = new ClassificationErrorReal();
 			eval.addPrototypError(err);
 			eval.addPrototypError(err1);
-			
+
 				FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
 				trainer.setDelta(new SquaredErrorFunction());
 				trainer.setMomentum(0.5);
 				trainer.setLearningRate(0.9);
 			eval.setTrainer(trainer);
-		
+
 		neuralNetworkProblem.setEvaluationStrategy(eval);
-		
-		
-		
+
+
+
 		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
 			neuralNetworkControl.setProblem(neuralNetworkProblem);
 			neuralNetworkControl.addStoppingCondition(new MaximumIterations(1000));
@@ -135,29 +135,29 @@ public final class XMLmimic {
 			measures.addMeasurement(new RobelOverfittingRho());
 			measures.addMeasurement(new Time());
 			neuralNetworkControl.setMeasures(measures);
-		
+
 		neuralNetworkControl.initialise();
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
 		System.out.println("Configuration completed...");
 //		-----------------------------------------------------------------------------------------------------------
 
 
-System.out.println("About to run simulation...");	
+System.out.println("About to run simulation...");
 
 neuralNetworkControl.run();
 ////run the stuff
-		
-	
+
+
 /*
 MixedVector in = new MixedVector(1);
 
-in.add(new Real(0.5)); 
+in.add(new Real(0.5));
 in.add(new Real(1.234));
 
 StandardPattern p = new StandardPattern(in, null);
@@ -172,13 +172,13 @@ System.out.println("candidate set size      : " + data.getCandidateSetSize());
 System.out.println("training set size       : " + data.getTrainingSetSize());
 System.out.println("generalisation set size : " + data.getGeneralisationSetSize());
 System.out.println("validation set size     : " + data.getValidationSetSize());
-		
-		
-		
+
+
+
 	}
-	
+
 	public static void main(String [] args){
-		
+
 		XMLmimic.run();
 		//XMLmimic.run();
 		//XMLmimic.run();

@@ -47,22 +47,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public final class TestErrorINCLearnWithTrainer {
-	
+
 	private TestErrorINCLearnWithTrainer() {
 	}
 
-	
-	
+
+
 public static void main(String[] args) {
-		
+
 		int[] sizes = new int[3];
 		sizes[0] = 3;
 		sizes[1] = 6;
 		sizes[2] = 1;
-		
+
 		Weight base= new Weight(new Real(0.5));
-		
-		
+
+
 	//	GenericTopology topo = new GenericTopology(new FFNNStaticTopologyBuilder());
 	//	GenericTopology topo = new GenericTopology();
 		GenericTopology topo = new LayeredGenericTopology();
@@ -72,16 +72,16 @@ public static void main(String[] args) {
 		builder.addLayer(6);
 		builder.addLayer(1);
 		topo.setTopologyBuilder(builder);
-				
+
 		FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
 		trainer.setDelta(new SquaredErrorFunction());
 		trainer.setTopology(topo);
 		trainer.setMomentum(0.9);
 		trainer.setLearningRate(0.1);
-		
+
 		DynamicPatternSelectionData data = null;
-		
-		
+
+
 		data = new DynamicPatternSelectionData();
 		RandomDistributionStrategy distributor = new RandomDistributionStrategy();
 		distributor.setFile("d:\\Stefan University\\masters\\datasets\\F2.txt");
@@ -92,29 +92,29 @@ public static void main(String[] args) {
 		distributor.setPercentCan(59);
 		data.setDistributor(distributor);
 		data.setTopology(topo);
-		
-		
+
+
 		NNError err = new MSEErrorFunction();
 		err.setNoOutputs(1);
 		err.setNoPatterns(1000);		//direct settings wont work in XML
 		NNError err1 = new ClassificationErrorReal();
-		
+
 		SAILAEvaluationMediator eval = new SAILAEvaluationMediator();
 		eval.setTopology(topo);
 		eval.setData(data);
 		eval.addPrototypError(err);
 		eval.addPrototypError(err1);
 		eval.setTrainer(trainer);
-		
+
 		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
 		neuralNetworkProblem.setEvaluationStrategy(eval);
-				
+
 		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
 		neuralNetworkControl.setProblem(neuralNetworkProblem);
-		
+
 		neuralNetworkControl.addStoppingCondition(new MaximumIterations(1000));
 //		add stopping kondisie
-		
+
 		System.out.println("Configuration completed...");
 //		-----------------------------------------------------------------------------------------------------------
 
@@ -132,8 +132,8 @@ System.out.println("Candidate set           : " + data.getCandidateSetSize());
 
 neuralNetworkControl.run();
 ////run die stuff
-		
-		
+
+
 
 Vector in = new Vector();
 
@@ -154,15 +154,15 @@ System.out.println("generalisation set size : " + data.getGeneralisationSetSize(
 System.out.println("validation set size     : " + data.getValidationSetSize());
 
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
 	}
 }

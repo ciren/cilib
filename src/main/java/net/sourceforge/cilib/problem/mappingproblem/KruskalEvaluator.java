@@ -37,15 +37,15 @@ public class KruskalEvaluator implements MappingEvaluator {
 	 * @param dist The distrance matrix for the generated output vectors.
 	 *
 	 * @return the fitness as a double, wrapped inside a Fitness.
-	 * 
+	 *
 	 * @author jkroon
 	 */
 	public Fitness evaluateMapping(Matrix<Double> dist) {
 		double above = 0.0;
 		double below = 0.0;
-		
+
 		int numvect = prob.getNumInputVectors();
-		
+
 		for(int i = 0; i < numvect; i++) {
 			for(int j = i + 1; j < numvect; j++) {
 				double inp_dist = prob.getDistanceInputVect(i, j);

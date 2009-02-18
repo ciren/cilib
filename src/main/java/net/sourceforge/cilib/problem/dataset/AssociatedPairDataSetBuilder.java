@@ -36,7 +36,7 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * this class no longer keeps track of cluster assignments. That is now the job of the
  * {@link ClusteringUtils} class. Therefore, this class' name will probably change to
  * something like ClusterableDataSetBuilder.
- * 
+ *
  * @author Gary Pampara
  * @author Theuns Cloete
  */
@@ -84,7 +84,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 	 * is used by the {@link DataSetManager} to keep track of this built-up dataset, because
 	 * it might be used by other {@link Simulation}s, {@link Problem}s or {@link Thread}s
 	 * as well.
-	 * 
+	 *
 	 * @throws IllegalArgumentException when the given {@link DataSet} is not a
 	 *         {@link LocalDataSet}. This is only temporary, because I didn't want to change
 	 *         the more generic {@link DataSet} too much.
@@ -137,7 +137,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 	/**
 	 * Get the cached mean {@link Vector}.
-	 * 
+	 *
 	 * @return the {@link #cachedMean}
 	 */
 	public Vector getMean() {
@@ -146,7 +146,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 	/**
 	 * Get the cached variance (scalar).
-	 * 
+	 *
 	 * @return the {@link #cachedVariance}
 	 */
 	public double getVariance() {
@@ -186,7 +186,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 	/**
 	 * Retrieve the cached distance between the given patterns.
-	 * 
+	 *
 	 * @throws IllegalArgumentException when either <code>x</code> or <code>y</code> is
 	 *         negative.
 	 * @param x index of the one pattern
@@ -208,7 +208,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 	/**
 	 * Get all the patterns in this constructed/combined/built dataset.
-	 * 
+	 *
 	 * @return the {@link #patterns} list
 	 */
 	public ArrayList<Pattern> getPatterns() {
@@ -217,7 +217,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 	/**
 	 * Get the pattern that is represented by the given index.
-	 * 
+	 *
 	 * @param i the index representing a pattern in the {@link #patterns}
 	 * @return pattern i of {@link #patterns}
 	 */
@@ -227,7 +227,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 	/**
 	 * Determine how many patterns are in this constructed/combined/built dataset.
-	 * 
+	 *
 	 * @return the number of patterns/elements in {@link #patterns}
 	 */
 	public int getNumberOfPatterns() {
@@ -236,7 +236,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
 
 	/**
 	 * Get the identifier that uniquely identifies this constructed/combined/built dataset.
-	 * 
+	 *
 	 * @return the {@link #identifier}
 	 */
 	public String getIdentifier() {

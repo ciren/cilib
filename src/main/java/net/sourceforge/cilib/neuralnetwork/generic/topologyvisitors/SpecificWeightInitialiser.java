@@ -32,19 +32,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class SpecificWeightInitialiser implements GenericTopologyVisitor {
-	
+
 	ArrayList<Weight> weights = null;
-		
+
 	public SpecificWeightInitialiser() {
 		super();
 		this.weights = null;
 	}
-		
-	
+
+
 	public void visitNeuronConfig(NeuronConfig n) {
-		
+
 		if(n.getInputWeights() != null){
-			
+
 		   Weight[] tmp = new Weight[n.getInputWeights().length];
 		   for (int i = 0; i < tmp.length; i++){
 		   		tmp[i] = weights.remove(0);
@@ -55,13 +55,13 @@ public class SpecificWeightInitialiser implements GenericTopologyVisitor {
 	}
 
 	public void setWeights(Vector w) {
-		
+
 		weights = new ArrayList<Weight>();
 		for (int i = 0; i < w.size(); i++){
 			weights.add(new Weight(w.get(i)));
 		}
 	}
-	
+
 	public boolean isEmpty(){
 		return weights.size() == 0;
 	}

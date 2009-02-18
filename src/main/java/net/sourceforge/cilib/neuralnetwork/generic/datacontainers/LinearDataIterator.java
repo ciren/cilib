@@ -32,10 +32,10 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
  */
 public class LinearDataIterator implements NeuralNetworkDataIterator {
 	private static final long serialVersionUID = 104673955761529700L;
-	
+
 	private int count;
 	private ArrayList<NNPattern> list = null;
-	
+
 	/**
 	 * Create an instance, with the provided list.
 	 * @param list The list of data patterns.
@@ -56,7 +56,7 @@ public class LinearDataIterator implements NeuralNetworkDataIterator {
 	 * {@inheritDoc}
 	 */
 	public boolean hasMore() {
-		return (count < list.size()); 
+		return (count < list.size());
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class LinearDataIterator implements NeuralNetworkDataIterator {
 	public int currentPos() {
 		return count;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

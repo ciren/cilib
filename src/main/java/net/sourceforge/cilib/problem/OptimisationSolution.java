@@ -33,13 +33,13 @@ import net.sourceforge.cilib.type.types.Type;
 public class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
 
 	private static final long serialVersionUID = 2119444179382452329L;
-	
+
 	private OptimisationProblem problem;
     private Type position;
-	
+
 	/**
 	 * Constructs a new instance of {@code OptimisationSolution}.
-	 * 
+	 *
 	 * @param problem The optimisation problem for which  this is a solution.
 	 * @param position The position of the solution within the search space of the problem.
 	 */
@@ -50,7 +50,7 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
 
     /**
      * Returns the position of this solution within the search space of the problem.
-     * 
+     *
      * @return The position of this solution in search space.
      */
     public Type getPosition() {
@@ -58,16 +58,16 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
     }
 
     /**
-     * Returns the fitness of this solution according to {@link net.sourceforge.cilib.problem.OptimisationProblem#getFitness(Type, boolean)}. 
-     * Calling this function does not contribute to the number of fitness evaulations maintained by 
+     * Returns the fitness of this solution according to {@link net.sourceforge.cilib.problem.OptimisationProblem#getFitness(Type, boolean)}.
+     * Calling this function does not contribute to the number of fitness evaulations maintained by
 	 * {@link net.sourceforge.cilib.problem.OptimisationProblem}.
-     * 
+     *
      * @return The fitness of this solution.
      */
     public Fitness getFitness() {
         return problem.getFitness(position, false);
     }
-    
+
     /**
      * {@inheritDoc}
      */

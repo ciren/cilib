@@ -77,9 +77,9 @@ public class TestPostMeasure {
 	double learningRate, momentum;
 	int maxIterations;
 	long dataRandomSeed;
-	
+
 	public void runSimulation(){
-		
+
 		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
 			EvaluationMediator eval = new EvaluationMediator();
 			eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
@@ -87,7 +87,7 @@ public class TestPostMeasure {
 				GenericTopology topo = new LayeredGenericTopology();
 					FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
 						Weight base= new Weight();
-							base.setWeightValue(new Real(0.5)); 
+							base.setWeightValue(new Real(0.5));
 							base.setPreviousChange(new Real(0));
 					builder.setPrototypeWeight(base);
 					builder.addLayer(this.layer1size);
@@ -96,7 +96,7 @@ public class TestPostMeasure {
 				topo.setTopologyBuilder(builder);
 				topo.setWeightInitialiser(new FanInWeightInitialiser());
 			eval.setTopology(topo);
-			
+
 				GenericData data = new GenericData();
 				RandomDistributionStrategy distributor = new RandomDistributionStrategy();
 				distributor.setFile(this.problemDataFile);
@@ -107,28 +107,28 @@ public class TestPostMeasure {
 				distributor.setPercentCan(this.perCan);
 				distributor.setPatternRandomizerSeed(this.dataRandomSeed);
 				data.setDistributor(distributor);
-			eval.setData(data);	
-			
+			eval.setData(data);
+
 				NNError err = new MSEErrorFunction();
 				err.setNoOutputs(this.layer3size);
-			eval.addPrototypError(err);	
-			
+			eval.addPrototypError(err);
+
 				FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
 				trainer.setDelta(new SquaredErrorFunction());
 				trainer.setMomentum(this.momentum);
 				trainer.setLearningRate(this.learningRate);
 			eval.setTrainer(trainer);
-		
+
 		neuralNetworkProblem.setEvaluationStrategy(eval);
-		
-		
-		
+
+
+
 		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
 			neuralNetworkControl.setProblem(neuralNetworkProblem);
 			neuralNetworkControl.addStoppingCondition(new MaximumIterations(this.maxIterations));
 			PostMeasurementSuite measures = new PostMeasurementSuite();
 			measures.setOutputFile(this.postMeasuresFile);
-			
+
 			AreaUnderROC auc = new AreaUnderROC();
 			auc.setData(data);
 			auc.setTopology(topo);
@@ -143,18 +143,18 @@ public class TestPostMeasure {
 			measures.addMeasurement(new RobelOverfittingRho());
 			measures.addMeasurement(new Time());
 			neuralNetworkControl.setMeasures(measures);
-		
+
 		neuralNetworkControl.initialise();
-			
-		
+
+
 		System.out.println("Configuration completed...");
 //		-----------------------------------------------------------------------------------------------------------
-		
-		
+
+
 		neuralNetworkControl.run();
-		
+
 		data.printStatistics();
-		
+
 	}
 
 	public void setDataRandomSeed(long dataRandomSeed) {
@@ -208,25 +208,25 @@ public class TestPostMeasure {
 	public void setProblemDataFile(String problemDataFile) {
 		this.problemDataFile = problemDataFile;
 	}
-	
-	
-	
-	
 
-	
-	
+
+
+
+
+
+
 	public static void main(String[] args) {
-		
+
 		TestPostMeasure test = new TestPostMeasure();
 		test.setLayer1size(5);
 		test.setLayer2size(15);
 		test.setLayer3size(3);
-		
+
 		test.setPerCan(0);
 		test.setPerTrain(80);
 		test.setPerGen(10);
 		test.setPerVal(10);
-		
+
 		test.setLearningRate(0.5);
 		test.setMomentum(0.9);
 		test.setMaxIterations(1000);

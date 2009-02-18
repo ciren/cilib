@@ -33,10 +33,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class NNFunctionAdapter extends Function {
 	private static final long serialVersionUID = -8189968864920232174L;
-	
+
 	private EvaluationMediator mediator;
 	private String intialisationDomain;
-	
+
 	public NNFunctionAdapter() {
 		intialisationDomain = "";
 	}
@@ -69,10 +69,10 @@ public class NNFunctionAdapter extends Function {
 	public void setMediator(EvaluationMediator mediator) {
 		this.mediator = mediator;
 		mediator.performInitialisation();
-		
+
 		WeightCountingVisitor visitor = new WeightCountingVisitor();
 		((GenericTopology)mediator.getTopology()).acceptVisitor(visitor);
-		
+
 		setDomain(this.intialisationDomain + "^" + visitor.getWeightCount());
 	}
 

@@ -25,7 +25,7 @@ package net.sourceforge.cilib.neuralnetwork.foundation;
  * TODO: Complete this javadoc.
  */
 public interface Initializable {
-	
+
 	public void initialize();
 
 }

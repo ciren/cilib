@@ -67,7 +67,7 @@ public final class DataSetManager implements Serializable {
 	 * Either parse and retrieve or just retrieve the list of patterns that represents the
 	 * requested dataset. The dataset's identifier (filename in the case of a
 	 * {@link LocalDataSet}) is used as the key into the {@link #datasets} {@link Hashtable}.
-	 * 
+	 *
 	 * @param dataset a {@link LocalDataSet} that may or may not have been
 	 *        parsed/instantiated before
 	 * @return an {@link ArrayList} of {@link Pattern}s representing the given dataset
@@ -87,7 +87,7 @@ public final class DataSetManager implements Serializable {
 	 * Either initialise and retrieve or just retrieve the object that represents the
 	 * requested built up dataset. The dataset builder's identifier is used as the key into
 	 * the {@link #builders} {@link Hashtable}.
-	 * 
+	 *
 	 * @param datasetBuilder an {@link AssociatedPairDataSetBuilder} that may or may not have
 	 *        been built/instantiated before
 	 * @return an {@link AssociatedPairDataSetBuilder} that represent the requested built up

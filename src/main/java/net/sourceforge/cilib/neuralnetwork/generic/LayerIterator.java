@@ -28,16 +28,16 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
  *
  */
 public interface LayerIterator {
-	
+
 	public void nextNeuron();
-	
+
 	public NeuronConfig value();
-	
+
 	public int getNrNeurons();
-	
+
 	public void reset();
 
 	public boolean hasMore();
-	
+
 	public int currentPosition();
 }

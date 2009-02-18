@@ -38,16 +38,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author stefanv
- * 
- * 
+ *
+ *
  */
 public final class TrainAndTestNN {
-	
+
 	private TrainAndTestNN(){
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		NeuralNetworkTopology neuralNetworkTopology = new FFNNTopology(1, 30, 1, 0.5, 1.0);
 		TrainingStrategy train = new FFNNTrainingStrategy((FFNNTopology) neuralNetworkTopology);
 
@@ -62,67 +62,67 @@ public final class TrainAndTestNN {
 		distributor.setPercentVal(0);
 		distributor.setPercentCan(29);
 		data.setDistributor(distributor);
-		
+
 		data.initialize();
-		
-		
-		
-		
+
+
+
+
 		NNError err = new MSEErrorFunction();
 		err.setNoOutputs(1);
 		err.setNoPatterns(data.getTrainingSetSize());
 		//NNError err1 = new ClassificationErrorReal();
-		
+
 		//use the Generic Package's FFNNEvaluationMediator.
 		EvaluationMediator mediator = new EvaluationMediator();
 		mediator.setEpochStrategy(new BatchTrainingSetEpochStrategy());
-		mediator.setTopology(neuralNetworkTopology); 
+		mediator.setTopology(neuralNetworkTopology);
 		mediator.setData(data);
 		mediator.addPrototypError(err);
 		//eval.addPrototypError(err1);
 		mediator.setTrainer(train);
 		//	eval.initialize();
-		
-		
+
+
 		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
 		neuralNetworkProblem.setEvaluationStrategy(mediator);
 		//	NNprob.initialize();
-		
+
 		NeuralNetworkController neuralNetworkController = new NeuralNetworkController();
 		neuralNetworkController.setProblem(neuralNetworkProblem);
-		
+
 		neuralNetworkController.addStoppingCondition(new MaximumIterations(5000));
-		
+
 		System.out.println("Configuration completed...");
 		//-----------------------------------------------------------------------------------------------------------
-		
+
 		neuralNetworkController.initialise();
 		//needed by Algorithm...
-		
+
 		neuralNetworkController.run();
 		//run Algorithm
-		
-		
+
+
 		//create a pattern manually and test output
 		Vector in = new Vector();
-		
+
 		in.add(new Real(1)); in.add(new Real(1));
-		
+
 		StandardPattern p = new StandardPattern(in, null);
-		
+
 		Vector result = neuralNetworkTopology.evaluate(p);
-		
+
 		//output line - add any status here that reports on the manual pattern entered.
 		System.out.println("test result: 1 and 1 = 0.6    -->  " + ((Real) result.get(0)).getReal());
-		
+
 		System.out.println("data stats:\n\n");
-		
+
 		System.out.println("candidate set size      : " + data.getCandidateSetSize());
 		System.out.println("training set size       : " + data.getTrainingSetSize());
 		System.out.println("generalisation set size : " + data.getGeneralisationSetSize());
 		System.out.println("validation set size     : " + data.getValidationSetSize());
-		
-		
-		
+
+
+
 	}
 }

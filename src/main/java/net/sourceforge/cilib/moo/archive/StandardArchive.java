@@ -27,7 +27,7 @@ import java.util.Collection;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
- * 
+ *
  * @author Andries Engelbrecht
  *
  */
@@ -35,10 +35,10 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 public class StandardArchive extends ArrayList<OptimisationSolution> implements Archive {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 2395164492771478604L;
-	
+
 	private LocalGuideStrategy localGuideStrategy;
 	private GlobalGuideStrategy globalGuideStrategy;
 
@@ -46,13 +46,13 @@ public class StandardArchive extends ArrayList<OptimisationSolution> implements 
 		localGuideStrategy = new DominatesStrategy();
 		globalGuideStrategy = null;
 	}
-	
+
 	public void accept(OptimisationSolution candidateNonDominatedSolution) {
-		
+
 	}
-	
+
 	public void accept(Collection<OptimisationSolution> paretoFront) {
-		
+
 	}
 
 	public GlobalGuideStrategy getGlobalGuideStrategy() {
@@ -71,6 +71,6 @@ public class StandardArchive extends ArrayList<OptimisationSolution> implements 
 		this.localGuideStrategy = localGuideStrategy;
 	}
 
-	
+
 
 }

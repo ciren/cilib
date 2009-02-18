@@ -27,7 +27,7 @@ import java.util.Random;
  * TODO: Complete this javadoc.
  */
 public final class tester {
-	
+
 	private tester() {
 	}
 
@@ -40,7 +40,7 @@ public final class tester {
 
 		ran1.setSeed(100);
 		ran2.setSeed(100);
-		
+
 		for (int i = 0; i < 20; i++){
 			System.out.println("Ran1 = " + ran1.nextDouble() + ", ran2 = " + ran2.nextDouble());
 		}

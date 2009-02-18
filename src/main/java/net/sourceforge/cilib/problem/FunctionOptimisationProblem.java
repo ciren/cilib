@@ -26,19 +26,19 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * This class serves as a base class for function optimisation problems using a 
+ * This class serves as a base class for function optimisation problems using a
  * {@link net.sourceforge.cilib.functions.Function}.
  *
  * @author  Edwin Peer
  */
 public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = 7944544624736580311L;
-	
+
 	protected Function function;
 
-    /** 
+    /**
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
-     * Remember to always set a {@link net.sourceforge.cilib.functions.Function} before attempting to apply 
+     * Remember to always set a {@link net.sourceforge.cilib.functions.Function} before attempting to apply
      * an {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm} to this problem.
      *
      * @see #setFunction(net.sourceforge.cilib.Functions.Function)
@@ -46,7 +46,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     public FunctionOptimisationProblem() {
         function = null;
     }
-    
+
     /**
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
@@ -69,7 +69,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     public void setFunction(Function function) {
         this.function = function;
     }
-    
+
     /**
      * Accessor for the function that is to be optimised.
      *
@@ -78,26 +78,26 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     public Function getFunction() {
         return function;
     }
-    
+
     /**
      * Returns the component that describes the domain of the function.
-     * 
+     *
      * @return the domain component.
      */
     public DomainRegistry getDomain() {
 		return function.getDomainRegistry();
 	}
-    
+
     /**
-     * 
+     *
      */
     public DomainRegistry getBehaviouralDomain() {
     	return function.getBehavioralDomainRegistry();
     }
-    
+
     /**
-     * Returns the error (as a double for now) that the given solution has with respect to the actual optimum solution.   
-     * 
+     * Returns the error (as a double for now) that the given solution has with respect to the actual optimum solution.
+     *
      * @param solution the solution for which an error should be determined
      * @return the error with respect to the optimum solution
      */
@@ -107,5 +107,5 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
 	public void accept(ProblemVisitor visitor) {
 		visitor.visit(this);
 	}
-    
+
 }

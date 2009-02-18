@@ -45,22 +45,22 @@ public class FFNNTrainingStrategy implements TrainingStrategy{
 
 
 	public void preEpochActions(Object args) {
-		//do nothing	
+		//do nothing
 	}
 
 
 	public void postEpochActions(Object args) {
-		//do nothing	
+		//do nothing
 	}
 
 
 	public void initialize() {
-		//do nothing		
+		//do nothing
 	}
 
 
 	public void setTopology(NeuralNetworkTopology topo) {
-		//do nothing		
+		//do nothing
 	}
 
 }

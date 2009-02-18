@@ -25,7 +25,7 @@ package net.sourceforge.cilib.problem;
  * This class is used to represent a fitness value that is always inferior.
  * <p />
  * This class is a singleton.
- * 
+ *
  * @author Edwin Peer
  */
 public final class InferiorFitness implements Fitness {
@@ -33,7 +33,7 @@ public final class InferiorFitness implements Fitness {
 
 	private InferiorFitness() {
 	}
-	
+
 	/**
 	 * Get the cloned instance of this object. Due to this obect being a
 	 * Singleton, the same instance is returned and is not cloned.
@@ -41,14 +41,14 @@ public final class InferiorFitness implements Fitness {
 	public InferiorFitness getClone() {
 		return instance;
 	}
-	
+
 	/**
 	 * Always returns null. <code>InferiorFitness</code> does not have a value. The
 	 * most sensible value to return is Double.NaN as it is still a value, however,
-	 * it represents something that is not a number (effectively null). Returning 
+	 * it represents something that is not a number (effectively null). Returning
 	 * Double.NaN will ensure that some of the Measurements do get an value, even if
 	 * the value is Double.NaN
-	 * 
+	 *
 	 * @return Double.NaN as the value is always inferior.
 	 */
 	public Double getValue() {
@@ -64,9 +64,9 @@ public final class InferiorFitness implements Fitness {
 	}
 
 	/**
-	 * Returns -1, unless other is also the <code>InferiorFitness</code> instance. 
-	 * 
-	 * @return 0 if other is <code>InferiorFitness</code> instance, -1 otherwise. 
+	 * Returns -1, unless other is also the <code>InferiorFitness</code> instance.
+	 *
+	 * @return 0 if other is <code>InferiorFitness</code> instance, -1 otherwise.
 	 */
 	public int compareTo(Fitness other) {
 		if (this == other) {
@@ -76,39 +76,39 @@ public final class InferiorFitness implements Fitness {
 			return -1;
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
-		
+
 		if ((object == null) || (this.getClass() != object.getClass()))
 			return false;
-		
+
 		Fitness otherFitness = (Fitness) object;
 		return getValue().equals(otherFitness.getValue());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public int hashCode() {
 		int hash = 7;
-		hash = 31 * hash + getValue().hashCode(); 
+		hash = 31 * hash + getValue().hashCode();
 		return hash;
 	}
-	
+
 	/**
 	 * Obtain a reference to the <code>InferiorFitness</code> instance.
-	 * 
+	 *
 	 * @return the <code>InferiorFitness</code> instance.
 	 */
 	public static Fitness instance() {
 		return instance;
 	}
-	
+
 	private static InferiorFitness instance = new InferiorFitness();
 
 }

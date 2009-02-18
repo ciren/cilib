@@ -49,7 +49,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class DeratingFunctionMaximisationProblem extends FunctionMaximisationProblem {
     private static final long serialVersionUID = 6513411928705015979L;
-    
+
 	/**
      * This vector contains all the solutions (or positions) in the search
      * space that will be modified using the deratingFunction.
@@ -210,11 +210,11 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
         // as the distance is not expected out of the functions range
         // the maximum expected distance will be from the lower bound to
         // the upper bound of the function.
-    	
+
         //double min = ((Quantitative) getFunction().getDomainComponent().getComponent(0)).getLowerBound().doubleValue();
         //double max = ((Quantitative) getFunction().getDomainComponent().getComponent(0)).getUpperBound().doubleValue();
-        
-        //double min = Domain.getInstance().getLowerBound(); // TODO: Should this be here? 
+
+        //double min = Domain.getInstance().getLowerBound(); // TODO: Should this be here?
         //double max = Domain.getInstance().getUpperBound(); // TODO: Should this be here?
 
         // calculate the maximum distance.

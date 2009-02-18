@@ -41,11 +41,11 @@ public class MOFitness implements Fitness {
 			fitnesses[i] = problem.getFitness(i, solution[i], count);
 		}
 	}
-	
+
 	public MOFitness getClone() {
 		throw new UnsupportedOperationException("Implement me");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -66,32 +66,32 @@ public class MOFitness implements Fitness {
 	 */
 	public int compareTo(Fitness other) {
 		MOFitness tmp = (MOFitness) other;
-		
+
 		boolean aDominateB = false;
 		boolean bDominateA = false;
 		boolean aMaydominateB = true;
 		boolean bMaydominateA = true;
-		
+
 		for(int i = 0; i < fitnesses.length; i++) {
 			int r = fitnesses[i].compareTo(tmp.fitnesses[i]);
-			
+
 			if(r < 0) {
 				aDominateB = true;
 				bMaydominateA = false;
-			} 
+			}
 			else if(r > 0) {
 				bDominateA = true;
 				aMaydominateB = false;
 			}
-			
+
 		}
 
 		if(aDominateB && aMaydominateB) {
 			return -1;
-		} 
+		}
 		else if(bDominateA && bMaydominateA) {
 			return 1;
-		} 
+		}
 		else {
 			return 0;
 		}
@@ -114,12 +114,12 @@ public class MOFitness implements Fitness {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
-		
+
 		final MOFitness other = (MOFitness) obj;
 		return Arrays.equals(fitnesses, other.fitnesses);
 	}
-	
+
 }

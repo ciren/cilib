@@ -24,7 +24,7 @@ package net.sourceforge.cilib.problem;
 /**
  * @author Edwin Peer
  *
- * This class implements the <code>Comparable</code> interface for a maximisation problem. 
+ * This class implements the <code>Comparable</code> interface for a maximisation problem.
  * That is, larger fitness values have superior fitness.
  */
 public class MaximisationFitness implements Fitness {
@@ -39,7 +39,7 @@ public class MaximisationFitness implements Fitness {
 	public MaximisationFitness(Double value) {
 		this.value = value;
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -47,7 +47,7 @@ public class MaximisationFitness implements Fitness {
 	public MaximisationFitness(MaximisationFitness copy) {
 		this.value = copy.value;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -71,7 +71,7 @@ public class MaximisationFitness implements Fitness {
 
 	/**
 	 * Returns superior fitness for larger fitness values.
-	 * 
+	 *
 	 * @return 1 for superior fitness, -1 for inferior fitness and 0 for equivalent fitness.
 	 */
 	public int compareTo(Fitness other) {
@@ -80,21 +80,21 @@ public class MaximisationFitness implements Fitness {
 		}
 		return value.compareTo(other.getValue());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
-		
+
 		Fitness other = (Fitness) obj;
 		return getValue().equals(other.getValue());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -103,5 +103,5 @@ public class MaximisationFitness implements Fitness {
 		hash = 31 * hash + (value == null ? 0 : value.hashCode());
 		return hash;
 	}
-	
+
 }

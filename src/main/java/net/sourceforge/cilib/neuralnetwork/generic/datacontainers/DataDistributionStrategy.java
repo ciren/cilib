@@ -29,12 +29,12 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
  * TODO: Complete this javadoc.
  */
 public interface DataDistributionStrategy {
-	
+
 	public void populateData(ArrayList<NNPattern> dc,
 							 ArrayList<NNPattern> dt,
 							 ArrayList<NNPattern> dg,
 							 ArrayList<NNPattern> dv);
-	
+
 	public void initialize();
 
 }

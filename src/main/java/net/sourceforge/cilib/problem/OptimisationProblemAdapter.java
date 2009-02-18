@@ -41,7 +41,7 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public abstract class OptimisationProblemAdapter implements OptimisationProblem {
 	private static final long serialVersionUID = -5008516277429476778L;
-	
+
 	protected AtomicInteger fitnessEvaluations;
 	protected DataSetBuilder dataSetBuilder;
 	private ChangeStrategy changeStrategy;
@@ -84,7 +84,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 
 		if (this.changeStrategy.change(this))
 			changeEnvironment();
-		
+
 		return calculateFitness(solution);
 	}
 
@@ -132,11 +132,11 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
 	}
 
 	/**
-	 * Set the {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} for this problem. 
+	 * Set the {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} for this problem.
 	 * @param changeStrategy The {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} to set.
 	 */
 	public void setChangeStrategy(ChangeStrategy changeStrategy) {
 		this.changeStrategy = changeStrategy;
 	}
-	
+
 }

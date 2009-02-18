@@ -37,34 +37,34 @@ public class MOOptimisationProblem implements OptimisationProblem {
 	public MOOptimisationProblem() {
 		problems = new ArrayList<OptimisationProblem>();
 	}
-	
+
 	public MOOptimisationProblem(MOOptimisationProblem copy) {
-		
+
 	}
-	
+
 	public MOOptimisationProblem getClone() {
 		return new MOOptimisationProblem(this);
 	}
-	
+
 	public Fitness getFitness(Type[] solutions, boolean count) {
 		return new MOFitness(this, solutions, count);
 	}
-	
+
 	public Fitness getFitness(Type solution, boolean count) {
 		return new MOFitness(this, new Type[]{solution}, count);
 	}
-	
+
 	public int getProblemCount() {
 		return problems.size();
 	}
-	
+
 	public Fitness getFitness(int index, Type solution, boolean count) {
 		return problems.get(index).getFitness(solution, count);
 	}
 
 	public int getFitnessEvaluations() {
 		int sum = 0;
-		
+
 		for (OptimisationProblem problem : problems) {
 			sum += problem.getFitnessEvaluations();
 		}
@@ -72,18 +72,18 @@ public class MOOptimisationProblem implements OptimisationProblem {
 	}
 
 	public void addOptimisationProblem(OptimisationProblem problem) {
-		// TODO: Check problem domains match using DomainValidators. 
+		// TODO: Check problem domains match using DomainValidators.
 		problems.add(problem);
 	}
-	
+
 	public OptimisationProblem getOptimisationProblem(int index) {
 		return problems.get(index);
 	}
-	
+
 	public void removeOptimisationProblem(OptimisationProblem problem) {
 		problems.remove(problem);
 	}
-	
+
 	private ArrayList<OptimisationProblem> problems;
 
 	public DomainRegistry getDomain() {
@@ -103,7 +103,7 @@ public class MOOptimisationProblem implements OptimisationProblem {
 
 	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void accept(ProblemVisitor visitor) {

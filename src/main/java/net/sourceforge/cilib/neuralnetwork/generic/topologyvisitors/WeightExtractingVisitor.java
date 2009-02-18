@@ -26,26 +26,26 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO: Complete this javadoc. 
+ * TODO: Complete this javadoc.
  */
 public class WeightExtractingVisitor implements GenericTopologyVisitor {
-	
+
 	private Vector weights = null;
-	
+
 	public WeightExtractingVisitor() {
 		this.weights = new Vector();
 	}
 
 	public void visitNeuronConfig(NeuronConfig n) {
-		
+
 		if(n.getInputWeights() != null){
 			Weight[] neuronWeights = n.getInputWeights();
-			
+
 			for (int i = 0; i < neuronWeights.length; i++){
 				weights.add(neuronWeights[i].getWeightValue().getClone());
 			}
 		}
-		
+
 	}
 
 	public Vector getWeights() {

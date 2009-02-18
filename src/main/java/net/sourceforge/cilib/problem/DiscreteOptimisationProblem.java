@@ -24,16 +24,16 @@ package net.sourceforge.cilib.problem;
 /**
  * This class further extends the logical separation between a standard type of problem, usually placed
  * in the real valued space, to enable Discrete problems.
- * 
+ *
  * @author Gary Pampara
  */
 public abstract class DiscreteOptimisationProblem implements OptimisationProblem {
-	
+
 	private static final long serialVersionUID = 5440388440045432271L;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public abstract DiscreteOptimisationProblem getClone();
-	
+
 }

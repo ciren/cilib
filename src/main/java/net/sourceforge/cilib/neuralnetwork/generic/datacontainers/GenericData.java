@@ -34,12 +34,12 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
  *
  */
 public class GenericData implements NeuralNetworkData {
-	
+
 	protected ArrayList<NNPattern> candidateSet = null;
 	protected ArrayList<NNPattern> trainingSet = null;
 	protected ArrayList<NNPattern> generalisationSet = null;
 	protected ArrayList<NNPattern> validationSet = null;
-	
+
 	protected DataDistributionStrategy distributor;
 	protected NeuralNetworkDataIterator iter = null;
 
@@ -51,7 +51,7 @@ public class GenericData implements NeuralNetworkData {
 		this.trainingSet = null;
 		this.generalisationSet = null;
 		this.validationSet = null;
-		
+
 		this.distributor = null;
 		this.iter = new LinearDataIterator(null);
 	}
@@ -64,23 +64,23 @@ public class GenericData implements NeuralNetworkData {
 		trainingSet = new ArrayList<NNPattern>();
 		generalisationSet = new ArrayList<NNPattern>();
 		validationSet = new ArrayList<NNPattern>();
-		
+
 		if (this.distributor == null){
 			throw new IllegalArgumentException("Required data distributor object was null during initialization");
 		}
-		
+
 		this.distributor.initialize();
 		this.distributor.populateData(this.candidateSet,
 									  this.trainingSet,
 									  this.generalisationSet,
 									  this.validationSet);
 	}
-	
-	
+
+
 	/**
 	 * Set the required {@linkplain DataDistributionStrategy}.
 	 * @param distributor The {@linkplain DataDistributionStrategy} to use.
-	 */	
+	 */
 	public void setDistributor(DataDistributionStrategy distributor) {
 		this.distributor = distributor;
 	}
@@ -117,7 +117,7 @@ public class GenericData implements NeuralNetworkData {
 		return validationSet.size();
 	}
 
-		
+
 	/**
 	 * Get an {@linkplain Iterator} for the training set.
 	 * @return The training set {@linkplain Iterator}.
@@ -143,7 +143,7 @@ public class GenericData implements NeuralNetworkData {
 	public NeuralNetworkDataIterator getValidationSetIterator() {
 		return new LinearDataIterator(validationSet);
 	}
-	
+
 	/**
 	 * Get an {@linkplain Iterator} for the candidate set.
 	 * @return The candidate set {@linkplain Iterator}.
@@ -161,8 +161,8 @@ public class GenericData implements NeuralNetworkData {
 		//Do nothing as no active learning defined.
 		//refine in subclasses.
 	}
-	
-	
+
+
 	/**
 	 * Shuffle the training set.
 	 * @see Collections#shuffle(java.util.List, Random)
@@ -170,8 +170,8 @@ public class GenericData implements NeuralNetworkData {
 	public void shuffleTrainingSet(){
 		Collections.shuffle(this.trainingSet, new Random(System.currentTimeMillis()));
 	}
-	
-	
+
+
 
 	/**
 	 * Print some statistics about the data.
@@ -183,6 +183,6 @@ public class GenericData implements NeuralNetworkData {
 		System.out.println("Generalisation set size : " + this.getGeneralisationSetSize());
 		System.out.println("Validation set size     : " + this.getValidationSetSize());
 	}
-	
+
 
 }

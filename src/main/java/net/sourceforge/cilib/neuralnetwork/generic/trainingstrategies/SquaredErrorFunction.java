@@ -38,7 +38,7 @@ public class SquaredErrorFunction implements ErrorSignal {
 	 * Create an instance of {@linkplain SquaredErrorFunction}.
 	 */
 	public SquaredErrorFunction() {
-		
+
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class SquaredErrorFunction implements ErrorSignal {
 	 */
 	public Type computeBaseDelta(Type desired, Type output,
 			Type outputFunctionDerivative) {
-		
+
 		return new Real(-1 * (((Real) desired).getReal() - ((Real) output).getReal()) * ((Real) outputFunctionDerivative).getReal());
 	}
 
@@ -56,13 +56,13 @@ public class SquaredErrorFunction implements ErrorSignal {
 	 */
 	public Type computeRecursiveDelta(Type outputFunctionDerivative,
 			Vector delta, ArrayList<Weight> w, Type output) {
-		
+
 		double sumResult = 0;
 		for (int i = 0; i < w.size(); i++){
 			sumResult += ((Real) delta.get(i)).getReal() * ((Real) w.get(i).getWeightValue()).getReal();
 		}
-	
-		return new Real(((Real) outputFunctionDerivative).getReal() * sumResult);  
+
+		return new Real(((Real) outputFunctionDerivative).getReal() * sumResult);
 	}
 
 }

@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class ErrorDg implements Measurement {
 	private static final long serialVersionUID = -5129864489346375855L;
-	
+
 	public ErrorDg() {
 	}
 
@@ -59,7 +59,7 @@ public class ErrorDg implements Measurement {
 
 	public Type getValue(Algorithm algorithm) {
 		EvaluationMediator eval = null;
-		
+
 		if (algorithm instanceof SingularAlgorithm) {
 			 eval = (EvaluationMediator) algorithm;
 		}
@@ -69,14 +69,14 @@ public class ErrorDg implements Measurement {
 			optimisationProblem.accept(visitor);
 			eval = visitor.getMediator();
 		}
-		
+
 		NNError[] errorDg = eval.getErrorDg();
 		Vector err = new Vector();
-		
+
 		for (int i = 0; i < errorDg.length; i++){
 			err.add(new Real(errorDg[i].getValue().doubleValue()));
 		}
-		
+
 		return err;
 	}
 

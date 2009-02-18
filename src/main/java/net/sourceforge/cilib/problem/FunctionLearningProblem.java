@@ -37,12 +37,12 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  *
  */
 public class FunctionLearningProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = -8903112361933892141L;
-    
+
 	private Function function;
     private int sampleSetSize = 1000;
     private double trainingSetPercentage = 0.7;
@@ -69,11 +69,11 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         this.neuralNetwork = neuralNetwork;
         initialise();
     }
-    
+
     public FunctionLearningProblem(FunctionLearningProblem copy) {
-    	
+
     }
-    
+
     public FunctionLearningProblem getClone() {
     	return new FunctionLearningProblem(this);
     }
@@ -251,7 +251,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
     /*public Domain getDomain() {
     	return Domain.getInstance();
     }*/
-    
+
     public void setFunction(Function function) {
         this.function = function;
     }

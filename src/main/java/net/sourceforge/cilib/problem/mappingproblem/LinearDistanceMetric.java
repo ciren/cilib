@@ -73,7 +73,7 @@ public class LinearDistanceMetric implements DistanceMetric {
 		if(doloop && totalDistance - distance < distance) {
 			distance = totalDistance - distance;
 		}
-		
+
 		return distance;
 	}
 

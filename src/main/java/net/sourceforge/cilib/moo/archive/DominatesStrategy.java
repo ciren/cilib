@@ -30,19 +30,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class DominatesStrategy implements LocalGuideStrategy {
 
 	private Vector localGuide = null;
-	
+
 	/* Must newLocalGuide be cloned??*/
 	public void setLocalGuide(Vector newLocalGuide) {
 		this.localGuide = newLocalGuide;
 	}
-	
+
 	public Vector getLocalGuide() {
 		return this.localGuide;
 	}
-	
+
 	/*rather Entity than Particle*/
 	public void updateLocalGuide(Particle particle) {
-		/*only of position dominates personalBestPosition, then 
+		/*only of position dominates personalBestPosition, then
 		 * the new personal best position becomes the current position
 		 */
 		if (particle.getFitness().compareTo(particle.getBestFitness()) == 0)

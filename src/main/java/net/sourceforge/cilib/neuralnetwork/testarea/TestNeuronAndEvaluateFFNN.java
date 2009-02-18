@@ -43,19 +43,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public final class TestNeuronAndEvaluateFFNN {
-	
+
 	private TestNeuronAndEvaluateFFNN() {
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		int[] sizes = new int[3];
 		sizes[0] = 3;
 		sizes[1] = 3;
 		sizes[2] = 1;
-		
+
 		Weight base= new Weight(new Real(1));
-		
+
 		//GenericTopology topo = new GenericTopology();
 		GenericTopology topo = new LayeredGenericTopology();
 		FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
@@ -66,29 +66,29 @@ public final class TestNeuronAndEvaluateFFNN {
 		builder.initialize();
 		topo.setTopologyBuilder(builder);
 		topo.initialize();
-		
-		
+
+
 		//alternative weights setter------------------------------------
 		Vector weights = new Vector();
-		
+
 		weights.add(new Real(0.1));
 		weights.add(new Real(0.4));
 		weights.add(new Real(0.7));
-		
+
 		weights.add(new Real(-0.8));
 		weights.add(new Real(-0.1));
 		weights.add(new Real(0.30));
-		
+
 		weights.add(new Real(0.2));
 		weights.add(new Real(-0.9));
 		weights.add(new Real(0.6));
-		
+
 		topo.setWeights(weights);
-				
+
 		//--------------------------------------------------------------
-		
+
 		//GenericTopology topo = new GenericTopology(new FFNNStaticTopologyBuilder());
-			
+
 		System.out.println("Sigmoid function test ===============================================");
 		SigmoidOutputFunction s = new SigmoidOutputFunction();
 		System.out.println("raw output for  0    = " + s.computeFunction(new Real(0)));
@@ -98,96 +98,96 @@ public final class TestNeuronAndEvaluateFFNN {
 		System.out.println("raw output for  -1   = " + s.computeFunction(new Real(-1)));
 		System.out.println("raw output for  10   = " + s.computeFunction(new Real(10)));
 		System.out.println("raw output for  -10  = " + s.computeFunction(new Real(-10)));
-		
+
 		//TestNeuronAndEvaluateFFNN test = new TestNeuronAndEvaluateFFNN();
-		
-		
-		
-		
+
+
+
+
 		//NeuronPipeline neuron = new DotProductSigmoidPipeline(new SigmoidOutputFunction(1));
-		
+
 		Vector ins = new Vector();
 		ins.add(new Real(-0.765));
 		ins.add(new Real(0.112));
-		
+
 		Vector targt = new Vector();
 		targt.add(new Real(0.7666));
 		NNPattern p = new StandardPattern(ins, targt);
-		
+
 		Vector result = new Vector();
-		
+
 		ErrorSignal delta = new SquaredErrorFunction();
-		
+
 		FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
 		trainer.setTopology(topo);
 		trainer.setDelta(delta);
 		trainer.setMomentum(0.9);
 		trainer.setLearningRate(0.5);
 		trainer.initialize();
-		
+
 		for (int counter = 0; counter < 100; counter++){
-			
-			result = topo.evaluate(p);			
-						
+
+			result = topo.evaluate(p);
+
 			Double real = ((Real) result.get(0)).getReal();
-			
+
 			System.out.println("-----------------------------------------------------");
 			System.out.println("The final output result: " + real.toString());
-			
-			
-			
+
+
+
 			trainer.invokeTrainer(p);
-			
+
 		}
-		
+
 		//after training
 			 result = topo.evaluate(p);
-		
-		
+
+
 		Double real = ((Real) result.get(result.size()-1)).getReal();
-		
-		
+
+
 		System.out.println("The final output after training = result: " + real.toString());
 		System.out.println("-----------------------------------------------------\n");
-		
+
 		//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		
+
 		FFNNTopology ffnn = new FFNNTopology(2, 2, 1, 0.5, 0.9);
-		
+
 		Vector weightsB = new Vector();
 		weightsB.add(new Real(0.1));
 		weightsB.add(new Real(0.4));
 		weightsB.add(new Real(0.7));
-		
+
 		weightsB.add(new Real(-0.8));
 		weightsB.add(new Real(-0.1));
 		weightsB.add(new Real(0.3));
-		
+
 		weightsB.add(new Real(0.2));
 		weightsB.add(new Real(-0.9));
 		weightsB.add(new Real(0.6));
-		
+
 			ffnn.setWeights(weightsB);
-		
+
 		for (int counter = 0; counter < 100; counter++){
-			
+
 			result = new Vector();
 			result = ffnn.evaluate(p);
 			real = ((Real) result.get(0)).getReal();
-			
+
 			System.out.println("__________________________________________________________");
 			System.out.println("FFNNTopology---- output result: " + real.toString());
-			
-			
+
+
 			ffnn.train();
 			result = ffnn.evaluate(p);
 			real = ((Real) result.get(0)).getReal();
-						
+
 		}
-		
+
 		System.out.println("FFNNTopology final output after training = result: " + real.toString());
 		System.out.println("__________________________________________________________\n");
-		
-		
+
+
 	}
 }

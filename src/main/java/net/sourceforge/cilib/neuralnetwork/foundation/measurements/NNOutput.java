@@ -67,30 +67,30 @@ public class NNOutput implements Measurement {
 
 	public Type getValue(Algorithm algorithm) {
 		this.topology = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getTopology();
-		
+
 		GenericData data = new GenericData();
 		RandomDistributionStrategy distributor = new RandomDistributionStrategy();
 		distributor.setFile(this.inputFile);
 		distributor.setNoInputs(this.noInputs);
 		distributor.setPercentCan(1000);
 		data.setDistributor(distributor);
-		data.initialize();		
-		
+		data.initialize();
+
 		int iter = Algorithm.get().getIterations();
 		try {
 			out = new BufferedWriter(new FileWriter(this.outputFile + "_" + String.valueOf(iter) + ".txt"));
-		} 
+		}
 		catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		
+
+
 		NeuralNetworkDataIterator iteratorDc = data.getCandidateSetIterator();
 		iteratorDc.reset();
-		
+
 		while(iteratorDc.hasMore()){
 			Vector outputDg = topology.evaluate(iteratorDc.value());
-							
+
 			try {
 				out.write(iteratorDc.value().getInput().toString() + " " + outputDg.toString());
 				out.newLine();
@@ -99,20 +99,20 @@ public class NNOutput implements Measurement {
 				e.printStackTrace();
 				throw new IllegalStateException("Problem writing measurement to file...");
 			}
-			
-			
+
+
 			iteratorDc.next();
 		}
-		
+
 		try {
 			out.flush();
 			out.close();
-		} 
+		}
 		catch (IOException e) {
 			e.printStackTrace();
 			throw new IllegalStateException("Problem writing measurement to file...");
 		}
-				
+
 		return new StringType(this.outputFile + "_" + String.valueOf(iter) + ".txt");
 	}
 

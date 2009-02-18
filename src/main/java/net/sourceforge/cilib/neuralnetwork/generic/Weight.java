@@ -33,10 +33,10 @@ public class Weight implements Cloneable {
 	private static final long serialVersionUID = -1229158606594188854L;
 
 	Type weightValue = null;
-	
+
 	//a multi-purpose variable to track changes - value/menaingdepends on the using class
 	Type previousChange = null;
-	
+
 	/**
 	 * @param weightValue
 	 */
@@ -44,8 +44,8 @@ public class Weight implements Cloneable {
 		this.weightValue = null;
 		this.previousChange = null;
 	}
-		
-	
+
+
 	public Weight(Type w){
 		super();
 		this.weightValue = w.getClone();
@@ -54,31 +54,31 @@ public class Weight implements Cloneable {
 //		this.previousChange.reset();
 	}
 
-	
+
 	public Weight getClone(){
 		Weight clone = new Weight(this.weightValue);
 		clone.previousChange = this.previousChange;
 		return clone;
 	}
-	
-	
+
+
 	public Type getWeightValue() {
 		return weightValue;
 	}
-	
+
 	public void setWeightValue(Type weightValue) {
 		this.weightValue = weightValue;
 	}
-		
-	
+
+
 	public Type getPreviousChange() {
 		return previousChange;
 	}
-	
-	
+
+
 	public void setPreviousChange(Type previousChange) {
 		this.previousChange = previousChange;
 	}
 
-	
+
 }

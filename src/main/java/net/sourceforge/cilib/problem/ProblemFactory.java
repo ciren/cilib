@@ -24,7 +24,7 @@ package net.sourceforge.cilib.problem;
 /**
  *
  * <p>
- * A factory used to produce a {@link Problem} must satisfy this interface. 
+ * A factory used to produce a {@link Problem} must satisfy this interface.
  * {@link net.sourceforge.cilib.xml.XMLProblemFactory} implements this
  * interface so that problems can be created for the Simulator.
  * </p>
@@ -36,7 +36,7 @@ package net.sourceforge.cilib.problem;
  * @author  Edwin Peer
  */
 public interface ProblemFactory {
-	
+
     /**
      * Returns a newly contructed problem.
      *

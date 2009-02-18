@@ -25,7 +25,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Andries Engelbrecht
  *
  */
@@ -33,8 +33,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public interface GlobalGuideStrategy {
 
 	public Vector getGlobalGuide();
-	
+
 	public void setGlobalGuide(Vector newGlobalGuide);
-	
+
 	public void updateGlobalGuide(Particle particle);
 }

@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
  * {@link #classIndex} is <code>-1</code> then it means that the dataset does not have a
  * column for the class of the patterns, and in this case the filename of the dataset is
  * used as the class.
- * 
+ *
  * @author Edwin Peer
  * @author Theuns Cloete
  */
@@ -84,7 +84,7 @@ public class LocalDataSet extends DataSet {
 
 	/**
 	 * Set the name of the file that represents this dataset on disk.
-	 * 
+	 *
 	 * @param fileName the name of the file
 	 */
 	public void setFile(String fileName) {
@@ -93,7 +93,7 @@ public class LocalDataSet extends DataSet {
 
 	/**
 	 * Get the name of the file that represents this dataset on disk.
-	 * 
+	 *
 	 * @return the name of the file
 	 */
 	public String getFile() {
@@ -102,7 +102,7 @@ public class LocalDataSet extends DataSet {
 
 	/**
 	 * Get the contents of the file on disk as an array of bytes.
-	 * 
+	 *
 	 * @return the contents of the file on disk as an array of bytes
 	 */
 	public byte[] getData() {
@@ -126,7 +126,7 @@ public class LocalDataSet extends DataSet {
 
 	/**
 	 * Get the contents of the file on disk as an {@link InputStream}.
-	 * 
+	 *
 	 * @return the contents of the file on disk as an {@link InputStream}
 	 */
 	public InputStream getInputStream() {
@@ -141,7 +141,7 @@ public class LocalDataSet extends DataSet {
 
 	/**
 	 * Parse the dataset, building up a list containing all the patterns in the dataset.
-	 * 
+	 *
 	 * @throws IllegalArgumentException when
 	 *         <code>{@link #beginIndex} == {@link #endIndex}</code>.
 	 * @return an {@link ArrayList} of {@link Pattern}s containing all the patterns in this
@@ -174,7 +174,7 @@ public class LocalDataSet extends DataSet {
 	/**
 	 * Parse the given line, construct a {@link Pattern} and return it. Use the filename of
 	 * this dataset as the class when the {@link #classIndex} <code>== -1</code>.
-	 * 
+	 *
 	 * @param line a {@link String} representing one line of the {@link DataSet}
 	 * @return a new {@link Pattern} object of which the class and {@link Pattern#data} has
 	 *         been configured.
@@ -204,7 +204,7 @@ public class LocalDataSet extends DataSet {
 	/**
 	 * Sets the regular expression (as a {@link String}} that should be used as delimiter to
 	 * split a string into the elements of the pattern.
-	 * 
+	 *
 	 * @param d the regular expression (as a {@link String}) that should be used as
 	 *        delimiter
 	 * @throws IllegalArgumentException when the delimiter is empty ("") or <code>null</code>
@@ -219,7 +219,7 @@ public class LocalDataSet extends DataSet {
 
 	/**
 	 * Sets the index where the elements of the pattern begins.
-	 * 
+	 *
 	 * @param bi the starting index
 	 * @throws IllegalArgumentException when the index is negative
 	 */
@@ -233,7 +233,7 @@ public class LocalDataSet extends DataSet {
 
 	/**
 	 * Sets the index where the elements of the pattern ends. This index is inclusive.
-	 * 
+	 *
 	 * @param ei the ending index
 	 * @throws IllegalArgumentException when the index is negative
 	 */
@@ -248,7 +248,7 @@ public class LocalDataSet extends DataSet {
 	/**
 	 * Sets the index of the column that represents the class of the pattern. If the index is
 	 * <code>-1</code> then the filename of the dataset will be used as the class.
-	 * 
+	 *
 	 * @throws IllegalArgumentException when the index is <code>&lt;-1</code>
 	 * @param ci the index where the class resides
 	 */
