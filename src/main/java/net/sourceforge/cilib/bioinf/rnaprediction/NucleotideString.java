@@ -26,28 +26,28 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * Class which holds the global nucleotide string copy we are folding.
  */
 public final class NucleotideString {
-	
+
 	private NucleotideString() {
 	}
-	
+
 	public static NucleotideString getInstance() {
 		if (instance != null) {
 			return instance;
-		} 
+		}
 		else {
 			instance = new NucleotideString();
 			return instance;
 		}
 	}
-	
+
 	public void setNucleotideString(String nucs) {
-		nucleotideString = nucs;		
+		nucleotideString = nucs;
 	}
-	
+
 	public String getNucleotideString() {
 		return nucleotideString;
 	}
-	
+
 	public void setKnowStructure(int[] struct) {
 		this.knownStructure = struct;
 		knownConf = new RNAConformation();
@@ -61,15 +61,15 @@ public final class NucleotideString {
 		}
 		knownConf.add(tempStem);
 	}
-	
+
 	public int[] getKnownStructure() {
 		return knownStructure;
 	}
-	
+
 	public RNAConformation getKnowConf() {
 		return knownConf;
 	}
-	
+
 	public String nucleotideString = "";
 	public int[] knownStructure = null;
 	static NucleotideString instance = null;

@@ -35,39 +35,39 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 	private static final long serialVersionUID = -6682883069950387034L;
-	
+
 	private RNAConformation unionSet;
 	private Random r;
 	double openProbability = 0.5;
 	double closeProbability = 0.6;
 	double addRandomProbability = 0.1;
-	
+
 	public RNAVelocityUpdate() {
 		unionSet = new RNAConformation();
 		r = new KnuthSubtractive();
 	}
-	
+
 	public RNAVelocityUpdate(RNAVelocityUpdate copy) {
 		this();
-		
+
 		this.openProbability = copy.openProbability;
 		this.closeProbability = copy.closeProbability;
 		this.addRandomProbability = copy.addRandomProbability;
-		
+
 		this.unionSet = copy.unionSet.getClone();
 	}
-	
-	
+
+
 	public RNAVelocityUpdate getClone() {
 		return new RNAVelocityUpdate(this);
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param threshold - should be in the range [0.0:1.0]
 	 * @return TRUE if a value sampled from range U[0.0:1.0) is less than threshold; FALSE otherwise
-	 * 
+	 *
 	 * The higher the threshold, the better chance of returning TRUE.
 	 */
 	private boolean prob(double threshold) {
@@ -76,41 +76,41 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 
 		return false;
 	}
-	
+
 	/*
 	 * VelocityUpdate creates 2 sets (openStems and closeStems) by using own and
 	 * neighbourhood bests.
-	 */ 
-	
+	 */
+
 	public void updateVelocity(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();
 		RNAConformation openStems = (RNAConformation) velocity.get(0);
 		RNAConformation closeStems = (RNAConformation) velocity.get(1);
-		
+
 		openStems.clear();
 		closeStems.clear();
-				
+
 		RNAConformation pBest = (RNAConformation) particle.getBestPosition();
-		RNAConformation nBest = (RNAConformation) (particle.getNeighbourhoodBest().getPosition());		
+		RNAConformation nBest = (RNAConformation) (particle.getNeighbourhoodBest().getPosition());
 		RNAConformation position = (RNAConformation) particle.getPosition();
-		
+
 		//openStems should contain some of those stems that is included in the
 		//current folding but not in either of pBest or nBest. Thus add all the
 		//stems in particle.position that is not in the union of pBest and nBest.
 		//the amount of stems added corresponds to an inertia factor
-		
+
 		//closeStems should contain some of the stems that are in the union of
 		//pBest and nBest but not in particle.position.
 		//A random selection of stems from the pool can also be added.
-		
+
 		//Get the union of pBest and nBest
-		
+
 		unionSet.clear();
 		unionSet.addAll(pBest);
 		unionSet.addAll(nBest);
-		
-		
-		
+
+
+
 		for (RNAStem stem : position) {
 			if (!unionSet.contains(stem)) {
 				if (prob(openProbability)) { // TODO: Try link up with jan stuff?
@@ -118,8 +118,8 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 				}
 			}
 		}
-		
-		
+
+
 		for  (RNAStem stem : unionSet) {
 			if (!position.contains(stem)) {
 				if (prob(closeProbability)){
@@ -127,18 +127,18 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 				}
 			}
 		}
-		
-		//remove some stems from position...			
+
+		//remove some stems from position...
 		for (RNAStem o : position) {
 			if (prob(openProbability)) { // TODO: inertiaUpdatreStrategy
 				openStems.add(o);
 			}
 		}
-		
+
 		//add some random stems from the stem pool to closeStems
 		ArrayList<RNAStem> allStems = StemGenerator.getInstance().getAllStems();
 		//int num = 0;
-		
+
 		int index;
 		int count = StemGenerator.getInstance().getAllStems().size();
 		if (particle.getNeighbourhoodBest() == particle) {
@@ -150,7 +150,7 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 				}
 			}
 			//System.out.println("Added "+num+" stems.");
-		} 
+		}
 		else {
 			//System.out.println("I'm not the best particle.");
 			for (int i = 0; i < count; i++) {
@@ -165,13 +165,13 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 		//System.out.println("Random stems added: "+count);
 		//System.out.println("Added " + secondCounter + " random stems");
 	}
-	
-	
+
+
 	public void updateControlParameters(Particle particle) {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
 	}
-	
-	
+
+
 	/**
 	 * @param closeProbability The closeProbability to set.
 	 */
@@ -184,9 +184,9 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
 	public void setOpenProbability(double openProbability) {
 		this.openProbability = openProbability;
 	}
-	
+
 	public void setAddRandomProbability(double addRandomProbability) {
 		this.addRandomProbability = addRandomProbability;
 	}
-	
+
 }

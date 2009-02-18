@@ -33,14 +33,14 @@ public abstract class RNAFitness extends Fitness {
 
 	public RNAFitness() {
 	}
-	
+
 	public RNAFitness(String nuc) {
-		this.nucleotides = nuc;		 
+		this.nucleotides = nuc;
 	}
-	
+
 	public abstract RNAFitness getClone();
-	
+
 	public abstract Double getRNAFitness(RNAConformation stems);
-		
+
 	protected String nucleotides;
 }

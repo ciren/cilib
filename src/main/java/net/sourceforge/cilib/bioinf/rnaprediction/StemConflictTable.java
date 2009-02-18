@@ -27,24 +27,24 @@ import net.sourceforge.cilib.container.BitArray;
  * TODO: Compelte this javadoc.
  */
 public final class StemConflictTable {
-	
+
 	private static StemConflictTable instance = null;
-	
+
 	private BitArray[] matrix = null;
-	
+
 	private int size;
-	
+
 	private StemConflictTable() {
 	}
-	
+
 	public static StemConflictTable getInstance() {
 		if (instance == null) {
 			instance = new StemConflictTable();
 		}
-		
+
 		return instance;
 	}
-	
+
 	/**
 	 * Creates a matrix of dimensions size*size.
 	 * @param size The size of the matrix.
@@ -57,7 +57,7 @@ public final class StemConflictTable {
 		}
 		clearAll();
 	}
-	
+
 	/**
 	 * this method will set all the bits to 0.
 	 */
@@ -68,7 +68,7 @@ public final class StemConflictTable {
 			}
 		}
 	}
-	
+
 	/**
 	 * Sets a bit (1) in the matrix.
 	 * @param row the row.
@@ -77,7 +77,7 @@ public final class StemConflictTable {
 	public void setBit(int row, int col) {
 		matrix[row].set(col);
 	}
-	
+
 	/**
 	 * Returns the value of a bit.
 	 * @param row The row.
@@ -87,7 +87,7 @@ public final class StemConflictTable {
 	public boolean get(int row, int col) {
 		return matrix[row].get(col);
 	}
-	
+
 	/**
 	 * Clears a specific bit (0) in the matrix.
 	 * @param row The row.

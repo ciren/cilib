@@ -49,8 +49,8 @@ public class RNAInitialiser {
 			System.out.println("RNAInitialiser.getInitialPosition(): Nucleotide String not yet initialised!");
 		int percentage = StemGenerator.getInstance().getAllStems().size() / 5;
 		//System.out.println("Initialising particles with "+ percentage + " stems.");
-		
-		for (int count = 0; count < percentage; count++) {	
+
+		for (int count = 0; count < percentage; count++) {
 			boolean conflicts = false;
 			StemGenerator generator = StemGenerator.getInstance();
 			//System.out.println("StemGenerator: " + generator.getAllStems());
@@ -60,10 +60,10 @@ public class RNAInitialiser {
 				if (newStem.conflictsWith(stem)) {
 					conflicts = true;
 					break;
-				}				
+				}
 			}
 			if (!conflicts) {
-				position.add(newStem);		
+				position.add(newStem);
 				added++;
 			}
 		}
@@ -84,7 +84,7 @@ public class RNAInitialiser {
 		Vector mv = new Vector();
 		mv.add(new RNAConformation());
 		mv.add(new RNAConformation());
-		return mv;				
+		return mv;
 	}
 
 }

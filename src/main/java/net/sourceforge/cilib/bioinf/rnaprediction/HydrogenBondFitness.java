@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
-/** 
+/**
  * @author mneethling
  */
 public class HydrogenBondFitness extends RNAFitness {
@@ -29,10 +29,10 @@ public class HydrogenBondFitness extends RNAFitness {
 
 	public HydrogenBondFitness() {
 	}
-	
+
 	public HydrogenBondFitness(HydrogenBondFitness copy) {
 	}
-	
+
 	public HydrogenBondFitness getClone() {
 		return new HydrogenBondFitness(this);
 	}

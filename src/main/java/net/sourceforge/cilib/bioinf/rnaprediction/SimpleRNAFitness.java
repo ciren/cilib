@@ -31,16 +31,16 @@ public class SimpleRNAFitness extends RNAFitness{
 	private static final long serialVersionUID = -666765613654971498L;
 
 	public SimpleRNAFitness() {
-		nucleotides = NucleotideString.getInstance().getNucleotideString();		
+		nucleotides = NucleotideString.getInstance().getNucleotideString();
 	}
-	
+
 	public SimpleRNAFitness(SimpleRNAFitness copy) {
 	}
-	
+
 	public SimpleRNAFitness getClone() {
 		return new SimpleRNAFitness(this);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(java.util.Collection)
 	 */
@@ -53,5 +53,5 @@ public class SimpleRNAFitness extends RNAFitness{
 		}
 		return new Double(NucleotideString.getInstance().getNucleotideString().length() - length);
 	}
-	
+
 }

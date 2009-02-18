@@ -35,9 +35,9 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class RNAStem implements Type, Comparable<RNAStem>, Collection<NucleotidePair>  {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6779192334692407858L;
 	private ArrayList<NucleotidePair> basePairs;
@@ -45,17 +45,17 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 	private int index;
 	private static int count = 0;
 	private ArrayList<RNAStem> conflictingStems;
-	
+
 	public RNAStem() {
 		this.basePairs = new ArrayList<NucleotidePair>();
 		this.id = count++;
 	}
-	
+
 	public RNAStem(ArrayList<NucleotidePair> basePairs) {
 		this.basePairs = basePairs;
 		this.id = count++;
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
@@ -78,13 +78,13 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
-		
+
 		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-		
+
 		RNAStem otherStem = (RNAStem) other;
 		return (this.id == otherStem.id) &&
-			(this.index == otherStem.index) && 
+			(this.index == otherStem.index) &&
 			(this.conflictingStems.equals(otherStem.conflictingStems));
 	}
 
@@ -101,7 +101,7 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 	public int getLength() {
 		return basePairs.size();
 	}
-	
+
 	public int size() {
 		return basePairs.size();
 	}
@@ -123,9 +123,9 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 	}
 
 	public void clear() {
-		basePairs.clear();		
+		basePairs.clear();
 	}
-	
+
 	/**
 	 * Check if this stem is inside otherstem.
 	 * ie i`<i<j<j` where i, j is this stem and i`,j` is other stem.
@@ -144,7 +144,7 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Uses the StemConflictTable Singleton class to look up conflicts quicker.
 	 * @param otherstem
@@ -153,7 +153,7 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 	public boolean conflictsWith(RNAStem otherstem) {
 		return StemConflictTable.getInstance().get(this.index, otherstem.index);
 	}
-	
+
 	/**
 	 * returns true if the stems fail all of four tests.
 	 * @param stem
@@ -161,7 +161,7 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 	 */
 	public boolean slowConflictsWith(RNAStem otherstem) {
 		if (shareBases(otherstem))
-			return true;		
+			return true;
 		if (contains(otherstem))
 			return false;
 		if (containedInside(otherstem))
@@ -173,32 +173,32 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 
 	private boolean shareBases(RNAStem otherstem) {
 		//check for shared bases
-		for (NucleotidePair p : basePairs) 
-			for (NucleotidePair pprime : otherstem.basePairs) 
+		for (NucleotidePair p : basePairs)
+			for (NucleotidePair pprime : otherstem.basePairs)
 				if (p.shareBase(pprime))
 					return true;
 		return false;
 	}
-	
+
 	private boolean contains(RNAStem otherstem) {
-		for (NucleotidePair p : basePairs) 
-			for (NucleotidePair pprime : otherstem.basePairs) 
+		for (NucleotidePair p : basePairs)
+			for (NucleotidePair pprime : otherstem.basePairs)
 				if (!p.contains(pprime))
 					return false;
 		return true;
 	}
-	
+
 	private boolean containedInside(RNAStem otherstem) {
-		for (NucleotidePair p : basePairs) 
-			for (NucleotidePair pprime : otherstem.basePairs) 
+		for (NucleotidePair p : basePairs)
+			for (NucleotidePair pprime : otherstem.basePairs)
 				if (!p.containedInside(pprime))
-					return false;		
+					return false;
 		return true;
 	}
-	
+
 	private boolean isPseudoknot(RNAStem otherstem) {
-		for (NucleotidePair p : basePairs) 
-			for (NucleotidePair pprime : otherstem.basePairs) 
+		for (NucleotidePair p : basePairs)
+			for (NucleotidePair pprime : otherstem.basePairs)
 				if (p.isPseudoknot(pprime))
 					return true;
 		return false;
@@ -213,7 +213,7 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 			if (basePairs.containsAll(o.basePairs))
 				if (o.basePairs.containsAll(basePairs))
 					return 0;
-		} 
+		}
 		catch (ClassCastException e) {
 			return -1;
 		}
@@ -243,11 +243,11 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 	public boolean containsAll(Collection<?> c) {
 		return basePairs.containsAll(c);
 	}
-	
+
 	public void setConflictingStems(ArrayList<RNAStem> conflicts) {
 		this.conflictingStems = conflicts;
 	}
-	
+
 	public ArrayList<RNAStem> getConflictingStems() {
 		return this.conflictingStems;
 	}
@@ -257,7 +257,7 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 		pairs.addAll(this.basePairs);
 		return new RNAStem(pairs);
 	}
-	
+
 	//public void setConflictingStems(ArrayList<RNAStem> cs) {
 	//	this.conflictingStems = cs;
 	//}
@@ -297,14 +297,14 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 	 * a a a g g c c u u
 	 * | | | | | | | | |
 	 * 0 1 2 3 4 5 6 7 8
-	 * 
+	 *
 	 * @param p5_index - The index of the nucleotide string that corresponds with the beginning of the stem
 	 * @param p3_index - The index of the nucleotide string that corresponds to the end of the stem
 	 * @param length - The length of the stem
 	 */
-	
-	
-	
+
+
+
 	/*
 	public RNAStem(int p5_index, int p3_index, int length){
 		this.id = RNAStem.count;
@@ -313,50 +313,50 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 		this.p5_i = p5_index;
 		this.p3_i = p3_index;
 	}
-	
+
 	public int getLength() {
 		return this.length;
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
-	
+
 	public int getP5_index() {
 		return this.p5_i;
 	}
-	
+
 	public int getP3_index() {
 		return this.p3_i;
 	}
-	
+
 
 	public int compareTo(Object arg0) {
 		//order on 5prime index
 		return this.p5_i - ((RNAStem)arg0).p5_i;
 	}
-	
+
 	public boolean equals(Object rhs) {
 		return (((RNAStem)rhs).id == this.id);
 	}
-	
+
 	public int hashCode() {
 		return id;
 	}
-	
+
 	public String toString() {
 		return ("Stemid:" + this.id + " | 5p:" + this.p5_i + " | 3p:" + this.p3_i + " | length:"+ length);
 	}
-	
+
 	public void setConflictingStems(ArrayList<RNAStem> cs) {
 		this.conflictingStems = cs;
 	}
-	
-	
+
+
 	public ArrayList<RNAStem> getConflictingStems() {
 		return conflictingStems;
 	}
-	
+
 	public boolean conflictsWith(RNAStem rna) {
 		//two stems are not allowed to contain the same nucleotide
 		int p5_i_end = this.p5_i + this.length - 1;
@@ -371,30 +371,30 @@ public class RNAStem implements Type, Comparable<RNAStem>, Collection<Nucleotide
 			if (rna.p3_i < p3_i_begin)
 				return false;
 		//case 3: neither is inside the other, whatch out for pseudo knots
-			//this stem comes before the other stem 
+			//this stem comes before the other stem
 		if (p3_i < rna.p5_i && p3_i < rna.p3_i)
 			return false;
 			//other stem comes before this stem
 		if (rna.p3_i < p5_i && rna.p3_i < p3_i)
 			return false;
 		//else
-		return true;		 
+		return true;
 	}
 
 	public int getDimension() {
 		return length;
-	}	 
+	}
 
 	private int id, length;
 	private int p5_i, p3_i;
 	private static int count = 0;
 	private ArrayList<RNAStem> conflictingStems;
-	
+
 	@Override
 	public void randomize() {
-		
-		
+
+
 	}
 	*/
-	
+
 }

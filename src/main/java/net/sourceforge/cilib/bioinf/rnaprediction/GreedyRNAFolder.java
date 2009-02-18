@@ -26,7 +26,7 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
 /**
  * @author mneethling
  * This subclass uses a greedy algorithm to add the 'close stems' to the
- * 'currentStem' RNAStem. It will add the stems from 'closeStems' that reduces 
+ * 'currentStem' RNAStem. It will add the stems from 'closeStems' that reduces
  * the free energy of the RNAStem the most, first, until no more stems can be added.
  */
 public class GreedyRNAFolder extends RNAFolder {
@@ -36,7 +36,7 @@ public class GreedyRNAFolder extends RNAFolder {
 	public GreedyRNAFolder(RNAFitness fitness) {
 		GreedyRNAFolder.fitness = fitness;
 	}
-	 
+
 	/**
 	 * This method modifies the 'currentFolding' HashSet. HashSet is passed by reference.
 	 */
@@ -51,14 +51,14 @@ public class GreedyRNAFolder extends RNAFolder {
 		boolean conflicts = false;
 		RNAStem bestStem = null;
 		double bestFitness;
-		bestFitness = fitness.getRNAFitness(currentFolding).doubleValue();			
+		bestFitness = fitness.getRNAFitness(currentFolding).doubleValue();
 		while (canAdd) {
 			canAdd = false;
 			bestStem = null;
 			for (RNAStem tempStem : closeStems) {
 				//check if this stem conflicts with any of the current stems
 				conflicts = false;
-				for (RNAStem currentStem : currentFolding) {		 			
+				for (RNAStem currentStem : currentFolding) {
 					if (((RNAStem) tempStem).conflictsWith((RNAStem) currentStem)) {
 						conflicts = true;
 						break;
@@ -67,7 +67,7 @@ public class GreedyRNAFolder extends RNAFolder {
 				if (!conflicts) {
 					//add this stem to currentFolding
 					currentFolding.add(tempStem);
-					//check if this stem gives better fitness				
+					//check if this stem gives better fitness
 					//test if currentFolding is more fit
 					if (fitness.getRNAFitness(currentFolding).doubleValue() < bestFitness) {
 						bestFitness = fitness.getRNAFitness(currentFolding).doubleValue();
@@ -88,6 +88,6 @@ public class GreedyRNAFolder extends RNAFolder {
 		//System.out.println("\tout of a possible "+possible+" stems");
 		//System.out.println("Stem grew by\t"+(addedCounter-openStems.size())+"\tstems  New length is "+currentFolding.size()+ "  Fitness is "+fitness.getRNAFitness(currentFolding).doubleValue());
 	}
-	
+
 	static RNAFitness fitness;
 }

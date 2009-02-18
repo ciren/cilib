@@ -39,7 +39,7 @@ public class RNAStructureMeasurement implements Measurement {
 
 	public RNAStructureMeasurement(RNAStructureMeasurement copy) {
 	}
-	
+
 	public RNAStructureMeasurement getClone() {
 		return new RNAStructureMeasurement(this);
 	}
@@ -57,7 +57,7 @@ public class RNAStructureMeasurement implements Measurement {
 	public Type getValue(Algorithm algorithm) {
 		OptimisationSolution os = algorithm.getBestSolution();
 		RNAConformation conf = (RNAConformation) os.getPosition();
-		
+
 		StringType t = new StringType();
 		t.setString(new String(conf.getCharRepresentation())+"@");
 		return t;
@@ -71,7 +71,7 @@ public class RNAStructureMeasurement implements Measurement {
 		}
 		conf[conf.length-1] = '@';
 		conf[conf.length-2] = '@';
-		
+
 		for (Iterator<?> it = stems.iterator(); it.hasNext(); ) {
 			RNAStem s = (RNAStem) it.next();
 			for (int i = s.getP5_index(); i < s.getP5_index()+s.getLength();i++ ) {

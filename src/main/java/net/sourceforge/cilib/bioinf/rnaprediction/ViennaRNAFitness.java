@@ -31,10 +31,10 @@ public class ViennaRNAFitness extends RNAFitness {
 	private static final long serialVersionUID = -38000347027058908L;
 
 	native float vfitness(String nuc, String brack);
-	
+
 	public ViennaRNAFitness() {
 		nucleotides = NucleotideString.getInstance().getNucleotideString();
-		
+
 		firsttime = true;
 		//nucleotides = StemGenerator.getInstance().getNucleotides();
 		//System.out.println("A nuc string, construction!" + this.nucleotides);
@@ -51,10 +51,10 @@ public class ViennaRNAFitness extends RNAFitness {
 			e.printStackTrace();
 		}*/
 	}
-	
+
 	public ViennaRNAFitness(ViennaRNAFitness copy) {
 	}
-	
+
 	public ViennaRNAFitness getClone() {
 		return new ViennaRNAFitness(this);
 	}
@@ -63,7 +63,7 @@ public class ViennaRNAFitness extends RNAFitness {
 	 * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(net.sourceforge.cilib.Type.Types.Set)
 	 */
 	@Override
-	public Double getRNAFitness(RNAConformation stems) {		
+	public Double getRNAFitness(RNAConformation stems) {
 		if (firsttime) {
 			nucleotides = NucleotideString.getInstance().getNucleotideString();
 			firsttime = false;
@@ -81,17 +81,17 @@ public class ViennaRNAFitness extends RNAFitness {
 				System.out.println("Not Ready...");
 			}
 			energy = Double.parseDouble(in.readLine());
-			
+
 			//energy = Double.parseDouble(in.read());
 			System.out.println("Got Back: " + energy);
 		} catch (IOException e) {
 			System.out.println("Couldn't compute the energy value in ViennaRNAFitness.getRNAFitness");
 			e.printStackTrace();
 		}*/
-		//TODO Memory optimisation (Change to use char array instead of String.) 
+		//TODO Memory optimisation (Change to use char array instead of String.)
 		//Currently a new String object is constructed with every call.
 		//System.out.println("Nucleotides length: "+nucleotides.length()+" representation length: "+stems.getRepresentation().length);
-		energy = Float.valueOf(vfitness(nucleotides, new String(stems.getRepresentation()))).doubleValue();		
+		energy = Float.valueOf(vfitness(nucleotides, new String(stems.getRepresentation()))).doubleValue();
 		return energy;
 	}
 

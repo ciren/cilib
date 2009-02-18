@@ -37,7 +37,7 @@ public class RNAAccuracyMeasurement implements Measurement {
 
 	public RNAAccuracyMeasurement(RNAAccuracyMeasurement copy) {
 	}
-	
+
 	public RNAAccuracyMeasurement getClone() {
 		return new RNAAccuracyMeasurement(this);
 	}
@@ -55,10 +55,10 @@ public class RNAAccuracyMeasurement implements Measurement {
 			int correctPairs = 0;
 			totalPairs = getTotalPairs(solution);
 			correctPairs = getCorrectPairs(solution);
-			
+
 			sb.append("Pairs: " + totalPairs + " Correct: " + correctPairs + "\t");
 		}
-		
+
 		StringType t = new StringType();
 		t.setString(sb.toString());
 		return t;
@@ -68,7 +68,7 @@ public class RNAAccuracyMeasurement implements Measurement {
 		RNAConformation conf = (RNAConformation) solution.getPosition();
 		return conf.getNumOfPairs();
 	}
-	
+
 	private int getCorrectPairs(OptimisationSolution solution) {
 		RNAConformation conf = (RNAConformation) solution.getPosition();
 		int correct = 0;
@@ -77,9 +77,9 @@ public class RNAAccuracyMeasurement implements Measurement {
 				if (NucleotideString.getInstance().knownConf.contains(np))
 					correct++;
 			}
-		}		
+		}
 		return correct;
 	}
-	
+
 
 }

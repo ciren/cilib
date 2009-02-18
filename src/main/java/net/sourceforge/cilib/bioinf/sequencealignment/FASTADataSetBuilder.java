@@ -84,7 +84,7 @@ public class FASTADataSetBuilder extends DataSetBuilder {
 				while (temp != null) { // all the sequences in file
 					if (temp.contains(">")) { // it is the description line
 						temp = in.readLine();
-						
+
 						while (!temp.startsWith(">")) { // collect sequence without space
 							StringTokenizer st = new StringTokenizer(temp, "\u0020");
 							String p = "";

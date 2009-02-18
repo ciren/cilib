@@ -30,7 +30,7 @@ import java.util.StringTokenizer;
  * Each matching pair of symbols adds 1 point to the fitness value.
  * Takes the best value for each column.
  *
- * @author Fabien Zablocki 
+ * @author Fabien Zablocki
  */
 public class BestMatch implements ScoringMethod {
 	private boolean verbose = false; //default, can be set via XML
@@ -43,7 +43,7 @@ public class BestMatch implements ScoringMethod {
 	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
 	}
-	
+
 	/**
 	 * Get the score of the given alignment.
 	 * @param alignment The alignment to evaluate.
@@ -51,26 +51,26 @@ public class BestMatch implements ScoringMethod {
 	 */
 	public double getScore(ArrayList<String> alignment) {
 		// prints the current raw alignment in verbose mode
-		if (verbose) {	
+		if (verbose) {
 			System.out.println("Raw Alignment (no clean up):");
-			
-			for (String s : alignment) { 
+
+			for (String s : alignment) {
 				System.out.println("'" + s + "'");
 			}
 		}
 		/*************************************************************
 		 *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
 		 *************************************************************/
-		
+
 		int seqLength = alignment.get(0).length();
 		int count = 0;
-		
+
 //		Iterate through the columns
-		for (int i = 0; i < seqLength; i++) { 
+		for (int i = 0; i < seqLength; i++) {
 			 for (String st : alignment) {
 				 if (st.charAt(i) == '-') count++; //gets char at position i
 			 }
-			 
+
 			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
 				 int which = 0;
 				 for (String st1 : alignment) {
@@ -82,7 +82,7 @@ public class BestMatch implements ScoringMethod {
 			 }
 			 count = 0;
 		}
-		
+
 		int which2 = 0;
 		for (String st : alignment) {
 			StringTokenizer st1 = new StringTokenizer(st, "*", false);
@@ -92,21 +92,21 @@ public class BestMatch implements ScoringMethod {
 			which2++;
 		}
 			/************* END ***************/
-		
+
 		int length = alignment.get(0).length();
 		double fitness = 0.0;
 
 		Hashtable<Character, Integer> hashTable = new Hashtable<Character, Integer>();
 
 		// Iterate all the chars one column at a time, one hashtable is used for each column then cleared every new iteration
-		for (int i = 0; i < length; i++) {    
+		for (int i = 0; i < length; i++) {
 			//	go through all the seqs
-			for (String currentString : alignment) { 
+			for (String currentString : alignment) {
 				//if (i >= currentString.length()) continue; //skip if index i is longer than current seq length
 
 				Character c = new Character(currentString.charAt(i)); //gets char at position i
-				
-				/* 
+
+				/*
 				 * Ignores the gaps in the alignment, skips the rest and the loop goes to next itration
 				 * because we also impose a penalty on gap groups.
 				 */
@@ -137,7 +137,7 @@ public class BestMatch implements ScoringMethod {
 				hashTable.clear();
 			}
 
-		//  Fitness for matches	
+		//  Fitness for matches
 		return fitness;
 	}
 }

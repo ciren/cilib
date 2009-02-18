@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class RNAParticle extends AbstractParticle {
 	private static final long serialVersionUID = -8232081489398782692L;
 	private RNAFolder folder;
-	
+
 	private RNAConformation position;
     private RNAConformation bestPosition;
     private Vector velocity;
@@ -46,7 +46,7 @@ public class RNAParticle extends AbstractParticle {
     private Fitness bestFitness;
 
     private Particle neighbourhoodBest;
-    
+
     private RNAFitness fitnessCalc;
 
 	/**
@@ -57,7 +57,7 @@ public class RNAParticle extends AbstractParticle {
 		bestPosition = new RNAConformation();
 		velocity = new Vector();
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -66,35 +66,35 @@ public class RNAParticle extends AbstractParticle {
 		this.position = new RNAConformation();
 		this.velocity = copy.velocity.getClone();
 		this.bestPosition = new RNAConformation();
-		
+
 		for (RNAStem stem : this.position)
 			this.position.add(stem.getClone());
-		
+
 		for (RNAStem stem : this.bestPosition)
 			this.bestPosition.add(stem.getClone());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public RNAParticle getClone() {
 		/*RNAParticle clone = new RNAParticle();// super.clone();
-       
+
 		clone.position = new RNAConformation();
 		clone.velocity = (MixedVector) this.velocity.clone();
 		clone.bestPosition = new RNAConformation();
-		
+
 		for (Iterator<RNAStem> it = this.position.iterator(); it.hasNext(); )
 			clone.position.add((RNAStem) it.next().clone());
-		
+
 		for (Iterator<RNAStem> it = this.bestPosition.iterator(); it.hasNext(); )
 			clone.bestPosition.add((RNAStem) it.next().clone());
-		
+
 		return clone;*/
-		
+
 		return new RNAParticle(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -102,7 +102,7 @@ public class RNAParticle extends AbstractParticle {
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
-		
+
 		if ((object == null) || (this.getClass() != object.getClass()))
 			return false;
 
@@ -142,7 +142,7 @@ public class RNAParticle extends AbstractParticle {
 		this.getProperties().put(EntityType.FITNESS, fitness);
         if (fitness.compareTo(bestFitness) > 0) {
             bestFitness = fitness;
-	
+
            bestPosition.clear();
            bestPosition.addAll(position);
         }
@@ -180,7 +180,7 @@ public class RNAParticle extends AbstractParticle {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Type getPosition() {	
+	public Type getPosition() {
 		return position;
 	}
 
@@ -190,9 +190,9 @@ public class RNAParticle extends AbstractParticle {
 	public Type getBestPosition() {
 		return bestPosition;
 	}
-	
+
 	/**
-	 * Set the best position for the current {@linkplain RNAParticle}. 
+	 * Set the best position for the current {@linkplain RNAParticle}.
 	 * @param bestPosition The best position to be set.
 	 */
 	public void setBestPosition(Type bestPosition) {
@@ -225,10 +225,10 @@ public class RNAParticle extends AbstractParticle {
 	 */
 	public void updatePosition() {
 		//velocity contains 2 RNAConformation objects. set 0 is open stems. set 1 is close stems.
-		
+
 		RNAConformation openStems = (RNAConformation) velocity.get(0);
 		RNAConformation closeStems = (RNAConformation) velocity.get(1);
-		
+
 		//passed by reference!
 		folder.refold(position, openStems, closeStems);
 		//System.out.println("Current Fitness "+this.getFitness());
@@ -242,13 +242,13 @@ public class RNAParticle extends AbstractParticle {
 		RNAStem bestStem = null;
 		double bestFitness;
 		while (canAdd) {
-			canAdd = false; 
-			bestFitness = Double.MAX_VALUE;	
+			canAdd = false;
+			bestFitness = Double.MAX_VALUE;
 			bestStem = null;
 			for (RNAStem tempStem : closeStems) {
 				//check if this stem conflicts with any of the current stems
 				conflicts = false;
-				for (RNAStem currentStem : position) {		 			
+				for (RNAStem currentStem : position) {
 					if (((RNAStem)tempStem).conflictsWith((RNAStem)currentStem)) {
 						conflicts = true;
 						break;
@@ -257,7 +257,7 @@ public class RNAParticle extends AbstractParticle {
 				if (!conflicts) {
 					//add this stem to currentFolding
 					position.add(tempStem);
-					//check if this stem gives better fitness				
+					//check if this stem gives better fitness
 					//test if currentFolding is more fit
 					if (fitnessCalc.getRNAFitness(position).doubleValue() < bestFitness) {
 						bestFitness = fitnessCalc.getRNAFitness(position).doubleValue();
@@ -297,7 +297,7 @@ public class RNAParticle extends AbstractParticle {
 	public void setRNAFolder(RNAFolder folder) {
 		this.folder = folder;
 	}
-	
+
     /**
 	 * @param fitnessCalc The fitnessCalc to set.
 	 */

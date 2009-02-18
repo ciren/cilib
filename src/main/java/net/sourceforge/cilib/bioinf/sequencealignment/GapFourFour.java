@@ -26,17 +26,17 @@ import java.util.StringTokenizer;
 
 /**
  * Method that penalises gaps.
- * 
+ *
  * Penalisation is done according to the following formula:
  *            gap groups*4 + total amount of gaps*0.4
- * 
+ *
  * @author Fabien Zablocki
  */
 public class GapFourFour implements GapPenaltiesMethod {
-	
+
 	private boolean verbose = false;
 	private ArrayList<String> finalAlignment;
-	
+
 	public void setVerbose(boolean verbose)	{
 		this.verbose = verbose;
 	}
@@ -44,29 +44,29 @@ public class GapFourFour implements GapPenaltiesMethod {
 	public ArrayList<String> getFinalAlignment() {
 		return finalAlignment;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void setFinalAlignment(ArrayList<String> s) {
 		finalAlignment = (ArrayList<String>) s.clone();
 	}
-	
+
 	public double getPenalty(ArrayList<String> alignment) {
 		/*************************************************************
 		 *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
 		 *************************************************************/
-		
+
 		int seqLength = alignment.get(0).length();
 		int count = 0;
-		
+
 		//Iterate through the columns
-		for (int i = 0; i < seqLength; i++) { 
-			 for (String st : alignment) { 
+		for (int i = 0; i < seqLength; i++) {
+			 for (String st : alignment) {
 				 if (st.charAt(i) == '-') count++; //gets char at position i
 			 }
-			 
+
 			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
 				 int which = 0;
-				 for (String st1 : alignment) { 
+				 for (String st1 : alignment) {
 					 StringBuilder stB = new StringBuilder(st1);
 					 stB.setCharAt(i, '*');
 					 alignment.set(which, stB.toString());
@@ -75,9 +75,9 @@ public class GapFourFour implements GapPenaltiesMethod {
 			 }
 			 count = 0;
 		}
-		
+
 		int which2 = 0;
-		for (String st : alignment)	{ 
+		for (String st : alignment)	{
 			StringTokenizer st1 = new StringTokenizer(st, "*", false);
 			String t="";
 			while (st1.hasMoreElements()) t += st1.nextElement();
@@ -92,11 +92,11 @@ public class GapFourFour implements GapPenaltiesMethod {
 
 		for (String s : alignment) {
 			for (int i = 0; i < s.length(); i++) {
-				if (s.charAt(i) == '-')	{ 
-					totalNumberGaps++; 
+				if (s.charAt(i) == '-')	{
+					totalNumberGaps++;
 				}
 			}
-			
+
 			boolean flag = false;
 			for (int i = 0; i < s.length()-1; i++) {
 				if(s.charAt(i) == '-') {
@@ -107,11 +107,11 @@ public class GapFourFour implements GapPenaltiesMethod {
 					if (flag) gapGroups++;
 				}
 				flag = false;
-			}	
+			}
 		}
 
 		double gapPenalty = gapGroups*4 + (totalNumberGaps*0.4);
-		
+
 		//	prints the current alignment if verbose on
 		if (verbose) {
 			System.out.println("Gap Groups: "+gapGroups);

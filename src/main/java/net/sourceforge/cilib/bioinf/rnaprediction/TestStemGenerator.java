@@ -25,7 +25,7 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * TODO: Complete this javadoc and potentially remove this object.
  */
 public final class TestStemGenerator {
-	
+
 	private TestStemGenerator() {
 	}
 

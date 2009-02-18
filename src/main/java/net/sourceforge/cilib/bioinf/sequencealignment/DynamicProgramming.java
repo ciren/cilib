@@ -24,7 +24,7 @@ package net.sourceforge.cilib.bioinf.sequencealignment;
 /**
  * This class implements a technique for pairwise sequence alignment known as Dynamic Programming.
  * It always gives the best possible alignment from 2 input sequences.
- * 
+ *
  * @author Fabien Zablocki
  *
  */
@@ -38,7 +38,7 @@ public class DynamicProgramming {
 	private static final int GAP_PENALTY = 2;
 	private static final int MISMATCH_PENALTY = 1;
 	private static final int MATCH_PENALTY = 0;
-	
+
 	public void setSequences(String a, String b) {
 		dnaX = a;
 		m = dnaX.length();
@@ -46,7 +46,7 @@ public class DynamicProgramming {
 		dnaY = b;
 		n = dnaY.length();
 	}
-	
+
 	public void doJob() {
 		opt = new int[m+1][n+1];
 		System.out.println("->Lengths of DNA segments to align: "+ m + ", "+ n+".");
@@ -57,12 +57,12 @@ public class DynamicProgramming {
 		lcs();
 		displayStat();  //needs LCS
 	}
-	
+
 //	computes minimum of three values
 	static int min3(int a, int b, int c) {
 		return Math.min(a, Math.min(b, c));
 	}
-	
+
 //	 computes base values
 	void init()	{
 		//System.out.print("->Initializing matrix base values...");
@@ -81,7 +81,7 @@ public class DynamicProgramming {
 
 		//System.out.println("done.");
 	}
-	
+
 	void editDistance() {
 		//System.out.print("->Computing optimal alignment...");
 
@@ -94,7 +94,7 @@ public class DynamicProgramming {
 		//System.out.println("done.");
 		System.out.println("Edit Distance: " + opt[0][0]+"\n");
 	}
-		
+
 //	recover optimal alignment by backtracing
 	void recoverAlignment() {
 		System.out.println("->Recovering optimal alignment...");
@@ -131,12 +131,12 @@ public class DynamicProgramming {
 				j++;
 			}
 		}
-		
+
 		System.out.println(seq1);
 		System.out.println(seq2);
 		System.out.println(consensus);
 	}
-	
+
 //	 recover LCS itself and print it to standard output
 	void lcs() {
 		opt2 = new int[m+1][n+1];

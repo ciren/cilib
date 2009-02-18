@@ -24,46 +24,46 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
 
 /**
  * @author mneethling
- * This is an abstract class (Strategy design pattern) that takes care of 'folding' 
- * a given conformation into a new/different conformation. Several methods to do 
- * this is possible, the simplest being a greedy algorithm that first adds stems 
- * that has the greatest effect on the fitness of the particle. Another option is 
- * to use an optimising algorithm (like PSO) to do a local search to find the best 
- * configuration for adding the new stems.  
+ * This is an abstract class (Strategy design pattern) that takes care of 'folding'
+ * a given conformation into a new/different conformation. Several methods to do
+ * this is possible, the simplest being a greedy algorithm that first adds stems
+ * that has the greatest effect on the fitness of the particle. Another option is
+ * to use an optimising algorithm (like PSO) to do a local search to find the best
+ * configuration for adding the new stems.
  */
 public abstract class RNAFolder {
 	/**
-	 * 
-	 * @param currentfolding - This is a input/output parameter (passed by reference. 
-	 * The new folding is returned in this parameter. 
+	 *
+	 * @param currentfolding - This is a input/output parameter (passed by reference.
+	 * The new folding is returned in this parameter.
 	 * @param openStems - The stems to remove from the conformation.
 	 * @param closeStems - The stems to attempt to add to the conformation.
 	 */
 	public abstract void refold(RNAConformation currentfolding,
-			RNAConformation openStems, 
+			RNAConformation openStems,
 			RNAConformation closeStems);
-	
+
 	/**
 	 * Does a general refold by removing the openStems and then adding as many
 	 * close stems as possible.
-	 * @param currentfolding This is a input/output parameter (passed by reference. 
-	 * The new folding is returned in this parameter. 
+	 * @param currentfolding This is a input/output parameter (passed by reference.
+	 * The new folding is returned in this parameter.
 	 * @param openStems The stems to remove from the conformation.
 	 * @param closeStems The stems to attempt to add to the conformation.
 	 */
 	/*
 	public void fastRefold(RNAConformation currentfolding,
-			RNAConformation openStems, 
+			RNAConformation openStems,
 			RNAConformation closeStems) {
-		
+
 		//		remove openStems
 		currentfolding.removeAll(openStems);
 		boolean conflicts = false;
-		
+
 		for (RNAStem tempStem : closeStems) {
 			//check if this stem conflicts with any of the current stems
 			conflicts = false;
-			for (RNAStem currentStem : currentfolding) {		 			
+			for (RNAStem currentStem : currentfolding) {
 				if (((RNAStem)tempStem).conflictsWith((RNAStem)currentStem)) {
 					conflicts = true;
 					break;
@@ -72,5 +72,5 @@ public abstract class RNAFolder {
 		}
 	}
 	*/
-	
+
 }

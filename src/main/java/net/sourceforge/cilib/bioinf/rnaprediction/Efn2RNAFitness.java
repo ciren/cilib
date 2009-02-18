@@ -22,13 +22,13 @@
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
 
-/** 
- * 
+/**
+ *
  * @author mneethling
- * This class computes the Free Energy (dG) of an RNA conformation by calling 
- * an external program (efn2). efn2 is the enrgy calculation function supplied 
+ * This class computes the Free Energy (dG) of an RNA conformation by calling
+ * an external program (efn2). efn2 is the enrgy calculation function supplied
  * with mfold from Michael Zuker.
- * 
+ *
  */
 public class Efn2RNAFitness extends RNAFitness {
 	private static final long serialVersionUID = 328787448081439602L;
@@ -36,27 +36,27 @@ public class Efn2RNAFitness extends RNAFitness {
 	public Efn2RNAFitness() {
 		nucleotides = NucleotideString.getInstance().getNucleotideString();
 	}
-	
+
 	public Efn2RNAFitness(Efn2RNAFitness copy) {
 		// @TODO: complete this
 	}
-	
+
 	public Efn2RNAFitness getClone() {
 		return new Efn2RNAFitness(this);
 	}
-	
+
 	@Override
 	public Double getRNAFitness(RNAConformation stems) {
 		String outputString = toCt(stems);
 		System.out.println("Conf ");
 		System.out.println(outputString);
 		System.out.println("\n\n");
-			
+
 		return new Double(10.0);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return a string containing the conformation in CT format.
 	 */
 	private String toCt(RNAConformation stems) {
@@ -69,9 +69,9 @@ public class Efn2RNAFitness extends RNAFitness {
 //		for (RNAStem stem : stems) {
 //			for (int l = 0; l < stem.getLength(); l++) {
 			// FIXME This line cant be right?
-				//confArray[stem.getP5_index()+l] = stem.getP3_index()-l;				
-//			}			
-//		}		
+				//confArray[stem.getP5_index()+l] = stem.getP3_index()-l;
+//			}
+//		}
 	//	String line = "";
 		StringBuilder outString = new StringBuilder();
 		outString.append(nucleotides.length());
@@ -106,7 +106,7 @@ public class Efn2RNAFitness extends RNAFitness {
 		outString.append(nucleotides.length());	//6
 		outString.append("\n");
 		outString.append("@");
-		
+
 		return outString.toString();
 	}
 

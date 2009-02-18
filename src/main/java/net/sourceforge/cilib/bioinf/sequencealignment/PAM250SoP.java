@@ -27,25 +27,25 @@ import java.util.StringTokenizer;
 /**
  * This class implements the Sum Of Pairs scoring function that uses PAM250 substitutions matrices
  *  that give scores for proteins in a biologically meaningful manner.
- * 
+ *
  * SoP routine has been optimized for speed.
- * 
+ *
  *@author Fabien Zablocki
  */
 public class PAM250SoP implements ScoringMethod {
-	
+
 	private boolean verbose = false;   //default, can be set via XML
 	private boolean weight = false;    //default, can be set via XML
-	private static final char [] AMINO_ACID = {'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 
+	private static final char [] AMINO_ACID = {'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G',
 				'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V',
 		};
-	
+
 	/* PAM (Percent Accepted Mutations) [Dayhoff 1978]. This is needed because amino acids have varying properties.
 	 * It uses the well known PAM250 (pointwise mutations in similar proteins) scoring
 	 * matrix (amino acid substitution) in order to rate matches. PAM matrix is based on observation.
 	 * PAM is designed to track evolutionary origin of proteins.
-	 */ 
-	private static final short [][] PAM250_SUB = // A R N . . . 
+	 */
+	private static final short [][] PAM250_SUB = // A R N . . .
 		/*A*/{{2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
 		/*R*/ {-2,  6,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
 		/*.*/ {0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
@@ -71,11 +71,11 @@ public class PAM250SoP implements ScoringMethod {
 	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
 	}
-	
+
 	public void setWeight(boolean weight) {
 		this.weight = weight;
 	}
-	
+
 	public double getScore(ArrayList<String> alignment) {
 		//	prints the current alignment in verbose mode
 		if (verbose) {
@@ -87,15 +87,15 @@ public class PAM250SoP implements ScoringMethod {
 		/*************************************************************
 		 *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
 		 *************************************************************/
-		
+
 		int seqLength = alignment.get(0).length();
 		int count = 0;
-		
+
 //		Iterate through the columns
-		for (int i = 0; i < seqLength; i++) { 
-			 for (String st : alignment) 
+		for (int i = 0; i < seqLength; i++) {
+			 for (String st : alignment)
 				 if (st.charAt(i) == '-') count++; //gets char at position i
-			 
+
 			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
 				 int which = 0;
 				 for (String st1 : alignment) {
@@ -107,7 +107,7 @@ public class PAM250SoP implements ScoringMethod {
 			 }
 			 count = 0;
 		}
-		
+
 		int which2 = 0;
 		for (String st : alignment) {
 			StringTokenizer st1 = new StringTokenizer(st, "*", false);
@@ -119,37 +119,37 @@ public class PAM250SoP implements ScoringMethod {
 			/************* END ***************/
 		double fitness = 0.0;
 		double pairwiseFitness = 0.0;
-		int seqLength1 = alignment.get(0).length(); 
-		
+		int seqLength1 = alignment.get(0).length();
+
 		if (weight) {
 			double matchC = 0;
 			double mismC = 0;
-	
+
 			//go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
 			for (int j = 0; j < alignment.size()-1; j++) {
 				for (int k = j+1; k < alignment.size(); k++) {
 					String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
 					String seq2 = (String) alignment.get(k);   //gets the second sequence
-				
+
 				//	go through all columns, pairwise conmparison
 					for (int i = 0; i < seqLength1; i++) {
 						if (seq1.charAt(i) == '-' || seq2.charAt(i) == '-') continue;
-						
-						if(seq1.charAt(i) == seq2.charAt(i)) matchC++; 
+
+						if(seq1.charAt(i) == seq2.charAt(i)) matchC++;
 						else mismC++;
-					
+
 						short pos1 = -1 , pos2 = -1;
 //						first find the corresponding letter with position in array
 						for(short p = 0; p < AMINO_ACID.length; p++) {
-							if (AMINO_ACID[p] == seq1.charAt(i)) pos1 = p; 
+							if (AMINO_ACID[p] == seq1.charAt(i)) pos1 = p;
 							if (AMINO_ACID[p] == seq2.charAt(i)) pos2 = p;
 						}
-					
+
 					//	swap if bigger
 						if(pos2 > pos1) pairwiseFitness+= PAM250_SUB[pos2][pos1];
 						else pairwiseFitness+= PAM250_SUB[pos1][pos2];
 					}
-				
+
 					fitness+=pairwiseFitness  / (1 + (matchC/(matchC+mismC)));
 					pairwiseFitness = 0;
 					matchC=0;
@@ -163,28 +163,28 @@ public class PAM250SoP implements ScoringMethod {
 				for (int k = j+1; k < alignment.size(); k++) {
 					String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
 					String seq2 = (String) alignment.get(k);   //gets the second sequence
-				
+
 				//	go through all columns, pairwise conmparison
 					for (int i = 0; i < seqLength1; i++) {
 						// gaps will be penalized with the gap penalty method in use, even when it is a gap match they suppose to score 0 so it's fine to ignore them.
 						if (seq1.charAt(i) == '-' || seq2.charAt(i) == '-') continue;
-	
+
 						short pos1 = -1 , pos2 = -1;
 //						first find the corresponding letter with position in array
 						for(short p = 0; p < AMINO_ACID.length; p++) {
-							if (AMINO_ACID[p] == seq1.charAt(i)) pos1 = p; 
+							if (AMINO_ACID[p] == seq1.charAt(i)) pos1 = p;
 							if (AMINO_ACID[p] == seq2.charAt(i)) pos2 = p;
 						}
-					
+
 					//	swap if bigger
 						if (pos2 > pos1) pairwiseFitness+= PAM250_SUB[pos2][pos1];
 						else pairwiseFitness+= PAM250_SUB[pos1][pos2];
 					}
-				
+
 					fitness+=pairwiseFitness;
 					pairwiseFitness = 0;
 				}
-			}			
+			}
 		}
 		// Fitness for matches:
 		return fitness;

@@ -26,7 +26,7 @@ import java.util.Arrays;
 import net.sourceforge.cilib.type.types.container.Set;
 
 /**
- * 
+ *
  *
  */
 public class RNAConformation extends Set<RNAStem> {
@@ -39,7 +39,7 @@ public class RNAConformation extends Set<RNAStem> {
 	public RNAConformation() {
 		super();
 	}
-	
+
 	/**
 	 * Get the length of the current {@linkplain RNAConformation}.
 	 * @return The length of the {@linkplain RNAConformation}.
@@ -47,7 +47,7 @@ public class RNAConformation extends Set<RNAStem> {
 	public int length() {
 		return NucleotideString.instance.nucleotideString.length();
 	}
-	
+
 	/**
 	 * Get the character representation of the current {@linkplain RNAConformation}.
 	 * @return The {@linkplain RNAConformation} represented by a character array.
@@ -55,18 +55,18 @@ public class RNAConformation extends Set<RNAStem> {
 	public char[] getCharRepresentation() {
 		if (bracketRepresentation == null)
 			bracketRepresentation = new char[NucleotideString.instance.nucleotideString.length()];
-		
+
 		for (int i = 0; i < this.length(); i++) {
 			bracketRepresentation[i] = '.';
 		}
-		
+
 		for (RNAStem s : this) {
 			for (NucleotidePair p : s) {
 				bracketRepresentation[p.get5primeIndex()-1] = '(';
 				bracketRepresentation[p.get3primeIndex()-1] = ')';
 			}
-		}	
-		
+		}
+
 		return bracketRepresentation;
 	}
 
@@ -79,15 +79,15 @@ public class RNAConformation extends Set<RNAStem> {
 		clone.bracketRepresentation = new char[NucleotideString.instance.nucleotideString.length()];
 		return clone;
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
-		
+
 		if ((other == null) || (this.getClass() != other.getClass()))
 			return false;
-		
+
 		RNAConformation rnaConformation = (RNAConformation) other;
 		return super.equals(other) && (Arrays.equals(this.bracketRepresentation, rnaConformation.bracketRepresentation));
 	}
@@ -115,9 +115,9 @@ public class RNAConformation extends Set<RNAStem> {
 					throw new RuntimeException("Invalid conformation, Stems conflict with each other");
 				}
 			}
-		}		
+		}
 	}
-	
+
 	/**
 	 * Determine if the current {@linkplain RNAConformation} contains the provided
 	 * {@linkplain NucleotidePair}.

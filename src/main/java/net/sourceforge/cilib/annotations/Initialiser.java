@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation used in the additional intialisation of objects.
- * 
+ *
  * @author Gary Pampara
  */
 @Documented

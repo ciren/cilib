@@ -43,7 +43,7 @@ public class RNAPSO extends PSO {
 	public RNAPSO() {
         super();
     }
-	 
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -51,12 +51,12 @@ public class RNAPSO extends PSO {
 		if (getOptimisationProblem() == null) {
            throw new InitialisationException("No problem has been specified");
 		}
-		
+
 		readDataSet();
-		
+
 		this.getInitialisationStrategy().initialise(this.getTopology(), getOptimisationProblem());
 	}
-	
+
 	/**
 	 * Read the provided data set.
 	 */
@@ -65,7 +65,7 @@ public class RNAPSO extends PSO {
 		ArrayList<Integer> struct = new ArrayList<Integer>();
 		int[] intStruct;
 		int length = 0;
-		
+
 		BufferedReader in;
 		try {
 			RNAOptimisationProblem p = (RNAOptimisationProblem) this.getOptimisationProblem();
@@ -76,19 +76,19 @@ public class RNAPSO extends PSO {
 			in.readLine();
 			in.readLine();
 			in.readLine();
-			
+
 			line = in.readLine();
-			
+
 			while (line != null) {
 				String [] tokens = line.split(" ");
 				nucs.append(tokens[1]);
 				struct.add(Integer.parseInt(tokens[2]));
 				length++;
 				line = in.readLine();
-			}		
-			
+			}
+
 			in.close();
-			
+
 			if (length < 1) {
 				System.out.println("Error reading data input file");
 				System.exit(1);
@@ -98,22 +98,22 @@ public class RNAPSO extends PSO {
 			System.out.println(nucs.toString());
 			System.out.print(struct.size()+" ");
 			System.out.println(struct.toString());
-			
-		} 
+
+		}
 		catch (FileNotFoundException f) {
 			System.out.println("Couldn't find the input file.");
 			System.exit(1);
-		} 
+		}
 		catch (IOException e) {
 			System.out.println("Couldn't read from the input file");
 			System.exit(1);
 		}
-		
+
 		intStruct = new int[struct.size()];
 		for (int i = 0; i < struct.size(); i++) {
 			intStruct[i] = struct.get(i);
 		}
-		
+
 		//System.out.println("nucleotides: " + nucleotides);
 		//StemGenerator.getInstance().setNucleotides(neucleotides);
 		NucleotideString.getInstance().setNucleotideString(nucs.toString());

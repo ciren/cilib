@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Public common interface to allow multiple scoring schemes,
  *  namely Similarity, MatchFogel, and BestMatch (DNA or any characters), BLOSUM and PAM (Proteins).
- * 
+ *
  * @author Fabien Zablocki
  */
 

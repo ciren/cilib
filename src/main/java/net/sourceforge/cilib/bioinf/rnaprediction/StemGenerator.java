@@ -30,23 +30,23 @@ import java.util.ArrayList;
  */
 
 public final class StemGenerator {
-	
+
 	private static StemGenerator instance;
 	private ArrayList<RNAStem> allStems = null;
 	private PivotString pOn;
-	private PivotString pOff; 
+	private PivotString pOff;
 	@SuppressWarnings("unused")
 	private String nucleotides;
 	private final int minStemLength = 3;
-		
+
 	private StemGenerator() {
 		//System.out.println("StemGenerator Constructed!");
 	}
-	
+
 	public static StemGenerator getInstance() {
 		if (instance == null)
 			instance = new StemGenerator();
-		
+
 		return instance;
 	}
 
@@ -87,11 +87,11 @@ public final class StemGenerator {
 						//System.out.println(tempstem);
 						//System.out.println();
 						tempstem = null;
-					}						
+					}
 				}
 			}
 			//System.out.println();
-			
+
 			/*
 			//System.out.println("\n"+pOn);
 			for (int position = 0; position < pOn.length(); position++){
@@ -103,17 +103,17 @@ public final class StemGenerator {
 					while (pOn.canBind(index)) {
 						//System.out.println("p5: "+p5+" nucs: "+ds.getNucleotide(p5)+" "+ds.getComplimentaryNucleotide(p5));
 						//Note: change this to 'count >= 1' to include stems which is only 1 contact long
-						count++;						
+						count++;
 						if (count >= 3) { //>= 2) { // && count < 2) {
 				//			allStems.add(new RNAStem(pOn.get5prime(index),pOn.get3prime(index),count));
 				//			System.out.println("Found one! 5':"+pOn.get5prime(index)+" 3':"+pOn.get3prime(index)+" count:"+count+"\n");
 						}
 						index++;
-					}					
+					}
 				}
-			}*/			
-		}		
-		
+			}*/
+		}
+
 		while (pOff.hasNext()) { //for each lined-up configuration
 			pOff.next();
 			//System.out.println(pOff.toString());
@@ -140,12 +140,12 @@ public final class StemGenerator {
 						//System.out.println(tempstem);
 						//System.out.println();
 						tempstem = null;
-					}					
+					}
 				}
 			}
 			//System.out.println();
-			
-			
+
+
 			/*
 			//System.out.println("\n"+pOff);
 			for (int position = 0; position < pOff.length(); position++){
@@ -157,15 +157,15 @@ public final class StemGenerator {
 					while (pOff.canBind(index)) {
 						//System.out.println("p5: "+p5+" nucs: "+ds.getNucleotide(p5)+" "+ds.getComplimentaryNucleotide(p5));
 						//Note: change this to 'count >= 1' to include stems which is only 1 contact long
-						count++;						
+						count++;
 						if (count >= 3) { //>= 2) { // && count < 2) {
 							allStems.add(new RNAStem(pOff.get5prime(index),pOff.get3prime(index),count));
 				//			System.out.println("Found one! 5':"+pOff.get5prime(index)+" 3':"+pOff.get3prime(index)+" count:"+count+"\n");
 						}
 						index++;
-					}					
+					}
 				}
-			}*/			
+			}*/
 		}
 /*		int i, p5, p3, count, p3Start;
 		for (i = 1; i <= nucleotides.length(); i++) {
@@ -192,14 +192,14 @@ public final class StemGenerator {
 		//for (RNAStem stem : allStems) {
 		//	stem.setConflictingStems(getConflictingStems(stem));
 		//}
-		
+
 		//Assign indexes to stems;
 		index = 0;
 		for (RNAStem st : allStems) {
 			st.setIndex(index);
 			index++;
 		}
-		
+
 		System.out.println("Number of stems generated: " + allStems.size());
 		System.out.println("Finished Generating stems. Setting conflicting stems");
 		System.out.println();
@@ -209,54 +209,54 @@ public final class StemGenerator {
 			for (RNAStem st2 : allStems) {
 				if (st2.slowConflictsWith(st)) {
 					StemConflictTable.getInstance().setBit(st.getIndex(), st2.getIndex());
-				}					
+				}
 			}
-		}		
-		System.out.println("Done setting conflicting stems");		
+		}
+		System.out.println("Done setting conflicting stems");
 		return allStems;
 	}
 
 	private boolean canBind(char a, char b) {
 		a = Character.toUpperCase(a);
-		b = Character.toUpperCase(b);              
-		
+		b = Character.toUpperCase(b);
+
 		if (a == 'A')
 			if (b == 'U')
 				return true;
-		
+
 		if (a == 'U')
 			if (b == 'A' || b == 'G')  //U-G is a wobble pair
 				return true;
-		
+
 		if (a == 'C')
 			if (b == 'G')
 				return true;
-		
+
 		if (a == 'G')
 			if (b == 'C' || b == 'U')  //G-U is a wobble pair
 				return true;
-		
+
 		return false;
 	}
-	
+
 	public ArrayList<RNAStem> getAllStems() {
 		return allStems;
 	}
-	
+
 	/**
 	 * @return Returns the nucleotides.
 	 */
 	/*public String getNucleotides() {
 		return nucleotides;
 	}*/
-	
+
 	/**
 	 * @param nucleotides The nucleotides to set.
 	 */
 	public void setNucleotides(String nucleotides) {
 		this.nucleotides = nucleotides;
 	}
-	
+
 
 	/**
 	 *
@@ -276,18 +276,18 @@ public final class StemGenerator {
 			else
 				return Math.min(pivot+1, str.length()-1-pivot);
 		}
-		
+
 		public void reset() {
 			pivot = 0;
 		}
-		
+
 		public boolean hasNext() {
 			if (pivot < str.length()-1)
 				return true;
 
 			return false;
 		}
-		
+
 		public boolean next() {
 			if (this.hasNext()) {
 				pivot++;
@@ -297,65 +297,65 @@ public final class StemGenerator {
 				return false;
 			}
 		}
-		
+
 		public char getNucleotide(int index) {
 			if (pivotOn) {
 				if (index < this.length() && index >= 0)
 					return str.charAt(pivot - index - 1);
-				else 
+				else
 					throw new IndexOutOfBoundsException();
-			} 
+			}
 			else {
 				if (index < this.length() && index >= 0)
 					return str.charAt(pivot - index);
-				else 
+				else
 					throw new IndexOutOfBoundsException();
 			}
 		}
-		
+
 		public char getComplimentaryNucleotide(int index) {
 			if (index < this.length() && index >= 0)
 				return str.charAt(pivot + index + 1);
-			else 
-				throw new IndexOutOfBoundsException();			
+			else
+				throw new IndexOutOfBoundsException();
 		}
-		
+
 		public int get5prime(int index) {
 			if (pivotOn)
 				return pivot - index - 1;
 			else
 				return pivot - index;
 		}
-		
+
 		public int get3prime(int index) {
 			return pivot + index + 1;
 		}
-		
+
 		public boolean canBind(int index) {
 			if (pivotOn) {
-				if (index < 1) 
+				if (index < 1)
 					return false;
 				else
 					try {
 						return StemGenerator.getInstance().canBind(getNucleotide(index), getComplimentaryNucleotide(index));
-					} 
+					}
 					catch (IndexOutOfBoundsException e) {
 						return false;
 					}
-			} 
+			}
 			else {
 				if (index < 2)
 					return false;
 				else
 					try {
 						return StemGenerator.getInstance().canBind(getNucleotide(index), getComplimentaryNucleotide(index));
-					} 
+					}
 					catch (IndexOutOfBoundsException e) {
 						return false;
 					}
 			}
 		}
-		
+
 		public String toString() {
 			String temp;
 			String top = "";
@@ -365,7 +365,7 @@ public final class StemGenerator {
 				for (int i = pivot-1; i >= 0; i--) {
 					inverted += str.charAt(i);
 				}
-			} 
+			}
 			else {
 				for (int i = pivot; i >= 0; i--) {
 					inverted += str.charAt(i);
@@ -378,7 +378,7 @@ public final class StemGenerator {
 			if (pivotOn)
 				j = 1;
 			else
-				j = 2; 
+				j = 2;
 			for (j = 1; j < this.length(); j++) {
 				if (this.canBind(j)) {
 					middle += "|";
@@ -391,7 +391,7 @@ public final class StemGenerator {
 			temp += "\n";
 			temp += " "+top + " - 3'";
 			temp += "\n";
-			if (pivotOn)				
+			if (pivotOn)
 				temp += str.charAt(pivot)+" "+middle;
 			else
 				temp += "  "+middle;
@@ -399,7 +399,7 @@ public final class StemGenerator {
 			temp += " "+inverted + " - 5'";
 			return temp;
 		}
-		
+
 		private String str;
 		private int pivot;
 		private boolean pivotOn;
@@ -410,11 +410,11 @@ public final class StemGenerator {
 			this.str = str;
 			position = -1;
 		}
-		
+
 		public int length() {
 			return position+1;
 		}
-		
+
 		public void reset () {
 			position = -1;
 		}
@@ -425,23 +425,23 @@ public final class StemGenerator {
 			else
 				return false;
 		}
-		
+
 		public boolean next() {
 			if (this.hasNext()) {
 				position++;
 				return true;
 			} else {
 				return false;
-			}			
+			}
 		}
-		
+
 		public char getNucleotide(int index) throws IndexOutOfBoundsException{
 			if (index <= position)
 				return str.charAt(index);
 			else
-				throw new IndexOutOfBoundsException();		
+				throw new IndexOutOfBoundsException();
 		}
-		
+
 		public char getComplimentaryNucleotide(int index) throws IndexOutOfBoundsException {
 			if (index <= position)
 				return str.charAt(position-index);
@@ -462,7 +462,7 @@ public final class StemGenerator {
 			}
 			else return StemGenerator.canBind(getNucleotide(index),getComplimentaryNucleotide(index));
 		}
-		
+
 		public String toString() {
 			String temp;
 			String spaces = "";
@@ -480,7 +480,7 @@ public final class StemGenerator {
 			temp += inverted;
 			return temp;
 		}
-				
+
 		private String str;
 		private int position;
 	}

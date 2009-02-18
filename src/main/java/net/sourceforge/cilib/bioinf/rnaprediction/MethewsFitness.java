@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
-/** 
+/**
  * @author mneethling
  */
 public class MethewsFitness extends RNAFitness {
@@ -29,17 +29,17 @@ public class MethewsFitness extends RNAFitness {
 
 	public MethewsFitness() {
 	}
-	
+
 	public MethewsFitness(MethewsFitness copy) {
 	}
-	
+
 	public MethewsFitness getClone() {
 		return new MethewsFitness(this);
 	}
 
 	@Override
 	public Double getRNAFitness(RNAConformation stems) {
-		
+
 		return null;
 	}
 

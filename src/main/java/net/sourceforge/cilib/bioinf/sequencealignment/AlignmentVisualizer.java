@@ -31,14 +31,14 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * This class serves as a measurement, its puspose is to display the output alignment.
  * Options include the "fullColumns" flag that also displays a star (*) at the bottom of each fully matched columns.
- * 
+ *
  * @author Fabien Zablocki
  */
 
 public class AlignmentVisualizer implements Measurement {
 
 	private static final long serialVersionUID = -4912115455897639857L;
-	
+
 	private boolean fullColumns = true;  //default, can be set via XML
 	private int fullyMatchedColumnCounter;
 
@@ -46,46 +46,46 @@ public class AlignmentVisualizer implements Measurement {
 		String s = new String();
 		String lineOfStars="";
 		fullyMatchedColumnCounter = 0;
-			
+
 		ArrayList<String> as = new ArrayList<String>(((AlignmentCreator) ((MSAProblem) algorithm.getOptimisationProblem()).getAlignmentCreator()).getAlignment());
-		
+
 		//checks for fully matched columns
 		if (fullColumns) {
 			int seqLength = as.get(0).length();
-			
+
 			//Iterate through the columns
-			for (int i = 0; i < seqLength; i++) {			
+			for (int i = 0; i < seqLength; i++) {
 				boolean full = true;
 				char c = as.get(0).charAt(i);
-				
+
 				for (int j = 1; j < as.size(); j++)
 					if (as.get(j).charAt(i) != c) full = false;
-								
-				if (full) { 
+
+				if (full) {
 					lineOfStars+="*";
 					fullyMatchedColumnCounter++;
 				}
 				else lineOfStars+=" ";
 			}
 		}
-		
+
 		for (String string : as) {
 			s += (string+"\n");
 		}
-		
+
 		if (fullColumns)
 			s+= lineOfStars+"\n[ Number of fully matched columns: "+fullyMatchedColumnCounter+" ]";
 		return new StringType("\n"+s);
 	}
-	
+
 	public void setFullColumns(boolean visualiseMatches) {
 		this.fullColumns = visualiseMatches;
 	}
-	
+
 	public AlignmentVisualizer getClone() {
 		return this;
 	}
-	
+
 	public String getDomain() {
 		return "Z";
 	}

@@ -30,10 +30,10 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  */
 public class RNAOptimisationSolution extends OptimisationSolution {
 	private static final long serialVersionUID = -5464713156390857487L;
-	
+
 	/**
 	 * Contrucs a new instance of <code>RNAOptimisationSolution</code>.
-	 * 
+	 *
 	 * @param problem The optimisation problem for which this is a solution.
 	 * @param position The position of the solution within the search space of the problem.
 	 */
@@ -41,26 +41,26 @@ public class RNAOptimisationSolution extends OptimisationSolution {
     public RNAOptimisationSolution(RNAOptimisationProblem problem, RNAConformation position) {
     	super(problem, position);
     }
-    
+
     /**
      * Returns the position of this solution within the search space of the problem.
-     * 
+     *
      * @return The position of this solution in search space.
      */
     public RNAConformation getPosition() {
         return position;
     }
-    
+
     /**
-     * Returns the fitness of this solution according to {@link OptimisationProblem#getFitness(Entity entity, boolean count)}. 
+     * Returns the fitness of this solution according to {@link OptimisationProblem#getFitness(Entity entity, boolean count)}.
      * Calling this function does not contribute to the number of fitness evaulations maintained by {@link OptimisationProblem}.
-     * 
+     *
      * @return The fitness of this solution.
      */
     public Fitness getFitness() {
         return problem.getFitness(position, false);
     }
-    
+
     private RNAOptimisationProblem problem;
     private RNAConformation position;
 }

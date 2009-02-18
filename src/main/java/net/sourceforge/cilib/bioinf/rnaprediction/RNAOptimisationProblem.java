@@ -35,30 +35,30 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = -2995246748207035373L;
-	
+
 	private RNAFitness fit;
 	protected int fitnessEvaluations;
 	private DataSetBuilder dataSetBuilder;
 
 	public RNAOptimisationProblem() {
-		
+
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
 	 */
 	public RNAOptimisationProblem(RNAOptimisationProblem copy) {
-		
+
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public RNAOptimisationProblem getClone() {
 		return new RNAOptimisationProblem(this);
 	}
-	
+
 	/**
 	 * @return Returns the fit.
 	 */
@@ -71,7 +71,7 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 	public void setFitnessCalculator(RNAFitness fit) {
 		this.fit = fit;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -79,21 +79,21 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 		//System.out.println("object type of solution: " + solution.getClass().getName());
 		return new MinimisationFitness(fit.getRNAFitness((RNAConformation) solution));
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
 		this.dataSetBuilder = dataSetBuilder;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public DataSetBuilder getDataSetBuilder() {
 		return this.dataSetBuilder;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -101,7 +101,7 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
