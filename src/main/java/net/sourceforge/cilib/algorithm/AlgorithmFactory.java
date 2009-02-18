@@ -35,7 +35,7 @@ package net.sourceforge.cilib.algorithm;
  * @author  Edwin Peer
  */
 public interface AlgorithmFactory {
-   
+
     /**
      * Returns a newly constructed algorithm.
      *

@@ -37,18 +37,18 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * <code>MultistartOptimisationAlgorithm</code> is simply a wrapper. The wrapped 
+ * <code>MultistartOptimisationAlgorithm</code> is simply a wrapper. The wrapped
  * optimisation algorithm is subject to restart conditions. Each time one of these
- * conditions is satisfied, the wrapped algorithm is re-initialised and execution continues until 
+ * conditions is satisfied, the wrapped algorithm is re-initialised and execution continues until
  * this algorithm's stopping conditions are satisfied.
- * 
+ *
  * <p>
- * This class implements a generalised multistart optimisation algorithm. The 
+ * This class implements a generalised multistart optimisation algorithm. The
  * original Multistart PSO is due to F. van den Bergh, reference:
  *          F. van den Bergh, "An Analysis of Particle Swarm Optimizers,"
- *          PhD thesis, Department of Computer Science, 
+ *          PhD thesis, Department of Computer Science,
  *          University of Pretoria, South Africa, 2002.
- *          
+ *
  * @author  Edwin Peer
  */
 public class MultistartOptimisationAlgorithm extends Algorithm implements ParticipatingAlgorithm {
@@ -59,7 +59,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         singleIteration = new SingleIteration();
         problem = null;
     }
-    
+
     /**
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
@@ -69,14 +69,14 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     	this.singleIteration = copy.singleIteration.getClone();
     	this.problem = copy.problem.getClone();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public MultistartOptimisationAlgorithm getClone() {
     	return new MultistartOptimisationAlgorithm(this);
     }
-    
+
     /**
      * Sets the target optimisation algorithm that is subject to restarting.
      *
@@ -87,14 +87,14 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         this.algorithm = (Algorithm) algorithm;
         this.algorithm.addStoppingCondition(singleIteration);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public OptimisationProblem getOptimisationProblem() {
     	return problem.getTarget();
     }
-    
+
     /**
      * Return the fitness of the solution.
      * @return The current {@linkplain Fitness}.
@@ -110,29 +110,29 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     public void setOptimisationProblem(OptimisationProblem problem) {
         this.problem = new MultistartProblemAdapter(problem);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Entity getContribution() {
         return ((ParticipatingAlgorithm) algorithm).getContribution();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Fitness getContributionFitness() {
         return ((ParticipatingAlgorithm) algorithm).getContributionFitness();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public void updateContributionFitness(Fitness fitness) {
         ((ParticipatingAlgorithm) algorithm).updateContributionFitness(fitness);
     }
-    
-    /** 
+
+    /**
      * Add a stopping condition used to determine when the algorithm
      * should be restarted. Equivalent to calling {@link Algorithm#addStoppingCondition(StoppingCondition)} on
      * the algorithm set in {@link #setTargetAlgorithm(OptimisationAlgorithm)}.
@@ -142,8 +142,8 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     public void addRestartCondition(StoppingCondition condition) {
         algorithm.addStoppingCondition(condition);
     }
-    
-    /** 
+
+    /**
      * Removes a restart condition.
      * Equivalent to calling {@link Algorithm#removeStoppingCondition(StoppingCondition)} on
      * the algorithm set in {@link #setTargetAlgorithm(OptimisationAlgorithm)}.
@@ -153,7 +153,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     public void removeRestartCondition(StoppingCondition condition) {
         algorithm.removeStoppingCondition(condition);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -166,28 +166,28 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         algorithm.initialise();
         solution = optimisationAlgorithm.getBestSolution();
     }
-    
+
     /**
      * Perform an algorithm iteration, then restart the {@linkplain Algorithm} and increment
      * the number of restarts.
      */
-    public void algorithmIteration() { 
+    public void algorithmIteration() {
         algorithm.run();
         singleIteration.reset();
-       
+
         OptimisationSolution tmp = optimisationAlgorithm.getBestSolution();
         if (tmp.getFitness().compareTo(fitness) > 0) {
             fitness = tmp.getFitness();
             solution = tmp;
         }
-               
+
         if (algorithm.isFinished()) {
         	problem.resetFitnessCounter();
             algorithm.initialise();
             ++restarts;
-        } 
+        }
     }
-    
+
     /**
      * Returns the number of times that the algorithm has been restarted.
      *
@@ -196,25 +196,25 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     public int getRestarts() {
         return restarts;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public OptimisationSolution getBestSolution() {
         return solution;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public List<OptimisationSolution> getSolutions() {
     	// TODO: Fix this so that all the solutions found at the time of each restart are added to the collection
-    
+
         ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
         solutions.add(getBestSolution());
         return solutions;
     }
-    
+
     private Algorithm algorithm;
     private Algorithm optimisationAlgorithm;
     private int restarts;
@@ -222,31 +222,31 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
     private MultistartProblemAdapter problem;
     private OptimisationSolution solution;
     private Fitness fitness;
-    
+
     private class MultistartProblemAdapter extends OptimisationProblemAdapter {
-    	
+
 		private static final long serialVersionUID = -3156973576101060294L;
 
 		public MultistartProblemAdapter() {
-    		
+
     	}
 
     	public MultistartProblemAdapter(OptimisationProblem target) {
     		this.target = target;
     	}
-    	
+
     	public MultistartProblemAdapter(MultistartProblemAdapter copy) {
-    		
+
     	}
-    	
+
     	public MultistartProblemAdapter getClone() {
     		return new MultistartProblemAdapter(this);
     	}
-    	
+
     	public OptimisationProblem getTarget() {
     		return target;
     	}
-    	
+
 		/* (non-Javadoc)
 		 * @see net.sourceforge.cilib.Problem.OptimisationProblemAdapter#calculateFitness(java.lang.Object)
 		 */
@@ -257,19 +257,19 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 		public void resetFitnessCounter() {
 			fitnessEvaluations.set(0);
 		}
-		
-		
+
+
 		public DomainRegistry getDomain() {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
 		public DomainRegistry getBehaviouralDomain() {
 			return null;
 		}
-		
+
 		private OptimisationProblem target;
-		
+
     }
 
 }

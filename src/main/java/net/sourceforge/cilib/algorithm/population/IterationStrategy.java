@@ -32,13 +32,13 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> The {@code PopulationBasedAlgorithm} type.
  */
 public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends Cloneable, Serializable {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public abstract IterationStrategy<E> getClone();
-	
+
 	/**
 	 * Perform the iteration of the PopulationBasedAlgorithm.
 	 * <p>
@@ -56,7 +56,7 @@ public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends C
 	 *   <li><b>Recombine</b> the existing parent individuals and the generated offspring to create
 	 *       the next generation</li>
 	 * </ol>
-	 *       
+	 *
 	 * @param algorithm The algorithm to perform the iteration process on.
 	 */
 	public abstract void performIteration(E algorithm);

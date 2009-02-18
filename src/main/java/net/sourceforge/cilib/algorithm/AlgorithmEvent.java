@@ -29,17 +29,17 @@ package net.sourceforge.cilib.algorithm;
  * @author  Edwin Peer
  */
 public class AlgorithmEvent {
-    
-    /** 
+
+    /**
      * Creates a new instance of <code>AlgorithmEvent</code> with a given source algorithm.
-     * 
+     *
      * @param source The source {@link Algorithm}.
      */
     public AlgorithmEvent(Algorithm source) {
         this.source = source;
     }
-    
-    /** 
+
+    /**
      * Accessor for the source algorithm.
      *
      * @return The {@link Algorithm} that raised this event.
@@ -47,6 +47,6 @@ public class AlgorithmEvent {
     public Algorithm getSource() {
         return source;
     }
-    
+
     private Algorithm source;
 }

@@ -45,7 +45,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  *   <li>Niching Algorithms</li>
  *   <li>etc.</li>
  * </ul>
- * 
+ *
  * @author Gary Pampara
  */
 public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm implements Iterable<PopulationBasedAlgorithm> {
@@ -73,7 +73,7 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 		for (PopulationBasedAlgorithm algorithm : copy.subPopulationsAlgorithms) {
 			subPopulationsAlgorithms.add(algorithm.getClone());
 		}
-		
+
 		algorithmIterator = copy.algorithmIterator;
 		algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
 	}
@@ -84,10 +84,10 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
     @Override
 	public void reset() {
 		super.reset();
-		
+
 		for(Algorithm algorithm : subPopulationsAlgorithms)
 			algorithm.reset();
-		
+
 		algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
 	}
 
@@ -114,7 +114,7 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	}
 
 	/**
-	 * Set the list of {@linkplain PopulationBasedAlgorithm} instances that the 
+	 * Set the list of {@linkplain PopulationBasedAlgorithm} instances that the
 	 * {@linkplain MultiPopulationBasedAlgorithm} should maintain.
 	 * @param populationBasedAlgorithms The {@linkplain List} of {@linkplain PopulationBasedAlgorithm}s to set.
 	 */

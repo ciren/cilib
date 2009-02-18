@@ -32,14 +32,14 @@ import java.util.Stack;
  */
 public class AlgorithmStack {
 	private Stack<Algorithm> algorithmStack;
-	
+
 	/**
 	 * Create a new {@linkplain AlgorithmStack} instance.
 	 */
 	public AlgorithmStack() {
 		this.algorithmStack = new Stack<Algorithm>();
 	}
-	
+
 	/**
 	 * Push the current {@linkplain Algorithm} onto the stack.
 	 * @param algorithm The {@linkplain Algorithm} to push.
@@ -47,7 +47,7 @@ public class AlgorithmStack {
 	public synchronized void push(Algorithm algorithm) {
 		this.algorithmStack.push(algorithm);
 	}
-	
+
 	/**
 	 * Remove the current top of the stack and return it.
 	 * @return The previous instance that was the top of the stack.
@@ -55,7 +55,7 @@ public class AlgorithmStack {
 	public synchronized Algorithm pop() {
 		return this.algorithmStack.pop();
 	}
-	
+
 	/**
 	 * Get the {@linkplain Algorithm} that is currently at the top of the stack.
 	 * @return The current top {@linkplain Algorithm}.
@@ -63,7 +63,7 @@ public class AlgorithmStack {
 	public synchronized Algorithm peek() {
 		return this.algorithmStack.peek();
 	}
-	
+
 	/**
 	 * Return an unmodifiable list of {@code Algorithm} instances. The list is the path of currently
 	 * running algorithms. The returned list will have a size {@literal > 1}, if and only if

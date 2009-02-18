@@ -282,10 +282,10 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	public static Algorithm get() {
 		return currentAlgorithmStack.get().peek();
 	}
-	
+
 	/**
 	 * Static accessor to allow the current level of algorithm composition to be returned.
-	 * @see AlgorithmStack#asList() 
+	 * @see AlgorithmStack#asList()
 	 * @return An unmodifiable list of algorithms.
 	 */
 	public static List<Algorithm> getAlgorithmList() {

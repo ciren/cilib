@@ -34,8 +34,8 @@ public class InitialisationException extends java.lang.RuntimeException {
      */
     public InitialisationException() {
     }
-    
-    
+
+
     /**
      * Constructs an instance of <code>InitialisationException</code> with the specified detail message.
      * @param msg the detail message.

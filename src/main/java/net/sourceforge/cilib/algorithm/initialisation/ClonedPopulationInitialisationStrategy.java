@@ -29,7 +29,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 /**
  * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
  * by cloning the given prototype {@link net.sourceforge.cilib.entity.Entity}.
- * 
+ *
  * @author Gary Pampara
  */
 public class ClonedPopulationInitialisationStrategy extends PopulationInitialisationStrategy {

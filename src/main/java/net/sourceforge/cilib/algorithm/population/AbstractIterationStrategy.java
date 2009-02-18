@@ -29,17 +29,17 @@ import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
  * Generic {@code IterationStrategy} class for all population based algorithms. Each and every {@link IterationStrategy}
  * will have a pipeline available to it in order to specify the needed operators that will be
  * required to be executed during the iteration. For the implementing classes, a default
- * pipeline is constructed and made available, this can (as with everything within CIlib) be overridden.  
- * 
+ * pipeline is constructed and made available, this can (as with everything within CIlib) be overridden.
+ *
  * @author Gary Pampara
- * 
+ *
  * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
 public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
 	private static final long serialVersionUID = -2922555178733552167L;
 	protected BoundaryConstraint boundaryConstraint;
 	protected CompositeOperator operatorPipeline;
-	
+
 	/**
 	 * Create an instance of the {@linkplain IterationStrategy}.
 	 */
@@ -47,13 +47,13 @@ public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorit
 		this.boundaryConstraint = new UnconstrainedBoundary();
 		this.operatorPipeline = new CompositeOperator();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public abstract AbstractIterationStrategy<E> getClone();
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -91,6 +91,6 @@ public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorit
 	 */
 	public void setOperatorPipeline(CompositeOperator operatorPipeline) {
 		this.operatorPipeline = operatorPipeline;
-	}	
-	
+	}
+
 }
