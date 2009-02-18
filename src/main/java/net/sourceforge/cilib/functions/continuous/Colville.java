@@ -26,20 +26,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The Collville function.
- * 
+ *
  * @author  engel
  */
 public class Colville extends ContinuousFunction {
    private static final long serialVersionUID = 4561331100889232057L;
 
-	/** 
+	/**
 	 * Creates a new instance of Colville. Sets the domain to R(-10.0, 10.0)^4 by default.
 	 */
     public Colville() {
         //constraint.add(new DimensionValidator(4));
         setDomain("R(-10, 10)^4");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -55,7 +55,7 @@ public class Colville extends ContinuousFunction {
 	public Object getMinimum() {
         return new Double(0);
     }
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -64,13 +64,13 @@ public class Colville extends ContinuousFunction {
     	double b = x.getReal(1);
     	double c = x.getReal(2);
     	double d = x.getReal(3);
-    	
-        return 100 * (b-a*a) * (b-a*a) + 
+
+        return 100 * (b-a*a) * (b-a*a) +
         	(1-a) * (1-a) +
         	90 * (d-c*c) * (d-c*c) +
         	(1-c) * (1-c) +
         	10.1 * ((b-1) * (b-1) + (d-1) * (d-1)) +
         	19.8 * (b-1) * (d-1);
     }
-    
+
 }

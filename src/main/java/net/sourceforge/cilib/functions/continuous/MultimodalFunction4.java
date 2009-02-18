@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * TODO: Complete this javadoc.
  */
-public class MultimodalFunction4 extends ContinuousFunction { 
+public class MultimodalFunction4 extends ContinuousFunction {
 	private static final long serialVersionUID = -957215773660609565L;
 
 	/**
@@ -36,7 +36,7 @@ public class MultimodalFunction4 extends ContinuousFunction {
 	public MultimodalFunction4() {
         setDomain("R(0, 1)^1");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -52,7 +52,7 @@ public class MultimodalFunction4 extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */

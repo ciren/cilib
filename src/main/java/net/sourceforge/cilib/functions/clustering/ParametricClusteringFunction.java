@@ -52,7 +52,7 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
 		w2 = new ConstantControlParameter(0.5);
 		zMax = -1.0;
 	}
-	
+
 	public ParametricClusteringFunction getClone() {
 		return new ParametricClusteringFunction();
 	}

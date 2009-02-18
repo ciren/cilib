@@ -29,13 +29,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
 public class NoisyFunctionDecorator extends ContinuousFunction {
 	private static final long serialVersionUID = -3918271655104447420L;
-	
+
 	private ContinuousFunction function;
 	private RandomNumber randomNumber;
     private ControlParameter variance;
@@ -48,7 +48,7 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 		randomNumber = new RandomNumber();
         this.variance = new ConstantControlParameter(1.0);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -56,15 +56,15 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 	public NoisyFunctionDecorator getClone() {
 		return new NoisyFunctionDecorator();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public double evaluate(Vector x) {
 		return function.evaluate(x) + randomNumber.getGaussian(0.0, this.variance.getParameter());
 	}
-	
-	
+
+
 	/**
 	 * Get the function that is decorated.
 	 * @return Returns the noisyFunction.
@@ -73,7 +73,7 @@ public class NoisyFunctionDecorator extends ContinuousFunction {
 		return function;
 	}
 
-	
+
 	/**
 	 * Set the decorated function.
 	 * @param function The function to decorate.

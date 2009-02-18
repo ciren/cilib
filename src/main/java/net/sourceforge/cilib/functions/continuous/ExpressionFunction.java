@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ExpressionFunction extends ContinuousFunction {
 	private static final long serialVersionUID = -7072775317449355858L;
-	
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private JEP parser;
 	private String function;
@@ -43,17 +43,17 @@ public class ExpressionFunction extends ContinuousFunction {
 	 * Create a new instance of the {@linkplain ExpressionFunction}.
 	 */
 	public ExpressionFunction() {
-		parser = new JEP();		
+		parser = new JEP();
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy. 
+	 * @param copy The instance to copy.
 	 */
 	public ExpressionFunction(ExpressionFunction copy) {
-		this.function = copy.function;		
+		this.function = copy.function;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -67,16 +67,16 @@ public class ExpressionFunction extends ContinuousFunction {
 	@Override
 	public double evaluate(Vector x) {
 		double result = 0;
-		
+
 		for (int i = 0; i < x.getDimension(); i++) {
 			logger.debug("Parameter value: " + x.getReal(i));
 			parser.addVariable("x", x.getReal(i));
 			logger.debug("Parser value: " + parser.getValue());
 			result += parser.getValue();
-			
+
 			logger.debug("hasError? : " + parser.getErrorInfo());
 		}
-		
+
 		return result;
 	}
 
@@ -95,12 +95,12 @@ public class ExpressionFunction extends ContinuousFunction {
 	public void setFunction(String function) {
 		System.out.println("Setting function: " + function);
 		this.function = function;
-		
+
 		this.parser.addVariable("x", 0);
 		this.parser.addStandardFunctions();
 		this.parser.addStandardConstants();
-		
+
 		this.parser.parseExpression(function);
 	}
-	
+
 }

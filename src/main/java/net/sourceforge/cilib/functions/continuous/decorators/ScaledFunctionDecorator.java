@@ -25,19 +25,19 @@ import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/** 
+/**
  * Characteristics:
- * 
+ *
  * Let c be a fixed positive number.
- * 
+ *
  * Horizontal Scaling: If g(x) = f(cx), then (c > 1) means that g(x) is f(x)
  * compressed in the horizontal direction by a factor of c (0 < c < 1) means
  * that g(x) is f(x) stretched in the horizontal direction by a factor of 1/c
- * 
+ *
  * Vertical Scaling: If g(x) = cf(x), then (c > 1) means that g(x) is f(x)
  * stretched in the vertical direction by a factor of c (0 < c < 1) means that
  * g(x) is f(x) compressed in the vertical direction by a factor of 1/c
- * 
+ *
  * @author Olusegun Olorunda
  */
 public class ScaledFunctionDecorator extends ContinuousFunction {
@@ -54,7 +54,7 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
 		verticalScale = 1.0;
 		horizontalScale = 1.0;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

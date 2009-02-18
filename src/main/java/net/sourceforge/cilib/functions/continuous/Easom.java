@@ -26,26 +26,26 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Easom function.
- * 
+ *
  * <p>
  * Characteristics:
  * <ul>
  * <li>Uni-modal</li>
  * </ul>
- * 
+ *
  * f(x) = -1.0;  x = (Pi, Pi);
- * 
+ *
  * @author  engel
  */
 public class Easom extends ContinuousFunction {
 	private static final long serialVersionUID = 7173528343222997045L;
 
 	/** Creates a new instance of Easom. */
-    public Easom() {        
+    public Easom() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -59,7 +59,7 @@ public class Easom extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(-1.0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -69,5 +69,5 @@ public class Easom extends ContinuousFunction {
     	double power = powerTerm1 + powerTerm2;
         return -Math.cos(x.getReal(0)) * Math.cos(x.getReal(1)) * Math.exp(power);
     }
-    
+
 }

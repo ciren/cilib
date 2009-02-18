@@ -34,7 +34,7 @@ public class NeuralPreyOutputStrategy extends
 		NeuralOutputInterpretationStrategy {
 
 	/**
-	 * 
+	 *
 	 */
 	public NeuralPreyOutputStrategy() {
 		// TODO Auto-generated constructor stub
@@ -45,28 +45,28 @@ public class NeuralPreyOutputStrategy extends
 	 */
 	@Override
 	public void applyOutputToState(Vector outputData, Agent currentPlayer, Game oldState) {
-		
+
 		if(!(oldState instanceof PredatorPreyGame))
 			throw new RuntimeException("Invalid game for this agent");
-		
+
 		PredatorPreyGame game = (PredatorPreyGame)oldState;
 		int moveAmount = 1;
 		if(outputData.getReal(0) >  0.5) //move 2 squares
 			moveAmount = 2;
-		
+
 		int x = 0;
 		if(outputData.getReal(1) >  0.5) //move on x axis
 			if(outputData.getReal(2) >  0.5) //move right
 				x = 1;
-			else 
+			else
 				x = -1;
-		
+
 		int y = 0;
 		if(outputData.getReal(3) >  0.5) //move on y axis
 			if(outputData.getReal(4) >  0.5) //move down
 				y = 1;
-			else 
-				y = -1;		
+			else
+				y = -1;
 		game.movePlayer(currentPlayer.getPlayerID(), x * moveAmount, y * moveAmount);
 	}
 

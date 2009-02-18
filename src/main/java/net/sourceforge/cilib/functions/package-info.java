@@ -23,17 +23,17 @@
  * <p>
  * Collection of different types of functions. The function classes are categorized into
  * different types:
- * 
+ *
  * <ul>
  *   <li>Continuous functions</li>
  *   <li>Discrete functions</li>
  *   <li>Clustering functions</li>
  * </ul>
- * 
+ *
  * <p>
  * Each function provides details about itself within the JavaDoc. For example, continuous
  * functions state the function properties such as:
- * 
+ *
  * <ul>
  *   <li>Multi or Unimodal</li>
  *   <li>Continuous or discontinuous</li>

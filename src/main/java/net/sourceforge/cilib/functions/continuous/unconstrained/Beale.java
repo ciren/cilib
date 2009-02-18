@@ -26,11 +26,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p><b>Beale Function.</b></p>
- * 
- * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions 
+ *
+ * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions
  * for Global Optimization and Performance of Repulsive Particle Swarm Methods</i>
  * North-Eastern Hill University, India, 2002</p>
- * 
+ *
  * <p>Minimum:
  * <ul>
  * <li> f(<b>x</b>*) = 0</li>
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li> for x_1, x_2 in [-4.5, 4.5]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Only defined for 2 dimensions</li>
@@ -47,7 +47,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Regular</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Andries Engelbrecht
  *
  */
@@ -60,14 +60,14 @@ public class Beale extends ContinuousFunction {
 	public Beale() {
         setDomain("R(-4.5,4.5)^2");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public Beale getClone() {
 		return new Beale();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -82,7 +82,7 @@ public class Beale extends ContinuousFunction {
 	public double evaluate(Vector x) {
 		double x1 = x.getReal(0);
 		double x2 = x.getReal(1);
-		
+
 		return (1.5-x1+x1*x2)*(1.5-x1+x1*x2) + (2.25-x1+x1*x2*x2)*(2.25-x1+x1*x2*x2) + (2.625-x1+x1*x2*x2*x2)*(2.625-x1+x1*x2*x2*x2);
 	}
 }

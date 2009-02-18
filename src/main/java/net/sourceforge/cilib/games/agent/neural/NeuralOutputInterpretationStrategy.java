@@ -34,7 +34,7 @@ public abstract class NeuralOutputInterpretationStrategy {
 	public NeuralOutputInterpretationStrategy() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
 	 * the the number of output units that this strategy requires
 	 * @return the output count

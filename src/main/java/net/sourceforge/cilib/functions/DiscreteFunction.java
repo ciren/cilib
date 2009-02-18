@@ -35,9 +35,9 @@ public abstract class DiscreteFunction extends Function {
 	 */
 	protected DiscreteFunction() {
 	}
-	
+
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public Object getMinimum() {
 		return new Double(-Double.MAX_VALUE);
@@ -61,7 +61,7 @@ public abstract class DiscreteFunction extends Function {
 		catch (ClassCastException c) {
 			c.printStackTrace();
 		}
-		
+
 		return d;
 	}
 

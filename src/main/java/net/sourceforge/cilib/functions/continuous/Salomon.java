@@ -44,7 +44,7 @@ public class Salomon extends ContinuousFunction {
 	public Salomon() {
 		setDomain("R(-600, 600)^30");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

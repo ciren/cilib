@@ -27,25 +27,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * EpistaticMichalewicz funtion.
- * 
+ *
  * Characteristics:
  * <ul>
  * <li>Multi-modal</li>
  * </ul>
- * 
+ *
  * @TODO: Find the minimum!!!
- * 
+ *
  * @author  engel
  */
 public class EpistaticMichalewicz extends ContinuousFunction {
 	private static final long serialVersionUID = -4391269929189674709L;
 
 	/** Creates a new instance of EpistaticMichalewicz. */
-    public EpistaticMichalewicz() { 
+    public EpistaticMichalewicz() {
         m = 10;
         setDomain("R(0, 3.141592653589793)^10");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -61,11 +61,11 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     		return new Double(-4.687);
     	else if (this.getDimension() == 10)
     		return new Double(-9.66);
-    	
+
     	return new Double(-Double.MAX_VALUE);
     }
-    
-    /** 
+
+    /**
      * {@inheritDoc}
      */
     public double evaluate(Vector input) {
@@ -75,17 +75,17 @@ public class EpistaticMichalewicz extends ContinuousFunction {
         double result = Math.sin(x)*Math.pow(Math.sin(x*x/Math.PI), 20);
         result += Math.sin(y)*Math.pow(Math.sin(y*y/Math.PI), 20);
         return result;*/
-    	
+
     	double sumsq = 0.0;
-    	
+
     	for (int i = 0; i < getDimension(); i++) {
     		double x = input.getReal(i);
     		sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
     	}
-    	
+
     	return -sumsq;
     }
-    
+
     /**
      * Get the current value of <code>M</code>.
      * @return The value of <code>M</code>.
@@ -93,7 +93,7 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     public int getM() {
         return m;
     }
-    
+
     /**
      * Set the value of <code>M</code>.
      * @param m The value to set.
@@ -101,6 +101,6 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     public void setM(int m) {
         this.m = m;
     }
-    
+
     private int m;
 }

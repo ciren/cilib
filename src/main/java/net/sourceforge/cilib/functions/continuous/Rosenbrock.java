@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Generalised Rosenbrock function.
- * 
+ *
  * Characteristics:
  * <ul>
  * <li>Unimodal</li>
@@ -49,7 +49,7 @@ public class Rosenbrock extends ContinuousFunction {
 	public Rosenbrock() {
         setDomain("R(-2.048, 2.048)^30");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -57,7 +57,7 @@ public class Rosenbrock extends ContinuousFunction {
 	public Rosenbrock getClone() {
 		return new Rosenbrock();
 	}
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -77,15 +77,15 @@ public class Rosenbrock extends ContinuousFunction {
             double b = x.getReal((i<<1)-2);
             tmp += 100 * (a - b * b) * (a - b * b) + (b - 1) * (b - 1);
         }*/
-        
+
         for (int i = 0; i < x.getDimension()-1; ++i) {
             double a = x.getReal(i);
             double b = x.getReal(i+1);
-       
+
             tmp += ((100 * (b-a*a) * (b-a*a)) + ((a-1.0) * (a-1.0)));
         }
 
         return tmp;
     }
-    
+
 }

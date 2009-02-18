@@ -36,7 +36,7 @@ public class MultimodalFunction5 extends ContinuousFunction {
 	public MultimodalFunction5() {
         setDomain("R(-6, 6)^2");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -52,7 +52,7 @@ public class MultimodalFunction5 extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -60,9 +60,9 @@ public class MultimodalFunction5 extends ContinuousFunction {
         double x = input.getReal(0);
         double y = input.getReal(1);
         double result;
-        
+
         result = 200 - Math.pow((x*x + y - 11), 2) - Math.pow((x + y*y - 7), 2);
-        
+
         return result;
     }
 

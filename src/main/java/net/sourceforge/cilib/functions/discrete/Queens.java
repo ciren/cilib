@@ -28,20 +28,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Implementation of the a function to return the fitness of the Queens problem.
  * The function class only determines the fitness of the solution by determining
  * the number of conflicts and penalises the fitness if there are.
- * 
+ *
  * @author Gary Pampara
  */
 public class Queens extends DiscreteFunction {
-	
+
 	private static final long serialVersionUID = 8900436160526532438L;
 	private final double [] xMoves = {1, 1,  1,  0, -1, -1, -1, 0};
 	private final double [] yMoves = {1, 0, -1, -1, -1,  0,  1, 1};
-	private int boardSize;	
-	
+	private int boardSize;
+
 	public Queens() {
 		this.boardSize = 8;
 	}
-	
+
 	public Queens getClone() {
 		return new Queens();
 	}
@@ -49,23 +49,23 @@ public class Queens extends DiscreteFunction {
 	/**
 	 * Get the matrix and determine if there are any conflicts. If there are no
 	 * conflicts...
-	 * 
-	 * For every direction, there should be no conflicts. Move queen until 
+	 *
+	 * For every direction, there should be no conflicts. Move queen until
 	 * you run off board
-	 * 
-	 * @param x 
+	 *
+	 * @param x
 	 */
 	@Override
 	public double evaluate(Vector x) {
 		double fitness = 0;
 		double [][] board = new double[boardSize][boardSize];
-		
+
 		initialiseBoard(board, x);
-		
+
 		for (int row = 0; row < boardSize; row++) {
 			for (int col = 0; col < boardSize; col++) {
 				boolean isQueen = (board[row][col] == 1.0) ? true : false;
-				
+
 				if (!isQueen)
 					continue;
 				else {
@@ -74,13 +74,13 @@ public class Queens extends DiscreteFunction {
 				}
 			}
 		}
-		
+
 		return fitness;
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param move
 	 * @param row
 	 * @param col
@@ -91,26 +91,26 @@ public class Queens extends DiscreteFunction {
 		double conflicts = 0;
 		int newRow = row;
 		int newCol = col;
-		
+
 		while ((newRow >= 0 && newRow < boardSize) || (newCol >= 0 && newCol < boardSize)) {
 			newRow += xMoves[move];
 			newCol += yMoves[move];
-			
+
 			if (board[newRow][newCol] == 1.0)
 				conflicts++;
 		}
-		
+
 		return conflicts;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param board
 	 * @param x
 	 */
 	private void initialiseBoard(double [][] board, Vector x) {
 		int counter = 0;
-		
+
 		for (int row = 0; row < boardSize; row++) {
 			for (int col = 0; col < boardSize; col++) {
 				board[row][col] = x.getBit(counter++) ? 1.0 : 0.0;
@@ -118,8 +118,8 @@ public class Queens extends DiscreteFunction {
 		}
 	}
 
-	
-	
+
+
 	/**
 	 * @return Returns the boardSize.
 	 */
@@ -132,6 +132,6 @@ public class Queens extends DiscreteFunction {
 	 */
 	public void setBoardSize(int boardSize) {
 		this.boardSize = boardSize;
-	}	
+	}
 
 }

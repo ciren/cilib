@@ -28,14 +28,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Function implementation to accept a function and to return the reciprocal
  * of that function value.
- * 
+ *
  * @author Gary Pampara
  */
 public class InvertedFunctionDecorator extends ContinuousFunction {
 	private static final long serialVersionUID = -7506823207533866371L;
-	
+
 	private Function function;
-	
+
 	public InvertedFunctionDecorator getClone() {
 		return new InvertedFunctionDecorator();
 	}
@@ -43,10 +43,10 @@ public class InvertedFunctionDecorator extends ContinuousFunction {
 	@Override
 	public double evaluate(Vector x) {
 		double innerFunctionValue = function.evaluate(x);
-		
+
 		if (innerFunctionValue == 0)
 			throw new ArithmeticException("Inner function evaluation equated to 0. Division by zero is undefined");
-		
+
 		return (1.0 / innerFunctionValue);
 	}
 

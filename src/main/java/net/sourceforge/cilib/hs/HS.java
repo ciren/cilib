@@ -41,11 +41,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Algorithm for Continuous Engineering Optimization: Harmony Search Theory and
  * Practice", Computer Methods in Applied Mechanics and Engineering, volume 194,
  * pages 3902--3933, 2005
- * 
+ *
  * @author Andries Engelbrecht
  */
 public class HS extends SingularAlgorithm {
-	private static final long serialVersionUID = 8019668923312811974L;	
+	private static final long serialVersionUID = 8019668923312811974L;
 	private RandomNumber random1;
 	private RandomNumber random2;
 	private RandomNumber random3;
@@ -54,7 +54,7 @@ public class HS extends SingularAlgorithm {
 	private ControlParameter pitchAdjustingRate;
 	private ControlParameter distanceBandwidth;
 	private SortedList<Harmony> harmonyMemory;
-	
+
 	/**
 	 * Default constructor.
 	 * <p>
@@ -63,7 +63,7 @@ public class HS extends SingularAlgorithm {
 	 *   <li>Memory size: 20</li>
 	 *   <li>Memory considering rate: 0.9</li>
 	 *   <li>Pitch adjustment rate: 0.35</li>
-	 *   <li>Distance bandwidth: 0.5</li> 
+	 *   <li>Distance bandwidth: 0.5</li>
 	 * </ul>
 	 */
 	public HS() {
@@ -87,12 +87,12 @@ public class HS extends SingularAlgorithm {
 		this.random1 = copy.random1.getClone();
 		this.random2 = copy.random2.getClone();
 		this.random3 = copy.random3.getClone();
-		
+
 		this.harmonyMemorySize = copy.harmonyMemorySize.getClone();
 		this.harmonyMemoryConsideringRate = copy.harmonyMemoryConsideringRate.getClone();
 		this.pitchAdjustingRate = copy.pitchAdjustingRate.getClone();
 		this.distanceBandwidth = copy.distanceBandwidth.getClone();
-		
+
 		this.harmonyMemory = copy.harmonyMemory.getClone();
 	}
 
@@ -116,7 +116,7 @@ public class HS extends SingularAlgorithm {
 	}
 
 	/**
-	 * Get the considering rate for the harmony memory. 
+	 * Get the considering rate for the harmony memory.
 	 * @return The {@linkplain ControlParameter} for the considering rate.
 	 */
 	public ControlParameter getHarmonyMemoryConsideringRate() {
@@ -163,7 +163,7 @@ public class HS extends SingularAlgorithm {
 	public void setPitchAdjustingRate(ControlParameter pitchAdjustingRate) {
 		this.pitchAdjustingRate = pitchAdjustingRate;
 	}
-	
+
 	/**
 	 * Get the distance bandwidth.
 	 * @return The {@linkplain ControlParameter} for the distance bandwidth.
@@ -187,12 +187,12 @@ public class HS extends SingularAlgorithm {
 	public void algorithmIteration() {
 		//TO-DO: Make sure that all fitnesses are evaluated initially, and
 		//that FE is incremented only once per iteration
-		
+
 		//calculate a new harmony
 		Harmony newHarmony = new Harmony();
 		newHarmony.initialise(getOptimisationProblem());
 		Vector newHarmonyVector = (Vector) newHarmony.getCandidateSolution();
-		
+
 		OptimisationProblem problem = getOptimisationProblem();
 //		Real newHarmonyValue;
 		for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
@@ -205,7 +205,7 @@ public class HS extends SingularAlgorithm {
 					if ((pitchedValue > newHarmonyValue.getBounds().getLowerBound()) && (pitchedValue < newHarmonyValue.getBounds().getUpperBound()))
 						newHarmonyValue.setReal(pitchedValue);
 				}
-				
+
 				newHarmonyVector.set(i, newHarmonyValue);
 			}
 			else {
@@ -214,7 +214,7 @@ public class HS extends SingularAlgorithm {
 				newHarmonyVector.set(i, new Real(random3.getUniform(lower, upper)));
 			}
 		}
-		
+
 		newHarmony.calculateFitness();
 		harmonyMemory.add(newHarmony);
 		harmonyMemory.remove(harmonyMemory.get(0)/*getFirst()*/); // Remove the worst harmony in the memory

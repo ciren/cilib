@@ -28,11 +28,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p><b>Bukin 6 Function.</b></p>
- * 
- * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions 
+ *
+ * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions
  * for Global Optimization and Performance of Repulsive Particle Swarm Methods</i>
  * North-Eastern Hill University, India, 2002</p>
- * 
+ *
  * <p>Minimum:
  * <ul>
  * <li> f(<b>x</b>*) = 0.0 </li>
@@ -40,7 +40,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li> for x_1 in [-15,-5], x_2 in [-3,3]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Only defined for 2 dimensions</li>
@@ -49,7 +49,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Nonregular</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Andries Engelbrecht
  *
  */
@@ -57,12 +57,12 @@ public class Bukin6 extends ContinuousFunction implements Serializable {
 	private static final long serialVersionUID = -5557883529972004157L;
 
 	/**
-	 * Create an instance of the function. Default domain is set to be R(-15,-5),R(-3,3). 
+	 * Create an instance of the function. Default domain is set to be R(-15,-5),R(-3,3).
 	 */
 	public Bukin6() {
         setDomain("R(-15,-5),R(-3,3)");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -70,14 +70,14 @@ public class Bukin6 extends ContinuousFunction implements Serializable {
 	public Bukin6 getClone() {
 		return new Bukin6();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public Object getMinimum() {
         return new Double(0.0);
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -85,7 +85,7 @@ public class Bukin6 extends ContinuousFunction implements Serializable {
 	public double evaluate(Vector x) {
 		double x1 = x.getReal(0);
 		double x2 = x.getReal(1);
-		
+
 		return 100*Math.sqrt(Math.abs(x2-0.01*x1*x1)) + 0.01*Math.abs(x1+10);
 	}
 }

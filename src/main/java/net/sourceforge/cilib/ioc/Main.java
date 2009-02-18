@@ -36,14 +36,14 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 
 /**
- * 
+ *
  * @author Gary Pampara and Francois Geldenhuys
  */
 public class Main {
-	
+
 	private CilibHandler handler;
 	private XMLReader reader;
-	
+
 	/**
 	 * Constructor.
 	 * @param filename
@@ -51,41 +51,41 @@ public class Main {
 	public Main(String filename) {
 		handler = new CilibHandler();
 		FileReader fileReader = null;
-		
+
 		try {
 			fileReader = new FileReader(filename);
 			reader = XMLReaderFactory.createXMLReader();
-			
+
 			reader.setContentHandler(handler);
 			reader.setErrorHandler(handler);
 			reader.parse(new InputSource(fileReader));
-		} 
+		}
 		catch (FileNotFoundException e) {
 			System.err.println("The XML configuration file: " + filename + " was not found. Please ensure that the file exists that the specified path");
 			e.printStackTrace();
-		} 
+		}
 		catch (SAXException e) {
 			e.printStackTrace();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		runSimulations();
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void runSimulations() {
 		List<Simulation> simulations = handler.getSimulations();
 		System.out.println("simulations.size(): " + simulations.size());
-		
+
 		if (simulations.size() == 0)
 			throw new SimulationException("Zero (0) simulations could be found.\nPlease ensure that the XML file is correct, as no simulation objects could be constructed.");
-		
+
 		for (Simulation simulation : simulations) {
 			simulation.initialise();
 			simulation.run();

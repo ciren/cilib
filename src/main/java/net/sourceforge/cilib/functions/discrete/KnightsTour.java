@@ -29,30 +29,27 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * that this implementation implements a repair to the evaluation of the potential
  * solution. The reasoning behind this is that the knight all too often during the
  * testing phase would jump off the board and remain off the board.
- * 
+ *
  * The repair is a simple in-order operation that determines the position where the
  * error occoured and tries to replace the error move with one of the possible 7
  * moves remaining. Once the tour can continue, the move is replaced and evaluation
  * continues.
- *  
+ *
  * @author Gary Pampara
  */
 public class KnightsTour extends DiscreteFunction {
-	
+
 	private static final long serialVersionUID = 6961834833997387285L;
-	
 	private int boardSize;
 	private boolean cyclic;
 	private String startingPos = null;
 	private int startX;
 	private int startY;
+	private static final int[] MOVEMENT_X = {1, 2, 2, 1, -1, -2, -2, -1};
+	private static final int[] MOVEMENT_Y = {-2, -1, 1, 2, 2, 1, -1, -2};
 
-	private static final int [] MOVEMENT_X = {1,  2, 2, 1, -1, -2, -2, -1};
-	private static final int [] MOVEMENT_Y = {-2, -1, 1, 2,  2,  1, -1, -2};
-	
-	
 	/**
-	 * 
+	 *
 	 *
 	 */
 	public KnightsTour() {
@@ -61,133 +58,129 @@ public class KnightsTour extends DiscreteFunction {
 		this.startX = 1;
 		this.startY = 0;
 	}
-	
+
 	public KnightsTour getClone() {
 		return new KnightsTour();
 	}
-	
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public Object getMaximum() {
-		double tmp = boardSize*boardSize;
-		
-		if (isCyclic())
+		double tmp = boardSize * boardSize;
+
+		if (isCyclic()) {
 			return new Double(tmp);
-		else
-			return new Double(tmp-1);
+		} else {
+			return new Double(tmp - 1);
+		}
 	}
-	
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Object getMinimum() {
 		return new Double(0);
 	}
 
-	
 	/**
-	 * 
+	 *
 	 */
 	@Override
 	public double evaluate(Vector x) {
 		double fitness = 0.0;
-		
+
 		int row = startX;
 		int col = startY;
-		
-		boolean [][] visited = new boolean[boardSize][boardSize];
-		
+
+		boolean[][] visited = new boolean[boardSize][boardSize];
+
 		for (int i = 0; i < boardSize; i++) {
 			for (int j = 0; j < boardSize; j++) {
 				visited[i][j] = false;
 			}
 		}
-				
+
 		int move = 0;
 		while (true) {
 			if (0 <= row && row < boardSize && 0 <= col && col < boardSize) {
-				int moveNum = decode(x.getInt(move*3), x.getInt(move*3+1), x.getInt(move*3+2));
+				int moveNum = decode(x.getInt(move * 3), x.getInt(move * 3 + 1), x.getInt(move * 3 + 2));
 				if (!visited[row][col]) {
 					fitness++;
 					move++;
-					if (move == ((Double) getMaximum()).doubleValue()-1) break;
-					
+					if (move == ((Double) getMaximum()).doubleValue() - 1) {
+						break;
+					}
+
 					visited[row][col] = true;
 				}
-				
+
 				row += MOVEMENT_X[moveNum];
 				col += MOVEMENT_Y[moveNum];
-				
+
 				if (0 <= row && row < boardSize && 0 <= col && col < boardSize && !visited[row][col]) {
 					// Nothing to do :)
-				}
-				else {
+				} else {
 					row -= MOVEMENT_X[moveNum];
 					col -= MOVEMENT_Y[moveNum];
-					
+
 					int test = 0;
-					
+
 					for (int k = 0; k < boardSize; k++) {
 						if (k == moveNum) {
 							// Nothing to do :)
-						}
-						else {
+						} else {
 							int newX = row + MOVEMENT_X[k];
 							int newY = col + MOVEMENT_Y[k];
-							
+
 							if (0 <= newX && newX < boardSize && 0 <= newY && newY < boardSize && !visited[newX][newY]) {
 								row = newX;
 								col = newY;
-								
+
 								test++;
-								
+
 								modifyBits(x, move, k);
-								
+
 								break;
 							}
 						}
 					}
-					if (test == 0)
+					if (test == 0) {
 						break;
+					}
 				}
-				
-			}
-			else
+
+			} else {
 				break;
+			}
 		}
-		
+
 		return fitness;
 	}
-	
-	
+
 	/**
-	 * 
+	 *
 	 * @param b1
 	 * @param b2
 	 * @param b3
 	 * @return
 	 */
 	private int decode(int b1, int b2, int b3) {
-		return b1*4 + b2*2 + b3*1;
+		return b1 * 4 + b2 * 2 + b3 * 1;
 	}
-	
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 * @param move
 	 * @param k
 	 */
 	private void modifyBits(Vector x, int move, int k) {
-		x.setInt(move*3, (k >> 2) & 1);
-		x.setInt(move*3, (k >> 1) & 1);
-		x.setInt(move*3, k & 1);
+		x.setInt(move * 3, (k >> 2) & 1);
+		x.setInt(move * 3, (k >> 1) & 1);
+		x.setInt(move * 3, k & 1);
 	}
-
 
 	/**
 	 * @return Returns the boardSize.
@@ -203,8 +196,6 @@ public class KnightsTour extends DiscreteFunction {
 		this.boardSize = boardSize;
 	}
 
-	
-	
 	/**
 	 * @return Returns the cyclic.
 	 */
@@ -219,7 +210,6 @@ public class KnightsTour extends DiscreteFunction {
 		this.cyclic = cyclic;
 	}
 
-
 	/**
 	 * @return Returns the startingPos.
 	 */
@@ -227,17 +217,15 @@ public class KnightsTour extends DiscreteFunction {
 		return startingPos;
 	}
 
-
 	/**
 	 * Set the starting position on the board. Following the normal chess convention
 	 * the rows are described by letters (A-H) on the 8x8 board and columns (0-7).
 	 * These row and column values can obviously be adjusted to the currenly set board
 	 * size.
-	 * 
+	 *
 	 * @param startingPos The startingPos to set.
 	 */
 	public void setStartingPos(String startingPos) {
-		this.startingPos = startingPos;	
+		this.startingPos = startingPos;
 	}
-
 }

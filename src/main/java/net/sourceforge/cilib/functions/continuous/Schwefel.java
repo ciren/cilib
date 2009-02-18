@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Schwefel function.
- * 
+ *
  * <p>
  * Characteristics:
  * <ul>
@@ -35,11 +35,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Separable</li>
  * <li>Discontinuous</li>
  * </ul>
- * 
+ *
  * f(x) = 0; x = (-420.9687,...,-420.9687);
- * 
+ *
  * x e [-512.03,511.97]
- * 
+ *
  * @author  Edwin Peer
  */
 // TODO: Check discontinuous / continuous
@@ -60,7 +60,7 @@ public class Schwefel extends ContinuousFunction { // ?
 	public Schwefel getClone() {
 		return new Schwefel();
 	}
-    
+
 	/**
 	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
 	 * @return The function minimum value.
@@ -68,7 +68,7 @@ public class Schwefel extends ContinuousFunction { // ?
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -80,5 +80,5 @@ public class Schwefel extends ContinuousFunction { // ?
         sum += getDimension() * 4.18982887272434686131e+02;
         return sum;
     }
-    
+
 }

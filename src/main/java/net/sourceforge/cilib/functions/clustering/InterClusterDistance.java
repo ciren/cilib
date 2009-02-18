@@ -40,6 +40,6 @@ public class InterClusterDistance extends ClusteringFitnessFunction {
 	public InterClusterDistance getClone() {
 		return new InterClusterDistance();
 	}
-	
-	
+
+
 }

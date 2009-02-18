@@ -31,13 +31,13 @@ import net.sourceforge.cilib.util.VectorUtils;
 /**
  * The generalised sigmoid function. The function is the general case of the sigmoid function
  * with the ability to specify the steepness of the function as well as an offset that should
- * be taken into consideration. 
+ * be taken into consideration.
  */
 public class Sigmoid extends ActivationFunction {
 	private static final long serialVersionUID = 8291966233976579855L;
 	private ControlParameter steepness;
 	private ControlParameter offset;
-	
+
 	/**
 	 * Create a new instance of {@code Sigmoid}. The default instance has the {@code steepness}
 	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter} set
@@ -63,16 +63,16 @@ public class Sigmoid extends ActivationFunction {
 	@Override
 	public Double evaluate(Type x) {
 		Vector vector = (Vector) x;
-		
+
 		if (vector.getDimension() != 1)
 			throw new UnsupportedOperationException("Cannot determine the actvation of more than a single value");
-		
+
 		if (steepness.getParameter() < 0.0)
 			throw new UnsupportedOperationException("Steepness value for sigmoid function must be >= 0");
-		
+
 		return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness.getParameter()*(vector.getReal(0)-offset.getParameter()))));
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -107,10 +107,10 @@ public class Sigmoid extends ActivationFunction {
 		double point = x.getReal(0);
 		double valueAtPoint = evaluate(point);
 		double result = valueAtPoint * (1 - valueAtPoint);
-		
+
 		return VectorUtils.create(result);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

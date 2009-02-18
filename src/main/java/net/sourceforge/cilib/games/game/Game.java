@@ -43,7 +43,7 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class Game implements Cloneable {
 	private static final long serialVersionUID = -4258915435750291244L;
-	
+
 	//The current state of the game
 	protected GameState currentState;
 	//an array of game players
@@ -55,7 +55,7 @@ public abstract class Game implements Cloneable {
 	//end of game flag
 	//protected boolean gameOver;
 	//this flag determines if players make decisions simultaneously or in a turn based fashion
-	protected boolean turnBasedGame; 
+	protected boolean turnBasedGame;
 	//the scoring strategy assigns fitness values to the players
     private GameScoringStrategy scoringStrategy;
 	/**
@@ -70,7 +70,7 @@ public abstract class Game implements Cloneable {
 		turnBasedGame = true;
 		scoringStrategy = new WinLoseDrawValueScoringStrategy();
 	}
-	
+
 	/**
 	 * Copy constructor
 	 * @param other the other game object
@@ -86,18 +86,18 @@ public abstract class Game implements Cloneable {
 		turnBasedGame = other.turnBasedGame;
 		scoringStrategy = other.scoringStrategy;
 	}
-	
+
 	public GameState getCurrentState(){
 		return currentState;
 	}
-	
+
 	public void setAgent(Agent player){
 		if(player.getPlayerID() == 0)
 			player.setPlayerID(players.size() + 1);
-		
+
 		players.add(player);
 	}
-	
+
 	/**
 	 * This method is used to get the specific domain for an agents solution vector
 	 * @param playerID the id of the player
@@ -111,7 +111,7 @@ public abstract class Game implements Cloneable {
 		}
 		throw new RuntimeException("invalid playerid specified");
 	}
-	
+
 	/**
 	 * Assign a score to a player
 	 * @param playerID the id of the player
@@ -126,7 +126,7 @@ public abstract class Game implements Cloneable {
 		}
 		throw new RuntimeException("invalid playerid specified");
 	}
-	
+
 	/**
 	 * return the fitness of the agent
 	 * @param playerID the id of the player
@@ -140,7 +140,7 @@ public abstract class Game implements Cloneable {
 		}
 		throw new RuntimeException("invalid playerid specified");
 	}
-	
+
 	/**
 	 * get the amount of players
 	 * @return amount of players
@@ -148,7 +148,7 @@ public abstract class Game implements Cloneable {
 	public int amPlayers(){
 		return players.size();
 	}
-	
+
 	/**
 	 * This method initializes an agent with entity data.
 	 * @param playerID the id of the player
@@ -163,8 +163,8 @@ public abstract class Game implements Cloneable {
 		}
 		throw new RuntimeException("invalid playerid specified");
 	}
-	
-	
+
+
 	/**
 	 * Re-arrange the players in the player vector to put a new agent first
 	 * @param startPlayer the id of the lpayer to go first
@@ -180,14 +180,14 @@ public abstract class Game implements Cloneable {
 				break;
 			}
 		}
-		
+
 		if(startNo != 0){
 			Agent newStart = players.get(startNo).getClone();
 			players.remove(startNo);
 			players.insertElementAt(newStart, 0);
-		}		
+		}
 	}
-	
+
 	/**
 	 * loop through the game until the end conditions are met. The Agents fitness values are assigned in this method
 	 */
@@ -197,29 +197,29 @@ public abstract class Game implements Cloneable {
 		boolean gameOver = gameOver();
 	//	display();
 		while(!gameOver)
-		{				
-			for(Agent p : players){	
+		{
+			for(Agent p : players){
 				currentPlayer = p.getPlayerID();
 				p.move(this);
 				if(turnBasedGame && gameOver()){
 					gameOver = true;
-					break;				
+					break;
 				}
 			}
 			if(!gameOver && (this instanceof UpdateGame)){
-				((UpdateGame)this).Update();				
-			}			
-			
+				((UpdateGame)this).Update();
+			}
+
 		//	display();
 			++currentIteration;
-			
+
 			if(!turnBasedGame)
 				gameOver = gameOver();
 		}
 		scoringStrategy.assignPlayerScores(this);
 	}
-	
-	
+
+
 	/**
 	 * Store the result and fitness for a specific player in the entityscore object
 	 * @param playerID the id of the agent
@@ -237,29 +237,29 @@ public abstract class Game implements Cloneable {
 			score.draw(getPlayerScore(playerID));
 		}
 	}
-	
+
 	/**
 	 * perform any game specific initialization
 	 */
 	public abstract void initializeGame();
-	
+
 	/**
 	 * check if the game should terminate
 	 * @return the endgame flag
 	 */
 	public abstract boolean gameOver();
-	
+
 	/**
-	 * Get the result of the game (Win/Lose/Draw) 
+	 * Get the result of the game (Win/Lose/Draw)
 	 * @return the relevant {@linkplain}AbstractGameResult object
  	 */
 	public abstract AbstractGameResult getGameResult();
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public abstract Game getClone();	
-	
+	public abstract Game getClone();
+
 	public abstract void display();
 
 	public void setScoringStrategy(GameScoringStrategy scoringStrategy) {

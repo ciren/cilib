@@ -36,7 +36,7 @@ public class WinLoseDrawValueScoringStrategy extends GameScoringStrategy {
 	Double loseValue;
 	Double drawValue;
 	/**
-	 * 
+	 *
 	 */
 	public WinLoseDrawValueScoringStrategy() {
 		// TODO Auto-generated constructor stub
@@ -57,7 +57,7 @@ public class WinLoseDrawValueScoringStrategy extends GameScoringStrategy {
 				game.assignPlayerScore(i, new MaximisationFitness(drawValue));
 		}
 		else{
-			int winnerID = ((WinGameResult)result).getWinner();		
+			int winnerID = ((WinGameResult)result).getWinner();
 			game.assignPlayerScore(winnerID, new MaximisationFitness(winValue));
 			for(int i = 1; i <= game.amPlayers(); ++i)
 				if(i != winnerID)

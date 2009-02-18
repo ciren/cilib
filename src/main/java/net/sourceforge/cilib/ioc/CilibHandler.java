@@ -39,15 +39,15 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * The handler that is provided to the SAX parser to interpret the tags
  * as well as to construct the <tt>Simulation</tt> objects needed.
- * 
+ *
  * @author Gary Pampara and Francois Geldenhuys
  */
 public class CilibHandler extends DefaultHandler {
-	
+
 	private static Logger log = LoggerFactory.getLogger(CilibHandler.class);
 	private Stack<Object> stack;
 	private List<Simulation> simulations;
-	
+
 	public CilibHandler() {
 		stack = new Stack<Object>();
 		simulations = new ArrayList<Simulation>();
@@ -58,7 +58,7 @@ public class CilibHandler extends DefaultHandler {
 	}
 
 	public void startDocument() throws SAXException {
-		log.debug("Start document");		
+		log.debug("Start document");
 	}
 
 	public void endDocument() throws SAXException {
@@ -70,10 +70,10 @@ public class CilibHandler extends DefaultHandler {
 	}
 
 	public void endPrefixMapping(String prefix) throws SAXException {
-	
+
 	}
 
-	
+
 	/**
 	 * Found the start tag for an element.
 	 * @param uri
@@ -91,13 +91,13 @@ public class CilibHandler extends DefaultHandler {
 	    	String clazz = atts.getValue("class");
 	    	String value = atts.getValue("value");
 	    	String ref = atts.getValue("ref");
-	    	
+
 	    	Object created = null;
-	    	
+
 	    	if (clazz != null) {
 	    		created = createInstance(clazz); // Create instance
 	    		log.debug("Created instance: " + created);
-	    		
+
 	    		if (id != null) {
 		    		ObjectRegistry.getInstance().addObject(id, created);
 		    	}
@@ -111,22 +111,22 @@ public class CilibHandler extends DefaultHandler {
 	    		Object injectedObject = ObjectRegistry.getInstance().getObject(ref);
 	    		Object stackTop = stack.peek();
 	    		log.debug("Object: " + injectedObject + " injected into object: " + stackTop);
-	    		
+
 	    		applyAdditionalProperties(injectedObject, atts);
 	    		applyProperty(stackTop, qName, injectedObject);
 	    	}
-	    	
+
 	    	if (created != null) {
 	    		// Call extra mutators for all remaining attributes
 	    		applyAdditionalProperties(created, atts);
-	    		
+
 	    		Object stackTop = stack.peek();
-	    		
+
 	    		if (!(stackTop instanceof String)) {
 	    			// Perfrom setter mutator method call
 	    			applyProperty(stackTop, qName, created);
 	    		}
-	    		
+
 	    		stack.push(created);
 	    	}
 	    	else { // Put a placeholder on the stack
@@ -148,10 +148,10 @@ public class CilibHandler extends DefaultHandler {
 		    log.debug("End element: " + qName);
 		else
 		    log.debug("End element: {" + uri + "}" + localName);
-		
-		
+
+
 		Object stackTop = stack.pop();
-		
+
 		// Add the stack object to the simulation list iff it is a simulation object
 		if (stackTop instanceof Simulation) {
 			log.debug("Adding simulation to the list of simulations to execute");
@@ -159,33 +159,33 @@ public class CilibHandler extends DefaultHandler {
 		}
 	}
 
-	
+
 	public void characters(char[] ch, int start, int length) throws SAXException {
 
 	}
 
 	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-		
+
 	}
 
 	public void processingInstruction(String target, String data) throws SAXException {
-		
+
 	}
 
 	public void skippedEntity(String name) throws SAXException {
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Create a new instance of the provided class name.
-	 * 
+	 *
 	 * @param className The name of the class
 	 * @return The newly instanciated class.
 	 */
 	public Object createInstance(String className) {
 		Object result = null;
-		
+
 		try {
 			Class<?> clazz = Class.forName("net.sourceforge.cilib." + className);
 			result = clazz.newInstance();
@@ -193,25 +193,25 @@ public class CilibHandler extends DefaultHandler {
 		catch (ClassNotFoundException c) {
 			log.error("Cannot find class [" + className + " for instantiation. Please ensure that the spelling is correct and that the class does exist");
 			c.printStackTrace();
-		} 
+		}
 		catch (InstantiationException e) {
 			log.error("Cannot instanciate class [" + className + "] the class is most probably abstract or an interface");
 			e.printStackTrace();
-		} 
+		}
 		catch (IllegalAccessException e) {
 			log.error("Cannot create instance of class [" + className + "], the access to the required method / constructor is not accessible from the public namespace");
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
-	
+
 
 	/**
 	 * Create the value object based on the provided {@see java.lang.String}.
 	 * Conversion to the appropriate type is attempted before the the default
 	 * case of a {@see java.lang.String} is returned.
-	 * 
+	 *
 	 * @param value The value to be converted to the appropriate type.
 	 * @return The converted type as an <tt>Object</tt>.
 	 */
@@ -220,52 +220,52 @@ public class CilibHandler extends DefaultHandler {
 			return Integer.valueOf(value);
 		}
 		catch (NumberFormatException integerException) {}
-		
+
 		try {
 			return Long.valueOf(value);
 		}
 		catch (NumberFormatException longException) {}
-		
+
 		try {
 			return Double.valueOf(value);
 		}
 		catch (NumberFormatException doubleException) {}
-		
+
 		if (value.equalsIgnoreCase("true"))
 			return new Boolean(true);
-		
+
 		if (value.equalsIgnoreCase("false"))
 			return new Boolean(false);
-		
+
 		return new String(value);
 	}
-	
+
 
 	/**
 	 * Apply the additional properties to the specified object. These attributes
 	 * are additional to the main attribute values.
-	 * 
+	 *
 	 * @param created The instantiated object to have the attributes applied to.
 	 * @param atts The attributes to be applied.
 	 */
 	private void applyAdditionalProperties(Object created, Attributes atts) {
 		for (int i = 0; i < atts.getLength(); i++) {
 			String attributeName = atts.getQName(i);
-			
-			if (!attributeName.equals("class") && 
-				!attributeName.equals("id") && 
-				!attributeName.equals("ref") && 
+
+			if (!attributeName.equals("class") &&
+				!attributeName.equals("id") &&
+				!attributeName.equals("ref") &&
 				!attributeName.equals("value")) {
 				log.debug("Applying attribute(" + attributeName + ") with value(" + atts.getValue(i) + ") to object(" + created +")");
 				applyProperty(created, attributeName, createValueObject(atts.getValue(i)));
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Apply the given object to the current object via a setter mutator.
-	 * 
+	 *
 	 * @param object The object to apply the setter mutator to.
 	 * @param propertyName The name of the setter mutator to call.
 	 * @param value The value of the argument to be passed to the setter mutator.
@@ -273,32 +273,32 @@ public class CilibHandler extends DefaultHandler {
 	private void applyProperty(Object object, String propertyName, Object value) {
 		boolean executed = false;
 		String propertySetName = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
-		
+
 		try {
 			invokeMethod(propertySetName, object, value);
 			executed = true;
-		} 
+		}
 		catch (NoSuchMethodException e) {
 			// Intentionally do nothing here... the check later handles the invocation if this one fails
 		}
-		
+
 		if (!executed) {
 			try {
 				invokeMethod(propertyName, object, value);
-			} 
+			}
 			catch (NoSuchMethodException e) {
 				log.error("No method with name: " + propertySetName + " or " + propertyName + " was found when trying to apply the value (" + value + ") on object: " + object.toString());
 				e.printStackTrace();
-			}			
+			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Invoke the required method <tt>propertyName</tt> on the given object <tt>object</tt> with the
 	 * given value <tt>value</tt>. The <tt>value</tt> object is converted into the appropriate type
 	 * and applied to the method as an argument.
-	 *  
+	 *
 	 * @param propertyName The name of the methof to call.
 	 * @param object The object to perform the invocation on.
 	 * @param value The argument to be applied to the object via the invocation method.
@@ -307,10 +307,10 @@ public class CilibHandler extends DefaultHandler {
 	private void invokeMethod(String propertyName, Object object, Object value) throws NoSuchMethodException {
 		Method method = null;
 		try {
-			
+
 			try {
 				method = object.getClass().getMethod(propertyName, value.getClass());
-			} 
+			}
 			catch (NoSuchMethodException e1) {
 				if (value instanceof Integer) {
 					method = object.getClass().getMethod(propertyName, Integer.TYPE);
@@ -323,15 +323,15 @@ public class CilibHandler extends DefaultHandler {
 				}
 				else {
 					method = perfromLookupOfSuperClassAndSuperInterfaces(object, propertyName, value.getClass());
-				
+
 					if (method == null)
 						throw e1;
 				}
 			}
-				
+
 			method.invoke(object, value);
-			
-		} 
+
+		}
 		catch (SecurityException e) {
 			log.error("A security exception was thrown. The call does not have permission to execute.");
 			e.printStackTrace();
@@ -348,48 +348,48 @@ public class CilibHandler extends DefaultHandler {
 			log.error("An exception occoured during the invocation of the method: " + propertyName + ". The cause of this error is :" + e.getCause().getMessage());
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Perform the lookup of the required method starting at the given object. If the method
 	 * is not found, continue the lookup based on the super class and the interfaces of the
 	 * object. The search in turn is continued until the end of the inheritance hierarchy is
-	 * reached or the method is found. 
-	 * 
+	 * reached or the method is found.
+	 *
 	 * @param object The object to search for the required method
 	 * @param propertyName The required method to look for.
 	 * @param clazz The class of the argument to be passed to the method.
 	 * @return The <code>Method</code> of the required method call.
 	 */
 	private Method perfromLookupOfSuperClassAndSuperInterfaces(Object object, String propertyName, Class<?> clazz) {
-		
+
 		if (clazz == null)
 			return null;
-		
+
 		Method method = null;
-		
+
 		try {
 			method = object.getClass().getMethod(propertyName, clazz);
 		}
-		catch (NoSuchMethodException e) {		
+		catch (NoSuchMethodException e) {
 			Class<?>[] interfaces = clazz.getInterfaces();
 			for (int i = 0; i < interfaces.length; i++) {
 				method = perfromLookupOfSuperClassAndSuperInterfaces(object, propertyName, interfaces[i]);
 				if (method != null)
 					break;
 			}
-			
+
 			if (method == null && !clazz.isInterface())
 				method = perfromLookupOfSuperClassAndSuperInterfaces(object, propertyName, clazz.getSuperclass());
 		}
-		
+
 		return method;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Get the generated simulations.
 	 * @return

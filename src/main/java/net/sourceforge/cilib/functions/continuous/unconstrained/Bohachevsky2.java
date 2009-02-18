@@ -26,10 +26,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p><b>Bohachevsky 2.</b></p>
- * 
+ *
  * <p><b>Reference:</b> Global Optimization Meta-Heuristics Website,
  * http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/go.htm</p>
- * 
+ *
  * <p>Minimum:
  * <ul>
  * <li> f(<b>x</b>*) = 0 </li>
@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li> for x_1, x_2 in [-100, 100]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Only defined for 2 dimensions</li>
@@ -46,7 +46,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Regular</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Andries Engelbrecht
  *
  */
@@ -58,7 +58,7 @@ public class Bohachevsky2 extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -73,5 +73,5 @@ public class Bohachevsky2 extends ContinuousFunction {
     public double evaluate(Vector x) {
         return x.getReal(0)*x.getReal(0) + 2*x.getReal(1)*x.getReal(1) - 0.3*Math.cos(3*Math.PI*x.getReal(0)) * Math.cos(4*Math.PI*x.getReal(1))+0.3;
     }
-    
+
 }

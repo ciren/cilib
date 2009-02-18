@@ -38,7 +38,7 @@ public class NastyBenchmark extends ContinuousFunction {
 	public NastyBenchmark() {
         setDomain("R(-500, 500)^30");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -46,7 +46,7 @@ public class NastyBenchmark extends ContinuousFunction {
 	public NastyBenchmark getClone() {
 		return new NastyBenchmark();
 	}
-    
+
 	/**
 	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
 	 * @return The function minimum value.
@@ -54,7 +54,7 @@ public class NastyBenchmark extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -66,5 +66,5 @@ public class NastyBenchmark extends ContinuousFunction {
         }
         return tmp;
     }
-    
+
 }

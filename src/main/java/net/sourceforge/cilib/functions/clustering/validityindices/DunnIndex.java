@@ -24,7 +24,7 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 /**
  * This is the Dunn Validity Index.
- * 
+ *
  * This implementation is as given in:<br/>
  * @Article{ dunn1974vi, title = "Well Separated Clusters and Optimal Fuzzy Partitions", author =
  *           "J. C. Dunn", journal = "Journal of Cybernetics", pages = "95--104", volume = "4", year =

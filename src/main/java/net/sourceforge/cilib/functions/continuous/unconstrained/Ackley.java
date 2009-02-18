@@ -26,10 +26,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p><b>The Generalized Ackley.</b></p>
- * 
+ *
  * <p><b>Reference:</b> T.Back, <i>Evolutionary Algorithms in Theory and Practice</i>,
  * Oxford University Press, 1996</p>
- * 
+ *
  * <p>Minimum:
  * <ul>
  * <li> f(<b>x</b>*) = 0</li>
@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li> for x_i in [-32.768,32.768]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Multimodal</li>
@@ -45,7 +45,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Regular</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Edwin Peer
  * @author Olusegun Olorunda
  *
@@ -56,16 +56,16 @@ public class Ackley extends ContinuousFunction {
 	public Ackley() {
         setDomain("R(-32.768, 32.768)^30");
     }
-	
+
 	@Override
 	public Ackley getClone() {
 		return new Ackley();
 	}
-	
+
 	public Object getMinimum() {
         return new Double(0.0);
     }
-	
+
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
 	 */

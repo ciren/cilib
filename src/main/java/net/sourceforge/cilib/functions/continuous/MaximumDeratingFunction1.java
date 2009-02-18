@@ -25,12 +25,12 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  *
  */
 public class MaximumDeratingFunction1 extends ContinuousFunction {
     private static final long serialVersionUID = -2963512750988478604L;
-    
+
 	private double radius = 0.25;
     private double alpha = 2.0;
 
@@ -41,7 +41,7 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
         //constraint.add(new DimensionValidator(1));
         setDomain("R^1");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -56,7 +56,7 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * Set the value of the radius.
      * @param radius The value to set.
@@ -102,7 +102,7 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
 
         if (parm1.getReal(0) >= radius)
             return 1.0;
-        
+
         return Math.pow(parm1.getReal(0) / radius, alpha);
     }
 }

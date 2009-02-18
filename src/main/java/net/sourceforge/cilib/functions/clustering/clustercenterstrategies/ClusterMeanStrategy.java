@@ -41,7 +41,7 @@ public class ClusterMeanStrategy implements ClusterCenterStrategy {
 
 	/**
 	 * In this case, we are interested in the mean of the cluster.
-	 * @param i The integer representing the cluster for which the mean should be returned 
+	 * @param i The integer representing the cluster for which the mean should be returned
 	 * @return the mean of cluster i
 	 */
 	@Override

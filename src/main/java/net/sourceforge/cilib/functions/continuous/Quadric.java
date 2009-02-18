@@ -34,7 +34,7 @@ public class Quadric extends ContinuousFunction {
 	public Quadric() {
         setDomain("R(-100, 100)^30");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -50,11 +50,11 @@ public class Quadric extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     public Object getMaximum() {
     	return new Double(1248.2);
     }
-    
+
     /**
      * {@inheritDoc}
      */

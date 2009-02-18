@@ -26,20 +26,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The Schaffer F6 function.
- * 
+ *
  * Minimum: f(x,y) = 0; (x,y) = (0,0);
- * 
- * <p> 
+ *
+ * <p>
  * Characteristics:
  * <ul>
  * <li>Need to complete</li>
  * </ul>
- * 
+ *
  * <p>
  * LaTeX function code: <br>
- * 
- * \textbf{Schaffer F6:} $f(x) = 0.5 + \frac{(sin^{2} \sqrt{x^2 + y^2}) - 0.5}{(1.0 + 0.001(x^2 + y^2))^2}$ 
- * 
+ *
+ * \textbf{Schaffer F6:} $f(x) = 0.5 + \frac{(sin^{2} \sqrt{x^2 + y^2}) - 0.5}{(1.0 + 0.001(x^2 + y^2))^2}$
+ *
  * @author Gary Pampara
  */
 public class Schaffer6 extends ContinuousFunction {
@@ -60,32 +60,32 @@ public class Schaffer6 extends ContinuousFunction {
 	public Schaffer6 getClone() {
 		return new Schaffer6();
 	}
-	
-	
+
+
 	/**
 	 * Initialise the function minimum value.
-	 * @return The minimum value as a <tt>Double</tt> object with value of 0.0 
+	 * @return The minimum value as a <tt>Double</tt> object with value of 0.0
 	 */
 	public Object getMinimum() {
 		return new Double(-1.0);
 	}
 
-	
+
 	/**
 	 * Evaluate the function and return the evaluation.
-	 * 
+	 *
 	 * @param x The input vector to the function
 	 * @return A double value representing the function evaluation
 	 */
 	public double evaluate(Vector input) {
 		double x = input.getReal(0);
 		double y = input.getReal(1);
-		
+
 		double squared = x*x + y*y;
 		double squareRooted = Math.sqrt(squared);
-		
+
 		double numerator = (Math.sin(squareRooted) * Math.sin(squareRooted)) - 0.5;
-		
+
 		double denominatorTmp = 1.0 + 0.001*squared;
 		double denominator = denominatorTmp * denominatorTmp;
 

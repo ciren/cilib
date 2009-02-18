@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Neumaier3 extends ContinuousFunction {
 	private static final long serialVersionUID = 192809046725649930L;
 
-	/** 
+	/**
 	 * Creates a new instance of Neumaier. Domain defaults to R(-900, 900)^30
 	 */
     public Neumaier3() {
@@ -39,7 +39,7 @@ public class Neumaier3 extends ContinuousFunction {
         // constraint.add(new ContentValidator(new NeumaierValidator()));
         setDomain("R(-900, 900)^30");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -47,7 +47,7 @@ public class Neumaier3 extends ContinuousFunction {
     public Neumaier3 getClone() {
     	return new Neumaier3();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -55,7 +55,7 @@ public class Neumaier3 extends ContinuousFunction {
         double dimension = getDimension();
         return new Double((dimension * (dimension + 4) * (dimension - 1)) / 6);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -70,5 +70,5 @@ public class Neumaier3 extends ContinuousFunction {
         }
         return tmp1 - tmp2;
     }
-    
+
 }

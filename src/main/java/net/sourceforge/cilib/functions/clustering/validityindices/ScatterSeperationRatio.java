@@ -34,13 +34,13 @@ import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
  */
 public abstract class ScatterSeperationRatio extends ClusteringFitnessFunction {
 	private static final long serialVersionUID = 6758442782079174817L;
-	
+
 	protected ArrayList<Double> withinClusterScatterCache = null;
 	protected ArrayList<Double> betweenClusterSeperationCache = null;
 
 	protected void cacheWithinClusterScatter() {
 		withinClusterScatterCache = new ArrayList<Double>();
-		
+
 		for (int i = 0; i < clustersFormed; i++) {
 			withinClusterScatterCache.add(calculateWithinClusterScatter(i));
 		}
@@ -54,7 +54,7 @@ public abstract class ScatterSeperationRatio extends ClusteringFitnessFunction {
 
 	protected void cacheBetweenClusterSeperation() {
 		betweenClusterSeperationCache = new ArrayList<Double>();
-		
+
 		for(int i = 0; i < clustersFormed - 1; i++) {
 			for(int j = i + 1; j < clustersFormed; j++) {
 				betweenClusterSeperationCache.add(calculateBetweenClusterSeperation(i, j));
@@ -67,7 +67,7 @@ public abstract class ScatterSeperationRatio extends ClusteringFitnessFunction {
 	protected double getBetweenClusterSeperation(int i, int j) {
 		if (i < 0 || j < 0)
 			throw new IllegalArgumentException("The seperation between clusters " + i + " and " + j + " does not exist");
-	
+
 		if (i == j)
 			return 0.0;
 

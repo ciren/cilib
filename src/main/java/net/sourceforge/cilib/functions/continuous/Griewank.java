@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Generalised Griewank function.
- * 
+ *
  * <p>
  * Characteristics:
  * <ul>
@@ -34,10 +34,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Non seperable</li>
  * <li>Regular</li>
  * </ul>
- * 
+ *
  * f(x) = 0; x = (0,0,...,0);
  * x_i e (-600,600)
- * 
+ *
  * @author  Edwin Peer
  */
 public class Griewank extends ContinuousFunction {
@@ -56,14 +56,14 @@ public class Griewank extends ContinuousFunction {
 	public Griewank getClone() {
 		return new Griewank();
 	}
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -76,5 +76,5 @@ public class Griewank extends ContinuousFunction {
         }
         return 1 + sumsq * (1.0/4000.0) - prod;
     }
-    
+
 }

@@ -28,7 +28,7 @@ package net.sourceforge.cilib.games.result;
 public class DrawResult extends AbstractGameResult {
 
 	/**
-	 * 
+	 *
 	 */
 	public DrawResult() {
 		// TODO Auto-generated constructor stub

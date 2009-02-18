@@ -27,13 +27,13 @@ package net.sourceforge.cilib.games.game;
  */
 public abstract class GridGame extends Game {
 	private static final long serialVersionUID = -3460317865794650394L;
-	
+
 	//width of the grid
 	protected int gridWidth;
 	//height of the grid
 	protected int gridHeight;
 	/**
-	 * 
+	 *
 	 */
 	public GridGame() {
 		gridWidth = 0;
@@ -48,17 +48,17 @@ public abstract class GridGame extends Game {
 		gridWidth = other.gridWidth;
 		gridHeight = other.gridHeight;
 	}
-	
+
 	public int getWidth(){
 		return gridWidth;
 	}
 	public int getHeight(){
-		return gridHeight;	
+		return gridHeight;
 	}
 	public void setWidth(int width){
 		gridWidth = width;
 	}
 	public void setHeight(int height){
-		gridHeight = height;		
+		gridHeight = height;
 	}
 }

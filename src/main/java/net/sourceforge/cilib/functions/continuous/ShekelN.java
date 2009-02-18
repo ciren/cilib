@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ShekelN extends ContinuousFunction {
     private static final long serialVersionUID = 4420382656606698465L;
 
-	/** 
+	/**
 	 * Creates a new instance of Step. Default domain is set to R(0, 10)^4
 	 */
     public ShekelN() {
@@ -40,7 +40,7 @@ public class ShekelN extends ContinuousFunction {
         //constraint.add(new DimensionValidator(4));
         setDomain("R(0, 10)^4");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -48,15 +48,15 @@ public class ShekelN extends ContinuousFunction {
     public ShekelN getClone() {
     	return new ShekelN();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Object getMinimum() {
         switch (n) {
-            case 5: return new Double(-10.15320); 
-            case 7: return new Double(-10.40294); 
-            case 10: return new Double(-10.53641); 
+            case 5: return new Double(-10.15320);
+            case 7: return new Double(-10.40294);
+            case 10: return new Double(-10.53641);
             default: return super.getMinimum();
         }
     }
@@ -75,7 +75,7 @@ public class ShekelN extends ContinuousFunction {
        }
        return -sum;
     }
-     
+
     /**
      * Set the N vaue for the function.
      * @param n The value to set.
@@ -86,11 +86,11 @@ public class ShekelN extends ContinuousFunction {
 
         this.n = n;
     }
-    
+
     private int n;
-    
-    private static final double[][] A = {{4.0, 4.0, 4.0, 4.0}, 
-                                         {1.0, 1.0, 1.0, 1.0}, 
+
+    private static final double[][] A = {{4.0, 4.0, 4.0, 4.0},
+                                         {1.0, 1.0, 1.0, 1.0},
                                          {8.0, 8.0, 8.0, 8.0},
                                          {6.0, 6.0, 6.0, 6.0},
                                          {3.0, 7.0, 3.0, 7.0},
@@ -100,7 +100,7 @@ public class ShekelN extends ContinuousFunction {
                                          {6.0, 2.0, 6.0, 2.0},
                                          {7.0, 3.6, 7.0, 3.6},
                                         };
-                                        
+
     private static final double[] C = {0.1, 0.2, 0.2, 0.4, 0.4, 0.6, 0.3, 0.7, 0.5, 0.5};
-                                       
+
 }

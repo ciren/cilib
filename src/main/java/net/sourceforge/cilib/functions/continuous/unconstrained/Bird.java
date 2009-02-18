@@ -26,11 +26,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p><b>Bird Function</b></p>
- * 
- * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions 
+ *
+ * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions
  * for Global Optimization and Performance of Repulsive Particle Swarm Methods</i>
  * North-Eastern Hill University, India, 2002</p>
- * 
+ *
  * <p>Minimum:
  * <ul>
  * <li> f(<b>x</b>*) = -106.764537 (approx) </li>
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li> for x_1, x_2 in [-2*pi, 2*pi]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Only defined for 2 dimensions</li>
@@ -47,7 +47,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Regular</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Andries Engelbrecht
  *
  */
@@ -57,16 +57,16 @@ public class Bird extends ContinuousFunction {
 	public Bird() {
         setDomain("R(-6.285714286,6.285714286)^2");
     }
-	
+
 	@Override
 	public Bird getClone() {
 		return new Bird();
 	}
-	
+
 	public Object getMinimum() {
         return new Double(-106.764537);
     }
-	
+
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
 	 */
@@ -74,7 +74,7 @@ public class Bird extends ContinuousFunction {
 	public double evaluate(Vector x) {
 		double x1 = x.getReal(0);
 		double x2 = x.getReal(1);
-		
+
 		return Math.sin(x1)*Math.exp((1-Math.cos(x2))*(1-Math.cos(x2)))+Math.cos(x2)*Math.exp((1-Math.sin(x1))*(1-Math.sin(x1)))+(x1-x2)*(x1-x2);
 	}
 }

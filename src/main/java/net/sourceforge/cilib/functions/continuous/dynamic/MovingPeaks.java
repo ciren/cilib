@@ -33,15 +33,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 	private static final long serialVersionUID = 733952126255493620L;
 
-	/** 
-	 * Creates a new instance of MovingPeaks. 
+	/**
+	 * Creates a new instance of MovingPeaks.
 	 */
 	public MovingPeaks() {
 		setDomain("R(0, 100)^5");
 		exclusionthreshold = (maxcoordinate - mincoordinate) / (2 * (Math.pow(numberOfPeaks, 1 / getDimension())));
 		initPeaks();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -86,7 +86,7 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 
 	/**
 	 * Set the change frequency.
-	 * @param cfr The given frequency. 
+	 * @param cfr The given frequency.
 	 */
 	public void setChangeFrequency(int cfr) {
 		changeFrequency = cfr;
@@ -725,7 +725,7 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 		public double calculate(double[] gen) {
 			int i, j;
 			double maximum = -100000.0, dummy;
-			double[][] basisPeak = { 
+			double[][] basisPeak = {
 					{8.0, 64.0, 67.0, 55.0, 4.0, 0.1, 50.0},
 					{50.0, 13.0, 76.0, 15.0, 7.0, 0.1, 50.0},
 					{9.0, 19.0, 27.0, 67.0, 24.0, 0.1, 50.0},

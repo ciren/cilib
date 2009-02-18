@@ -24,31 +24,31 @@ package net.sourceforge.cilib.games.items;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * 
+ *
  * @author leo
  * Any object that exists in the game.
  */
 public abstract class GameItem implements Cloneable {
 	private static final long serialVersionUID = -5725025967973967757L;
-	
+
 	protected ItemLocation itemLocation;
 
 	public GameItem(){
-		
+
 	}
-	
+
 	public GameItem(GameItem other){
 		itemLocation = other.itemLocation.getClone();
 	}
-	
+
 	public void setLoction(ItemLocation location){
 		itemLocation = location;
 	}
-	
+
 	public ItemLocation getLocation(){
-		return itemLocation;		
+		return itemLocation;
 	}
-	
+
 	public abstract GameItem getClone();
 
 }

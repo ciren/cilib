@@ -27,27 +27,27 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * The Damavandi function obtained from O.M. Shir and T. Baeck,
  * "Dynamic Niching in Evolution Strategies with Covariance Matrix Adaptation"
- * 
+ *
  * Global Maximin: f(x1,...,xn) = 1
- * 
+ *
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
  * </ul>
- * 
+ *
  * @author  Andries Engelbrecht
  */
 public class Shir extends ContinuousFunction {
 	private static final long serialVersionUID = 8157687561496975789L;
-	
+
 	private double l1, l2, l3, l4, l5, sharpness;
-	
+
 	/**
 	 * Create an instance of the function. The domain is set to "R(0, 1)^30" by default.
 	 */
 	public Shir() {
         setDomain("R(0, 1)^30");
-        
+
         l1 = 1.0;
         l2 = 1.0;
         l3 = 1.0;
@@ -55,7 +55,7 @@ public class Shir extends ContinuousFunction {
         l5 = 1.0;
         sharpness = 2;
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -63,14 +63,14 @@ public class Shir extends ContinuousFunction {
 	public Shir getClone() {
 		return new Shir();
 	}
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
     public Object getMaximum() {
         return new Double(1);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -78,15 +78,15 @@ public class Shir extends ContinuousFunction {
 		double sinTerm;
 		double expTerm;
 		double product = 1.0;
-		
+
 		for (int i = 0; i < getDimension(); i++) {
 			sinTerm = 1.0;
 			for (int k = 1; k <= sharpness; k++)
 				sinTerm *= Math.sin(l1*Math.PI*x.getReal(i) + l2);
 			expTerm = Math.exp(-l3*((x.getReal(i)-l4)/l5)*((x.getReal(i)-l4)/l5));
-			product *= (sinTerm * expTerm); 
+			product *= (sinTerm * expTerm);
 		}
-		
+
 		return product;
 	}
 

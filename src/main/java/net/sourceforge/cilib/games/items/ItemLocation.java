@@ -26,20 +26,20 @@ import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * 
+ *
  * @author leo
  * The location of any item in the game
  */
 public abstract class ItemLocation implements Cloneable {
 	private static final long serialVersionUID = -6355670396743733974L;
-	
+
 	public ItemLocation(){
-		
+
 	}
 	public ItemLocation(ItemLocation Other){
-		
+
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

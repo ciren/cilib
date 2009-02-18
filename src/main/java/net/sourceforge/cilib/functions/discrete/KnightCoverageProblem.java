@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author otter
  * Problem description : place the minimun amount of knights on a standard 8 by 8 square board, such that every block
  * is covered by a valid move.
- * 
+ *
  * This problem is an OptimisationProblem and thus based on the <code>OptimisationProblem</code> interface
  * @deprecated
  */
@@ -43,24 +43,24 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = 3070562330891331356L;
 
 	public KnightCoverageProblem(KnightCoverageProblem copy) {
-		
+
 	}
-	
+
 	public KnightCoverageProblem getClone() {
-		return new KnightCoverageProblem(this);		
+		return new KnightCoverageProblem(this);
 	}
 
     /**
-     * Returns the fitness of a potential solution to this problem. The solution object is described 
-     * by the domain of this problem, see {@link #getDomain()}. An instance of {@link InferiorFitness} 
+     * Returns the fitness of a potential solution to this problem. The solution object is described
+     * by the domain of this problem, see {@link #getDomain()}. An instance of {@link InferiorFitness}
      * should be returned if the solution falls outside the search space of this problem.
-     * 
-     * 
+     *
+     *
      * @param solution The potential solution found by the optimisation algorithm.
      * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
-     * @return The fitness of the solution. 
+     * @return The fitness of the solution.
      */
-	protected Fitness calculateFitness(Type solution) {        
+	protected Fitness calculateFitness(Type solution) {
 /*        //solution, is supposed to be the Genes, which is of Type - Vector.
     	double fftest = 0.0;
         for(int r =  0; r < ((Vector)solution).getDimension(); r++) {
@@ -68,8 +68,8 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
                 	fftest += 1.0;
             }
 */
-    	
-    	
+
+
         double fit = 0.0;
         char[][] board = new char[8][8];
         //construct a coverage board out of the gene representation...,
@@ -84,7 +84,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
                     board[r][k] = '0';
             }
         }
- /*       
+ /*
         System.out.println("GENE REP:");
         System.out.println(solution);
         System.out.println("BOARD:");
@@ -94,7 +94,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
             }
             System.out.println();
         }
-   */     
+   */
         this.crawler(board);
      /*   System.out.println("COVERAGE:");
         for(int r =  0; r < 8; r++) {
@@ -114,65 +114,65 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
                     fit += 1.9;
             }
         }
-        
+
 /*
         if(true)
             throw new RuntimeException("KC PROBLEM");
-  */      
-        
+  */
+
         return new MinimisationFitness(fit);
     }
-    
+
     /**
      * Returns the domain component that describes the search space for this problem.
-     * 
+     *
      * @return A {@link net.sourceforge.cilib.Domain.Component} object representing the search space.
      */
     public DomainRegistry getDomain() {
         return null;
     }
-    
+
     /**
-     * Sets the domain of the function. 
+     * Sets the domain of the function.
      *
      * See {@link net.sourceforge.cilib.Domain.Component}.
-     * 
-     * @param representation the string representation for the function domain. 
+     *
+     * @param representation the string representation for the function domain.
      */
     public void setDomain(String representation) {
     	System.out.println("BINNE");
     	DomainParser.getInstance().parse(representation);
     }
-    
+
     /**
      * Little helper function in order to work out the coverage
      */
     private void crawler(char[][] board) {
-        
+
         for(int r =  0; r < 8; r++) {
             for(int k =  0; k < 8; k++) {
                 if(board[r][k] == 'k') {   //IDENTIFY KNGIHT POSITIONS
                     //A : Left up
                     if ((r-2 >= 0) && (k-1>= 0) && (board[r-2][k-1] != 'k'))
-                        board[r-2][k-1]++;          
+                        board[r-2][k-1]++;
                     //B
                     if ((r-2 >= 0) && (k+1 <= (7)) && (board[r-2][k+1] != 'k'))
-                        board[r-2][k+1]++;          
+                        board[r-2][k+1]++;
                     //C
                     if ((r-1 >= 0) && (k+2 <= (7)) && (board[r-1][k+2] != 'k'))
-                        board[r-1][k+2]++;          
+                        board[r-1][k+2]++;
                     //D
                     if ((r+1 <= (7)) && (k+2 <= (7)) && (board[r+1][k+2] != 'k'))
-                        board[r+1][k+2]++;          
+                        board[r+1][k+2]++;
                     //E
                     if ((r+2 <= (7)) && (k+1 <= (7)) && (board[r+2][k+1] != 'k'))
-                        board[r+2][k+1]++;          
+                        board[r+2][k+1]++;
                     //F
                     if ((r+2 <= (7)) && (k-1 >= 0) && (board[r+2][k-1] != 'k'))
-                        board[r+2][k-1]++;          
+                        board[r+2][k-1]++;
                     //G
                     if ((r+1 <= (7)) && (k-2 >= 0) && (board[r+1][k-2] != 'k'))
-                        board[r+1][k-2]++;          
+                        board[r+1][k-2]++;
                     //H
                     if ((r-1 >= 0) && (k-2 >= 0) && (board[r-1][k-2] != 'k'))
                         board[r-1][k-2]++;

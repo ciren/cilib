@@ -28,16 +28,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The rastrigin function.
- * 
+ *
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
  * <li>Continuous</li>
  * <li>Seperable</li>
  * </ul>
- * 
+ *
  * f(x) = 0; x = (0,0,...,0);
- * 
+ *
  * x e [-5.12, 5.12];
  *
  * @author  Edwin Peer
@@ -52,7 +52,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
 	public Rastrigin() {
         setDomain("R(-5.12, 5.12)^30");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -60,7 +60,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
 	public Rastrigin getClone() {
 		return new Rastrigin();
 	}
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -78,18 +78,18 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
         }
         return 10*getDimension() + tmp;
     }
-    
-    
+
+
     /**
      * {@inheritDoc}
      */
     public Vector getGradient(Vector x) {
         Vector tmp = new Vector(getDimension());
-        
+
         for (int i = 0; i < getDimension(); ++i) {
         	tmp.setReal(i, (2.0 * x.getReal(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.getReal(i))));
         }
-        
+
         return tmp;
-    }    
+    }
 }

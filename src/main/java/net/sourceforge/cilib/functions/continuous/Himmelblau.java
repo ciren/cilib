@@ -26,11 +26,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The Himmelblau function.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
- * 
+ *
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
@@ -51,7 +51,7 @@ public class Himmelblau extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-6, 6)^2");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -66,13 +66,13 @@ public class Himmelblau extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * Evaluate the function and return the result of the evaluation.
-     * 
+     *
      * @param vector The {@linkplain Vector} containing the two dimensional data.
      * @return The value of the Himmalblau function with {@code vector} containing the
-     *         function input. 
+     *         function input.
      */
     public double evaluate(Vector vector) {
         double x = vector.getReal(0);

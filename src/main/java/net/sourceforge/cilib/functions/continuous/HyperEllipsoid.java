@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * HyperEllipsoid.
- * 
+ *
  * <p>
  * Characteristics:
  * <ul>
@@ -35,9 +35,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Continuous</li>
  * <li>Convex</li>
  * </ul>
- * 
+ *
  * f(x) = 0; x = (0,0,...,0)
- * 
+ *
  * @author  engel
  */
 public class HyperEllipsoid extends ContinuousFunction {
@@ -47,7 +47,7 @@ public class HyperEllipsoid extends ContinuousFunction {
     public HyperEllipsoid() {
         setDomain("R(-5.12,5.12)^30");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -55,14 +55,14 @@ public class HyperEllipsoid extends ContinuousFunction {
     public HyperEllipsoid getClone() {
     	return new HyperEllipsoid();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -73,5 +73,5 @@ public class HyperEllipsoid extends ContinuousFunction {
         }
         return tmp;
     }
-    
+
 }

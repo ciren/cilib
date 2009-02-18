@@ -26,11 +26,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p><b>Booth Function</b></p>.
- * 
- * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions 
+ *
+ * <p><b>Reference:</b> S.K. Mishra, <i>Some New Test Functions
  * for Global Optimization and Performance of Repulsive Particle Swarm Methods</i>
  * North-Eastern Hill University, India, 2002</p>
- * 
+ *
  * <p>Minimum:
  * <ul>
  * <li> f(<b>x</b>*) = 0 </li>
@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li> for x_1, x_2 in [-10,10]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Only defined for 2 dimensions</li>
@@ -47,7 +47,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Regular</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Andries Engelbrecht
  *
  */
@@ -55,13 +55,13 @@ public class Booth extends ContinuousFunction {
 	private static final long serialVersionUID = -7803711986955989075L;
 
 	/**
-	 * Create an instance of the Booth function. The domain is set to be 
+	 * Create an instance of the Booth function. The domain is set to be
 	 * R(-10.0,10.0)^2 by default.
 	 */
 	public Booth() {
         setDomain("R(-10,10)^2");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -69,7 +69,7 @@ public class Booth extends ContinuousFunction {
 	public Booth getClone() {
 		return new Booth();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -84,7 +84,7 @@ public class Booth extends ContinuousFunction {
 	public double evaluate(Vector x) {
 		double x1 = x.getReal(0);
 		double x2 = x.getReal(1);
-		
+
 		return (x1+2*x2-7)*(x1+2*x2-7) + (2*x1+x2-5)*(2*x1+x2-5);
 	}
 }

@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This is the Dunn Index 33.
- * 
+ *
  * Due to Equations 22 and 28 in<br/>
  * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C. Bezdek and
  *           Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and Cybernetics, Part B:

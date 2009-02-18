@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Shubert function.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
@@ -44,7 +44,7 @@ public class Shubert extends ContinuousFunction {
 	public Shubert() {
         setDomain("R(-10, 10)^2");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -52,7 +52,7 @@ public class Shubert extends ContinuousFunction {
 	public Shubert getClone() {
 		return new Shubert();
 	}
-    
+
 	/**
 	 * {@inheritDoc}
 	 */

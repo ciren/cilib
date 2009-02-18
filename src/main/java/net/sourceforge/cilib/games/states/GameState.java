@@ -34,34 +34,34 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public class GameState implements Cloneable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 3668288597302493178L;
 	protected Vector<GameItem> currentState;
 	/**
-	 * 
+	 *
 	 */
 	public GameState() {
 		// TODO Auto-generated constructor stub
 		currentState = new Vector<GameItem>();
 	}
-	
+
 	public GameState(GameState other){
 		currentState = new Vector<GameItem>(other.currentState);
 	}
-	
+
 	public int getSize(){
 		return currentState.size();
 	}
-	
+
 	public void addGameItem(GameItem item){
 		currentState.add(item);
 	}
-	
+
 	public void clearState(){
 		currentState.clear();
 	}
-	
+
 	public GameItem getItem(int index) {
 		if(index >= currentState.size())
 			throw new RuntimeException("Index greater than vector size");
@@ -74,20 +74,20 @@ public class GameState implements Cloneable {
 	public GameState getClone() {
 		return new GameState(this);
 	}
-	
+
 	public void Merge(GameState other){
-		
+
 	}
 
 	@Override
 	public boolean equals(Object other) {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
 		if(!(other instanceof GameState))
 			return false;
 		return false;
 	}
-	
-	
-	
+
+
+
 
 }

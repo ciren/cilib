@@ -37,7 +37,7 @@ public class ClusterCentroidStrategy implements ClusterCenterStrategy {
 
 	/**
 	 * In this case, we are interested in the centroid of the cluster.
-	 * @param i The integer representing the cluster for which the centroid should be returned 
+	 * @param i The integer representing the cluster for which the centroid should be returned
 	 * @return the centroid of cluster i
 	 */
 	@Override

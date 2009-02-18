@@ -45,12 +45,12 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * the user of this class to specify what is meant by the <i>center</i> of a cluster,
  * because sometimes the <i>centroid</i> is used and other times the <i>mean</i> is used.
  * By default, the cluster center is interpreted as the cluster centroid.
- * 
+ *
  * @author Theuns Cloete
  */
 public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	private static final long serialVersionUID = 4834673666638644106L;
-	
+
 	private static Logger log = LoggerFactory.getLogger(ClusteringFitnessFunction.class);
 	protected ClusteringUtils helper = null;
 	protected ClusterCenterStrategy clusterCenterStrategy = null;
@@ -67,7 +67,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 		super();
 		clusterCenterStrategy = new ClusterCentroidStrategy();
 	}
-	
+
 	public abstract ClusteringFitnessFunction getClone();
 
 	/**
@@ -91,7 +91,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * </ol>
 	 * Steps 1 - 3 have to be performed before the fitness is calculated, using the given
 	 * <tt>centroids</tt> {@linkplain Vector}, in step 4.
-	 * 
+	 *
 	 * @param centroids The {@link Vector} representing the centroid vectors
 	 * @return the fitness that has been calculated
 	 */
@@ -120,9 +120,9 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 	/**
 	 * Calculate the Quantisation Error.
-	 * 
+	 *
 	 * <p>This is explained in Section 4.1.1 on pages 104 & 105 of:<br/>
-	 * 
+	 *
 	 * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern
 	 *             Recognition and Image Processing", author = "Mahamed G.H. Omran",
 	 *             institution = "University Of Pretoria", school = "Computer Science", year =
@@ -151,10 +151,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	/**
 	 * Calculate the Maximum Average Distance between the patterns in the dataset and the
 	 * centers learned so far.
-	 * 
+	 *
 	 * <p>
 	 * See Section 4.1.1 at the bottom of page 105 of:<br/>
-	 * 
+	 *
 	 * @PhDThesis{ omran2004thesis, title = "Particle Swarm Optimization Methods for Pattern
 	 *             Recognition and Image Processing", author = "Mahamed G.H. Omran",
 	 *             institution = "University Of Pretoria", school = "Computer Science", year =
@@ -183,7 +183,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	/**
 	 * Calculate the shortest distance between two clusters. In other words, the shortest
 	 * distance between the centroids of any two clusters.
-	 * 
+	 *
 	 * @return the minimum inter-cluster distance
 	 */
 	public double calculateMinimumInterClusterDistance() {
@@ -202,7 +202,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	/**
 	 * Calculate the longest distance between two clusters. In other words, the longest
 	 * distance between the centroids of any two clusters.
-	 * 
+	 *
 	 * @return the maximum inter-cluster distance.
 	 */
 	public double calculateMaximumInterClusterDistance() {
@@ -220,10 +220,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 	/**
 	 * Calculate the minimum distance between two clusters (sets).
-	 * 
+	 *
 	 * <p>
 	 * This is illustrated in Equation 20 of:<br/>
-	 * 
+	 *
 	 * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
 	 *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
 	 *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
@@ -245,9 +245,9 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 	/**
 	 * Calculate the maximum distance between two clusters (sets).
-	 * 
+	 *
 	 * <p>Illustrated in Equation 21 of:<br/>
-	 * 
+	 *
 	 * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
 	 *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
 	 *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
@@ -269,10 +269,10 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
 	/**
 	 * Calculate the average distance between two clusters (sets).
-	 * 
+	 *
 	 * <p>
 	 * Illustrated in Equation 22 of:<br/>
-	 * 
+	 *
 	 * @Article{ 678624, title = "Some New Indexes of Cluster Validity", author = "James C.
 	 *           Bezdek and Nikhil R. Pal", journal = "IEEE Transactions on Systems, Man, and
 	 *           Cybernetics, Part B: Cybernetics", pages = "301--315", volume = "28", number =
@@ -296,7 +296,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * Calculate the diameter of the given cluster, i.e. the distance between the two
 	 * patterns (in the set) that are furthest apart. There exists numerous references
 	 * for this calculation.
-	 * 
+	 *
 	 * @param k the index of the cluster for which the diameter should be calculated.
 	 * @return the diameter of the given cluster.
 	 */
@@ -321,7 +321,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * Calculate the intra-cluster distance. In other words, the sum of the distances between
 	 * all patterns of all clusters and their associated centroids. The calculation is
 	 * specified by Equation 13 in Section IV on page 124 of:<br/>
-	 * 
+	 *
 	 * @Article{ 923275, title = "Nonparametric Genetic Clustering: Comparison of Validity
 	 *           Indices", author = "Ujjwal Maulik and Sanghamitra Bandyopadhyay", journal =
 	 *           "IEEE Transactions on Systems, Man, and Cybernetics, Part C: Applications
@@ -347,7 +347,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * Calculate the average intra-cluster distance. In other words, the average of the
 	 * distances between all patterns of all clusters and their associated centroids. The
 	 * calculation is specified in Section 3.2 on page 2 of:<br/>
-	 * 
+	 *
 	 * @Unpublished{ cal99, title = "Determination of Number of Clusters in K-Means
 	 *               Clustering and Application in Colour Image Segmentation", author =
 	 *               "Siddheswar Ray and Rose H. Turi", year = "2000", month = jul }
@@ -380,11 +380,11 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 	 * Parametric fitness to be less than zero. Fitnesses drop below zero when the centroids
 	 * are outside the given domain which causes {@linkplain zMax} to be too small to
 	 * compensate.
-	 * 
+	 *
 	 * TODO: Should this function always return the fitness?
 	 * TODO: Or should it return NaN when the fitness drops below 0.0?
 	 * TODO: Or should we throw an exception?
-	 * 
+	 *
 	 * @param fitness the fitness value that will be validated.
 	 * @return the fitness.
 	 */

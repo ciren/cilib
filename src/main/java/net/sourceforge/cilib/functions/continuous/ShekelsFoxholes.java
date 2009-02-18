@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * ShekelsFoxholes function.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 public class ShekelsFoxholes extends ContinuousFunction {
 	private static final long serialVersionUID = 1986501892056164693L;
-	
+
 	private double [][] a = new double[2][25];
 
     public ShekelsFoxholes() {

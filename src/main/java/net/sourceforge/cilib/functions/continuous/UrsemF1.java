@@ -20,13 +20,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.functions.continuous;
- 
+
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * UrsemF1 function.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
@@ -49,7 +49,7 @@ public class UrsemF1 extends ContinuousFunction {
 	public UrsemF1 getClone() {
 		return new UrsemF1();
 	}
-    
+
     public Object getMinimum() {
         return new Double(4.81681);
     }

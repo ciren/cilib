@@ -31,7 +31,7 @@ import net.sourceforge.cilib.games.items.PlayerItem;
 public class PredatorItem extends PlayerItem {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -4134550960577913392L;
 

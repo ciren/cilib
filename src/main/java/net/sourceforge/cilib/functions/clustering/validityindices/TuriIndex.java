@@ -24,7 +24,7 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 
 /**
- * This is the Turi Validity Index as given in 
+ * This is the Turi Validity Index as given in
  * Section 3.1.4 on page 66 of Mahamed G. H. Omran's PhD thesis, titled
  * <tt>Particle Swarm Optimization Methods for Pattern Recognition and Image Processing</tt>,
  * November 2004

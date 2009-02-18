@@ -37,7 +37,7 @@ public class AbsoluteValue extends ContinuousFunction {
 	public AbsoluteValue() {
 		setDomain("R(-100, 100)^30");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

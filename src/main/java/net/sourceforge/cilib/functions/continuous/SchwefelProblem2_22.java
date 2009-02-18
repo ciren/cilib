@@ -27,13 +27,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * SchwefelProblem2_22.
- * 
+ *
  * Characteristics:
- * 
+ *
  * f(x) = 0;
- * 
+ *
  * x e [-10,10]
- * 
+ *
  * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
@@ -46,7 +46,7 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
 	public SchwefelProblem2_22() {
         setDomain("R(-10, 10)^30");
     }
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -54,14 +54,14 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
 	public SchwefelProblem2_22 getClone() {
 		return new SchwefelProblem2_22();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -75,8 +75,8 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
             else
             	product *= Math.abs(x.getReal(i));
         }
-        
+
         return sum + product;
     }
-    
+
 }

@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * UrsemF4 function.
- * 
+ *
  * <p>
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>

@@ -28,13 +28,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * SchwefelProblem2_21.
- * 
+ *
  * Characteristics:
- * 
+ *
  * f(x) = 0;
- * 
+ *
  * x e [-100,100]
- * 
+ *
  * @author  Andries Engelbrecht
  */
 // TODO: Check discontinuous / continuous
@@ -53,7 +53,7 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
 	public SchwefelProblem2_21 getClone() {
 		return new SchwefelProblem2_21();
 	}
-    
+
 	/**
 	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
 	 * @return The function minimum value.
@@ -61,14 +61,14 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public double evaluate(Vector x) {
         double max = Math.abs(x.getReal(0));
         double value;
-        
+
         for (int i = 1; i < x.getDimension(); ++i) {
         	value = Math.abs(x.getReal(i));
             if (value > max)

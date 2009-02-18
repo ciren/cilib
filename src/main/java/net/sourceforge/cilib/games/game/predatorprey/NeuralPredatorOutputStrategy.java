@@ -34,7 +34,7 @@ public class NeuralPredatorOutputStrategy extends
 		NeuralOutputInterpretationStrategy {
 
 	/**
-	 * 
+	 *
 	 */
 	public NeuralPredatorOutputStrategy() {
 		// TODO Auto-generated constructor stub
@@ -52,14 +52,14 @@ public class NeuralPredatorOutputStrategy extends
 		if(outputData.getReal(0) > 0.5) //move on x axis
 			if(outputData.getReal(1) > 0.5) //move right
 				x = 1;
-			else 
+			else
 				x = -1;
 		int y = 0;
 		if(outputData.getReal(2) > 0.5) //move on y axis
 			if(outputData.getReal(3) >  0.5) //move down
 				y = 1;
-			else 
-				y = -1;		
+			else
+				y = -1;
 		game.movePlayer(currentPlayer.getPlayerID(), x, y);
 	}
 

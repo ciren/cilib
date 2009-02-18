@@ -30,7 +30,7 @@ import net.sourceforge.cilib.games.game.Game;
 public abstract class GameScoringStrategy {
 
 	/**
-	 * 
+	 *
 	 */
 	public GameScoringStrategy() {
 		// TODO Auto-generated constructor stub

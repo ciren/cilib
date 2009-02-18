@@ -25,7 +25,7 @@ import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  *
  */
 public class KnightsCoverage extends DiscreteFunction {
@@ -39,7 +39,7 @@ public class KnightsCoverage extends DiscreteFunction {
 	public double evaluate(Vector x) {
 		throw new UnsupportedOperationException("Method not implemented.");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

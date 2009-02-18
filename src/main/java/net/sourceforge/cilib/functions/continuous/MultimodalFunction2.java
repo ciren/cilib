@@ -25,11 +25,11 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author gpampara
  *
  */
-public class MultimodalFunction2 extends ContinuousFunction { 
+public class MultimodalFunction2 extends ContinuousFunction {
 	private static final long serialVersionUID = -5046586719830749372L;
 
 	/**
@@ -38,7 +38,7 @@ public class MultimodalFunction2 extends ContinuousFunction {
 	public MultimodalFunction2() {
         setDomain("R(0, 1)^1");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -46,7 +46,7 @@ public class MultimodalFunction2 extends ContinuousFunction {
 	public MultimodalFunction2 getClone() {
 		return new MultimodalFunction2();
 	}
-	
+
 	/**
 	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
 	 * @return The function minimum value.
@@ -54,7 +54,7 @@ public class MultimodalFunction2 extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */

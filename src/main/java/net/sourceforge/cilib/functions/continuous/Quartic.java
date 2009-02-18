@@ -38,7 +38,7 @@ public class Quartic extends ContinuousFunction {
 	public Quartic() {
         setDomain("R(-1.28, 1.28)^30");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -46,36 +46,36 @@ public class Quartic extends ContinuousFunction {
 	public Quartic getClone() {
 		return new Quartic();
 	}
-    
+
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * This is extra stuff i hope is added.
 	 */
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Object getMaximum() {
     	return new Double(1248.2);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public double evaluate(Vector x) {
     	double result = 0.0;
-    	
+
     	for (int i = 0; i < x.getDimension(); i++) {
     		double square = x.getReal(i) * x.getReal(i);
     		double square2 = square * square;
-    		
+
     		result += i * square2;
     	}
-    	
+
     	return result;
     }
 }

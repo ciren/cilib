@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This is the Davies-Bouldin Validity Index.
- * 
+ *
  * Index is given in
  * @Article{ daviesbouldin1979vi, title = "A Cluster Seperation Measure", author = "David L. Davies
  *           and Donald W. Bouldin", journal = "IEEE Transactions on Pattern Analysis and Machine
@@ -79,7 +79,7 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
 	}
 
 	/**
-	 * The <i>alpha</i> value of the distance measure should correspond to the <i>p</i> value of the 
+	 * The <i>alpha</i> value of the distance measure should correspond to the <i>p</i> value of the
 	 * Davies-Bouldin Validity Index.
 	 */
 	@Override

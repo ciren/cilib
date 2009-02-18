@@ -30,14 +30,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Step extends ContinuousFunction {
 
 	private static final long serialVersionUID = -3888436745417400797L;
-	
+
 	/**
 	 * Create an instance of the {@code Step} function.
 	 */
 	public Step() {
 		setDomain("R(-100.0, 100.0)^6");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -52,10 +52,10 @@ public class Step extends ContinuousFunction {
 	@Override
 	public double evaluate(Vector x) {
 		double sum = 0.0;
-		
+
 		for (int i = 0; i < x.getDimension(); i++)
 			sum += Math.floor(x.getReal(i));
-		
+
 		return sum;
 	}
 

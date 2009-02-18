@@ -27,16 +27,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * ShiftedFunctionDecorator.
- * 
+ *
  * Characteristics:
- * 
+ *
  * Let c be a fixed positive number, then:
- * 
+ *
  * Horizontal Shift:
  * If g(x) = f(x+c), then
  *             (c > 0) means that g(x) is f(x) shifted c units to the left
  *             (c < 0) means that g(x) is f(x) shifted c units to the right
- * 
+ *
  * Vertical Shift:
  * If g(x) = f(x) + c, then
  *             (c > 0) means that g(x) is f(x) shifted c units upwards
@@ -49,13 +49,13 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
 	private ContinuousFunction function;
 	private double verticalShift;
 	private double horizontalShift;
-	
+
 	public ShiftedFunctionDecorator() {
 		setDomain("R");
 		verticalShift = 0.0;
 		horizontalShift = 0.0;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -63,7 +63,7 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
 	public ShiftedFunctionDecorator getClone() {
 		return new ShiftedFunctionDecorator();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -82,7 +82,7 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
 		for (int i = 0; i < x.getDimension(); i++) {
 			tmp.add(new Real(x.getReal(i) + horizontalShift));
 		}
-		
+
 		return function.evaluate(tmp) + verticalShift;
 	}
 

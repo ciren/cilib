@@ -30,41 +30,41 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Perform the knapsack problem optimisation.
- * 
+ *
  * @author Gary Pampara
  */
 public class KnapSack extends DiscreteFunction {
-	
+
 	private static final long serialVersionUID = 79098409450300605L;
-	
+
 	private int capacity;
 	private int numberOfObjects;
 	private ArrayList<Double> weights;
 	private ArrayList<Double> values;
-	
-	
+
+
 	public KnapSack() {
 		weights = new ArrayList<Double>();
 		values = new ArrayList<Double>();
 	}
-	
+
 	public KnapSack getClone() {
 		return new KnapSack();
-	}	
-	
+	}
+
 	public Object getMinimum() {
 		return new Double(0);
 	}
-	
-	
+
+
 	public Object getMaximum() {
 		return new Double(this.capacity);
 	}
-	
-	
+
+
 
 	/**
-	 * 
+	 *
 	 */
 	public double evaluate(Vector x) {
 		if (weights.size() == 0 && values.size() == 0) {
@@ -78,51 +78,51 @@ public class KnapSack extends DiscreteFunction {
 				values = weights;
 			}
 		}
-		
+
 		double knapsackValue = 0;
 		double weightSum = 0;
-		
+
 		for (int i = 0; i < this.numberOfObjects; i++) {
 			weightSum += x.getInt(i)*weights.get(i);
 		}
-		
+
 		//System.out.println("WeightSum: " + weightSum);
-		
+
 		if (weightSum <= this.capacity) { // weightSum does not violate constraint
 			// All is ok.... now calculate the fitness
 			for (int i = 0; i < this.numberOfObjects; i++) {
 				knapsackValue += x.getInt(i)*values.get(i);
 			}
-			
+
 			//System.out.println("knapsackValue: " + knapsackValue);
 			return knapsackValue;
 		}
 		else {
-			return -1;			
-		}		
+			return -1;
+		}
 	}
-	
-	
+
+
 	private void randomInitialise() {
 		Random random = new MersenneTwister();
-		
+
 		for (int i = 0; i < this.numberOfObjects; i++) {
 			int number = 0;
-			
+
 			while (number == 0)
 				number = random.nextInt(this.numberOfObjects);
-			
+
 			weights.add(i, Integer.valueOf(number).doubleValue());
-			
+
 			number = 0;
 			while (number == 0)
 				number = random.nextInt(this.numberOfObjects);
-			
+
 			values.add(i, Integer.valueOf(number).doubleValue());
 		}
 	}
 
-		
+
 	/**
 	 * @return Returns the capacity.
 	 */
@@ -169,18 +169,18 @@ public class KnapSack extends DiscreteFunction {
 		this.values = value;
 	}
 
-	
+
 	/**
-	 * Helper method. This method enables in input of a comma-separated string, 
+	 * Helper method. This method enables in input of a comma-separated string,
 	 * containing the values for the different object types.
-	 * 
+	 *
 	 * @param valueString A comma separated string defining the values for
 	 *                    each selection bucket.
 	 */
 	public void setValue(String valueString) {
 		String [] values = valueString.split(",");
 		this.values.clear();
-		
+
 		for (int i = 0; i < values.length; i++) {
 			this.values.add(Double.valueOf(values[i]));
 		}
@@ -201,19 +201,19 @@ public class KnapSack extends DiscreteFunction {
 	public void setWeight(ArrayList<Double> weight) {
 		this.weights = weight;
 	}
-	
-	
+
+
 	/**
-	 * Helper method. This method enables in input of a comma-separated string, 
+	 * Helper method. This method enables in input of a comma-separated string,
 	 * containing the weight values for the different object types.
-	 * 
+	 *
 	 * @param weightString A comma separated string defining the weight value for
 	 *                     each selection bucket.
 	 */
 	public void setWeight(String weightString) {
 		String [] values = weightString.split(",");
 		this.weights.clear();
-		
+
 		for (int i = 0; i < values.length; i++) {
 			this.weights.add(Double.valueOf(values[i]));
 		}

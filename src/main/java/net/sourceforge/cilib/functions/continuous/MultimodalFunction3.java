@@ -36,7 +36,7 @@ public class MultimodalFunction3 extends ContinuousFunction {
 	public MultimodalFunction3() {
         setDomain("R(0, 1)^1");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -52,7 +52,7 @@ public class MultimodalFunction3 extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * {@inheritDoc}
      */

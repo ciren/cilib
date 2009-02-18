@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Spherical function.
- * 
+ *
  * <p>
  * Characteristics:
  * <ul>
@@ -37,10 +37,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Separable</li>
  * <li>Convex</li>
  * </ul>
- * 
+ *
  * f(x) = 0; x = (0,0,...,0)
  * x e [-5.12, 5.12]
- * 
+ *
  * @author  Edwin Peer
  */
 public class Spherical extends ContinuousFunction implements Differentiable {
@@ -52,7 +52,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
 	public Spherical() {
         setDomain("R(-5.12, 5.12)^30");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -88,18 +88,18 @@ public class Spherical extends ContinuousFunction implements Differentiable {
         }
         return tmp;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Vector getGradient(Vector x) {
     	Vector tmp = new Vector(x.getDimension());
-    	    	
+
     	for (int i = 0; i < x.getDimension(); ++i) {
     		tmp.setReal(i, 2*x.getReal(i));
     	}
-    	
-        return tmp;        
+
+        return tmp;
     }
-    
+
 }

@@ -26,7 +26,7 @@ package net.sourceforge.cilib.functions;
  * @author csbmcd
  */
 public interface DynamicFunction {
-    
+
     public double getExclusionThreshold();
-    
+
 }

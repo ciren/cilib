@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * UrsemF3 function.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
@@ -59,7 +59,7 @@ public class UrsemF3 extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(2.5);
     }
-    
+
     /**
      * {@inheritDoc}
      */

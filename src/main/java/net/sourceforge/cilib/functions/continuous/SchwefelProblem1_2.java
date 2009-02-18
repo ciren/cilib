@@ -26,16 +26,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * SchwefelProblem1_2.
- * 
+ *
  * Characteristics:
- * 
+ *
  * <li>Unimodal</li>
  * <li>Non Separable</li>
- * 
+ *
  * f(x) = 0; x = (0,0,...,0)
- * 
+ *
  * x e [-100,100]
- * 
+ *
  * @author Gary Pampara
  */
 public class SchwefelProblem1_2 extends ContinuousFunction {
@@ -44,7 +44,7 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
 	public SchwefelProblem1_2() {
 		setDomain("R(-100,100)^30");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -52,7 +52,7 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
 	public SchwefelProblem1_2 getClone() {
 		return new SchwefelProblem1_2();
 	}
-	
+
 	/**
 	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
 	 * @return The function minimum value.
@@ -68,17 +68,17 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
 	public double evaluate(Vector x) {
 		double sumsq = 0.0;
 		double sum = 0.0;
-		
+
 		for (int i = 0; i < getDimension(); i++) {
 			sum = 0.0;
-			
+
 			for (int j = 0; j < i; j++) {
 				sum += x.getReal(j);
 			}
-			
-			sumsq += sum * sum; 
+
+			sumsq += sum * sum;
 		}
-		
+
 		return sumsq;
 	}
 

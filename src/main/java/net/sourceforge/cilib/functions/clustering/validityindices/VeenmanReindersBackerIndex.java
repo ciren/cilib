@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This is the Veenman-Reinders-Backer Validity Index.
- * 
+ *
  * The description is given in Section 1 of<br/>
  * @Article{ 628823, author = "Cor J. Veenman and Marcel J. T. Reinders and Eric Backer", title = "A
  *           Maximum Variance Cluster Algorithm", journal = "IEEE Transactions on Pattern Analysis

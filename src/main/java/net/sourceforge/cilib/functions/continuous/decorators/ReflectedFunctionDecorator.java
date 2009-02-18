@@ -29,14 +29,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>
  * Class to reflect the wrapped {@linkplain Function} in a horizontal or
  * vertical fashion.
- * 
+ *
  * Characteristics:
- * 
+ *
  * Sets f(x) to f(-x) or -f(x) or -f(-x) based on what is required, by
  * reflecting on a specific axis.
- * 
+ *
  * Setting values in xml works the same as setting string values
- * 
+ *
  * @author Olusegun Olorunda
  *
  */
@@ -45,13 +45,13 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 	private ContinuousFunction function;
 	private boolean horizontalReflection;
 	private boolean verticalReflection;
-	
+
 	public ReflectedFunctionDecorator() {
 		setDomain("R");
 		horizontalReflection = false;
 		verticalReflection = false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -59,12 +59,12 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 	public ReflectedFunctionDecorator getClone() {
 		return new ReflectedFunctionDecorator();
 	}
-	
+
 	public Object getMinimum() {
 		// adds the value of the verticalShift to the original function minimum
 		return function.getMinimum();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -77,10 +77,10 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 				tmp.setReal(i, -x.getReal(i));
 			}
 		}
-		
+
 		if(verticalReflection)
 			return -function.evaluate(tmp);
-		
+
 		return function.evaluate(tmp);
 	}
 
@@ -115,7 +115,7 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 	public void setHorizontalReflection(boolean horizontalReflection) {
 		this.horizontalReflection = horizontalReflection;
 	}
-	
+
 	/**
 	 * Invoking this method sets horizontalReflection to true.
 	 */
@@ -137,7 +137,7 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
 	public void setVerticalReflection(boolean verticalReflection) {
 		this.verticalReflection = verticalReflection;
 	}
-	
+
 	/**
 	 * Invoking this method sets verticalReflection to true.
 	 */

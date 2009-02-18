@@ -38,7 +38,7 @@ public abstract class StateEvaluationAgent extends Agent {
 	 */
 	public StateEvaluationAgent() {
 		super();
-		
+
 	}
 
 	/**

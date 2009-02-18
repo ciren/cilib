@@ -36,7 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {
 
 	/**
-	 * 
+	 *
 	 */
 	public PredatorPreyNeuralInputStrategy() {
 		// TODO Auto-generated constructor stub
@@ -56,24 +56,22 @@ public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {
 	 */
 	@Override
 	public Vector getNeuralInputArray(NeuralAgent currentPlayer, Game state) {
-		try{
-			if(!(state instanceof PredatorPreyGame))
+		try {
+			if (!(state instanceof PredatorPreyGame)) {
 				throw new RuntimeException("Invalid game for this agent");
-			
+			}
+
 			// TODO Auto-generated method stub
-			Vector pos1 = ((GridLocation)(state.getCurrentState().getItem(0).getLocation())).getPosition();
-			Vector pos2 = ((GridLocation)(state.getCurrentState().getItem(1).getLocation())).getPosition();
+			Vector pos1 = ((GridLocation) (state.getCurrentState().getItem(0).getLocation())).getPosition();
+			Vector pos2 = ((GridLocation) (state.getCurrentState().getItem(1).getLocation())).getPosition();
 			Vector inputvector = new Vector(4);
-			inputvector.add(new Real(currentPlayer.getScaledInput((double)pos1.getInt(0), 0, ((PredatorPreyGame)state).getWidth())));
-			inputvector.add(new Real(currentPlayer.getScaledInput((double)pos1.getInt(1), 0, ((PredatorPreyGame)state).getHeight())));
-			inputvector.add(new Real(currentPlayer.getScaledInput((double)pos2.getInt(0), 0, ((PredatorPreyGame)state).getWidth())));
-			inputvector.add(new Real(currentPlayer.getScaledInput((double)pos2.getInt(1), 0, ((PredatorPreyGame)state).getHeight())));
+			inputvector.add(new Real(currentPlayer.getScaledInput((double) pos1.getInt(0), 0, ((PredatorPreyGame) state).getWidth())));
+			inputvector.add(new Real(currentPlayer.getScaledInput((double) pos1.getInt(1), 0, ((PredatorPreyGame) state).getHeight())));
+			inputvector.add(new Real(currentPlayer.getScaledInput((double) pos2.getInt(0), 0, ((PredatorPreyGame) state).getWidth())));
+			inputvector.add(new Real(currentPlayer.getScaledInput((double) pos2.getInt(1), 0, ((PredatorPreyGame) state).getHeight())));
 			return inputvector;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new InitialisationException("Game not initialized, predator and prey items do not exist");
 		}
 	}
-
 }

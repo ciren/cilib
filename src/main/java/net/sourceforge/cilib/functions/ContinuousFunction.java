@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public abstract class ContinuousFunction extends Function {
-	
+
 	private static final long serialVersionUID = -2483529496289508896L;
 
 	/**
@@ -44,9 +44,9 @@ public abstract class ContinuousFunction extends Function {
 	 * @param copy The instance to copy.
 	 */
 	public ContinuousFunction(ContinuousFunction copy) {
-		
+
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

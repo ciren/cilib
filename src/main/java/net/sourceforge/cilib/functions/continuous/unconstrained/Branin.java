@@ -28,10 +28,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p><b>Booth Function</b></p>
- * 
+ *
  * <p><b>Reference:</b> X. Yao, Y. Liu, G. Liu, <i>Evolutionary Programming Made Faster</i>,
  * IEEE Transactions on Evolutionary Computation, 3(1):82--102, 1999</p>
- * 
+ *
  * <p>Minimum:
  * <ul>
  * <li> f(<b>x</b>*) = 0.397887 </li>
@@ -39,7 +39,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li> for x_1 in [-5,10], x_2 in [0,15]</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>Characteristics:
  * <ul>
  * <li>Only defined for 2 dimensions</li>
@@ -49,7 +49,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Regular</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Clive Naicker
  *
  */
@@ -73,11 +73,11 @@ public class Branin extends ContinuousFunction implements Serializable {
         d = 6.0;
         e = 10.0;
         f = 1.0/(8.0*Math.PI);
-        
+
         //constraint.add(new DimensionValidator(2));
         //constraint.add(new ContentValidator(0, new QuantitativeBoundValidator(new Double(-5), new Double(15))));
         //constraint.add(new ContentValidator(1, new QuantitativeBoundValidator(new Double(0), new Double(15))));
-        
+
         setDomain("R(-5,10),R(0,15)");
     }
 
@@ -91,13 +91,13 @@ public class Branin extends ContinuousFunction implements Serializable {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The minimum is located at <code>0.397887</code>.
      */
     public Object getMinimum() {
         return new Double(0.397887);
     }
-    
+
     /**
      * {@inheritDoc}
      */

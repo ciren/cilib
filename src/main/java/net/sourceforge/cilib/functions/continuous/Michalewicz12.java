@@ -26,40 +26,40 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Michalewicz function.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
- * 
+ *
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
  * <li>Continuous</li>
  * <li>Separable</li>
  * </ul>
- * 
+ *
  * f(x) = -4.687 if n = 5
  * f(x) = -9.66  if n = 10
- * 
+ *
  * @author Clive Naicker
  * @version 1.0
  */
 public class Michalewicz12 extends ContinuousFunction {
 	private static final long serialVersionUID = -2885728189740122807L;
-	
+
 	private int m;
 
 	/**
 	 * Create an instance of {@linkplain Michalewicz12}. Domain is set to R(0, PI)^30
 	 */
-    public Michalewicz12() {        
+    public Michalewicz12() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(0, 3.141592653589793)^30");
-        
+
         m = 10;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -67,7 +67,7 @@ public class Michalewicz12 extends ContinuousFunction {
     public Michalewicz12 getClone() {
     	return new Michalewicz12();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -76,7 +76,7 @@ public class Michalewicz12 extends ContinuousFunction {
     		return new Double(-4.687);
     	else if (this.getDimension() == 10)
     		return new Double(-9.66);
-    	
+
     	return new Double(-Double.MAX_VALUE);
     }
 
@@ -90,14 +90,14 @@ public class Michalewicz12 extends ContinuousFunction {
         double result = Math.sin(x)*Math.pow(Math.sin(x*x/Math.PI), 20);
         result += Math.sin(y)*Math.pow(Math.sin(y*y/Math.PI), 20);
         return result;*/
-    	
+
     	double sumsq = 0.0;
-    	
+
     	for (int i = 0; i < getDimension(); i++) {
     		double x = input.getReal(i);
     		sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
     	}
-    	
+
     	return -sumsq;
     }
 

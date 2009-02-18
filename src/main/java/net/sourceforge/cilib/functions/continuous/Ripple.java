@@ -26,7 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Ripple function.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
@@ -45,7 +45,7 @@ public class Ripple extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(0, 1)^2");
     }
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -53,7 +53,7 @@ public class Ripple extends ContinuousFunction {
 	public Ripple getClone() {
 		return new Ripple();
 	}
-    
+
 	/**
 	 * {@inheritDoc}
 	 */

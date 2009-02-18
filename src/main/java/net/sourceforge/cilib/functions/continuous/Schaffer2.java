@@ -36,7 +36,7 @@ public class Schaffer2 extends ContinuousFunction {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
     }
-    
+
     /**
 	 * {@inheritDoc}
 	 */
@@ -44,7 +44,7 @@ public class Schaffer2 extends ContinuousFunction {
 	public Schaffer2 getClone() {
 		return new Schaffer2();
 	}
-    
+
     /**
 	 * {@inheritDoc}
 	 */

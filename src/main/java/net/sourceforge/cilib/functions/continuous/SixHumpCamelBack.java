@@ -26,22 +26,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * SixHumpCamelBack function.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
- * 
+ *
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
  * <li>Continuous</li>
  * <li>Non Separable</li>
  * </ul>
- * 
+ *
  * f(x) = -1.0316; x = (-0.0898, 0.1726); x = (0.0898, -0.1726)
  * x_1 e [-3, 3]; x_2 e [-2, 2]
- * 
+ *
  * @author Clive Naicker
  * @version 1.0
  */
@@ -68,7 +68,7 @@ public class SixHumpCamelBack extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(-1.0316);
     }
-    
+
     /**
      * {@inheritDoc}
      */

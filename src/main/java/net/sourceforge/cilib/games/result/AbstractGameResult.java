@@ -27,7 +27,7 @@ package net.sourceforge.cilib.games.result;
  */
 public abstract class AbstractGameResult {
 	/**
-	 * 
+	 *
 	 */
 	public AbstractGameResult() {
 		// TODO Auto-generated constructor stub

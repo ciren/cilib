@@ -28,10 +28,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * The continuous Step function. It is the same as the normal step function, however,
  * it is continuous and not discrete.
- * 
+ *
  * <p>
  * The default domain of the function is defined to be R(-100.0, 100.0)^30
- * 
+ *
  * @author Andries Engelbrecht
  */
 public class ContinuousStep extends ContinuousFunction {
@@ -49,7 +49,7 @@ public class ContinuousStep extends ContinuousFunction {
     public ContinuousStep getClone() {
     	return new ContinuousStep();
     }
-    
+
     /**
      * Get the defined minimum of the {@linkplain Function}. The minimum is defined to
      * be the value of 0.0.
@@ -58,7 +58,7 @@ public class ContinuousStep extends ContinuousFunction {
     public Object getMinimum() {
         return new Double(0);
     }
-    
+
     /**
      * Get the defined maximum of the {@linkplain Function}. The maximum value is defined to
      * be the value of 55.0.
@@ -67,8 +67,8 @@ public class ContinuousStep extends ContinuousFunction {
     public Object getMaximum() {
     	return new Double(55.0);
     }
-    
-    /** 
+
+    /**
      * {@inheritDoc}
      */
     public double evaluate(Vector x) {
@@ -78,5 +78,5 @@ public class ContinuousStep extends ContinuousFunction {
         }
         return sum;
     }
-    
+
 }

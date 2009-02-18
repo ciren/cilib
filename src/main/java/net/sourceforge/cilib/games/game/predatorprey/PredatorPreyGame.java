@@ -39,26 +39,26 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class PredatorPreyGame extends GridGame {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 332203013419474482L;
 	int maxIterations;
 
-	
+
 	public PredatorPreyGame(){
 		maxIterations = 20;
 		turnBasedGame = false;
 		gridHeight = 9;
 		gridWidth = 9;
 	}
-	
+
 	public PredatorPreyGame(PredatorPreyGame other){
-		super(other);	
+		super(other);
 		maxIterations = other.maxIterations;
 	}
-	
+
 	private boolean predatorCaughtPrey()
-	{		
+	{
 		try
 		{
 			//if predator and prey players are next to or on the same cell then game over
@@ -72,24 +72,24 @@ public class PredatorPreyGame extends GridGame {
 			throw new InitialisationException("Game not initialized, predator and prey items do not exist");
 		}
 	}
-	
+
 	public void movePlayer(int playerID, int x, int y){
 		try{
-			Vector moveVector = new Vector(2);	
-			moveVector.add(new Int(x));		
-			moveVector.add(new Int(y));	
+			Vector moveVector = new Vector(2);
+			moveVector.add(new Int(x));
+			moveVector.add(new Int(y));
 			for(int i = 0; i < currentState.getSize(); ++i){
 				if(((PlayerItem)currentState.getItem(i)).getPlayerID() == playerID){
 					//move the item by the specified coords
 					currentState.getItem(i).getLocation().moveItem(moveVector);
-				}					
+				}
 			}
 		}
 		catch(Exception e){
 			throw new InitialisationException("Game not initialized, predator and prey items not found");
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.games.game.Game#gameOver()
 	 */
@@ -97,7 +97,7 @@ public class PredatorPreyGame extends GridGame {
 	public boolean gameOver() {
 		if(currentIteration >= maxIterations)
 			return true;
-		
+
 		return predatorCaughtPrey();
 	}
 
@@ -120,10 +120,10 @@ public class PredatorPreyGame extends GridGame {
 		else
 			return new WinGameResult(1); //predator won
 	}
-	
+
 	private void setRandomPositions(){
 		try{
-			Random rand = new MersenneTwister();		
+			Random rand = new MersenneTwister();
 			((GridLocation)(currentState.getItem(0).getLocation())).getPosition().setInt(0, rand.nextInt(getWidth()));
 			((GridLocation)(currentState.getItem(0).getLocation())).getPosition().setInt(1, rand.nextInt(getHeight()));
 			((GridLocation)(currentState.getItem(1).getLocation())).getPosition().setInt(0, rand.nextInt(getWidth()));
@@ -133,7 +133,7 @@ public class PredatorPreyGame extends GridGame {
 			throw new InitialisationException("Game not initialized, predator and prey items do not exist");
 		}
 	}
-	
+
 	@Override
 	public void initializeGame() {
 		currentState.clearState();
@@ -141,7 +141,7 @@ public class PredatorPreyGame extends GridGame {
 		currentState.addGameItem(new PreyItem(2, gridWidth, gridHeight));
 		setRandomPositions();
 	}
-	
+
 	@Override
 	public void display() {
 		// TODO Auto-generated method stub
@@ -149,10 +149,10 @@ public class PredatorPreyGame extends GridGame {
 		for(int y = 0; y < gridHeight; ++y){
 			String line = "|";
 			for(int x = 0; x < gridWidth; ++x){
-				if(((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(0) == x 
+				if(((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(0) == x
 						&& ((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(1) == y)
 					line += "P|";
-				else if(((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(0) == x 
+				else if(((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(0) == x
 						&& ((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(1) == y){
 					line += "Y|";
 				}

@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This is the Halkidi-Vazirgiannis Validity Index.
- * 
+ *
  * The index is described in:
  * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title = "Clustering
  *                 Validity Assessment: Finding the Optimal Partitioning of a Data Set", booktitle =
@@ -79,7 +79,7 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 	}
 
 	/**
-	 * Calculate the distances between cluster separation. 
+	 * Calculate the distances between cluster separation.
 	 * @return The distance between cluster separation.
 	 */
 	protected double calculateBetweenClusterSeperation() {

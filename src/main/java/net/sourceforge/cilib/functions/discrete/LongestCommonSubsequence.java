@@ -34,13 +34,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Implementation of the Longest Common Subsequence problem.
- * 
+ *
  * @author gpampara
  */
 public class LongestCommonSubsequence extends DiscreteFunction {
 
 	private static final long serialVersionUID = -3586259608521073084L;
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -54,94 +54,94 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 		double l = length(x);
 		double m = matches(x);
 		double k = this.getDataSetSize();
-		
+
 		v = l + (30*m);
-		
+
 		if (l == getShortestString().length())
 			v += 50;
-		
+
 		if (m == k)
 			v *= 3000;
 		else
 			v *= -1000*(k-m);
-		
+
 		return v;
 	}
-	
-	
+
+
 	/**
 	 * Returns the lengh of the shortest string or the length of the first
 	 * string
-	 * 
+	 *
 	 * @return The shortest length
 	 */
 	private String getShortestString() {
 		PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) Algorithm.get();
 		OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
 		TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
-		
+
 		return dataSetBuilder.getShortestString();
 	}
-	
+
 	private int getDataSetSize() {
 		PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) Algorithm.get();
 		OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
 		TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
-		
+
 		return dataSetBuilder.size();
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param x
 	 * @return
 	 */
 	private int length(Vector x) {
 		int count = 0;
 		Iterator<Type> i = x.iterator();
-		
+
 		while (i.hasNext()) {
 			Numeric n = (Numeric) i.next();
 			if (n.getBit())
 				count++;
 		}
-		
+
 		return count;
 	}
-	
-	
+
+
 	private int matches(Vector x) {
 		PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) Algorithm.get();
 		OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
 		TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
-		
+
 		int count = 0;
-		
+
 		String targetSubSequence = this.getSubSequence(x, this.getShortestString());
-		
+
 		for (int i = 0; i < dataSetBuilder.size(); i++) {
 			String tmp = this.getSubSequence(x, dataSetBuilder.get(i));
-			
+
 			if (tmp.equals(targetSubSequence))
 				count++;
 		}
-				
+
 		return count;
 	}
-	
-	
+
+
 	private String getSubSequence(Vector x, String target) {
 		String result = "";
-		
+
 		for (int i = 0; i < x.getDimension(); i++) {
 			Numeric n = (Numeric) x.get(i);
 			if (n.getBit())
 				result += target.charAt(i);
 		}
-		
+
 		return result;
 	}
-	
+
 
 }

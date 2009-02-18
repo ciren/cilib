@@ -33,15 +33,15 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  */
 public class GridLocation extends ItemLocation {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4974578979607886491L;
 	Vector position;
 	/**
-	 * 
+	 *
 	 */
 	public GridLocation(int gridDimention, int gridWidth, int gridHeight) {
-		position = new Vector(gridDimention);			
+		position = new Vector(gridDimention);
 		position.add(new Int(0, gridWidth));
 		position.add(new Int(0, gridHeight));
 	}
@@ -54,18 +54,18 @@ public class GridLocation extends ItemLocation {
 		// TODO Auto-generated constructor stub
 		position = new Vector(other.position);
 	}
-	
+
 	public void Move(Vector coords){
 		moveItem(coords);
 	}
-	
+
 	public void setPosition(Vector newPos){
 		if(newPos.getDimension() != position.getDimension()){
 			throw new UnsupportedOperationException("Cannot set the postition to a vector with a different dimention");
 		}
 		position = newPos;
 	}
-	
+
 	public Vector getPosition(){
 		return position;
 	}
@@ -78,7 +78,7 @@ public class GridLocation extends ItemLocation {
 		// TODO Auto-generated method stub
 		return new GridLocation(this);
 	}
-	
+
 /*	@Override
 	public Type getLocationData(){
 		return position;
@@ -104,7 +104,7 @@ public class GridLocation extends ItemLocation {
 		for(int i = 0; i < amountVector.size(); ++i){
 			np.setInt(i, amountVector.getInt(i) + position.getInt(i));
 		}
-		
+
 		if(TypeUtil.isInsideBounds(np)){
 			position = np;
 		}

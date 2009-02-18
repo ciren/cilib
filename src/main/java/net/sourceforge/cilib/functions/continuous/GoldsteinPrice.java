@@ -26,24 +26,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The Goldstein-Price function.<br><br>
- * 
+ *
  * Minimum: f(x) = 3; x = (0, -1)<br><br>
- * 
+ *
  * -2 &lt;= x &lt;= 2<br><br>
- * 
+ *
  * @author Gary Pampara
  *
  */
 public class GoldsteinPrice extends ContinuousFunction {
+
 	private static final long serialVersionUID = 5635493177950325746L;
 
 	/**
 	 * Create a new instance of {@linkplain GoldsteinPrice}. Domain defaults to R(-2, 2)^2
 	 */
 	public GoldsteinPrice() {
-        setDomain("R(-2, 2)^2");
-    }
-	
+		setDomain("R(-2, 2)^2");
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -51,7 +52,7 @@ public class GoldsteinPrice extends ContinuousFunction {
 	public GoldsteinPrice getClone() {
 		return new GoldsteinPrice();
 	}
-	
+
 	/**
 	 * Get the minimum of the function. The value of the minimum of 3.0.
 	 */
@@ -64,9 +65,8 @@ public class GoldsteinPrice extends ContinuousFunction {
 	 */
 	@Override
 	public double evaluate(Vector x) {
-		double part1 = 1 + (x.getReal(0)+x.getReal(1)+1.0)*(x.getReal(0)+x.getReal(1)+1.0)*(19.0 - 14.0*x.getReal(0) + 3*x.getReal(0)*x.getReal(0) - 14*x.getReal(1) + 6*x.getReal(0)*x.getReal(1) + 3*x.getReal(1)*x.getReal(1));
-		double part2 = 30 + (2*x.getReal(0)-3*x.getReal(1))*(2*x.getReal(0)-3*x.getReal(1))*(18 - 32*x.getReal(0) + 12*x.getReal(0)*x.getReal(0) + 48*x.getReal(1) - 36*x.getReal(0)*x.getReal(1) + 27*x.getReal(1)*x.getReal(1));
+		double part1 = 1 + (x.getReal(0) + x.getReal(1) + 1.0) * (x.getReal(0) + x.getReal(1) + 1.0) * (19.0 - 14.0 * x.getReal(0) + 3 * x.getReal(0) * x.getReal(0) - 14 * x.getReal(1) + 6 * x.getReal(0) * x.getReal(1) + 3 * x.getReal(1) * x.getReal(1));
+		double part2 = 30 + (2 * x.getReal(0) - 3 * x.getReal(1)) * (2 * x.getReal(0) - 3 * x.getReal(1)) * (18 - 32 * x.getReal(0) + 12 * x.getReal(0) * x.getReal(0) + 48 * x.getReal(1) - 36 * x.getReal(0) * x.getReal(1) + 27 * x.getReal(1) * x.getReal(1));
 		return part1 * part2;
 	}
-
 }
