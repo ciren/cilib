@@ -176,19 +176,11 @@ public class MSEErrorFunction implements NNError, Initializable {
 		return new String(Double.valueOf(this.value).toString());
 	}
 
-
-	
-	public boolean isInsideBounds() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public Fitness newInstance(Double value) {
 		MSEErrorFunction function = new MSEErrorFunction();
 		function.setValue(value);
 		return function;
 	}
-	
-	
+
 }

@@ -153,10 +153,6 @@ public class ClassificationErrorReal implements NNError {
 	}
 
 
-	public boolean isInsideBounds() {
-		return false;
-	}
-
 	@Override
 	public Fitness newInstance(Double value) {
 		throw new UnsupportedOperationException("Not supported");
