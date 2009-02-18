@@ -72,6 +72,10 @@
 	<item name="XML Configuration" href="/usersguide/xml-configuration.html" />
 	<item name="Direct usage in code" href="/usersguide/direct-code-usage.html" />
       </item>
+      <item name="Developer's Guide" href="/developers/index.html" collapse="true">
+        <item name="Code Style and conventions"
+	href="/developers/code.html" />
+      </item>
     </menu>
 
     ${reports}
