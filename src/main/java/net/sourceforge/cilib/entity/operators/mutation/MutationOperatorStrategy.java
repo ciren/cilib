@@ -24,11 +24,11 @@ package net.sourceforge.cilib.entity.operators.mutation;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public interface MutationOperatorStrategy {
-	
+
 	/**
 	 * Perform the evaluation based on the given parameters.
 	 * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
@@ -36,7 +36,7 @@ public interface MutationOperatorStrategy {
 	 * @return The result of the evaluation with parameter t1 and t2.
 	 */
 	public double evaluate(Numeric t1, Numeric t2);
-	
+
 	/**
 	 * Perform the evaluation based on the given parameters.
 	 * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
@@ -44,7 +44,7 @@ public interface MutationOperatorStrategy {
 	 * @return The result of the evaluation with parameter t1 and t2.
 	 */
 	public double evaluate(Numeric t1, double value);
-	
+
 	/**
 	 * Perform the evaluation based on the given parameters.
 	 * @param value The first parameter: double.
@@ -52,7 +52,7 @@ public interface MutationOperatorStrategy {
 	 * @return The result of the evaluation with parameter value and t2.
 	 */
 	public double evaluate(double value, Numeric t1);
-	
+
 	/**
 	 * Perform the evaluation based on the given parameters.
 	 * @param t1 The first parameter: double.
@@ -60,5 +60,5 @@ public interface MutationOperatorStrategy {
 	 * @return The result of the evaluation with parameter t1 and t2.
 	 */
 	public double evaluate(double t1, double t2);
-	
+
 }

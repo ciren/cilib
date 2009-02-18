@@ -28,18 +28,18 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
 public class PercentageWonFitnessCalculationStrategy extends FitnessCalculationStrategy {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 2550931405402015975L;
 
 	public PercentageWonFitnessCalculationStrategy(){
-		
+
 	}
-	
+
 	public PercentageWonFitnessCalculationStrategy(PercentageWonFitnessCalculationStrategy other){
 		super(other);
 	}
-	
+
 	@Override
 	public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound) {
 		int amGames = score.getCompeteCount(currentRound);

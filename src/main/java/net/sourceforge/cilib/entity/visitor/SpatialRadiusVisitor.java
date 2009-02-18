@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Determine the spatial radius of the visited object.
  */
 public class SpatialRadiusVisitor extends RadiusVisitor {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -40,15 +40,15 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
 	public void visit(Topology<? extends Entity> topology) {
 //		 set radius value to be returned to zero
 		double maxDistance = 0.0;
-    	
+
 		// get number of entities in the population
 		int numberOfEntities = ((PopulationBasedAlgorithm) this.currentAlgorithm).getPopulationSize();
-		
+
 		// initialize iterator to be used to calculate spatial center
 		Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().iterator();
 		Entity entity = calculateCenterIterator.next();
         Vector spatialCenter = (Vector) entity.getCandidateSolution().getClone();
-        
+
         // calculate center - evaluate sum total of population entity contents
         while (calculateCenterIterator.hasNext()) {
         	entity = calculateCenterIterator.next();
@@ -56,25 +56,25 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
         	for (int j = 0; j < spatialCenter.getDimension(); ++j)
         	   spatialCenter.setReal(j, spatialCenter.getReal(j)+entityContents.getReal(j));
         }
-        
+
         // calculate center - evaluate average position of entity contents (spatial center)
         for (int j = 0; j < spatialCenter.getDimension(); ++j)
            spatialCenter.setReal(j, spatialCenter.getReal(j)/numberOfEntities);
-		
+
         // initialize iterator to be used to calculate radius
     	Iterator<?> calculateRadiusIterator = topology.iterator();
-    	
+
     	// calculate radius
     	while(calculateRadiusIterator.hasNext()) {
     		Entity populationEntity = (Entity) calculateRadiusIterator.next();
     		Vector entityContents = (Vector) populationEntity.getCandidateSolution();
-    			
+
     		double currentDistance = distanceMeasure.distance(spatialCenter, entityContents);
-    	
+
     		if (currentDistance > maxDistance)
     			maxDistance = currentDistance;
     	}
-    	
+
     	result = maxDistance;
 	}
 

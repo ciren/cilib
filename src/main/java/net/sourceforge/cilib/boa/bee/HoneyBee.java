@@ -31,38 +31,38 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andrich
  */
 public interface HoneyBee extends Entity {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public HoneyBee getClone();
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public Fitness getFitness();
-	
+
 	/**
 	 * Updates the position of the bee based on the neighboring nectar content.
 	 */
 	public void updatePosition();
-	
+
 	/**
 	 * Gets the bee's position (contents).
 	 * @return the position.
 	 */
 	public Vector getPosition();
-	
+
 	/**
 	 * Sets the bee's position (contents).
 	 * @param position The value to set.
 	 */
 	public void setPosition(Vector position);
-	
+
 	/**
 	 * Getter method for the position update strategy.
 	 * @return the position update strategy.
 	 */
 	public BeePositionUpdateStrategy getPositionUpdateStrategy();
-	
+
 }

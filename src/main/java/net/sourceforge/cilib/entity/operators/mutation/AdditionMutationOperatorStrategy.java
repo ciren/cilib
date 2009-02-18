@@ -45,7 +45,7 @@ public class AdditionMutationOperatorStrategy implements
 	public double evaluate(Numeric t1, double value) {
 		return t1.getReal() + value;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -34,12 +34,12 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
  * selection. The probability of selecting an {@linkplain Entity} is equal to
  * the ratio of its fitness to the sum total of the fitness of all the
  * {@linkplain Entity}s in the population.
- * 
+ *
  * <p>
  * This method of selection is not particularly useful if a single solution has
  * very high fitness as compared to the rest. This results in selecting the
  * fittest solution every time we make a selection.
- * 
+ *
  * @author Vikash Ranjan Parida
  */
 public class RouletteWheelSelectionStrategy extends SelectionStrategy {
@@ -84,7 +84,7 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 		// If the fitness' have not been calculated return a random entity. This should NEVER happen.
 		if (Double.compare(totalFitness, InferiorFitness.instance().getValue()) == 0)
 			throw new UnsupportedOperationException("Cannot perform selection operator on Topology of Entity. Each Entity is incorrectly defined to have an InferiorFitness. Initial Fitness' need to be determined before selection");
-		
+
 		// If the fitness of all the Entities is zero, we randomly select one. This prevents the case
 		// where it is possible to divide by zero resulting in an ArithmeticException.
 		if (Double.compare(totalFitness, 0.0) == 0)
@@ -117,7 +117,7 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 	/**
 	 * It calculates the sum total of the fitness of all the {@linkplain Entity}s
 	 * in the {@linkplain Topology}.
-	 * 
+	 *
 	 * @param topology The {@linkplain Topology} to use.
 	 * @return The sum total of the fitness values.
 	 */
@@ -154,7 +154,7 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 
 		for (Entity entity : topology)
 			maximum = Math.max(maximum, entity.getFitness().getValue().doubleValue());
-		
+
 		return maximum;
 	}
 
@@ -181,7 +181,7 @@ public class RouletteWheelSelectionStrategy extends SelectionStrategy {
 	}
 
 	/**
-	 * Get the current {@linkplain Random} number generator. 
+	 * Get the current {@linkplain Random} number generator.
 	 * @return The current {@linkplain Random}.
 	 */
 	public Random getRandom() {

@@ -33,7 +33,7 @@ public abstract class CoevolutionIterationStrategy implements IterationStrategy<
 	 * {@inheritDoc}
 	 */
 	public abstract CoevolutionIterationStrategy getClone();
-		
+
 	/**
 	 * {@inheritDoc}
 	 */

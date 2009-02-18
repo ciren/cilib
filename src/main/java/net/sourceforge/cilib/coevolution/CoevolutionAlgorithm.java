@@ -44,21 +44,21 @@ import net.sourceforge.cilib.type.DomainRegistry;
  */
 public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 	private static final long serialVersionUID = -3859431217295779546L;
-	protected CoevolutionIterationStrategy coevolutionIterationStrategy; 
+	protected CoevolutionIterationStrategy coevolutionIterationStrategy;
 	public CoevolutionAlgorithm() {
 		super();
 	}
-	
+
 	public CoevolutionAlgorithm(CoevolutionAlgorithm copy) {
 		super(copy);
 		this.coevolutionIterationStrategy = copy.coevolutionIterationStrategy;
 	}
-	
+
 	@Override
 	public CoevolutionAlgorithm getClone() {
 		return new CoevolutionAlgorithm(this);
 	}
-	
+
 	/**
 	 * @return the sum of all the populations
 	 */
@@ -67,14 +67,14 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 		for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
 			sum += currentAlgorithm.getPopulationSize();
 		}
-		
+
 		return sum;
 	}
-	
+
 	public void setAlgorithm(PopulationBasedAlgorithm algorithm) {
 		subPopulationsAlgorithms.add(algorithm);
 	}
-	
+
 	/**
 	 * @return optimization problem cast to type CoevolutionOptimizationProblem
 	 */
@@ -83,13 +83,13 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 	}
 	/**
 	 * initialises every population.
-	 * 
+	 *
 	 */
 	public void performInitialisation()	{
 		CoevolutionOptimisationProblem problem = getCoevolutionOptimisationProblem();
 		if(problem.getAmountSubPopulations() != subPopulationsAlgorithms.size())
 			throw new RuntimeException("The amount of sub populations specified do not match the amount required by the current problem");
-		
+
 		int populationID = 1;
 		for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
 			//coevolutionIterationStrategy.setEntityType(currentAlgorithm, populationID);
@@ -99,7 +99,7 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 			populationID++;
 		}
 	}
-		
+
 	public OptimisationSolution getBestSolution() {
 		OptimisationSolution bestSolution = subPopulationsAlgorithms.get(0).getBestSolution();
 		for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
@@ -108,7 +108,7 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 			}
 		return bestSolution;
 	}
-	
+
 	/**
 	 * Can be useful to compare how the different populations are performing.
 	 * @return a list of the best solution in each population.
@@ -120,12 +120,12 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 		}
 		return solutions;
 	}
-	
+
 	@Override
-	public void algorithmIteration() {	
+	public void algorithmIteration() {
 		coevolutionIterationStrategy.performIteration(this);
 	}
-	
+
 	public CoevolutionIterationStrategy getCoevolutionIterationStrategy() {
 		return coevolutionIterationStrategy;
 	}
@@ -134,7 +134,7 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 		this.coevolutionIterationStrategy = coevolutionIterationStrategy;
 	}
 
-		
+
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.Problem.OptimisationProblem#getFitnessEvaluations()
 	 */
@@ -159,26 +159,26 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 
 	public void setDataSetBuilder(DataSetBuilder dataSet) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void setPopulationSize(int i) {
 		throw new UnsupportedOperationException("setPopulationSize() is not supported");
 	}
-	
+
 	public double getRadius(){
 		throw new UnsupportedOperationException("getRadius() is not supported");
 	}
-	
-	public double getDiameter(){ 
+
+	public double getDiameter(){
 		throw new UnsupportedOperationException("getDiameter() is not supported");
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void setTopology(Topology t) {
 		throw new UnsupportedOperationException("setTopology() is not supported");
 	}
-	
+
 	public Topology<? extends Entity> getTopology() {
 		throw new UnsupportedOperationException("getTopology() is not supported");
 	}

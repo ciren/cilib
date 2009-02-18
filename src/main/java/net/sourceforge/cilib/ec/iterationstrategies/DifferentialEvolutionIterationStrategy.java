@@ -37,12 +37,12 @@ import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 
 /**
  * Evolutionary Strategy to implement the Differential Evolutionary Algorithm.
- * 
+ *
  * @author Gary Pampara
  */
 public class DifferentialEvolutionIterationStrategy extends AbstractIterationStrategy<EC> {
-	private static final long serialVersionUID = 8019668923312811974L;	
-	
+	private static final long serialVersionUID = 8019668923312811974L;
+
 	private SelectionStrategy targetVectorSelectionStrategy; // x
 	private CreationStrategy trialVectorCreationStrategy; // y
 	private CrossoverStrategy crossoverStrategy; // z
@@ -55,7 +55,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 		this.trialVectorCreationStrategy = new RandCreationStrategy();
 		this.crossoverStrategy = new DifferentialEvolutionBinomialCrossover();
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the given instance.
 	 * @param copy The instance to copy.
@@ -65,7 +65,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 		this.trialVectorCreationStrategy = copy.trialVectorCreationStrategy.getClone();
 		this.crossoverStrategy = copy.crossoverStrategy.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -83,10 +83,10 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 		@SuppressWarnings("unchecked")
 		Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
 		topology.update();
-		
+
 		for (Entity current : topology) {
 			current.calculateFitness();
-			
+
 			// Create the trial vector by applying mutation
 			topology.remove(current);
 			Entity targetEntity = targetVectorSelectionStrategy.select(topology);
@@ -97,16 +97,16 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 
 			// Create the offspring by applying cross-over
 			List<Entity> offspring = this.crossoverStrategy.crossover(Arrays.asList(current, trialEntity)); // Order is VERY important here!!
-			
+
 			// Replace the parent (current) if the offspring is better
 			Entity offspringEntity = offspring.get(0);
 			offspringEntity.calculateFitness(false);
-			
+
 			if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
 				current.setCandidateSolution(offspring.get(0).getCandidateSolution());
 			}
 		}
-	}	
+	}
 
 	/**
 	 * Obtain the {@linkplain SelectionStrategy} used to select the target vector.
@@ -118,7 +118,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 
 	/**
 	 * Set the {@linkplain SelectionStrategy} used to select the target vector within the DE.
-	 * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the 
+	 * @param targetVectorSelectionStrategy The {@linkplain SelectionStrategy} to use for the
 	 *        selection of the target vector.
 	 */
 	public void setTargetVectorSelectionStrategy(SelectionStrategy targetVectorSelectionStrategy) {
@@ -156,5 +156,5 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
 	public void setTrialVectorCreationStrategy(CreationStrategy trialVectorCreationStrategy) {
 		this.trialVectorCreationStrategy = trialVectorCreationStrategy;
 	}
-	
+
 }

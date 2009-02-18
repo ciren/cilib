@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p>Implementation of the blend cross-over strategy.</p>
- * 
+ *
  * <p>BibTeX entry:</p>
  * <pre>
  * &#64;ARTICLE{00843494,
@@ -72,12 +72,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * doi={ },
  * ISSN={ }, }
  * </pre>
- * 
+ *
  * @author Olusegun Olorunda
  */
 public class BlendCrossoverStrategy extends CrossoverStrategy {
 	private static final long serialVersionUID = -7955031193090240495L;
-	
+
 	private ControlParameter alpha;
 
 	public BlendCrossoverStrategy() {
@@ -138,7 +138,7 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
 			offspring.add(offspring1);
 			offspring.add(offspring2);
 		}
-		
+
 		return offspring;
 	}
 
@@ -163,7 +163,7 @@ public class BlendCrossoverStrategy extends CrossoverStrategy {
 
 		Topology<? extends Entity> topology = holder.getTopology();
 //		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-		
+
 		parentCollection.add(getSelectionStrategy().select(topology));
 		parentCollection.add(getSelectionStrategy().select(topology));
 

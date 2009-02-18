@@ -38,7 +38,7 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * This algorithm is an implementation of the KMeans Clustering algorithm.
  * <p>
  * This is the implementation as described in Section 2 of:
- * 
+ *
  * @inproceedings{ 2000.Ray.jul, title = "Determination of Number of Clusters in
  *                 K-Means Clustering and Application in Colour Image
  *                 Segmentation", author = "Siddheswar Ray and Rose H. Turi",
@@ -46,11 +46,11 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  *                 Fourth International Conference on Advances in Pattern
  *                 Recognition and Digital Techniques", pages = "137--143",
  *                 address = "Calcutta, India"}
- * 
+ *
  * This class makes use of a {@link CentroidsInitialisationStrategy} to initialise the
  * centroids in the desired manner. The default centroid initialisation strategy is the
  * {@link RandomCentroidsInitialisationStrategy}.
- * 
+ *
  * @author Theuns Cloete
  * @TODO: Check that removing the FitnessCalculator does not break the functionality of this class.
  */
@@ -130,7 +130,7 @@ public class KMeans extends SingularAlgorithm {
 	 * contents of the new provided position.
 	 * @param newPosition a {@link Vector} representing the new position of the centroid
 	 * @param cluster the cluster number that is used to determine the correct position in
-	 *        the {@link #centroids} {@link Vector} 
+	 *        the {@link #centroids} {@link Vector}
 	 */
 	private void updateCentroid(Vector newPosition, int cluster) {
 		int dimension = newPosition.getDimension();
@@ -144,7 +144,7 @@ public class KMeans extends SingularAlgorithm {
 	 * Reinitialise the centroid based on the chosen {@link CentroidsInitialisationStrategy}.
 	 * The {@link CentroidsInitialisationStrategy} returns an entire centroids {@link Vector},
 	 * but we only need a single centroid. The given parameter is only used to determine the
-	 * size of a single centroid. 
+	 * size of a single centroid.
 	 * @param centroid the centroid that should be reinitialised
 	 * @return a {@link Vector} representing a new (reinitialised) centroid
 	 */

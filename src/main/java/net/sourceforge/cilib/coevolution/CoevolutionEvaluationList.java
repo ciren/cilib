@@ -33,22 +33,22 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class CoevolutionEvaluationList implements Type, Resetable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -2894509571214982344L;
 	/**
-	 * 
+	 *
 	 */
 	List< List<EvaluationEntity>> evaluationEntities;
 	int amountEntitiesPerList;
 	/**
-	 * 
+	 *
 	 */
 	public CoevolutionEvaluationList() {
 		evaluationEntities = new ArrayList<List<EvaluationEntity>>();
 		amountEntitiesPerList = 0;
 	}
-	
+
 	public CoevolutionEvaluationList(CoevolutionEvaluationList other) {
 		evaluationEntities = new ArrayList<List<EvaluationEntity>>();
 		amountEntitiesPerList = 0;
@@ -59,20 +59,20 @@ public class CoevolutionEvaluationList implements Type, Resetable {
 			for(EvaluationEntity e: subList){
 				nlist.add(e.getClone());
 			}
-			evaluationEntities.add(nlist);			
+			evaluationEntities.add(nlist);
 		}
 		amountEntitiesPerList = 0;
 	}
-	
+
 	public void addEntityList(List<EvaluationEntity> list){
 		if(amountEntitiesPerList == 0) //set the default size to the size of the first list provided
 			amountEntitiesPerList = list.size();
 		else
 			if(list.size() != amountEntitiesPerList)
 				throw new RuntimeException("Entity list is not the right size, each subpopulation should have the same length");
-		evaluationEntities.add(list);	
+		evaluationEntities.add(list);
 	}
-	
+
 	/**
 	 * get one entry from each list at index
 	 * @param index the specified index
@@ -86,8 +86,8 @@ public class CoevolutionEvaluationList implements Type, Resetable {
 			list.add(subList.get(index));
 		}
 		return list;
-	}		
-	
+	}
+
 	public int getAmountEntitesPerList(){
 		return amountEntitiesPerList;
 	}

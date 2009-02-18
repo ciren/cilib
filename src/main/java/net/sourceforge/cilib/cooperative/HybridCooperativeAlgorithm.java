@@ -30,7 +30,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
- * 
+ *
  *
  */
 public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
@@ -41,7 +41,7 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 	 */
 	public HybridCooperativeAlgorithm() {
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -109,7 +109,7 @@ public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm im
 	 */
 	@Override
 	public void algorithmIteration() {
-		
+
 	}
 
 }

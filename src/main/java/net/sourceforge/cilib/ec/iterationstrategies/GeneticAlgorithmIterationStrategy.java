@@ -57,7 +57,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 	public GeneticAlgorithmIterationStrategy() {
 		this.crossoverStrategy = new UniformCrossoverStrategy();
 		this.mutationStrategy = new GaussianMutationStrategy();
-		
+
 		initialiseOperatorPipeline();
 	}
 
@@ -70,7 +70,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 		this.mutationStrategy = copy.mutationStrategy.getClone();
 		this.operatorPipeline = copy.operatorPipeline.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -90,37 +90,37 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 		Topology<Entity> offspring = new GBestTopology<Entity>();
 		Topology<Entity> population = (Topology<Entity>) ec.getTopology();
 		population.update();
-		
+
 		ECTopologyHolder holder = new ECTopologyHolder(population);
 //		holder.setCurrent(population);
 //		holder.setOffspring(offspring);
-		
+
 //		operatorPipeline.performOperation(population, offspring);
 		operatorPipeline.performOperation(holder);
-		
+
 		// Perform crossover
 		//List<Entity> crossedOver = this.crossoverStrategy.crossover(ec.getTopology());
-				
+
 		// Perform mutation on offspring
 		//this.mutationStrategy.mutate(crossedOver);
-		
+
 		// Evaluate the fitness values of the generated offspring
 		for (Entity entity : holder.getModifiable()) {
 			entity.calculateFitness();
 		}
-		
+
 		// Perform new population selection
 		Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
 //		for (Entity entity : offspring) {
 		for (Entity entity : holder.getModifiable()) {
 			topology.add(entity);
 		}
-		
+
 		//this.boundaryConstraint.enforce(entity);
-		
+
 		Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
 		ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize());
-		
+
 		while (i.hasNext()) {
 			i.next();
 			i.remove();
@@ -163,22 +163,22 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 		this.mutationStrategy = mutationStrategy;
 		initialiseOperatorPipeline();
 	}
-	
+
 	/**
 	 * Setup the operator pipeline based on the currently specified {@linkplain CrossoverStrategy}
 	 * and {@linkplain MutationStrategy}.
-	 * 
+	 *
 	 * The operator is firstly cleared of all elements and then recreated using the current
 	 * {@linkplain Operator} objects.
 	 */
 	private void initialiseOperatorPipeline() {
 		this.operatorPipeline.clear();
-		
+
 		TopologyLoopingOperator loopingOperator = new TopologyLoopingOperator();
 		loopingOperator.setOperator(this.crossoverStrategy);
-		
+
 		this.operatorPipeline.add(loopingOperator);
 		this.operatorPipeline.add(this.mutationStrategy);
 	}
-	
+
 }

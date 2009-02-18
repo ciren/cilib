@@ -27,16 +27,16 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Interface for a bee position update strategy.
- * 
+ *
  * @author Andrich
  */
 public interface BeePositionUpdateStrategy extends Cloneable {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public BeePositionUpdateStrategy getClone();
-		
+
 	public boolean updatePosition(HoneyBee bee, HoneyBee other);
 
 }

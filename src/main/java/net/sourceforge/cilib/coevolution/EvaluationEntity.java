@@ -35,22 +35,22 @@ public class EvaluationEntity implements Cloneable {
 	int populationID;
 
 	/**
-	 * 
+	 *
 	 */
-	public EvaluationEntity(Type entityData, int populationID) {		
+	public EvaluationEntity(Type entityData, int populationID) {
 		this.populationID = populationID;
 		this.entityData = entityData; //no clone, reference to the data
 	}
-	
+
 	public EvaluationEntity(EvaluationEntity other) {
 		populationID = other.populationID;
 		entityData = other.entityData;
 	}
-	
+
 	public Type getEntityData(){
 		return entityData;
 	}
-	
+
 	public int getPopulationID(){
 		return populationID;
 	}

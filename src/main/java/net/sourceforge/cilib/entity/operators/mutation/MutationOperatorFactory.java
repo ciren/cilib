@@ -26,17 +26,17 @@ import java.util.List;
 
 /**
  * Factory to return the correct object based on the given symbol / token.
- * 
+ *
  * @author Gary Pampara
  */
 public final class MutationOperatorFactory {
-	
+
 	private enum Operators {
 		ADDITION("+", "plus", "add", "additive"),
 		MULTIPLICATION("*", "times", "multiplicative");
-		
+
 		private List<String> operationSynnomymns;
-		
+
 		private Operators(String... strings) {
 			this.operationSynnomymns = new ArrayList<String>();
 			for (String s : strings)
@@ -47,18 +47,18 @@ public final class MutationOperatorFactory {
 			for (String string : operationSynnomymns)
 				if (string.compareToIgnoreCase(operatorSymbol) == 0)
 					return true;
-			
+
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Remove access to the default constructor.
 	 */
 	private MutationOperatorFactory() {
 	}
-	
-	
+
+
 	/**
 	 * Factory method to create the correct operator implementation object.
 	 * @param operatorSymbol A symbol or word describing the symbol
@@ -70,7 +70,7 @@ public final class MutationOperatorFactory {
 
 		if (Operators.MULTIPLICATION.contains(operatorSymbol))
 			return new MultiplicationOperatorStrategy();
-		
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("Cannot determine the type of operator strategy! ");
 		builder.append("Passed in token was: '" + operatorSymbol + "'.\n");

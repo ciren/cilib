@@ -32,7 +32,7 @@ import net.sourceforge.cilib.boa.ABC;
  */
 public class OnlookerBee extends AbstractBee implements HoneyBee {
 	private static final long serialVersionUID = -4714791530850285930L;
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -42,7 +42,7 @@ public class OnlookerBee extends AbstractBee implements HoneyBee {
 	public OnlookerBee(AbstractBee bee) {
 		super(bee);
 	}
-	
+
 	/**
 	 * Copy constructor. Creates a copy of the provided instance.
 	 * @param copy reference that is deep copied.
@@ -66,11 +66,11 @@ public class OnlookerBee extends AbstractBee implements HoneyBee {
 	public void updatePosition() {
 		ABC algorithm = (ABC) Algorithm.get();
 		HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
-		
+
 		while (target == this) {
 			target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
 		}
-		
+
 		this.positionUpdateStrategy.updatePosition(this, target);
 	}
 

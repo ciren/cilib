@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * This strategy initializes the parts of the returned centroids {@link Vector} from
  * randomly chosen patterns in the dataset.
- * 
+ *
  * @author Theuns Cloete
  */
 public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
@@ -58,7 +58,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
 	/**
 	 * Initialize the centroid vectors for a clustering from randomly chosen patterns in the
 	 * given dataset.
-	 * 
+	 *
 	 * @param problem the {@link ClusteringProblem} currently being optimized
 	 * @param dataset the {@link ClusterableDataSet} currently being clustered
 	 * @return a {@link Vector} that represents all the centroids

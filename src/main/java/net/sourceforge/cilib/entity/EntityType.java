@@ -27,23 +27,23 @@ package net.sourceforge.cilib.entity;
 public enum EntityType {
 	CANDIDATE_SOLUTION,
 	FITNESS;
-	
+
 	/**
-	 * {@linkplain Particle} specific constants. 
+	 * {@linkplain Particle} specific constants.
 	 */
 	public enum Particle {
 		BEST_POSITION,
-		BEST_FITNESS, 
+		BEST_FITNESS,
 		VELOCITY;
 	}
-	
+
 	/**
 	 * {@linkplain Individual} specific constants.
 	 */
 	public enum Individual {
 		PHENOTYPES
 	}
-	
+
 	/**
 	 * Coevolution constants... This is probably going to be refactored to another location.
 	 * TODO: Check this

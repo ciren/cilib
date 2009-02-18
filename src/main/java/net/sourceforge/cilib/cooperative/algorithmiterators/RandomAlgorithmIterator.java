@@ -33,12 +33,12 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * to move forwards and backwards in an iteration even though the order is random. To achieve this
  * an list of random indices are generated and the indices are used as the iteration order. The
  * iteration order will be different for every {@link RandomAlgorithmIterator} object.
- * 
+ *
  * @param <E> The {@linkplain Algorithm} type.
  */
 public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgorithmIterator<E> {
 	private static final long serialVersionUID = 9087345802965469395L;
-	
+
 	private List<Integer> randomNumbers = null;
 
 	/**
@@ -104,7 +104,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
 
 		if (list.size() != algorithms.size())
 			throw new IllegalStateException("The number of algorithms does not correspond with the number of random indices");
-		
+
 		return list;
 	}
 

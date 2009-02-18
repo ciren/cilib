@@ -31,19 +31,19 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class FitnessCalculationStrategy implements Cloneable {
 	private static final long serialVersionUID = -3708525082727758222L;
-	
+
 	int amountHistoricGames;
 	/**
-	 * 
+	 *
 	 */
 	public FitnessCalculationStrategy() {
 		amountHistoricGames = 0;
 	}
-	
+
 	public FitnessCalculationStrategy(FitnessCalculationStrategy other){
 		amountHistoricGames = other.amountHistoricGames;
 	}
-	
+
 	/**
 	 * Calculate the fitness from the scoreboard
 	 * @param score the scoreboard

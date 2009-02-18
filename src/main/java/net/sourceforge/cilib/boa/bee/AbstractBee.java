@@ -115,14 +115,14 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
 	public int getDimension() {
 		return this.dimension;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public Vector getPosition() {
 		return (Vector) this.getCandidateSolution();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

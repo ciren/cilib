@@ -64,7 +64,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     	super(copy);
     	this.neighbourhoodSize = copy.neighbourhoodSize;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -113,7 +113,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
 	}
 
     private class LBestNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
-        
+
         public LBestNeighbourhoodIterator(LBestTopology<T> topology, ArrayIterator<T> iterator) {
             if (iterator.getIndex() == -1) {
                 throw new IllegalStateException();
@@ -125,15 +125,15 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
             }
             count = 0;
         }
-        
+
         public int getIndex() {
             return index;
         }
-        
+
         public boolean hasNext() {
             return (count != topology.getNeighbourhoodSize());
         }
-        
+
         public T next() {
             if (count == topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
@@ -141,11 +141,11 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
             ++index;
             ++count;
             if (index == topology.size()) {
-               index = 0; 
+               index = 0;
             }
             return topology.entities.get(index);
         }
-        
+
         public void remove() {
             topology.entities.remove(index);
             --index;
@@ -153,7 +153,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
             	index += topology.size();
             }
         }
-        
+
         private LBestTopology<T> topology;
         private int index;
         private int count;

@@ -29,10 +29,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Visitor to determine the size of the diameter of the provided {@linkplain Topology}
- * within the <code>visit</code> method. 
+ * within the <code>visit</code> method.
  */
 public class DiameterVisitor extends TopologyVisitor {
-	
+
 	public DiameterVisitor() {
 		super();
 	}
@@ -40,12 +40,12 @@ public class DiameterVisitor extends TopologyVisitor {
 	@Override
 	public void visit(Topology<? extends Entity> topology) {
 		double maxDistance = 0.0;
-		
+
     	Iterator<? extends Entity> k1 = topology.iterator();
         while (k1.hasNext()) {
             Entity p1 = (Entity) k1.next();
         	Vector position1 = (Vector) p1.getCandidateSolution();
-           	
+
         	Iterator<? extends Entity> k2 = topology.iterator();
         	while (k2.hasNext()) {
         		Entity p2 = (Entity) k2.next();
@@ -56,7 +56,7 @@ public class DiameterVisitor extends TopologyVisitor {
         			maxDistance = actualDistance;
         	}
         }
-        
+
         result = maxDistance;
 	}
 

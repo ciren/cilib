@@ -57,7 +57,7 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	 */
 	public CandidateSolutionMixin(CandidateSolutionMixin copy) {
 		this.properties = new Blackboard<Enum<?>, Type>();
-		
+
 		for (Map.Entry<Enum<?>, Type> entry : copy.properties.entrySet()) {
     		this.properties.put(entry.getKey(), entry.getValue().getClone());
         }
@@ -79,10 +79,10 @@ public class CandidateSolutionMixin implements CandidateSolution {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
-		
+
 		CandidateSolutionMixin other = (CandidateSolutionMixin) obj;
 		return this.properties.equals(other.properties);
 	}

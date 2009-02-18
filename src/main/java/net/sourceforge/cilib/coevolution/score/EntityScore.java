@@ -29,7 +29,7 @@ import net.sourceforge.cilib.problem.Fitness;
  * This class is used to store history of compotitions
  * the entity stored in this class against one other
  * specific entity.
- * 
+ *
  * @author cornelius gouws
  * @see EntityScoreboard
  */
@@ -39,7 +39,7 @@ public class EntityScore {
 	 */
 	private int round;
 	private int competitorGroup;
-	
+
 	/**
 	 * The rounds that the entity the score is kept for has been won
 	 */
@@ -52,16 +52,16 @@ public class EntityScore {
 	 * The rounds that the entity the score is kept for has been drawed against
 	 */
 	private ArrayList<Fitness> roundsDrawn;
-	
+
 	/**
 	 * Create a CoevolutionEntityScore for the given entity.
 	 * @param entity The entity that should be kept score of.
 	 */
 	public EntityScore(int round, int competitorGroup) {
-		
+
 		this.round = round;
 		this.competitorGroup = competitorGroup;
-		
+
 		this.roundsWon = new ArrayList<Fitness>();
 		this.roundsLost = new ArrayList<Fitness>();
 		this.roundsDrawn = new ArrayList<Fitness>();
@@ -71,10 +71,10 @@ public class EntityScore {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
+
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
-		
+
 		EntityScore other = (EntityScore) obj;
 		return (this.roundsDrawn.equals(other.roundsDrawn)) &&
 			(this.roundsLost.equals(other.roundsLost)) &&
@@ -93,34 +93,34 @@ public class EntityScore {
 		hash = 31 * hash + (this.roundsWon == null ? 0 : this.roundsWon.hashCode());
 		return hash;
 	}
-	
+
 	/**
 	 * Indicate that the entity that is contained in this
-	 * CoevolutionEntityScore has been won. 
+	 * CoevolutionEntityScore has been won.
 	 * @param round The round that the entity has been won.
 	 */
 	public void win(Fitness score) {
 		this.roundsWon.add(score);
 	}
-	
+
 	/**
 	 * Indicate that the entity that is contained in this
-	 * CoevolutionEntityScore won. 
+	 * CoevolutionEntityScore won.
 	 * @param round The round that the entity won.
 	 */
 	public void lose(Fitness score) {
 		this.roundsLost.add(score);
 	}
-	
+
 	/**
 	 * Indicate that the entity that is contained in this
-	 * CoevolutionEntityScore has drawed. 
+	 * CoevolutionEntityScore has drawed.
 	 * @param round The round that the entity drawed.
 	 */
 	public void draw(Fitness score) {
 		this.roundsDrawn.add(score);
 	}
-	
+
 	/**
 	 * Get the number of times this entity has been won.
 	 * @return The number of times this entiy has been won.
@@ -128,7 +128,7 @@ public class EntityScore {
 	public int getWinCount() {
 		return this.roundsWon.size();
 	}
-	
+
 	/**
 	 * Get the number of times this entity won.
 	 * @return The number of times this entity won.
@@ -136,7 +136,7 @@ public class EntityScore {
 	public int getLoseCount() {
 		return this.roundsLost.size();
 	}
-	
+
 	/**
 	 * Get the number of times this entity drawed.
 	 * @return The number of times this entity has drawed.
@@ -144,11 +144,11 @@ public class EntityScore {
 	public int getDrawCount() {
 		return this.roundsDrawn.size();
 	}
-	
+
 	public int getPlayCount(){
 		return getWinCount() + getLoseCount() + getDrawCount();
 	}
-	
+
 	public void mergeScoreBoard(EntityScore other){
 		if(!(round == other.round && competitorGroup == other.competitorGroup))
 			throw new RuntimeException("Unable to merge score boards, competitors do not match");
@@ -159,7 +159,7 @@ public class EntityScore {
 
 	/**
 	 * Get a list of all the rounds the entity has drawed.
-	 * @return The rounds the entity drawed. 
+	 * @return The rounds the entity drawed.
 	 */
 	public ArrayList<Fitness> getRoundsDrawn() {
 		return roundsDrawn;

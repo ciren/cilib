@@ -32,7 +32,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  */
 public class SequentialAlgorithmIterator<E extends Algorithm> implements AlgorithmIterator<E> {
 	private static final long serialVersionUID = 2996277367501679292L;
-	
+
 	protected List<E> algorithms = null;
 	protected int index = -1;
 
@@ -151,7 +151,7 @@ public class SequentialAlgorithmIterator<E extends Algorithm> implements Algorit
 
 	/**
 	 * Replaces the last element returned by next or previous with the specified element.
-	 * @param algorithm The element with which to replace the last element returned by next or previous. 
+	 * @param algorithm The element with which to replace the last element returned by next or previous.
 	 */
 	public void set(E algorithm) {
 		if (index < 0 || index >= algorithms.size())

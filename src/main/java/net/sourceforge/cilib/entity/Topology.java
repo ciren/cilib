@@ -30,45 +30,45 @@ import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * This an abstract class which extends from the abstract Topology class.
- * All {@linkplain net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm} 
+ * All {@linkplain net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm}
  * Topologies must inherit from this class.
- * 
+ *
  * @author Gary Pampara
  * @author otter
  * @param <E> The {@code Entity} type.
  */
 public abstract class Topology<E extends Entity> implements EntityCollection<E> {
 	private static final long serialVersionUID = -9117512234439769226L;
-	
+
 	private E bestEntity;
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public abstract Topology<E> getClone();
-    
+
     /**
      * Returns an <code>Iterator</code> over all particles in the neighbourhood of
      * the particle referred to by the given <code>Iterator</code>.
-     * 
+     *
      * @param An iterator that refers to a particle in this topology.
      * @return A particle iterator.
      */
     public abstract Iterator<E> neighbourhood(Iterator<? extends Entity> iterator);
-    
-    
+
+
     /**
-     * Accept a vistitor and perform the visitor actions on this 
+     * Accept a vistitor and perform the visitor actions on this
      * <tt>Topology</tt>.
-     * 
+     *
      * @param visitor The {@see net.sourceforge.cilib.container.visitor.Visitor} to accept
      */
     public void accept(Visitor<E> visitor) {
         for (E element : this) {
             visitor.visit(element);
         }
-    }    
-    
+    }
+
     /**
      * Accept a {@code TopologyVisitor} into the {@code Topology} to perform the actions
      * defined within the {@code TopologyVisitor}.
@@ -77,30 +77,30 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
     public void accept(TopologyVisitor visitor) {
     	visitor.visit(this);
     }
-    
+
     /**
-     * Get all the entities within the topology. 
+     * Get all the entities within the topology.
      * @return Collection. Data collection of all the entities
      */
     public abstract List<E> asList();
-    
-    
+
+
     /**
      * Mainly for use in Co-Evolution, CCGA, Island GA and so on... where there is multiple populations.
-     * Returns the topology identifier. 
-     * 
+     * Returns the topology identifier.
+     *
      * @return A <tt>String</tt> representing the identifier.
      */
     public abstract String getId();
-    
-    
+
+
     /**
      * Set the identifier for this <tt>Topology</tt>.
-     * 
+     *
      * @param id The identifier to set
      */
     public abstract void setId(String id);
-    
+
     /**
      * Get the current best {@linkplain Entity} of the {@linkplain Topology}.
      * @return The current best {@linkplain Entity}.
@@ -118,7 +118,7 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
 				}
 			}
 		}
-		
+
 		return bestEntity;
     }
 
@@ -129,7 +129,7 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
 	public void clearBestEntity() {
 		this.bestEntity = null;
 	}
-	
+
 	/**
 	 * Perform any required updates to the {@linkplain Topology} instance.
 	 * The method in has an empty implementation and needs to be overridden

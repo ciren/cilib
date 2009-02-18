@@ -46,7 +46,7 @@ import net.sourceforge.cilib.entity.Topology;
  */
 public class GBestTopology<E extends Entity> extends Topology<E> {
 	private static final long serialVersionUID = 3190027340582769112L;
-	
+
 	protected ArrayList<E> entities;
 
     /**
@@ -55,7 +55,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     public GBestTopology() {
         entities = new ArrayList<E>();
     }
-    
+
     @SuppressWarnings("unchecked")
 	public GBestTopology(GBestTopology<E> copy) {
     	this.entities = new ArrayList<E>(copy.entities.size());
@@ -64,11 +64,11 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     		this.entities.add((E) entity.getClone());
     	}
     }
-    
+
     public GBestTopology<E> getClone() {
     	return new GBestTopology<E>(this);
     }
-    
+
     public Iterator<E> iterator() {
         return new GBestTopologyIterator<E>(this);
     }
@@ -76,11 +76,11 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         return new GBestTopologyIterator<E>(this);
     }
-    
+
     public boolean add(E particle) {
         return entities.add(particle);
     }
-    
+
     public boolean addAll(Collection<? extends E> set) {
     	this.entities.ensureCapacity(entities.size()+set.size());
     	return this.entities.addAll(set);
@@ -140,11 +140,11 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
         private GBestTopology<T> topology;
     }
 
-    
 
-    
-    
-    
+
+
+
+
     public boolean remove(E indiv) {
 		return entities.remove(indiv);
 	}
@@ -170,15 +170,15 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
 
 	public void clear() {
-		this.entities.clear();		
+		this.entities.clear();
 	}
 
 	@Override
 	public boolean contains(Object entity) {
 		return this.entities.contains(entity);
 	}
-	
-	
+
+
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
@@ -253,8 +253,8 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 		throw new UnsupportedOperationException("Method not supported in GBestTopology");
 	}
 
-	
-	
+
+
 	@Override
 	public String getId() {
 		return null;
@@ -262,7 +262,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
 	@Override
 	public void setId(String id) {
-			
+
 	}
 
 }

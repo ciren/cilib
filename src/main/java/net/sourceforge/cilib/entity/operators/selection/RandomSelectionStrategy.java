@@ -29,15 +29,15 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
- * 
+ *
  * @author gpampara
  *
  */
 public class RandomSelectionStrategy extends SelectionStrategy {
 	private static final long serialVersionUID = -216894674927488180L;
-	
+
 	private Random random;
-	
+
 	public RandomSelectionStrategy() {
 		this.random = new MersenneTwister();
 	}
@@ -58,7 +58,7 @@ public class RandomSelectionStrategy extends SelectionStrategy {
 	public void performOperation(TopologyHolder holder) {
 		Topology<? extends Entity> topology = holder.getTopology();
 //		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-		
+
 		holder.add(select(topology));
 //		offspring.add(select(topology));
 	}

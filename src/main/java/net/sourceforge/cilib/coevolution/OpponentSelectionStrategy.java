@@ -26,18 +26,18 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution 
+ * Selects parent class of the concrete opponents selection strategies used in competitive coevolution
  * @author Julien Duhain
  *
  */
 public abstract class OpponentSelectionStrategy {
 
 	public OpponentSelectionStrategy(){}
-	
+
 	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
-		
+
 	}
-	
+
 	public abstract OpponentSelectionStrategy getClone();
 
 	/**

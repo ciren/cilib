@@ -24,7 +24,7 @@ package net.sourceforge.cilib.entity.operators.mutation;
 import net.sourceforge.cilib.type.types.Numeric;
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
@@ -43,7 +43,7 @@ public class MultiplicationOperatorStrategy implements MutationOperatorStrategy 
 	public double evaluate(Numeric t1, double value) {
 		return t1.getReal() * value;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -31,12 +31,12 @@ import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
  * @author Edwin Peer
  */
 public class ClosestParticleVisitor extends TopologyVisitor {
-	
+
 	private Entity closestEntity;
 	private Entity target;
 	private double distance;
 	private DistanceMeasure distanceMeasure;
-	
+
 	public ClosestParticleVisitor() {
 		distance = Double.MAX_VALUE;
 		distanceMeasure = new ManhattanDistanceMeasure();
@@ -47,21 +47,21 @@ public class ClosestParticleVisitor extends TopologyVisitor {
 		for (Entity current : topology) {
 			if (closestEntity == null) closestEntity = current;
 			if (closestEntity.equals(current)) continue;
-			
+
 			double currentDistance = distanceMeasure.distance((Vector) target.getCandidateSolution(), (Vector) current.getCandidateSolution());
-			
+
 			if (currentDistance < distance) {
 				this.closestEntity = current;
 				this.distance = currentDistance;
 			}
-			
+
 		}
 	}
-	
+
 	public void setTarget(Entity entity) {
 		this.target = entity;
 	}
-	
+
 	public Entity getClosestEntity() {
 		return this.closestEntity;
 	}

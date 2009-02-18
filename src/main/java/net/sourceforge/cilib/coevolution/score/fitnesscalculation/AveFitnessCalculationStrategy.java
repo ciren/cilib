@@ -34,7 +34,7 @@ public class AveFitnessCalculationStrategy extends FitnessCalculationStrategy {
 
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7573830125196829386L;
 
@@ -44,7 +44,7 @@ public class AveFitnessCalculationStrategy extends FitnessCalculationStrategy {
 
 	public AveFitnessCalculationStrategy(FitnessCalculationStrategy other) {
 		super(other);
-		
+
 	}
 
 	/**

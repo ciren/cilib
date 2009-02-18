@@ -33,12 +33,12 @@ import net.sourceforge.cilib.problem.Fitness;
 public class TotalFitnessCalculationStrategy extends FitnessCalculationStrategy {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7283990410867858837L;
 
 	/**
-	 * 
+	 *
 	 */
 	public TotalFitnessCalculationStrategy() {
 	}

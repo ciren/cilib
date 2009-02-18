@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * This strategy initializes the centroids of a clustering to random positions in the search
  * space.
- * 
+ *
  * @author Theuns Cloete
  */
 public class RandomCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
@@ -45,7 +45,7 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
 	 * Initialize the centroid vectors for a clustering to random positions in the search
 	 * space. The built-representation of the domain of the given problem is used to build a
 	 * {@link Vector} that will house the centroids.
-	 * 
+	 *
 	 * @param problem the {@link ClusteringProblem} currently being optimized
 	 * @param dataset the {@link ClusterableDataSet} currently being clustered
 	 * @return a {@link Vector} that represents all the centroids

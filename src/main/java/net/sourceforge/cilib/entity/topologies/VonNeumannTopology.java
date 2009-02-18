@@ -33,7 +33,7 @@ import net.sourceforge.cilib.entity.Topology;
 
 /**
  * <p>
- * Implementation of the Von Neumann neighbourhood topology. The Von Neumann topology is 
+ * Implementation of the Von Neumann neighbourhood topology. The Von Neumann topology is
  * a two dimensional grid of particles with wrap around.
  * </p><p>
  * Refereces:
@@ -45,7 +45,7 @@ import net.sourceforge.cilib.entity.Topology;
  *
  * @author Edwin Peer
  * @author Gary Pampara
- * 
+ *
  * @param <E> A {@linkplain Entity} instance.
  */
 public class VonNeumannTopology<E extends Entity> extends Topology<E> {
@@ -55,7 +55,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 	private ArrayList<ArrayList<E>> entities;
     private int lastRow;
     private int lastCol;
-    
+
     /**
      * Creates a new instance of <code>VonNeumannTopology</code>.
      */
@@ -64,7 +64,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         lastRow = 0;
         lastCol = -1;
     }
-    
+
     /**
      * Copy constructor. Create a copy of the provided instance.
      * @param copy The instance to copy.
@@ -74,25 +74,25 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
     	this.entities = new ArrayList<ArrayList<E>>(copy.entities.size());
     	for (ArrayList<E> list : copy.entities) {
     		ArrayList<E> tmpList = new ArrayList<E>(list.size());
-    		
+
     		for (E e : list) {
     			tmpList.add((E) e.getClone());
     		}
-    		
+
     		this.entities.add(tmpList);
     	}
-    	
+
     	this.lastRow = copy.lastRow;
     	this.lastCol = copy.lastCol;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public VonNeumannTopology<E> getClone() {
     	return new VonNeumannTopology<E>(this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -101,21 +101,21 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         MatrixIterator<E> i = (MatrixIterator<E>) iterator;
         return new VonNeumannNeighbourhoodIterator<E>(this, i);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Iterator<E> iterator() {
         return new VonNeumannTopologyIterator<E>(this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean add(E particle) {
     	int min = entities.size();
         ArrayList<E> shortest = null;
-        for (ArrayList<E> tmp : entities) {	
+        for (ArrayList<E> tmp : entities) {
             if (tmp.size() < min) {
                 shortest = tmp;
                 min = tmp.size();
@@ -126,40 +126,40 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             entities.add(shortest);
         }
         shortest.add(particle);
-        
+
        	lastRow = entities.size() - 1;
         lastCol = entities.get(lastRow).size() - 1;
-        
-        return true;        
+
+        return true;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean addAll(Collection<? extends E> set) {
     	this.entities.ensureCapacity(this.entities.size()+set.size());
     	Iterator<? extends E> i = set.iterator();
-    	
+
     	while (i.hasNext()) {
     		this.add(i.next());
     	}
-    	
+
     	return true;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public int size() {
     	// TODO: couldn't we just return entities.size()?
     	int size = 0;
-    	
+
     	for (ArrayList<E> i : entities)
     		size += i.size();
-    	
+
     	return size;
     }
-    
+
     private void remove(int x, int y) {
     	ArrayList<E> row = entities.get(x);
         row.remove(y);
@@ -167,35 +167,35 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         	entities.remove(x);
         }
        	lastRow = entities.size() - 1;
-        lastCol = entities.get(lastRow).size() - 1;        
+        lastCol = entities.get(lastRow).size() - 1;
     }
-    
-    
-    
+
+
+
     private interface MatrixIterator<T extends Entity> extends Iterator<T> {
         public int getRow();
         public int getCol();
     }
-    
+
     private class VonNeumannTopologyIterator<T extends Entity> implements MatrixIterator<T> {
-    	
+
         private int row;
         private int col;
         private VonNeumannTopology<T> topology;
-        
+
         public VonNeumannTopologyIterator(VonNeumannTopology<T> topology) {
             this.topology = topology;
             row = 0;
             col = -1;
         }
-        
+
         /**
          * {@inheritDoc}
          */
         public boolean hasNext() {
         	return row != topology.lastRow || col != topology.lastCol;
         }
-        
+
         /**
          * {@inheritDoc}
          */
@@ -203,16 +203,16 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             if (row == topology.lastRow && col == topology.lastCol) {
                 throw new NoSuchElementException();
             }
-            
+
             ++col;
             if (col >= entities.get(row).size()) {
                 ++row;
                 col = 0;
             }
-            
+
             return topology.entities.get(row).get(col);
         }
-        
+
         /**
          * {@inheritDoc}
          */
@@ -220,7 +220,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             if (col == -1) {
                 throw new IllegalStateException();
             }
-            
+
             topology.remove(row, col);
 
             --col;
@@ -229,14 +229,14 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             	col = topology.entities.get(row).size() - 1;
             }
         }
-        
+
         /**
          * {@inheritDoc}
          */
         public int getRow() {
             return row;
         }
-        
+
         /**
          * {@inheritDoc}
          */
@@ -244,45 +244,45 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             return col;
         }
     }
-    
+
     private class VonNeumannNeighbourhoodIterator<T extends Entity> implements MatrixIterator<T> {
-    	
+
     	private int x;
     	private int y;
     	private int row;
     	private int col;
     	private Direction index;
     	private VonNeumannTopology<T> topology;
-        
-        
+
+
     	public VonNeumannNeighbourhoodIterator(VonNeumannTopology<T> topology, MatrixIterator<T> iterator) {
     		if (iterator.getCol() == -1) {
     			throw new IllegalStateException();
-    		}	
+    		}
     		this.topology = topology;
     		row = x = iterator.getRow();
     		col = y = iterator.getCol();
     		index = Direction.CENTER;
     	}
-        
+
     	/**
     	 * {@inheritDoc}
     	 */
         public boolean hasNext() {
             return (index != Direction.DONE);
         }
-        
+
         /**
          * {@inheritDoc}
          */
         public T next() {
             switch (index) {
-            	case CENTER: { 
-            		row = x; 
-            		col = y; 
+            	case CENTER: {
+            		row = x;
+            		col = y;
             		break;
             	}
-            	
+
             	case NORTH: {
             		row = x - 1;
             		col = y;
@@ -297,7 +297,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             		}
             		break;
             	}
-            	
+
             	case EAST: {
             		row = x;
             		col = y + 1;
@@ -306,7 +306,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             		}
             		break;
             	}
-            	
+
             	case SOUTH: {
             		row = x + 1;
             		col = y;
@@ -321,7 +321,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             		}
             		break;
             	}
-            	
+
             	case WEST: {
             		row = x;
             		col = y - 1;
@@ -330,14 +330,14 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
             		}
             		break;
             	}
-            	
+
             	default: throw new NoSuchElementException();
             }
-            
+
             index = Direction.values()[index.ordinal()+1];
             return topology.entities.get(row).get(col);
         }
-        
+
         /**
          * {@inheritDoc}
          */
@@ -347,21 +347,21 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         		index = Direction.DONE;
         	}
         }
-        
+
         /**
          * {@inheritDoc}
          */
         public int getRow() {
             return row;
         }
-        
+
         /**
          * {@inheritDoc}
          */
         public int getCol() {
             return col;
         }
-        
+
     }
 
 	/**
@@ -490,7 +490,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 	 * {@inheritDoc}
 	 */
 	public void add(int index, E element) {
-		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");		
+		throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
 	}
 
 	/**
@@ -548,7 +548,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
 	 */
 	@Override
 	public void setId(String id) {
-			
+
 	}
 
 }

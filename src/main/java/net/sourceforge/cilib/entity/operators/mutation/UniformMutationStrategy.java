@@ -37,19 +37,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class UniformMutationStrategy extends MutationStrategy {
 	private static final long serialVersionUID = -3951730432882403768L;
 	private ControlParameter minStrategy, maxStrategy;
-	
+
 	public UniformMutationStrategy() {
 		super();
 		minStrategy = new ProportionalControlParameter();
 		maxStrategy = new ProportionalControlParameter();
-	}	
-	
+	}
+
 	public UniformMutationStrategy(UniformMutationStrategy copy) {
 		super(copy);
 		this.minStrategy = copy.minStrategy.getClone();
 		this.maxStrategy = copy.maxStrategy.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -64,9 +64,9 @@ public class UniformMutationStrategy extends MutationStrategy {
 	@Override
 	public void mutate(List<? extends Entity> entity) {
 		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
-			Entity current = individual.next(); 
+			Entity current = individual.next();
 			Vector chromosome = (Vector) current.getCandidateSolution();
-			
+
 			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 				for (int i = 0; i < chromosome.getDimension(); i++) {
 					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getUniform(minStrategy.getParameter(), maxStrategy.getParameter()));

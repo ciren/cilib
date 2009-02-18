@@ -52,7 +52,7 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
 	public boolean updatePosition(HoneyBee bee, HoneyBee otherBee) {
 		MersenneTwister twister = new MersenneTwister();
 		int j = twister.nextInt(bee.getDimension());
-		
+
 		Vector newPosition = (Vector) bee.getPosition();
 		Vector oldPosition = (Vector) bee.getPosition().getClone();
 		Vector otherPosition = (Vector) otherBee.getPosition();
@@ -61,7 +61,7 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
 		Real newValue = (Real) newPosition.get(j);
 		newValue.set(value + (twister.nextDouble()*2-1)*(value - other));
 		newPosition.set(j, newValue);
-		
+
 		//Determine if new position is better than old and update
 		Fitness oldFitness =  Algorithm.get().getOptimisationProblem().getFitness(oldPosition, false);
 		Fitness newFitness =  Algorithm.get().getOptimisationProblem().getFitness(newPosition, false);

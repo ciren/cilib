@@ -31,20 +31,20 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Theuns Cloete
  */
 public class CooperativeEntity extends AbstractEntity {
 	private static final long serialVersionUID = -8298684370426283216L;
-	
+
 	protected Vector context = null;
 	protected Fitness fitness = null;
-	
+
 	public CooperativeEntity() {
 		context = new Vector();
 		fitness = InferiorFitness.instance();
 	}
-	
+
 	public CooperativeEntity(CooperativeEntity rhs) {
 		context = rhs.context.getClone();
 		fitness = rhs.fitness;
@@ -53,15 +53,15 @@ public class CooperativeEntity extends AbstractEntity {
 	public CooperativeEntity getClone() {
 		return new CooperativeEntity(this);
 	}
-	
+
 	@Override
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
-		
+
 		if ((object == null) || (this.getClass() != object.getClass()))
 			return false;
-		
+
 		CooperativeEntity other = (CooperativeEntity) object;
 		return super.equals(other) &&
 			(this.context.equals(other.context)) &&
@@ -76,7 +76,7 @@ public class CooperativeEntity extends AbstractEntity {
 		hash = 31 * hash + (this.fitness == null ? 0 : this.fitness.hashCode());
 		return hash;
 	}
-	
+
 	public void reset() {
 		context.clear();
 	}
@@ -91,17 +91,17 @@ public class CooperativeEntity extends AbstractEntity {
 		else
 			context.append(value);
 	}
-	
+
 	public void append(Entity entity) {
 		append(entity.getCandidateSolution());
 	}
-	
+
 	public void update(Entity src, int srcPos, int dstPos, int length) {
 		for(int i = dstPos; i < dstPos + length; ++i) {
 			context.setReal(i, ((Vector) src.getCandidateSolution()).getReal(srcPos + i - dstPos));
 		}
 	}
-	
+
 	public StructuredType getCandidateSolution() {
 		return context;
 	}
@@ -134,7 +134,7 @@ public class CooperativeEntity extends AbstractEntity {
 	public void reinitialise() {
 		throw new UnsupportedOperationException("Methd not implemented");
 	}
-	
+
 	public void calculateFitness() {
 		calculateFitness(true);
 	}

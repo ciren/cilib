@@ -35,31 +35,31 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
 public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -495910154501231712L;
 
 	public StandardFitnessSharingStrategy() {
 	}
-	
+
 	public StandardFitnessSharingStrategy(StandardFitnessSharingStrategy copy) {
-		
+
 	}
-	
+
 	public StandardFitnessSharingStrategy getClone(){
 		return new StandardFitnessSharingStrategy(this);
 	}
-	
+
 	/**
 	 * in this case, assign the number of victory to the fitness of the Entity.
 	 * @return the modified fitness.
 	 */
 	public Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent){
-		
+
 		//System.out.println("pre fit: " + ent.getFitness().getValue());
 		EntityScoreboard board = (EntityScoreboard) ent.getProperties().get(EntityType.Coevolution.BOARD);
-		Fitness f = new MaximisationFitness(Integer.valueOf(board.getWinCount()).doubleValue()); 
-					//* 
+		Fitness f = new MaximisationFitness(Integer.valueOf(board.getWinCount()).doubleValue());
+					//*
 					//((Real)( ent.getProperties().get("distance"))).getReal()
 					//0.0
 		//System.out.println("dis: " + ((Real)( ent.getProperties().get("distance"))).getReal());
@@ -67,5 +67,5 @@ public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
 		ent.getProperties().put(EntityType.FITNESS, f);
 		return f;
 	}
-	
+
 }

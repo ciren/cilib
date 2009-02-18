@@ -29,22 +29,22 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- * 
+ *
  * @author gpampara
  *
  */
 public abstract class TopologyVisitor extends Visitor<Topology<? extends Entity>> {
-	
+
 	protected Algorithm currentAlgorithm;
 	protected double result;
 	protected DistanceMeasure distanceMeasure;
-	
+
 	public TopologyVisitor() {
 		distanceMeasure = new EuclideanDistanceMeasure();
 	}
-	
+
 	public abstract void visit(Topology<? extends Entity> algorithm);
-	
+
 	public double getResult() {
 		return result;
 	}

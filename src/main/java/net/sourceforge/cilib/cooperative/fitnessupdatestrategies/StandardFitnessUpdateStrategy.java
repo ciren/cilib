@@ -28,7 +28,7 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * TODO: Complete this javadoc.
  */
 public class StandardFitnessUpdateStrategy implements FitnessUpdateStrategy {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

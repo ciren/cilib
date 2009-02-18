@@ -30,32 +30,32 @@ import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
- * 
+ *
  * @author Andries Engelbrecht
  * @author Gary Pampara
  */
 public abstract class MutationStrategy implements Operator {
 	private static final long serialVersionUID = 6670947597280440404L;
-	
+
 	private ControlParameter mutationProbability;
 	private RandomNumber randomNumber;
 	private String operator;
 	private MutationOperatorStrategy operatorStrategy;
-			
+
 	public MutationStrategy() {
 		this.setOperator("+");
-		
+
 		mutationProbability = new ConstantControlParameter(0.3);
 		randomNumber = new RandomNumber();
 	}
-	
+
 	public MutationStrategy(MutationStrategy copy) {
 		this.operator = copy.operator;
 		this.operatorStrategy = copy.operatorStrategy;
 		this.mutationProbability = copy.mutationProbability.getClone();
 		this.randomNumber = copy.randomNumber.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -70,7 +70,7 @@ public abstract class MutationStrategy implements Operator {
 	public abstract void mutate(List<? extends Entity> offspringList);
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public ControlParameter getMutationProbability() {
@@ -78,7 +78,7 @@ public abstract class MutationStrategy implements Operator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mutationProbability
 	 */
 	public void setMutationProbability(ControlParameter mutationProbability) {
@@ -108,14 +108,14 @@ public abstract class MutationStrategy implements Operator {
 	 * <tr><td>times</td><td>plus, add</td></tr>
 	 * <tr><td>multiplicative</td><td>additive</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @param operator A {@link java.lang.String} defining the desired operation
 	 */
 	public void setOperator(String operator) {
 		this.operator = operator;
 		this.operatorStrategy = MutationOperatorFactory.getOperatorStrategy(operator);
 	}
-	
+
 	/**
 	 * Get the defined {@link net.sourceforge.cilib.offspringList.operators.mutation.MutationOperatorStrategy}.
 	 * @return

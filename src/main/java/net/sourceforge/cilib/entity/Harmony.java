@@ -33,14 +33,14 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  */
 public class Harmony extends AbstractEntity {
 	private static final long serialVersionUID = -4941414797957384798L;
-	
+
 	public Harmony() {
 	}
-	
+
 	public Harmony(Harmony copy) {
 		super(copy);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -48,7 +48,7 @@ public class Harmony extends AbstractEntity {
 	public Harmony getClone() {
 		return new Harmony(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -58,10 +58,10 @@ public class Harmony extends AbstractEntity {
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
-		
+
 		if ((object == null) || (this.getClass() != object.getClass()))
 			return false;
-		
+
 		Harmony other = (Harmony) object;
 		return super.equals(other);
 	}
@@ -117,7 +117,7 @@ public class Harmony extends AbstractEntity {
 	public void initialise(OptimisationProblem problem) {
 		StructuredType harmony = problem.getDomain().getBuiltRepresenation().getClone();
 		TypeUtil.randomize(harmony);
-		
+
 		setCandidateSolution(harmony);
 		this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
 	}

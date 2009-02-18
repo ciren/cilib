@@ -38,7 +38,7 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 
 	public UniformCrossoverStrategy() {
 	}
-	
+
 	public UniformCrossoverStrategy(UniformCrossoverStrategy copy) {
 		super(copy);
 	}
@@ -57,22 +57,22 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 	@Override
 	public List<Entity> crossover(List<Entity> parentCollection) {
 		List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
-		
+
 		//How do we handle variable sizes? Resizing the entities?
 		Entity offspring1 = parentCollection.get(0).getClone();
 		Entity offspring2 = parentCollection.get(1).getClone();
-		
+
 		if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 			Vector parentChromosome1 = (Vector) parentCollection.get(0).getCandidateSolution();
 			Vector parentChromosome2 = (Vector) parentCollection.get(1).getCandidateSolution();
 			Vector offspringChromosome1 = (Vector) offspring1.getCandidateSolution();
 			Vector offspringChromosome2 = (Vector) offspring2.getCandidateSolution();
-			
+
 			int sizeParent1 = parentChromosome1.getDimension();
 			int sizeParent2 = parentChromosome2.getDimension();
-		
+
 			int minDimension = Math.min(sizeParent1, sizeParent2);
-									
+
 			for (int i = 0; i < minDimension; i++) {
 				if (i%2 == 0) {
 					offspringChromosome1.set(i, parentChromosome1.get(i));
@@ -80,20 +80,20 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 				}
 				else {
 					offspringChromosome1.set(i, parentChromosome2.get(i));
-					offspringChromosome2.set(i, parentChromosome1.get(i));	
+					offspringChromosome2.set(i, parentChromosome1.get(i));
 				}
 			}
-			
+
 			offspring1.calculateFitness(false);
 			offspring2.calculateFitness(false);
-			
+
 			offspring.add(offspring1);
 			offspring.add(offspring2);
 		}
-		
+
 		return offspring;
 	}
-	
+
 
 	/**
 	 * {@inheritDoc}
@@ -102,15 +102,15 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
 //	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
 	public void performOperation(TopologyHolder holder) {
 		List<Entity> parentCollection = new ArrayList<Entity>();
-		
+
 		Topology<? extends Entity> topology = holder.getTopology();
 //		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
-		
+
 		parentCollection.add(getSelectionStrategy().select(topology));
 		parentCollection.add(getSelectionStrategy().select(topology));
-		
+
 //		offspring.addAll(this.crossover(parentCollection));
 		holder.addAll(this.crossover(parentCollection));
 	}
-		
+
 }

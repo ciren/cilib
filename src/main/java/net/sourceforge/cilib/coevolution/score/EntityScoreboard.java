@@ -35,14 +35,14 @@ import net.sourceforge.cilib.type.types.Type;
 public class EntityScoreboard implements Type, Resetable {
 	private static final long serialVersionUID = -2524835257237678625L;
 	private ArrayList<EntityScore> scores;
-	
+
 	/**
 	 * Create a default score board.
 	 */
 	public EntityScoreboard() {
 		this.scores = new ArrayList<EntityScore>();
 	}
-	
+
 	/**
 	 * Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -53,7 +53,7 @@ public class EntityScoreboard implements Type, Resetable {
 			this.scores.add(score);
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -93,7 +93,7 @@ public class EntityScoreboard implements Type, Resetable {
 	/**
 	 * Get the number of times the entity this score board is
 	 * used for has won.
-	 * 
+	 *
 	 * @return The number of wins in the score board.
 	 */
 	public int getWinCount() {
@@ -103,7 +103,7 @@ public class EntityScoreboard implements Type, Resetable {
 		}	//endFor
 		return wins;
 	}
-	
+
 	public int getWinCount(int round) {
 		int wins = 0;
 		for (EntityScore score : this.scores) {
@@ -113,11 +113,11 @@ public class EntityScoreboard implements Type, Resetable {
 		}	//endFor
 		return wins;
 	}
-	
+
 	/**
 	 * Get the number of times the entity this score board is
 	 * used for has lost.
-	 * 
+	 *
 	 * @return The number of loses in the score board.
 	 */
 	public int getLoseCount() {
@@ -127,11 +127,11 @@ public class EntityScoreboard implements Type, Resetable {
 		}
 		return lose;
 	}
-	
+
 	/**
 	 * Get the number of times the entity this score board is
 	 * used for has drawed.
-	 * 
+	 *
 	 * @return The number of draws in the score board.
 	 */
 	public int getDrawCount() {
@@ -142,11 +142,11 @@ public class EntityScoreboard implements Type, Resetable {
 
 		return draw;
 	}
-	
+
 	/**
 	 * Get the number of times the entity assosiated with this
 	 * score board has competed.
-	 * 
+	 *
 	 * @return The number of sum of the wins, loses and draws.
 	 */
 	public int getCompeteCount() {
@@ -154,10 +154,10 @@ public class EntityScoreboard implements Type, Resetable {
 		for (EntityScore score : this.scores) {
 			count += score.getWinCount() + score.getLoseCount() + score.getDrawCount();
 		}
-		
+
 		return count;
 	}
-	
+
 	public int getCompeteCount(int round){
 		int count = 0;
 		for (EntityScore entityScore : this.scores) {
@@ -167,7 +167,7 @@ public class EntityScoreboard implements Type, Resetable {
 		}
 		return count;
 	}
-	
+
 	public void mergeEntityScore(EntityScore scoreBoard){
 		for (EntityScore entityScore : this.scores) {
 			if (scoreBoard.getCompetitorGroup() == entityScore.getCompetitorGroup() &&
@@ -175,10 +175,10 @@ public class EntityScoreboard implements Type, Resetable {
 						entityScore.mergeScoreBoard(scoreBoard);
 						return;
 			}
-		}		
+		}
 		this.scores.add(scoreBoard);
 	}
-	
+
 	public ArrayList<Fitness> getWinScores(int round){
 		ArrayList<Fitness> values = new ArrayList<Fitness>();
 		for (EntityScore entityScore : this.scores) {
@@ -188,7 +188,7 @@ public class EntityScoreboard implements Type, Resetable {
 		}
 		return values;
 	}
-	
+
 	public ArrayList<Fitness> getDrawScores(int round){
 		ArrayList<Fitness> values = new ArrayList<Fitness>();
 		for (EntityScore entityScore : this.scores) {
@@ -198,7 +198,7 @@ public class EntityScoreboard implements Type, Resetable {
 		}
 		return values;
 	}
-	
+
 	public ArrayList<Fitness> getLoseScores(int round){
 		ArrayList<Fitness> values = new ArrayList<Fitness>();
 		for (EntityScore entityScore : this.scores) {
@@ -208,7 +208,7 @@ public class EntityScoreboard implements Type, Resetable {
 		}
 		return values;
 	}
-	
+
 	public ArrayList<Fitness> getScores(int round){
 		ArrayList<Fitness> values = new ArrayList<Fitness>();
 		for (EntityScore entityScore : this.scores) {
@@ -224,7 +224,7 @@ public class EntityScoreboard implements Type, Resetable {
 	public void clearScoreBoard(){
 		scores.clear();
 	}
-	
+
 	public void removeScores(int round){
 		for(int i = scores.size() - 1; i >= 0; --i){
 			if(scores.get(i).getRound() == round){

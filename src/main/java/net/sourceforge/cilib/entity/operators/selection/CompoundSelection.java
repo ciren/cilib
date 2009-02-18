@@ -33,23 +33,23 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
  * apply a group of selection operators to perform a specific selection.
  * For example, a selection my require an Elitism selection of 10% of the
  * available entities, followed by a greedy fitness selection operator.
- * 
+ *
  * @author gpampara
  *
  */
 public class CompoundSelection extends SelectionStrategy {
 	private static final long serialVersionUID = -5547221580096508262L;
-	
+
 	private List<SelectionStrategy> selectors;
 
 	public CompoundSelection() {
-		selectors = new ArrayList<SelectionStrategy>();		
+		selectors = new ArrayList<SelectionStrategy>();
 	}
-	
+
 	public CompoundSelection(CompoundSelection copy) {
-		
+
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -63,7 +63,7 @@ public class CompoundSelection extends SelectionStrategy {
 		for (SelectionStrategy selection : selectors) {
 			selection.select(population);
 		}
-		
+
 		return null;
 	}
 
@@ -74,7 +74,7 @@ public class CompoundSelection extends SelectionStrategy {
 	public void performOperation(TopologyHolder holder) {
 		this.select(holder.getTopology()); // This method needs to be corrected
 	}
-	
+
 	public void addSelection(SelectionStrategy selectionOperator) {
 		this.selectors.add(selectionOperator);
 	}

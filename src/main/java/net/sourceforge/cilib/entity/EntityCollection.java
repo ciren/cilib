@@ -31,117 +31,117 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This is a generalization for all algorithms that maintain a collection of
  * {@linkplain Entity} objects. Examples of this would include PSO, EC and ACO.
- * 
+ *
  * @author Gary Pampara
  * @author otter
  * @param <E> All types derived from {@linkplain Entity}.
  */
-public interface EntityCollection<E extends Entity> 
+public interface EntityCollection<E extends Entity>
 	extends Iterable<E>, List<E>, Cloneable, Serializable {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public EntityCollection<E> getClone();
-       
+
     /**
      * Adds an entity to the topology.
      * @param entity The entity to be added.
      * @return <code>true</code> if the addition is successful, <code>false</code> otherwise.
      */
     public boolean add(E entity);
-    
-    
+
+
     /**
      * Removes an entity from the topology.
      * @param entity The entity to be removed.
      * @return boolean, true if remove operation was successful.
      */
     public boolean remove(E entity);
-    
+
     /**
      * {@inheritDoc}
      */
     public E get(int index);
-    
+
     /**
      * {@inheritDoc}
      */
-    public E set(int index, E entity);    
-    
+    public E set(int index, E entity);
+
     /**
      * {@inheritDoc}
      */
     public boolean isEmpty();
-    
+
     /**
      * Remove all the entities from the topology.
      * {@inheritDoc}
-     */ 
+     */
     public void clear();
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean contains(Object o);
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean containsAll(Collection<?> c);
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean equals(Object o);
-    
+
     /**
      * {@inheritDoc}
      */
     public int hashCode();
-    
+
     /**
      * {@inheritDoc}
      */
     public Iterator<E> iterator();
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean remove(Object o);
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean removeAll(Collection<?> c);
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean retainAll(Collection<?> c);
-    
+
     /**
-     * Returns the size of the {@linkplain EntityCollection}. 
+     * Returns the size of the {@linkplain EntityCollection}.
      * @return The size of {@linkplain EntityCollection}.
      */
     public int size();
-    
+
     /**
      * {@inheritDoc}
      */
     public Object [] toArray();
-    
+
     /**
      * {@inheritDoc}
      */
-    public <T> T[] toArray(T[] a);    
+    public <T> T[] toArray(T[] a);
 
     /**
      * Get the <code>id</code> associated with this {@linkplain EntityCollection}.
      * @return The <code>id</code> for this {@linkplain EntityCollection}.
      */
     public String getId();
-    
+
     /**
      * Set the <code>id</code> for this {@linkplain EntityCollection}.
      * @param id The value to set.

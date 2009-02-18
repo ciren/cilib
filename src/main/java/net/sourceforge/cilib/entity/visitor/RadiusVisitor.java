@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Determine the radius of the current {@linkplain net.sourceforge.cilib.entity.Topology topology}.
  */
 public class RadiusVisitor extends TopologyVisitor {
-	
+
 	/**
 	 * Create an instance of {@code RadiusVisitor}.
 	 */
@@ -45,20 +45,20 @@ public class RadiusVisitor extends TopologyVisitor {
 	@Override
 	public void visit(Topology<? extends Entity> topology) {
 		double maxDistance = 0.0;
-    	
+
     	Vector swarmBestParticlePosition = (Vector) this.currentAlgorithm.getBestSolution().getPosition();
     	Iterator<?> swarmIterator = topology.iterator();
-    	    	
+
     	while(swarmIterator.hasNext()) {
     		Entity swarmParticle = (Entity) swarmIterator.next();
     		Vector swarmParticlePosition = (Vector) swarmParticle.getCandidateSolution();
-    			
+
     		double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
-    	
+
     		if (actualDistance > maxDistance)
     			maxDistance = actualDistance;
     	}
-    	
+
     	result = maxDistance;
 	}
 

@@ -31,22 +31,22 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Andries Engelbrecht
  * @author Gary Pampara
  */
 public class CauchyMutationStrategy extends MutationStrategy {
 	private static final long serialVersionUID = 8576581034467137106L;
-	
+
 	private double location;
 	private ControlParameter scaleStrategy;
-	
+
 	public CauchyMutationStrategy() {
 		super();
 		this.location = 0;
 		this.scaleStrategy = new ProportionalControlParameter();
 	}
-	
+
 	public CauchyMutationStrategy(CauchyMutationStrategy copy) {
 		super(copy);
 		this.location = copy.location;
@@ -68,21 +68,21 @@ public class CauchyMutationStrategy extends MutationStrategy {
 	public void mutate(List<? extends Entity> entity) {
 		for (Entity current : entity) {
 			Vector chromosome = (Vector) current.getCandidateSolution();
-			
+
 			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
 				for (int i = 0; i < chromosome.getDimension(); i++) {
 					Numeric element = (Numeric) chromosome.get(i);
 					double scale = this.scaleStrategy.getParameter(element.getBounds().getLowerBound(), element.getBounds().getUpperBound());
 					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
-									
+
 					chromosome.setReal(i, value);
 				}
 			}
 		}
-		
+
 	}
 
-	
+
 	public double getLocation() {
 		return location;
 	}
@@ -108,6 +108,6 @@ public class CauchyMutationStrategy extends MutationStrategy {
 //		this.mutate(holder.getOffpsring());
 		throw new UnsupportedOperationException("This needs to be fixed");
 	}
-	
+
 
 }

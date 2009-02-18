@@ -29,34 +29,34 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.type.types.Int;
 
 /**
- * example of implementation of an OpponentSelectionStrategy 
+ * example of implementation of an OpponentSelectionStrategy
  * @author Julien Duhain
  *
  */
 public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrategy{
 	//id of population used when assigning players from own population. if left to -1 then it'l be the population id of the entity
 	int ownPopulationID;
-	
+
 	public SelectAllOpponentSelectionStrategy(){
 		super();
 		ownPopulationID = -1;
 	}
-	
+
 	public SelectAllOpponentSelectionStrategy(SelectAllOpponentSelectionStrategy copy){
 		ownPopulationID = copy.ownPopulationID;
 	}
-	
+
 	public SelectAllOpponentSelectionStrategy getClone() {
 		return new SelectAllOpponentSelectionStrategy(this);
 	}
-	
+
 	/**
 	 * @param pool the pool of potential opponents
 	 * @return all entities from all populations in one list
 	 */
 	public CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool) {
 			CoevolutionEvaluationList opponents = new CoevolutionEvaluationList();
-			
+
 			for(PopulationBasedAlgorithm algorithm: pool){
 				List<EvaluationEntity> algorithmCompetitors = new ArrayList<EvaluationEntity>();
 				for(int i=0; i < algorithm.getPopulationSize(); i++){
@@ -68,7 +68,7 @@ public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrateg
 				}
 				opponents.addEntityList(algorithmCompetitors);
 			}
-			
+
 		return opponents;
 	}
 

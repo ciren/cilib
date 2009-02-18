@@ -50,10 +50,10 @@ public class CoevolutionSynchronousIterationStrategy extends AbstractIterationSt
 	public void performIteration(PSO pso) {
 		Topology<Particle> topology = pso.getTopology();
 		topology.update();
-		
+
 		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 			Particle current = i.next();
-         //   current.calculateFitness(); add this line to get the standard SynchronousIterationStrategy 
+         //   current.calculateFitness(); add this line to get the standard SynchronousIterationStrategy
 			for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
 				Particle other = j.next();
                 if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
@@ -66,7 +66,7 @@ public class CoevolutionSynchronousIterationStrategy extends AbstractIterationSt
            Particle current = i.next();
            current.updateVelocity();
            current.updatePosition();                // TODO: replace with visitor (will simplify particle interface)
-           
+
            boundaryConstraint.enforce(current);
 		}
 	}

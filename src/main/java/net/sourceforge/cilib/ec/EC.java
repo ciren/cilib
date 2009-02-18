@@ -38,27 +38,27 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 /**
  * Generic EC skeleton algorithm. The algorithm is altered by defining the
  * appropriate {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
- * 
+ *
  * @author Gary Pampara
  */
 public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
 	private static final long serialVersionUID = -4324446523858690744L;
-	
+
 	private OptimisationProblem problem;
 	private IterationStrategy<EC> iterationStrategy;
 	private Topology<? extends Entity> topology;
-	
+
 	/**
 	 * Create a new instance of {@code EC}.
 	 */
 	public EC() {
 		this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
 		this.initialisationStrategy.setEntityType(new Individual());
-		
-		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();			
+
+		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
 		this.topology = new GBestTopology<Individual>();
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -69,14 +69,14 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 		this.iterationStrategy = copy.iterationStrategy.getClone();
 		this.topology = copy.topology.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public EC getClone() {
 		return new EC(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -91,12 +91,12 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 	@Override
 	public void algorithmIteration() {
 		this.topology.clearBestEntity();
-		
+
 		for (Entity entity : this.getTopology()) {
 			//entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
 			entity.calculateFitness();
 		}
-		
+
 		iterationStrategy.performIteration(this);
 	}
 
@@ -122,7 +122,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 	 */
 	@Override
 	public void setOptimisationProblem(OptimisationProblem problem) {
-		this.problem = problem;		
+		this.problem = problem;
 	}
 
 	/**
@@ -138,12 +138,12 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 	 */
 	public OptimisationSolution getBestSolution() {
 		OptimisationSolution solution = new OptimisationSolution(problem, topology.getBestEntity().getCandidateSolution().getClone());
-        
+
         return solution;
 	}
-	
+
 	/**
-	 * Get the {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy} for the current 
+	 * Get the {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy} for the current
 	 * {@code EC}.
 	 * @return The current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
 	 */
@@ -166,7 +166,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 	public List<OptimisationSolution> getSolutions() {
 		return null;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

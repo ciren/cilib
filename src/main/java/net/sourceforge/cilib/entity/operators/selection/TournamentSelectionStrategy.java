@@ -35,14 +35,14 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 /**
  * Perform a tournament selection process on the provided {@linkplain Topology}
  * with a predefined tournament size.
- * 
+ *
  * @author Gary Pampara
  */
 public class TournamentSelectionStrategy extends SelectionStrategy {
 	private static final long serialVersionUID = -7520711765609204590L;
 	private ControlParameter tournamentProportion;
 	private RandomNumber randomNumber;
-	
+
 	/**
 	 * Create a new instance of {@linkplain TournamentSelectionStrategy}.
 	 */
@@ -50,7 +50,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 		this.tournamentProportion = new ProportionalControlParameter();
 		this.randomNumber = new RandomNumber();
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the given instance.
 	 * @param copy The instance to copy.
@@ -59,7 +59,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 		this.tournamentProportion = copy.tournamentProportion.getClone();
 		this.randomNumber = copy.randomNumber.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -72,18 +72,18 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	 */
 	public <T extends Entity> T select(Topology<T> population) {
 		int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter()*population.size()).intValue();
-		
+
 		List<T> tournamentEntities = new ArrayList<T>();
-		
+
 		for (int i = 0; i < tournamentSize; i++) {
 			double random = randomNumber.getUniform(0, population.size());
 			T tmp = population.get(Double.valueOf(random).intValue());
-			
+
 			tournamentEntities.add(tmp);
 		}
-		
+
 		Collections.sort(tournamentEntities, tournamentEntities.get(0).getComparator());
-		
+
 		return tournamentEntities.get(0);
 	}
 
@@ -102,9 +102,9 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	public void setTournamentSize(ControlParameter tournamanetSize) {
 		this.tournamentProportion = tournamanetSize;
 	}
-	
+
 	/**
-	 * Get the {@linkplain RandomNumber} defined for this {@linkplain SelectionStrategy}. 
+	 * Get the {@linkplain RandomNumber} defined for this {@linkplain SelectionStrategy}.
 	 * @return The current {@linkplain RandomNumber}.
 	 */
 	public RandomNumber getRandomNumber() {
@@ -126,7 +126,7 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 	public void performOperation(TopologyHolder holder) {
 //		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
 		Topology<? extends Entity> topology = holder.getTopology();
-		
+
 //		offspring.add(this.select(topology));
 		holder.add(select(topology));
 	}

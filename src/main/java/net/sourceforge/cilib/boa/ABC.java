@@ -58,26 +58,26 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * publisher = "Springer"
  * address = "Netherlands"
  * </p>
- * 
+ *
  * @author Andrich
  *
  */
 public class ABC extends SinglePopulationBasedAlgorithm {
 	private static final long serialVersionUID = 7918711449442012960L;
-	
+
 	private Topology<HoneyBee> workerBees;				//keeps references to the worker bees
 	private Topology<HoneyBee> onlookerBees;			//keeps references to the onlooker bees
 	private Topology<HoneyBee> hive;					//keeps references to all the bees (workers and onlookers)
-	
+
 	private ExplorerBee explorerBee;					//explorer bee
 	private SelectionStrategy dancingSelectionStrategy; //bee dancing selection strategy
-	
+
 	private ControlParameter workerBeePercentage;		//control parameter for number of worker bees
 	private ControlParameter forageLimit;				//control parameter for the forage limit
 	private ControlParameter explorerBeeUpdateLimit;	//control parameter to limit the explorer bee position updates per iteration
-	
+
 	private HoneyBee bestBee;							//reference to best solution found so far
-	
+
 	/**
 	 * Default constructor. Creates a new instance of {@code ABC}.
 	 */
@@ -85,19 +85,19 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 		this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
 		initialisationStrategy.setEntityNumber(100);
 		initialisationStrategy.setEntityType(new WorkerBee());
-		
+
 		workerBees = new GBestTopology<HoneyBee>();
 		onlookerBees = new GBestTopology<HoneyBee>();
 		hive = new GBestTopology<HoneyBee>();
-		
+
 		explorerBee = new ExplorerBee();
 		dancingSelectionStrategy = new RouletteWheelSelectionStrategy();
-		
+
 		forageLimit = new ConstantControlParameter(500);
 		workerBeePercentage = new ConstantControlParameter(0.5);
 		explorerBeeUpdateLimit = new ConstantControlParameter(1.0);
 	}
-	
+
 	/**
 	 * Copy constructor. Creates a copy of the provided instance.
 	 * @param copy ABC reference of which a deep copy is made.
@@ -109,15 +109,15 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 		hive.clear();
 		hive.addAll(workerBees);
 		hive.addAll(onlookerBees);
-		
+
 		explorerBee = copy.explorerBee.getClone();
 		dancingSelectionStrategy = new RouletteWheelSelectionStrategy();
-		
+
 		forageLimit = copy.forageLimit.getClone();
 		workerBeePercentage = copy.workerBeePercentage.getClone();
 		explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -125,14 +125,14 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 	public ABC getClone() {
 		return new ABC(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void performInitialisation() {
 		this.initialisationStrategy.initialise(hive, this.optimisationProblem);
-		
+
 		int i;
 		int numWorkerBees = (int) (workerBeePercentage.getParameter()*hive.size());
 		for (i = 0; i < numWorkerBees; i++) {
@@ -140,7 +140,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 			bee.setForageLimit(this.forageLimit.getClone());
 			this.workerBees.add(hive.get(i));
 		}
-		
+
 		for (int j = 0; j < initialisationStrategy.getEntityNumber() - numWorkerBees; j++) {
 			WorkerBee worker = (WorkerBee) hive.get(i);
 			OnlookerBee onlooker = new OnlookerBee(worker);
@@ -166,7 +166,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 				bestBee = bee.getClone();
 			}
 		}
-		
+
 		for (HoneyBee bee : onlookerBees) {
 			HoneyBee selectedBee = dancingSelectionStrategy.select(workerBees);
 			bee.setPosition(selectedBee.getPosition().getClone());
@@ -188,7 +188,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 	public OptimisationSolution getBestSolution() {
 		if (this.bestBee == null)
 			throw new InitialisationException("Best solution cannot be determined before algorithm is run");
-		
+
 		return new OptimisationSolution(this.getOptimisationProblem(), bestBee.getPosition());
 	}
 
@@ -199,7 +199,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 	public List<OptimisationSolution> getSolutions() {
 		return Arrays.asList(getBestSolution());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -207,15 +207,15 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 	public Topology<HoneyBee> getTopology() {
 		return this.hive;
 	}
-	
+
 	public Topology<HoneyBee> getWorkerTopology() {
 		return this.workerBees;
 	}
-	
+
 	public Topology<HoneyBee> getOnlookerTopology() {
 		return this.onlookerBees;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -223,7 +223,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 	public void setTopology(Topology<? extends Entity> topology) {
 		throw new UnsupportedOperationException("Method not implemented");
 	}
-	
+
 	public SelectionStrategy getDancingSelectionStrategy() {
 		return dancingSelectionStrategy;
 	}
@@ -232,7 +232,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 			SelectionStrategy dancingSelectionStrategy) {
 		this.dancingSelectionStrategy = dancingSelectionStrategy;
 	}
-	
+
 	public ExplorerBee getExplorerBee() {
 		return this.explorerBee;
 	}
@@ -252,7 +252,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
 	public void setForageLimit(ControlParameter forageThreshold) {
 		this.forageLimit = forageThreshold;
 	}
-	
+
 	public ControlParameter getExplorerBeeUpdateLimit() {
 		return explorerBeeUpdateLimit;
 	}

@@ -33,13 +33,13 @@ import net.sourceforge.cilib.util.Cloneable;
  * Represents the explorer bee in the algorithm. To emulate the functionality of the explorer bee in the hive, a random search
  * position is generated upon request if it is allowed. Keeps track of how many updates have occurred via numberOfUpdates and which iteration
  * the previous update occurred.
- * 
+ *
  * @author Andrich
- * 
+ *
  */
 public class ExplorerBee implements Cloneable {
 	private static final long serialVersionUID = 1068799535328234923L;
-	
+
 	private MersenneTwister random;			//generates a random position
 	private int previousUpdatedIteration;	//used to check whether the algorithm has entered a new iteration
 	private int numberOfUpdates;			//how many have occured in current iteration
@@ -55,7 +55,7 @@ public class ExplorerBee implements Cloneable {
 		numberOfUpdates = 0;
 		explorerBeeUpdateLimit = new ConstantControlParameter(1.0);
 	}
-	
+
 	/**
 	 * Copy constructor. Creates a copy of the provided instance.
 	 * @param copy reference to explorer bee that deep copy is made of.
@@ -66,7 +66,7 @@ public class ExplorerBee implements Cloneable {
 		this.numberOfUpdates = copy.numberOfUpdates;
 		this.explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -82,7 +82,7 @@ public class ExplorerBee implements Cloneable {
 	public boolean searchAllowed() {
 		int currentIteration = Algorithm.get().getIterations();
 		if (previousUpdatedIteration == currentIteration) {
-			//TODO: Add variable number of updates allowed 
+			//TODO: Add variable number of updates allowed
 			if (Double.compare(numberOfUpdates, explorerBeeUpdateLimit.getParameter()) < 0)
 				return true;
 			return false;

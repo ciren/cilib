@@ -32,7 +32,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
  */
 public class WorkerBee extends AbstractBee implements HoneyBee {
 	private static final long serialVersionUID = 3657591650621784765L;
-	
+
 	private ControlParameter forageLimit;
 	private int failureCount;
 
@@ -69,11 +69,11 @@ public class WorkerBee extends AbstractBee implements HoneyBee {
 	public void updatePosition() {
 		ABC algorithm = (ABC) Algorithm.get();
 		HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
-		
+
 		while (target == this) {
 			target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
 		}
-		
+
 		boolean success = this.positionUpdateStrategy.updatePosition(this, target);
 		if (!success) {
 			failureCount++;
@@ -86,7 +86,7 @@ public class WorkerBee extends AbstractBee implements HoneyBee {
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the forage limit.
 	 * @return The {@linkplain ControlParameter} representing the forage limit.

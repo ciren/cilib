@@ -35,7 +35,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * <li>Randomly ({@link RandomCentroidsInitialisationStrategy}); or</li>
  * <li>Based on random patterns chosen from the dataset ({@link DataSetBasedCentroidsInitialisationStrategy})</li>
  * </ul>
- * 
+ *
  * @author Theuns Cloete
  */
 public interface CentroidsInitialisationStrategy extends Serializable, Cloneable {
@@ -46,7 +46,7 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
 	 * returned. The problem and/or dataset that are currently being clustered can be used to
 	 * get information about the clustering, such as the dimension of the search space and
 	 * centroids.
-	 * 
+	 *
 	 * @param problem the {@link ClusteringProblem} currently being optimized
 	 * @param dataset the {@link ClusterableDataSet} currently being clustered
 	 * @return a {@link Vector} that represents all the centroids

@@ -36,17 +36,17 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  */
 public abstract class CrossoverStrategy implements Operator {
 	private static final long serialVersionUID = -5058325193277909244L;
-	
+
 	private ControlParameter crossoverProbability;
 	private RandomNumber randomNumber;
 	private SelectionStrategy selectionStrategy;
-	
+
 	public CrossoverStrategy() {
 		crossoverProbability = new ConstantControlParameter(0.5);
 		randomNumber = new RandomNumber();
 		selectionStrategy = new RandomSelectionStrategy();
 	}
-	
+
 	public CrossoverStrategy(CrossoverStrategy copy) {
 		this.crossoverProbability = copy.crossoverProbability.getClone();
 		this.randomNumber = copy.randomNumber.getClone();
@@ -56,11 +56,11 @@ public abstract class CrossoverStrategy implements Operator {
      * {@inheritDoc}
      */
 	public abstract CrossoverStrategy getClone();
-	
+
 	public abstract List<Entity> crossover(List<Entity> parentCollection);
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public ControlParameter getCrossoverProbability() {
@@ -68,7 +68,7 @@ public abstract class CrossoverStrategy implements Operator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param crossoverProbability
 	 */
 	public void setCrossoverProbability(ControlParameter crossoverProbability) {
@@ -90,5 +90,5 @@ public abstract class CrossoverStrategy implements Operator {
 	public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
 		this.selectionStrategy = selectionStrategy;
 	}
-	
+
 }

@@ -30,10 +30,10 @@ import net.sourceforge.cilib.problem.Fitness;
  * Comparator to order {@linkplain Entity} instances based on fitness values.
  * This comparator results in a ascending order. This ordering is effectively
  * an ordering of entity instances from the "least fit" to the "most fit".
- * 
+ *
  * @author Gary Pampara
  */
-public class AscendingFitnessComparator implements Comparator<Entity> {	
+public class AscendingFitnessComparator implements Comparator<Entity> {
 
 	/**
 	 * Compare the {@linkplain Entity} objects returning the desired ordering.
@@ -46,7 +46,7 @@ public class AscendingFitnessComparator implements Comparator<Entity> {
 	public int compare(Entity e1, Entity e2) {
 		Fitness f1 = e1.getFitness();
 		Fitness f2 = e2.getFitness();
-		
+
 		return f2.compareTo(f1);
 	}
 

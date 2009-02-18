@@ -26,7 +26,7 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.Operator;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public abstract class SelectionStrategy implements Operator {
@@ -37,7 +37,7 @@ public abstract class SelectionStrategy implements Operator {
 	 */
 	@Override
 	public abstract SelectionStrategy getClone();
-	
+
 	/**
 	 * Apply the selection strategy and return a single {@linkplain Entity}.
 	 * @param population The {@linkplain Topology} to make the selection from.

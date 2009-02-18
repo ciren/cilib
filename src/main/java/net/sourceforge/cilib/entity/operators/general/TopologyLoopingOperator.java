@@ -32,11 +32,11 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 public class TopologyLoopingOperator implements Operator {
 	private static final long serialVersionUID = 5726039375836229914L;
 	private Operator operator;
-	
+
 	public TopologyLoopingOperator() {
-		
+
 	}
-	
+
 	public TopologyLoopingOperator(TopologyLoopingOperator copy) {
 		this.operator = copy.operator.getClone();
 	}
@@ -60,9 +60,9 @@ public class TopologyLoopingOperator implements Operator {
 	public void performOperation(TopologyHolder holder) {
 		if (operator == null)
 			throw new RuntimeException("Cannot perform a loop over the topology. The operator to apply has not been defined");
-		
+
 		Topology<? extends Entity> topology = holder.getTopology();
-		
+
 		for (int i = 0; i < topology.size(); i++)
 //			operator.performOperation(topology, offspring);
 			operator.performOperation(holder);
@@ -75,5 +75,5 @@ public class TopologyLoopingOperator implements Operator {
 	public void setOperator(Operator operator) {
 		this.operator = operator;
 	}
-	
+
 }

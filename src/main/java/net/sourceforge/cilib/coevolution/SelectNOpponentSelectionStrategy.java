@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.Int;
 /**
  * Select N opponents out of the other populations.
  * If pickFromOwnPopulation is set to true, opponents can also be selected from the
- * population where the entity belongs 
+ * population where the entity belongs
  * @author Julien Duhain
  *
  */
@@ -45,8 +45,8 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 	protected boolean pickFromOwnPopulation;
 	//population id for players selected from own population cannot be the same as the player being evaluated, otherwise it will ovverwrite that player in the problem in the case of game optimization
 	protected int ownPopulationID;
-	
-	
+
+
 	public int getNumberOfOpponents() {
 		return numberOfOpponents;
 	}
@@ -61,14 +61,14 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 		pickFromOwnPopulation = false;
 		ownPopulationID = -1;
 	}
-	
+
 	public SelectNOpponentSelectionStrategy(SelectNOpponentSelectionStrategy copy){
 		this.numberOfOpponents = copy.numberOfOpponents;
 		this.pickFromOwnPopulation = copy.pickFromOwnPopulation;
 		this.ownPopulationID = copy.ownPopulationID;
 		this.random = copy.random;
 	}
-	
+
 	@Override
 	public OpponentSelectionStrategy getClone() {
 		return new SelectNOpponentSelectionStrategy(this);
@@ -77,27 +77,27 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 	@Override
 	public CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool) {
 		CoevolutionEvaluationList opponents = new CoevolutionEvaluationList();
-	
+
 		for(PopulationBasedAlgorithm algorithm: pool){
-			
+
 			//get first entity to perform some checks
 			Entity e = algorithm.getTopology().get(0);
-			
+
 			if(pickFromOwnPopulation || ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt() != populationID){ //select opponents from this pop
-				
+
 				int pID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
-				
+
 				if(pickFromOwnPopulation && pID == populationID && ownPopulationID != -1) //if picking from own and I need to substitute popId with another one then do it
 					pID = ownPopulationID;
-				
+
 				List<EvaluationEntity> potentialOpponents = new ArrayList<EvaluationEntity>();
-				
+
 				for(int i=0; i< algorithm.getPopulationSize(); i++){
 					e = algorithm.getTopology().get(i);
 					//not picking from my pop and this pop is my pop then break;
-					potentialOpponents.add(new EvaluationEntity(e.getCandidateSolution(), pID));		
+					potentialOpponents.add(new EvaluationEntity(e.getCandidateSolution(), pID));
 				}
-				
+
 				List<EvaluationEntity> selectedOpponents = new ArrayList<EvaluationEntity>();
 				for(int i=0; i<numberOfOpponents;i++){
 					int selected = (int)random.getUniform(0, potentialOpponents.size());
