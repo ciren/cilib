@@ -24,7 +24,7 @@ package net.sourceforge.cilib.math.random.generator;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * 
+ *
  *
  */
 public abstract class Random extends java.util.Random implements Cloneable {

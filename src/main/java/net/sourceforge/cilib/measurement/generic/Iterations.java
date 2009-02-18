@@ -36,21 +36,21 @@ public class Iterations implements Measurement {
 	/** Creates a new instance of Iterations. */
     public Iterations() {
     }
-    
+
     /**
      * Copy constructor. Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
     public Iterations(Iterations copy) {
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Iterations getClone() {
     	return new Iterations(this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -58,15 +58,15 @@ public class Iterations implements Measurement {
     	return "Z";
     	//return "T";
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Type getValue(Algorithm algorithm) {
     	Int i = new Int();
     	i.setInt(algorithm.getIterations());
-    	
+
     	return i;
     }
-    
+
 }

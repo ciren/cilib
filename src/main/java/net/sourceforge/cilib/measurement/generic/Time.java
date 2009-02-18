@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class Time implements Measurement, AlgorithmListener {
 	private static final long serialVersionUID = -3516066813688827758L;
-	
+
 	private boolean running = false;
 	private long startTime;
 	private long endTime;
@@ -47,7 +47,7 @@ public class Time implements Measurement, AlgorithmListener {
 		startTime = System.currentTimeMillis();
 		endTime = startTime;
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the given instance.
 	 * @param copy The instance to copy.
@@ -57,14 +57,14 @@ public class Time implements Measurement, AlgorithmListener {
 		startTime = copy.startTime;
 		endTime = copy.endTime;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public Time getClone() {
 		return new Time(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -72,7 +72,7 @@ public class Time implements Measurement, AlgorithmListener {
 		return "Z";
 		//return "T";
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -90,7 +90,7 @@ public class Time implements Measurement, AlgorithmListener {
 			return i;
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -119,7 +119,7 @@ public class Time implements Measurement, AlgorithmListener {
 	 * {@inheritDoc}
 	 */
 	public void iterationCompleted(AlgorithmEvent e) {
-		
+
 	}
-	
+
 }

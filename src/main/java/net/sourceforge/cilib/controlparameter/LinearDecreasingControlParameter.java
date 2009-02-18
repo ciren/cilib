@@ -28,7 +28,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * that is defined to update itself in an linearly decreasing manner. The rate of change
  * within the parameter is based on the percentage complete of the running
  * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
- * 
+ *
  * @author Gary Pampara
  */
 public class LinearDecreasingControlParameter extends BoundedControlParameter {
@@ -72,5 +72,5 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
 		super.setUpperBound(value);
 		this.parameter.setReal(value);
 	}
-	
+
 }

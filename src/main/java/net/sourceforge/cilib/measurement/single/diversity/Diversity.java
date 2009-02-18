@@ -47,46 +47,46 @@ public class Diversity implements Measurement {
 	protected DistanceMeasure distanceMeasure;
 	protected CenterInitialisationStrategy populationCenter;
 	protected NormalisationParameter normalisationParameter;
-	
+
 	public Diversity() {
 		distanceMeasure = new EuclideanDistanceMeasure();
 		populationCenter = new SpatialCenterInitialisationStrategy();
 		normalisationParameter = new NormalisationParameter();
 	}
-	
+
 	public Diversity(Diversity other) {
 		this.distanceMeasure = other.distanceMeasure;
 		this.populationCenter = other.populationCenter;
 		this.normalisationParameter = other.normalisationParameter;
 	}
-	
+
 	public Diversity getClone() {
 		return new Diversity(this);
 	}
-	
+
 	public String getDomain() {
 		return "R";
 	}
-	
+
 	public Type getValue(Algorithm algorithm) {
 		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 		int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
-		
+
 		Vector center = (Vector) populationCenter.getCenter();
 		Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
-		
+
 		double distanceSum = 0.0;
-		
+
 		while (populationIterator.hasNext()) {
 			Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getCandidateSolution());
 			distanceSum += distanceMeasure.distance(center, currentEntityPosition);
 		}
-		
+
 		distanceSum /= numberOfEntities;
-		
+
 		normalisationParameter.setDistanceMeasure(distanceMeasure);
 		distanceSum /= normalisationParameter.getValue();
-		
+
 		return new Real(distanceSum);
 	}
 

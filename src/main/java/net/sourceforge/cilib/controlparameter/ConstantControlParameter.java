@@ -24,7 +24,7 @@ package net.sourceforge.cilib.controlparameter;
 /**
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * to represent a constant value. The specified value will be maintained until it is altered.
- * 
+ *
  * @author Gary Pampara
  */
 public class ConstantControlParameter implements ControlParameter {
@@ -77,7 +77,7 @@ public class ConstantControlParameter implements ControlParameter {
 	}
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public void setParameter(double value) {
 		this.parameter = value;

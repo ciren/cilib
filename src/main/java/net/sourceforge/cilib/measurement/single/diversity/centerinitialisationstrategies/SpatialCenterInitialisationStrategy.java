@@ -32,26 +32,26 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: Complete this javadoc.
  */
 public class SpatialCenterInitialisationStrategy extends CenterInitialisationStrategy {
-	
+
 	@Override
 	public Vector getCenter() {
 		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
 		int numberOfEntities = algorithm.getPopulationSize();
-		
+
 		Iterator<? extends Entity> averageIterator = algorithm.getTopology().iterator();
 		Entity entity = averageIterator.next();
         Vector averageEntityPosition = (Vector) entity.getCandidateSolution().getClone();
-        
+
         while (averageIterator.hasNext()) {
         	entity = averageIterator.next();
         	Vector entityContents = (Vector) entity.getCandidateSolution();
         	for (int j = 0; j < averageEntityPosition.getDimension(); ++j)
         	   averageEntityPosition.setReal(j, averageEntityPosition.getReal(j)+entityContents.getReal(j));
         }
-        
+
         for (int j = 0; j < averageEntityPosition.getDimension(); ++j)
            averageEntityPosition.setReal(j, averageEntityPosition.getReal(j)/numberOfEntities);
-		
+
         return averageEntityPosition;
 	}
 

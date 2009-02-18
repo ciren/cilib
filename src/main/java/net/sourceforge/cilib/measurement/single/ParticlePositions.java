@@ -42,7 +42,7 @@ public class ParticlePositions implements Measurement {
 	 */
 	public ParticlePositions() {
 	}
-	
+
 	/**
 	 * Copy constructor.
 	 * @param copy The instance to copy.
@@ -69,7 +69,7 @@ public class ParticlePositions implements Measurement {
 	 */
 	public Type getValue(Algorithm algorithm) {
 		StringBuilder tmp = new StringBuilder();
-		
+
 		PSO pso = (PSO) algorithm;
 		//Iterator i = pso.getTopology().particles();
 		Iterator<Particle> i = pso.getTopology().iterator();
@@ -82,17 +82,17 @@ public class ParticlePositions implements Measurement {
 			tmp.append(" Best Fitness: ");
 			tmp.append(particle.getBestFitness().getValue());
 			tmp.append(" Position: ");
-			
+
 			Vector v = (Vector) particle.getPosition();
 			for (int j = 0; j < particle.getDimension(); ++j) {
 				tmp.append(v.getReal(j));
 				tmp.append(" ");
 			}
 		}
-		
+
 		StringType t = new StringType();
 		t.setString(tmp.toString());
-		
+
 		return t;
 	}
 

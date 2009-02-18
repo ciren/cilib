@@ -24,12 +24,12 @@ package net.sourceforge.cilib.math.random;
 import net.sourceforge.cilib.math.MathUtil;
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
 public final class DiscreteRandomNumber {
-	
+
 	/**
 	 * Default constructor hidden - this is a utility class.
 	 */
@@ -40,7 +40,7 @@ public final class DiscreteRandomNumber {
 	 * Get the value of the Poisson distribution given a specific point and
 	 * specific lambda value.
 	 * @param x The point to calculate the distribution value from.
-	 * @param lambda The value of lambda. 
+	 * @param lambda The value of lambda.
 	 * @return The value at point {@code x}.
 	 */
 	public static double getPoisson(double x, double lambda) {
@@ -48,7 +48,7 @@ public final class DiscreteRandomNumber {
 		double denominator = MathUtil.factorial(x);
 		return numerator / denominator;
 	}
-	
+
 	/**
 	 * Get the value of the Binomial distribution at point {@code x}, given the values
 	 * for {@code p} and {@code n}.
@@ -58,7 +58,7 @@ public final class DiscreteRandomNumber {
 	 * @return The value of the binomial distribution.
 	 */
 	public static double getBinomial(double x, double p, double n) {
-		return MathUtil.combination(n, x) * Math.pow(p, x) * Math.pow((1-p), (n-x));		
+		return MathUtil.combination(n, x) * Math.pow(p, x) * Math.pow((1-p), (n-x));
 	}
 
 }

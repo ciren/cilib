@@ -32,15 +32,18 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Multiple fitness.
- * 
+ *
  * <p>Title: CILib</p>
  * <p>Description: CILib (Computational Intelligence Library)</p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: </p>
  * @author Clive Naicker
  * @version 1.0
+ * @deprecated This class is no longer valid. A combination of the
+ *             {@link CompositeMeasurement} and {@link net.sourceforge.cilib.measurement.single.Fitness}
+ *             should be used instead
  */
-
+@Deprecated
 public class MultipleFitness implements Measurement {
 	private static final long serialVersionUID = -255308745515061075L;
 
@@ -49,14 +52,14 @@ public class MultipleFitness implements Measurement {
 	 */
 	public MultipleFitness() {
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
 	 */
 	public MultipleFitness(MultipleFitness copy) {
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -72,7 +75,7 @@ public class MultipleFitness implements Measurement {
 		//return "R";
 		return "T";
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -84,16 +87,16 @@ public class MultipleFitness implements Measurement {
 			fitnessValues.add(fitness);
 		}
 		return fitnessValues.toArray();*/
-		
+
 		Vector fitnessValues = new Vector();
 		Collection<OptimisationSolution> solutions = algorithm.getSolutions();
-		
+
 		for (OptimisationSolution solution : solutions) {
 			Double fitness = solution.getFitness().getValue();
 			fitnessValues.add(new Real(fitness));
 		}
-		
+
 		return fitnessValues;
 	}
-  
+
 }

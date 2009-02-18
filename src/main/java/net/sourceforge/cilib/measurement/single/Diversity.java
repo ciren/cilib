@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * References:
  * </p><p><ul><li>
  * T. Krink, J.S. Vesterstrom, J. Riget, "Particle Swarm Optimisation with Spatial Particle Extension",
- * Proceedings of the Fourth Congress on Evolutionary Computation, 
+ * Proceedings of the Fourth Congress on Evolutionary Computation,
  * Volume 2, pages 1474--1479, 2002.
  * </li><li>
  * AP Engelbrecht, "Fundamentals of Computational Swarm Intelligence",
@@ -52,11 +52,11 @@ public class Diversity implements Measurement {
 
 	public Diversity() {
 	}
-	
+
 	public Diversity(Diversity copy) {
-		
+
 	}
-	
+
 	public Diversity getClone() {
 		return new Diversity(this);
 	}
@@ -66,10 +66,10 @@ public class Diversity implements Measurement {
 	}
 
 	public Type getValue(Algorithm algorithm) {
-		
+
 		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 		int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
-				        
+
         Iterator<? extends Entity> k = populationBasedAlgorithm.getTopology().iterator();
         Entity entity = k.next();
         Vector averageParticlePosition = (Vector) entity.getCandidateSolution().getClone();
@@ -81,21 +81,21 @@ public class Diversity implements Measurement {
         }
         for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberOfEntities);
-		
+
 		Iterator<? extends Entity> i = populationBasedAlgorithm.getTopology().iterator();
 		double particleSum = 0.0;
 		while (i.hasNext()) {
 			entity = i.next();
-			
+
 			double dimensionSum = 0.0;
 			Vector v = (Vector) entity.getCandidateSolution();
 			for (int j = 0; j < entity.getDimension(); ++j) {
 				dimensionSum += (v.getReal(j)-averageParticlePosition.getReal(j))*(v.getReal(j)-averageParticlePosition.getReal(j));
-				
+
 			}
 			particleSum += Math.sqrt(dimensionSum);
 		}
-		
+
     	return new Real(particleSum/numberOfEntities);
 	}
 

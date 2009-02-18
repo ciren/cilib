@@ -43,7 +43,7 @@ public class RandomizingControlParameter implements ControlParameter {
 	protected Random randomiser;
 
 	/**
-	 * Create a new {@code RandomizingControlParameter} instance. This object will be 
+	 * Create a new {@code RandomizingControlParameter} instance. This object will be
 	 * instantiated by default with a contained {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}
 	 * and a {@linkplain net.sourceforge.cilib.math.random.generator.MersenneTwister} as the random number generator.
 	 */

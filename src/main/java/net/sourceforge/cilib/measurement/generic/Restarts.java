@@ -37,21 +37,21 @@ public class Restarts implements Measurement {
 	/** Creates a new instance of Restarts. */
     public Restarts() {
     }
-    
+
     /**
      * Copy constructor. Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
     public Restarts(Restarts copy) {
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Restarts getClone() {
     	return new Restarts(this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -59,14 +59,14 @@ public class Restarts implements Measurement {
     	return "Z";
     	//return "T";
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Type getValue(Algorithm algorithm) {
 		MultistartOptimisationAlgorithm m = (MultistartOptimisationAlgorithm) algorithm;
-    	
+
 		return new Int(m.getRestarts());
     }
-    
+
 }

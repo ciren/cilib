@@ -38,7 +38,7 @@ public class ExponentiallyDecreasingControlParameter extends BoundedControlParam
 	public ExponentiallyDecreasingControlParameter() {
 		super();
 	}
-	
+
 	/**
 	 * Copy constructor.
 	 * @param copy The instance to copy.
@@ -46,7 +46,7 @@ public class ExponentiallyDecreasingControlParameter extends BoundedControlParam
 	public ExponentiallyDecreasingControlParameter(ExponentiallyDecreasingControlParameter copy) {
 		super(copy);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -72,5 +72,5 @@ public class ExponentiallyDecreasingControlParameter extends BoundedControlParam
 		super.setUpperBound(value);
 		this.parameter.setReal(value);
 	}
-	
+
 }

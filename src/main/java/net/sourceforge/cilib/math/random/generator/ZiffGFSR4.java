@@ -60,23 +60,23 @@ package net.sourceforge.cilib.math.random.generator;
  * Jul/Aug 1998, pp 385-392.
  * </li></ul></p>
  * <p>
- * This code is based on the implementation in GSL (GNU Scientific Library) 
- * which is also covered by the GNU General Public License. The original C 
- * source code is Copyright (C) 1998 James Theiler 
- * 
+ * This code is based on the implementation in GSL (GNU Scientific Library)
+ * which is also covered by the GNU General Public License. The original C
+ * source code is Copyright (C) 1998 James Theiler
+ *
  * @author  Edwin Peer
  */
 public class ZiffGFSR4 extends Random {
-    
+
     private static final long serialVersionUID = -1714226372864316570L;
-    
+
     /**
      * Create an instance of {@linkplain ZiffGFSR4}.
      */
 	public ZiffGFSR4() {
         super(Seeder.getSeed());
     }
-    
+
 	/**
 	 * Create an instance with the given seed value.
 	 * @param seed The seed value to use.
@@ -84,14 +84,14 @@ public class ZiffGFSR4 extends Random {
     public ZiffGFSR4(long seed) {
         super(seed);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public ZiffGFSR4 getClone() {
     	return new ZiffGFSR4();
     }
-    
+
     private long getLCG(long n) {
         return (69069 * n) & 0xffffffffL;
     }
@@ -101,14 +101,14 @@ public class ZiffGFSR4 extends Random {
      */
     public void setSeed(long seed) {
         ra = new long[M + 1];
-        
+
         if (seed == 0) {
             seed = 4357;
         }
-        
+
         long msb = 0x80000000L;
         long mask = 0xffffffffL;
-        
+
         for (int i = 0; i <= M; ++i) {
             long t = 0;
             long bit = msb;
@@ -121,7 +121,7 @@ public class ZiffGFSR4 extends Random {
             }
             ra[i] = t;
         }
-        
+
         for (int i = 0; i < 32; ++i) {
             int k = 7 + i * 3;
             ra[k] &= mask;
@@ -129,31 +129,31 @@ public class ZiffGFSR4 extends Random {
             mask >>>= 1;
             msb >>>= 1;
         }
-        
+
         nd = 32;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     protected int next(int bits) {
-        nd = (nd + 1) & M; 
-        
+        nd = (nd + 1) & M;
+
         ra[nd] = ra[(nd + M + 1 - A) & M] ^
                  ra[(nd + M + 1 - B) & M] ^
-                 ra[(nd + M + 1 - C) & M] ^	
+                 ra[(nd + M + 1 - C) & M] ^
                  ra[(nd + M + 1 - D) & M];
-        
+
         return (int) (ra[nd] >>> (32 - bits));
     }
-    
+
     private static final int A = 471;
     private static final int B = 1586;
     private static final int C = 6988;
     private static final int D = 9689;
     private static final int M = 16383;
-    
+
     private int nd;
     private long[] ra;
-    
+
 }

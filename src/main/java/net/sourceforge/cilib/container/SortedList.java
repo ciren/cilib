@@ -35,7 +35,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * A collection that always provides a list of elements that is sorted. The ordering is
  * specified by the provided {@linkplain Comparator} instance. If no comparator is
  * provided, the natural ordering of the type {@code E} will be used.
- * 
+ *
  * @author Gary Pampara
  * @param <E> The {@linkplain Comparable} type.
  */
@@ -44,7 +44,7 @@ public class SortedList<E extends Comparable<? super E>> implements List<E>, Clo
 	private static final long serialVersionUID = 4170822549076470223L;
 	private LinkedList<E> list;
 	private Comparator<E> comparator = null;
-	
+
 	/**
 	 * Create a new instance of {@linkplain SortedList} without a {@linkplain Comparator}
 	 * defined.
@@ -52,16 +52,16 @@ public class SortedList<E extends Comparable<? super E>> implements List<E>, Clo
 	public SortedList() {
 		this.list = new LinkedList<E>();
 	}
-	
+
 	/**
-	 * Create a new instance of {@linkplain SortedList} with the provided {@linkplain Comparator}. 
+	 * Create a new instance of {@linkplain SortedList} with the provided {@linkplain Comparator}.
 	 * @param comparator The {@linkplain Comparator} to use.
 	 */
 	public SortedList(Comparator<E> comparator) {
 		this.list = new LinkedList<E>();
 		this.comparator = comparator;
 	}
-	
+
 	/**
 	 * Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -237,7 +237,7 @@ public class SortedList<E extends Comparable<? super E>> implements List<E>, Clo
 	 * or location of the new element will be at {@code index}. After the replacement
 	 * the order of the list is shuffled to ensure that the sorted nature of the
 	 * list is maintained.
-	 * 
+	 *
 	 * @param index The current location of the element to replace.
 	 * @param element The element to replace the element at index {@code index}.
 	 * @return The new element that has been set.
@@ -254,7 +254,7 @@ public class SortedList<E extends Comparable<? super E>> implements List<E>, Clo
 	 * best effort. There is no guarantee that the addition of the element at
 	 * {@code index} will perserve the list's ordering. As a result the list
 	 * order is verified after addition.
-	 * 
+	 *
 	 * @param index The position in the list to attempt the addition.
 	 * @param element The element to add.
 	 */
@@ -327,5 +327,5 @@ public class SortedList<E extends Comparable<? super E>> implements List<E>, Clo
 	public void setComparator(Comparator<E> comparator) {
 		this.comparator = comparator;
 	}
-	
+
 }

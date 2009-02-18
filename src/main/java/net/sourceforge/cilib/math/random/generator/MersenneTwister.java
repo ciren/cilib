@@ -57,7 +57,7 @@ public class MersenneTwister extends Random {
     private static final long serialVersionUID = -4165908582605023476L;
 
     /**
-     * Default Constructor. Initialises the {@linkplain MersenneTwister} with the 
+     * Default Constructor. Initialises the {@linkplain MersenneTwister} with the
      * seed value from {@link Seeder#getSeed()}.
      */
 	public MersenneTwister() {
@@ -132,15 +132,15 @@ public class MersenneTwister extends Random {
 
             index = 0;
         }
-        
+
         long k = data[index];
         k ^= (k >>> 11);
         k ^= (k << 7) & 0x9d2c5680L;
         k ^= (k << 15) & 0xefc60000L;
         k ^= (k >>> 18);
-        
+
         ++index;
-        
+
         return (int) ((k & 0xffffffffL) >>> (32 - bits));
     }
 
@@ -161,7 +161,7 @@ public class MersenneTwister extends Random {
 
     private long[] data;
     private int index;
-    
+
     private static final int N = 624;
     private static final int M = 397;
     private static final long UPPER_MASK = 0x80000000L;

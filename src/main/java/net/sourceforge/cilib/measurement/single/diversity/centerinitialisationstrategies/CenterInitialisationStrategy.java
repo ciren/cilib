@@ -24,11 +24,11 @@ package net.sourceforge.cilib.measurement.single.diversity.centerinitialisations
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  *
  */
 public abstract class CenterInitialisationStrategy {
-	
+
 	/**
 	 * Get the population center.
 	 * @return the populationCenter

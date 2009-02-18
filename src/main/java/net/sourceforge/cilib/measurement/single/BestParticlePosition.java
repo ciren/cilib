@@ -29,10 +29,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Print the position of the best particle in the swarm.
- * 
+ *
  * @author Gary Pampara
  */
-public class BestParticlePosition implements Measurement { 
+public class BestParticlePosition implements Measurement {
 	private static final long serialVersionUID = 5808686984197365658L;
 
 	/**
@@ -40,13 +40,13 @@ public class BestParticlePosition implements Measurement {
 	 */
 	public BestParticlePosition() {
     }
-	
+
 	/**
 	 * Copy the provided instance.
 	 * @param copy The instance to copy.
 	 */
 	public BestParticlePosition(BestParticlePosition copy) {
-		
+
 	}
 
 	/**
@@ -62,17 +62,17 @@ public class BestParticlePosition implements Measurement {
     public String getDomain() {
     	return "T";
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Type getValue(Algorithm algorithm) {
         Vector solution = (Vector) algorithm.getBestSolution().getPosition();
-        
+
         StringType t = new StringType();
         t.setString(solution.toString());
-        
-        return t;    	
+
+        return t;
     }
 
 }

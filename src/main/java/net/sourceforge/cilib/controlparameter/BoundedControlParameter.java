@@ -32,24 +32,24 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * that is defined to operate within a specific range of values. The range is defined as a domain string.
  * Any time the parameter exceeds the bounded range, it will be clamped and brought back to remain on
  * the edges of the range specified.
- * 
+ *
  * @author Gary Pampara
  */
 public abstract class BoundedControlParameter implements ControlParameter {
 	private static final long serialVersionUID = 3658446987351378005L;
-	
+
 	protected Real parameter;
 	protected String range = "";
-	
-	
+
+
 	/**
 	 * Create an instance of the {@code BoundedControlParameter}.
 	 */
 	public BoundedControlParameter() {
 		this.parameter = new Real();
 	}
-	
-	
+
+
 	/**
 	 * Create a copy of the provided instance.
 	 * @param copy The instance which to copy.
@@ -58,21 +58,21 @@ public abstract class BoundedControlParameter implements ControlParameter {
 		this.parameter = copy.parameter.getClone();
 		this.range = new String(copy.range);
 	}
-	
-	
+
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public abstract BoundedControlParameter getClone();
 
-	
+
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public double getParameter() {
 		return parameter.getReal();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -80,7 +80,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 		throw new UnsupportedOperationException("");
 	}
 
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -95,12 +95,12 @@ public abstract class BoundedControlParameter implements ControlParameter {
 		update();
 		clamp();
 	}
-	
+
 	/**
 	 * Update the paramter.
 	 */
 	protected abstract void update();
-	
+
 	/**
 	 * Clamp the current paramter vaue between the lower and upper bound values.
 	 */
@@ -110,8 +110,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 		else if (this.parameter.getReal() > this.parameter.getBounds().getUpperBound())
 			this.parameter.setReal(this.parameter.getBounds().getUpperBound());
 	}
-	
-	
+
+
 	/**
 	 * Get the lower bound of the
 	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control paramter}.
@@ -120,8 +120,8 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	public double getLowerBound() {
 		return this.parameter.getBounds().getLowerBound();
 	}
-	
-	
+
+
 	/**
 	 * Set the value of the lower bound.
 	 * @param lower The value to set.
@@ -131,20 +131,20 @@ public abstract class BoundedControlParameter implements ControlParameter {
         Bounds bounds = parameter.getBounds();
         this.parameter.setBounds(lower, bounds.getUpperBound());
 	}
-	
-	
+
+
 	/**
-	 * Get the upper bound for the 
+	 * Get the upper bound for the
 	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}.
 	 * @return The upper bound value.
 	 */
 	public double getUpperBound() {
 		return this.parameter.getBounds().getUpperBound();
 	}
-	
-	
+
+
 	/**
-	 * Set the value for the upper bound. 
+	 * Set the value for the upper bound.
 	 * @param value The value to set.
 	 */
 	public void setUpperBound(double value) {
@@ -153,7 +153,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
         this.parameter.setBounds(bounds.getLowerBound(), value);
 	}
 
-	
+
 	/**
 	 * Get the range of the {@linkplain net.sourceforge.cilib.controlparameter.BoundedControlParameter}.
 	 * @return The string representing the range of the parameter.
@@ -162,7 +162,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 		return range;
 	}
 
-	
+
 	/**
 	 * Set the range of the parameter.
 	 * @param range The domain string representing the range.
@@ -172,11 +172,11 @@ public abstract class BoundedControlParameter implements ControlParameter {
 		DomainParser parser = DomainParser.getInstance();
 		parser.parse(this.range);
 		Vector v = (Vector) parser.getBuiltRepresentation();
-		
-		if (v.getDimension() != 1) 
+
+		if (v.getDimension() != 1)
 			throw new RuntimeException("Range incorrect in BoundedUpdateStrategy! Please correct");
 		else
 			this.parameter = (Real) v.get(0);
 	}
-	
+
 }

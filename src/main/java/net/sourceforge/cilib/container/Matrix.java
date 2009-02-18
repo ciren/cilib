@@ -28,21 +28,21 @@ import java.util.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Representation of a <code>Matrix</code>, with the rows and the columns represented 
- * as a 2D array. The 2D array has been implemented as a Object array as the needed 
+ * Representation of a <code>Matrix</code>, with the rows and the columns represented
+ * as a 2D array. The 2D array has been implemented as a Object array as the needed
  * data stored within the Matrix is variable.
- * 
+ *
  * @author Gary Pampara
  * @param <E> The parameterized type.
  */
 @Deprecated
 public class Matrix<E> implements Cloneable {
 	private static final long serialVersionUID = 4621194915276987567L;
-	
+
 	private ArrayList< ArrayList<E> > data; // This is the ArrayList of the 1st dimension
 	private int rows;
 	private int cols;
-	
+
 	/**
 	 * Create a new <code>Matrix</code> object with dimensions: rows x columns.
 	 * @param rows The number of rows the <code>Matrix</code> should contain.
@@ -52,7 +52,7 @@ public class Matrix<E> implements Cloneable {
 		if (rows == 0 || cols == 0) {
 			throw new IllegalArgumentException("Cannot create a Matrix with row or column dimension < 1");
 		}
-		
+
 		this.rows = rows;
 		this.cols = cols;
 
@@ -68,8 +68,8 @@ public class Matrix<E> implements Cloneable {
 			data.add(tmp);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Copy constructor.
 	 * @param copy The instance to copy.
@@ -77,17 +77,17 @@ public class Matrix<E> implements Cloneable {
 	public Matrix(Matrix<E> copy) {
 		rows = copy.rows;
 		cols = copy.cols;
-		
+
 		data = new ArrayList<ArrayList<E>>();
-		
+
 		for (ArrayList<E> item : data) {
 			ArrayList<E> cloneList = new ArrayList<E>();
-			
+
 			for (E j : item)
 				cloneList.add(j);
 		}
 	}
-	
+
 
 	/**
 	 * {@inheritDoc}
@@ -125,15 +125,15 @@ public class Matrix<E> implements Cloneable {
 
 	/**
 	 * Get the number of columns in the <code>Matrix</code>.
-	 * @return The number of columns in the <code>Matrix</code>. 
+	 * @return The number of columns in the <code>Matrix</code>.
 	 */
 	public int getColumnCount() {
-		return cols; 
+		return cols;
 	}
 
 	/**
 	 * Get the number of rows in the <code>Matrix</code>.
-	 * @return The number of rows in the <code>Matrix</code>. 
+	 * @return The number of rows in the <code>Matrix</code>.
 	 */
 	public int getRowCount() {
 		return rows;
@@ -167,7 +167,7 @@ public class Matrix<E> implements Cloneable {
 
 			for (int j = 0; j < cols; j++)
 				tmp.add(null);
-			
+
 			data.add(tmp);
 		}
 	}
@@ -175,7 +175,7 @@ public class Matrix<E> implements Cloneable {
 	/**
 	 * Get a <code>Vector</code> representing the row within the <code>Matrix</code> at the given index.
 	 * @param row The row index of the row to be returned, indexed from 0.
-	 * @return A <code>Vector</code> representing the row within the <code>Matrix</code>. 
+	 * @return A <code>Vector</code> representing the row within the <code>Matrix</code>.
 	 */
 	public Collection<E> getRow(int row) {
 		ArrayList<E> tmp = new ArrayList<E>();

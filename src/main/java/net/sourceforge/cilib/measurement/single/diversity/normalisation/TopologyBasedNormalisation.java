@@ -32,7 +32,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 public class TopologyBasedNormalisation extends NormalisationParameter {
 
 	private TopologyVisitor visitor;
-	
+
 	/**
 	 * Create an instance of the {@linkplain TopologyBasedNormalisation}.
 	 */
@@ -50,7 +50,7 @@ public class TopologyBasedNormalisation extends NormalisationParameter {
 		visitor.setDistanceMeasure(distanceMeasure);
 		algorithm.accept(visitor);
 		this.normalisationParameter = visitor.getResult();
-		
+
 		return this.normalisationParameter;
 	}
 

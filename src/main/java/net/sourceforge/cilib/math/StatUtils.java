@@ -31,12 +31,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public final class StatUtils {
-	
+
 	private StatUtils() {
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param vector
 	 * @return
 	 */
@@ -47,7 +47,7 @@ public final class StatUtils {
 	/**
 	 * Calculates the mean {@linkplain Vector} of the given set/cluster/collection of
 	 * {@link Pattern}s.
-	 * 
+	 *
 	 * This is illustrated in Equation 4.b of:<br/>
 	 * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
 	 *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
@@ -74,7 +74,7 @@ public final class StatUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param vector
 	 * @return
 	 */
@@ -84,7 +84,7 @@ public final class StatUtils {
 
 	/**
 	 * Calculates the variance of the given set/cluster/collection of @{link Pattern}s.
-	 * 
+	 *
 	 * This is illustrated in Equation 4.c of:<br/>
 	 * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
 	 *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
@@ -119,7 +119,7 @@ public final class StatUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param vector
 	 * @return
 	 */

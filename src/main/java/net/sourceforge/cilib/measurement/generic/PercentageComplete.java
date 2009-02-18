@@ -36,21 +36,21 @@ public class PercentageComplete implements Measurement {
 	/** Creates a new instance of PercentageComplete. */
     public PercentageComplete() {
     }
-    
+
     public PercentageComplete(PercentageComplete copy) {
     }
-    
+
     public PercentageComplete getClone() {
     	return new PercentageComplete(this);
     }
-    
+
     public String getDomain() {
     	return "R(0,1)";
     	//return "T";
     }
-    
+
     public Type getValue(Algorithm algorithm) {
     	return new Real(algorithm.getPercentageComplete());
     }
-    
+
 }

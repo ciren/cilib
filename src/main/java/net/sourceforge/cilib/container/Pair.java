@@ -154,14 +154,14 @@ public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair
 		if (key == null) {
 			if (other.key != null)
 				return false;
-		} 
+		}
 		else if (!key.equals(other.key))
 			return false;
 
 		if (value == null) {
 			if (other.value != null)
 				return false;
-		} 
+		}
 		else if (!value.equals(other.value))
 			return false;
 

@@ -28,21 +28,21 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 /**
  * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>
  * class.
- * 
+ *
  * These utility functions further are necessary for the various distributions and selections
  * required within CIlib as a whole.
- * 
+ *
  * @author Gary Pampara
  *
  */
 public final class MathUtil {
-	
+
 	private static Random randomiser;
-	
+
 	private MathUtil() {
 	}
-	
-		
+
+
 	/**
 	 * Generate the required factorial of the number <code>x</code>.
 	 * @param x The number to generate the factorial from.
@@ -51,7 +51,7 @@ public final class MathUtil {
 	public static double factorial(double x) {
 		if (x < 0)
 			throw new IllegalArgumentException("Factorial is defined to work on numbers >= 0 only");
-		
+
 		if (x == 0.0)
 			return 1.0;
 		else if (x == 1.0)
@@ -59,22 +59,22 @@ public final class MathUtil {
 		else
 			return x * factorial(x-1);
 	}
-	
-	
+
+
 	/**
 	 * Return the combination of <code>n</code> and <code>r</code>.
-	 * @param n The ??? 
+	 * @param n The ???
 	 * @param r >???
 	 * @return The combination of <code>n</code> and <code>r</code>
 	 */
 	public static double combination(double n, double r) {
 		if (n < r)
 			throw new IllegalArgumentException("In a combination the following must hold: n >= x");
-		
+
 		return permutation(n, r) / factorial(r);
 	}
-	
-	
+
+
 	/**
 	 * This is a convienience method providing an alias to <code>combination</code>.
 	 * @param n
@@ -84,10 +84,10 @@ public final class MathUtil {
 	public static double choose(double n, double r) {
 		return combination(n, r);
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param n
 	 * @param r
 	 * @return
@@ -95,22 +95,22 @@ public final class MathUtil {
 	public static double permutation(double n, double r) {
 		return factorial(n) / factorial(n-r);
 	}
-	
-	
-	
+
+
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public static synchronized double random() {
 		if (randomiser == null)
 			randomiser = new MersenneTwister();
-		
+
 		return randomiser.nextDouble();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param pf
 	 * @return
 	 */
@@ -120,7 +120,7 @@ public final class MathUtil {
 
 		return 0;
 	}
-	
+
 	/**
 	 * Determine the log of the specified <code>value</code> with the provided <code>base</code>.
 	 * @param base The base of the log operation.

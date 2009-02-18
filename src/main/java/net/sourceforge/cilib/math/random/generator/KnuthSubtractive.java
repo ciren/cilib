@@ -22,28 +22,28 @@
 package net.sourceforge.cilib.math.random.generator;
 
 /**
- * An implementation of Knuth's subtractive random number generator. 
+ * An implementation of Knuth's subtractive random number generator.
  * This generator is relatively fast but is not considered simulation quality.
- * 
+ *
  * <p>
- * This code is based on the implementation in GSL (GNU Scientific Library) 
- * which is also covered by the GNU General Public License. The original C 
- * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler 
+ * This code is based on the implementation in GSL (GNU Scientific Library)
+ * which is also covered by the GNU General Public License. The original C
+ * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler
  * and Brian Gough.
  *
  * @author  Edwin Peer
  */
 public class KnuthSubtractive extends Random {
-    
+
     private static final long serialVersionUID = 8124520969303604479L;
-    
+
     /**
      * Create an instance of {@linkplain KnuthSubtractive}.
      */
 	public KnuthSubtractive() {
         super(Seeder.getSeed());
     }
-    
+
 	/**
 	 * Create an instance, with the given <code>seed</code> value.
 	 * @param seed The seed value.
@@ -51,29 +51,29 @@ public class KnuthSubtractive extends Random {
     public KnuthSubtractive(long seed) {
         super(seed);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public KnuthSubtractive getClone() {
     	return new KnuthSubtractive();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public void setSeed(long seed) {
         buffer = new long[56];
-        
+
         if (seed == 0) {
             seed = 1;
         }
-        
+
         long j = (M_SEED - seed) % M_BIG;
-        
+
         buffer[0] = 0;
         buffer[55] = j;
-        
+
         long k = 1;
         for (int i = 1; i < 55; ++i) {
             int n = (21 * i) % 55;
@@ -84,7 +84,7 @@ public class KnuthSubtractive extends Random {
             }
             j = buffer[n];
         }
-        
+
         for (int i1 = 0; i1 < 4; ++i1) {
             for (int i = 1; i < 56; ++i) {
                 long t = buffer[i] - buffer[1 + (i + 30) % 55];
@@ -94,11 +94,11 @@ public class KnuthSubtractive extends Random {
                 buffer[i] = t;
             }
         }
-        
+
         x = 0;
         y = 31;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -111,21 +111,21 @@ public class KnuthSubtractive extends Random {
         if (y == 56) {
             y = 1;
         }
-        
+
         long j = buffer[x] - buffer[y];
         if (j < 0) {
             j += M_BIG;
         }
         buffer[x] = j;
-        
-        return (int) ((j & 0xffffffffL) >>> (32 - bits)); 
+
+        return (int) ((j & 0xffffffffL) >>> (32 - bits));
     }
-    
+
     private static final long M_BIG = 0xffffffffL;
     private static final long M_SEED = 161803398;
-    
+
     private int x;
     private int y;
     private long[] buffer;
-    
+
 }

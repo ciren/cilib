@@ -438,10 +438,10 @@ public class Sobol extends QuasiRandom {
 			for (i = 0; i < dimensions; i++) {
 				lastq[i] = 0;
 			}
-		} 
+		}
 		else if (storedSeed == seedSave + 1) {
 			l = i4BitLo0(storedSeed);
-		} 
+		}
 		else if (storedSeed <= seedSave) {
 			seedSave = 0;
 			l = 1;
@@ -458,7 +458,7 @@ public class Sobol extends QuasiRandom {
 				}
 			}
 			l = i4BitLo0(storedSeed);
-		} 
+		}
 		else if (seedSave + 1 < storedSeed) {
 			for (seed_temp = seedSave + 1; seed_temp <= (storedSeed) - 1; seed_temp++) {
 

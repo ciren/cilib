@@ -30,18 +30,22 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Edwin Peer
+ * @deprecated This class is no longer valid. A combination of the
+ *             {@link CompositeMeasurement} and {@link net.sourceforge.cilib.measurement.single.Solution}
+ *             should be used instead
  */
+@Deprecated
 public class MultipleSolutions implements Measurement {
 	private static final long serialVersionUID = 1617755270627315980L;
 
 	public MultipleSolutions() {
 	}
-	
+
 	public MultipleSolutions(MultipleSolutions copy) {
 	}
-	
+
 	public MultipleSolutions getClone() {
 		return new MultipleSolutions(this);
 	}
@@ -49,16 +53,16 @@ public class MultipleSolutions implements Measurement {
 	public String getDomain() {
 		return "T";
 	}
-	
+
 	public Type getValue(Algorithm algorithm) {
 		Vector v = new Vector();
 		List<OptimisationSolution> solutions = algorithm.getSolutions();
-		
+
 		for (OptimisationSolution solution : solutions) {
 			v.append((Vector) solution.getPosition());
 		}
-		
+
 		return v;
 	}
-	
+
 }

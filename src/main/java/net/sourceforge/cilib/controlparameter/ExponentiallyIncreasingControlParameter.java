@@ -38,7 +38,7 @@ public class ExponentiallyIncreasingControlParameter extends BoundedControlParam
 	public ExponentiallyIncreasingControlParameter() {
 		super();
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the given instance.
 	 * @param copy The instance to copy.
@@ -46,7 +46,7 @@ public class ExponentiallyIncreasingControlParameter extends BoundedControlParam
 	public ExponentiallyIncreasingControlParameter(ExponentiallyIncreasingControlParameter copy) {
 		super(copy);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -72,5 +72,5 @@ public class ExponentiallyIncreasingControlParameter extends BoundedControlParam
 		super.setLowerBound(lower);
 		this.parameter.setReal(lower);
 	}
-	
+
 }

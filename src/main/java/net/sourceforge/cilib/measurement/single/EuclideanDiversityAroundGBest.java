@@ -39,9 +39,9 @@ public class EuclideanDiversityAroundGBest implements Measurement {
 	private static final long serialVersionUID = 8221420456303029095L;
 
 	public EuclideanDiversityAroundGBest(EuclideanDiversityAroundGBest copy) {
-		
+
 	}
-	
+
 	public EuclideanDiversityAroundGBest getClone() {
 		return new EuclideanDiversityAroundGBest(this);
 	}
@@ -52,7 +52,7 @@ public class EuclideanDiversityAroundGBest implements Measurement {
 
 	public Type getValue(Algorithm algorithm) {
 		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-		
+
 		Vector center = (Vector) algorithm.getBestSolution().getPosition();
 		DistanceMeasure distance = new EuclideanDistanceMeasure();
 		double diameter = 0;
@@ -61,7 +61,7 @@ public class EuclideanDiversityAroundGBest implements Measurement {
 		for (Entity entity : topology) {
 		     diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
 		}
-		
+
 		return new Real(diameter/topology.size());
 	}
 

@@ -28,40 +28,40 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This class provides the needed functionality to sample random numbers from different
  * continuous valued distributions.
- * <p> 
+ * <p>
  * These distributions include:<br>
  * <ul>
  *   <li>Gaussian / Normal random numbers</li>
  *   <li>Cauchy random numbers</li>
  *   <li>Uniform random numbers</li>
  * </ul>
- * 
+ *
  * @author Gary Pampara
  */
 public class RandomNumber implements Cloneable {
 	private static final long serialVersionUID = -7960211483219171592L;
-	
+
 	private Random randomGenerator;
-	
-	
+
+
 	/**
 	 * Create a <code>RandomNumber</code> instance. The internal random number generator is
-	 * defined to be the <code>MersenneTwister</code> by default with a <code>mean</code> 
+	 * defined to be the <code>MersenneTwister</code> by default with a <code>mean</code>
 	 * of 0.0 and a <code>deviation</code> of 1.0.
 	 */
 	public RandomNumber() {
 		randomGenerator = new MersenneTwister();
 	}
-	
+
 	public RandomNumber(RandomNumber copy) {
 		this.randomGenerator = copy.randomGenerator.getClone();
 	}
-	
+
 	public RandomNumber getClone() {
 		return new RandomNumber(this);
 	}
-	
-	
+
+
 	/**
 	 * Return the random number generator being used.
 	 * @return The random number generator.
@@ -69,8 +69,8 @@ public class RandomNumber implements Cloneable {
 	public Random getRandomGenerator() {
 		return this.randomGenerator;
 	}
-	
-	
+
+
 	/**
 	 * Set the random number generator to be used.
 	 * @param random The random number generator to be used.
@@ -78,23 +78,23 @@ public class RandomNumber implements Cloneable {
 	public void setRandomGenerator(Random random) {
 		this.randomGenerator = random;
 	}
-	
-	
+
+
 	/**
 	 * Return a random number from the Guassian distribution with a <code>mean</code> of
 	 * 0.0 and a <code>deviation</code> of 1.0.
-	 * 
+	 *
 	 * @return Random number ~ N(0,1).
 	 */
 	public double getGaussian() {
 		return getGaussian(0.0, 1.0);
 	}
-	
-	
+
+
 	/**
 	 * Return a random number with the mean of <code>mean</code> and a deviation of
 	 * <code>deviation</code>. Based on the formula:<br><code>s*U(0, 1) + m == U(m, s)</code>
-	 * 
+	 *
 	 * <p>
 	 * ALGORITHM 712, COLLECTED ALGORITHMS FROM ACM.<br>
 	 * THIS WORK PUBLISHED IN TRANSACTIONS ON MATHEMATICAL SOFTWARE,<br>
@@ -120,7 +120,7 @@ public class RandomNumber implements Cloneable {
 		 do {
 			 u = randomGenerator.nextDouble();
 			 v = randomGenerator.nextDouble();
-			 
+
 			 if (u <= 0.0 || v <= 0.0) {
 				 u = 1.0;
 				 v = 1.0;
@@ -142,17 +142,17 @@ public class RandomNumber implements Cloneable {
 		 /*  Return ratio of P's coordinates as the normal deviate */
 	    return (location + scale * v / u);
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public double getNormal() {
 		return getGaussian();
 	}
-	
-	
+
+
 	/**
 	 * Convenience method for <code>getGaussian()</code>.
 	 * @param location The location of the mean of the distribution.
@@ -162,8 +162,8 @@ public class RandomNumber implements Cloneable {
 	public double getNormal(double location, double scale) {
 		return getGaussian(location, scale);
 	}
-	
-	
+
+
 	/**
 	 * Convenience method to obtain a Cauchy number. The distribution has a <code>mean</code>
 	 * of <code>0.0</code> and a <code>deviation</code> of <code>1.0</code>.
@@ -172,13 +172,13 @@ public class RandomNumber implements Cloneable {
 	public double getCauchy() {
 		return getCauchy(0.0, 1.0);
 	}
-	
-	
+
+
 	/**
 	 * Return a random number sampled from the Cauchy distribution.
 	 * @param location The location of the mean of the distribution.
-	 * @param scale The allowed variation that can be observed. 
-	 * @return A Cauchy random number with location <tt>location</tt> and 
+	 * @param scale The allowed variation that can be observed.
+	 * @return A Cauchy random number with location <tt>location</tt> and
 	 *         scale parameter <tt>scale</tt>
 	 */
 	public double getCauchy(double location, double scale) {
@@ -187,22 +187,22 @@ public class RandomNumber implements Cloneable {
 		double term = (x-location)/scale;
 		return (1.0 / scale*Math.PI*(1 + (term*term)));
 	}
-	
-	
+
+
 	/**
 	 * Get a uniform random number located within <code>0 &lt;= x &lt; 1</code>.
-	 * 
+	 *
 	 * @return Uniform random number (<code>0 &lt;= x &lt; 1</code>).
 	 */
 	public double getUniform() {
 		return getUniform(0.0, 1.0);
 	}
-	
-	
+
+
 	/**
 	 * Get the uniform random number. The number is located within <code>A &lt;= x &lt; B</code>
 	 * where <code>A == mean</code> and <code>B == deviation</code>.
-	 * 
+	 *
 	 * @param lower The lower bound for the number generation.
 	 * @param upper The upper bound for the number generation.
 	 * @return Uniform random number (<code>lower &lt;= x &lt; upper</code>).
@@ -211,5 +211,5 @@ public class RandomNumber implements Cloneable {
 		double r = randomGenerator.nextDouble();
 		return ((upper - lower) * r + lower);
 	}
-	
+
 }

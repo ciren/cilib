@@ -36,22 +36,22 @@ public class FitnessEvaluations implements Measurement {
 	/** Creates a new instance of FitnessEvaluations. */
     public FitnessEvaluations() {
     }
-    
+
     /**
      * Copy constructor. Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
     public FitnessEvaluations(FitnessEvaluations copy) {
-    	
+
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public FitnessEvaluations getClone() {
     	return new FitnessEvaluations(this);
     }
-  
+
     /**
      * {@inheritDoc}
      */
@@ -59,13 +59,13 @@ public class FitnessEvaluations implements Measurement {
     	return "Z";
     	//return "T";
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Type getValue(Algorithm algorithm) {
 		int evaluations = algorithm.getOptimisationProblem().getFitnessEvaluations();
     	return new Int(evaluations);
-    }    
-    
+    }
+
 }

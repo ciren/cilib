@@ -32,10 +32,10 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Calculates the swarm diameter as the maximum euclidean distance between any
- * two particles. 
- * 
- * 
- * 
+ * two particles.
+ *
+ *
+ *
  * @author  Andries Engelbrecht
  */
 public class Diameter implements Measurement {
@@ -44,40 +44,40 @@ public class Diameter implements Measurement {
 	/** Creates a new instance of SwarmDiameter. */
     public Diameter() {
     }
-    
+
     /**
      * Copy constructor. Creates a copy of the provided instance.
      * @param copy The instance to copy.
      */
     public Diameter(Diameter copy) {
-    	
+
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public Diameter getClone() {
     	return new Diameter(this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public String getDomain() {
     	return "R";
     }
-    
+
     /**
      * {@inheritDoc}
      */
 	public Type getValue(Algorithm algorithm) {
     	PopulationBasedAlgorithm popAlg = (PopulationBasedAlgorithm) algorithm;
     	Topology<? extends Entity> topology = popAlg.getTopology();
-    	
+
     	DiameterVisitor visitor = new DiameterVisitor();
         topology.accept(visitor);
-        
+
     	return new Real(visitor.getResult());
     }
-    
+
 }

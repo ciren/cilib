@@ -31,20 +31,20 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class Fitness implements Measurement {
-    
+
 	private static final long serialVersionUID = 4152219744331703008L;
 
 	/** Creates a new instance of Fitness. */
     public Fitness() {
     }
-    
+
     /**
      * Copy constructor. Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
     public Fitness(Fitness copy) {
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -58,7 +58,7 @@ public class Fitness implements Measurement {
     public String getDomain() {
     	return "R";
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -66,5 +66,5 @@ public class Fitness implements Measurement {
     	double fitness = algorithm.getBestSolution().getFitness().getValue();
     	return new Real(fitness);
     }
-    
+
 }

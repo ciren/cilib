@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * measurement that prints the number of victory of the best Entity. 
+ * measurement that prints the number of victory of the best Entity.
  * @author  Julien Duhain
  */
 public class CoevolutionFitness implements Measurement{
@@ -45,13 +45,13 @@ public class CoevolutionFitness implements Measurement{
 
 	/** Creates a new instance of Fitness. */
 	public CoevolutionFitness() {
-		
+
 	}
-	    
+
 	public CoevolutionFitness(CoevolutionFitness copy) {
-	
+
 	}
-	    
+
 	public CoevolutionFitness getClone() {
 		return new CoevolutionFitness(this);
 	}
@@ -59,12 +59,12 @@ public class CoevolutionFitness implements Measurement{
 	public String getDomain() {
 		return "Z";
 	}
-	
+
 	public Type getValue(Algorithm algorithm) {
  		Vector populationFitnesses = new Vector();
   		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
  		int popID = 1;
- 		
+
  		for(PopulationBasedAlgorithm currentAlgorithm : ca) {
  			OptimisationSolution solution = currentAlgorithm.getBestSolution();
  			CoevolutionEvaluationList competitors = ((CompetitiveCoevolutionIterationStrategy)ca.getCoevolutionIterationStrategy()).getOpponentSelectionStrategy().setCompetitors(popID, ca.getPopulations());
@@ -72,7 +72,7 @@ public class CoevolutionFitness implements Measurement{
  			Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
  			blackboard.put(EntityType.CANDIDATE_SOLUTION, solution.getPosition());
  			blackboard.put(EntityType.Coevolution.COMPETITOR_LIST, competitors);
- 			blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());				
+ 			blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());
  			Fitness val = currentAlgorithm.getOptimisationProblem().getFitness(blackboard, false);
  			//PopulationFitnesses.add(new Int(popID));
  			populationFitnesses.add(new Real(val.getValue()));
@@ -80,5 +80,5 @@ public class CoevolutionFitness implements Measurement{
 		}
  		return populationFitnesses;
   	}
-	    
+
 }

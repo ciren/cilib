@@ -25,7 +25,7 @@ package net.sourceforge.cilib.math.random.generator;
 /**
  * <p>
  * This is a maximally equidistributed combined Tausworthe generator
- * by L'Ecuyer. 
+ * by L'Ecuyer.
  * </p><p>
  * The period of this generator is 2^88 (about 10^26).  It uses 3
  * words of state per generator.
@@ -40,10 +40,10 @@ package net.sourceforge.cilib.math.random.generator;
  *  LFSR Generators", `Mathematics of Computation', 68, 225
  *  (1999), 261-269
  * </li></ul></p>
- * 
- * This code is based on the implementation in GSL (GNU Scientific Library) 
- * which is also covered by the GNU General Public License. The original C 
- * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler 
+ *
+ * This code is based on the implementation in GSL (GNU Scientific Library)
+ * which is also covered by the GNU General Public License. The original C
+ * source code is Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler
  * and Brian Gough.
  *
  * Comment text ripped from GSL.
@@ -51,30 +51,30 @@ package net.sourceforge.cilib.math.random.generator;
  * @author  Edwin Peer
  */
 public class Tausworthe extends Random {
-    
+
     private static final long serialVersionUID = -2863057390167225361L;
-    
+
 	public Tausworthe() {
         super(Seeder.getSeed());
     }
-    
+
     public Tausworthe(long seed) {
         super(seed);
     }
-    
+
     public Tausworthe getClone() {
     	return new Tausworthe();
     }
-    
+
     private long getLCG(long n) {
         return (69069 * n) & 0xffffffffL;
     }
-    
+
     public void setSeed(long seed) {
         if (seed == 0) {
             seed = 1;
         }
-        
+
         s1 = getLCG(seed);
         if (s1 < 2) {
             s1 += 2;
@@ -87,7 +87,7 @@ public class Tausworthe extends Random {
         if (s3 < 16) {
             s3 += 16;
         }
-        
+
         next(32);
         next(32);
         next(32);
@@ -95,15 +95,15 @@ public class Tausworthe extends Random {
         next(32);
         next(32);
     }
-    
+
     protected int next(int bits) {
         s1 = (((s1 & 4294967294L) << 12) & 0xffffffffL) ^ ((((s1 << 13) & 0xffffffffL) ^ s1) >>> 19);
         s2 = (((s2 & 4294967288L) << 4) & 0xffffffffL) ^ ((((s2 << 2) & 0xffffffffL) ^ s2) >>> 25);
         s3 = (((s3 & 4294967280L) << 17) & 0xffffffffL) ^ ((((s3 << 3) & 0xffffffffL) ^ s3) >>> 11);
-        
+
         return (int) ((s1 ^ s2 ^ s3) >>> (32 - bits));
     }
-    
+
     private long s1;
     private long s2;
     private long s3;

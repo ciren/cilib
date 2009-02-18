@@ -61,7 +61,7 @@ public class NormalisedDiversity implements Measurement {
 	 */
 	public NormalisedDiversity(NormalisedDiversity copy) {
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -80,11 +80,11 @@ public class NormalisedDiversity implements Measurement {
 	 * {@inheritDoc}
 	 */
 	public Type getValue(Algorithm algorithm) {
-		
+
 		PSO pso = (PSO) algorithm;
-		
+
 		int numberParticles = pso.getPopulationSize();
-				        
+
         Iterator<Particle> k = pso.getTopology().iterator();
         Particle particle = (Particle) k.next();
         Vector averageParticlePosition = (Vector) particle.getPosition().getClone();
@@ -97,27 +97,27 @@ public class NormalisedDiversity implements Measurement {
         for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberParticles);
         //System.out.println(averageParticlePosition);
-		
+
 		Iterator<Particle> i = pso.getTopology().iterator();
 		double particleSum = 0.0;
 		while (i.hasNext()) {
 			particle = (Particle) i.next();
-			
+
 			double dimensionSum = 0.0;
 			Vector v = (Vector) particle.getPosition();
 			for (int j = 0; j < particle.getDimension(); ++j) {
 				dimensionSum += (v.getReal(j)-averageParticlePosition.getReal(j))*(v.getReal(j)-averageParticlePosition.getReal(j));
-				
+
 			}
 			particleSum += Math.sqrt(dimensionSum);
 		}
-		
+
 		double diversity = particleSum/numberParticles;
-		
+
 		DiameterVisitor diameterVisitor = new DiameterVisitor();
 		pso.accept(diameterVisitor);
 		double diameter = diameterVisitor.getResult();
-				
+
     	return new Real(diversity/diameter);
 	}
 

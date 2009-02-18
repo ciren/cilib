@@ -34,19 +34,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author leo
- * This class currently only works for PSO, it finds the best personal best fitness 
- * values for each population in a multi-population based algorithm without re-calculating 
+ * This class currently only works for PSO, it finds the best personal best fitness
+ * values for each population in a multi-population based algorithm without re-calculating
  * the fitness.
  */
 public class MultiPopulationFitness implements Measurement {
 	private static final long serialVersionUID = -608120128187899491L;
 
 	public MultiPopulationFitness() {
-	
+
 	}
-	
+
 	public MultiPopulationFitness(MultiPopulationFitness other) {
-		
+
 	}
 
 	/* (non-Javadoc)

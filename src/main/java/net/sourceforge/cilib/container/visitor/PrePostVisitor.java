@@ -27,29 +27,29 @@ package net.sourceforge.cilib.container.visitor;
  * <p>
  * An example of use would be on {@linkplain Tree} containers, whereby the specific
  * traversal would alter the order in which tree nodes are used.
- * 
+ *
  * @author Gary Pampara
  * @param <E> The element type.
  */
 public class PrePostVisitor<E> extends Visitor<E> {
-	
+
 	/**
 	 * Create a new instance of {@linkplain PrePostVisitor}.
 	 */
 	public PrePostVisitor() {
 	}
-	
+
 	/**
 	 * Pre-visit the given element.
 	 * @param o The object to pre-visit.
 	 */
 	public void preVisit(E o) {};
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public void visit(E o) {};
-	
+
 	/**
 	 * Post-visit the given element.
 	 * @param o The element to post visit.

@@ -24,22 +24,22 @@ package net.sourceforge.cilib.container.visitor;
 /**
  * Simple decorator class that wraps the needed <code>Visitor</code> to make it compatible with Pre-Order
  * Traversals in the Containers defined.
- * 
+ *
  * @author Gary Pampara
  * @param <E> The type
  */
 public class PreOrderVisitorDecorator<E> extends PrePostVisitor<E> {
 	private Visitor<E> visitor;
-	
+
 	/**
 	 * Create a visitor that will pre-visit all nodes. Decorates the provided
-	 * decorator. 
-	 * @param v The {@linkplain Visitor} to decorate. 
+	 * decorator.
+	 * @param v The {@linkplain Visitor} to decorate.
 	 */
 	public PreOrderVisitorDecorator(Visitor<E> v) {
 		visitor = v;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

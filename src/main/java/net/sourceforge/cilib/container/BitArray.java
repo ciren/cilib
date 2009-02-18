@@ -34,7 +34,7 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public class BitArray implements Cloneable {
 	private static final long serialVersionUID = 2559265464633882908L;
-	
+
 	private int [] bits;
 	private int numberOfBits;
 	private int size;
@@ -51,7 +51,7 @@ public class BitArray implements Cloneable {
 		};
 
 	/**
-	 *  Create a <code>BitArray</code> with the initial number of bits 
+	 *  Create a <code>BitArray</code> with the initial number of bits
 	 *  equal to 32.
 	 */
 	public BitArray() {
@@ -61,7 +61,7 @@ public class BitArray implements Cloneable {
 	/**
 	 * Create a <code>BitArray</code> with the initial number of bits specified
 	 * by the parameter <code>numberOfBits</code>.
-	 * @param numberOfBits The number of bits to set for this {@linkplain BitArray}. 
+	 * @param numberOfBits The number of bits to set for this {@linkplain BitArray}.
 	 */
 	public BitArray(int numberOfBits) {
 		if (numberOfBits < 32)
@@ -75,7 +75,7 @@ public class BitArray implements Cloneable {
 		bits = new int[size];
 		//System.out.println("length: " + bits.length);
 	}
-	
+
 	/**
 	 * Copy constructor. Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -83,11 +83,11 @@ public class BitArray implements Cloneable {
 	public BitArray(BitArray copy) {
 		numberOfBits = copy.numberOfBits;
 		size = copy.size;
-		
+
 		bits = new int[copy.bits.length];
-		System.arraycopy(copy.bits, 0, bits, 0, bits.length);		
+		System.arraycopy(copy.bits, 0, bits, 0, bits.length);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -164,10 +164,10 @@ public class BitArray implements Cloneable {
 	public int length() {
 		return numberOfBits;
 	}
-	
-	
+
+
 	/**
-	 * Get the value of the bits between the provided indexes, {@code i} and {@code j}. 
+	 * Get the value of the bits between the provided indexes, {@code i} and {@code j}.
 	 * @param i The start index.
 	 * @param j The end index.
 	 * @return The value of the bits from indexes {@code i} to {@code j}.
@@ -175,17 +175,17 @@ public class BitArray implements Cloneable {
 	public double valueOf(int i, int j) {
 		double result = 0.0;
 		int n = 1;
-		
+
 		for (int counter = i; counter < j; counter++) {
 			if (this.get(counter)) {
 				result += n;
 			}
-			
+
 			n = n*2;
 		}
-		
+
 		System.out.println("result: " + result);
 		return result;
 	}
-	
+
 }

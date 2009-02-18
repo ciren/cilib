@@ -37,10 +37,10 @@ public class FunctionOptimisationError implements Measurement {
 	/** Creates a new instance of FunctionMinimisationError. */
     public FunctionOptimisationError() {
     }
-    
+
     public FunctionOptimisationError(FunctionOptimisationError copy) {
     }
-    
+
     public FunctionOptimisationError getClone() {
     	return new FunctionOptimisationError(this);
     }
@@ -49,14 +49,14 @@ public class FunctionOptimisationError implements Measurement {
     	return "R";
     	//return "T";
     }
-    
+
     public Type getValue(Algorithm algorithm) {
     	FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
-    	
+
     	Double d = new Double(problem.getError(algorithm.getBestSolution().getPosition()));
-        
+
     	//return new Double(problem.getError(algorithm.getBestSolution().getPosition()));
     	return new Real(d.doubleValue());
-    }    
-    
+    }
+
 }

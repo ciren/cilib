@@ -28,38 +28,38 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: Complete this javadoc.
  */
 public class NormalisationParameter {
-	
+
 	protected double normalisationParameter;
 	protected DistanceMeasure distanceMeasure;
-	
+
 	public NormalisationParameter() {
 		normalisationParameter = 1.0;
 		distanceMeasure = new EuclideanDistanceMeasure();
 	}
-	
+
 	/**
 	 * @return the normalising parameter
 	 */
 	public double getValue() {
 		return this.normalisationParameter;
 	}
-	
+
 	/**
 	 * @param
-	 * 
+	 *
 	 * set the value to be used as a normalisation parameter
 	 */
 	public void setNormalisationParameter(double value) {
 		this.normalisationParameter = value;
 	}
-	
+
 	/**
 	 * @return the distance measure used in the calculation
 	 */
 	public DistanceMeasure getDistanceMeasure() {
 		return this.distanceMeasure;
 	}
-	
+
 	/**
 	 * @param distance The distance measure to be used in the normalisation calculation
 	 */

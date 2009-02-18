@@ -22,15 +22,15 @@
 package net.sourceforge.cilib.container.visitor;
 
 /**
- * Simple decorator class that wraps the needed <code>Visitor</code> to make it compatible 
+ * Simple decorator class that wraps the needed <code>Visitor</code> to make it compatible
  * with Post-Order Traversals in the Containers defined.
- * 
+ *
  * @author Gary Pampara
  * @param <E> The type to be visited.
  */
 public class PostOrderVisitorDecorator<E> extends PrePostVisitor<E> {
 	private Visitor<E> visitor;
-	
+
 	/**
 	 * Create a new instance of {@linkplain PostOrderVisitorDecorator}, decorating the
 	 * provided {@linkplain Visitor} instance.
@@ -39,7 +39,7 @@ public class PostOrderVisitorDecorator<E> extends PrePostVisitor<E> {
 	public PostOrderVisitorDecorator(Visitor<E> v) {
 		visitor  = v;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
