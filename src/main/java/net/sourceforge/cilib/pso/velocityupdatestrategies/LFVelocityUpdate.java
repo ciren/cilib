@@ -32,34 +32,34 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class LFVelocityUpdate implements VelocityUpdateStrategy {
 	private static final long serialVersionUID = 2786412133881308328L;
-	
-	private StandardVelocityUpdate standard;    
+
+	private StandardVelocityUpdate standard;
     private GradientOptimisationProblem problem;
-    
+
     /** Creates a new instance of LFVelocityUpdate. */
     public LFVelocityUpdate() {
         standard = new StandardVelocityUpdate();
     }
-    
+
     public LFVelocityUpdate(LFVelocityUpdate copy) {
     	standard = copy.standard.getClone();
     }
-    
+
     public LFVelocityUpdate getClone() {
     	return new LFVelocityUpdate(this);
     }
-    
+
     public void setStandardVelocityUpdate(StandardVelocityUpdate standard) {
         this.standard = standard;
     }
-    
+
     public StandardVelocityUpdate getStandardVelocityUpdate() {
         return standard;
     }
 
     public void updateVelocity(Particle particle) {
         LFDecorator lfParticle = LFDecorator.extract(particle);
-        if (particle.getNeighbourhoodBest().getId() == particle.getId()) {            
+        if (particle.getNeighbourhoodBest().getId() == particle.getId()) {
             double p = lfParticle.getP();
             double delta = lfParticle.getDelta();
             double delta1 = lfParticle.getDelta1();
@@ -68,8 +68,8 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             int s = lfParticle.getS();
             int m = lfParticle.getM();
             int i = lfParticle.getI();
-            int j = lfParticle.getJ();            
-            
+            int j = lfParticle.getJ();
+
             //double[] velocity = particle.getVelocity();
             //double[] position = particle.getPosition();
             //double[] previousPosition = lfParticle.getPreviousPosition();
@@ -78,22 +78,22 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             Vector position = (Vector) particle.getPosition();
             Vector previousPosition = (Vector) lfParticle.getPreviousPosition();
             Vector previousVelocity = (Vector) lfParticle.getPreviousVelocity();
-            
-            double[] nextGradient = lfParticle.getNextGradient();  
+
+            double[] nextGradient = lfParticle.getNextGradient();
 
             double[] gradient = lfParticle.getGradient();
-            
+
             // If the particle was not the neighbourhood best in the previous
             // epoch, reinitialise the leapfrog variables.
             if (!lfParticle.getWasNeighbourhoodBest()) {
                 deltaT = lfParticle.getDefaultDeltaT();
-                                
+
                 // Reset state variables
                 i = 0;
                 j = 2;
                 s = 0;
-                p = 1;                
-                
+                p = 1;
+
                 // LeapFrog Algorithm Step 2
                 // Calculate initial gradient
                 //double [] functionGradient = getGradient(position);
@@ -102,32 +102,32 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                     //gradient[l] = -functionGradient[l];
                 	gradient[l] = -functionGradient.getReal(l);
                 }
-                
+
                 // Calculate initial velocity
                 for (int l = 0; l < particle.getDimension(); ++l) {
-                    
+
                     //velocity[l] = 0.5 * gradient[l] * deltaT;
                 	velocity.setReal(l, 0.5 * gradient[l] * deltaT);
                 }
 
                 lfParticle.setWasNeighbourhoodBest(true);
-            }   
-          
+            }
+
             // LeapFrog Algorithm Step 3
             double lenDeltaX = calculateEuclidianLength(velocity) * deltaT;
-            
+
             // LeapFrog Algorithm Step 4
             if (lenDeltaX < delta) {
                 // LeapFrog Algorithm Step 5a: Update p and deltaT
                 p = p + delta1;
                 deltaT = deltaT * p;
             }
-            else {                
+            else {
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //velocity[l] = delta * velocity[l] / (lenDeltaX);
                 	velocity.setReal(l, delta * velocity.getReal(l) / (lenDeltaX));
                 }
-                
+
                 // LeapFrog Algorithm Step 5b
                 if (s < m) {
                     deltaT = deltaT / 2.0;
@@ -136,24 +136,24 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                         /*tmp = position[l] + previousPosition[l];
                         previousPosition[l] = position[l];
                         position[l] = tmp / 2.0;
-                        
+
                         tmp = velocity[l] + previousVelocity[l];
                         previousVelocity[l] = velocity[l];
                         velocity[l] = tmp / 2.0;
                         s = 0;*/
-                    	
+
                     	tmp = position.getReal(l) + previousPosition.getReal(l);
                         previousPosition.setReal(l, position.getReal(l));
                         position.setReal(l, tmp / 2.0);
-                        
+
                         tmp = velocity.getReal(l) + previousVelocity.getReal(l);
                         previousVelocity.setReal(l, velocity.getReal(l));
                         velocity.setReal(l, tmp / 2.0);
                         s = 0;
-                    }                    
+                    }
                 }
             }
-            
+
             // Step 5: Update position;
             for (int l = 0; l < particle.getDimension(); ++l) {
                 //previousPosition[l] = position[l];
@@ -163,7 +163,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             }
 
             boolean repeatEndLoop = true;
-            
+
             while (repeatEndLoop) {
                 // LeapFrog Algorithm Step 6
                 //double [] functionGradient = getGradient(position);
@@ -171,22 +171,22 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //nextGradient[l] = -functionGradient[l];
                 	nextGradient[l] = -functionGradient.getReal(l);
-                }           
-                
+                }
+
                 for (int l = 0; l < particle.getDimension(); ++l) {
                     //previousVelocity[l] = velocity[l];
                     //velocity[l] += nextGradient[l] * deltaT;
                 	previousVelocity.setReal(l, velocity.getReal(l));
                 	velocity.setReal(l, velocity.getReal(i)+nextGradient[l]*deltaT);
                 }
-                
+
                 // LeapFrog Algorithm Step 7a
                 if (calculateDotProduct(nextGradient, gradient) > 0) {
-                    s = 0;                
+                    s = 0;
                 }
                 else {
                     ++s;
-                    p = 1;                
+                    p = 1;
                 }
 
                 for (int l = 0; l < particle.getDimension(); ++l) {
@@ -233,12 +233,12 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
                             }
                         }
                     }
-                } 
+                }
                 else {
-                    repeatEndLoop = false;                    
+                    repeatEndLoop = false;
                 }
             }
-               
+
             // Set the state values in the particle
             lfParticle.setP(p);
             lfParticle.setDeltaT(deltaT);
@@ -251,7 +251,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             standard.updateVelocity(particle);
         }
     }
-    
+
     /**
      *  Returns the euclidian length of a vector x
      */
@@ -265,7 +265,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
         }
         return (Math.sqrt(l));
     }
-    
+
     private double calculateEuclidianLength(double [] x) {
     	double l = 0;
         for (int i = 0; i < x.length; i++) {
@@ -281,7 +281,7 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
         if (x.length != y.length) {
             throw new RuntimeException("Cannot calculate dot product because vectors are of different sizes.");
         }
-        else {            
+        else {
             double t = 0;
             for (int i = 0; i < x.length; i++) {
             t += x[i] * y[i];
@@ -289,21 +289,21 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             return t;
         }
     }
-    
+
     public void setGradientOptimisationProblem(GradientOptimisationProblem problem) {
-        this.problem = problem;         
-    }    
-    
+        this.problem = problem;
+    }
+
     /**
      * Returns the gradient of the problem function at the given position.
      */
     public Vector getGradient(Vector position) {
         return problem.getGradient(position);
-    }    
-    
-    
+    }
+
+
 	public void updateControlParameters(Particle particle) {
 		// TODO Auto-generated method stub
-		
-	}  
+
+	}
 }

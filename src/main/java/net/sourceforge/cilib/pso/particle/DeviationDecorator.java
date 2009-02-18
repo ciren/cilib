@@ -28,13 +28,13 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
- * 
+ *
+ *
  * @author Edwin Peer
  */
 public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 	private static final long serialVersionUID = -7919347953251165107L;
-	
+
 	private double[][] positions;
 	private Fitness[] fitnesses;
 	private int index;
@@ -59,10 +59,10 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
-		
+
 		if ((object == null) || (this.getClass() != object.getClass()))
 			return false;
-		
+
 		throw new UnsupportedOperationException("This method is not implemented.");
 	}
 
@@ -74,7 +74,7 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
 	/**
 	 * The initialise method overrides the parent class initialise method. The
 	 * fitness[] and positions[][] instance fields are instantiated.
-	 * 
+	 *
 	 * @param problem
 	 * @param i
 	 */

@@ -31,24 +31,24 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  */
 public interface VelocityUpdateStrategy extends Serializable, Cloneable {
-	
+
 	/**
 	 * Clone the <tt>VelocityUpdateStrategy</tt> object.
 	 * @return A cloned <tt>VelocityUpdateStrategy</tt>
 	 */
 	public VelocityUpdateStrategy getClone();
-	
+
 	/**
 	 * Perform the velocity update operation on the specified <tt>Particle</tt>.
 	 * @param particle The <tt>Particle</tt> to apply the operation on.
 	 */
     public void updateVelocity(Particle particle);
-    
+
     /**
-     * Update the needed control parameters for the <tt>VelocityUpdate</tt>, 
+     * Update the needed control parameters for the <tt>VelocityUpdate</tt>,
      * if needed.
      * @param particle The particle for whom the VelocityUpdateStrategy parameters need to be updated.
      */
     public void updateControlParameters(Particle particle);
-    
+
 }

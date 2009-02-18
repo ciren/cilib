@@ -36,16 +36,16 @@ import net.sourceforge.cilib.type.types.TypeUtil;
 public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends
 		ParticleReevaluationResponseStrategy<E> {
 	private static final long serialVersionUID = 4619744183683905269L;
-	
+
 	private double reinitialisationRatio;
 	private Random randomiser;
-	
+
 	public PartialReinitialisationResponseStrategy() {
 		super();
 		reinitialisationRatio = 0.5;
 		randomiser = new MersenneTwister();
 	}
-	
+
 	public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
 		this.reinitialisationRatio = copy.reinitialisationRatio;
 		this.randomiser = copy.randomiser.getClone();
@@ -56,7 +56,7 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
 		return new PartialReinitialisationResponseStrategy<E>(this);
 	}
 
-	/** 
+	/**
 	 * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best,
 	 * and reinitialising the positions of a specified percentage of particles.
 	 * @param algorithm PSO algorithm that has to respond to environment change

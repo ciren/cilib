@@ -33,7 +33,7 @@ public interface EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgo
 	 * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
 	 */
 	public EnvironmentChangeResponseStrategy<E> getClone();
-	
+
 	/**
 	 * Adapt to environment change.
 	 * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.

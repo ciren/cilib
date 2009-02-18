@@ -30,44 +30,44 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *  The <tt>VelocityUpdateStrategy</tt> strategy for the Bare Bones PSO as
  *  defined by Kennedy.
- * 
+ *
  *  TODO: get the required references
- * 
+ *
  *  @author Gary Pampara
  *  @author Andries Engelbrecht
  */
 public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 	private static final long serialVersionUID = -823686042197742768L;
-	
+
 	private RandomNumber randomNumber;
 	private ControlParameter cognitiveAcceleration;
 	private ControlParameter socialAcceleration;
-	
+
 
 	public BareBonesVelocityUpdateStrategy() {
 		randomNumber = new RandomNumber();
-		
+
 		cognitiveAcceleration = new RandomizingControlParameter();
 		socialAcceleration = new RandomizingControlParameter();
-		
+
 		cognitiveAcceleration.setParameter(1.496180);
 		socialAcceleration.setParameter(1.496180);
 	}
-	
-	
+
+
 	public BareBonesVelocityUpdateStrategy(BareBonesVelocityUpdateStrategy copy) {
 		this();
-		
+
 		cognitiveAcceleration.setParameter(copy.cognitiveAcceleration.getParameter());
 		socialAcceleration.setParameter(copy.socialAcceleration.getParameter());
 	}
-	
-	
+
+
 	public BareBonesVelocityUpdateStrategy getClone() {
 		return new BareBonesVelocityUpdateStrategy(this);
 	}
-	
-	
+
+
 	public void updateVelocity(Particle particle) {
 		Vector personalBestPosition = (Vector) particle.getBestPosition();
 		Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
@@ -76,12 +76,12 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 		for (int i = 0; i < particle.getDimension(); ++i) {
 			//double tmp1 = cognitive.getParameter();
 			//double tmp2 = social.getParameter();
-			
+
         	double sigma = Math.abs(personalBestPosition.getReal(i) - nBestPosition.getReal(i));
         	//according to Kennedy
         	double mean = (personalBestPosition.getReal(i) + nBestPosition.getReal(i)) / 2;
         	//andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
-			
+
 			velocity.setReal(i, randomNumber.getGaussian(mean, sigma));
         }
 	}
@@ -89,7 +89,7 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 
 	public void updateControlParameters(Particle particle) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 
@@ -111,5 +111,5 @@ public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
 	public void setSocialAcceleration(ControlParameter socialAcceleration) {
 		this.socialAcceleration = socialAcceleration;
 	}
-	
+
 }

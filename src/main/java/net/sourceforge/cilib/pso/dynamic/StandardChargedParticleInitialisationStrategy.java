@@ -28,28 +28,28 @@ package net.sourceforge.cilib.pso.dynamic;
  */
 public class StandardChargedParticleInitialisationStrategy implements
 		ChargedParticleInitialisationStrategy {
-	
+
 	private static final long serialVersionUID = -652103945949329612L;
 	private double chargedRatio; // determines the percentage of the swarm that is to be charged
 	private double chargeMagnitude; // charge magnitude
 	private static int populationSize;
 	private static int chargedCounter = 0; // maybe a bad idea, but this variable keeps track of the number of particles already charged
-	
+
 	public StandardChargedParticleInitialisationStrategy() {
 		// defaults:
 		chargedRatio = 0.5;	// one half of the swarm is charged => Atomic swarm
 		chargeMagnitude = 16; // the obscure value 16 comes from the article where the chraged PSO was analysed for the 1st time by its creators
 	}
-	
+
 	public StandardChargedParticleInitialisationStrategy(StandardChargedParticleInitialisationStrategy copy) {
 		this.chargedRatio = copy.chargedRatio;
 		this.chargeMagnitude = copy.chargeMagnitude;
 	}
-		
+
 	public StandardChargedParticleInitialisationStrategy getClone() {
 		return new StandardChargedParticleInitialisationStrategy(this);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.pso.particle.initialisation.ChargedParticleInitialisationStrategy#initialise(net.sourceforge.cilib.pso.particle.ChargedParticle)
 	 */
@@ -57,10 +57,10 @@ public class StandardChargedParticleInitialisationStrategy implements
 		if(chargedCounter < Math.floor(populationSize*chargedRatio)) {
 			particle.setCharge(chargeMagnitude);
 			++chargedCounter;
-		} 
+		}
 		else {
 			particle.setCharge(0);
-		}			
+		}
 	}
 
 

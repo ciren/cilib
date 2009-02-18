@@ -35,30 +35,30 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  */
 public abstract class ParticleDecorator extends AbstractParticle {
 	private static final long serialVersionUID = -1604818864075431177L;
-	
+
 	private AbstractParticle target;
-	    
+
 	public ParticleDecorator() {
 		this.neighbourhoodBestUpdateStrategy = null;
 		this.positionUpdateStrategy = null;
 		this.velocityUpdateStrategy = null;
-		
+
 		target = null;
 	}
-	
+
     public ParticleDecorator(Particle target) {
         this.target = (AbstractParticle) target;
     }
-    
-    
+
+
     @Override
 	public boolean equals(Object object) {
     	if (this == object)
     		return true;
-    	
+
     	if ((object == null) || (this.getClass() != object.getClass()))
     		return false;
-    	
+
     	ParticleDecorator other = (ParticleDecorator) object;
 		return super.equals(other) && (this.target.equals(other.target));
 	}
@@ -72,25 +72,25 @@ public abstract class ParticleDecorator extends AbstractParticle {
 	public void setTarget(Particle target) {
     	this.target = (AbstractParticle) target;
     }
-    
+
     public Particle getTarget() {
     	return target;
     }
-    
+
     public abstract ParticleDecorator getClone();
-    
+
     public Fitness getBestFitness() {
         return target.getBestFitness();
     }
-    
+
     public Type getBestPosition() {
         return target.getBestPosition();
     }
-    
+
     public int getDimension() {
         return target.getDimension();
     }
-    
+
     public Fitness getFitness() {
         return target.getFitness();
     }
@@ -98,81 +98,81 @@ public abstract class ParticleDecorator extends AbstractParticle {
 	public long getId() {
 		return target.getId();
 	}
-    
+
     public Particle getNeighbourhoodBest() {
         return target.getNeighbourhoodBest();
     }
-    
+
     public Type getPosition() {
         return target.getPosition();
     }
-    
+
     public Type getVelocity() {
         return target.getVelocity();
     }
-    
-    
+
+
     public void initialise(OptimisationProblem problem) {
         target.initialise(problem);
     }
-    
+
     public void updatePosition() {
         target.updatePosition();
     }
-    
+
     @Override
 	public void calculateFitness(boolean count) {
-		target.calculateFitness(count);		
+		target.calculateFitness(count);
 	}
 
 	public void setNeighbourhoodBest(Particle particle) {
         target.setNeighbourhoodBest(particle);
     }
-    
-    
+
+
     public void updateVelocity() {
     	target.updateVelocity();
     }
-    
+
     public void updateControlParameters() {
     	target.updateControlParameters();
     }
-    
+
     public VelocityUpdateStrategy getVelocityUpdateStrategy() {
     	return target.velocityUpdateStrategy;
     }
-    
+
     public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
     	target.setVelocityUpdateStrategy(velocityUpdateStrategy);
     }
-    
-        
+
+
     public StructuredType getCandidateSolution() {
     	return target.getCandidateSolution();
     }
-    
+
     public void setCandidateSolution(StructuredType type) {
     	this.target.setCandidateSolution(type);
     }
-    
+
     public int compareTo(Entity o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-    
+
     public void setDimension(int dim) {
-    	
+
     }
-    
+
     public Type getBehaviouralParameters() {
     	return null;
     }
-    
+
     public void setBehaviouralParameters(Type type) {
-    	
+
     }
-    
+
     public void reinitialise() {
-    	
+
     }
 }

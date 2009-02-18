@@ -34,7 +34,7 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/** 
+/**
  * <p>
  * An implementation of the Guaranteed Convergence PSO algorithm. The GCPSO is a simple extension
  * to the normal PSO algorithm and the modifications to the algorithm is implemented as
@@ -47,17 +47,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * (Hammamet, Tunisia), Oct. 2002.
  * </li><li>
  * F. van den Bergh, "An Analysis of Particle Swarm Optimizers,"
- * PhD thesis, Department of Computer Science, 
+ * PhD thesis, Department of Computer Science,
  * University of Pretoria, South Africa, 2002.
  * </li></ul></p>
- * 
+ *
  * @TODO: The Rho value should be a vector to hold the rho value for each dimension!
- * 
+ *
  * It is very important to realise the importance of the <code>rho</code> values. <code>rho</code>
  * determines the local search size of the global best particle and depending on the domain
  * this could result in poor performance if the <code>rho</code> value is too small or too large depending
  * on the specified problem domain. For example, a <code>rho</code> value of 1.0 is not a good
- * value within problems which have a domain that spans <code>[0,1]</code> 
+ * value within problems which have a domain that spans <code>[0,1]</code>
  */
 public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	private static final long serialVersionUID = 5985694749940610522L;
@@ -68,7 +68,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	private int failureCount;
 	private int successCountThreshold;
 	private int failureCountThreshold;
-	
+
 	private Fitness oldFitness;
 	private ControlParameter rhoExpandCoefficient;
 	private ControlParameter rhoContractCoefficient;
@@ -80,7 +80,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		super();
 		randomNumberGenerator = new MersenneTwister();
 		oldFitness = InferiorFitness.instance();
-		
+
 		rho = new ConstantControlParameter(1.0);
 		rhoLowerBound = new ConstantControlParameter(1.0e-323);
 		successCount = 0;
@@ -89,10 +89,10 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		failureCountThreshold = 5;
 		rhoExpandCoefficient = new ConstantControlParameter(1.2);
 		rhoContractCoefficient = new ConstantControlParameter(0.5);
-		
+
 		vMax = new ConstantControlParameter(0.5); // This needs to be set dynamically - this is not valid for all problems
 	}
-	
+
 	/**
 	 * Copy constructor. Copy the given instance.
 	 * @param copy The instance to copy.
@@ -101,7 +101,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		super(copy);
 		this.randomNumberGenerator = new MersenneTwister();
 		this.oldFitness = copy.oldFitness.getClone();
-		
+
 		this.rho = copy.rho.getClone();
 		this.rhoLowerBound = copy.rhoLowerBound.getClone();
 		this.successCount = copy.successCount;
@@ -110,7 +110,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 		this.failureCountThreshold = copy.failureCountThreshold;
 		this.rhoExpandCoefficient = copy.rhoExpandCoefficient.getClone();
 		this.rhoContractCoefficient = copy.rhoContractCoefficient.getClone();
-		
+
 		this.vMax = copy.vMax.getClone();
 	}
 
@@ -128,38 +128,38 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	public void updateVelocity(Particle particle) {
 		PSO pso = (PSO) Algorithm.get();
 		final Particle globalBest = pso.getTopology().getBestEntity();
-		
+
 		if (particle == globalBest) {
 			final Vector velocity = (Vector) particle.getVelocity();
 			final Vector position = (Vector) particle.getPosition();
 			final Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getPosition();
-			
+
 			for (int i = 0; i < velocity.getDimension(); ++i) {
-				double component = -position.getReal(i) + nBestPosition.getReal(i) + 
+				double component = -position.getReal(i) + nBestPosition.getReal(i) +
 					this.inertiaWeight.getParameter()*velocity.getReal(i) +
 					rho.getParameter()*(1-2*randomNumberGenerator.nextDouble());
-				
+
 				velocity.setReal(i, component);
 				clamp(velocity, i);
 			}
-			
+
 			oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
 			return;
 		}
 
 		super.updateVelocity(particle);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public void updateControlParameters(Particle particle) {
 		// Remember NOT to reset the rho value to 1.0
 		PSO pso = (PSO) Algorithm.get();
-		
+
 		if (particle == pso.getTopology().getBestEntity()) {
 			Fitness newFitness = pso.getOptimisationProblem().getFitness(particle.getPosition(), false);
-			
+
 			if (!newFitness.equals(oldFitness)) {
 				this.failureCount = 0;
 				this.successCount++;
@@ -168,32 +168,32 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 				this.successCount = 0;
 				this.failureCount++;
 			}
-			
+
 			updateRho((Vector) particle.getPosition());
 			return;
 		}
-		
+
 		failureCount = 0;
 		successCount = 0;
 		super.updateControlParameters(particle);
 	}
-	
+
 	/**
 	 * Update the <code>rho</code> value.
 	 * @param position
 	 */
 	private void updateRho(Vector position) { // the Rho value is problem and dimension dependent
 		double tmp = 0.0;
-		
+
 		Numeric component = (Numeric) position.get(0);
 		double average = (component.getBounds().getUpperBound() - component.getBounds().getLowerBound()) / rhoExpandCoefficient.getParameter();
-	
+
 		if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient.getParameter()*rho.getParameter();
 		if (failureCount >= failureCountThreshold) tmp = rhoContractCoefficient.getParameter()*rho.getParameter();
-		
+
 		if (tmp <= rhoLowerBound.getParameter()) tmp = rhoLowerBound.getParameter();
 		if (tmp >= average) tmp = average;
-		
+
 		rho.setParameter(tmp);
 	}
 
@@ -270,13 +270,13 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	}
 
 	/**
-	 * Set the value of the coefficient of expansion. 
+	 * Set the value of the coefficient of expansion.
 	 * @param rhoExpandCoefficient The value to set.
 	 */
 	public void setRhoExpandCoefficient(ControlParameter rhoExpandCoefficient) {
 		this.rhoExpandCoefficient = rhoExpandCoefficient;
 	}
-	
+
 	/**
 	 * Get the coefficient value for <code>rho</code> contraction.
 	 * @return The contraction coefficient value.
@@ -292,5 +292,5 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
 	public void setRhoContractCoefficient(ControlParameter rhoContractCoefficient) {
 		this.rhoContractCoefficient = rhoContractCoefficient;
 	}
-	
+
 }

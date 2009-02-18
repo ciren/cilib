@@ -25,7 +25,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class ZeroInitialVelocityStrategy implements
@@ -33,21 +33,21 @@ public class ZeroInitialVelocityStrategy implements
 	private static final long serialVersionUID = 7339106246533286485L;
 
 	public ZeroInitialVelocityStrategy() {
-		
+
 	}
-	
+
 	public ZeroInitialVelocityStrategy(ZeroInitialVelocityStrategy copy) {
-		
+
 	}
-	
+
 	public ZeroInitialVelocityStrategy getClone() {
 		return new ZeroInitialVelocityStrategy(this);
 	}
 
 	public void initialise(Particle particle) {
 		Vector velocity = (Vector) particle.getVelocity();
-		
-		velocity.reset();		
+
+		velocity.reset();
 	}
 
 }

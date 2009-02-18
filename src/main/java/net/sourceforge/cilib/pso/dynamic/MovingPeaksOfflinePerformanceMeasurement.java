@@ -39,11 +39,11 @@ public class MovingPeaksOfflinePerformanceMeasurement implements Measurement {
 
 	public MovingPeaksOfflinePerformanceMeasurement() {}
 	public MovingPeaksOfflinePerformanceMeasurement(MovingPeaksOfflinePerformanceMeasurement rhs) {}
-	
+
 	public MovingPeaksOfflinePerformanceMeasurement getClone() {
 		return new MovingPeaksOfflinePerformanceMeasurement(this);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.sourceforge.cilib.measurement.Measurement#getDomain()
 	 */

@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Implementation of the FDR-PSO velocity update equation.
- * 
+ *
  * <p>
  * BibTex entry:<br/>
  * <code>
@@ -54,22 +54,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * ISSN={ }, }<br>
  * </code>
  * </p>
- *  
+ *
  * @author Olusegun Olorunda
  */
 public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 	private static final long serialVersionUID = -7117135203986406944L;
 	protected ControlParameter fdrMaximizerAcceleration;
-	
+
 	public FDRVelocityUpdateStrategy() {
 		inertiaWeight = new LinearDecreasingControlParameter();
 		fdrMaximizerAcceleration = new RandomizingControlParameter();
-		
+
 		cognitiveAcceleration.setParameter(1);
         socialAcceleration.setParameter(1);
         fdrMaximizerAcceleration.setParameter(2);
 	}
-	
+
 	public FDRVelocityUpdateStrategy(FDRVelocityUpdateStrategy copy) {
 		this.inertiaWeight = copy.inertiaWeight.getClone();
     	this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
@@ -93,42 +93,42 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 		Vector position = (Vector) particle.getPosition();
 		Vector bestPosition = (Vector) particle.getBestPosition();
 		Vector neighbourhoodBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-		
+
 		for (int i = 0; i < particle.getDimension(); ++i) {
 			Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
 			Iterator<Particle> swarmIterator = topology.iterator();
 			Particle fdrMaximizer = swarmIterator.next();
 			double maxFDR = 0.0;
-			
+
 			while (swarmIterator.hasNext()) {
 				Particle currentTarget = (Particle) swarmIterator.next();
-				
+
 				if (currentTarget.getId() != particle.getId()) {
 					Fitness currentTargetFitness = currentTarget.getBestFitness();
 					Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
-					
+
 					double fitnessDifference = (currentTargetFitness.getValue() - particle.getFitness().getValue());
 					double testFDR = fitnessDifference / Math.abs(position.getReal(i) - currentTargetPosition.getReal(i));
-					
+
 					if (testFDR > maxFDR) {
 						maxFDR = testFDR;
 						fdrMaximizer = currentTarget;
 					}
 				}
 			}
-			
+
 			Vector fdrMaximizerPosition = (Vector) fdrMaximizer.getBestPosition();
-			
+
 			double value = (inertiaWeight.getParameter() * velocity.getReal(i)) +
-						cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) + 
+						cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) +
 						socialAcceleration.getParameter() * (neighbourhoodBestPosition.getReal(i) - position.getReal(i)) +
 						fdrMaximizerAcceleration.getParameter() * (fdrMaximizerPosition.getReal(i) - position.getReal(i));
-			
+
 			velocity.setReal(i, value);
 			clamp(velocity, i);
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -139,14 +139,14 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 		fdrMaximizerAcceleration.updateParameter();
 		vMax.updateParameter();
 	}
-	
+
 	/**
 	 * @return the fdrMaximizerAcceleration
 	 */
 	public ControlParameter getFdrMaximizerAcceleration() {
 		return fdrMaximizerAcceleration;
 	}
-	
+
 	/**
 	 * @param fdrMaximizerAcceleration
 	 *            the fdrMaximizerAcceleration to set
@@ -154,5 +154,5 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
 	public void setFdrMaximizerAcceleration(ControlParameter fdrMaximizerAcceleration) {
 		this.fdrMaximizerAcceleration = fdrMaximizerAcceleration;
 	}
-	
+
 }

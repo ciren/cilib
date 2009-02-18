@@ -38,21 +38,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  *  The <tt>VelocityUpdateStrategy</tt> strategy which uses a DE strategy
  *  where the trial vector is the bare bones attractor point.
- * 
+ *
  *  TODO: To be published by Omran and Engelbrecht
- * 
+ *
  *  @author Andries Engelbrecht
  */
 public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 	private static final long serialVersionUID = -8781011210069055197L;
-	
+
 	private RandomNumber rand1;
 	private RandomNumber rand2;
 	private RandomNumber rand3;
 	private ControlParameter cognitive;
 	private ControlParameter social;
 	private ControlParameter crossoverProbability;
-	
+
 	/**
 	 * Create a new instance of the {@linkplain BareBonesDEVelocityUpdate}.
 	 */
@@ -63,11 +63,11 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 		cognitive = new RandomizingControlParameter();
 		social = new RandomizingControlParameter();
 		crossoverProbability = new ConstantControlParameter(0.5);
-		
+
 		cognitive.setParameter(1);
 		social.setParameter(1);
 	}
-	
+
 
 	/**
 	 * Copy constructor. Create a copy of the given instance.
@@ -75,19 +75,19 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 	 */
 	public BareBonesDEVelocityUpdate(BareBonesDEVelocityUpdate copy) {
 		this();
-		
+
 		cognitive.setParameter(copy.cognitive.getParameter());
 		social.setParameter(copy.social.getParameter());
 		crossoverProbability.setParameter(copy.crossoverProbability.getParameter());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public BareBonesDEVelocityUpdate getClone() {
 		return new BareBonesDEVelocityUpdate(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -95,13 +95,13 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 		Vector personalBestPosition = (Vector) particle.getBestPosition();
 		Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 		Vector velocity = (Vector) particle.getVelocity();
-		
+
 		PSO pso = (PSO) Algorithm.get();
 		List<Entity> positions = getRandomParentEntities(pso.getTopology());
-		
+
 		//select three random individuals, all different and different from particle
 		RandomNumber r1 = new RandomNumber();
-        
+
         Vector position1 = (Vector) positions.get(0).getCandidateSolution();
         Vector position2 = (Vector) positions.get(1).getCandidateSolution();
 //        Vector position3 = (Vector) positions.get(2).getContents();
@@ -109,7 +109,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         	double r = r1.getUniform(0, 1);
         	double attractor = r*personalBestPosition.getReal(i)+(1-r)*nBestPosition.getReal(i);
         	double stepSize = rand3.getUniform(0, 1) * (position1.getReal(i)-position2.getReal(i));
-        	
+
         	if (rand2.getUniform(0, 1) > crossoverProbability.getParameter())
         		velocity.setReal(i, attractor + stepSize);
         	else
@@ -125,11 +125,11 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 	 */
 	public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
 		List<Entity> parents = new ArrayList<Entity>(3);
-		
+
 		RandomNumber randomNumber = new RandomNumber();
-		
+
 		int count = 0;
-		
+
 		while (count < 3) {
 			int random = randomNumber.getRandomGenerator().nextInt(topology.size());
 			Entity parent = topology.get(random);
@@ -138,7 +138,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 				count++;
 			}
 		}
-		
+
 		return parents;
 	}
 
@@ -147,9 +147,9 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 	 */
 	public void updateControlParameters(Particle particle) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/**
 	 * Get the first {@linkplain RandomNumber}.
 	 * @return The first {@linkplain RandomNumber}.
@@ -243,7 +243,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
 	}
 
 	/**
-	 * Set the crossover probability. 
+	 * Set the crossover probability.
 	 * @param crossoverProbability The value to set.
 	 */
 	public void setCrossoverProbability(ControlParameter crossoverProbability) {

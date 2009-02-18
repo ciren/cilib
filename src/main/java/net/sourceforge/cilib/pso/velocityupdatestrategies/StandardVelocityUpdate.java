@@ -29,32 +29,32 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * Implementation of the standard / default velocity update equation. 
- *  
+ * Implementation of the standard / default velocity update equation.
+ *
  * @author  Edwin Peer
  */
 public class StandardVelocityUpdate implements VelocityUpdateStrategy {
 	private static final long serialVersionUID = 8204479765311251730L;
-	
+
 	protected ControlParameter inertiaWeight;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
     protected ControlParameter vMax;
-    
+
     /** Creates a new instance of StandardVelocityUpdate. */
-    public StandardVelocityUpdate() {      
+    public StandardVelocityUpdate() {
         inertiaWeight = new ConstantControlParameter();
         cognitiveAcceleration = new RandomizingControlParameter();
         socialAcceleration = new RandomizingControlParameter();
         vMax = new ConstantControlParameter();
-        
+
         inertiaWeight.setParameter(0.729844);
         cognitiveAcceleration.setParameter(1.496180);
         socialAcceleration.setParameter(1.496180);
         vMax.setParameter(Double.MAX_VALUE);
     }
-    
-    
+
+
     /**
      * Copy constructor.
      * @param copy The object to copy.
@@ -65,8 +65,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     	this.socialAcceleration = copy.socialAcceleration.getClone();
     	this.vMax = copy.vMax.getClone();
     }
-    
-    
+
+
     /**
      * {@inheritDoc}
      */
@@ -74,28 +74,28 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     	return new StandardVelocityUpdate(this);
     }
 
-    
+
     /**
      * Perform the velocity update for the given <tt>Particle</tt>.
-     * @param particle The Particle velocity that should be updated. 
+     * @param particle The Particle velocity that should be updated.
      */
     public void updateVelocity(Particle particle) {
     	Vector velocity = (Vector) particle.getVelocity();
     	Vector position = (Vector) particle.getPosition();
     	Vector bestPosition = (Vector) particle.getBestPosition();
     	Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-        
+
         for (int i = 0; i < particle.getDimension(); ++i) {
-    		double value = inertiaWeight.getParameter()*velocity.getReal(i) + 
+    		double value = inertiaWeight.getParameter()*velocity.getReal(i) +
     			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
     			(nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
     		velocity.setReal(i, value);
-    		
+
     		clamp(velocity, i);
     	}
     }
-    
-    
+
+
     /**
      * Update the associated <tt>ControlParameter</tt>s for the <tt>VelocityUpdateStrategy</tt>.
      * {@inheritDoc}
@@ -106,8 +106,8 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     	this.socialAcceleration.updateParameter();
     	this.vMax.updateParameter();
 	}
-    
-    
+
+
     /**
      * TODO: Need to have a VMax strategy.
 	 * @param velocity The {@link Vector} to be clamped.
@@ -120,7 +120,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
 			velocity.setReal(i, vMax.getParameter());
 	}
 
-	
+
     /**
      * Gets the <tt>ControlParameter</tt> representing the cognitive component within this
      * <code>VelocityUpdateStrategy</code>.
@@ -140,7 +140,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
 
     /**
      * Get the <code>ControlParameter</code> representing the inerti weight of the VelocityUpdateStrategy.
-     * @return Returns the inertia component <tt>ControlParameter</tt>. 
+     * @return Returns the inertia component <tt>ControlParameter</tt>.
      */
     public ControlParameter getInertiaWeight() {
         return inertiaWeight;
@@ -169,7 +169,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
     public void setSocialAcceleration(ControlParameter socialComponent) {
         this.socialAcceleration = socialComponent;
     }
-    
+
     /**
      * Get the <code>ControlParameter</code> representing the <tt>vMax</tt> component.
      * @return The <code>ControlParameter</code> for the vMax.

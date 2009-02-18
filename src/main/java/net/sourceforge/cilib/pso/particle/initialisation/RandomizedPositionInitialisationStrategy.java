@@ -39,7 +39,7 @@ import net.sourceforge.cilib.type.types.TypeUtil;
 public class RandomizedPositionInitialisationStrategy implements
 		PositionInitialisationStrategy {
 	private static final long serialVersionUID = -47429588645761362L;
-	
+
 	public RandomizedPositionInitialisationStrategy getClone() {
 		return new RandomizedPositionInitialisationStrategy();
 	}
@@ -48,7 +48,7 @@ public class RandomizedPositionInitialisationStrategy implements
 		particle.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
 //		particle.getPosition().randomise();
 		TypeUtil.randomize(particle.getPosition());
-		
+
 		particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
 	}
 

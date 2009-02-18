@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Binary position update strategy to enable the BinaryPSO.
- * 
+ *
  * @author Gary Pampara
  */
 public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
@@ -41,7 +41,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 	public BinaryPositionUpdateStrategy() {
 		this.sigmoid = new Sigmoid();
 	}
-	
+
 	/**
 	 * Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -49,25 +49,25 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 	public BinaryPositionUpdateStrategy(BinaryPositionUpdateStrategy copy) {
 		this.sigmoid = copy.sigmoid.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public BinaryPositionUpdateStrategy getClone() {
 		return new BinaryPositionUpdateStrategy(this);
 	}
-	
+
 	/**
 	 * BinaryPSO particle position update, as defined by Kennedy and Eberhart.
 	 */
 	public void updatePosition(Particle particle) {
 		Vector position = (Vector) particle.getPosition();
 		Vector velocity = (Vector) particle.getVelocity();
-		
+
 		for (int i = 0; i < position.getDimension(); i++) {
 			double result = sigmoid.evaluate(velocity.getReal(i));
 			double rand = Math.random();
-			
+
 			if (rand < result) {
 				position.setBit(i, true);
 			}
@@ -92,5 +92,5 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
 	public void setSigmoid(Sigmoid sigmoid) {
 		this.sigmoid = sigmoid;
 	}
-	
+
 }

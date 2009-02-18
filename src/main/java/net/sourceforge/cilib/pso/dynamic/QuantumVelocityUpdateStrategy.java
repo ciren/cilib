@@ -28,7 +28,7 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate
  * Velocity update strategy for QSO (Quantum PSO). Implemented according
  * to paper by Blackwell and Branke, "Multiswarms, Exclusion, and Anti-
  * Convergence in Dynamic Environments."
- * 
+ *
  * @author Anna Rakitianskaia
  *
  */
@@ -50,9 +50,9 @@ public class QuantumVelocityUpdateStrategy extends StandardVelocityUpdate {
 	public QuantumVelocityUpdateStrategy(StandardVelocityUpdate copy) {
 		super(copy);
 	}
-	
+
 	/**
-	 * Update particle velocity; do it in a standard way if the particle is neutral, and 
+	 * Update particle velocity; do it in a standard way if the particle is neutral, and
 	 * do not update it if the particle is quantum (charged), since quantum particles do
 	 * not use the velocity to update their positions.
 	 * @param particle the particle to update position of

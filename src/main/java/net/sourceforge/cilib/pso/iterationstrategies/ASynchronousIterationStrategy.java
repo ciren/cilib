@@ -30,7 +30,7 @@ import net.sourceforge.cilib.pso.PSO;
 
 /**
  * Implementation of the asynchrounous iteration strategy for PSO.
- * 
+ *
  * @author Gary Pampara
  */
 public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
@@ -44,7 +44,7 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 		return this;
 	}
 
-	/** 
+	/**
 	 * <p>This is an ASynchronous strategy:</p>
 	 * <ol>
 	 * <li>For all particles:</li>
@@ -56,23 +56,23 @@ public class ASynchronousIterationStrategy extends AbstractIterationStrategy<PSO
 	 * <ol><li>Update the nieghbourhooh best</li></ol>
 	 * </ol>
 	 * </ol>
-	 * 
+	 *
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
 	 * @param algorithm The algorithm to which an iteration is to be applied.
 	 */
 	public void performIteration(PSO algorithm) {
 		Topology<Particle> topology = algorithm.getTopology();
 		topology.update();
-		
+
 		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 			Particle current = i.next();
 			current.updateVelocity();       // TODO: replace with visitor (will simplify particle interface)
 			current.updatePosition();       // TODO: replace with visitor (will simplify particle interface)
-	           
+
 			boundaryConstraint.enforce(current);
-	           
+
 			current.calculateFitness();
-            
+
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();
                 if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {

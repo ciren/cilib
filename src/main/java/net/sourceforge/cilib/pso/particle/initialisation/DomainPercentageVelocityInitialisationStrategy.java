@@ -29,31 +29,33 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * operation where the velocity is first randomised and then scaled by a percentage.
  */
 public class DomainPercentageVelocityInitialisationStrategy implements
-		VelocityInitialisationStrategy {
+	VelocityInitialisationStrategy {
+
 	private static final long serialVersionUID = -7178323673738508287L;
 	private VelocityInitialisationStrategy velocityInitialisationStrategy;
 	private double percentage;
-	
+
 	public DomainPercentageVelocityInitialisationStrategy() {
 		this.velocityInitialisationStrategy = new RandomInitialVelocityStrategy();
 		this.percentage = 0.1;
 	}
-	
+
 	public DomainPercentageVelocityInitialisationStrategy(DomainPercentageVelocityInitialisationStrategy copy) {
 		this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
 		this.percentage = copy.percentage;
 	}
-	
+
 	public DomainPercentageVelocityInitialisationStrategy getClone() {
 		return new DomainPercentageVelocityInitialisationStrategy(this);
 	}
 
 	public void initialise(Particle particle) {
 		velocityInitialisationStrategy.initialise(particle);
-		
+
 		Vector velocity = (Vector) particle.getVelocity();
-		for (int i = 0; i < velocity.getDimension(); ++i)
+		for (int i = 0; i < velocity.getDimension(); ++i) {
 			velocity.setReal(i, velocity.getReal(i) * percentage);
+		}
 	}
 
 	public double getPercentage() {
@@ -63,5 +65,4 @@ public class DomainPercentageVelocityInitialisationStrategy implements
 	public void setPercentage(double percentage) {
 		this.percentage = percentage;
 	}
-
 }

@@ -34,7 +34,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  */
 public interface NeighbourhoodBestUpdateStrategy extends Serializable, Cloneable {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -28,17 +28,17 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Interface defining the valid tasks available for velocity intialisation.
- * 
+ *
  * @author Gary Pampara
  */
 public interface VelocityInitialisationStrategy extends Cloneable, Serializable {
-	
+
 	/**
 	 * Clone the VeclocityInitialisationStrategy.
 	 * @return A copy of the VelocityInitialisationStrategy.
 	 */
 	public VelocityInitialisationStrategy getClone();
-	
+
 	/**
 	 * Initialise the Particle velocity.
 	 * @param particle The velocity vector of the particle to initialise.

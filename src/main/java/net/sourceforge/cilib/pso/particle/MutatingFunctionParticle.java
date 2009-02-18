@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class MutatingFunctionParticle extends StandardParticle {
 	private static final long serialVersionUID = 4339678955710234244L;
-	
+
 	private double mutationRate;
 	private double startingMutationRate;
 	private double endingMutationRate;
@@ -60,12 +60,12 @@ public class MutatingFunctionParticle extends StandardParticle {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void move() {
 		Vector position = (Vector) getPosition();
 		Vector velocity = (Vector) getVelocity();
-		
+
 		for (int i = 0; i < position.getDimension(); ++i) {
 			double result = position.getReal(i) + velocity.getReal(i);
 			position.setReal(i, result);
@@ -84,7 +84,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 	 */
 	private void getStoppingConditionObjects() {
 		List<StoppingCondition> conditions = (Algorithm.get()).getStoppingConditions();
-		
+
 		for(StoppingCondition condition : conditions) {
 			if (condition instanceof MaximumIterations) {
 				maximum = (MaximumIterations) condition;
@@ -124,34 +124,34 @@ public class MutatingFunctionParticle extends StandardParticle {
 		return result;
 	}
 
-	
-	
+
+
 	private void mutate() {
 		PSO p = (PSO) Algorithm.get();
 
 		double tempLower = 0.0;
 		double tempUpper = 0.0;
-		
+
 		Vector position = getPosition();
-		
+
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
 	        double number = Math.pow((1.0 - (double) p.getIterations() / (maximum.getMaximumIterations() * mutationRate)), 1.5);
 			int dimension = randomInt(0, position.getDimension());
 			Real real = (Real) position.get(dimension);
 			double range = ((real.getBounds().getUpperBound() - real.getBounds().getLowerBound())* strangeFunction(p, maximum))/2.0;
-			
+
 			if ((real.getReal()-range) < real.getBounds().getLowerBound())
 				tempLower = real.getBounds().getLowerBound();
 			else
 				tempLower = real.getReal()-range;
-			
+
 			if ((real.getReal()+range) > real.getBounds().getUpperBound())
 				tempUpper = real.getBounds().getUpperBound();
 			else
 				tempUpper = real.getReal()+range;
 
 				// Now reinitialise the number randomly between tempUpper and tempLower
-	
+
 			 if (MathUtil.flip(number) > 0) {
 				 double result = position.getReal(i) + function(p.getIterations(), tempUpper - position.getReal(i));
 				 position.setReal(i, result);
@@ -161,7 +161,7 @@ public class MutatingFunctionParticle extends StandardParticle {
 					position.setReal(i, result);
 				}
 		}
-		
+
 		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations()) + endingMutationRate;
 
 	}

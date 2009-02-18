@@ -29,7 +29,7 @@ import net.sourceforge.cilib.entity.Particle;
  * @author Edwin Peer
  */
 public abstract class ParticleVisitor extends Visitor<Particle> {
-	
+
 	/**
 	 * Visit the provided particle.
 	 * @param entity The {@linkplain Particle} to apply the visitor to.

@@ -28,6 +28,7 @@ import net.sourceforge.cilib.type.types.Numeric;
  * @author Wiehann Matthysen
  */
 public class ClampingBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
+
 	private static final long serialVersionUID = -3439755620178365634L;
 
 	public ClampingBoundaryConstraintStrategy() {

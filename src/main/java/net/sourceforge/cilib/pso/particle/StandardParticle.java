@@ -37,17 +37,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class StandardParticle extends AbstractParticle {
     private static final long serialVersionUID = 2610843008637279845L;
-    
+
     protected Particle neighbourhoodBest;
-    
+
     /** Creates a new instance of StandardParticle. */
     public StandardParticle() {
     	super();
-    	
+
     	this.getProperties().put(EntityType.Particle.BEST_POSITION, new Vector());
     	this.getProperties().put(EntityType.Particle.VELOCITY, new Vector());
     }
-    
+
     /**
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
@@ -56,7 +56,7 @@ public class StandardParticle extends AbstractParticle {
     	super(copy);
     	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -64,17 +64,17 @@ public class StandardParticle extends AbstractParticle {
     public StandardParticle getClone() {
        	return new StandardParticle(this);
     }
-    
+
     @Override
 	public boolean equals(Object object) {
     	if (this == object)
     		return true;
-    	
+
     	if ((object == null) || (this.getClass() != object.getClass()))
     		return false;
-    	
+
     	StandardParticle other = (StandardParticle) object;
-		return super.equals(object) && 
+		return super.equals(object) &&
 			(this.neighbourhoodBest == null ? true : this.neighbourhoodBest.equals(other.neighbourhoodBest));
 	}
 
@@ -90,7 +90,7 @@ public class StandardParticle extends AbstractParticle {
 	public Fitness getBestFitness() {
         return (Fitness) this.getProperties().get(EntityType.Particle.BEST_FITNESS);
     }
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -98,7 +98,7 @@ public class StandardParticle extends AbstractParticle {
     public Vector getBestPosition() {
     	return (Vector) this.getProperties().get(EntityType.Particle.BEST_POSITION);
     }
-        
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -106,7 +106,7 @@ public class StandardParticle extends AbstractParticle {
     public int getDimension() {
     	return getPosition().getDimension();
     }
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -114,7 +114,7 @@ public class StandardParticle extends AbstractParticle {
     public Particle getNeighbourhoodBest() {
         return neighbourhoodBest;
     }
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -122,7 +122,7 @@ public class StandardParticle extends AbstractParticle {
     public Vector getPosition() {
     	return (Vector) getCandidateSolution();
     }
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -130,24 +130,24 @@ public class StandardParticle extends AbstractParticle {
     public Vector getVelocity() {
         return (Vector) this.getProperties().get(EntityType.Particle.VELOCITY);
     }
-    
+
     /**
 	 * {@inheritDoc}
 	 */
 	@Override
     public void initialise(OptimisationProblem problem) {
         getPositionInitialisationStrategy().initialise(this, problem);
-        
+
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
         velocityInitialisationStrategy.initialise(this);
-        
+
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         neighbourhoodBest = this;
     }
-    
+
     /**
 	 * {@inheritDoc}
 	 */
@@ -155,7 +155,7 @@ public class StandardParticle extends AbstractParticle {
     public void updatePosition() {
     	this.positionUpdateStrategy.updatePosition(this);
     }
-    
+
 
 	/**
 	 * {@inheritDoc}
@@ -177,7 +177,7 @@ public class StandardParticle extends AbstractParticle {
     public void setNeighbourhoodBest(Particle particle) {
         neighbourhoodBest = particle;
     }
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -185,7 +185,7 @@ public class StandardParticle extends AbstractParticle {
     public void updateVelocity() {
     	this.velocityUpdateStrategy.updateVelocity(this);
     }
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -212,7 +212,7 @@ public class StandardParticle extends AbstractParticle {
 	 * {@inheritDoc}
 	 */
 	public void setBehaviouralParameters(Type type) {
-			
+
 	}
 
 	/**

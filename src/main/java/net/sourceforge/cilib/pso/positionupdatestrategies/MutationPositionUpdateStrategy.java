@@ -36,19 +36,19 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Gary Pampara
  * @author Auralia Edwards
  */
 public class MutationPositionUpdateStrategy extends
 		StandardPositionUpdateStrategy {
 	private static final long serialVersionUID = -8369435727526797836L;
-	
+
 	private MaximumIterations maximumIterations;
 	private BoundedControlParameter decreasingParameter;
 	private RandomNumber randomNumber;
-	
-	
+
+
 	/**
 	 * Create the <tt>PositionUpdateStrategy</tt> and initialise the required objects.
 	 * Create the <tt>decreasingParameter</tt> and intialise it with the bounds <tt>R(0,1)</tt>
@@ -56,27 +56,27 @@ public class MutationPositionUpdateStrategy extends
 	 */
 	public MutationPositionUpdateStrategy() {
 		super();
-		
+
 		decreasingParameter = new LinearDecreasingControlParameter();
 		decreasingParameter.setUpperBound(1.0);
 		decreasingParameter.setLowerBound(0.0);
 		decreasingParameter.setParameter(1.0);
-		
+
 		randomNumber = new RandomNumber();
 	}
-	
+
 	public MutationPositionUpdateStrategy(MutationPositionUpdateStrategy copy) {
 		super(copy);
-		
+
 		this.decreasingParameter = copy.decreasingParameter.getClone();
 		this.randomNumber = copy.randomNumber;
 	}
-	
+
 	public MutationPositionUpdateStrategy getClone() {
 		return new MutationPositionUpdateStrategy(this);
 	}
-	
-	
+
+
 	/**
 	 * Get the <tt>ControlParameterUpdateStrategy</tt> representing the mutation probability.
 	 * @return Returns the decreasingParameter (<tt>ControlParameterUpdateStrategy</tt>).
@@ -93,17 +93,17 @@ public class MutationPositionUpdateStrategy extends
 	public void setDecreasingParameter(BoundedControlParameter decreasingParameter) {
 		this.decreasingParameter = decreasingParameter;
 	}
-	
-	
+
+
 	/**
-	 * Update the position of the provided <tt>Particle</tt> and then mutate 
+	 * Update the position of the provided <tt>Particle</tt> and then mutate
 	 * the position vector if required.
-	 * 
+	 *
 	 * @param particle The <tt>Particle</tt> on which to perform the update.
 	 */
 	public void updatePosition(Particle particle) {
 		super.updatePosition(particle);
-		
+
 		if (maximumIterations == null) {
 			List<StoppingCondition> conditions = (Algorithm.get()).getStoppingConditions();
 			for (StoppingCondition condition : conditions) {
@@ -113,40 +113,40 @@ public class MutationPositionUpdateStrategy extends
 				}
 			}
 		}
-		
+
 		if (Algorithm.get().getIterations() < decreasingParameter.getParameter()*(double) maximumIterations.getMaximumIterations()) {
 			mutate(particle);
 		}
-		
+
 		decreasingParameter.updateParameter();
 	}
 
-	
+
 	/**
-	 * 
+	 *
 	 * @param particle
 	 */
 	private void mutate(Particle particle) {
 		PSO p = (PSO) Algorithm.get();
 
 		Vector position = (Vector) particle.getPosition();
-		
+
 		double tempLower = 0.0;
 		double tempUpper = 0.0;
-		
+
 		for (int i = 0; i < position.getDimension(); ++i) { // Mutation
 			double number = Math.pow((1.0 - (double) p.getIterations()/(maximumIterations.getMaximumIterations()*decreasingParameter.getParameter())), 1.5);
 			if (MathUtil.flip(number) == 1) {
 				int dimension = Double.valueOf(randomNumber.getUniform(0, position.getDimension())).intValue();
 				Numeric real = (Numeric) position.get(dimension);
-				
+
 				double range = ((real.getBounds().getUpperBound() - real.getBounds().getLowerBound())* strangeFunction(p, maximumIterations))/2.0;
 
 				if ((real.getReal()-range) < real.getBounds().getLowerBound())
 					tempLower = real.getBounds().getLowerBound();
 				else
 					tempLower = real.getReal()-range;
-				
+
 				if ((real.getReal()+range) > real.getBounds().getUpperBound())
 					tempUpper = real.getBounds().getUpperBound();
 				else
@@ -160,10 +160,10 @@ public class MutationPositionUpdateStrategy extends
 		}
 
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param p
 	 * @param max
 	 * @return
@@ -171,5 +171,5 @@ public class MutationPositionUpdateStrategy extends
 	private double strangeFunction(PSO p, MaximumIterations max) {
 		return Math.pow(1.0 - (double) p.getIterations()/(max.getMaximumIterations()*decreasingParameter.getParameter()), 1.5);
 	}
-	
+
 }

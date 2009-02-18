@@ -30,7 +30,7 @@ import net.sourceforge.cilib.pso.PSO;
 
 /**
  * Implementation of the synchronous iteration strategy for PSO.
- * 
+ *
  * @author Gary Pampara
  */
 public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO> {
@@ -46,7 +46,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 	}
 
 
-	/** 
+	/**
 	 * <p>This is an ASynchronous strategy:</p>
 	 * <ol>
 	 * <li>For all particles:</li>
@@ -57,7 +57,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 	 *     <li>For all paritcles in the current particle's neighbourhood:</li>
 	 *     <ol><li>Update the nieghbourhooh best</li></ol></ol>
 	 * </ol>
-	 * 
+	 *
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration(net.sourceforge.cilib.PSO.PSO)
 	 * @param pso The {@link PSO} to have an iteration applied.
 	 */
@@ -68,14 +68,14 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 		for (Particle current : topology) {
 			current.updateVelocity();
 			current.updatePosition(); // TODO: replace with visitor (will simplify particle interface)
-	           
+
 			boundaryConstraint.enforce(current);
 		}
 
 		for (Iterator<? extends Particle> i = topology.iterator(); i.hasNext();) {
 			Particle current = i.next();
             current.calculateFitness();
-            
+
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
             	Particle other = j.next();
             	if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {

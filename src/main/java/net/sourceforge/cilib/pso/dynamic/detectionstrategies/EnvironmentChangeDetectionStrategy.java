@@ -28,12 +28,13 @@ import net.sourceforge.cilib.util.Cloneable;
  * TODO: Complete this javadoc.
  */
 public interface EnvironmentChangeDetectionStrategy<E extends PopulationBasedAlgorithm> extends Cloneable {
+
 	/**
 	 * Clone the <tt>EnvironmentChangeDetectionStrategy</tt> object.
 	 * @return A cloned <tt>EnvironmentChangeDetectionStrategy</tt>
 	 */
 	public EnvironmentChangeDetectionStrategy<E> getClone();
-	
+
 	/**
 	 * Check the environment in which the specified PSO algorithm is running for changes.
 	 * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.

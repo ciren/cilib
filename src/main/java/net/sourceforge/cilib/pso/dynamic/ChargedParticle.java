@@ -30,7 +30,7 @@ import net.sourceforge.cilib.pso.PSO;
  * Charged Particle used by charged PSO (ChargedVelocityUpdate). The only difference
  * from DynamicParticle is that a charged particle stores the charge magnitude and
  * the inialisation strategy for charge.
- * 
+ *
  * @author Anna Rakitianskaia
  *
  */
@@ -38,35 +38,35 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
 	private static final long serialVersionUID = 7872499872488908368L;
 	private double charge;
 	private ChargedParticleInitialisationStrategy chargedParticleInitialisationStrategy;
-	
+
 	public ChargedParticle() {
 		super();
 		velocityUpdateStrategy = new ChargedVelocityUpdateStrategy();
 		chargedParticleInitialisationStrategy = new StandardChargedParticleInitialisationStrategy();
 	}
-	
+
 	public ChargedParticle(ChargedParticle copy) {
 		super(copy);
-		
+
 		this.charge = copy.charge;
 		this.chargedParticleInitialisationStrategy = copy.chargedParticleInitialisationStrategy.getClone();
 	}
-	
+
 	public ChargedParticle getClone() {
 		return new ChargedParticle(this);
 	}
-	
-	
+
+
 	@Override
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
-		
+
 		if ((object == null) || (this.getClass() != object.getClass()))
 			return false;
-		
+
 		ChargedParticle other = (ChargedParticle) object;
-		return super.equals(object) && 
+		return super.equals(object) &&
 			(Double.valueOf(this.charge).equals(Double.valueOf(other.charge)));
 	}
 
@@ -103,20 +103,20 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
 			ChargedParticleInitialisationStrategy chargedParticleInitialisationStrategy) {
 		this.chargedParticleInitialisationStrategy = chargedParticleInitialisationStrategy;
 	}
-	
+
 	@Override
 	public void initialise(OptimisationProblem problem) {
         getPositionInitialisationStrategy().initialise(this, problem);
-        
+
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
-        
+
         velocityInitialisationStrategy.initialise(this);
-        
+
         // Initialise particle charge
         chargedParticleInitialisationStrategy.initialise(this);
-        
+
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
         neighbourhoodBest = this;

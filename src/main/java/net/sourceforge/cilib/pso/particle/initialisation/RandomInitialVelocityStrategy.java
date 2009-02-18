@@ -25,7 +25,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Andries Engelbrecht
  */
 public class RandomInitialVelocityStrategy implements VelocityInitialisationStrategy {
@@ -34,11 +34,11 @@ public class RandomInitialVelocityStrategy implements VelocityInitialisationStra
 	public RandomInitialVelocityStrategy() {
 
 	}
-	
+
 	public RandomInitialVelocityStrategy(RandomInitialVelocityStrategy copy) {
-		
+
 	}
-	
+
 	public RandomInitialVelocityStrategy getClone() {
 		return new RandomInitialVelocityStrategy(this);
 	}

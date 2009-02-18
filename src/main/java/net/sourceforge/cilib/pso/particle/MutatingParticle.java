@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class MutatingParticle extends StandardParticle {
 	private static final long serialVersionUID = -135676600466549570L;
-	
+
 	private double mutationRate;
 	private double startingMutationRate;
 	private double endingMutationRate;
@@ -54,10 +54,10 @@ public class MutatingParticle extends StandardParticle {
 	}
 
 	public void move() {
-		
+
 		Vector position = getPosition();
 		Vector velocity = getVelocity();
-		
+
 		for (int i = 0; i < position.getDimension(); ++i) {
 			double result = position.getReal(i) + velocity.getReal(i);
 			position.setReal(i, result);
@@ -73,7 +73,7 @@ public class MutatingParticle extends StandardParticle {
 
 	private void getStoppingConditionObjects() {
 		List<StoppingCondition> conditions = (Algorithm.get()).getStoppingConditions();
-		
+
 		for(StoppingCondition condition : conditions) {
 			if (condition instanceof MaximumIterations) {
 				maximum = (MaximumIterations) condition;
@@ -106,15 +106,15 @@ public class MutatingParticle extends StandardParticle {
 
 		double tempLower = 0.0;
 		double tempUpper = 0.0;
-		
+
 		for (int i = 0; i < position.length; ++i) { // Mutation
 			double number = strangeFunction(p, maximum);
-		 	double r = ran.nextLorentzian(0.0,1.000); 
+		 	double r = ran.nextLorentzian(0.0,1.000);
 		while (r > 1 || r < 0){
-			r = ran.nextLorentzian(0.0,1.000); 
+			r = ran.nextLorentzian(0.0,1.000);
 		}
-			if (r >=0.5){	
-				
+			if (r >=0.5){
+
 			int dimension = Double.valueOf(random.nextDouble()*position.length).intValue();
 				Quantitative component = (Quantitative) domain.getComponent(dimension);
 				double range = ((component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())* strangeFunction(p, maximum))/2;
@@ -130,9 +130,9 @@ public class MutatingParticle extends StandardParticle {
 					tempUpper = position[i] + range;
 
 				// Now reinitialis the number randomly between tempUpper and tempLower
-			r = ran.nextLorentzian(0.0,1.000); 
+			r = ran.nextLorentzian(0.0,1.000);
 		    while (r > 1 || r < 0){
-			   r = ran.nextLorentzian(0.0,1.000); 
+			   r = ran.nextLorentzian(0.0,1.000);
 		    }
 		   double tmp = r * (tempUpper-tempLower) + tempLower;
 			 position[i] = tmp;
@@ -145,7 +145,7 @@ public class MutatingParticle extends StandardParticle {
 			//position[i] = tmp;
 		}
 		}
-		
+
 		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getIterations() - p.getIterations()) / (double) maximum.getIterations())+endingMutationRate ;
 
 	}*/
@@ -156,9 +156,9 @@ public class MutatingParticle extends StandardParticle {
 	}
 
 	/*private double function(double t, double y) {
-		//double r = ran.nextLorentzian(0.0,1.000); 
+		//double r = ran.nextLorentzian(0.0,1.000);
 		//while (r > 1 || r < 0){
-		//	r = ran.nextLorentzian(0.0,1.000); 
+		//	r = ran.nextLorentzian(0.0,1.000);
 		//}
 		double r = random.nextDouble();
 		double part1 = Math.pow((1.0-t/(double)maximum.getIterations()), 5.0);
@@ -172,14 +172,14 @@ public class MutatingParticle extends StandardParticle {
 	/*	private double getCauchyNumber(double val) {
 			double rand = 0;
 	//while (rand > 1 | rand < 0){//System.out.println("R "+r);
-	//      rand = ran.nextLorentzian(1.0,0.0001); 
+	//      rand = ran.nextLorentzian(1.0,0.0001);
 	//}
 	return ((0.2/Math.PI) * (1.0 / ((rand*rand)+(0.2*0.2))));
 	}*/
 
 /*************************** NEW CODE ***********************************/
-	
-	
+
+
 	private void mutate() {
 		PSO p = (PSO) Algorithm.get();
 		//OptimisationProblem prob = p.getOptimisationProblem();
@@ -187,9 +187,9 @@ public class MutatingParticle extends StandardParticle {
 
 		double tempLower = 0.0;
 		double tempUpper = 0.0;
-		
+
 		Vector position = getPosition();
-		
+
 		//for (int i = 0; i < position.length; ++i) { // Mutation
 		for (int i = 0; i < position.getDimension(); ++i) {
 			double number = Math.pow((1.0 - (double) p.getIterations() / (maximum.getMaximumIterations() * mutationRate)), 1.5);
@@ -209,12 +209,12 @@ public class MutatingParticle extends StandardParticle {
 					tempUpper = component.getUpperBound().doubleValue();
 				else
 					tempUpper = position[i] + range;*/
-				
+
 				if ((real.getReal()-range) < real.getBounds().getLowerBound())
 					tempLower = real.getBounds().getLowerBound();
 				else
 					tempLower = real.getReal()-range;
-				
+
 				if ((real.getReal()+range) > real.getBounds().getUpperBound())
 					tempUpper = real.getBounds().getUpperBound();
 				else
@@ -226,7 +226,7 @@ public class MutatingParticle extends StandardParticle {
 				position.setReal(i, tmp);
 			}
 		}
-		
+
 		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations())+endingMutationRate;
 
 	}

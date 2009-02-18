@@ -36,7 +36,7 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * using the {@link ClusteringUtils#getClusterableDataSet()} method. The
  * {@link ClusteringProblem} is also found using the
  * {@link ClusteringUtils#getClusteringProblem()} method.
- * 
+ *
  * @author Theuns Cloete
  */
 public class DataSetBasedPositionInitialisationStrategy implements PositionInitialisationStrategy {
@@ -55,7 +55,7 @@ public class DataSetBasedPositionInitialisationStrategy implements PositionIniti
 	/**
 	 * Initialize the position and best position of the given {@link Particle} from the
 	 * current dataset using the {@link DataSetBasedCentroidsInitialisationStrategy}.
-	 * 
+	 *
 	 * @param particle the {@link Particle} that should be initialized
 	 * @param problem the {@link OptimisationProblem} that is currently being optimized. This
 	 *        should be a {@link ClusteringProblem}, but is ignored, because the clustering

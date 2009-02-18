@@ -27,7 +27,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * This is the normal position update as described by Kennedy and Eberhart.
  * @reference paper
- * 
+ *
  * @author Gary Pampara
  *
  */
@@ -40,29 +40,29 @@ public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
 	public StandardPositionUpdateStrategy() {
 
 	}
-	
+
 	/**
 	 * Copy constructor. Copy the provided instance.
 	 * @param copy The instance to copy.
 	 */
 	public StandardPositionUpdateStrategy(StandardPositionUpdateStrategy copy) {
-		
+
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public StandardPositionUpdateStrategy getClone() {
 		return new StandardPositionUpdateStrategy(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public void updatePosition(Particle particle) {
 		Vector position = (Vector) particle.getPosition();
 		Vector velocity = (Vector) particle.getVelocity();
-		
+
 		for (int i = 0; i < position.getDimension(); ++i) {
     		double value = position.getReal(i);
     		value += velocity.getReal(i);

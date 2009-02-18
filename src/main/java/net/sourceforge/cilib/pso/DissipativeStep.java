@@ -28,31 +28,31 @@ import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * TODO: This needs to be checked
- * 
+ *
  * <p>
- * This implements the dissipative PSO (DPSO). Apply this to the standard PSO 
+ * This implements the dissipative PSO (DPSO). Apply this to the standard PSO
  * using {@link PSO#setDissipativeStep(DissipativeStep)}.
  * </p><p>
- * References: 
+ * References:
  * </p><ul><li>
  * X Xie, W Zang, Z Yang, "A dissipative swarm optimization"'
  * Proceedings of the IEEE Congress on Evolutionary Computing (CEC 2002),
  * Honolulu, Hawaii USA, May 2002
- * </li></ul> 
+ * </li></ul>
  *
  * @author  Edwin Peer
  */
 public class DissipativeStep {
-    
+
     /** Creates a new instance of DissipativeStep. */
     public DissipativeStep() {
         randomGenerator = new KnuthSubtractive();
         velocityThreshold = 0.001f;
         positionThreshold = 0.002f;
     }
-    
+
     public void execute(Particle particle) {
     	//DomainParser parser = DomainParser.getInstance();
         //net.sourceforge.cilib.Type.Vector domain = (net.sourceforge.cilib.Type.Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresentation();
@@ -62,11 +62,11 @@ public class DissipativeStep {
             for (int i = 0; i < particle.getDimension(); ++i) {
                 //Real component = (Real) domain.getComponent(i);
             	net.sourceforge.cilib.type.types.Real component = (net.sourceforge.cilib.type.types.Real) domain.get(i);
-            	//particle.getVelocity()[i] = randomGenerator.nextFloat() 
+            	//particle.getVelocity()[i] = randomGenerator.nextFloat()
                 //* (component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue());
             	//Domain d = Domain.getInstance();
-            	
-            	
+
+
             /*	particle.getVelocity()[i] = randomGenerator.nextFloat() *
             		//(d.getUpperBound() - d.getLowerBound());
             		(component.getUpperBound() - component.getLowerBound());*/
@@ -77,7 +77,7 @@ public class DissipativeStep {
         if (randomGenerator.nextFloat() < positionThreshold) {
             for (int i = 0; i < particle.getDimension(); ++i) {
                 /*Real component = (Real) domain.getComponent(i);
-                particle.getPosition()[i] = randomGenerator.nextDouble() 
+                particle.getPosition()[i] = randomGenerator.nextDouble()
                 * (component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())
                 + component.getLowerBound().doubleValue();*/
             	//Domain d = Domain.getInstance();
@@ -90,43 +90,43 @@ public class DissipativeStep {
             }
         }
     }
-    
+
     public void setRandomGenerator(Random randomGenerator) {
         this.randomGenerator = randomGenerator;
     }
-    
+
     public Random getRandomGenerator() {
         return randomGenerator;
     }
-    
+
     public void setVelocityThreshold(float velocityThreshold) {
         this.velocityThreshold = velocityThreshold;
     }
-    
+
     public float getVelocityThreshold() {
         return velocityThreshold;
     }
-    
+
     public void setPositionThreshold(float positionThreshold) {
         this.positionThreshold = positionThreshold;
     }
-    
+
     public float getPositionThreshold() {
         return positionThreshold;
     }
-    
+
     protected void setPSO(PSO pso) {
         this.pso = pso;
     }
-    
+
     public PSO getPso() {
 		return pso;
 	}
-    
+
     private PSO pso;
-    
+
     private Random randomGenerator;
     private float velocityThreshold;
     private float positionThreshold;
-	
+
 }

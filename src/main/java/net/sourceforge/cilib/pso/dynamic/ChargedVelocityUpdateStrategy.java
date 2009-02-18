@@ -34,13 +34,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Velocity update strategy that the so called Charged PSO makes use of.
  * This is an implementation of the original Charged PSO algorithm
  * developed by Blackwell and Bentley and then further improved by
- * Blackwell and Branke. 
- * 
+ * Blackwell and Branke.
+ *
  * @author Anna Rakitianskaia
  *
  */
 public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
-	
+
 	private static final long serialVersionUID = 365924556746583124L;
 	private double pCore; // lower limit
 	private double p; // upper limit
@@ -50,40 +50,40 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
 		pCore = 1;
 		p = 30;
 	}
-	
+
 	public ChargedVelocityUpdateStrategy(ChargedVelocityUpdateStrategy copy) {
 		this.inertiaWeight = copy.inertiaWeight.getClone();
     	this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
     	this.socialAcceleration = copy.socialAcceleration.getClone();
     	this.vMax = copy.vMax.getClone();
-    	
+
     	this.p = copy.p;
     	this.pCore = copy.pCore;
 	}
-	
+
 	public ChargedVelocityUpdateStrategy getClone() {
 		return new ChargedVelocityUpdateStrategy(this);
 	}
-	
+
 	@Override
 	public void updateVelocity(Particle particle) {
     	Vector velocity = (Vector) particle.getVelocity();
     	Vector position = (Vector) particle.getPosition();
     	Vector bestPosition = (Vector) particle.getBestPosition();
     	Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-    	
+
     	Vector acceleration = new Vector(velocity.getDimension());
     	acceleration.initialise(velocity.getDimension(), new Real(0));
     	PSO pso = (PSO) Algorithm.get();
     	Iterator<Particle> iter = null;
     	// make iter point to the current particle
     	for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext();) {
-    		if(i.next().getId() == particle.getId()) { 
+    		if(i.next().getId() == particle.getId()) {
     			iter = i;
     			break;
     		}
     	}
-    	// Calculate acceleration of the current particle	
+    	// Calculate acceleration of the current particle
     	for (int i = 0; i < particle.getDimension(); ++i) {
     		double accSum = 0;
 	    	for (Iterator<Particle> j = pso.getTopology().neighbourhood(iter); j.hasNext();) {
@@ -99,14 +99,14 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
 	        }
 	    	acceleration.setReal(i, accSum);
     	}
-        
+
         for (int i = 0; i < particle.getDimension(); ++i) {
-    		double value = inertiaWeight.getParameter()*velocity.getReal(i) + 
+    		double value = inertiaWeight.getParameter()*velocity.getReal(i) +
     			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
     			(nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter() +
     			acceleration.getReal(i);
     		velocity.setReal(i, value);
-    		
+
     		clamp(velocity, i);
     	}
     }

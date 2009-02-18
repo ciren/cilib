@@ -26,20 +26,20 @@ import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * This class.....
- * 
+ *
  * @author Gary Pampara
  */
 public class MemoryNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
 	private static final long serialVersionUID = -6674766322219682030L;
-	
+
 	public MemoryNeighbourhoodBestUpdateStrategy getClone() {
 		return this;
 	}
 
 	/**
 	 * Get the social best fitness of the entity. This returns the fitness of the
-	 * entity's personal best. 
-	 * 
+	 * entity's personal best.
+	 *
 	 * @return The fitness of the <code>Entity</code>'s personal best (pbest)
 	 */
 	public Fitness getSocialBestFitness(Entity entity) {

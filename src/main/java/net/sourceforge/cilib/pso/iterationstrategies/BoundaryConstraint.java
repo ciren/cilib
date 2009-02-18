@@ -28,7 +28,7 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  */
 public interface BoundaryConstraint extends Cloneable {
-	
+
 	/**
 	 * Enforce the defined boundary constraint on the provided {@linkplain Entity}.
 	 * @param entity The {@linkplain Entity} with which the boundary is to be enforced.

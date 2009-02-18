@@ -31,13 +31,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * TODO: test this.
- * 
+ *
  * @author engel
  */
 public class LinearVelocityUpdate extends StandardVelocityUpdate {
 
 	private static final long serialVersionUID = -1624326615681760823L;
-	
+
 	private Random socialRandomGenerator;
 	private Random cognitiveRandomGenerator;
 
@@ -46,15 +46,15 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 	 */
 	public LinearVelocityUpdate() {
 		super();
-		
+
 		// Resetting the social and cognitive components is required to ensure
 		// that during the velocity update process, only 1 random number is used.
 		this.cognitiveAcceleration = new ConstantControlParameter();
 		this.socialAcceleration = new ConstantControlParameter();
-		
+
 		this.cognitiveAcceleration.setParameter(1.496180);
 		this.socialAcceleration.setParameter(1.496180);
-		
+
 		socialRandomGenerator = new KnuthSubtractive();
 		cognitiveRandomGenerator = new KnuthSubtractive();
 	}
@@ -68,21 +68,21 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		Vector position = (Vector) particle.getPosition();
 		Vector bestPosition = (Vector) particle.getBestPosition();
 		Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-		
+
 		float social = socialRandomGenerator.nextFloat();
 		float cognitive = cognitiveRandomGenerator.nextFloat();
-		
-		for (int i = 0; i < particle.getDimension(); ++i) {			
+
+		for (int i = 0; i < particle.getDimension(); ++i) {
 			double tmp = inertiaWeight.getParameter()*velocity.getReal(i) +
 				cognitive  * cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) +
 				social * socialAcceleration.getParameter() * (nBestPosition.getReal(i) - position.getReal(i));
 			velocity.setReal(i, tmp);
-			
+
 			clamp(velocity, i);
-		}		
+		}
 	}
 
-	
+
 	/**
 	 * Return the random number generator for the cognitive component.
 	 * @return Returns the random number generator for the cognitive component.
@@ -91,7 +91,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		return cognitiveRandomGenerator;
 	}
 
-	
+
 	/**
 	 * @param congnitiveRandomGenerator The congnitiveRandomGenerator to set.
 	 */
@@ -99,7 +99,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		this.cognitiveRandomGenerator = congnitiveRandomGenerator;
 	}
 
-	
+
 	/**
 	 * @return Returns the socialRandomGenerator.
 	 */
@@ -107,7 +107,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 		return socialRandomGenerator;
 	}
 
-	
+
 	/**
 	 * @param socialRandomGenerator The socialRandomGenerator to set.
 	 */

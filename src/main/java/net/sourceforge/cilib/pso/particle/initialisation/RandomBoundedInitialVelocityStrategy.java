@@ -28,7 +28,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Andries Engelbrecht
  */
 public class RandomBoundedInitialVelocityStrategy implements
@@ -43,13 +43,13 @@ public class RandomBoundedInitialVelocityStrategy implements
 		this.upperBound = new ConstantControlParameter(0.1);
 		this.random1 = new RandomNumber();
 	}
-	
+
 	public RandomBoundedInitialVelocityStrategy(RandomBoundedInitialVelocityStrategy copy) {
 		this.lowerBound = copy.lowerBound;
 		this.upperBound = copy.upperBound;
 		this.random1 = copy.random1;
 	}
-	
+
 	public RandomBoundedInitialVelocityStrategy getClone() {
 		return new RandomBoundedInitialVelocityStrategy(this);
 	}
@@ -67,7 +67,7 @@ public class RandomBoundedInitialVelocityStrategy implements
 	public void setLowerBound(ControlParameter lowerBound) {
 		this.lowerBound = lowerBound;
 	}
-	
+
 	public ControlParameter getUpperBound() {
 		return upperBound;
 	}

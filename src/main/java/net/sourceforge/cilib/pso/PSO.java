@@ -123,7 +123,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
 		this.topology.clearBestEntity();
 
 		iterationStrategy.performIteration(this);
-		
+
 		for (Particle particle : this.getTopology()) {
 			particle.updateControlParameters();
 		}

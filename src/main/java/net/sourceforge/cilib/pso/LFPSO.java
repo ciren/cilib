@@ -45,31 +45,31 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
  * </li></ul></p>
  *
  * @author  barlad
- * 
- * TODO:: Need Global best update strategies	
+ *
+ * TODO:: Need Global best update strategies
  */
 public class LFPSO extends PSO implements GradientOptimisationAlgorithm {
     private static final long serialVersionUID = -1385469595182738903L;
-	/** 
-     * Creates a new instance of <code>LFPSO</code>. All fields are initialised to 
-     * reasonable defaults. Note that the {@link net.sourceforge.cilib.problem.GradientOptimisationProblem} 
-     * is initially <code>null</code> and must be set before {@link #initialise()} is called. 
+	/**
+     * Creates a new instance of <code>LFPSO</code>. All fields are initialised to
+     * reasonable defaults. Note that the {@link net.sourceforge.cilib.problem.GradientOptimisationProblem}
+     * is initially <code>null</code> and must be set before {@link #initialise()} is called.
      *
      */
     public LFPSO() {
         super();
-        
+
         velocityUpdate = new LFVelocityUpdate();
         //super.setVelocityUpdate(velocityUpdate);
         //super.setPrototypeParticle(new LFDecorator(new StandardParticle()));
         this.getInitialisationStrategy().setEntityType(new LFDecorator(new StandardParticle()));
     }
-    
+
     public void setPrototypeParticle(Particle particle) {
         //super.setPrototypeParticle(new LFDecorator(particle));
     	this.getInitialisationStrategy().setEntityType(new LFDecorator(particle));
     }
-    
+
     public void setVelocityUpdate(VelocityUpdateStrategy vu) {
         if (vu instanceof LFVelocityUpdate) {
         	throw new UnsupportedOperationException("This operation is not valid on the algorithm level");
@@ -79,7 +79,7 @@ public class LFPSO extends PSO implements GradientOptimisationAlgorithm {
             throw new RuntimeException("Vecocity update must be a LFVelocityUpdate");
         }
     }
-    
+
     /**
      *  Returns the number of times the gradient of the function was evaluated.
      *  Not implemented yet.
@@ -87,18 +87,18 @@ public class LFPSO extends PSO implements GradientOptimisationAlgorithm {
     public int getGradientEvaluations() {
         return 0;
     }
-    
+
     public GradientOptimisationProblem getGradientOptimisationProblem() {
         return problem;
     }
-    
+
     public void setGradientOptimisationProblem(GradientOptimisationProblem problem) {
-        this.problem = problem; 
+        this.problem = problem;
         super.setOptimisationProblem((OptimisationProblemAdapter) problem);
-        
+
         velocityUpdate.setGradientOptimisationProblem(problem);
     }
-    
+
     private GradientOptimisationProblem problem;
     private LFVelocityUpdate velocityUpdate;
 }

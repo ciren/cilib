@@ -39,20 +39,20 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * This class defines the common behaviour available for all {@linkplain Particle}
  * instances.
- * 
+ *
  * @author Edwin Peer
  * @author Gary Pampara
  */
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
 	private static final long serialVersionUID = 7511192728112990230L;
-	
+
 	protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
     protected VelocityInitialisationStrategy velocityInitialisationStrategy;
     // TODO: Factor this out into a Particle intialisation strategy.... keep in mind the heterogeneous swarm thingy
     protected PositionInitialisationStrategy positionInitialisationStrategy;
     // protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
-    
+
     private int id;
 
     /**
@@ -60,11 +60,11 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
 	public AbstractParticle() {
 		super();
-		
+
 		neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
 		positionUpdateStrategy = new StandardPositionUpdateStrategy();
 		velocityUpdateStrategy = new StandardVelocityUpdate();
-		
+
 		positionInitialisationStrategy = new RandomizedPositionInitialisationStrategy();
 		velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
 	}
@@ -95,10 +95,10 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
-		
+
 		if ((object == null) || (this.getClass() != object.getClass()))
 			return false;
-		
+
 		AbstractParticle other = (AbstractParticle) object;
 		return  super.equals(other) &&
 			(this.id == other.id);
@@ -122,7 +122,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public void calculateFitness() {
     	calculateFitness(true);
     }
-   
+
     /**
      * {@inheritDoc}
      */
@@ -134,27 +134,27 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
 	@Override
     public abstract Fitness getBestFitness();
-    
+
     /**
      * {@inheritDoc}
      */
 	@Override
     public abstract int getDimension();
-   
+
     /**
      * Get the position of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s position.
      */
 	@Override
     public abstract Type getPosition();
-    
+
     /**
      * Get the best position of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s best position.
      */
 	@Override
     public abstract Type getBestPosition();
-    
+
     /**
      * Get the velocity representation of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s velocity.
@@ -165,31 +165,31 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     /**
      * Set the neighbourhood best particle for the current Particle based on the
      * topology of the current particle.
-     * 
+     *
      * @param particle The particle to use as the current particle's neighhod best particle
      */
 	@Override
     public abstract void setNeighbourhoodBest(Particle particle);
-    
+
     /**
      * Get the current <tt>Particle</tt>'s neighbourhood best.
      * @return The neighbourhood best of the <tt>Particle</tt>
      */
 	@Override
     public abstract Particle getNeighbourhoodBest();
-    
+
     /**
      * Update the position of the <tt>Particle</tt>.
      */
 	@Override
     public abstract void updatePosition();
-    
+
     /**
      * {@inheritDoc}
      */
 	@Override
     public abstract void updateVelocity();
-    
+
     /**
      * {@inheritDoc}
      */
@@ -204,7 +204,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	public PositionUpdateStrategy getPositionUpdateStrategy() {
 		return positionUpdateStrategy;
 	}
-	
+
 	/**
 	 * Set the <tt>PostionUpdateStrategy</tt> for the <tt>Particle</tt>.
 	 * @param positionUpdateStrategy The <tt>PositionUpdateStrategy</tt> to use.
@@ -213,11 +213,11 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 	public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy) {
 		this.positionUpdateStrategy = positionUpdateStrategy;
 	}
-	
+
 	/**
 	 * Get the {@see net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy}
 	 * of the current particle.
-	 * 
+	 *
 	 * @return Returns the velocityUpdateStrategy.
 	 */
 	@Override
@@ -252,7 +252,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 			VelocityInitialisationStrategy velocityInitialisationStrategy) {
 		this.velocityInitialisationStrategy = velocityInitialisationStrategy;
 	}
-	
+
 	/**
 	 * Get the current {@linkplain PositionInitialisationStrategy}.
 	 * @return The current {@linkplain PositionInitialisationStrategy}.

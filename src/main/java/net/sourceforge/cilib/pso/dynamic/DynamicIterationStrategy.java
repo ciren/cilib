@@ -30,11 +30,11 @@ import net.sourceforge.cilib.pso.dynamic.responsestrategies.PartialReinitialisat
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 
 /**
- * Dynamic iteration strategy for PSO in dynamic environments. 
- * In each iteration, it checks for an environmental change, and reinitialises 
+ * Dynamic iteration strategy for PSO in dynamic environments.
+ * In each iteration, it checks for an environmental change, and reinitialises
  * a percentage of the swarm once such a change is detected in order to preserve
  * diversity.
- * 
+ *
  * The algorithm is adopted from<br/>
  * @book{focsi,
  * 		author=         {Andries P. Engelbrecht},
@@ -42,24 +42,24 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  *		publisher=      {John Wiley \& Sons, Ltd},
  * 		year=           {2005}
  * }
- * 
+ *
  * @author Anna Rakitianskaia
  */
 public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 	private static final long serialVersionUID = -4441422301948289718L;
-	
+
 	private IterationStrategy<PSO> iterationStrategy;
 	//TODO: private DetectionStrategy<PSO> detection
 	//TODO: private ReactionStrategy<PSO> reaction
 	private EnvironmentChangeDetectionStrategy<PSO> detectionStrategy;
 	private EnvironmentChangeResponseStrategy<PSO> responseStrategy;
-	
+
 	/**
 	 * Create a new instance of {@linkplain DynamicIterationStrategy}.
 	 * <p>
-	 * The following defaults are set in the constructor: 
-	 * randomiser is instantiated as a MersenneTwister, 
-	 * theta is set to 0.001, 
+	 * The following defaults are set in the constructor:
+	 * randomiser is instantiated as a MersenneTwister,
+	 * theta is set to 0.001,
 	 * reinitialisationRatio is set to 0.5 (reinitialise one half of the swarm)
 	 */
 	public DynamicIterationStrategy() {
@@ -67,7 +67,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 		this.detectionStrategy = new RandomSentryDetectionStrategy<PSO>();
 		this.responseStrategy = new PartialReinitialisationResponseStrategy<PSO>();
 	}
-	
+
 	/**
 	 * Create a copy of the provided instance.
 	 * @param copy The instance to copy.
@@ -77,7 +77,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 		this.detectionStrategy = copy.detectionStrategy.getClone();
 		this.responseStrategy = copy.responseStrategy.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -88,24 +88,24 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 
 	/**
 	 * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
-	 * 
+	 *
 	 * Structure of Dynamic iteration strategy with re-initialisation:
-	 * 
+	 *
 	 * <ol>
-	 *   <li>Check for environment change</li> 
+	 *   <li>Check for environment change</li>
 	 *   <li>If the environment has changed:</li>
 	 *   <ol>
 	 *     <li>Respond to change</li>
 	 *   <ol>
 	 *   <li>Perform normal itartion</li>
-	 * </ol>  
+	 * </ol>
 	 */
 	public void performIteration(PSO algorithm) {
 		boolean hasChanged = detectionStrategy.detect(algorithm);
-		
+
 		if (hasChanged)
 			responseStrategy.respond(algorithm);
-		
+
 		iterationStrategy.performIteration(algorithm);
 	}
 
@@ -126,7 +126,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
 	}
 
 	/**
-	 * Get the currently defined {@linkplain EnvironmentChangeDetectionStrategy}. 
+	 * Get the currently defined {@linkplain EnvironmentChangeDetectionStrategy}.
 	 * @return The current {@linkplain EnvironmentChangeDetectionStrategy}.
 	 */
 	public EnvironmentChangeDetectionStrategy<PSO> getDetectionStrategy() {

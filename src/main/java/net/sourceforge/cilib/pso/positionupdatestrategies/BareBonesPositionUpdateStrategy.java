@@ -25,7 +25,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * 
+ *
  * @author Gary Pampara
  * @author Andries Engelbrecht
  * @deprecated Refer to {@linkplain net.sourceforge.cilib.pso.positionupdatestrategies.LinearPositionUpdateStrategy the replacing class}.
@@ -40,22 +40,22 @@ public class BareBonesPositionUpdateStrategy implements PositionUpdateStrategy {
 	 * Default construstor.
 	 */
 	public BareBonesPositionUpdateStrategy() {
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Copy Constructor for the <tt>BareBonesPositionUpdateStrategy</tt>.
 	 * @param copy The <tt>BareBonesPositionUpdateStrategy</tt> to copy
 	 */
 	public BareBonesPositionUpdateStrategy(BareBonesPositionUpdateStrategy copy) {
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Create a clone of this <tt>BareBonesPositionUpdateStrategy</tt>.
-	 * 
+	 *
 	 * @return A <tt>BareBonesPositionUpdateStrategy</tt> object which is a clone of the
 	 *         object whose <code>clone</code> was called.
 	 */
@@ -63,14 +63,14 @@ public class BareBonesPositionUpdateStrategy implements PositionUpdateStrategy {
 		return new BareBonesPositionUpdateStrategy(this);
 	}
 
-	
+
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	public void updatePosition(Particle particle) {
 		Vector position = (Vector) particle.getPosition();
 		Vector velocity = (Vector) particle.getVelocity();
-		
+
 		for (int i = 0; i < position.getDimension(); i++) {
 			position.setReal(i, velocity.getReal(i));
 		}

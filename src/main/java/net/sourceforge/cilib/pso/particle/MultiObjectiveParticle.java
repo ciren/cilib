@@ -34,7 +34,7 @@ public class MultiObjectiveParticle extends StandardParticle {
 
 	public void setBestPosition(Type bestPosition) {
 		Fitness bestPositionFitness = Algorithm.get().getOptimisationProblem().getFitness(bestPosition, false);
-		
+
 		this.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.getClone());
 		this.getProperties().put(EntityType.Particle.BEST_FITNESS, bestPositionFitness);
 	}

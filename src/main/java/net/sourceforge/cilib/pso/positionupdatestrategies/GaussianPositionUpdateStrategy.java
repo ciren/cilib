@@ -32,7 +32,7 @@ public class GaussianPositionUpdateStrategy implements PositionUpdateStrategy {
 	public GaussianPositionUpdateStrategy getClone() {
 		throw new UnsupportedOperationException("Implementation is required.");
 	}
-	
+
 	public void updatePosition(Particle particle) {
 		throw new UnsupportedOperationException("Implementation is required.");
 	}

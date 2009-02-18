@@ -40,7 +40,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 	private ControlParameter scalingFactor;
 	private RandomNumber randomNumber;
 	private Sigmoid sigmoid;
-	
+
 	/**
 	 * Create an instance of {@linkplain CoherenceVelocityUpdate}.
 	 */
@@ -78,7 +78,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 		Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
 		double averageParticleVelocity = 0.0;
-		
+
 		Vector averageVelocity = velocity.getClone();
 		averageVelocity.reset();
 		PSO pso = (PSO) Algorithm.get();
@@ -89,16 +89,16 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 		}
 		averageVelocity = averageVelocity.divide(particle.getDimension());
 		averageParticleVelocity /= particle.getDimension();
-		
+
 //		System.out.println("averageVelocity: " + averageVelocity);
-		
+
 		double swarmCenterVelocity = averageVelocity.norm();
 		double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
-		
+
 		double sigmoidValue = sigmoid.evaluate(swarmCoherence);
-		
+
 		 for (int i = 0; i < particle.getDimension(); ++i) {
-	    		double value = inertiaWeight.getParameter()*velocity.getReal(i) + 
+	    		double value = inertiaWeight.getParameter()*velocity.getReal(i) +
 	    			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
 	    			(nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
 
@@ -108,11 +108,11 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 //	    		System.out.println("sigmoid: " + sigmoidValue);
 //	    		System.out.println(coherenceVelocity);
 //	    		System.out.println("new vlaue: " + (value+coherenceVelocity));
-	    		velocity.setReal(i, value+coherenceVelocity);		
-	    		
+	    		velocity.setReal(i, value+coherenceVelocity);
+
 	    		clamp(velocity, i);
 	    	}
-		
+
 
 //		float social = socialRandomGenerator.nextFloat();
 //		float cognitive = cognitiveRandomGenerator.nextFloat();
@@ -175,7 +175,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 	private double calculateSwarmCoherence(double swarmCenterVelocity, double averageParticleVelocity) {
 		if (averageParticleVelocity == 0.0)
 			return 0.0;
-		
+
 		return swarmCenterVelocity / averageParticleVelocity;
 	}
 

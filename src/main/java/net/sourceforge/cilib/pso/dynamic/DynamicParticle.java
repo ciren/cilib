@@ -29,13 +29,13 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * that it adds is the ability to re-evaluate both current and best position of
  * the particle. A dynamic algorithm usually re-evaluates all particles when a
  * change in the environment has been detected.
- * 
+ *
  * @author Anna Rakitianskaia
  */
 public class DynamicParticle extends StandardParticle {
-	
+
 	private static final long serialVersionUID = 1752969607979236619L;
-	
+
 	public DynamicParticle() {
 		super();
 	}
@@ -43,11 +43,11 @@ public class DynamicParticle extends StandardParticle {
     public DynamicParticle(DynamicParticle copy) {
     	super(copy);
     }
-    
+
     public DynamicParticle getClone() {
        	return new DynamicParticle(this);
     }
-           
+
     /**
      * Re-evaluate both best and current position of the particle.
      */
