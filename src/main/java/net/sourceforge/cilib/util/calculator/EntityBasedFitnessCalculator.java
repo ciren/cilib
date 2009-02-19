@@ -26,25 +26,25 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- *
+ * 
  *
  */
-public class VectorBasedFitnessCalculator implements FitnessCalculator {
+public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {
 	private static final long serialVersionUID = -5053760817332028741L;
 
-	public VectorBasedFitnessCalculator() {
-
+	public EntityBasedFitnessCalculator() {
+		
 	}
-
-	public VectorBasedFitnessCalculator(VectorBasedFitnessCalculator copy) {
-
+	
+	public EntityBasedFitnessCalculator(EntityBasedFitnessCalculator copy) {
+		
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
-	public VectorBasedFitnessCalculator getClone() {
-		return new VectorBasedFitnessCalculator(this);
+	public EntityBasedFitnessCalculator getClone() {
+		return new EntityBasedFitnessCalculator(this);
 	}
 
 	public Fitness getFitness(Entity entity, boolean count) {

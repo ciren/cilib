@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2003 - 2008
+    Computational Intelligence Research Group (CIRG@UP)
+    Department of Computer Science
+    University of Pretoria
+    South Africa
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+-->
+
+<document>
+  <body>
+    <p>
+    This document describes how developers and contributors should write
+    code to be included into the main CIlib tree. The reasoning behind
+    these conventions is mainly for consistency, readability and
+    maintainability.
+    </p>
+
+    <section name="General code style and convention">
+    <p>
+    All working files within the source tree of CIlib must adhere to the
+    following conventions:
+    </p>
+    <ul>
+      <li><b>License Header</b>: All source files will add the GPLv2
+      license header. NOTE: CIlib will <b>not</b> compile if the check
+      for header information fails.</li>
+      <li><b>Trailing whitespaces</b>: All trailing whitespaces must be
+      removed.</li>
+      <ul>
+        <li>Netbeans users should use the "Remove Trailing Whitespace"
+	option under the "Source" menu item.</li>
+        <li>Eclipse users can use the <a href="http://andrei.gmxhome.de/anyedit">Anyedit Eclipse Plugin</a> to automatically remove trailing whitespace.</li>
+      </ul>
+    </ul>
+
+    <p>
+    Style conventions applying to the project:
+    </p>
+    <ul>
+      <li><b>Indentation</b>: No tabs are allowed for indentation! Use
+      spaces.</li>
+      <li><b>Line wrapping</b>: A column-width of 120 is to be used.</li>
+    </ul>
+    </section>
+
+    <section name="Java code">
+    <p>
+    All classes are to be written following the <a
+    href="http://java.sun.com/javase/technologies/desktop/javabeans/docs/spec.html">JavaBeans Specification</a>, barring a special reason. Such reasons include the class being a Singleton or Helper class that is not required during the XML to Java binding process.
+    </p>
+    <p>
+    The CIlib stype for Java source files is generally accepted to be:
+    </p>
+    <ul>
+      <li>All class members are to be given names in <a href="http://en.wikipedia.org/wiki/Camel_caps">CamelCaps</a> (which is the accepted Java style).</li>
+    </ul>
+    </section>
+  </body>
+</document>
