@@ -115,7 +115,7 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
 		DistanceMeasure measure = new EuclideanDistanceMeasure();
 
 		for (Entity other : mainSwarm.getTopology()) {
-			double distance = measure.distance((Vector) entity.getCandidateSolution(), (Vector) other.getCandidateSolution());
+			double distance = measure.distance(entity.getCandidateSolution(), other.getCandidateSolution());
 			if (distance < closest) {
 				closest = distance;
 				closestEntity = other;

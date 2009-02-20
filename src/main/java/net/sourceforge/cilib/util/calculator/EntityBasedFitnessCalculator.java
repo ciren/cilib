@@ -26,27 +26,22 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * 
- *
+ * A fitness calculator tht is specialised to determine the fitness of
+ * an Entity instance.
  */
 public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {
 	private static final long serialVersionUID = -5053760817332028741L;
 
-	public EntityBasedFitnessCalculator() {
-		
-	}
-	
-	public EntityBasedFitnessCalculator(EntityBasedFitnessCalculator copy) {
-		
-	}
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	public EntityBasedFitnessCalculator getClone() {
-		return new EntityBasedFitnessCalculator(this);
+		return this;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Fitness getFitness(Entity entity, boolean count) {
 		Algorithm algorithm = Algorithm.get();
 		return algorithm.getOptimisationProblem().getFitness(entity.getCandidateSolution(), count);

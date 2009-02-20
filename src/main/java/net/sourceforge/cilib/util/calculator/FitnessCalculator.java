@@ -27,6 +27,7 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * Perform the calculation of the fitness for the given <code>Entity</code>, decoupling the
  * <code>Entity</code> from the <code>Problem</code>.
+ * @param <T> The type to which a fitness calculation is to be performed.
  */
 public interface FitnessCalculator<T> extends Cloneable {
 
