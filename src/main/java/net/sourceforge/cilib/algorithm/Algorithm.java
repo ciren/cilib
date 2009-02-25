@@ -122,9 +122,11 @@ public abstract class Algorithm implements Cloneable, Runnable {
 		running = true;
 		initialised = true;
 
-		if (stoppingConditions.isEmpty()) {
+		if (stoppingConditions.isEmpty())
 			throw new InitialisationException("No stopping conditions specified");
-		}
+
+        for (StoppingCondition stoppingCondition : stoppingConditions)
+            stoppingCondition.setAlgorithm(this);
 
         currentAlgorithmStack.get().push(this);
 		performInitialisation();
@@ -202,7 +204,6 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	 *        to be added.
 	 */
 	public final void addStoppingCondition(StoppingCondition stoppingCondition) {
-		stoppingCondition.setAlgorithm(this);
 		stoppingConditions.add(stoppingCondition);
 	}
 
@@ -282,10 +283,10 @@ public abstract class Algorithm implements Cloneable, Runnable {
 	public static Algorithm get() {
 		return currentAlgorithmStack.get().peek();
 	}
-	
+
 	/**
 	 * Static accessor to allow the current level of algorithm composition to be returned.
-	 * @see AlgorithmStack#asList() 
+	 * @see AlgorithmStack#asList()
 	 * @return An unmodifiable list of algorithms.
 	 */
 	public static List<Algorithm> getAlgorithmList() {
