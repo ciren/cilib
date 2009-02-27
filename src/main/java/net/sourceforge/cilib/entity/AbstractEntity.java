@@ -52,26 +52,30 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	 */
 	protected AbstractEntity() {
 		this.id = EntityIdFactory.getNextId();
-		
+
 		this.candidateSolution = new CandidateSolutionMixin();
 		this.neighbourhoodBestUpdateStrategy = new IterationNeighbourhoodBestUpdateStrategy();
 		this.fitnessCalculator = new EntityBasedFitnessCalculator();
 	}
-	
+
 	/**
-	 * Copy constructor. Instantiate and copy the given instance. 
+	 * Copy constructor. Instantiate and copy the given instance.
 	 * @param copy The instance to copy.
 	 */
 	protected AbstractEntity(AbstractEntity copy) {
 		this.id = EntityIdFactory.getNextId();
-		
+
 		this.candidateSolution = (CandidateSolution) copy.candidateSolution.getClone();
 		this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
 		this.fitnessCalculator = copy.fitnessCalculator.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
+     *
+     * It doesn;t make sense to compare the meta data of the entity.
+     * In other words, the properties of the entity may vary, but the entity
+     * is still the same entity.
 	 *
 	 * @param object The object to compare equality.
 	 */
@@ -79,12 +83,12 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public boolean equals(Object object) {
 		if (this == object)
 			return true;
-		
+
 		if ((object == null) || (this.getClass() != object.getClass()))
 			return false;
-		
+
 		AbstractEntity other = (AbstractEntity) object;
-		return (this.id == other.id) && (this.candidateSolution.equals(other.candidateSolution));
+		return this.id == other.id;
 	}
 
 	/**
@@ -94,10 +98,9 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public int hashCode() {
 		int hash = 7;
 		hash = 31 * hash + (int)(id ^ (id >>> 32));
-		hash = 31 * hash + (this.candidateSolution == null ? 0 : this.candidateSolution.hashCode());
 		return hash;
 	}
-	
+
 	/**
 	 * Get the properties associate with the <code>Entity</code>.
 	 * @return The properties within a {@linkplain Blackboard}.
@@ -117,7 +120,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	}
 
 	/**
-	 * Get the value of the {@linkplain CandidateSolution} maintained by this 
+	 * Get the value of the {@linkplain CandidateSolution} maintained by this
 	 * {@linkplain Entity}.
 	 * @return The candidate solution as a {@linkplain Type}.
 	 */
@@ -127,7 +130,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	}
 
 	/**
-	 * Get the fitness of the {@linkplain CandidateSolution} maintained by this 
+	 * Get the fitness of the {@linkplain CandidateSolution} maintained by this
 	 * {@linkplain Entity}.
 	 * @return The {@linkplain Fitness} of the candidate solution.
 	 */
@@ -146,7 +149,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public void setCandidateSolution(StructuredType candidateSolution) {
 		this.candidateSolution.setCandidateSolution(candidateSolution);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -154,7 +157,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public final Fitness getSocialBestFitness() {
 		return this.neighbourhoodBestUpdateStrategy.getSocialBestFitness(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -162,7 +165,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public Fitness getBestFitness() {
 		return getFitness();
 	}
-	
+
 	/**
 	 * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>.
 	 * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
@@ -170,7 +173,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {
 		return this.neighbourhoodBestUpdateStrategy;
 	}
-	
+
 	/**
 	 * Set the <code>NeighbourhoodBestUpdateStrategy</code> to be used by the {@linkplain Entity}.
 	 * @param neighbourhoodBestUpdateStrategy The <code>NeighbourhoodBestUpdateStrategy</code> to be used
