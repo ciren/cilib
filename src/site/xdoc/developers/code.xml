@@ -48,6 +48,7 @@
 	option under the "Source" menu item.</li>
         <li>Eclipse users can use the <a href="http://andrei.gmxhome.de/anyedit">Anyedit Eclipse Plugin</a> to automatically remove trailing whitespace.</li>
       </ul>
+      <li><b>EOL</b>: UNIX End Of Line characters are expected.</li>
     </ul>
 
     <p>
@@ -66,11 +67,47 @@
     href="http://java.sun.com/javase/technologies/desktop/javabeans/docs/spec.html">JavaBeans Specification</a>, barring a special reason. Such reasons include the class being a Singleton or Helper class that is not required during the XML to Java binding process.
     </p>
     <p>
-    The CIlib stype for Java source files is generally accepted to be:
+    The CIlib style for Java source files is generally accepted to be:
     </p>
     <ul>
+      <li>The names of classes / members / packages etc should make
+      sense. If you are unsure, please consult the opinions of the
+      development mailing list. Having a member, for example, named 'a' is
+      useless.</li>
       <li>All class members are to be given names in <a href="http://en.wikipedia.org/wiki/Camel_caps">CamelCaps</a> (which is the accepted Java style).</li>
+      <li>General code style is expected to look like the default style
+      defined by Sun with regard to location of braces, puntuation etc.</li>
+      <li>All Java code is expected to have accompanying Javadoc
+      comments.</li>
     </ul>
+    </section>
+    <section name="Javadoc comments">
+    <p>
+    It is expected that all classes in CIlib have the appropriate
+    <u>Javadoc 5</u> comments attached to each method. Javadoc is extremely
+    important for CIlib as the project is a library and users will
+    constantly be referring to the API. The normal conventions described
+    by <a href="http://java.sun.com/j2se/javadoc/writingdoccomments/">Sun</a>
+    regarding Javadoc should be followed.
+    </p>
+    <p>
+    For package level Javadoc, CIlib uses the JDK5+ package-info.java
+    package information.
+    </p>
+    <p>
+    <b>References:</b> All code that is written that is derived from a
+    published article etc, will have the appropriate BibTeX entry in the
+    class level Javadocs. The BibTeX reference should be placed in a
+    &lt;pre&gt;&lt;/pre&gt; environment. Such references are extremely
+    important and should be available in the Javadoc.
+    </p>
+    <p>An important note about the {@inheritDoc} tag: please do not use
+    this tag for classes that are not in CIlib. For example, if you have
+    a class that extends a class or implements an interface that is
+    defined in the JDK, the {@inheritDoc} annotation will fail to
+    generate the expected Javadoc. You should rewrite / paraphrase the
+    Javadoc to make the intention apparent.
+    </p>
     </section>
   </body>
 </document>

@@ -72,6 +72,10 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 
 	/**
 	 * {@inheritDoc}
+     *
+     * It doesn;t make sense to compare the meta data of the entity.
+     * In other words, the properties of the entity may vary, but the entity
+     * is still the same entity.
 	 *
 	 * @param object The object to compare equality.
 	 */
@@ -84,7 +88,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 			return false;
 
 		AbstractEntity other = (AbstractEntity) object;
-		return (this.id == other.id) && (this.candidateSolution.equals(other.candidateSolution));
+		return this.id == other.id;
 	}
 
 	/**
@@ -94,7 +98,6 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 	public int hashCode() {
 		int hash = 7;
 		hash = 31 * hash + (int)(id ^ (id >>> 32));
-		hash = 31 * hash + (this.candidateSolution == null ? 0 : this.candidateSolution.hashCode());
 		return hash;
 	}
 
