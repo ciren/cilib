@@ -28,7 +28,7 @@
     <author email="gpampara at users.sourceforge.net">Gary Pampara</author>
   </properties>
   <body>
-    <release version="0.7" date="January 2009" description="">
+    <release version="0.7" date="TBA" description="">
       <action dev="gpampara" type="update" issue="o">
         Removed the dependency on the exec plugin for the simulator scripts.
       </action>

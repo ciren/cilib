@@ -25,5 +25,126 @@
 
 <document> 
   <body>
+    <p>
+    What follows is a general discussion on the normal workflow for
+    CIlib. the usage of the tools, however, is a whole topic on it's
+    own. We suggest having a look at the following references:
+    </p>
+    <ul>
+      <li><a href="http://git-scm.com">The official Git website</a></li>
+      <li><a href="http://git-scm.com/documentation">Git documentation</a></li>
+    </ul>
+    <p>
+    The tutorials are very good, especially <a
+    href="http://www.kernel.org/pub/software/scm/git/docs/everyday.html">Everyday Git</a>. Also have a look at the <a href="http://book.git-scm.com/">Git Community Book</a>.
+    </p>
+    <section name="Downloading and installing Git">
+      <p>
+      Get the software :) Depending on whether you are using Linux,
+      Mac or Windows, the installation instructions will vary.
+      </p>
+      <p>
+      Please consult your Linux distribution for information on how to
+      install Git. Examples:
+      </p>
+      <ul>
+        <li>emerge git</li>
+	<li>apt-get install git</li>
+	<li>yum install git</li>
+	<li>etc...</li>
+      </ul>
+      <p>
+      If you are on Mac or Windows, have a look at <a
+      href="http://github.com/guides/home">The Github Guides</a> for
+      more information on how to install the software..
+      </p>
+    </section>
+    <section name="Getting the repository">
+      <p>
+      You obviously need to get the repository cloned:
+      </p>
+      <source>git clone git://github.com/gpampara/cilib.git</source>
+      <p>
+      Bear in mind that you may also use the <code>http</code> transport
+      to get the repository cloned.
+      </p>
+    </section>
+    <section name="Create a local branch">
+      <p>
+      Branch. It's good for you!
+      </p>
+      <p>
+      Seriously though, creating a local branch allows you to continue
+      make changes to the source tree, compare with other branches and
+      allows the creation of patches:
+      </p>
+      <source>git branch fix_something</source>
+      <p>
+      or
+      </p>
+      <source>git checkout -b fix_something master</source>
+      <p>
+      Switching to a branch is just as simple:
+      </p>
+      <source>git checkout fix_something</source>
+    </section>
+    <section name="Make changes">
+      <p>
+      Once you are in your local branch, you can go ahead and create
+      changes to the code and commit them. Unlike SVN or CVS, the
+      commits that are made will be associated with the current branch,
+      and not with the upstream branch.
+      </p>
+      <p>
+      It's important to make sure that once you commit, you create a
+      detailed description about what the changes involved or resulted
+      in. Have a look at <a href="http://www.tpope.net/node/106">this</a>
+      to get an idea of what the commit message should include. Please
+      note that detailed messages will be expected to get your commits
+      applied to the main branch.
+      </p>
+      <p>
+      Git requires a two phase action to commit changes. Firstly you
+      will need to add / delete files to get them into the
+      <code>index</code>. After which you can commit them:
+      </p>
+      <source>git add path/to/file
+git delete path/to/file
+git commit</source>
+    </section>
+    <section name="Preparing the patches">
+      <p>
+      Now that you have completed the tasks you wanted to complete, you
+      might like to submit the changes as a patch so that the rest of
+      the community may benefit from your efforts. To send a patch
+      requires a few small actions, the most notable being that we need
+      to base the patch off the most recent version in the central
+      repository. So, switch to the master branch and update it:
+      </p>
+      <source>git checkout master
+git pull</source>
+      <p>
+      Next, we switch to the local branch and let git apply all our
+      local changes on top of the renewed master that we just pulled:
+      </p>
+      <source>git checkout fix_something
+git rebase master</source>
+      <p>
+      Finally, create the patch. A file with the name derived from he
+      commit message will be created:
+      </p>
+      <source>git format-patch master</source>
+    </section>
+    <section name="Submitting the patches">
+      <p>
+      All patches should be emailed to the CIlib developers mailing
+      list, so that they can be discussed and finally agreed upon to be
+      included in the master branch.
+      </p>
+      <p>
+      A very good resource on this topic is <a href="http://repo.or.cz/w/git.git?a=blob;f=Documentation/SubmittingPatches;hb=HEAD">this document</a> in the Git
+      distribution.
+      </p>
+    </section>
   </body>
 </document>
