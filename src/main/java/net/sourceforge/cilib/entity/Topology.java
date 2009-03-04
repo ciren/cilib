@@ -65,6 +65,9 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
      */
     public void accept(Visitor<E> visitor) {
         for (E element : this) {
+            if (visitor.isDone())
+                return;
+
             visitor.visit(element);
         }
     }

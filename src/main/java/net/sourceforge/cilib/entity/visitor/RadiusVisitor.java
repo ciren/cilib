@@ -32,16 +32,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class RadiusVisitor extends TopologyVisitor {
 
-	/**
-	 * Create an instance of {@code RadiusVisitor}.
-	 */
-	public RadiusVisitor() {
-		super();
-	}
+    private double radius = -Double.MAX_VALUE;
 
 	/**
 	 * {@inheritDoc}
-	 */
+     *
+     * @param topology
+     */
 	@Override
 	public void visit(Topology<? extends Entity> topology) {
 		double maxDistance = 0.0;
@@ -59,7 +56,12 @@ public class RadiusVisitor extends TopologyVisitor {
     			maxDistance = actualDistance;
     	}
 
-    	result = maxDistance;
+        radius = maxDistance;
 	}
+
+    @Override
+    public Double getResult() {
+        return this.radius;
+    }
 
 }

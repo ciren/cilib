@@ -29,25 +29,34 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
+ * Base class for all visitor instances that visit an entire {@link Topology}
+ * at once. These type of visitors are generally assocaited with the
+ * calculation of topology related information, such as diameter and
+ * radius calculations of the provided topologies.
  *
  * @author gpampara
- *
  */
 public abstract class TopologyVisitor extends Visitor<Topology<? extends Entity>> {
 
 	protected Algorithm currentAlgorithm;
-	protected double result;
 	protected DistanceMeasure distanceMeasure;
 
 	public TopologyVisitor() {
 		distanceMeasure = new EuclideanDistanceMeasure();
 	}
 
-	public abstract void visit(Topology<? extends Entity> algorithm);
+    /**
+     * Perfrom the visit operation on the provided {@link Topology}.
+     * @param topology The {@link Topology} to visit.
+     */
+	public abstract void visit(Topology<? extends Entity> topology);
 
-	public double getResult() {
-		return result;
-	}
+    /**
+     * Get the result of the visitor after it has performed the visit()
+     * action.
+     * @return The result of the visit()
+     */
+	public abstract Object getResult();
 
 	public DistanceMeasure getDistanceMeasure() {
 		return distanceMeasure;

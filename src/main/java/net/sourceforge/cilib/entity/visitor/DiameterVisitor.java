@@ -33,8 +33,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class DiameterVisitor extends TopologyVisitor {
 
+    private double distance = -Double.MAX_VALUE;
+
 	public DiameterVisitor() {
-		super();
 	}
 
 	@Override
@@ -57,7 +58,12 @@ public class DiameterVisitor extends TopologyVisitor {
         	}
         }
 
-        result = maxDistance;
+        distance = maxDistance;
 	}
+
+    @Override
+    public Double getResult() {
+        return this.distance;
+    }
 
 }

@@ -31,7 +31,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Determine the spatial radius of the visited object.
  */
-public class SpatialRadiusVisitor extends RadiusVisitor {
+public class SpatialRadiusVisitor extends TopologyVisitor {
+
+    private double radius = -Double.MAX_VALUE;
 
 	/**
 	 * {@inheritDoc}
@@ -75,7 +77,12 @@ public class SpatialRadiusVisitor extends RadiusVisitor {
     			maxDistance = currentDistance;
     	}
 
-    	result = maxDistance;
-	}
+        radius = maxDistance;
+    }
+
+    @Override
+    public Double getResult() {
+        return this.radius;
+    }
 
 }
