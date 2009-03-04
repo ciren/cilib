@@ -28,6 +28,7 @@ import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationSt
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -46,7 +47,11 @@ public class Niche extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
 
     private PopulationBasedAlgorithm mainSwarm;
+
+    private NicheIdentificationStrategy nicheIdentificationStrategy;
     private NicheCreationStrategy swarmCreationStrategy;
+    private AbsorptionStrategy absorptionStrategy;
+    private MergeStrategy mergeStrategy;
 
     public Niche() {
         this.mainSwarm = new PSO();
@@ -63,7 +68,10 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
 
-//        this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
+        this.nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
+        this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
+        this.absorptionStrategy = new StandardAbsorptionStrategy();
+        this.mergeStrategy = new StandardMergeStrategy();
     }
 
     @Override
@@ -76,19 +84,19 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.initialise();
     }
 
-
-
     @Override
     protected void algorithmIteration() {
         mainSwarm.performIteration();
 
         for (PopulationBasedAlgorithm subSwarm : this) {
-            subSwarm.performIteration();
+            subSwarm.performIteration(); // TODO: There may be an issue with this and the number of iterations
         }
 
-//        this.mergeStrategy.merge(this);
-//        this.absorptionStrategy.absorb(this);
-        this.swarmCreationStrategy.create(this);
+        this.mergeStrategy.merge(this);
+        this.absorptionStrategy.absorb(this);
+
+        List<Entity> niches = this.nicheIdentificationStrategy.identify(this.getTopology());
+        this.swarmCreationStrategy.create(this, niches);
     }
 
     @Override
