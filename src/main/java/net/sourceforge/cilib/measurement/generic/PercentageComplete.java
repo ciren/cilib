@@ -46,7 +46,6 @@ public class PercentageComplete implements Measurement {
 
     public String getDomain() {
     	return "R(0,1)";
-    	//return "T";
     }
 
     public Type getValue(Algorithm algorithm) {

@@ -105,7 +105,7 @@ public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public double accept(TopologyVisitor visitor) {
+	public Object accept(TopologyVisitor visitor) {
 		visitor.setCurrentAlgorithm(this);
 		getTopology().accept(visitor);
 		return visitor.getResult();

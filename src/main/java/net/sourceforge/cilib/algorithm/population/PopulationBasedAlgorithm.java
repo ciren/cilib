@@ -87,7 +87,7 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
 	 * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
 	 * @return The result of the visitor operation.
 	 */
-	public abstract double accept(TopologyVisitor visitor);
+	public abstract Object accept(TopologyVisitor visitor);
 
     /**
 	 *

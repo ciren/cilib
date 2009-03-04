@@ -49,7 +49,7 @@ public class TopologyBasedNormalisation extends NormalisationParameter {
 		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
 		visitor.setDistanceMeasure(distanceMeasure);
 		algorithm.accept(visitor);
-		this.normalisationParameter = visitor.getResult();
+		this.normalisationParameter = (Double) visitor.getResult();
 
 		return this.normalisationParameter;
 	}

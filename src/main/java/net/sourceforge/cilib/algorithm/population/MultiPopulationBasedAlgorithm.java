@@ -161,7 +161,7 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
 	 * {@inheritDoc}
 	 */
 	@Override
-	public double accept(TopologyVisitor visitor) {
+	public Object accept(TopologyVisitor visitor) {
 		throw new UnsupportedOperationException("Needs an implementation");
 	}
 

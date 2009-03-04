@@ -30,8 +30,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * A Decorator pattern class to wrap a normal function to perform Angle Modulation.
  *
- * @author Gary Pampara
+ * The deault values for angle modulation are:
+ * <p>
+ * <ul>
+ *   <li>domain = "R(-1.0,1.0)^4"</li>
+ *   <li>precision = 3</li>
+ * </ul>
+ * </p>
  *
+ * @author Gary Pampara
  */
 public class AngleModulation extends ContinuousFunction {
 	private static final long serialVersionUID = -3492262439415251355L;
@@ -41,19 +48,24 @@ public class AngleModulation extends ContinuousFunction {
 	private double upperBound;
 	private Function function;
 
-	/**
-	 *
-	 *
-	 */
 	public AngleModulation() {
 		setDomain("R(-1.0,1.0)^4");
 		precision = 3;
 		requiredBits = 0;
 	}
 
+    public AngleModulation(AngleModulation copy) {
+        setDomain(copy.getDomain());
+        this.precision = copy.precision;
+        this.requiredBits = copy.requiredBits;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public AngleModulation getClone() {
-		return new AngleModulation();
+		return new AngleModulation(this);
 	}
 
 	/**
@@ -93,6 +105,9 @@ public class AngleModulation extends ContinuousFunction {
 	 * @param precision
 	 */
 	public void setPrecision(int precision) {
+        if (precision < 0)
+            throw new ArithmeticException("Presicion values must be >= 0");
+
 		this.precision = precision;
 	}
 

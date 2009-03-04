@@ -23,7 +23,6 @@
 package net.sourceforge.cilib.functions.continuous;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.functions.continuous.decorators.AngleModulation;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -31,8 +30,6 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -41,62 +38,32 @@ import org.junit.Test;
  *
  */
 public class AngleModulationTest {
-
-	private static AngleModulation angle;
-	
-	@BeforeClass
-	public static void setUp() {
-		angle = new AngleModulation();
-	}
-	
-	@Before
-	public void resetAngleModulationObject() {
-		angle.setPrecision(3);
-	}
-	
-	
-	@Test
-	public void testObjectCreation() {
-		assertNotNull(angle);
-	}
 	
 	@Test
 	public void testObjectDimensionality() {
+        AngleModulation angle = new AngleModulation();
 		angle.setDomain("R(-1000,1000)^4");
 		Vector builtRepresentation = (Vector) angle.getDomainRegistry().getBuiltRepresenation();
 		
 		assertEquals(4, builtRepresentation.getDimension());
 	}
 	
-	@Test
+	@Test(expected=ArithmeticException.class)
 	public void testSetPrecision() {
+        AngleModulation angle = new AngleModulation();
 		angle.setPrecision(4);
 		assertEquals(4, angle.getPrecision());
 		
 		angle.setPrecision(0);
 		assertEquals(0, angle.getPrecision());
 		
-		try {
-			angle.setPrecision(-1);
-		}
-		catch (Exception e) {
-		}
-		
-		//reset();
-	}
-	
-	@Test
-	public void testGetPrecision() {
-		assertEquals(3, angle.getPrecision());
-		
-		angle.setPrecision(10);
-		assertEquals(10, angle.getPrecision());
-		
-		//reset();
+		angle.setPrecision(-1);
 	}
 	
 	@Test
 	public void testCalcuateRequiredBits() {
+        AngleModulation angle = new AngleModulation();
+        
 		DomainRegistry registry = new StringBasedDomainRegistry();
 		registry.setDomainString("R(-5.12,-5.12)^30");
 		
@@ -105,23 +72,24 @@ public class AngleModulationTest {
 		
 		angle.setPrecision(2);
 		assertEquals(10, angle.getRequiredNumberOfBits(registry));
-		
-		//reset();
 	}
 	
 	@Test
 	public void testGetDecoratedFunctionDomain() {
+        AngleModulation angle = new AngleModulation();
 		assertTrue(angle.getFunction() == null);
 	}
 	
 	@Test
 	public void testSetDecoratedFunctionDomain() {
+        AngleModulation angle = new AngleModulation();
 		angle.setFunction(new Rastrigin());
 		assertTrue(angle.getFunction() instanceof Rastrigin);
 	}
 	
 	@Test
 	public void testConversionToBitRepresentationLength() {
+        AngleModulation angle = new AngleModulation();
 		angle.setFunction(new Rastrigin());
 		
 		Vector testVector = new Vector();
@@ -130,7 +98,6 @@ public class AngleModulationTest {
 		testVector.append(new Real(1.0));
 		testVector.append(new Real(0.0));
 		
-		//BitArray converted = angle.generateBitString(testVector);
 		String converted = angle.generateBitString(testVector);
 		
 		assertEquals(420, converted.length());
@@ -138,6 +105,8 @@ public class AngleModulationTest {
 	
 	@Test
 	public void testBinaryConversion() {
+        AngleModulation angle = new AngleModulation();
+        
 		String test = "1111";
 		String test2 = "1010";
 		
