@@ -37,9 +37,12 @@
 
   <poweredBy>
     <logo 
-      name="Hosted on SourceForge.net"
-      href="http://www.sourceforge.net"
-      img="http://sflogo.sourceforge.net/sflogo.php?group_id=72233&amp;type=1"/>
+      href="http://sourceforge.net/projects/cilib"
+      img="http://sflogo.sourceforge.net/sflogo.php?group_id=72233&amp;type=11"
+      name="Get Computational Intelligence Library at SourceForge.net. Fast, secure and Free Open Source software downloads"
+      height="15"
+      width="80"
+      border="0"/>
     <logo
       name="Build with Maven 2"
       href="http://maven.apache.org"
