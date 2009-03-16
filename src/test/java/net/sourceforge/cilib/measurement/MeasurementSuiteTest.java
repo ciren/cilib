@@ -59,7 +59,9 @@ public class MeasurementSuiteTest {
             exactly(1).of(e).getValue(a);
             will(returnValue(with(Type.class)));
 
-            exactly(1).of(buffer).writeMeasuredValue(with(any(Object.class)), with(any(Algorithm.class)), with(any(Measurement.class)));
+            exactly(1).of(buffer).writeMeasuredValue(with(any(Object.class)),
+                with(any(Algorithm.class)),
+                with(any(Measurement.class)));
         }});
 
         s.setOutputBuffer(buffer);

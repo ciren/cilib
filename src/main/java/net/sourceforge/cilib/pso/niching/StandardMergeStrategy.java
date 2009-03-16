@@ -48,13 +48,13 @@ public class StandardMergeStrategy implements MergeStrategy {
             PopulationBasedAlgorithm k1 = algorithm.getPopulations().get(i);
 
             k1.accept(radiusVisitor);
-            double k1Radius = ((Double) radiusVisitor.getResult()).doubleValue();
+            double k1Radius = radiusVisitor.getResult().doubleValue();
 
             for (int j = 0; j < algorithm.getPopulations().size(); j++) {
                 PopulationBasedAlgorithm k2 = algorithm.getPopulations().get(j);
 
                 k2.accept(radiusVisitor);
-                double k2Radius = ((Double) radiusVisitor.getResult()).doubleValue();
+                double k2Radius = radiusVisitor.getResult().doubleValue();
                 Vector vectorK1 = (Vector) k1.getTopology().getBestEntity().getCandidateSolution();
                 Vector vectorK2 = (Vector) k2.getTopology().getBestEntity().getCandidateSolution();
 

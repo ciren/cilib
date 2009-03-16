@@ -38,6 +38,7 @@ public class MOFitnessTest {
     private static MOOptimisationProblem moproblem;
 
     public MOFitnessTest() {
+
     }
 
     @BeforeClass
@@ -65,6 +66,7 @@ public class MOFitnessTest {
 
     private static class DummyOptimisationProblem implements OptimisationProblem {
         private static final long serialVersionUID = -2955989686805159033L;
+
         private int i;
 
         public DummyOptimisationProblem(int i) {
@@ -86,30 +88,27 @@ public class MOFitnessTest {
 
         @Override
         public int getFitnessEvaluations() {
-            return 0;
+            throw new UnsupportedOperationException("This method is not implemented");
         }
 
         @Override
         public DomainRegistry getDomain() {
-            // TODO Auto-generated method stub
-            return null;
+            throw new UnsupportedOperationException("This method is not implemented");
         }
 
         @Override
         public DomainRegistry getBehaviouralDomain() {
-            // TODO Auto-generated method stub
-            return null;
+            throw new UnsupportedOperationException("This method is not implemented");
         }
 
         @Override
         public DataSetBuilder getDataSetBuilder() {
-            // TODO Auto-generated method stub
-            return null;
+            throw new UnsupportedOperationException("This method is not implemented");
         }
 
         @Override
         public void setDataSetBuilder(DataSetBuilder dataSet) {
-            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("This method is not implemented");
         }
 
         @Override

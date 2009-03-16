@@ -77,7 +77,7 @@ public class SynchronizedOutputBuffer {
         Integer key = new Integer(algorithm.getIterations());
         Line line;
         if (lineMap.containsKey(key)) {
-            line = (Line) lineMap.get(key);
+            line = lineMap.get(key);
         }
         else {
             line = new Line(samples * measurements);
@@ -128,7 +128,7 @@ public class SynchronizedOutputBuffer {
 
     protected int getMeasurementId(Measurement measurement) {
         if (measurementMap.containsKey(measurement)) {
-            return ((Integer) measurementMap.get(measurement)).intValue();
+            return (measurementMap.get(measurement)).intValue();
         }
         else {
             measurementMap.put(measurement, new Integer(nextMeasurementId));
@@ -138,7 +138,7 @@ public class SynchronizedOutputBuffer {
 
     protected int getSampleId(Algorithm algorithm) {
         if (sampleMap.containsKey(algorithm)) {
-            return ((Integer) sampleMap.get(algorithm)).intValue();
+            return (sampleMap.get(algorithm)).intValue();
         }
         else {
             sampleMap.put(algorithm, new Integer(nextSampleId));

@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.measurement;
 
 
-import java.io.Externalizable;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
