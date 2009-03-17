@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.type.types.container;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -30,6 +31,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.container.visitor.Visitor;
 
 /**
@@ -50,7 +52,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	 * {@inheritDoc}
 	 */
 	public StandardGraph<E> getClone() {
-		return null;
+		throw new UnsupportedOperationException("Implementation needed.");
 	}
 
 	@Override
@@ -61,8 +63,21 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
-		StandardGraph<?> graph = (StandardGraph<?>) obj;
-		return adjacencyMap.equals(graph.adjacencyMap);
+		StandardGraph<E> graph = (StandardGraph<E>) obj;
+        if (this.adjacencyMap.size() != graph.adjacencyMap.size()) return false;
+        if (this.edgeCount() != graph.edgeCount()) return false;
+
+        if (!adjacencyMap.keySet().containsAll(graph.adjacencyMap.keySet()))
+                return false;
+
+        // Set up the edge sets.
+        Set<Pair<E, E>> currentEdgeSet = this.getEdgeSet();
+        Set<Pair<E, E>> otherEdgeSet = graph.getEdgeSet();
+
+        if (!otherEdgeSet.containsAll(currentEdgeSet))
+            return false;
+
+        return true;
 	}
 
 	@Override
@@ -77,7 +92,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	 * as all edges emanating from any given vertex within the structure.
 	 * @return The number of edges contained within the structure.
 	 */
-	public int edges() {
+	public int edgeCount() {
 		int count = 0;
 
 		Collection<List<Entry<E>>> edgeLists = this.adjacencyMap.values();
@@ -314,6 +329,19 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 
 		return null;
 	}
+
+
+    private Set<Pair<E, E>> getEdgeSet() {
+        Set<Pair<E, E>> edgeSet = new HashSet<Pair<E, E>>();
+
+        for (E vertex : adjacencyMap.keySet()) {
+            List<Entry<E>> connections = adjacencyMap.get(vertex);
+            for (Entry<E> entry : connections)
+                edgeSet.add(new Pair<E, E>(vertex, entry.getElement()));
+        }
+
+        return edgeSet;
+    }
 
 
 	/**
