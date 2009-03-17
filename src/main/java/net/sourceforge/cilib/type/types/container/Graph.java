@@ -40,7 +40,7 @@ public interface Graph<E> extends StructuredType<E> {
 	 * structure.
 	 * @return The number of contained edges.
 	 */
-	public int edges();
+	public int edgeCount();
 
 	/**
 	 * Create an edge / link between the given two vertices.

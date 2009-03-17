@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -30,6 +32,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.container.visitor.Visitor;
 
 /**
@@ -46,11 +49,26 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 		adjacencyMap = new LinkedHashMap<E, List<Entry<E>>>();
 	}
 
+    public StandardGraph(StandardGraph<E> copy) {
+        this.adjacencyMap = new LinkedHashMap<E, List<Entry<E>>>();
+
+        for (E element : copy.adjacencyMap.keySet()) {
+            List<Entry<E>> connections = copy.adjacencyMap.get(element);
+            List<Entry<E>> clonedconnections = new ArrayList<Entry<E>>();
+            
+            for (Entry<E> entry : connections) {
+                clonedconnections.add(entry.getClone());
+            }
+
+            this.adjacencyMap.put(element, clonedconnections);
+        }
+    }
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public StandardGraph<E> getClone() {
-		return null;
+        return new StandardGraph(this);
 	}
 
 	@Override
@@ -61,8 +79,21 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
-		StandardGraph<?> graph = (StandardGraph<?>) obj;
-		return adjacencyMap.equals(graph.adjacencyMap);
+		StandardGraph<E> graph = (StandardGraph<E>) obj;
+        if (this.adjacencyMap.size() != graph.adjacencyMap.size()) return false;
+        if (this.edgeCount() != graph.edgeCount()) return false;
+
+        if (!adjacencyMap.keySet().containsAll(graph.adjacencyMap.keySet()))
+                return false;
+
+        // Set up the edge sets.
+        Set<Pair<E, E>> currentEdgeSet = this.getEdgeSet();
+        Set<Pair<E, E>> otherEdgeSet = graph.getEdgeSet();
+
+        if (!otherEdgeSet.containsAll(currentEdgeSet))
+            return false;
+
+        return true;
 	}
 
 	@Override
@@ -77,7 +108,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	 * as all edges emanating from any given vertex within the structure.
 	 * @return The number of edges contained within the structure.
 	 */
-	public int edges() {
+	public int edgeCount() {
 		int count = 0;
 
 		Collection<List<Entry<E>>> edgeLists = this.adjacencyMap.values();
@@ -316,13 +347,27 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	}
 
 
+    private Set<Pair<E, E>> getEdgeSet() {
+        Set<Pair<E, E>> edgeSet = new HashSet<Pair<E, E>>();
+
+        for (E vertex : adjacencyMap.keySet()) {
+            List<Entry<E>> connections = adjacencyMap.get(vertex);
+            for (Entry<E> entry : connections)
+                edgeSet.add(new Pair<E, E>(vertex, entry.getElement()));
+        }
+
+        return edgeSet;
+    }
+
+
 	/**
 	 * Class to represent the element, cost and weight associated to the connection between
 	 * two distinct vertex objects.
 	 *
 	 * @param <T> The {@linkplain Comparable} type.
 	 */
-	private class Entry<T extends Comparable<T>> {
+	private class Entry<T extends Comparable<T>> implements net.sourceforge.cilib.util.Cloneable {
+        private static final long serialVersionUID = 1697479517382450802L;
 		private double weight;
 		private double cost;
 		private T element;
@@ -332,6 +377,12 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 			this.cost = cost;
 			this.weight = weight;
 		}
+
+        public Entry(Entry<T> copy) {
+            this.weight = copy.weight;
+            this.cost = copy.cost;
+            this.element = copy.element;
+        }
 
 		public Double getWeight() {
 			return weight;
@@ -379,6 +430,11 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 			hash = 31 * hash + Double.valueOf(this.weight).hashCode();
 			return hash;
 		}
+
+        @Override
+        public Entry<T> getClone() {
+            return new Entry(this);
+        }
 	}
 
 }
