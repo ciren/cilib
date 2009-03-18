@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -32,7 +32,6 @@ public class KHarmonicMeansFunction extends ClusteringFitnessFunction {
     private static final long serialVersionUID = 2680037315045146954L;
 
     public KHarmonicMeansFunction() {
-        super();
     }
 
     @Override

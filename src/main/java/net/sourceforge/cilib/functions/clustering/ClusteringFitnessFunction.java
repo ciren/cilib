@@ -28,8 +28,7 @@ import java.util.Hashtable;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
-import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -61,7 +60,6 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
      * domain is not set, because it should be specified on the {@link ClusteringProblem}.
      */
     public ClusteringFitnessFunction() {
-        super();
         clusterCenterStrategy = new ClusterCentroidStrategy();
     }
 
@@ -95,7 +93,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
      */
     @Override
     public Double apply(Vector centroids) {
-        helper = ClusteringUtils.get();    //this statement should not be in a constructor
+        helper = ClusteringUtils.get(); //this statement should not be in a constructor
         helper.arrangeClustersAndCentroids(centroids);
         arrangedClusters = helper.getArrangedClusters();
         arrangedCentroids = helper.getArrangedCentroids();

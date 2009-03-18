@@ -36,7 +36,6 @@ public class QuantisationErrorFunction extends ClusteringFitnessFunction {
     private static final long serialVersionUID = -7008338250315442786L;
 
     public QuantisationErrorFunction() {
-        super();
     }
 
     @Override

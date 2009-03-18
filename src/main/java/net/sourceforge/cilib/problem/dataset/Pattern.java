@@ -21,31 +21,32 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
-import static org.junit.Assert.assertEquals;
-import net.sourceforge.cilib.problem.ClusteringProblem;
+import java.io.Serializable;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
 
-public class AssociatedPairDataSetBuilderTest {
-    private static AssociatedPairDataSetBuilder dataSetBuilder = null;
+public class Pattern implements Cloneable, Serializable {
+    private static final long serialVersionUID = 3018524182531891291L;
+    private String clas = "<not set>";
+    public Vector data = null;
 
-    @BeforeClass
-    public static void intialise() {
-        dataSetBuilder = new AssociatedPairDataSetBuilder();
-        dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
-        ClusteringProblem problem = new ClusteringProblem();
-        problem.setDataSetBuilder(dataSetBuilder);
+    public Pattern(String c, Vector d) {
+        clas = c;
+        data = d;
     }
 
-    @AfterClass
-    public static void destroy() {
-        dataSetBuilder = null;
+    public Pattern(Pattern rhs) {
+        clas = rhs.clas;
+        data = rhs.data;
     }
 
-    @Test
-    public void testNumberOfPatterns() {
-        assertEquals(93, dataSetBuilder.getNumberOfPatterns());
+    public Pattern getClone() {
+        return new Pattern(this);
+    }
+
+    @Override
+    public String toString() {
+        return Vectors.toString(data, '\0', '\0', '\t') + '\t' + clas;
     }
 }

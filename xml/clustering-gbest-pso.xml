@@ -1,0 +1,3136 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+	<!-- used more than once -->
+	<!ELEMENT file (#PCDATA)>
+	<!ELEMENT function EMPTY>
+
+	<!ELEMENT algorithms (algorithm+)>
+		<!ELEMENT algorithm (addStoppingCondition*, initialisationStrategy?, iterationStrategy?)>
+			<!ELEMENT addStoppingCondition ANY>
+			<!ELEMENT initialisationStrategy (entityNumber, entityType)>
+				<!ELEMENT entityNumber (#PCDATA)>
+				<!ELEMENT entityType EMPTY>
+			<!ELEMENT iterationStrategy (boundaryConstraint)>
+				<!ELEMENT boundaryConstraint EMPTY>
+
+	<!ELEMENT problems (problem+)>
+		<!ELEMENT problem (domain?, innerProblem?, dataSetBuilder?, numberOfClusters?)>
+			<!ELEMENT domain (#PCDATA)>
+			<!ELEMENT innerProblem (function)>
+			<!ELEMENT dataSetBuilder (distanceMeasure?, dataSet?)>
+				<!ELEMENT distanceMeasure EMPTY>
+				<!ELEMENT dataSet (file, patternExpression)>
+					<!ELEMENT patternExpression (#PCDATA)>
+			<!ELEMENT numberOfClusters (#PCDATA)>
+
+	<!ELEMENT measurements (resolution?, samples?, addMeasurement*, file?)>
+		<!ELEMENT resolution (#PCDATA)>
+		<!ELEMENT samples (#PCDATA)>
+		<!ELEMENT addMeasurement (function?)>
+
+	<!ELEMENT simulations (simulation+)>
+		<!ELEMENT simulation (algorithm, problem, measurements)>
+
+	<!-- used more than once -->
+	<!ATTLIST function class CDATA #REQUIRED>
+
+	<!ATTLIST algorithm id ID #IMPLIED>
+	<!ATTLIST algorithm idref IDREF #IMPLIED>
+	<!ATTLIST algorithm class CDATA #IMPLIED>
+		<!ATTLIST addStoppingCondition class CDATA #REQUIRED>
+		<!ATTLIST initialisationStrategy class CDATA #REQUIRED>
+			<!ATTLIST entityType class CDATA #REQUIRED>
+		<!ATTLIST iterationStrategy class CDATA #REQUIRED>
+			<!ATTLIST boundaryConstraint class CDATA #REQUIRED>
+
+	<!ATTLIST problem id ID #IMPLIED>
+	<!ATTLIST problem idref IDREF #IMPLIED>
+	<!ATTLIST problem class CDATA #IMPLIED>
+		<!ATTLIST innerProblem class CDATA #REQUIRED>
+		<!ATTLIST dataSetBuilder id ID #IMPLIED>
+		<!ATTLIST dataSetBuilder idref IDREF #IMPLIED>
+		<!ATTLIST dataSetBuilder class CDATA #IMPLIED>
+			<!ATTLIST distanceMeasure class CDATA #REQUIRED>
+			<!ATTLIST dataSet class CDATA #REQUIRED>
+
+	<!ATTLIST measurements id ID #IMPLIED>
+	<!ATTLIST measurements idref IDREF #IMPLIED>
+	<!ATTLIST measurements class CDATA #IMPLIED>
+		<!ATTLIST addMeasurement class CDATA #REQUIRED>
+]>
+
+<simulator>
+	<algorithms>
+		<algorithm id="pso" class="pso.PSO">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations">
+				<maximumIterations>20</maximumIterations>
+			</addStoppingCondition>
+			<initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+				<entityNumber>20</entityNumber>
+				<entityType class="pso.particle.StandardParticle" />
+			</initialisationStrategy>
+			<iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+				<boundaryConstraint class="problem.boundaryconstraint.PerElementReinitialisation" />
+			</iterationStrategy>
+		</algorithm>
+	</algorithms>
+
+	<dataSetBuilders>
+	<!-- wdbc MINIMUMS and MAXIMUMS: R(6.9, 28.2), R(9.7, 39.3), R(43.7, 188.6), R(143.4, 2501.1), R(0.0, 0.2), R(0.0, 0.4), R(0.0, 0.5), R(0.0, 0.3), R(0.1, 0.4), R(0.0, 0.2), R(0.1, 2.9), R(0.3, 4.9), R(0.7, 22.0), R(6.7, 542.3), R(0.0, 0.1), R(0.0, 0.2), R(0.0, 0.5), R(0.0, 0.1), R(0.0, 0.1), R(0.0, 0.1), R(7.9, 36.1), R(12.0, 49.6), R(50.4, 251.3), R(185.1, 4254.1), R(0.0, 0.3), R(0.0, 1.1), R(0.0, 1.3), R(0.0, 0.3), R(0.1, 0.7), R(0.0, 0.3) -->
+		<dataSetBuilder id="wdbc" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/uci/breast-cancer-wisconsin/wdbc.data</identifier>
+<!--				<patternExpression>(\d+,(M|B))?,</patternExpression> -->
+				<delimiter>,</delimiter>
+				<beginIndex>2</beginIndex>
+				<endIndex>31</endIndex>
+				<classIndex>1</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+
+		<!-- glass MINIMUMS and MAXIMUMS: R(1.5, 1.6), R(10.7, 17.4), R(0.0, 4.5), R(0.2, 3.6), R(69.8, 75.5), R(0.0, 6.3), R(5.4, 16.2), R(0.0, 3.2), R(0.0, 0.6) -->
+		<dataSetBuilder id="glass" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/uci/glass/glass.data</identifier>
+<!--				<patternExpression>(^\d+,|\d$|,)</patternExpression> -->
+				<delimiter>,</delimiter>
+				<beginIndex>1</beginIndex>
+				<endIndex>9</endIndex>
+				<classIndex>10</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+	
+		<!-- ionosphere MINIMUMS and MAXIMUMS: Z(0, 1), Z(0, 0), R(-1.0, 1.0)^32 -->
+		<dataSetBuilder id="ionosphere" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/uci/ionosphere/ionosphere.data</identifier>
+<!--				<patternExpression>,(g|b)?</patternExpression> -->
+				<delimiter>,</delimiter>
+				<beginIndex>0</beginIndex>
+				<endIndex>33</endIndex>
+				<classIndex>34</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+	
+		<!-- iris MINIMUMS and MAXIMUMS: R(4.2, 8.0), R(1.9, 4.5), R(0.9, 6.9), R(0.0, 2.6) -->
+		<dataSetBuilder id="iris" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/uci/iris/iris.data</identifier>
+<!--				<patternExpression>,\D*</patternExpression>-->
+				<delimiter>,</delimiter>
+				<beginIndex>0</beginIndex>
+				<endIndex>3</endIndex>
+				<classIndex>4</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+	
+		<!-- bupa MINIMUMS and MAXIMUMS: Z(65, 103), Z(23, 138), Z(4, 155), Z(5, 82), Z(5, 297), R(0.0, 20.0) -->
+		<dataSetBuilder id="bupa" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/uci/liver-disorders/bupa.data</identifier>
+<!--				<patternExpression>,\d$|,</patternExpression> -->
+				<delimiter>,</delimiter>
+				<beginIndex>0</beginIndex>
+				<endIndex>5</endIndex>
+				<classIndex>6</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+	
+		<!-- pima indians diabetes MINIMUMS and MAXIMUMS: Z(0, 17), Z(0, 199), Z(0, 122), Z(0, 99), Z(0, 846), R(0, 67.1), R(0.08, 2.42), Z(21, 81) -->
+		<dataSetBuilder id="diabetes" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/uci/pima-indians-diabetes/pima-indians-diabetes.data</identifier>
+<!--				<patternExpression>,\d$|,</patternExpression> -->
+				<delimiter>,</delimiter>
+				<beginIndex>0</beginIndex>
+				<endIndex>7</endIndex>
+				<classIndex>8</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+	
+		<!-- new thyroid MINIMUMS and MAXIMUMS: Z(65, 144), R(0.5, 25.3), R(0.2, 10.0), R(0.1, 56.4), R(-0.7, 56.3) -->
+		<dataSetBuilder id="thyroid" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/uci/thyroid-disease/new-thyroid.data</identifier>
+<!--				<patternExpression>^\d,|,</patternExpression> -->
+				<delimiter>,</delimiter>
+				<beginIndex>1</beginIndex>
+				<endIndex>5</endIndex>
+				<classIndex>0</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+	
+		<!-- wine MINIMUMS and MAXIMUMS: R(11.03, 14.83), R(0.74, 5.8), R(1.36, 3.23), R(10.6, 30.0), Z(70, 162), R(0.98, 3.88), R(0.34, 5.08), R(0.13, 0.66), R(0.41, 3.58), R(1.28, 13.0), R(0.48, 1.71), R(1.27, 4.0), Z(278, 1680) -->
+		<dataSetBuilder id="wine" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/uci/wine/wine.data</identifier>
+<!--				<patternExpression>^\d,|,</patternExpression> -->
+				<delimiter>,</delimiter>
+				<beginIndex>1</beginIndex>
+				<endIndex>13</endIndex>
+				<classIndex>0</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+	
+		<!-- artificial MINIMUMS and MAXIMUMS: R(-1.0, 1.0), R(-1.0, 1.0) -->
+		<dataSetBuilder id="artificial" class="problem.dataset.StaticDataSetBuilder">
+			<addDataSet class="problem.dataset.LocalDataSet">
+				<identifier>../../datasets/generated/artificial2/artificial.txt</identifier>
+<!-- 				<patternExpression>,Class\d|,</patternExpression> -->
+				<delimiter>\s+</delimiter>
+				<beginIndex>0</beginIndex>
+				<endIndex>1</endIndex>
+				<classIndex>2</classIndex>
+			</addDataSet>
+		</dataSetBuilder>
+	</dataSetBuilders>
+
+	<problems>
+		<problem id="wdbc.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.parametric" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.turi.index" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+		<problem id="wdbc.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(6.9,28.2),R(9.7,39.3),R(43.7,188.6),R(143.4,2501.1),R(0.0,0.2),R(0.0,0.4),R(0.0,0.5),R(0.0,0.3),R(0.1,0.4),R(0.0,0.2),R(0.1,2.9),R(0.3,4.9),R(0.7,22.0),R(6.7,542.3),R(0.0,0.1),R(0.0,0.2),R(0.0,0.5),R(0.0,0.1),R(0.0,0.1),R(0.0,0.1),R(7.9,36.1),R(12.0,49.6),R(50.4,251.3),R(185.1,4254.1),R(0.0,0.3),R(0.0,1.1),R(0.0,1.3),R(0.0,0.3),R(0.1,0.7),R(0.0,0.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wdbc" />
+		</problem>
+	
+		<problem id="glass.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.parametric" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.turi.index" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+		<problem id="glass.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="glass" />
+		</problem>
+	
+		<problem id="ionosphere.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.parametric" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.turi.index" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+		<problem id="ionosphere.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(0,1),R(-0.1,0.1),R(-1.0,1.0)^32</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="ionosphere" />
+		</problem>
+	
+		<problem id="iris.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.parametric" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.turi.index" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+		<problem id="iris.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="iris" />
+		</problem>
+	
+		<problem id="bupa.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.parametric" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.turi.index" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+		<problem id="bupa.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(65,103),R(23,138),R(4,155),R(5,82),R(5,297),R(0.0,20.0)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem><dataSetBuilder idref="bupa" />
+		</problem>
+	
+		<problem id="diabetes.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.parametric" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.turi.index" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+		<problem id="diabetes.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(0,17),R(0,199),R(0,122),R(0,99),R(0,846),R(0,67.1),R(0.08,2.42),R(21,81)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="diabetes" />
+		</problem>
+	
+		<problem id="thyroid.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.parametric" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.turi.index" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+		<problem id="thyroid.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(65,144),R(0.5,25.3),R(0.2,10.0),R(0.1,56.4),R(-0.7,56.3)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="thyroid" />
+		</problem>
+	
+		<problem id="wine.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.parametric" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.turi.index" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+		<problem id="wine.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(11.03,14.83),R(0.74,5.8),R(1.36,3.23),R(10.6,30.0),R(70,162),R(0.98,3.88),R(0.34,5.08),R(0.13,0.66),R(0.41,3.58),R(1.28,13.0),R(0.48,1.71),R(1.27,4.0),R(278,1680)</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="wine" />
+		</problem>
+	
+		<problem id="artificial.kharmonic.means" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.KHarmonicMeansFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.non.parametric" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.NonParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.parametric" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricClusteringFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.parametric.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.quantisation.error" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.QuantisationErrorFunction" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.davies.bouldin.index" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.dunn.index" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.dunn.index33" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex33" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.dunn.index53" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMaximisationProblem">
+				<function class="functions.clustering.validityindices.DunnIndex53" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.halkidi.vazirgiannis.index" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.maulik.bandyopadhyay.index" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.turi.index" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.TuriIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+		<problem id="artificial.veenman.reinders.backer.index" class="problem.ClusteringProblem">
+			<domain>R(-1.0,1.0)^2</domain>
+			<innerProblem class="problem.FunctionMinimisationProblem">
+				<function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+			</innerProblem>
+			<dataSetBuilder idref="artificial" />
+		</problem>
+	</problems>
+
+	<measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
+		<addMeasurement class="measurement.single.Fitness" />
+		<addMeasurement class="measurement.single.GenericFunctionMeasurement">
+			<function class="functions.clustering.InterClusterDistance" />
+		</addMeasurement>
+		<addMeasurement class="measurement.single.GenericFunctionMeasurement">
+			<function class="functions.clustering.IntraClusterDistance" />
+		</addMeasurement>
+		<addMeasurement class="measurement.single.NumberOfClustersFormed" />
+		<addMeasurement class="measurement.single.diversity.Diversity" />
+	</measurements>
+
+	<simulations>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.kharmonic.means" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.kharmonic.means" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.kharmonic.means" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.non.parametric" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.non.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.non.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.parametric" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.parametric.quantisation.error" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.parametric.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.parametric.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.parametric.quantisation.error.txt" />
+		</simulation>
+
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.quantisation.error" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.quantisation.error.txt" />
+		</simulation>
+
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.davies.bouldin.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.davies.bouldin.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.davies.bouldin.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index33" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index33" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index33" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index53" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index53" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.dunn.index53" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.halkidi.vazirgiannis.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.halkidi.vazirgiannis.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.halkidi.vazirgiannis.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.maulik.bandyopadhyay.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.maulik.bandyopadhyay.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.maulik.bandyopadhyay.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.turi.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.turi.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.turi.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.veenman.reinders.backer.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.2.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.veenman.reinders.backer.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.4.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wdbc.veenman.reinders.backer.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wdbc.6.veenman.reinders.backer.index.txt" />
+		</simulation>
+
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.kharmonic.means" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.kharmonic.means" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.kharmonic.means" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.non.parametric" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.non.parametric" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.non.parametric" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.parametric" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.parametric" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.parametric" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.parametric.quantisation.error" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.parametric.quantisation.error" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.parametric.quantisation.error" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.quantisation.error" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.quantisation.error" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.quantisation.error" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.davies.bouldin.index" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.davies.bouldin.index" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.davies.bouldin.index" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index33" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index33" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index33" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index53" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index53" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.dunn.index53" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.halkidi.vazirgiannis.index" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.halkidi.vazirgiannis.index" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.halkidi.vazirgiannis.index" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.maulik.bandyopadhyay.index" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.maulik.bandyopadhyay.index" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.maulik.bandyopadhyay.index" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.turi.index" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.turi.index" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.turi.index" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.veenman.reinders.backer.index" numberOfClusters="7" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.7.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.veenman.reinders.backer.index" numberOfClusters="14" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.14.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="glass.veenman.reinders.backer.index" numberOfClusters="21" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/glass.21.veenman.reinders.backer.index.txt" />
+		</simulation>
+	
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.kharmonic.means" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.kharmonic.means" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.kharmonic.means" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.non.parametric" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.non.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.non.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.parametric" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.parametric.quantisation.error" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.parametric.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.parametric.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.quantisation.error" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.davies.bouldin.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.davies.bouldin.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.davies.bouldin.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index33" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index33" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index33" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index53" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index53" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.dunn.index53" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.halkidi.vazirgiannis.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.halkidi.vazirgiannis.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.halkidi.vazirgiannis.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.maulik.bandyopadhyay.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.maulik.bandyopadhyay.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.maulik.bandyopadhyay.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.turi.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.turi.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.turi.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.veenman.reinders.backer.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.2.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.veenman.reinders.backer.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.4.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="ionosphere.veenman.reinders.backer.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/ionosphere.6.veenman.reinders.backer.index.txt" />
+		</simulation>
+	
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.kharmonic.means" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.kharmonic.means" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.kharmonic.means" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.non.parametric" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.non.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.non.parametric" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.parametric" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.parametric" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.parametric.quantisation.error" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.parametric.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.parametric.quantisation.error" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.quantisation.error" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.quantisation.error" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.davies.bouldin.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.davies.bouldin.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.davies.bouldin.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index33" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index33" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index33" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index53" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index53" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.dunn.index53" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.halkidi.vazirgiannis.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.halkidi.vazirgiannis.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.halkidi.vazirgiannis.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.maulik.bandyopadhyay.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.maulik.bandyopadhyay.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.maulik.bandyopadhyay.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.turi.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.turi.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.turi.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.veenman.reinders.backer.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.3.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.veenman.reinders.backer.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.6.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="iris.veenman.reinders.backer.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/iris.9.veenman.reinders.backer.index.txt" />
+		</simulation>
+	
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.kharmonic.means" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.kharmonic.means" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.kharmonic.means" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.non.parametric" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.non.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.non.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.parametric" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.parametric.quantisation.error" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.parametric.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.parametric.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.quantisation.error" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.davies.bouldin.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.davies.bouldin.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.davies.bouldin.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index33" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index33" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index33" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index53" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index53" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.dunn.index53" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.halkidi.vazirgiannis.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.halkidi.vazirgiannis.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.halkidi.vazirgiannis.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.maulik.bandyopadhyay.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.maulik.bandyopadhyay.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.maulik.bandyopadhyay.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.turi.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.turi.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.turi.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.veenman.reinders.backer.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.2.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.veenman.reinders.backer.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.4.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="bupa.veenman.reinders.backer.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/bupa.6.veenman.reinders.backer.index.txt" />
+		</simulation>
+	
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.kharmonic.means" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.kharmonic.means" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.kharmonic.means" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.non.parametric" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.non.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.non.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.parametric" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.parametric.quantisation.error" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.parametric.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.parametric.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.quantisation.error" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.davies.bouldin.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.davies.bouldin.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.davies.bouldin.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index33" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index33" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index33" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index53" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index53" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.dunn.index53" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.halkidi.vazirgiannis.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.halkidi.vazirgiannis.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.halkidi.vazirgiannis.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.maulik.bandyopadhyay.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.maulik.bandyopadhyay.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.maulik.bandyopadhyay.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.turi.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.turi.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.turi.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.veenman.reinders.backer.index" numberOfClusters="2" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.2.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.veenman.reinders.backer.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.4.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="diabetes.veenman.reinders.backer.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/diabetes.6.veenman.reinders.backer.index.txt" />
+		</simulation>
+	
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.kharmonic.means" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.kharmonic.means" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.kharmonic.means" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.non.parametric" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.non.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.non.parametric" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.parametric" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.parametric" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.parametric.quantisation.error" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.parametric.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.parametric.quantisation.error" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.quantisation.error" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.quantisation.error" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.davies.bouldin.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.davies.bouldin.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.davies.bouldin.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index33" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index33" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index33" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index53" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index53" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.dunn.index53" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.halkidi.vazirgiannis.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.halkidi.vazirgiannis.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.halkidi.vazirgiannis.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.maulik.bandyopadhyay.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.maulik.bandyopadhyay.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.maulik.bandyopadhyay.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.turi.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.turi.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.turi.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.veenman.reinders.backer.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.3.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.veenman.reinders.backer.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.6.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="thyroid.veenman.reinders.backer.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/thyroid.9.veenman.reinders.backer.index.txt" />
+		</simulation>
+
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.kharmonic.means" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.kharmonic.means" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.kharmonic.means" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.non.parametric" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.non.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.non.parametric" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.parametric" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.parametric" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.parametric" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.parametric.quantisation.error" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.parametric.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.parametric.quantisation.error" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.quantisation.error" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.quantisation.error" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.quantisation.error" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.davies.bouldin.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.davies.bouldin.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.davies.bouldin.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index33" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index33" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index33" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index53" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index53" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.dunn.index53" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.halkidi.vazirgiannis.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.halkidi.vazirgiannis.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.halkidi.vazirgiannis.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.maulik.bandyopadhyay.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.maulik.bandyopadhyay.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.maulik.bandyopadhyay.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.turi.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.turi.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.turi.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.veenman.reinders.backer.index" numberOfClusters="3" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.3.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.veenman.reinders.backer.index" numberOfClusters="6" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.6.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="wine.veenman.reinders.backer.index" numberOfClusters="9" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/wine.9.veenman.reinders.backer.index.txt" />
+		</simulation>
+
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.kharmonic.means" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.kharmonic.means" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.kharmonic.means" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.kharmonic.means.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.non.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.non.parametric" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.non.parametric" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.non.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.parametric" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.parametric" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.parametric" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.parametric.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.parametric.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.parametric.quantisation.error" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.parametric.quantisation.error" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.parametric.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.quantisation.error" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.quantisation.error" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.quantisation.error" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.quantisation.error.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.davies.bouldin.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.davies.bouldin.index" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.davies.bouldin.index" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.davies.bouldin.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.dunn.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index33" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index33" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index33" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.dunn.index33.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index53" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index53" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.dunn.index53" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.dunn.index53.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.halkidi.vazirgiannis.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.halkidi.vazirgiannis.index" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.halkidi.vazirgiannis.index" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.halkidi.vazirgiannis.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.maulik.bandyopadhyay.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.maulik.bandyopadhyay.index" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.maulik.bandyopadhyay.index" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.maulik.bandyopadhyay.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.turi.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.turi.index" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.turi.index" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.turi.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.veenman.reinders.backer.index" numberOfClusters="4" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.4.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.veenman.reinders.backer.index" numberOfClusters="8" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.8.veenman.reinders.backer.index.txt" />
+		</simulation>
+		<simulation samples="1">
+			<algorithm idref="pso" />
+			<problem idref="artificial.veenman.reinders.backer.index" numberOfClusters="12" />
+			<measurements idref="measurements" />
+			<output format="TXT" file="measurements/artificial.12.veenman.reinders.backer.index.txt" />
+		</simulation>
+	</simulations>
+</simulator>

@@ -29,17 +29,20 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
+import net.sourceforge.cilib.problem.dataset.DataSet;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.DataSetManager;
+import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A class that simplifies clustering when making use of a {@link ClusteringProblem}, a
- * {@link ClusterableDataSet} and a {@link ClusteringFitnessFunction}. <br/> This
+ * {@link StaticDataSetBuilder} and a {@link ClusteringFitnessFunction}. <br/> This
  * class is not dependent on a {@link ClusteringFitnessFunction}, but the
  * {@link ClusteringFitnessFunction}s use this class extensively.
  *
+ * @author Theuns Cloete
  */
 public final class ClusteringUtils {
 
@@ -48,13 +51,13 @@ public final class ClusteringUtils {
      * A thread local instance of this class.
      */
     private static transient ThreadLocal<ClusteringUtils> instance = new ThreadLocal<ClusteringUtils>() {
-
+        @Override
         protected ClusteringUtils initialValue() {
             return new ClusteringUtils();
         }
     };
     private ClusteringProblem clusteringProblem = null;
-    private ClusterableDataSet clusterableDataSet = null;
+    private StaticDataSetBuilder dataSetBuilder = null;
     // ArrayList of Vectors
     private ArrayList<Vector> originalCentroids = null;
     private ArrayList<Vector> arrangedCentroids = null;
@@ -75,11 +78,11 @@ public final class ClusteringUtils {
      * {@link ClusteringUtils} object is associated with a single {@link Thread}.
      */
     private ClusteringUtils() {
-        if (clusteringProblem == null || clusterableDataSet == null) {
+        if (clusteringProblem == null || dataSetBuilder == null) {
             try {
                 Algorithm algorithm = AbstractAlgorithm.get();
                 clusteringProblem = (ClusteringProblem) algorithm.getOptimisationProblem();
-                clusterableDataSet = (ClusterableDataSet) clusteringProblem.getDataSetBuilder();
+                dataSetBuilder = (StaticDataSetBuilder) clusteringProblem.getDataSetBuilder();
 
                 System.out.println("Initialised Algorithm found: " + ClusteringUtils.class.getSimpleName() + " is now configured");
             } catch (EmptyStackException ese) {
@@ -120,22 +123,22 @@ public final class ClusteringUtils {
     }
 
     /**
-     * This class only deals with {@link ClusterableDataSet}s. Other datasets/dataset
+     * This class only deals with {@link StaticDataSetBuilder}s. Other datasets/dataset
      * builders are not allowed.
      *
-     * @param cds the {@link ClusterableDataSet} used throughout the current clustering
+     * @param sdsb the {@link StaticDataSetBuilder} used throughout the current clustering
      */
-    public void setClusterableDataSet(ClusterableDataSet cds) {
-        clusterableDataSet = cds;
+    public void setDataSetBuilder(StaticDataSetBuilder sdsb) {
+        dataSetBuilder = sdsb;
     }
 
     /**
-     * Get the {@link ClusterableDataSet} used throughout the current clustering.
+     * Get the {@link dataSetBuilder} used throughout the current clustering.
      *
-     * @return the {@link #clusterableDataSet}
+     * @return the {@link #dataSetBuilder}
      */
-    public ClusterableDataSet getClusterableDataSet() {
-        return clusterableDataSet;
+    public StaticDataSetBuilder getDataSetBuilder() {
+        return dataSetBuilder;
     }
 
     /**
@@ -160,7 +163,7 @@ public final class ClusteringUtils {
      * @return the cached distance between the two given patterns
      */
     public double calculateDistance(int x, int y) {
-        return clusterableDataSet.getCachedDistance(x, y);
+        return dataSetBuilder.getCachedDistance(x, y);
     }
 
     /**
@@ -195,6 +198,7 @@ public final class ClusteringUtils {
 
         for (int i = 0; i < numberOfClusters; i++) {
             Vector list = centroids.copyOfRange(i * dimension, (i * dimension) + dimension);
+
             originalCentroids.add(list);
         }
     }
@@ -206,7 +210,7 @@ public final class ClusteringUtils {
      */
     private void arrangeClusters() {
         int numberOfClusters = clusteringProblem.getNumberOfClusters();
-        ArrayList<Pattern> patterns = clusterableDataSet.getPatterns();
+        ArrayList<Pattern> patterns = dataSetBuilder.getPatterns();
         originalClusters = new ArrayList<Hashtable<Integer, Pattern>>(numberOfClusters);
 
         for (int i = 0; i < numberOfClusters; i++) {
@@ -228,16 +232,6 @@ public final class ClusteringUtils {
                 }
             }
         }
-
-        //    for (Hashtable<Integer, Pattern> cluster : originalClusters) {
-        //        logger.debug("begin cluster: " + cluster.size());
-        //        Enumeration<Integer> e = cluster.keys();
-        //        while(e.hasMoreElements()) {
-        //            Integer i = e.nextElement();
-        //            logger.debug(i + " -> " + cluster.get(i).data);
-        //        }
-        //        logger.debug("done");
-        //    }
     }
 
     /**
@@ -269,21 +263,21 @@ public final class ClusteringUtils {
     }
 
     /**
-     * Get the patterns in the {@link #clusterableDataSet}.
+     * Get the patterns in the {@link #dataSetBuilder}.
      *
-     * @return the patterns in the {@link #clusterableDataSet}
+     * @return the patterns in the {@link #dataSetBuilder}
      */
     public ArrayList<Pattern> getPatternsInDataSet() {
-        return clusterableDataSet.getPatterns();
+        return dataSetBuilder.getPatterns();
     }
 
     /**
-     * Get the number of patterns in the {@link #clusterableDataSet}.
+     * Get the number of patterns in the {@link #dataSetBuilder}.
      *
-     * @return the number of patterns in the {@link #clusterableDataSet}.
+     * @return the number of patterns in the {@link #dataSetBuilder}.
      */
     public int getNumberOfPatternsInDataSet() {
-        return clusterableDataSet.getNumberOfPatterns();
+        return dataSetBuilder.getNumberOfPatterns();
     }
 
     /**
@@ -330,22 +324,22 @@ public final class ClusteringUtils {
     }
 
     /**
-     * Get the mean {@link Vector} that has been cached by the {@link #clusterableDataSet}.
+     * Get the mean {@link Vector} that has been cached by the {@link #dataSetBuilder}.
      *
      * @return a {@link Vector} that represents the mean of all the patterns inside the
-     *         {@link #clusterableDataSet}
+     *         {@link #dataSetBuilder}
      */
     public Vector getDataSetMean() {
-        return clusterableDataSet.getMean();
+        return dataSetBuilder.getMean();
     }
 
     /**
-     * Get the variance (scalar) thas been cached by the {@link #clusterableDataSet}.
+     * Get the variance (scalar) thas been cached by the {@link #dataSetBuilder}.
      *
      * @return a double that represents the variance of all the patterns inside the
-     *         {@link #clusterableDataSet}
+     *         {@link #dataSetBuilder}
      */
     public double getDataSetVariance() {
-        return clusterableDataSet.getVariance();
+        return dataSetBuilder.getVariance();
     }
 }

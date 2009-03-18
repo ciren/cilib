@@ -24,7 +24,7 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 import java.util.Collection;
 
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -42,7 +42,6 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
     private static final long serialVersionUID = -3307601269742583865L;
 
     public DunnIndex33() {
-        super();
         clusterCenterStrategy = new ClusterMeanStrategy();
     }
 

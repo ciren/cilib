@@ -23,6 +23,7 @@ package net.sourceforge.cilib.problem.dataset;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -35,18 +36,19 @@ import net.sourceforge.cilib.util.Cloneable;
 public abstract class DataSet implements Cloneable, Serializable {
     private static final long serialVersionUID = 5190227337412349440L;
 
-    @Deprecated
-    protected String patternExpression = null;
+    protected String identifier = null;
 
     public DataSet() {
-        patternExpression = "";
+        identifier = "<not set>";
     }
 
     public DataSet(DataSet rhs) {
-        patternExpression = new String(rhs.patternExpression);
+        identifier = rhs.identifier;
     }
 
     public abstract DataSet getClone();
+
+    public abstract ArrayList<Pattern> parseDataSet();
 
     /**
      * Returns the data set as a byte array.
@@ -61,23 +63,21 @@ public abstract class DataSet implements Cloneable, Serializable {
     public abstract InputStream getInputStream();
 
     /**
-     * Set the regular expression that will be used to split the patterns in the provided DataSet
-     * file. The format of this regular expression depends on where you are calling the method from.
-     * When you specify the regular expression in a simulation XML file, the format should be a
-     * standard regular expression. When you call this method directly with a regular expression in
-     * double quotes (from a Java source file), then the format of the regular expression should be a
-     * Java style regular expression.
-     * @param regexp The regex to use
+     * Get the unique identifier of this data set.
+     *
+     * @return the unique identifier of this data set
      */
-    public void setPatternExpression(String regexp) {
-        patternExpression = regexp;
+    public String getIdentifier() {
+        return identifier;
     }
 
     /**
-     * Get the regular expression that has been set for this DataSet.
-     * @return The regular expression.
+     * Set the identifier of this data set. In the case of a file on disk, i.e. when using
+     * {@link LocalDataSet}, the filename will be used as the identifier.
+     *
+     * @param id the identifier of the data set
      */
-    public String getPatternExpression() {
-        return patternExpression;
+    public void setIdentifier(String id) {
+        identifier = id;
     }
 }

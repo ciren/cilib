@@ -37,7 +37,6 @@ public abstract class GeneralisedDunnIndex extends ScatterSeperationRatio {
     private static final long serialVersionUID = -2232760005736588472L;
 
     public GeneralisedDunnIndex() {
-        super();
     }
 
     /**

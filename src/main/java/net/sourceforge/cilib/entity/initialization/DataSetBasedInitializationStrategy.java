@@ -27,7 +27,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -35,7 +34,7 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * This strategy initializes the position as well as the best position of a {@link Particle}
  * using the {@link DataSetBasedCentroidsInitialisationStrategy}. The particle is therefore
  * initialized from the current dataset. The {@link ClusterableDataSet dataset} is found
- * using the {@link ClusteringUtils#getClusterableDataSet()} method. The
+ * using the {@link ClusteringUtils#getDataSetBuilder()} method. The
  * {@link ClusteringProblem} is also found using the
  * {@link ClusteringUtils#getClusteringProblem()} method.
  *
@@ -51,6 +50,7 @@ public class DataSetBasedInitializationStrategy<E extends Entity> implements Ini
         centroidsInitialisationStrategy = new DataSetBasedCentroidsInitialisationStrategy();
     }
 
+    @Override
     public DataSetBasedInitializationStrategy getClone() {
         return new DataSetBasedInitializationStrategy();
     }
@@ -64,9 +64,10 @@ public class DataSetBasedInitializationStrategy<E extends Entity> implements Ini
      *        should be a {@link ClusteringProblem}, but is ignored, because the clustering
      *        problem is found via the {@link ClusteringUtils#getClusteringProblem()} method.
      */
+    @Override
     public void initialize(Enum<?> key, E particle) {
         ClusteringUtils helper = ClusteringUtils.get();
-        Vector centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());
+        Vector centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
 
         particle.setCandidateSolution(centroids);
     }

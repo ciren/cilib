@@ -24,7 +24,7 @@ package net.sourceforge.cilib.clustering.kmeans;
 import java.io.Serializable;
 
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -48,9 +48,9 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
      * centroids.
      *
      * @param problem the {@link ClusteringProblem} currently being optimized
-     * @param dataset the {@link ClusterableDataSet} currently being clustered
+     * @param dataset the {@link StaticDataSetBuilder} currently being clustered
      * @return a {@link Vector} that represents all the centroids
      */
-    Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset);
+    public Vector initialise(ClusteringProblem problem, StaticDataSetBuilder dataset);
 
 }

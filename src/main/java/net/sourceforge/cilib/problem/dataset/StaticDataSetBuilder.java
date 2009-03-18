@@ -38,49 +38,52 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * @author Gary Pampara
  * @author Theuns Cloete
  */
-public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
-
+public class StaticDataSetBuilder extends DataSetBuilder {
     private static final long serialVersionUID = -7035524554252462144L;
+
     protected ArrayList<Pattern> patterns = null;
-    private Vector cachedMean = null;
-    private double cachedVariance = 0.0;
-    private double[] distanceCache = null;
-    private String identifier = null;
+    protected Vector cachedMean = null;
+    protected double cachedVariance = 0.0;
+    protected double[] distanceCache = null;
+    protected String identifier = null;
 
     /**
      * Initialise the patterns data structure and set the identifier to be blank.
      */
-    public AssociatedPairDataSetBuilder() {
-        super();
+    public StaticDataSetBuilder() {
         patterns = new ArrayList<Pattern>();
         identifier = "";
     }
 
-    public AssociatedPairDataSetBuilder(AssociatedPairDataSetBuilder rhs) {
+    public StaticDataSetBuilder(StaticDataSetBuilder rhs) {
         super(rhs);
         patterns = new ArrayList<Pattern>();
+
         for (Pattern pattern : rhs.patterns) {
             patterns.add(pattern.getClone());
         }
     }
 
     @Override
-    public AssociatedPairDataSetBuilder getClone() {
-        return new AssociatedPairDataSetBuilder(this);
+    public StaticDataSetBuilder getClone() {
+        return new StaticDataSetBuilder(this);
     }
 
     /**
-     * This method overrides {@link DataSetBuilder#addDataSet(DataSet)} because it works
-     * completely different than a normal {@link DataSetBuilder}. It takes the fact that
-     * datasets may already have been parsed by other {@linkplain net.sourceforge.cilib.simulator.Simulation simulations},
-     * {@linkplain net.sourceforge.cilib.problem.Problem problems} or
-     * {@linkplain java.lang.Thread threads} into account. It relies on the {@link DataSetManager} singleton to
-     * parse and/or retrieve the patterns of the given {@link DataSet}. Then it adds these
-     * retrieved patterns to the current {@link #patterns} list. This method also builds up
-     * the {@link #identifier} that uniquely identifies this dataset builder. This identifier
-     * is used by the {@link DataSetManager} to keep track of this built-up dataset, because
-     * it might be used by other {@link Simulation}s, {@link Problem}s or {@link Thread}s
-     * as well.
+     * This method has three responsibilities:
+     * <ol>
+     * <li>It takes into account the fact that datasets may already have been parsed by
+     * other {@link Simulation}s, {@link Problem}s or {@link Thread}s. It relies on the
+     * {@link DataSetManager} singleton to parse and/or retrieve the patterns of the given
+     * {@link DataSet}. Then it adds these retrieved patterns to the current
+     * {@link #patterns} list. This method also builds up the {@link #identifier} that
+     * uniquely identifies this dataset builder. This identifier is used by the
+     * {@link DataSetManager} to keep track of this built-up dataset, because it might be
+     * used by other {@link Simulation}s, {@link Problem}s or {@link Thread}s as well.</li>
+     * <li>It caches both the mean and variance of the built-up data set.</li>
+     * <li>It caches the distances from all the patterns to all the other patterns in the
+     * built-up data set.</li>
+     * </ol>
      *
      * @throws IllegalArgumentException when the given {@link DataSet} is not a
      *         {@link LocalDataSet}. This is only temporary, because I didn't want to change
@@ -92,33 +95,24 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
      *        building up the list of patterns that should be clustered
      */
     @Override
-    public void addDataSet(DataSet ds) {
-        if (!(ds instanceof LocalDataSet)) {
-            throw new IllegalArgumentException("This DataSetBuilder expects a LocalDataSet\nONLY FOR NOW\nBECAUSE I didn't want to change the more generic DataSets");
-        }
-
-        LocalDataSet dataset = (LocalDataSet) ds;
-        ArrayList<Pattern> data = DataSetManager.getInstance().getDataFromSet(dataset);
-
-        if (!patterns.isEmpty() && data.get(0).data.size() != patterns.get(0).data.size()) {
-            throw new IllegalArgumentException("Cannot combine datasets of different dimensions");
-        }
-        patterns.addAll(data);
-
-        if (identifier.equals("")) {
-            identifier += dataset.getFile();
-        } else {
-            identifier += "#|#" + dataset.getFile();
-        }
-        //        log.debug(data.size() + " patterns added");
-    }
-
-    /**
-     * By now, all the needed {@link DataSet}s should have been parsed and added to
-     * {@link #patterns}. All that needs to be done is to cache the mean, the variance and
-     * the distances between all patterns of this constructed/combined/built dataset.
-     */
     public void initialise() {
+        for (DataSet dataset : this.dataSets) {
+            ArrayList<Pattern> data = DataSetManager.getInstance().getDataFromSet(dataset);
+
+            if (!patterns.isEmpty() && data.get(0).data.getDimension() != patterns.get(0).data.getDimension()) {
+                throw new IllegalArgumentException("Cannot combine datasets of different dimensions");
+            }
+            patterns.addAll(data);
+
+            if (identifier.equals("")) {
+                identifier += dataset.getIdentifier();
+            }
+            else {
+                identifier += "#|#" + dataset.getIdentifier();
+            }
+            System.out.println(data.size() + " patterns added");
+        }
+
         cacheMeanAndVariance();
         cacheDistances();
     }
@@ -127,8 +121,11 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
      * Calculate and cache the mean ({@link Vector}) and variance (scalar) of the dataset.
      */
     private void cacheMeanAndVariance() {
+        System.out.println("Caching dataset mean and variance");
         cachedMean = Stats.meanVector(patterns);
+        System.out.println("Cached mean: " + cachedMean);
         cachedVariance = Stats.variance(patterns, cachedMean);
+        System.out.println("Cached variance: " + cachedVariance);
     }
 
     /**
@@ -164,17 +161,26 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
      * stored.
      */
     private void cacheDistances() {
+        System.out.println("Caching distances between patterns of dataset");
         ClusteringUtils helper = ClusteringUtils.get();
         int numPatterns = getNumberOfPatterns();
         int cacheSize = (numPatterns * (numPatterns - 1)) / 2;
         distanceCache = new double[cacheSize];
         int index = 0;
+        int jump = 0;
+
         for (int y = 0; y < numPatterns - 1; y++) {
             Vector rhs = patterns.get(y).data;
             for (int x = y + 1; x < numPatterns; x++) {
                 Vector lhs = patterns.get(x).data;
                 index = x + (numPatterns * y) - (((y + 1) * (y + 2)) / 2);
                 distanceCache[index] = helper.calculateDistance(lhs, rhs);
+            }
+
+            int percentageComplete = 100 * index / cacheSize;
+            if (percentageComplete == jump) {
+                System.out.println(percentageComplete + "% of distances cached");
+                jump += 10;
             }
         }
     }

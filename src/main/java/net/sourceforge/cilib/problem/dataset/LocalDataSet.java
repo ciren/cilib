@@ -30,7 +30,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -56,21 +55,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class LocalDataSet extends DataSet {
     private static final long serialVersionUID = -3482617012711168661L;
 
-    protected String fileName = null;
     protected String delimiter = null;
     protected int beginIndex = 0;
     protected int endIndex = 0;
     protected int classIndex = 0;
 
     public LocalDataSet() {
-        super();
-        fileName = "<not set>";
         delimiter = "\\s";
     }
 
     public LocalDataSet(LocalDataSet rhs) {
         super(rhs);
-        fileName = new String(rhs.fileName);
+        identifier = rhs.identifier;
+        delimiter = rhs.delimiter;
+        beginIndex = rhs.beginIndex;
+        endIndex = rhs.endIndex;
+        classIndex = rhs.classIndex;
     }
 
     @Override
@@ -79,28 +79,11 @@ public class LocalDataSet extends DataSet {
     }
 
     /**
-     * Set the name of the file that represents this dataset on disk.
-     *
-     * @param fileName the name of the file
-     */
-    public void setFile(String fileName) {
-        this.fileName = fileName;
-    }
-
-    /**
-     * Get the name of the file that represents this dataset on disk.
-     *
-     * @return the name of the file
-     */
-    public String getFile() {
-        return fileName;
-    }
-
-    /**
      * Get the contents of the file on disk as an array of bytes.
      *
      * @return the contents of the file on disk as an array of bytes
      */
+    @Override
     public byte[] getData() {
         try {
             InputStream is = getInputStream();
@@ -125,9 +108,10 @@ public class LocalDataSet extends DataSet {
      *
      * @return the contents of the file on disk as an {@link InputStream}
      */
+    @Override
     public InputStream getInputStream() {
         try {
-            InputStream is = new BufferedInputStream(new FileInputStream(fileName));
+            InputStream is = new BufferedInputStream(new FileInputStream(identifier));
             return is;
         }
         catch (IOException ex) {
@@ -143,13 +127,16 @@ public class LocalDataSet extends DataSet {
      * @return an {@link ArrayList} of {@link Pattern}s containing all the patterns in this
      *         dataset
      */
+    @Override
     public ArrayList<Pattern> parseDataSet() {
-        if (beginIndex == endIndex)
+        if (beginIndex == endIndex) {
             throw new IllegalArgumentException("The begin and end should not be equal");
+        }
 
         ArrayList<Pattern> patterns = new ArrayList<Pattern>();
         BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream()));
 
+        System.out.println("Parsing " + identifier);
         try {
             // every line in a dataset represents a pattern
             String line = br.readLine();
@@ -187,7 +174,7 @@ public class LocalDataSet extends DataSet {
         String clazz = "";
 
         if (classIndex == -1) {
-            clazz = fileName.substring(fileName.lastIndexOf("/") + 1);
+            clazz = identifier.substring(identifier.lastIndexOf("/") + 1);
         }
         else {
             clazz = elements[classIndex];

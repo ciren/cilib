@@ -38,7 +38,6 @@ public class DunnIndex extends GeneralisedDunnIndex {
      * Create an instance of this index.
      */
     public DunnIndex() {
-        super();
     }
 
     /**

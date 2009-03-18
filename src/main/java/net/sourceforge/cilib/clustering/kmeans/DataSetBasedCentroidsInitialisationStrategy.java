@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -51,6 +51,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
     /**
      * {@inheritDoc}
      */
+    @Override
     public DataSetBasedCentroidsInitialisationStrategy getClone() {
         return new DataSetBasedCentroidsInitialisationStrategy();
     }
@@ -60,10 +61,11 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
      * given dataset.
      *
      * @param problem the {@link ClusteringProblem} currently being optimized
-     * @param dataset the {@link ClusterableDataSet} currently being clustered
+     * @param dataset the {@link StaticDataSetBuilder} currently being clustered
      * @return a {@link Vector} that represents all the centroids
      */
-    public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
+    @Override
+    public Vector initialise(ClusteringProblem problem, StaticDataSetBuilder dataset) {
         ArrayList<Pattern> patterns = dataset.getPatterns();
         int numberOfCentroids = problem.getNumberOfClusters();
         Vector centroids = new Vector();

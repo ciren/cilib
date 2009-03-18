@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.util;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -38,15 +39,17 @@ public final class Vectors {
     }
 
     /**
-     * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
-     * set to the upper bound of that component.
-     * @param vector The {@linkplain Vector} to create the upper bound vector from.
-     * @throws UnsupportedOperationException When an element in the {@link Vector}
-     *         is not a {@link Numeric}
-     * @return a {@link Vector} with all the elements set to their respective upper bounds
+     * Creates and returns a {@link net.sourceforge.cilib.type.types.container.Vector} with
+     * each component's value set to the upper bound of that component in the given vector.
+     *
+     * @param vector The {@linkplain net.sourceforge.cilib.type.types.container.Vector} from
+     *        which to create the upper bound vector.
+     * @return a {@link net.sourceforge.cilib.type.types.container.Vector} with all the
+     *         elements set to their respective upper bounds
      */
     public static Vector upperBoundVector(Vector vector) {
         Vector.Builder upper = Vector.newBuilder();
+
         for (Numeric element : vector) {
             upper.addWithin(element.getBounds().getUpperBound(), element.getBounds());
         }
@@ -54,19 +57,38 @@ public final class Vectors {
     }
 
     /**
-     * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
-     * set to the lower bound of that component.
-     * @param vector The {@linkplain Vector} from which to create the lower bound vector.
-     * @throws UnsupportedOperationException when an element in the {@link Vector}
-     *         is not a {@link Numeric}
-     * @return a {@link Vector} with all the elements set to their respective lower bounds
+     * Creates and returns a {@link net.sourceforge.cilib.type.types.container.Vector} with
+     * each component's value set to the lower bound of that component in the given vector.
+     *
+     * @param vector The {@linkplain net.sourceforge.cilib.type.types.container.Vector} from
+     *        which to create the lower bound vector.
+     * @return a {@link net.sourceforge.cilib.type.types.container.Vector} with all the
+     *         elements set to their respective lower bounds
      */
     public static Vector lowerBoundVector(Vector vector) {
         Vector.Builder lower = Vector.newBuilder();
+
         for (Numeric element : vector) {
             lower.addWithin(element.getBounds().getLowerBound(), element.getBounds());
         }
         return lower.build();
+    }
+
+    /**
+     * Calculate the furthest distance possible between two points within the given domain,
+     * also known as the <code>zMax</code>.
+     *
+     * @param distanceMeasure the {@link net.sourceforge.cilib.util.DistanceMeasure} that
+     *        should be used to calculate the <code>zMax</code>
+     * @param domain the {@link net.sourceforge.cilib.type.types.container.Vector}
+     *        representing the domain
+     * @return the <code>zMax</code> for the given domain
+     */
+    public static double zMax(DistanceMeasure distanceMeasure, Vector domain) {
+        Vector upperBoundVector = Vectors.upperBoundVector(domain);
+        Vector lowerBoundVector = Vectors.lowerBoundVector(domain);
+
+        return distanceMeasure.distance(upperBoundVector, lowerBoundVector);
     }
 
     /**
@@ -94,5 +116,25 @@ public final class Vectors {
             builder.addWithin(function.apply(n).doubleValue(), n.getBounds()); //??
         }
         return builder.build();
+    }
+
+    /**
+     * Return the string representation of the given {@code Vector} using the given characters as the first, last and
+     * delimeter.
+     * <p>
+     * All returned strings will be in the format of:
+     * <pre>
+     * {@literal <first><item><delimeter><item><delimeter>...<delimiter><item><last>}
+     * </pre>
+     * For example: <code>Vectors.toString(vector, '\0', '\0', '\t')</code> will return the following representation:<br/>
+     * <code>1\t2\t3</code>
+     * @return The string representation of the given {@code Vector}.
+     */
+    public static String toString(Vector vector, char first, char last, char delimeter) {
+        StringBuilder builder = new StringBuilder(first);
+        Joiner.on(delimeter).appendTo(builder, vector);
+
+        builder.append(last);
+        return builder.toString();
     }
 }

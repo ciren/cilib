@@ -25,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class MockStringDataSet extends DataSet {
     private static final long serialVersionUID = 8253706217084102158L;
@@ -46,6 +47,11 @@ public class MockStringDataSet extends DataSet {
     @Override
     public MockStringDataSet getClone() {
         return new MockStringDataSet(this);
+    }
+
+    @Override
+    public ArrayList<Pattern> parseDataSet() {
+        throw new UnsupportedOperationException("This method is not applicable");
     }
 
     @Override

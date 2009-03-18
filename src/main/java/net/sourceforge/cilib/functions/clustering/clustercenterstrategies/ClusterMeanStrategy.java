@@ -24,7 +24,7 @@ package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 import java.util.Collection;
 
 import net.sourceforge.cilib.math.Stats;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 

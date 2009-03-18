@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -42,7 +42,6 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
     private int p = 1;
 
     public MaulikBandyopadhyayIndex() {
-        super();
         p = 1;
     }
 
@@ -77,7 +76,7 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
 
     public void setP(int pu) {
         if (pu < 1)
-            throw new IllegalArgumentException("The p-value cannot be <= 0");
+            throw new IllegalArgumentException("The p-value cannot be < 1");
         p = pu;
     }
 

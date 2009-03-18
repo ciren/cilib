@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 

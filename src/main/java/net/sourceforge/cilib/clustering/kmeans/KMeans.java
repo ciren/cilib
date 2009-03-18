@@ -30,16 +30,15 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
 
 /**
- * This algorithm is an implementation of the KMeans Clustering algorithm.
- * <p>
- * This is the implementation as described in Section 2 of:
+ * This algorithm is an implementation of the KMeans Clustering algorithm. This is the implementation as described in
+ * Section 2 of:
  *
  * @inproceedings{ 2000.Ray.jul, title = "Determination of Number of Clusters in
  *                 K-Means Clustering and Application in Colour Image
@@ -97,7 +96,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     public void performInitialisation() {
         ClusteringUtils helper = ClusteringUtils.get();
 
-        centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());
+        centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
     }
 
     /**
@@ -152,7 +151,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      */
     private Vector reinitialiseCentroid(Vector centroid) {
         ClusteringUtils helper = ClusteringUtils.get();
-        Vector tmp = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());
+        Vector tmp = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
 
         // this first centroid will do
         return tmp.copyOfRange(0, centroid.size());

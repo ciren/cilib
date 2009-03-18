@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
 import net.sourceforge.cilib.math.Stats;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -51,7 +51,6 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
     private ControlParameter maximumVariance = null;
 
     public VeenmanReindersBackerIndex() {
-        super();
         clusterCenterStrategy = new ClusterMeanStrategy();
         maximumVariance = new ConstantControlParameter(1.0);    // default variance limit is 1.0
     }

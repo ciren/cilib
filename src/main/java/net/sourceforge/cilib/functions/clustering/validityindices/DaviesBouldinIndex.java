@@ -23,7 +23,7 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import java.util.Collection;
 
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -41,7 +41,6 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
     private static final long serialVersionUID = -5167494843653998358L;
 
     public DaviesBouldinIndex() {
-        super();
     }
 
     @Override

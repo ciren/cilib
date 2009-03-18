@@ -36,7 +36,6 @@ public class NonParametricClusteringFunction extends ClusteringFitnessFunction {
     private static final long serialVersionUID = 5712216719378084294L;
 
     public NonParametricClusteringFunction() {
-        super();
     }
 
     @Override

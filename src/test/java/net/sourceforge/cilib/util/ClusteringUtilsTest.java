@@ -31,9 +31,9 @@ import java.util.Collection;
 import java.util.Hashtable;
 
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
+import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MockClusteringStringDataSet;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -47,12 +47,12 @@ public class ClusteringUtilsTest {
     private static Vector centroids = null;
     private static ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = null;
     private static ArrayList<Vector> arrangedCentroids = null;
-    private static AssociatedPairDataSetBuilder dataSetBuilder = null;
+    private static StaticDataSetBuilder dataSetBuilder = null;
     private static ClusteringProblem problem = null;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        dataSetBuilder = new AssociatedPairDataSetBuilder();
+        dataSetBuilder = new StaticDataSetBuilder();
         dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
         problem = new ClusteringProblem();
         problem.setDomain("Z(0, 37),Z(0, 51)");

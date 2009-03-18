@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MockClusteringStringDataSet;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -36,7 +36,7 @@ import org.junit.Test;
 
 public class ClusteringFitnessFunctionTest {
     private static ClusteringFitnessFunction function = null;
-    private static AssociatedPairDataSetBuilder dataSetBuilder = null;
+    private static StaticDataSetBuilder dataSetBuilder = null;
     private static Vector centroids = null;
     private static ClusteringProblem problem = null;
     private static FunctionOptimisationProblem innerProblem = null;
@@ -44,7 +44,7 @@ public class ClusteringFitnessFunctionTest {
 
     @BeforeClass
     public static void intialise() {
-        dataSetBuilder = new AssociatedPairDataSetBuilder();
+        dataSetBuilder = new StaticDataSetBuilder();
         dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
         function = new QuantisationErrorFunction();
         innerProblem = new FunctionMinimisationProblem();

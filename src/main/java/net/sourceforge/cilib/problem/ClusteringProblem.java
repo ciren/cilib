@@ -21,8 +21,7 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.DataSetManager;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -36,7 +35,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * <p>
  * This class is used to setup/configure a problem that is capable of clustering the data in
  * a dataset, more specifically the data contained in an
- * {@link net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder}. Clustering is an
+ * {@link net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder}. Clustering is an
  * {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter optimisation} problem. The process of optimising a
  * clustering is driven by a fitness function that determines the fitness of a specific
  * clustering. This class therefore wraps a {@link net.sourceforge.cilib.problem.FunctionOptimisationProblem} (called the
@@ -91,7 +90,6 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
     private static final int UNINITIALISED = -1;
 
     public ClusteringProblem() {
-        super();
         innerProblem = null;
         numberOfClusters = UNINITIALISED;
         domainRegistry = new StringBasedDomainRegistry();
@@ -158,7 +156,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
 
     /**
      * Return the actual domain of the problem's dataset, i.e. NOT the duplicated domain
-     * string as used by the clustering fitness function.
+     * string as used by the clustering fitness function. For the duplicated domain string, see {@link #getDomain()}.
      *
      * @return the {@link #domainRegistry} of this clustering problem
      */
@@ -216,7 +214,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      *        clustered
      */
     public void setDomain(String representation) {
-//        DomainParser parser = new DomainParser();//DomainParser.getInstance();
+//        DomainParser parser = new DomainParser();
 //        parser.parse(representation);
 
         domainRegistry.setDomainString(representation);
@@ -224,12 +222,13 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
     }
 
     /**
-     * Return the domain as used by the configured fitness function, i.e. NOT the simplified
-     * domain string of the problem's dataset.
+     * Return the domain as used by the configured fitness function, i.e. NOT the basic
+     * domain string of the problem's dataset. For the basic domain string, see {@link #getBehaviouralDomain()}.
      *
      * @return the {@link #innerProblem}'s {@linkplain net.sourceforge.cilib.problem.FunctionOptimisationProblem#function function's}
      *         domain registry
      */
+    @Override
     public DomainRegistry getDomain() {
         return innerProblem.getFunction().getDomainRegistry();
     }
@@ -239,21 +238,22 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      * {@link DataSetBuilder}. Then use the {@link ClusteringUtils} per-thread singleton to
      * set the {@link DataSetBuilder} as the current dataset for this clustering.
      *
-     * @throws IllegalArgumentException when the given {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} is not an
-     *         {@link net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder}. This is only temporary, because I
+     * @throws IllegalArgumentException when the given {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} is not a
+     *         {@link net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder}. This is only temporary, because I
      *         didn't want to change the more generic {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} too much.
      * @param dsb the {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} that represents the dataset that should be
      *        clustered
      */
     @Override
     public void setDataSetBuilder(DataSetBuilder dsb) {
-        if (!(dsb instanceof AssociatedPairDataSetBuilder))
-            throw new IllegalArgumentException("This ClusteringProblem expects an AssociatedPairDataSet\nONLY FOR NOW\nBECAUSE I didn't want to change the more generic DataSetBuilder");
+        if (!(dsb instanceof StaticDataSetBuilder)) {
+            throw new IllegalArgumentException("This ClusteringProblem expects a StaticDataSetBuilder\nONLY FOR NOW\nBECAUSE I didn't want to change the more generic DataSetBuilder");
+        }
 
-        AssociatedPairDataSetBuilder builder = (AssociatedPairDataSetBuilder) dsb;
+        StaticDataSetBuilder builder = (StaticDataSetBuilder) dsb;
 
-        dataSetBuilder = DataSetManager.getInstance().getDataSetBuilder(builder);
-        ClusteringUtils.get().setClusterableDataSet((ClusterableDataSet) dataSetBuilder);
+        this.dataSetBuilder = DataSetManager.getInstance().getDataSetBuilder(builder);
+        ClusteringUtils.get().setDataSetBuilder((StaticDataSetBuilder) this.dataSetBuilder);
     }
 
     /**
@@ -287,5 +287,4 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
     protected Fitness calculateFitness(Type solution) {
         return innerProblem.calculateFitness(solution);
     }
-
 }

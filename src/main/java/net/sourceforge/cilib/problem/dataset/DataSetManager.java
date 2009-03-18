@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.problem.Problem;
 
 /**
  * This class is a Singleton and is responsible for managing all the {@link DataSet}s and
@@ -37,10 +37,10 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
  * {@link Pattern}s that have been returned by the {@link LocalDataSet#parseDataSet()}
  * method) makes sure that a specific dataset is parsed and instantiated only once. <br/>
  * The second, {@link #builders} (with its <code>key</code> the identifier of the dataset
- * builder and its <code>value</code> the {@link AssociatedPairDataSetBuilder} object)
+ * builder and its <code>value</code> the {@link StaticDataSetBuilder} object)
  * makes sure that a specific dataset builder is built and initialised only once.<br/> The
  * concrete {@link LocalDataSet} is used, but only for now, because I didn't want to change
- * the more generic {@link DataSet}.<br/> The concrete {@link AssociatedPairDataSetBuilder} is
+ * the more generic {@link DataSet}.<br/> The concrete {@link StaticDataSetBuilder} is
  * used, but only for now, because I didn't want to change the more generic
  * {@link DataSetBuilder}.
  */
@@ -49,11 +49,11 @@ public final class DataSetManager implements Serializable {
 
     private static volatile DataSetManager instance = null;
     private Hashtable<String, ArrayList<Pattern>> datasets = null;
-    private Hashtable<String, AssociatedPairDataSetBuilder> builders = null;
+    private Hashtable<String, StaticDataSetBuilder> builders = null;
 
     private DataSetManager() {
         datasets = new Hashtable<String, ArrayList<Pattern>>();
-        builders = new Hashtable<String, AssociatedPairDataSetBuilder>();
+        builders = new Hashtable<String, StaticDataSetBuilder>();
     }
 
     public static synchronized DataSetManager getInstance() {
@@ -72,14 +72,15 @@ public final class DataSetManager implements Serializable {
      *        parsed/instantiated before
      * @return an {@link ArrayList} of {@link Pattern}s representing the given dataset
      */
-    public synchronized ArrayList<Pattern> getDataFromSet(LocalDataSet dataset) {
-        String identifier = dataset.getFile();
+    public synchronized ArrayList<Pattern> getDataFromSet(DataSet dataset) {
+        String identifier = dataset.getIdentifier();
 
-//        log.debug("Requesting " + identifier);
+        System.out.println("Requesting " + identifier);
         if (!datasets.containsKey(identifier)) {
+            System.out.println("Parsing " + identifier);
             datasets.put(identifier, dataset.parseDataSet());
         }
-//        log.debug("Returning " + identifier);
+        System.out.println("Returning " + identifier);
         return datasets.get(identifier);
     }
 
@@ -88,20 +89,20 @@ public final class DataSetManager implements Serializable {
      * requested built up dataset. The dataset builder's identifier is used as the key into
      * the {@link #builders} {@link Hashtable}.
      *
-     * @param datasetBuilder an {@link AssociatedPairDataSetBuilder} that may or may not have
+     * @param datasetBuilder an {@link StaticDataSetBuilder} that may or may not have
      *        been built/instantiated before
-     * @return an {@link AssociatedPairDataSetBuilder} that represent the requested built up
+     * @return an {@link StaticDataSetBuilder} that represent the requested built up
      *         dataset
      */
-    public synchronized AssociatedPairDataSetBuilder getDataSetBuilder(AssociatedPairDataSetBuilder datasetBuilder) {
+    public synchronized StaticDataSetBuilder getDataSetBuilder(StaticDataSetBuilder datasetBuilder) {
         String identifier = datasetBuilder.getIdentifier();
 
-//        log.debug("Requesting " + identifier);
+        System.out.println("Requesting " + identifier);
         if (!builders.containsKey(identifier)) {
             datasetBuilder.initialise();
             builders.put(identifier, datasetBuilder);
         }
-//        log.debug("Returning " + identifier);
+        System.out.println("Returning " + identifier);
         return builders.get(identifier);
     }
 }
