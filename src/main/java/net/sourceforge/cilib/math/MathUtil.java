@@ -33,15 +33,11 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * required within CIlib as a whole.
  *
  * @author Gary Pampara
- *
  */
 public final class MathUtil {
 
-	private static Random randomiser;
-
 	private MathUtil() {
 	}
-
 
 	/**
 	 * Generate the required factorial of the number <code>x</code>.
@@ -60,12 +56,11 @@ public final class MathUtil {
 			return x * factorial(x-1);
 	}
 
-
 	/**
 	 * Return the combination of <code>n</code> and <code>r</code>.
-	 * @param n The ???
-	 * @param r >???
-	 * @return The combination of <code>n</code> and <code>r</code>
+	 * @param n The total elements from which the combination is perfromed.
+	 * @param r The {@code r}-combinations (of size {@code r}) to select.
+	 * @return The combination of <code>n</code> and <code>r</code>.
 	 */
 	public static double combination(double n, double r) {
 		if (n < r)
@@ -74,48 +69,51 @@ public final class MathUtil {
 		return permutation(n, r) / factorial(r);
 	}
 
-
 	/**
 	 * This is a convienience method providing an alias to <code>combination</code>.
-	 * @param n
-	 * @param r
-	 * @return The value of the operation "<code>n</code> choose <code>x</code>"
+	 * @param n The number of elements available for selection.
+	 * @param r The {@code r}-combinations (of size {@code r}) to select.
+	 * @return The value of the operation "<code>n</code> choose <code>x</code>".
 	 */
 	public static double choose(double n, double r) {
 		return combination(n, r);
 	}
 
-
 	/**
-	 *
-	 * @param n
-	 * @param r
-	 * @return
+	 * In combinatorics, a permutation is usually understood to be a sequence
+     * containing each element from a finite set once, and only once.
+	 * @param n The number of elements available for selection.
+	 * @param r The number of elements to be selected {@code (0 <= r <= n)}.
+	 * @return The number of permutations.
 	 */
 	public static double permutation(double n, double r) {
 		return factorial(n) / factorial(n-r);
 	}
 
-
-
 	/**
-	 *
-	 * @return
+	 * Obtain a pseudo uniform random number. The returned number will
+     * be a pseudo random number from a random seed. Each time this method is
+     * invoked, a new pseudo random number generater is created with a new
+     * seed. For operations which need a lot of random numbers, it is advisable
+     * that new instance of a random number generator is used in favor of this
+     * method.
+	 * @return A uniform random number in the range [0,1).
 	 */
 	public static synchronized double random() {
-		if (randomiser == null)
-			randomiser = new MersenneTwister();
-
-		return randomiser.nextDouble();
+        return new MersenneTwister().nextDouble();
 	}
 
 	/**
-	 *
-	 * @param pf
-	 * @return
+	 * Determine if a "flip" would occur given the provided probability value.
+	 * @param probability The provided probability value. This value must be in [0,1]
+	 * @return 1 - if a "flip" occured, 0 otherwise.
 	 */
-	public static int flip(double prob) {
-		if (randomiser.nextDouble() <= prob)
+	public static int flip(double probability) {
+        if (probability < 0 || probability > 1)
+            throw new IllegalArgumentException("Illegal input: valid range is [0,1]");
+
+        Random random = new MersenneTwister();
+		if (random.nextDouble() <= probability)
 			return 1;
 
 		return 0;
@@ -126,6 +124,7 @@ public final class MathUtil {
 	 * @param base The base of the log operation.
 	 * @param value The value to determine the log of.
 	 * @return The log value of <code>value</code> using the base value of <code>base</code>.
+     * @see java.lang.Math#log(double).
 	 */
 	public static double log(double base, double value) {
 		return Math.log(value) / Math.log(base);
