@@ -118,7 +118,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 
 	public DomainRegistry getDomain() {  //computes the domain according to the input sequences and amount of gaps to insert
 		if (this.domainRegistry.getDomainString() == null) {
-			DomainParser parser = DomainParser.getInstance();
+			DomainParser parser = new DomainParser();
 
 			//reads in the input data sets.
 			FASTADataSetBuilder stringBuilder = (FASTADataSetBuilder) this.getDataSetBuilder();

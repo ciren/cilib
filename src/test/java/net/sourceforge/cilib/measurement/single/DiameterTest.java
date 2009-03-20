@@ -41,7 +41,7 @@ public class DiameterTest {
 	public void testDiameterTestDomain() {
 		Measurement m = new Diameter();
 		
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(m.getDomain());
 		
 		Vector vector = (Vector) parser.getBuiltRepresentation();

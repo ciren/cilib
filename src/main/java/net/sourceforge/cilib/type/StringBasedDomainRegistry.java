@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.type;
 
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -81,7 +80,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
 	public void setDomainString(String domainString) {
 		this.domainString = domainString;
 
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(domainString);
 
 		setExpandedRepresentation(parser.expandDomainString(domainString));

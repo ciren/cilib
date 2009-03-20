@@ -41,7 +41,7 @@ public class BestParticlePositionTest {
 	public void testBestParticlePositionDomain() {
 		Measurement m = new BestParticlePosition();
 		
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(m.getDomain());
 		
 		Vector t = (Vector) parser.getBuiltRepresentation();

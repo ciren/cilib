@@ -37,7 +37,7 @@ public class TimeTest {
 	public void testTimeDomain() {
 		Measurement m = new Time();
 		
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(m.getDomain());
 		
 		Vector vector = (Vector) parser.getBuiltRepresentation();

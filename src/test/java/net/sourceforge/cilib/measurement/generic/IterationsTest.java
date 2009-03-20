@@ -41,7 +41,7 @@ public class IterationsTest {
 	public void testIterationsDomain() {
 		Measurement m = new Iterations();
 		
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(m.getDomain());
 		
 		Vector vector = (Vector) parser.getBuiltRepresentation();

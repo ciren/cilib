@@ -41,7 +41,7 @@ public class FitnessEvaluationsTest {
 	public void testFitnessEvaluationsDomain() {
 		Measurement m = new FitnessEvaluations();
 		
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(m.getDomain());
 		
 		Vector vector = (Vector) parser.getBuiltRepresentation();

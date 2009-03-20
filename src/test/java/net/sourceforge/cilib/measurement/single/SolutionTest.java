@@ -41,7 +41,7 @@ public class SolutionTest {
 	public void testSolutionDomain() {
 		Measurement m = new Solution();
 		
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(m.getDomain());
 		
 		Vector vector = (Vector) parser.getBuiltRepresentation();

@@ -72,14 +72,6 @@ public abstract class Function implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Method added for CiClops compatibility.... not used and do not remove
-	 * @param d The {@linkplain StringBasedDomainRegistry}.
-	 */
-	public void setDomainRegistry(StringBasedDomainRegistry d) {
-		throw new UnsupportedOperationException("You are not allowed to set the DomainRegistry!");
-	}
-
-	/**
 	 * @return Returns the behaviouralDomainRegistry.
 	 */
 	public DomainRegistry getBehavioralDomainRegistry() {

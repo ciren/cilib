@@ -141,7 +141,7 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
      */
     public void setDomain(String representation) {
     	System.out.println("BINNE");
-    	DomainParser.getInstance().parse(representation);
+//    	DomainParser.getInstance().parse(representation);
     }
 
     /**

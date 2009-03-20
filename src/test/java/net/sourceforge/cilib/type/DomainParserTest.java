@@ -36,16 +36,9 @@ import org.junit.Test;
  */
 public class DomainParserTest {
 	
-	private static DomainParser parser;
-	
-//	@BeforeClass
-//	public static void setUp() {
-//		parser = DomainParser.getInstance();
-//	}
-	
 	@Test
 	public void testParseReal() {
-        parser = DomainParser.getInstance();
+        DomainParser parser = new DomainParser();
 		try {
 			parser.parse("R(0,INF)");
 			parser.parse("R");
@@ -65,7 +58,7 @@ public class DomainParserTest {
 	
 	@Test
 	public void testParseBit() {
-        parser = DomainParser.getInstance();
+        DomainParser parser = new DomainParser();
 		try {
 			parser.parse("B");
 			assertEquals("B", parser.expandDomainString("B"));
@@ -80,7 +73,7 @@ public class DomainParserTest {
 
 	@Test
 	public void testParseInteger() {
-        parser = DomainParser.getInstance();
+        DomainParser parser = new DomainParser();
 		try {
 			parser.parse("Z");
 			assertEquals("Z", parser.expandDomainString("Z"));
@@ -103,7 +96,7 @@ public class DomainParserTest {
 	
 	@Test
 	public void testParseString() {
-        parser = DomainParser.getInstance();
+        DomainParser parser = new DomainParser();
 		try {
 			parser.parse("T^5");
 			assertEquals("T,T,T,T,T", parser.expandDomainString("T^5"));
@@ -116,7 +109,7 @@ public class DomainParserTest {
 	
 	@Test
 	public void testParseComplexDomain() {
-        parser = DomainParser.getInstance();
+        DomainParser parser = new DomainParser();
 		try {
 			parser.parse("R(-30.0,30.0)^30,B,Z^6");
 			assertEquals("R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),B,Z,Z,Z,Z,Z,Z",
@@ -135,7 +128,7 @@ public class DomainParserTest {
 	 */
 	@Test
 	public void testParseMatrixDomain() {
-        parser = DomainParser.getInstance();
+        DomainParser parser = new DomainParser();
 		try {
 			parser.parse("[R(-30.0,30.0)^4]^5,B,B,Z(2,5)");
 			assertEquals("[R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0)],[R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0)],[R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0)],[R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0)],[R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0),R(-30.0,30.0)],B,B,Z(2.0,5.0)",
@@ -149,7 +142,7 @@ public class DomainParserTest {
 	
 	@Test
 	public void testBuildMatrixDomain() {
-        parser = DomainParser.getInstance();
+        DomainParser parser = new DomainParser();
 		try {
 			parser.parse("[R(-30.0,30.0)^4]^5");
 			

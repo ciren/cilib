@@ -41,7 +41,7 @@ public class FunctionOptimisationErrorTest {
 	public void testFunctionOptimisationErrorDomain() {
 		Measurement m = new FunctionOptimisationError();
 		
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(m.getDomain());
 		
 		Vector vector = (Vector) parser.getBuiltRepresentation();

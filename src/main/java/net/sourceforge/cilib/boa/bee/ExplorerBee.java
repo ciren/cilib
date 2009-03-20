@@ -50,7 +50,7 @@ public class ExplorerBee implements Cloneable {
 	 * default values.
 	 */
 	public ExplorerBee() {
-		random = new MersenneTwister(Seeder.getSeed());
+		random = new MersenneTwister();
 		previousUpdatedIteration = -1;
 		numberOfUpdates = 0;
 		explorerBeeUpdateLimit = new ConstantControlParameter(1.0);

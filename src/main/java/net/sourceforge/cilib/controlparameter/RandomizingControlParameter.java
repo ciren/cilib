@@ -21,9 +21,8 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-import java.util.Random;
-
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 /**
  * <p>

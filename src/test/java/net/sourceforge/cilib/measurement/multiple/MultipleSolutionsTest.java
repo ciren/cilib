@@ -41,7 +41,7 @@ public class MultipleSolutionsTest {
 	public void testMultipleSolutionsDomain() {
 		Measurement m = new MultipleSolutions();
 		
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(m.getDomain());
 		
 		Vector vector = (Vector) parser.getBuiltRepresentation();

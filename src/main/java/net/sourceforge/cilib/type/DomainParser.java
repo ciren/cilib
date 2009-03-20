@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.type;
 
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -41,23 +40,9 @@ public final class DomainParser {
 	 *
 	 * Look at {@see DomainParser#getInstance()}
 	 */
-	private DomainParser() {
+	public DomainParser() {
 		builder = new DomainBuilder();
 		validator = new DomainValidator();
-	}
-
-
-	/**
-	 * Get the instance of the Singleton object. This object is the <tt>DomainParser</tt>
-	 *
-	 * @return The instance of the <code>DomainParser</code>
-	 */
-	public static DomainParser getInstance() {
-		return DomainParserHolder.instance;
-	}
-
-	private static class DomainParserHolder {
-		public static DomainParser instance = new DomainParser();
 	}
 
 	/**
@@ -109,7 +94,6 @@ public final class DomainParser {
 	public boolean isValid(String domain) {
 		return validator.validate(domain);
 	}
-
 
 	/**
 	 * Accessor method to get the constructed representation. The constructed

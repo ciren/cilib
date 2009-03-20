@@ -65,7 +65,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
 			if (i < offset + dimension - 1)
 				expandedDomain += ",";
 		}
-		DomainParser dp = DomainParser.getInstance();
+		DomainParser dp = new DomainParser();
 		if (dp.parse(expandedDomain)) {
 			domainRegistry.setDomainString(expandedDomain);
 		}

@@ -169,7 +169,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
 	 */
 	public void setRange(String range) {
 		this.range = range;
-		DomainParser parser = DomainParser.getInstance();
+		DomainParser parser = new DomainParser();
 		parser.parse(this.range);
 		Vector v = (Vector) parser.getBuiltRepresentation();
 
