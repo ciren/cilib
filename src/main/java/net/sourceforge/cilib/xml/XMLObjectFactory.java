@@ -25,8 +25,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.annotations.Initialiser;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -137,8 +135,6 @@ public class XMLObjectFactory {
         Object object = instanciate(xml, objectClass);
 
         setup(object, xml);
-
-        performAnnotationActions(object);
 
         return object;
     }
@@ -404,33 +400,6 @@ public class XMLObjectFactory {
 
     protected void error(Element element, String message) {
         throw new FactoryException("In <" + element.getTagName() + "> : " + message);
-    }
-
-
-    /**
-     * Cycle through all the declared methods, invoking any with the @Initialiser
-     * annotation applied to them
-     *
-     * @param object The <tt>Object</tt> to be inspected
-     */
-    private void performAnnotationActions(Object object) {
-    	for (Method method : object.getClass().getDeclaredMethods()) {
-    		if (method.isAnnotationPresent(Initialiser.class)) {
-    			//System.out.println("Annotation: Initialiser is applied to: " + method.toGenericString());
-    			try {
-					method.invoke(object);
-				}
-    			catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				}
-    			catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-    			catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
-    		}
-    	}
     }
 
 }

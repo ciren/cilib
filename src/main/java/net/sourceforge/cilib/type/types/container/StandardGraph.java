@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -48,11 +49,26 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 		adjacencyMap = new LinkedHashMap<E, List<Entry<E>>>();
 	}
 
+    public StandardGraph(StandardGraph<E> copy) {
+        this.adjacencyMap = new LinkedHashMap<E, List<Entry<E>>>();
+
+        for (E element : copy.adjacencyMap.keySet()) {
+            List<Entry<E>> connections = copy.adjacencyMap.get(element);
+            List<Entry<E>> clonedconnections = new ArrayList<Entry<E>>();
+            
+            for (Entry<E> entry : connections) {
+                clonedconnections.add(entry.getClone());
+            }
+
+            this.adjacencyMap.put(element, clonedconnections);
+        }
+    }
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public StandardGraph<E> getClone() {
-		throw new UnsupportedOperationException("Implementation needed.");
+        return new StandardGraph(this);
 	}
 
 	@Override
@@ -350,7 +366,8 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 	 *
 	 * @param <T> The {@linkplain Comparable} type.
 	 */
-	private class Entry<T extends Comparable<T>> {
+	private class Entry<T extends Comparable<T>> implements net.sourceforge.cilib.util.Cloneable {
+        private static final long serialVersionUID = 1697479517382450802L;
 		private double weight;
 		private double cost;
 		private T element;
@@ -360,6 +377,12 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 			this.cost = cost;
 			this.weight = weight;
 		}
+
+        public Entry(Entry<T> copy) {
+            this.weight = copy.weight;
+            this.cost = copy.cost;
+            this.element = copy.element;
+        }
 
 		public Double getWeight() {
 			return weight;
@@ -407,6 +430,11 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
 			hash = 31 * hash + Double.valueOf(this.weight).hashCode();
 			return hash;
 		}
+
+        @Override
+        public Entry<T> getClone() {
+            return new Entry(this);
+        }
 	}
 
 }
