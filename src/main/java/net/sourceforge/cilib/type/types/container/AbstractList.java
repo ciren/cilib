@@ -206,21 +206,6 @@ public abstract class AbstractList implements StructuredType<Type> {
 	}
 
 	/**
-	 * Determine if all the elements of this <tt>Vector</tt> is defined within the lower and
-	 * upper bounds as specified by the domain of the problem.
-	 *
-	 * @return <tt>true</tt> if all elements are within the bounds, <tt>false</tt> otherwise.
-	 */
-//	public boolean isInsideBounds() {
-//		for (Type type : this) {
-//			if (!TypeUtil.isInsideBounds(type))
-//				return false;
-//		}
-//
-//		return true;
-//	}
-
-	/**
 	 * Create a sub vector from the current {@linkplain Vector}.
 	 * @param fromIndex The index to start the sub-vector from.
 	 * @param toIndex The last index to end the sub-vector at.
