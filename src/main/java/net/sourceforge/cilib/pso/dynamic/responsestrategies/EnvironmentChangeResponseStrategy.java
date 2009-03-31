@@ -21,22 +21,83 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
+import java.io.Serializable;
+import java.util.Iterator;
+
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * TODO: Complete this Javadoc.
  */
-public interface EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgorithm> extends Cloneable {
-    /**
-     * Clone the <tt>EnvironmentChangeResponseStrategy</tt> object.
-     * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
-     */
-    public EnvironmentChangeResponseStrategy<E> getClone();
+public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgorithm> implements Cloneable, Serializable {
+    protected boolean hasMemory = true;
+    
+    public EnvironmentChangeResponseStrategy() {
+        this.hasMemory = true;
+    }
+
+    public EnvironmentChangeResponseStrategy(EnvironmentChangeResponseStrategy<E> rhs) {
+        this.hasMemory = rhs.hasMemory;
+    }
 
     /**
-     * Adapt to environment change.
-     * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.
+     * Clone the <tt>EnvironmentChangeResponseStrategy</tt> object.
+     * 
+     * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
      */
-    public void respond(E algorithm);
+    public abstract EnvironmentChangeResponseStrategy<E> getClone();
+
+    /**
+     * Respond to the environment change and ensure that the neighbourhood best entities are
+     * updated. This method (Template Method) calls two other methods in turn:
+     * <ul>
+     * <li>{@link #performReaction(PopulationBasedAlgorithm)}</li>
+     * <li>{@link #updateNeighbourhoodBestEntities(Topology)}</li>
+     * </ul>
+     * 
+     * @param algorithm some {@link PopulationBasedAlgorithm population based algorithm}
+     */
+    public void respond(E algorithm) {
+        performReaction(algorithm);
+        if(hasMemory) updateNeighbourhoodBestEntities(algorithm.getTopology());
+    }
+
+    /**
+     * This is the method responsible for responding that should be overridden by sub-classes.
+     * @param algorithm
+     */
+    protected abstract void performReaction(E algorithm);
+
+    /**
+     * TODO: The problem with this is that it is PSO specific. It uses {@link Particle particles}
+     * instead of {@link Entity entities}, because the {@link Entity} class does not have the
+     * notion of a neighbourhood best.
+     * 
+     * @param topology a topology of {@link Particle particles} :-(
+     */
+    protected void updateNeighbourhoodBestEntities(Topology<? extends Entity> topology) {
+        for (Iterator<? extends Entity> outside = topology.iterator(); outside.hasNext(); ) {
+            Particle current = (Particle) outside.next();
+            current.calculateFitness();
+
+            for (Iterator<? extends Entity> inside = topology.neighbourhood(outside); inside.hasNext(); ) {
+                Particle other = (Particle) inside.next();
+                if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+                    other.setNeighbourhoodBest(current);
+                }
+            }
+        }
+    }
+
+    public boolean getHasMemory() {
+        return hasMemory;
+    }
+
+    public void setHasMemory(boolean hasMemory) {
+        this.hasMemory = hasMemory;
+    }
 }

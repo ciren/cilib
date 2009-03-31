@@ -25,20 +25,19 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
 
 /**
  * @author Anna Rakitianskaia
+ * @deprecated rather use {@link RandomSentriesDetectionStrategy}
  */
-public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> implements
-        EnvironmentChangeDetectionStrategy<E> {
-    private static final long serialVersionUID = 6254159986113630555L;
-
+public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
+    private static final long serialVersionUID = -7961604921868908664L;
+    
     private int sentries;
-    private double theta;
+    private double theta; 
     private Random randomiser;
 
     public RandomSentryDetectionStrategy() {
@@ -46,41 +45,42 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> i
         theta = 0.001;
         randomiser = new MersenneTwister();
     }
-
+    
     public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy<E> copy) {
         this.sentries = copy.sentries;
         this.theta = copy.theta;
         this.randomiser = copy.randomiser.getClone();
     }
-
+    
     public RandomSentryDetectionStrategy<E> getClone() {
         return new RandomSentryDetectionStrategy<E>(this);
     }
-
+    
 
     /** Check for environment change:
-     * Pick the specified number of random particles (sentries) and evaluate their current positions.
+     * Pick the specified number of random particles (sentries) and evaluate their current positions. 
      * If the difference between the old fitness and the newly generated one is significant (exceeds a predefined theta)
      * for one or more of the sentry particles, assume that the environment has changed.
      * @param algorithm PSO algorithm that operates in a dynamic environment
      * @return true if any changes are detected, false otherwise
-     */
+     */        
     public boolean detect(E algorithm) {
         Topology<? extends Entity> topology = algorithm.getTopology();
 
         boolean envChangeOccured = false;
-        ArrayList<Particle> sentryList = new ArrayList<Particle>();
+        ArrayList<Entity> sentryList = new ArrayList<Entity>();
         int populationSize = algorithm.getPopulationSize();
-
+                
         for (int i = 0; i < sentries; i++) {
             int index = randomiser.nextInt(populationSize);
-            sentryList.add((Particle) topology.get(index));
+            sentryList.add((Entity)topology.get(index));
         }
-
-        for (Particle nextSentry : sentryList) {
+        
+        for (Entity nextSentry : sentryList) {
             double oldSentryFitness = nextSentry.getFitness().getValue();
-            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getPosition(), false).getValue();
-
+            nextSentry.calculateFitness(false);
+            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getCandidateSolution(), false).getValue();
+            
             if(Math.abs(oldSentryFitness - newSentryFitness) >=  theta) {
                 envChangeOccured = true;
                 break;

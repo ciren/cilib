@@ -21,8 +21,10 @@
  */
 package net.sourceforge.cilib.entity;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
@@ -123,6 +125,43 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
         }
 
         return bestEntity;
+    }
+
+    /**
+     * Gather the best entity of each neighbourhood (in this {@link Topology}) in a
+     * {@link Set} (duplicates are not allowed) and return them. A single {@link Entity} may
+     * dominate in more than one neighbourhood, but we just want unique entities.
+     *
+     * @return a {@link Set} cosisting of the best entity of each neighbourhood in the
+     *         topology
+     * @author Theuns Cloete
+     */
+    public Set<E> getNeighbourhoodBestEntities() {
+        // a Set does not allow duplicates
+        Set<E> neighbourhoodBests = new HashSet<E>(this.size());
+        Iterator<E> topologyIterator = this.iterator();
+
+        // iterate over all entities in the topology
+        while (topologyIterator.hasNext()) {
+            topologyIterator.next();
+            Iterator<E> neighbourhoodIterator = this.neighbourhood(topologyIterator);
+            E bestEntity = null;
+
+            // iterate over the neighbours of the current entity
+            while (neighbourhoodIterator.hasNext()) {
+                E anotherEntity = neighbourhoodIterator.next();
+                // keep track of the best entity
+                if (bestEntity == null || bestEntity.compareTo(anotherEntity) > 0) {
+                    bestEntity = anotherEntity;
+                }
+            }
+            // only gather unique entities
+            if (bestEntity != null) {
+                neighbourhoodBests.add(bestEntity);
+            }
+        }
+
+        return neighbourhoodBests;
     }
 
     /**

@@ -34,18 +34,18 @@ import net.sourceforge.cilib.type.types.TypeUtil;
  * @author Anna Rakitianskaia
  */
 public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends
-        ParticleReevaluationResponseStrategy<E> {
+        ParticleReevaluationResponseStrategy<E>{
     private static final long serialVersionUID = 4619744183683905269L;
-
+    
     private double reinitialisationRatio;
     private Random randomiser;
-
+    
     public PartialReinitialisationResponseStrategy() {
         super();
         reinitialisationRatio = 0.5;
         randomiser = new MersenneTwister();
     }
-
+    
     public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
         this.reinitialisationRatio = copy.reinitialisationRatio;
         this.randomiser = copy.randomiser.getClone();
@@ -56,13 +56,13 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
         return new PartialReinitialisationResponseStrategy<E>(this);
     }
 
-    /**
+    /** 
      * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best,
      * and reinitialising the positions of a specified percentage of particles.
      * @param algorithm PSO algorithm that has to respond to environment change
      */
     @Override
-    public void respond(E algorithm) {
+    public void performReaction(E algorithm) {
         // Reset positions:
         Topology<? extends Entity> topology = algorithm.getTopology();
         int populationSize = algorithm.getPopulationSize();
@@ -80,13 +80,12 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
                 Particle aParticle = (Particle) topology.get(index);
                 Type position = aParticle.getPosition();
                 TypeUtil.randomize(position);
-//                position.randomise();
                 used[index] = true;
                 gotParticle = true;
             }
         }
         // Re-evaluate:
-        reevaluateParticles(algorithm); // super class method
+        super.performReaction(algorithm); // super class method
     }
 
     /**
