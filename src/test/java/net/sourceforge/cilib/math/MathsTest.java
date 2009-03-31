@@ -33,10 +33,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 
-
 /**
- *
- * @author Gary Pampara
+ * @author Gary Pampara, Theuns Cloete
  */
 public class MathsTest {
 
@@ -127,4 +125,82 @@ public class MathsTest {
         Maths.flip(1.1, null);
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testDownScaleTooSmall() {
+        Assert.assertEquals(-2.4, Maths.scale(-10, 0, 100, -2, 2), Maths.EPSILON);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testDownScale() {
+        Assert.assertEquals(-2.0, Maths.scale(0, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-1.6, Maths.scale(10, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-1.2, Maths.scale(20, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-0.8, Maths.scale(30, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-0.4, Maths.scale(40, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(0.0, Maths.scale(50, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(0.4, Maths.scale(60, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(0.8, Maths.scale(70, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(1.2, Maths.scale(80, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(1.6, Maths.scale(90, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(2.0, Maths.scale(100, 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(2.4, Maths.scale(110, 0, 100, -2, 2), Maths.EPSILON);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testUpScaleTooSmall() {
+        Assert.assertEquals(-10.0, Maths.scale(-2.4, -2, 2, 0, 100), Maths.EPSILON);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testUpScale() {
+        Assert.assertEquals(0.0, Maths.scale(-2.0, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(10.0, Maths.scale(-1.6, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(20.0, Maths.scale(-1.2, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(30.0, Maths.scale(-0.8, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(40.0, Maths.scale(-0.4, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(50.0, Maths.scale(0.0, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(60.0, Maths.scale(0.4, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(70.0, Maths.scale(0.8, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(80.0, Maths.scale(1.2, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(90.0, Maths.scale(1.6, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(100.0, Maths.scale(2.0, -2, 2, 0, 100), Maths.EPSILON);
+        Assert.assertEquals(110.0, Maths.scale(2.4, -2, 2, 0, 100), Maths.EPSILON);
+    }
+
+    @Test
+    public void testScale() {
+        Assert.assertEquals(-2.0, Maths.scale(Maths.scale(-2.0, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-1.8, Maths.scale(Maths.scale(-1.8, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-1.6, Maths.scale(Maths.scale(-1.6, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-1.2, Maths.scale(Maths.scale(-1.2, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-0.8, Maths.scale(Maths.scale(-0.8, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(-0.4, Maths.scale(Maths.scale(-0.4, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(0.0, Maths.scale(Maths.scale(0.0, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(0.4, Maths.scale(Maths.scale(0.4, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(0.8, Maths.scale(Maths.scale(0.8, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(1.2, Maths.scale(Maths.scale(1.2, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(1.6, Maths.scale(Maths.scale(1.6, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+        Assert.assertEquals(2.0, Maths.scale(Maths.scale(2.0, -2, 2, 0, 100), 0, 100, -2, 2), Maths.EPSILON);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testNormalizeTooSmall() {
+        Assert.assertEquals(-0.1, Maths.normalize(-60, -50, 50), Maths.EPSILON);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testNormalize() {
+        Assert.assertEquals(0.0, Maths.normalize(-50, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.1, Maths.normalize(-40, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.2, Maths.normalize(-30, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.3, Maths.normalize(-20, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.4, Maths.normalize(-10, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.5, Maths.normalize(0, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.6, Maths.normalize(10, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.7, Maths.normalize(20, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.8, Maths.normalize(30, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(0.9, Maths.normalize(40, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(1.0, Maths.normalize(50, -50, 50), Maths.EPSILON);
+        Assert.assertEquals(1.1, Maths.normalize(60, -50, 50), Maths.EPSILON);
+    }
 }

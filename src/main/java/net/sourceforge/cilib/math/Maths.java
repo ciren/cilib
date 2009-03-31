@@ -29,6 +29,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.common.base.Preconditions;
 
 /**
  * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>
@@ -41,7 +42,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public final class Maths {
 
-    public static final double EPSILON = 1.0E-15d;
+    public static final double EPSILON = 2.0E-15d;
 
     private Maths() {
     }
@@ -231,6 +232,39 @@ public final class Maths {
         }
 
         return 0;
+    }
+
+    /**
+     * Scale the given <code>target</code> from the <code>unscaled</code> range to be within the <code>scaled</code>
+     * range, as defined in Equation 7.10 of <b>Computational Intelligence - An Introduction</b> by Andries P. Engelbrecht.
+     * @param target the value that should be scaled
+     * @param unscaledMin the minimum value of the unscaled range
+     * @param unscaledMax the maximum value of the unscaled range
+     * @param scaledMin the minimum value of the scaled range
+     * @param scaledMax the maximum value of the scaled range
+     * @return the scaled value
+     */
+    public static double scale(double target, double unscaledMin, double unscaledMax, double scaledMin, double scaledMax) {
+        Preconditions.checkArgument(unscaledMin < unscaledMax, "Illegal 'unscaled' range");
+        Preconditions.checkArgument(target >= unscaledMin && target <= unscaledMax, "target not in 'unscaled' range");
+        Preconditions.checkArgument(scaledMin < scaledMax, "Illegal 'scaled' range");
+
+        return (target - unscaledMin) * (scaledMax - scaledMin) / (unscaledMax - unscaledMin) + scaledMin;
+    }
+
+    /**
+     * Normalize the given value, i.e. scale the given <code>target</code> from the <code>unscaled</code> range to be
+     * within the range [0,1].
+     * @param target the value that should be normalized
+     * @param unscaledMin the minimum value of the unscaled range
+     * @param unscaledMax the maximum value of the unscaled range
+     * @return the normalized value (scaled between <code>[0,1]</code>)
+     */
+    public static double normalize(double target, double unscaledMin, double unscaledMax) {
+        Preconditions.checkArgument(unscaledMin < unscaledMax, "Illegal 'unscaled' range");
+        Preconditions.checkArgument(target >= unscaledMin && target <= unscaledMax, "target not in 'unscaled' range");
+
+        return (target - unscaledMin) / (unscaledMax - unscaledMin);
     }
 
     /**

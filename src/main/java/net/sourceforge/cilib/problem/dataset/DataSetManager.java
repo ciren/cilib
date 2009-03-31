@@ -75,12 +75,11 @@ public final class DataSetManager implements Serializable {
     public synchronized ArrayList<Pattern> getDataFromSet(DataSet dataset) {
         String identifier = dataset.getIdentifier();
 
-        System.out.println("Requesting " + identifier);
+        System.out.println("Requesting DataSet" + identifier);
         if (!datasets.containsKey(identifier)) {
-            System.out.println("Parsing " + identifier);
             datasets.put(identifier, dataset.parseDataSet());
         }
-        System.out.println("Returning " + identifier);
+        System.out.println("Returning DataSet" + identifier);
         return datasets.get(identifier);
     }
 
@@ -97,12 +96,12 @@ public final class DataSetManager implements Serializable {
     public synchronized StaticDataSetBuilder getDataSetBuilder(StaticDataSetBuilder datasetBuilder) {
         String identifier = datasetBuilder.getIdentifier();
 
-        System.out.println("Requesting " + identifier);
+        System.out.println("Requesting DataSetBuilder " + identifier);
         if (!builders.containsKey(identifier)) {
             datasetBuilder.initialise();
             builders.put(identifier, datasetBuilder);
         }
-        System.out.println("Returning " + identifier);
+        System.out.println("Returning DataSetBuilder " + identifier);
         return builders.get(identifier);
     }
 }

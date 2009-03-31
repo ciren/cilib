@@ -39,15 +39,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -3016201656688883387L;
 
-    private RandomProvider random = null;
-
-    /**
-     * Create a new instance of {@linkplain DataSetBasedCentroidsInitialisationStrategy}.
-     */
-    public DataSetBasedCentroidsInitialisationStrategy() {
-        random = new MersenneTwister();
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -62,17 +53,19 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
      *
      * @param problem the {@link ClusteringProblem} currently being optimized
      * @param dataset the {@link StaticDataSetBuilder} currently being clustered
-     * @return a {@link Vector} that represents all the centroids
+     * @return an {@link ArrayList} of {@link Vector}s that represents all the centroids
      */
     @Override
-    public Vector initialise(ClusteringProblem problem, StaticDataSetBuilder dataset) {
-        ArrayList<Pattern> patterns = dataset.getPatterns();
+    public ArrayList<Vector> initialise(ClusteringProblem problem, StaticDataSetBuilder dataset) {
         int numberOfCentroids = problem.getNumberOfClusters();
-        Vector centroids = new Vector();
+        ArrayList<Vector> centroids = new ArrayList<Vector>(numberOfCentroids);
+        ArrayList<Pattern> patterns = dataset.getPatterns();
+        RandomProvider random = new MersenneTwister();
 
-        for (int i = 0; i < numberOfCentroids; i++) {
-            Vector centroid = patterns.get(Math.round(random.nextInt(patterns.size()))).data;
-            centroids.addAll(centroid.getClone());
+        for (int i = 0; i < numberOfCentroids; ++i) {
+            Vector centroid = patterns.get(Math.round(random.nextInt(patterns.size()))).data.getClone();
+
+            centroids.add(centroid);
         }
         return centroids;
     }

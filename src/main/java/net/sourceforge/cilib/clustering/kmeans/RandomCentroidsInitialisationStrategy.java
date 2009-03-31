@@ -22,9 +22,11 @@
 package net.sourceforge.cilib.clustering.kmeans;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import java.util.ArrayList;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This strategy initializes the centroids of a clustering to random positions in the search
@@ -45,18 +47,19 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
 
     /**
      * Initialize the centroid vectors for a clustering to random positions in the search
-     * space. The built-representation of the domain of the given problem is used to build a
+     * space. The built-representation of the behavioural domain of the given {@link ClusteringProblem} is used to build a
      * {@link Vector} that will house the centroids.
      *
      * @param problem the {@link ClusteringProblem} currently being optimized
      * @param dataset the {@link StaticDataSetBuilder} currently being clustered
-     * @return a {@link Vector} that represents all the centroids
+     * @return an {@link ArrayList} of {@link Vector}s that represents all the centroids
      */
     @Override
-    public Vector initialise(ClusteringProblem problem, StaticDataSetBuilder dataset) {
+    public ArrayList<Vector> initialise(ClusteringProblem problem, StaticDataSetBuilder dataset) {
+        int numberOfCentroids = problem.getNumberOfClusters();
         Vector centroids = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
 
         centroids.randomize(new MersenneTwister());
-        return centroids;
+        return ClusteringUtils.disassembleCentroids(centroids, numberOfCentroids);
     }
 }

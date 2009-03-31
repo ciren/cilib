@@ -21,13 +21,9 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -52,12 +48,6 @@ import net.sourceforge.cilib.util.Vectors;
 public class NumberOfClustersFormed implements Measurement<Int> {
     private static final long serialVersionUID = 2174807313995885918L;
 
-    public NumberOfClustersFormed() {
-    }
-
-    public NumberOfClustersFormed(NumberOfClustersFormed rhs) {
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -75,42 +65,8 @@ public class NumberOfClustersFormed implements Measurement<Int> {
     public Int getValue(Algorithm algorithm) {
         ClusteringUtils helper = ClusteringUtils.get();
         Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
+
         helper.arrangeClustersAndCentroids(centroids);
-//        plotClustersAndCentroids();
         return Int.valueOf(helper.getArrangedCentroids().size());
-    }
-
-    private void plotClustersAndCentroids() {
-//        System.out.println("reset");
-//        System.out.println("set term jpeg medium");
-//        System.out.println("set output \"iteration." + String.format("%04d", Algorithm.get().getIterations()) + ".jpg\"");
-//        System.out.print("plot [-0.5:10][-5:5] sin(x) - 0.5, 0.5 - sin(x), ");
-        System.out.print("plot ");
-
-        ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = ClusteringUtils.get().getArrangedClusters();
-        ArrayList<Vector> arrangedCentroids = ClusteringUtils.get().getArrangedCentroids();
-        for (int i = 0; i < arrangedClusters.size(); ++i) {
-            System.out.print("'-' title 'cluster" + i + "', ");
-        }
-
-        for (int i = 0; i < arrangedCentroids.size(); ++i) {
-            System.out.print("'-' title 'centroid" + i + "'");
-            if (i < arrangedCentroids.size() - 1) {
-                System.out.print(", ");
-            }
-        }
-        System.out.println();
-
-        for (Hashtable<Integer, Pattern> cluster : arrangedClusters) {
-            for (Pattern pattern : cluster.values()) {
-                System.out.println(pattern);
-            }
-            System.out.println('e');
-        }
-
-        for (Vector centroid : arrangedCentroids) {
-            System.out.println(Vectors.toString(centroid, '\0', '\0', '\t'));
-            System.out.println('e');
-        }
     }
 }

@@ -23,7 +23,12 @@ package net.sourceforge.cilib.util;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -48,12 +53,12 @@ public final class Vectors {
      *         elements set to their respective upper bounds
      */
     public static Vector upperBoundVector(Vector vector) {
-        Vector.Builder upper = Vector.newBuilder();
+        Vector.Builder upperBounds = Vector.newBuilder();
 
         for (Numeric element : vector) {
-            upper.addWithin(element.getBounds().getUpperBound(), element.getBounds());
+            upperBounds.addWithin(element.getBounds().getUpperBound(), element.getBounds());
         }
-        return upper.build();
+        return upperBounds.build();
     }
 
     /**
@@ -66,12 +71,12 @@ public final class Vectors {
      *         elements set to their respective lower bounds
      */
     public static Vector lowerBoundVector(Vector vector) {
-        Vector.Builder lower = Vector.newBuilder();
+        Vector.Builder lowerBounds = Vector.newBuilder();
 
         for (Numeric element : vector) {
-            lower.addWithin(element.getBounds().getLowerBound(), element.getBounds());
+            lowerBounds.addWithin(element.getBounds().getLowerBound(), element.getBounds());
         }
-        return lower.build();
+        return lowerBounds.build();
     }
 
     /**
@@ -80,8 +85,8 @@ public final class Vectors {
      *
      * @param distanceMeasure the {@link net.sourceforge.cilib.util.DistanceMeasure} that
      *        should be used to calculate the <code>zMax</code>
-     * @param domain the {@link net.sourceforge.cilib.type.types.container.Vector}
-     *        representing the domain
+     * @param domain the {@link net.sourceforge.cilib.type.types.container.Vector} whose upper and lower bounds represent
+     *			 the domain
      * @return the <code>zMax</code> for the given domain
      */
     public static double zMax(DistanceMeasure distanceMeasure, Vector domain) {
@@ -131,10 +136,53 @@ public final class Vectors {
      * @return The string representation of the given {@code Vector}.
      */
     public static String toString(Vector vector, char first, char last, char delimeter) {
-        StringBuilder builder = new StringBuilder(first);
-        Joiner.on(delimeter).appendTo(builder, vector);
+        StringBuilder stringRepresentation = new StringBuilder(first);
+        Joiner.on(delimeter).appendTo(stringRepresentation, vector);
 
-        builder.append(last);
-        return builder.toString();
+        stringRepresentation.append(last);
+        return stringRepresentation.toString();
+    }
+
+    /**
+     * Add an amount of noise (jitter) to the given {@link Vector}. Noise is calculated for each element of
+     * the vector and then added to that element. The random amount of noise is a function of the given ratio of the
+     * range (bounds) of the given vector. An example for a single element in the vector follows:
+     *
+     * Assume value := 0.3, ratio := 0.1, range := [-1, 1], random := [0, 1), then:
+     * value + ((random - 0.5) * ratio * ((rangeMax - rangeMin) / 2) = 0.26 is the new value for the element.
+     * If the ratio is 0.0, then no noise is added, i.e. the value remains the same.
+     * If the ratio is 1.0, then the noise can be any value within the range [-range/2, range/2).
+     * The random number determines what value within this range is used. Note how the random value is scaled (by
+     * subtracting 0.5) so that negative numbers can also be generated.
+     *
+     * @param vector the {@Vector} to which noise should be added.
+     * @param ratio the amount of noise that should be added.
+     * @throws {@link UnsupportedOperationException} when an element in the is not a {@link Numeric}
+     * @return a new {@link Vector} with added noise.
+     */
+    public static Vector jitter(Vector vector, double ratio) {
+        Vector.Builder jittered = Vector.newBuilder();
+        RandomProvider random = new MersenneTwister();
+
+        for (Numeric element : vector) {
+            jittered.add(element.doubleValue() + (random.nextDouble() - 0.5) * ratio * ((element.getBounds().getUpperBound() - element.getBounds().getLowerBound()) / 2.0));
+        }
+        return jittered.build();
+    }
+
+    /**
+     * Some {@link Numeric} elements within a {@link Vector} might not always have a defined range. This method sets the
+     * upper and lower bounds of the given vector accordingly.
+     * @param vector The {@link Vector} whose bounds should be modified.
+     * @param lowerBounds A {@link Vector} containing the lower bounds as its values.
+     * @param upperBounds A {@link Vector} containing the upper bounds as its values.
+     */
+    public static Vector setBounds(Vector vector, Vector lowerBounds, Vector upperBounds) {
+        Vector.Builder bounded = Vector.newBuilder();
+
+        for (int i = 0, n = vector.size(); i < n; ++i) {
+            bounded.add(Real.valueOf(vector.doubleValueOf(i), new Bounds(lowerBounds.doubleValueOf(i), upperBounds.doubleValueOf(i))));
+        }
+        return bounded.build();
     }
 }

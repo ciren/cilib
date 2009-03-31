@@ -23,6 +23,7 @@ package net.sourceforge.cilib.clustering.kmeans;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -30,27 +31,28 @@ import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This strategy allows for different ways of initializing the centroids of a clustering.
- * The two main approaches are either:
+ * The following approaches have already been implemented:
  * <ul>
  * <li>Randomly ({@link RandomCentroidsInitialisationStrategy}); or</li>
  * <li>Based on random patterns chosen from the dataset ({@link DataSetBasedCentroidsInitialisationStrategy})</li>
+ * <li>Based on the potential that each centroid contributes ({@link KMeansPlusPlusCentroidsInitialisationStrategy})</li>
  * </ul>
  *
  * @author Theuns Cloete
  */
 public interface CentroidsInitialisationStrategy extends Serializable, Cloneable {
+    @Override
+    public CentroidsInitialisationStrategy getClone();
 
     /**
-     * Initialize the centroid vectors for a clustering. Each centroid is appended to a
-     * {@link Vector} that represents all the centroids. This {@link Vector} is then
-     * returned. The problem and/or dataset that are currently being clustered can be used to
-     * get information about the clustering, such as the dimension of the search space and
-     * centroids.
+     * Initialize the centroid vectors for a clustering. Each centroid is individually initialised and then added to an
+     * {@link ArrayList} that represents all the centroids. This structure is then returned. The problem and/or dataset
+     * that are currently being clustered can be used to get information about the clustering, such as the dimension of
+     * the search space and centroids.
      *
      * @param problem the {@link ClusteringProblem} currently being optimized
      * @param dataset the {@link StaticDataSetBuilder} currently being clustered
-     * @return a {@link Vector} that represents all the centroids
+     * @return an {@link ArrayList} of {@link Vector}s that represent all the centroids
      */
-    public Vector initialise(ClusteringProblem problem, StaticDataSetBuilder dataset);
-
+    public ArrayList<Vector> initialise(ClusteringProblem problem, StaticDataSetBuilder dataset);
 }

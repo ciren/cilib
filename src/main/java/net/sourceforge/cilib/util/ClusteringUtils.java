@@ -29,9 +29,7 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.DataSet;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
-import net.sourceforge.cilib.problem.dataset.DataSetManager;
 import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -201,6 +199,25 @@ public final class ClusteringUtils {
 
             originalCentroids.add(list);
         }
+    }
+
+    public static Vector assembleCentroids(ArrayList<Vector> separateCentroids) {
+        Vector.Builder assembled = Vector.newBuilder();
+
+        for (Vector centroid : separateCentroids) {
+            assembled.copyOf(centroid);
+        }
+        return assembled.build();
+    }
+
+    public static ArrayList<Vector> disassembleCentroids(Vector combinedCentroids, int numberOfClusters) {
+        ArrayList<Vector> disassembled = new ArrayList<Vector>();
+        int dimension = combinedCentroids.size() / numberOfClusters;
+
+        for (int i = 0; i < numberOfClusters; ++i) {
+            disassembled.add(combinedCentroids.copyOfRange(i * dimension, (i * dimension) + dimension));
+        }
+        return disassembled;
     }
 
     /**

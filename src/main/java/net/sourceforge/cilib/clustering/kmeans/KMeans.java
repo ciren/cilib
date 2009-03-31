@@ -33,6 +33,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
+import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
 
@@ -49,35 +50,45 @@ import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
  *                 address = "Calcutta, India"}
  *
  * This class makes use of a {@link CentroidsInitialisationStrategy} to initialise the
- * centroids in the desired manner. The default centroid initialisation strategy is the
- * {@link RandomCentroidsInitialisationStrategy}.
+ * centroids in the desired manner. The default centroids initialisation strategy is the
+ * {@link RandomCentroidsInitialisationStrategy}. It also makes use of a {@link CentroidsDiversificationStrategy} to add
+ * diversity at certain moments defined by the strategy. The default centroids diversification strategy is the
+ * {@link NullCentroidsDiversificationStrategy} which does not add any diversity, i.e. adhering to the normal KMeans
+ * algorithm.
  *
  * @author Theuns Cloete
- * @TODO: Check that removing the FitnessCalculator does not break the functionality of this class.
  */
 public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     private static final long serialVersionUID = -3301123926538450441L;
-
-    private CentroidsInitialisationStrategy centroidsInitialisationStrategy = null;
-    private Vector centroids = null;
+    private CentroidsInitialisationStrategy centroidsInitialisationStrategy;
+    private CentroidsDiversificationStrategy centroidsDiversificationStrategy;
     private FitnessCalculator<Vector> calculator;
+    private ArrayList<Vector> centroids;
 
     /**
      * Create an instance of {@linkplain KMeans}.
      */
     public KMeans() {
-        calculator = new StructuredTypeFitnessCalculator<Vector>();
-        centroidsInitialisationStrategy = new RandomCentroidsInitialisationStrategy();
+        this.centroidsInitialisationStrategy = new RandomCentroidsInitialisationStrategy();
+        this.centroidsDiversificationStrategy = new NullCentroidsDiversificationStrategy();
+        this.calculator = new StructuredTypeFitnessCalculator<Vector>();
     }
 
     /**
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public KMeans(KMeans copy) {
-        super(copy);
-        centroids = copy.centroids.getClone();
-        calculator = copy.calculator.getClone();
+    public KMeans(KMeans rhs) {
+        super(rhs);
+        this.centroidsInitialisationStrategy = rhs.centroidsInitialisationStrategy.getClone();
+        this.centroidsDiversificationStrategy = rhs.centroidsDiversificationStrategy.getClone();
+
+        this.calculator = rhs.calculator.getClone();
+
+        this.centroids = new ArrayList<Vector>();
+        for (Vector centroid : rhs.centroids) {
+            this.centroids.add(centroid.getClone());
+        }
     }
 
     /**
@@ -96,7 +107,8 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     public void performInitialisation() {
         ClusteringUtils helper = ClusteringUtils.get();
 
-        centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
+        this.centroids = this.centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
+        this.centroidsDiversificationStrategy.initialise(this.centroids);
     }
 
     /**
@@ -104,57 +116,34 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      */
     @Override
     public void algorithmIteration() {
-        calculator.getFitness(centroids);
+        calculator.getFitness(ClusteringUtils.assembleCentroids(this.centroids));
 
-        // the fitness calculation step already arranged the clusters and centroids for us
+        // the fitness calculation step already arranged the clusters and centroids with the help of ClusteringUtils
         ClusteringUtils helper = ClusteringUtils.get();
         ArrayList<Hashtable<Integer, Pattern>> clusters = helper.getOriginalClusters();
 
         for (int i = 0; i < clusters.size(); i++) {
             Hashtable<Integer, Pattern> cluster = clusters.get(i);
-            // get the i'th centroid; only used to determine the dimension of a single centroid
-            Vector centroid = helper.getOriginalCentroids().get(i);
+            Vector centroid = null;
 
-            // TODO: I don't know if this is part of the original KMeans algorithm
-            if (cluster.isEmpty()) {    // reinitialise the centroid if no patterns "belong" to it
-                centroid = reinitialiseCentroid(centroid);
+            // TODO: I don't know if this if-else is part of the original KMeans algorithm
+            if (cluster.isEmpty()) {
+                // reinitialise the centroid if no patterns "belong" to it
+                ArrayList<Vector> tmp = this.centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
+                centroid = tmp.get(tmp.size() - 1);	// use the last centroid that was generated; might return an unbounded Vector
             }
-            else {                        // the centroid becomes the mean of cluster i
-                centroid = Stats.meanVector(cluster.values());
+            else {
+                // the centroid becomes the mean of cluster i
+                centroid = Stats.meanVector(cluster.values());  // returns unbounded Vector
             }
-            updateCentroid(centroid, i);
+
+            // we need to set the bounds of the centroid, because some centroids might be unbounded Vectors
+            Vector builtRepresentation = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();
+
+            centroid = Vectors.setBounds(centroid, Vectors.lowerBoundVector(builtRepresentation), Vectors.upperBoundVector(builtRepresentation));
+            this.centroids.set(i, centroid);
+            this.centroidsDiversificationStrategy.diversify(centroids, i);
         }
-    }
-
-    /**
-     * Update the correct centroid inside the {@link #centroids} {@link Vector} with the
-     * contents of the new provided position.
-     * @param newPosition a {@link Vector} representing the new position of the centroid
-     * @param cluster the cluster number that is used to determine the correct position in
-     *        the {@link #centroids} {@link Vector}
-     */
-    private void updateCentroid(Vector newPosition, int cluster) {
-        int dimension = newPosition.size();
-
-        for (int i = 0; i < dimension; i++) {
-            centroids.set(cluster * dimension + i, newPosition.get(i));
-        }
-    }
-
-    /**
-     * Reinitialise the centroid based on the chosen {@link CentroidsInitialisationStrategy}.
-     * The {@link CentroidsInitialisationStrategy} returns an entire centroids {@link Vector},
-     * but we only need a single centroid. The given parameter is only used to determine the
-     * size of a single centroid.
-     * @param centroid the centroid that should be reinitialised
-     * @return a {@link Vector} representing a new (reinitialised) centroid
-     */
-    private Vector reinitialiseCentroid(Vector centroid) {
-        ClusteringUtils helper = ClusteringUtils.get();
-        Vector tmp = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
-
-        // this first centroid will do
-        return tmp.copyOfRange(0, centroid.size());
     }
 
     /**
@@ -162,7 +151,9 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(centroids.getClone(), getOptimisationProblem().getFitness(centroids));
+        Vector assembled = ClusteringUtils.assembleCentroids(centroids);
+
+        return new OptimisationSolution(assembled, this.getOptimisationProblem().getFitness(assembled));
     }
 
     /**
@@ -174,18 +165,34 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     }
 
     /**
-     * Get the centroid initialisation strategy.
+     * Get the current centroids initialisation strategy.
      * @return The current {@linkplain CentroidsInitialisationStrategy}.
      */
     public CentroidsInitialisationStrategy getCentroidsInitialisationStrategy() {
-        return centroidsInitialisationStrategy;
+        return this.centroidsInitialisationStrategy;
     }
 
     /**
-     * Set the current {@linkplain CentroidsInitialisationStrategy}.
-     * @param centroidsInitialisationStrategy The value to set.
+     * Set the current centroids initialisation strategy.
+     * @param cis The {@linkplain CentroidsInitialisationStrategy} to use.
      */
-    public void setCentroidsInitialisationStrategy(CentroidsInitialisationStrategy centroidsInitialisationStrategy) {
-        this.centroidsInitialisationStrategy = centroidsInitialisationStrategy;
+    public void setCentroidsInitialisationStrategy(CentroidsInitialisationStrategy cis) {
+        this.centroidsInitialisationStrategy = cis;
+    }
+
+    /**
+     * Get the current centroids diversification strategy.
+     * @return The current {@linkplain CentroidsInitialisationStrategy}.
+     */
+    public CentroidsDiversificationStrategy getCentroidsDiversificationStrategy() {
+        return this.centroidsDiversificationStrategy;
+    }
+
+    /**
+     * Set the current centroids diversification strategy.
+     * @param cds The {@link CentroidsDiversificationStrategy} to use.
+     */
+    public void setCentroidsDiversificationStrategy(CentroidsDiversificationStrategy cds) {
+        this.centroidsDiversificationStrategy = cds;
     }
 }

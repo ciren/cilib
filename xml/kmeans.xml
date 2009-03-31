@@ -36,7 +36,7 @@
             <innerProblem class="problem.FunctionMinimisationProblem">
                 <function class="functions.clustering.QuantisationErrorFunction" />
             </innerProblem>
-            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder">
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
                 <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
             </dataSetBuilder>
         </problem>
@@ -52,6 +52,7 @@
         </addMeasurement>
 -->
         <addMeasurement class="measurement.single.NumberOfClustersFormed" />
+        <addMeasurement class="measurement.single.PlotClustersAndCentroids" />
     </measurements>
 
     <simulations>

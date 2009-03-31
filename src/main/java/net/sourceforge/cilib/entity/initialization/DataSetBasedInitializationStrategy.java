@@ -27,24 +27,23 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This strategy initializes the position as well as the best position of a {@link Particle}
- * using the {@link DataSetBasedCentroidsInitialisationStrategy}. The particle is therefore
- * initialized from the current dataset. The {@link ClusterableDataSet dataset} is found
+ * using the selected {@link CentroidsInitialisationStrategy}. The default is the {@link DataSetBasedCentroidsInitialisationStrategy}.
+ * The particle is therefore initialized from the current dataset. The {@link StaticDataSetBuilder dataset} is found
  * using the {@link ClusteringUtils#getDataSetBuilder()} method. The
- * {@link ClusteringProblem} is also found using the
- * {@link ClusteringUtils#getClusteringProblem()} method.
+ * {@link ClusteringProblem} is also found using the {@link ClusteringUtils#getClusteringProblem()} method.
  *
  * @param <E> The type of {@code Entity}.
  * @author Theuns Cloete
  */
 public class DataSetBasedInitializationStrategy<E extends Entity> implements InitializationStrategy<E> {
     private static final long serialVersionUID = 1341622520702058537L;
-
-    private CentroidsInitialisationStrategy centroidsInitialisationStrategy = null;
+    private CentroidsInitialisationStrategy centroidsInitialisationStrategy;
 
     public DataSetBasedInitializationStrategy() {
         centroidsInitialisationStrategy = new DataSetBasedCentroidsInitialisationStrategy();
@@ -57,7 +56,7 @@ public class DataSetBasedInitializationStrategy<E extends Entity> implements Ini
 
     /**
      * Initialize the position and best position of the given {@link Particle} from the
-     * current dataset using the {@link DataSetBasedCentroidsInitialisationStrategy}.
+     * current dataset using the selected {@link CentroidsInitialisationStrategy}.
      *
      * @param particle the {@link Particle} that should be initialized
      * @param problem the {@link OptimisationProblem} that is currently being optimized. This
@@ -67,8 +66,12 @@ public class DataSetBasedInitializationStrategy<E extends Entity> implements Ini
     @Override
     public void initialize(Enum<?> key, E particle) {
         ClusteringUtils helper = ClusteringUtils.get();
-        Vector centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
+        Vector centroids = ClusteringUtils.assembleCentroids(centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder()));
 
         particle.setCandidateSolution(centroids);
+    }
+
+    public void setCentroidsInitialisationStrategy(CentroidsInitialisationStrategy cis) {
+        this.centroidsInitialisationStrategy = cis;
     }
 }
