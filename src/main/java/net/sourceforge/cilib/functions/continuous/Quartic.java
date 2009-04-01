@@ -35,23 +35,23 @@ public class Quartic extends ContinuousFunction {
     /**
      * Create a new instance of {@linkplain Quadric}. Domain defaults to R(-1.28, 1.28)^30.
      */
-	public Quartic() {
+    public Quartic() {
         setDomain("R(-1.28, 1.28)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Quartic getClone() {
-		return new Quartic();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Quartic getClone() {
+        return new Quartic();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * This is extra stuff i hope is added.
-	 */
+    /**
+     * {@inheritDoc}
+     *
+     * This is extra stuff i hope is added.
+     */
     public Object getMinimum() {
         return new Double(0);
     }
@@ -60,22 +60,22 @@ public class Quartic extends ContinuousFunction {
      * {@inheritDoc}
      */
     public Object getMaximum() {
-    	return new Double(1248.2);
+        return new Double(1248.2);
     }
 
     /**
      * {@inheritDoc}
      */
     public double evaluate(Vector x) {
-    	double result = 0.0;
+        double result = 0.0;
 
-    	for (int i = 0; i < x.getDimension(); i++) {
-    		double square = x.getReal(i) * x.getReal(i);
-    		double square2 = square * square;
+        for (int i = 0; i < x.getDimension(); i++) {
+            double square = x.getReal(i) * x.getReal(i);
+            double square2 = square * square;
 
-    		result += i * square2;
-    	}
+            result += i * square2;
+        }
 
-    	return result;
+        return result;
     }
 }

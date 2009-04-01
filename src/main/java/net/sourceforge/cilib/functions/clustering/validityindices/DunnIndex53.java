@@ -38,31 +38,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class DunnIndex53 extends DunnIndex33 {
-	private static final long serialVersionUID = -5986491658596276019L;
+    private static final long serialVersionUID = -5986491658596276019L;
 
-	public DunnIndex53() {
-		super();
-	}
+    public DunnIndex53() {
+        super();
+    }
 
-	/**
-	 * This method implements Equation 24 in the above-mentioned article.
-	 */
-	@Override
-	protected double calculateBetweenClusterSeperation(int i, int j) {
-		double lhsAverage = 0.0, rhsAverage = 0.0;
-		Collection<Pattern> leftCluster = arrangedClusters.get(i).values();
-		Collection<Pattern> rightCluster = arrangedClusters.get(j).values();
-		Vector leftCenter = clusterCenterStrategy.getCenter(i);
-		Vector rightCenter = clusterCenterStrategy.getCenter(j);
+    /**
+     * This method implements Equation 24 in the above-mentioned article.
+     */
+    @Override
+    protected double calculateBetweenClusterSeperation(int i, int j) {
+        double lhsAverage = 0.0, rhsAverage = 0.0;
+        Collection<Pattern> leftCluster = arrangedClusters.get(i).values();
+        Collection<Pattern> rightCluster = arrangedClusters.get(j).values();
+        Vector leftCenter = clusterCenterStrategy.getCenter(i);
+        Vector rightCenter = clusterCenterStrategy.getCenter(j);
 
-		for (Pattern pattern : leftCluster) {
-			lhsAverage += helper.calculateDistance(pattern.data, rightCenter);
-		}
+        for (Pattern pattern : leftCluster) {
+            lhsAverage += helper.calculateDistance(pattern.data, rightCenter);
+        }
 
-		for (Pattern pattern : rightCluster) {
-			rhsAverage += helper.calculateDistance(pattern.data, leftCenter);
-		}
+        for (Pattern pattern : rightCluster) {
+            rhsAverage += helper.calculateDistance(pattern.data, leftCenter);
+        }
 
-		return (lhsAverage + rhsAverage) / (leftCluster.size() + rightCluster.size());
-	}
+        return (lhsAverage + rhsAverage) / (leftCluster.size() + rightCluster.size());
+    }
 }

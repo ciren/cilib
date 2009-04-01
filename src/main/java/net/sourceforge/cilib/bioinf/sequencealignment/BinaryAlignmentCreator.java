@@ -37,105 +37,105 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 
 public class BinaryAlignmentCreator {
-	private ScoringMethod theMethod;  //interface for the scoring function (BLOSUM, PAM , SumOfPairs, BestMatch)
-	private ArrayList<String> align;
-	private boolean justEvaluate;
+    private ScoringMethod theMethod;  //interface for the scoring function (BLOSUM, PAM , SumOfPairs, BestMatch)
+    private ArrayList<String> align;
+    private boolean justEvaluate;
 
-	public double getFitness(Collection<String> alignment, Vector solution, int [] gapsArray) {
-		//take 4 bits at a time and convert back to int
-		java.util.Vector <Integer> tmpSolution = new java.util.Vector<Integer>();
+    public double getFitness(Collection<String> alignment, Vector solution, int [] gapsArray) {
+        //take 4 bits at a time and convert back to int
+        java.util.Vector <Integer> tmpSolution = new java.util.Vector<Integer>();
 
-		String buff = "";
-		for (int k = 0; k < solution.size(); k+=4) { //experimental on 4 bits, must change to x bits to accomodata larger alignment
-			for (int l = 0; l < 4; l++) {
-				buff += ""+solution.get(k+l);
-			}
-			tmpSolution.add(new Integer(((int) buff.charAt(0)-48) *8 + ((int) buff.charAt(1)-48) *4 + ((char) buff.charAt(2)-48)*2 + ((char) buff.charAt(3)-48)*1));
-			buff = "";
-		}
+        String buff = "";
+        for (int k = 0; k < solution.size(); k+=4) { //experimental on 4 bits, must change to x bits to accomodata larger alignment
+            for (int l = 0; l < 4; l++) {
+                buff += ""+solution.get(k+l);
+            }
+            tmpSolution.add(new Integer(((int) buff.charAt(0)-48) *8 + ((int) buff.charAt(1)-48) *4 + ((char) buff.charAt(2)-48)*2 + ((char) buff.charAt(3)-48)*1));
+            buff = "";
+        }
 
-		// Clone the ArrayList in tmp by doing a deep copy
-		ArrayList<String> tmp = new ArrayList<String>();
+        // Clone the ArrayList in tmp by doing a deep copy
+        ArrayList<String> tmp = new ArrayList<String>();
 
-		for (Iterator<String> l = alignment.iterator(); l.hasNext();) {
-			String s = new String(l.next());
-			tmp.add(s);
-		}
+        for (Iterator<String> l = alignment.iterator(); l.hasNext();) {
+            String s = new String(l.next());
+            tmp.add(s);
+        }
 
-		if (!justEvaluate) {
-			// Now calculate the change in representation
-			int counter = 0;  //keep track of the ith sequence
-			int start = 0; // stores index of positions in vector
+        if (!justEvaluate) {
+            // Now calculate the change in representation
+            int counter = 0;  //keep track of the ith sequence
+            int start = 0; // stores index of positions in vector
 
-			// - - - - Start modify solution - - - -
+            // - - - - Start modify solution - - - -
 
-			// First go through all the seqs
-			for (String s : tmp) {
-				int [] dummyArray = new int [gapsArray[counter]];
-				int change = 0;  //keep track of how much gaps inserted for that sequence
+            // First go through all the seqs
+            for (String s : tmp) {
+                int [] dummyArray = new int [gapsArray[counter]];
+                int change = 0;  //keep track of how much gaps inserted for that sequence
 
-				StringBuilder newRepresentation = new StringBuilder(s);  //copy String seq in a easy structure to modify
+                StringBuilder newRepresentation = new StringBuilder(s);  //copy String seq in a easy structure to modify
 
-				// *** GAP Positions ***
-				// Then go through #gaps allowed
-				for (int i = 0; i < gapsArray[counter]; i++)
-					dummyArray [i] = (int) Math.round(tmpSolution.elementAt(i+start));
+                // *** GAP Positions ***
+                // Then go through #gaps allowed
+                for (int i = 0; i < gapsArray[counter]; i++)
+                    dummyArray [i] = (int) Math.round(tmpSolution.elementAt(i+start));
 
-				/*Sort the positions in the vector so we can add gaps always from the root (original input sequence) and
-				 by just incrementing position by 1 every loop execution.*/
-				Arrays.sort(dummyArray);
+                /*Sort the positions in the vector so we can add gaps always from the root (original input sequence) and
+                 by just incrementing position by 1 every loop execution.*/
+                Arrays.sort(dummyArray);
 
-				for (int u = 0; u < gapsArray[counter]; u++) {
-					int position = dummyArray[u];  //gets the particule positions
+                for (int u = 0; u < gapsArray[counter]; u++) {
+                    int position = dummyArray[u];  //gets the particule positions
 
-					if (position > -1) {
-						position+=change; //advance
+                    if (position > -1) {
+                        position+=change; //advance
 
-						if (position >= newRepresentation.length()) {
-							newRepresentation.append('-');  //then append a gap at end of seq (perfect for variable seq length)
-						}
-						else { //marker is in original length range
-							newRepresentation.insert(position, '-');  //insert gap at that position
-						}
+                        if (position >= newRepresentation.length()) {
+                            newRepresentation.append('-');  //then append a gap at end of seq (perfect for variable seq length)
+                        }
+                        else { //marker is in original length range
+                            newRepresentation.insert(position, '-');  //insert gap at that position
+                        }
 
-						change++;  //inc the change counter after each addition of gaps
-					}
-				}
+                        change++;  //inc the change counter after each addition of gaps
+                    }
+                }
 
-				//*** END GAP Positions ***
+                //*** END GAP Positions ***
 
-				tmp.set(counter, newRepresentation.toString());  //stores the modified 'gapped' sequence
-				//System.out.println("newRep: '" + newRepresentation.toString() + "'"); //display it for debug
+                tmp.set(counter, newRepresentation.toString());  //stores the modified 'gapped' sequence
+                //System.out.println("newRep: '" + newRepresentation.toString() + "'"); //display it for debug
 
-				start += gapsArray[counter];
-				counter++;
+                start += gapsArray[counter];
+                counter++;
 
-				dummyArray = null;
-			}
-		}
-		//- - - - End modify solution - - - -
-		setAlignment(tmp);
+                dummyArray = null;
+            }
+        }
+        //- - - - End modify solution - - - -
+        setAlignment(tmp);
 
-		return theMethod.getScore(tmp);
-	}
+        return theMethod.getScore(tmp);
+    }
 
-	public void setScoringMethod(ScoringMethod theMethod) {
-		this.theMethod = theMethod;
-	}
+    public void setScoringMethod(ScoringMethod theMethod) {
+        this.theMethod = theMethod;
+    }
 
-	public ScoringMethod getTheMethod() {
-		return theMethod;
-	}
+    public ScoringMethod getTheMethod() {
+        return theMethod;
+    }
 
-	public ArrayList<String> getAlignment() {
-		return align;
-	}
+    public ArrayList<String> getAlignment() {
+        return align;
+    }
 
-	public void setAlignment(ArrayList<String> align) {
-		this.align = align;
-	}
+    public void setAlignment(ArrayList<String> align) {
+        this.align = align;
+    }
 
-	public void setJustEvaluate(boolean justEvaluate) {
-		this.justEvaluate = justEvaluate;
-	}
+    public void setJustEvaluate(boolean justEvaluate) {
+        this.justEvaluate = justEvaluate;
+    }
 }

@@ -30,73 +30,73 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public interface VectorMath {
 
-	/**
-	 * Adding this {@see net.sourceforge.cilib.type.types.Vector} to another
-	 * will result in a resultant {@see net.sourceforge.cilib.type.types.Vector}.
-	 *
-	 * @param vector The {@see net.sourceforge.cilib.type.types.Vector} to add to the current one
-	 * @return The resultant {@see net.sourceforge.cilib.type.types.Vector}
-	 */
-	public Vector plus(Vector vector);
+    /**
+     * Adding this {@see net.sourceforge.cilib.type.types.Vector} to another
+     * will result in a resultant {@see net.sourceforge.cilib.type.types.Vector}.
+     *
+     * @param vector The {@see net.sourceforge.cilib.type.types.Vector} to add to the current one
+     * @return The resultant {@see net.sourceforge.cilib.type.types.Vector}
+     */
+    public Vector plus(Vector vector);
 
-	/**
-	 *
-	 * @param vector
-	 * @return
-	 */
-	public Vector subtract(Vector vector);
+    /**
+     *
+     * @param vector
+     * @return
+     */
+    public Vector subtract(Vector vector);
 
-	/**
-	 *
-	 * @param vector
-	 * @return
-	 */
-	public Vector divide(Vector vector);
-	public Vector divide(double scalar);
+    /**
+     *
+     * @param vector
+     * @return
+     */
+    public Vector divide(Vector vector);
+    public Vector divide(double scalar);
 
-	/**
-	 *
-	 * @param vector
-	 * @return
-	 */
-	public Vector multiply(Vector vector);
-	public Vector multiply(double scalar);
+    /**
+     *
+     * @param vector
+     * @return
+     */
+    public Vector multiply(Vector vector);
+    public Vector multiply(double scalar);
 
-	/**
-	 * Calculate the norm of this <tt>Vector</tt> object. All the elements must
-	 * be of type {@see net.sourceforge.cilib.type.types.Numeric}.
-	 *
-	 * @return The value of the vector norm
-	 */
-	public double norm();
+    /**
+     * Calculate the norm of this <tt>Vector</tt> object. All the elements must
+     * be of type {@see net.sourceforge.cilib.type.types.Numeric}.
+     *
+     * @return The value of the vector norm
+     */
+    public double norm();
 
-	/**
-	 * Create a unit vector from the current Vector.
-	 * @return The created unit vector.
-	 */
-	public Vector normalize();
-
-
-	/**
-	 * Calculate the vector dot product of the current <tt>Vector</tt> and the
-	 * given <tt>Vector</tt>.
-	 *
-	 * @param vector The given <tt>Vector</tt> object with which the vector dot
-	 *                product is to be calculated.
-	 * @return The dot product value.
-	 */
-	public double dot(Vector vector);
+    /**
+     * Create a unit vector from the current Vector.
+     * @return The created unit vector.
+     */
+    public Vector normalize();
 
 
-	/**
-	 * Get the cross-product vector based on the current <tt>Vector</tt> and the
-	 * given <tt>Vector</tt>. It is important to note that the cross product is only
-	 * valid and defined for a 3-dimensional vector, if a <tt>Vector</tt> with more
-	 * dimensions is provided, an ArithmeticException will be thrown.
-	 *
-	 * @param vector The specified <tt>Vector</tt> with with the cross product operation is to be performed.
-	 * @return The orthogonal vector to the current and the specified <tt>Vector</tt>.
-	 * @throws ArithmeticException if vectors are invalid.
-	 */
-	public Vector cross(Vector vector);
+    /**
+     * Calculate the vector dot product of the current <tt>Vector</tt> and the
+     * given <tt>Vector</tt>.
+     *
+     * @param vector The given <tt>Vector</tt> object with which the vector dot
+     *                product is to be calculated.
+     * @return The dot product value.
+     */
+    public double dot(Vector vector);
+
+
+    /**
+     * Get the cross-product vector based on the current <tt>Vector</tt> and the
+     * given <tt>Vector</tt>. It is important to note that the cross product is only
+     * valid and defined for a 3-dimensional vector, if a <tt>Vector</tt> with more
+     * dimensions is provided, an ArithmeticException will be thrown.
+     *
+     * @param vector The specified <tt>Vector</tt> with with the cross product operation is to be performed.
+     * @return The orthogonal vector to the current and the specified <tt>Vector</tt>.
+     * @throws ArithmeticException if vectors are invalid.
+     */
+    public Vector cross(Vector vector);
 }

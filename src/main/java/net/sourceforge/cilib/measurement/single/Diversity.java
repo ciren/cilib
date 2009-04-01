@@ -48,55 +48,55 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 
 public class Diversity implements Measurement {
-	private static final long serialVersionUID = -6536136932133521018L;
+    private static final long serialVersionUID = -6536136932133521018L;
 
-	public Diversity() {
-	}
+    public Diversity() {
+    }
 
-	public Diversity(Diversity copy) {
+    public Diversity(Diversity copy) {
 
-	}
+    }
 
-	public Diversity getClone() {
-		return new Diversity(this);
-	}
+    public Diversity getClone() {
+        return new Diversity(this);
+    }
 
-	public String getDomain() {
-		return "R";
-	}
+    public String getDomain() {
+        return "R";
+    }
 
-	public Type getValue(Algorithm algorithm) {
+    public Type getValue(Algorithm algorithm) {
 
-		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-		int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
+        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
 
         Iterator<? extends Entity> k = populationBasedAlgorithm.getTopology().iterator();
         Entity entity = k.next();
         Vector averageParticlePosition = (Vector) entity.getCandidateSolution().getClone();
         while (k.hasNext()) {
-        	entity = k.next();
-        	Vector v = (Vector) entity.getCandidateSolution();
-        	for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
-        	   averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)+v.getReal(j));
+            entity = k.next();
+            Vector v = (Vector) entity.getCandidateSolution();
+            for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
+               averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)+v.getReal(j));
         }
         for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberOfEntities);
 
-		Iterator<? extends Entity> i = populationBasedAlgorithm.getTopology().iterator();
-		double particleSum = 0.0;
-		while (i.hasNext()) {
-			entity = i.next();
+        Iterator<? extends Entity> i = populationBasedAlgorithm.getTopology().iterator();
+        double particleSum = 0.0;
+        while (i.hasNext()) {
+            entity = i.next();
 
-			double dimensionSum = 0.0;
-			Vector v = (Vector) entity.getCandidateSolution();
-			for (int j = 0; j < entity.getDimension(); ++j) {
-				dimensionSum += (v.getReal(j)-averageParticlePosition.getReal(j))*(v.getReal(j)-averageParticlePosition.getReal(j));
+            double dimensionSum = 0.0;
+            Vector v = (Vector) entity.getCandidateSolution();
+            for (int j = 0; j < entity.getDimension(); ++j) {
+                dimensionSum += (v.getReal(j)-averageParticlePosition.getReal(j))*(v.getReal(j)-averageParticlePosition.getReal(j));
 
-			}
-			particleSum += Math.sqrt(dimensionSum);
-		}
+            }
+            particleSum += Math.sqrt(dimensionSum);
+        }
 
-    	return new Real(particleSum/numberOfEntities);
-	}
+        return new Real(particleSum/numberOfEntities);
+    }
 
 }

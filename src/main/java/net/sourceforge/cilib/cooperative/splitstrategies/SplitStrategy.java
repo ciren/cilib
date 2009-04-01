@@ -32,11 +32,11 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author Theuns Cloete
  */
 public interface SplitStrategy {
-	/**
-	 * Splits up the given {@link OptimisationProblem} into sub-problems and assigns all the sub-problems to {@link Algorithm}s in the population.
-	 * @param problem The {@link OptimisationProblem} that will be split up.
-	 * @param context The global entity context.
-	 * @param populations The {@link Algorithm}s participating in the {@link SplitCooperativeAlgorithm}.
-	 */
-	public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations);
+    /**
+     * Splits up the given {@link OptimisationProblem} into sub-problems and assigns all the sub-problems to {@link Algorithm}s in the population.
+     * @param problem The {@link OptimisationProblem} that will be split up.
+     * @param context The global entity context.
+     * @param populations The {@link Algorithm}s participating in the {@link SplitCooperativeAlgorithm}.
+     */
+    public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations);
 }

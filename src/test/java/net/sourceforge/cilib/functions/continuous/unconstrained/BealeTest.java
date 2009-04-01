@@ -38,18 +38,18 @@ import org.junit.Test;
 
 public class BealeTest {
 
-	private ContinuousFunction function;
+    private ContinuousFunction function;
 
-	@Before
-	public void instantiate() {
-		this.function = new Beale();
-	}
+    @Before
+    public void instantiate() {
+        this.function = new Beale();
+    }
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Beale. */
     @Test
     public void testEvaluate() {
         function = new Beale();
-		function.setDomain("R(-4.5, 4.5)^2");
+        function.setDomain("R(-4.5, 4.5)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
@@ -63,6 +63,6 @@ public class BealeTest {
     
     @Test
     public void minimum() {
-    	assertEquals(0.0, function.getMinimum());
+        assertEquals(0.0, function.getMinimum());
     }
 }

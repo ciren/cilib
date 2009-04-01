@@ -43,13 +43,13 @@ import java.io.Serializable;
  */
 public interface Cloneable extends Serializable {
 
-	/**
-	 * Create a cloned copy of the current object and return it. In general
-	 * the created copy will be a deep copy of the provided instance. As
-	 * a result this operation an be quite expensive if used incorrectly.
-	 * @return An exact clone of the current object instance.
-	 * @see Object#clone()
-	 */
-	public Object getClone();
+    /**
+     * Create a cloned copy of the current object and return it. In general
+     * the created copy will be a deep copy of the provided instance. As
+     * a result this operation an be quite expensive if used incorrectly.
+     * @return An exact clone of the current object instance.
+     * @see Object#clone()
+     */
+    public Object getClone();
 
 }

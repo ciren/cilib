@@ -33,107 +33,107 @@ import net.sourceforge.cilib.container.Matrix;
  * @author Gary Pampara
  */
 public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
-	private static final long serialVersionUID = 1141280214032774956L;
+    private static final long serialVersionUID = 1141280214032774956L;
 
-	private Matrix<Double> matrix;
-	private int numvectors = 0;
-	private int m = -1;
-	private int d = -1;
+    private Matrix<Double> matrix;
+    private int numvectors = 0;
+    private int m = -1;
+    private int d = -1;
 
-	public MatrixDataSetBuilder() {
-	}
+    public MatrixDataSetBuilder() {
+    }
 
-	public MatrixDataSetBuilder(MatrixDataSetBuilder rhs) {
-		throw new UnsupportedOperationException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
-	}
+    public MatrixDataSetBuilder(MatrixDataSetBuilder rhs) {
+        throw new UnsupportedOperationException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public MatrixDataSetBuilder getClone() {
-		return new MatrixDataSetBuilder(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MatrixDataSetBuilder getClone() {
+        return new MatrixDataSetBuilder(this);
+    }
 
-	@Override
-	public void initialise() {
+    @Override
+    public void initialise() {
 
-		try {
-			InputStream is = this.getDataSet(0).getInputStream();
+        try {
+            InputStream is = this.getDataSet(0).getInputStream();
 
-			StreamTokenizer tok = new StreamTokenizer(new InputStreamReader(is));
+            StreamTokenizer tok = new StreamTokenizer(new InputStreamReader(is));
 
-			if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
-				throw new IllegalStateException("Expected an integer number as the first token in the dataset");
+            if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
+                throw new IllegalStateException("Expected an integer number as the first token in the dataset");
 
-			numvectors = (int) tok.nval;
+            numvectors = (int) tok.nval;
 
-			if (numvectors <= 0)
-				throw new IllegalStateException("Must have a positive number of vectors in input file");
+            if (numvectors <= 0)
+                throw new IllegalStateException("Must have a positive number of vectors in input file");
 
-			if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
-				throw new IllegalStateException("Expected an integer number as the second token in the dataset");
+            if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
+                throw new IllegalStateException("Expected an integer number as the second token in the dataset");
 
-			m = (int) tok.nval;
+            m = (int) tok.nval;
 
-			if (m <= 0)
-				throw new IllegalStateException("Need to have a positive number as the input dimensions");
+            if (m <= 0)
+                throw new IllegalStateException("Need to have a positive number as the input dimensions");
 
-			matrix = new Matrix<Double>(numvectors, m);
+            matrix = new Matrix<Double>(numvectors, m);
 
-			if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
-				throw new IllegalStateException("Expected an integer number as the third token in the dataset");
+            if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
+                throw new IllegalStateException("Expected an integer number as the third token in the dataset");
 
-			d = (int) tok.nval;
+            d = (int) tok.nval;
 
-			if (d <= 0)
-				throw new IllegalStateException("Need to have a positive number as the input dimensions");
+            if (d <= 0)
+                throw new IllegalStateException("Need to have a positive number as the input dimensions");
 
-			if (!(d <= m))
-				throw new IllegalStateException("Output dimension must be less than input dimension");
+            if (!(d <= m))
+                throw new IllegalStateException("Output dimension must be less than input dimension");
 
-			for (int i = 0; i < numvectors; i++) {
-				for (int j = 0; j < m; j++) {
-					int tok_ret = tok.nextToken();
-					while (tok_ret != StreamTokenizer.TT_NUMBER) {
-						switch (tok_ret) {
-							case StreamTokenizer.TT_EOF:
-								throw new EOFException();
-							case StreamTokenizer.TT_WORD:
-								throw new IllegalStateException("Only numerical input expected (line " + tok.lineno() + ")");
-							default:
-								continue;
-						}
-					}
+            for (int i = 0; i < numvectors; i++) {
+                for (int j = 0; j < m; j++) {
+                    int tok_ret = tok.nextToken();
+                    while (tok_ret != StreamTokenizer.TT_NUMBER) {
+                        switch (tok_ret) {
+                            case StreamTokenizer.TT_EOF:
+                                throw new EOFException();
+                            case StreamTokenizer.TT_WORD:
+                                throw new IllegalStateException("Only numerical input expected (line " + tok.lineno() + ")");
+                            default:
+                                continue;
+                        }
+                    }
 
-					matrix.set(i, j, tok.nval);
-				}
-			}
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+                    matrix.set(i, j, tok.nval);
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	/**
-	 * Get the constructed {@see net.sourceforge.cilib.container.Matrix Matrix}.
-	 * @return The current {@code Matrix} instance.
-	 */
-	public Matrix<Double> getMatrix() {
-		return this.matrix;
-	}
+    /**
+     * Get the constructed {@see net.sourceforge.cilib.container.Matrix Matrix}.
+     * @return The current {@code Matrix} instance.
+     */
+    public Matrix<Double> getMatrix() {
+        return this.matrix;
+    }
 
-	/**
-	 * @return The value of <em>d</em>.
-	 */
-	public int getD() {
-		return d;
-	}
+    /**
+     * @return The value of <em>d</em>.
+     */
+    public int getD() {
+        return d;
+    }
 
-	/**
-	 * @return The current value of <em>m</em>.
-	 */
-	public int getM() {
-		return m;
-	}
+    /**
+     * @return The current value of <em>m</em>.
+     */
+    public int getM() {
+        return m;
+    }
 }

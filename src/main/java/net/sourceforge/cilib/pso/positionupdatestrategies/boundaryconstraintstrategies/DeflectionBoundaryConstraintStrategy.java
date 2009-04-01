@@ -31,58 +31,58 @@ import net.sourceforge.cilib.type.types.Numeric;
  * @author Wiehann Matthysen
  */
 public class DeflectionBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
-	private static final long serialVersionUID = -1108623232830737053L;
+    private static final long serialVersionUID = -1108623232830737053L;
 
-	private ControlParameter velocityDampingFactor;
+    private ControlParameter velocityDampingFactor;
 
-	public DeflectionBoundaryConstraintStrategy() {
-		velocityDampingFactor = new ConstantControlParameter();
-		velocityDampingFactor.setParameter(-1.0);
-	}
+    public DeflectionBoundaryConstraintStrategy() {
+        velocityDampingFactor = new ConstantControlParameter();
+        velocityDampingFactor.setParameter(-1.0);
+    }
 
-	public DeflectionBoundaryConstraintStrategy(DeflectionBoundaryConstraintStrategy copy) {
-		velocityDampingFactor = copy.velocityDampingFactor.getClone();
-	}
+    public DeflectionBoundaryConstraintStrategy(DeflectionBoundaryConstraintStrategy copy) {
+        velocityDampingFactor = copy.velocityDampingFactor.getClone();
+    }
 
-	public DeflectionBoundaryConstraintStrategy getClone() {
-		return new DeflectionBoundaryConstraintStrategy(this);
-	}
+    public DeflectionBoundaryConstraintStrategy getClone() {
+        return new DeflectionBoundaryConstraintStrategy(this);
+    }
 
-	public void setVelocityDampingFactor(ControlParameter velocityDampingFactor) {
-		this.velocityDampingFactor = velocityDampingFactor;
-	}
+    public void setVelocityDampingFactor(ControlParameter velocityDampingFactor) {
+        this.velocityDampingFactor = velocityDampingFactor;
+    }
 
-	public ControlParameter getVelocityDampingFactor() {
-		return velocityDampingFactor;
-	}
+    public ControlParameter getVelocityDampingFactor() {
+        return velocityDampingFactor;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
-	 */
-	public void constrainLower(Numeric position, Numeric velocity) {
-		double upper = position.getBounds().getUpperBound();
-		double lower = position.getBounds().getLowerBound();
-		double range = Math.abs(upper - lower);
-		Numeric desiredPosition = position.getClone();
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
+     */
+    public void constrainLower(Numeric position, Numeric velocity) {
+        double upper = position.getBounds().getUpperBound();
+        double lower = position.getBounds().getLowerBound();
+        double range = Math.abs(upper - lower);
+        Numeric desiredPosition = position.getClone();
 
-		desiredPosition.set(position.getReal() + velocity.getReal());
-		position.set(lower + (lower - desiredPosition.getReal()) % range);
-		velocity.set(velocity.getReal() * velocityDampingFactor.getParameter());
-	}
+        desiredPosition.set(position.getReal() + velocity.getReal());
+        position.set(lower + (lower - desiredPosition.getReal()) % range);
+        velocity.set(velocity.getReal() * velocityDampingFactor.getParameter());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
-	 */
-	public void constrainUpper(Numeric position, Numeric velocity) {
-		double upper = position.getBounds().getUpperBound();
-		double lower = position.getBounds().getLowerBound();
-		double range = Math.abs(upper - lower);
-		Numeric desiredPosition = position.getClone();
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
+     */
+    public void constrainUpper(Numeric position, Numeric velocity) {
+        double upper = position.getBounds().getUpperBound();
+        double lower = position.getBounds().getLowerBound();
+        double range = Math.abs(upper - lower);
+        Numeric desiredPosition = position.getClone();
 
-		desiredPosition.set(position.getReal() + velocity.getReal());
-		position.set(upper - (desiredPosition.getReal() - upper) % range);
-		velocity.set(velocity.getReal() * velocityDampingFactor.getParameter());
-	}
+        desiredPosition.set(position.getReal() + velocity.getReal());
+        position.set(upper - (desiredPosition.getReal() - upper) % range);
+        velocity.set(velocity.getReal() * velocityDampingFactor.getParameter());
+    }
 }

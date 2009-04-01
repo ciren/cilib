@@ -28,32 +28,32 @@ import net.sourceforge.cilib.math.random.generator.Random;
  *
  */
 public abstract class QuasiRandom extends Random {
-	private static final long serialVersionUID = -1631441422804523649L;
+    private static final long serialVersionUID = -1631441422804523649L;
 
-	protected int dimensions;
-	protected int skipValue;
+    protected int dimensions;
+    protected int skipValue;
 
-	public QuasiRandom(long seed) {
-		super(seed);
-		this.dimensions = 3;
-		this.skipValue = 0;
-	}
+    public QuasiRandom(long seed) {
+        super(seed);
+        this.dimensions = 3;
+        this.skipValue = 0;
+    }
 
-	public void setDimensions(int dimensions) {
-		this.dimensions = dimensions;
-	}
+    public void setDimensions(int dimensions) {
+        this.dimensions = dimensions;
+    }
 
-	public int getDimensions() {
-		return this.dimensions;
-	}
+    public int getDimensions() {
+        return this.dimensions;
+    }
 
-	public void setSkipValue(int skipValue) {
-		this.skipValue = skipValue;
-	}
+    public void setSkipValue(int skipValue) {
+        this.skipValue = skipValue;
+    }
 
-	public int getSkipValue() {
-		return this.skipValue;
-	}
+    public int getSkipValue() {
+        return this.skipValue;
+    }
 
-	public abstract double[] nextPoint();
+    public abstract double[] nextPoint();
 }

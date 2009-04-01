@@ -56,96 +56,96 @@ import net.sourceforge.cilib.type.types.Real;
  */
 public final class XMLmimic {
 
-	private XMLmimic() {
-	}
+    private XMLmimic() {
+    }
 
-	public static void run(){
+    public static void run(){
 
-		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
-		EvaluationMediator eval = new EvaluationMediator();
-		eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
-//			FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
-			//SAILAEvaluationStrategy eval = new SAILAEvaluationStrategy();
+        NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
+        EvaluationMediator eval = new EvaluationMediator();
+        eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
+//            FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
+            //SAILAEvaluationStrategy eval = new SAILAEvaluationStrategy();
 
-				//GenericTopology topo = new GenericTopology();
-				GenericTopology topo = new LayeredGenericTopology();
-					FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
-						Weight base= new Weight();
-							base.setWeightValue(new Real(0.5));
-							base.setPreviousChange(new Real(0));
-					builder.setPrototypeWeight(base);
-					builder.addLayer(5);
-					builder.addLayer(15);
-					builder.addLayer(3);
-				topo.setTopologyBuilder(builder);
-				topo.setWeightInitialiser(new FanInWeightInitialiser());
-			eval.setTopology(topo);
+                //GenericTopology topo = new GenericTopology();
+                GenericTopology topo = new LayeredGenericTopology();
+                    FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
+                        Weight base= new Weight();
+                            base.setWeightValue(new Real(0.5));
+                            base.setPreviousChange(new Real(0));
+                    builder.setPrototypeWeight(base);
+                    builder.addLayer(5);
+                    builder.addLayer(15);
+                    builder.addLayer(3);
+                topo.setTopologyBuilder(builder);
+                topo.setWeightInitialiser(new FanInWeightInitialiser());
+            eval.setTopology(topo);
 
-				GenericData data = new GenericData();
-				//RandomDistributionStrategy distrib = new RandomDistributionStrategy();
-				CrossValidationStrategy distrib = new CrossValidationStrategy();
-				distrib.setK(15);
-				distrib.setKoffset(1);
-				//SAILARealData data = new SAILARealData();
-				//data.setTopology(topo);
-			//	data.setFile("d:\\Stefan University\\masters\\datasets\\F2.txt");
-				distrib.setFile("C:\\temp\\data\\IrisScaled.txt");
-				distrib.setNoInputs(4);
-				distrib.setPercentTrain(95);
-				distrib.setPercentGen(5);
-			//	distrib.setPercentVal(15);
-				distrib.setPercentCan(0);
-			//	distrib.setPatternRandomizerSeed(200);
-				data.setDistributor(distrib);
-			eval.setData(data);
+                GenericData data = new GenericData();
+                //RandomDistributionStrategy distrib = new RandomDistributionStrategy();
+                CrossValidationStrategy distrib = new CrossValidationStrategy();
+                distrib.setK(15);
+                distrib.setKoffset(1);
+                //SAILARealData data = new SAILARealData();
+                //data.setTopology(topo);
+            //    data.setFile("d:\\Stefan University\\masters\\datasets\\F2.txt");
+                distrib.setFile("C:\\temp\\data\\IrisScaled.txt");
+                distrib.setNoInputs(4);
+                distrib.setPercentTrain(95);
+                distrib.setPercentGen(5);
+            //    distrib.setPercentVal(15);
+                distrib.setPercentCan(0);
+            //    distrib.setPatternRandomizerSeed(200);
+                data.setDistributor(distrib);
+            eval.setData(data);
 
-				NNError err = new MSEErrorFunction();
-				err.setNoOutputs(3);
-				//err.setNoPatterns(1000);		//direct settings wont work in XML
-				NNError err1 = new ClassificationErrorReal();
-			eval.addPrototypError(err);
-			eval.addPrototypError(err1);
+                NNError err = new MSEErrorFunction();
+                err.setNoOutputs(3);
+                //err.setNoPatterns(1000);        //direct settings wont work in XML
+                NNError err1 = new ClassificationErrorReal();
+            eval.addPrototypError(err);
+            eval.addPrototypError(err1);
 
-				FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
-				trainer.setDelta(new SquaredErrorFunction());
-				trainer.setMomentum(0.5);
-				trainer.setLearningRate(0.9);
-			eval.setTrainer(trainer);
+                FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
+                trainer.setDelta(new SquaredErrorFunction());
+                trainer.setMomentum(0.5);
+                trainer.setLearningRate(0.9);
+            eval.setTrainer(trainer);
 
-		neuralNetworkProblem.setEvaluationStrategy(eval);
-
-
-
-		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
-			neuralNetworkControl.setProblem(neuralNetworkProblem);
-			neuralNetworkControl.addStoppingCondition(new MaximumIterations(1000));
-			PostMeasurementSuite measures = new PostMeasurementSuite();
-			measures.setOutputFile("c:\\temp\\data\\dom.txt");
-			AreaUnderROC auc = new AreaUnderROC();
-			auc.setData(data);
-			auc.setTopology(topo);
-			measures.addMeasurement(new ErrorDt(eval));
-			measures.addMeasurement(new ErrorDg(eval));
-			measures.addMeasurement(new ErrorDv(eval));
-			measures.addMeasurement(auc);
-			measures.addMeasurement(new DcPatternCount());
-			measures.addMeasurement(new DtPatternCount());
-			measures.addMeasurement(new DgPatternCount());
-			measures.addMeasurement(new DvPatternCount());
-			measures.addMeasurement(new RobelOverfittingRho());
-			measures.addMeasurement(new Time());
-			neuralNetworkControl.setMeasures(measures);
-
-		neuralNetworkControl.initialise();
+        neuralNetworkProblem.setEvaluationStrategy(eval);
 
 
+
+        NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
+            neuralNetworkControl.setProblem(neuralNetworkProblem);
+            neuralNetworkControl.addStoppingCondition(new MaximumIterations(1000));
+            PostMeasurementSuite measures = new PostMeasurementSuite();
+            measures.setOutputFile("c:\\temp\\data\\dom.txt");
+            AreaUnderROC auc = new AreaUnderROC();
+            auc.setData(data);
+            auc.setTopology(topo);
+            measures.addMeasurement(new ErrorDt(eval));
+            measures.addMeasurement(new ErrorDg(eval));
+            measures.addMeasurement(new ErrorDv(eval));
+            measures.addMeasurement(auc);
+            measures.addMeasurement(new DcPatternCount());
+            measures.addMeasurement(new DtPatternCount());
+            measures.addMeasurement(new DgPatternCount());
+            measures.addMeasurement(new DvPatternCount());
+            measures.addMeasurement(new RobelOverfittingRho());
+            measures.addMeasurement(new Time());
+            neuralNetworkControl.setMeasures(measures);
+
+        neuralNetworkControl.initialise();
 
 
 
 
 
-		System.out.println("Configuration completed...");
-//		-----------------------------------------------------------------------------------------------------------
+
+
+        System.out.println("Configuration completed...");
+//        -----------------------------------------------------------------------------------------------------------
 
 
 System.out.println("About to run simulation...");
@@ -175,13 +175,13 @@ System.out.println("validation set size     : " + data.getValidationSetSize());
 
 
 
-	}
+    }
 
-	public static void main(String [] args){
+    public static void main(String [] args){
 
-		XMLmimic.run();
-		//XMLmimic.run();
-		//XMLmimic.run();
-	}
+        XMLmimic.run();
+        //XMLmimic.run();
+        //XMLmimic.run();
+    }
 
 }

@@ -44,27 +44,27 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 
 public class Damavandi extends ContinuousFunction {
-	private static final long serialVersionUID = 2857754134712271398L;
+    private static final long serialVersionUID = 2857754134712271398L;
 
-	/**
-	 * Create a new instance of {@linkplain Damavandi}. Default domain is defined to be
-	 * R(0, 12)^2.
-	 */
-	public Damavandi() {
+    /**
+     * Create a new instance of {@linkplain Damavandi}. Default domain is defined to be
+     * R(0, 12)^2.
+     */
+    public Damavandi() {
         setDomain("R(0, 12)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Damavandi getClone() {
-		return new Damavandi();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Damavandi getClone() {
+        return new Damavandi();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of 0.0.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of 0.0.
+     */
     public Object getMinimum() {
         return new Double(0);
     }
@@ -72,16 +72,16 @@ public class Damavandi extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-	public double evaluate(Vector x) {
-		double x1 = x.getReal(0);
-		double x2 = x.getReal(1);
+    public double evaluate(Vector x) {
+        double x1 = x.getReal(0);
+        double x2 = x.getReal(1);
 
-		double numerator = Math.sin(Math.PI*(x1-2))*Math.sin(Math.PI*(x2-2));
-		double denumerator = Math.PI*Math.PI*(x1-2)*(x2-2);
-		double factor1 = 1 - Math.pow(Math.abs(numerator/denumerator), 5);
-		double factor2 = 2 + (x1-7)*(x1-7) + 2*(x2-7)*(x2-7);
+        double numerator = Math.sin(Math.PI*(x1-2))*Math.sin(Math.PI*(x2-2));
+        double denumerator = Math.PI*Math.PI*(x1-2)*(x2-2);
+        double factor1 = 1 - Math.pow(Math.abs(numerator/denumerator), 5);
+        double factor2 = 2 + (x1-7)*(x1-7) + 2*(x2-7)*(x2-7);
 
-		return factor1*factor2;
-	}
+        return factor1*factor2;
+    }
 
 }

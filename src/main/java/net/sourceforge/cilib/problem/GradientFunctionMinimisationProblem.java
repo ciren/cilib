@@ -30,9 +30,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class GradientFunctionMinimisationProblem extends FunctionMinimisationProblem implements GradientOptimisationProblem {
 
-	private static final long serialVersionUID = 4139167463799605466L;
+    private static final long serialVersionUID = 4139167463799605466L;
 
-	/** Creates a new instance of GradientFunctionMinimisationProblem. */
+    /** Creates a new instance of GradientFunctionMinimisationProblem. */
     public GradientFunctionMinimisationProblem() {
         super();
     }

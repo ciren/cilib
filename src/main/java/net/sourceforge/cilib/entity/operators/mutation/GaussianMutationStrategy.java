@@ -35,75 +35,75 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class GaussianMutationStrategy extends MutationStrategy {
-	private static final long serialVersionUID = -4219155909474892419L;
+    private static final long serialVersionUID = -4219155909474892419L;
 
-	private double mean;
-	private ControlParameter deviationStrategy;
+    private double mean;
+    private ControlParameter deviationStrategy;
 
-	public GaussianMutationStrategy() {
-		super();
-		this.mean = 0;
-		this.deviationStrategy = new ProportionalControlParameter();
-	}
+    public GaussianMutationStrategy() {
+        super();
+        this.mean = 0;
+        this.deviationStrategy = new ProportionalControlParameter();
+    }
 
-	public GaussianMutationStrategy(GaussianMutationStrategy copy) {
-		super(copy);
-		this.mean = copy.mean;
-		this.deviationStrategy = copy.deviationStrategy.getClone();
-	}
+    public GaussianMutationStrategy(GaussianMutationStrategy copy) {
+        super(copy);
+        this.mean = copy.mean;
+        this.deviationStrategy = copy.deviationStrategy.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public GaussianMutationStrategy getClone() {
-		return new GaussianMutationStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GaussianMutationStrategy getClone() {
+        return new GaussianMutationStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mutate(List<? extends Entity> entity) {
-		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
-			Entity current = individual.next();
-			Vector chromosome = (Vector) current.getCandidateSolution();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mutate(List<? extends Entity> entity) {
+        for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
+            Entity current = individual.next();
+            Vector chromosome = (Vector) current.getCandidateSolution();
 
-			for (int i = 0; i < chromosome.getDimension(); i++) {
-				double random = this.getRandomNumber().getUniform();
-				if (random <= this.getMutationProbability().getParameter()) {
-					double deviation = this.getRandomNumber().getGaussian();
-					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
+            for (int i = 0; i < chromosome.getDimension(); i++) {
+                double random = this.getRandomNumber().getUniform();
+                if (random <= this.getMutationProbability().getParameter()) {
+                    double deviation = this.getRandomNumber().getGaussian();
+                    double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getGaussian(this.mean, deviation));
 
-					chromosome.setReal(i, value);
-				}
-			}
-		}
-	}
+                    chromosome.setReal(i, value);
+                }
+            }
+        }
+    }
 
-	public ControlParameter getDeviationStrategy() {
-		return deviationStrategy;
-	}
+    public ControlParameter getDeviationStrategy() {
+        return deviationStrategy;
+    }
 
-	public void setDeviationStrategy(ControlParameter deviationStrategy) {
-		this.deviationStrategy = deviationStrategy;
-	}
+    public void setDeviationStrategy(ControlParameter deviationStrategy) {
+        this.deviationStrategy = deviationStrategy;
+    }
 
-	public double getMean() {
-		return mean;
-	}
+    public double getMean() {
+        return mean;
+    }
 
-	public void setMean(double mean) {
-		this.mean = mean;
-	}
+    public void setMean(double mean) {
+        this.mean = mean;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-	public void performOperation(TopologyHolder holder) {
-		this.mutate(holder.getModifiable());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    public void performOperation(TopologyHolder holder) {
+        this.mutate(holder.getModifiable());
+    }
 
 }

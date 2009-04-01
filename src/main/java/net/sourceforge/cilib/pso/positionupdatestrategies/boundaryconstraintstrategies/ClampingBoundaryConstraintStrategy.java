@@ -29,31 +29,31 @@ import net.sourceforge.cilib.type.types.Numeric;
  */
 public class ClampingBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
 
-	private static final long serialVersionUID = -3439755620178365634L;
+    private static final long serialVersionUID = -3439755620178365634L;
 
-	public ClampingBoundaryConstraintStrategy() {
-	}
+    public ClampingBoundaryConstraintStrategy() {
+    }
 
-	public ClampingBoundaryConstraintStrategy(ClampingBoundaryConstraintStrategy copy) {
-	}
+    public ClampingBoundaryConstraintStrategy(ClampingBoundaryConstraintStrategy copy) {
+    }
 
-	public ClampingBoundaryConstraintStrategy getClone() {
-		return new ClampingBoundaryConstraintStrategy(this);
-	}
+    public ClampingBoundaryConstraintStrategy getClone() {
+        return new ClampingBoundaryConstraintStrategy(this);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
-	 */
-	public void constrainLower(Numeric position, Numeric velocity) {
-		position.set(position.getBounds().getLowerBound());	// lower boundary is inclusive
-	}
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
+     */
+    public void constrainLower(Numeric position, Numeric velocity) {
+        position.set(position.getBounds().getLowerBound());    // lower boundary is inclusive
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
-	 */
-	public void constrainUpper(Numeric position, Numeric velocity) {
-		position.set(position.getBounds().getUpperBound() - INFIMUM);	// upper boundary is exclusive
-	}
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
+     */
+    public void constrainUpper(Numeric position, Numeric velocity) {
+        position.set(position.getBounds().getUpperBound() - INFIMUM);    // upper boundary is exclusive
+    }
 }

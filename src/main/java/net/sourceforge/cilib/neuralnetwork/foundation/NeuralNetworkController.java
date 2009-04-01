@@ -36,84 +36,84 @@ import net.sourceforge.cilib.problem.Problem;
  */
 @Deprecated
 public class NeuralNetworkController extends SingularAlgorithm {
-	private static final long serialVersionUID = -904395696777716473L;
-	protected NeuralNetworkProblem problem = null;
-	protected NNError[] errorDt = null;
-	protected PostMeasurementSuite measures;
+    private static final long serialVersionUID = -904395696777716473L;
+    protected NeuralNetworkProblem problem = null;
+    protected NNError[] errorDt = null;
+    protected PostMeasurementSuite measures;
 
-	public NeuralNetworkController() {
-		super();
-		this.problem = null;
-		this.errorDt = null;
-		this.measures = null;
-	}
+    public NeuralNetworkController() {
+        super();
+        this.problem = null;
+        this.errorDt = null;
+        this.measures = null;
+    }
 
-	public NeuralNetworkController(NeuralNetworkController rhs) {
-//		super(rhs);
-		throw new UnsupportedOperationException("public NeuralNetworkController(NeuralNetworkController rhs)");
-	}
+    public NeuralNetworkController(NeuralNetworkController rhs) {
+//        super(rhs);
+        throw new UnsupportedOperationException("public NeuralNetworkController(NeuralNetworkController rhs)");
+    }
 
-	public NeuralNetworkController getClone() {
-		return new NeuralNetworkController(this);
-	}
+    public NeuralNetworkController getClone() {
+        return new NeuralNetworkController(this);
+    }
 
-	public void performInitialisation() {
+    public void performInitialisation() {
 
-		if (this.problem == null){
-			throw new IllegalArgumentException("NeuralNetworkController: Required NNProblem object was null during initialization");
-		}
+        if (this.problem == null){
+            throw new IllegalArgumentException("NeuralNetworkController: Required NNProblem object was null during initialization");
+        }
 
-		this.problem.initialize();
-	}
+        this.problem.initialize();
+    }
 
-	public void performUninitialisation() {
+    public void performUninitialisation() {
 
-		if (this.measures != null){
-			try {
-				measures.performMeasurement();
-			}
-			catch (IOException e) {
-				throw new IllegalStateException("Problem writing Simulation measures to file");
-			}
-		}
+        if (this.measures != null){
+            try {
+                measures.performMeasurement();
+            }
+            catch (IOException e) {
+                throw new IllegalStateException("Problem writing Simulation measures to file");
+            }
+        }
 
-	}
+    }
 
-	public void algorithmIteration() {
+    public void algorithmIteration() {
 
-		errorDt = problem.learningEpoch();
-		System.out.println("------------   Epoch " + this.getIterations() + " completed, error list :   ------------");
-		for (int i = 0; i < errorDt.length; i++) {
-			System.out.println("\t" + errorDt[i].getName() + " \t\t\t" + ((Double) errorDt[i].getValue()).doubleValue());
-		}
-	}
+        errorDt = problem.learningEpoch();
+        System.out.println("------------   Epoch " + this.getIterations() + " completed, error list :   ------------");
+        for (int i = 0; i < errorDt.length; i++) {
+            System.out.println("\t" + errorDt[i].getName() + " \t\t\t" + ((Double) errorDt[i].getValue()).doubleValue());
+        }
+    }
 
-	public NNError[] getError() {
-		return errorDt;
-	}
+    public NNError[] getError() {
+        return errorDt;
+    }
 
-	public void setProblem(Problem problem) {
-		this.problem = (NeuralNetworkProblem) problem;
-	}
+    public void setProblem(Problem problem) {
+        this.problem = (NeuralNetworkProblem) problem;
+    }
 
-	public void setOptimisationProblem(OptimisationProblem problem) {
-		this.problem = (NeuralNetworkProblem) problem;
-	}
+    public void setOptimisationProblem(OptimisationProblem problem) {
+        this.problem = (NeuralNetworkProblem) problem;
+    }
 
-	public OptimisationProblem getOptimisationProblem() {
-		return this.problem;
-	}
+    public OptimisationProblem getOptimisationProblem() {
+        return this.problem;
+    }
 
-	public void setMeasures(PostMeasurementSuite measures) {
-		this.measures = measures;
-	}
+    public void setMeasures(PostMeasurementSuite measures) {
+        this.measures = measures;
+    }
 
-	public OptimisationSolution getBestSolution() {
-		return null;
-	}
+    public OptimisationSolution getBestSolution() {
+        return null;
+    }
 
-	public List<OptimisationSolution> getSolutions() {
-		return null;
-	}
+    public List<OptimisationSolution> getSolutions() {
+        return null;
+    }
 
 }

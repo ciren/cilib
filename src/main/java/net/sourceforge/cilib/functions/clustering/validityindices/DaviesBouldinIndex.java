@@ -38,57 +38,57 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class DaviesBouldinIndex extends ScatterSeperationRatio {
-	private static final long serialVersionUID = -5167494843653998358L;
+    private static final long serialVersionUID = -5167494843653998358L;
 
-	public DaviesBouldinIndex() {
-		super();
-	}
+    public DaviesBouldinIndex() {
+        super();
+    }
 
-	@Override
-	public double calculateFitness() {
-		double db = 0.0, max = -Double.MAX_VALUE;
+    @Override
+    public double calculateFitness() {
+        double db = 0.0, max = -Double.MAX_VALUE;
 
-		cacheWithinClusterScatter();
-		cacheBetweenClusterSeperation();
+        cacheWithinClusterScatter();
+        cacheBetweenClusterSeperation();
 
-		for (int i = 0; i < clustersFormed; i++) {
-			double withinScatterLeft = getWithinClusterScatter(i);
-			for (int j = 0; j < clustersFormed; j++) {
-				if (i != j) {
-					double withinScatterRight = getWithinClusterScatter(j);
-					double betweenSeperation = getBetweenClusterSeperation(i, j);
-					max = Math.max(max, (withinScatterLeft + withinScatterRight) / betweenSeperation);
-				}
-			}
-			db += max;
-			max = -Double.MAX_VALUE;
-		}
-		return db / clustersFormed;
-	}
+        for (int i = 0; i < clustersFormed; i++) {
+            double withinScatterLeft = getWithinClusterScatter(i);
+            for (int j = 0; j < clustersFormed; j++) {
+                if (i != j) {
+                    double withinScatterRight = getWithinClusterScatter(j);
+                    double betweenSeperation = getBetweenClusterSeperation(i, j);
+                    max = Math.max(max, (withinScatterLeft + withinScatterRight) / betweenSeperation);
+                }
+            }
+            db += max;
+            max = -Double.MAX_VALUE;
+        }
+        return db / clustersFormed;
+    }
 
-	@Override
-	protected double calculateWithinClusterScatter(int k) {
-		double withinClusterScatter = 0.0;
-		Collection<Pattern> cluster = arrangedClusters.get(k).values();
-		Vector center = clusterCenterStrategy.getCenter(k);
+    @Override
+    protected double calculateWithinClusterScatter(int k) {
+        double withinClusterScatter = 0.0;
+        Collection<Pattern> cluster = arrangedClusters.get(k).values();
+        Vector center = clusterCenterStrategy.getCenter(k);
 
-		for (Pattern pattern : cluster) {
-			withinClusterScatter += helper.calculateDistance(pattern.data, center);
-		}
-		return withinClusterScatter /= cluster.size();
-	}
+        for (Pattern pattern : cluster) {
+            withinClusterScatter += helper.calculateDistance(pattern.data, center);
+        }
+        return withinClusterScatter /= cluster.size();
+    }
 
-	/**
-	 * The <i>alpha</i> value of the distance measure should correspond to the <i>p</i> value of the
-	 * Davies-Bouldin Validity Index.
-	 */
-	@Override
-	protected double calculateBetweenClusterSeperation(int i, int j) {
-		return helper.calculateDistance(clusterCenterStrategy.getCenter(i), clusterCenterStrategy.getCenter(j));
-	}
+    /**
+     * The <i>alpha</i> value of the distance measure should correspond to the <i>p</i> value of the
+     * Davies-Bouldin Validity Index.
+     */
+    @Override
+    protected double calculateBetweenClusterSeperation(int i, int j) {
+        return helper.calculateDistance(clusterCenterStrategy.getCenter(i), clusterCenterStrategy.getCenter(j));
+    }
 
-	@Override
-	public DaviesBouldinIndex getClone() {
-		return new DaviesBouldinIndex();
-	}
+    @Override
+    public DaviesBouldinIndex getClone() {
+        return new DaviesBouldinIndex();
+    }
 }

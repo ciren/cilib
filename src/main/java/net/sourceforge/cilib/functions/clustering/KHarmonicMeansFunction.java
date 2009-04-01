@@ -29,30 +29,30 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  */
 public class KHarmonicMeansFunction extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 2680037315045146954L;
+    private static final long serialVersionUID = 2680037315045146954L;
 
-	public KHarmonicMeansFunction() {
-		super();
-	}
+    public KHarmonicMeansFunction() {
+        super();
+    }
 
-	@Override
-	public double calculateFitness() {
-		double harmonicMean = 0.0;
+    @Override
+    public double calculateFitness() {
+        double harmonicMean = 0.0;
 
-		for (Pattern pattern : helper.getPatternsInDataSet()) {
-			double sumOfReciprocals = 0.0;
+        for (Pattern pattern : helper.getPatternsInDataSet()) {
+            double sumOfReciprocals = 0.0;
 
-			for (int i = 0; i < arrangedClusters.size(); i++) {
-				Vector center = clusterCenterStrategy.getCenter(i);
-				sumOfReciprocals += 1.0 / Math.max(helper.calculateDistance(pattern.data, center), Double.MIN_VALUE);		// if the distance == 0.0, use a very small value
-			}
-			harmonicMean += clustersFormed / sumOfReciprocals;
-		}
-		return harmonicMean;
-	}
+            for (int i = 0; i < arrangedClusters.size(); i++) {
+                Vector center = clusterCenterStrategy.getCenter(i);
+                sumOfReciprocals += 1.0 / Math.max(helper.calculateDistance(pattern.data, center), Double.MIN_VALUE);        // if the distance == 0.0, use a very small value
+            }
+            harmonicMean += clustersFormed / sumOfReciprocals;
+        }
+        return harmonicMean;
+    }
 
-	@Override
-	public KHarmonicMeansFunction getClone() {
-		return new KHarmonicMeansFunction();
-	}
+    @Override
+    public KHarmonicMeansFunction getClone() {
+        return new KHarmonicMeansFunction();
+    }
 }

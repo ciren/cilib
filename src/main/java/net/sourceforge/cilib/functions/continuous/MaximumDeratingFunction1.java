@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class MaximumDeratingFunction1 extends ContinuousFunction {
     private static final long serialVersionUID = -2963512750988478604L;
 
-	private double radius = 0.25;
+    private double radius = 0.25;
     private double alpha = 2.0;
 
     /**
@@ -47,7 +47,7 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
      */
     @Override
     public MaximumDeratingFunction1 getClone() {
-    	return new MaximumDeratingFunction1();
+        return new MaximumDeratingFunction1();
     }
 
     /**
@@ -97,7 +97,7 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
         // if the this class is misused, then prcocess will exit inorder to prevent
         // errorneous results.
         //if (parm1.length > 1) {
-    	if (parm1.getDimension() > 1)
+        if (parm1.getDimension() > 1)
             throw new RuntimeException("derating function may only be used in one dimension");
 
         if (parm1.getReal(0) >= radius)

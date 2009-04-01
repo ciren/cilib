@@ -34,41 +34,41 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface DomainRegistry extends Cloneable, Serializable {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DomainRegistry getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public DomainRegistry getClone();
 
-	/**
-	 * Set the value of the string representing the domain.
-	 * @param domainString The domainString to set.
-	 */
-	public void setDomainString(String domainString);
+    /**
+     * Set the value of the string representing the domain.
+     * @param domainString The domainString to set.
+     */
+    public void setDomainString(String domainString);
 
-	/**
-	 * Get the string specifying the domain.
-	 * @return Returns the domainString.
-	 */
-	public String getDomainString();
+    /**
+     * Get the string specifying the domain.
+     * @return Returns the domainString.
+     */
+    public String getDomainString();
 
-	/**
-	 * Get the string representing the domain, after if has been expanded to
-	 * a dimensional string with a descriptve component for each dimension.
-	 * @return Returns the expandedRepresentation.
-	 */
-	public String getExpandedRepresentation();
+    /**
+     * Get the string representing the domain, after if has been expanded to
+     * a dimensional string with a descriptve component for each dimension.
+     * @return Returns the expandedRepresentation.
+     */
+    public String getExpandedRepresentation();
 
-	/**
-	 * Get the instance of the built representation for this domain string.
-	 * @return Returns the builtRepresenation.
-	 */
-	public StructuredType getBuiltRepresenation();
+    /**
+     * Get the instance of the built representation for this domain string.
+     * @return Returns the builtRepresenation.
+     */
+    public StructuredType getBuiltRepresenation();
 
-	/**
-	 * Get the dimension of the built representation of the domain string.
-	 * @return The dimension of the domain string.
-	 */
-	public int getDimension();
+    /**
+     * Get the dimension of the built representation of the domain string.
+     * @return The dimension of the domain string.
+     */
+    public int getDimension();
 
 }
 

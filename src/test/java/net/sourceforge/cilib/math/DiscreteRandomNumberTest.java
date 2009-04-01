@@ -31,22 +31,22 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class DiscreteRandomNumberTest {
-	
-	//private DiscreteRandomNumber number;
-	
-	@BeforeClass
-	public static void setUp() {
-		//number = new DiscreteRandomNumber();
-	}
-	
-	@Test
-	public void testBinomial() {
-		
-	}
-	
-	@Test
-	public void testPoisson() {
-		
-	}
+    
+    //private DiscreteRandomNumber number;
+    
+    @BeforeClass
+    public static void setUp() {
+        //number = new DiscreteRandomNumber();
+    }
+    
+    @Test
+    public void testBinomial() {
+        
+    }
+    
+    @Test
+    public void testPoisson() {
+        
+    }
 
 }

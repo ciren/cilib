@@ -27,27 +27,27 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 public class BatchTrainingSetEpochStrategy implements EpochStrategy {
 
-	@Override
-	public void performIteration(EvaluationMediator evaluationMediator) {
-		evaluationMediator.resetError(evaluationMediator.getErrorDt());
-		evaluationMediator.setErrorNoPatterns(evaluationMediator.getErrorDt(), evaluationMediator.getData().getTrainingSetSize());
+    @Override
+    public void performIteration(EvaluationMediator evaluationMediator) {
+        evaluationMediator.resetError(evaluationMediator.getErrorDt());
+        evaluationMediator.setErrorNoPatterns(evaluationMediator.getErrorDt(), evaluationMediator.getData().getTrainingSetSize());
 
-		NeuralNetworkDataIterator iteratorDt = evaluationMediator.getData().getTrainingSetIterator();
+        NeuralNetworkDataIterator iteratorDt = evaluationMediator.getData().getTrainingSetIterator();
 
-		//iterate over each applicable pattern in training dataset
-		while (iteratorDt.hasMore()){
+        //iterate over each applicable pattern in training dataset
+        while (iteratorDt.hasMore()){
 
-			Vector output = evaluationMediator.getTopology().evaluate(iteratorDt.value());
-			evaluationMediator.incrementEvaluationsPerEpoch();
+            Vector output = evaluationMediator.getTopology().evaluate(iteratorDt.value());
+            evaluationMediator.incrementEvaluationsPerEpoch();
 
-			//compute the per pattern error.
-			evaluationMediator.computeErrorIteration(evaluationMediator.getErrorDt(), output, iteratorDt.value());
+            //compute the per pattern error.
+            evaluationMediator.computeErrorIteration(evaluationMediator.getErrorDt(), output, iteratorDt.value());
 
-			iteratorDt.next();
-		}
+            iteratorDt.next();
+        }
 
-		//finalise errors
-		evaluationMediator.finaliseErrors(evaluationMediator.getErrorDt());
-	}
+        //finalise errors
+        evaluationMediator.finaliseErrors(evaluationMediator.getErrorDt());
+    }
 
 }

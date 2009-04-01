@@ -35,28 +35,28 @@ public class SpatialRadiusVisitor extends TopologyVisitor {
 
     private double radius = -Double.MAX_VALUE;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void visit(Topology<? extends Entity> topology) {
-//		 set radius value to be returned to zero
-		double maxDistance = 0.0;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visit(Topology<? extends Entity> topology) {
+//         set radius value to be returned to zero
+        double maxDistance = 0.0;
 
-		// get number of entities in the population
-		int numberOfEntities = ((PopulationBasedAlgorithm) this.currentAlgorithm).getPopulationSize();
+        // get number of entities in the population
+        int numberOfEntities = ((PopulationBasedAlgorithm) this.currentAlgorithm).getPopulationSize();
 
-		// initialize iterator to be used to calculate spatial center
-		Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().iterator();
-		Entity entity = calculateCenterIterator.next();
+        // initialize iterator to be used to calculate spatial center
+        Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().iterator();
+        Entity entity = calculateCenterIterator.next();
         Vector spatialCenter = (Vector) entity.getCandidateSolution().getClone();
 
         // calculate center - evaluate sum total of population entity contents
         while (calculateCenterIterator.hasNext()) {
-        	entity = calculateCenterIterator.next();
-        	Vector entityContents = (Vector) entity.getCandidateSolution();
-        	for (int j = 0; j < spatialCenter.getDimension(); ++j)
-        	   spatialCenter.setReal(j, spatialCenter.getReal(j)+entityContents.getReal(j));
+            entity = calculateCenterIterator.next();
+            Vector entityContents = (Vector) entity.getCandidateSolution();
+            for (int j = 0; j < spatialCenter.getDimension(); ++j)
+               spatialCenter.setReal(j, spatialCenter.getReal(j)+entityContents.getReal(j));
         }
 
         // calculate center - evaluate average position of entity contents (spatial center)
@@ -64,18 +64,18 @@ public class SpatialRadiusVisitor extends TopologyVisitor {
            spatialCenter.setReal(j, spatialCenter.getReal(j)/numberOfEntities);
 
         // initialize iterator to be used to calculate radius
-    	Iterator<?> calculateRadiusIterator = topology.iterator();
+        Iterator<?> calculateRadiusIterator = topology.iterator();
 
-    	// calculate radius
-    	while(calculateRadiusIterator.hasNext()) {
-    		Entity populationEntity = (Entity) calculateRadiusIterator.next();
-    		Vector entityContents = (Vector) populationEntity.getCandidateSolution();
+        // calculate radius
+        while(calculateRadiusIterator.hasNext()) {
+            Entity populationEntity = (Entity) calculateRadiusIterator.next();
+            Vector entityContents = (Vector) populationEntity.getCandidateSolution();
 
-    		double currentDistance = distanceMeasure.distance(spatialCenter, entityContents);
+            double currentDistance = distanceMeasure.distance(spatialCenter, entityContents);
 
-    		if (currentDistance > maxDistance)
-    			maxDistance = currentDistance;
-    	}
+            if (currentDistance > maxDistance)
+                maxDistance = currentDistance;
+        }
 
         radius = maxDistance;
     }

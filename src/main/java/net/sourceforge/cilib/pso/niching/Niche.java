@@ -45,75 +45,75 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Niche extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
 
-	private PopulationBasedAlgorithm mainSwarm;
-	private NicheCreationStrategy swarmCreationStrategy;
+    private PopulationBasedAlgorithm mainSwarm;
+    private NicheCreationStrategy swarmCreationStrategy;
 
-	public Niche() {
-		this.mainSwarm = new PSO();
+    public Niche() {
+        this.mainSwarm = new PSO();
 
-		Particle mainSwarmParticle = new StandardParticle();
-		mainSwarmParticle.setVelocityInitialisationStrategy(new ZeroInitialVelocityStrategy());
-		StandardVelocityUpdate velocityUpdateStrategy = new StandardVelocityUpdate();
-		velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
+        Particle mainSwarmParticle = new StandardParticle();
+        mainSwarmParticle.setVelocityInitialisationStrategy(new ZeroInitialVelocityStrategy());
+        StandardVelocityUpdate velocityUpdateStrategy = new StandardVelocityUpdate();
+        velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
 
-		mainSwarmParticle.setVelocityUpdateStrategy(velocityUpdateStrategy);
-		PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();
-		mainSwarmInitialisationStrategy.setEntityType(mainSwarmParticle);
-		mainSwarmInitialisationStrategy.setEntityNumber(40);
+        mainSwarmParticle.setVelocityUpdateStrategy(velocityUpdateStrategy);
+        PopulationInitialisationStrategy mainSwarmInitialisationStrategy = new ClonedPopulationInitialisationStrategy();
+        mainSwarmInitialisationStrategy.setEntityType(mainSwarmParticle);
+        mainSwarmInitialisationStrategy.setEntityNumber(40);
 
-		this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
+        this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
 
-//		this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
-	}
+//        this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
+    }
 
-	@Override
-	public void performInitialisation() {
-		for (StoppingCondition stoppingCondition : getStoppingConditions())
-			this.mainSwarm.addStoppingCondition(stoppingCondition);
+    @Override
+    public void performInitialisation() {
+        for (StoppingCondition stoppingCondition : getStoppingConditions())
+            this.mainSwarm.addStoppingCondition(stoppingCondition);
 
-		this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
+        this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
 
-		this.mainSwarm.initialise();
-	}
+        this.mainSwarm.initialise();
+    }
 
 
 
-	@Override
-	protected void algorithmIteration() {
-		mainSwarm.performIteration();
+    @Override
+    protected void algorithmIteration() {
+        mainSwarm.performIteration();
 
-		for (PopulationBasedAlgorithm subSwarm : this) {
-			subSwarm.performIteration();
-		}
+        for (PopulationBasedAlgorithm subSwarm : this) {
+            subSwarm.performIteration();
+        }
 
-//		this.mergeStrategy.merge(this);
-//		this.absorptionStrategy.absorb(this);
-		this.swarmCreationStrategy.create(this);
-	}
+//        this.mergeStrategy.merge(this);
+//        this.absorptionStrategy.absorb(this);
+        this.swarmCreationStrategy.create(this);
+    }
 
-	@Override
-	public PopulationBasedAlgorithm getClone() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    @Override
+    public PopulationBasedAlgorithm getClone() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-	@Override
-	public OptimisationSolution getBestSolution() {
-//		throw new UnsupportedOperationException("Niching does not provide a single solution.");
-		return new OptimisationSolution(optimisationProblem, new Vector());
-	}
+    @Override
+    public OptimisationSolution getBestSolution() {
+//        throw new UnsupportedOperationException("Niching does not provide a single solution.");
+        return new OptimisationSolution(optimisationProblem, new Vector());
+    }
 
-	@Override
-	public List<OptimisationSolution> getSolutions() {
-		List<OptimisationSolution> list = new ArrayList<OptimisationSolution>();
+    @Override
+    public List<OptimisationSolution> getSolutions() {
+        List<OptimisationSolution> list = new ArrayList<OptimisationSolution>();
 
-		for (PopulationBasedAlgorithm subSwarm : this)
-			list.add(subSwarm.getBestSolution());
+        for (PopulationBasedAlgorithm subSwarm : this)
+            list.add(subSwarm.getBestSolution());
 
-		return list;
-	}
+        return list;
+    }
 
-	public PopulationBasedAlgorithm getMainSwarm() {
-		return this.mainSwarm;
-	}
+    public PopulationBasedAlgorithm getMainSwarm() {
+        return this.mainSwarm;
+    }
 
 }

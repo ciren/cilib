@@ -34,35 +34,35 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class SquaredErrorFunction implements ErrorSignal {
 
-	/**
-	 * Create an instance of {@linkplain SquaredErrorFunction}.
-	 */
-	public SquaredErrorFunction() {
+    /**
+     * Create an instance of {@linkplain SquaredErrorFunction}.
+     */
+    public SquaredErrorFunction() {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type computeBaseDelta(Type desired, Type output,
-			Type outputFunctionDerivative) {
+    /**
+     * {@inheritDoc}
+     */
+    public Type computeBaseDelta(Type desired, Type output,
+            Type outputFunctionDerivative) {
 
-		return new Real(-1 * (((Real) desired).getReal() - ((Real) output).getReal()) * ((Real) outputFunctionDerivative).getReal());
-	}
+        return new Real(-1 * (((Real) desired).getReal() - ((Real) output).getReal()) * ((Real) outputFunctionDerivative).getReal());
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type computeRecursiveDelta(Type outputFunctionDerivative,
-			Vector delta, ArrayList<Weight> w, Type output) {
+    /**
+     * {@inheritDoc}
+     */
+    public Type computeRecursiveDelta(Type outputFunctionDerivative,
+            Vector delta, ArrayList<Weight> w, Type output) {
 
-		double sumResult = 0;
-		for (int i = 0; i < w.size(); i++){
-			sumResult += ((Real) delta.get(i)).getReal() * ((Real) w.get(i).getWeightValue()).getReal();
-		}
+        double sumResult = 0;
+        for (int i = 0; i < w.size(); i++){
+            sumResult += ((Real) delta.get(i)).getReal() * ((Real) w.get(i).getWeightValue()).getReal();
+        }
 
-		return new Real(((Real) outputFunctionDerivative).getReal() * sumResult);
-	}
+        return new Real(((Real) outputFunctionDerivative).getReal() * sumResult);
+    }
 
 }

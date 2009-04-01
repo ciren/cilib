@@ -33,53 +33,53 @@ import org.junit.Test;
  */
 public class NumericTest {
 
-	@Test
-	public void testDimension() {
-		Real r = new Real();
-		Int i = new Int();
-		Bit b = new Bit();
-		
-		assertEquals(1, TypeUtil.getDimension(r));
-		assertEquals(1, TypeUtil.getDimension(i));
-		assertEquals(1, TypeUtil.getDimension(b));
-	}
-	
-	@Test(expected=UnsupportedOperationException.class)
-	public void testLowerBound() {
-		Real r = new Real(-30.0, 30.0);
-		Int i = new Int(-3, 3);
-		Bit b = new Bit();
+    @Test
+    public void testDimension() {
+        Real r = new Real();
+        Int i = new Int();
+        Bit b = new Bit();
+        
+        assertEquals(1, TypeUtil.getDimension(r));
+        assertEquals(1, TypeUtil.getDimension(i));
+        assertEquals(1, TypeUtil.getDimension(b));
+    }
+    
+    @Test(expected=UnsupportedOperationException.class)
+    public void testLowerBound() {
+        Real r = new Real(-30.0, 30.0);
+        Int i = new Int(-3, 3);
+        Bit b = new Bit();
 
-		assertEquals(-30.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
-		assertEquals(-3.0, i.getBounds().getLowerBound(), Double.MIN_NORMAL);
-		assertEquals(0.0, b.getBounds().getLowerBound(), Double.MIN_NORMAL);
-		
-		r.setBounds(0.0, r.getBounds().getUpperBound());
+        assertEquals(-30.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
+        assertEquals(-3.0, i.getBounds().getLowerBound(), Double.MIN_NORMAL);
+        assertEquals(0.0, b.getBounds().getLowerBound(), Double.MIN_NORMAL);
+        
+        r.setBounds(0.0, r.getBounds().getUpperBound());
         i.setBounds(1.0, i.getBounds().getUpperBound());
-		
-		assertEquals(0.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
-		assertEquals(1.0, i.getBounds().getLowerBound(), Double.MIN_NORMAL);
-		
-		b.setBounds(-8.0, b.getBounds().getUpperBound());
-	}
-	
-	@Test(expected=UnsupportedOperationException.class)
-	public void testUpperBound() {
-		Real r = new Real(-30.0, 30.0);
-		Int i = new Int(-3, 3);
-		Bit b = new Bit();
+        
+        assertEquals(0.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
+        assertEquals(1.0, i.getBounds().getLowerBound(), Double.MIN_NORMAL);
+        
+        b.setBounds(-8.0, b.getBounds().getUpperBound());
+    }
+    
+    @Test(expected=UnsupportedOperationException.class)
+    public void testUpperBound() {
+        Real r = new Real(-30.0, 30.0);
+        Int i = new Int(-3, 3);
+        Bit b = new Bit();
 
-		assertEquals(30.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
-		assertEquals(3.0, i.getBounds().getUpperBound(), Double.MIN_NORMAL);
-		assertEquals(1.0, b.getBounds().getUpperBound(), Double.MIN_NORMAL);
-		
-		r.setBounds(r.getBounds().getLowerBound(), 0.0);
-		i.setBounds(i.getBounds().getLowerBound(), 1);
-		
-		assertEquals(0.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
-		assertEquals(1.0, i.getBounds().getUpperBound(), Double.MIN_NORMAL);
+        assertEquals(30.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
+        assertEquals(3.0, i.getBounds().getUpperBound(), Double.MIN_NORMAL);
+        assertEquals(1.0, b.getBounds().getUpperBound(), Double.MIN_NORMAL);
+        
+        r.setBounds(r.getBounds().getLowerBound(), 0.0);
+        i.setBounds(i.getBounds().getLowerBound(), 1);
+        
+        assertEquals(0.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
+        assertEquals(1.0, i.getBounds().getUpperBound(), Double.MIN_NORMAL);
 
         b.setBounds(b.getBounds().getLowerBound(), 8.0);
-	}
+    }
 
 }

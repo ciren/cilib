@@ -28,44 +28,44 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
-	private static final long serialVersionUID = 3917826029336826880L;
+    private static final long serialVersionUID = 3917826029336826880L;
 
-	public FunctionMaximisationProblem() {
-		super();
-	}
+    public FunctionMaximisationProblem() {
+        super();
+    }
 
-	public FunctionMaximisationProblem(FunctionMaximisationProblem copy) {
-		super(copy);
-	}
+    public FunctionMaximisationProblem(FunctionMaximisationProblem copy) {
+        super(copy);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public FunctionMaximisationProblem getClone() {
-		return new FunctionMaximisationProblem(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public FunctionMaximisationProblem getClone() {
+        return new FunctionMaximisationProblem(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected Fitness calculateFitness(Type solution) {
-		return new MaximisationFitness(function.evaluate(solution));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected Fitness calculateFitness(Type solution) {
+        return new MaximisationFitness(function.evaluate(solution));
+    }
 
-	/**
-	 * <p>
-	 * Returns the error for the given solution. That is, a lower error value is returned if the
-	 * given solution is a better maximiser for the function.
-	 * </p>
-	 * <p>
-	 * The lowest possible error (corresponding to the best solution) should be 0. However, if the
-	 * function incorrectly reports its maximum value then it is possible for error values to be
-	 * negative.
-	 * </p>
-	 * @param solution The solution for which an error is saught.
-	 * @return The error.
-	 */
-	public double getError(Type solution) {
-		return ((Number) function.getMaximum()).doubleValue() - ((Number) function.evaluate(solution)).doubleValue();
-	}
+    /**
+     * <p>
+     * Returns the error for the given solution. That is, a lower error value is returned if the
+     * given solution is a better maximiser for the function.
+     * </p>
+     * <p>
+     * The lowest possible error (corresponding to the best solution) should be 0. However, if the
+     * function incorrectly reports its maximum value then it is possible for error values to be
+     * negative.
+     * </p>
+     * @param solution The solution for which an error is saught.
+     * @return The error.
+     */
+    public double getError(Type solution) {
+        return ((Number) function.getMaximum()).doubleValue() - ((Number) function.evaluate(solution)).doubleValue();
+    }
 }

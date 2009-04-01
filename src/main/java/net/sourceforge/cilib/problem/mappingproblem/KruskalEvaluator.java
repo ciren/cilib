@@ -31,42 +31,42 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
  * @author jkroon
  */
 public class KruskalEvaluator implements MappingEvaluator {
-	/**
-	 * Implements the evaluateMapping function as required by {@see NonlinearMappingProblem}.
-	 *
-	 * @param dist The distrance matrix for the generated output vectors.
-	 *
-	 * @return the fitness as a double, wrapped inside a Fitness.
-	 *
-	 * @author jkroon
-	 */
-	public Fitness evaluateMapping(Matrix<Double> dist) {
-		double above = 0.0;
-		double below = 0.0;
+    /**
+     * Implements the evaluateMapping function as required by {@see NonlinearMappingProblem}.
+     *
+     * @param dist The distrance matrix for the generated output vectors.
+     *
+     * @return the fitness as a double, wrapped inside a Fitness.
+     *
+     * @author jkroon
+     */
+    public Fitness evaluateMapping(Matrix<Double> dist) {
+        double above = 0.0;
+        double below = 0.0;
 
-		int numvect = prob.getNumInputVectors();
+        int numvect = prob.getNumInputVectors();
 
-		for(int i = 0; i < numvect; i++) {
-			for(int j = i + 1; j < numvect; j++) {
-				double inp_dist = prob.getDistanceInputVect(i, j);
-				double tmp = inp_dist - dist.get(i, j);
+        for(int i = 0; i < numvect; i++) {
+            for(int j = i + 1; j < numvect; j++) {
+                double inp_dist = prob.getDistanceInputVect(i, j);
+                double tmp = inp_dist - dist.get(i, j);
 
-				above += tmp * tmp;
-//				below += inp_dist * inp_dist;
-				below += dist.get(i, j) * dist.get(i, j);
-			}
-		}
+                above += tmp * tmp;
+//                below += inp_dist * inp_dist;
+                below += dist.get(i, j) * dist.get(i, j);
+            }
+        }
 
-		return new MinimisationFitness(new Double(Math.sqrt(above / below)));
-	}
+        return new MinimisationFitness(new Double(Math.sqrt(above / below)));
+    }
 
-	/**
-	 *
-	 * @author jkroon
-	 */
-	public void setMappingProblem(MappingProblem prob) {
-		this.prob = prob;
-	}
+    /**
+     *
+     * @author jkroon
+     */
+    public void setMappingProblem(MappingProblem prob) {
+        this.prob = prob;
+    }
 
-	private MappingProblem prob;
+    private MappingProblem prob;
 }

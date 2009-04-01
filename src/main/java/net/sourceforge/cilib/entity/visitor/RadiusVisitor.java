@@ -34,30 +34,30 @@ public class RadiusVisitor extends TopologyVisitor {
 
     private double radius = -Double.MAX_VALUE;
 
-	/**
-	 * {@inheritDoc}
+    /**
+     * {@inheritDoc}
      *
      * @param topology
      */
-	@Override
-	public void visit(Topology<? extends Entity> topology) {
-		double maxDistance = 0.0;
+    @Override
+    public void visit(Topology<? extends Entity> topology) {
+        double maxDistance = 0.0;
 
-    	Vector swarmBestParticlePosition = (Vector) this.currentAlgorithm.getBestSolution().getPosition();
-    	Iterator<?> swarmIterator = topology.iterator();
+        Vector swarmBestParticlePosition = (Vector) this.currentAlgorithm.getBestSolution().getPosition();
+        Iterator<?> swarmIterator = topology.iterator();
 
-    	while(swarmIterator.hasNext()) {
-    		Entity swarmParticle = (Entity) swarmIterator.next();
-    		Vector swarmParticlePosition = (Vector) swarmParticle.getCandidateSolution();
+        while(swarmIterator.hasNext()) {
+            Entity swarmParticle = (Entity) swarmIterator.next();
+            Vector swarmParticlePosition = (Vector) swarmParticle.getCandidateSolution();
 
-    		double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
+            double actualDistance = distanceMeasure.distance(swarmBestParticlePosition, swarmParticlePosition);
 
-    		if (actualDistance > maxDistance)
-    			maxDistance = actualDistance;
-    	}
+            if (actualDistance > maxDistance)
+                maxDistance = actualDistance;
+        }
 
         radius = maxDistance;
-	}
+    }
 
     @Override
     public Double getResult() {

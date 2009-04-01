@@ -37,69 +37,69 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class PostMeasurementSuite {
 
-	ArrayList<Measurement> measures;
-	String outputFile;
+    ArrayList<Measurement> measures;
+    String outputFile;
 
-	public PostMeasurementSuite() {
-		this.measures = new ArrayList<Measurement>();
-		outputFile = null;
-	}
-
-
-	public void addMeasurement(Measurement m){
-		this.measures.add(m);
-	}
+    public PostMeasurementSuite() {
+        this.measures = new ArrayList<Measurement>();
+        outputFile = null;
+    }
 
 
-	public void setOutputFile(String outFile) {
-		this.outputFile = outFile;
-	}
+    public void addMeasurement(Measurement m){
+        this.measures.add(m);
+    }
 
 
-	public void performMeasurement() throws IOException{
-
-		for (int i = 0; i < measures.size(); i++){
-			if (measures.get(i) instanceof AlgorithmListener){
-				((AlgorithmListener) measures.get(i)).algorithmFinished(null);
-			}
-		}
-
-		BufferedWriter out = null;
-
-		File f = new File(outputFile);
-
-		if (!f.exists()){
-			int column = 1;
-			out = new BufferedWriter(new FileWriter(outputFile));
-			for (int i = 0; i < this.measures.size(); i++){
-				String description = measures.get(i).getClass().getName();
-				description = description.substring(description.lastIndexOf(".") + 1);
-				out.write("# " + String.valueOf(column + i) + " - " + description);
-				out.newLine();
-			}
-
-		}
-		else {
-			out = new BufferedWriter(new FileWriter(outputFile, true));
-		}
+    public void setOutputFile(String outFile) {
+        this.outputFile = outFile;
+    }
 
 
-		for (int i = 0; i < this.measures.size(); i++){
-			Type result = measures.get(i).getValue(Algorithm.get());
+    public void performMeasurement() throws IOException{
 
-			if (i <= this.measures.size()-2){
-				out.write(result.toString() + ",");
-			}
-			else {
-				out.write(result.toString());
-			}
+        for (int i = 0; i < measures.size(); i++){
+            if (measures.get(i) instanceof AlgorithmListener){
+                ((AlgorithmListener) measures.get(i)).algorithmFinished(null);
+            }
+        }
 
-		}
-		out.newLine();
+        BufferedWriter out = null;
+
+        File f = new File(outputFile);
+
+        if (!f.exists()){
+            int column = 1;
+            out = new BufferedWriter(new FileWriter(outputFile));
+            for (int i = 0; i < this.measures.size(); i++){
+                String description = measures.get(i).getClass().getName();
+                description = description.substring(description.lastIndexOf(".") + 1);
+                out.write("# " + String.valueOf(column + i) + " - " + description);
+                out.newLine();
+            }
+
+        }
+        else {
+            out = new BufferedWriter(new FileWriter(outputFile, true));
+        }
 
 
-		out.close();
+        for (int i = 0; i < this.measures.size(); i++){
+            Type result = measures.get(i).getValue(Algorithm.get());
 
-	}
+            if (i <= this.measures.size()-2){
+                out.write(result.toString() + ",");
+            }
+            else {
+                out.write(result.toString());
+            }
+
+        }
+        out.newLine();
+
+
+        out.close();
+
+    }
 
 }

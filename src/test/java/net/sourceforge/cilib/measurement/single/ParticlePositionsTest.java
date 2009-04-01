@@ -37,16 +37,16 @@ import org.junit.Test;
  */
 public class ParticlePositionsTest {
 
-	@Test
-	public void testParticlePositionsDomain() {
-		Measurement m = new ParticlePositions();
-		
-		DomainParser parser = new DomainParser();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof StringType);
-	}
+    @Test
+    public void testParticlePositionsDomain() {
+        Measurement m = new ParticlePositions();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof StringType);
+    }
 }

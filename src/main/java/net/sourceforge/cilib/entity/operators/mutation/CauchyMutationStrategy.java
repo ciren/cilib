@@ -36,78 +36,78 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class CauchyMutationStrategy extends MutationStrategy {
-	private static final long serialVersionUID = 8576581034467137106L;
+    private static final long serialVersionUID = 8576581034467137106L;
 
-	private double location;
-	private ControlParameter scaleStrategy;
+    private double location;
+    private ControlParameter scaleStrategy;
 
-	public CauchyMutationStrategy() {
-		super();
-		this.location = 0;
-		this.scaleStrategy = new ProportionalControlParameter();
-	}
+    public CauchyMutationStrategy() {
+        super();
+        this.location = 0;
+        this.scaleStrategy = new ProportionalControlParameter();
+    }
 
-	public CauchyMutationStrategy(CauchyMutationStrategy copy) {
-		super(copy);
-		this.location = copy.location;
-		this.scaleStrategy = copy.scaleStrategy.getClone();
-	}
+    public CauchyMutationStrategy(CauchyMutationStrategy copy) {
+        super(copy);
+        this.location = copy.location;
+        this.scaleStrategy = copy.scaleStrategy.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CauchyMutationStrategy getClone() {
-		return new CauchyMutationStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CauchyMutationStrategy getClone() {
+        return new CauchyMutationStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mutate(List<? extends Entity> entity) {
-		for (Entity current : entity) {
-			Vector chromosome = (Vector) current.getCandidateSolution();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mutate(List<? extends Entity> entity) {
+        for (Entity current : entity) {
+            Vector chromosome = (Vector) current.getCandidateSolution();
 
-			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-				for (int i = 0; i < chromosome.getDimension(); i++) {
-					Numeric element = (Numeric) chromosome.get(i);
-					double scale = this.scaleStrategy.getParameter(element.getBounds().getLowerBound(), element.getBounds().getUpperBound());
-					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
+            if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+                for (int i = 0; i < chromosome.getDimension(); i++) {
+                    Numeric element = (Numeric) chromosome.get(i);
+                    double scale = this.scaleStrategy.getParameter(element.getBounds().getLowerBound(), element.getBounds().getUpperBound());
+                    double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getCauchy(this.location, scale));
 
-					chromosome.setReal(i, value);
-				}
-			}
-		}
+                    chromosome.setReal(i, value);
+                }
+            }
+        }
 
-	}
+    }
 
 
-	public double getLocation() {
-		return location;
-	}
+    public double getLocation() {
+        return location;
+    }
 
-	public void setLocation(double location) {
-		this.location = location;
-	}
+    public void setLocation(double location) {
+        this.location = location;
+    }
 
-	public ControlParameter getScaleStrategy() {
-		return scaleStrategy;
-	}
+    public ControlParameter getScaleStrategy() {
+        return scaleStrategy;
+    }
 
-	public void setScaleStrategy(ControlParameter scaleStrategy) {
-		this.scaleStrategy = scaleStrategy;
-	}
+    public void setScaleStrategy(ControlParameter scaleStrategy) {
+        this.scaleStrategy = scaleStrategy;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-	public void performOperation(TopologyHolder holder) {
-//		this.mutate(holder.getOffpsring());
-		throw new UnsupportedOperationException("This needs to be fixed");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    public void performOperation(TopologyHolder holder) {
+//        this.mutate(holder.getOffpsring());
+        throw new UnsupportedOperationException("This needs to be fixed");
+    }
 
 
 }

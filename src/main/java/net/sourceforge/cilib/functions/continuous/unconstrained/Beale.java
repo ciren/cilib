@@ -52,38 +52,38 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Beale extends ContinuousFunction {
-	private static final long serialVersionUID = -7803711986955989075L;
+    private static final long serialVersionUID = -7803711986955989075L;
 
-	/**
-	 * Create an instance of {@linkplain Beale}. The default domain is set to R(-4.5, 4.5)^2.
-	 */
-	public Beale() {
+    /**
+     * Create an instance of {@linkplain Beale}. The default domain is set to R(-4.5, 4.5)^2.
+     */
+    public Beale() {
         setDomain("R(-4.5,4.5)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Beale getClone() {
-		return new Beale();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Beale getClone() {
+        return new Beale();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
         return new Double(0.0);
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double x1 = x.getReal(0);
-		double x2 = x.getReal(1);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double x1 = x.getReal(0);
+        double x2 = x.getReal(1);
 
-		return (1.5-x1+x1*x2)*(1.5-x1+x1*x2) + (2.25-x1+x1*x2*x2)*(2.25-x1+x1*x2*x2) + (2.625-x1+x1*x2*x2*x2)*(2.625-x1+x1*x2*x2*x2);
-	}
+        return (1.5-x1+x1*x2)*(1.5-x1+x1*x2) + (2.25-x1+x1*x2*x2)*(2.25-x1+x1*x2*x2) + (2.625-x1+x1*x2*x2*x2)*(2.625-x1+x1*x2*x2*x2);
+    }
 }
 

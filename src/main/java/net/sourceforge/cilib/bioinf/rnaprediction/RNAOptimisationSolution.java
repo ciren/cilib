@@ -29,17 +29,17 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  *
  */
 public class RNAOptimisationSolution extends OptimisationSolution {
-	private static final long serialVersionUID = -5464713156390857487L;
+    private static final long serialVersionUID = -5464713156390857487L;
 
-	/**
-	 * Contrucs a new instance of <code>RNAOptimisationSolution</code>.
-	 *
-	 * @param problem The optimisation problem for which this is a solution.
-	 * @param position The position of the solution within the search space of the problem.
-	 */
+    /**
+     * Contrucs a new instance of <code>RNAOptimisationSolution</code>.
+     *
+     * @param problem The optimisation problem for which this is a solution.
+     * @param position The position of the solution within the search space of the problem.
+     */
     //public OptimisationSolution(OptimisationProblem problem, Object position) {
     public RNAOptimisationSolution(RNAOptimisationProblem problem, RNAConformation position) {
-    	super(problem, position);
+        super(problem, position);
     }
 
     /**

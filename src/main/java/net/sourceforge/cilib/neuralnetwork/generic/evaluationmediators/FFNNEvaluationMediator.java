@@ -38,94 +38,94 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 @Deprecated
 public class FFNNEvaluationMediator extends EvaluationMediator {
-	private static final long serialVersionUID = -7494539615052365168L;
-	protected NeuralNetworkDataIterator iteratorDt = null;
-	protected NeuralNetworkDataIterator iteratorDg = null;
+    private static final long serialVersionUID = -7494539615052365168L;
+    protected NeuralNetworkDataIterator iteratorDt = null;
+    protected NeuralNetworkDataIterator iteratorDg = null;
 
 
-	public FFNNEvaluationMediator() {
-		super();
-	}
+    public FFNNEvaluationMediator() {
+        super();
+    }
 
-	public void initialize(){
+    public void initialize(){
 
-//		super.initialize();
-		super.performInitialisation();
+//        super.initialize();
+        super.performInitialisation();
 
-	}
-
-
-//	public void learningEpoch() {
-	@Override
-	public void algorithmIteration() {
-
-		this.resetError(this.errorDt);
-		this.setErrorNoPatterns(this.errorDt, this.data.getTrainingSetSize());
-
-		this.resetError(this.errorDg);
-		this.setErrorNoPatterns(this.errorDg, this.data.getGeneralisationSetSize());
-
-		iteratorDt = data.getTrainingSetIterator();
-
-		trainer.preEpochActions(null);
-
-		//iterate over each applicable pattern in training dataset
-		while(iteratorDt.hasMore()){
-
-			Vector output = topology.evaluate(iteratorDt.value());
-			this.nrEvaluationsPerEpoch++;
-
-			//compute the per pattern error, use it to train the topology stochastically be default
-			this.computeErrorIteration(this.errorDt, output, iteratorDt.value());
-
-			trainer.invokeTrainer(iteratorDt.value());
-
-			iteratorDt.next();
-		}
-
-		trainer.postEpochActions(null);
-
-		//determine generalization error
-		//==========================
-		iteratorDg = data.getGeneralisationSetIterator();
-
-		while(iteratorDg.hasMore()){
-
-			Vector outputDg = topology.evaluate(iteratorDg.value());
-
-			//compute the per pattern error, use it to train the topology stochastically be default
-			this.computeErrorIteration(this.errorDg, outputDg, iteratorDg.value());
-
-			iteratorDg.next();
-		}
-
-		//finalise errors
-			this.finaliseErrors(this.errorDt);
-			this.finaliseErrors(this.errorDg);
-
-		data.shuffleTrainingSet();
-	}
+    }
 
 
-	public Vector evaluate(NNPattern p) {
-		return topology.evaluate(p);
-	}
+//    public void learningEpoch() {
+    @Override
+    public void algorithmIteration() {
 
-	@Override
-	public OptimisationSolution getBestSolution() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        this.resetError(this.errorDt);
+        this.setErrorNoPatterns(this.errorDt, this.data.getTrainingSetSize());
 
-	@Override
-	public Algorithm getClone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        this.resetError(this.errorDg);
+        this.setErrorNoPatterns(this.errorDg, this.data.getGeneralisationSetSize());
 
-	@Override
-	public List<OptimisationSolution> getSolutions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        iteratorDt = data.getTrainingSetIterator();
+
+        trainer.preEpochActions(null);
+
+        //iterate over each applicable pattern in training dataset
+        while(iteratorDt.hasMore()){
+
+            Vector output = topology.evaluate(iteratorDt.value());
+            this.nrEvaluationsPerEpoch++;
+
+            //compute the per pattern error, use it to train the topology stochastically be default
+            this.computeErrorIteration(this.errorDt, output, iteratorDt.value());
+
+            trainer.invokeTrainer(iteratorDt.value());
+
+            iteratorDt.next();
+        }
+
+        trainer.postEpochActions(null);
+
+        //determine generalization error
+        //==========================
+        iteratorDg = data.getGeneralisationSetIterator();
+
+        while(iteratorDg.hasMore()){
+
+            Vector outputDg = topology.evaluate(iteratorDg.value());
+
+            //compute the per pattern error, use it to train the topology stochastically be default
+            this.computeErrorIteration(this.errorDg, outputDg, iteratorDg.value());
+
+            iteratorDg.next();
+        }
+
+        //finalise errors
+            this.finaliseErrors(this.errorDt);
+            this.finaliseErrors(this.errorDg);
+
+        data.shuffleTrainingSet();
+    }
+
+
+    public Vector evaluate(NNPattern p) {
+        return topology.evaluate(p);
+    }
+
+    @Override
+    public OptimisationSolution getBestSolution() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Algorithm getClone() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<OptimisationSolution> getSolutions() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

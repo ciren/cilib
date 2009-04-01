@@ -34,53 +34,53 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class IntTest {
-	
-	@Test
-	public void testClone() {
-		Int i = new Int();
-		i.setInt(-10);
-		
-		Int clone = i.getClone();
-		
-		assertEquals(i.getInt(), clone.getInt());
-		assertNotSame(i, clone);
-	}
-	
-	@Test
-	public void testEquals() {
-		Int i1 = new Int(10);
-		Int i2 = new Int(10);
-		Int i3 = new Int(-5);
-		
-		assertTrue(i1.equals(i1));
-		assertTrue(i2.equals(i2));
-		assertTrue(i3.equals(i3));
-		
-		assertTrue(i1.equals(i2));
-		assertFalse(i1.equals(i3));
-		assertTrue(i2.equals(i1));
-		assertFalse(i2.equals(i3));
-	}
-	
-	@Test
-	public void testCompareTo() {
-		Int i1 = new Int(0, 30);
-		Int i2 = new Int(-30, 0);
-		
-		assertEquals(0, i1.compareTo(i1));
-		assertEquals(0, i2.compareTo(i2));
-		assertEquals(1, i1.compareTo(i2));
-		assertEquals(-1, i2.compareTo(i1));
-	}
-	
-	@Test
-	public void testRandomize() {
-		Int i1 = new Int(-300, 300);
-		Int i2 = i1.getClone();
-		
-		assertTrue(i1.getInt() == i2.getInt());
-		i1.randomize();
-		assertTrue(i1.getInt() != i2.getInt());
-	}
+    
+    @Test
+    public void testClone() {
+        Int i = new Int();
+        i.setInt(-10);
+        
+        Int clone = i.getClone();
+        
+        assertEquals(i.getInt(), clone.getInt());
+        assertNotSame(i, clone);
+    }
+    
+    @Test
+    public void testEquals() {
+        Int i1 = new Int(10);
+        Int i2 = new Int(10);
+        Int i3 = new Int(-5);
+        
+        assertTrue(i1.equals(i1));
+        assertTrue(i2.equals(i2));
+        assertTrue(i3.equals(i3));
+        
+        assertTrue(i1.equals(i2));
+        assertFalse(i1.equals(i3));
+        assertTrue(i2.equals(i1));
+        assertFalse(i2.equals(i3));
+    }
+    
+    @Test
+    public void testCompareTo() {
+        Int i1 = new Int(0, 30);
+        Int i2 = new Int(-30, 0);
+        
+        assertEquals(0, i1.compareTo(i1));
+        assertEquals(0, i2.compareTo(i2));
+        assertEquals(1, i1.compareTo(i2));
+        assertEquals(-1, i2.compareTo(i1));
+    }
+    
+    @Test
+    public void testRandomize() {
+        Int i1 = new Int(-300, 300);
+        Int i2 = i1.getClone();
+        
+        assertTrue(i1.getInt() == i2.getInt());
+        i1.randomize();
+        assertTrue(i1.getInt() != i2.getInt());
+    }
 
 }

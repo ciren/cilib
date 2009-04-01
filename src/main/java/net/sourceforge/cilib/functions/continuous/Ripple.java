@@ -36,27 +36,27 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 
 public class Ripple extends ContinuousFunction {
-	private static final long serialVersionUID = 2956377362140947929L;
+    private static final long serialVersionUID = 2956377362140947929L;
 
-	/**
-	 * Create an instance of the function. The default domain is defined to be R(0, 1)^2
-	 */
-	public Ripple() {
+    /**
+     * Create an instance of the function. The default domain is defined to be R(0, 1)^2
+     */
+    public Ripple() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(0, 1)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Ripple getClone() {
-		return new Ripple();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Ripple getClone() {
+        return new Ripple();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(2.2);
     }

@@ -29,45 +29,45 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  */
 public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
-	private static final long serialVersionUID = 8635875300412883576L;
+    private static final long serialVersionUID = 8635875300412883576L;
 
-	public FunctionMinimisationProblem() {
-		super();
-	}
+    public FunctionMinimisationProblem() {
+        super();
+    }
 
-	public FunctionMinimisationProblem(FunctionMinimisationProblem copy) {
-		super(copy);
-	}
+    public FunctionMinimisationProblem(FunctionMinimisationProblem copy) {
+        super(copy);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public FunctionMinimisationProblem getClone() {
-		return new FunctionMinimisationProblem(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public FunctionMinimisationProblem getClone() {
+        return new FunctionMinimisationProblem(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected Fitness calculateFitness(Type solution) {
-		/* Add code to enforce the boundary constraint */
-		return new MinimisationFitness(function.evaluate(solution));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected Fitness calculateFitness(Type solution) {
+        /* Add code to enforce the boundary constraint */
+        return new MinimisationFitness(function.evaluate(solution));
+    }
 
-	/**
-	 * <p>
-	 * Returns the error for the given solution. That is, a lower error value is returned if the
-	 * given solution is a better minimiser for the function.
-	 * </p>
-	 * <p>
-	 * The lowest possible error (corresponding to the best solution) should be 0. However, if the
-	 * function incorrectly reports its minimum value then it is possible for error values to be
-	 * negative.
-	 * </p>
-	 * @param solution The solution for which an error is saught.
-	 * @return The error.
-	 */
-	public double getError(Type solution) {
-		return ((Number) function.evaluate(solution)).doubleValue() - ((Number) function.getMinimum()).doubleValue();
-	}
+    /**
+     * <p>
+     * Returns the error for the given solution. That is, a lower error value is returned if the
+     * given solution is a better minimiser for the function.
+     * </p>
+     * <p>
+     * The lowest possible error (corresponding to the best solution) should be 0. However, if the
+     * function incorrectly reports its minimum value then it is possible for error values to be
+     * negative.
+     * </p>
+     * @param solution The solution for which an error is saught.
+     * @return The error.
+     */
+    public double getError(Type solution) {
+        return ((Number) function.evaluate(solution)).doubleValue() - ((Number) function.getMinimum()).doubleValue();
+    }
 }

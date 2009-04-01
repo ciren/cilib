@@ -28,22 +28,22 @@ import org.junit.Test;
 
 public class SigmoidTest {
 
-	@Test
-	public void evaluate() {
-		Sigmoid sigmoid = new Sigmoid();
-		assertEquals(0.5, sigmoid.evaluate(Double.valueOf(0.0)), 0);
-		assertEquals(1.0, sigmoid.evaluate(Double.POSITIVE_INFINITY), 0);
-		assertEquals(1.0, sigmoid.evaluate(Double.MAX_VALUE), 0);
-		assertEquals(0.0, sigmoid.evaluate(-Double.MAX_VALUE), 0);
-		assertEquals(0.0, sigmoid.evaluate(Double.NEGATIVE_INFINITY), 0);
-		assertEquals(0.5, sigmoid.evaluate(Double.MIN_VALUE), 0);
-	}
-	
-	@Test(expected = UnsupportedOperationException.class)
-	public void invalidEvaluate() {
-		Sigmoid sigmoid = new Sigmoid();
-		sigmoid.setSteepness(new ConstantControlParameter(-8.0));
-		
-		sigmoid.evaluate(0.0);
-	}
+    @Test
+    public void evaluate() {
+        Sigmoid sigmoid = new Sigmoid();
+        assertEquals(0.5, sigmoid.evaluate(Double.valueOf(0.0)), 0);
+        assertEquals(1.0, sigmoid.evaluate(Double.POSITIVE_INFINITY), 0);
+        assertEquals(1.0, sigmoid.evaluate(Double.MAX_VALUE), 0);
+        assertEquals(0.0, sigmoid.evaluate(-Double.MAX_VALUE), 0);
+        assertEquals(0.0, sigmoid.evaluate(Double.NEGATIVE_INFINITY), 0);
+        assertEquals(0.5, sigmoid.evaluate(Double.MIN_VALUE), 0);
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void invalidEvaluate() {
+        Sigmoid sigmoid = new Sigmoid();
+        sigmoid.setSteepness(new ConstantControlParameter(-8.0));
+        
+        sigmoid.evaluate(0.0);
+    }
 }

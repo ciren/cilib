@@ -29,23 +29,23 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class RandomInitialVelocityStrategy implements VelocityInitialisationStrategy {
-	private static final long serialVersionUID = -7926839076670354209L;
+    private static final long serialVersionUID = -7926839076670354209L;
 
-	public RandomInitialVelocityStrategy() {
+    public RandomInitialVelocityStrategy() {
 
-	}
+    }
 
-	public RandomInitialVelocityStrategy(RandomInitialVelocityStrategy copy) {
+    public RandomInitialVelocityStrategy(RandomInitialVelocityStrategy copy) {
 
-	}
+    }
 
-	public RandomInitialVelocityStrategy getClone() {
-		return new RandomInitialVelocityStrategy(this);
-	}
+    public RandomInitialVelocityStrategy getClone() {
+        return new RandomInitialVelocityStrategy(this);
+    }
 
-	public void initialise(Particle particle) {
-		Vector velocity = (Vector) particle.getVelocity();
-		velocity.randomize();
-	}
+    public void initialise(Particle particle) {
+        Vector velocity = (Vector) particle.getVelocity();
+        velocity.randomize();
+    }
 
 }

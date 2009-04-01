@@ -33,23 +33,23 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class KnapSackTest {
-	
-	@Test
-	public void testSimpleKnapSack() {
-		KnapSack k = new KnapSack();
-		k.setCapacity(5);
-		k.setNumberOfObjects(5);
-		k.setWeight("1,1,1,1,1");
-		k.setValue("1,1,1,1,1");
-		
-		Vector x = new Vector();
-		x.add(new Bit(true));
-		x.add(new Bit(true));
-		x.add(new Bit(true));
-		x.add(new Bit(true));
-		x.add(new Bit(true));
-		
-		assertEquals(5, Double.valueOf(k.evaluate(x)).intValue());
-	}
+    
+    @Test
+    public void testSimpleKnapSack() {
+        KnapSack k = new KnapSack();
+        k.setCapacity(5);
+        k.setNumberOfObjects(5);
+        k.setWeight("1,1,1,1,1");
+        k.setValue("1,1,1,1,1");
+        
+        Vector x = new Vector();
+        x.add(new Bit(true));
+        x.add(new Bit(true));
+        x.add(new Bit(true));
+        x.add(new Bit(true));
+        x.add(new Bit(true));
+        
+        assertEquals(5, Double.valueOf(k.evaluate(x)).intValue());
+    }
 
 }

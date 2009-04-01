@@ -34,24 +34,24 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  */
 public interface DistanceMeasure {
 
-	/**
-	 * Determine the distance between the two provided {@link StructuredType}
-	 * instances.
-	 * @param <T>
-	 * @param <U>
-	 * @param x The first object from which the calculation is to be performed.
-	 * @param y The second object from which the calculation is to be performed.
-	 * @return The distance between the provided instances.
-	 */
-	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y);
+    /**
+     * Determine the distance between the two provided {@link StructuredType}
+     * instances.
+     * @param <T>
+     * @param <U>
+     * @param x The first object from which the calculation is to be performed.
+     * @param y The second object from which the calculation is to be performed.
+     * @return The distance between the provided instances.
+     */
+    public <T extends Type, U extends StructuredType<T>> double distance(U x, U y);
 
-	/**
-	 * Determine the distance between the two provided {@linkplain Collection}s.
-	 * @param <T> The {@linkplain Collection} type.
-	 * @param x The first {@linkplain Collection}.
-	 * @param y The second {@linkplain Collection}.
-	 * @return The distance value.
-	 */
-	public <T extends Collection<? extends Number>> double distance(T x, T y);
+    /**
+     * Determine the distance between the two provided {@linkplain Collection}s.
+     * @param <T> The {@linkplain Collection} type.
+     * @param x The first {@linkplain Collection}.
+     * @param y The second {@linkplain Collection}.
+     * @return The distance value.
+     */
+    public <T extends Collection<? extends Number>> double distance(T x, T y);
 
 }

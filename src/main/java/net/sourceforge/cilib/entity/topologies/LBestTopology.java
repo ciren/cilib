@@ -42,75 +42,75 @@ import net.sourceforge.cilib.entity.Entity;
  * @param <E> The {@linkplain Entity} type.
  */
 public class LBestTopology<E extends Entity> extends GBestTopology<E> {
-	private static final long serialVersionUID = 93039445052676571L;
+    private static final long serialVersionUID = 93039445052676571L;
 
-	private ControlParameter neighbourhoodSize;
+    private ControlParameter neighbourhoodSize;
 
-	/**
-	 * Creates a new instance of <code>LBestTopology</code>. The default
-	 * {@link #neighbourhoodSize} is a {@linkplain ConstantControlParameter} with it's parameter set to
-	 * 3.
-	 */
-	public LBestTopology() {
-		super();
-		neighbourhoodSize = new ConstantControlParameter(3);
-	}
+    /**
+     * Creates a new instance of <code>LBestTopology</code>. The default
+     * {@link #neighbourhoodSize} is a {@linkplain ConstantControlParameter} with it's parameter set to
+     * 3.
+     */
+    public LBestTopology() {
+        super();
+        neighbourhoodSize = new ConstantControlParameter(3);
+    }
 
-	/**
-	 * Copy constructor. Copy the provided instance.
-	 * @param copy The instance to copy.
-	 */
+    /**
+     * Copy constructor. Copy the provided instance.
+     * @param copy The instance to copy.
+     */
     public LBestTopology(LBestTopology<E> copy) {
-    	super(copy);
-    	this.neighbourhoodSize = copy.neighbourhoodSize;
+        super(copy);
+        this.neighbourhoodSize = copy.neighbourhoodSize;
     }
 
     /**
      * {@inheritDoc}
      */
     public LBestTopology<E> getClone() {
-    	return new LBestTopology<E>(this);
+        return new LBestTopology<E>(this);
     }
 
-	/**
-	 * Recalculate the {@link #neighbourhoodSize} by updating the
-	 * {@link ControlParameter} and then construct a new iterator to be returned.
-	 * @param iterator The {@linkplain Iterator} to wrap.
-	 * @return a new iterator for this topology.
-	 */
-	@SuppressWarnings("unchecked")
-	public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
-		neighbourhoodSize.updateParameter();
-		return new LBestNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
-	}
+    /**
+     * Recalculate the {@link #neighbourhoodSize} by updating the
+     * {@link ControlParameter} and then construct a new iterator to be returned.
+     * @param iterator The {@linkplain Iterator} to wrap.
+     * @return a new iterator for this topology.
+     */
+    @SuppressWarnings("unchecked")
+    public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
+        neighbourhoodSize.updateParameter();
+        return new LBestNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
+    }
 
-	/**
-	 * Sets the {@linkplain ControlParameter} that should be used to determine the
-	 * number of particles in the neighbourhood of each particle. The default is a
-	 * {@linkplain ConstantControlParameter} with the parameter set to 3.
-	 * @param neighbourhoodSize The {@linkplain ControlParameter} to use.
-	 */
-	public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
-		this.neighbourhoodSize = neighbourhoodSize;
-	}
+    /**
+     * Sets the {@linkplain ControlParameter} that should be used to determine the
+     * number of particles in the neighbourhood of each particle. The default is a
+     * {@linkplain ConstantControlParameter} with the parameter set to 3.
+     * @param neighbourhoodSize The {@linkplain ControlParameter} to use.
+     */
+    public void setNeighbourhoodSize(ControlParameter neighbourhoodSize) {
+        this.neighbourhoodSize = neighbourhoodSize;
+    }
 
-	/**
-	 * Accessor for the number of particles in a neighbourhood. NOTE: This method does not return the
-	 * {@linkplain ControlParameter} but the parameter that is changed / updated by it
-	 * rounded to the nearest integer.
-	 * @return The size of the neighbourhood.
-	 */
-	public int getNeighbourhoodSize() {
-		int rounded = Long.valueOf(Math.round(neighbourhoodSize.getParameter())).intValue();
+    /**
+     * Accessor for the number of particles in a neighbourhood. NOTE: This method does not return the
+     * {@linkplain ControlParameter} but the parameter that is changed / updated by it
+     * rounded to the nearest integer.
+     * @return The size of the neighbourhood.
+     */
+    public int getNeighbourhoodSize() {
+        int rounded = Long.valueOf(Math.round(neighbourhoodSize.getParameter())).intValue();
 
-		if (super.size() == 0) // to show a sensible default value in CiClops
-			return rounded;
+        if (super.size() == 0) // to show a sensible default value in CiClops
+            return rounded;
 
-		if (rounded > super.size())
-			return super.size();
+        if (rounded > super.size())
+            return super.size();
 
-		return rounded;
-	}
+        return rounded;
+    }
 
     private class LBestNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
 
@@ -150,7 +150,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
             topology.entities.remove(index);
             --index;
             if (index < 0) {
-            	index += topology.size();
+                index += topology.size();
             }
         }
 

@@ -43,59 +43,59 @@ import org.xml.sax.SAXException;
  */
 public class XMLFileTest {
 
-	/**
-	 * <p>
-	 * Iterate through all the availble XML simulation specifications and
-	 * instantiate the needed objects, as well as making the simulations
-	 * ready for execution. After this process, discard the constructed
-	 * instances.
-	 * </p>
-	 * <p>
-	 * Tests will pass if all the instance creation succeeds.
-	 * </p>
-	 */
-	@Test
-	public void simulationConstruction() throws ParserConfigurationException, SAXException, IOException {
-		File file = new File("xml");
-		String [] fileList = getXMLFiles(file);
+    /**
+     * <p>
+     * Iterate through all the availble XML simulation specifications and
+     * instantiate the needed objects, as well as making the simulations
+     * ready for execution. After this process, discard the constructed
+     * instances.
+     * </p>
+     * <p>
+     * Tests will pass if all the instance creation succeeds.
+     * </p>
+     */
+    @Test
+    public void simulationConstruction() throws ParserConfigurationException, SAXException, IOException {
+        File file = new File("xml");
+        String [] fileList = getXMLFiles(file);
 
-		for (String filename : fileList) {
-			System.out.println("Constructing: " + filename);
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(new File(file, filename));
+        for (String filename : fileList) {
+            System.out.println("Constructing: " + filename);
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new File(file, filename));
 
-			NodeList simulations = doc.getElementsByTagName("simulation");
-			ProgressListener progress = new ProgressText(simulations.getLength());
-			
-			for (int i = 0; i < simulations.getLength(); ++i) {
-				if(progress != null)
-					progress.setSimulation(i);
+            NodeList simulations = doc.getElementsByTagName("simulation");
+            ProgressListener progress = new ProgressText(simulations.getLength());
+            
+            for (int i = 0; i < simulations.getLength(); ++i) {
+                if(progress != null)
+                    progress.setSimulation(i);
 
-				Element current = (Element) simulations.item(i);
-				XMLAlgorithmFactory algorithmFactory = new XMLAlgorithmFactory(doc, (Element) current.getElementsByTagName("algorithm").item(0));
-				XMLProblemFactory problemFactory = new XMLProblemFactory(doc, (Element) current.getElementsByTagName("problem").item(0));
-				XMLObjectFactory measurementsFactory = new XMLObjectFactory(doc, (Element) current.getElementsByTagName("measurements").item(0));
-			    MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
-				Simulation simulation = new Simulation(algorithmFactory, problemFactory, suite);
-				if(progress != null) {
-					simulation.addProgressListener(progress);
-				}
+                Element current = (Element) simulations.item(i);
+                XMLAlgorithmFactory algorithmFactory = new XMLAlgorithmFactory(doc, (Element) current.getElementsByTagName("algorithm").item(0));
+                XMLProblemFactory problemFactory = new XMLProblemFactory(doc, (Element) current.getElementsByTagName("problem").item(0));
+                XMLObjectFactory measurementsFactory = new XMLObjectFactory(doc, (Element) current.getElementsByTagName("measurements").item(0));
+                MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
+                Simulation simulation = new Simulation(algorithmFactory, problemFactory, suite);
+                if(progress != null) {
+                    simulation.addProgressListener(progress);
+                }
 
-				simulation = null;
-			}
-		}
-	}
+                simulation = null;
+            }
+        }
+    }
 
-	private String[] getXMLFiles(File file) {
-		return file.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				if (name.endsWith("xml"))
-					return true;
+    private String[] getXMLFiles(File file) {
+        return file.list(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                if (name.endsWith("xml"))
+                    return true;
 
-				return false;
-			}
-		});
-	}
+                return false;
+            }
+        });
+    }
 }

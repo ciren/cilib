@@ -35,60 +35,60 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * @author Andries Engelbrecht
  */
 public abstract class CrossoverStrategy implements Operator {
-	private static final long serialVersionUID = -5058325193277909244L;
+    private static final long serialVersionUID = -5058325193277909244L;
 
-	private ControlParameter crossoverProbability;
-	private RandomNumber randomNumber;
-	private SelectionStrategy selectionStrategy;
+    private ControlParameter crossoverProbability;
+    private RandomNumber randomNumber;
+    private SelectionStrategy selectionStrategy;
 
-	public CrossoverStrategy() {
-		crossoverProbability = new ConstantControlParameter(0.5);
-		randomNumber = new RandomNumber();
-		selectionStrategy = new RandomSelectionStrategy();
-	}
+    public CrossoverStrategy() {
+        crossoverProbability = new ConstantControlParameter(0.5);
+        randomNumber = new RandomNumber();
+        selectionStrategy = new RandomSelectionStrategy();
+    }
 
-	public CrossoverStrategy(CrossoverStrategy copy) {
-		this.crossoverProbability = copy.crossoverProbability.getClone();
-		this.randomNumber = copy.randomNumber.getClone();
-	}
+    public CrossoverStrategy(CrossoverStrategy copy) {
+        this.crossoverProbability = copy.crossoverProbability.getClone();
+        this.randomNumber = copy.randomNumber.getClone();
+    }
 
     /**
      * {@inheritDoc}
      */
-	public abstract CrossoverStrategy getClone();
+    public abstract CrossoverStrategy getClone();
 
-	public abstract List<Entity> crossover(List<Entity> parentCollection);
+    public abstract List<Entity> crossover(List<Entity> parentCollection);
 
-	/**
-	 *
-	 * @return
-	 */
-	public ControlParameter getCrossoverProbability() {
-		return crossoverProbability;
-	}
+    /**
+     *
+     * @return
+     */
+    public ControlParameter getCrossoverProbability() {
+        return crossoverProbability;
+    }
 
-	/**
-	 *
-	 * @param crossoverProbability
-	 */
-	public void setCrossoverProbability(ControlParameter crossoverProbability) {
-		this.crossoverProbability = crossoverProbability;
-	}
+    /**
+     *
+     * @param crossoverProbability
+     */
+    public void setCrossoverProbability(ControlParameter crossoverProbability) {
+        this.crossoverProbability = crossoverProbability;
+    }
 
-	public RandomNumber getRandomNumber() {
-		return randomNumber;
-	}
+    public RandomNumber getRandomNumber() {
+        return randomNumber;
+    }
 
-	public void setRandomNumber(RandomNumber randomNumber) {
-		this.randomNumber = randomNumber;
-	}
+    public void setRandomNumber(RandomNumber randomNumber) {
+        this.randomNumber = randomNumber;
+    }
 
-	public SelectionStrategy getSelectionStrategy() {
-		return selectionStrategy;
-	}
+    public SelectionStrategy getSelectionStrategy() {
+        return selectionStrategy;
+    }
 
-	public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
-		this.selectionStrategy = selectionStrategy;
-	}
+    public void setSelectionStrategy(SelectionStrategy selectionStrategy) {
+        this.selectionStrategy = selectionStrategy;
+    }
 
 }

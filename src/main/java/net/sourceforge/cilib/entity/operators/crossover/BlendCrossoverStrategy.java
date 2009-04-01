@@ -76,99 +76,99 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class BlendCrossoverStrategy extends CrossoverStrategy {
-	private static final long serialVersionUID = -7955031193090240495L;
+    private static final long serialVersionUID = -7955031193090240495L;
 
-	private ControlParameter alpha;
+    private ControlParameter alpha;
 
-	public BlendCrossoverStrategy() {
-		alpha = new ConstantControlParameter(0.5);
-	}
+    public BlendCrossoverStrategy() {
+        alpha = new ConstantControlParameter(0.5);
+    }
 
-	public BlendCrossoverStrategy(BlendCrossoverStrategy copy) {
-		super(copy);
-		this.alpha = copy.alpha.getClone();
-	}
+    public BlendCrossoverStrategy(BlendCrossoverStrategy copy) {
+        super(copy);
+        this.alpha = copy.alpha.getClone();
+    }
 
     /**
      * {@inheritDoc}
      */
-	@Override
-	public BlendCrossoverStrategy getClone() {
-		return new BlendCrossoverStrategy(this);
-	}
+    @Override
+    public BlendCrossoverStrategy getClone() {
+        return new BlendCrossoverStrategy(this);
+    }
 
-	@Override
-	public List<Entity> crossover(List<Entity> parentCollection) {
-		List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
+    @Override
+    public List<Entity> crossover(List<Entity> parentCollection) {
+        List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
 
-		// How do we handle variable sizes? Resizing the entities?
-		Entity offspring1 = parentCollection.get(0).getClone();
-		Entity offspring2 = parentCollection.get(1).getClone();
+        // How do we handle variable sizes? Resizing the entities?
+        Entity offspring1 = parentCollection.get(0).getClone();
+        Entity offspring2 = parentCollection.get(1).getClone();
 
-		if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-			Vector parentChromosome1 = (Vector) parentCollection.get(0).getCandidateSolution();
-			Vector parentChromosome2 = (Vector) parentCollection.get(1).getCandidateSolution();
-			Vector offspringChromosome1 = (Vector) offspring1.getCandidateSolution();
-			Vector offspringChromosome2 = (Vector) offspring2.getCandidateSolution();
+        if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+            Vector parentChromosome1 = (Vector) parentCollection.get(0).getCandidateSolution();
+            Vector parentChromosome2 = (Vector) parentCollection.get(1).getCandidateSolution();
+            Vector offspringChromosome1 = (Vector) offspring1.getCandidateSolution();
+            Vector offspringChromosome2 = (Vector) offspring2.getCandidateSolution();
 
-			int sizeParent1 = parentChromosome1.getDimension();
-			int sizeParent2 = parentChromosome2.getDimension();
+            int sizeParent1 = parentChromosome1.getDimension();
+            int sizeParent2 = parentChromosome2.getDimension();
 
-			int minDimension = Math.min(sizeParent1, sizeParent2);
+            int minDimension = Math.min(sizeParent1, sizeParent2);
 
-			for (int i = 0; i < minDimension; i++) {
-				double gamma = (1 + (2 * alpha.getParameter())) * this.getRandomNumber().getUniform() - alpha.getParameter();
-				double value1 = (1 - gamma) * parentChromosome1.getReal(i) + gamma * parentChromosome2.getReal(i);
-				double value2 = (1 - gamma) * parentChromosome2.getReal(i) + gamma * parentChromosome1.getReal(i);
-				offspringChromosome1.setReal(i, value1);
-				offspringChromosome2.setReal(i,	value2);
+            for (int i = 0; i < minDimension; i++) {
+                double gamma = (1 + (2 * alpha.getParameter())) * this.getRandomNumber().getUniform() - alpha.getParameter();
+                double value1 = (1 - gamma) * parentChromosome1.getReal(i) + gamma * parentChromosome2.getReal(i);
+                double value2 = (1 - gamma) * parentChromosome2.getReal(i) + gamma * parentChromosome1.getReal(i);
+                offspringChromosome1.setReal(i, value1);
+                offspringChromosome2.setReal(i,    value2);
 
-				/*
-				 * if (i%2 == 0) { offspringChromosome1.set(i,
-				 * parentChromosome1.get(i)); offspringChromosome2.set(i,
-				 * parentChromosome2.get(i)); } else {
-				 * offspringChromosome1.set(i, parentChromosome2.get(i));
-				 * offspringChromosome2.set(i, parentChromosome1.get(i)); }
-				 */
-			}
+                /*
+                 * if (i%2 == 0) { offspringChromosome1.set(i,
+                 * parentChromosome1.get(i)); offspringChromosome2.set(i,
+                 * parentChromosome2.get(i)); } else {
+                 * offspringChromosome1.set(i, parentChromosome2.get(i));
+                 * offspringChromosome2.set(i, parentChromosome1.get(i)); }
+                 */
+            }
 
-			offspring1.calculateFitness(false);
-			offspring2.calculateFitness(false);
+            offspring1.calculateFitness(false);
+            offspring2.calculateFitness(false);
 
-			offspring.add(offspring1);
-			offspring.add(offspring2);
-		}
+            offspring.add(offspring1);
+            offspring.add(offspring2);
+        }
 
-		return offspring;
-	}
+        return offspring;
+    }
 
-	/**
-	 * @return the alpha
-	 */
-	public ControlParameter getAlpha() {
-		return alpha;
-	}
+    /**
+     * @return the alpha
+     */
+    public ControlParameter getAlpha() {
+        return alpha;
+    }
 
-	/**
-	 * @param alpha the alpha to set
-	 */
-	public void setAlpha(ControlParameter alpha) {
-		this.alpha = alpha;
-	}
+    /**
+     * @param alpha the alpha to set
+     */
+    public void setAlpha(ControlParameter alpha) {
+        this.alpha = alpha;
+    }
 
-	@Override
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-	public void performOperation(TopologyHolder holder) {
-		List<Entity> parentCollection = new ArrayList<Entity>();
+    @Override
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    public void performOperation(TopologyHolder holder) {
+        List<Entity> parentCollection = new ArrayList<Entity>();
 
-		Topology<? extends Entity> topology = holder.getTopology();
-//		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
+        Topology<? extends Entity> topology = holder.getTopology();
+//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
 
-		parentCollection.add(getSelectionStrategy().select(topology));
-		parentCollection.add(getSelectionStrategy().select(topology));
+        parentCollection.add(getSelectionStrategy().select(topology));
+        parentCollection.add(getSelectionStrategy().select(topology));
 
-//		offspring.addAll(this.crossover(parentCollection));
-		holder.addAll(this.crossover(parentCollection));
-	}
+//        offspring.addAll(this.crossover(parentCollection));
+        holder.addAll(this.crossover(parentCollection));
+    }
 
 }

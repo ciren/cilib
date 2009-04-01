@@ -35,25 +35,25 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class TTest {
-	
-	private static T creator = null;
-	
-	@BeforeClass
-	public static void setUp() {
-		creator = new T();
-	}
-	
-	@Test
-	public void testCreateNoBounds() {
-		Type t = creator.create();
-		
-		assertTrue(t instanceof StringType);
-	}
-	
-	@Test(expected = UnsupportedOperationException.class)
-	public void testCreateBounds() {
-		Type t = creator.create(0, 3);
-		assertTrue(t == null);
-	}
+    
+    private static T creator = null;
+    
+    @BeforeClass
+    public static void setUp() {
+        creator = new T();
+    }
+    
+    @Test
+    public void testCreateNoBounds() {
+        Type t = creator.create();
+        
+        assertTrue(t instanceof StringType);
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void testCreateBounds() {
+        Type t = creator.create(0, 3);
+        assertTrue(t == null);
+    }
 
 }

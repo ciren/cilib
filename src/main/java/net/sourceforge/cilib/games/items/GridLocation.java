@@ -32,82 +32,82 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * A location inside a grid
  */
 public class GridLocation extends ItemLocation {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 4974578979607886491L;
-	Vector position;
-	/**
-	 *
-	 */
-	public GridLocation(int gridDimention, int gridWidth, int gridHeight) {
-		position = new Vector(gridDimention);
-		position.add(new Int(0, gridWidth));
-		position.add(new Int(0, gridHeight));
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4974578979607886491L;
+    Vector position;
+    /**
+     *
+     */
+    public GridLocation(int gridDimention, int gridWidth, int gridHeight) {
+        position = new Vector(gridDimention);
+        position.add(new Int(0, gridWidth));
+        position.add(new Int(0, gridHeight));
+    }
 
-	/**
-	 * @param Other
-	 */
-	public GridLocation(GridLocation other) {
-		super(other);
-		// TODO Auto-generated constructor stub
-		position = new Vector(other.position);
-	}
+    /**
+     * @param Other
+     */
+    public GridLocation(GridLocation other) {
+        super(other);
+        // TODO Auto-generated constructor stub
+        position = new Vector(other.position);
+    }
 
-	public void Move(Vector coords){
-		moveItem(coords);
-	}
+    public void Move(Vector coords){
+        moveItem(coords);
+    }
 
-	public void setPosition(Vector newPos){
-		if(newPos.getDimension() != position.getDimension()){
-			throw new UnsupportedOperationException("Cannot set the postition to a vector with a different dimention");
-		}
-		position = newPos;
-	}
+    public void setPosition(Vector newPos){
+        if(newPos.getDimension() != position.getDimension()){
+            throw new UnsupportedOperationException("Cannot set the postition to a vector with a different dimention");
+        }
+        position = newPos;
+    }
 
-	public Vector getPosition(){
-		return position;
-	}
+    public Vector getPosition(){
+        return position;
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.games.items.ItemLocation#getClone()
-	 */
-	@Override
-	public GridLocation getClone() {
-		// TODO Auto-generated method stub
-		return new GridLocation(this);
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.games.items.ItemLocation#getClone()
+     */
+    @Override
+    public GridLocation getClone() {
+        // TODO Auto-generated method stub
+        return new GridLocation(this);
+    }
 
-/*	@Override
-	public Type getLocationData(){
-		return position;
-	}*/
+/*    @Override
+    public Type getLocationData(){
+        return position;
+    }*/
 
-	@Override
-	public Double getDistance(DistanceMeasure measure, ItemLocation other) {
-		if(!(other instanceof GridLocation))
-			throw new RuntimeException("can only determine the distance between two gridlocation itemlocations");
-		Vector vector = ((GridLocation)other).getPosition();
-		double result = measure.distance(position, vector);
+    @Override
+    public Double getDistance(DistanceMeasure measure, ItemLocation other) {
+        if(!(other instanceof GridLocation))
+            throw new RuntimeException("can only determine the distance between two gridlocation itemlocations");
+        Vector vector = ((GridLocation)other).getPosition();
+        double result = measure.distance(position, vector);
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public void moveItem(Type amount) {
-		if(!(amount instanceof Vector))
-			throw new RuntimeException("can only add a vector to gridlocation");
+    @Override
+    public void moveItem(Type amount) {
+        if(!(amount instanceof Vector))
+            throw new RuntimeException("can only add a vector to gridlocation");
 
-		Vector amountVector = (Vector) amount;
-		Vector np = position.getClone();
-		for(int i = 0; i < amountVector.size(); ++i){
-			np.setInt(i, amountVector.getInt(i) + position.getInt(i));
-		}
+        Vector amountVector = (Vector) amount;
+        Vector np = position.getClone();
+        for(int i = 0; i < amountVector.size(); ++i){
+            np.setInt(i, amountVector.getInt(i) + position.getInt(i));
+        }
 
-		if(TypeUtil.isInsideBounds(np)){
-			position = np;
-		}
-	}
+        if(TypeUtil.isInsideBounds(np)){
+            position = np;
+        }
+    }
 
 }

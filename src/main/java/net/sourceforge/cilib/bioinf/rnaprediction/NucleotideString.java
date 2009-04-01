@@ -27,51 +27,51 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  */
 public final class NucleotideString {
 
-	private NucleotideString() {
-	}
+    private NucleotideString() {
+    }
 
-	public static NucleotideString getInstance() {
-		if (instance != null) {
-			return instance;
-		}
-		else {
-			instance = new NucleotideString();
-			return instance;
-		}
-	}
+    public static NucleotideString getInstance() {
+        if (instance != null) {
+            return instance;
+        }
+        else {
+            instance = new NucleotideString();
+            return instance;
+        }
+    }
 
-	public void setNucleotideString(String nucs) {
-		nucleotideString = nucs;
-	}
+    public void setNucleotideString(String nucs) {
+        nucleotideString = nucs;
+    }
 
-	public String getNucleotideString() {
-		return nucleotideString;
-	}
+    public String getNucleotideString() {
+        return nucleotideString;
+    }
 
-	public void setKnowStructure(int[] struct) {
-		this.knownStructure = struct;
-		knownConf = new RNAConformation();
-		RNAStem tempStem = new RNAStem();
-		for (int i = 0; i < struct.length; i++) {
-			if (struct[i] != 0) {
-				if (i < struct[i]) {
-					tempStem.add(new NucleotidePair(i+1, struct[i]));
-				}
-			}
-		}
-		knownConf.add(tempStem);
-	}
+    public void setKnowStructure(int[] struct) {
+        this.knownStructure = struct;
+        knownConf = new RNAConformation();
+        RNAStem tempStem = new RNAStem();
+        for (int i = 0; i < struct.length; i++) {
+            if (struct[i] != 0) {
+                if (i < struct[i]) {
+                    tempStem.add(new NucleotidePair(i+1, struct[i]));
+                }
+            }
+        }
+        knownConf.add(tempStem);
+    }
 
-	public int[] getKnownStructure() {
-		return knownStructure;
-	}
+    public int[] getKnownStructure() {
+        return knownStructure;
+    }
 
-	public RNAConformation getKnowConf() {
-		return knownConf;
-	}
+    public RNAConformation getKnowConf() {
+        return knownConf;
+    }
 
-	public String nucleotideString = "";
-	public int[] knownStructure = null;
-	static NucleotideString instance = null;
-	public RNAConformation knownConf = null;
+    public String nucleotideString = "";
+    public int[] knownStructure = null;
+    static NucleotideString instance = null;
+    public RNAConformation knownConf = null;
 }

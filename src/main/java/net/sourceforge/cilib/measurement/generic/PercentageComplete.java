@@ -31,9 +31,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class PercentageComplete implements Measurement {
-	private static final long serialVersionUID = 552272710698138639L;
+    private static final long serialVersionUID = 552272710698138639L;
 
-	/** Creates a new instance of PercentageComplete. */
+    /** Creates a new instance of PercentageComplete. */
     public PercentageComplete() {
     }
 
@@ -41,15 +41,15 @@ public class PercentageComplete implements Measurement {
     }
 
     public PercentageComplete getClone() {
-    	return new PercentageComplete(this);
+        return new PercentageComplete(this);
     }
 
     public String getDomain() {
-    	return "R(0,1)";
+        return "R(0,1)";
     }
 
     public Type getValue(Algorithm algorithm) {
-    	return new Real(algorithm.getPercentageComplete());
+        return new Real(algorithm.getPercentageComplete());
     }
 
 }

@@ -30,21 +30,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class KnightsCoverage extends DiscreteFunction {
 
-	private static final long serialVersionUID = -8039165934381145252L;
+    private static final long serialVersionUID = -8039165934381145252L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		throw new UnsupportedOperationException("Method not implemented.");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        throw new UnsupportedOperationException("Method not implemented.");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public KnightsCoverage getClone() {
-		return new KnightsCoverage();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public KnightsCoverage getClone() {
+        return new KnightsCoverage();
+    }
 
 }

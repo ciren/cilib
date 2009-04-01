@@ -49,21 +49,21 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
      * Create an instance of the Rastrigin function. The default domain is defined to be
      * R(-5.12, 5.12)^30
      */
-	public Rastrigin() {
+    public Rastrigin() {
         setDomain("R(-5.12, 5.12)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Rastrigin getClone() {
-		return new Rastrigin();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Rastrigin getClone() {
+        return new Rastrigin();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(0);
     }
@@ -87,7 +87,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
         Vector tmp = new Vector(getDimension());
 
         for (int i = 0; i < getDimension(); ++i) {
-        	tmp.setReal(i, (2.0 * x.getReal(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.getReal(i))));
+            tmp.setReal(i, (2.0 * x.getReal(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.getReal(i))));
         }
 
         return tmp;

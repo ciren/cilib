@@ -33,102 +33,102 @@ import java.util.concurrent.ConcurrentMap;
  * @param <V> The value type.
  */
 public class Blackboard<K, V extends Type> implements Type {
-	private static final long serialVersionUID = -2589625146223946484L;
-	private ConcurrentMap<K, V> board;
+    private static final long serialVersionUID = -2589625146223946484L;
+    private ConcurrentMap<K, V> board;
 
-	/**
-	 * Create a new empty {@code Blackboard} container.
-	 */
-	public Blackboard() {
-		this.board = new ConcurrentHashMap<K, V>();
-	}
+    /**
+     * Create a new empty {@code Blackboard} container.
+     */
+    public Blackboard() {
+        this.board = new ConcurrentHashMap<K, V>();
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The isntance to copy.
-	 */
-	public Blackboard(Blackboard<K, V> copy) {
-		for (Map.Entry<K, V> entry : copy.board.entrySet()) {
-    		K key = entry.getKey();
-    		@SuppressWarnings({"unchecked"}) V value = (V) entry.getValue().getClone();
-    		this.board.put(key, value);
-    	}
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The isntance to copy.
+     */
+    public Blackboard(Blackboard<K, V> copy) {
+        for (Map.Entry<K, V> entry : copy.board.entrySet()) {
+            K key = entry.getKey();
+            @SuppressWarnings({"unchecked"}) V value = (V) entry.getValue().getClone();
+            this.board.put(key, value);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 * @return
-	 */
-	@Override
-	public Blackboard<K, V> getClone() {
-		return new Blackboard<K, V>(this);
-	}
+    /**
+     * {@inheritDoc}
+     * @return
+     */
+    @Override
+    public Blackboard<K, V> getClone() {
+        return new Blackboard<K, V>(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if ((obj == null) || (this.getClass() != obj.getClass()))
-			return false;
+        if ((obj == null) || (this.getClass() != obj.getClass()))
+            return false;
 
-		Blackboard<?, ?> other = (Blackboard<?, ?>) obj;
-		return this.board.equals(other.board);
-	}
+        Blackboard<?, ?> other = (Blackboard<?, ?>) obj;
+        return this.board.equals(other.board);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + (this.board == null ? 0 : this.board.hashCode());
-		return hash;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (this.board == null ? 0 : this.board.hashCode());
+        return hash;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void reset() {
-		this.board.clear();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void reset() {
+        this.board.clear();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		return this.board.toString();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.board.toString();
+    }
 
-	/**
-	 * Put the provided key / value pair into the {@code Blackboard}.
-	 * @param key The key value for the pair.
-	 * @param value The value associated with the key.
-	 * @return The provided value.
-	 */
-	public V put(K key, V value) {
-		return this.board.put(key, value);
-	}
+    /**
+     * Put the provided key / value pair into the {@code Blackboard}.
+     * @param key The key value for the pair.
+     * @param value The value associated with the key.
+     * @return The provided value.
+     */
+    public V put(K key, V value) {
+        return this.board.put(key, value);
+    }
 
-	/**
-	 * Get the value associated with the provided key, {@code null} otherwise.
-	 * @param key The key to obtained the value of.
-	 * @return The associated value to the key.
-	 */
-	public V get(K key) {
-		return this.board.get(key);
-	}
+    /**
+     * Get the value associated with the provided key, {@code null} otherwise.
+     * @param key The key to obtained the value of.
+     * @return The associated value to the key.
+     */
+    public V get(K key) {
+        return this.board.get(key);
+    }
 
-	/**
-	 * Obtain a {@code Set} of key / value pairs.
-	 * @return The set of values.
-	 */
-	public Set<Map.Entry<K, V>> entrySet() {
-		return this.board.entrySet();
-	}
+    /**
+     * Obtain a {@code Set} of key / value pairs.
+     * @return The set of values.
+     */
+    public Set<Map.Entry<K, V>> entrySet() {
+        return this.board.entrySet();
+    }
 
 }

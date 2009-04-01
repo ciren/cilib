@@ -32,59 +32,59 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class Foxholes extends ContinuousFunction {
-	private static final long serialVersionUID = 6407823129058106208L;
+    private static final long serialVersionUID = 6407823129058106208L;
 
-	private double [][] a = {
-			{-32.0, -16.0, 0.0, 16.0, 32.0},
-			{-32.0, -16.0, 0.0, 16.0, 32.0},
-	};
+    private double [][] a = {
+            {-32.0, -16.0, 0.0, 16.0, 32.0},
+            {-32.0, -16.0, 0.0, 16.0, 32.0},
+    };
 
-	/**
-	 * Create an instance of {@linkplain Foxholes}. The default domain is set to R(-65.536,65.536)^2.
-	 */
-	public Foxholes() {
-		setDomain("R(-65.536,65.536)^2");
-	}
+    /**
+     * Create an instance of {@linkplain Foxholes}. The default domain is set to R(-65.536,65.536)^2.
+     */
+    public Foxholes() {
+        setDomain("R(-65.536,65.536)^2");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Foxholes getClone() {
-		return new Foxholes();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Foxholes getClone() {
+        return new Foxholes();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
-		return new Double(1.0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
+        return new Double(1.0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	// This impl is according to the function defined by Xin Yao in the FastEP and by the DE guys
-	public double evaluate(Vector x) {
-		double result = 0.002;
-		double sum = 0.0;
+    /**
+     * {@inheritDoc}
+     */
+    // This impl is according to the function defined by Xin Yao in the FastEP and by the DE guys
+    public double evaluate(Vector x) {
+        double result = 0.002;
+        double sum = 0.0;
 
-		for (int j = 0; j < 25; j++) {
-			double tmp = 0.0;
-			double tmp_a = 0.0;
+        for (int j = 0; j < 25; j++) {
+            double tmp = 0.0;
+            double tmp_a = 0.0;
 
-			for (int i = 0; i <= 1; i++) {
-				if (i == 0)
-					tmp_a = a[0][j%5];
-				else
-					tmp_a = a[1][j/5];
+            for (int i = 0; i <= 1; i++) {
+                if (i == 0)
+                    tmp_a = a[0][j%5];
+                else
+                    tmp_a = a[1][j/5];
 
-				tmp += Math.pow((x.getReal(i) - tmp_a), 6);
-			}
+                tmp += Math.pow((x.getReal(i) - tmp_a), 6);
+            }
 
-			sum += 1.0 / (j + tmp);
-		}
+            sum += 1.0 / (j + tmp);
+        }
 
-		return 1.0 / (result + sum);
-	}
+        return 1.0 / (result + sum);
+    }
 
 }

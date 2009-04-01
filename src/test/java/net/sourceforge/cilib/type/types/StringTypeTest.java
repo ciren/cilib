@@ -33,22 +33,22 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class StringTypeTest {
-	
-	@Test
-	public void testClone() {
-		StringType t = new StringType("test string");
-		StringType clone = t.getClone();
-		
-		assertTrue(t.getString().equals(clone.getString()));
-		assertEquals(t.getString(), clone.getString());
-	}
-	
-	
-	@Test
-	public void testDimensionality() {
-		StringType s = new StringType("This is a StringType");
-		
-		assertEquals(1, TypeUtil.getDimension(s));
-	}
+    
+    @Test
+    public void testClone() {
+        StringType t = new StringType("test string");
+        StringType clone = t.getClone();
+        
+        assertTrue(t.getString().equals(clone.getString()));
+        assertEquals(t.getString(), clone.getString());
+    }
+    
+    
+    @Test
+    public void testDimensionality() {
+        StringType s = new StringType("This is a StringType");
+        
+        assertEquals(1, TypeUtil.getDimension(s));
+    }
 
 }

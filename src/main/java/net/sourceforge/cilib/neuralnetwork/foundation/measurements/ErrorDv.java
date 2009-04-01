@@ -36,47 +36,47 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: Complete this javadoc.
  */
 public class ErrorDv implements Measurement {
-	private static final long serialVersionUID = 3315947215103835233L;
+    private static final long serialVersionUID = 3315947215103835233L;
 
-	public ErrorDv() {
-	}
+    public ErrorDv() {
+    }
 
-	public ErrorDv(ErrorDv rhs) {
-//		super(rhs);
-		throw new UnsupportedOperationException("public ErrorDv(ErrorDv rhs)");
-	}
+    public ErrorDv(ErrorDv rhs) {
+//        super(rhs);
+        throw new UnsupportedOperationException("public ErrorDv(ErrorDv rhs)");
+    }
 
-	public ErrorDv getClone() {
-		return new ErrorDv(this);
-	}
+    public ErrorDv getClone() {
+        return new ErrorDv(this);
+    }
 
-	public ErrorDv(EvaluationMediator eval) {
-	}
+    public ErrorDv(EvaluationMediator eval) {
+    }
 
-	public String getDomain() {
-		return "T";
-	}
+    public String getDomain() {
+        return "T";
+    }
 
-	public Type getValue(Algorithm algorithm) {
-		EvaluationMediator eval = null;
+    public Type getValue(Algorithm algorithm) {
+        EvaluationMediator eval = null;
 
-		if (algorithm instanceof SingularAlgorithm) {
-			 eval = (EvaluationMediator) algorithm;
-		}
-		else {
-			OptimisationProblem optimisationProblem = algorithm.getOptimisationProblem();
-			NeuralNetworkRetrievalVisitor visitor = new NeuralNetworkRetrievalVisitor();
-			optimisationProblem.accept(visitor);
-			eval = visitor.getMediator();
-		}
+        if (algorithm instanceof SingularAlgorithm) {
+             eval = (EvaluationMediator) algorithm;
+        }
+        else {
+            OptimisationProblem optimisationProblem = algorithm.getOptimisationProblem();
+            NeuralNetworkRetrievalVisitor visitor = new NeuralNetworkRetrievalVisitor();
+            optimisationProblem.accept(visitor);
+            eval = visitor.getMediator();
+        }
 
-		NNError[] errorDv = eval.getErrorDv();
-		Vector err = new Vector();
+        NNError[] errorDv = eval.getErrorDv();
+        Vector err = new Vector();
 
-		for (int i = 0; i < errorDv.length; i++){
-			err.add(new Real(errorDv[i].getValue().doubleValue()));
-		}
+        for (int i = 0; i < errorDv.length; i++){
+            err.add(new Real(errorDv[i].getValue().doubleValue()));
+        }
 
-		return err;
-	}
+        return err;
+    }
 }

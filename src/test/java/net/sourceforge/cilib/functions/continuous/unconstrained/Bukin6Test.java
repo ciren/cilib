@@ -37,21 +37,21 @@ import org.junit.Test;
 
 public class Bukin6Test {
 
-	private ContinuousFunction function;
+    private ContinuousFunction function;
 
-	public Bukin6Test() {
+    public Bukin6Test() {
         
     }
-	
-	@Before
-	public void instantiate() {
-		this.function = new Bukin6();
-	}
+    
+    @Before
+    public void instantiate() {
+        this.function = new Bukin6();
+    }
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bukin6. */
     @Test
     public void testEvaluate() {
-		function.setDomain("R(-15,-5),R(-3,3)");
+        function.setDomain("R(-15,-5),R(-3,3)");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
@@ -65,6 +65,6 @@ public class Bukin6Test {
     
     @Test
     public void minimum() {
-    	assertEquals(0.0, function.getMinimum());
+        assertEquals(0.0, function.getMinimum());
     }
 }

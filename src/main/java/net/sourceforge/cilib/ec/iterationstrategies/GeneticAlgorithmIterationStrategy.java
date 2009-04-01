@@ -44,141 +44,141 @@ import net.sourceforge.cilib.entity.topologies.GBestTopology;
  * @author Gary Pampara
  */
 public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy<EC> {
-	private static final long serialVersionUID = -2429984051022079804L;
+    private static final long serialVersionUID = -2429984051022079804L;
 
-	private CrossoverStrategy crossoverStrategy;
-	private MutationStrategy mutationStrategy;
+    private CrossoverStrategy crossoverStrategy;
+    private MutationStrategy mutationStrategy;
 
-	/**
-	 * Create an instance of the {@linkplain IterationStrategy}. Default cross-over
-	 * and mutation operators are {@linkplain UniformCrossoverStrategy} and
-	 * {@linkplain GaussianMutationStrategy} respectively.
-	 */
-	public GeneticAlgorithmIterationStrategy() {
-		this.crossoverStrategy = new UniformCrossoverStrategy();
-		this.mutationStrategy = new GaussianMutationStrategy();
+    /**
+     * Create an instance of the {@linkplain IterationStrategy}. Default cross-over
+     * and mutation operators are {@linkplain UniformCrossoverStrategy} and
+     * {@linkplain GaussianMutationStrategy} respectively.
+     */
+    public GeneticAlgorithmIterationStrategy() {
+        this.crossoverStrategy = new UniformCrossoverStrategy();
+        this.mutationStrategy = new GaussianMutationStrategy();
 
-		initialiseOperatorPipeline();
-	}
+        initialiseOperatorPipeline();
+    }
 
-	/**
-	 * Copy constructor. Create an instance that is a copy of the provided instance.
-	 * @param copy the instance to copy.
-	 */
-	public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
-		this.crossoverStrategy = copy.crossoverStrategy.getClone();
-		this.mutationStrategy = copy.mutationStrategy.getClone();
-		this.operatorPipeline = copy.operatorPipeline.getClone();
-	}
+    /**
+     * Copy constructor. Create an instance that is a copy of the provided instance.
+     * @param copy the instance to copy.
+     */
+    public GeneticAlgorithmIterationStrategy(GeneticAlgorithmIterationStrategy copy) {
+        this.crossoverStrategy = copy.crossoverStrategy.getClone();
+        this.mutationStrategy = copy.mutationStrategy.getClone();
+        this.operatorPipeline = copy.operatorPipeline.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public GeneticAlgorithmIterationStrategy getClone() {
-		return new GeneticAlgorithmIterationStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GeneticAlgorithmIterationStrategy getClone() {
+        return new GeneticAlgorithmIterationStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @param ec The EC algorithm to perform the iteration on.
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public void performIteration(EC ec) {
-		Topology<Entity> offspring = new GBestTopology<Entity>();
-		Topology<Entity> population = (Topology<Entity>) ec.getTopology();
-		population.update();
+    /**
+     * {@inheritDoc}
+     *
+     * @param ec The EC algorithm to perform the iteration on.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public void performIteration(EC ec) {
+        Topology<Entity> offspring = new GBestTopology<Entity>();
+        Topology<Entity> population = (Topology<Entity>) ec.getTopology();
+        population.update();
 
-		ECTopologyHolder holder = new ECTopologyHolder(population);
-//		holder.setCurrent(population);
-//		holder.setOffspring(offspring);
+        ECTopologyHolder holder = new ECTopologyHolder(population);
+//        holder.setCurrent(population);
+//        holder.setOffspring(offspring);
 
-//		operatorPipeline.performOperation(population, offspring);
-		operatorPipeline.performOperation(holder);
+//        operatorPipeline.performOperation(population, offspring);
+        operatorPipeline.performOperation(holder);
 
-		// Perform crossover
-		//List<Entity> crossedOver = this.crossoverStrategy.crossover(ec.getTopology());
+        // Perform crossover
+        //List<Entity> crossedOver = this.crossoverStrategy.crossover(ec.getTopology());
 
-		// Perform mutation on offspring
-		//this.mutationStrategy.mutate(crossedOver);
+        // Perform mutation on offspring
+        //this.mutationStrategy.mutate(crossedOver);
 
-		// Evaluate the fitness values of the generated offspring
-		for (Entity entity : holder.getModifiable()) {
-			entity.calculateFitness();
-		}
+        // Evaluate the fitness values of the generated offspring
+        for (Entity entity : holder.getModifiable()) {
+            entity.calculateFitness();
+        }
 
-		// Perform new population selection
-		Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
-//		for (Entity entity : offspring) {
-		for (Entity entity : holder.getModifiable()) {
-			topology.add(entity);
-		}
+        // Perform new population selection
+        Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
+//        for (Entity entity : offspring) {
+        for (Entity entity : holder.getModifiable()) {
+            topology.add(entity);
+        }
 
-		//this.boundaryConstraint.enforce(entity);
+        //this.boundaryConstraint.enforce(entity);
 
-		Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
-		ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize());
+        Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
+        ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize());
 
-		while (i.hasNext()) {
-			i.next();
-			i.remove();
-		}
+        while (i.hasNext()) {
+            i.next();
+            i.remove();
+        }
 
-		offspring.clear();
-		offspring = null;
-	}
+        offspring.clear();
+        offspring = null;
+    }
 
-	/**
-	 * Get the currently specified {@linkplain CrossoverStrategy}.
-	 * @return The current {@linkplain CrossoverStrategy}.
-	 */
-	public CrossoverStrategy getCrossoverStrategy() {
-		return crossoverStrategy;
-	}
+    /**
+     * Get the currently specified {@linkplain CrossoverStrategy}.
+     * @return The current {@linkplain CrossoverStrategy}.
+     */
+    public CrossoverStrategy getCrossoverStrategy() {
+        return crossoverStrategy;
+    }
 
-	/**
-	 * Set the current {@linkplain CrossoverStrategy} and reinitialise the operator pipeline.
-	 * @param crossoverStrategy The {@linkplain CrossoverStrategy} to use.
-	 */
-	public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
-		this.crossoverStrategy = crossoverStrategy;
-		initialiseOperatorPipeline();
-	}
+    /**
+     * Set the current {@linkplain CrossoverStrategy} and reinitialise the operator pipeline.
+     * @param crossoverStrategy The {@linkplain CrossoverStrategy} to use.
+     */
+    public void setCrossoverStrategy(CrossoverStrategy crossoverStrategy) {
+        this.crossoverStrategy = crossoverStrategy;
+        initialiseOperatorPipeline();
+    }
 
-	/**
-	 * Get the currently specified {@linkplain MutationStrategy}.
-	 * @return The current {@linkplain MutationStrategy}.
-	 */
-	public MutationStrategy getMutationStrategy() {
-		return mutationStrategy;
-	}
+    /**
+     * Get the currently specified {@linkplain MutationStrategy}.
+     * @return The current {@linkplain MutationStrategy}.
+     */
+    public MutationStrategy getMutationStrategy() {
+        return mutationStrategy;
+    }
 
-	/**
-	 * Set the current {@linkplain MutationStrategy} and reinitialise the operator pipeline.
-	 * @param mutationStrategy The {@linkplain MutationStrategy} to use.
-	 */
-	public void setMutationStrategy(MutationStrategy mutationStrategy) {
-		this.mutationStrategy = mutationStrategy;
-		initialiseOperatorPipeline();
-	}
+    /**
+     * Set the current {@linkplain MutationStrategy} and reinitialise the operator pipeline.
+     * @param mutationStrategy The {@linkplain MutationStrategy} to use.
+     */
+    public void setMutationStrategy(MutationStrategy mutationStrategy) {
+        this.mutationStrategy = mutationStrategy;
+        initialiseOperatorPipeline();
+    }
 
-	/**
-	 * Setup the operator pipeline based on the currently specified {@linkplain CrossoverStrategy}
-	 * and {@linkplain MutationStrategy}.
-	 *
-	 * The operator is firstly cleared of all elements and then recreated using the current
-	 * {@linkplain Operator} objects.
-	 */
-	private void initialiseOperatorPipeline() {
-		this.operatorPipeline.clear();
+    /**
+     * Setup the operator pipeline based on the currently specified {@linkplain CrossoverStrategy}
+     * and {@linkplain MutationStrategy}.
+     *
+     * The operator is firstly cleared of all elements and then recreated using the current
+     * {@linkplain Operator} objects.
+     */
+    private void initialiseOperatorPipeline() {
+        this.operatorPipeline.clear();
 
-		TopologyLoopingOperator loopingOperator = new TopologyLoopingOperator();
-		loopingOperator.setOperator(this.crossoverStrategy);
+        TopologyLoopingOperator loopingOperator = new TopologyLoopingOperator();
+        loopingOperator.setOperator(this.crossoverStrategy);
 
-		this.operatorPipeline.add(loopingOperator);
-		this.operatorPipeline.add(this.mutationStrategy);
-	}
+        this.operatorPipeline.add(loopingOperator);
+        this.operatorPipeline.add(this.mutationStrategy);
+    }
 
 }

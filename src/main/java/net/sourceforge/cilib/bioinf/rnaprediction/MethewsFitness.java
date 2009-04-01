@@ -25,22 +25,22 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * @author mneethling
  */
 public class MethewsFitness extends RNAFitness {
-	private static final long serialVersionUID = 7539622802239318588L;
+    private static final long serialVersionUID = 7539622802239318588L;
 
-	public MethewsFitness() {
-	}
+    public MethewsFitness() {
+    }
 
-	public MethewsFitness(MethewsFitness copy) {
-	}
+    public MethewsFitness(MethewsFitness copy) {
+    }
 
-	public MethewsFitness getClone() {
-		return new MethewsFitness(this);
-	}
+    public MethewsFitness getClone() {
+        return new MethewsFitness(this);
+    }
 
-	@Override
-	public Double getRNAFitness(RNAConformation stems) {
+    @Override
+    public Double getRNAFitness(RNAConformation stems) {
 
-		return null;
-	}
+        return null;
+    }
 
 }

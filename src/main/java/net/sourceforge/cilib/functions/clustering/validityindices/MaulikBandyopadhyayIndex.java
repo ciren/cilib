@@ -38,51 +38,51 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = -1094819834873604274L;
-	private int p = 1;
+    private static final long serialVersionUID = -1094819834873604274L;
+    private int p = 1;
 
-	public MaulikBandyopadhyayIndex() {
-		super();
-		p = 1;
-	}
+    public MaulikBandyopadhyayIndex() {
+        super();
+        p = 1;
+    }
 
-	@Override
-	public double calculateFitness() {
-		return Math.pow(termOne() * termTwo() * termThree(), p);
-	}
+    @Override
+    public double calculateFitness() {
+        return Math.pow(termOne() * termTwo() * termThree(), p);
+    }
 
-	private double termOne() {
-		return 1.0 / clustersFormed;
-	}
+    private double termOne() {
+        return 1.0 / clustersFormed;
+    }
 
-	private double termTwo() {
-		// This is the normalizing factor, E_1 which they talk about in the article.
-		double intraDatasetDistance = 0.0;
+    private double termTwo() {
+        // This is the normalizing factor, E_1 which they talk about in the article.
+        double intraDatasetDistance = 0.0;
 
-		/* E_1 refers to the intra-cluster distance when the dataset is clustered using only one
-		 * cluster. In this case, the dataset mean can be thought of as the dataset's centroid as
-		 * well.
-		 */
-		Vector mean = helper.getDataSetMean();
-		for (Pattern pattern : helper.getPatternsInDataSet()) {
-			intraDatasetDistance += helper.calculateDistance(pattern.data, mean);
-		}
+        /* E_1 refers to the intra-cluster distance when the dataset is clustered using only one
+         * cluster. In this case, the dataset mean can be thought of as the dataset's centroid as
+         * well.
+         */
+        Vector mean = helper.getDataSetMean();
+        for (Pattern pattern : helper.getPatternsInDataSet()) {
+            intraDatasetDistance += helper.calculateDistance(pattern.data, mean);
+        }
 
-		return intraDatasetDistance / calculateIntraClusterDistance();
-	}
+        return intraDatasetDistance / calculateIntraClusterDistance();
+    }
 
-	private double termThree() {
-		return calculateMaximumInterClusterDistance();
-	}
+    private double termThree() {
+        return calculateMaximumInterClusterDistance();
+    }
 
-	public void setP(int pu) {
-		if (pu < 1)
-			throw new IllegalArgumentException("The p-value cannot be <= 0");
-		p = pu;
-	}
+    public void setP(int pu) {
+        if (pu < 1)
+            throw new IllegalArgumentException("The p-value cannot be <= 0");
+        p = pu;
+    }
 
-	@Override
-	public MaulikBandyopadhyayIndex getClone() {
-		return new MaulikBandyopadhyayIndex();
-	}
+    @Override
+    public MaulikBandyopadhyayIndex getClone() {
+        return new MaulikBandyopadhyayIndex();
+    }
 }

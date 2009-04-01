@@ -28,53 +28,53 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
  * @author Edwin Peer
  */
 public class MinimumFunctionMinimisationError implements StoppingCondition {
-	private static final long serialVersionUID = -7375489325180419208L;
+    private static final long serialVersionUID = -7375489325180419208L;
 
-	private Algorithm optAlgorithm;
-	private double minimumError;
-	private FunctionMinimisationProblem problem;
+    private Algorithm optAlgorithm;
+    private double minimumError;
+    private FunctionMinimisationProblem problem;
 
-	/** Creates a new instance of MinimumErrorIndicator. */
-	public MinimumFunctionMinimisationError() {
-		minimumError = 1e-10;
-	}
+    /** Creates a new instance of MinimumErrorIndicator. */
+    public MinimumFunctionMinimisationError() {
+        minimumError = 1e-10;
+    }
 
-	public MinimumFunctionMinimisationError(double minimumError) {
-		this.minimumError = minimumError;
-	}
+    public MinimumFunctionMinimisationError(double minimumError) {
+        this.minimumError = minimumError;
+    }
 
-	public MinimumFunctionMinimisationError(MinimumFunctionMinimisationError copy) {
-		this.minimumError = copy.minimumError;
-		this.optAlgorithm = copy.optAlgorithm;
-		this.problem = copy.problem;
-	}
+    public MinimumFunctionMinimisationError(MinimumFunctionMinimisationError copy) {
+        this.minimumError = copy.minimumError;
+        this.optAlgorithm = copy.optAlgorithm;
+        this.problem = copy.problem;
+    }
 
-	public MinimumFunctionMinimisationError getClone() {
-		return new MinimumFunctionMinimisationError(this);
-	}
+    public MinimumFunctionMinimisationError getClone() {
+        return new MinimumFunctionMinimisationError(this);
+    }
 
-	public void setError(double minimumError) {
-		this.minimumError = minimumError;
-	}
+    public void setError(double minimumError) {
+        this.minimumError = minimumError;
+    }
 
-	public double getError() {
-		return minimumError;
-	}
+    public double getError() {
+        return minimumError;
+    }
 
-	public double getPercentageCompleted() {
-		double error = problem.getError(optAlgorithm.getBestSolution().getPosition());
-		if (error <= minimumError) {
-			return 1;
-		}
-		return minimumError / error;
-	}
+    public double getPercentageCompleted() {
+        double error = problem.getError(optAlgorithm.getBestSolution().getPosition());
+        if (error <= minimumError) {
+            return 1;
+        }
+        return minimumError / error;
+    }
 
-	public boolean isCompleted() {
-		return problem.getError(optAlgorithm.getBestSolution().getPosition()) <= minimumError;
-	}
+    public boolean isCompleted() {
+        return problem.getError(optAlgorithm.getBestSolution().getPosition()) <= minimumError;
+    }
 
-	public void setAlgorithm(Algorithm algorithm) {
-		optAlgorithm = algorithm;
-		problem = (FunctionMinimisationProblem) optAlgorithm.getOptimisationProblem();
-	}
+    public void setAlgorithm(Algorithm algorithm) {
+        optAlgorithm = algorithm;
+        problem = (FunctionMinimisationProblem) optAlgorithm.getOptimisationProblem();
+    }
 }

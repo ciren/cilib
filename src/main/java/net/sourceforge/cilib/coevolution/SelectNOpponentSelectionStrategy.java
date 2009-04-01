@@ -40,88 +40,88 @@ import net.sourceforge.cilib.type.types.Int;
  */
 public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy {
 
-	protected int numberOfOpponents;
-	protected RandomNumber random;
-	protected boolean pickFromOwnPopulation;
-	//population id for players selected from own population cannot be the same as the player being evaluated, otherwise it will ovverwrite that player in the problem in the case of game optimization
-	protected int ownPopulationID;
+    protected int numberOfOpponents;
+    protected RandomNumber random;
+    protected boolean pickFromOwnPopulation;
+    //population id for players selected from own population cannot be the same as the player being evaluated, otherwise it will ovverwrite that player in the problem in the case of game optimization
+    protected int ownPopulationID;
 
 
-	public int getNumberOfOpponents() {
-		return numberOfOpponents;
-	}
+    public int getNumberOfOpponents() {
+        return numberOfOpponents;
+    }
 
-	public void setNumberOfOpponents(int numberOfOpponents) {
-		this.numberOfOpponents = numberOfOpponents;
-	}
+    public void setNumberOfOpponents(int numberOfOpponents) {
+        this.numberOfOpponents = numberOfOpponents;
+    }
 
-	public SelectNOpponentSelectionStrategy(){
-		numberOfOpponents = 5;
-		random = new RandomNumber();
-		pickFromOwnPopulation = false;
-		ownPopulationID = -1;
-	}
+    public SelectNOpponentSelectionStrategy(){
+        numberOfOpponents = 5;
+        random = new RandomNumber();
+        pickFromOwnPopulation = false;
+        ownPopulationID = -1;
+    }
 
-	public SelectNOpponentSelectionStrategy(SelectNOpponentSelectionStrategy copy){
-		this.numberOfOpponents = copy.numberOfOpponents;
-		this.pickFromOwnPopulation = copy.pickFromOwnPopulation;
-		this.ownPopulationID = copy.ownPopulationID;
-		this.random = copy.random;
-	}
+    public SelectNOpponentSelectionStrategy(SelectNOpponentSelectionStrategy copy){
+        this.numberOfOpponents = copy.numberOfOpponents;
+        this.pickFromOwnPopulation = copy.pickFromOwnPopulation;
+        this.ownPopulationID = copy.ownPopulationID;
+        this.random = copy.random;
+    }
 
-	@Override
-	public OpponentSelectionStrategy getClone() {
-		return new SelectNOpponentSelectionStrategy(this);
-	}
+    @Override
+    public OpponentSelectionStrategy getClone() {
+        return new SelectNOpponentSelectionStrategy(this);
+    }
 
-	@Override
-	public CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool) {
-		CoevolutionEvaluationList opponents = new CoevolutionEvaluationList();
+    @Override
+    public CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool) {
+        CoevolutionEvaluationList opponents = new CoevolutionEvaluationList();
 
-		for(PopulationBasedAlgorithm algorithm: pool){
+        for(PopulationBasedAlgorithm algorithm: pool){
 
-			//get first entity to perform some checks
-			Entity e = algorithm.getTopology().get(0);
+            //get first entity to perform some checks
+            Entity e = algorithm.getTopology().get(0);
 
-			if(pickFromOwnPopulation || ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt() != populationID){ //select opponents from this pop
+            if(pickFromOwnPopulation || ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt() != populationID){ //select opponents from this pop
 
-				int pID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
+                int pID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
 
-				if(pickFromOwnPopulation && pID == populationID && ownPopulationID != -1) //if picking from own and I need to substitute popId with another one then do it
-					pID = ownPopulationID;
+                if(pickFromOwnPopulation && pID == populationID && ownPopulationID != -1) //if picking from own and I need to substitute popId with another one then do it
+                    pID = ownPopulationID;
 
-				List<EvaluationEntity> potentialOpponents = new ArrayList<EvaluationEntity>();
+                List<EvaluationEntity> potentialOpponents = new ArrayList<EvaluationEntity>();
 
-				for(int i=0; i< algorithm.getPopulationSize(); i++){
-					e = algorithm.getTopology().get(i);
-					//not picking from my pop and this pop is my pop then break;
-					potentialOpponents.add(new EvaluationEntity(e.getCandidateSolution(), pID));
-				}
+                for(int i=0; i< algorithm.getPopulationSize(); i++){
+                    e = algorithm.getTopology().get(i);
+                    //not picking from my pop and this pop is my pop then break;
+                    potentialOpponents.add(new EvaluationEntity(e.getCandidateSolution(), pID));
+                }
 
-				List<EvaluationEntity> selectedOpponents = new ArrayList<EvaluationEntity>();
-				for(int i=0; i<numberOfOpponents;i++){
-					int selected = (int)random.getUniform(0, potentialOpponents.size());
-					selectedOpponents.add(potentialOpponents.get(selected));
-					potentialOpponents.remove(selected);
-				}
-				if(selectedOpponents.size() > 0)
-					opponents.addEntityList(selectedOpponents);
-			}
-		}
+                List<EvaluationEntity> selectedOpponents = new ArrayList<EvaluationEntity>();
+                for(int i=0; i<numberOfOpponents;i++){
+                    int selected = (int)random.getUniform(0, potentialOpponents.size());
+                    selectedOpponents.add(potentialOpponents.get(selected));
+                    potentialOpponents.remove(selected);
+                }
+                if(selectedOpponents.size() > 0)
+                    opponents.addEntityList(selectedOpponents);
+            }
+        }
 
-		return opponents;
-	}
+        return opponents;
+    }
 
-	public boolean isPickFromOwnPopulation() {
-		return pickFromOwnPopulation;
-	}
+    public boolean isPickFromOwnPopulation() {
+        return pickFromOwnPopulation;
+    }
 
-	public void setPickFromOwnPopulation(boolean pickFromOwnPopulation) {
-		this.pickFromOwnPopulation = pickFromOwnPopulation;
-	}
+    public void setPickFromOwnPopulation(boolean pickFromOwnPopulation) {
+        this.pickFromOwnPopulation = pickFromOwnPopulation;
+    }
 
-	public void setOwnPopulationPlayerID(int ownPopulationID) {
-		this.ownPopulationID = ownPopulationID;
-	}
+    public void setOwnPopulationPlayerID(int ownPopulationID) {
+        this.ownPopulationID = ownPopulationID;
+    }
 
 }

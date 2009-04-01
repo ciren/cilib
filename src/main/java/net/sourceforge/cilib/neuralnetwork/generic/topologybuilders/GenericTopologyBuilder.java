@@ -38,70 +38,70 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
  */
 public abstract class GenericTopologyBuilder implements Initializable {
 
-	public abstract ArrayList<ArrayList<NeuronConfig>> createLayerList();
+    public abstract ArrayList<ArrayList<NeuronConfig>> createLayerList();
 
-	/*
-	protected ArrayList<ArrayList<NeuronConfig>> constructConnectedLayeredTopology(int[] layerSizes, Weight baseW){
+    /*
+    protected ArrayList<ArrayList<NeuronConfig>> constructConnectedLayeredTopology(int[] layerSizes, Weight baseW){
 
-		ArrayList<ArrayList<NeuronConfig>> network = new ArrayList<ArrayList<NeuronConfig>>();
+        ArrayList<ArrayList<NeuronConfig>> network = new ArrayList<ArrayList<NeuronConfig>>();
 
-		ArrayList<NeuronConfig> tmp = new ArrayList<NeuronConfig>();
+        ArrayList<NeuronConfig> tmp = new ArrayList<NeuronConfig>();
 
-		//construct layer 0 as a base case
-		for (int n = 0; n < layerSizes[0]; n++){
-			NeuronConfig neuron = new NeuronConfig();
-			tmp.add(neuron);
-		}
-		network.add(tmp);
+        //construct layer 0 as a base case
+        for (int n = 0; n < layerSizes[0]; n++){
+            NeuronConfig neuron = new NeuronConfig();
+            tmp.add(neuron);
+        }
+        network.add(tmp);
 
-		//construct more layers iteratively, and connect them to previous layer
-		for (int layer = 1; layer < layerSizes.length; layer++){
+        //construct more layers iteratively, and connect them to previous layer
+        for (int layer = 1; layer < layerSizes.length; layer++){
 
-			ArrayList<NeuronConfig> tmp2 = new ArrayList<NeuronConfig>();
-			for (int n = 0; n < layerSizes[layer]; n++){
-				NeuronConfig neuron = new NeuronConfig();
+            ArrayList<NeuronConfig> tmp2 = new ArrayList<NeuronConfig>();
+            for (int n = 0; n < layerSizes[layer]; n++){
+                NeuronConfig neuron = new NeuronConfig();
 
-				Weight[] w = new Weight[network.get(layer-1).size()];
-				for (int wi = 0; wi < w.length; wi++){
-					w[wi] = baseW.clone();
-				}
-				neuron.setInputWeights(w);
+                Weight[] w = new Weight[network.get(layer-1).size()];
+                for (int wi = 0; wi < w.length; wi++){
+                    w[wi] = baseW.clone();
+                }
+                neuron.setInputWeights(w);
 
-				tmp2.add(neuron);
-			}
-			network.add(tmp2);
+                tmp2.add(neuron);
+            }
+            network.add(tmp2);
 
-		}
+        }
 
-		return network;
+        return network;
 
-	}
+    }
 
-	protected ArrayList<ArrayList<NeuronConfig>> constructLayeredTopology(int[] layerSizes){
+    protected ArrayList<ArrayList<NeuronConfig>> constructLayeredTopology(int[] layerSizes){
 
-		ArrayList<ArrayList<NeuronConfig>> network = new ArrayList<ArrayList<NeuronConfig>>();
+        ArrayList<ArrayList<NeuronConfig>> network = new ArrayList<ArrayList<NeuronConfig>>();
 
-		ArrayList<NeuronConfig> tmp = new ArrayList<NeuronConfig>();
+        ArrayList<NeuronConfig> tmp = new ArrayList<NeuronConfig>();
 
-		//construct layer 0 as a base case
-		for (int n = 0; n < layerSizes[0]; n++){
-			NeuronConfig neuron = new NeuronConfig();
-			tmp.add(neuron);
-		}
-		network.add(tmp);
+        //construct layer 0 as a base case
+        for (int n = 0; n < layerSizes[0]; n++){
+            NeuronConfig neuron = new NeuronConfig();
+            tmp.add(neuron);
+        }
+        network.add(tmp);
 
-		//construct more layers recursively, no weights though...
-		for (int layer = 1; layer < layerSizes.length; layer++){
+        //construct more layers recursively, no weights though...
+        for (int layer = 1; layer < layerSizes.length; layer++){
 
-			ArrayList<NeuronConfig> tmp2 = new ArrayList<NeuronConfig>();
-			for (int n = 0; n < layerSizes[layer]; n++){
-				NeuronConfig neuron = new NeuronConfig();
-				tmp2.add(neuron);
-			}
-			network.add(tmp2);
-		}
-		return network;
-	}
+            ArrayList<NeuronConfig> tmp2 = new ArrayList<NeuronConfig>();
+            for (int n = 0; n < layerSizes[layer]; n++){
+                NeuronConfig neuron = new NeuronConfig();
+                tmp2.add(neuron);
+            }
+            network.add(tmp2);
+        }
+        return network;
+    }
 
-	*/
+    */
 }

@@ -35,18 +35,18 @@ import org.junit.Test;
  */
 public class SalomonTest {
 
-	public SalomonTest() {
-	}
+    public SalomonTest() {
+    }
 
-	@Test
-	public void testEvaluate() {
-		ContinuousFunction function = new Salomon();
-		function.setDomain("R(-600, 600)^3");
+    @Test
+    public void testEvaluate() {
+        ContinuousFunction function = new Salomon();
+        function.setDomain("R(-600, 600)^3");
 
-		Vector x = new Vector();
-		x.append(new Real(1.0));
-		x.append(new Real(2.0));
-		x.append(new Real(3.0));
-		assertEquals(1.426559922, function.evaluate(x), 0.000000009);
-	}
+        Vector x = new Vector();
+        x.append(new Real(1.0));
+        x.append(new Real(2.0));
+        x.append(new Real(3.0));
+        assertEquals(1.426559922, function.evaluate(x), 0.000000009);
+    }
 }

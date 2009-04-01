@@ -49,121 +49,121 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  * @author Gary Pampara
  */
 public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm implements Iterable<PopulationBasedAlgorithm> {
-	private static final long serialVersionUID = -5311450612897848103L;
-	protected List<PopulationBasedAlgorithm> subPopulationsAlgorithms;
-	protected AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator;
+    private static final long serialVersionUID = -5311450612897848103L;
+    protected List<PopulationBasedAlgorithm> subPopulationsAlgorithms;
+    protected AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator;
 
-	/**
-	 * Create an instance of {@linkplain MultiPopulationBasedAlgorithm}.
-	 */
-	public MultiPopulationBasedAlgorithm() {
-		this.subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
-		this.algorithmIterator = new SequentialAlgorithmIterator<PopulationBasedAlgorithm>();
-		this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
-	}
+    /**
+     * Create an instance of {@linkplain MultiPopulationBasedAlgorithm}.
+     */
+    public MultiPopulationBasedAlgorithm() {
+        this.subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
+        this.algorithmIterator = new SequentialAlgorithmIterator<PopulationBasedAlgorithm>();
+        this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public MultiPopulationBasedAlgorithm(MultiPopulationBasedAlgorithm copy) {
-		super(copy);
-		subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public MultiPopulationBasedAlgorithm(MultiPopulationBasedAlgorithm copy) {
+        super(copy);
+        subPopulationsAlgorithms = new ArrayList<PopulationBasedAlgorithm>();
 
-		for (PopulationBasedAlgorithm algorithm : copy.subPopulationsAlgorithms) {
-			subPopulationsAlgorithms.add(algorithm.getClone());
-		}
+        for (PopulationBasedAlgorithm algorithm : copy.subPopulationsAlgorithms) {
+            subPopulationsAlgorithms.add(algorithm.getClone());
+        }
 
-		algorithmIterator = copy.algorithmIterator;
-		algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
-	}
+        algorithmIterator = copy.algorithmIterator;
+        algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-	public void reset() {
-		super.reset();
+    public void reset() {
+        super.reset();
 
-		for(Algorithm algorithm : subPopulationsAlgorithms)
-			algorithm.reset();
+        for(Algorithm algorithm : subPopulationsAlgorithms)
+            algorithm.reset();
 
-		algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
-	}
+        algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-	public Iterator<PopulationBasedAlgorithm> iterator() {
-		return this.algorithmIterator.getClone();
-	}
+    public Iterator<PopulationBasedAlgorithm> iterator() {
+        return this.algorithmIterator.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected abstract void algorithmIteration();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected abstract void algorithmIteration();
 
-	/**
-	 * Get the {@linkplain List} of current sub-populations.
-	 * @return The {@linkplain List} of {@linkplain PopulationBasedAlgorithm}.
-	 */
-	public List<PopulationBasedAlgorithm> getPopulations() {
-		return subPopulationsAlgorithms;
-	}
+    /**
+     * Get the {@linkplain List} of current sub-populations.
+     * @return The {@linkplain List} of {@linkplain PopulationBasedAlgorithm}.
+     */
+    public List<PopulationBasedAlgorithm> getPopulations() {
+        return subPopulationsAlgorithms;
+    }
 
-	/**
-	 * Set the list of {@linkplain PopulationBasedAlgorithm} instances that the
-	 * {@linkplain MultiPopulationBasedAlgorithm} should maintain.
-	 * @param populationBasedAlgorithms The {@linkplain List} of {@linkplain PopulationBasedAlgorithm}s to set.
-	 */
-	public void setPopulations(List<PopulationBasedAlgorithm> populationBasedAlgorithms) {
-		this.subPopulationsAlgorithms = populationBasedAlgorithms;
-	}
+    /**
+     * Set the list of {@linkplain PopulationBasedAlgorithm} instances that the
+     * {@linkplain MultiPopulationBasedAlgorithm} should maintain.
+     * @param populationBasedAlgorithms The {@linkplain List} of {@linkplain PopulationBasedAlgorithm}s to set.
+     */
+    public void setPopulations(List<PopulationBasedAlgorithm> populationBasedAlgorithms) {
+        this.subPopulationsAlgorithms = populationBasedAlgorithms;
+    }
 
-	/**
-	 * Add a {@linkplain PopulationBasedAlgorithm} to the list of maintained sub-populations.
-	 * @param algorithm The {@linkplain PopulationBasedAlgorithm} to add to the current collection.
-	 */
-	public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
-		this.subPopulationsAlgorithms.add(algorithm);
-	}
+    /**
+     * Add a {@linkplain PopulationBasedAlgorithm} to the list of maintained sub-populations.
+     * @param algorithm The {@linkplain PopulationBasedAlgorithm} to add to the current collection.
+     */
+    public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
+        this.subPopulationsAlgorithms.add(algorithm);
+    }
 
-	/**
-	 * Remove the provided {@linkplain PopulationBasedAlgorithm} from the collection of maintained
-	 * instances.
-	 * @param algorithm The instance to remove from the collection.
-	 */
-	public void removePopulationBasedalgorithm(PopulationBasedAlgorithm algorithm) {
-		this.subPopulationsAlgorithms.remove(algorithm);
-	}
+    /**
+     * Remove the provided {@linkplain PopulationBasedAlgorithm} from the collection of maintained
+     * instances.
+     * @param algorithm The instance to remove from the collection.
+     */
+    public void removePopulationBasedalgorithm(PopulationBasedAlgorithm algorithm) {
+        this.subPopulationsAlgorithms.remove(algorithm);
+    }
 
-	/**
-	 * Get an {@linkplain AlgorithmIterator} to iterate over the current collection of
-	 * {@linkplain PopulationBasedAlgorithm}s.
-	 * @return An {@linkplain AlgorithmIterator} over the current collection.
-	 */
-	public AlgorithmIterator<PopulationBasedAlgorithm> getAlgorithmIterator() {
-		return algorithmIterator;
-	}
+    /**
+     * Get an {@linkplain AlgorithmIterator} to iterate over the current collection of
+     * {@linkplain PopulationBasedAlgorithm}s.
+     * @return An {@linkplain AlgorithmIterator} over the current collection.
+     */
+    public AlgorithmIterator<PopulationBasedAlgorithm> getAlgorithmIterator() {
+        return algorithmIterator;
+    }
 
-	/**
-	 * Set the type of iterator to be used.
-	 * @param algorithmIterator The iterator instance to set.
-	 */
-	public void setAlgorithmIterator(AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator) {
-		this.algorithmIterator = algorithmIterator;
-		this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
-	}
+    /**
+     * Set the type of iterator to be used.
+     * @param algorithmIterator The iterator instance to set.
+     */
+    public void setAlgorithmIterator(AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator) {
+        this.algorithmIterator = algorithmIterator;
+        this.algorithmIterator.setAlgorithms(this.subPopulationsAlgorithms);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Object accept(TopologyVisitor visitor) {
-		throw new UnsupportedOperationException("Needs an implementation");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object accept(TopologyVisitor visitor) {
+        throw new UnsupportedOperationException("Needs an implementation");
+    }
 
     @Override
     public int getPopulationSize() {

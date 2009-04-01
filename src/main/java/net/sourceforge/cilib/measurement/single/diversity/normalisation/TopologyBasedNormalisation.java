@@ -31,43 +31,43 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  */
 public class TopologyBasedNormalisation extends NormalisationParameter {
 
-	private TopologyVisitor visitor;
+    private TopologyVisitor visitor;
 
-	/**
-	 * Create an instance of the {@linkplain TopologyBasedNormalisation}.
-	 */
-	public TopologyBasedNormalisation() {
-		super();
-		visitor = new DiameterVisitor();
-	}
+    /**
+     * Create an instance of the {@linkplain TopologyBasedNormalisation}.
+     */
+    public TopologyBasedNormalisation() {
+        super();
+        visitor = new DiameterVisitor();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double getValue() {
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		visitor.setDistanceMeasure(distanceMeasure);
-		algorithm.accept(visitor);
-		this.normalisationParameter = (Double) visitor.getResult();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getValue() {
+        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+        visitor.setDistanceMeasure(distanceMeasure);
+        algorithm.accept(visitor);
+        this.normalisationParameter = (Double) visitor.getResult();
 
-		return this.normalisationParameter;
-	}
+        return this.normalisationParameter;
+    }
 
-	/**
-	 * Get the decorated {@linkplain TopologyVisitor}.
-	 * @return The decorated {@linkplain TopologyVisitor}.
-	 */
-	public TopologyVisitor getVisitor() {
-		return visitor;
-	}
+    /**
+     * Get the decorated {@linkplain TopologyVisitor}.
+     * @return The decorated {@linkplain TopologyVisitor}.
+     */
+    public TopologyVisitor getVisitor() {
+        return visitor;
+    }
 
-	/**
-	 * Set the {@linkplain TopologyVisitor} to be decorated.
-	 * @param visitor The {@linkplain TopologyVisitor} to set.
-	 */
-	public void setVisitor(TopologyVisitor visitor) {
-		this.visitor = visitor;
-	}
+    /**
+     * Set the {@linkplain TopologyVisitor} to be decorated.
+     * @param visitor The {@linkplain TopologyVisitor} to set.
+     */
+    public void setVisitor(TopologyVisitor visitor) {
+        this.visitor = visitor;
+    }
 
 }

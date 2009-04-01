@@ -29,18 +29,18 @@ import net.sourceforge.cilib.measurement.single.Fitness;
  * ie. fitness should be minimised.
  */
 public abstract class RNAFitness extends Fitness {
-	private static final long serialVersionUID = 1060703834565988934L;
+    private static final long serialVersionUID = 1060703834565988934L;
 
-	public RNAFitness() {
-	}
+    public RNAFitness() {
+    }
 
-	public RNAFitness(String nuc) {
-		this.nucleotides = nuc;
-	}
+    public RNAFitness(String nuc) {
+        this.nucleotides = nuc;
+    }
 
-	public abstract RNAFitness getClone();
+    public abstract RNAFitness getClone();
 
-	public abstract Double getRNAFitness(RNAConformation stems);
+    public abstract Double getRNAFitness(RNAConformation stems);
 
-	protected String nucleotides;
+    protected String nucleotides;
 }

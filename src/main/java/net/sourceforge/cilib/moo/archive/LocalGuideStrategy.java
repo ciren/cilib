@@ -29,9 +29,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public interface LocalGuideStrategy {
 
-	public Vector getLocalGuide();
+    public Vector getLocalGuide();
 
-	public void setLocalGuide(Vector newLocalGuide);
+    public void setLocalGuide(Vector newLocalGuide);
 
-	public void updateLocalGuide(Particle particle);
+    public void updateLocalGuide(Particle particle);
 }

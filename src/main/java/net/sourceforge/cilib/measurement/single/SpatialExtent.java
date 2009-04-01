@@ -49,82 +49,82 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * @author Andries Engelbrecht
  */
 public class SpatialExtent implements Measurement {
-	private static final long serialVersionUID = -6846992935896199456L;
+    private static final long serialVersionUID = -6846992935896199456L;
 
-	public SpatialExtent() {
+    public SpatialExtent() {
 
-	}
+    }
 
-	public SpatialExtent(SpatialExtent copy) {
-	}
+    public SpatialExtent(SpatialExtent copy) {
+    }
 
-	public SpatialExtent getClone() {
-		return new SpatialExtent(this);
-	}
+    public SpatialExtent getClone() {
+        return new SpatialExtent(this);
+    }
 
-	public String getDomain() {
-		return "R";
-	}
+    public String getDomain() {
+        return "R";
+    }
 
-	public Type getValue(Algorithm algorithm) {
+    public Type getValue(Algorithm algorithm) {
 
-		/*PSO pso = (PSO) Algorithm.get();
+        /*PSO pso = (PSO) Algorithm.get();
 
-		Iterator k = pso.getTopology().iterator();
-	    Particle particle = (Particle) k.next();
-	    Vector pos = (Vector) particle.getPosition();
-	    Vector maxVector = pos.clone();
-	    Vector minVector = pos.clone();
-	    while (k.hasNext()) {
-	    	particle = (Particle) k.next();
-	    	Vector position = (Vector) particle.getPosition();
-	        for (int j = 0; j < position.getDimension(); ++j) {
-	        	double posValue = position.getReal(j);
-	        	double maxValue = maxVector.getReal(j);
-	        	double minValue = minVector.getReal(j);
+        Iterator k = pso.getTopology().iterator();
+        Particle particle = (Particle) k.next();
+        Vector pos = (Vector) particle.getPosition();
+        Vector maxVector = pos.clone();
+        Vector minVector = pos.clone();
+        while (k.hasNext()) {
+            particle = (Particle) k.next();
+            Vector position = (Vector) particle.getPosition();
+            for (int j = 0; j < position.getDimension(); ++j) {
+                double posValue = position.getReal(j);
+                double maxValue = maxVector.getReal(j);
+                double minValue = minVector.getReal(j);
 
-	        	if (posValue > maxValue)
-	        		maxVector.setReal(j,posValue);
+                if (posValue > maxValue)
+                    maxVector.setReal(j,posValue);
 
-	        	if (posValue < minValue)
-	        		minVector.setReal(j,posValue);
-	        }
-	    }
+                if (posValue < minValue)
+                    minVector.setReal(j,posValue);
+            }
+        }
 
-	    double maxDimensionalDifference = 0.0;
-	    for (int j = 0; j < maxVector.getDimension(); ++j) {
-	    	double dimensionDifference = maxVector.getReal(j) - minVector.getReal(j);
-	    	if (dimensionDifference > maxDimensionalDifference)
-	    		maxDimensionalDifference = dimensionDifference;
-	    }
-		return new Real(maxDimensionalDifference);*/
+        double maxDimensionalDifference = 0.0;
+        for (int j = 0; j < maxVector.getDimension(); ++j) {
+            double dimensionDifference = maxVector.getReal(j) - minVector.getReal(j);
+            if (dimensionDifference > maxDimensionalDifference)
+                maxDimensionalDifference = dimensionDifference;
+        }
+        return new Real(maxDimensionalDifference);*/
 
 
-		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-		DistanceMeasure chebyshevDistance = new ChebyshevDistanceMeasure();
-		double maxDimensionalDifference = 0.0;
-		//PSO pso = (PSO) Algorithm.get();
+        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        DistanceMeasure chebyshevDistance = new ChebyshevDistanceMeasure();
+        double maxDimensionalDifference = 0.0;
+        //PSO pso = (PSO) Algorithm.get();
 
-		Iterator<? extends Entity> populationIterator_1 = populationBasedAlgorithm.getTopology().iterator();
+        Iterator<? extends Entity> populationIterator_1 = populationBasedAlgorithm.getTopology().iterator();
 
-	    while (populationIterator_1.hasNext()) {
-	    	Entity entity_1 = populationIterator_1.next();
-	    	Vector entity_1Contents = (Vector) entity_1.getCandidateSolution();
+        while (populationIterator_1.hasNext()) {
+            Entity entity_1 = populationIterator_1.next();
+            Vector entity_1Contents = (Vector) entity_1.getCandidateSolution();
 
-	    	Iterator<? extends Entity> populationIterator_2 = populationBasedAlgorithm.getTopology().iterator();
+            Iterator<? extends Entity> populationIterator_2 = populationBasedAlgorithm.getTopology().iterator();
 
-	    	while(populationIterator_2.hasNext()) {
-	    		Entity entity_2 = populationIterator_2.next();
-	    		Vector entity_2Contents = (Vector) entity_2.getCandidateSolution();
+            while(populationIterator_2.hasNext()) {
+                Entity entity_2 = populationIterator_2.next();
+                Vector entity_2Contents = (Vector) entity_2.getCandidateSolution();
 
-	    		double dimensionalDifference = chebyshevDistance.distance(entity_1Contents, entity_2Contents);
+                double dimensionalDifference = chebyshevDistance.distance(entity_1Contents, entity_2Contents);
 
-	    		if(dimensionalDifference > maxDimensionalDifference)
-	    			maxDimensionalDifference = dimensionalDifference;
-	    	}
-	    }
+                if(dimensionalDifference > maxDimensionalDifference)
+                    maxDimensionalDifference = dimensionalDifference;
+            }
+        }
 
-	    return new Real(maxDimensionalDifference);
-	}
+        return new Real(maxDimensionalDifference);
+    }
 
 }

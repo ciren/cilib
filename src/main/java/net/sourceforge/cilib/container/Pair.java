@@ -34,138 +34,138 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <V> The Object to associate to the key.
  */
 public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair<K, V>>, Cloneable, Serializable {
-	private static final long serialVersionUID = -1557021513377872749L;
-	private K key;
-	private V value;
+    private static final long serialVersionUID = -1557021513377872749L;
+    private K key;
+    private V value;
 
-	/**
-	 * Default constructor. Assigns both the key and the value to {@code null}.
-	 */
-	public Pair() {
-		this.key = null;
-		this.value = null;
-	}
+    /**
+     * Default constructor. Assigns both the key and the value to {@code null}.
+     */
+    public Pair() {
+        this.key = null;
+        this.value = null;
+    }
 
-	/**
-	 * Construct a {@linkplain Pair} with the given key and value.
-	 * @param key The key value to set.
-	 * @param value The object to associate with this key.
-	 */
-	public Pair(K key, V value) {
-		this.key = key;
-		this.value = value;
-	}
-
-
-	/**
-	 * Copy constructor.
-	 * @param copy The object to copy.
-	 */
-	public Pair(Pair<K, V> copy) {
-		this.key = copy.key;
-		this.value = copy.value;
-	}
+    /**
+     * Construct a {@linkplain Pair} with the given key and value.
+     * @param key The key value to set.
+     * @param value The object to associate with this key.
+     */
+    public Pair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Pair<K, V> getClone() {
-		return new Pair<K, V>(this);
-	}
+    /**
+     * Copy constructor.
+     * @param copy The object to copy.
+     */
+    public Pair(Pair<K, V> copy) {
+        this.key = copy.key;
+        this.value = copy.value;
+    }
 
 
-	/**
-	 * @return Returns the key.
-	 */
-	public K getKey() {
-		return key;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Pair<K, V> getClone() {
+        return new Pair<K, V>(this);
+    }
 
 
-	/**
-	 * @param key The key to set.
-	 */
-	public void setKey(K key) {
-		this.key = key;
-	}
+    /**
+     * @return Returns the key.
+     */
+    public K getKey() {
+        return key;
+    }
 
 
-	/**
-	 * @return Returns the value.
-	 */
-	public V getValue() {
-		return value;
-	}
+    /**
+     * @param key The key to set.
+     */
+    public void setKey(K key) {
+        this.key = key;
+    }
 
 
-	/**
-	 * @param value The value to set.
-	 */
-	public void setValue(V value) {
-		this.value = value;
-	}
+    /**
+     * @return Returns the value.
+     */
+    public V getValue() {
+        return value;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 * @param o The {@linkplain Pair} to perform the comparison with.
-	 * @return The result of the comparison.
-	 */
-	public int compareTo(Pair<K, V> o) {
-		K t1 = this.key;
-		return t1.compareTo(o.key);
-	}
+    /**
+     * @param value The value to set.
+     */
+    public void setValue(V value) {
+        this.value = value;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String toString() {
-		return this.getKey().toString();
-	}
+    /**
+     * {@inheritDoc}
+     * @param o The {@linkplain Pair} to perform the comparison with.
+     * @return The result of the comparison.
+     */
+    public int compareTo(Pair<K, V> o) {
+        K t1 = this.key;
+        return t1.compareTo(o.key);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((key == null) ? 0 : key.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
-		return result;
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        return this.getKey().toString();
+    }
 
-		if (getClass() != obj.getClass()) return false;
-		final Pair other = (Pair) obj;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((key == null) ? 0 : key.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        return result;
+    }
 
-		if (key == null) {
-			if (other.key != null)
-				return false;
-		}
-		else if (!key.equals(other.key))
-			return false;
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
 
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		}
-		else if (!value.equals(other.value))
-			return false;
+        if (getClass() != obj.getClass()) return false;
+        final Pair other = (Pair) obj;
 
-		return true;
-	}
+        if (key == null) {
+            if (other.key != null)
+                return false;
+        }
+        else if (!key.equals(other.key))
+            return false;
+
+        if (value == null) {
+            if (other.value != null)
+                return false;
+        }
+        else if (!value.equals(other.value))
+            return false;
+
+        return true;
+    }
 
 }

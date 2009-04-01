@@ -33,9 +33,9 @@ import org.w3c.dom.Element;
  */
 public class XMLProblemFactory extends XMLObjectFactory implements ProblemFactory {
 
-	public XMLProblemFactory() {
-		super(null);
-	}
+    public XMLProblemFactory() {
+        super(null);
+    }
 
     /** Creates a new instance of XMLProblemFactory. */
     public XMLProblemFactory(Document xmlDocument, Element xmlProblemDescription) {

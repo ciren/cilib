@@ -30,14 +30,14 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  */
 public abstract class FitnessSharingStrategy implements Cloneable {
-	private static final long serialVersionUID = 6191655650337123237L;
+    private static final long serialVersionUID = 6191655650337123237L;
 
-	/**
-	 * modifies the fitness of the entity according to a specific fitness sharing strategy.
-	 * @param CoevolutionAlgorithm
-	 * @param ent Entity whose fitness is to be calculated
-	 * @return the fitness of the entity
-	 */
-	public abstract Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent);
-	public abstract FitnessSharingStrategy getClone();
+    /**
+     * modifies the fitness of the entity according to a specific fitness sharing strategy.
+     * @param CoevolutionAlgorithm
+     * @param ent Entity whose fitness is to be calculated
+     * @return the fitness of the entity
+     */
+    public abstract Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent);
+    public abstract FitnessSharingStrategy getClone();
 }

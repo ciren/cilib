@@ -40,14 +40,14 @@ public class KnuthSubtractive extends Random {
     /**
      * Create an instance of {@linkplain KnuthSubtractive}.
      */
-	public KnuthSubtractive() {
+    public KnuthSubtractive() {
         super(Seeder.getSeed());
     }
 
-	/**
-	 * Create an instance, with the given <code>seed</code> value.
-	 * @param seed The seed value.
-	 */
+    /**
+     * Create an instance, with the given <code>seed</code> value.
+     * @param seed The seed value.
+     */
     public KnuthSubtractive(long seed) {
         super(seed);
     }
@@ -56,7 +56,7 @@ public class KnuthSubtractive extends Random {
      * {@inheritDoc}
      */
     public KnuthSubtractive getClone() {
-    	return new KnuthSubtractive();
+        return new KnuthSubtractive();
     }
 
     /**

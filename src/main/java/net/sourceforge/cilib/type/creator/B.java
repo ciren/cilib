@@ -31,23 +31,23 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public final class B implements TypeCreator {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 7124782787032789332L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7124782787032789332L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type create() {
-		return new Bit();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Type create() {
+        return new Bit();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type create(final double lower, final double upper) {
-		throw new UnsupportedOperationException("Bit types cannot be constructed with bounds");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Type create(final double lower, final double upper) {
+        throw new UnsupportedOperationException("Bit types cannot be constructed with bounds");
+    }
 
 }

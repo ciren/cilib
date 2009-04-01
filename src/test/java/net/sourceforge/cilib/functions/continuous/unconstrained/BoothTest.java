@@ -37,21 +37,21 @@ import org.junit.Test;
 
 public class BoothTest {
 
-	private ContinuousFunction function;
+    private ContinuousFunction function;
 
-	public BoothTest() {
+    public BoothTest() {
         
     }
-	
-	@Before
-	public void instantiate() {
-		this.function = new Booth();
-	}
+    
+    @Before
+    public void instantiate() {
+        this.function = new Booth();
+    }
     
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Booth. */
     @Test
     public void testEvaluate() {
-		function.setDomain("R(-10,10)^2");
+        function.setDomain("R(-10,10)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
@@ -66,6 +66,6 @@ public class BoothTest {
     
     @Test
     public void minimum() {
-    	assertEquals(0.0, function.getMinimum());
+        assertEquals(0.0, function.getMinimum());
     }
 }

@@ -34,12 +34,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public interface GradientOptimisationProblem {
 
-	/**
-	 * Returns the gradient of the optimisation problem at the given position.
-	 *
-	 * @param position the position.
-	 * @return the gradient at position.
-	 */
+    /**
+     * Returns the gradient of the optimisation problem at the given position.
+     *
+     * @param position the position.
+     * @return the gradient at position.
+     */
     public abstract Vector getGradient(Vector position);
 
 }

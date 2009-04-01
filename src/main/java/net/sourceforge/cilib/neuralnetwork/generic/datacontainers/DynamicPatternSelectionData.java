@@ -37,133 +37,133 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class DynamicPatternSelectionData extends GenericData implements Initializable {
 
-	protected GenericTopology topology;
-	protected NNError prototypeError;
-	protected ArrayList<NNPattern> mostInformative;
-	protected ArrayList<NNError> informativeness;
-	private int nrUpdates;
+    protected GenericTopology topology;
+    protected NNError prototypeError;
+    protected ArrayList<NNPattern> mostInformative;
+    protected ArrayList<NNError> informativeness;
+    private int nrUpdates;
 
 
 
-	public DynamicPatternSelectionData() {
-		topology = null;
-		this.prototypeError = null;
-		this.mostInformative = null;
-		this.informativeness = null;
-		this.nrUpdates = 1;
-	}
+    public DynamicPatternSelectionData() {
+        topology = null;
+        this.prototypeError = null;
+        this.mostInformative = null;
+        this.informativeness = null;
+        this.nrUpdates = 1;
+    }
 
-	public void initialize(){
+    public void initialize(){
 
-		super.initialize();
+        super.initialize();
 
-		if ((this.topology == null) || (this.prototypeError == null)) {
-			throw new IllegalArgumentException("Required object was null during initialization");
-		}
+        if ((this.topology == null) || (this.prototypeError == null)) {
+            throw new IllegalArgumentException("Required object was null during initialization");
+        }
 
-		//assign this as a permanent case as we are testing one pattern at a time.
-		prototypeError.setNoPatterns(1);
+        //assign this as a permanent case as we are testing one pattern at a time.
+        prototypeError.setNoPatterns(1);
 
-		this.mostInformative = new ArrayList<NNPattern>();
-		this.informativeness = new ArrayList<NNError>();
-		for (int i = 0; i < nrUpdates; i++){
-			mostInformative.add(null);
-			informativeness.add(prototypeError.getClone());
-			informativeness.get(i).setValue(new Double(-999999));
-		}
-	}
-
-
-	protected void prioritisePattern(NNPattern p, NNError inform){
-
-		//search for input position, index 0 being the best ie highest informativeness value.
-		for (int i = 0; i < informativeness.size(); i++){
-
-			if (informativeness.get(i).getValue() < inform.getValue()){
-				informativeness.add(i, inform);
-				mostInformative.add(i, p);
-				break;
-			}
-		}
-
-		//trim the list to size, if an insertion was made
-		if (informativeness.size() > this.nrUpdates){
-			informativeness.remove(this.nrUpdates);
-			mostInformative.remove(this.nrUpdates);
-		}
-
-	}
+        this.mostInformative = new ArrayList<NNPattern>();
+        this.informativeness = new ArrayList<NNError>();
+        for (int i = 0; i < nrUpdates; i++){
+            mostInformative.add(null);
+            informativeness.add(prototypeError.getClone());
+            informativeness.get(i).setValue(new Double(-999999));
+        }
+    }
 
 
+    protected void prioritisePattern(NNPattern p, NNError inform){
 
-	public void activeLearningUpdate(Object input) {
-		//At every update interval, determine pattern informativeness of all
-		//patterns in Candidate set, select most informative one
-		//to remove from candidate set and add to training set.
+        //search for input position, index 0 being the best ie highest informativeness value.
+        for (int i = 0; i < informativeness.size(); i++){
 
+            if (informativeness.get(i).getValue() < inform.getValue()){
+                informativeness.add(i, inform);
+                mostInformative.add(i, p);
+                break;
+            }
+        }
 
-		if(candidateSet.size() != 0){
+        //trim the list to size, if an insertion was made
+        if (informativeness.size() > this.nrUpdates){
+            informativeness.remove(this.nrUpdates);
+            mostInformative.remove(this.nrUpdates);
+        }
 
-			//Iterate over each pattern p in the Candidate set Dc
-			NeuralNetworkDataIterator dcIter = this.getCandidateSetIterator();
-
-			while(dcIter.hasMore()){
-
-				NNPattern p = dcIter.value();
-
-				//Evaluate p against current NN topology.
-				Vector output = this.topology.evaluate(p);
-
-				//determine informativeness of p
-				NNError patternError = prototypeError.getClone();
-				patternError.computeIteration(output, p);
-				patternError.finaliseError();
-
-				this.prioritisePattern(p, patternError);
-
-				dcIter.next();
-			}//end iterate Dc
+    }
 
 
-			//remove mostInformative patterns from candidate set Dc and add to training set Dt.
-			while ((candidateSet.size() != 0) && (this.mostInformative.size() > 0)) {
-				this.candidateSet.remove(mostInformative.get(0));
-				this.trainingSet.add(mostInformative.get(0));
-				this.mostInformative.remove(0);
-				this.informativeness.remove(0);
-			}
 
-			//reset list
-			this.mostInformative = new ArrayList<NNPattern>();
-			this.informativeness = new ArrayList<NNError>();
-			for (int i = 0; i < nrUpdates; i++){
-				mostInformative.add(null);
-				informativeness.add(prototypeError.getClone());
-				informativeness.get(i).setValue(new Double(-999999));
-			}
-		}
+    public void activeLearningUpdate(Object input) {
+        //At every update interval, determine pattern informativeness of all
+        //patterns in Candidate set, select most informative one
+        //to remove from candidate set and add to training set.
 
-	}
 
-	public NNError getPrototypeError() {
-		return prototypeError;
-	}
+        if(candidateSet.size() != 0){
 
-	public void setPrototypeError(NNError baseError) {
-		this.prototypeError = baseError;
-	}
+            //Iterate over each pattern p in the Candidate set Dc
+            NeuralNetworkDataIterator dcIter = this.getCandidateSetIterator();
 
-	public void setTopology(GenericTopology topology) {
-		this.topology = topology;
-	}
+            while(dcIter.hasMore()){
 
-	public int getNrUpdates() {
-		return nrUpdates;
-	}
+                NNPattern p = dcIter.value();
 
-	public void setNrUpdates(int nrUpdates) {
-		this.nrUpdates = nrUpdates;
-	}
+                //Evaluate p against current NN topology.
+                Vector output = this.topology.evaluate(p);
+
+                //determine informativeness of p
+                NNError patternError = prototypeError.getClone();
+                patternError.computeIteration(output, p);
+                patternError.finaliseError();
+
+                this.prioritisePattern(p, patternError);
+
+                dcIter.next();
+            }//end iterate Dc
+
+
+            //remove mostInformative patterns from candidate set Dc and add to training set Dt.
+            while ((candidateSet.size() != 0) && (this.mostInformative.size() > 0)) {
+                this.candidateSet.remove(mostInformative.get(0));
+                this.trainingSet.add(mostInformative.get(0));
+                this.mostInformative.remove(0);
+                this.informativeness.remove(0);
+            }
+
+            //reset list
+            this.mostInformative = new ArrayList<NNPattern>();
+            this.informativeness = new ArrayList<NNError>();
+            for (int i = 0; i < nrUpdates; i++){
+                mostInformative.add(null);
+                informativeness.add(prototypeError.getClone());
+                informativeness.get(i).setValue(new Double(-999999));
+            }
+        }
+
+    }
+
+    public NNError getPrototypeError() {
+        return prototypeError;
+    }
+
+    public void setPrototypeError(NNError baseError) {
+        this.prototypeError = baseError;
+    }
+
+    public void setTopology(GenericTopology topology) {
+        this.topology = topology;
+    }
+
+    public int getNrUpdates() {
+        return nrUpdates;
+    }
+
+    public void setNrUpdates(int nrUpdates) {
+        this.nrUpdates = nrUpdates;
+    }
 
 
 

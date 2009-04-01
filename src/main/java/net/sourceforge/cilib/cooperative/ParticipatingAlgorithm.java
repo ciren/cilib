@@ -33,21 +33,21 @@ import net.sourceforge.cilib.problem.Fitness;
  * @author Theuns Cloete
  */
 public interface ParticipatingAlgorithm {
-	/**
-	 * Returns contribution to the solution for the co-operative optimisation algorithm.
-	 * @return The algorithm's solution contribution.
-	 */
-	public Entity getContribution();
+    /**
+     * Returns contribution to the solution for the co-operative optimisation algorithm.
+     * @return The algorithm's solution contribution.
+     */
+    public Entity getContribution();
 
-	/**
-	 * Returns the fitness of contribution to the solution.
-	 * @return The fitness of the solution contribution.
-	 */
-	public Fitness getContributionFitness();
+    /**
+     * Returns the fitness of contribution to the solution.
+     * @return The fitness of the solution contribution.
+     */
+    public Fitness getContributionFitness();
 
-	/**
-	 * Updates the new fitness for the solution contribution.
-	 * @param fitness The new fitness of the contribution.
-	 */
-	public void updateContributionFitness(Fitness fitness);
+    /**
+     * Updates the new fitness for the solution contribution.
+     * @param fitness The new fitness of the contribution.
+     */
+    public void updateContributionFitness(Fitness fitness);
 }

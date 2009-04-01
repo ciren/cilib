@@ -36,18 +36,18 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class DiameterTest {
-	
-	@Test
-	public void testDiameterTestDomain() {
-		Measurement m = new Diameter();
-		
-		DomainParser parser = new DomainParser();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof Real);
-	}
+    
+    @Test
+    public void testDiameterTestDomain() {
+        Measurement m = new Diameter();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof Real);
+    }
 
 }

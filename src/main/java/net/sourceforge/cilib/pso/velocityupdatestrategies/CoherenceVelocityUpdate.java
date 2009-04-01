@@ -36,175 +36,175 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Daniel Lowes
  */
 public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
-	private static final long serialVersionUID = -9051938755796130230L;
-	private ControlParameter scalingFactor;
-	private RandomNumber randomNumber;
-	private Sigmoid sigmoid;
+    private static final long serialVersionUID = -9051938755796130230L;
+    private ControlParameter scalingFactor;
+    private RandomNumber randomNumber;
+    private Sigmoid sigmoid;
 
-	/**
-	 * Create an instance of {@linkplain CoherenceVelocityUpdate}.
-	 */
-	public CoherenceVelocityUpdate() {
-		super();
-		scalingFactor = new ConstantControlParameter(1.0);
-		randomNumber = new RandomNumber();
-		sigmoid = new Sigmoid();
-	}
-
-	/**
-	 * Copy constructor. Create a copy of the given instance.
-	 * @param copy The instance to copy.
-	 */
-    public CoherenceVelocityUpdate(CoherenceVelocityUpdate copy) {
-    	super(copy);
-    	this.scalingFactor = copy.scalingFactor.getClone();
-    	this.randomNumber = copy.randomNumber.getClone();
+    /**
+     * Create an instance of {@linkplain CoherenceVelocityUpdate}.
+     */
+    public CoherenceVelocityUpdate() {
+        super();
+        scalingFactor = new ConstantControlParameter(1.0);
+        randomNumber = new RandomNumber();
+        sigmoid = new Sigmoid();
     }
 
     /**
-	 * {@inheritDoc}
-	 */
-    public CoherenceVelocityUpdate getClone() {
-    	return new CoherenceVelocityUpdate(this);
+     * Copy constructor. Create a copy of the given instance.
+     * @param copy The instance to copy.
+     */
+    public CoherenceVelocityUpdate(CoherenceVelocityUpdate copy) {
+        super(copy);
+        this.scalingFactor = copy.scalingFactor.getClone();
+        this.randomNumber = copy.randomNumber.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
-	public void updateVelocity(Particle particle) {
-		Vector velocity = (Vector) particle.getVelocity();
-		Vector position = (Vector) particle.getPosition();
-		Vector bestPosition = (Vector) particle.getBestPosition();
-		Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+    public CoherenceVelocityUpdate getClone() {
+        return new CoherenceVelocityUpdate(this);
+    }
 
-		double averageParticleVelocity = 0.0;
+    /**
+     * {@inheritDoc}
+     */
+    public void updateVelocity(Particle particle) {
+        Vector velocity = (Vector) particle.getVelocity();
+        Vector position = (Vector) particle.getPosition();
+        Vector bestPosition = (Vector) particle.getBestPosition();
+        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-		Vector averageVelocity = velocity.getClone();
-		averageVelocity.reset();
-		PSO pso = (PSO) Algorithm.get();
-		for (Particle p : pso.getTopology()) {
-			Vector particleVelocity = (Vector) p.getVelocity();
-			averageVelocity = averageVelocity.plus(particleVelocity);
-			averageParticleVelocity += particleVelocity.norm();
-		}
-		averageVelocity = averageVelocity.divide(particle.getDimension());
-		averageParticleVelocity /= particle.getDimension();
+        double averageParticleVelocity = 0.0;
 
-//		System.out.println("averageVelocity: " + averageVelocity);
+        Vector averageVelocity = velocity.getClone();
+        averageVelocity.reset();
+        PSO pso = (PSO) Algorithm.get();
+        for (Particle p : pso.getTopology()) {
+            Vector particleVelocity = (Vector) p.getVelocity();
+            averageVelocity = averageVelocity.plus(particleVelocity);
+            averageParticleVelocity += particleVelocity.norm();
+        }
+        averageVelocity = averageVelocity.divide(particle.getDimension());
+        averageParticleVelocity /= particle.getDimension();
 
-		double swarmCenterVelocity = averageVelocity.norm();
-		double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
+//        System.out.println("averageVelocity: " + averageVelocity);
 
-		double sigmoidValue = sigmoid.evaluate(swarmCoherence);
+        double swarmCenterVelocity = averageVelocity.norm();
+        double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
 
-		 for (int i = 0; i < particle.getDimension(); ++i) {
-	    		double value = inertiaWeight.getParameter()*velocity.getReal(i) +
-	    			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
-	    			(nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
+        double sigmoidValue = sigmoid.evaluate(swarmCoherence);
 
-	    		double coherenceVelocity = scalingFactor.getParameter() * sigmoidValue * averageVelocity.getReal(i) * randomNumber.getCauchy();
-//	    		System.out.println("swam center: " + swarmCenterVelocity);
-//	    		System.out.println("average particle: " + averageParticleVelocity);
-//	    		System.out.println("sigmoid: " + sigmoidValue);
-//	    		System.out.println(coherenceVelocity);
-//	    		System.out.println("new vlaue: " + (value+coherenceVelocity));
-	    		velocity.setReal(i, value+coherenceVelocity);
+         for (int i = 0; i < particle.getDimension(); ++i) {
+                double value = inertiaWeight.getParameter()*velocity.getReal(i) +
+                    (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
+                    (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
 
-	    		clamp(velocity, i);
-	    	}
+                double coherenceVelocity = scalingFactor.getParameter() * sigmoidValue * averageVelocity.getReal(i) * randomNumber.getCauchy();
+//                System.out.println("swam center: " + swarmCenterVelocity);
+//                System.out.println("average particle: " + averageParticleVelocity);
+//                System.out.println("sigmoid: " + sigmoidValue);
+//                System.out.println(coherenceVelocity);
+//                System.out.println("new vlaue: " + (value+coherenceVelocity));
+                velocity.setReal(i, value+coherenceVelocity);
+
+                clamp(velocity, i);
+            }
 
 
-//		float social = socialRandomGenerator.nextFloat();
-//		float cognitive = cognitiveRandomGenerator.nextFloat();
+//        float social = socialRandomGenerator.nextFloat();
+//        float cognitive = cognitiveRandomGenerator.nextFloat();
 //
-//		//DistanceMeasure adm = new AbsoluteDistanceMeasure();
-//		//DistanceMeasure dm = new MetricDistanceMeasure();
+//        //DistanceMeasure adm = new AbsoluteDistanceMeasure();
+//        //DistanceMeasure dm = new MetricDistanceMeasure();
 //
-//		double avgv = 0.0;
-//		double swv = 0.0;
-//		Topology<Particle> topology = ((PSO)Algorithm.get()).getTopology();
-//  		Iterator<? extends Particle> it = topology.neighbourhood(null);
-//  		double[] al = new double[particle.getDimension()];
-//   		while (it.hasNext()) {
-//   			Particle pl = it.next();
-//   			double tmpv = 0.0;
-//   			//double tmpsv = 0.0;
-//   			for(int dim = 0; dim < particle.getDimension(); dim++) {
-//				al[dim] = al[dim]+((Vector)pl.getVelocity()).getReal(dim);
-//   				tmpv += Math.pow(((Vector)pl.getVelocity()).getReal(dim), 2);
-//   			}
-//   			tmpv = Math.sqrt(tmpv);
-//   			avgv += tmpv;
-//   		}
-//   		for(int i = 0; i < particle.getDimension(); i++) {
-//			//al.set(i, ;
-//			swv += (al[i]/topology.size()) * (al[i]/topology.size());
-//		}
-//		swv = Math.sqrt(swv);
+//        double avgv = 0.0;
+//        double swv = 0.0;
+//        Topology<Particle> topology = ((PSO)Algorithm.get()).getTopology();
+//          Iterator<? extends Particle> it = topology.neighbourhood(null);
+//          double[] al = new double[particle.getDimension()];
+//           while (it.hasNext()) {
+//               Particle pl = it.next();
+//               double tmpv = 0.0;
+//               //double tmpsv = 0.0;
+//               for(int dim = 0; dim < particle.getDimension(); dim++) {
+//                al[dim] = al[dim]+((Vector)pl.getVelocity()).getReal(dim);
+//                   tmpv += Math.pow(((Vector)pl.getVelocity()).getReal(dim), 2);
+//               }
+//               tmpv = Math.sqrt(tmpv);
+//               avgv += tmpv;
+//           }
+//           for(int i = 0; i < particle.getDimension(); i++) {
+//            //al.set(i, ;
+//            swv += (al[i]/topology.size()) * (al[i]/topology.size());
+//        }
+//        swv = Math.sqrt(swv);
 //
-//		for (int i = 0; i < particle.getDimension(); ++i) {
-//			double tmp = 0.0;
-//			tmp = inertiaWeight.getParameter()*velocity.getReal(i)
-//				+ cognitive * (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
-//				+ social * (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
+//        for (int i = 0; i < particle.getDimension(); ++i) {
+//            double tmp = 0.0;
+//            tmp = inertiaWeight.getParameter()*velocity.getReal(i)
+//                + cognitive * (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter()
+//                + social * (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
 //
-//			double avgdim = 0.0;
-//	  		it = topology.neighbourhood(null);
-//	   		while (it.hasNext()) {
-//	   			avgdim += ((Vector)(it.next().getVelocity())).getReal(i);
-//	   		}
-//			avgdim /= particle.getDimension();
+//            double avgdim = 0.0;
+//              it = topology.neighbourhood(null);
+//               while (it.hasNext()) {
+//                   avgdim += ((Vector)(it.next().getVelocity())).getReal(i);
+//               }
+//            avgdim /= particle.getDimension();
 //
-//			double cvelocity = MathUtil.sigmoid(swv/avgv)*avgdim*randomNumber.getCauchy();
+//            double cvelocity = MathUtil.sigmoid(swv/avgv)*avgdim*randomNumber.getCauchy();
 //
-//			System.out.println(cvelocity);
-//			tmp += cvelocity;
+//            System.out.println(cvelocity);
+//            tmp += cvelocity;
 //
-//			velocity.setReal(i, tmp);
+//            velocity.setReal(i, tmp);
 //
-//			clamp(velocity, i);
-//		}
-	}
+//            clamp(velocity, i);
+//        }
+    }
 
-	/**
-	 * Calculate the swarm coherence.
-	 * @param swarmCenterVelocity The swarm center velocity.
-	 * @param averageParticleVelocity The average {@linkplain Particle} velocity.
-	 * @return The swarm coherence value.
-	 */
-	private double calculateSwarmCoherence(double swarmCenterVelocity, double averageParticleVelocity) {
-		if (averageParticleVelocity == 0.0)
-			return 0.0;
+    /**
+     * Calculate the swarm coherence.
+     * @param swarmCenterVelocity The swarm center velocity.
+     * @param averageParticleVelocity The average {@linkplain Particle} velocity.
+     * @return The swarm coherence value.
+     */
+    private double calculateSwarmCoherence(double swarmCenterVelocity, double averageParticleVelocity) {
+        if (averageParticleVelocity == 0.0)
+            return 0.0;
 
-		return swarmCenterVelocity / averageParticleVelocity;
-	}
+        return swarmCenterVelocity / averageParticleVelocity;
+    }
 
 
-	/*
-	 * @return Returns the congnitiveRandomGenerator.
-	 */
-//	public Random getCongnitiveRandomGenerator() {
-//		return cognitiveRandomGenerator;
-//	}
+    /*
+     * @return Returns the congnitiveRandomGenerator.
+     */
+//    public Random getCongnitiveRandomGenerator() {
+//        return cognitiveRandomGenerator;
+//    }
 //
-//	/**
-//	 * @param congnitiveRandomGenerator The congnitiveRandomGenerator to set.
-//	 */
-//	public void setCongnitiveRandomGenerator(Random congnitiveRandomGenerator) {
-//		this.cognitiveRandomGenerator = congnitiveRandomGenerator;
-//	}
+//    /**
+//     * @param congnitiveRandomGenerator The congnitiveRandomGenerator to set.
+//     */
+//    public void setCongnitiveRandomGenerator(Random congnitiveRandomGenerator) {
+//        this.cognitiveRandomGenerator = congnitiveRandomGenerator;
+//    }
 //
-//	/**
-//	 * @return Returns the socialRandomGenerator.
-//	 */
-//	public Random getSocialRandomGenerator() {
-//		return socialRandomGenerator;
-//	}
+//    /**
+//     * @return Returns the socialRandomGenerator.
+//     */
+//    public Random getSocialRandomGenerator() {
+//        return socialRandomGenerator;
+//    }
 //
-//	/**
-//	 * @param socialRandomGenerator The socialRandomGenerator to set.
-//	 */
-//	public void setSocialRandomGenerator(Random socialRandomGenerator) {
-//		this.socialRandomGenerator = socialRandomGenerator;
-//	}
+//    /**
+//     * @param socialRandomGenerator The socialRandomGenerator to set.
+//     */
+//    public void setSocialRandomGenerator(Random socialRandomGenerator) {
+//        this.socialRandomGenerator = socialRandomGenerator;
+//    }
 }

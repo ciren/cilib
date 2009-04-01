@@ -54,29 +54,29 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 
 public class Bukin4 extends ContinuousFunction implements Serializable {
-	private static final long serialVersionUID = -7860070866440205636L;
+    private static final long serialVersionUID = -7860070866440205636L;
 
-	public Bukin4() {
+    public Bukin4() {
         setDomain("R(-15,-5),R(-3,3)");
     }
 
-	@Override
-	public Bukin4 getClone() {
-		return new Bukin4();
-	}
+    @Override
+    public Bukin4 getClone() {
+        return new Bukin4();
+    }
 
-	public Object getMinimum() {
+    public Object getMinimum() {
         return new Double(0.0);
     }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double x1 = x.getReal(0);
-		double x2 = x.getReal(1);
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double x1 = x.getReal(0);
+        double x2 = x.getReal(1);
 
-		return 100*x2*x2 + 0.01*Math.abs(x1+10);
-	}
+        return 100*x2*x2 + 0.01*Math.abs(x1+10);
+    }
 }

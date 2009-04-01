@@ -32,8 +32,8 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface PositionInitialisationStrategy extends Serializable, Cloneable {
 
-	public PositionInitialisationStrategy getClone();
+    public PositionInitialisationStrategy getClone();
 
-	public void initialise(Particle particle, OptimisationProblem problem);
+    public void initialise(Particle particle, OptimisationProblem problem);
 
 }

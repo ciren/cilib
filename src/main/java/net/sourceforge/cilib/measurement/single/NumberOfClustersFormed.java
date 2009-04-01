@@ -44,26 +44,26 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * @author Theuns Cloete
  */
 public class NumberOfClustersFormed implements Measurement {
-	private static final long serialVersionUID = 2174807313995885918L;
+    private static final long serialVersionUID = 2174807313995885918L;
 
-	public NumberOfClustersFormed() {
-	}
+    public NumberOfClustersFormed() {
+    }
 
-	public NumberOfClustersFormed(NumberOfClustersFormed rhs) {
-	}
+    public NumberOfClustersFormed(NumberOfClustersFormed rhs) {
+    }
 
-	public NumberOfClustersFormed getClone() {
-		return new NumberOfClustersFormed(this);
-	}
+    public NumberOfClustersFormed getClone() {
+        return new NumberOfClustersFormed(this);
+    }
 
-	public String getDomain() {
-		return "Z";
-	}
+    public String getDomain() {
+        return "Z";
+    }
 
-	public Type getValue(Algorithm algorithm) {
-		ClusteringUtils helper = ClusteringUtils.get();
-		Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
-		helper.arrangeClustersAndCentroids(centroids);
-		return new Int(helper.getArrangedCentroids().size());
-	}
+    public Type getValue(Algorithm algorithm) {
+        ClusteringUtils helper = ClusteringUtils.get();
+        Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
+        helper.arrangeClustersAndCentroids(centroids);
+        return new Int(helper.getArrangedCentroids().size());
+    }
 }

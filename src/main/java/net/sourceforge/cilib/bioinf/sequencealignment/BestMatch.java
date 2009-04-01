@@ -33,111 +33,111 @@ import java.util.StringTokenizer;
  * @author Fabien Zablocki
  */
 public class BestMatch implements ScoringMethod {
-	private boolean verbose = false; //default, can be set via XML
+    private boolean verbose = false; //default, can be set via XML
 
-	/**
-	 * Set the printing verbosity in this ScoringMethod.
-	 * TODO: This should disappear and log4j should be used instead if it is needed.
-	 * @param verbose The value of the switch.
-	 */
-	public void setVerbose(boolean verbose) {
-		this.verbose = verbose;
-	}
+    /**
+     * Set the printing verbosity in this ScoringMethod.
+     * TODO: This should disappear and log4j should be used instead if it is needed.
+     * @param verbose The value of the switch.
+     */
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
 
-	/**
-	 * Get the score of the given alignment.
-	 * @param alignment The alignment to evaluate.
-	 * @return the alignment score.
-	 */
-	public double getScore(ArrayList<String> alignment) {
-		// prints the current raw alignment in verbose mode
-		if (verbose) {
-			System.out.println("Raw Alignment (no clean up):");
+    /**
+     * Get the score of the given alignment.
+     * @param alignment The alignment to evaluate.
+     * @return the alignment score.
+     */
+    public double getScore(ArrayList<String> alignment) {
+        // prints the current raw alignment in verbose mode
+        if (verbose) {
+            System.out.println("Raw Alignment (no clean up):");
 
-			for (String s : alignment) {
-				System.out.println("'" + s + "'");
-			}
-		}
-		/*************************************************************
-		 *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
-		 *************************************************************/
+            for (String s : alignment) {
+                System.out.println("'" + s + "'");
+            }
+        }
+        /*************************************************************
+         *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
+         *************************************************************/
 
-		int seqLength = alignment.get(0).length();
-		int count = 0;
+        int seqLength = alignment.get(0).length();
+        int count = 0;
 
-//		Iterate through the columns
-		for (int i = 0; i < seqLength; i++) {
-			 for (String st : alignment) {
-				 if (st.charAt(i) == '-') count++; //gets char at position i
-			 }
+//        Iterate through the columns
+        for (int i = 0; i < seqLength; i++) {
+             for (String st : alignment) {
+                 if (st.charAt(i) == '-') count++; //gets char at position i
+             }
 
-			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
-				 int which = 0;
-				 for (String st1 : alignment) {
-					 StringBuilder stB = new StringBuilder(st1);
-					 stB.setCharAt(i, '*');
-					 alignment.set(which, stB.toString());
-					 which++;
-				 }
-			 }
-			 count = 0;
-		}
+             if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
+                 int which = 0;
+                 for (String st1 : alignment) {
+                     StringBuilder stB = new StringBuilder(st1);
+                     stB.setCharAt(i, '*');
+                     alignment.set(which, stB.toString());
+                     which++;
+                 }
+             }
+             count = 0;
+        }
 
-		int which2 = 0;
-		for (String st : alignment) {
-			StringTokenizer st1 = new StringTokenizer(st, "*", false);
-			String t="";
-			while (st1.hasMoreElements()) t += st1.nextElement();
-			alignment.set(which2, t);
-			which2++;
-		}
-			/************* END ***************/
+        int which2 = 0;
+        for (String st : alignment) {
+            StringTokenizer st1 = new StringTokenizer(st, "*", false);
+            String t="";
+            while (st1.hasMoreElements()) t += st1.nextElement();
+            alignment.set(which2, t);
+            which2++;
+        }
+            /************* END ***************/
 
-		int length = alignment.get(0).length();
-		double fitness = 0.0;
+        int length = alignment.get(0).length();
+        double fitness = 0.0;
 
-		Hashtable<Character, Integer> hashTable = new Hashtable<Character, Integer>();
+        Hashtable<Character, Integer> hashTable = new Hashtable<Character, Integer>();
 
-		// Iterate all the chars one column at a time, one hashtable is used for each column then cleared every new iteration
-		for (int i = 0; i < length; i++) {
-			//	go through all the seqs
-			for (String currentString : alignment) {
-				//if (i >= currentString.length()) continue; //skip if index i is longer than current seq length
+        // Iterate all the chars one column at a time, one hashtable is used for each column then cleared every new iteration
+        for (int i = 0; i < length; i++) {
+            //    go through all the seqs
+            for (String currentString : alignment) {
+                //if (i >= currentString.length()) continue; //skip if index i is longer than current seq length
 
-				Character c = new Character(currentString.charAt(i)); //gets char at position i
+                Character c = new Character(currentString.charAt(i)); //gets char at position i
 
-				/*
-				 * Ignores the gaps in the alignment, skips the rest and the loop goes to next itration
-				 * because we also impose a penalty on gap groups.
-				 */
-				if (c.charValue() == '-') continue;
+                /*
+                 * Ignores the gaps in the alignment, skips the rest and the loop goes to next itration
+                 * because we also impose a penalty on gap groups.
+                 */
+                if (c.charValue() == '-') continue;
 
-				//check if hashtable already has that character
-				if (hashTable.containsKey(new Character(currentString.charAt(i)))) {
-					Integer count1 = (Integer) hashTable.get(c); //gets the # of that char in hashtable
-					int tmp1 = count1.intValue() + 1; //tmp1 = value+1 , just increments occurence #
-					hashTable.put(c, tmp1); //put the char back along with new value in hashtable
-				}
-				else
-					//	if it wasn't in yet, then put in hashtable with value 1
-					hashTable.put(currentString.charAt(i), 1);
-			}
+                //check if hashtable already has that character
+                if (hashTable.containsKey(new Character(currentString.charAt(i)))) {
+                    Integer count1 = (Integer) hashTable.get(c); //gets the # of that char in hashtable
+                    int tmp1 = count1.intValue() + 1; //tmp1 = value+1 , just increments occurence #
+                    hashTable.put(c, tmp1); //put the char back along with new value in hashtable
+                }
+                else
+                    //    if it wasn't in yet, then put in hashtable with value 1
+                    hashTable.put(currentString.charAt(i), 1);
+            }
 
-			// Now add the best alignment value from the hashtable to the fitness
-				int highest = 0;
-			//	cycle through the hastable
-				for (Integer e : hashTable.values()) {
-					//we want to get the max value for that column
-					highest = Math.max(e, highest);
-				}
+            // Now add the best alignment value from the hashtable to the fitness
+                int highest = 0;
+            //    cycle through the hastable
+                for (Integer e : hashTable.values()) {
+                    //we want to get the max value for that column
+                    highest = Math.max(e, highest);
+                }
 
-				fitness += highest;  //add the current column highest value to the fitness
+                fitness += highest;  //add the current column highest value to the fitness
 
-			//	Clear the hashtable
-				hashTable.clear();
-			}
+            //    Clear the hashtable
+                hashTable.clear();
+            }
 
-		//  Fitness for matches
-		return fitness;
-	}
+        //  Fitness for matches
+        return fitness;
+    }
 }

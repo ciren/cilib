@@ -54,9 +54,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Branin extends ContinuousFunction implements Serializable {
-	private static final long serialVersionUID = -2254223453957430344L;
+    private static final long serialVersionUID = -2254223453957430344L;
 
-	private double a = 1.0;
+    private double a = 1.0;
     private double b = 5.1/(4*Math.PI*Math.PI);
     private double c = 5.0/Math.PI;
     private double d = 6.0;
@@ -86,7 +86,7 @@ public class Branin extends ContinuousFunction implements Serializable {
      */
     @Override
     public Branin getClone() {
-    	return new Branin();
+        return new Branin();
     }
 
     /**

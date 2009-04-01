@@ -34,36 +34,36 @@ import org.junit.Test;
  */
 public class RandomNumberTest {
 
-	@Test
-	public void testGuassian() {
-		RandomNumber rand = new RandomNumber();
+    @Test
+    public void testGuassian() {
+        RandomNumber rand = new RandomNumber();
 
-		for (int i = 0; i < 1000; i++) {
-			double number = rand.getGaussian();
-			assertTrue(-5.0 < number);
-			assertTrue(number < 5.0);
-		}
-	}
-	
-	@Test
-	public void testUniform() {
-		RandomNumber rand = new RandomNumber();
-		
-		for (int i = 0; i < 200; i++) {
-			double number = rand.getUniform();
-			assertTrue(number <= 1.0);
-			assertTrue(0.0 <= number);
-		}
-	}
-	
-	@Test
-	public void testCauchy() {
-		RandomNumber rand = new RandomNumber();
-		
-		for (int i = 0; i < 200; i++ ) {
-			double number = rand.getCauchy();
-			assertTrue(-7.0 < number);
-			assertTrue(number < 7.0);
-		}
-	}
+        for (int i = 0; i < 1000; i++) {
+            double number = rand.getGaussian();
+            assertTrue(-5.0 < number);
+            assertTrue(number < 5.0);
+        }
+    }
+    
+    @Test
+    public void testUniform() {
+        RandomNumber rand = new RandomNumber();
+        
+        for (int i = 0; i < 200; i++) {
+            double number = rand.getUniform();
+            assertTrue(number <= 1.0);
+            assertTrue(0.0 <= number);
+        }
+    }
+    
+    @Test
+    public void testCauchy() {
+        RandomNumber rand = new RandomNumber();
+        
+        for (int i = 0; i < 200; i++ ) {
+            double number = rand.getCauchy();
+            assertTrue(-7.0 < number);
+            assertTrue(number < 7.0);
+        }
+    }
 }

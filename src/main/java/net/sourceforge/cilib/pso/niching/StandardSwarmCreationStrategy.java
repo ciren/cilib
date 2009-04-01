@@ -41,88 +41,88 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
 
-	private Map<Entity, List<Fitness>> mainSwarmFitnesses;
-	private int fitnessTraceLength;
-	private double threshold;
+    private Map<Entity, List<Fitness>> mainSwarmFitnesses;
+    private int fitnessTraceLength;
+    private double threshold;
 
-	public StandardSwarmCreationStrategy() {
-		this.mainSwarmFitnesses = new HashMap<Entity, List<Fitness>>();
-		this.fitnessTraceLength = 3;
-		this.threshold = 0.001;
-	}
+    public StandardSwarmCreationStrategy() {
+        this.mainSwarmFitnesses = new HashMap<Entity, List<Fitness>>();
+        this.fitnessTraceLength = 3;
+        this.threshold = 0.001;
+    }
 
-	@Override
-	public void create(Niche algorithm) {
-		// Remove any particles that are no longer contained within the main swarm
-		PopulationBasedAlgorithm mainSwarm = algorithm.getMainSwarm();
-		for (Entity entity : mainSwarmFitnesses.keySet()) {
-			if (!mainSwarm.getTopology().contains(entity))
-				this.mainSwarmFitnesses.remove(entity);
-		}
+    @Override
+    public void create(Niche algorithm) {
+        // Remove any particles that are no longer contained within the main swarm
+        PopulationBasedAlgorithm mainSwarm = algorithm.getMainSwarm();
+        for (Entity entity : mainSwarmFitnesses.keySet()) {
+            if (!mainSwarm.getTopology().contains(entity))
+                this.mainSwarmFitnesses.remove(entity);
+        }
 
-		// Update the current fitness trace for each entity in the main swarm
-		for (Entity entity : mainSwarm.getTopology()) {
-			if (!this.mainSwarmFitnesses.containsKey(entity)) {
-				this.mainSwarmFitnesses.put(entity, Arrays.asList(entity.getFitness()));
-				continue;
-			}
+        // Update the current fitness trace for each entity in the main swarm
+        for (Entity entity : mainSwarm.getTopology()) {
+            if (!this.mainSwarmFitnesses.containsKey(entity)) {
+                this.mainSwarmFitnesses.put(entity, Arrays.asList(entity.getFitness()));
+                continue;
+            }
 
-			List<Fitness> fitnessTrace = this.mainSwarmFitnesses.get(entity);
-			if (fitnessTrace.size() >= fitnessTraceLength)
-				fitnessTrace.remove(0);
+            List<Fitness> fitnessTrace = this.mainSwarmFitnesses.get(entity);
+            if (fitnessTrace.size() >= fitnessTraceLength)
+                fitnessTrace.remove(0);
 
-			fitnessTrace.add(entity.getFitness());
-		}
+            fitnessTrace.add(entity.getFitness());
+        }
 
-		// Calculate the current deviation values.
-		Map<Entity, Double> deviations = new HashMap<Entity, Double>(this.mainSwarmFitnesses.size());
-		for (Map.Entry<Entity, List<Fitness>> entry : mainSwarmFitnesses.entrySet()) {
-//			double value = StatUtils.stdDeviation(entry.getValue());
-			throw new UnsupportedOperationException("this needs to be verified!");
+        // Calculate the current deviation values.
+        Map<Entity, Double> deviations = new HashMap<Entity, Double>(this.mainSwarmFitnesses.size());
+        for (Map.Entry<Entity, List<Fitness>> entry : mainSwarmFitnesses.entrySet()) {
+//            double value = StatUtils.stdDeviation(entry.getValue());
+            throw new UnsupportedOperationException("this needs to be verified!");
 //                     deviations.put(entry.getKey(), value);
-		}
+        }
 
-		// Determine if sub swarms should be created.
-		for (Map.Entry<Entity, Double> deviation : deviations.entrySet()) {
-			if (Double.compare(deviation.getValue().doubleValue(), threshold) < 0) {
-				PopulationBasedAlgorithm subSwarm = createSubSwarm(deviation.getKey(), mainSwarm);
-				algorithm.addPopulationBasedAlgorithm(subSwarm);
-			}
-		}
-	}
+        // Determine if sub swarms should be created.
+        for (Map.Entry<Entity, Double> deviation : deviations.entrySet()) {
+            if (Double.compare(deviation.getValue().doubleValue(), threshold) < 0) {
+                PopulationBasedAlgorithm subSwarm = createSubSwarm(deviation.getKey(), mainSwarm);
+                algorithm.addPopulationBasedAlgorithm(subSwarm);
+            }
+        }
+    }
 
-	private PopulationBasedAlgorithm createSubSwarm(Entity entity, PopulationBasedAlgorithm mainSwarm) {
-		Entity closestEntity = getClosestEntity(entity, mainSwarm);
-		mainSwarm.getTopology().remove(entity);
-		mainSwarm.getTopology().remove(closestEntity); // Remove the closet entity from the main swarm
+    private PopulationBasedAlgorithm createSubSwarm(Entity entity, PopulationBasedAlgorithm mainSwarm) {
+        Entity closestEntity = getClosestEntity(entity, mainSwarm);
+        mainSwarm.getTopology().remove(entity);
+        mainSwarm.getTopology().remove(closestEntity); // Remove the closet entity from the main swarm
 
-		PSO subSwarm = new PSO();
-		subSwarm.getTopology().add((Particle) entity);
-		subSwarm.getTopology().add((Particle) closestEntity);
+        PSO subSwarm = new PSO();
+        subSwarm.getTopology().add((Particle) entity);
+        subSwarm.getTopology().add((Particle) closestEntity);
 
-		for (Particle p : subSwarm.getTopology()) {
-			p.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
-		}
+        for (Particle p : subSwarm.getTopology()) {
+            p.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
+        }
 
-		System.out.println("This implementation needs to be completed!!");
+        System.out.println("This implementation needs to be completed!!");
 
-		return subSwarm;
-	}
+        return subSwarm;
+    }
 
-	private Entity getClosestEntity(Entity entity, PopulationBasedAlgorithm mainSwarm) {
-		Entity closestEntity = null;
-		double closest = Double.MAX_VALUE;
-		DistanceMeasure measure = new EuclideanDistanceMeasure();
+    private Entity getClosestEntity(Entity entity, PopulationBasedAlgorithm mainSwarm) {
+        Entity closestEntity = null;
+        double closest = Double.MAX_VALUE;
+        DistanceMeasure measure = new EuclideanDistanceMeasure();
 
-		for (Entity other : mainSwarm.getTopology()) {
-			double distance = measure.distance(entity.getCandidateSolution(), other.getCandidateSolution());
-			if (distance < closest) {
-				closest = distance;
-				closestEntity = other;
-			}
-		}
+        for (Entity other : mainSwarm.getTopology()) {
+            double distance = measure.distance(entity.getCandidateSolution(), other.getCandidateSolution());
+            if (distance < closest) {
+                closest = distance;
+                closestEntity = other;
+            }
+        }
 
-		return closestEntity;
-	}
+        return closestEntity;
+    }
 
 }

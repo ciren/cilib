@@ -43,21 +43,21 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
     /**
      * Creates an new instance. Domain is set to R(-10,10)^30 by default.
      */
-	public SchwefelProblem2_22() {
+    public SchwefelProblem2_22() {
         setDomain("R(-10, 10)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SchwefelProblem2_22 getClone() {
-		return new SchwefelProblem2_22();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SchwefelProblem2_22 getClone() {
+        return new SchwefelProblem2_22();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(0);
     }
@@ -69,11 +69,11 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
         double sum = 0;
         double product = 0;
         for (int i = 0; i < getDimension(); ++i) {
-        	sum += Math.abs(x.getReal(i));
+            sum += Math.abs(x.getReal(i));
             if (i == 0)
-            	product = Math.abs(x.getReal(i));
+                product = Math.abs(x.getReal(i));
             else
-            	product *= Math.abs(x.getReal(i));
+                product *= Math.abs(x.getReal(i));
         }
 
         return sum + product;

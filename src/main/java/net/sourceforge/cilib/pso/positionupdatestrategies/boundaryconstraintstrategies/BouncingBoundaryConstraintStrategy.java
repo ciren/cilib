@@ -33,39 +33,39 @@ import net.sourceforge.cilib.type.types.Numeric;
  * skewed type of reflection with built-in velocity damping.
  */
 public class BouncingBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
-	private static final long serialVersionUID = -2085380951650975909L;
+    private static final long serialVersionUID = -2085380951650975909L;
 
-	public BouncingBoundaryConstraintStrategy() {
-	}
+    public BouncingBoundaryConstraintStrategy() {
+    }
 
-	public BouncingBoundaryConstraintStrategy(BouncingBoundaryConstraintStrategy rhs) {
-	}
+    public BouncingBoundaryConstraintStrategy(BouncingBoundaryConstraintStrategy rhs) {
+    }
 
-	public BouncingBoundaryConstraintStrategy getClone() {
-		return new BouncingBoundaryConstraintStrategy(this);
-	}
+    public BouncingBoundaryConstraintStrategy getClone() {
+        return new BouncingBoundaryConstraintStrategy(this);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric,
-	 *      net.sourceforge.cilib.type.types.Numeric)
-	 */
-	public void constrainLower(Numeric position, Numeric velocity) {
-		Numeric previousPosition = position.getClone();
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric,
+     *      net.sourceforge.cilib.type.types.Numeric)
+     */
+    public void constrainLower(Numeric position, Numeric velocity) {
+        Numeric previousPosition = position.getClone();
 
-		position.set(position.getBounds().getLowerBound());	// lower boundary is inclusive
-		velocity.set(previousPosition.getReal() - position.getReal());
-	}
+        position.set(position.getBounds().getLowerBound());    // lower boundary is inclusive
+        velocity.set(previousPosition.getReal() - position.getReal());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric,
-	 *      net.sourceforge.cilib.type.types.Numeric)
-	 */
-	public void constrainUpper(Numeric position, Numeric velocity) {
-		Numeric previousPosition = position.getClone();
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric,
+     *      net.sourceforge.cilib.type.types.Numeric)
+     */
+    public void constrainUpper(Numeric position, Numeric velocity) {
+        Numeric previousPosition = position.getClone();
 
-		position.set(position.getBounds().getUpperBound() - INFIMUM); // upper boundary is exclusive
-		velocity.set(previousPosition.getReal() - position.getReal());
-	}
+        position.set(position.getBounds().getUpperBound() - INFIMUM); // upper boundary is exclusive
+        velocity.set(previousPosition.getReal() - position.getReal());
+    }
 }

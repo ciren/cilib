@@ -42,154 +42,154 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author Gary Pampara
  */
 public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
-	private static final long serialVersionUID = -4324446523858690744L;
+    private static final long serialVersionUID = -4324446523858690744L;
 
-	private OptimisationProblem problem;
-	private IterationStrategy<EC> iterationStrategy;
-	private Topology<? extends Entity> topology;
+    private OptimisationProblem problem;
+    private IterationStrategy<EC> iterationStrategy;
+    private Topology<? extends Entity> topology;
 
-	/**
-	 * Create a new instance of {@code EC}.
-	 */
-	public EC() {
-		this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
-		this.initialisationStrategy.setEntityType(new Individual());
+    /**
+     * Create a new instance of {@code EC}.
+     */
+    public EC() {
+        this.initialisationStrategy = new ClonedPopulationInitialisationStrategy();
+        this.initialisationStrategy.setEntityType(new Individual());
 
-		this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
-		this.topology = new GBestTopology<Individual>();
-	}
+        this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
+        this.topology = new GBestTopology<Individual>();
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public EC(EC copy) {
-		super(copy);
-		this.initialisationStrategy = copy.initialisationStrategy.getClone();
-		this.iterationStrategy = copy.iterationStrategy.getClone();
-		this.topology = copy.topology.getClone();
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public EC(EC copy) {
+        super(copy);
+        this.initialisationStrategy = copy.initialisationStrategy.getClone();
+        this.iterationStrategy = copy.iterationStrategy.getClone();
+        this.topology = copy.topology.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public EC getClone() {
-		return new EC(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public EC getClone() {
+        return new EC(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performInitialisation() {
-		this.initialisationStrategy.initialise(this.topology, this.problem);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performInitialisation() {
+        this.initialisationStrategy.initialise(this.topology, this.problem);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void algorithmIteration() {
-		this.topology.clearBestEntity();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void algorithmIteration() {
+        this.topology.clearBestEntity();
 
-		for (Entity entity : this.getTopology()) {
-			//entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
-			entity.calculateFitness();
-		}
+        for (Entity entity : this.getTopology()) {
+            //entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
+            entity.calculateFitness();
+        }
 
-		iterationStrategy.performIteration(this);
-	}
+        iterationStrategy.performIteration(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Topology<? extends Entity> getTopology() {
-		return this.topology;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Topology<? extends Entity> getTopology() {
+        return this.topology;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void setTopology(Topology topology) {
-		this.topology = topology;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void setTopology(Topology topology) {
+        this.topology = topology;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setOptimisationProblem(OptimisationProblem problem) {
-		this.problem = problem;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setOptimisationProblem(OptimisationProblem problem) {
+        this.problem = problem;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OptimisationProblem getOptimisationProblem() {
-		return this.problem;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OptimisationProblem getOptimisationProblem() {
+        return this.problem;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public OptimisationSolution getBestSolution() {
-		OptimisationSolution solution = new OptimisationSolution(problem, topology.getBestEntity().getCandidateSolution().getClone());
+    /**
+     * {@inheritDoc}
+     */
+    public OptimisationSolution getBestSolution() {
+        OptimisationSolution solution = new OptimisationSolution(problem, topology.getBestEntity().getCandidateSolution().getClone());
 
         return solution;
-	}
+    }
 
-	/**
-	 * Get the {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy} for the current
-	 * {@code EC}.
-	 * @return The current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
-	 */
-	public IterationStrategy<EC> getIterationStrategy() {
-		return iterationStrategy;
-	}
+    /**
+     * Get the {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy} for the current
+     * {@code EC}.
+     * @return The current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
+     */
+    public IterationStrategy<EC> getIterationStrategy() {
+        return iterationStrategy;
+    }
 
-	/**
-	 * Set the current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
-	 * @param iterationStrategy The value to set.
-	 */
-	@SuppressWarnings("unchecked")
-	public void setIterationStrategy(IterationStrategy iterationStrategy) {
-		this.iterationStrategy = iterationStrategy;
-	}
+    /**
+     * Set the current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
+     * @param iterationStrategy The value to set.
+     */
+    @SuppressWarnings("unchecked")
+    public void setIterationStrategy(IterationStrategy iterationStrategy) {
+        this.iterationStrategy = iterationStrategy;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<OptimisationSolution> getSolutions() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public List<OptimisationSolution> getSolutions() {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Entity getContribution() {
-		//TODO: This might not be what you want, change as desired
-		return this.topology.getBestEntity();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Entity getContribution() {
+        //TODO: This might not be what you want, change as desired
+        return this.topology.getBestEntity();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Fitness getContributionFitness() {
-		//TODO: This might not be what you want, change as desired
-		return this.topology.getBestEntity().getFitness();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Fitness getContributionFitness() {
+        //TODO: This might not be what you want, change as desired
+        return this.topology.getBestEntity().getFitness();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateContributionFitness(Fitness fitness) {
-		//TODO: This might not be what you want, change as desired
-		//getBestEntity().setFitness(fitness);
-		this.topology.getBestEntity().calculateFitness();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void updateContributionFitness(Fitness fitness) {
+        //TODO: This might not be what you want, change as desired
+        //getBestEntity().setFitness(fitness);
+        this.topology.getBestEntity().calculateFitness();
+    }
 
 }

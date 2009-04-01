@@ -31,5 +31,5 @@ import java.util.ArrayList;
  */
 
 public interface ScoringMethod {
-	public double getScore(ArrayList<String> alignment);
+    public double getScore(ArrayList<String> alignment);
 }

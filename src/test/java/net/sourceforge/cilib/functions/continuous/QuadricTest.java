@@ -42,7 +42,7 @@ public class QuadricTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Quadric. */
     @Test
     public void testEvaluate() {
-    	ContinuousFunction function = new Quadric();
+        ContinuousFunction function = new Quadric();
         function.setDomain("R(-100, 100)^3");
         //double[] x = {1, 2, 3};
         

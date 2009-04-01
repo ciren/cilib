@@ -32,51 +32,51 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * @author Fabien Zablocki
  */
 public class DesiredMaximizationFitness implements StoppingCondition {
-	private static final long serialVersionUID = 6494553632698710933L;
-	private Algorithm algorithm;
-	private double desiredFitness;
-	private int quitAnywayAfterIterations;
+    private static final long serialVersionUID = 6494553632698710933L;
+    private Algorithm algorithm;
+    private double desiredFitness;
+    private int quitAnywayAfterIterations;
 
-	public DesiredMaximizationFitness() {
-	}
+    public DesiredMaximizationFitness() {
+    }
 
-	public DesiredMaximizationFitness(DesiredMaximizationFitness copy) {
-		this.algorithm = copy.algorithm;
-		this.desiredFitness = copy.desiredFitness;
-	}
+    public DesiredMaximizationFitness(DesiredMaximizationFitness copy) {
+        this.algorithm = copy.algorithm;
+        this.desiredFitness = copy.desiredFitness;
+    }
 
-	public DesiredMaximizationFitness getClone() {
-		return new DesiredMaximizationFitness(this);
-	}
+    public DesiredMaximizationFitness getClone() {
+        return new DesiredMaximizationFitness(this);
+    }
 
-	public double getFitness() {
-		return desiredFitness;
-	}
+    public double getFitness() {
+        return desiredFitness;
+    }
 
-	public void setDesiredFitness(double desiredFitness) {
-		this.desiredFitness = desiredFitness;
-	}
+    public void setDesiredFitness(double desiredFitness) {
+        this.desiredFitness = desiredFitness;
+    }
 
-	public double getPercentageCompleted() {
-		return algorithm.getBestSolution().getFitness().getValue() / desiredFitness;
-	}
+    public double getPercentageCompleted() {
+        return algorithm.getBestSolution().getFitness().getValue() / desiredFitness;
+    }
 
-	public boolean isCompleted() {
-		if (algorithm.getIterations() == quitAnywayAfterIterations)
-			return true;
-		else
-			return algorithm.getBestSolution().getFitness().getValue() >= desiredFitness;
-	}
+    public boolean isCompleted() {
+        if (algorithm.getIterations() == quitAnywayAfterIterations)
+            return true;
+        else
+            return algorithm.getBestSolution().getFitness().getValue() >= desiredFitness;
+    }
 
-	public void setAlgorithm(Algorithm algorithm) {
-		this.algorithm = algorithm;
-	}
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
+    }
 
-	public int getQuitAnywayAfterIterations() {
-		return quitAnywayAfterIterations;
-	}
+    public int getQuitAnywayAfterIterations() {
+        return quitAnywayAfterIterations;
+    }
 
-	public void setQuitAnywayAfterIterations(int quitAnywayAfterIterations) {
-		this.quitAnywayAfterIterations = quitAnywayAfterIterations;
-	}
+    public void setQuitAnywayAfterIterations(int quitAnywayAfterIterations) {
+        this.quitAnywayAfterIterations = quitAnywayAfterIterations;
+    }
 }

@@ -33,11 +33,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public interface ErrorSignal {
 
-	public Type computeBaseDelta(Type desired, Type output, Type outputFunctionDerivative);
+    public Type computeBaseDelta(Type desired, Type output, Type outputFunctionDerivative);
 
-	public Type computeRecursiveDelta(Type outputFunctionDerivative,
-			Vector delta,
-			ArrayList<Weight> w,
-			Type output);
+    public Type computeRecursiveDelta(Type outputFunctionDerivative,
+            Vector delta,
+            ArrayList<Weight> w,
+            Type output);
 
 }

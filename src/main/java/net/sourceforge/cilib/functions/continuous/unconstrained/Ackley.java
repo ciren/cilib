@@ -51,33 +51,33 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Ackley extends ContinuousFunction {
-	private static final long serialVersionUID = -7803711986955989075L;
+    private static final long serialVersionUID = -7803711986955989075L;
 
-	public Ackley() {
+    public Ackley() {
         setDomain("R(-32.768, 32.768)^30");
     }
 
-	@Override
-	public Ackley getClone() {
-		return new Ackley();
-	}
+    @Override
+    public Ackley getClone() {
+        return new Ackley();
+    }
 
-	public Object getMinimum() {
+    public Object getMinimum() {
         return new Double(0.0);
     }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		 double sumsq = 0.0;
-	        double sumcos = 0.0;
-	        for (int i = 0; i < getDimension(); ++i) {
-	        	sumsq += x.getReal(i) * x.getReal(i);
-	            sumcos += Math.cos(2 * Math.PI * x.getReal(i));
-	        }
-	        return -20.0 * Math.exp(-0.2 * Math.sqrt(sumsq / getDimension())) - Math.exp(sumcos / getDimension()) + 20 + Math.E;
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
+     */
+    @Override
+    public double evaluate(Vector x) {
+         double sumsq = 0.0;
+            double sumcos = 0.0;
+            for (int i = 0; i < getDimension(); ++i) {
+                sumsq += x.getReal(i) * x.getReal(i);
+                sumcos += Math.cos(2 * Math.PI * x.getReal(i));
+            }
+            return -20.0 * Math.exp(-0.2 * Math.sqrt(sumsq / getDimension())) - Math.exp(sumcos / getDimension()) + 20 + Math.E;
+    }
 
 }

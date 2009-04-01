@@ -39,39 +39,39 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class AverageDiversityAroundAllEntities extends Diversity {
-	private static final long serialVersionUID = 898972772053582980L;
+    private static final long serialVersionUID = 898972772053582980L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type getValue() {
+    /**
+     * {@inheritDoc}
+     */
+    public Type getValue() {
 
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-		int numberOfEntities = algorithm.getPopulationSize();
+        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+        int numberOfEntities = algorithm.getPopulationSize();
 
-		Iterator<? extends Entity> populationCenterIterator = algorithm.getTopology().iterator();
+        Iterator<? extends Entity> populationCenterIterator = algorithm.getTopology().iterator();
 
-		double totalDistanceSum = 0.0;
+        double totalDistanceSum = 0.0;
 
-		while (populationCenterIterator.hasNext()) {
-			Vector currentCenter = (Vector) (((Entity) populationCenterIterator.next()).getCandidateSolution());
-			Iterator<? extends Entity> populationIterator = algorithm.getTopology().iterator();
-			double currentDistanceSum = 0.0;
+        while (populationCenterIterator.hasNext()) {
+            Vector currentCenter = (Vector) (((Entity) populationCenterIterator.next()).getCandidateSolution());
+            Iterator<? extends Entity> populationIterator = algorithm.getTopology().iterator();
+            double currentDistanceSum = 0.0;
 
-			while (populationIterator.hasNext()) {
-				Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getCandidateSolution());
-				currentDistanceSum += distanceMeasure.distance(currentCenter, currentEntityPosition);
-			}
+            while (populationIterator.hasNext()) {
+                Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getCandidateSolution());
+                currentDistanceSum += distanceMeasure.distance(currentCenter, currentEntityPosition);
+            }
 
-			totalDistanceSum += currentDistanceSum/numberOfEntities;
-		}
+            totalDistanceSum += currentDistanceSum/numberOfEntities;
+        }
 
-		totalDistanceSum /= numberOfEntities;
+        totalDistanceSum /= numberOfEntities;
 
-		normalisationParameter.setDistanceMeasure(distanceMeasure);
-		totalDistanceSum /= normalisationParameter.getValue();
+        normalisationParameter.setDistanceMeasure(distanceMeasure);
+        totalDistanceSum /= normalisationParameter.getValue();
 
-		return new Real(totalDistanceSum);
-	}
+        return new Real(totalDistanceSum);
+    }
 
 }

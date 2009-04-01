@@ -33,66 +33,66 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * Create a specialised collection of {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
  */
 public class SpecializedPopluationInitialisationStrategy extends PopulationInitialisationStrategy {
-	private static final long serialVersionUID = -9146471282965793922L;
-	private List<Entity> entityList;
+    private static final long serialVersionUID = -9146471282965793922L;
+    private List<Entity> entityList;
 
-	/**
-	 * Create an instance of {@code SpecializedPopluationInitialisationStrategy}.
-	 */
-	public SpecializedPopluationInitialisationStrategy() {
-		this.entityList = new ArrayList<Entity>(40);
-	}
+    /**
+     * Create an instance of {@code SpecializedPopluationInitialisationStrategy}.
+     */
+    public SpecializedPopluationInitialisationStrategy() {
+        this.entityList = new ArrayList<Entity>(40);
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public SpecializedPopluationInitialisationStrategy(SpecializedPopluationInitialisationStrategy copy) {
-		this.entityList = new ArrayList<Entity>(copy.entityList.size());
-		for (Entity entity : copy.entityList) {
-			this.entityList.add(entity.getClone());
-		}
-	}
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public SpecializedPopluationInitialisationStrategy(SpecializedPopluationInitialisationStrategy copy) {
+        this.entityList = new ArrayList<Entity>(copy.entityList.size());
+        for (Entity entity : copy.entityList) {
+            this.entityList.add(entity.getClone());
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public SpecializedPopluationInitialisationStrategy getClone() {
-		return new SpecializedPopluationInitialisationStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public SpecializedPopluationInitialisationStrategy getClone() {
+        return new SpecializedPopluationInitialisationStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Entity getEntityType() {
-		// this needs to be looked at... generalisation breaks here
-		throw new UnsupportedOperationException("Implementation needed");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Entity getEntityType() {
+        // this needs to be looked at... generalisation breaks here
+        throw new UnsupportedOperationException("Implementation needed");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void initialise(Topology topology, OptimisationProblem problem) {
-		if (problem == null)
-			throw new InitialisationException("No problem has been specified");
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void initialise(Topology topology, OptimisationProblem problem) {
+        if (problem == null)
+            throw new InitialisationException("No problem has been specified");
 
-		if (this.entityList.size() == 0)
-			throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
+        if (this.entityList.size() == 0)
+            throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
-		for (Entity entity : entityList) {
-			entity.initialise(problem);
-			topology.add(entity);
-		}
-	}
+        for (Entity entity : entityList) {
+            entity.initialise(problem);
+            topology.add(entity);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setEntityType(Entity entity) {
-		this.entityList.add(entity);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setEntityType(Entity entity) {
+        this.entityList.add(entity);
+    }
 }

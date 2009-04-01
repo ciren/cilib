@@ -26,32 +26,32 @@ package net.sourceforge.cilib.games.items;
  * any game item controlled by a player
  */
 public class PlayerItem extends GameItem {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -674781677901305287L;
-	int playerNo;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -674781677901305287L;
+    int playerNo;
 
-	public PlayerItem(int playerNo)
-	{
-		this.playerNo = playerNo;
-	}
+    public PlayerItem(int playerNo)
+    {
+        this.playerNo = playerNo;
+    }
 
-	public PlayerItem(PlayerItem Other){
-		super(Other);
-		playerNo = Other.playerNo;
-	}
+    public PlayerItem(PlayerItem Other){
+        super(Other);
+        playerNo = Other.playerNo;
+    }
 
-	public int getPlayerID(){
-		return playerNo;
-	}
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.games.items.GameItem#getClone()
-	 */
-	@Override
-	public GameItem getClone() {
-		// TODO Auto-generated method stub
-		return new PlayerItem(this);
-	}
+    public int getPlayerID(){
+        return playerNo;
+    }
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.games.items.GameItem#getClone()
+     */
+    @Override
+    public GameItem getClone() {
+        // TODO Auto-generated method stub
+        return new PlayerItem(this);
+    }
 
 }

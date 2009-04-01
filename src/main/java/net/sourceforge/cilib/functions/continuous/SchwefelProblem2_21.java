@@ -40,24 +40,24 @@ import net.sourceforge.cilib.type.types.container.Vector;
 // TODO: Check discontinuous / continuous
 
 public class SchwefelProblem2_21 extends ContinuousFunction {
-	private static final long serialVersionUID = 8583159190281586599L;
+    private static final long serialVersionUID = 8583159190281586599L;
 
-	public SchwefelProblem2_21() {
+    public SchwefelProblem2_21() {
         setDomain("R(-100, 100)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SchwefelProblem2_21 getClone() {
-		return new SchwefelProblem2_21();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SchwefelProblem2_21 getClone() {
+        return new SchwefelProblem2_21();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-	 * @return The function minimum value.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+     * @return The function minimum value.
+     */
     public Object getMinimum() {
         return new Double(0);
     }
@@ -70,9 +70,9 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
         double value;
 
         for (int i = 1; i < x.getDimension(); ++i) {
-        	value = Math.abs(x.getReal(i));
+            value = Math.abs(x.getReal(i));
             if (value > max)
-            	max = value;
+                max = value;
         }
         return max;
     }

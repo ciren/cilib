@@ -32,77 +32,77 @@ import net.sourceforge.cilib.type.types.Type;
  * This class maintains a list of competitors for a coevolution problem
  */
 public class CoevolutionEvaluationList implements Type, Resetable {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -2894509571214982344L;
-	/**
-	 *
-	 */
-	List< List<EvaluationEntity>> evaluationEntities;
-	int amountEntitiesPerList;
-	/**
-	 *
-	 */
-	public CoevolutionEvaluationList() {
-		evaluationEntities = new ArrayList<List<EvaluationEntity>>();
-		amountEntitiesPerList = 0;
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2894509571214982344L;
+    /**
+     *
+     */
+    List< List<EvaluationEntity>> evaluationEntities;
+    int amountEntitiesPerList;
+    /**
+     *
+     */
+    public CoevolutionEvaluationList() {
+        evaluationEntities = new ArrayList<List<EvaluationEntity>>();
+        amountEntitiesPerList = 0;
+    }
 
-	public CoevolutionEvaluationList(CoevolutionEvaluationList other) {
-		evaluationEntities = new ArrayList<List<EvaluationEntity>>();
-		amountEntitiesPerList = 0;
-		for(List<EvaluationEntity> subList: other.evaluationEntities){
-			if(amountEntitiesPerList == 0)
-				amountEntitiesPerList = subList.size();
-			List<EvaluationEntity> nlist = new ArrayList<EvaluationEntity>();
-			for(EvaluationEntity e: subList){
-				nlist.add(e.getClone());
-			}
-			evaluationEntities.add(nlist);
-		}
-		amountEntitiesPerList = 0;
-	}
+    public CoevolutionEvaluationList(CoevolutionEvaluationList other) {
+        evaluationEntities = new ArrayList<List<EvaluationEntity>>();
+        amountEntitiesPerList = 0;
+        for(List<EvaluationEntity> subList: other.evaluationEntities){
+            if(amountEntitiesPerList == 0)
+                amountEntitiesPerList = subList.size();
+            List<EvaluationEntity> nlist = new ArrayList<EvaluationEntity>();
+            for(EvaluationEntity e: subList){
+                nlist.add(e.getClone());
+            }
+            evaluationEntities.add(nlist);
+        }
+        amountEntitiesPerList = 0;
+    }
 
-	public void addEntityList(List<EvaluationEntity> list){
-		if(amountEntitiesPerList == 0) //set the default size to the size of the first list provided
-			amountEntitiesPerList = list.size();
-		else
-			if(list.size() != amountEntitiesPerList)
-				throw new RuntimeException("Entity list is not the right size, each subpopulation should have the same length");
-		evaluationEntities.add(list);
-	}
+    public void addEntityList(List<EvaluationEntity> list){
+        if(amountEntitiesPerList == 0) //set the default size to the size of the first list provided
+            amountEntitiesPerList = list.size();
+        else
+            if(list.size() != amountEntitiesPerList)
+                throw new RuntimeException("Entity list is not the right size, each subpopulation should have the same length");
+        evaluationEntities.add(list);
+    }
 
-	/**
-	 * get one entry from each list at index
-	 * @param index the specified index
-	 * @return the requested list
-	 */
-	public List<EvaluationEntity> getEntitiesFromSubList(int index){
-		List<EvaluationEntity> list = new ArrayList<EvaluationEntity>();
-		for(List<EvaluationEntity> subList: evaluationEntities){
-			if(index >= subList.size())
-				throw new RuntimeException("index larger than list");
-			list.add(subList.get(index));
-		}
-		return list;
-	}
+    /**
+     * get one entry from each list at index
+     * @param index the specified index
+     * @return the requested list
+     */
+    public List<EvaluationEntity> getEntitiesFromSubList(int index){
+        List<EvaluationEntity> list = new ArrayList<EvaluationEntity>();
+        for(List<EvaluationEntity> subList: evaluationEntities){
+            if(index >= subList.size())
+                throw new RuntimeException("index larger than list");
+            list.add(subList.get(index));
+        }
+        return list;
+    }
 
-	public int getAmountEntitesPerList(){
-		return amountEntitiesPerList;
-	}
+    public int getAmountEntitesPerList(){
+        return amountEntitiesPerList;
+    }
 
-	@Override
-	public Type getClone() {
-		return new CoevolutionEvaluationList(this); //does this make sense?
-	}
+    @Override
+    public Type getClone() {
+        return new CoevolutionEvaluationList(this); //does this make sense?
+    }
 
-	public int getDimension() {
-		return evaluationEntities.size();//does this make sense?
-	}
+    public int getDimension() {
+        return evaluationEntities.size();//does this make sense?
+    }
 
-	public void reset() {
-		evaluationEntities = new ArrayList<List<EvaluationEntity>>();//does this make sense?
-		amountEntitiesPerList = 0;
-	}
+    public void reset() {
+        evaluationEntities = new ArrayList<List<EvaluationEntity>>();//does this make sense?
+        amountEntitiesPerList = 0;
+    }
 }

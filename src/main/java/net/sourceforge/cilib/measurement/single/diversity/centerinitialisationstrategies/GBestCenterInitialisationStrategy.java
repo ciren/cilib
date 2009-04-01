@@ -30,10 +30,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class GBestCenterInitialisationStrategy extends CenterInitialisationStrategy {
 
-	@Override
-	public Vector getCenter() {
-		PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+    @Override
+    public Vector getCenter() {
+        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
 
-		return (Vector) algorithm.getTopology().getBestEntity().getCandidateSolution();
-	}
+        return (Vector) algorithm.getTopology().getBestEntity().getCandidateSolution();
+    }
 }

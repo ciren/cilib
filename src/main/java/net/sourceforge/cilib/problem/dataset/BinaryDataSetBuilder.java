@@ -26,8 +26,8 @@ package net.sourceforge.cilib.problem.dataset;
  * @author Gary Pampara
  */
 public abstract class BinaryDataSetBuilder extends DataSetBuilder {
-	private static final long serialVersionUID = -4839844147232306350L;
+    private static final long serialVersionUID = -4839844147232306350L;
 
-	public abstract void initialise();
+    public abstract void initialise();
 
 }

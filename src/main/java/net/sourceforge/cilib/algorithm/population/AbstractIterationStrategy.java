@@ -36,61 +36,61 @@ import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
  * @param <E> The {@linkplain PopulationBasedAlgorithm} type.
  */
 public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
-	private static final long serialVersionUID = -2922555178733552167L;
-	protected BoundaryConstraint boundaryConstraint;
-	protected CompositeOperator operatorPipeline;
+    private static final long serialVersionUID = -2922555178733552167L;
+    protected BoundaryConstraint boundaryConstraint;
+    protected CompositeOperator operatorPipeline;
 
-	/**
-	 * Create an instance of the {@linkplain IterationStrategy}.
-	 */
-	public AbstractIterationStrategy() {
-		this.boundaryConstraint = new UnconstrainedBoundary();
-		this.operatorPipeline = new CompositeOperator();
-	}
+    /**
+     * Create an instance of the {@linkplain IterationStrategy}.
+     */
+    public AbstractIterationStrategy() {
+        this.boundaryConstraint = new UnconstrainedBoundary();
+        this.operatorPipeline = new CompositeOperator();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract AbstractIterationStrategy<E> getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract AbstractIterationStrategy<E> getClone();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract void performIteration(E algorithm);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract void performIteration(E algorithm);
 
-	/**
-	 * Get the currently associated {@linkplain BoundaryConstraint}.
-	 * @return The current {@linkplain BoundaryConstraint}.
-	 */
-	public BoundaryConstraint getBoundaryConstraint() {
-		return boundaryConstraint;
-	}
+    /**
+     * Get the currently associated {@linkplain BoundaryConstraint}.
+     * @return The current {@linkplain BoundaryConstraint}.
+     */
+    public BoundaryConstraint getBoundaryConstraint() {
+        return boundaryConstraint;
+    }
 
-	/**
-	 * Set the {@linkplain BoundaryConstraint} to maintain within this {@linkplain IterationStrategy}.
-	 * @param boundaryConstraint The {@linkplain BoundaryConstraint} to set.
-	 */
-	public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
-		this.boundaryConstraint = boundaryConstraint;
-	}
+    /**
+     * Set the {@linkplain BoundaryConstraint} to maintain within this {@linkplain IterationStrategy}.
+     * @param boundaryConstraint The {@linkplain BoundaryConstraint} to set.
+     */
+    public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
+        this.boundaryConstraint = boundaryConstraint;
+    }
 
-	/**
-	 * Get the <code>List&lt;Operator&gt;</code> that represents the sequence
-	 * of operators to be performed within the current <tt>IterationStrategy</tt>.
-	 * @return The operator pipeline <code>List&lt;Operator&gt;</code>
-	 */
-	public CompositeOperator getOperatorPipeline() {
-		return operatorPipeline;
-	}
+    /**
+     * Get the <code>List&lt;Operator&gt;</code> that represents the sequence
+     * of operators to be performed within the current <tt>IterationStrategy</tt>.
+     * @return The operator pipeline <code>List&lt;Operator&gt;</code>
+     */
+    public CompositeOperator getOperatorPipeline() {
+        return operatorPipeline;
+    }
 
-	/**
-	 * Set the pipeline to be used within the current <tt>IterationStrategy</tt>.
-	 * @param operatorPipeline The pipeline to be used.
-	 */
-	public void setOperatorPipeline(CompositeOperator operatorPipeline) {
-		this.operatorPipeline = operatorPipeline;
-	}
+    /**
+     * Set the pipeline to be used within the current <tt>IterationStrategy</tt>.
+     * @param operatorPipeline The pipeline to be used.
+     */
+    public void setOperatorPipeline(CompositeOperator operatorPipeline) {
+        this.operatorPipeline = operatorPipeline;
+    }
 
 }

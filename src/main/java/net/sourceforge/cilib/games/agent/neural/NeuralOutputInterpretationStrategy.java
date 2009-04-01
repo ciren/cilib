@@ -31,20 +31,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * been processed.
  */
 public abstract class NeuralOutputInterpretationStrategy {
-	public NeuralOutputInterpretationStrategy() {
-		// TODO Auto-generated constructor stub
-	}
+    public NeuralOutputInterpretationStrategy() {
+        // TODO Auto-generated constructor stub
+    }
 
-	/**
-	 * the the number of output units that this strategy requires
-	 * @return the output count
-	 */
-	public abstract int getAmOutputs();
-	/**
-	 * Modify the game by the output vector
-	 * @param outputData the output data vector
-	 * @param currentPlayer the agent that is represented by the Neural Network
-	 * @param oldState the game state to be altered
-	 */
-	public abstract void applyOutputToState(Vector outputData, Agent currentPlayer, Game oldState);
+    /**
+     * the the number of output units that this strategy requires
+     * @return the output count
+     */
+    public abstract int getAmOutputs();
+    /**
+     * Modify the game by the output vector
+     * @param outputData the output data vector
+     * @param currentPlayer the agent that is represented by the Neural Network
+     * @param oldState the game state to be altered
+     */
+    public abstract void applyOutputToState(Vector outputData, Agent currentPlayer, Game oldState);
 }

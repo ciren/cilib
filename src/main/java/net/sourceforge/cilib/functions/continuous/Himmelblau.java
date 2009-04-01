@@ -41,28 +41,28 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class Himmelblau extends ContinuousFunction {
-	private static final long serialVersionUID = 7323733640884766707L;
+    private static final long serialVersionUID = 7323733640884766707L;
 
-	/**
-	 * Create an instance of the Himmelblau function.
-	 * The initial domain is set to R(-6.0, 6.0)^2
-	 */
-	public Himmelblau() {
+    /**
+     * Create an instance of the Himmelblau function.
+     * The initial domain is set to R(-6.0, 6.0)^2
+     */
+    public Himmelblau() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-6, 6)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Himmelblau getClone() {
-		return new Himmelblau();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Himmelblau getClone() {
+        return new Himmelblau();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(0);
     }

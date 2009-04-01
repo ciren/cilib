@@ -28,11 +28,11 @@ package net.sourceforge.cilib.math.random.generator;
  */
 public class ZeroSeederStrategy implements SeedSelectionStrategy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public long getSeed() {
-		return 0;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public long getSeed() {
+        return 0;
+    }
 
 }

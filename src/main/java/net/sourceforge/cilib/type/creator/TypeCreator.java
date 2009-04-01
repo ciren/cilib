@@ -33,23 +33,23 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public interface TypeCreator {
 
-	/**
-	 * Create the type in a standard fashion. If the type has the concept of bounds,
-	 * the maximum and minimum values for the bounds are used to bound the created
-	 * object.
-	 *
-	 * @return The newly created <tt>Type</tt>
-	 */
-	public Type create();
+    /**
+     * Create the type in a standard fashion. If the type has the concept of bounds,
+     * the maximum and minimum values for the bounds are used to bound the created
+     * object.
+     *
+     * @return The newly created <tt>Type</tt>
+     */
+    public Type create();
 
 
-	/**
-	 * Create the type using the bounds <tt>lower</tt> and <tt>upper</tt>.
-	 *
-	 * @param lower The lower bound for the Type.
-	 * @param upper The upper bound for the Type.
-	 * @return The newly created <tt>Type</tt> object using the specified bounds
-	 */
-	public Type create(double lower, double upper);
+    /**
+     * Create the type using the bounds <tt>lower</tt> and <tt>upper</tt>.
+     *
+     * @param lower The lower bound for the Type.
+     * @param upper The upper bound for the Type.
+     * @return The newly created <tt>Type</tt> object using the specified bounds
+     */
+    public Type create(double lower, double upper);
 
 }

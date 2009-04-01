@@ -45,63 +45,63 @@ import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
  * {@link DataSetBuilder}.
  */
 public final class DataSetManager implements Serializable {
-	private static final long serialVersionUID = 6735187580654161651L;
+    private static final long serialVersionUID = 6735187580654161651L;
 
-	private static volatile DataSetManager instance = null;
-	private Hashtable<String, ArrayList<Pattern>> datasets = null;
-	private Hashtable<String, AssociatedPairDataSetBuilder> builders = null;
+    private static volatile DataSetManager instance = null;
+    private Hashtable<String, ArrayList<Pattern>> datasets = null;
+    private Hashtable<String, AssociatedPairDataSetBuilder> builders = null;
 
-	private DataSetManager() {
-		datasets = new Hashtable<String, ArrayList<Pattern>>();
-		builders = new Hashtable<String, AssociatedPairDataSetBuilder>();
-	}
+    private DataSetManager() {
+        datasets = new Hashtable<String, ArrayList<Pattern>>();
+        builders = new Hashtable<String, AssociatedPairDataSetBuilder>();
+    }
 
-	public static synchronized DataSetManager getInstance() {
-		if (instance == null) {
-			instance = new DataSetManager();
-		}
-		return instance;
-	}
+    public static synchronized DataSetManager getInstance() {
+        if (instance == null) {
+            instance = new DataSetManager();
+        }
+        return instance;
+    }
 
-	/**
-	 * Either parse and retrieve or just retrieve the list of patterns that represents the
-	 * requested dataset. The dataset's identifier (filename in the case of a
-	 * {@link LocalDataSet}) is used as the key into the {@link #datasets} {@link Hashtable}.
-	 *
-	 * @param dataset a {@link LocalDataSet} that may or may not have been
-	 *        parsed/instantiated before
-	 * @return an {@link ArrayList} of {@link Pattern}s representing the given dataset
-	 */
-	public synchronized ArrayList<Pattern> getDataFromSet(LocalDataSet dataset) {
-		String identifier = dataset.getFile();
+    /**
+     * Either parse and retrieve or just retrieve the list of patterns that represents the
+     * requested dataset. The dataset's identifier (filename in the case of a
+     * {@link LocalDataSet}) is used as the key into the {@link #datasets} {@link Hashtable}.
+     *
+     * @param dataset a {@link LocalDataSet} that may or may not have been
+     *        parsed/instantiated before
+     * @return an {@link ArrayList} of {@link Pattern}s representing the given dataset
+     */
+    public synchronized ArrayList<Pattern> getDataFromSet(LocalDataSet dataset) {
+        String identifier = dataset.getFile();
 
-//		log.debug("Requesting " + identifier);
-		if (!datasets.containsKey(identifier)) {
-			datasets.put(identifier, dataset.parseDataSet());
-		}
-//		log.debug("Returning " + identifier);
-		return datasets.get(identifier);
-	}
+//        log.debug("Requesting " + identifier);
+        if (!datasets.containsKey(identifier)) {
+            datasets.put(identifier, dataset.parseDataSet());
+        }
+//        log.debug("Returning " + identifier);
+        return datasets.get(identifier);
+    }
 
-	/**
-	 * Either initialise and retrieve or just retrieve the object that represents the
-	 * requested built up dataset. The dataset builder's identifier is used as the key into
-	 * the {@link #builders} {@link Hashtable}.
-	 *
-	 * @param datasetBuilder an {@link AssociatedPairDataSetBuilder} that may or may not have
-	 *        been built/instantiated before
-	 * @return an {@link AssociatedPairDataSetBuilder} that represent the requested built up
-	 *         dataset
-	 */
-	public synchronized AssociatedPairDataSetBuilder getDataSetBuilder(AssociatedPairDataSetBuilder datasetBuilder) {
-		String identifier = datasetBuilder.getIdentifier();
+    /**
+     * Either initialise and retrieve or just retrieve the object that represents the
+     * requested built up dataset. The dataset builder's identifier is used as the key into
+     * the {@link #builders} {@link Hashtable}.
+     *
+     * @param datasetBuilder an {@link AssociatedPairDataSetBuilder} that may or may not have
+     *        been built/instantiated before
+     * @return an {@link AssociatedPairDataSetBuilder} that represent the requested built up
+     *         dataset
+     */
+    public synchronized AssociatedPairDataSetBuilder getDataSetBuilder(AssociatedPairDataSetBuilder datasetBuilder) {
+        String identifier = datasetBuilder.getIdentifier();
 
-//		log.debug("Requesting " + identifier);
-		if (!builders.containsKey(identifier)) {
-			datasetBuilder.initialise();
-			builders.put(identifier, datasetBuilder);
-		}
-//		log.debug("Returning " + identifier);
-		return builders.get(identifier);
-	}
+//        log.debug("Requesting " + identifier);
+        if (!builders.containsKey(identifier)) {
+            datasetBuilder.initialise();
+            builders.put(identifier, datasetBuilder);
+        }
+//        log.debug("Returning " + identifier);
+        return builders.get(identifier);
+    }
 }

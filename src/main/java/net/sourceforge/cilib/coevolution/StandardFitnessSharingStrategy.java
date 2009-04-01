@@ -34,38 +34,38 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
  */
 public class StandardFitnessSharingStrategy extends FitnessSharingStrategy{
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -495910154501231712L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -495910154501231712L;
 
-	public StandardFitnessSharingStrategy() {
-	}
+    public StandardFitnessSharingStrategy() {
+    }
 
-	public StandardFitnessSharingStrategy(StandardFitnessSharingStrategy copy) {
+    public StandardFitnessSharingStrategy(StandardFitnessSharingStrategy copy) {
 
-	}
+    }
 
-	public StandardFitnessSharingStrategy getClone(){
-		return new StandardFitnessSharingStrategy(this);
-	}
+    public StandardFitnessSharingStrategy getClone(){
+        return new StandardFitnessSharingStrategy(this);
+    }
 
-	/**
-	 * in this case, assign the number of victory to the fitness of the Entity.
-	 * @return the modified fitness.
-	 */
-	public Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent){
+    /**
+     * in this case, assign the number of victory to the fitness of the Entity.
+     * @return the modified fitness.
+     */
+    public Fitness modifyFitness(CoevolutionAlgorithm ca, Entity ent){
 
-		//System.out.println("pre fit: " + ent.getFitness().getValue());
-		EntityScoreboard board = (EntityScoreboard) ent.getProperties().get(EntityType.Coevolution.BOARD);
-		Fitness f = new MaximisationFitness(Integer.valueOf(board.getWinCount()).doubleValue());
-					//*
-					//((Real)( ent.getProperties().get("distance"))).getReal()
-					//0.0
-		//System.out.println("dis: " + ((Real)( ent.getProperties().get("distance"))).getReal());
-		//System.out.println("f: " + f.getValue());
-		ent.getProperties().put(EntityType.FITNESS, f);
-		return f;
-	}
+        //System.out.println("pre fit: " + ent.getFitness().getValue());
+        EntityScoreboard board = (EntityScoreboard) ent.getProperties().get(EntityType.Coevolution.BOARD);
+        Fitness f = new MaximisationFitness(Integer.valueOf(board.getWinCount()).doubleValue());
+                    //*
+                    //((Real)( ent.getProperties().get("distance"))).getReal()
+                    //0.0
+        //System.out.println("dis: " + ((Real)( ent.getProperties().get("distance"))).getReal());
+        //System.out.println("f: " + f.getValue());
+        ent.getProperties().put(EntityType.FITNESS, f);
+        return f;
+    }
 
 }

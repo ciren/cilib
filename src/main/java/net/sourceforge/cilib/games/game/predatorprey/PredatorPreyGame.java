@@ -38,128 +38,128 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  *
  */
 public class PredatorPreyGame extends GridGame {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 332203013419474482L;
-	int maxIterations;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 332203013419474482L;
+    int maxIterations;
 
 
-	public PredatorPreyGame(){
-		maxIterations = 20;
-		turnBasedGame = false;
-		gridHeight = 9;
-		gridWidth = 9;
-	}
+    public PredatorPreyGame(){
+        maxIterations = 20;
+        turnBasedGame = false;
+        gridHeight = 9;
+        gridWidth = 9;
+    }
 
-	public PredatorPreyGame(PredatorPreyGame other){
-		super(other);
-		maxIterations = other.maxIterations;
-	}
+    public PredatorPreyGame(PredatorPreyGame other){
+        super(other);
+        maxIterations = other.maxIterations;
+    }
 
-	private boolean predatorCaughtPrey()
-	{
-		try
-		{
-			//if predator and prey players are next to or on the same cell then game over
-			if(currentState.getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), currentState.getItem(1).getLocation()) <= 1.0)
-				return true;
+    private boolean predatorCaughtPrey()
+    {
+        try
+        {
+            //if predator and prey players are next to or on the same cell then game over
+            if(currentState.getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), currentState.getItem(1).getLocation()) <= 1.0)
+                return true;
 
-			return false;
-		}
-		catch(Exception e)
-		{
-			throw new InitialisationException("Game not initialized, predator and prey items do not exist");
-		}
-	}
+            return false;
+        }
+        catch(Exception e)
+        {
+            throw new InitialisationException("Game not initialized, predator and prey items do not exist");
+        }
+    }
 
-	public void movePlayer(int playerID, int x, int y){
-		try{
-			Vector moveVector = new Vector(2);
-			moveVector.add(new Int(x));
-			moveVector.add(new Int(y));
-			for(int i = 0; i < currentState.getSize(); ++i){
-				if(((PlayerItem)currentState.getItem(i)).getPlayerID() == playerID){
-					//move the item by the specified coords
-					currentState.getItem(i).getLocation().moveItem(moveVector);
-				}
-			}
-		}
-		catch(Exception e){
-			throw new InitialisationException("Game not initialized, predator and prey items not found");
-		}
-	}
+    public void movePlayer(int playerID, int x, int y){
+        try{
+            Vector moveVector = new Vector(2);
+            moveVector.add(new Int(x));
+            moveVector.add(new Int(y));
+            for(int i = 0; i < currentState.getSize(); ++i){
+                if(((PlayerItem)currentState.getItem(i)).getPlayerID() == playerID){
+                    //move the item by the specified coords
+                    currentState.getItem(i).getLocation().moveItem(moveVector);
+                }
+            }
+        }
+        catch(Exception e){
+            throw new InitialisationException("Game not initialized, predator and prey items not found");
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.games.game.Game#gameOver()
-	 */
-	@Override
-	public boolean gameOver() {
-		if(currentIteration >= maxIterations)
-			return true;
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.games.game.Game#gameOver()
+     */
+    @Override
+    public boolean gameOver() {
+        if(currentIteration >= maxIterations)
+            return true;
 
-		return predatorCaughtPrey();
-	}
+        return predatorCaughtPrey();
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.games.game.Game#getClone()
-	 */
-	@Override
-	public PredatorPreyGame getClone() {
-		return new PredatorPreyGame(this);
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.games.game.Game#getClone()
+     */
+    @Override
+    public PredatorPreyGame getClone() {
+        return new PredatorPreyGame(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.games.game.Game#getGameResult()
-	 */
-	@Override
-	public AbstractGameResult getGameResult() {
-		// TODO Auto-generated method stub
-		if((currentIteration >= maxIterations) && !predatorCaughtPrey())
-			return new WinGameResult(2); //prey won
-		else
-			return new WinGameResult(1); //predator won
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.games.game.Game#getGameResult()
+     */
+    @Override
+    public AbstractGameResult getGameResult() {
+        // TODO Auto-generated method stub
+        if((currentIteration >= maxIterations) && !predatorCaughtPrey())
+            return new WinGameResult(2); //prey won
+        else
+            return new WinGameResult(1); //predator won
+    }
 
-	private void setRandomPositions(){
-		try{
-			Random rand = new MersenneTwister();
-			((GridLocation)(currentState.getItem(0).getLocation())).getPosition().setInt(0, rand.nextInt(getWidth()));
-			((GridLocation)(currentState.getItem(0).getLocation())).getPosition().setInt(1, rand.nextInt(getHeight()));
-			((GridLocation)(currentState.getItem(1).getLocation())).getPosition().setInt(0, rand.nextInt(getWidth()));
-			((GridLocation)(currentState.getItem(1).getLocation())).getPosition().setInt(1, rand.nextInt(getHeight()));
-		}
-		catch(Exception e){
-			throw new InitialisationException("Game not initialized, predator and prey items do not exist");
-		}
-	}
+    private void setRandomPositions(){
+        try{
+            Random rand = new MersenneTwister();
+            ((GridLocation)(currentState.getItem(0).getLocation())).getPosition().setInt(0, rand.nextInt(getWidth()));
+            ((GridLocation)(currentState.getItem(0).getLocation())).getPosition().setInt(1, rand.nextInt(getHeight()));
+            ((GridLocation)(currentState.getItem(1).getLocation())).getPosition().setInt(0, rand.nextInt(getWidth()));
+            ((GridLocation)(currentState.getItem(1).getLocation())).getPosition().setInt(1, rand.nextInt(getHeight()));
+        }
+        catch(Exception e){
+            throw new InitialisationException("Game not initialized, predator and prey items do not exist");
+        }
+    }
 
-	@Override
-	public void initializeGame() {
-		currentState.clearState();
-		currentState.addGameItem(new PredatorItem(1, gridWidth, gridHeight));
-		currentState.addGameItem(new PreyItem(2, gridWidth, gridHeight));
-		setRandomPositions();
-	}
+    @Override
+    public void initializeGame() {
+        currentState.clearState();
+        currentState.addGameItem(new PredatorItem(1, gridWidth, gridHeight));
+        currentState.addGameItem(new PreyItem(2, gridWidth, gridHeight));
+        setRandomPositions();
+    }
 
-	@Override
-	public void display() {
-		// TODO Auto-generated method stub
-		System.out.println("");
-		for(int y = 0; y < gridHeight; ++y){
-			String line = "|";
-			for(int x = 0; x < gridWidth; ++x){
-				if(((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(0) == x
-						&& ((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(1) == y)
-					line += "P|";
-				else if(((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(0) == x
-						&& ((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(1) == y){
-					line += "Y|";
-				}
-				else
-					line += " |";
-			}
-			System.out.println(line);
-		}
-	}
+    @Override
+    public void display() {
+        // TODO Auto-generated method stub
+        System.out.println("");
+        for(int y = 0; y < gridHeight; ++y){
+            String line = "|";
+            for(int x = 0; x < gridWidth; ++x){
+                if(((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(0) == x
+                        && ((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(1) == y)
+                    line += "P|";
+                else if(((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(0) == x
+                        && ((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(1) == y){
+                    line += "Y|";
+                }
+                else
+                    line += " |";
+            }
+            System.out.println(line);
+        }
+    }
 }

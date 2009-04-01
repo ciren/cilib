@@ -27,16 +27,16 @@ package net.sourceforge.cilib.games.result;
  */
 //TODO Teams, multiple winners
 public class WinGameResult extends AbstractGameResult {
-	int playerNo;
-	/**
-	 *
-	 */
-	public WinGameResult(int playerNo) {
-		this.playerNo = playerNo;
-	}
+    int playerNo;
+    /**
+     *
+     */
+    public WinGameResult(int playerNo) {
+        this.playerNo = playerNo;
+    }
 
-	public int getWinner(){
-		return playerNo;
-	}
+    public int getWinner(){
+        return playerNo;
+    }
 
 }

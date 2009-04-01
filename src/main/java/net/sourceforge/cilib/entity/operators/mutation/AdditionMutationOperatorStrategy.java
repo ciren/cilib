@@ -28,38 +28,38 @@ import net.sourceforge.cilib.type.types.Numeric;
  * @author Gary Pampara
  */
 public class AdditionMutationOperatorStrategy implements
-		MutationOperatorStrategy {
+        MutationOperatorStrategy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Numeric t1, Numeric t2) {
-		return t1.getReal() + t2.getReal();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Numeric t1, Numeric t2) {
+        return t1.getReal() + t2.getReal();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Numeric t1, double value) {
-		return t1.getReal() + value;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Numeric t1, double value) {
+        return t1.getReal() + value;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(double value, Numeric t1) {
-		return value + t1.getReal();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(double value, Numeric t1) {
+        return value + t1.getReal();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(double t1, double t2) {
-		return t1 + t2;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(double t1, double t2) {
+        return t1 + t2;
+    }
 
 }

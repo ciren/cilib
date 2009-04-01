@@ -27,9 +27,9 @@ package net.sourceforge.cilib.type.types;
  */
 public interface Resetable {
 
-	/**
-	 * Reset the instance to a predefined state.
-	 */
-	public void reset();
+    /**
+     * Reset the instance to a predefined state.
+     */
+    public void reset();
 
 }

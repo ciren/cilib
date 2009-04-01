@@ -49,100 +49,100 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public final class TestFFNNandGDTrainer {
 
-	private TestFFNNandGDTrainer() {
-	}
+    private TestFFNNandGDTrainer() {
+    }
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		Weight base = new Weight(new Real(0.5));
+        Weight base = new Weight(new Real(0.5));
 
-		FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
-		builder.setPrototypeWeight(base);
-		builder.addLayer(2);
-		builder.addLayer(30);
-		builder.addLayer(1);
-		// builder.initialize();
+        FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
+        builder.setPrototypeWeight(base);
+        builder.addLayer(2);
+        builder.addLayer(30);
+        builder.addLayer(1);
+        // builder.initialize();
 
-		// GenericTopology topo = new GenericTopology();
-		GenericTopology topo = new LayeredGenericTopology();
-		topo.setTopologyBuilder(builder);
-		// topo.initialize();
+        // GenericTopology topo = new GenericTopology();
+        GenericTopology topo = new LayeredGenericTopology();
+        topo.setTopologyBuilder(builder);
+        // topo.initialize();
 
-		FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
-		trainer.setDelta(new SquaredErrorFunction());
-		trainer.setTopology(topo);
-		trainer.setMomentum(0.9);
-		trainer.setLearningRate(0.5);
-		// trainer.initialize();
+        FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
+        trainer.setDelta(new SquaredErrorFunction());
+        trainer.setTopology(topo);
+        trainer.setMomentum(0.9);
+        trainer.setLearningRate(0.5);
+        // trainer.initialize();
 
-		GenericData data = null;
+        GenericData data = null;
 
-		data = new GenericData();
-		RandomDistributionStrategy distributor = new RandomDistributionStrategy();
-		// distributor.setFile("d:\\Stefan
-		// University\\masters\\datasets\\F2.txt");
-		distributor.setFile("c:\\temp\\data\\tester.txt");
-		distributor.setNoInputs(1);
-		distributor.setPercentTrain(70);
-		distributor.setPercentGen(1);
-		distributor.setPercentVal(0);
-		distributor.setPercentCan(29);
-		data.setDistributor(distributor);
-		// data.initialize();
+        data = new GenericData();
+        RandomDistributionStrategy distributor = new RandomDistributionStrategy();
+        // distributor.setFile("d:\\Stefan
+        // University\\masters\\datasets\\F2.txt");
+        distributor.setFile("c:\\temp\\data\\tester.txt");
+        distributor.setNoInputs(1);
+        distributor.setPercentTrain(70);
+        distributor.setPercentGen(1);
+        distributor.setPercentVal(0);
+        distributor.setPercentCan(29);
+        data.setDistributor(distributor);
+        // data.initialize();
 
-		// data.populate();
+        // data.populate();
 
-		NNError err = new MSEErrorFunction();
-		err.setNoOutputs(1);
-		NNError err1 = new ClassificationErrorReal();
+        NNError err = new MSEErrorFunction();
+        err.setNoOutputs(1);
+        NNError err1 = new ClassificationErrorReal();
 
-		EvaluationMediator eval = new EvaluationMediator();
-		eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
-//		FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
-		eval.setTopology(topo);
-		eval.setData(data);
-		eval.addPrototypError(err);
-		eval.addPrototypError(err1);
-		eval.setTrainer(trainer);
-		// eval.initialize();
+        EvaluationMediator eval = new EvaluationMediator();
+        eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
+//        FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
+        eval.setTopology(topo);
+        eval.setData(data);
+        eval.addPrototypError(err);
+        eval.addPrototypError(err1);
+        eval.setTrainer(trainer);
+        // eval.initialize();
 
-		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
-		neuralNetworkProblem.setEvaluationStrategy(eval);
-		// NNprob.initialize();
+        NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
+        neuralNetworkProblem.setEvaluationStrategy(eval);
+        // NNprob.initialize();
 
-		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
-		neuralNetworkControl.setProblem(neuralNetworkProblem);
+        NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
+        neuralNetworkControl.setProblem(neuralNetworkProblem);
 
-		neuralNetworkControl.addStoppingCondition(new MaximumIterations(5000));
+        neuralNetworkControl.addStoppingCondition(new MaximumIterations(5000));
 
-		System.out.println("Configuration completed...");
-		// -----------------------------------------------------------------------------------------------------------
+        System.out.println("Configuration completed...");
+        // -----------------------------------------------------------------------------------------------------------
 
-		neuralNetworkControl.initialise();
-		// needed
+        neuralNetworkControl.initialise();
+        // needed
 
-		System.out.println("About to run simulation...");
+        System.out.println("About to run simulation...");
 
-		neuralNetworkControl.run();
-		// //run die stuff
+        neuralNetworkControl.run();
+        // //run die stuff
 
-		Vector in = new Vector(1);
+        Vector in = new Vector(1);
 
-		in.add(new Real(0.5));
-		in.add(new Real(1.234));
+        in.add(new Real(0.5));
+        in.add(new Real(1.234));
 
-		StandardPattern p = new StandardPattern(in, null);
+        StandardPattern p = new StandardPattern(in, null);
 
-		Vector result = topo.evaluate(p);
+        Vector result = topo.evaluate(p);
 
-		System.out.println("test result input = 0.5, output should be 0.25  -->  : " + ((Real) result.get(0)).getReal());
+        System.out.println("test result input = 0.5, output should be 0.25  -->  : " + ((Real) result.get(0)).getReal());
 
-		System.out.println("data stats:\n\n");
+        System.out.println("data stats:\n\n");
 
-		System.out.println("candidate set size      : "	+ data.getCandidateSetSize());
-		System.out.println("training set size       : "	+ data.getTrainingSetSize());
-		System.out.println("generalisation set size : "	+ data.getGeneralisationSetSize());
-		System.out.println("validation set size     : " + data.getValidationSetSize());
+        System.out.println("candidate set size      : "    + data.getCandidateSetSize());
+        System.out.println("training set size       : "    + data.getTrainingSetSize());
+        System.out.println("generalisation set size : "    + data.getGeneralisationSetSize());
+        System.out.println("validation set size     : " + data.getValidationSetSize());
 
-	}
+    }
 }

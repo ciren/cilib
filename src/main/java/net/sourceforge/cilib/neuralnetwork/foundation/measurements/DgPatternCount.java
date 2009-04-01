@@ -32,26 +32,26 @@ import net.sourceforge.cilib.type.types.Type;
  * TODO: Complete this  javadoc.
  */
 public class DgPatternCount implements Measurement {
-	private static final long serialVersionUID = 1660067769897420258L;
+    private static final long serialVersionUID = 1660067769897420258L;
 
-	public DgPatternCount() {
-	}
+    public DgPatternCount() {
+    }
 
-	public DgPatternCount(DgPatternCount rhs) {
-//		super(rhs);
-		throw new UnsupportedOperationException("public DgPatternCount(DgPatternCount rhs)");
-	}
+    public DgPatternCount(DgPatternCount rhs) {
+//        super(rhs);
+        throw new UnsupportedOperationException("public DgPatternCount(DgPatternCount rhs)");
+    }
 
-	public DgPatternCount getClone() {
-		return new DgPatternCount(this);
-	}
+    public DgPatternCount getClone() {
+        return new DgPatternCount(this);
+    }
 
-	public String getDomain() {
-		return "Z";
-	}
+    public String getDomain() {
+        return "Z";
+    }
 
-	public Type getValue(Algorithm algorithm) {
-		int size = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getData().getGeneralisationSetSize();
-		return new Int(size);
-	}
+    public Type getValue(Algorithm algorithm) {
+        int size = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getData().getGeneralisationSetSize();
+        return new Int(size);
+    }
 }

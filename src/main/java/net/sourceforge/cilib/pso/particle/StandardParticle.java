@@ -41,10 +41,10 @@ public class StandardParticle extends AbstractParticle {
 
     /** Creates a new instance of StandardParticle. */
     public StandardParticle() {
-    	super();
+        super();
 
-    	this.getProperties().put(EntityType.Particle.BEST_POSITION, new Vector());
-    	this.getProperties().put(EntityType.Particle.VELOCITY, new Vector());
+        this.getProperties().put(EntityType.Particle.BEST_POSITION, new Vector());
+        this.getProperties().put(EntityType.Particle.VELOCITY, new Vector());
     }
 
     /**
@@ -52,88 +52,88 @@ public class StandardParticle extends AbstractParticle {
      * @param copy The instance to copy.
      */
     public StandardParticle(StandardParticle copy) {
-    	super(copy);
-    	this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
+        super(copy);
+        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
     }
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public StandardParticle getClone() {
-       	return new StandardParticle(this);
+           return new StandardParticle(this);
     }
 
     @Override
-	public boolean equals(Object object) {
-    	if (this == object)
-    		return true;
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
 
-    	if ((object == null) || (this.getClass() != object.getClass()))
-    		return false;
+        if ((object == null) || (this.getClass() != object.getClass()))
+            return false;
 
-    	StandardParticle other = (StandardParticle) object;
-		return super.equals(object) &&
-			(this.neighbourhoodBest == null ? true : this.neighbourhoodBest.equals(other.neighbourhoodBest));
-	}
+        StandardParticle other = (StandardParticle) object;
+        return super.equals(object) &&
+            (this.neighbourhoodBest == null ? true : this.neighbourhoodBest.equals(other.neighbourhoodBest));
+    }
 
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Fitness getBestFitness() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness getBestFitness() {
         return (Fitness) this.getProperties().get(EntityType.Particle.BEST_FITNESS);
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Vector getBestPosition() {
-    	return (Vector) this.getProperties().get(EntityType.Particle.BEST_POSITION);
+        return (Vector) this.getProperties().get(EntityType.Particle.BEST_POSITION);
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getDimension() {
-    	return getPosition().getDimension();
+        return getPosition().getDimension();
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Particle getNeighbourhoodBest() {
         return neighbourhoodBest;
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Vector getPosition() {
-    	return (Vector) getCandidateSolution();
+        return (Vector) getCandidateSolution();
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Vector getVelocity() {
         return (Vector) this.getProperties().get(EntityType.Particle.VELOCITY);
     }
 
     /**
-	 * {@inheritDoc}
-	 */
-	@Override
+     * {@inheritDoc}
+     */
+    @Override
     public void initialise(OptimisationProblem problem) {
         getPositionInitialisationStrategy().initialise(this, problem);
 
@@ -148,77 +148,77 @@ public class StandardParticle extends AbstractParticle {
     }
 
     /**
-	 * {@inheritDoc}
-	 */
-	@Override
+     * {@inheritDoc}
+     */
+    @Override
     public void updatePosition() {
-    	this.positionUpdateStrategy.updatePosition(this);
+        this.positionUpdateStrategy.updatePosition(this);
     }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void calculateFitness(boolean count) {
-    	Fitness fitness = getFitnessCalculator().getFitness(this, count);
-    	this.getProperties().put(EntityType.FITNESS, fitness);
-    	if (fitness.compareTo(getBestFitness()) > 0) {
-    		this.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
-    		this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
-    	}
+        Fitness fitness = getFitnessCalculator().getFitness(this, count);
+        this.getProperties().put(EntityType.FITNESS, fitness);
+        if (fitness.compareTo(getBestFitness()) > 0) {
+            this.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
+            this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
+        }
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setNeighbourhoodBest(Particle particle) {
         neighbourhoodBest = particle;
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void updateVelocity() {
-    	this.velocityUpdateStrategy.updateVelocity(this);
+        this.velocityUpdateStrategy.updateVelocity(this);
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void updateControlParameters() {
-		this.velocityUpdateStrategy.updateControlParameters(this);
-	}
+        this.velocityUpdateStrategy.updateControlParameters(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setDimension(int dim) {
-		// TODO Auto-generated method stub
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setDimension(int dim) {
+        // TODO Auto-generated method stub
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type getBehaviouralParameters() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Type getBehaviouralParameters() {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setBehaviouralParameters(Type type) {
+    /**
+     * {@inheritDoc}
+     */
+    public void setBehaviouralParameters(Type type) {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void reinitialise() {
-		this.velocityInitialisationStrategy.initialise(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reinitialise() {
+        this.velocityInitialisationStrategy.initialise(this);
+    }
 }

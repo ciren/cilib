@@ -36,18 +36,18 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class BestParticlePositionTest {
-	
-	@Test
-	public void testBestParticlePositionDomain() {
-		Measurement m = new BestParticlePosition();
-		
-		DomainParser parser = new DomainParser();
-		parser.parse(m.getDomain());
-		
-		Vector t = (Vector) parser.getBuiltRepresentation();
-		
-		assertTrue(t.get(0) instanceof StringType);
-		assertEquals(1, t.getDimension());
-	}
+    
+    @Test
+    public void testBestParticlePositionDomain() {
+        Measurement m = new BestParticlePosition();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector t = (Vector) parser.getBuiltRepresentation();
+        
+        assertTrue(t.get(0) instanceof StringType);
+        assertEquals(1, t.getDimension());
+    }
 
 }

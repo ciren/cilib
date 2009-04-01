@@ -34,45 +34,45 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class LayeredGenericTopology extends GenericTopology {
 
 
-	/*
-	 * This class uses a "top to bottom, left to right" way of
-	 * evaluating neuron output.
-	 *
-	 */
+    /*
+     * This class uses a "top to bottom, left to right" way of
+     * evaluating neuron output.
+     *
+     */
 
 
-	public LayeredGenericTopology() {
-		super();
-	}
+    public LayeredGenericTopology() {
+        super();
+    }
 
-	public void initialize(){
-		super.initialize();
-	}
+    public void initialize(){
+        super.initialize();
+    }
 
-	public Vector evaluate(NNPattern p){
+    public Vector evaluate(NNPattern p){
 
-		Vector output = new Vector();
+        Vector output = new Vector();
 
-		for (int layer = 0; layer < layerList.size(); layer++){
+        for (int layer = 0; layer < layerList.size(); layer++){
 
-			ArrayList<NeuronConfig> neuronList = layerList.get(layer);
-			for (int i = 0; i < neuronList.size(); i++){
+            ArrayList<NeuronConfig> neuronList = layerList.get(layer);
+            for (int i = 0; i < neuronList.size(); i++){
 
-				NeuronConfig neuron = neuronList.get(i);
-				Type result = neuron.computeOutput(neuron, p);
+                NeuronConfig neuron = neuronList.get(i);
+                Type result = neuron.computeOutput(neuron, p);
 
-				//keep track of previous outputs.
-				neuron.setTminus1Output(neuron.getCurrentOutput());
-				neuron.setCurrentOutput(result);
+                //keep track of previous outputs.
+                neuron.setTminus1Output(neuron.getCurrentOutput());
+                neuron.setCurrentOutput(result);
 
-				if (neuron.isOutputNeuron())
-					output.add(result);
-			}//end for i
+                if (neuron.isOutputNeuron())
+                    output.add(result);
+            }//end for i
 
-		}
+        }
 
-		return output;
+        return output;
 
-	}
+    }
 
 }

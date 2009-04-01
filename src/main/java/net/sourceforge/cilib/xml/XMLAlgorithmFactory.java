@@ -33,9 +33,9 @@ import org.w3c.dom.Element;
  */
 public class XMLAlgorithmFactory extends XMLObjectFactory implements AlgorithmFactory {
 
-	public XMLAlgorithmFactory() {
-		super(null);
-	}
+    public XMLAlgorithmFactory() {
+        super(null);
+    }
 
     /** Creates a new instance of XMLAlgorithmFactory. */
     public XMLAlgorithmFactory(Document xmlDocument, Element xmlAlgorithmDescription) {

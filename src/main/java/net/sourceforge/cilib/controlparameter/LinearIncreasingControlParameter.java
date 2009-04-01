@@ -32,47 +32,47 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * @author Gary Pampara
  */
 public class LinearIncreasingControlParameter extends BoundedControlParameter {
-	private static final long serialVersionUID = -6813625954992761973L;
+    private static final long serialVersionUID = -6813625954992761973L;
 
-	/**
-	 * Create an instance of {@code LinearDecreasingControlParameter}.
-	 */
-	public LinearIncreasingControlParameter() {
-		super();
-	}
+    /**
+     * Create an instance of {@code LinearDecreasingControlParameter}.
+     */
+    public LinearIncreasingControlParameter() {
+        super();
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public LinearIncreasingControlParameter(LinearIncreasingControlParameter copy) {
-		super(copy);
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public LinearIncreasingControlParameter(LinearIncreasingControlParameter copy) {
+        super(copy);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public LinearIncreasingControlParameter getClone() {
-		return new LinearIncreasingControlParameter(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public LinearIncreasingControlParameter getClone() {
+        return new LinearIncreasingControlParameter(this);
+    }
 
-	/**
-	 * Update the parameter linearly based on the current percentage complete of the running
-	 * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
-	 * The update is done in an increasing manner.
-	 */
-	public void update() {
-		double result = getLowerBound() + (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
-		parameter.setReal(result);
-	}
+    /**
+     * Update the parameter linearly based on the current percentage complete of the running
+     * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
+     * The update is done in an increasing manner.
+     */
+    public void update() {
+        double result = getLowerBound() + (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
+        parameter.setReal(result);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setLowerBound(double lower) {
-		super.setLowerBound(lower);
-		this.parameter.setReal(lower);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLowerBound(double lower) {
+        super.setLowerBound(lower);
+        this.parameter.setReal(lower);
+    }
 
 }

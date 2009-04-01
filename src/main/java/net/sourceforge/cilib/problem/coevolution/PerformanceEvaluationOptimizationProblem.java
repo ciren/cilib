@@ -33,40 +33,40 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
  * based on the entities performance in the game.
  */
 public abstract class PerformanceEvaluationOptimizationProblem extends
-		OptimisationProblemAdapter {
-	private static final long serialVersionUID = -736481594565770996L;
+        OptimisationProblemAdapter {
+    private static final long serialVersionUID = -736481594565770996L;
 
-	protected int amountEvaluations;
-	//this class determines how the fitness values from each evaluation will be combined
-	protected FitnessCalculationStrategy fitnessCalculation;
-	//scoring strategy
-	/**
-	 *
-	 */
-	public PerformanceEvaluationOptimizationProblem() {
-		amountEvaluations = 1;
-		fitnessCalculation = new TotalFitnessCalculationStrategy();
-	}
+    protected int amountEvaluations;
+    //this class determines how the fitness values from each evaluation will be combined
+    protected FitnessCalculationStrategy fitnessCalculation;
+    //scoring strategy
+    /**
+     *
+     */
+    public PerformanceEvaluationOptimizationProblem() {
+        amountEvaluations = 1;
+        fitnessCalculation = new TotalFitnessCalculationStrategy();
+    }
 
-	/**
-	 * @param copy
-	 */
-	public PerformanceEvaluationOptimizationProblem(
-			PerformanceEvaluationOptimizationProblem copy) {
-		super(copy);
-		amountEvaluations = copy.amountEvaluations;
-		fitnessCalculation = copy.fitnessCalculation;
-	}
+    /**
+     * @param copy
+     */
+    public PerformanceEvaluationOptimizationProblem(
+            PerformanceEvaluationOptimizationProblem copy) {
+        super(copy);
+        amountEvaluations = copy.amountEvaluations;
+        fitnessCalculation = copy.fitnessCalculation;
+    }
 
-	public void setFitnessCalculation(FitnessCalculationStrategy fitnessCalculation) {
-		this.fitnessCalculation = fitnessCalculation;
-	}
+    public void setFitnessCalculation(FitnessCalculationStrategy fitnessCalculation) {
+        this.fitnessCalculation = fitnessCalculation;
+    }
 
-	public int getAmountEvaluations() {
-		return amountEvaluations;
-	}
+    public int getAmountEvaluations() {
+        return amountEvaluations;
+    }
 
-	public void setAmountEvaluations(int amountEvaluations) {
-		this.amountEvaluations = amountEvaluations;
-	}
+    public void setAmountEvaluations(int amountEvaluations) {
+        this.amountEvaluations = amountEvaluations;
+    }
 }

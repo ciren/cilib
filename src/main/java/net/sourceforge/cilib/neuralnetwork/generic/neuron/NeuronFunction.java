@@ -28,10 +28,10 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public interface NeuronFunction {
 
-	public Type computeFunction(Type in);
+    public Type computeFunction(Type in);
 
-	public Type computeDerivativeAtPos(Type pos);
+    public Type computeDerivativeAtPos(Type pos);
 
-	public Type computeDerivativeUsingLastOutput(Type lastOut);
+    public Type computeDerivativeUsingLastOutput(Type lastOut);
 
 }

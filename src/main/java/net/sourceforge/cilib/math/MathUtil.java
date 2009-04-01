@@ -36,98 +36,98 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  */
 public final class MathUtil {
 
-	private MathUtil() {
-	}
+    private MathUtil() {
+    }
 
-	/**
-	 * Generate the required factorial of the number <code>x</code>.
-	 * @param x The number to generate the factorial from.
-	 * @return The factorial of <code>x</code>.
-	 */
-	public static double factorial(double x) {
-		if (x < 0)
-			throw new IllegalArgumentException("Factorial is defined to work on numbers >= 0 only");
+    /**
+     * Generate the required factorial of the number <code>x</code>.
+     * @param x The number to generate the factorial from.
+     * @return The factorial of <code>x</code>.
+     */
+    public static double factorial(double x) {
+        if (x < 0)
+            throw new IllegalArgumentException("Factorial is defined to work on numbers >= 0 only");
 
-		if (x == 0.0)
-			return 1.0;
-		else if (x == 1.0)
-			return 1.0;
-		else
-			return x * factorial(x-1);
-	}
+        if (x == 0.0)
+            return 1.0;
+        else if (x == 1.0)
+            return 1.0;
+        else
+            return x * factorial(x-1);
+    }
 
-	/**
-	 * Return the combination of <code>n</code> and <code>r</code>.
-	 * @param n The total elements from which the combination is perfromed.
-	 * @param r The {@code r}-combinations (of size {@code r}) to select.
-	 * @return The combination of <code>n</code> and <code>r</code>.
-	 */
-	public static double combination(double n, double r) {
-		if (n < r)
-			throw new IllegalArgumentException("In a combination the following must hold: n >= x");
+    /**
+     * Return the combination of <code>n</code> and <code>r</code>.
+     * @param n The total elements from which the combination is perfromed.
+     * @param r The {@code r}-combinations (of size {@code r}) to select.
+     * @return The combination of <code>n</code> and <code>r</code>.
+     */
+    public static double combination(double n, double r) {
+        if (n < r)
+            throw new IllegalArgumentException("In a combination the following must hold: n >= x");
 
-		return permutation(n, r) / factorial(r);
-	}
+        return permutation(n, r) / factorial(r);
+    }
 
-	/**
-	 * This is a convienience method providing an alias to <code>combination</code>.
-	 * @param n The number of elements available for selection.
-	 * @param r The {@code r}-combinations (of size {@code r}) to select.
-	 * @return The value of the operation "<code>n</code> choose <code>x</code>".
-	 */
-	public static double choose(double n, double r) {
-		return combination(n, r);
-	}
+    /**
+     * This is a convienience method providing an alias to <code>combination</code>.
+     * @param n The number of elements available for selection.
+     * @param r The {@code r}-combinations (of size {@code r}) to select.
+     * @return The value of the operation "<code>n</code> choose <code>x</code>".
+     */
+    public static double choose(double n, double r) {
+        return combination(n, r);
+    }
 
-	/**
-	 * In combinatorics, a permutation is usually understood to be a sequence
+    /**
+     * In combinatorics, a permutation is usually understood to be a sequence
      * containing each element from a finite set once, and only once.
-	 * @param n The number of elements available for selection.
-	 * @param r The number of elements to be selected {@code (0 <= r <= n)}.
-	 * @return The number of permutations.
-	 */
-	public static double permutation(double n, double r) {
-		return factorial(n) / factorial(n-r);
-	}
+     * @param n The number of elements available for selection.
+     * @param r The number of elements to be selected {@code (0 <= r <= n)}.
+     * @return The number of permutations.
+     */
+    public static double permutation(double n, double r) {
+        return factorial(n) / factorial(n-r);
+    }
 
-	/**
-	 * Obtain a pseudo uniform random number. The returned number will
+    /**
+     * Obtain a pseudo uniform random number. The returned number will
      * be a pseudo random number from a random seed. Each time this method is
      * invoked, a new pseudo random number generater is created with a new
      * seed. For operations which need a lot of random numbers, it is advisable
      * that new instance of a random number generator is used in favor of this
      * method.
-	 * @return A uniform random number in the range [0,1).
-	 */
-	public static synchronized double random() {
+     * @return A uniform random number in the range [0,1).
+     */
+    public static synchronized double random() {
         return new MersenneTwister().nextDouble();
-	}
+    }
 
-	/**
-	 * Determine if a "flip" would occur given the provided probability value.
-	 * @param probability The provided probability value. This value must be in [0,1]
-	 * @return 1 - if a "flip" occured, 0 otherwise.
-	 */
-	public static int flip(double probability) {
+    /**
+     * Determine if a "flip" would occur given the provided probability value.
+     * @param probability The provided probability value. This value must be in [0,1]
+     * @return 1 - if a "flip" occured, 0 otherwise.
+     */
+    public static int flip(double probability) {
         if (probability < 0 || probability > 1)
             throw new IllegalArgumentException("Illegal input: valid range is [0,1]");
 
         Random random = new MersenneTwister();
-		if (random.nextDouble() <= probability)
-			return 1;
+        if (random.nextDouble() <= probability)
+            return 1;
 
-		return 0;
-	}
+        return 0;
+    }
 
-	/**
-	 * Determine the log of the specified <code>value</code> with the provided <code>base</code>.
-	 * @param base The base of the log operation.
-	 * @param value The value to determine the log of.
-	 * @return The log value of <code>value</code> using the base value of <code>base</code>.
+    /**
+     * Determine the log of the specified <code>value</code> with the provided <code>base</code>.
+     * @param base The base of the log operation.
+     * @param value The value to determine the log of.
+     * @return The log value of <code>value</code> using the base value of <code>base</code>.
      * @see java.lang.Math#log(double).
-	 */
-	public static double log(double base, double value) {
-		return Math.log(value) / Math.log(base);
-	}
+     */
+    public static double log(double base, double value) {
+        return Math.log(value) / Math.log(base);
+    }
 
 }

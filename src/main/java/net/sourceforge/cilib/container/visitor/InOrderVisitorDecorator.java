@@ -29,16 +29,16 @@ package net.sourceforge.cilib.container.visitor;
  * @param <E> The type element.
  */
 public class InOrderVisitorDecorator<E> extends PrePostVisitor<E> {
-	private Visitor<E> visitor;
+    private Visitor<E> visitor;
 
-	public InOrderVisitorDecorator(Visitor<E> v) {
-		visitor = v;
-	}
+    public InOrderVisitorDecorator(Visitor<E> v) {
+        visitor = v;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void visit(E o) {
-		visitor.visit(o);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void visit(E o) {
+        visitor.visit(o);
+    }
 }

@@ -33,9 +33,9 @@ import org.w3c.dom.Element;
  */
 public class XMLStoppingConditionFactory extends XMLObjectFactory implements StoppingConditionFactory {
 
-	public XMLStoppingConditionFactory() {
-		super(null);
-	}
+    public XMLStoppingConditionFactory() {
+        super(null);
+    }
 
     /** Creates a new instance of XMLProgressIndicatorFactory. */
     public XMLStoppingConditionFactory(Document xmlDocument, Element xmlProgressIndicatorDescription) {

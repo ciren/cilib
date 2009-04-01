@@ -29,19 +29,19 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * @author Theuns Cloete
  */
 public class ClusterCentroidStrategy implements ClusterCenterStrategy {
-	private static final long serialVersionUID = -7831635507079248268L;
+    private static final long serialVersionUID = -7831635507079248268L;
 
-	public ClusterCentroidStrategy() {
-		super();
-	}
+    public ClusterCentroidStrategy() {
+        super();
+    }
 
-	/**
-	 * In this case, we are interested in the centroid of the cluster.
-	 * @param i The integer representing the cluster for which the centroid should be returned
-	 * @return the centroid of cluster i
-	 */
-	@Override
-	public Vector getCenter(int i) {
-		return ClusteringUtils.get().getArrangedCentroids().get(i);
-	}
+    /**
+     * In this case, we are interested in the centroid of the cluster.
+     * @param i The integer representing the cluster for which the centroid should be returned
+     * @return the centroid of cluster i
+     */
+    @Override
+    public Vector getCenter(int i) {
+        return ClusteringUtils.get().getArrangedCentroids().get(i);
+    }
 }

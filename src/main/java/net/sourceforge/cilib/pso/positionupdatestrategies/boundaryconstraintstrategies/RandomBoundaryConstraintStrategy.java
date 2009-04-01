@@ -39,51 +39,51 @@ import net.sourceforge.cilib.type.types.TypeUtil;
  * @author Wiehann Matthysen
  */
 public class RandomBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
-	private static final long serialVersionUID = -4049333767309340874L;
+    private static final long serialVersionUID = -4049333767309340874L;
 
-	/**
-	 * Create an instance of {@linkplain RandomBoundaryConstraintStrategy}.
-	 */
-	public RandomBoundaryConstraintStrategy() {
-	}
+    /**
+     * Create an instance of {@linkplain RandomBoundaryConstraintStrategy}.
+     */
+    public RandomBoundaryConstraintStrategy() {
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided {@linkplain RandomBoundaryConstraintStrategy}
-	 * instance.
-	 * @param copy The instance to copy.
-	 */
-	public RandomBoundaryConstraintStrategy(RandomBoundaryConstraintStrategy copy) {
-	}
+    /**
+     * Copy constructor. Create a copy of the provided {@linkplain RandomBoundaryConstraintStrategy}
+     * instance.
+     * @param copy The instance to copy.
+     */
+    public RandomBoundaryConstraintStrategy(RandomBoundaryConstraintStrategy copy) {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public RandomBoundaryConstraintStrategy getClone() {
-		return new RandomBoundaryConstraintStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public RandomBoundaryConstraintStrategy getClone() {
+        return new RandomBoundaryConstraintStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void constrainLower(Numeric position, Numeric velocity) {
-		constrain(position, velocity);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void constrainLower(Numeric position, Numeric velocity) {
+        constrain(position, velocity);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void constrainUpper(Numeric position, Numeric velocity) {
-		constrain(position, velocity);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void constrainUpper(Numeric position, Numeric velocity) {
+        constrain(position, velocity);
+    }
 
-	/**
-	 * Constrain the position.
-	 * @param position The {@linkplain Numeric} representing the position.
-	 * @param velocity The {@linkplain Numeric} representing the velocity.
-	 */
-	private void constrain(Numeric position, Numeric velocity) {
-		Numeric previousPosition = position.getClone();
-		TypeUtil.randomize(position);
-		velocity.set(position.getReal() - previousPosition.getReal());
-	}
+    /**
+     * Constrain the position.
+     * @param position The {@linkplain Numeric} representing the position.
+     * @param velocity The {@linkplain Numeric} representing the velocity.
+     */
+    private void constrain(Numeric position, Numeric velocity) {
+        Numeric previousPosition = position.getClone();
+        TypeUtil.randomize(position);
+        velocity.set(position.getReal() - previousPosition.getReal());
+    }
 }

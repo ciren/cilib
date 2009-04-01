@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.Type;
 public class Restarts implements Measurement {
     private static final long serialVersionUID = 3990735185462072444L;
 
-	/** Creates a new instance of Restarts. */
+    /** Creates a new instance of Restarts. */
     public Restarts() {
     }
 
@@ -49,24 +49,24 @@ public class Restarts implements Measurement {
      * {@inheritDoc}
      */
     public Restarts getClone() {
-    	return new Restarts(this);
+        return new Restarts(this);
     }
 
     /**
      * {@inheritDoc}
      */
     public String getDomain() {
-    	return "Z";
-    	//return "T";
+        return "Z";
+        //return "T";
     }
 
     /**
      * {@inheritDoc}
      */
     public Type getValue(Algorithm algorithm) {
-		MultistartOptimisationAlgorithm m = (MultistartOptimisationAlgorithm) algorithm;
+        MultistartOptimisationAlgorithm m = (MultistartOptimisationAlgorithm) algorithm;
 
-		return new Int(m.getRestarts());
+        return new Int(m.getRestarts());
     }
 
 }

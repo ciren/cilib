@@ -46,199 +46,199 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class FFNN_GD_TrainingStrategy implements TrainingStrategy, Observer {
 
-	GenericTopology topology = null;
-	ErrorSignal delta = null;
-	Double learningRate = null;
-	Double momentum = null;
+    GenericTopology topology = null;
+    ErrorSignal delta = null;
+    Double learningRate = null;
+    Double momentum = null;
 
 
-	public FFNN_GD_TrainingStrategy() {
-		this.topology = null;
-		this.delta = null;
-		this.learningRate = null;
-		this.momentum = null;
-	}
+    public FFNN_GD_TrainingStrategy() {
+        this.topology = null;
+        this.delta = null;
+        this.learningRate = null;
+        this.momentum = null;
+    }
 
 
-	public void initialize(){
-		if (this.topology == null){
-			throw new IllegalArgumentException("FFNN_GD_TrainingStrategy: Required topology object was null during initialization");
-		}
-		if (this.delta == null){
-			throw new IllegalArgumentException("FFNN_GD_TrainingStrategy: Required delta object was null during initialization");
-		}
+    public void initialize(){
+        if (this.topology == null){
+            throw new IllegalArgumentException("FFNN_GD_TrainingStrategy: Required topology object was null during initialization");
+        }
+        if (this.delta == null){
+            throw new IllegalArgumentException("FFNN_GD_TrainingStrategy: Required delta object was null during initialization");
+        }
 
-		if (this.learningRate == null){
-			throw new IllegalArgumentException("FFNN_GD_TrainingStrategy: Required learningRate object was null during initialization");
-		}
+        if (this.learningRate == null){
+            throw new IllegalArgumentException("FFNN_GD_TrainingStrategy: Required learningRate object was null during initialization");
+        }
 
-		if (this.momentum == null){
-			throw new IllegalArgumentException("FFNN_GD_TrainingStrategy: Required momentum object was null during initialization");
-		}
+        if (this.momentum == null){
+            throw new IllegalArgumentException("FFNN_GD_TrainingStrategy: Required momentum object was null during initialization");
+        }
 
-	}
+    }
 
 
 
-	public void updateFanInWeights(NeuronConfig n, Type delta){
-		//Wi(t) = Wi(t) + learnRate * delta * input_i    +    momentum * change_Wi(t-1)
+    public void updateFanInWeights(NeuronConfig n, Type delta){
+        //Wi(t) = Wi(t) + learnRate * delta * input_i    +    momentum * change_Wi(t-1)
 
-		//for the case where neuron has neuron-to-neuron inputs
-		Weight[] w = n.getInputWeights();
-		Double temp = -1 * learningRate * ((Real) delta).getReal();
+        //for the case where neuron has neuron-to-neuron inputs
+        Weight[] w = n.getInputWeights();
+        Double temp = -1 * learningRate * ((Real) delta).getReal();
 
-		for (int i = 0; i < w.length; i++){
+        for (int i = 0; i < w.length; i++){
 
-			Double change = temp * ((Real) n.getInput()[i].getCurrentOutput()).getReal();
+            Double change = temp * ((Real) n.getInput()[i].getCurrentOutput()).getReal();
 
-			w[i].setWeightValue(new Real(((Real) w[i].getWeightValue()).getReal() +
-								 change +
-								 (this.momentum * ((Real) w[i].getPreviousChange()).getReal())));
+            w[i].setWeightValue(new Real(((Real) w[i].getWeightValue()).getReal() +
+                                 change +
+                                 (this.momentum * ((Real) w[i].getPreviousChange()).getReal())));
 
-			w[i].setPreviousChange(new Real(change));
-		}
+            w[i].setPreviousChange(new Real(change));
+        }
 
-		//for the case where the neuron has pattern-to-neuron inputs
-		//should never happen as these lie in layer 0, which is never evaluated
-		if (n.getPatternWeight() != null){
-			throw new IllegalStateException("Topology is not compatible with Gradient Decent - " +
-										"pattern input neuron has other inputs - thus recurrent");
-		}
-	}
+        //for the case where the neuron has pattern-to-neuron inputs
+        //should never happen as these lie in layer 0, which is never evaluated
+        if (n.getPatternWeight() != null){
+            throw new IllegalStateException("Topology is not compatible with Gradient Decent - " +
+                                        "pattern input neuron has other inputs - thus recurrent");
+        }
+    }
 
 
 
-	public void invokeTrainer(Object args) {
+    public void invokeTrainer(Object args) {
 
-		NNPattern p = (NNPattern) args;
-		ArrayList<NeuronConfig> updateNeuronList = new ArrayList<NeuronConfig>();
-		Vector deltaUpdateList = new Vector();
+        NNPattern p = (NNPattern) args;
+        ArrayList<NeuronConfig> updateNeuronList = new ArrayList<NeuronConfig>();
+        Vector deltaUpdateList = new Vector();
 
-		//iterate over output layer
-		LayerIterator outputIter = topology.getLayerIterator(topology.getNrLayers() - 1);
-		Vector prevDeltaList = new Vector(outputIter.getNrNeurons());
-		LayerIterator prevIter = null;
+        //iterate over output layer
+        LayerIterator outputIter = topology.getLayerIterator(topology.getNrLayers() - 1);
+        Vector prevDeltaList = new Vector(outputIter.getNrNeurons());
+        LayerIterator prevIter = null;
 
-		for (NeuronConfig oi = outputIter.value(); outputIter.hasMore(); outputIter.nextNeuron()){
-			oi = outputIter.value();
+        for (NeuronConfig oi = outputIter.value(); outputIter.hasMore(); outputIter.nextNeuron()){
+            oi = outputIter.value();
 
-			//for each output, find deltaOi definition using
-			//error, output and activation derivative
-			Type tmpO = delta.computeBaseDelta(p.getTarget().get(outputIter.currentPosition()),
-											  	 oi.getCurrentOutput(),
-											  	 oi.computeOutputFunctionDerivativeUsingLastOutput(oi.getCurrentOutput()));
+            //for each output, find deltaOi definition using
+            //error, output and activation derivative
+            Type tmpO = delta.computeBaseDelta(p.getTarget().get(outputIter.currentPosition()),
+                                                   oi.getCurrentOutput(),
+                                                   oi.computeOutputFunctionDerivativeUsingLastOutput(oi.getCurrentOutput()));
 
-			prevDeltaList.add(tmpO);
-			updateNeuronList.add(oi);
-			deltaUpdateList.add(tmpO);
-		} //end for Oi
+            prevDeltaList.add(tmpO);
+            updateNeuronList.add(oi);
+            deltaUpdateList.add(tmpO);
+        } //end for Oi
 
-		prevIter = outputIter;
-		//-----------------------------------------------------------------------------
+        prevIter = outputIter;
+        //-----------------------------------------------------------------------------
 
-		for (int layer = topology.getNrLayers() - 2; layer > 0; layer--){
-		//Iterate backwards over all remaining layers L = #nrlayers-1 ... 1.  layer 0 not done as input layer
+        for (int layer = topology.getNrLayers() - 2; layer > 0; layer--){
+        //Iterate backwards over all remaining layers L = #nrlayers-1 ... 1.  layer 0 not done as input layer
 
-			LayerIterator layerIter = topology.getLayerIterator(layer);
-			Vector deltaList = new Vector(layerIter.getNrNeurons());
+            LayerIterator layerIter = topology.getLayerIterator(layer);
+            Vector deltaList = new Vector(layerIter.getNrNeurons());
 
-			//iterate over all neurons in layer L
-			for (NeuronConfig li = layerIter.value(); layerIter.hasMore(); layerIter.nextNeuron()){
+            //iterate over all neurons in layer L
+            for (NeuronConfig li = layerIter.value(); layerIter.hasMore(); layerIter.nextNeuron()){
 
-				li = layerIter.value();
+                li = layerIter.value();
 
-				//Compute deltaLi for neuron i in layer L, taking recursive
-				//definition into account.
-				//Only applicable to neurons that backprop (i.e. not Bias unit).
-				//Thus if Li has fanin weights array with length > 1 then perform backprop
+                //Compute deltaLi for neuron i in layer L, taking recursive
+                //definition into account.
+                //Only applicable to neurons that backprop (i.e. not Bias unit).
+                //Thus if Li has fanin weights array with length > 1 then perform backprop
 
-				if (li.getInputWeights() != null){
+                if (li.getInputWeights() != null){
 
-					//Weights out of current layer neuron to layer + 1 neurons
-					ArrayList<Weight> w = new ArrayList<Weight>();
-					prevIter.reset();
+                    //Weights out of current layer neuron to layer + 1 neurons
+                    ArrayList<Weight> w = new ArrayList<Weight>();
+                    prevIter.reset();
 
-					for (NeuronConfig wi = prevIter.value(); prevIter.hasMore(); prevIter.nextNeuron()){
-						w.add(wi.getInputWeights()[layerIter.currentPosition()]);
-						//TODO: Fix this up - using static indexing, make dynamic looking for Li in Wi inputlist
-						//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-					}
+                    for (NeuronConfig wi = prevIter.value(); prevIter.hasMore(); prevIter.nextNeuron()){
+                        w.add(wi.getInputWeights()[layerIter.currentPosition()]);
+                        //TODO: Fix this up - using static indexing, make dynamic looking for Li in Wi inputlist
+                        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+                    }
 
-					Type tmpL = delta.computeRecursiveDelta(
-							li.computeOutputFunctionDerivativeUsingLastOutput(li.getCurrentOutput()),
-							prevDeltaList,
-							w,
-							li.getCurrentOutput());
+                    Type tmpL = delta.computeRecursiveDelta(
+                            li.computeOutputFunctionDerivativeUsingLastOutput(li.getCurrentOutput()),
+                            prevDeltaList,
+                            w,
+                            li.getCurrentOutput());
 
-					deltaList.add(tmpL);
+                    deltaList.add(tmpL);
 
 
-					updateNeuronList.add(li);
-					deltaUpdateList.add(tmpL);
+                    updateNeuronList.add(li);
+                    deltaUpdateList.add(tmpL);
 
-				} //ebd if
+                } //ebd if
 
 
-			} //end for Li
+            } //end for Li
 
-			prevIter = layerIter;
+            prevIter = layerIter;
 
-		} //end for layer
+        } //end for layer
 
-		//update weights for each output neuron using deltaOi
-		for (int count = 0; count < updateNeuronList.size(); count++){
+        //update weights for each output neuron using deltaOi
+        for (int count = 0; count < updateNeuronList.size(); count++){
 
-				this.updateFanInWeights(updateNeuronList.get(count), deltaUpdateList.get(count));
+                this.updateFanInWeights(updateNeuronList.get(count), deltaUpdateList.get(count));
 
-		}
+        }
 
-	}
+    }
 
 
-	public void validate(){
-		//Follows the Observer design pattern.  Any change in GenericTopology should call notify, which
-		//calls all Observers' validate() method, including this class's.
-		//This method should perform a full check on the topology to see if it is still compatible with
-		//this trainer.  If not an exception should be thrown.
+    public void validate(){
+        //Follows the Observer design pattern.  Any change in GenericTopology should call notify, which
+        //calls all Observers' validate() method, including this class's.
+        //This method should perform a full check on the topology to see if it is still compatible with
+        //this trainer.  If not an exception should be thrown.
 
 
 
-		//check layering right
+        //check layering right
 
-		//check no pattern inputs anywere else than in layer 0
-	}
+        //check no pattern inputs anywere else than in layer 0
+    }
 
 
-	public void preEpochActions(Object args) {
+    public void preEpochActions(Object args) {
 
 
-	}
+    }
 
-	public void postEpochActions(Object args) {
+    public void postEpochActions(Object args) {
 
 
-	}
+    }
 
-	public void setDelta(ErrorSignal delta) {
-		this.delta = delta;
-	}
+    public void setDelta(ErrorSignal delta) {
+        this.delta = delta;
+    }
 
-	public void setLearningRate(Double learningRate) {
-		this.learningRate = learningRate;
-	}
+    public void setLearningRate(Double learningRate) {
+        this.learningRate = learningRate;
+    }
 
-	public void setMomentum(Double momentum) {
-		this.momentum = momentum;
-	}
+    public void setMomentum(Double momentum) {
+        this.momentum = momentum;
+    }
 
 
-	public void setTopology(NeuralNetworkTopology topo) {
+    public void setTopology(NeuralNetworkTopology topo) {
 
-		if (!(topo instanceof GenericTopology)){
-			throw new IllegalArgumentException("Topology Argument not of type GenericTopology");
-		}
-		this.topology = (GenericTopology) topo;
-	}
+        if (!(topo instanceof GenericTopology)){
+            throw new IllegalArgumentException("Topology Argument not of type GenericTopology");
+        }
+        this.topology = (GenericTopology) topo;
+    }
 
 
 

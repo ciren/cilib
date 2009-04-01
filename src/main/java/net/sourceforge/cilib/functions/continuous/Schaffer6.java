@@ -43,53 +43,53 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class Schaffer6 extends ContinuousFunction {
-	private static final long serialVersionUID = 4959662717057274057L;
+    private static final long serialVersionUID = 4959662717057274057L;
 
 
-	/**
-	 * Constructor. Initialise the function to the initial domain of R(-100.0,100.0)^2
-	 */
-	public Schaffer6() {
-		setDomain("R(-100.0,100.0)^2");
-	}
+    /**
+     * Constructor. Initialise the function to the initial domain of R(-100.0,100.0)^2
+     */
+    public Schaffer6() {
+        setDomain("R(-100.0,100.0)^2");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Schaffer6 getClone() {
-		return new Schaffer6();
-	}
-
-
-	/**
-	 * Initialise the function minimum value.
-	 * @return The minimum value as a <tt>Double</tt> object with value of 0.0
-	 */
-	public Object getMinimum() {
-		return new Double(-1.0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Schaffer6 getClone() {
+        return new Schaffer6();
+    }
 
 
-	/**
-	 * Evaluate the function and return the evaluation.
-	 *
-	 * @param x The input vector to the function
-	 * @return A double value representing the function evaluation
-	 */
-	public double evaluate(Vector input) {
-		double x = input.getReal(0);
-		double y = input.getReal(1);
+    /**
+     * Initialise the function minimum value.
+     * @return The minimum value as a <tt>Double</tt> object with value of 0.0
+     */
+    public Object getMinimum() {
+        return new Double(-1.0);
+    }
 
-		double squared = x*x + y*y;
-		double squareRooted = Math.sqrt(squared);
 
-		double numerator = (Math.sin(squareRooted) * Math.sin(squareRooted)) - 0.5;
+    /**
+     * Evaluate the function and return the evaluation.
+     *
+     * @param x The input vector to the function
+     * @return A double value representing the function evaluation
+     */
+    public double evaluate(Vector input) {
+        double x = input.getReal(0);
+        double y = input.getReal(1);
 
-		double denominatorTmp = 1.0 + 0.001*squared;
-		double denominator = denominatorTmp * denominatorTmp;
+        double squared = x*x + y*y;
+        double squareRooted = Math.sqrt(squared);
 
-		return -0.5 + (numerator / denominator);
-	}
+        double numerator = (Math.sin(squareRooted) * Math.sin(squareRooted)) - 0.5;
+
+        double denominatorTmp = 1.0 + 0.001*squared;
+        double denominator = denominatorTmp * denominatorTmp;
+
+        return -0.5 + (numerator / denominator);
+    }
 
 }

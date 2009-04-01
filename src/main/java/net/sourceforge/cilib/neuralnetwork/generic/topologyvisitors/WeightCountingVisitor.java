@@ -29,21 +29,21 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
  */
 public class WeightCountingVisitor implements GenericTopologyVisitor {
 
-	private int weightCount;
+    private int weightCount;
 
-	public WeightCountingVisitor() {
-		this.weightCount = 0;
-	}
-
-
-	public void visitNeuronConfig(NeuronConfig n) {
-		if (n.getInputWeights() != null)
-			weightCount += n.getInputWeights().length;
-	}
+    public WeightCountingVisitor() {
+        this.weightCount = 0;
+    }
 
 
-	public int getWeightCount() {
-		return weightCount;
-	}
+    public void visitNeuronConfig(NeuronConfig n) {
+        if (n.getInputWeights() != null)
+            weightCount += n.getInputWeights().length;
+    }
+
+
+    public int getWeightCount() {
+        return weightCount;
+    }
 
 }

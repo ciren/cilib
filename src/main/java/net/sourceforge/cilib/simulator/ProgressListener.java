@@ -35,13 +35,13 @@ public interface ProgressListener {
      */
     public void handleProgressEvent(ProgressEvent event);
 
-	/**
-	 * Indicates on which event we are.
-	 *
-	 * TODO:  This needs to become a ProgressEvent, same as the indication
-	 * of percentage completed.
-	 *
-	 * @param simnum The number of the simulation.
-	 */
-	public void setSimulation(int simnum);
+    /**
+     * Indicates on which event we are.
+     *
+     * TODO:  This needs to become a ProgressEvent, same as the indication
+     * of percentage completed.
+     *
+     * @param simnum The number of the simulation.
+     */
+    public void setSimulation(int simnum);
 }

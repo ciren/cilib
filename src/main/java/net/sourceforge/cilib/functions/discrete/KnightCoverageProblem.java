@@ -40,15 +40,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 @Deprecated
 public class KnightCoverageProblem extends OptimisationProblemAdapter {
-	private static final long serialVersionUID = 3070562330891331356L;
+    private static final long serialVersionUID = 3070562330891331356L;
 
-	public KnightCoverageProblem(KnightCoverageProblem copy) {
+    public KnightCoverageProblem(KnightCoverageProblem copy) {
 
-	}
+    }
 
-	public KnightCoverageProblem getClone() {
-		return new KnightCoverageProblem(this);
-	}
+    public KnightCoverageProblem getClone() {
+        return new KnightCoverageProblem(this);
+    }
 
     /**
      * Returns the fitness of a potential solution to this problem. The solution object is described
@@ -60,12 +60,12 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
      * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
      * @return The fitness of the solution.
      */
-	protected Fitness calculateFitness(Type solution) {
+    protected Fitness calculateFitness(Type solution) {
 /*        //solution, is supposed to be the Genes, which is of Type - Vector.
-    	double fftest = 0.0;
+        double fftest = 0.0;
         for(int r =  0; r < ((Vector)solution).getDimension(); r++) {
                 if( ((Vector)solution).getBit(r))
-                	fftest += 1.0;
+                    fftest += 1.0;
             }
 */
 
@@ -140,8 +140,8 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
      * @param representation the string representation for the function domain.
      */
     public void setDomain(String representation) {
-    	System.out.println("BINNE");
-//    	DomainParser.getInstance().parse(representation);
+        System.out.println("BINNE");
+//        DomainParser.getInstance().parse(representation);
     }
 
     /**
@@ -181,8 +181,8 @@ public class KnightCoverageProblem extends OptimisationProblemAdapter {
         }
     }
 
-	public DomainRegistry getBehaviouralDomain() {
-		throw new UnsupportedOperationException("Method not implemented.");
-	}
+    public DomainRegistry getBehaviouralDomain() {
+        throw new UnsupportedOperationException("Method not implemented.");
+    }
 
 }

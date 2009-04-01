@@ -30,18 +30,18 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface NNPattern extends Cloneable {
 
-	public int getTargetLength();
+    public int getTargetLength();
 
-	public int getInputLength();
+    public int getInputLength();
 
-	public Vector getInput();
+    public Vector getInput();
 
-	public Vector getTarget();
+    public Vector getTarget();
 
-	public NNPattern getClone();
+    public NNPattern getClone();
 
-	public void setInput(Vector v);
+    public void setInput(Vector v);
 
-	public void setTarget(Vector t);
+    public void setTarget(Vector t);
 
 }

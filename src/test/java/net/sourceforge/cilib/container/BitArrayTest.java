@@ -36,71 +36,71 @@ import org.junit.Test;
  */
 public class BitArrayTest {
 
-	@Test
-	public void testBitArrayCreation() {
-		BitArray b = new BitArray();
-		assertNotNull(b);
-	}
+    @Test
+    public void testBitArrayCreation() {
+        BitArray b = new BitArray();
+        assertNotNull(b);
+    }
 
-	@Test
-	public void testBitArrayGet() {
-		BitArray b = new BitArray(); // default with 32 bits
-		assertEquals(false, b.get(10));
-	}
+    @Test
+    public void testBitArrayGet() {
+        BitArray b = new BitArray(); // default with 32 bits
+        assertEquals(false, b.get(10));
+    }
 
-	@Test
-	public void testBitArraySet() {
-		BitArray b = new BitArray(); // default with 32 bits
-		
-		b.set(2);
-		assertEquals(true, b.get(2));
-		assertEquals(false, b.get(30));
-		b.set(30);
-		assertEquals(true, b.get(30));
-	}
+    @Test
+    public void testBitArraySet() {
+        BitArray b = new BitArray(); // default with 32 bits
+        
+        b.set(2);
+        assertEquals(true, b.get(2));
+        assertEquals(false, b.get(30));
+        b.set(30);
+        assertEquals(true, b.get(30));
+    }
 
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void lowerBound() {
-		BitArray b = new BitArray();
-		b.get(-1);
-	}
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void lowerBound() {
+        BitArray b = new BitArray();
+        b.get(-1);
+    }
 
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void upperBound() {
-		BitArray b = new BitArray();
-		b.get(33);
-	}
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void upperBound() {
+        BitArray b = new BitArray();
+        b.get(33);
+    }
 
-	@Test
-	public void testLargerBitArray() {
-		BitArray b = new BitArray(40);
+    @Test
+    public void testLargerBitArray() {
+        BitArray b = new BitArray(40);
 
-		b.set(40);
-		assertEquals(true, b.get(40));
-	}
+        b.set(40);
+        assertEquals(true, b.get(40));
+    }
 
-	@Test
-	public void testBitArrayClear() {
-		BitArray b = new BitArray(40);
-		
-		assertEquals(false, b.get(35));
-		b.set(35);
-		assertEquals(true, b.get(35));
-		b.clear(35);
-		assertEquals(false, b.get(35));
-	}
+    @Test
+    public void testBitArrayClear() {
+        BitArray b = new BitArray(40);
+        
+        assertEquals(false, b.get(35));
+        b.set(35);
+        assertEquals(true, b.get(35));
+        b.clear(35);
+        assertEquals(false, b.get(35));
+    }
 
-	@Test
-	public void testBitArraySizeInMemory() {
-		BitArray b = new BitArray(50);
+    @Test
+    public void testBitArraySizeInMemory() {
+        BitArray b = new BitArray(50);
 
-		int size = (50 >>> 5) + 1;
-		assertEquals(size, b.size());
-	}
+        int size = (50 >>> 5) + 1;
+        assertEquals(size, b.size());
+    }
 
-	@Test
-	public void testBitArrayBitLength() {
-		BitArray b = new BitArray(60);
-		assertEquals(60, b.length());
-	}
+    @Test
+    public void testBitArrayBitLength() {
+        BitArray b = new BitArray(60);
+        assertEquals(60, b.length());
+    }
 }

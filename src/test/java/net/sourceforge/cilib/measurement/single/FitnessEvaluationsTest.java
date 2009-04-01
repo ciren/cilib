@@ -36,18 +36,18 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class FitnessEvaluationsTest {
-	
-	@Test
-	public void testFitnessEvaluationsDomain() {
-		Measurement m = new FitnessEvaluations();
-		
-		DomainParser parser = new DomainParser();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof Int);
-	}
+    
+    @Test
+    public void testFitnessEvaluationsDomain() {
+        Measurement m = new FitnessEvaluations();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof Int);
+    }
 
 }

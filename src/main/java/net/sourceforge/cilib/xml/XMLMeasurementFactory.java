@@ -33,9 +33,9 @@ import org.w3c.dom.Element;
  */
 public class XMLMeasurementFactory extends XMLObjectFactory implements MeasurementFactory {
 
-	public XMLMeasurementFactory() {
-		super(null);
-	}
+    public XMLMeasurementFactory() {
+        super(null);
+    }
 
     /** Creates a new instance of XMLMeasurementFactory. */
     public XMLMeasurementFactory(Document xmlDocument, Element xmlMeasurementDescription) {

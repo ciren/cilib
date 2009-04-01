@@ -40,149 +40,149 @@ import java.util.StringTokenizer;
  * @author fzablocki
  */
 public class Similarity implements ScoringMethod {
-//	Change those in xml configuration if you want different scores, but these are already the standard.
-	private int match = 2;  //reward for a match
-	private int mismatch = 0; // no reward
-	private int gapPenalty = -1;  //  penalty for a gap, even when (-,-) which is not considered as a match
+//    Change those in xml configuration if you want different scores, but these are already the standard.
+    private int match = 2;  //reward for a match
+    private int mismatch = 0; // no reward
+    private int gapPenalty = -1;  //  penalty for a gap, even when (-,-) which is not considered as a match
 
-	private boolean verbose = false;  //default, can be set via XML
-	private boolean weight = false;   //default, can be set via XML
+    private boolean verbose = false;  //default, can be set via XML
+    private boolean weight = false;   //default, can be set via XML
 
-	public void setWeight(boolean weight) {
-		this.weight = weight;
-	}
+    public void setWeight(boolean weight) {
+        this.weight = weight;
+    }
 
-	public void setVerbose(boolean verbose) {
-		this.verbose = verbose;
-	}
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
 
-	public void setMatch(int match) {
-		this.match = match;
-	}
+    public void setMatch(int match) {
+        this.match = match;
+    }
 
-	public void setMismatch(int mismatch) {
-		this.mismatch = mismatch;
-	}
+    public void setMismatch(int mismatch) {
+        this.mismatch = mismatch;
+    }
 
-	public void setGapPenalty(int gapPenalty) {
-		this.gapPenalty = gapPenalty;
-	}
+    public void setGapPenalty(int gapPenalty) {
+        this.gapPenalty = gapPenalty;
+    }
 
-	public double getScore(ArrayList<String> alignment)	{
-		//	prints the current alignment in verbose mode
-		if (verbose) {
-			System.out.println("Raw Alignment (no clean up):");
-			for (String s : alignment) {
-				System.out.println("'" + s + "'");
-			}
-		}
-		/*************************************************************
-		 *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
-		 *************************************************************/
+    public double getScore(ArrayList<String> alignment)    {
+        //    prints the current alignment in verbose mode
+        if (verbose) {
+            System.out.println("Raw Alignment (no clean up):");
+            for (String s : alignment) {
+                System.out.println("'" + s + "'");
+            }
+        }
+        /*************************************************************
+         *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
+         *************************************************************/
 
-		int seqLength = alignment.get(0).length();
-		int count = 0;
+        int seqLength = alignment.get(0).length();
+        int count = 0;
 
-		//	Iterate through the columns
-		for (int i = 0; i < seqLength; i++)	{
-			 for (String st : alignment) {
-				 if (st.charAt(i) == '-') count++; //gets char at position i
-			 }
+        //    Iterate through the columns
+        for (int i = 0; i < seqLength; i++)    {
+             for (String st : alignment) {
+                 if (st.charAt(i) == '-') count++; //gets char at position i
+             }
 
-			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
-				 int which = 0;
-				 for (String st1 : alignment) {
-					 StringBuilder stB = new StringBuilder(st1);
-					 stB.setCharAt(i, '*');
-					 alignment.set(which, stB.toString());
-					 which++;
-				 }
-			 }
-			 count = 0;
-		}
+             if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
+                 int which = 0;
+                 for (String st1 : alignment) {
+                     StringBuilder stB = new StringBuilder(st1);
+                     stB.setCharAt(i, '*');
+                     alignment.set(which, stB.toString());
+                     which++;
+                 }
+             }
+             count = 0;
+        }
 
-		int which2 = 0;
-		for (String st : alignment) {
-			StringTokenizer st1 = new StringTokenizer(st, "*", false);
-			String t = "";
-			while (st1.hasMoreElements()) t += st1.nextElement();
-			alignment.set(which2, t);
-			which2++;
-		}
-			/************* END ***************/
+        int which2 = 0;
+        for (String st : alignment) {
+            StringTokenizer st1 = new StringTokenizer(st, "*", false);
+            String t = "";
+            while (st1.hasMoreElements()) t += st1.nextElement();
+            alignment.set(which2, t);
+            which2++;
+        }
+            /************* END ***************/
 
-		double fitness = 0.0;
-		double pairwiseFitness = 0.0;
-		int seqLength1 = alignment.get(0).length();
+        double fitness = 0.0;
+        double pairwiseFitness = 0.0;
+        int seqLength1 = alignment.get(0).length();
 
-		if (weight) {
-			double matchC = 0;
-			double mismC = 0;
+        if (weight) {
+            double matchC = 0;
+            double mismC = 0;
 
-			//go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
-			for (int j = 0; j < alignment.size()-1; j++) {
-				for (int k = j+1; k < alignment.size(); k++) {
-					String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
-					String seq2 = (String) alignment.get(k);   //gets the second sequence
+            //go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
+            for (int j = 0; j < alignment.size()-1; j++) {
+                for (int k = j+1; k < alignment.size(); k++) {
+                    String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
+                    String seq2 = (String) alignment.get(k);   //gets the second sequence
 
-				//	go through all columns, pairwise conmparison
-					for (int i = 0; i < seqLength1; i++) {
-						//					MATCH
-						if (seq1.charAt(i) == seq2.charAt(i) &&
-							//CONSIDER GAP MATCHES AS A GAP PENALTY, so discard them with
-							!(seq1.charAt(i) == '-' && seq2.charAt(i) == '-')) {
-							pairwiseFitness+=match;
-							matchC++;
-						}
-					//	MISMATCH
-						else {
-							if (!(seq1.charAt(i) == '-' || seq2.charAt(i) == '-')) {
-								pairwiseFitness+=mismatch;
-								mismC++;
-							}
-							//GAP_PENALTY
-							else
-								pairwiseFitness+= gapPenalty;
-						}
-					}
+                //    go through all columns, pairwise conmparison
+                    for (int i = 0; i < seqLength1; i++) {
+                        //                    MATCH
+                        if (seq1.charAt(i) == seq2.charAt(i) &&
+                            //CONSIDER GAP MATCHES AS A GAP PENALTY, so discard them with
+                            !(seq1.charAt(i) == '-' && seq2.charAt(i) == '-')) {
+                            pairwiseFitness+=match;
+                            matchC++;
+                        }
+                    //    MISMATCH
+                        else {
+                            if (!(seq1.charAt(i) == '-' || seq2.charAt(i) == '-')) {
+                                pairwiseFitness+=mismatch;
+                                mismC++;
+                            }
+                            //GAP_PENALTY
+                            else
+                                pairwiseFitness+= gapPenalty;
+                        }
+                    }
 
-					fitness+=pairwiseFitness / (1 + (matchC/(matchC+mismC)));
-					matchC=0;
-					mismC=0;
-					pairwiseFitness = 0;
-				}
-			}
-		}
-		else {
-//			go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
-			for (int j = 0; j < alignment.size()-1; j++) {
-				for (int k = j+1; k < alignment.size(); k++) {
-					String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
-					String seq2 = (String) alignment.get(k);   //gets the second sequence
+                    fitness+=pairwiseFitness / (1 + (matchC/(matchC+mismC)));
+                    matchC=0;
+                    mismC=0;
+                    pairwiseFitness = 0;
+                }
+            }
+        }
+        else {
+//            go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
+            for (int j = 0; j < alignment.size()-1; j++) {
+                for (int k = j+1; k < alignment.size(); k++) {
+                    String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
+                    String seq2 = (String) alignment.get(k);   //gets the second sequence
 
-				//	go through all columns, pairwise conmparison
-					for (int i = 0; i < seqLength1; i++) {
-						//					MATCH
-						if (seq1.charAt(i) == seq2.charAt(i) &&
-							//CONSIDER GAP MATCHES AS A GAP PENALTY, so discard them with
-							!(seq1.charAt(i) == '-' && seq2.charAt(i) == '-'))
-							pairwiseFitness+=match;
-					//	MISMATCH
-						else {
-							if(!(seq1.charAt(i) == '-' || seq2.charAt(i) == '-'))
-								pairwiseFitness+=mismatch;
-							//GAP_PENALTY
-							else
-								pairwiseFitness+= gapPenalty;
-						}
-					}
+                //    go through all columns, pairwise conmparison
+                    for (int i = 0; i < seqLength1; i++) {
+                        //                    MATCH
+                        if (seq1.charAt(i) == seq2.charAt(i) &&
+                            //CONSIDER GAP MATCHES AS A GAP PENALTY, so discard them with
+                            !(seq1.charAt(i) == '-' && seq2.charAt(i) == '-'))
+                            pairwiseFitness+=match;
+                    //    MISMATCH
+                        else {
+                            if(!(seq1.charAt(i) == '-' || seq2.charAt(i) == '-'))
+                                pairwiseFitness+=mismatch;
+                            //GAP_PENALTY
+                            else
+                                pairwiseFitness+= gapPenalty;
+                        }
+                    }
 
-					fitness+=pairwiseFitness;
-					pairwiseFitness = 0;
-				}
-			}
-		}
-		//	 Fitness for matches:
-		return fitness;
-	}
+                    fitness+=pairwiseFitness;
+                    pairwiseFitness = 0;
+                }
+            }
+        }
+        //     Fitness for matches:
+        return fitness;
+    }
 }

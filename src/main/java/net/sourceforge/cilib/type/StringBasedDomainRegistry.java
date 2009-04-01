@@ -33,98 +33,98 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class StringBasedDomainRegistry implements DomainRegistry {
 
-	/**
-	 * Generated <u>Serial Version UID</u> for the serialization.
-	 */
-	private static final long serialVersionUID = 3821361290684036030L;
-	private String domainString;
-	private String expandedRepresentation;
-	private StructuredType builtRepresenation;
+    /**
+     * Generated <u>Serial Version UID</u> for the serialization.
+     */
+    private static final long serialVersionUID = 3821361290684036030L;
+    private String domainString;
+    private String expandedRepresentation;
+    private StructuredType builtRepresenation;
 
 
-	/**
-	 * Construct an instance of the DomainRegistry that will contain the needed
-	 * information about the domain.
-	 */
-	public StringBasedDomainRegistry() {
-	}
+    /**
+     * Construct an instance of the DomainRegistry that will contain the needed
+     * information about the domain.
+     */
+    public StringBasedDomainRegistry() {
+    }
 
-	/**
-	 * Copy Constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public StringBasedDomainRegistry(StringBasedDomainRegistry copy) {
-		this.domainString = copy.domainString;
-		this.expandedRepresentation = copy.expandedRepresentation;
-		this.builtRepresenation = copy.builtRepresenation.getClone();
-	}
+    /**
+     * Copy Constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public StringBasedDomainRegistry(StringBasedDomainRegistry copy) {
+        this.domainString = copy.domainString;
+        this.expandedRepresentation = copy.expandedRepresentation;
+        this.builtRepresenation = copy.builtRepresenation.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public StringBasedDomainRegistry getClone() {
-		return new StringBasedDomainRegistry(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public StringBasedDomainRegistry getClone() {
+        return new StringBasedDomainRegistry(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getDomainString() {
-		return domainString;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String getDomainString() {
+        return domainString;
+    }
 
-	/**
-	 * Set the value of the string representing the domain.
-	 * @param domainString The domainString to set.
-	 */
-	public void setDomainString(String domainString) {
-		this.domainString = domainString;
+    /**
+     * Set the value of the string representing the domain.
+     * @param domainString The domainString to set.
+     */
+    public void setDomainString(String domainString) {
+        this.domainString = domainString;
 
-		DomainParser parser = new DomainParser();
-		parser.parse(domainString);
+        DomainParser parser = new DomainParser();
+        parser.parse(domainString);
 
-		setExpandedRepresentation(parser.expandDomainString(domainString));
-		setBuiltRepresenation(parser.getBuiltRepresentation());
-	}
+        setExpandedRepresentation(parser.expandDomainString(domainString));
+        setBuiltRepresenation(parser.getBuiltRepresentation());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getExpandedRepresentation() {
-		return expandedRepresentation;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String getExpandedRepresentation() {
+        return expandedRepresentation;
+    }
 
-	/**
-	 * Set the value of the expaded domain string.
-	 * @param expandedRepresentation The expandedRepresentation to set.
-	 */
-	public void setExpandedRepresentation(String expandedRepresentation) {
-		this.expandedRepresentation = expandedRepresentation;
-	}
+    /**
+     * Set the value of the expaded domain string.
+     * @param expandedRepresentation The expandedRepresentation to set.
+     */
+    public void setExpandedRepresentation(String expandedRepresentation) {
+        this.expandedRepresentation = expandedRepresentation;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public StructuredType getBuiltRepresenation() {
-		return this.builtRepresenation;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public StructuredType getBuiltRepresenation() {
+        return this.builtRepresenation;
+    }
 
-	/**
-	 * Set the representation for this domain string. This may cause an inconsistency
-	 * as the built represenation and the domain string may differ, depending on the
-	 * values of the objects.
-	 * @param builtRepresenation The builtRepresenation to set.
-	 */
-	public void setBuiltRepresenation(StructuredType builtRepresenation) {
-		this.builtRepresenation = builtRepresenation;
-	}
+    /**
+     * Set the representation for this domain string. This may cause an inconsistency
+     * as the built represenation and the domain string may differ, depending on the
+     * values of the objects.
+     * @param builtRepresenation The builtRepresenation to set.
+     */
+    public void setBuiltRepresenation(StructuredType builtRepresenation) {
+        this.builtRepresenation = builtRepresenation;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getDimension() {
-		return ((Vector) this.builtRepresenation).getDimension();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int getDimension() {
+        return ((Vector) this.builtRepresenation).getDimension();
+    }
 
 }
 

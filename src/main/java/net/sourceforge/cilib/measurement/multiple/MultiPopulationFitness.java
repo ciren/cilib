@@ -39,51 +39,51 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * the fitness.
  */
 public class MultiPopulationFitness implements Measurement {
-	private static final long serialVersionUID = -608120128187899491L;
+    private static final long serialVersionUID = -608120128187899491L;
 
-	public MultiPopulationFitness() {
+    public MultiPopulationFitness() {
 
-	}
+    }
 
-	public MultiPopulationFitness(MultiPopulationFitness other) {
+    public MultiPopulationFitness(MultiPopulationFitness other) {
 
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.measurement.Measurement#getClone()
-	 */
-	@Override
-	public Measurement getClone() {
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.measurement.Measurement#getClone()
+     */
+    @Override
+    public Measurement getClone() {
 
-		return new MultiPopulationFitness(this);
-	}
+        return new MultiPopulationFitness(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.measurement.Measurement#getDomain()
-	 */
-	@Override
-	public String getDomain() {
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.measurement.Measurement#getDomain()
+     */
+    @Override
+    public String getDomain() {
 
-		return "T";
-	}
+        return "T";
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.measurement.Measurement#getValue()
-	 */
-	@Override
-	public Type getValue(Algorithm algorithm) {
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.measurement.Measurement#getValue()
+     */
+    @Override
+    public Type getValue(Algorithm algorithm) {
 
-		Vector fitness = new Vector();
-		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
-		for(PopulationBasedAlgorithm currentAlgorithm : ca) {
-			Fitness best = null;
-			for(Entity e: currentAlgorithm.getTopology().asList()){
-				if(best == null || ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0)
-					best = ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS));
-			}
-			fitness.add(new Real(best.getValue()));
-		}
-		return fitness;
-	}
+        Vector fitness = new Vector();
+        CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
+        for(PopulationBasedAlgorithm currentAlgorithm : ca) {
+            Fitness best = null;
+            for(Entity e: currentAlgorithm.getTopology().asList()){
+                if(best == null || ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0)
+                    best = ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS));
+            }
+            fitness.add(new Real(best.getValue()));
+        }
+        return fitness;
+    }
 
 }

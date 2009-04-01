@@ -27,8 +27,8 @@ package net.sourceforge.cilib.math.random.generator;
  * @author  Edwin Peer
  */
 public final class Seeder {
-//	private static Logger log = Logger.getLogger(Seeder.class);
-	private SeedSelectionStrategy seedSelectionStrategy;
+//    private static Logger log = Logger.getLogger(Seeder.class);
+    private SeedSelectionStrategy seedSelectionStrategy;
 
 
     /**
@@ -36,7 +36,7 @@ public final class Seeder {
      * defined is the {@linkplain NetworkBasedSeederStrategy}.
      */
     private Seeder() {
-    	this.seedSelectionStrategy = new NetworkBasedSeedSelectionStrategy();
+        this.seedSelectionStrategy = new NetworkBasedSeedSelectionStrategy();
     }
 
     /**
@@ -44,7 +44,7 @@ public final class Seeder {
      * @return The singleton instance.
      */
     private static Seeder getInstance() {
-    	return SeederHelper.INSTANCE;
+        return SeederHelper.INSTANCE;
     }
 
 
@@ -53,7 +53,7 @@ public final class Seeder {
      * @return The seed value.
      */
     public static synchronized long getSeed() {
-    	return getInstance().seedSelectionStrategy.getSeed();
+        return getInstance().seedSelectionStrategy.getSeed();
     }
 
     /**
@@ -61,7 +61,7 @@ public final class Seeder {
      * @return The current {@linkplain SeedSelectionStrategy}.
      */
     public static SeedSelectionStrategy getSeederStrategy() {
-    	return getInstance().seedSelectionStrategy;
+        return getInstance().seedSelectionStrategy;
     }
 
     /**
@@ -69,7 +69,7 @@ public final class Seeder {
      * @param seedSelectionStrategy The value to set.
      */
     public synchronized static void setSeederStrategy(SeedSelectionStrategy seedSelectionStrategy) {
-    	getInstance().seedSelectionStrategy = seedSelectionStrategy;
+        getInstance().seedSelectionStrategy = seedSelectionStrategy;
     }
 
     /**
@@ -79,7 +79,7 @@ public final class Seeder {
      * a lazy initialising Singleton.
      */
     private static class SeederHelper {
-    	public static final Seeder INSTANCE = new Seeder();
+        public static final Seeder INSTANCE = new Seeder();
     }
 
 }

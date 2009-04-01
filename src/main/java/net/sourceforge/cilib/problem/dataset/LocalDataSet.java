@@ -57,206 +57,206 @@ import org.slf4j.LoggerFactory;
  * @author Theuns Cloete
  */
 public class LocalDataSet extends DataSet {
-	private static final long serialVersionUID = -3482617012711168661L;
-	private static Logger logger = LoggerFactory.getLogger(LocalDataSet.class);
+    private static final long serialVersionUID = -3482617012711168661L;
+    private static Logger logger = LoggerFactory.getLogger(LocalDataSet.class);
 
-	protected String fileName = null;
-	protected String delimiter = null;
-	protected int beginIndex = 0;
-	protected int endIndex = 0;
-	protected int classIndex = 0;
+    protected String fileName = null;
+    protected String delimiter = null;
+    protected int beginIndex = 0;
+    protected int endIndex = 0;
+    protected int classIndex = 0;
 
-	public LocalDataSet() {
-		super();
-		fileName = "<not set>";
-		delimiter = "\\s";
-	}
+    public LocalDataSet() {
+        super();
+        fileName = "<not set>";
+        delimiter = "\\s";
+    }
 
-	public LocalDataSet(LocalDataSet rhs) {
-		super(rhs);
-		fileName = new String(rhs.fileName);
-	}
+    public LocalDataSet(LocalDataSet rhs) {
+        super(rhs);
+        fileName = new String(rhs.fileName);
+    }
 
-	@Override
-	public LocalDataSet getClone() {
-		return new LocalDataSet(this);
-	}
+    @Override
+    public LocalDataSet getClone() {
+        return new LocalDataSet(this);
+    }
 
-	/**
-	 * Set the name of the file that represents this dataset on disk.
-	 *
-	 * @param fileName the name of the file
-	 */
-	public void setFile(String fileName) {
-		this.fileName = fileName;
-	}
+    /**
+     * Set the name of the file that represents this dataset on disk.
+     *
+     * @param fileName the name of the file
+     */
+    public void setFile(String fileName) {
+        this.fileName = fileName;
+    }
 
-	/**
-	 * Get the name of the file that represents this dataset on disk.
-	 *
-	 * @return the name of the file
-	 */
-	public String getFile() {
-		return fileName;
-	}
+    /**
+     * Get the name of the file that represents this dataset on disk.
+     *
+     * @return the name of the file
+     */
+    public String getFile() {
+        return fileName;
+    }
 
-	/**
-	 * Get the contents of the file on disk as an array of bytes.
-	 *
-	 * @return the contents of the file on disk as an array of bytes
-	 */
-	public byte[] getData() {
-		try {
-			InputStream is = getInputStream();
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    /**
+     * Get the contents of the file on disk as an array of bytes.
+     *
+     * @return the contents of the file on disk as an array of bytes
+     */
+    public byte[] getData() {
+        try {
+            InputStream is = getInputStream();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-			byte[] buffer = new byte[1024];
-			int len = 0;
-			while ((len = is.read(buffer, 0, buffer.length)) != -1) {
-				bos.write(buffer, 0, len);
-			}
-			bos.close();
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = is.read(buffer, 0, buffer.length)) != -1) {
+                bos.write(buffer, 0, len);
+            }
+            bos.close();
 
-			return bos.toByteArray();
-		}
-		catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
+            return bos.toByteArray();
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
-	/**
-	 * Get the contents of the file on disk as an {@link InputStream}.
-	 *
-	 * @return the contents of the file on disk as an {@link InputStream}
-	 */
-	public InputStream getInputStream() {
-		try {
-			InputStream is = new BufferedInputStream(new FileInputStream(fileName));
-			return is;
-		}
-		catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
+    /**
+     * Get the contents of the file on disk as an {@link InputStream}.
+     *
+     * @return the contents of the file on disk as an {@link InputStream}
+     */
+    public InputStream getInputStream() {
+        try {
+            InputStream is = new BufferedInputStream(new FileInputStream(fileName));
+            return is;
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
-	/**
-	 * Parse the dataset, building up a list containing all the patterns in the dataset.
-	 *
-	 * @throws IllegalArgumentException when
-	 *         <code>{@link #beginIndex} == {@link #endIndex}</code>.
-	 * @return an {@link ArrayList} of {@link Pattern}s containing all the patterns in this
-	 *         dataset
-	 */
-	public ArrayList<Pattern> parseDataSet() {
-		if (beginIndex == endIndex)
-			throw new IllegalArgumentException("The begin and end should not be equal");
+    /**
+     * Parse the dataset, building up a list containing all the patterns in the dataset.
+     *
+     * @throws IllegalArgumentException when
+     *         <code>{@link #beginIndex} == {@link #endIndex}</code>.
+     * @return an {@link ArrayList} of {@link Pattern}s containing all the patterns in this
+     *         dataset
+     */
+    public ArrayList<Pattern> parseDataSet() {
+        if (beginIndex == endIndex)
+            throw new IllegalArgumentException("The begin and end should not be equal");
 
-		ArrayList<Pattern> patterns = new ArrayList<Pattern>();
-		BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream()));
+        ArrayList<Pattern> patterns = new ArrayList<Pattern>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream()));
 
-		logger.info("Parsing " + fileName);
-		try {
-			// every line in a dataset represents a pattern
-			String line = br.readLine();
+        logger.info("Parsing " + fileName);
+        try {
+            // every line in a dataset represents a pattern
+            String line = br.readLine();
 
-			while (line != null) {
-				patterns.add(parseLine(line));
-				line = br.readLine();
-			}
-		}
-		catch (IOException io) {
-			throw new RuntimeException(io);
-		}
+            while (line != null) {
+                patterns.add(parseLine(line));
+                line = br.readLine();
+            }
+        }
+        catch (IOException io) {
+            throw new RuntimeException(io);
+        }
 
-		return patterns;
-	}
+        return patterns;
+    }
 
-	/**
-	 * Parse the given line, construct a {@link Pattern} and return it. Use the filename of
-	 * this dataset as the class when the {@link #classIndex} <code>== -1</code>.
-	 *
-	 * @param line a {@link String} representing one line of the {@link DataSet}
-	 * @return a new {@link Pattern} object of which the class and {@link Pattern#data} has
-	 *         been configured.
-	 */
-	private Pattern parseLine(String line) {
-		// split the line using the 'delimiter' regular expression
-		String[] elements = line.split(delimiter);
-		// the elements of the split are stored inside a vector that will form the pattern
-		Vector pattern = new Vector(endIndex - beginIndex + 1);
+    /**
+     * Parse the given line, construct a {@link Pattern} and return it. Use the filename of
+     * this dataset as the class when the {@link #classIndex} <code>== -1</code>.
+     *
+     * @param line a {@link String} representing one line of the {@link DataSet}
+     * @return a new {@link Pattern} object of which the class and {@link Pattern#data} has
+     *         been configured.
+     */
+    private Pattern parseLine(String line) {
+        // split the line using the 'delimiter' regular expression
+        String[] elements = line.split(delimiter);
+        // the elements of the split are stored inside a vector that will form the pattern
+        Vector pattern = new Vector(endIndex - beginIndex + 1);
 
-		for (int i = beginIndex; i <= endIndex; i++) {
-			pattern.add(new Real(Double.valueOf(elements[i])));
-		}
+        for (int i = beginIndex; i <= endIndex; i++) {
+            pattern.add(new Real(Double.valueOf(elements[i])));
+        }
 
-		String clazz = "";
+        String clazz = "";
 
-		if (classIndex == -1) {
-			clazz = fileName.substring(fileName.lastIndexOf("/") + 1);
-		}
-		else {
-			clazz = elements[classIndex];
-		}
+        if (classIndex == -1) {
+            clazz = fileName.substring(fileName.lastIndexOf("/") + 1);
+        }
+        else {
+            clazz = elements[classIndex];
+        }
 
-		return new Pattern(clazz, pattern);
-	}
+        return new Pattern(clazz, pattern);
+    }
 
-	/**
-	 * Sets the regular expression (as a {@link String}} that should be used as delimiter to
-	 * split a string into the elements of the pattern.
-	 *
-	 * @param d the regular expression (as a {@link String}) that should be used as
-	 *        delimiter
-	 * @throws IllegalArgumentException when the delimiter is empty ("") or <code>null</code>
-	 */
-	public void setDelimiter(String d) {
-		if (d.equals("") || d == null) {
-			throw new IllegalArgumentException("The delimiter cannot be empty");
-		}
+    /**
+     * Sets the regular expression (as a {@link String}} that should be used as delimiter to
+     * split a string into the elements of the pattern.
+     *
+     * @param d the regular expression (as a {@link String}) that should be used as
+     *        delimiter
+     * @throws IllegalArgumentException when the delimiter is empty ("") or <code>null</code>
+     */
+    public void setDelimiter(String d) {
+        if (d.equals("") || d == null) {
+            throw new IllegalArgumentException("The delimiter cannot be empty");
+        }
 
-		delimiter = d;
-	}
+        delimiter = d;
+    }
 
-	/**
-	 * Sets the index where the elements of the pattern begins.
-	 *
-	 * @param bi the starting index
-	 * @throws IllegalArgumentException when the index is negative
-	 */
-	public void setBeginIndex(int bi) {
-		if (bi < 0) {
-			throw new IllegalArgumentException("An index cannot be negative");
-		}
+    /**
+     * Sets the index where the elements of the pattern begins.
+     *
+     * @param bi the starting index
+     * @throws IllegalArgumentException when the index is negative
+     */
+    public void setBeginIndex(int bi) {
+        if (bi < 0) {
+            throw new IllegalArgumentException("An index cannot be negative");
+        }
 
-		beginIndex = bi;
-	}
+        beginIndex = bi;
+    }
 
-	/**
-	 * Sets the index where the elements of the pattern ends. This index is inclusive.
-	 *
-	 * @param ei the ending index
-	 * @throws IllegalArgumentException when the index is negative
-	 */
-	public void setEndIndex(int ei) {
-		if (ei < 0) {
-			throw new IllegalArgumentException("An index cannot be negative");
-		}
+    /**
+     * Sets the index where the elements of the pattern ends. This index is inclusive.
+     *
+     * @param ei the ending index
+     * @throws IllegalArgumentException when the index is negative
+     */
+    public void setEndIndex(int ei) {
+        if (ei < 0) {
+            throw new IllegalArgumentException("An index cannot be negative");
+        }
 
-		endIndex = ei;
-	}
+        endIndex = ei;
+    }
 
-	/**
-	 * Sets the index of the column that represents the class of the pattern. If the index is
-	 * <code>-1</code> then the filename of the dataset will be used as the class.
-	 *
-	 * @throws IllegalArgumentException when the index is <code>&lt;-1</code>
-	 * @param ci the index where the class resides
-	 */
-	public void setClassIndex(int ci) {
-		if (ci < -1) {
-			throw new IllegalArgumentException("The classIndex should be >= -1");
-		}
+    /**
+     * Sets the index of the column that represents the class of the pattern. If the index is
+     * <code>-1</code> then the filename of the dataset will be used as the class.
+     *
+     * @throws IllegalArgumentException when the index is <code>&lt;-1</code>
+     * @param ci the index where the class resides
+     */
+    public void setClassIndex(int ci) {
+        if (ci < -1) {
+            throw new IllegalArgumentException("The classIndex should be >= -1");
+        }
 
-		classIndex = ci;
-	}
+        classIndex = ci;
+    }
 }

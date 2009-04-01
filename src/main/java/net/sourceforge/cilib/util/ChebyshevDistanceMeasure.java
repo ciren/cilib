@@ -38,69 +38,69 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class ChebyshevDistanceMeasure extends MinkowskiMetric {
 
-	/**
-	 * Create an instance of the {@linkplain ChebyshevDistanceMeasure}.
-	 */
-	public ChebyshevDistanceMeasure() {
-		// alpha cannot be directly instantiated to infinity :-)
-	}
+    /**
+     * Create an instance of the {@linkplain ChebyshevDistanceMeasure}.
+     */
+    public ChebyshevDistanceMeasure() {
+        // alpha cannot be directly instantiated to infinity :-)
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
-		/*
-		 * TODO: Consider re-implementing for different sized vectors, especially as everything is
-		 * equivalent relative to infinity
-		 */
-		if (x.size() != y.size())
-			throw new IllegalArgumentException("Cannot calculate Chebyshev Metric for vectors of different dimensions");
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
+        /*
+         * TODO: Consider re-implementing for different sized vectors, especially as everything is
+         * equivalent relative to infinity
+         */
+        if (x.size() != y.size())
+            throw new IllegalArgumentException("Cannot calculate Chebyshev Metric for vectors of different dimensions");
 
-		Iterator<T> xIterator = x.iterator();
-		Iterator<T> yIterator = y.iterator();
+        Iterator<T> xIterator = x.iterator();
+        Iterator<T> yIterator = y.iterator();
 
-		double maxDistance = 0.0;
-		for (int i = 0; i < x.size(); ++i) {
-			Numeric xElement = (Numeric) xIterator.next();
-			Numeric yElement = (Numeric) yIterator.next();
+        double maxDistance = 0.0;
+        for (int i = 0; i < x.size(); ++i) {
+            Numeric xElement = (Numeric) xIterator.next();
+            Numeric yElement = (Numeric) yIterator.next();
 
-			double distance = Math.abs(xElement.getReal() - yElement.getReal());
-			if (distance > maxDistance)
-				maxDistance = distance;
-		}
+            double distance = Math.abs(xElement.getReal() - yElement.getReal());
+            if (distance > maxDistance)
+                maxDistance = distance;
+        }
 
-		return maxDistance;
-	}
+        return maxDistance;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public <T extends Collection<? extends Number>> double distance(T x, T y) {
-		/*
-		 * TODO: Consider re-implementing for different sized collections, especially as everything is
-		 * equivalent relative to infinity
-		 */
-		if (x.size() != y.size())
-			throw new IllegalArgumentException("Cannot calculate Chebyshev Metric for vectors of different dimensions");
+    /**
+     * {@inheritDoc}
+     */
+    public <T extends Collection<? extends Number>> double distance(T x, T y) {
+        /*
+         * TODO: Consider re-implementing for different sized collections, especially as everything is
+         * equivalent relative to infinity
+         */
+        if (x.size() != y.size())
+            throw new IllegalArgumentException("Cannot calculate Chebyshev Metric for vectors of different dimensions");
 
-		Iterator<? extends Number> i = x.iterator();
-		Iterator<? extends Number> j = y.iterator();
-		double maxDistance = 0.0;
+        Iterator<? extends Number> i = x.iterator();
+        Iterator<? extends Number> j = y.iterator();
+        double maxDistance = 0.0;
 
-		while (i.hasNext() && j.hasNext()) {
-			double distance = Math.abs(i.next().doubleValue() - j.next().doubleValue());
-			if (distance > maxDistance)
-				maxDistance = distance;
-		}
+        while (i.hasNext() && j.hasNext()) {
+            double distance = Math.abs(i.next().doubleValue() - j.next().doubleValue());
+            if (distance > maxDistance)
+                maxDistance = distance;
+        }
 
-		return maxDistance;
-	}
+        return maxDistance;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setAlpha(int a) {
-		throw new IllegalArgumentException("The 'alpha' parameter of the Chebyshev Distance Measure cannot be set directly");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setAlpha(int a) {
+        throw new IllegalArgumentException("The 'alpha' parameter of the Chebyshev Distance Measure cannot be set directly");
+    }
 }

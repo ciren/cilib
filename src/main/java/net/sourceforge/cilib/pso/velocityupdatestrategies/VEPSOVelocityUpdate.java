@@ -29,27 +29,27 @@ import net.sourceforge.cilib.entity.Particle;
  * TODO: Warning, this class is not yet finished.
  */
 public class VEPSOVelocityUpdate implements VelocityUpdateStrategy {
-	private static final long serialVersionUID = -1944514897965031189L;
+    private static final long serialVersionUID = -1944514897965031189L;
 
-	public VEPSOVelocityUpdate(Object[] catalogue, int index) {
+    public VEPSOVelocityUpdate(Object[] catalogue, int index) {
 
-	}
+    }
 
-	public VEPSOVelocityUpdate(VEPSOVelocityUpdate copy) {
+    public VEPSOVelocityUpdate(VEPSOVelocityUpdate copy) {
 
-	}
+    }
 
-	public VEPSOVelocityUpdate getClone() {
-		return new VEPSOVelocityUpdate(this);
-	}
+    public VEPSOVelocityUpdate getClone() {
+        return new VEPSOVelocityUpdate(this);
+    }
 
-	public void updateVelocity(Particle particle) {
+    public void updateVelocity(Particle particle) {
 
-	}
+    }
 
-	public void updateControlParameters(Particle particle) {
-		// TODO Auto-generated method stub
+    public void updateControlParameters(Particle particle) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
 }

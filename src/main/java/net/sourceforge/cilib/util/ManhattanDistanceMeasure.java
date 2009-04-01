@@ -27,10 +27,10 @@ package net.sourceforge.cilib.util;
  */
 public class ManhattanDistanceMeasure extends MinkowskiMetric {
 
-	/**
-	 * Create an instance of the {@linkplain ManhattanDistanceMeasure}.
-	 */
-	public ManhattanDistanceMeasure() {
-		super(1);
-	}
+    /**
+     * Create an instance of the {@linkplain ManhattanDistanceMeasure}.
+     */
+    public ManhattanDistanceMeasure() {
+        super(1);
+    }
 }

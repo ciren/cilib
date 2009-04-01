@@ -34,67 +34,67 @@ import org.junit.Test;
  */
 public class GraphTest {
 
-	public GraphTest() {
-	}
+    public GraphTest() {
+    }
 
-	@Test
-	public void testGraphCreation() {
-	//	Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
-		//assertNotNull(g);
-	}
+    @Test
+    public void testGraphCreation() {
+    //    Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
+        //assertNotNull(g);
+    }
 /*
-	@Test
-	public void testGraphAddVerticies() {
-		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
-		g.addVertex(new Vertex(1));
-		g.addVertex(new Vertex(2));
+    @Test
+    public void testGraphAddVerticies() {
+        Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
+        g.addVertex(new Vertex(1));
+        g.addVertex(new Vertex(2));
 
-		assertEquals(2, g.getVertexCount());
-	}
+        assertEquals(2, g.getVertexCount());
+    }
 
-	@Test
-	public void testGraphAddEdges() {
-		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
-		Vertex v1 = new Vertex(1);
-		Vertex v2 = new Vertex(2);
+    @Test
+    public void testGraphAddEdges() {
+        Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
+        Vertex v1 = new Vertex(1);
+        Vertex v2 = new Vertex(2);
 
-		Edge e = new Edge(v1, v2);
+        Edge e = new Edge(v1, v2);
 
-		g.addVertex(v1);
-		g.addVertex(v2);
-		g.addEdge(e);
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addEdge(e);
 
-		assertEquals(2, g.getVertexCount());
-		assertEquals(1, g.getEdgeCount());
-	}
+        assertEquals(2, g.getVertexCount());
+        assertEquals(1, g.getEdgeCount());
+    }
 
-	@Test
-	public void testVertexSelection() {
-		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
-		Vertex v1 = new Vertex(1);
-		Vertex v2 = new Vertex(2);
+    @Test
+    public void testVertexSelection() {
+        Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
+        Vertex v1 = new Vertex(1);
+        Vertex v2 = new Vertex(2);
 
-		g.addVertex(v1);
-		g.addVertex(v2);
+        g.addVertex(v1);
+        g.addVertex(v2);
 
-		assertSame(v1, g.getVertexAt(0));
-		assertSame(v2, g.getVertexAt(1));
-	}
+        assertSame(v1, g.getVertexAt(0));
+        assertSame(v2, g.getVertexAt(1));
+    }
 
-	@Test
-	public void testEdgeSelection() {
-		Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
-		Vertex v1 = new Vertex(1);
-		Vertex v2 = new Vertex(2);
+    @Test
+    public void testEdgeSelection() {
+        Graph<Vertex, Edge> g = new Graph<Vertex, Edge>();
+        Vertex v1 = new Vertex(1);
+        Vertex v2 = new Vertex(2);
 
-		g.addVertex(v1);
-		g.addVertex(v2);
+        g.addVertex(v1);
+        g.addVertex(v2);
 
-		Edge e = new Edge(v1, v2);
+        Edge e = new Edge(v1, v2);
 
-		g.addEdge(e);
+        g.addEdge(e);
 
-		assertSame(e, g.getEdgeBetweenVerticies(v1, v2));
-	}
-	*/
+        assertSame(e, g.getEdgeBetweenVerticies(v1, v2));
+    }
+    */
 }

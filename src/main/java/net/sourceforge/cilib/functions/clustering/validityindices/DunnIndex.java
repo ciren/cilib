@@ -32,36 +32,36 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
  * @author Theuns Cloete
  */
 public class DunnIndex extends GeneralisedDunnIndex {
-	private static final long serialVersionUID = -7440453719679272149L;
+    private static final long serialVersionUID = -7440453719679272149L;
 
-	/**
-	 * Create an instance of this index.
-	 */
-	public DunnIndex() {
-		super();
-	}
+    /**
+     * Create an instance of this index.
+     */
+    public DunnIndex() {
+        super();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected double calculateWithinClusterScatter(int k) {
-		return calculateClusterDiameter(k);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected double calculateWithinClusterScatter(int k) {
+        return calculateClusterDiameter(k);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected double calculateBetweenClusterSeperation(int i, int j) {
-		return calculateMinimumSetDistance(i, j);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected double calculateBetweenClusterSeperation(int i, int j) {
+        return calculateMinimumSetDistance(i, j);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DunnIndex getClone() {
-		return new DunnIndex();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DunnIndex getClone() {
+        return new DunnIndex();
+    }
 }

@@ -37,21 +37,21 @@ import org.junit.Test;
 
 public class Bohachevsky2Test {
 
-	private ContinuousFunction function;
+    private ContinuousFunction function;
 
-	public Bohachevsky2Test() {
+    public Bohachevsky2Test() {
         
     }
-	
-	@Before
-	public void instantiate() {
-		this.function = new Bohachevsky2();
-	}
+    
+    @Before
+    public void instantiate() {
+        this.function = new Bohachevsky2();
+    }
     
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky2. */
     @Test
     public void testEvaluate() {
-		function.setDomain("R(-100,100)^2");
+        function.setDomain("R(-100,100)^2");
         
         Vector x = new Vector();
         x.append(new Real(1.0));

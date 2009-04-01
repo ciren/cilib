@@ -34,19 +34,19 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface PositionUpdateStrategy extends Cloneable, Serializable {
 
-	/**
-	 * Clone the stategy by creating a new object with the same contents and values
-	 * as the current object.
-	 *
-	 * @return A clone of the current <tt>PositionUpdateStrategy</tt>
-	 */
-	public PositionUpdateStrategy getClone();
+    /**
+     * Clone the stategy by creating a new object with the same contents and values
+     * as the current object.
+     *
+     * @return A clone of the current <tt>PositionUpdateStrategy</tt>
+     */
+    public PositionUpdateStrategy getClone();
 
-	/**
-	 * Update the position of the <tt>Particle</tt>.
-	 *
-	 * @param particle The <tt>Particle</tt> to perform the position update on.
-	 */
-	public void updatePosition(Particle particle);
+    /**
+     * Update the position of the <tt>Particle</tt>.
+     *
+     * @param particle The <tt>Particle</tt> to perform the position update on.
+     */
+    public void updatePosition(Particle particle);
 
 }

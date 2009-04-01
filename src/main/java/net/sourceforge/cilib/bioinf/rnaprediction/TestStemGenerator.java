@@ -26,17 +26,17 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  */
 public final class TestStemGenerator {
 
-	private TestStemGenerator() {
-	}
+    private TestStemGenerator() {
+    }
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		NucleotideString ns = NucleotideString.getInstance();
-		ns.setNucleotideString("AAAGGGGCCCUUUU");
-		StemGenerator sg = StemGenerator.getInstance();
-		sg.generateStems(ns.getNucleotideString(), false);
-	}
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        NucleotideString ns = NucleotideString.getInstance();
+        ns.setNucleotideString("AAAGGGGCCCUUUU");
+        StemGenerator sg = StemGenerator.getInstance();
+        sg.generateStems(ns.getNucleotideString(), false);
+    }
 
 }

@@ -29,21 +29,21 @@ package net.sourceforge.cilib.container.visitor;
  * @param <E> The type to be visited.
  */
 public class PostOrderVisitorDecorator<E> extends PrePostVisitor<E> {
-	private Visitor<E> visitor;
+    private Visitor<E> visitor;
 
-	/**
-	 * Create a new instance of {@linkplain PostOrderVisitorDecorator}, decorating the
-	 * provided {@linkplain Visitor} instance.
-	 * @param v The {@linkplain Visitor} to decorate.
-	 */
-	public PostOrderVisitorDecorator(Visitor<E> v) {
-		visitor  = v;
-	}
+    /**
+     * Create a new instance of {@linkplain PostOrderVisitorDecorator}, decorating the
+     * provided {@linkplain Visitor} instance.
+     * @param v The {@linkplain Visitor} to decorate.
+     */
+    public PostOrderVisitorDecorator(Visitor<E> v) {
+        visitor  = v;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void postVisit(E o) {
-		visitor.visit(o);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void postVisit(E o) {
+        visitor.visit(o);
+    }
 }

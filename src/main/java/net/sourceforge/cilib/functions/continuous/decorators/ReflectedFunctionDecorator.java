@@ -41,108 +41,108 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class ReflectedFunctionDecorator extends ContinuousFunction {
-	private static final long serialVersionUID = -5042848697343918398L;
-	private ContinuousFunction function;
-	private boolean horizontalReflection;
-	private boolean verticalReflection;
+    private static final long serialVersionUID = -5042848697343918398L;
+    private ContinuousFunction function;
+    private boolean horizontalReflection;
+    private boolean verticalReflection;
 
-	public ReflectedFunctionDecorator() {
-		setDomain("R");
-		horizontalReflection = false;
-		verticalReflection = false;
-	}
+    public ReflectedFunctionDecorator() {
+        setDomain("R");
+        horizontalReflection = false;
+        verticalReflection = false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ReflectedFunctionDecorator getClone() {
-		return new ReflectedFunctionDecorator();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ReflectedFunctionDecorator getClone() {
+        return new ReflectedFunctionDecorator();
+    }
 
-	public Object getMinimum() {
-		// adds the value of the verticalShift to the original function minimum
-		return function.getMinimum();
-	}
+    public Object getMinimum() {
+        // adds the value of the verticalShift to the original function minimum
+        return function.getMinimum();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		Vector tmp = x.getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        Vector tmp = x.getClone();
 
-		if (horizontalReflection) {
-			for (int i = 0; i < x.getDimension(); i++) {
-				tmp.setReal(i, -x.getReal(i));
-			}
-		}
+        if (horizontalReflection) {
+            for (int i = 0; i < x.getDimension(); i++) {
+                tmp.setReal(i, -x.getReal(i));
+            }
+        }
 
-		if(verticalReflection)
-			return -function.evaluate(tmp);
+        if(verticalReflection)
+            return -function.evaluate(tmp);
 
-		return function.evaluate(tmp);
-	}
+        return function.evaluate(tmp);
+    }
 
-	/**
-	 * Get the decorated function contained by this instance.
-	 * @return the function
-	 */
-	public ContinuousFunction getFunction() {
-		return function;
-	}
+    /**
+     * Get the decorated function contained by this instance.
+     * @return the function
+     */
+    public ContinuousFunction getFunction() {
+        return function;
+    }
 
-	/**
-	 * Set the wrapped function.
-	 * @param function the function to set.
-	 */
-	public void setFunction(ContinuousFunction function) {
-		this.function = function;
-		this.setDomain(function.getDomainRegistry().getDomainString());
-	}
+    /**
+     * Set the wrapped function.
+     * @param function the function to set.
+     */
+    public void setFunction(ContinuousFunction function) {
+        this.function = function;
+        this.setDomain(function.getDomainRegistry().getDomainString());
+    }
 
-	/**
-	 * Get the horizonal reflection.
-	 * @return the horizontalReflection.
-	 */
-	public boolean getHorizontalReflection() {
-		return horizontalReflection;
-	}
+    /**
+     * Get the horizonal reflection.
+     * @return the horizontalReflection.
+     */
+    public boolean getHorizontalReflection() {
+        return horizontalReflection;
+    }
 
-	/**
-	 * Invoking this method sets horizontalReflection to true.
-	 */
-	public void setHorizontalReflection(boolean horizontalReflection) {
-		this.horizontalReflection = horizontalReflection;
-	}
+    /**
+     * Invoking this method sets horizontalReflection to true.
+     */
+    public void setHorizontalReflection(boolean horizontalReflection) {
+        this.horizontalReflection = horizontalReflection;
+    }
 
-	/**
-	 * Invoking this method sets horizontalReflection to true.
-	 */
-	public void setHorizontalReflection(String horizontalReflection) {
-		this.horizontalReflection = Boolean.parseBoolean(horizontalReflection);
-	}
+    /**
+     * Invoking this method sets horizontalReflection to true.
+     */
+    public void setHorizontalReflection(String horizontalReflection) {
+        this.horizontalReflection = Boolean.parseBoolean(horizontalReflection);
+    }
 
-	/**
-	 * Get the vertical reflection.
-	 * @return the verticalReflection.
-	 */
-	public boolean getVerticalReflection() {
-		return verticalReflection;
-	}
+    /**
+     * Get the vertical reflection.
+     * @return the verticalReflection.
+     */
+    public boolean getVerticalReflection() {
+        return verticalReflection;
+    }
 
-	/**
-	 * Invoking this method sets verticalReflection to true.
-	 */
-	public void setVerticalReflection(boolean verticalReflection) {
-		this.verticalReflection = verticalReflection;
-	}
+    /**
+     * Invoking this method sets verticalReflection to true.
+     */
+    public void setVerticalReflection(boolean verticalReflection) {
+        this.verticalReflection = verticalReflection;
+    }
 
-	/**
-	 * Invoking this method sets verticalReflection to true.
-	 */
-	public void setVerticalReflection(String verticalReflection) {
-		this.verticalReflection = Boolean.parseBoolean(verticalReflection);
-	}
+    /**
+     * Invoking this method sets verticalReflection to true.
+     */
+    public void setVerticalReflection(String verticalReflection) {
+        this.verticalReflection = Boolean.parseBoolean(verticalReflection);
+    }
 
 }

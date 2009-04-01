@@ -31,95 +31,95 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class MOFitness implements Fitness {
 
-	private static final long serialVersionUID = 1477723759384827131L;
-	private Fitness [] fitnesses;
+    private static final long serialVersionUID = 1477723759384827131L;
+    private Fitness [] fitnesses;
 
-	public MOFitness(MOOptimisationProblem problem, Type[] solution, boolean count) {
-		int size = problem.getProblemCount();
-		fitnesses = new Fitness[size];
-		for (int i = 0; i < size; ++i) {
-			fitnesses[i] = problem.getFitness(i, solution[i], count);
-		}
-	}
+    public MOFitness(MOOptimisationProblem problem, Type[] solution, boolean count) {
+        int size = problem.getProblemCount();
+        fitnesses = new Fitness[size];
+        for (int i = 0; i < size; ++i) {
+            fitnesses[i] = problem.getFitness(i, solution[i], count);
+        }
+    }
 
-	public MOFitness getClone() {
-		throw new UnsupportedOperationException("Implement me");
-	}
+    public MOFitness getClone() {
+        throw new UnsupportedOperationException("Implement me");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Double getValue() {
-		// TODO: Figure out what to do here
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Double getValue() {
+        // TODO: Figure out what to do here
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final Fitness newInstance(Double value) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public final Fitness newInstance(Double value) {
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int compareTo(Fitness other) {
-		MOFitness tmp = (MOFitness) other;
+    /**
+     * {@inheritDoc}
+     */
+    public int compareTo(Fitness other) {
+        MOFitness tmp = (MOFitness) other;
 
-		boolean aDominateB = false;
-		boolean bDominateA = false;
-		boolean aMaydominateB = true;
-		boolean bMaydominateA = true;
+        boolean aDominateB = false;
+        boolean bDominateA = false;
+        boolean aMaydominateB = true;
+        boolean bMaydominateA = true;
 
-		for(int i = 0; i < fitnesses.length; i++) {
-			int r = fitnesses[i].compareTo(tmp.fitnesses[i]);
+        for(int i = 0; i < fitnesses.length; i++) {
+            int r = fitnesses[i].compareTo(tmp.fitnesses[i]);
 
-			if(r < 0) {
-				aDominateB = true;
-				bMaydominateA = false;
-			}
-			else if(r > 0) {
-				bDominateA = true;
-				aMaydominateB = false;
-			}
+            if(r < 0) {
+                aDominateB = true;
+                bMaydominateA = false;
+            }
+            else if(r > 0) {
+                bDominateA = true;
+                aMaydominateB = false;
+            }
 
-		}
+        }
 
-		if(aDominateB && aMaydominateB) {
-			return -1;
-		}
-		else if(bDominateA && bMaydominateA) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
-	}
+        if(aDominateB && aMaydominateB) {
+            return -1;
+        }
+        else if(bDominateA && bMaydominateA) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + Arrays.hashCode(fitnesses);
-		return hash;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + Arrays.hashCode(fitnesses);
+        return hash;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if ((obj == null) || (getClass() != obj.getClass()))
-			return false;
+        if ((obj == null) || (getClass() != obj.getClass()))
+            return false;
 
-		final MOFitness other = (MOFitness) obj;
-		return Arrays.equals(fitnesses, other.fitnesses);
-	}
+        final MOFitness other = (MOFitness) obj;
+        return Arrays.equals(fitnesses, other.fitnesses);
+    }
 
 }

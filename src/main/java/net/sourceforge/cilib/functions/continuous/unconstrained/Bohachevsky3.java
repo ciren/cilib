@@ -50,9 +50,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class Bohachevsky3 extends ContinuousFunction {
-	private static final long serialVersionUID = -1572998736995724677L;
+    private static final long serialVersionUID = -1572998736995724677L;
 
-	/** Creates a new instance of Bohachevsky2. Domain defaults to R(-100.0, 100)^2 */
+    /** Creates a new instance of Bohachevsky2. Domain defaults to R(-100.0, 100)^2 */
     public Bohachevsky3() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
@@ -62,13 +62,13 @@ public class Bohachevsky3 extends ContinuousFunction {
      * {@inheritDoc}
      */
     public Bohachevsky3 getClone() {
-    	return new Bohachevsky3();
+        return new Bohachevsky3();
     }
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public double evaluate(Vector x) {
         return x.getReal(0)*x.getReal(0) + 2*x.getReal(1)*x.getReal(1) - 0.3*Math.cos(3*Math.PI*x.getReal(0) + 4*Math.PI*x.getReal(1))+0.3;
     }

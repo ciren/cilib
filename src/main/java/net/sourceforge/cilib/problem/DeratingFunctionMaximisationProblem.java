@@ -50,7 +50,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 public class DeratingFunctionMaximisationProblem extends FunctionMaximisationProblem {
     private static final long serialVersionUID = 6513411928705015979L;
 
-	/**
+    /**
      * This vector contains all the solutions (or positions) in the search
      * space that will be modified using the deratingFunction.
      */
@@ -110,7 +110,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             }*/
             Vector tSolution = new Vector(distanceSolution.length);
             for (int i = 0; i < distanceSolution.length; i++) {
-            	tSolution.set(i, new Real(distanceSolution[i].doubleValue()));
+                tSolution.set(i, new Real(distanceSolution[i].doubleValue()));
             }
 
             // calcaulate the distance between the solution and the previousely found

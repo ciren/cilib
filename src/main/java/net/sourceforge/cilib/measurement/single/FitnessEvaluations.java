@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.Type;
 public class FitnessEvaluations implements Measurement {
     private static final long serialVersionUID = 8843539724541605245L;
 
-	/** Creates a new instance of FitnessEvaluations. */
+    /** Creates a new instance of FitnessEvaluations. */
     public FitnessEvaluations() {
     }
 
@@ -49,23 +49,23 @@ public class FitnessEvaluations implements Measurement {
      * {@inheritDoc}
      */
     public FitnessEvaluations getClone() {
-    	return new FitnessEvaluations(this);
+        return new FitnessEvaluations(this);
     }
 
     /**
      * {@inheritDoc}
      */
     public String getDomain() {
-    	return "Z";
-    	//return "T";
+        return "Z";
+        //return "T";
     }
 
     /**
      * {@inheritDoc}
      */
     public Type getValue(Algorithm algorithm) {
-		int evaluations = algorithm.getOptimisationProblem().getFitnessEvaluations();
-    	return new Int(evaluations);
+        int evaluations = algorithm.getOptimisationProblem().getFitnessEvaluations();
+        return new Int(evaluations);
     }
 
 }

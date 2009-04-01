@@ -32,28 +32,28 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class RandomCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
-	private static final long serialVersionUID = -7509467292180867974L;
+    private static final long serialVersionUID = -7509467292180867974L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public RandomCentroidsInitialisationStrategy getClone() {
-		return new RandomCentroidsInitialisationStrategy();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public RandomCentroidsInitialisationStrategy getClone() {
+        return new RandomCentroidsInitialisationStrategy();
+    }
 
-	/**
-	 * Initialize the centroid vectors for a clustering to random positions in the search
-	 * space. The built-representation of the domain of the given problem is used to build a
-	 * {@link Vector} that will house the centroids.
-	 *
-	 * @param problem the {@link ClusteringProblem} currently being optimized
-	 * @param dataset the {@link ClusterableDataSet} currently being clustered
-	 * @return a {@link Vector} that represents all the centroids
-	 */
-	public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
-		Vector centroids = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
+    /**
+     * Initialize the centroid vectors for a clustering to random positions in the search
+     * space. The built-representation of the domain of the given problem is used to build a
+     * {@link Vector} that will house the centroids.
+     *
+     * @param problem the {@link ClusteringProblem} currently being optimized
+     * @param dataset the {@link ClusterableDataSet} currently being clustered
+     * @return a {@link Vector} that represents all the centroids
+     */
+    public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
+        Vector centroids = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
 
-		centroids.randomize();
-		return centroids;
-	}
+        centroids.randomize();
+        return centroids;
+    }
 }

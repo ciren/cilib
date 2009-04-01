@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class LFDecorator extends ParticleDecorator implements Cloneable {
     private static final long serialVersionUID = -7796859060873208936L;
 
-	/** Creates a new instance of LFParticleDecorator. */
+    /** Creates a new instance of LFParticleDecorator. */
     public LFDecorator(Particle target) {
         super(target);
 
@@ -59,9 +59,9 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
     }
 
     @Override
-	public void calculateFitness() {
-		super.calculateFitness();
-	}
+    public void calculateFitness() {
+        super.calculateFitness();
+    }
 
     public void updateVelocity(VelocityUpdateStrategy vu) {
         this.getVelocityUpdateStrategy().updateVelocity(this);
@@ -75,27 +75,27 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
      */
     @Deprecated
     public static LFDecorator extract(Particle particle) {
-    	throw new UnsupportedOperationException("This method has been removed from the CILib API");
+        throw new UnsupportedOperationException("This method has been removed from the CILib API");
     }
 
     public void initialise(OptimisationProblemAdapter problem) {
         //previousPosition = new double[problem.getDomain().getDimension()];
-    	//previousVelocity = new double[problem.getDomain().getDimension()];
-    	//previousPosition = new double[DomainParser.getInstance().getDimension()];
-    	//previousVelocity = new double[DomainParser.getInstance().getDimension()];
+        //previousVelocity = new double[problem.getDomain().getDimension()];
+        //previousPosition = new double[DomainParser.getInstance().getDimension()];
+        //previousVelocity = new double[DomainParser.getInstance().getDimension()];
 
 
-    	//previousPosition = new MixedVector(DomainParser.getInstance().getDimension());
-    	//previousVelocity = new MixedVector(DomainParser.getInstance().getDimension());
+        //previousPosition = new MixedVector(DomainParser.getInstance().getDimension());
+        //previousVelocity = new MixedVector(DomainParser.getInstance().getDimension());
 
-    	previousPosition = new Vector(problem.getDomain().getDimension());
-    	previousVelocity = new Vector(problem.getDomain().getDimension());
+        previousPosition = new Vector(problem.getDomain().getDimension());
+        previousVelocity = new Vector(problem.getDomain().getDimension());
 
         //gradient = new double[DomainParser.getInstance().getDimension()];
-    	gradient = new double[problem.getDomain().getDimension()];
+        gradient = new double[problem.getDomain().getDimension()];
         //nextGradient = new double[problem.getDomain().getDimension()];
         //nextGradient = new double[DomainParser.getInstance().getDimension()];
-    	nextGradient = new double[problem.getDomain().getDimension()];
+        nextGradient = new double[problem.getDomain().getDimension()];
 
         super.initialise(problem);
     }

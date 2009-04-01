@@ -40,16 +40,16 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public interface OptimisationProblem extends Problem {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public OptimisationProblem getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public OptimisationProblem getClone();
 
     /**
      * Returns the fitness of a potential solution to this problem. The solution object is described
      * by the domain of this problem, see {@link #getDomain()}. An instance of
-	 * {@link net.sourceforge.cilib.problem.InferiorFitness} should be returned if the solution
-	 * falls outside the search space of this problem.
+     * {@link net.sourceforge.cilib.problem.InferiorFitness} should be returned if the solution
+     * falls outside the search space of this problem.
      *
      * @param solution The potential solution found by the optimisation algorithm.
      * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
@@ -91,9 +91,9 @@ public interface OptimisationProblem extends Problem {
 
     /**
      * Set the {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} for this
-	 * {@link net.sourceforge.cilib.problem.OptimisationProblem optimistion problem}.
+     * {@link net.sourceforge.cilib.problem.OptimisationProblem optimistion problem}.
      * @param dataSetBuilder The {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}
-	 *                       to be set on the current {@link net.sourceforge.cilib.problem.OptimisationProblem}.
+     *                       to be set on the current {@link net.sourceforge.cilib.problem.OptimisationProblem}.
      */
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder);
 

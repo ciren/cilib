@@ -36,57 +36,57 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * {@link net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm}.
  */
 public class CompositeMeasurement implements Measurement {
-	private List<Measurement> measurements;
+    private List<Measurement> measurements;
 
-	/**
-	 * Create a new instance with zero measurements.
-	 */
-	public CompositeMeasurement() {
-		this.measurements = new ArrayList<Measurement>();
-	}
+    /**
+     * Create a new instance with zero measurements.
+     */
+    public CompositeMeasurement() {
+        this.measurements = new ArrayList<Measurement>();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Measurement getClone() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Measurement getClone() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDomain() {
-		return "T";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDomain() {
+        return "T";
+    }
 
-	/**
-	 * Get the measurement values for all sub-algorithms.
-	 * @param algorithm The top level algorithm
-	 * @return The values of measurements applied to all contained algorithms.
-	 */
-	@Override
-	public Type getValue(Algorithm algorithm) {
-		Vector vector = new Vector();
+    /**
+     * Get the measurement values for all sub-algorithms.
+     * @param algorithm The top level algorithm
+     * @return The values of measurements applied to all contained algorithms.
+     */
+    @Override
+    public Type getValue(Algorithm algorithm) {
+        Vector vector = new Vector();
 
-		MultiPopulationBasedAlgorithm multi = (MultiPopulationBasedAlgorithm) algorithm;
+        MultiPopulationBasedAlgorithm multi = (MultiPopulationBasedAlgorithm) algorithm;
 
-		for (PopulationBasedAlgorithm single : multi) {
-			for (Measurement measurement : measurements) {
-				vector.add(measurement.getValue(single));
-			}
-		}
+        for (PopulationBasedAlgorithm single : multi) {
+            for (Measurement measurement : measurements) {
+                vector.add(measurement.getValue(single));
+            }
+        }
 
-		return vector;
-	}
+        return vector;
+    }
 
-	/**
-	 * Add a measurement to the composite for evaluation on the sub-algorithms.
-	 * @param measurement The measurement to add.
-	 */
-	public void addMeasurement(Measurement measurement) {
-		this.measurements.add(measurement);
-	}
+    /**
+     * Add a measurement to the composite for evaluation on the sub-algorithms.
+     * @param measurement The measurement to add.
+     */
+    public void addMeasurement(Measurement measurement) {
+        this.measurements.add(measurement);
+    }
 
 }

@@ -36,22 +36,22 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class PercentageCompleteTest {
-	
-	@Test
-	public void testPercentageCompleteDomain() {
-		Measurement m = new PercentageComplete();
-		
-		DomainParser parser = new DomainParser();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof Real);
-		
-		Real r = (Real) vector.get(0);
-		assertEquals(0.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
-		assertEquals(1.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
-	}
+    
+    @Test
+    public void testPercentageCompleteDomain() {
+        Measurement m = new PercentageComplete();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof Real);
+        
+        Real r = (Real) vector.get(0);
+        assertEquals(0.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
+        assertEquals(1.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
+    }
 
 }

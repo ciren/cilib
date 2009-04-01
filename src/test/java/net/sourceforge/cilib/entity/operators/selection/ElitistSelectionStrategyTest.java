@@ -33,26 +33,26 @@ import net.sourceforge.cilib.problem.MinimisationFitness;
 import org.junit.Test;
 
 public class ElitistSelectionStrategyTest {
-	
-	@Test
-	public void selectionOfMostFit() {
-		Individual indiv1 = new Individual();
-		Individual indiv2 = new Individual();
-		Individual indiv3 = new Individual();
-		
-		indiv1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
-		indiv2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
-		indiv3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
+    
+    @Test
+    public void selectionOfMostFit() {
+        Individual indiv1 = new Individual();
+        Individual indiv2 = new Individual();
+        Individual indiv3 = new Individual();
+        
+        indiv1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
+        indiv2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
+        indiv3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
 
-		Topology<Individual> population = new GBestTopology<Individual>();
-		population.add(indiv1);
-		population.add(indiv2);
-		population.add(indiv3);
-		
-		ElitistSelectionStrategy selector = new ElitistSelectionStrategy();
-		final Individual selected = selector.select(population);
+        Topology<Individual> population = new GBestTopology<Individual>();
+        population.add(indiv1);
+        population.add(indiv2);
+        population.add(indiv3);
+        
+        ElitistSelectionStrategy selector = new ElitistSelectionStrategy();
+        final Individual selected = selector.select(population);
 
-		assertThat(selected.getFitness(), is(indiv2.getFitness()));
-	}
+        assertThat(selected.getFitness(), is(indiv2.getFitness()));
+    }
 
 }

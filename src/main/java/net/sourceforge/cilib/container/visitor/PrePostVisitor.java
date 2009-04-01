@@ -33,26 +33,26 @@ package net.sourceforge.cilib.container.visitor;
  */
 public class PrePostVisitor<E> extends Visitor<E> {
 
-	/**
-	 * Create a new instance of {@linkplain PrePostVisitor}.
-	 */
-	public PrePostVisitor() {
-	}
+    /**
+     * Create a new instance of {@linkplain PrePostVisitor}.
+     */
+    public PrePostVisitor() {
+    }
 
-	/**
-	 * Pre-visit the given element.
-	 * @param o The object to pre-visit.
-	 */
-	public void preVisit(E o) {};
+    /**
+     * Pre-visit the given element.
+     * @param o The object to pre-visit.
+     */
+    public void preVisit(E o) {};
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void visit(E o) {};
+    /**
+     * {@inheritDoc}
+     */
+    public void visit(E o) {};
 
-	/**
-	 * Post-visit the given element.
-	 * @param o The element to post visit.
-	 */
-	public void postVisit(E o) {};
+    /**
+     * Post-visit the given element.
+     * @param o The element to post visit.
+     */
+    public void postVisit(E o) {};
 }

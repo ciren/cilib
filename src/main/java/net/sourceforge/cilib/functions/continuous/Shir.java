@@ -38,14 +38,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Andries Engelbrecht
  */
 public class Shir extends ContinuousFunction {
-	private static final long serialVersionUID = 8157687561496975789L;
+    private static final long serialVersionUID = 8157687561496975789L;
 
-	private double l1, l2, l3, l4, l5, sharpness;
+    private double l1, l2, l3, l4, l5, sharpness;
 
-	/**
-	 * Create an instance of the function. The domain is set to "R(0, 1)^30" by default.
-	 */
-	public Shir() {
+    /**
+     * Create an instance of the function. The domain is set to "R(0, 1)^30" by default.
+     */
+    public Shir() {
         setDomain("R(0, 1)^30");
 
         l1 = 1.0;
@@ -56,17 +56,17 @@ public class Shir extends ContinuousFunction {
         sharpness = 2;
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Shir getClone() {
-		return new Shir();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Shir getClone() {
+        return new Shir();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public Object getMaximum() {
         return new Double(1);
     }
@@ -74,20 +74,20 @@ public class Shir extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-	public double evaluate(Vector x) {
-		double sinTerm;
-		double expTerm;
-		double product = 1.0;
+    public double evaluate(Vector x) {
+        double sinTerm;
+        double expTerm;
+        double product = 1.0;
 
-		for (int i = 0; i < getDimension(); i++) {
-			sinTerm = 1.0;
-			for (int k = 1; k <= sharpness; k++)
-				sinTerm *= Math.sin(l1*Math.PI*x.getReal(i) + l2);
-			expTerm = Math.exp(-l3*((x.getReal(i)-l4)/l5)*((x.getReal(i)-l4)/l5));
-			product *= (sinTerm * expTerm);
-		}
+        for (int i = 0; i < getDimension(); i++) {
+            sinTerm = 1.0;
+            for (int k = 1; k <= sharpness; k++)
+                sinTerm *= Math.sin(l1*Math.PI*x.getReal(i) + l2);
+            expTerm = Math.exp(-l3*((x.getReal(i)-l4)/l5)*((x.getReal(i)-l4)/l5));
+            product *= (sinTerm * expTerm);
+        }
 
-		return product;
-	}
+        return product;
+    }
 
 }

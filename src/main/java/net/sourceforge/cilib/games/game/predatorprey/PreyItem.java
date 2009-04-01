@@ -30,26 +30,26 @@ import net.sourceforge.cilib.games.items.PlayerItem;
  */
 public class PreyItem extends PlayerItem {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -4634790531299172443L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4634790531299172443L;
 
-	/**
-	 * @param playerNo
-	 */
-	public PreyItem(int playerNo, int gridWidth, int gridHeight) {
-		super(playerNo);
-		// TODO Auto-generated constructor stub
-		itemLocation = new GridLocation(2, gridWidth, gridHeight);
-	}
+    /**
+     * @param playerNo
+     */
+    public PreyItem(int playerNo, int gridWidth, int gridHeight) {
+        super(playerNo);
+        // TODO Auto-generated constructor stub
+        itemLocation = new GridLocation(2, gridWidth, gridHeight);
+    }
 
-	/**
-	 * @param Other
-	 */
-	public PreyItem(PlayerItem Other) {
-		super(Other);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @param Other
+     */
+    public PreyItem(PlayerItem Other) {
+        super(Other);
+        // TODO Auto-generated constructor stub
+    }
 
 }

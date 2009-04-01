@@ -34,94 +34,94 @@ import java.util.StringTokenizer;
  */
 public class GapFourFour implements GapPenaltiesMethod {
 
-	private boolean verbose = false;
-	private ArrayList<String> finalAlignment;
+    private boolean verbose = false;
+    private ArrayList<String> finalAlignment;
 
-	public void setVerbose(boolean verbose)	{
-		this.verbose = verbose;
-	}
+    public void setVerbose(boolean verbose)    {
+        this.verbose = verbose;
+    }
 
-	public ArrayList<String> getFinalAlignment() {
-		return finalAlignment;
-	}
+    public ArrayList<String> getFinalAlignment() {
+        return finalAlignment;
+    }
 
-	@SuppressWarnings("unchecked")
-	private void setFinalAlignment(ArrayList<String> s) {
-		finalAlignment = (ArrayList<String>) s.clone();
-	}
+    @SuppressWarnings("unchecked")
+    private void setFinalAlignment(ArrayList<String> s) {
+        finalAlignment = (ArrayList<String>) s.clone();
+    }
 
-	public double getPenalty(ArrayList<String> alignment) {
-		/*************************************************************
-		 *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
-		 *************************************************************/
+    public double getPenalty(ArrayList<String> alignment) {
+        /*************************************************************
+         *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
+         *************************************************************/
 
-		int seqLength = alignment.get(0).length();
-		int count = 0;
+        int seqLength = alignment.get(0).length();
+        int count = 0;
 
-		//Iterate through the columns
-		for (int i = 0; i < seqLength; i++) {
-			 for (String st : alignment) {
-				 if (st.charAt(i) == '-') count++; //gets char at position i
-			 }
+        //Iterate through the columns
+        for (int i = 0; i < seqLength; i++) {
+             for (String st : alignment) {
+                 if (st.charAt(i) == '-') count++; //gets char at position i
+             }
 
-			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
-				 int which = 0;
-				 for (String st1 : alignment) {
-					 StringBuilder stB = new StringBuilder(st1);
-					 stB.setCharAt(i, '*');
-					 alignment.set(which, stB.toString());
-					 which++;
-				 }
-			 }
-			 count = 0;
-		}
+             if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
+                 int which = 0;
+                 for (String st1 : alignment) {
+                     StringBuilder stB = new StringBuilder(st1);
+                     stB.setCharAt(i, '*');
+                     alignment.set(which, stB.toString());
+                     which++;
+                 }
+             }
+             count = 0;
+        }
 
-		int which2 = 0;
-		for (String st : alignment)	{
-			StringTokenizer st1 = new StringTokenizer(st, "*", false);
-			String t="";
-			while (st1.hasMoreElements()) t += st1.nextElement();
-			alignment.set(which2, t);
-			which2++;
-		}
-			/************* END ***************/
-		setFinalAlignment(alignment);
-		//	Now modify the fitness based on the formula to penalise gaps and gap groups
-		int totalNumberGaps = 0;
-		int gapGroups = 0;
+        int which2 = 0;
+        for (String st : alignment)    {
+            StringTokenizer st1 = new StringTokenizer(st, "*", false);
+            String t="";
+            while (st1.hasMoreElements()) t += st1.nextElement();
+            alignment.set(which2, t);
+            which2++;
+        }
+            /************* END ***************/
+        setFinalAlignment(alignment);
+        //    Now modify the fitness based on the formula to penalise gaps and gap groups
+        int totalNumberGaps = 0;
+        int gapGroups = 0;
 
-		for (String s : alignment) {
-			for (int i = 0; i < s.length(); i++) {
-				if (s.charAt(i) == '-')	{
-					totalNumberGaps++;
-				}
-			}
+        for (String s : alignment) {
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) == '-')    {
+                    totalNumberGaps++;
+                }
+            }
 
-			boolean flag = false;
-			for (int i = 0; i < s.length()-1; i++) {
-				if(s.charAt(i) == '-') {
-					while(i < s.length()-1)	{
-						if (s.charAt(++i) == '-') flag = true;
-						else break;
-					}
-					if (flag) gapGroups++;
-				}
-				flag = false;
-			}
-		}
+            boolean flag = false;
+            for (int i = 0; i < s.length()-1; i++) {
+                if(s.charAt(i) == '-') {
+                    while(i < s.length()-1)    {
+                        if (s.charAt(++i) == '-') flag = true;
+                        else break;
+                    }
+                    if (flag) gapGroups++;
+                }
+                flag = false;
+            }
+        }
 
-		double gapPenalty = gapGroups*4 + (totalNumberGaps*0.4);
+        double gapPenalty = gapGroups*4 + (totalNumberGaps*0.4);
 
-		//	prints the current alignment if verbose on
-		if (verbose) {
-			System.out.println("Gap Groups: "+gapGroups);
-			System.out.println("TotalNumberGaps: "+totalNumberGaps);
-			System.out.println("Penalty: "+gapPenalty);
+        //    prints the current alignment if verbose on
+        if (verbose) {
+            System.out.println("Gap Groups: "+gapGroups);
+            System.out.println("TotalNumberGaps: "+totalNumberGaps);
+            System.out.println("Penalty: "+gapPenalty);
 
-			for (String s : alignment) {
-				System.out.println("'" + s + "'");
-			}
-		}
-		return gapPenalty;
-	}
+            for (String s : alignment) {
+                System.out.println("'" + s + "'");
+            }
+        }
+        return gapPenalty;
+    }
 }

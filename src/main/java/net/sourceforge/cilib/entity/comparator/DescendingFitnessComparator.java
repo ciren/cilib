@@ -35,19 +35,19 @@ import net.sourceforge.cilib.problem.Fitness;
  */
 public class DescendingFitnessComparator implements Comparator<Entity> {
 
-	/**
-	 * Compare the {@linkplain Entity} objects returning the desired ordering.
-	 * @param e1 The first {@linkplain Entity} to be used in the comparison.
-	 * @param e2 The second {@linkplain Entity} to be used in the comparison.
-	 * @return -1 if e1 is less than e2;
-	 *         0 if e1 and e2 are equal
-	 *         1 if e2 is greater than e2
-	 */
-	public int compare(Entity e1, Entity e2) {
-		Fitness f1 = e1.getFitness();
-		Fitness f2 = e2.getFitness();
+    /**
+     * Compare the {@linkplain Entity} objects returning the desired ordering.
+     * @param e1 The first {@linkplain Entity} to be used in the comparison.
+     * @param e2 The second {@linkplain Entity} to be used in the comparison.
+     * @return -1 if e1 is less than e2;
+     *         0 if e1 and e2 are equal
+     *         1 if e2 is greater than e2
+     */
+    public int compare(Entity e1, Entity e2) {
+        Fitness f1 = e1.getFitness();
+        Fitness f2 = e2.getFitness();
 
-		return f1.compareTo(f2);
-	}
+        return f1.compareTo(f2);
+    }
 
 }

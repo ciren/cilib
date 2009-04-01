@@ -37,12 +37,12 @@ package net.sourceforge.cilib.type.types;
  */
 public interface BoundedType {
 
-	public Bounds getBounds();
+    public Bounds getBounds();
 
     public void setBounds(Bounds bounds);
 
     public void setBounds(double lower, double upper);
 
-	public void randomize();
+    public void randomize();
 
 }

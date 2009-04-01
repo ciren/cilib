@@ -35,42 +35,42 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
-	private static final long serialVersionUID = 3782171955167557793L;
+    private static final long serialVersionUID = 3782171955167557793L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public VisualPositionUpdateStategy getClone() {
-		return new VisualPositionUpdateStategy();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public VisualPositionUpdateStategy getClone() {
+        return new VisualPositionUpdateStategy();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean updatePosition(HoneyBee bee, HoneyBee otherBee) {
-		MersenneTwister twister = new MersenneTwister();
-		int j = twister.nextInt(bee.getDimension());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean updatePosition(HoneyBee bee, HoneyBee otherBee) {
+        MersenneTwister twister = new MersenneTwister();
+        int j = twister.nextInt(bee.getDimension());
 
-		Vector newPosition = (Vector) bee.getPosition();
-		Vector oldPosition = (Vector) bee.getPosition().getClone();
-		Vector otherPosition = (Vector) otherBee.getPosition();
-		double value = ((Real) newPosition.get(j)).getReal();
-		double other = ((Real) otherPosition.get(j)).getReal();
-		Real newValue = (Real) newPosition.get(j);
-		newValue.set(value + (twister.nextDouble()*2-1)*(value - other));
-		newPosition.set(j, newValue);
+        Vector newPosition = (Vector) bee.getPosition();
+        Vector oldPosition = (Vector) bee.getPosition().getClone();
+        Vector otherPosition = (Vector) otherBee.getPosition();
+        double value = ((Real) newPosition.get(j)).getReal();
+        double other = ((Real) otherPosition.get(j)).getReal();
+        Real newValue = (Real) newPosition.get(j);
+        newValue.set(value + (twister.nextDouble()*2-1)*(value - other));
+        newPosition.set(j, newValue);
 
-		//Determine if new position is better than old and update
-		Fitness oldFitness =  Algorithm.get().getOptimisationProblem().getFitness(oldPosition, false);
-		Fitness newFitness =  Algorithm.get().getOptimisationProblem().getFitness(newPosition, false);
-		if (newFitness.compareTo(oldFitness) < 0) {
-			bee.setPosition(oldPosition);
-			return false;
-		}
+        //Determine if new position is better than old and update
+        Fitness oldFitness =  Algorithm.get().getOptimisationProblem().getFitness(oldPosition, false);
+        Fitness newFitness =  Algorithm.get().getOptimisationProblem().getFitness(newPosition, false);
+        if (newFitness.compareTo(oldFitness) < 0) {
+            bee.setPosition(oldPosition);
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

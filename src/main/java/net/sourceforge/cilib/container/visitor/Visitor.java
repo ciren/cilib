@@ -29,24 +29,24 @@ package net.sourceforge.cilib.container.visitor;
  */
 public abstract class Visitor<E> {
 
-	/**
-	 * Create the {@linkplain Visitor} instance.
-	 */
-	protected Visitor() {
-	}
+    /**
+     * Create the {@linkplain Visitor} instance.
+     */
+    protected Visitor() {
+    }
 
-	/**
-	 * Visit the provided object.
-	 * @param o The object to visit.
-	 */
-	public abstract void visit(E o);
+    /**
+     * Visit the provided object.
+     * @param o The object to visit.
+     */
+    public abstract void visit(E o);
 
-	/**
-	 * Determine if the visitor has completed its visit operation.
-	 * @return <code>true</code> if the visit operation is complete,
-	 *         <code>false</code> otherwise.
-	 */
-	public boolean isDone() {
-		return false;
-	}
+    /**
+     * Determine if the visitor has completed its visit operation.
+     * @return <code>true</code> if the visit operation is complete,
+     *         <code>false</code> otherwise.
+     */
+    public boolean isDone() {
+        return false;
+    }
 }

@@ -37,16 +37,16 @@ import org.junit.Test;
  */
 public class MultipleSolutionsTest {
 
-	@Test
-	public void testMultipleSolutionsDomain() {
-		Measurement m = new MultipleSolutions();
-		
-		DomainParser parser = new DomainParser();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof StringType);
-	}
+    @Test
+    public void testMultipleSolutionsDomain() {
+        Measurement m = new MultipleSolutions();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof StringType);
+    }
 }

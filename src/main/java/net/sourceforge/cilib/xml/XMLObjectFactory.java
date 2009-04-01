@@ -79,7 +79,7 @@ import org.w3c.dom.Text;
 // TODO: Rewrite to use SAX instead of maintaining a DOM tree.
 public class XMLObjectFactory {
 
-	private Document xmlDocument;
+    private Document xmlDocument;
     private Element xmlObjectDescription;
 
     /**
@@ -117,7 +117,7 @@ public class XMLObjectFactory {
     }
 
     @SuppressWarnings("unchecked")
-	private Object newObject(Element xml) {
+    private Object newObject(Element xml) {
 
         Class objectClass = getClass(xml);
 
@@ -186,16 +186,16 @@ public class XMLObjectFactory {
             return Class.forName("net.sourceforge.cilib." + className);
         }
         catch (ClassNotFoundException e) {
-        	System.out.println("Class not found" + className);
-        	e.printStackTrace();
+            System.out.println("Class not found" + className);
+            e.printStackTrace();
         }
 
         try {
             return Class.forName(className);
         }
         catch (ClassNotFoundException e) {
-        	System.out.println("Class not found" + className);
-        	e.printStackTrace();
+            System.out.println("Class not found" + className);
+            e.printStackTrace();
         }
 
         error(xml, "Class not found: " + className);
@@ -315,11 +315,11 @@ public class XMLObjectFactory {
     }
 
     private void invokeAnyMethod(Element xml, Object target, String name, Object value) {
-    	try {
+        try {
             invokeSetMethod(xml, target, name, value);
         }
         catch (FactoryException ex) {
-        	Object[] parameter = { value };
+            Object[] parameter = { value };
             invokeMethod(xml, target, name, parameter);
         }
     }
@@ -390,7 +390,7 @@ public class XMLObjectFactory {
             method.invoke(target, parameters);
         }
         catch (InvocationTargetException ex) {
-      	  ex.printStackTrace();
+            ex.printStackTrace();
            error(xml, "Invoking " + target.getClass().getName() + "." + method.getName() + "(" + getParameterString(parameters) + ") caused: " + ex.getTargetException().toString());
         }
         catch (Exception ex) {

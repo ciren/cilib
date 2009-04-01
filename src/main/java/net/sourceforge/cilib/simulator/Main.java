@@ -45,25 +45,25 @@ public final class Main {
     /** Creates a new instance of Simulator */
     private Main(Document config, ProgressListener progress) {
         this.config = config;
-		this.progress = progress;
+        this.progress = progress;
         simulations = config.getElementsByTagName("simulation");
     }
 
     private void runSimulations() {
         for (int i = 0; i < simulations.getLength(); ++i) {
-			if(progress != null)
-	            progress.setSimulation(i);
+            if(progress != null)
+                progress.setSimulation(i);
             Element current = (Element) simulations.item(i);
             XMLAlgorithmFactory algorithmFactory = new XMLAlgorithmFactory(config, (Element) current.getElementsByTagName("algorithm").item(0));
             XMLProblemFactory problemFactory = new XMLProblemFactory(config, (Element) current.getElementsByTagName("problem").item(0));
             XMLObjectFactory measurementsFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("measurements").item(0));
             MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
             Simulation simulation = new Simulation(algorithmFactory, problemFactory, suite);
-			if(progress != null) {
-	            simulation.addProgressListener(progress);
-			}
+            if(progress != null) {
+                simulation.addProgressListener(progress);
+            }
 
-			simulation.initialise();
+            simulation.initialise();
             simulation.run();
             simulation = null;
             System.gc();
@@ -71,7 +71,7 @@ public final class Main {
     }
 
     public static void main(String[] args) throws Exception {
-		if (args.length < 1) {
+        if (args.length < 1) {
             System.err.println("Usage: Simulator <simulation-config.xml> [-noprogress|-textprogress|-guiprogress]");
             System.exit(1);
         }
@@ -81,18 +81,18 @@ public final class Main {
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File(args[0]));
 
-		ProgressListener progress = null;
-		if (args.length > 1 && args[1].equals("-textprogress")) {
-			progress = new ProgressText(doc.getElementsByTagName("simulation").getLength());
-		}
-		else if (args.length > 1 && args[1].equals("-guiprogress")) { //-guiprogress
-			ProgressFrame pf = new ProgressFrame(doc.getElementsByTagName("simulation").getLength());
-			pf.setVisible(true);
-			progress = pf;
-		}
-		else {
-			progress = new NoProgress();
-		}
+        ProgressListener progress = null;
+        if (args.length > 1 && args[1].equals("-textprogress")) {
+            progress = new ProgressText(doc.getElementsByTagName("simulation").getLength());
+        }
+        else if (args.length > 1 && args[1].equals("-guiprogress")) { //-guiprogress
+            ProgressFrame pf = new ProgressFrame(doc.getElementsByTagName("simulation").getLength());
+            pf.setVisible(true);
+            progress = pf;
+        }
+        else {
+            progress = new NoProgress();
+        }
 
         Main simulator = new Main(doc, progress);
         simulator.runSimulations();

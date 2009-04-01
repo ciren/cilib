@@ -34,213 +34,213 @@ import net.sourceforge.cilib.container.visitor.Visitor;
  * @param <E> The type.
  */
 public class Set<E> implements StructuredType<E> {
-	private static final long serialVersionUID = 3697379819132292696L;
-	private HashSet<E> elements;
+    private static final long serialVersionUID = 3697379819132292696L;
+    private HashSet<E> elements;
 
-	/**
-	 * Create a new Set.
-	 */
-	public Set() {
-		elements = new HashSet<E>();
-	}
+    /**
+     * Create a new Set.
+     */
+    public Set() {
+        elements = new HashSet<E>();
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public Set(Set<E> copy) {
-		this();
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public Set(Set<E> copy) {
+        this();
 
-		for (E element : copy.elements) {
-			this.elements.add(element);
-		}
-	}
+        for (E element : copy.elements) {
+            this.elements.add(element);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Set<E> getClone() {
-		return new Set<E>(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Set<E> getClone() {
+        return new Set<E>(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean add(E obj) {
-		return elements.add(obj);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean add(E obj) {
+        return elements.add(obj);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean addAll(StructuredType<? extends E> s) {
-		for (E element : s)
-			this.elements.add(element);
+    /**
+     * {@inheritDoc}
+     */
+    public boolean addAll(StructuredType<? extends E> s) {
+        for (E element : s)
+            this.elements.add(element);
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void clear() {
-		elements.clear();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void clear() {
+        elements.clear();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isEmpty() {
-		return elements.isEmpty();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isEmpty() {
+        return elements.isEmpty();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int size() {
-		return elements.size();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int size() {
+        return elements.size();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean equals(Object other) {
-		if (this == other)
-			return true;
+    /**
+     * {@inheritDoc}
+     */
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
 
-		if ((other == null) || (this.getClass() != other.getClass()))
-			return false;
+        if ((other == null) || (this.getClass() != other.getClass()))
+            return false;
 
-		Set<?> otherSet = (Set<?>) other;
-		return this.elements.equals(otherSet.elements);
-	}
+        Set<?> otherSet = (Set<?>) other;
+        return this.elements.equals(otherSet.elements);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + (this.elements == null ? 0 : this.elements.hashCode());
-		return hash;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (this.elements == null ? 0 : this.elements.hashCode());
+        return hash;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Iterator<E> iterator() {
-		return elements.iterator();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator<E> iterator() {
+        return elements.iterator();
+    }
 
-	public Object[] toArray() {
-		Object[] result = new Object[size()];
-		Iterator<E> e = iterator();
-		for (int i=0; e.hasNext(); i++)
-		    result[i] = e.next();
-		return result;
-	}
+    public Object[] toArray() {
+        Object[] result = new Object[size()];
+        Iterator<E> e = iterator();
+        for (int i=0; e.hasNext(); i++)
+            result[i] = e.next();
+        return result;
+    }
 
 
-	public <T> T[] toArray(T[] a) {
-		int size = this.elements.size();
-		Object [] result = a;
-		if (a.length < size) {
-			result = (Object []) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
-		}
+    public <T> T[] toArray(T[] a) {
+        int size = this.elements.size();
+        Object [] result = a;
+        if (a.length < size) {
+            result = (Object []) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+        }
 
-		Iterator<E> it = iterator();
-		//Object[] result = a;
+        Iterator<E> it = iterator();
+        //Object[] result = a;
         for (int i=0; i<size; i++)
             result[i] = it.next();
         if (a.length > size)
-	    a[size] = null;
+        a[size] = null;
         return a;
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getDimension() {
-		return elements.size();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int getDimension() {
+        return elements.size();
+    }
 
-	/**
-	 * Not supported for this container.
-	 */
-	public void randomise() {
-		throw new UnsupportedOperationException("randomise() not implemented for " + this.getClass().getName());
-	}
+    /**
+     * Not supported for this container.
+     */
+    public void randomise() {
+        throw new UnsupportedOperationException("randomise() not implemented for " + this.getClass().getName());
+    }
 
-	/**
-	 * Not supported for this container.
-	 */
-	public void reset() {
-		throw new UnsupportedOperationException("reset() not implemented for " + this.getClass().getName());
-	}
+    /**
+     * Not supported for this container.
+     */
+    public void reset() {
+        throw new UnsupportedOperationException("reset() not implemented for " + this.getClass().getName());
+    }
 
-	/**
-	 * Not supported for this container.
-	 */
-	public String toString() {
-		throw new UnsupportedOperationException("toString() not implemented for " + this.getClass().getName());
-	}
+    /**
+     * Not supported for this container.
+     */
+    public String toString() {
+        throw new UnsupportedOperationException("toString() not implemented for " + this.getClass().getName());
+    }
 
-	/**
-	 * Not supported for this container.
-	 */
-	public String getRepresentation() {
-		throw new UnsupportedOperationException("getRepresentation() not implemented for " + this.getClass().getName());
-	}
+    /**
+     * Not supported for this container.
+     */
+    public String getRepresentation() {
+        throw new UnsupportedOperationException("getRepresentation() not implemented for " + this.getClass().getName());
+    }
 
-	/**
-	 * Not supported for this container.
-	 */
-	public void accept(Visitor<E> visitor) {
-		throw new UnsupportedOperationException("writeExternal() not implemented for " + this.getClass().getName());
-	}
+    /**
+     * Not supported for this container.
+     */
+    public void accept(Visitor<E> visitor) {
+        throw new UnsupportedOperationException("writeExternal() not implemented for " + this.getClass().getName());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean contains(E element) {
-		return this.elements.contains(element);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean contains(E element) {
+        return this.elements.contains(element);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean remove(E element) {
-		return this.elements.remove(element);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean remove(E element) {
+        return this.elements.remove(element);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public E remove(int index) {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public E remove(int index) {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean removeAll(StructuredType<E> structure) {
-		boolean result = true;
+    /**
+     * {@inheritDoc}
+     */
+    public boolean removeAll(StructuredType<E> structure) {
+        boolean result = true;
 
 
-		for (E element : structure) {
-			if (!this.elements.contains(element))
-				result = false;
-			else
-				this.elements.remove(element);
-		}
+        for (E element : structure) {
+            if (!this.elements.contains(element))
+                result = false;
+            else
+                this.elements.remove(element);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isInsideBounds() {
-		return false;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isInsideBounds() {
+        return false;
+    }
 
 }

@@ -34,43 +34,43 @@ import net.sourceforge.cilib.type.types.Numeric;
  * @author Wiehann Matthysen
  */
 public class PeriodicBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
-	private static final long serialVersionUID = 2777840531497602339L;
+    private static final long serialVersionUID = 2777840531497602339L;
 
-	public PeriodicBoundaryConstraintStrategy() {
-	}
+    public PeriodicBoundaryConstraintStrategy() {
+    }
 
-	public PeriodicBoundaryConstraintStrategy(PeriodicBoundaryConstraintStrategy copy) {
-	}
+    public PeriodicBoundaryConstraintStrategy(PeriodicBoundaryConstraintStrategy copy) {
+    }
 
-	public PeriodicBoundaryConstraintStrategy getClone() {
-		return new PeriodicBoundaryConstraintStrategy(this);
-	}
+    public PeriodicBoundaryConstraintStrategy getClone() {
+        return new PeriodicBoundaryConstraintStrategy(this);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
-	 */
-	public void constrainLower(Numeric position, Numeric velocity) {
-		double upper = position.getBounds().getUpperBound();
-		double lower = position.getBounds().getLowerBound();
-		double range = Math.abs(upper - lower);
-		Numeric desiredPosition = position.getClone();
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainLower(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
+     */
+    public void constrainLower(Numeric position, Numeric velocity) {
+        double upper = position.getBounds().getUpperBound();
+        double lower = position.getBounds().getLowerBound();
+        double range = Math.abs(upper - lower);
+        Numeric desiredPosition = position.getClone();
 
-		desiredPosition.set(position.getReal() + velocity.getReal());
-		position.set(upper - (lower - desiredPosition.getReal()) % range);
-	}
+        desiredPosition.set(position.getReal() + velocity.getReal());
+        position.set(upper - (lower - desiredPosition.getReal()) % range);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
-	 */
-	public void constrainUpper(Numeric position, Numeric velocity) {
-		double upper = position.getBounds().getUpperBound();
-		double lower = position.getBounds().getLowerBound();
-		double range = Math.abs(upper - lower);
-		Numeric desiredPosition = position.getClone();
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies.BoundaryConstraintStrategy#constrainUpper(net.sourceforge.cilib.type.types.Numeric, net.sourceforge.cilib.type.types.Numeric)
+     */
+    public void constrainUpper(Numeric position, Numeric velocity) {
+        double upper = position.getBounds().getUpperBound();
+        double lower = position.getBounds().getLowerBound();
+        double range = Math.abs(upper - lower);
+        Numeric desiredPosition = position.getClone();
 
-		desiredPosition.set(position.getReal() + velocity.getReal());
-		position.set(lower + (desiredPosition.getReal() - upper) % range);
-	}
+        desiredPosition.set(position.getReal() + velocity.getReal());
+        position.set(lower + (desiredPosition.getReal() - upper) % range);
+    }
 }

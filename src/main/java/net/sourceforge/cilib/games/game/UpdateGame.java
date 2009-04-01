@@ -26,8 +26,8 @@ package net.sourceforge.cilib.games.game;
  * This interface should be implemented by games that require an update phase in which any elements not controlled by a player is updated.
  */
 public interface UpdateGame {
-	/**
-	 * This method should update any game elements outside the control of the players
-	 */
-	public void Update();
+    /**
+     * This method should update any game elements outside the control of the players
+     */
+    public void Update();
 }

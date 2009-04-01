@@ -30,47 +30,47 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm}.
  */
 public class ExponentiallyDecreasingControlParameter extends BoundedControlParameter {
-	private static final long serialVersionUID = 2703195595193249266L;
+    private static final long serialVersionUID = 2703195595193249266L;
 
-	/**
-	 * Create a new instance of {@code ExponentiallyDecreasingControlParameter}.
-	 */
-	public ExponentiallyDecreasingControlParameter() {
-		super();
-	}
+    /**
+     * Create a new instance of {@code ExponentiallyDecreasingControlParameter}.
+     */
+    public ExponentiallyDecreasingControlParameter() {
+        super();
+    }
 
-	/**
-	 * Copy constructor.
-	 * @param copy The instance to copy.
-	 */
-	public ExponentiallyDecreasingControlParameter(ExponentiallyDecreasingControlParameter copy) {
-		super(copy);
-	}
+    /**
+     * Copy constructor.
+     * @param copy The instance to copy.
+     */
+    public ExponentiallyDecreasingControlParameter(ExponentiallyDecreasingControlParameter copy) {
+        super(copy);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ExponentiallyDecreasingControlParameter getClone() {
-		return new ExponentiallyDecreasingControlParameter(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ExponentiallyDecreasingControlParameter getClone() {
+        return new ExponentiallyDecreasingControlParameter(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void update() {
-		double result = Math.exp((-1) * Algorithm.get().getPercentageComplete());
-		this.parameter.setReal(result);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update() {
+        double result = Math.exp((-1) * Algorithm.get().getPercentageComplete());
+        this.parameter.setReal(result);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setUpperBound(double value) {
-		super.setUpperBound(value);
-		this.parameter.setReal(value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUpperBound(double value) {
+        super.setUpperBound(value);
+        this.parameter.setReal(value);
+    }
 
 }

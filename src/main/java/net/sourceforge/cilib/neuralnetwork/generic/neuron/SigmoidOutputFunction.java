@@ -30,27 +30,27 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class SigmoidOutputFunction implements NeuronFunction{
 
-	double lambda;
+    double lambda;
 
 
-	public SigmoidOutputFunction() {
-		lambda = 1;
-	}
+    public SigmoidOutputFunction() {
+        lambda = 1;
+    }
 
 
 
-	public Type computeFunction(Type in) {
-		return new Real(1.0 / (1.0 + Math.exp(-1.0 *lambda * ((Real) in).getReal())));
-	}
+    public Type computeFunction(Type in) {
+        return new Real(1.0 / (1.0 + Math.exp(-1.0 *lambda * ((Real) in).getReal())));
+    }
 
 
-	public Type computeDerivativeAtPos(Type pos) {
-		return new Real(((Real) computeFunction(pos)).getReal() * (1 - ((Real) computeFunction(pos)).getReal()));
-	}
+    public Type computeDerivativeAtPos(Type pos) {
+        return new Real(((Real) computeFunction(pos)).getReal() * (1 - ((Real) computeFunction(pos)).getReal()));
+    }
 
 
-	public Type computeDerivativeUsingLastOutput(Type lastOut) {
-		return new Real(((Real) lastOut).getReal() * (1 - ((Real) lastOut).getReal()));
-	}
+    public Type computeDerivativeUsingLastOutput(Type lastOut) {
+        return new Real(((Real) lastOut).getReal() * (1 - ((Real) lastOut).getReal()));
+    }
 
 }

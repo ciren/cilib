@@ -37,25 +37,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class UrsemF4 extends ContinuousFunction {
-	private static final long serialVersionUID = 6177837410317967257L;
+    private static final long serialVersionUID = 6177837410317967257L;
 
-	public UrsemF4() {
+    public UrsemF4() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-2, 2)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public UrsemF4 getClone() {
-		return new UrsemF4();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UrsemF4 getClone() {
+        return new UrsemF4();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>1.5</code>.
-	 * @return The function minimum value.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>1.5</code>.
+     * @return The function minimum value.
+     */
     public Object getMinimum() {
         return new Double(1.5);
     }

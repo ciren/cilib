@@ -34,86 +34,86 @@ import net.sourceforge.cilib.type.types.TypeUtil;
  * @author Anna Rakitianskaia
  */
 public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends
-		ParticleReevaluationResponseStrategy<E> {
-	private static final long serialVersionUID = 4619744183683905269L;
+        ParticleReevaluationResponseStrategy<E> {
+    private static final long serialVersionUID = 4619744183683905269L;
 
-	private double reinitialisationRatio;
-	private Random randomiser;
+    private double reinitialisationRatio;
+    private Random randomiser;
 
-	public PartialReinitialisationResponseStrategy() {
-		super();
-		reinitialisationRatio = 0.5;
-		randomiser = new MersenneTwister();
-	}
+    public PartialReinitialisationResponseStrategy() {
+        super();
+        reinitialisationRatio = 0.5;
+        randomiser = new MersenneTwister();
+    }
 
-	public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
-		this.reinitialisationRatio = copy.reinitialisationRatio;
-		this.randomiser = copy.randomiser.getClone();
-	}
+    public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
+        this.reinitialisationRatio = copy.reinitialisationRatio;
+        this.randomiser = copy.randomiser.getClone();
+    }
 
-	@Override
-	public PartialReinitialisationResponseStrategy<E> getClone() {
-		return new PartialReinitialisationResponseStrategy<E>(this);
-	}
+    @Override
+    public PartialReinitialisationResponseStrategy<E> getClone() {
+        return new PartialReinitialisationResponseStrategy<E>(this);
+    }
 
-	/**
-	 * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best,
-	 * and reinitialising the positions of a specified percentage of particles.
-	 * @param algorithm PSO algorithm that has to respond to environment change
-	 */
-	@Override
-	public void respond(E algorithm) {
-		// Reset positions:
-		Topology<? extends Entity> topology = algorithm.getTopology();
-		int populationSize = algorithm.getPopulationSize();
-		boolean [] used = new boolean[populationSize];
-		for (int i = 0; i < populationSize; ++i) used[i] = false;
-		int numParticlesToReinitialise = (int) Math.floor(populationSize * reinitialisationRatio);
-		int run = 0;
-		while (run < numParticlesToReinitialise) {
-			++run;
-			boolean gotParticle = false;
-			while (!gotParticle) {
-				int index = randomiser.nextInt(populationSize);
-				if(used[index]) continue;
-				// ELSE
-				Particle aParticle = (Particle) topology.get(index);
-				Type position = aParticle.getPosition();
-				TypeUtil.randomize(position);
-//				position.randomise();
-				used[index] = true;
-				gotParticle = true;
-			}
-		}
-		// Re-evaluate:
-		reevaluateParticles(algorithm); // super class method
-	}
+    /**
+     * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best,
+     * and reinitialising the positions of a specified percentage of particles.
+     * @param algorithm PSO algorithm that has to respond to environment change
+     */
+    @Override
+    public void respond(E algorithm) {
+        // Reset positions:
+        Topology<? extends Entity> topology = algorithm.getTopology();
+        int populationSize = algorithm.getPopulationSize();
+        boolean [] used = new boolean[populationSize];
+        for (int i = 0; i < populationSize; ++i) used[i] = false;
+        int numParticlesToReinitialise = (int) Math.floor(populationSize * reinitialisationRatio);
+        int run = 0;
+        while (run < numParticlesToReinitialise) {
+            ++run;
+            boolean gotParticle = false;
+            while (!gotParticle) {
+                int index = randomiser.nextInt(populationSize);
+                if(used[index]) continue;
+                // ELSE
+                Particle aParticle = (Particle) topology.get(index);
+                Type position = aParticle.getPosition();
+                TypeUtil.randomize(position);
+//                position.randomise();
+                used[index] = true;
+                gotParticle = true;
+            }
+        }
+        // Re-evaluate:
+        reevaluateParticles(algorithm); // super class method
+    }
 
-	/**
-	 * @return the reinitialisationRatio
-	 */
-	public double getReinitialisationRatio() {
-		return reinitialisationRatio;
-	}
+    /**
+     * @return the reinitialisationRatio
+     */
+    public double getReinitialisationRatio() {
+        return reinitialisationRatio;
+    }
 
-	/**
-	 * @param reinitialisationRatio the reinitialisationRatio to set
-	 */
-	public void setReinitialisationRatio(double reinitialisationRatio) {
-		this.reinitialisationRatio = reinitialisationRatio;
-	}
+    /**
+     * @param reinitialisationRatio the reinitialisationRatio to set
+     */
+    public void setReinitialisationRatio(double reinitialisationRatio) {
+        this.reinitialisationRatio = reinitialisationRatio;
+    }
 
-	/**
-	 * @return the randomiser
-	 */
-	public Random getRandomiser() {
-		return randomiser;
-	}
+    /**
+     * @return the randomiser
+     */
+    public Random getRandomiser() {
+        return randomiser;
+    }
 
-	/**
-	 * @param randomiser the randomiser to set
-	 */
-	public void setRandomiser(Random randomiser) {
-		this.randomiser = randomiser;
-	}
+    /**
+     * @param randomiser the randomiser to set
+     */
+    public void setRandomiser(Random randomiser) {
+        this.randomiser = randomiser;
+    }
 }

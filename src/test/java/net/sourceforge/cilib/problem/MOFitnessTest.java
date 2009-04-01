@@ -35,94 +35,94 @@ import org.junit.Test;
  * @author jkroon
  */
 public class MOFitnessTest {
-	
-	private static MOOptimisationProblem moproblem;
+    
+    private static MOOptimisationProblem moproblem;
 
-	public MOFitnessTest() {
+    public MOFitnessTest() {
         
     }
     
     @BeforeClass
     public static void setUp() {
-    	moproblem = new MOOptimisationProblem();
-    	for(int i = 0; i < 3; i++) {
-    		moproblem.addOptimisationProblem(new DummyOptimisationProblem(i));
-    	}
+        moproblem = new MOOptimisationProblem();
+        for(int i = 0; i < 3; i++) {
+            moproblem.addOptimisationProblem(new DummyOptimisationProblem(i));
+        }
     }
         
-	@Test
+    @Test
     public void testAllInferior() {
-    	Fitness inferior[] = new Fitness[]{ InferiorFitness.instance(), InferiorFitness.instance(), InferiorFitness.instance() };
-    	Fitness oneFitness[] = new Fitness[]{
-    			new MinimisationFitness(new Integer(1).doubleValue()),
-    			new MinimisationFitness(new Integer(1).doubleValue()),
-    			new MinimisationFitness(new Integer(1).doubleValue()) };
-				
-    	Fitness f1 = moproblem.getFitness(inferior, false);
-    	Fitness f2 = moproblem.getFitness(oneFitness, false);
-    	
-    	assertTrue(f1.compareTo(f2) < 0);
-    	assertTrue(f2.compareTo(f1) > 0);
+        Fitness inferior[] = new Fitness[]{ InferiorFitness.instance(), InferiorFitness.instance(), InferiorFitness.instance() };
+        Fitness oneFitness[] = new Fitness[]{
+                new MinimisationFitness(new Integer(1).doubleValue()),
+                new MinimisationFitness(new Integer(1).doubleValue()),
+                new MinimisationFitness(new Integer(1).doubleValue()) };
+                
+        Fitness f1 = moproblem.getFitness(inferior, false);
+        Fitness f2 = moproblem.getFitness(oneFitness, false);
+        
+        assertTrue(f1.compareTo(f2) < 0);
+        assertTrue(f2.compareTo(f1) > 0);
     }
 
     
     
     private static class DummyOptimisationProblem implements OptimisationProblem {
-    	private static final long serialVersionUID = -2955989686805159033L;
-    	
-		private int i;
-    	
-    	public DummyOptimisationProblem(int i) {
-    		this.i = i;
-    	}
-    	
-    	public DummyOptimisationProblem(DummyOptimisationProblem copy) {
-    		
-    	}
-    	
-    	public DummyOptimisationProblem getClone() {
-    		return new DummyOptimisationProblem(this);
-    	}
+        private static final long serialVersionUID = -2955989686805159033L;
+        
+        private int i;
+        
+        public DummyOptimisationProblem(int i) {
+            this.i = i;
+        }
+        
+        public DummyOptimisationProblem(DummyOptimisationProblem copy) {
+            
+        }
+        
+        public DummyOptimisationProblem getClone() {
+            return new DummyOptimisationProblem(this);
+        }
     
-		public Fitness getFitness(Type solution, boolean count) {
-			return (Fitness) solution;
-//			return getFitness(new Type[]{solution}, count);
-		}
-		
-		public Fitness getFitness(Type [] solution, boolean count) {
-			return (Fitness) solution[i];
-		}
+        public Fitness getFitness(Type solution, boolean count) {
+            return (Fitness) solution;
+//            return getFitness(new Type[]{solution}, count);
+        }
+        
+        public Fitness getFitness(Type [] solution, boolean count) {
+            return (Fitness) solution[i];
+        }
 
-		public int getFitnessEvaluations() {
-			return 0;
-		}
+        public int getFitnessEvaluations() {
+            return 0;
+        }
 
-		public DomainRegistry getDomain() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        public DomainRegistry getDomain() {
+            // TODO Auto-generated method stub
+            return null;
+        }
 
-		public DomainRegistry getBehaviouralDomain() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        public DomainRegistry getBehaviouralDomain() {
+            // TODO Auto-generated method stub
+            return null;
+        }
 
-		public DataSetBuilder getDataSetBuilder() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        public DataSetBuilder getDataSetBuilder() {
+            // TODO Auto-generated method stub
+            return null;
+        }
 
-		public void setDataSetBuilder(DataSetBuilder dataSet) {
-			// TODO Auto-generated method stub
-		}
+        public void setDataSetBuilder(DataSetBuilder dataSet) {
+            // TODO Auto-generated method stub
+        }
 
-		public void accept(ProblemVisitor visitor) {
-			throw new UnsupportedOperationException("This method is not implemented");
-		}
+        public void accept(ProblemVisitor visitor) {
+            throw new UnsupportedOperationException("This method is not implemented");
+        }
 
-		public void changeEnvironment() {
-			throw new UnsupportedOperationException("This method is not implemented");
-		}
-    	
+        public void changeEnvironment() {
+            throw new UnsupportedOperationException("This method is not implemented");
+        }
+        
     }
 }

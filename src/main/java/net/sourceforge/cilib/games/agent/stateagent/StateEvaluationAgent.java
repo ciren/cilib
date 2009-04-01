@@ -31,31 +31,31 @@ import net.sourceforge.cilib.games.agent.Agent;
 
 //TODO complete this area of the games framework
 public abstract class StateEvaluationAgent extends Agent {
-	private static final long serialVersionUID = 3576769226785412047L;
+    private static final long serialVersionUID = 3576769226785412047L;
 
-	/**
-	 * @param playerNo
-	 */
-	public StateEvaluationAgent() {
-		super();
+    /**
+     * @param playerNo
+     */
+    public StateEvaluationAgent() {
+        super();
 
-	}
+    }
 
-	/**
-	 * @param other
-	 */
-	public StateEvaluationAgent(Agent other) {
-		super(other);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @param other
+     */
+    public StateEvaluationAgent(Agent other) {
+        super(other);
+        // TODO Auto-generated constructor stub
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.games.agent.Agent#getClone()
-	 */
-	@Override
-	public Agent getClone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.games.agent.Agent#getClone()
+     */
+    @Override
+    public Agent getClone() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

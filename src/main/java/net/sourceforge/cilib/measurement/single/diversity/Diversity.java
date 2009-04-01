@@ -43,93 +43,93 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  *
  */
 public class Diversity implements Measurement {
-	private static final long serialVersionUID = 7417526206433000209L;
-	protected DistanceMeasure distanceMeasure;
-	protected CenterInitialisationStrategy populationCenter;
-	protected NormalisationParameter normalisationParameter;
+    private static final long serialVersionUID = 7417526206433000209L;
+    protected DistanceMeasure distanceMeasure;
+    protected CenterInitialisationStrategy populationCenter;
+    protected NormalisationParameter normalisationParameter;
 
-	public Diversity() {
-		distanceMeasure = new EuclideanDistanceMeasure();
-		populationCenter = new SpatialCenterInitialisationStrategy();
-		normalisationParameter = new NormalisationParameter();
-	}
+    public Diversity() {
+        distanceMeasure = new EuclideanDistanceMeasure();
+        populationCenter = new SpatialCenterInitialisationStrategy();
+        normalisationParameter = new NormalisationParameter();
+    }
 
-	public Diversity(Diversity other) {
-		this.distanceMeasure = other.distanceMeasure;
-		this.populationCenter = other.populationCenter;
-		this.normalisationParameter = other.normalisationParameter;
-	}
+    public Diversity(Diversity other) {
+        this.distanceMeasure = other.distanceMeasure;
+        this.populationCenter = other.populationCenter;
+        this.normalisationParameter = other.normalisationParameter;
+    }
 
-	public Diversity getClone() {
-		return new Diversity(this);
-	}
+    public Diversity getClone() {
+        return new Diversity(this);
+    }
 
-	public String getDomain() {
-		return "R";
-	}
+    public String getDomain() {
+        return "R";
+    }
 
-	public Type getValue(Algorithm algorithm) {
-		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-		int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
+    public Type getValue(Algorithm algorithm) {
+        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+        int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
 
-		Vector center = (Vector) populationCenter.getCenter();
-		Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
+        Vector center = (Vector) populationCenter.getCenter();
+        Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
 
-		double distanceSum = 0.0;
+        double distanceSum = 0.0;
 
-		while (populationIterator.hasNext()) {
-			Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getCandidateSolution());
-			distanceSum += distanceMeasure.distance(center, currentEntityPosition);
-		}
+        while (populationIterator.hasNext()) {
+            Vector currentEntityPosition = (Vector) (((Entity) populationIterator.next()).getCandidateSolution());
+            distanceSum += distanceMeasure.distance(center, currentEntityPosition);
+        }
 
-		distanceSum /= numberOfEntities;
+        distanceSum /= numberOfEntities;
 
-		normalisationParameter.setDistanceMeasure(distanceMeasure);
-		distanceSum /= normalisationParameter.getValue();
+        normalisationParameter.setDistanceMeasure(distanceMeasure);
+        distanceSum /= normalisationParameter.getValue();
 
-		return new Real(distanceSum);
-	}
+        return new Real(distanceSum);
+    }
 
-	/**
-	 * @return the distanceMeasure
-	 */
-	public DistanceMeasure getDistanceMeasure() {
-		return distanceMeasure;
-	}
+    /**
+     * @return the distanceMeasure
+     */
+    public DistanceMeasure getDistanceMeasure() {
+        return distanceMeasure;
+    }
 
-	/**
-	 * @param distanceMeasure the distanceMeasure to set
-	 */
-	public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
-		this.distanceMeasure = distanceMeasure;
-	}
+    /**
+     * @param distanceMeasure the distanceMeasure to set
+     */
+    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
+        this.distanceMeasure = distanceMeasure;
+    }
 
-	/**
-	 * @return the normalisationParameter
-	 */
-	public NormalisationParameter getNormalisationParameter() {
-		return normalisationParameter;
-	}
+    /**
+     * @return the normalisationParameter
+     */
+    public NormalisationParameter getNormalisationParameter() {
+        return normalisationParameter;
+    }
 
-	/**
-	 * @param normalisationParameter the normalisationParameter to set
-	 */
-	public void setNormalisationParameter(NormalisationParameter normalizationParameter) {
-		this.normalisationParameter = normalizationParameter;
-	}
+    /**
+     * @param normalisationParameter the normalisationParameter to set
+     */
+    public void setNormalisationParameter(NormalisationParameter normalizationParameter) {
+        this.normalisationParameter = normalizationParameter;
+    }
 
-	/**
-	 * @return the populationCenter
-	 */
-	public CenterInitialisationStrategy getPopulationCenter() {
-		return populationCenter;
-	}
+    /**
+     * @return the populationCenter
+     */
+    public CenterInitialisationStrategy getPopulationCenter() {
+        return populationCenter;
+    }
 
-	/**
-	 * @param populationCenter the populationCenter to set
-	 */
-	public void setPopulationCenter(CenterInitialisationStrategy populationCenter) {
-		this.populationCenter = populationCenter;
-	}
+    /**
+     * @param populationCenter the populationCenter to set
+     */
+    public void setPopulationCenter(CenterInitialisationStrategy populationCenter) {
+        this.populationCenter = populationCenter;
+    }
 
 }

@@ -54,7 +54,7 @@ public class Tausworthe extends Random {
 
     private static final long serialVersionUID = -2863057390167225361L;
 
-	public Tausworthe() {
+    public Tausworthe() {
         super(Seeder.getSeed());
     }
 
@@ -63,7 +63,7 @@ public class Tausworthe extends Random {
     }
 
     public Tausworthe getClone() {
-    	return new Tausworthe();
+        return new Tausworthe();
     }
 
     private long getLCG(long n) {

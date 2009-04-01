@@ -29,42 +29,42 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class NormalisationParameter {
 
-	protected double normalisationParameter;
-	protected DistanceMeasure distanceMeasure;
+    protected double normalisationParameter;
+    protected DistanceMeasure distanceMeasure;
 
-	public NormalisationParameter() {
-		normalisationParameter = 1.0;
-		distanceMeasure = new EuclideanDistanceMeasure();
-	}
+    public NormalisationParameter() {
+        normalisationParameter = 1.0;
+        distanceMeasure = new EuclideanDistanceMeasure();
+    }
 
-	/**
-	 * @return the normalising parameter
-	 */
-	public double getValue() {
-		return this.normalisationParameter;
-	}
+    /**
+     * @return the normalising parameter
+     */
+    public double getValue() {
+        return this.normalisationParameter;
+    }
 
-	/**
-	 * @param
-	 *
-	 * set the value to be used as a normalisation parameter
-	 */
-	public void setNormalisationParameter(double value) {
-		this.normalisationParameter = value;
-	}
+    /**
+     * @param
+     *
+     * set the value to be used as a normalisation parameter
+     */
+    public void setNormalisationParameter(double value) {
+        this.normalisationParameter = value;
+    }
 
-	/**
-	 * @return the distance measure used in the calculation
-	 */
-	public DistanceMeasure getDistanceMeasure() {
-		return this.distanceMeasure;
-	}
+    /**
+     * @return the distance measure used in the calculation
+     */
+    public DistanceMeasure getDistanceMeasure() {
+        return this.distanceMeasure;
+    }
 
-	/**
-	 * @param distance The distance measure to be used in the normalisation calculation
-	 */
-	public void setDistanceMeasure(DistanceMeasure distance) {
-		this.distanceMeasure = distance;
-	}
+    /**
+     * @param distance The distance measure to be used in the normalisation calculation
+     */
+    public void setDistanceMeasure(DistanceMeasure distance) {
+        this.distanceMeasure = distance;
+    }
 
 }

@@ -26,15 +26,15 @@ package net.sourceforge.cilib.simulator;
  */
 public class NoProgress implements ProgressListener {
 
-	public NoProgress() {
-	}
+    public NoProgress() {
+    }
 
-	@Override
-	public void handleProgressEvent(ProgressEvent event) {
-	}
+    @Override
+    public void handleProgressEvent(ProgressEvent event) {
+    }
 
-	@Override
-	public void setSimulation(int simnum) {
-	}
+    @Override
+    public void setSimulation(int simnum) {
+    }
 
 }

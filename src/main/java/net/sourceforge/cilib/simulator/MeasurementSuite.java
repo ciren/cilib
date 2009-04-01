@@ -38,9 +38,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class MeasurementSuite implements Serializable {
-	private static final long serialVersionUID = 8021290553229945841L;
+    private static final long serialVersionUID = 8021290553229945841L;
 
-	private String file;
+    private String file;
     private int samples;
     private int resolution;
     private ArrayList<Measurement> measurements;

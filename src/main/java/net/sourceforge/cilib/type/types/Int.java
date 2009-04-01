@@ -35,238 +35,238 @@ import net.sourceforge.cilib.math.MathUtil;
  */
 public class Int extends Numeric {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 271271478995857543L;
-	private int value;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 271271478995857543L;
+    private int value;
 
-	/**
-	 * Create an instance of {@linkplain Int}.
-	 */
-	public Int() {
-		this(Integer.MIN_VALUE, Integer.MAX_VALUE);
-	}
+    /**
+     * Create an instance of {@linkplain Int}.
+     */
+    public Int() {
+        this(Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
 
-	/**
-	 * Create an instance of {@linkplain Int} randomly initialised between <code>lower</code>
-	 * and <code>upper</code>.
-	 * @param lower The lower bound.
-	 * @param upper The upper bound.
-	 */
-	public Int(int lower, int upper) {
-		value = Double.valueOf(MathUtil.random()*(upper-lower)).intValue() + lower;
+    /**
+     * Create an instance of {@linkplain Int} randomly initialised between <code>lower</code>
+     * and <code>upper</code>.
+     * @param lower The lower bound.
+     * @param upper The upper bound.
+     */
+    public Int(int lower, int upper) {
+        value = Double.valueOf(MathUtil.random()*(upper-lower)).intValue() + lower;
         this.setBounds(BoundsFactory.create(lower, upper));
-	}
+    }
 
-	/**
-	 * Create an {@linkplain Int} with the specified value.
-	 * @param value The value of the {@linkplain Int}.
-	 */
-	public Int(int value) {
-		this.value = value;
+    /**
+     * Create an {@linkplain Int} with the specified value.
+     * @param value The value of the {@linkplain Int}.
+     */
+    public Int(int value) {
+        this.value = value;
         this.setBounds(BoundsFactory.create(Integer.MIN_VALUE, Integer.MAX_VALUE));
-	}
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public Int(Int copy) {
-		this.value = copy.value;
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public Int(Int copy) {
+        this.value = copy.value;
         this.setBounds(copy.getBounds());
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Int getClone() {
-		return new Int(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Int getClone() {
+        return new Int(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean equals(Object other) {
-		if (this == other)
-			return true;
+    /**
+     * {@inheritDoc}
+     */
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
 
-		if ((other == null) || (this.getClass() != other.getClass()))
-			return false;
+        if ((other == null) || (this.getClass() != other.getClass()))
+            return false;
 
-		Int otherInt = (Int) other;
-		return super.equals(other) && (this.value == otherInt.value);
-	}
+        Int otherInt = (Int) other;
+        return super.equals(other) && (this.value == otherInt.value);
+    }
 
-	/**
-	 * Return the value of the object itself. This is accordance to the manner
-	 * in which {@see java.lang.Integer#hashCode()} operates.
-	 *
-	 * @return The value of this Int representation.
-	 */
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + super.hashCode();
-		hash = 31 * hash + Integer.valueOf(this.value).hashCode();
-		return hash;
-	}
+    /**
+     * Return the value of the object itself. This is accordance to the manner
+     * in which {@see java.lang.Integer#hashCode()} operates.
+     *
+     * @return The value of this Int representation.
+     */
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + Integer.valueOf(this.value).hashCode();
+        return hash;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(String value) {
-		setInt(value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(String value) {
+        setInt(value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(boolean value) {
-		setBit(value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(boolean value) {
+        setBit(value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(double value) {
-		setReal(value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(double value) {
+        setReal(value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(int value) {
-		setInt(value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(int value) {
+        setInt(value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean getBit() {
-		return (this.value == 0) ? false : true;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean getBit() {
+        return (this.value == 0) ? false : true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setBit(boolean value) {
-		this.value = (value) ? 1 : 0;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setBit(boolean value) {
+        this.value = (value) ? 1 : 0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setBit(String value) {
-		setBit(Boolean.parseBoolean(value));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setBit(String value) {
+        setBit(Boolean.parseBoolean(value));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getInt() {
-		return this.value;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int getInt() {
+        return this.value;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setInt(int value) {
-		this.value = value;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setInt(int value) {
+        this.value = value;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setInt(String value) {
-		setInt(Integer.parseInt(value));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setInt(String value) {
+        setInt(Integer.parseInt(value));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getReal() {
-		return Integer.valueOf(value).doubleValue();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double getReal() {
+        return Integer.valueOf(value).doubleValue();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setReal(double value) {
-		this.value = Double.valueOf(value).intValue();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setReal(double value) {
+        this.value = Double.valueOf(value).intValue();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setReal(String value) {
-		setReal(Double.parseDouble(value));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setReal(String value) {
+        setReal(Double.parseDouble(value));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int compareTo(Numeric other) {
-		if (this.value == other.getInt())
-			return 0;
-		else
-			return (other.getInt() < this.value) ? 1 : -1;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int compareTo(Numeric other) {
+        if (this.value == other.getInt())
+            return 0;
+        else
+            return (other.getInt() < this.value) ? 1 : -1;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void randomize() {
-		double tmp = MathUtil.random()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
-		this.value = Double.valueOf(tmp).intValue();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void randomize() {
+        double tmp = MathUtil.random()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
+        this.value = Double.valueOf(tmp).intValue();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void reset() {
-		this.setInt(0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void reset() {
+        this.setInt(0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String toString() {
-		return String.valueOf(this.value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        return String.valueOf(this.value);
+    }
 
-	/**
-	 * Get the type representation of this <tt>Int</tt> object as a string.
-	 *
-	 * @return The String representation of this <tt>Type</tt> object.
-	 */
-	public String getRepresentation() {
-		return "Z(" + Double.valueOf(getBounds().getLowerBound()).intValue() + "," +
-			Double.valueOf(getBounds().getUpperBound()).intValue() +")";
-	}
+    /**
+     * Get the type representation of this <tt>Int</tt> object as a string.
+     *
+     * @return The String representation of this <tt>Type</tt> object.
+     */
+    public String getRepresentation() {
+        return "Z(" + Double.valueOf(getBounds().getLowerBound()).intValue() + "," +
+            Double.valueOf(getBounds().getUpperBound()).intValue() +")";
+    }
 
-	/**
-	 * Write this {@linkplain Int} to the provided {@linkplain ObjectOutput}.
-	 * @param oos The {@linkplain ObjectOutput} to write on.
-	 * @throws IOException If an error occurs during the write operation.
-	 */
-	public void writeExternal(ObjectOutput oos) throws IOException {
-		oos.writeInt(this.value);
-	}
+    /**
+     * Write this {@linkplain Int} to the provided {@linkplain ObjectOutput}.
+     * @param oos The {@linkplain ObjectOutput} to write on.
+     * @throws IOException If an error occurs during the write operation.
+     */
+    public void writeExternal(ObjectOutput oos) throws IOException {
+        oos.writeInt(this.value);
+    }
 
-	/**
-	 * Read off the provided {@linkplain ObjectInput}.
-	 * @param ois The {@linkplain ObjectInput} to read off.
-	 * @throws IOException If an I/O error occurs.
-	 * @throws ClassNotFoundException If the class to instantiate was not found.
-	 */
-	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-		this.value = ois.readInt();
-	}
+    /**
+     * Read off the provided {@linkplain ObjectInput}.
+     * @param ois The {@linkplain ObjectInput} to read off.
+     * @throws IOException If an I/O error occurs.
+     * @throws ClassNotFoundException If the class to instantiate was not found.
+     */
+    public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
+        this.value = ois.readInt();
+    }
 }

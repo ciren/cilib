@@ -54,24 +54,24 @@ public class DissipativeStep {
     }
 
     public void execute(Particle particle) {
-    	//DomainParser parser = DomainParser.getInstance();
+        //DomainParser parser = DomainParser.getInstance();
         //net.sourceforge.cilib.Type.Vector domain = (net.sourceforge.cilib.Type.Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresentation();
-    	Vector domain = (Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresenation();
-    	//Vector domain = (Vector) parser.getBuiltRepresentation();
+        Vector domain = (Vector) pso.getOptimisationProblem().getDomain().getBuiltRepresenation();
+        //Vector domain = (Vector) parser.getBuiltRepresentation();
         if (randomGenerator.nextFloat() < velocityThreshold) {
             for (int i = 0; i < particle.getDimension(); ++i) {
                 //Real component = (Real) domain.getComponent(i);
-            	net.sourceforge.cilib.type.types.Real component = (net.sourceforge.cilib.type.types.Real) domain.get(i);
-            	//particle.getVelocity()[i] = randomGenerator.nextFloat()
+                net.sourceforge.cilib.type.types.Real component = (net.sourceforge.cilib.type.types.Real) domain.get(i);
+                //particle.getVelocity()[i] = randomGenerator.nextFloat()
                 //* (component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue());
-            	//Domain d = Domain.getInstance();
+                //Domain d = Domain.getInstance();
 
 
-            /*	particle.getVelocity()[i] = randomGenerator.nextFloat() *
-            		//(d.getUpperBound() - d.getLowerBound());
-            		(component.getUpperBound() - component.getLowerBound());*/
-            	Vector velocity = (Vector) particle.getVelocity();
-            	velocity.setReal(i, randomGenerator.nextFloat()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound()));
+            /*    particle.getVelocity()[i] = randomGenerator.nextFloat() *
+                    //(d.getUpperBound() - d.getLowerBound());
+                    (component.getUpperBound() - component.getLowerBound());*/
+                Vector velocity = (Vector) particle.getVelocity();
+                velocity.setReal(i, randomGenerator.nextFloat()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound()));
             }
         }
         if (randomGenerator.nextFloat() < positionThreshold) {
@@ -80,13 +80,13 @@ public class DissipativeStep {
                 particle.getPosition()[i] = randomGenerator.nextDouble()
                 * (component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())
                 + component.getLowerBound().doubleValue();*/
-            	//Domain d = Domain.getInstance();
-            	net.sourceforge.cilib.type.types.Real component = (net.sourceforge.cilib.type.types.Real) domain.get(i);
-            	/*particle.getPosition()[i] = randomGenerator.nextDouble()
-            	//* (d.getUpperBound() - d.getLowerBound()) + d.getLowerBound();
-            	* (component.getUpperBound() - component.getLowerBound()) + component.getLowerBound();*/
-            	Vector position = (Vector) particle.getPosition();
-            	position.setReal(i, randomGenerator.nextDouble()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound())+ component.getBounds().getLowerBound());
+                //Domain d = Domain.getInstance();
+                net.sourceforge.cilib.type.types.Real component = (net.sourceforge.cilib.type.types.Real) domain.get(i);
+                /*particle.getPosition()[i] = randomGenerator.nextDouble()
+                //* (d.getUpperBound() - d.getLowerBound()) + d.getLowerBound();
+                * (component.getUpperBound() - component.getLowerBound()) + component.getLowerBound();*/
+                Vector position = (Vector) particle.getPosition();
+                position.setReal(i, randomGenerator.nextDouble()*(component.getBounds().getUpperBound() - component.getBounds().getLowerBound())+ component.getBounds().getLowerBound());
             }
         }
     }
@@ -120,8 +120,8 @@ public class DissipativeStep {
     }
 
     public PSO getPso() {
-		return pso;
-	}
+        return pso;
+    }
 
     private PSO pso;
 

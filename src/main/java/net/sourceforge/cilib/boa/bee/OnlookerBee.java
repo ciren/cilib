@@ -31,47 +31,47 @@ import net.sourceforge.cilib.boa.ABC;
  *
  */
 public class OnlookerBee extends AbstractBee implements HoneyBee {
-	private static final long serialVersionUID = -4714791530850285930L;
+    private static final long serialVersionUID = -4714791530850285930L;
 
-	/**
-	 * Default constructor.
-	 */
-	public OnlookerBee() {
-	}
+    /**
+     * Default constructor.
+     */
+    public OnlookerBee() {
+    }
 
-	public OnlookerBee(AbstractBee bee) {
-		super(bee);
-	}
+    public OnlookerBee(AbstractBee bee) {
+        super(bee);
+    }
 
-	/**
-	 * Copy constructor. Creates a copy of the provided instance.
-	 * @param copy reference that is deep copied.
-	 */
-	public OnlookerBee(OnlookerBee copy) {
-		super(copy);
-	}
+    /**
+     * Copy constructor. Creates a copy of the provided instance.
+     * @param copy reference that is deep copied.
+     */
+    public OnlookerBee(OnlookerBee copy) {
+        super(copy);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OnlookerBee getClone() {
-		return new OnlookerBee(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OnlookerBee getClone() {
+        return new OnlookerBee(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void updatePosition() {
-		ABC algorithm = (ABC) Algorithm.get();
-		HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updatePosition() {
+        ABC algorithm = (ABC) Algorithm.get();
+        HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
 
-		while (target == this) {
-			target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
-		}
+        while (target == this) {
+            target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
+        }
 
-		this.positionUpdateStrategy.updatePosition(this, target);
-	}
+        this.positionUpdateStrategy.updatePosition(this, target);
+    }
 
 }

@@ -41,10 +41,10 @@ public class GriewankTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Griewank. */
     @Test
     public void testEvaluate() {
-    	ContinuousFunction function = new Griewank();
+        ContinuousFunction function = new Griewank();
         function.setDomain("R(-600, 600)^3");
         //double[] x = {1, 2, 3};
-        Vector 	x = new Vector();
+        Vector     x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         x.append(new Real(3.0));

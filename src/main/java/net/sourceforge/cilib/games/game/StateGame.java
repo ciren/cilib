@@ -30,10 +30,10 @@ import net.sourceforge.cilib.games.states.GameState;
  * This interface should be extended by games that can be optimized by agents that expand every possible game state and select the best one
  */
 public interface StateGame {
-	/**
-	 * This method generates every possible from the current state for a specific player
-	 * @param currentPlater the player whos turn it is
-	 * @return a list of possible game states
-	 */
-	public List<GameState> generateStates(int currentPlater);
+    /**
+     * This method generates every possible from the current state for a specific player
+     * @param currentPlater the player whos turn it is
+     * @return a list of possible game states
+     */
+    public List<GameState> generateStates(int currentPlater);
 }

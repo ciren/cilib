@@ -35,91 +35,91 @@ import net.sourceforge.cilib.pso.PSO;
  *
  */
 public class RNAPSO extends PSO {
-	private static final long serialVersionUID = 8034984869522637866L;
+    private static final long serialVersionUID = 8034984869522637866L;
 
-	/**
-	 * Create an instance of the {@linkplain RNAPSO}.
-	 */
-	public RNAPSO() {
+    /**
+     * Create an instance of the {@linkplain RNAPSO}.
+     */
+    public RNAPSO() {
         super();
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void performInitialisation() {
-		if (getOptimisationProblem() == null) {
+    /**
+     * {@inheritDoc}
+     */
+    public void performInitialisation() {
+        if (getOptimisationProblem() == null) {
            throw new InitialisationException("No problem has been specified");
-		}
+        }
 
-		readDataSet();
+        readDataSet();
 
-		this.getInitialisationStrategy().initialise(this.getTopology(), getOptimisationProblem());
-	}
+        this.getInitialisationStrategy().initialise(this.getTopology(), getOptimisationProblem());
+    }
 
-	/**
-	 * Read the provided data set.
-	 */
-	private void readDataSet() {
-		StringBuilder nucs = new StringBuilder();
-		ArrayList<Integer> struct = new ArrayList<Integer>();
-		int[] intStruct;
-		int length = 0;
+    /**
+     * Read the provided data set.
+     */
+    private void readDataSet() {
+        StringBuilder nucs = new StringBuilder();
+        ArrayList<Integer> struct = new ArrayList<Integer>();
+        int[] intStruct;
+        int length = 0;
 
-		BufferedReader in;
-		try {
-			RNAOptimisationProblem p = (RNAOptimisationProblem) this.getOptimisationProblem();
-			in = new BufferedReader(new InputStreamReader(p.getDataSetBuilder().getDataSet(0).getInputStream()));
-			String line;
-			//Read and discard first 4 lines
-			in.readLine();
-			in.readLine();
-			in.readLine();
-			in.readLine();
+        BufferedReader in;
+        try {
+            RNAOptimisationProblem p = (RNAOptimisationProblem) this.getOptimisationProblem();
+            in = new BufferedReader(new InputStreamReader(p.getDataSetBuilder().getDataSet(0).getInputStream()));
+            String line;
+            //Read and discard first 4 lines
+            in.readLine();
+            in.readLine();
+            in.readLine();
+            in.readLine();
 
-			line = in.readLine();
+            line = in.readLine();
 
-			while (line != null) {
-				String [] tokens = line.split(" ");
-				nucs.append(tokens[1]);
-				struct.add(Integer.parseInt(tokens[2]));
-				length++;
-				line = in.readLine();
-			}
+            while (line != null) {
+                String [] tokens = line.split(" ");
+                nucs.append(tokens[1]);
+                struct.add(Integer.parseInt(tokens[2]));
+                length++;
+                line = in.readLine();
+            }
 
-			in.close();
+            in.close();
 
-			if (length < 1) {
-				System.out.println("Error reading data input file");
-				System.exit(1);
-			}
-			//convert arraylist into char array
-			System.out.print(length+" ");
-			System.out.println(nucs.toString());
-			System.out.print(struct.size()+" ");
-			System.out.println(struct.toString());
+            if (length < 1) {
+                System.out.println("Error reading data input file");
+                System.exit(1);
+            }
+            //convert arraylist into char array
+            System.out.print(length+" ");
+            System.out.println(nucs.toString());
+            System.out.print(struct.size()+" ");
+            System.out.println(struct.toString());
 
-		}
-		catch (FileNotFoundException f) {
-			System.out.println("Couldn't find the input file.");
-			System.exit(1);
-		}
-		catch (IOException e) {
-			System.out.println("Couldn't read from the input file");
-			System.exit(1);
-		}
+        }
+        catch (FileNotFoundException f) {
+            System.out.println("Couldn't find the input file.");
+            System.exit(1);
+        }
+        catch (IOException e) {
+            System.out.println("Couldn't read from the input file");
+            System.exit(1);
+        }
 
-		intStruct = new int[struct.size()];
-		for (int i = 0; i < struct.size(); i++) {
-			intStruct[i] = struct.get(i);
-		}
+        intStruct = new int[struct.size()];
+        for (int i = 0; i < struct.size(); i++) {
+            intStruct[i] = struct.get(i);
+        }
 
-		//System.out.println("nucleotides: " + nucleotides);
-		//StemGenerator.getInstance().setNucleotides(neucleotides);
-		NucleotideString.getInstance().setNucleotideString(nucs.toString());
-		//System.out.println(NucleotideString.getInstance().nucleotideString);
-		NucleotideString.getInstance().setKnowStructure(intStruct);
-		//System.out.println(NucleotideString.getInstance().knownStructure.toString());
-		StemGenerator.getInstance().generateStems(NucleotideString.getInstance().getNucleotideString(), false);
-	}
+        //System.out.println("nucleotides: " + nucleotides);
+        //StemGenerator.getInstance().setNucleotides(neucleotides);
+        NucleotideString.getInstance().setNucleotideString(nucs.toString());
+        //System.out.println(NucleotideString.getInstance().nucleotideString);
+        NucleotideString.getInstance().setKnowStructure(intStruct);
+        //System.out.println(NucleotideString.getInstance().knownStructure.toString());
+        StemGenerator.getInstance().generateStems(NucleotideString.getInstance().getNucleotideString(), false);
+    }
 }

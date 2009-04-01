@@ -39,17 +39,17 @@ public class SynchronizedOutputBuffer {
     /** Creates a new instance of SynchronizedOutputBuffer. */
     public SynchronizedOutputBuffer(String file, int measurements, int samples) {
         try {
-        	File pathedFile = new File(file);
-        	String parentPath = pathedFile.getParent();
-        	if (parentPath != null) {
-        		File parent = new File(parentPath);
-        		if (!parent.exists()) {
-        			if (parent.mkdirs())
-        				System.out.println("INFO: Created directory structure for output: " + parent.toString());
-        			else
-        				System.out.println("ERROR: Failed to create directory structure: " + parent.toString());
-        		}
-        	}
+            File pathedFile = new File(file);
+            String parentPath = pathedFile.getParent();
+            if (parentPath != null) {
+                File parent = new File(parentPath);
+                if (!parent.exists()) {
+                    if (parent.mkdirs())
+                        System.out.println("INFO: Created directory structure for output: " + parent.toString());
+                    else
+                        System.out.println("ERROR: Failed to create directory structure: " + parent.toString());
+                }
+            }
             writer = new BufferedWriter(new FileWriter(file));
         }
         catch (IOException ex) {
@@ -119,7 +119,7 @@ public class SynchronizedOutputBuffer {
         try {
             writer.write(string);
             writer.newLine();
-			writer.flush();
+            writer.flush();
         }
         catch (IOException ex) {
             throw new SimulationException(ex.toString());

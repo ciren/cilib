@@ -34,54 +34,54 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class NoisyFunctionDecorator extends ContinuousFunction {
-	private static final long serialVersionUID = -3918271655104447420L;
+    private static final long serialVersionUID = -3918271655104447420L;
 
-	private ContinuousFunction function;
-	private RandomNumber randomNumber;
+    private ContinuousFunction function;
+    private RandomNumber randomNumber;
     private ControlParameter variance;
 
-	/**
-	 * Create an instance of the decorator and set the domain to "R" by default.
-	 */
-	public NoisyFunctionDecorator() {
-		setDomain("R");
-		randomNumber = new RandomNumber();
+    /**
+     * Create an instance of the decorator and set the domain to "R" by default.
+     */
+    public NoisyFunctionDecorator() {
+        setDomain("R");
+        randomNumber = new RandomNumber();
         this.variance = new ConstantControlParameter(1.0);
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NoisyFunctionDecorator getClone() {
-		return new NoisyFunctionDecorator();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public NoisyFunctionDecorator getClone() {
+        return new NoisyFunctionDecorator();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double evaluate(Vector x) {
-		return function.evaluate(x) + randomNumber.getGaussian(0.0, this.variance.getParameter());
-	}
-
-
-	/**
-	 * Get the function that is decorated.
-	 * @return Returns the noisyFunction.
-	 */
-	public ContinuousFunction getFunction() {
-		return function;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double evaluate(Vector x) {
+        return function.evaluate(x) + randomNumber.getGaussian(0.0, this.variance.getParameter());
+    }
 
 
-	/**
-	 * Set the decorated function.
-	 * @param function The function to decorate.
-	 */
-	public void setFunction(ContinuousFunction function) {
-		this.function = function;
-		this.setDomain(function.getDomainRegistry().getDomainString());
-	}
+    /**
+     * Get the function that is decorated.
+     * @return Returns the noisyFunction.
+     */
+    public ContinuousFunction getFunction() {
+        return function;
+    }
+
+
+    /**
+     * Set the decorated function.
+     * @param function The function to decorate.
+     */
+    public void setFunction(ContinuousFunction function) {
+        this.function = function;
+        this.setDomain(function.getDomainRegistry().getDomainString());
+    }
 
     public ControlParameter getVariance() {
         return variance;

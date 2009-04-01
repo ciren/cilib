@@ -36,44 +36,44 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class Salomon extends ContinuousFunction {
-	private static final long serialVersionUID = -6002240316648057218L;
+    private static final long serialVersionUID = -6002240316648057218L;
 
-	/**
-	 * Create an instance of the function. Default domain is set to R(-600, 600)^30
-	 */
-	public Salomon() {
-		setDomain("R(-600, 600)^30");
-	}
+    /**
+     * Create an instance of the function. Default domain is set to R(-600, 600)^30
+     */
+    public Salomon() {
+        setDomain("R(-600, 600)^30");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Salomon getClone() {
-		return new Salomon();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Salomon getClone() {
+        return new Salomon();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
-		return new Double(0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
+        return new Double(0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double functionValue = 0.0;
-		double sumSquares = 0.0;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double functionValue = 0.0;
+        double sumSquares = 0.0;
 
-		for (int i = 0; i < x.getDimension(); i++) {
-			sumSquares += x.getReal(i) * x.getReal(i);
-		}
+        for (int i = 0; i < x.getDimension(); i++) {
+            sumSquares += x.getReal(i) * x.getReal(i);
+        }
 
-		functionValue = -(Math.cos(2 * Math.PI * Math.sqrt(sumSquares))) + (0.1 * Math.sqrt(sumSquares)) + 1;
+        functionValue = -(Math.cos(2 * Math.PI * Math.sqrt(sumSquares))) + (0.1 * Math.sqrt(sumSquares)) + 1;
 
-		return functionValue;
-	}
+        return functionValue;
+    }
 }

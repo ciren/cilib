@@ -29,7 +29,7 @@ package net.sourceforge.cilib.algorithm;
 public class InitialisationException extends java.lang.RuntimeException {
     private static final long serialVersionUID = -4744059625194428458L;
 
-	/**
+    /**
      * Creates a new instance of <code>InitialisationException</code> without detail message.
      */
     public InitialisationException() {

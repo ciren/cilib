@@ -38,91 +38,91 @@ import net.sourceforge.cilib.util.VectorUtils;
  * @author Theuns Cloete
  */
 public class ParametricClusteringFunction extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 583965930447258179L;
-	/** Specifies the weight that influences how much the intra-cluster-distance will contribute to the final fitness. */
-	protected ControlParameter w1 = null;
-	/** Specifies the weight that influences how much the inter-cluster-distance will contribute to the final fitness. */
-	protected ControlParameter w2 = null;
-	/** Stores the calculated zMax value. */
-	protected double zMax = -1.0;
+    private static final long serialVersionUID = 583965930447258179L;
+    /** Specifies the weight that influences how much the intra-cluster-distance will contribute to the final fitness. */
+    protected ControlParameter w1 = null;
+    /** Specifies the weight that influences how much the inter-cluster-distance will contribute to the final fitness. */
+    protected ControlParameter w2 = null;
+    /** Stores the calculated zMax value. */
+    protected double zMax = -1.0;
 
-	public ParametricClusteringFunction() {
-		super();
-		w1 = new ConstantControlParameter(0.5);
-		w2 = new ConstantControlParameter(0.5);
-		zMax = -1.0;
-	}
+    public ParametricClusteringFunction() {
+        super();
+        w1 = new ConstantControlParameter(0.5);
+        w2 = new ConstantControlParameter(0.5);
+        zMax = -1.0;
+    }
 
-	public ParametricClusteringFunction getClone() {
-		return new ParametricClusteringFunction();
-	}
+    public ParametricClusteringFunction getClone() {
+        return new ParametricClusteringFunction();
+    }
 
-	@Override
-	public double calculateFitness() {
-		// make sure the sum of the parameters equal 1.0
-		if (getW1() + getW2() != 1.0)
-			throw new IllegalArgumentException("The sum of w1 and w2 must equal 1.0");
+    @Override
+    public double calculateFitness() {
+        // make sure the sum of the parameters equal 1.0
+        if (getW1() + getW2() != 1.0)
+            throw new IllegalArgumentException("The sum of w1 and w2 must equal 1.0");
 
-		// zMax only needs to be calculated once; domain is not supposed to change during a simulation
-		if (zMax < 0.0) {
-			zMax = zMax();
-		}
+        // zMax only needs to be calculated once; domain is not supposed to change during a simulation
+        if (zMax < 0.0) {
+            zMax = zMax();
+        }
 
-		return (getW1() * calculateMaximumAverageDistance()) + (getW2() * (zMax - calculateMinimumInterClusterDistance()));
-	}
+        return (getW1() * calculateMaximumAverageDistance()) + (getW2() * (zMax - calculateMinimumInterClusterDistance()));
+    }
 
-	/**
-	 * Set the weight that influences how much the intra-cluster-distance will contribute to the final fitness.
-	 * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt> weight.
-	 */
-	public void setW1(ControlParameter w) {
-		w1 = w;
-	}
+    /**
+     * Set the weight that influences how much the intra-cluster-distance will contribute to the final fitness.
+     * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt> weight.
+     */
+    public void setW1(ControlParameter w) {
+        w1 = w;
+    }
 
-	/**
-	 * Get the weight that the intra-cluster-distance contributes to the final fitness.
-	 * @return the weight that determines how much influence intra-cluster-distance contributes to
-	 *         the final fitness.
-	 */
-	protected double getW1() {
-		return w1.getParameter();
-	}
+    /**
+     * Get the weight that the intra-cluster-distance contributes to the final fitness.
+     * @return the weight that determines how much influence intra-cluster-distance contributes to
+     *         the final fitness.
+     */
+    protected double getW1() {
+        return w1.getParameter();
+    }
 
-	/**
-	 * Set the weight that influences how much the inter-cluster-distance will contribute to the
-	 * final fitness.
-	 * @param w the {@linkplain ControlParameter} that will control the <tt>w2</tt> weight.
-	 */
-	public void setW2(ControlParameter w) {
-		w2 = w;
-	}
+    /**
+     * Set the weight that influences how much the inter-cluster-distance will contribute to the
+     * final fitness.
+     * @param w the {@linkplain ControlParameter} that will control the <tt>w2</tt> weight.
+     */
+    public void setW2(ControlParameter w) {
+        w2 = w;
+    }
 
-	/**
-	 * Get the weight that determines how much influence inter-cluster-distance contributes to the final fitness.
-	 * @return the weight that determines how much influence intra-cluster-distance contributes to
-	 *         the final fitness.
-	 */
-	protected double getW2() {
-		return w2.getParameter();
-	}
+    /**
+     * Get the weight that determines how much influence inter-cluster-distance contributes to the final fitness.
+     * @return the weight that determines how much influence intra-cluster-distance contributes to
+     *         the final fitness.
+     */
+    protected double getW2() {
+        return w2.getParameter();
+    }
 
-	/**
-	 * Calculate the maximum distance possible between two {@linkplain Vector}s in the specified
-	 * domain. In other words, calculate the distance between two {@linkplain Vector}s; where all
-	 * the elements in the first {@linkplain Vector} is set to that element's upper bound and all
-	 * the elements in the second {@linkplain Vector} is set to that element's lower bound.
-	 * @return the maximum distance possible between two {@linkplain Vector}s for the specified domain.
-	 */
-	protected double zMax() {
-		Vector prototype = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();
-		Vector upperBoundVector = VectorUtils.createUpperBoundVector(prototype);
-		Vector lowerBoundVector = VectorUtils.createLowerBoundVector(prototype);
+    /**
+     * Calculate the maximum distance possible between two {@linkplain Vector}s in the specified
+     * domain. In other words, calculate the distance between two {@linkplain Vector}s; where all
+     * the elements in the first {@linkplain Vector} is set to that element's upper bound and all
+     * the elements in the second {@linkplain Vector} is set to that element's lower bound.
+     * @return the maximum distance possible between two {@linkplain Vector}s for the specified domain.
+     */
+    protected double zMax() {
+        Vector prototype = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();
+        Vector upperBoundVector = VectorUtils.createUpperBoundVector(prototype);
+        Vector lowerBoundVector = VectorUtils.createLowerBoundVector(prototype);
 
-		return helper.calculateDistance(upperBoundVector, lowerBoundVector);
-	}
+        return helper.calculateDistance(upperBoundVector, lowerBoundVector);
+    }
 
-	public void updateControlParameters() {
-		w1.updateParameter();
-		w2.updateParameter();
-	}
+    public void updateControlParameters() {
+        w1.updateParameter();
+        w2.updateParameter();
+    }
 }

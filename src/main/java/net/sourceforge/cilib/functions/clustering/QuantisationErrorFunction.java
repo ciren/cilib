@@ -33,19 +33,19 @@ package net.sourceforge.cilib.functions.clustering;
  * @author Theuns Cloete
  */
 public class QuantisationErrorFunction extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = -7008338250315442786L;
+    private static final long serialVersionUID = -7008338250315442786L;
 
-	public QuantisationErrorFunction() {
-		super();
-	}
+    public QuantisationErrorFunction() {
+        super();
+    }
 
-	@Override
-	public double calculateFitness() {
-		return calculateQuantisationError();
-	}
+    @Override
+    public double calculateFitness() {
+        return calculateQuantisationError();
+    }
 
-	@Override
-	public QuantisationErrorFunction getClone() {
-		return new QuantisationErrorFunction();
-	}
+    @Override
+    public QuantisationErrorFunction getClone() {
+        return new QuantisationErrorFunction();
+    }
 }

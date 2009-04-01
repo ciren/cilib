@@ -52,39 +52,39 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Booth extends ContinuousFunction {
-	private static final long serialVersionUID = -7803711986955989075L;
+    private static final long serialVersionUID = -7803711986955989075L;
 
-	/**
-	 * Create an instance of the Booth function. The domain is set to be
-	 * R(-10.0,10.0)^2 by default.
-	 */
-	public Booth() {
+    /**
+     * Create an instance of the Booth function. The domain is set to be
+     * R(-10.0,10.0)^2 by default.
+     */
+    public Booth() {
         setDomain("R(-10,10)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Booth getClone() {
-		return new Booth();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Booth getClone() {
+        return new Booth();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
         return new Double(0.0);
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double x1 = x.getReal(0);
-		double x2 = x.getReal(1);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double x1 = x.getReal(0);
+        double x2 = x.getReal(1);
 
-		return (x1+2*x2-7)*(x1+2*x2-7) + (2*x1+x2-5)*(2*x1+x2-5);
-	}
+        return (x1+2*x2-7)*(x1+2*x2-7) + (2*x1+x2-5)*(2*x1+x2-5);
+    }
 }

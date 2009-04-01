@@ -37,62 +37,62 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class StatUtilsTest {
-	private static ArrayList<Pattern> set;
-	private static Vector mean = null;
-	private static final int SIZE = 3;
+    private static ArrayList<Pattern> set;
+    private static Vector mean = null;
+    private static final int SIZE = 3;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		Vector tmp = new Vector(SIZE);
-		set = new ArrayList<Pattern>();
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        Vector tmp = new Vector(SIZE);
+        set = new ArrayList<Pattern>();
 
-		for (int i = 1; i <= SIZE; i++) {
-			tmp.add(new Real(i));
-		}
-		set.add(new Pattern("class0", tmp));
+        for (int i = 1; i <= SIZE; i++) {
+            tmp.add(new Real(i));
+        }
+        set.add(new Pattern("class0", tmp));
 
-		tmp = new Vector(SIZE);
-		for (int i = SIZE; i > 0; i--) {
-			tmp.add(new Real(i));
-		}
-		set.add(new Pattern("class1", tmp));
-		
-		tmp = new Vector(SIZE, new Real(1));
-		set.add(new Pattern("class2", tmp));
+        tmp = new Vector(SIZE);
+        for (int i = SIZE; i > 0; i--) {
+            tmp.add(new Real(i));
+        }
+        set.add(new Pattern("class1", tmp));
+        
+        tmp = new Vector(SIZE, new Real(1));
+        set.add(new Pattern("class2", tmp));
 
-		tmp = new Vector(SIZE, new Real(2));
-		set.add(new Pattern("class1", tmp));
+        tmp = new Vector(SIZE, new Real(2));
+        set.add(new Pattern("class1", tmp));
 
-		tmp = new Vector(SIZE, new Real(3));
-		set.add(new Pattern("class0", tmp));
-	}
+        tmp = new Vector(SIZE, new Real(3));
+        set.add(new Pattern("class0", tmp));
+    }
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-		set = null;
-		mean = null;
-	}
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        set = null;
+        mean = null;
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptySetForMeanVector() {
-		StatUtils.meanVector(new ArrayList<Pattern>());
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void testEmptySetForMeanVector() {
+        StatUtils.meanVector(new ArrayList<Pattern>());
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptySetForVarianceScalar() {
-		StatUtils.variance(new ArrayList<Pattern>(), mean);
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void testEmptySetForVarianceScalar() {
+        StatUtils.variance(new ArrayList<Pattern>(), mean);
+    }
 
-	@Test
-	public void testMeanVector() {
-		Vector calculated = new Vector(SIZE, new Real(2));
+    @Test
+    public void testMeanVector() {
+        Vector calculated = new Vector(SIZE, new Real(2));
 
-		mean = StatUtils.meanVector(set);
-		assertThat(mean, equalTo(calculated));
-	}
+        mean = StatUtils.meanVector(set);
+        assertThat(mean, equalTo(calculated));
+    }
 
-	@Test
-	public void testVarianceScalar() {
-		assertThat(StatUtils.variance(set, mean), equalTo(1.2));	// more accurate than StatUtils.varianceVector()
-	}
+    @Test
+    public void testVarianceScalar() {
+        assertThat(StatUtils.variance(set, mean), equalTo(1.2));    // more accurate than StatUtils.varianceVector()
+    }
 }

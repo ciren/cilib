@@ -40,57 +40,57 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Wiehann Matthysen
  */
 public class BoundedPositionUpdateStrategy implements PositionUpdateStrategy {
-	private static final long serialVersionUID = -1323696017002776467L;
+    private static final long serialVersionUID = -1323696017002776467L;
 
-	private BoundaryConstraintStrategy boundaryConstraintStrategy;
+    private BoundaryConstraintStrategy boundaryConstraintStrategy;
 
-	public BoundedPositionUpdateStrategy() {
-		boundaryConstraintStrategy = new ClampingBoundaryConstraintStrategy();
-	}
+    public BoundedPositionUpdateStrategy() {
+        boundaryConstraintStrategy = new ClampingBoundaryConstraintStrategy();
+    }
 
-	public BoundedPositionUpdateStrategy(BoundedPositionUpdateStrategy copy) {
-		boundaryConstraintStrategy = copy.boundaryConstraintStrategy.getClone();
-	}
+    public BoundedPositionUpdateStrategy(BoundedPositionUpdateStrategy copy) {
+        boundaryConstraintStrategy = copy.boundaryConstraintStrategy.getClone();
+    }
 
-	public BoundedPositionUpdateStrategy getClone() {
-		return new BoundedPositionUpdateStrategy(this);
-	}
+    public BoundedPositionUpdateStrategy getClone() {
+        return new BoundedPositionUpdateStrategy(this);
+    }
 
-	public void setBoundaryConstraintStrategy(BoundaryConstraintStrategy boundaryConstraintStrategy) {
-		this.boundaryConstraintStrategy = boundaryConstraintStrategy;
-	}
+    public void setBoundaryConstraintStrategy(BoundaryConstraintStrategy boundaryConstraintStrategy) {
+        this.boundaryConstraintStrategy = boundaryConstraintStrategy;
+    }
 
-	public BoundaryConstraintStrategy getBoundaryConstraintStrategy() {
-		return boundaryConstraintStrategy;
-	}
+    public BoundaryConstraintStrategy getBoundaryConstraintStrategy() {
+        return boundaryConstraintStrategy;
+    }
 
-	/**
-	 * Update the position of the {@linkplain Particle} so that it always stays within the domain
-	 * boundaries. To achieve this, the specified {@linkplain #boundaryConstraintStrategy} should
-	 * implement the {@linkplain BoundaryConstraintStrategy#constrainLower(Numeric, Numeric)} and
-	 * {@linkplain BoundaryConstraintStrategy#constrainUpper(Numeric, Numeric)} methods.
-	 * @param particle The {@linkplain Particle} to perform the position update on which is not
-	 *        allowed to move outside the domain.
-	 */
-	public void updatePosition(Particle particle) {
-		Vector position = (Vector) particle.getPosition();
-		Vector velocity = (Vector) particle.getVelocity();
+    /**
+     * Update the position of the {@linkplain Particle} so that it always stays within the domain
+     * boundaries. To achieve this, the specified {@linkplain #boundaryConstraintStrategy} should
+     * implement the {@linkplain BoundaryConstraintStrategy#constrainLower(Numeric, Numeric)} and
+     * {@linkplain BoundaryConstraintStrategy#constrainUpper(Numeric, Numeric)} methods.
+     * @param particle The {@linkplain Particle} to perform the position update on which is not
+     *        allowed to move outside the domain.
+     */
+    public void updatePosition(Particle particle) {
+        Vector position = (Vector) particle.getPosition();
+        Vector velocity = (Vector) particle.getVelocity();
 
-		for (int i = 0; i < position.getDimension(); ++i) {
-			Numeric currentPosition = position.getNumeric(i);
-			Numeric currentVelocity = velocity.getNumeric(i);
-			double newPosition = position.getReal(i);
-			newPosition += velocity.getReal(i);
+        for (int i = 0; i < position.getDimension(); ++i) {
+            Numeric currentPosition = position.getNumeric(i);
+            Numeric currentVelocity = velocity.getNumeric(i);
+            double newPosition = position.getReal(i);
+            newPosition += velocity.getReal(i);
 
-			if (newPosition < currentPosition.getBounds().getLowerBound()) { // crossed the lower boundary
-				boundaryConstraintStrategy.constrainLower(currentPosition, currentVelocity);
-			}
-			else if (newPosition >= currentPosition.getBounds().getUpperBound()) { // crossed the upper boundary
-				boundaryConstraintStrategy.constrainUpper(currentPosition, currentVelocity);
-			}
-			else { // did not cross any boundary; update as normal
-				position.setReal(i, newPosition);
-			}
-		}
-	}
+            if (newPosition < currentPosition.getBounds().getLowerBound()) { // crossed the lower boundary
+                boundaryConstraintStrategy.constrainLower(currentPosition, currentVelocity);
+            }
+            else if (newPosition >= currentPosition.getBounds().getUpperBound()) { // crossed the upper boundary
+                boundaryConstraintStrategy.constrainUpper(currentPosition, currentVelocity);
+            }
+            else { // did not cross any boundary; update as normal
+                position.setReal(i, newPosition);
+            }
+        }
+    }
 }

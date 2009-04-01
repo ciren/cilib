@@ -50,7 +50,7 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy
  */
 public class LFPSO extends PSO implements GradientOptimisationAlgorithm {
     private static final long serialVersionUID = -1385469595182738903L;
-	/**
+    /**
      * Creates a new instance of <code>LFPSO</code>. All fields are initialised to
      * reasonable defaults. Note that the {@link net.sourceforge.cilib.problem.GradientOptimisationProblem}
      * is initially <code>null</code> and must be set before {@link #initialise()} is called.
@@ -67,12 +67,12 @@ public class LFPSO extends PSO implements GradientOptimisationAlgorithm {
 
     public void setPrototypeParticle(Particle particle) {
         //super.setPrototypeParticle(new LFDecorator(particle));
-    	this.getInitialisationStrategy().setEntityType(new LFDecorator(particle));
+        this.getInitialisationStrategy().setEntityType(new LFDecorator(particle));
     }
 
     public void setVelocityUpdate(VelocityUpdateStrategy vu) {
         if (vu instanceof LFVelocityUpdate) {
-        	throw new UnsupportedOperationException("This operation is not valid on the algorithm level");
+            throw new UnsupportedOperationException("This operation is not valid on the algorithm level");
             //super.setVelocityUpdate(vu);
         }
         else {

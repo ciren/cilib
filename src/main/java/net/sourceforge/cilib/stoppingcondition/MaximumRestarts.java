@@ -29,46 +29,46 @@ import net.sourceforge.cilib.algorithm.MultistartOptimisationAlgorithm;
  * @author Edwin Peer
  */
 public class MaximumRestarts implements StoppingCondition {
-	private static final long serialVersionUID = 8888789427315067855L;
+    private static final long serialVersionUID = 8888789427315067855L;
 
-	private int maximumRestarts;
-	private MultistartOptimisationAlgorithm algorithm;
+    private int maximumRestarts;
+    private MultistartOptimisationAlgorithm algorithm;
 
-	/** Creates a new instance of MaximumRestarts. */
-	public MaximumRestarts() {
-		maximumRestarts = 10;
-	}
+    /** Creates a new instance of MaximumRestarts. */
+    public MaximumRestarts() {
+        maximumRestarts = 10;
+    }
 
-	public MaximumRestarts(MaximumRestarts copy) {
-		this.maximumRestarts = copy.maximumRestarts;
-		this.algorithm = copy.algorithm;
-	}
+    public MaximumRestarts(MaximumRestarts copy) {
+        this.maximumRestarts = copy.maximumRestarts;
+        this.algorithm = copy.algorithm;
+    }
 
-	public MaximumRestarts getClone() {
-		return new MaximumRestarts(this);
-	}
+    public MaximumRestarts getClone() {
+        return new MaximumRestarts(this);
+    }
 
-	public MaximumRestarts(int maximumRestarts) {
-		this.maximumRestarts = maximumRestarts;
-	}
+    public MaximumRestarts(int maximumRestarts) {
+        this.maximumRestarts = maximumRestarts;
+    }
 
-	public int getRestarts() {
-		return maximumRestarts;
-	}
+    public int getRestarts() {
+        return maximumRestarts;
+    }
 
-	public void setRestarts(int maximumRestarts) {
-		this.maximumRestarts = maximumRestarts;
-	}
+    public void setRestarts(int maximumRestarts) {
+        this.maximumRestarts = maximumRestarts;
+    }
 
-	public double getPercentageCompleted() {
-		return ((double) algorithm.getRestarts()) / ((double) maximumRestarts + 1);
-	}
+    public double getPercentageCompleted() {
+        return ((double) algorithm.getRestarts()) / ((double) maximumRestarts + 1);
+    }
 
-	public boolean isCompleted() {
-		return algorithm.getRestarts() > maximumRestarts;
-	}
+    public boolean isCompleted() {
+        return algorithm.getRestarts() > maximumRestarts;
+    }
 
-	public void setAlgorithm(Algorithm algorithm) {
-		this.algorithm = (MultistartOptimisationAlgorithm) algorithm;
-	}
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = (MultistartOptimisationAlgorithm) algorithm;
+    }
 }

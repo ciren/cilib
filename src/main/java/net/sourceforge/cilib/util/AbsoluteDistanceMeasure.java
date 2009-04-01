@@ -35,49 +35,49 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 @Deprecated
 public class AbsoluteDistanceMeasure implements DistanceMeasure {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
-		if (x.size() != y.size()) {
+    /**
+     * {@inheritDoc}
+     */
+    public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
+        if (x.size() != y.size()) {
             throw new IllegalArgumentException("Unmatched argument lengths");
         }
 
-		Iterator<T> xIterator = x.iterator();
-		Iterator<T> yIterator = y.iterator();
+        Iterator<T> xIterator = x.iterator();
+        Iterator<T> yIterator = y.iterator();
 
-		double distance = 0;
+        double distance = 0;
         for (int i = 0; i < x.size(); ++i) {
-			Numeric xNumeric = (Numeric) xIterator.next();
-			Numeric yNumeric = (Numeric) yIterator.next();
+            Numeric xNumeric = (Numeric) xIterator.next();
+            Numeric yNumeric = (Numeric) yIterator.next();
 
             distance += Math.abs(xNumeric.getReal() - yNumeric.getReal());
         }
 
         return distance;
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public <T extends Collection<? extends Number>> double distance(T x, T y) {
-		if (x.size() != y.size())
-			throw new IllegalArgumentException("Unmatched argument lengths");
+    /**
+     * {@inheritDoc}
+     */
+    public <T extends Collection<? extends Number>> double distance(T x, T y) {
+        if (x.size() != y.size())
+            throw new IllegalArgumentException("Unmatched argument lengths");
 
-		double distance = 0;
-		Iterator<? extends Number> i = x.iterator();
-		Iterator<? extends Number> j = y.iterator();
+        double distance = 0;
+        Iterator<? extends Number> i = x.iterator();
+        Iterator<? extends Number> j = y.iterator();
 
-		while (i.hasNext() && j.hasNext()) {
-			Number n1 = i.next();
-			Number n2 = j.next();
+        while (i.hasNext() && j.hasNext()) {
+            Number n1 = i.next();
+            Number n2 = j.next();
 
-			double tmp = Math.abs(n1.doubleValue() - n2.doubleValue());
+            double tmp = Math.abs(n1.doubleValue() - n2.doubleValue());
 
-			distance += tmp;
-		}
+            distance += tmp;
+        }
 
-		return distance;
-	}
+        return distance;
+    }
 
 }
