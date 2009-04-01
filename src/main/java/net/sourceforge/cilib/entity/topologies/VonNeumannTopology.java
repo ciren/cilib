@@ -127,7 +127,7 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         }
         shortest.add(particle);
 
-           lastRow = entities.size() - 1;
+        lastRow = entities.size() - 1;
         lastCol = entities.get(lastRow).size() - 1;
 
         return true;
@@ -166,7 +166,8 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
         if (row.size() == 0) {
             entities.remove(x);
         }
-           lastRow = entities.size() - 1;
+
+        lastRow = entities.size() - 1;
         lastCol = entities.get(lastRow).size() - 1;
     }
 
@@ -389,7 +390,11 @@ public class VonNeumannTopology<E extends Entity> extends Topology<E> {
      * {@inheritDoc}
      */
     public List<E> asList() {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
+        List<E> entityList = new ArrayList<E>();
+        for (ArrayList<E> i : entities){
+            entityList.addAll(i);
+        }
+        return entityList;
     }
 
     /**
