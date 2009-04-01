@@ -25,6 +25,9 @@ import java.util.ArrayList;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.Initializable;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
+import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronFunction;
+import net.sourceforge.cilib.neuralnetwork.generic.neuron.SigmoidOutputFunction;
+
 
 /**
  * @author stefanv
@@ -37,8 +40,50 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
  *
  */
 public abstract class GenericTopologyBuilder implements Initializable {
+    protected NeuronFunction activationFunction;
+    protected NeuronFunction outputActivationFunction;
+    public GenericTopologyBuilder(){
+        activationFunction = new SigmoidOutputFunction();
+        outputActivationFunction = null;
+    }
 
+    /**
+     * Assemble the Neural Network
+     * @return the Layer List of {@linkplain NeuronConfig} that represents the Neural Network
+     */
     public abstract ArrayList<ArrayList<NeuronConfig>> createLayerList();
+
+    /**
+     * Get the type of {@linkplain NeuronFunction} that is used to construct the Neural Network
+     * @return The {@linkplain NeuronFunction}
+     */
+    public NeuronFunction getActivationFunction() {
+        return activationFunction;
+    }
+
+    /**
+     * Set the type of {@linkplain NeuronFunction} to use for the hidden layer(s) of the Neural Network
+     * @param activationFunction The activation function to use when constructing the Neural Network
+     */
+    public void setActivationFunction(NeuronFunction activationFunction) {
+        this.activationFunction = activationFunction;
+    }
+
+    /**
+     * Get the type of {@linkplain NeuronFunction} that is used to construct the output layer Neural Network
+     * @return The {@linkplain NeuronFunction}
+     */
+    public NeuronFunction getOutputActivationFunction() {
+        return outputActivationFunction;
+    }
+
+    /**
+     * The type of {@linkplain NeuronFunction} to use for output neurons, this may differ from the type used in the hidden layer(s)
+     * @param outputActivationFunction The activation funciton to use for output Neurons when construction the Neural Network
+     */
+    public void setOutputActivationFunction(NeuronFunction outputActivationFunction) {
+        this.outputActivationFunction = outputActivationFunction;
+    }
 
     /*
     protected ArrayList<ArrayList<NeuronConfig>> constructConnectedLayeredTopology(int[] layerSizes, Weight baseW){
