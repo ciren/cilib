@@ -36,18 +36,18 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class RestartsTest {
-	
-	@Test
-	public void testRestartsDomain() {
-		Measurement m = new Restarts();
-		
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof Int);
-	}
+    
+    @Test
+    public void testRestartsDomain() {
+        Measurement m = new Restarts();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof Int);
+    }
 
 }

@@ -29,12 +29,12 @@ import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
  */
 public class EmptyEpochStrategy implements EpochStrategy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performIteration(EvaluationMediator evaluationMediator) {
-		// This method is intentionally left empty
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performIteration(EvaluationMediator evaluationMediator) {
+        // This method is intentionally left empty
+    }
 
 }

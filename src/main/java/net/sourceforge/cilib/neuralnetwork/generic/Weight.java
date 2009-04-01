@@ -30,55 +30,55 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  */
 public class Weight implements Cloneable {
-	private static final long serialVersionUID = -1229158606594188854L;
+    private static final long serialVersionUID = -1229158606594188854L;
 
-	Type weightValue = null;
+    Type weightValue = null;
 
-	//a multi-purpose variable to track changes - value/menaingdepends on the using class
-	Type previousChange = null;
+    //a multi-purpose variable to track changes - value/menaingdepends on the using class
+    Type previousChange = null;
 
-	/**
-	 * @param weightValue
-	 */
-	public Weight() {
-		this.weightValue = null;
-		this.previousChange = null;
-	}
-
-
-	public Weight(Type w){
-		super();
-		this.weightValue = w.getClone();
-		this.previousChange = w.getClone();
-		TypeUtil.reset(this.previousChange);
-//		this.previousChange.reset();
-	}
+    /**
+     * @param weightValue
+     */
+    public Weight() {
+        this.weightValue = null;
+        this.previousChange = null;
+    }
 
 
-	public Weight getClone(){
-		Weight clone = new Weight(this.weightValue);
-		clone.previousChange = this.previousChange;
-		return clone;
-	}
+    public Weight(Type w){
+        super();
+        this.weightValue = w.getClone();
+        this.previousChange = w.getClone();
+        TypeUtil.reset(this.previousChange);
+//        this.previousChange.reset();
+    }
 
 
-	public Type getWeightValue() {
-		return weightValue;
-	}
-
-	public void setWeightValue(Type weightValue) {
-		this.weightValue = weightValue;
-	}
+    public Weight getClone(){
+        Weight clone = new Weight(this.weightValue);
+        clone.previousChange = this.previousChange;
+        return clone;
+    }
 
 
-	public Type getPreviousChange() {
-		return previousChange;
-	}
+    public Type getWeightValue() {
+        return weightValue;
+    }
+
+    public void setWeightValue(Type weightValue) {
+        this.weightValue = weightValue;
+    }
 
 
-	public void setPreviousChange(Type previousChange) {
-		this.previousChange = previousChange;
-	}
+    public Type getPreviousChange() {
+        return previousChange;
+    }
+
+
+    public void setPreviousChange(Type previousChange) {
+        this.previousChange = previousChange;
+    }
 
 
 }

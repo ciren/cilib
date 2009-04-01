@@ -34,26 +34,26 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class RTest {
-	
-	private static R creator = null;
-	
-	@BeforeClass
-	public static void setUp() {
-		creator = new R();
-	}
-	
-	@Test
-	public void testCreateNoBounds() {
-		Type r = creator.create();
-		
-		assertTrue(r instanceof Real);
-	}
-	
-	@Test
-	public void testCreateBounds() {
-		Type r = creator.create(0, 2);
-		
-		assertTrue(r instanceof Real);
-	}
+    
+    private static R creator = null;
+    
+    @BeforeClass
+    public static void setUp() {
+        creator = new R();
+    }
+    
+    @Test
+    public void testCreateNoBounds() {
+        Type r = creator.create();
+        
+        assertTrue(r instanceof Real);
+    }
+    
+    @Test
+    public void testCreateBounds() {
+        Type r = creator.create(0, 2);
+        
+        assertTrue(r instanceof Real);
+    }
 
 }

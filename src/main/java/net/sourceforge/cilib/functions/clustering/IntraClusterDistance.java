@@ -29,18 +29,18 @@ package net.sourceforge.cilib.functions.clustering;
  * @author Theuns Cloete
  */
 public class IntraClusterDistance extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = -4185205766188040942L;
+    private static final long serialVersionUID = -4185205766188040942L;
 
-	@Override
-	public double calculateFitness() {
-		return calculateAverageIntraClusterDistance();
-	}
+    @Override
+    public double calculateFitness() {
+        return calculateAverageIntraClusterDistance();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IntraClusterDistance getClone() {
-		return new IntraClusterDistance();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IntraClusterDistance getClone() {
+        return new IntraClusterDistance();
+    }
 }

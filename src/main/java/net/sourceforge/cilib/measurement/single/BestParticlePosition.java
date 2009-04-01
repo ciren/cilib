@@ -33,34 +33,34 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class BestParticlePosition implements Measurement {
-	private static final long serialVersionUID = 5808686984197365658L;
+    private static final long serialVersionUID = 5808686984197365658L;
 
-	/**
-	 * Create a nw instance of {@linkplain BestParticlePosition}.
-	 */
-	public BestParticlePosition() {
+    /**
+     * Create a nw instance of {@linkplain BestParticlePosition}.
+     */
+    public BestParticlePosition() {
     }
 
-	/**
-	 * Copy the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public BestParticlePosition(BestParticlePosition copy) {
+    /**
+     * Copy the provided instance.
+     * @param copy The instance to copy.
+     */
+    public BestParticlePosition(BestParticlePosition copy) {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public BestParticlePosition getClone() {
-		return new BestParticlePosition(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public BestParticlePosition getClone() {
+        return new BestParticlePosition(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public String getDomain() {
-    	return "T";
+        return "T";
     }
 
     /**

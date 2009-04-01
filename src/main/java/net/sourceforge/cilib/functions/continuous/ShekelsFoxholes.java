@@ -36,9 +36,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 
 public class ShekelsFoxholes extends ContinuousFunction {
-	private static final long serialVersionUID = 1986501892056164693L;
+    private static final long serialVersionUID = 1986501892056164693L;
 
-	private double [][] a = new double[2][25];
+    private double [][] a = new double[2][25];
 
     public ShekelsFoxholes() {
         int index = 0;
@@ -59,7 +59,7 @@ public class ShekelsFoxholes extends ContinuousFunction {
      */
     @Override
     public ShekelsFoxholes getClone() {
-    	return new ShekelsFoxholes();
+        return new ShekelsFoxholes();
     }
 
     public Object getMinimum() {

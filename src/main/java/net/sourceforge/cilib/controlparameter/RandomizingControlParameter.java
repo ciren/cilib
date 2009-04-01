@@ -21,9 +21,8 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-import java.util.Random;
-
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 /**
  * <p>
@@ -38,96 +37,96 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * @author Andries Engelbrecht
  */
 public class RandomizingControlParameter implements ControlParameter {
-	private static final long serialVersionUID = 5678971018262140893L;
-	protected ControlParameter controlParameter;
-	protected Random randomiser;
+    private static final long serialVersionUID = 5678971018262140893L;
+    protected ControlParameter controlParameter;
+    protected Random randomiser;
 
-	/**
-	 * Create a new {@code RandomizingControlParameter} instance. This object will be
-	 * instantiated by default with a contained {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}
-	 * and a {@linkplain net.sourceforge.cilib.math.random.generator.MersenneTwister} as the random number generator.
-	 */
-	public RandomizingControlParameter() {
-		this.controlParameter = new ConstantControlParameter();
-		this.randomiser = new MersenneTwister();
-	}
+    /**
+     * Create a new {@code RandomizingControlParameter} instance. This object will be
+     * instantiated by default with a contained {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}
+     * and a {@linkplain net.sourceforge.cilib.math.random.generator.MersenneTwister} as the random number generator.
+     */
+    public RandomizingControlParameter() {
+        this.controlParameter = new ConstantControlParameter();
+        this.randomiser = new MersenneTwister();
+    }
 
-	/**
-	 * Copy constructor.
-	 * @param copy The instance to copy.
-	 */
-	public RandomizingControlParameter(RandomizingControlParameter copy) {
-		this.controlParameter = copy.controlParameter.getClone();
-		this.randomiser = new MersenneTwister();
-	}
+    /**
+     * Copy constructor.
+     * @param copy The instance to copy.
+     */
+    public RandomizingControlParameter(RandomizingControlParameter copy) {
+        this.controlParameter = copy.controlParameter.getClone();
+        this.randomiser = new MersenneTwister();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public RandomizingControlParameter getClone() {
-		return new RandomizingControlParameter(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public RandomizingControlParameter getClone() {
+        return new RandomizingControlParameter(this);
+    }
 
-	/**
-	 * Return the current <tt>Random</tt>.
-	 * @return The <tt>Random</tt> being used.
-	 */
-	public Random getRandomiser() {
-		return randomiser;
-	}
+    /**
+     * Return the current <tt>Random</tt>.
+     * @return The <tt>Random</tt> being used.
+     */
+    public Random getRandomiser() {
+        return randomiser;
+    }
 
-	/**
-	 * Set the <tt>Random</tt> to be used.
-	 * @param randomiser The <tt>Random</tt> to be used.
-	 */
-	public void setRandomiser(Random randomiser) {
-		this.randomiser = randomiser;
-	}
+    /**
+     * Set the <tt>Random</tt> to be used.
+     * @param randomiser The <tt>Random</tt> to be used.
+     */
+    public void setRandomiser(Random randomiser) {
+        this.randomiser = randomiser;
+    }
 
-	/**
-	 * Get the currently used <tt>ControlParameterUpdateStrategy</tt>.
-	 * @return The used <tt>ControlParameterUpdateStrategy</tt>
-	 */
-	public ControlParameter getControlParameter() {
-		return controlParameter;
-	}
+    /**
+     * Get the currently used <tt>ControlParameterUpdateStrategy</tt>.
+     * @return The used <tt>ControlParameterUpdateStrategy</tt>
+     */
+    public ControlParameter getControlParameter() {
+        return controlParameter;
+    }
 
-	/**
-	 * Set the <tt>ControlParameterUpdateStrategy</tt> to be used.
-	 * @param controlParameter The <tt>ControlParameterUpdateStrategy</tt> to be used.
-	 */
-	public void setControlParameter(ControlParameter controlParameter) {
-		this.controlParameter = controlParameter;
-	}
+    /**
+     * Set the <tt>ControlParameterUpdateStrategy</tt> to be used.
+     * @param controlParameter The <tt>ControlParameterUpdateStrategy</tt> to be used.
+     */
+    public void setControlParameter(ControlParameter controlParameter) {
+        this.controlParameter = controlParameter;
+    }
 
-	/**
-	 * Get the value of this parameter after it has been multiplied with a uniform random number.
-	 * @return The value representing a uniform random number multiplied by the value of the
-	 *         underlying <tt>ControlParameterUpdateStrategy</tt>.
-	 */
-	public double getParameter() {
-		return this.randomiser.nextDouble() * this.controlParameter.getParameter();
-	}
+    /**
+     * Get the value of this parameter after it has been multiplied with a uniform random number.
+     * @return The value representing a uniform random number multiplied by the value of the
+     *         underlying <tt>ControlParameterUpdateStrategy</tt>.
+     */
+    public double getParameter() {
+        return this.randomiser.nextDouble() * this.controlParameter.getParameter();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getParameter(double min, double max) {
-		throw new UnsupportedOperationException("");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double getParameter(double min, double max) {
+        throw new UnsupportedOperationException("");
+    }
 
-	/**
-	 * Set the value of the parameter in the underlying <tt>ControlParameterUpdateStrategy</tt>.
-	 * @param value The value to have the parameter set to,
-	 */
-	public void setParameter(double value) {
-		this.controlParameter.setParameter(value);
-	}
+    /**
+     * Set the value of the parameter in the underlying <tt>ControlParameterUpdateStrategy</tt>.
+     * @param value The value to have the parameter set to,
+     */
+    public void setParameter(double value) {
+        this.controlParameter.setParameter(value);
+    }
 
-	/**
-	 * Update the contained <tt>ControlParameterUpdateStrategy</tt>.
-	 */
-	public void updateParameter() {
-		this.controlParameter.updateParameter();
-	}
+    /**
+     * Update the contained <tt>ControlParameterUpdateStrategy</tt>.
+     */
+    public void updateParameter() {
+        this.controlParameter.updateParameter();
+    }
 }

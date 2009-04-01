@@ -42,20 +42,20 @@ import org.junit.Test;
  */
 public class AscendingFitnessCompartorTest {
 
-	@Test
-	public void simpleDataStructure() {
-		Entity entity1 = new Individual();
-		Entity entity2 = new Individual();
-		Entity entity3 = new Individual();
-		
-		entity1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-		entity2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
-		entity3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
-		
-		List<Entity> entities = Arrays.asList(entity1, entity2, entity3);
-		Collections.sort(entities, new AscendingFitnessComparator());
-		
-		assertThat(entity1, is(entities.get(0)));
-	}
+    @Test
+    public void simpleDataStructure() {
+        Entity entity1 = new Individual();
+        Entity entity2 = new Individual();
+        Entity entity3 = new Individual();
+        
+        entity1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
+        entity2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
+        entity3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
+        
+        List<Entity> entities = Arrays.asList(entity1, entity2, entity3);
+        Collections.sort(entities, new AscendingFitnessComparator());
+        
+        assertThat(entity1, is(entities.get(0)));
+    }
 
 }

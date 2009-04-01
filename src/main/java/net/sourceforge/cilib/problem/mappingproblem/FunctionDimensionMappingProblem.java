@@ -39,101 +39,101 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: Complete this javadoc.
  */
 public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter {
-	private static final long serialVersionUID = -5419400002196415792L;
+    private static final long serialVersionUID = -5419400002196415792L;
 
-	private FunctionDimensionMapping function;
-	private double[][] higherDimensionDistanceMatrix;
+    private FunctionDimensionMapping function;
+    private double[][] higherDimensionDistanceMatrix;
 
-	public FunctionDimensionMappingProblem() {
-		function = new FunctionDimensionMapping();
-	}
+    public FunctionDimensionMappingProblem() {
+        function = new FunctionDimensionMapping();
+    }
 
-	public FunctionDimensionMappingProblem(FunctionDimensionMappingProblem copy) {
+    public FunctionDimensionMappingProblem(FunctionDimensionMappingProblem copy) {
 
-	}
+    }
 
-	public FunctionDimensionMappingProblem getClone() {
-		return new FunctionDimensionMappingProblem(this);
-	}
+    public FunctionDimensionMappingProblem getClone() {
+        return new FunctionDimensionMappingProblem(this);
+    }
 
 
-	@Override
-	protected Fitness calculateFitness(Type solution) {
-		//System.out.println(solution);
-		if (higherDimensionDistanceMatrix == null) {
-			intialiseMatrix();
-		}
+    @Override
+    protected Fitness calculateFitness(Type solution) {
+        //System.out.println(solution);
+        if (higherDimensionDistanceMatrix == null) {
+            intialiseMatrix();
+        }
 
-		//System.out.println(solution);
-		Vector solutionVector = (Vector) solution;
-	//	System.out.println("sil: " + solutionVector);
-		function.setHigherDimensionDistanceMatrix(higherDimensionDistanceMatrix);
+        //System.out.println(solution);
+        Vector solutionVector = (Vector) solution;
+    //    System.out.println("sil: " + solutionVector);
+        function.setHigherDimensionDistanceMatrix(higherDimensionDistanceMatrix);
 
-		return new MinimisationFitness(function.evaluate(solutionVector));
-	}
+        return new MinimisationFitness(function.evaluate(solutionVector));
+    }
 
-	public DomainRegistry getDomain() {
-		return function.getDomainRegistry();
-	}
-
-	public DomainRegistry getBehaviouralDomain() {
+    public DomainRegistry getDomain() {
         return function.getDomainRegistry();
-	}
+    }
+
+    public DomainRegistry getBehaviouralDomain() {
+        return function.getDomainRegistry();
+    }
 
 
 
-	/**
-	 * @return Returns the function.
-	 */
-	public FunctionDimensionMapping getFunction() {
-		return function;
-	}
+    /**
+     * @return Returns the function.
+     */
+    public FunctionDimensionMapping getFunction() {
+        return function;
+    }
 
-	/**
-	 * @param function The function to set.
-	 */
-	public void setFunction(FunctionDimensionMapping function) {
-		this.function = function;
-	}
-
-
-	private void intialiseMatrix() {
-		//System.out.println("intialiseMatrix()");
-		DistanceMeasure measure = new EuclideanDistanceMeasure();
-		StringDataSetBuilder builder = (StringDataSetBuilder) getDataSetBuilder();
-		List<String> data = builder.getStrings();
-
-		higherDimensionDistanceMatrix = new double[data.size()][data.size()];
-
-		for (int i = 0; i < data.size(); i++) {
-			for (int j = 0; j < data.size(); j++) {
-				Vector v1 = vectorise(data.get(i).split(" "));
-				Vector v2 = vectorise(data.get(j).split(" "));
-
-				higherDimensionDistanceMatrix[i][j] = measure.distance(v1, v2);
-			}
-		}
-
-		for (int i = 0; i < data.size(); i++) {
-			for (int j = 0; j < data.size(); j++) {
-				System.out.println(higherDimensionDistanceMatrix[i][j]);
-			}
-		}
-	}
+    /**
+     * @param function The function to set.
+     */
+    public void setFunction(FunctionDimensionMapping function) {
+        this.function = function;
+    }
 
 
-	private Vector vectorise(String [] parts) {
-		Vector v = new Vector();
+    private void intialiseMatrix() {
+        //System.out.println("intialiseMatrix()");
+        DistanceMeasure measure = new EuclideanDistanceMeasure();
+        StringDataSetBuilder builder = (StringDataSetBuilder) getDataSetBuilder();
+        List<String> data = builder.getStrings();
 
-		for (String s : parts) {
-			v.add(new Real(Double.valueOf(s)));
-		}
+        higherDimensionDistanceMatrix = new double[data.size()][data.size()];
 
-		return v;
-	}
+        for (int i = 0; i < data.size(); i++) {
+            for (int j = 0; j < data.size(); j++) {
+                Vector v1 = vectorise(data.get(i).split(" "));
+                Vector v2 = vectorise(data.get(j).split(" "));
 
-	public void setDataSetBuilder(StringDataSetBuilder builder) {
-		super.setDataSetBuilder(builder);
-	}
+                higherDimensionDistanceMatrix[i][j] = measure.distance(v1, v2);
+            }
+        }
+
+        for (int i = 0; i < data.size(); i++) {
+            for (int j = 0; j < data.size(); j++) {
+                System.out.println(higherDimensionDistanceMatrix[i][j]);
+            }
+        }
+    }
+
+
+    private Vector vectorise(String [] parts) {
+        Vector v = new Vector();
+
+        for (String s : parts) {
+            v.add(new Real(Double.valueOf(s)));
+        }
+
+        return v;
+    }
+
+    public void setDataSetBuilder(StringDataSetBuilder builder) {
+        super.setDataSetBuilder(builder);
+    }
 
 }

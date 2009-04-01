@@ -32,45 +32,45 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * @author Gary Pampara
  */
 public class LinearDecreasingControlParameter extends BoundedControlParameter {
-	private static final long serialVersionUID = -7213083955334884076L;
+    private static final long serialVersionUID = -7213083955334884076L;
 
-	/**
-	 * Create a new instance of {@code LinearDecreasingControlParameter}.
-	 */
-	public LinearDecreasingControlParameter() {
-		super();
-	}
+    /**
+     * Create a new instance of {@code LinearDecreasingControlParameter}.
+     */
+    public LinearDecreasingControlParameter() {
+        super();
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public LinearDecreasingControlParameter(LinearDecreasingControlParameter copy) {
-		super(copy);
-	}
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public LinearDecreasingControlParameter(LinearDecreasingControlParameter copy) {
+        super(copy);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public LinearDecreasingControlParameter getClone() {
-		return new LinearDecreasingControlParameter(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public LinearDecreasingControlParameter getClone() {
+        return new LinearDecreasingControlParameter(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void update() {
-		double result = getUpperBound() - (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
-		parameter.setReal(result);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void update() {
+        double result = getUpperBound() - (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
+        parameter.setReal(result);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setUpperBound(double value) {
-		super.setUpperBound(value);
-		this.parameter.setReal(value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUpperBound(double value) {
+        super.setUpperBound(value);
+        this.parameter.setReal(value);
+    }
 
 }

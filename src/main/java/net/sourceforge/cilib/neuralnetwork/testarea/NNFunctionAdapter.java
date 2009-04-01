@@ -32,56 +32,56 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: Complete this javadoc.
  */
 public class NNFunctionAdapter extends Function {
-	private static final long serialVersionUID = -8189968864920232174L;
+    private static final long serialVersionUID = -8189968864920232174L;
 
-	private EvaluationMediator mediator;
-	private String intialisationDomain;
+    private EvaluationMediator mediator;
+    private String intialisationDomain;
 
-	public NNFunctionAdapter() {
-		intialisationDomain = "";
-	}
+    public NNFunctionAdapter() {
+        intialisationDomain = "";
+    }
 
-	@Override
-	public Double evaluate(Type in) {
-		mediator.getTopology().setWeights((Vector) in);
-		mediator.performLearning();
-		return mediator.getErrorDt()[0].getValue();
-	}
+    @Override
+    public Double evaluate(Type in) {
+        mediator.getTopology().setWeights((Vector) in);
+        mediator.performLearning();
+        return mediator.getErrorDt()[0].getValue();
+    }
 
-	public Object getMaximum() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Object getMaximum() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public Object getMinimum() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Object getMinimum() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public NNFunctionAdapter getClone() {
-		return new NNFunctionAdapter();
-	}
+    public NNFunctionAdapter getClone() {
+        return new NNFunctionAdapter();
+    }
 
-	public EvaluationMediator getMediator() {
-		return mediator;
-	}
+    public EvaluationMediator getMediator() {
+        return mediator;
+    }
 
-	public void setMediator(EvaluationMediator mediator) {
-		this.mediator = mediator;
-		mediator.performInitialisation();
+    public void setMediator(EvaluationMediator mediator) {
+        this.mediator = mediator;
+        mediator.performInitialisation();
 
-		WeightCountingVisitor visitor = new WeightCountingVisitor();
-		((GenericTopology)mediator.getTopology()).acceptVisitor(visitor);
+        WeightCountingVisitor visitor = new WeightCountingVisitor();
+        ((GenericTopology)mediator.getTopology()).acceptVisitor(visitor);
 
-		setDomain(this.intialisationDomain + "^" + visitor.getWeightCount());
-	}
+        setDomain(this.intialisationDomain + "^" + visitor.getWeightCount());
+    }
 
-	public String getIntialisationDomain() {
-		return intialisationDomain;
-	}
+    public String getIntialisationDomain() {
+        return intialisationDomain;
+    }
 
-	public void setIntialisationDomain(String intialisationDomain) {
-		this.intialisationDomain = intialisationDomain;
-	}
+    public void setIntialisationDomain(String intialisationDomain) {
+        this.intialisationDomain = intialisationDomain;
+    }
 
 }

@@ -35,65 +35,65 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Edwin Peer
  */
 public class ParticlePositions implements Measurement {
-	private static final long serialVersionUID = -7891715753767819344L;
+    private static final long serialVersionUID = -7891715753767819344L;
 
-	/**
-	 * Default constructor.
-	 */
-	public ParticlePositions() {
-	}
+    /**
+     * Default constructor.
+     */
+    public ParticlePositions() {
+    }
 
-	/**
-	 * Copy constructor.
-	 * @param copy The instance to copy.
-	 */
-	public ParticlePositions(ParticlePositions copy) {
-	}
+    /**
+     * Copy constructor.
+     * @param copy The instance to copy.
+     */
+    public ParticlePositions(ParticlePositions copy) {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public ParticlePositions getClone() {
-		return new ParticlePositions(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public ParticlePositions getClone() {
+        return new ParticlePositions(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getDomain() {
-		return "T";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String getDomain() {
+        return "T";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type getValue(Algorithm algorithm) {
-		StringBuilder tmp = new StringBuilder();
+    /**
+     * {@inheritDoc}
+     */
+    public Type getValue(Algorithm algorithm) {
+        StringBuilder tmp = new StringBuilder();
 
-		PSO pso = (PSO) algorithm;
-		//Iterator i = pso.getTopology().particles();
-		Iterator<Particle> i = pso.getTopology().iterator();
-		while (i.hasNext()) {
-			Particle particle = (Particle) i.next();
-			tmp.append("\nParticle: ");
-			//tmp.append(particle.getId());
-			tmp.append(" Current Fitness: ");
-			tmp.append(particle.getFitness().getValue());
-			tmp.append(" Best Fitness: ");
-			tmp.append(particle.getBestFitness().getValue());
-			tmp.append(" Position: ");
+        PSO pso = (PSO) algorithm;
+        //Iterator i = pso.getTopology().particles();
+        Iterator<Particle> i = pso.getTopology().iterator();
+        while (i.hasNext()) {
+            Particle particle = (Particle) i.next();
+            tmp.append("\nParticle: ");
+            //tmp.append(particle.getId());
+            tmp.append(" Current Fitness: ");
+            tmp.append(particle.getFitness().getValue());
+            tmp.append(" Best Fitness: ");
+            tmp.append(particle.getBestFitness().getValue());
+            tmp.append(" Position: ");
 
-			Vector v = (Vector) particle.getPosition();
-			for (int j = 0; j < particle.getDimension(); ++j) {
-				tmp.append(v.getReal(j));
-				tmp.append(" ");
-			}
-		}
+            Vector v = (Vector) particle.getPosition();
+            for (int j = 0; j < particle.getDimension(); ++j) {
+                tmp.append(v.getReal(j));
+                tmp.append(" ");
+            }
+        }
 
-		StringType t = new StringType();
-		t.setString(tmp.toString());
+        StringType t = new StringType();
+        t.setString(tmp.toString());
 
-		return t;
-	}
+        return t;
+    }
 
 }

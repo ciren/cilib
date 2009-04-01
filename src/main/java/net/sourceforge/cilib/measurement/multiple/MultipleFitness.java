@@ -45,58 +45,58 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 @Deprecated
 public class MultipleFitness implements Measurement {
-	private static final long serialVersionUID = -255308745515061075L;
+    private static final long serialVersionUID = -255308745515061075L;
 
-	/**
-	 * Create an instance of {@linkplain MultipleFitness}.
-	 */
-	public MultipleFitness() {
-	}
+    /**
+     * Create an instance of {@linkplain MultipleFitness}.
+     */
+    public MultipleFitness() {
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public MultipleFitness(MultipleFitness copy) {
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public MultipleFitness(MultipleFitness copy) {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public MultipleFitness getClone() {
-		return new MultipleFitness(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public MultipleFitness getClone() {
+        return new MultipleFitness(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getDomain() {
-		//return "?^N";
-		//return "R";
-		return "T";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String getDomain() {
+        //return "?^N";
+        //return "R";
+        return "T";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type getValue(Algorithm algorithm) {
-		/*Vector<Comparable> fitnessValues = new Vector<Comparable>();
-		Collection<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
-		for (Iterator i=solutions.iterator(); i.hasNext(); ) {
-			Comparable fitness = ((OptimisationSolution)i.next()).getFitness().getValue();
-			fitnessValues.add(fitness);
-		}
-		return fitnessValues.toArray();*/
+    /**
+     * {@inheritDoc}
+     */
+    public Type getValue(Algorithm algorithm) {
+        /*Vector<Comparable> fitnessValues = new Vector<Comparable>();
+        Collection<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
+        for (Iterator i=solutions.iterator(); i.hasNext(); ) {
+            Comparable fitness = ((OptimisationSolution)i.next()).getFitness().getValue();
+            fitnessValues.add(fitness);
+        }
+        return fitnessValues.toArray();*/
 
-		Vector fitnessValues = new Vector();
-		Collection<OptimisationSolution> solutions = algorithm.getSolutions();
+        Vector fitnessValues = new Vector();
+        Collection<OptimisationSolution> solutions = algorithm.getSolutions();
 
-		for (OptimisationSolution solution : solutions) {
-			Double fitness = solution.getFitness().getValue();
-			fitnessValues.add(new Real(fitness));
-		}
+        for (OptimisationSolution solution : solutions) {
+            Double fitness = solution.getFitness().getValue();
+            fitnessValues.add(new Real(fitness));
+        }
 
-		return fitnessValues;
-	}
+        return fitnessValues;
+    }
 
 }

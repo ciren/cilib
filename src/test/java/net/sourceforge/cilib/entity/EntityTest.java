@@ -37,21 +37,21 @@ import org.junit.Test;
  */
 public class EntityTest {
 
-	@Test
-	public void ascendingFitnessComparator() {
-		Entity entity = new Individual();
-		entity.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
+    @Test
+    public void ascendingFitnessComparator() {
+        Entity entity = new Individual();
+        entity.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
 
-		Assert.assertTrue(entity.getComparator() instanceof AscendingFitnessComparator);
-	}
+        Assert.assertTrue(entity.getComparator() instanceof AscendingFitnessComparator);
+    }
 
-	@Test
-	public void descendingFitnessComparator() {
-		Entity entity = new Individual();
-		entity.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
+    @Test
+    public void descendingFitnessComparator() {
+        Entity entity = new Individual();
+        entity.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
 
-		Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
-	}
+        Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
+    }
 
     @Test
     public void entityHashCode() {

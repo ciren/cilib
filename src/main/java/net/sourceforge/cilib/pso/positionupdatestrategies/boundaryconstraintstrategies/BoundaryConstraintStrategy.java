@@ -33,38 +33,38 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Wiehann Matthysen
  */
 public interface BoundaryConstraintStrategy extends Cloneable, Serializable {
-	/**
-	 * The term <i>infimum</i> refers to the <i>greatest lower bound</i> in mathematics. This is the value
-	 * that should be subtracted from the upperbound if needed.
-	 */
-	public final double INFIMUM = 0.000000000000001;
+    /**
+     * The term <i>infimum</i> refers to the <i>greatest lower bound</i> in mathematics. This is the value
+     * that should be subtracted from the upperbound if needed.
+     */
+    public final double INFIMUM = 0.000000000000001;
 
-	/**
-	 * Clone the stategy by creating a new object with the same contents and values as the current
-	 * object.
-	 * @return A clone of the current <tt>BoundaryConstraintStrategy</tt>
-	 */
-	public BoundaryConstraintStrategy getClone();
+    /**
+     * Clone the stategy by creating a new object with the same contents and values as the current
+     * object.
+     * @return A clone of the current <tt>BoundaryConstraintStrategy</tt>
+     */
+    public BoundaryConstraintStrategy getClone();
 
-	/**
-	 * This method is called when the position of a particle has overstepped the lower boundary of
-	 * the search space. It's responsible for updating the position to a new location within the
-	 * search space boundaries. This might also involve modifying the velocity of the particle.
-	 * @param position The position component of a particle that should be updated to some area
-	 *        within the search space boundaries.
-	 * @param velocity The velocity component of a particle that might also be affected by the
-	 *        contraint operation.
-	 */
-	public void constrainLower(Numeric position, Numeric velocity);
+    /**
+     * This method is called when the position of a particle has overstepped the lower boundary of
+     * the search space. It's responsible for updating the position to a new location within the
+     * search space boundaries. This might also involve modifying the velocity of the particle.
+     * @param position The position component of a particle that should be updated to some area
+     *        within the search space boundaries.
+     * @param velocity The velocity component of a particle that might also be affected by the
+     *        contraint operation.
+     */
+    public void constrainLower(Numeric position, Numeric velocity);
 
-	/**
-	 * This method is called when the position of a particle has overstepped the upper boundary of
-	 * the search space. It's responsible for updating the position to a new location within the
-	 * search space boundaries. This might also involve modifying the velocity of the particle.
-	 * @param position The position component of a particle that should be updated to some area
-	 *        within the search space boundaries.
-	 * @param velocity The velocity component of a particle that might also be affected by the
-	 *        contraint operation.
-	 */
-	public void constrainUpper(Numeric position, Numeric velocity);
+    /**
+     * This method is called when the position of a particle has overstepped the upper boundary of
+     * the search space. It's responsible for updating the position to a new location within the
+     * search space boundaries. This might also involve modifying the velocity of the particle.
+     * @param position The position component of a particle that should be updated to some area
+     *        within the search space boundaries.
+     * @param velocity The velocity component of a particle that might also be affected by the
+     *        contraint operation.
+     */
+    public void constrainUpper(Numeric position, Numeric velocity);
 }

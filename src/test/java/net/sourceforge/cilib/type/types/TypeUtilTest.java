@@ -31,43 +31,43 @@ import org.junit.Test;
  */
 public class TypeUtilTest {
 
-	@Test
-	public void randomizeStructuredType() {
-		Vector vector = new Vector(30, new Real(-5.0, 5.0));
+    @Test
+    public void randomizeStructuredType() {
+        Vector vector = new Vector(30, new Real(-5.0, 5.0));
 
-		TypeUtil.randomize(vector);
+        TypeUtil.randomize(vector);
 
-		for (Type type : vector) {
-			Real r = (Real) type;
-			Assert.assertFalse(Double.compare(0.0, r.getReal()) == 0);
-			Assert.assertTrue(r.getBounds().getLowerBound() <= r.getReal() && r.getBounds().getUpperBound() >= r.getReal());
-		}
-	}
+        for (Type type : vector) {
+            Real r = (Real) type;
+            Assert.assertFalse(Double.compare(0.0, r.getReal()) == 0);
+            Assert.assertTrue(r.getBounds().getLowerBound() <= r.getReal() && r.getBounds().getUpperBound() >= r.getReal());
+        }
+    }
 
-	@Test
-	public void structureDimension() {
-		Vector vector = new Vector();
-		Assert.assertEquals(0, TypeUtil.getDimension(vector));
+    @Test
+    public void structureDimension() {
+        Vector vector = new Vector();
+        Assert.assertEquals(0, TypeUtil.getDimension(vector));
 
-		vector.add(new Real());
-		Assert.assertEquals(1, TypeUtil.getDimension(vector));
-	}
+        vector.add(new Real());
+        Assert.assertEquals(1, TypeUtil.getDimension(vector));
+    }
 
-	@Test
-	public void nonStructureDimension() {
-		Real r = new Real();
+    @Test
+    public void nonStructureDimension() {
+        Real r = new Real();
 
-		Assert.assertEquals(1, TypeUtil.getDimension(r));
-	}
+        Assert.assertEquals(1, TypeUtil.getDimension(r));
+    }
 
-	@Test
-	public void structureIsInsideBounds() {
-		Vector vector = new Vector();
-		Real r = new Real(-5.0, 5.0);
-		r.setReal(-7.0);
+    @Test
+    public void structureIsInsideBounds() {
+        Vector vector = new Vector();
+        Real r = new Real(-5.0, 5.0);
+        r.setReal(-7.0);
 
-		vector.add(r);
+        vector.add(r);
 
-		Assert.assertFalse(TypeUtil.isInsideBounds(vector));
-	}
+        Assert.assertFalse(TypeUtil.isInsideBounds(vector));
+    }
 }

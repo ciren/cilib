@@ -31,69 +31,69 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
  *
  */
 public class LinearDataIterator implements NeuralNetworkDataIterator {
-	private static final long serialVersionUID = 104673955761529700L;
+    private static final long serialVersionUID = 104673955761529700L;
 
-	private int count;
-	private ArrayList<NNPattern> list = null;
+    private int count;
+    private ArrayList<NNPattern> list = null;
 
-	/**
-	 * Create an instance, with the provided list.
-	 * @param list The list of data patterns.
-	 */
-	public LinearDataIterator(ArrayList<NNPattern> list) {
-		this.list = list;
-		this.count = 0;
-	}
+    /**
+     * Create an instance, with the provided list.
+     * @param list The list of data patterns.
+     */
+    public LinearDataIterator(ArrayList<NNPattern> list) {
+        this.list = list;
+        this.count = 0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void next() {
-		count++;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void next() {
+        count++;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean hasMore() {
-		return (count < list.size());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean hasMore() {
+        return (count < list.size());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void reset() {
-		count = 0;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void reset() {
+        count = 0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public NNPattern value() {
-		return list.get(count);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public NNPattern value() {
+        return list.get(count);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int size() {
-		return list.size();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int size() {
+        return list.size();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int currentPos() {
-		return count;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int currentPos() {
+        return count;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public NeuralNetworkDataIterator getClone(){
-		LinearDataIterator tmp = new LinearDataIterator(this.list);
-		tmp.count = this.count;
-		return tmp;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public NeuralNetworkDataIterator getClone(){
+        LinearDataIterator tmp = new LinearDataIterator(this.list);
+        tmp.count = this.count;
+        return tmp;
+    }
 
 }

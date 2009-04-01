@@ -33,31 +33,31 @@ import net.sourceforge.cilib.type.types.Type;
  * TODO: Complete this javadoc.
  */
 public class RobelOverfittingRho implements Measurement {
-	private static final long serialVersionUID = -3535954032635090424L;
+    private static final long serialVersionUID = -3535954032635090424L;
 
-	public RobelOverfittingRho() {
-	}
+    public RobelOverfittingRho() {
+    }
 
-	public RobelOverfittingRho(RobelOverfittingRho rhs) {
-//		super(rhs);
-		throw new UnsupportedOperationException("public RobelOverfittingRho(RobelOverfittingRho rhs)");
-	}
+    public RobelOverfittingRho(RobelOverfittingRho rhs) {
+//        super(rhs);
+        throw new UnsupportedOperationException("public RobelOverfittingRho(RobelOverfittingRho rhs)");
+    }
 
-	public RobelOverfittingRho getClone() {
-		return new RobelOverfittingRho(this);
-	}
+    public RobelOverfittingRho getClone() {
+        return new RobelOverfittingRho(this);
+    }
 
-	public String getDomain() {
-		return "R";
-	}
+    public String getDomain() {
+        return "R";
+    }
 
-	public Type getValue(Algorithm algorithm) {
-		NeuralNetworkController controller = (NeuralNetworkController) algorithm;
-		NNError[] errorDt = ((NeuralNetworkProblem) controller.getOptimisationProblem()).getEvaluationStrategy().getErrorDt();
-		NNError[] errorDg = ((NeuralNetworkProblem) controller.getOptimisationProblem()).getEvaluationStrategy().getErrorDg();
+    public Type getValue(Algorithm algorithm) {
+        NeuralNetworkController controller = (NeuralNetworkController) algorithm;
+        NNError[] errorDt = ((NeuralNetworkProblem) controller.getOptimisationProblem()).getEvaluationStrategy().getErrorDt();
+        NNError[] errorDg = ((NeuralNetworkProblem) controller.getOptimisationProblem()).getEvaluationStrategy().getErrorDg();
 
-		Real rho = new Real();
-		rho.setReal(errorDg[0].getValue().doubleValue() / errorDt[0].getValue().doubleValue());
-		return rho;
-	}
+        Real rho = new Real();
+        rho.setReal(errorDg[0].getValue().doubleValue() / errorDt[0].getValue().doubleValue());
+        return rho;
+    }
 }

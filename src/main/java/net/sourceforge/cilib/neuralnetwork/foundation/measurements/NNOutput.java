@@ -41,90 +41,90 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Measurement to determine the output of a Neural Network.
  */
 public class NNOutput implements Measurement {
-	private static final long serialVersionUID = -3695723118431143860L;
-	private String inputFile;
-	private String outputFile;
-	private int noInputs;
-	private NeuralNetworkTopology topology;
-	private BufferedWriter out;
+    private static final long serialVersionUID = -3695723118431143860L;
+    private String inputFile;
+    private String outputFile;
+    private int noInputs;
+    private NeuralNetworkTopology topology;
+    private BufferedWriter out;
 
-	public NNOutput() {
-		this.inputFile = null;
-		this.outputFile = null;
-	}
+    public NNOutput() {
+        this.inputFile = null;
+        this.outputFile = null;
+    }
 
-	public NNOutput(NNOutput rhs) {
-		throw new UnsupportedOperationException("public NNOutput(NNOutput rhs)");
-	}
+    public NNOutput(NNOutput rhs) {
+        throw new UnsupportedOperationException("public NNOutput(NNOutput rhs)");
+    }
 
-	public NNOutput getClone() {
-		return new NNOutput(this);
-	}
+    public NNOutput getClone() {
+        return new NNOutput(this);
+    }
 
-	public String getDomain() {
-		return "T";
-	}
+    public String getDomain() {
+        return "T";
+    }
 
-	public Type getValue(Algorithm algorithm) {
-		this.topology = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getTopology();
+    public Type getValue(Algorithm algorithm) {
+        this.topology = ((NeuralNetworkProblem) ((NeuralNetworkController) algorithm).getOptimisationProblem()).getEvaluationStrategy().getTopology();
 
-		GenericData data = new GenericData();
-		RandomDistributionStrategy distributor = new RandomDistributionStrategy();
-		distributor.setFile(this.inputFile);
-		distributor.setNoInputs(this.noInputs);
-		distributor.setPercentCan(1000);
-		data.setDistributor(distributor);
-		data.initialize();
+        GenericData data = new GenericData();
+        RandomDistributionStrategy distributor = new RandomDistributionStrategy();
+        distributor.setFile(this.inputFile);
+        distributor.setNoInputs(this.noInputs);
+        distributor.setPercentCan(1000);
+        data.setDistributor(distributor);
+        data.initialize();
 
-		int iter = Algorithm.get().getIterations();
-		try {
-			out = new BufferedWriter(new FileWriter(this.outputFile + "_" + String.valueOf(iter) + ".txt"));
-		}
-		catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-
-		NeuralNetworkDataIterator iteratorDc = data.getCandidateSetIterator();
-		iteratorDc.reset();
-
-		while(iteratorDc.hasMore()){
-			Vector outputDg = topology.evaluate(iteratorDc.value());
-
-			try {
-				out.write(iteratorDc.value().getInput().toString() + " " + outputDg.toString());
-				out.newLine();
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-				throw new IllegalStateException("Problem writing measurement to file...");
-			}
+        int iter = Algorithm.get().getIterations();
+        try {
+            out = new BufferedWriter(new FileWriter(this.outputFile + "_" + String.valueOf(iter) + ".txt"));
+        }
+        catch (IOException e1) {
+            e1.printStackTrace();
+        }
 
 
-			iteratorDc.next();
-		}
+        NeuralNetworkDataIterator iteratorDc = data.getCandidateSetIterator();
+        iteratorDc.reset();
 
-		try {
-			out.flush();
-			out.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			throw new IllegalStateException("Problem writing measurement to file...");
-		}
+        while(iteratorDc.hasMore()){
+            Vector outputDg = topology.evaluate(iteratorDc.value());
 
-		return new StringType(this.outputFile + "_" + String.valueOf(iter) + ".txt");
-	}
+            try {
+                out.write(iteratorDc.value().getInput().toString() + " " + outputDg.toString());
+                out.newLine();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                throw new IllegalStateException("Problem writing measurement to file...");
+            }
 
-	public void setInputFile(String inputFile) {
-		this.inputFile = inputFile;
-	}
 
-	public void setOutputFile(String outputFile) {
-		this.outputFile = outputFile;
-	}
+            iteratorDc.next();
+        }
 
-	public void setNoInputs(int noInputs) {
-		this.noInputs = noInputs;
-	}
+        try {
+            out.flush();
+            out.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalStateException("Problem writing measurement to file...");
+        }
+
+        return new StringType(this.outputFile + "_" + String.valueOf(iter) + ".txt");
+    }
+
+    public void setInputFile(String inputFile) {
+        this.inputFile = inputFile;
+    }
+
+    public void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public void setNoInputs(int noInputs) {
+        this.noInputs = noInputs;
+    }
 }

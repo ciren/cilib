@@ -28,30 +28,30 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * the length of the nucleotide string. Thus, fitness should be minimised.
  */
 public class SimpleRNAFitness extends RNAFitness{
-	private static final long serialVersionUID = -666765613654971498L;
+    private static final long serialVersionUID = -666765613654971498L;
 
-	public SimpleRNAFitness() {
-		nucleotides = NucleotideString.getInstance().getNucleotideString();
-	}
+    public SimpleRNAFitness() {
+        nucleotides = NucleotideString.getInstance().getNucleotideString();
+    }
 
-	public SimpleRNAFitness(SimpleRNAFitness copy) {
-	}
+    public SimpleRNAFitness(SimpleRNAFitness copy) {
+    }
 
-	public SimpleRNAFitness getClone() {
-		return new SimpleRNAFitness(this);
-	}
+    public SimpleRNAFitness getClone() {
+        return new SimpleRNAFitness(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(java.util.Collection)
-	 */
-	public Double getRNAFitness(RNAConformation stems) {
-		//String currentNucleotides = StemGenerator.getInstance().getNucleotides();
-		//iterate over the stems and get their lengths
-		int length = 0;
-		for (RNAStem stem : stems) {
-			length += stem.getLength()*2;
-		}
-		return new Double(NucleotideString.getInstance().getNucleotideString().length() - length);
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(java.util.Collection)
+     */
+    public Double getRNAFitness(RNAConformation stems) {
+        //String currentNucleotides = StemGenerator.getInstance().getNucleotides();
+        //iterate over the stems and get their lengths
+        int length = 0;
+        for (RNAStem stem : stems) {
+            length += stem.getLength()*2;
+        }
+        return new Double(NucleotideString.getInstance().getNucleotideString().length() - length);
+    }
 
 }

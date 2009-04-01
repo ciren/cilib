@@ -31,26 +31,26 @@ import net.sourceforge.cilib.problem.Fitness;
  * @author jkroon
  */
 public interface MappingEvaluator {
-	/**
-	 * Get called in order to perform an evaluation.
-	 *
-	 * @param dist The distance matrix for the output vectors.
-	 *
-	 * @return An instance of Fitness indicating the Fitness of this mapping.
-	 *
-	 * @author jkroon
-	 */
-	public Fitness evaluateMapping(Matrix<Double> dist);
+    /**
+     * Get called in order to perform an evaluation.
+     *
+     * @param dist The distance matrix for the output vectors.
+     *
+     * @return An instance of Fitness indicating the Fitness of this mapping.
+     *
+     * @author jkroon
+     */
+    public Fitness evaluateMapping(Matrix<Double> dist);
 
-	/**
-	 * Gets called when attached to a MappingProblem.  This is to allow
-	 * one to call back to the problem in order to find additional info,
-	 * such as the distance between vectors in the input.
-	 *
-	 * @param prob The instance of MappingProblem that is going to use the evaluator.
-	 *
-	 * @author jkroon
-	 */
-	public void setMappingProblem(MappingProblem prob);
+    /**
+     * Gets called when attached to a MappingProblem.  This is to allow
+     * one to call back to the problem in order to find additional info,
+     * such as the distance between vectors in the input.
+     *
+     * @param prob The instance of MappingProblem that is going to use the evaluator.
+     *
+     * @author jkroon
+     */
+    public void setMappingProblem(MappingProblem prob);
 
 }

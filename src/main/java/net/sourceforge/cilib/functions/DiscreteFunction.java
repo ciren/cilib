@@ -28,47 +28,47 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public abstract class DiscreteFunction extends Function {
-	private static final long serialVersionUID = -1966158048234228064L;
+    private static final long serialVersionUID = -1966158048234228064L;
 
-	/**
-	 * Create an instance of {@linkplain DiscreteFunction}.
-	 */
-	protected DiscreteFunction() {
-	}
+    /**
+     * Create an instance of {@linkplain DiscreteFunction}.
+     */
+    protected DiscreteFunction() {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
-		return new Double(-Double.MAX_VALUE);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
+        return new Double(-Double.MAX_VALUE);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMaximum() {
-		return new Double(Double.MAX_VALUE);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMaximum() {
+        return new Double(Double.MAX_VALUE);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Double evaluate(Type x) {
-		Double d = null;
-		try {
-			d = new Double(evaluate((Vector) x));
-		}
-		catch (ClassCastException c) {
-			c.printStackTrace();
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public Double evaluate(Type x) {
+        Double d = null;
+        try {
+            d = new Double(evaluate((Vector) x));
+        }
+        catch (ClassCastException c) {
+            c.printStackTrace();
+        }
 
-		return d;
-	}
+        return d;
+    }
 
-	/**
-	 * Evaluate the function output, given the function input, {@code x}.
-	 * @param x The {@linkplain Vector} representing the function input.
-	 * @return The result of the evaluation.
-	 */
-	public abstract double evaluate(Vector x);
+    /**
+     * Evaluate the function output, given the function input, {@code x}.
+     * @param x The {@linkplain Vector} representing the function input.
+     * @return The result of the evaluation.
+     */
+    public abstract double evaluate(Vector x);
 }

@@ -49,22 +49,22 @@ public class Schwefel extends ContinuousFunction { // ?
     /**
      * Create a new instance of {@linkplain Schwefel}.
      */
-	public Schwefel() {
+    public Schwefel() {
         setDomain("R(-512.03, 511.97)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Schwefel getClone() {
-		return new Schwefel();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Schwefel getClone() {
+        return new Schwefel();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-	 * @return The function minimum value.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+     * @return The function minimum value.
+     */
     public Object getMinimum() {
         return new Double(0);
     }

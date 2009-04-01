@@ -46,22 +46,22 @@ public class Rosenbrock extends ContinuousFunction {
     /**
      * Create an instance of {@linkplain Rosenbrock}. Domain is set to R(-2.048, 2.048)^30.
      */
-	public Rosenbrock() {
+    public Rosenbrock() {
         setDomain("R(-2.048, 2.048)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Rosenbrock getClone() {
-		return new Rosenbrock();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Rosenbrock getClone() {
+        return new Rosenbrock();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Object getMinimum() {
         return new Double(0);
     }
@@ -69,7 +69,7 @@ public class Rosenbrock extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public double evaluate(Vector x) {
         double tmp = 0;
         /*for (int i = 1; i <= getDimension() / 2; ++i) {

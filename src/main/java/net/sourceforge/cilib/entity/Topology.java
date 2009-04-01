@@ -38,14 +38,14 @@ import net.sourceforge.cilib.problem.Fitness;
  * @param <E> The {@code Entity} type.
  */
 public abstract class Topology<E extends Entity> implements EntityCollection<E> {
-	private static final long serialVersionUID = -9117512234439769226L;
+    private static final long serialVersionUID = -9117512234439769226L;
 
-	private E bestEntity;
+    private E bestEntity;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract Topology<E> getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public abstract Topology<E> getClone();
 
     /**
      * Returns an <code>Iterator</code> over all particles in the neighbourhood of
@@ -78,7 +78,7 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
      * @param visitor The instance to accept into the {@code Topology}.
      */
     public void accept(TopologyVisitor visitor) {
-    	visitor.visit(this);
+        visitor.visit(this);
     }
 
     /**
@@ -109,35 +109,35 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
      * @return The current best {@linkplain Entity}.
      */
     public E getBestEntity() {
-    	if (bestEntity == null) {
-			Iterator<E> i = this.iterator();
-			bestEntity = i.next();
-			Fitness bestFitness = bestEntity.getSocialBestFitness();
-			while (i.hasNext()) {
-				E entity = i.next();
-				if (entity.getSocialBestFitness().compareTo(bestFitness) > 0) {
-					bestEntity = entity;
-					bestFitness = bestEntity.getSocialBestFitness();
-				}
-			}
-		}
+        if (bestEntity == null) {
+            Iterator<E> i = this.iterator();
+            bestEntity = i.next();
+            Fitness bestFitness = bestEntity.getSocialBestFitness();
+            while (i.hasNext()) {
+                E entity = i.next();
+                if (entity.getSocialBestFitness().compareTo(bestFitness) > 0) {
+                    bestEntity = entity;
+                    bestFitness = bestEntity.getSocialBestFitness();
+                }
+            }
+        }
 
-		return bestEntity;
+        return bestEntity;
     }
 
     /**
      * Clear the current best entity from the topology, thereby forcing a
      * re-calculation of the best {@linkplain Entity} within the topology.
      */
-	public void clearBestEntity() {
-		this.bestEntity = null;
-	}
+    public void clearBestEntity() {
+        this.bestEntity = null;
+    }
 
-	/**
-	 * Perform any required updates to the {@linkplain Topology} instance.
-	 * The method in has an empty implementation and needs to be overridden
-	 * within the required subclass.
-	 */
-	public void update() {
-	}
+    /**
+     * Perform any required updates to the {@linkplain Topology} instance.
+     * The method in has an empty implementation and needs to be overridden
+     * within the required subclass.
+     */
+    public void update() {
+    }
 }

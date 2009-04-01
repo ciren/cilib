@@ -33,33 +33,33 @@ import java.util.Random;
  * Determine the initial seed value by manipulating the current network address.
  */
 public class NetworkBasedSeedSelectionStrategy implements SeedSelectionStrategy {
-//	private static Logger log = Logger.getLogger(NetworkBasedSeederStrategy.class);
-	private Random random;
-	private int address;
+//    private static Logger log = Logger.getLogger(NetworkBasedSeederStrategy.class);
+    private Random random;
+    private int address;
 
-	public NetworkBasedSeedSelectionStrategy() {
-		random = new SecureRandom();
-		address = getNetworkAddress();
-	}
+    public NetworkBasedSeedSelectionStrategy() {
+        random = new SecureRandom();
+        address = getNetworkAddress();
+    }
 
-	@Override
-	public long getSeed() {
-	    long seed = random.nextLong();
+    @Override
+    public long getSeed() {
+        long seed = random.nextLong();
         seed ^= System.currentTimeMillis();
         seed ^= address;
         seed ^= ((long) System.identityHashCode(new Object())) << 32;
 
         return seed;
-	}
+    }
 
-	private int getNetworkAddress() {
+    private int getNetworkAddress() {
         byte[] address = null;
 
         try {
             address = InetAddress.getLocalHost().getAddress();
         }
         catch (UnknownHostException ex) {
-//        	log.warn("localhost not found directly. Proceeding.");
+//            log.warn("localhost not found directly. Proceeding.");
         }
 
         try {
@@ -75,7 +75,7 @@ public class NetworkBasedSeedSelectionStrategy implements SeedSelectionStrategy 
             }
         }
         catch (SocketException ex) {
-//        	log.warn("localhost not found through interfce list. Proceeding.");
+//            log.warn("localhost not found through interfce list. Proceeding.");
         }
 
         if (address == null) {

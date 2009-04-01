@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.Type;
 public class Iterations implements Measurement {
     private static final long serialVersionUID = -1689111168205874937L;
 
-	/** Creates a new instance of Iterations. */
+    /** Creates a new instance of Iterations. */
     public Iterations() {
     }
 
@@ -48,25 +48,25 @@ public class Iterations implements Measurement {
      * {@inheritDoc}
      */
     public Iterations getClone() {
-    	return new Iterations(this);
+        return new Iterations(this);
     }
 
     /**
      * {@inheritDoc}
      */
     public String getDomain() {
-    	return "Z";
-    	//return "T";
+        return "Z";
+        //return "T";
     }
 
     /**
      * {@inheritDoc}
      */
     public Type getValue(Algorithm algorithm) {
-    	Int i = new Int();
-    	i.setInt(algorithm.getIterations());
+        Int i = new Int();
+        i.setInt(algorithm.getIterations());
 
-    	return i;
+        return i;
     }
 
 }

@@ -30,13 +30,13 @@ import net.sourceforge.cilib.type.types.Type;
  * TODO: Complete this javadoc.
  */
 public class MultiObjectiveParticle extends StandardParticle {
-	private static final long serialVersionUID = 2449622504036301616L;
+    private static final long serialVersionUID = 2449622504036301616L;
 
-	public void setBestPosition(Type bestPosition) {
-		Fitness bestPositionFitness = Algorithm.get().getOptimisationProblem().getFitness(bestPosition, false);
+    public void setBestPosition(Type bestPosition) {
+        Fitness bestPositionFitness = Algorithm.get().getOptimisationProblem().getFitness(bestPosition, false);
 
-		this.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.getClone());
-		this.getProperties().put(EntityType.Particle.BEST_FITNESS, bestPositionFitness);
-	}
+        this.getProperties().put(EntityType.Particle.BEST_POSITION, bestPosition.getClone());
+        this.getProperties().put(EntityType.Particle.BEST_FITNESS, bestPositionFitness);
+    }
 
 }

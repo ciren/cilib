@@ -36,169 +36,169 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class BinaryAdapter extends DiscreteFunction {
 
-	private static final long serialVersionUID = -329657439970469569L;
+    private static final long serialVersionUID = -329657439970469569L;
 
-	private Function function;
-	private int bitsPerDimension;
-	private int precision;
+    private Function function;
+    private int bitsPerDimension;
+    private int precision;
 
-	/**
-	 * Constructor.
-	 */
-	public BinaryAdapter() {
-		bitsPerDimension = 1;
-		precision = 0;
-	}
+    /**
+     * Constructor.
+     */
+    public BinaryAdapter() {
+        bitsPerDimension = 1;
+        precision = 0;
+    }
 
-	public BinaryAdapter getClone() {
-		return new BinaryAdapter();
-	}
-
-
-	/**
-	 * Evaluate the {@see net.sourceforge.cilib.type.types.Vector} by
-	 * decoding the binary vector into a continuous vector and evaluate the results
-	 * by feeding the result into the wrapped funtion.
-	 *
-	 * @param vector The {@see net.sourceforge.cilib.type.types.Bit} vector to evaluate
-	 */
-	@Override
-	public double evaluate(Vector vector) {
-		//System.out.println("vector: " + vector);
-		Vector decodedVector = this.decodeBitString(vector);
-		//System.out.println("decoded: " + decodedVector);
-
-		return function.evaluate(decodedVector);
-	}
-
-	/**
-	 *
-	 */
-	public Object getMinimum() {
-		return function.getMinimum();
-	}
+    public BinaryAdapter getClone() {
+        return new BinaryAdapter();
+    }
 
 
-	/**
-	 *
-	 */
-	public Object getMaximum() {
-		return function.getMaximum();
-	}
+    /**
+     * Evaluate the {@see net.sourceforge.cilib.type.types.Vector} by
+     * decoding the binary vector into a continuous vector and evaluate the results
+     * by feeding the result into the wrapped funtion.
+     *
+     * @param vector The {@see net.sourceforge.cilib.type.types.Bit} vector to evaluate
+     */
+    @Override
+    public double evaluate(Vector vector) {
+        //System.out.println("vector: " + vector);
+        Vector decodedVector = this.decodeBitString(vector);
+        //System.out.println("decoded: " + decodedVector);
+
+        return function.evaluate(decodedVector);
+    }
+
+    /**
+     *
+     */
+    public Object getMinimum() {
+        return function.getMinimum();
+    }
+
+
+    /**
+     *
+     */
+    public Object getMaximum() {
+        return function.getMaximum();
+    }
 
 
 
-	/**
-	 * @return Returns the bitsPerDimension.
-	 */
-	public int getBitsPerDimension() {
-		return bitsPerDimension;
-	}
+    /**
+     * @return Returns the bitsPerDimension.
+     */
+    public int getBitsPerDimension() {
+        return bitsPerDimension;
+    }
 
-	/**
-	 * @param bitsPerDimension The bitsPerDimension to set.
-	 */
-	public void setBitsPerDimension(int bitsPerDimension) {
-		if (bitsPerDimension < 0)
-			throw new RuntimeException("Cannot set the amount of bits in BinaryAdapter to anything < 0");
+    /**
+     * @param bitsPerDimension The bitsPerDimension to set.
+     */
+    public void setBitsPerDimension(int bitsPerDimension) {
+        if (bitsPerDimension < 0)
+            throw new RuntimeException("Cannot set the amount of bits in BinaryAdapter to anything < 0");
 
-		this.bitsPerDimension = bitsPerDimension;
-	}
-
-
-	/**
-	 * @return Returns the precision.
-	 */
-	public int getPrecision() {
-		return precision;
-	}
+        this.bitsPerDimension = bitsPerDimension;
+    }
 
 
-	/**
-	 * @param precision The precision to set.
-	 */
-	public void setPrecision(int precision) {
-		this.precision = precision;
-	}
+    /**
+     * @return Returns the precision.
+     */
+    public int getPrecision() {
+        return precision;
+    }
 
 
-	/**
-	 * @return Returns the function.
-	 */
-	public Function getFunction() {
-		return function;
-	}
-
-	/**
-	 * @param function The function to set.
-	 */
-	public void setFunction(Function function) {
-		this.function = function;
-	}
+    /**
+     * @param precision The precision to set.
+     */
+    public void setPrecision(int precision) {
+        this.precision = precision;
+    }
 
 
-	/**
-	 *
-	 * @param bits
-	 * @return
-	 */
-	public Vector decodeBitString(Vector bits) {
-		Vector vector = new Vector();
+    /**
+     * @return Returns the function.
+     */
+    public Function getFunction() {
+        return function;
+    }
 
-		for (int i = 0; i < bits.getDimension();) {
-			double tmp = valueOf(bits, i, i+this.bitsPerDimension);
-			tmp = transform(tmp);
-
-			vector.append(new Real(tmp));
-			i += this.bitsPerDimension;
-		}
-
-		return vector;
-	}
+    /**
+     * @param function The function to set.
+     */
+    public void setFunction(Function function) {
+        this.function = function;
+    }
 
 
-	/**
-	 *
-	 * @param str
-	 * @param i
-	 * @param j
-	 * @return
-	 */
-	public double valueOf(Vector vector, int i, int j) {
-		double result = 0.0;
-		int n = 1;
+    /**
+     *
+     * @param bits
+     * @return
+     */
+    public Vector decodeBitString(Vector bits) {
+        Vector vector = new Vector();
 
-		for (int counter = j-1; counter >= i; counter--) {
-			if (vector.getBit(counter)) {
-				result += n;
-			}
+        for (int i = 0; i < bits.getDimension();) {
+            double tmp = valueOf(bits, i, i+this.bitsPerDimension);
+            tmp = transform(tmp);
 
-			n = n*2;
-		}
+            vector.append(new Real(tmp));
+            i += this.bitsPerDimension;
+        }
 
-		return result;
-	}
-
-	private double transform(double number) {
-		double result = number;
-
-		if (this.precision > 0) {
-			int tmp = 1;
-			tmp <<= this.bitsPerDimension-1;
-			result -= tmp;
-			result /= Math.pow(10, this.precision);
-		}
-
-		return result;
-	}
+        return vector;
+    }
 
 
-	@Override
-	public void setDomain(String representation) {
-		if (!representation.matches("^B\\^.*"))
-			throw new RuntimeException("BinaryAdapter can only accept domain strings in the form: B^?\nWhere ? is the size of the dimension");
+    /**
+     *
+     * @param str
+     * @param i
+     * @param j
+     * @return
+     */
+    public double valueOf(Vector vector, int i, int j) {
+        double result = 0.0;
+        int n = 1;
 
-		super.setDomain(representation);
-	}
+        for (int counter = j-1; counter >= i; counter--) {
+            if (vector.getBit(counter)) {
+                result += n;
+            }
+
+            n = n*2;
+        }
+
+        return result;
+    }
+
+    private double transform(double number) {
+        double result = number;
+
+        if (this.precision > 0) {
+            int tmp = 1;
+            tmp <<= this.bitsPerDimension-1;
+            result -= tmp;
+            result /= Math.pow(10, this.precision);
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public void setDomain(String representation) {
+        if (!representation.matches("^B\\^.*"))
+            throw new RuntimeException("BinaryAdapter can only accept domain strings in the form: B^?\nWhere ? is the size of the dimension");
+
+        super.setDomain(representation);
+    }
 
 }

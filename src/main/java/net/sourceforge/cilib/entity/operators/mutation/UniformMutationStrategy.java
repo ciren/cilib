@@ -35,55 +35,55 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class UniformMutationStrategy extends MutationStrategy {
-	private static final long serialVersionUID = -3951730432882403768L;
-	private ControlParameter minStrategy, maxStrategy;
+    private static final long serialVersionUID = -3951730432882403768L;
+    private ControlParameter minStrategy, maxStrategy;
 
-	public UniformMutationStrategy() {
-		super();
-		minStrategy = new ProportionalControlParameter();
-		maxStrategy = new ProportionalControlParameter();
-	}
+    public UniformMutationStrategy() {
+        super();
+        minStrategy = new ProportionalControlParameter();
+        maxStrategy = new ProportionalControlParameter();
+    }
 
-	public UniformMutationStrategy(UniformMutationStrategy copy) {
-		super(copy);
-		this.minStrategy = copy.minStrategy.getClone();
-		this.maxStrategy = copy.maxStrategy.getClone();
-	}
+    public UniformMutationStrategy(UniformMutationStrategy copy) {
+        super(copy);
+        this.minStrategy = copy.minStrategy.getClone();
+        this.maxStrategy = copy.maxStrategy.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public UniformMutationStrategy getClone() {
-		return new UniformMutationStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UniformMutationStrategy getClone() {
+        return new UniformMutationStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void mutate(List<? extends Entity> entity) {
-		for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
-			Entity current = individual.next();
-			Vector chromosome = (Vector) current.getCandidateSolution();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mutate(List<? extends Entity> entity) {
+        for (ListIterator<? extends Entity> individual = entity.listIterator(); individual.hasNext();) {
+            Entity current = individual.next();
+            Vector chromosome = (Vector) current.getCandidateSolution();
 
-			if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-				for (int i = 0; i < chromosome.getDimension(); i++) {
-					double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getUniform(minStrategy.getParameter(), maxStrategy.getParameter()));
-					chromosome.setReal(i, value);
-				}
-			}
-		}
-	}
+            if (this.getMutationProbability().getParameter() >= this.getRandomNumber().getUniform()) {
+                for (int i = 0; i < chromosome.getDimension(); i++) {
+                    double value = this.getOperatorStrategy().evaluate(chromosome.getReal(i), this.getRandomNumber().getUniform(minStrategy.getParameter(), maxStrategy.getParameter()));
+                    chromosome.setReal(i, value);
+                }
+            }
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-	public void performOperation(TopologyHolder holder) {
-//		this.mutate(holder.getOffpsring());
-		throw new UnsupportedOperationException("This needs to be fixed");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    public void performOperation(TopologyHolder holder) {
+//        this.mutate(holder.getOffpsring());
+        throw new UnsupportedOperationException("This needs to be fixed");
+    }
 
 }

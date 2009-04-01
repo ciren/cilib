@@ -38,45 +38,45 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
  *
  */
 public class CompoundSelection extends SelectionStrategy {
-	private static final long serialVersionUID = -5547221580096508262L;
+    private static final long serialVersionUID = -5547221580096508262L;
 
-	private List<SelectionStrategy> selectors;
+    private List<SelectionStrategy> selectors;
 
-	public CompoundSelection() {
-		selectors = new ArrayList<SelectionStrategy>();
-	}
+    public CompoundSelection() {
+        selectors = new ArrayList<SelectionStrategy>();
+    }
 
-	public CompoundSelection(CompoundSelection copy) {
+    public CompoundSelection(CompoundSelection copy) {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SelectionStrategy getClone() {
-		return new CompoundSelection(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SelectionStrategy getClone() {
+        return new CompoundSelection(this);
+    }
 
-	@Override
-	public <T extends Entity> T select(Topology<T> population) {
-		for (SelectionStrategy selection : selectors) {
-			selection.select(population);
-		}
+    @Override
+    public <T extends Entity> T select(Topology<T> population) {
+        for (SelectionStrategy selection : selectors) {
+            selection.select(population);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * @TODO: Correct this method
-	 */
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-	public void performOperation(TopologyHolder holder) {
-		this.select(holder.getTopology()); // This method needs to be corrected
-	}
+    /**
+     * @TODO: Correct this method
+     */
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    public void performOperation(TopologyHolder holder) {
+        this.select(holder.getTopology()); // This method needs to be corrected
+    }
 
-	public void addSelection(SelectionStrategy selectionOperator) {
-		this.selectors.add(selectionOperator);
-	}
+    public void addSelection(SelectionStrategy selectionOperator) {
+        this.selectors.add(selectionOperator);
+    }
 
 }

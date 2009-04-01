@@ -44,7 +44,7 @@ public class SchwefelTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Schwefel. */
     @Test
     public void testEvaluate() {
-    	ContinuousFunction function = new Schwefel();
+        ContinuousFunction function = new Schwefel();
         function.setDomain("R(-500, 500)^3");
         //double[] x = {1, 2, 3};
         //double[] y = {-1, -2, -3};

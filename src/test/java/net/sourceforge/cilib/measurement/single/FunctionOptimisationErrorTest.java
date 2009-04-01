@@ -37,16 +37,16 @@ import org.junit.Test;
  */
 public class FunctionOptimisationErrorTest {
 
-	@Test
-	public void testFunctionOptimisationErrorDomain() {
-		Measurement m = new FunctionOptimisationError();
-		
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof Real);
-	}
+    @Test
+    public void testFunctionOptimisationErrorDomain() {
+        Measurement m = new FunctionOptimisationError();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof Real);
+    }
 }

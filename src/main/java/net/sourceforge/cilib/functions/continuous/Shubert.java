@@ -36,26 +36,26 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class Shubert extends ContinuousFunction {
-	private static final long serialVersionUID = 3213789483391643466L;
+    private static final long serialVersionUID = 3213789483391643466L;
 
-	/**
-	 * Create an instance of {@linkplain Shubert}. Domain is set to R(-10,10)^2 by default.
-	 */
-	public Shubert() {
+    /**
+     * Create an instance of {@linkplain Shubert}. Domain is set to R(-10,10)^2 by default.
+     */
+    public Shubert() {
         setDomain("R(-10, 10)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Shubert getClone() {
-		return new Shubert();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Shubert getClone() {
+        return new Shubert();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(-186.7309088);
     }

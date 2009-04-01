@@ -33,74 +33,74 @@ import org.slf4j.LoggerFactory;
  * parsed and interpreted during evaluation.
  */
 public class ExpressionFunction extends ContinuousFunction {
-	private static final long serialVersionUID = -7072775317449355858L;
+    private static final long serialVersionUID = -7072775317449355858L;
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	private JEP parser;
-	private String function;
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private JEP parser;
+    private String function;
 
-	/**
-	 * Create a new instance of the {@linkplain ExpressionFunction}.
-	 */
-	public ExpressionFunction() {
-		parser = new JEP();
-	}
+    /**
+     * Create a new instance of the {@linkplain ExpressionFunction}.
+     */
+    public ExpressionFunction() {
+        parser = new JEP();
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public ExpressionFunction(ExpressionFunction copy) {
-		this.function = copy.function;
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public ExpressionFunction(ExpressionFunction copy) {
+        this.function = copy.function;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public ExpressionFunction getClone() {
-		return new ExpressionFunction(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public ExpressionFunction getClone() {
+        return new ExpressionFunction(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double result = 0;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double result = 0;
 
-		for (int i = 0; i < x.getDimension(); i++) {
-			logger.debug("Parameter value: " + x.getReal(i));
-			parser.addVariable("x", x.getReal(i));
-			logger.debug("Parser value: " + parser.getValue());
-			result += parser.getValue();
+        for (int i = 0; i < x.getDimension(); i++) {
+            logger.debug("Parameter value: " + x.getReal(i));
+            parser.addVariable("x", x.getReal(i));
+            logger.debug("Parser value: " + parser.getValue());
+            result += parser.getValue();
 
-			logger.debug("hasError? : " + parser.getErrorInfo());
-		}
+            logger.debug("hasError? : " + parser.getErrorInfo());
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * Get the defined function.
-	 * @return The defined function string.
-	 */
-	public String getFunction() {
-		return function;
-	}
+    /**
+     * Get the defined function.
+     * @return The defined function string.
+     */
+    public String getFunction() {
+        return function;
+    }
 
-	/**
-	 * Set the parseable function.
-	 * @param function The string to parse and set as the function.
-	 */
-	public void setFunction(String function) {
-		System.out.println("Setting function: " + function);
-		this.function = function;
+    /**
+     * Set the parseable function.
+     * @param function The string to parse and set as the function.
+     */
+    public void setFunction(String function) {
+        System.out.println("Setting function: " + function);
+        this.function = function;
 
-		this.parser.addVariable("x", 0);
-		this.parser.addStandardFunctions();
-		this.parser.addStandardConstants();
+        this.parser.addVariable("x", 0);
+        this.parser.addStandardFunctions();
+        this.parser.addStandardConstants();
 
-		this.parser.parseExpression(function);
-	}
+        this.parser.parseExpression(function);
+    }
 
 }

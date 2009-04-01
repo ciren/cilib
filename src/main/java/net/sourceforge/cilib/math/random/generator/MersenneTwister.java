@@ -60,14 +60,14 @@ public class MersenneTwister extends Random {
      * Default Constructor. Initialises the {@linkplain MersenneTwister} with the
      * seed value from {@link Seeder#getSeed()}.
      */
-	public MersenneTwister() {
+    public MersenneTwister() {
         super(Seeder.getSeed());
     }
 
-	/**
-	 * Create a {@linkplain MersenneTwister} with the given seed value.
-	 * @param seed The initial seed value to use.
-	 */
+    /**
+     * Create a {@linkplain MersenneTwister} with the given seed value.
+     * @param seed The initial seed value to use.
+     */
     public MersenneTwister(long seed) {
         super(seed);
     }
@@ -78,7 +78,7 @@ public class MersenneTwister extends Random {
      * @param copy The instance to copy.
      */
     public MersenneTwister(MersenneTwister copy) {
-    	super(Seeder.getSeed());
+        super(Seeder.getSeed());
     }
 
     /**
@@ -87,7 +87,7 @@ public class MersenneTwister extends Random {
      */
     @Override
     public MersenneTwister getClone() {
-    	return new MersenneTwister(this);
+        return new MersenneTwister(this);
     }
 
     /**

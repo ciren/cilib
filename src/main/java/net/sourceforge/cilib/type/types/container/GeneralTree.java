@@ -31,210 +31,210 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> The {@linkplain Comparable} and {@linkplain Cloneable} type.
  */
 public class GeneralTree<E extends Comparable<? super E> & Cloneable> extends AbstractTree<E> {
-	private static final long serialVersionUID = 3453326928796685749L;
+    private static final long serialVersionUID = 3453326928796685749L;
 
-	private List<Tree<E>> subTrees;
+    private List<Tree<E>> subTrees;
 
-	/**
-	 * Create an instance of a {@linkplain GeneralTree} with a {@code null} key value
-	 * and zero subtrees.
-	 */
-	public GeneralTree() {
-		key = null;
-		subTrees = new ArrayList<Tree<E>>();
-	}
+    /**
+     * Create an instance of a {@linkplain GeneralTree} with a {@code null} key value
+     * and zero subtrees.
+     */
+    public GeneralTree() {
+        key = null;
+        subTrees = new ArrayList<Tree<E>>();
+    }
 
-	/**
-	 * Create an instance of a {@linkplain GeneralTree} with {@code element} defined
-	 * as the key value and an empty set of subtrees.
-	 * @param element The <code>element</code> to set as the key value for the {@linkplain GeneralTree}.
-	 */
-	public GeneralTree(E element) {
-		this.key = element;
-		this.subTrees = new ArrayList<Tree<E>>();
-	}
+    /**
+     * Create an instance of a {@linkplain GeneralTree} with {@code element} defined
+     * as the key value and an empty set of subtrees.
+     * @param element The <code>element</code> to set as the key value for the {@linkplain GeneralTree}.
+     */
+    public GeneralTree(E element) {
+        this.key = element;
+        this.subTrees = new ArrayList<Tree<E>>();
+    }
 
-	/**
-	 * Copy constructor. Create a deep copy of the given {@linkplain GeneralTree}.
-	 * @param copy The {@linkplain GeneralTree} to copy.
-	 */
-	@SuppressWarnings("unchecked")
-	public GeneralTree(GeneralTree<E> copy) {
-		this.key = (E) copy.key.getClone();
-		this.subTrees = new ArrayList<Tree<E>>();
+    /**
+     * Copy constructor. Create a deep copy of the given {@linkplain GeneralTree}.
+     * @param copy The {@linkplain GeneralTree} to copy.
+     */
+    @SuppressWarnings("unchecked")
+    public GeneralTree(GeneralTree<E> copy) {
+        this.key = (E) copy.key.getClone();
+        this.subTrees = new ArrayList<Tree<E>>();
 
-		for (Tree<E> tree : copy.subTrees) {
-			this.subTrees.add(tree.getClone());
-		}
-	}
+        for (Tree<E> tree : copy.subTrees) {
+            this.subTrees.add(tree.getClone());
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public GeneralTree<E> getClone() {
-		return new GeneralTree<E>(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GeneralTree<E> getClone() {
+        return new GeneralTree<E>(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
 
-		if ((obj == null) || (this.getClass() != obj.getClass()))
-			return false;
+        if ((obj == null) || (this.getClass() != obj.getClass()))
+            return false;
 
-		GeneralTree<?> other = (GeneralTree<?>) obj;
+        GeneralTree<?> other = (GeneralTree<?>) obj;
 
-		return this.key.equals(other.key) && this.subTrees.equals(other.subTrees);
-	}
+        return this.key.equals(other.key) && this.subTrees.equals(other.subTrees);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + (this.key == null ? 0 : this.key.hashCode());
-		hash = 31 * hash + (this.subTrees == null ? 0 : this.subTrees.hashCode());
-		return hash;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (this.key == null ? 0 : this.key.hashCode());
+        hash = 31 * hash + (this.subTrees == null ? 0 : this.subTrees.hashCode());
+        return hash;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean addSubTree(Tree<E> subtree) {
-		if (subtree == null)
-			throw new IllegalArgumentException("Cannot add a null object as a child of a tree");
+    /**
+     * {@inheritDoc}
+     */
+    public boolean addSubTree(Tree<E> subtree) {
+        if (subtree == null)
+            throw new IllegalArgumentException("Cannot add a null object as a child of a tree");
 
-		if (getKey() == null)
-			throw new IllegalStateException("Cannot add a subtree to a tree with a null for the key value");
+        if (getKey() == null)
+            throw new IllegalStateException("Cannot add a subtree to a tree with a null for the key value");
 
-		this.subTrees.add(subtree);
-		return true;
-	}
+        this.subTrees.add(subtree);
+        return true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean add(E element) {
-		Tree<E> subTree = new GeneralTree<E>(element);
-		return addSubTree(subTree);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean add(E element) {
+        Tree<E> subTree = new GeneralTree<E>(element);
+        return addSubTree(subTree);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void clear() {
-		this.subTrees.clear();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void clear() {
+        this.subTrees.clear();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean contains(E element) {
-		for (Tree<E> e : this.subTrees) {
-			if (e.getKey().equals(element))
-				return true;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean contains(E element) {
+        for (Tree<E> e : this.subTrees) {
+            if (e.getKey().equals(element))
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean remove(E element) {
-		for (Tree<E> tree : this.subTrees) {
-			if (tree.getKey().equals(this.key)) {
-				this.subTrees.remove(tree);
-				return true;
-			}
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean remove(E element) {
+        for (Tree<E> tree : this.subTrees) {
+            if (tree.getKey().equals(this.key)) {
+                this.subTrees.remove(tree);
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public E remove(int index) {
-		if (index >= this.subTrees.size())
-			throw new IndexOutOfBoundsException("Invalid index provided for sub tree: " + index);
+    /**
+     * {@inheritDoc}
+     */
+    public E remove(int index) {
+        if (index >= this.subTrees.size())
+            throw new IndexOutOfBoundsException("Invalid index provided for sub tree: " + index);
 
-		return this.subTrees.remove(index).getKey();
-	}
+        return this.subTrees.remove(index).getKey();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Tree<E> removeSubTree(E element) {
-		int count  = -1;
-		for (Tree<E> subtree : this.subTrees) {
-			count++;
-			if (subtree.getKey().equals(element))
-				break;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public Tree<E> removeSubTree(E element) {
+        int count  = -1;
+        for (Tree<E> subtree : this.subTrees) {
+            count++;
+            if (subtree.getKey().equals(element))
+                break;
+        }
 
-		if (count >= 0)
-			return removeSubTree(count);
+        if (count >= 0)
+            return removeSubTree(count);
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Tree<E> removeSubTree(int index) {
-		if (index >= this.subTrees.size())
-			throw new IndexOutOfBoundsException("Invalid index provided for sub tree: " + index);
+    /**
+     * {@inheritDoc}
+     */
+    public Tree<E> removeSubTree(int index) {
+        if (index >= this.subTrees.size())
+            throw new IndexOutOfBoundsException("Invalid index provided for sub tree: " + index);
 
-		return this.subTrees.remove(index);
-	}
+        return this.subTrees.remove(index);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Tree<E> getSubTree(E element) {
-		for (Tree<E> tree : this.subTrees) {
-			if (tree.getKey().equals(element))
-				return tree;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public Tree<E> getSubTree(E element) {
+        for (Tree<E> tree : this.subTrees) {
+            if (tree.getKey().equals(element))
+                return tree;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String toString() {
-		throw new UnsupportedOperationException("Implementation needed");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        throw new UnsupportedOperationException("Implementation needed");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Tree<E> getSubTree(int index) {
-		if (isEmpty())
-			throw new UnsupportedOperationException();
+    /**
+     * {@inheritDoc}
+     */
+    public Tree<E> getSubTree(int index) {
+        if (isEmpty())
+            throw new UnsupportedOperationException();
 
-		return this.subTrees.get(index);
-	}
+        return this.subTrees.get(index);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isLeaf() {
-		return this.subTrees.size() == 0;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isLeaf() {
+        return this.subTrees.size() == 0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getDegree() {
-		return this.subTrees.size();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int getDegree() {
+        return this.subTrees.size();
+    }
 }

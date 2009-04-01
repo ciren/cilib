@@ -28,20 +28,20 @@ import net.sourceforge.cilib.problem.Fitness;
  * @author Gary Pampara
  */
 public class IterationNeighbourhoodBestUpdateStrategy implements NeighbourhoodBestUpdateStrategy {
-	private static final long serialVersionUID = 9029103734770326975L;
+    private static final long serialVersionUID = 9029103734770326975L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public IterationNeighbourhoodBestUpdateStrategy getClone() {
-		return this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public IterationNeighbourhoodBestUpdateStrategy getClone() {
+        return this;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Fitness getSocialBestFitness(Entity entity) {
-		return entity.getFitness();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Fitness getSocialBestFitness(Entity entity) {
+        return entity.getFitness();
+    }
 
 }

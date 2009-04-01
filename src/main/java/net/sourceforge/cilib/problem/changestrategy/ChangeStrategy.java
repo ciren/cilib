@@ -36,11 +36,11 @@ import net.sourceforge.cilib.problem.Problem;
  */
 public interface ChangeStrategy {
 
-	/**
-	 * Perform a change on the provided {@code problem} instance.
-	 * @param problem The problem on which a change is to be applied.
-	 * @return
-	 */
-	public boolean change(Problem problem);
+    /**
+     * Perform a change on the provided {@code problem} instance.
+     * @param problem The problem on which a change is to be applied.
+     * @return
+     */
+    public boolean change(Problem problem);
 
 }

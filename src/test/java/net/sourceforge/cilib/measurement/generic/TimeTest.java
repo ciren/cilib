@@ -32,18 +32,18 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 public class TimeTest {
-	
-	@Test
-	public void testTimeDomain() {
-		Measurement m = new Time();
-		
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof Int);
-	}
+    
+    @Test
+    public void testTimeDomain() {
+        Measurement m = new Time();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof Int);
+    }
 
 }

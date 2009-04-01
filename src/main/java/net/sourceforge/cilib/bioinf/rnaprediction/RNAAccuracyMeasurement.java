@@ -33,53 +33,53 @@ import net.sourceforge.cilib.type.types.Type;
  * TODO: Complete this javadoc.
  */
 public class RNAAccuracyMeasurement implements Measurement {
-	private static final long serialVersionUID = -5526205767479118899L;
+    private static final long serialVersionUID = -5526205767479118899L;
 
-	public RNAAccuracyMeasurement(RNAAccuracyMeasurement copy) {
-	}
+    public RNAAccuracyMeasurement(RNAAccuracyMeasurement copy) {
+    }
 
-	public RNAAccuracyMeasurement getClone() {
-		return new RNAAccuracyMeasurement(this);
-	}
+    public RNAAccuracyMeasurement getClone() {
+        return new RNAAccuracyMeasurement(this);
+    }
 
-	public String getDomain() {
-		return "?";
-	}
+    public String getDomain() {
+        return "?";
+    }
 
-	public Type getValue(Algorithm algorithm) {
-		Collection<OptimisationSolution> solutions = algorithm.getSolutions();
-		StringBuilder sb = new StringBuilder();
-		//Iterator i = solutions.iterator();
-		for (OptimisationSolution solution : solutions) {
-			int totalPairs = 0;
-			int correctPairs = 0;
-			totalPairs = getTotalPairs(solution);
-			correctPairs = getCorrectPairs(solution);
+    public Type getValue(Algorithm algorithm) {
+        Collection<OptimisationSolution> solutions = algorithm.getSolutions();
+        StringBuilder sb = new StringBuilder();
+        //Iterator i = solutions.iterator();
+        for (OptimisationSolution solution : solutions) {
+            int totalPairs = 0;
+            int correctPairs = 0;
+            totalPairs = getTotalPairs(solution);
+            correctPairs = getCorrectPairs(solution);
 
-			sb.append("Pairs: " + totalPairs + " Correct: " + correctPairs + "\t");
-		}
+            sb.append("Pairs: " + totalPairs + " Correct: " + correctPairs + "\t");
+        }
 
-		StringType t = new StringType();
-		t.setString(sb.toString());
-		return t;
-	}
+        StringType t = new StringType();
+        t.setString(sb.toString());
+        return t;
+    }
 
-	private int getTotalPairs(OptimisationSolution solution) {
-		RNAConformation conf = (RNAConformation) solution.getPosition();
-		return conf.getNumOfPairs();
-	}
+    private int getTotalPairs(OptimisationSolution solution) {
+        RNAConformation conf = (RNAConformation) solution.getPosition();
+        return conf.getNumOfPairs();
+    }
 
-	private int getCorrectPairs(OptimisationSolution solution) {
-		RNAConformation conf = (RNAConformation) solution.getPosition();
-		int correct = 0;
-		for (RNAStem stem : conf) {
-			for (NucleotidePair np : stem) {
-				if (NucleotideString.getInstance().knownConf.contains(np))
-					correct++;
-			}
-		}
-		return correct;
-	}
+    private int getCorrectPairs(OptimisationSolution solution) {
+        RNAConformation conf = (RNAConformation) solution.getPosition();
+        int correct = 0;
+        for (RNAStem stem : conf) {
+            for (NucleotidePair np : stem) {
+                if (NucleotideString.getInstance().knownConf.contains(np))
+                    correct++;
+            }
+        }
+        return correct;
+    }
 
 
 }

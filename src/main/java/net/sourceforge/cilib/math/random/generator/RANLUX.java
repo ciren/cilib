@@ -61,15 +61,15 @@ public class RANLUX extends Random {
     /**
      * Create a new instance of {@linkplain RANLUX}.
      */
-	public RANLUX() {
+    public RANLUX() {
         super(Seeder.getSeed());
     }
 
-	/**
-	 * Create a new instance of {@linkplain RANLUX} with the provided <code>seed</code>
-	 * value.
-	 * @param seed The initial value for the seed.
-	 */
+    /**
+     * Create a new instance of {@linkplain RANLUX} with the provided <code>seed</code>
+     * value.
+     * @param seed The initial value for the seed.
+     */
     public RANLUX(long seed) {
         super(seed);
     }
@@ -78,7 +78,7 @@ public class RANLUX extends Random {
      * {@inheritDoc}
      */
     public RANLUX getClone() {
-    	return new RANLUX();
+        return new RANLUX();
     }
 
     /**

@@ -38,40 +38,40 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public abstract class TopologyVisitor extends Visitor<Topology<? extends Entity>> {
 
-	protected Algorithm currentAlgorithm;
-	protected DistanceMeasure distanceMeasure;
+    protected Algorithm currentAlgorithm;
+    protected DistanceMeasure distanceMeasure;
 
-	public TopologyVisitor() {
-		distanceMeasure = new EuclideanDistanceMeasure();
-	}
+    public TopologyVisitor() {
+        distanceMeasure = new EuclideanDistanceMeasure();
+    }
 
     /**
      * Perfrom the visit operation on the provided {@link Topology}.
      * @param topology The {@link Topology} to visit.
      */
-	public abstract void visit(Topology<? extends Entity> topology);
+    public abstract void visit(Topology<? extends Entity> topology);
 
     /**
      * Get the result of the visitor after it has performed the visit()
      * action.
      * @return The result of the visit()
      */
-	public abstract Object getResult();
+    public abstract Object getResult();
 
-	public DistanceMeasure getDistanceMeasure() {
-		return distanceMeasure;
-	}
+    public DistanceMeasure getDistanceMeasure() {
+        return distanceMeasure;
+    }
 
-	public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
-		this.distanceMeasure = distanceMeasure;
-	}
+    public void setDistanceMeasure(DistanceMeasure distanceMeasure) {
+        this.distanceMeasure = distanceMeasure;
+    }
 
-	public Algorithm getCurrentAlgorithm() {
-		return currentAlgorithm;
-	}
+    public Algorithm getCurrentAlgorithm() {
+        return currentAlgorithm;
+    }
 
-	public void setCurrentAlgorithm(Algorithm currentAlgorithm) {
-		this.currentAlgorithm = currentAlgorithm;
-	}
+    public void setCurrentAlgorithm(Algorithm currentAlgorithm) {
+        this.currentAlgorithm = currentAlgorithm;
+    }
 
 }

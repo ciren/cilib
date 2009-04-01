@@ -32,9 +32,9 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class Fitness implements Measurement {
 
-	private static final long serialVersionUID = 4152219744331703008L;
+    private static final long serialVersionUID = 4152219744331703008L;
 
-	/** Creates a new instance of Fitness. */
+    /** Creates a new instance of Fitness. */
     public Fitness() {
     }
 
@@ -49,22 +49,22 @@ public class Fitness implements Measurement {
      * {@inheritDoc}
      */
     public Fitness getClone() {
-    	return new Fitness(this);
+        return new Fitness(this);
     }
 
     /**
      * {@inheritDoc}
      */
     public String getDomain() {
-    	return "R";
+        return "R";
     }
 
     /**
      * {@inheritDoc}
      */
     public Type getValue(Algorithm algorithm) {
-    	double fitness = algorithm.getBestSolution().getFitness().getValue();
-    	return new Real(fitness);
+        double fitness = algorithm.getBestSolution().getFitness().getValue();
+        return new Real(fitness);
     }
 
 }

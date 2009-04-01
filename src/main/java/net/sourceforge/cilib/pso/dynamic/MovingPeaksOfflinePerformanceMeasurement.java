@@ -35,29 +35,29 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class MovingPeaksOfflinePerformanceMeasurement implements Measurement {
 
-	private static final long serialVersionUID = 3204341758731244688L;
+    private static final long serialVersionUID = 3204341758731244688L;
 
-	public MovingPeaksOfflinePerformanceMeasurement() {}
-	public MovingPeaksOfflinePerformanceMeasurement(MovingPeaksOfflinePerformanceMeasurement rhs) {}
+    public MovingPeaksOfflinePerformanceMeasurement() {}
+    public MovingPeaksOfflinePerformanceMeasurement(MovingPeaksOfflinePerformanceMeasurement rhs) {}
 
-	public MovingPeaksOfflinePerformanceMeasurement getClone() {
-		return new MovingPeaksOfflinePerformanceMeasurement(this);
-	}
+    public MovingPeaksOfflinePerformanceMeasurement getClone() {
+        return new MovingPeaksOfflinePerformanceMeasurement(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.measurement.Measurement#getDomain()
-	 */
-	public String getDomain() {
-		return "R";
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.measurement.Measurement#getDomain()
+     */
+    public String getDomain() {
+        return "R";
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.measurement.Measurement#getValue()
-	 */
-	public Type getValue(Algorithm algorithm) {
-		MovingPeaks func = (MovingPeaks) ((FunctionMaximisationProblem) (algorithm.getOptimisationProblem())).getFunction();
-		Vector err = new Vector();
-		err.add(new Real(func.getOfflinePerformance()));
-		return err;
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.measurement.Measurement#getValue()
+     */
+    public Type getValue(Algorithm algorithm) {
+        MovingPeaks func = (MovingPeaks) ((FunctionMaximisationProblem) (algorithm.getOptimisationProblem())).getFunction();
+        Vector err = new Vector();
+        err.add(new Real(func.getOfflinePerformance()));
+        return err;
+    }
 }

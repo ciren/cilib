@@ -33,45 +33,45 @@ import net.sourceforge.cilib.problem.Fitness;
 public class AveFitnessCalculationStrategy extends FitnessCalculationStrategy {
 
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 7573830125196829386L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7573830125196829386L;
 
-	public AveFitnessCalculationStrategy() {
-	}
+    public AveFitnessCalculationStrategy() {
+    }
 
 
-	public AveFitnessCalculationStrategy(FitnessCalculationStrategy other) {
-		super(other);
+    public AveFitnessCalculationStrategy(FitnessCalculationStrategy other) {
+        super(other);
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score,
-			int currentRound) {
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		values.addAll(score.getScores(currentRound));
-		//get the ave
-		double ave = 0.0;
-		for(Fitness val: values){
-			ave += val.getValue().doubleValue();
-		}
-		ave /= values.size();
-		//set the value to the new fitness
-		return values.get(0).newInstance(new Double(ave));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score,
+            int currentRound) {
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        values.addAll(score.getScores(currentRound));
+        //get the ave
+        double ave = 0.0;
+        for(Fitness val: values){
+            ave += val.getValue().doubleValue();
+        }
+        ave /= values.size();
+        //set the value to the new fitness
+        return values.get(0).newInstance(new Double(ave));
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.util.Cloneable#getClone()
-	 */
-	@Override
-	public Object getClone() {
-		// TODO Auto-generated method stub
-		return new AveFitnessCalculationStrategy(this);
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.util.Cloneable#getClone()
+     */
+    @Override
+    public Object getClone() {
+        // TODO Auto-generated method stub
+        return new AveFitnessCalculationStrategy(this);
+    }
 
 }

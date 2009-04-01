@@ -32,47 +32,47 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class RandomBoundedInitialVelocityStrategy implements
-		VelocityInitialisationStrategy {
-	private static final long serialVersionUID = -7926839076670354209L;
-	private ControlParameter lowerBound;
-	private ControlParameter upperBound;
-	private RandomNumber random1;
+        VelocityInitialisationStrategy {
+    private static final long serialVersionUID = -7926839076670354209L;
+    private ControlParameter lowerBound;
+    private ControlParameter upperBound;
+    private RandomNumber random1;
 
-	public RandomBoundedInitialVelocityStrategy() {
-		this.lowerBound = new ConstantControlParameter(0.1);
-		this.upperBound = new ConstantControlParameter(0.1);
-		this.random1 = new RandomNumber();
-	}
+    public RandomBoundedInitialVelocityStrategy() {
+        this.lowerBound = new ConstantControlParameter(0.1);
+        this.upperBound = new ConstantControlParameter(0.1);
+        this.random1 = new RandomNumber();
+    }
 
-	public RandomBoundedInitialVelocityStrategy(RandomBoundedInitialVelocityStrategy copy) {
-		this.lowerBound = copy.lowerBound;
-		this.upperBound = copy.upperBound;
-		this.random1 = copy.random1;
-	}
+    public RandomBoundedInitialVelocityStrategy(RandomBoundedInitialVelocityStrategy copy) {
+        this.lowerBound = copy.lowerBound;
+        this.upperBound = copy.upperBound;
+        this.random1 = copy.random1;
+    }
 
-	public RandomBoundedInitialVelocityStrategy getClone() {
-		return new RandomBoundedInitialVelocityStrategy(this);
-	}
+    public RandomBoundedInitialVelocityStrategy getClone() {
+        return new RandomBoundedInitialVelocityStrategy(this);
+    }
 
-	public void initialise(Particle particle) {
-		Vector velocity = (Vector) particle.getVelocity();
-		for (int i = 0; i < velocity.getDimension(); i++)
-		   velocity.setReal(i, random1.getUniform(lowerBound.getParameter(), upperBound.getParameter()));
-	}
+    public void initialise(Particle particle) {
+        Vector velocity = (Vector) particle.getVelocity();
+        for (int i = 0; i < velocity.getDimension(); i++)
+           velocity.setReal(i, random1.getUniform(lowerBound.getParameter(), upperBound.getParameter()));
+    }
 
-	public ControlParameter getLowerBound() {
-		return lowerBound;
-	}
+    public ControlParameter getLowerBound() {
+        return lowerBound;
+    }
 
-	public void setLowerBound(ControlParameter lowerBound) {
-		this.lowerBound = lowerBound;
-	}
+    public void setLowerBound(ControlParameter lowerBound) {
+        this.lowerBound = lowerBound;
+    }
 
-	public ControlParameter getUpperBound() {
-		return upperBound;
-	}
+    public ControlParameter getUpperBound() {
+        return upperBound;
+    }
 
-	public void setUpperBound(ControlParameter upperBound) {
-		this.upperBound = upperBound;
-	}
+    public void setUpperBound(ControlParameter upperBound) {
+        this.upperBound = upperBound;
+    }
 }

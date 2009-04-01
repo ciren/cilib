@@ -36,97 +36,97 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 @Deprecated
 public class NeuralNetworkProblem implements OptimisationProblem, Initializable {
-	private static final long serialVersionUID = -5790791148649131742L;
-	protected int fitnessEvaluations;
-	protected EvaluationMediator evaluationStrategy = null;
+    private static final long serialVersionUID = -5790791148649131742L;
+    protected int fitnessEvaluations;
+    protected EvaluationMediator evaluationStrategy = null;
 
-	public NeuralNetworkProblem(){
-		this.evaluationStrategy = null;
-		this.fitnessEvaluations = 0;
-	}
+    public NeuralNetworkProblem(){
+        this.evaluationStrategy = null;
+        this.fitnessEvaluations = 0;
+    }
 
-	public NeuralNetworkProblem(NeuralNetworkProblem rhs) {
-//		super(rhs);
-		throw new UnsupportedOperationException("public NeuralNetworkProblem(NeuralNetworkProblem rhs)");
-	}
+    public NeuralNetworkProblem(NeuralNetworkProblem rhs) {
+//        super(rhs);
+        throw new UnsupportedOperationException("public NeuralNetworkProblem(NeuralNetworkProblem rhs)");
+    }
 
-	public NeuralNetworkProblem getClone() {
-		return new NeuralNetworkProblem(this);
-	}
+    public NeuralNetworkProblem getClone() {
+        return new NeuralNetworkProblem(this);
+    }
 
-	public void initialize(){
+    public void initialize(){
 
-		if (this.evaluationStrategy == null) {
-			throw new IllegalArgumentException("NeuralNetworkProblem: A required evaluationStrategy object was null during initialization");
-		}
+        if (this.evaluationStrategy == null) {
+            throw new IllegalArgumentException("NeuralNetworkProblem: A required evaluationStrategy object was null during initialization");
+        }
 
-//		this.evaluationStrategy.initialize();
-		this.evaluationStrategy.performInitialisation();
+//        this.evaluationStrategy.initialize();
+        this.evaluationStrategy.performInitialisation();
 
-	}
+    }
 
-	public NNError[] learningEpoch(){
-		evaluationStrategy.performLearning();
-		return evaluationStrategy.getErrorDt();
-	}
+    public NNError[] learningEpoch(){
+        evaluationStrategy.performLearning();
+        return evaluationStrategy.getErrorDt();
+    }
 
-	public Vector evaluate(Vector in){
-		StandardPattern p = new StandardPattern(in, null);
-		return evaluationStrategy.evaluate(p);
-	}
+    public Vector evaluate(Vector in){
+        StandardPattern p = new StandardPattern(in, null);
+        return evaluationStrategy.evaluate(p);
+    }
 
-	public Fitness getFitness(Type solution, boolean count) {
+    public Fitness getFitness(Type solution, boolean count) {
 
-		if (count) {
-    		++fitnessEvaluations;
-    	}
+        if (count) {
+            ++fitnessEvaluations;
+        }
         this.getTopology().setWeights((Vector) solution);
 
-			//Defaults to first error element as the main fitness...
+            //Defaults to first error element as the main fitness...
             return evaluationStrategy.getErrorDt()[0];
-	}
+    }
 
-	public int getFitnessEvaluations() {
-		return this.fitnessEvaluations;
-	}
+    public int getFitnessEvaluations() {
+        return this.fitnessEvaluations;
+    }
 
-	public NeuralNetworkTopology getTopology() {
-		return evaluationStrategy.getTopology();
-	}
+    public NeuralNetworkTopology getTopology() {
+        return evaluationStrategy.getTopology();
+    }
 
-	public void setTopology(NeuralNetworkTopology topology) {
-		evaluationStrategy.setTopology(topology);
-	}
+    public void setTopology(NeuralNetworkTopology topology) {
+        evaluationStrategy.setTopology(topology);
+    }
 
-	public EvaluationMediator getEvaluationStrategy() {
-		return evaluationStrategy;
-	}
+    public EvaluationMediator getEvaluationStrategy() {
+        return evaluationStrategy;
+    }
 
-	public DomainRegistry getDomain() {
-		return null;
-	}
+    public DomainRegistry getDomain() {
+        return null;
+    }
 
-	public DomainRegistry getBehaviouralDomain() {
-		return null;
-	}
+    public DomainRegistry getBehaviouralDomain() {
+        return null;
+    }
 
-	public void setEvaluationStrategy(EvaluationMediator evaluationStrategy) {
-		this.evaluationStrategy = evaluationStrategy;
-	}
+    public void setEvaluationStrategy(EvaluationMediator evaluationStrategy) {
+        this.evaluationStrategy = evaluationStrategy;
+    }
 
-	public DataSetBuilder getDataSetBuilder() {
-		return null;
-	}
+    public DataSetBuilder getDataSetBuilder() {
+        return null;
+    }
 
-	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
+    public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
 
-	}
+    }
 
-	public void accept(ProblemVisitor visitor) {
-		throw new UnsupportedOperationException("This method is not implemented");
-	}
+    public void accept(ProblemVisitor visitor) {
+        throw new UnsupportedOperationException("This method is not implemented");
+    }
 
-	public void changeEnvironment() {
-		throw new UnsupportedOperationException("This method is not implemented");
-	}
+    public void changeEnvironment() {
+        throw new UnsupportedOperationException("This method is not implemented");
+    }
 }

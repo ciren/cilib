@@ -31,42 +31,42 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: Complete this javadoc.
  */
 public class PerElementReinitialisation extends ReinitialisationBoundary {
-	private static final long serialVersionUID = 7080824227269710787L;
+    private static final long serialVersionUID = 7080824227269710787L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void enforce(Entity entity) {
-		try {
-			enforce((Vector) entity.getCandidateSolution());
-		}
-		catch (ClassCastException cce) {
-			enforce((Numeric) entity.getCandidateSolution());
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void enforce(Entity entity) {
+        try {
+            enforce((Vector) entity.getCandidateSolution());
+        }
+        catch (ClassCastException cce) {
+            enforce((Numeric) entity.getCandidateSolution());
+        }
+    }
 
-	/**
-	 * This method only randomises those elements inside the given {@linkplain Type} object that are out of bounds.
-	 * NOTE: This method is recursive so that it can handle <tt>Vectors</tt> inside <tt>Vectors</tt>.
-	 * @param type the {@linkplain Type} object whose individual elements should be randomised if they are out of bounds
-	 */
-	private void enforce(Vector vector) {
-		for (Type element : vector) {
-			try {
-				enforce((Numeric) element);
-			}
-			catch (ClassCastException cce) {
-				enforce((Vector) element);
-			}
-		}
-	}
+    /**
+     * This method only randomises those elements inside the given {@linkplain Type} object that are out of bounds.
+     * NOTE: This method is recursive so that it can handle <tt>Vectors</tt> inside <tt>Vectors</tt>.
+     * @param type the {@linkplain Type} object whose individual elements should be randomised if they are out of bounds
+     */
+    private void enforce(Vector vector) {
+        for (Type element : vector) {
+            try {
+                enforce((Numeric) element);
+            }
+            catch (ClassCastException cce) {
+                enforce((Vector) element);
+            }
+        }
+    }
 
-	private void enforce(Numeric numeric) {
-		if (!TypeUtil.isInsideBounds(numeric)) {
-//		if (!numeric.isInsideBounds()) {
-			TypeUtil.randomize(numeric);
-//			numeric.randomise();
-		}
-	}
+    private void enforce(Numeric numeric) {
+        if (!TypeUtil.isInsideBounds(numeric)) {
+//        if (!numeric.isInsideBounds()) {
+            TypeUtil.randomize(numeric);
+//            numeric.randomise();
+        }
+    }
 }

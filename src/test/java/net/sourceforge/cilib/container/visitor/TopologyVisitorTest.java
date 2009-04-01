@@ -36,30 +36,30 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
 
 public class TopologyVisitorTest {
-	private Mockery context = new JUnit4Mockery() {{
-		setImposteriser(ClassImposteriser.INSTANCE);
-	}};
-	
-	/**
-	 * Initialize a dummy algorithm and then test if the visitor knows
-	 * which algorithm it used for it's evaluation.
-	 */
-	@SuppressWarnings("unchecked")
-	@Test
-	public void currentAlgorithmUsed() {
-		final Topology<Particle> topology = context.mock(Topology.class);
-		final TopologyVisitor visitor = new RadiusVisitor();
-		
-		PSO pso = new PSO();
-		pso.setTopology(topology);
-		
-		context.checking(new Expectations() {{
-			one(topology).accept(visitor);
-		}});
-		
-		pso.accept(visitor);
-		
-		assertThat(pso, is(visitor.getCurrentAlgorithm()));
-	}
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    /**
+     * Initialize a dummy algorithm and then test if the visitor knows
+     * which algorithm it used for it's evaluation.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public void currentAlgorithmUsed() {
+        final Topology<Particle> topology = context.mock(Topology.class);
+        final TopologyVisitor visitor = new RadiusVisitor();
+        
+        PSO pso = new PSO();
+        pso.setTopology(topology);
+        
+        context.checking(new Expectations() {{
+            one(topology).accept(visitor);
+        }});
+        
+        pso.accept(visitor);
+        
+        assertThat(pso, is(visitor.getCurrentAlgorithm()));
+    }
 
 }

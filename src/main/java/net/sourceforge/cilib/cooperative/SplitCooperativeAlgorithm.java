@@ -48,164 +48,164 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author Theuns Cloete
  */
 public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
-	private static final long serialVersionUID = 2287798336228462889L;
+    private static final long serialVersionUID = 2287798336228462889L;
 
-	protected CooperativeEntity context = null;
-	protected SplitStrategy splitStrategy = null;
-	// protected PopulationIterator populationIterator = null;
-	protected FitnessUpdateStrategy fitnessUpdateStrategy = null;
-	protected ContributionUpdateStrategy contributionUpdateStrategy = null;
+    protected CooperativeEntity context = null;
+    protected SplitStrategy splitStrategy = null;
+    // protected PopulationIterator populationIterator = null;
+    protected FitnessUpdateStrategy fitnessUpdateStrategy = null;
+    protected ContributionUpdateStrategy contributionUpdateStrategy = null;
 
-	/**
-	 * Creates a new instance of a SplitCooperativeAglorithm.
-	 */
-	public SplitCooperativeAlgorithm() {
-		super();
-		context = new CooperativeEntity();
-		splitStrategy = new PerfectSplitStrategy();
-		fitnessUpdateStrategy = new StandardFitnessUpdateStrategy();
-		contributionUpdateStrategy = new StandardContributionUpdateStrategy();
-	}
+    /**
+     * Creates a new instance of a SplitCooperativeAglorithm.
+     */
+    public SplitCooperativeAlgorithm() {
+        super();
+        context = new CooperativeEntity();
+        splitStrategy = new PerfectSplitStrategy();
+        fitnessUpdateStrategy = new StandardFitnessUpdateStrategy();
+        contributionUpdateStrategy = new StandardContributionUpdateStrategy();
+    }
 
-	public SplitCooperativeAlgorithm(SplitCooperativeAlgorithm copy) {
-		super(copy);
-		context = copy.context.getClone();
-		splitStrategy = copy.splitStrategy;
-		fitnessUpdateStrategy = copy.fitnessUpdateStrategy;
-		contributionUpdateStrategy = copy.contributionUpdateStrategy;
-	}
+    public SplitCooperativeAlgorithm(SplitCooperativeAlgorithm copy) {
+        super(copy);
+        context = copy.context.getClone();
+        splitStrategy = copy.splitStrategy;
+        fitnessUpdateStrategy = copy.fitnessUpdateStrategy;
+        contributionUpdateStrategy = copy.contributionUpdateStrategy;
+    }
 
-	@Override
-	public SplitCooperativeAlgorithm getClone() {
-		return new SplitCooperativeAlgorithm(this);
-	}
+    @Override
+    public SplitCooperativeAlgorithm getClone() {
+        return new SplitCooperativeAlgorithm(this);
+    }
 
-	@Override
-	public void reset() {
-		super.reset();
-		context.reset();
-	}
+    @Override
+    public void reset() {
+        super.reset();
+        context.reset();
+    }
 
-	@Override
-	public OptimisationSolution getBestSolution() {
-		return new OptimisationSolution(optimisationProblem, context.getCandidateSolution().getClone());
-	}
+    @Override
+    public OptimisationSolution getBestSolution() {
+        return new OptimisationSolution(optimisationProblem, context.getCandidateSolution().getClone());
+    }
 
-	@Override
-	public List<OptimisationSolution> getSolutions() {
-		ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
-		solutions.add(getBestSolution());
-		return solutions;
-	}
+    @Override
+    public List<OptimisationSolution> getSolutions() {
+        ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
+        solutions.add(getBestSolution());
+        return solutions;
+    }
 
-	public CooperativeEntity getContext() {
-		return context;
-	}
+    public CooperativeEntity getContext() {
+        return context;
+    }
 
-	public void setContext(CooperativeEntity c) {
-		context = c;
-	}
+    public void setContext(CooperativeEntity c) {
+        context = c;
+    }
 
-	@Override
-	public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
-		if (!(algorithm instanceof ParticipatingAlgorithm))
-			throw new IllegalArgumentException("The given Algorithm is not a ParticipatingAlgorithm");
-		subPopulationsAlgorithms.add(algorithm);
-	}
+    @Override
+    public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
+        if (!(algorithm instanceof ParticipatingAlgorithm))
+            throw new IllegalArgumentException("The given Algorithm is not a ParticipatingAlgorithm");
+        subPopulationsAlgorithms.add(algorithm);
+    }
 
-	public int getNumberOfParticipants() {
-		return subPopulationsAlgorithms.size();
-	}
+    public int getNumberOfParticipants() {
+        return subPopulationsAlgorithms.size();
+    }
 
-	public SplitStrategy getSplitStrategy() {
-		return splitStrategy;
-	}
+    public SplitStrategy getSplitStrategy() {
+        return splitStrategy;
+    }
 
-	public void setSplitStrategy(SplitStrategy split) {
-		splitStrategy = split;
-	}
+    public void setSplitStrategy(SplitStrategy split) {
+        splitStrategy = split;
+    }
 
-	public ContributionUpdateStrategy getContributionUpdateStrategy() {
-		return contributionUpdateStrategy;
-	}
+    public ContributionUpdateStrategy getContributionUpdateStrategy() {
+        return contributionUpdateStrategy;
+    }
 
-	public void setContributionUpdateStrategy(ContributionUpdateStrategy contributionUpdate) {
-		contributionUpdateStrategy = contributionUpdate;
-	}
+    public void setContributionUpdateStrategy(ContributionUpdateStrategy contributionUpdate) {
+        contributionUpdateStrategy = contributionUpdate;
+    }
 
-	public Entity getContribution() {
-		return context;
-	}
+    public Entity getContribution() {
+        return context;
+    }
 
-	public Fitness getContributionFitness() {
-		return context.getFitness();
-	}
+    public Fitness getContributionFitness() {
+        return context.getFitness();
+    }
 
-	/**
-	 * The purpose of this method should not be confused with the ContributionUpdateStrategy. This
-	 * method sets the fitness for the context of the cooperating algorithm, i.e. the fitness for all
-	 * cooperating algorithms as a whole.
-	 */
-	public void updateContributionFitness(Fitness fitness) {
-		context.setFitness(fitness);
-	}
+    /**
+     * The purpose of this method should not be confused with the ContributionUpdateStrategy. This
+     * method sets the fitness for the context of the cooperating algorithm, i.e. the fitness for all
+     * cooperating algorithms as a whole.
+     */
+    public void updateContributionFitness(Fitness fitness) {
+        context.setFitness(fitness);
+    }
 
-/*	public Iterator<Algorithm> iterator() {
-		if(populationIterator == null)
-			throw new InitialisationException("The PopulationIterator has not been initialised yet.");
-		return populationIterator.clone();
-	}
+/*    public Iterator<Algorithm> iterator() {
+        if(populationIterator == null)
+            throw new InitialisationException("The PopulationIterator has not been initialised yet.");
+        return populationIterator.clone();
+    }
 
-	public Iterator getPopulationtIterator() {
-		return populationIterator;
-	}
+    public Iterator getPopulationtIterator() {
+        return populationIterator;
+    }
 
-	public void setPopulationIterator(PopulationIterator iterator) {
-		if(subPopulationsAlgorithms == null)
-			throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
-		populationIterator = iterator;
-		populationIterator.setPopulations(subPopulationsAlgorithms);
-	}
+    public void setPopulationIterator(PopulationIterator iterator) {
+        if(subPopulationsAlgorithms == null)
+            throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
+        populationIterator = iterator;
+        populationIterator.setPopulations(subPopulationsAlgorithms);
+    }
 */
-	public FitnessUpdateStrategy getFitnessUpdateStrategy() {
-		return fitnessUpdateStrategy;
-	}
+    public FitnessUpdateStrategy getFitnessUpdateStrategy() {
+        return fitnessUpdateStrategy;
+    }
 
-	public void setFitnessUpdateStrategy(FitnessUpdateStrategy fitnessUpdate) {
-		this.fitnessUpdateStrategy = fitnessUpdate;
-	}
+    public void setFitnessUpdateStrategy(FitnessUpdateStrategy fitnessUpdate) {
+        this.fitnessUpdateStrategy = fitnessUpdate;
+    }
 
-	// @Initialiser
-	// QUESTION are initialisations (or initialisers) still deprecated? Should we use @Initialiser
-	// here instead?
-	@Override
-	public void performInitialisation() {
-		context.setCandidateSolution(optimisationProblem.getDomain().getBuiltRepresenation().getClone());
-		splitStrategy.split(optimisationProblem, context, subPopulationsAlgorithms);
-		context.reset();
-		for (Algorithm participant : subPopulationsAlgorithms) {
-			participant.performInitialisation();
-			context.append(((ParticipatingAlgorithm) participant).getContribution());
-		}
-	}
+    // @Initialiser
+    // QUESTION are initialisations (or initialisers) still deprecated? Should we use @Initialiser
+    // here instead?
+    @Override
+    public void performInitialisation() {
+        context.setCandidateSolution(optimisationProblem.getDomain().getBuiltRepresenation().getClone());
+        splitStrategy.split(optimisationProblem, context, subPopulationsAlgorithms);
+        context.reset();
+        for (Algorithm participant : subPopulationsAlgorithms) {
+            participant.performInitialisation();
+            context.append(((ParticipatingAlgorithm) participant).getContribution());
+        }
+    }
 
-	@Override
-	public void performUninitialisation() {
-		// DataSetBuilder dataset = optimisationProblem.getDataSetBuilder();
-		// ((ClusterableDataSet)dataset).assign((MixedVector)context.get());
-		// dataset.uninitialise((MixedVector)context.get());
-	}
+    @Override
+    public void performUninitialisation() {
+        // DataSetBuilder dataset = optimisationProblem.getDataSetBuilder();
+        // ((ClusterableDataSet)dataset).assign((MixedVector)context.get());
+        // dataset.uninitialise((MixedVector)context.get());
+    }
 
-	@Override
-	public void algorithmIteration() {
-		for (Algorithm population : this) {
-			population.performIteration();
-			CooperativeOptimisationProblemAdapter participantProblem = (CooperativeOptimisationProblemAdapter) population.getOptimisationProblem();
-			participantProblem.updateContext(context);
-			ParticipatingAlgorithm participantAlgorithm = (ParticipatingAlgorithm) population;
-			contributionUpdateStrategy.updateContribution(participantAlgorithm.getContribution(), 0, context, participantProblem.getOffset(), participantProblem.getDimension());
-			fitnessUpdateStrategy.updateFitness(optimisationProblem, context);
-		}
-	}
+    @Override
+    public void algorithmIteration() {
+        for (Algorithm population : this) {
+            population.performIteration();
+            CooperativeOptimisationProblemAdapter participantProblem = (CooperativeOptimisationProblemAdapter) population.getOptimisationProblem();
+            participantProblem.updateContext(context);
+            ParticipatingAlgorithm participantAlgorithm = (ParticipatingAlgorithm) population;
+            contributionUpdateStrategy.updateContribution(participantAlgorithm.getContribution(), 0, context, participantProblem.getOffset(), participantProblem.getDimension());
+            fitnessUpdateStrategy.updateFitness(optimisationProblem, context);
+        }
+    }
 
 }

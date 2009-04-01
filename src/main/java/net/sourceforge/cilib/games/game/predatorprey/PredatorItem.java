@@ -30,26 +30,26 @@ import net.sourceforge.cilib.games.items.PlayerItem;
  */
 public class PredatorItem extends PlayerItem {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -4134550960577913392L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4134550960577913392L;
 
-	/**
-	 * @param playerNo
-	 */
-	public PredatorItem(int playerNo, int gridWidth, int gridHeight) {
-		super(playerNo);
-		// TODO Auto-generated constructor stub
-		itemLocation = new GridLocation(2, gridWidth, gridHeight);
-	}
+    /**
+     * @param playerNo
+     */
+    public PredatorItem(int playerNo, int gridWidth, int gridHeight) {
+        super(playerNo);
+        // TODO Auto-generated constructor stub
+        itemLocation = new GridLocation(2, gridWidth, gridHeight);
+    }
 
-	/**
-	 * @param Other
-	 */
-	public PredatorItem(PlayerItem Other) {
-		super(Other);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @param Other
+     */
+    public PredatorItem(PlayerItem Other) {
+        super(Other);
+        // TODO Auto-generated constructor stub
+    }
 
 }

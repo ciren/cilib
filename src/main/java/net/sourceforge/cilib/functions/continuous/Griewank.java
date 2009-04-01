@@ -46,20 +46,20 @@ public class Griewank extends ContinuousFunction {
     /**
      * Create an instance of {@code Griewank}. The default domain is set to R(-600, 600)^30
      */
-	public Griewank() {
+    public Griewank() {
         setDomain("R(-600, 600)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Griewank getClone() {
-		return new Griewank();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Griewank getClone() {
+        return new Griewank();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(0);
     }

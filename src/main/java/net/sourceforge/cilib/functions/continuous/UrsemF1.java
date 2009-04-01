@@ -35,20 +35,20 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class UrsemF1 extends ContinuousFunction {
-	private static final long serialVersionUID = -2595919942608678319L;
+    private static final long serialVersionUID = -2595919942608678319L;
 
-	public UrsemF1() {
+    public UrsemF1() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-2.5, 3)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public UrsemF1 getClone() {
-		return new UrsemF1();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UrsemF1 getClone() {
+        return new UrsemF1();
+    }
 
     public Object getMinimum() {
         return new Double(4.81681);

@@ -30,62 +30,62 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public abstract class ContinuousFunction extends Function {
 
-	private static final long serialVersionUID = -2483529496289508896L;
+    private static final long serialVersionUID = -2483529496289508896L;
 
-	/**
-	 * Create an instance of {@code ContinuousFunction}.
-	 */
-	public ContinuousFunction() {
-		// constraint.add(new ContentValidator(new TypeValidator(Real.class)));
-	}
+    /**
+     * Create an instance of {@code ContinuousFunction}.
+     */
+    public ContinuousFunction() {
+        // constraint.add(new ContentValidator(new TypeValidator(Real.class)));
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public ContinuousFunction(ContinuousFunction copy) {
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public ContinuousFunction(ContinuousFunction copy) {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract ContinuousFunction getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public abstract ContinuousFunction getClone();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
-		return new Double(-Double.MAX_VALUE);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
+        return new Double(-Double.MAX_VALUE);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMaximum() {
-		return new Double(Double.MAX_VALUE);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMaximum() {
+        return new Double(Double.MAX_VALUE);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Double evaluate(Type x) {
-		Double d = null;
-		try {
-			d = new Double(evaluate((Vector) x));
-		}
-		catch (ClassCastException c) {
-			c.printStackTrace();
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public Double evaluate(Type x) {
+        Double d = null;
+        try {
+            d = new Double(evaluate((Vector) x));
+        }
+        catch (ClassCastException c) {
+            c.printStackTrace();
+        }
 
-		return d;
-	}
+        return d;
+    }
 
-	/**
-	 * Evaluate the function with the given {@link net.sourceforge.cilib.type.types.container.Vector} as input.
-	 * @param x The input {@link net.sourceforge.cilib.type.types.container.Vector}.
-	 * @return The value of the evaluation.
-	 */
-	public abstract double evaluate(Vector x);
+    /**
+     * Evaluate the function with the given {@link net.sourceforge.cilib.type.types.container.Vector} as input.
+     * @param x The input {@link net.sourceforge.cilib.type.types.container.Vector}.
+     * @return The value of the evaluation.
+     */
+    public abstract double evaluate(Vector x);
 
 }

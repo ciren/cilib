@@ -51,147 +51,147 @@ import net.sourceforge.cilib.problem.ProblemFactory;
  * @author Edwin Peer
  */
 public class Simulation extends Thread implements AlgorithmListener {
-	private static final long serialVersionUID = 8987667794610802908L;
-	private MeasurementSuite measurementSuite;
-	private Algorithm[] algorithms;
-	private Thread[] threads;
-	private Vector<ProgressListener> progressListeners;
-	private Hashtable<Algorithm, Double> progress;
+    private static final long serialVersionUID = 8987667794610802908L;
+    private MeasurementSuite measurementSuite;
+    private Algorithm[] algorithms;
+    private Thread[] threads;
+    private Vector<ProgressListener> progressListeners;
+    private Hashtable<Algorithm, Double> progress;
 
-	public Simulation getClone() {
-		return null;
-	}
+    public Simulation getClone() {
+        return null;
+    }
 
-	/**
-	 * Creates a new instance of Simulation given an algorithm factory, a problem factory and a
-	 * measurement suite. {@see net.sourceforge.cilib.XMLObjectFactory}
-	 * @param algorithmFactory The algorithm factory.
-	 * @param problemFactory The problem factory.
-	 * @param measurementSuite The measurement suite.
-	 */
-	public Simulation(AlgorithmFactory algorithmFactory, ProblemFactory problemFactory, MeasurementSuite measurementSuite) {
+    /**
+     * Creates a new instance of Simulation given an algorithm factory, a problem factory and a
+     * measurement suite. {@see net.sourceforge.cilib.XMLObjectFactory}
+     * @param algorithmFactory The algorithm factory.
+     * @param problemFactory The problem factory.
+     * @param measurementSuite The measurement suite.
+     */
+    public Simulation(AlgorithmFactory algorithmFactory, ProblemFactory problemFactory, MeasurementSuite measurementSuite) {
 
-		measurementSuite.initialise();
-		this.measurementSuite = measurementSuite;
-		progressListeners = new Vector<ProgressListener>();
-		progress = new Hashtable<Algorithm, Double>();
+        measurementSuite.initialise();
+        this.measurementSuite = measurementSuite;
+        progressListeners = new Vector<ProgressListener>();
+        progress = new Hashtable<Algorithm, Double>();
 
-		algorithms = new Algorithm[measurementSuite.getSamples()];
-		threads = new Thread[measurementSuite.getSamples()];
-		for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-			algorithms[i] = algorithmFactory.newAlgorithm();
-			threads[i] = new Thread(algorithms[i]);
-			algorithms[i].addAlgorithmListener(this);
-			Problem problem = problemFactory.newProblem();
-			try {
-				Class<? extends Object> current = problem.getClass();
-				// System.out.println(current.getName());
-				while (!current.getSuperclass().equals(Object.class)) {
-					current = current.getSuperclass();
-					// System.out.println(current.getName());
-				}
-				String type = current.getInterfaces()[0].getName();
-				// System.out.println("type: " + type);
-				Class<?> [] parameters = new Class[1];
-				parameters[0] = Class.forName(type);
-				// System.out.println("parameters: " + parameters[0].getName());
-				String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);
-				// System.out.println("setMethodName: " + setMethodName);
-				Method setProblemMethod = algorithms[i].getClass().getMethod(setMethodName, parameters);
-				// System.out.println("setProblemMethod: " + setProblemMethod.getName());
-				setProblemMethod.invoke(algorithms[i], new Object[] {problem});
-			}
-			catch (Exception ex) {
-				throw new InitialisationException(algorithms[i].getClass().getName() + " does not support problems of type " + problem.getClass().getName());
-			}
-			progress.put(algorithms[i], new Double(0));
-		}
-	}
+        algorithms = new Algorithm[measurementSuite.getSamples()];
+        threads = new Thread[measurementSuite.getSamples()];
+        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
+            algorithms[i] = algorithmFactory.newAlgorithm();
+            threads[i] = new Thread(algorithms[i]);
+            algorithms[i].addAlgorithmListener(this);
+            Problem problem = problemFactory.newProblem();
+            try {
+                Class<? extends Object> current = problem.getClass();
+                // System.out.println(current.getName());
+                while (!current.getSuperclass().equals(Object.class)) {
+                    current = current.getSuperclass();
+                    // System.out.println(current.getName());
+                }
+                String type = current.getInterfaces()[0].getName();
+                // System.out.println("type: " + type);
+                Class<?> [] parameters = new Class[1];
+                parameters[0] = Class.forName(type);
+                // System.out.println("parameters: " + parameters[0].getName());
+                String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);
+                // System.out.println("setMethodName: " + setMethodName);
+                Method setProblemMethod = algorithms[i].getClass().getMethod(setMethodName, parameters);
+                // System.out.println("setProblemMethod: " + setProblemMethod.getName());
+                setProblemMethod.invoke(algorithms[i], new Object[] {problem});
+            }
+            catch (Exception ex) {
+                throw new InitialisationException(algorithms[i].getClass().getName() + " does not support problems of type " + problem.getClass().getName());
+            }
+            progress.put(algorithms[i], new Double(0));
+        }
+    }
 
-	public void initialise() {
-		for (Algorithm algorithm : algorithms)
-			algorithm.initialise();
-	}
+    public void initialise() {
+        for (Algorithm algorithm : algorithms)
+            algorithm.initialise();
+    }
 
-	/**
-	 * Executes all the experiments for this simulation.
-	 */
-	public void run() {
-		for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-			threads[i].start();
-		}
-		for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-			try {
-				threads[i].join();
-			}
-			catch (InterruptedException ex) {
-				ex.printStackTrace();
-			}
-		}
-		measurementSuite.getOutputBuffer().close();
-		measurementSuite = null;
-		algorithms = null;
-		progress = null;
-		progressListeners = null;
-		threads = null;
-	}
+    /**
+     * Executes all the experiments for this simulation.
+     */
+    public void run() {
+        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
+            threads[i].start();
+        }
+        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
+            try {
+                threads[i].join();
+            }
+            catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        measurementSuite.getOutputBuffer().close();
+        measurementSuite = null;
+        algorithms = null;
+        progress = null;
+        progressListeners = null;
+        threads = null;
+    }
 
-	/**
-	 * Terminates all the experiments.
-	 */
-	public void terminate() {
-		for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-			algorithms[i].terminate();
-		}
-	}
+    /**
+     * Terminates all the experiments.
+     */
+    public void terminate() {
+        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
+            algorithms[i].terminate();
+        }
+    }
 
-	/**
-	 * Adds a listener for progress events. A progress is fired periodically based on the resolution
-	 * of the measurements. {@see ProgressEvent} {@see ProgressListener}
-	 * @param The event listener
-	 */
-	public void addProgressListener(ProgressListener listener) {
-		progressListeners.add(listener);
-	}
+    /**
+     * Adds a listener for progress events. A progress is fired periodically based on the resolution
+     * of the measurements. {@see ProgressEvent} {@see ProgressListener}
+     * @param The event listener
+     */
+    public void addProgressListener(ProgressListener listener) {
+        progressListeners.add(listener);
+    }
 
-	/**
-	 * Removes a listener for progress events.
-	 * @param The event listener
-	 */
-	public void removeProgressListener(ProgressListener listener) {
-		progressListeners.remove(listener);
-	}
+    /**
+     * Removes a listener for progress events.
+     * @param The event listener
+     */
+    public void removeProgressListener(ProgressListener listener) {
+        progressListeners.remove(listener);
+    }
 
-	private synchronized void notifyProgress() {
-		double ave = 0;
-		for (Double tmp : progress.values()) {
-			ave += tmp.doubleValue();
-		}
+    private synchronized void notifyProgress() {
+        double ave = 0;
+        for (Double tmp : progress.values()) {
+            ave += tmp.doubleValue();
+        }
 
-		ave /= progress.size();
+        ave /= progress.size();
 
-		for (ProgressListener listener : progressListeners) {
-			listener.handleProgressEvent(new ProgressEvent(ave));
-		}
-	}
+        for (ProgressListener listener : progressListeners) {
+            listener.handleProgressEvent(new ProgressEvent(ave));
+        }
+    }
 
-	public void algorithmStarted(AlgorithmEvent e) {
-	}
+    public void algorithmStarted(AlgorithmEvent e) {
+    }
 
-	public void algorithmFinished(AlgorithmEvent e) {
-		measurementSuite.measure(e.getSource());
-		progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
-		notifyProgress();
-	}
+    public void algorithmFinished(AlgorithmEvent e) {
+        measurementSuite.measure(e.getSource());
+        progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
+        notifyProgress();
+    }
 
-	public void algorithmTerminated(AlgorithmEvent e) {
-	}
+    public void algorithmTerminated(AlgorithmEvent e) {
+    }
 
-	public void iterationCompleted(AlgorithmEvent e) {
-		if (e.getSource().getIterations() % measurementSuite.getResolution() == 0) {
-			measurementSuite.measure(e.getSource());
-			progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
-			notifyProgress();
-		}
-	}
+    public void iterationCompleted(AlgorithmEvent e) {
+        if (e.getSource().getIterations() % measurementSuite.getResolution() == 0) {
+            measurementSuite.measure(e.getSource());
+            progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
+            notifyProgress();
+        }
+    }
 }

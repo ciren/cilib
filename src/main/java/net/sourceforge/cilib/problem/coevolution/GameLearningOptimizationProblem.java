@@ -36,92 +36,92 @@ import net.sourceforge.cilib.type.types.Type;
  * Optimize either a single player game or agains hand coded opponents
  */
 public class GameLearningOptimizationProblem extends
-		PerformanceEvaluationOptimizationProblem {
+        PerformanceEvaluationOptimizationProblem {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -5779885760175795987L;
-	protected Game game;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5779885760175795987L;
+    protected Game game;
 
-	/**
-	 *
-	 */
-	public GameLearningOptimizationProblem() {
+    /**
+     *
+     */
+    public GameLearningOptimizationProblem() {
 
-	}
+    }
 
-	/**
-	 * @param copy
-	 */
-	public GameLearningOptimizationProblem(
-			GameLearningOptimizationProblem copy) {
-		super(copy);
-		game = copy.game.getClone();
-	}
+    /**
+     * @param copy
+     */
+    public GameLearningOptimizationProblem(
+            GameLearningOptimizationProblem copy) {
+        super(copy);
+        game = copy.game.getClone();
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.problem.OptimisationProblemAdapter#getClone()
-	 */
-	@Override
-	public OptimisationProblemAdapter getClone() {
-		return new GameLearningOptimizationProblem(this);
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.problem.OptimisationProblemAdapter#getClone()
+     */
+    @Override
+    public OptimisationProblemAdapter getClone() {
+        return new GameLearningOptimizationProblem(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.problem.OptimisationProblem#getBehaviouralDomain()
-	 */
-	@Override
-	public DomainRegistry getBehaviouralDomain() {
-		// TODO Auto-generated method stub
-		return game.getDomainForPlayer(1); //player one is the player being optimized
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.problem.OptimisationProblem#getBehaviouralDomain()
+     */
+    @Override
+    public DomainRegistry getBehaviouralDomain() {
+        // TODO Auto-generated method stub
+        return game.getDomainForPlayer(1); //player one is the player being optimized
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.problem.OptimisationProblem#getDomain()
-	 */
-	@Override
-	public DomainRegistry getDomain() {
-		// TODO Auto-generated method stub
-		return game.getDomainForPlayer(1); //player one is the player being optimized
-	}
-	/**
-	 * This method should be called after all the players have been initialized for this game
-	 * the required amount of games are played and the scores are stored
-	 * @param currentPlayerID the id of the player being optimized
-	 * @param currentScore the score's
-	 */
-	public void playGame(int currentPlayerID, EntityScore currentScore){
-		for(int i = 0; i < amountEvaluations; ++i){
-			game.playGame();
-			game.setEntityScore(currentPlayerID, currentScore);
-		}
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.problem.OptimisationProblem#getDomain()
+     */
+    @Override
+    public DomainRegistry getDomain() {
+        // TODO Auto-generated method stub
+        return game.getDomainForPlayer(1); //player one is the player being optimized
+    }
+    /**
+     * This method should be called after all the players have been initialized for this game
+     * the required amount of games are played and the scores are stored
+     * @param currentPlayerID the id of the player being optimized
+     * @param currentScore the score's
+     */
+    public void playGame(int currentPlayerID, EntityScore currentScore){
+        for(int i = 0; i < amountEvaluations; ++i){
+            game.playGame();
+            game.setEntityScore(currentPlayerID, currentScore);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Fitness calculateFitness(Type solution) {
-		//one fixed set of competitors
-		if(!(solution instanceof Blackboard))
-			throw new RuntimeException("Please use the PropertyBasedFitnessCalculator with the entity optimizing the game");
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Fitness calculateFitness(Type solution) {
+        //one fixed set of competitors
+        if(!(solution instanceof Blackboard))
+            throw new RuntimeException("Please use the PropertyBasedFitnessCalculator with the entity optimizing the game");
 
-		//for each game, add the score {win/lose/tie : score} to a scoreboard. then use the scoring strategy to assign a score to the player
-		EntityScore score = new EntityScore(1,1); //in the case of optimizing against static opponents the opponent id is not so important, or is it?!?
-		// initialize the first player, which is the one being optimized, to the contents of solution
-		@SuppressWarnings("unchecked")
-		Blackboard<Enum<?>, Type> blackboard = (Blackboard<Enum<?>, Type>) solution;
-		game.initializeAgent(1, blackboard.get(EntityType.CANDIDATE_SOLUTION));
-		playGame(1, score);
-		EntityScoreboard board = new EntityScoreboard();//(EntityScoreboard)((Blackboard<Enum<?>, Type>)solution).get(EntityType.Coevolution.BOARD);
-		board.mergeEntityScore(score);
-		//need to store the entityscoreboard and current competition round in blackboard. should I put them in the blackboard here, or somewhere else?
-		return fitnessCalculation.calculateFitnessFromScoreBoard(board, 1);
-	}
+        //for each game, add the score {win/lose/tie : score} to a scoreboard. then use the scoring strategy to assign a score to the player
+        EntityScore score = new EntityScore(1,1); //in the case of optimizing against static opponents the opponent id is not so important, or is it?!?
+        // initialize the first player, which is the one being optimized, to the contents of solution
+        @SuppressWarnings("unchecked")
+        Blackboard<Enum<?>, Type> blackboard = (Blackboard<Enum<?>, Type>) solution;
+        game.initializeAgent(1, blackboard.get(EntityType.CANDIDATE_SOLUTION));
+        playGame(1, score);
+        EntityScoreboard board = new EntityScoreboard();//(EntityScoreboard)((Blackboard<Enum<?>, Type>)solution).get(EntityType.Coevolution.BOARD);
+        board.mergeEntityScore(score);
+        //need to store the entityscoreboard and current competition round in blackboard. should I put them in the blackboard here, or somewhere else?
+        return fitnessCalculation.calculateFitnessFromScoreBoard(board, 1);
+    }
 
-	public void setGame(Game game) {
-		this.game = game;
-	}
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
 }

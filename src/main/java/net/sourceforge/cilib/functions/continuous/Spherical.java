@@ -49,32 +49,32 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     /**
      * Create a new instance of {@code Spherical}.
      */
-	public Spherical() {
+    public Spherical() {
         setDomain("R(-5.12, 5.12)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Spherical getClone() {
-		return new Spherical();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Spherical getClone() {
+        return new Spherical();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-	 * @return The function minimum value.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+     * @return The function minimum value.
+     */
     public Object getMinimum() {
         return new Double(0);
     }
 
-	/**
-	 * {@inheritDoc}
-	 * @return The function maximum defined in the default range of the function.
-	 */
+    /**
+     * {@inheritDoc}
+     * @return The function maximum defined in the default range of the function.
+     */
     public Object getMaximum() {
-    	return new Double(78.6432);
+        return new Double(78.6432);
     }
 
     /**
@@ -83,7 +83,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
     public double evaluate(Vector x) {
         double tmp = 0;
         for (int i = 0; i < x.getDimension(); i++) {
-        	double value = x.getReal(i);
+            double value = x.getReal(i);
             tmp += value * value;
         }
         return tmp;
@@ -93,11 +93,11 @@ public class Spherical extends ContinuousFunction implements Differentiable {
      * {@inheritDoc}
      */
     public Vector getGradient(Vector x) {
-    	Vector tmp = new Vector(x.getDimension());
+        Vector tmp = new Vector(x.getDimension());
 
-    	for (int i = 0; i < x.getDimension(); ++i) {
-    		tmp.setReal(i, 2*x.getReal(i));
-    	}
+        for (int i = 0; i < x.getDimension(); ++i) {
+            tmp.setReal(i, 2*x.getReal(i));
+        }
 
         return tmp;
     }

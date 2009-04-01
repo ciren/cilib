@@ -31,75 +31,75 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
  * @author Andrich
  */
 public class WorkerBee extends AbstractBee implements HoneyBee {
-	private static final long serialVersionUID = 3657591650621784765L;
+    private static final long serialVersionUID = 3657591650621784765L;
 
-	private ControlParameter forageLimit;
-	private int failureCount;
+    private ControlParameter forageLimit;
+    private int failureCount;
 
-	/**
-	 * Create a new instance with reasonable defaults set.
-	 */
-	public WorkerBee() {
-		failureCount = 0;
-		this.forageLimit = new ConstantControlParameter(500);
-	}
+    /**
+     * Create a new instance with reasonable defaults set.
+     */
+    public WorkerBee() {
+        failureCount = 0;
+        this.forageLimit = new ConstantControlParameter(500);
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The isntance to copy.
-	 */
-	public WorkerBee(WorkerBee copy) {
-		super(copy);
-		failureCount = copy.failureCount;
-		this.forageLimit = copy.forageLimit.getClone();
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The isntance to copy.
+     */
+    public WorkerBee(WorkerBee copy) {
+        super(copy);
+        failureCount = copy.failureCount;
+        this.forageLimit = copy.forageLimit.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public WorkerBee getClone() {
-		return new WorkerBee(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WorkerBee getClone() {
+        return new WorkerBee(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void updatePosition() {
-		ABC algorithm = (ABC) Algorithm.get();
-		HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updatePosition() {
+        ABC algorithm = (ABC) Algorithm.get();
+        HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
 
-		while (target == this) {
-			target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
-		}
+        while (target == this) {
+            target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
+        }
 
-		boolean success = this.positionUpdateStrategy.updatePosition(this, target);
-		if (!success) {
-			failureCount++;
-			if (failureCount >= forageLimit.getParameter())	{
-				failureCount = 0;
-				ExplorerBee explorerBee = algorithm.getExplorerBee();
-				if (explorerBee.searchAllowed()) {
-					this.setPosition(explorerBee.getNewPosition(this.getPosition()));
-				}
-			}
-		}
-	}
+        boolean success = this.positionUpdateStrategy.updatePosition(this, target);
+        if (!success) {
+            failureCount++;
+            if (failureCount >= forageLimit.getParameter())    {
+                failureCount = 0;
+                ExplorerBee explorerBee = algorithm.getExplorerBee();
+                if (explorerBee.searchAllowed()) {
+                    this.setPosition(explorerBee.getNewPosition(this.getPosition()));
+                }
+            }
+        }
+    }
 
-	/**
-	 * Get the forage limit.
-	 * @return The {@linkplain ControlParameter} representing the forage limit.
-	 */
-	public ControlParameter getForageLimit() {
-		return forageLimit;
-	}
+    /**
+     * Get the forage limit.
+     * @return The {@linkplain ControlParameter} representing the forage limit.
+     */
+    public ControlParameter getForageLimit() {
+        return forageLimit;
+    }
 
-	/**
-	 * Set the forage limit.
-	 * @param forageLimit The limit to set.
-	 */
-	public void setForageLimit(ControlParameter forageLimit) {
-		this.forageLimit = forageLimit;
-	}
+    /**
+     * Set the forage limit.
+     * @param forageLimit The limit to set.
+     */
+    public void setForageLimit(ControlParameter forageLimit) {
+        this.forageLimit = forageLimit;
+    }
 }

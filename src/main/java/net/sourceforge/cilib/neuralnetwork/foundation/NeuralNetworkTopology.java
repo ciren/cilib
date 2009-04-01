@@ -31,10 +31,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public interface NeuralNetworkTopology extends Initializable{
 
-	public Vector evaluate(NNPattern p);
+    public Vector evaluate(NNPattern p);
 
-	public Vector getWeights();
+    public Vector getWeights();
 
-	public void setWeights(Vector w);
+    public void setWeights(Vector w);
 
 }

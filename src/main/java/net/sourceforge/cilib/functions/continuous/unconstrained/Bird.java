@@ -52,31 +52,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Bird extends ContinuousFunction {
-	private static final long serialVersionUID = -7803711986955989075L;
+    private static final long serialVersionUID = -7803711986955989075L;
 
-	public Bird() {
+    public Bird() {
         setDomain("R(-6.285714286,6.285714286)^2");
     }
 
-	@Override
-	public Bird getClone() {
-		return new Bird();
-	}
+    @Override
+    public Bird getClone() {
+        return new Bird();
+    }
 
-	public Object getMinimum() {
+    public Object getMinimum() {
         return new Double(-106.764537);
     }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double x1 = x.getReal(0);
-		double x2 = x.getReal(1);
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double x1 = x.getReal(0);
+        double x2 = x.getReal(1);
 
-		return Math.sin(x1)*Math.exp((1-Math.cos(x2))*(1-Math.cos(x2)))+Math.cos(x2)*Math.exp((1-Math.sin(x1))*(1-Math.sin(x1)))+(x1-x2)*(x1-x2);
-	}
+        return Math.sin(x1)*Math.exp((1-Math.cos(x2))*(1-Math.cos(x2)))+Math.cos(x2)*Math.exp((1-Math.sin(x1))*(1-Math.sin(x1)))+(x1-x2)*(x1-x2);
+    }
 }
 
 

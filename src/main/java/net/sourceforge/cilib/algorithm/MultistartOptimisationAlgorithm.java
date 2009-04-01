@@ -54,7 +54,7 @@ import net.sourceforge.cilib.type.types.Type;
 public class MultistartOptimisationAlgorithm extends Algorithm implements ParticipatingAlgorithm {
     private static final long serialVersionUID = 1493525363256406120L;
 
-	/** Creates a new instance of MultistartOptimisationAlgorithm. */
+    /** Creates a new instance of MultistartOptimisationAlgorithm. */
     public MultistartOptimisationAlgorithm() {
         singleIteration = new SingleIteration();
         problem = null;
@@ -65,16 +65,16 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
      * @param copy The instance to copy.
      */
     public MultistartOptimisationAlgorithm(MultistartOptimisationAlgorithm copy) {
-    	super(copy);
-    	this.singleIteration = copy.singleIteration.getClone();
-    	this.problem = copy.problem.getClone();
+        super(copy);
+        this.singleIteration = copy.singleIteration.getClone();
+        this.problem = copy.problem.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
     public MultistartOptimisationAlgorithm getClone() {
-    	return new MultistartOptimisationAlgorithm(this);
+        return new MultistartOptimisationAlgorithm(this);
     }
 
     /**
@@ -92,7 +92,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
      * {@inheritDoc}
      */
     public OptimisationProblem getOptimisationProblem() {
-    	return problem.getTarget();
+        return problem.getTarget();
     }
 
     /**
@@ -103,10 +103,10 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         return fitness;
     }
 
-	/**
-	 * Set the optimisation problem.
-	 * @param problem The problem to set.
-	 */
+    /**
+     * Set the optimisation problem.
+     * @param problem The problem to set.
+     */
     public void setOptimisationProblem(OptimisationProblem problem) {
         this.problem = new MultistartProblemAdapter(problem);
     }
@@ -182,7 +182,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         }
 
         if (algorithm.isFinished()) {
-        	problem.resetFitnessCounter();
+            problem.resetFitnessCounter();
             algorithm.initialise();
             ++restarts;
         }
@@ -208,7 +208,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
      * {@inheritDoc}
      */
     public List<OptimisationSolution> getSolutions() {
-    	// TODO: Fix this so that all the solutions found at the time of each restart are added to the collection
+        // TODO: Fix this so that all the solutions found at the time of each restart are added to the collection
 
         ArrayList<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>(1);
         solutions.add(getBestSolution());
@@ -225,50 +225,50 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
 
     private class MultistartProblemAdapter extends OptimisationProblemAdapter {
 
-		private static final long serialVersionUID = -3156973576101060294L;
+        private static final long serialVersionUID = -3156973576101060294L;
 
-		public MultistartProblemAdapter() {
+        public MultistartProblemAdapter() {
 
-    	}
+        }
 
-    	public MultistartProblemAdapter(OptimisationProblem target) {
-    		this.target = target;
-    	}
+        public MultistartProblemAdapter(OptimisationProblem target) {
+            this.target = target;
+        }
 
-    	public MultistartProblemAdapter(MultistartProblemAdapter copy) {
+        public MultistartProblemAdapter(MultistartProblemAdapter copy) {
 
-    	}
+        }
 
-    	public MultistartProblemAdapter getClone() {
-    		return new MultistartProblemAdapter(this);
-    	}
+        public MultistartProblemAdapter getClone() {
+            return new MultistartProblemAdapter(this);
+        }
 
-    	public OptimisationProblem getTarget() {
-    		return target;
-    	}
+        public OptimisationProblem getTarget() {
+            return target;
+        }
 
-		/* (non-Javadoc)
-		 * @see net.sourceforge.cilib.Problem.OptimisationProblemAdapter#calculateFitness(java.lang.Object)
-		 */
-		protected Fitness calculateFitness(Type solution) {
-			return target.getFitness(solution, true);
-		}
+        /* (non-Javadoc)
+         * @see net.sourceforge.cilib.Problem.OptimisationProblemAdapter#calculateFitness(java.lang.Object)
+         */
+        protected Fitness calculateFitness(Type solution) {
+            return target.getFitness(solution, true);
+        }
 
-		public void resetFitnessCounter() {
-			fitnessEvaluations.set(0);
-		}
+        public void resetFitnessCounter() {
+            fitnessEvaluations.set(0);
+        }
 
 
-		public DomainRegistry getDomain() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        public DomainRegistry getDomain() {
+            // TODO Auto-generated method stub
+            return null;
+        }
 
-		public DomainRegistry getBehaviouralDomain() {
-			return null;
-		}
+        public DomainRegistry getBehaviouralDomain() {
+            return null;
+        }
 
-		private OptimisationProblem target;
+        private OptimisationProblem target;
 
     }
 

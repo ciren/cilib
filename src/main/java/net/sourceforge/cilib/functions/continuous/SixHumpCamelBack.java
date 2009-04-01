@@ -46,25 +46,25 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class SixHumpCamelBack extends ContinuousFunction {
-	private static final long serialVersionUID = -3834640752316926216L;
+    private static final long serialVersionUID = -3834640752316926216L;
 
-	public SixHumpCamelBack() {
+    public SixHumpCamelBack() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-3,3),R(-2,2)");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SixHumpCamelBack getClone() {
-		return new SixHumpCamelBack();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SixHumpCamelBack getClone() {
+        return new SixHumpCamelBack();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>-1.0316</code>.
-	 * @return The function minimum value.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>-1.0316</code>.
+     * @return The function minimum value.
+     */
     public Object getMinimum() {
         return new Double(-1.0316);
     }

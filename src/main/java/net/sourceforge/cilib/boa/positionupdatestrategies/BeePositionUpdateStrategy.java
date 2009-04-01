@@ -32,11 +32,11 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface BeePositionUpdateStrategy extends Cloneable {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public BeePositionUpdateStrategy getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public BeePositionUpdateStrategy getClone();
 
-	public boolean updatePosition(HoneyBee bee, HoneyBee other);
+    public boolean updatePosition(HoneyBee bee, HoneyBee other);
 
 }

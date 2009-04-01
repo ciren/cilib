@@ -32,9 +32,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
-	private static final long serialVersionUID = 7944544624736580311L;
+    private static final long serialVersionUID = 7944544624736580311L;
 
-	protected Function function;
+    protected Function function;
 
     /**
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
@@ -52,16 +52,16 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      * @param copy The instance to copy.
      */
     public FunctionOptimisationProblem(FunctionOptimisationProblem copy) {
-   	 super(copy);
-    	function = copy.function;
-	}
+        super(copy);
+        function = copy.function;
+    }
 
     /**
      * {@inheritDoc}
      */
     public abstract FunctionOptimisationProblem getClone();
 
-	/**
+    /**
      * Sets the function that is to be optimised.
      *
      * @param function The function.
@@ -85,14 +85,14 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      * @return the domain component.
      */
     public DomainRegistry getDomain() {
-		return function.getDomainRegistry();
-	}
+        return function.getDomainRegistry();
+    }
 
     /**
      *
      */
     public DomainRegistry getBehaviouralDomain() {
-    	return function.getBehavioralDomainRegistry();
+        return function.getBehavioralDomainRegistry();
     }
 
     /**
@@ -103,9 +103,9 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      */
     public abstract double getError(Type solution);
 
-	@Override
-	public void accept(ProblemVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(ProblemVisitor visitor) {
+        visitor.visit(this);
+    }
 
 }

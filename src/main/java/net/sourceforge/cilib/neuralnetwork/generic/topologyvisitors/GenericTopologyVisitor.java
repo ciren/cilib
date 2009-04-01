@@ -30,6 +30,6 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
  */
 public interface GenericTopologyVisitor {
 
-	public void visitNeuronConfig(NeuronConfig n);
+    public void visitNeuronConfig(NeuronConfig n);
 
 }

@@ -43,34 +43,34 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JMock.class)
 public class ClonedPopulationInitialisationStrategyTest {
-	private Mockery context = new JUnit4Mockery() {{
-		setImposteriser(ClassImposteriser.INSTANCE);
-	}};
-	
-	/**
-	 * Test that the initialisation of the entity does indeed mean that the initialised
-	 * Entity is added to the topology and the Entity is not the same as the original.
-	 */
-	@Test
-	public void initialiseClonedTopology() {
-		@SuppressWarnings("unchecked")
-		final Topology<Entity> topology = context.mock(GBestTopology.class);
-		final Entity entity = context.mock(Entity.class);
-		final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-		
-		final PopulationInitialisationStrategy initialisationBuilder = new ClonedPopulationInitialisationStrategy();
-		initialisationBuilder.setEntityType(entity);
-		initialisationBuilder.setEntityNumber(20);
-		
-		context.checking(new Expectations() {{
-			exactly(20).of(entity).getClone(); // The prototype entity is cloned exactly 20 times.
-			
-			// The cloned entity will be added to the topology
-			exactly(20).of(topology).add(with(any(Entity.class)));
-			will(returnValue(true));
-		}});
-		
-		initialisationBuilder.initialise(topology, problem);
-	}
+    private Mockery context = new JUnit4Mockery() {{
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
+    
+    /**
+     * Test that the initialisation of the entity does indeed mean that the initialised
+     * Entity is added to the topology and the Entity is not the same as the original.
+     */
+    @Test
+    public void initialiseClonedTopology() {
+        @SuppressWarnings("unchecked")
+        final Topology<Entity> topology = context.mock(GBestTopology.class);
+        final Entity entity = context.mock(Entity.class);
+        final OptimisationProblem problem = context.mock(OptimisationProblem.class);
+        
+        final PopulationInitialisationStrategy initialisationBuilder = new ClonedPopulationInitialisationStrategy();
+        initialisationBuilder.setEntityType(entity);
+        initialisationBuilder.setEntityNumber(20);
+        
+        context.checking(new Expectations() {{
+            exactly(20).of(entity).getClone(); // The prototype entity is cloned exactly 20 times.
+            
+            // The cloned entity will be added to the topology
+            exactly(20).of(topology).add(with(any(Entity.class)));
+            will(returnValue(true));
+        }});
+        
+        initialisationBuilder.initialise(topology, problem);
+    }
 
 }

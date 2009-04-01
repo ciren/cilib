@@ -34,30 +34,30 @@ import org.junit.Test;
  */
 public class MinFitnessTest {
 
-	public MinFitnessTest() {
+    public MinFitnessTest() {
     }
     
-	@BeforeClass
+    @BeforeClass
     public static void setUp() {
-    	oneFitness = new MinimisationFitness(new Integer(1).doubleValue());
-    	twoFitness = new MinimisationFitness(new Integer(2).doubleValue());
-    	inferiorFitness = InferiorFitness.instance();
+        oneFitness = new MinimisationFitness(new Integer(1).doubleValue());
+        twoFitness = new MinimisationFitness(new Integer(2).doubleValue());
+        inferiorFitness = InferiorFitness.instance();
     }
         
-	@Test
+    @Test
     public void testLessThan() {
-    	assertEquals(twoFitness.compareTo(oneFitness), -1);
+        assertEquals(twoFitness.compareTo(oneFitness), -1);
     }
     
-	@Test
+    @Test
     public void testMoreThan() {
-    	assertEquals(oneFitness.compareTo(twoFitness), 1);
+        assertEquals(oneFitness.compareTo(twoFitness), 1);
     }
-		
-	@Test
-    public void testInferior() {		
-    	assertEquals(inferiorFitness.compareTo(oneFitness), -1);
-    	assertEquals(oneFitness.compareTo(inferiorFitness), 1);
+        
+    @Test
+    public void testInferior() {        
+        assertEquals(inferiorFitness.compareTo(oneFitness), -1);
+        assertEquals(oneFitness.compareTo(inferiorFitness), 1);
     }
 
     private static Fitness oneFitness;

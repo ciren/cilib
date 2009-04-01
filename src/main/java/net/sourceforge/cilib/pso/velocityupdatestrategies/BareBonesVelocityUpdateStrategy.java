@@ -37,79 +37,79 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *  @author Andries Engelbrecht
  */
 public class BareBonesVelocityUpdateStrategy implements VelocityUpdateStrategy {
-	private static final long serialVersionUID = -823686042197742768L;
+    private static final long serialVersionUID = -823686042197742768L;
 
-	private RandomNumber randomNumber;
-	private ControlParameter cognitiveAcceleration;
-	private ControlParameter socialAcceleration;
-
-
-	public BareBonesVelocityUpdateStrategy() {
-		randomNumber = new RandomNumber();
-
-		cognitiveAcceleration = new RandomizingControlParameter();
-		socialAcceleration = new RandomizingControlParameter();
-
-		cognitiveAcceleration.setParameter(1.496180);
-		socialAcceleration.setParameter(1.496180);
-	}
+    private RandomNumber randomNumber;
+    private ControlParameter cognitiveAcceleration;
+    private ControlParameter socialAcceleration;
 
 
-	public BareBonesVelocityUpdateStrategy(BareBonesVelocityUpdateStrategy copy) {
-		this();
+    public BareBonesVelocityUpdateStrategy() {
+        randomNumber = new RandomNumber();
 
-		cognitiveAcceleration.setParameter(copy.cognitiveAcceleration.getParameter());
-		socialAcceleration.setParameter(copy.socialAcceleration.getParameter());
-	}
+        cognitiveAcceleration = new RandomizingControlParameter();
+        socialAcceleration = new RandomizingControlParameter();
 
-
-	public BareBonesVelocityUpdateStrategy getClone() {
-		return new BareBonesVelocityUpdateStrategy(this);
-	}
+        cognitiveAcceleration.setParameter(1.496180);
+        socialAcceleration.setParameter(1.496180);
+    }
 
 
-	public void updateVelocity(Particle particle) {
-		Vector personalBestPosition = (Vector) particle.getBestPosition();
-		Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-		Vector velocity = (Vector) particle.getVelocity();
+    public BareBonesVelocityUpdateStrategy(BareBonesVelocityUpdateStrategy copy) {
+        this();
 
-		for (int i = 0; i < particle.getDimension(); ++i) {
-			//double tmp1 = cognitive.getParameter();
-			//double tmp2 = social.getParameter();
+        cognitiveAcceleration.setParameter(copy.cognitiveAcceleration.getParameter());
+        socialAcceleration.setParameter(copy.socialAcceleration.getParameter());
+    }
 
-        	double sigma = Math.abs(personalBestPosition.getReal(i) - nBestPosition.getReal(i));
-        	//according to Kennedy
-        	double mean = (personalBestPosition.getReal(i) + nBestPosition.getReal(i)) / 2;
-        	//andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
 
-			velocity.setReal(i, randomNumber.getGaussian(mean, sigma));
+    public BareBonesVelocityUpdateStrategy getClone() {
+        return new BareBonesVelocityUpdateStrategy(this);
+    }
+
+
+    public void updateVelocity(Particle particle) {
+        Vector personalBestPosition = (Vector) particle.getBestPosition();
+        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+        Vector velocity = (Vector) particle.getVelocity();
+
+        for (int i = 0; i < particle.getDimension(); ++i) {
+            //double tmp1 = cognitive.getParameter();
+            //double tmp2 = social.getParameter();
+
+            double sigma = Math.abs(personalBestPosition.getReal(i) - nBestPosition.getReal(i));
+            //according to Kennedy
+            double mean = (personalBestPosition.getReal(i) + nBestPosition.getReal(i)) / 2;
+            //andries proposal: double mean = (tmp1*personalBestPosition.getReal(i) + tmp2*nBestPosition.getReal(i)) / (tmp1+tmp2);
+
+            velocity.setReal(i, randomNumber.getGaussian(mean, sigma));
         }
-	}
+    }
 
 
-	public void updateControlParameters(Particle particle) {
-		// TODO Auto-generated method stub
+    public void updateControlParameters(Particle particle) {
+        // TODO Auto-generated method stub
 
-	}
-
-
-	public ControlParameter getCognitiveAcceleration() {
-		return cognitiveAcceleration;
-	}
+    }
 
 
-	public void setCognitiveAcceleration(ControlParameter cognitiveAcceleration) {
-		this.cognitiveAcceleration = cognitiveAcceleration;
-	}
+    public ControlParameter getCognitiveAcceleration() {
+        return cognitiveAcceleration;
+    }
 
 
-	public ControlParameter getSocialAcceleration() {
-		return socialAcceleration;
-	}
+    public void setCognitiveAcceleration(ControlParameter cognitiveAcceleration) {
+        this.cognitiveAcceleration = cognitiveAcceleration;
+    }
 
 
-	public void setSocialAcceleration(ControlParameter socialAcceleration) {
-		this.socialAcceleration = socialAcceleration;
-	}
+    public ControlParameter getSocialAcceleration() {
+        return socialAcceleration;
+    }
+
+
+    public void setSocialAcceleration(ControlParameter socialAcceleration) {
+        this.socialAcceleration = socialAcceleration;
+    }
 
 }

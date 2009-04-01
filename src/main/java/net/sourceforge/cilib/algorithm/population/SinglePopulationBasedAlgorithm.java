@@ -32,83 +32,83 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  * @author Gary Pampara
  */
 public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgorithm {
-	private static final long serialVersionUID = -4095104893057340895L;
+    private static final long serialVersionUID = -4095104893057340895L;
 
-	protected PopulationInitialisationStrategy initialisationStrategy;
+    protected PopulationInitialisationStrategy initialisationStrategy;
 
-	/**
-	 * Create an empty {@linkplain PopulationBasedAlgorithm}.
-	 */
-	protected SinglePopulationBasedAlgorithm() {
-	}
+    /**
+     * Create an empty {@linkplain PopulationBasedAlgorithm}.
+     */
+    protected SinglePopulationBasedAlgorithm() {
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The {@linkplain PopulationBasedAlgorithm} to copy.
-	 */
-	protected SinglePopulationBasedAlgorithm(SinglePopulationBasedAlgorithm copy) {
-		super(copy);
-	}
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The {@linkplain PopulationBasedAlgorithm} to copy.
+     */
+    protected SinglePopulationBasedAlgorithm(SinglePopulationBasedAlgorithm copy) {
+        super(copy);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract SinglePopulationBasedAlgorithm getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract SinglePopulationBasedAlgorithm getClone();
 
-	/**
-	 * Perform the iteration within the algorithm.
-	 */
-	@Override
-	protected abstract void algorithmIteration();
+    /**
+     * Perform the iteration within the algorithm.
+     */
+    @Override
+    protected abstract void algorithmIteration();
 
-	/**
-	 * Get the size of the current population within the algorithm.
-	 * @return The size of the current Population.
-	 */
-	@Override
-	public int getPopulationSize() {
-		return this.initialisationStrategy.getEntityNumber();
-	}
+    /**
+     * Get the size of the current population within the algorithm.
+     * @return The size of the current Population.
+     */
+    @Override
+    public int getPopulationSize() {
+        return this.initialisationStrategy.getEntityNumber();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract Topology<? extends Entity> getTopology();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract Topology<? extends Entity> getTopology();
 
-	/**
-	 * Set the <tt>Topology</tt> for the population-based algorithm.
-	 * @param topology The {@linkplain Topology} to be set.
-	 */
-	public abstract void setTopology(Topology<? extends Entity> topology);
+    /**
+     * Set the <tt>Topology</tt> for the population-based algorithm.
+     * @param topology The {@linkplain Topology} to be set.
+     */
+    public abstract void setTopology(Topology<? extends Entity> topology);
 
-	/**
-	 * Get the currently set {@linkplain PopulationInitialisationStrategy}.
-	 * @return The current {@linkplain PopulationInitialisationStrategy}.
-	 */
-	@Override
-	public PopulationInitialisationStrategy getInitialisationStrategy() {
-		return initialisationStrategy;
-	}
+    /**
+     * Get the currently set {@linkplain PopulationInitialisationStrategy}.
+     * @return The current {@linkplain PopulationInitialisationStrategy}.
+     */
+    @Override
+    public PopulationInitialisationStrategy getInitialisationStrategy() {
+        return initialisationStrategy;
+    }
 
-	/**
-	 * Set the {@linkplain PopulationInitialisationStrategy} to be used.
-	 * @param initialisationStrategy The {@linkplain PopulationInitialisationStrategy} to use.
-	 */
-	@Override
-	public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
-		this.initialisationStrategy = initialisationStrategy;
-	}
+    /**
+     * Set the {@linkplain PopulationInitialisationStrategy} to be used.
+     * @param initialisationStrategy The {@linkplain PopulationInitialisationStrategy} to use.
+     */
+    @Override
+    public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
+        this.initialisationStrategy = initialisationStrategy;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Object accept(TopologyVisitor visitor) {
-		visitor.setCurrentAlgorithm(this);
-		getTopology().accept(visitor);
-		return visitor.getResult();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object accept(TopologyVisitor visitor) {
+        visitor.setCurrentAlgorithm(this);
+        getTopology().accept(visitor);
+        return visitor.getResult();
+    }
 
 }

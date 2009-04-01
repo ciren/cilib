@@ -28,8 +28,8 @@ import net.sourceforge.cilib.entity.Entity;
  * TODO: Complete this javadoc.
  */
 public interface ContributionUpdateStrategy {
-	//TODO this class will need the following things:
-	//1. The entity (which stores it's own fitness)
-	//2. The participants
-	public void updateContribution(Entity src, int srcPos, CooperativeEntity dst, int dstPos, int length);
+    //TODO this class will need the following things:
+    //1. The entity (which stores it's own fitness)
+    //2. The participants
+    public void updateContribution(Entity src, int srcPos, CooperativeEntity dst, int dstPos, int length);
 }

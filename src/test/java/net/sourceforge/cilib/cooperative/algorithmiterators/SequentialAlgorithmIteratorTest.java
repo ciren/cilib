@@ -42,119 +42,119 @@ import static org.junit.Assert.assertFalse;
  * This will need to be refactored. 
  */
 public class SequentialAlgorithmIteratorTest {
-	private static Logger logger = LoggerFactory.getLogger(SequentialAlgorithmIteratorTest.class);
-	private AlgorithmIterator<PSO> testIterator = null;
-	private ArrayList<PSO> listOfPSOs = null;
+    private static Logger logger = LoggerFactory.getLogger(SequentialAlgorithmIteratorTest.class);
+    private AlgorithmIterator<PSO> testIterator = null;
+    private ArrayList<PSO> listOfPSOs = null;
 
-	public SequentialAlgorithmIteratorTest() {
-		testIterator = new SequentialAlgorithmIterator<PSO>();
-		listOfPSOs = new ArrayList<PSO>();
-		for (int i = 0; i < 10; i++) {
-			listOfPSOs.add(new PSO());
-		}
-	}
+    public SequentialAlgorithmIteratorTest() {
+        testIterator = new SequentialAlgorithmIterator<PSO>();
+        listOfPSOs = new ArrayList<PSO>();
+        for (int i = 0; i < 10; i++) {
+            listOfPSOs.add(new PSO());
+        }
+    }
 
-	@Test
-	public void testNextAndPrevious() {
-		// reset the testIterator
-		testIterator.setAlgorithms(listOfPSOs);
+    @Test
+    public void testNextAndPrevious() {
+        // reset the testIterator
+        testIterator.setAlgorithms(listOfPSOs);
 
-		ListIterator<PSO> javaIterator = listOfPSOs.listIterator();
+        ListIterator<PSO> javaIterator = listOfPSOs.listIterator();
 
-		assertEquals(testIterator.hasNext(), javaIterator.hasNext());
-		assertEquals(testIterator.hasPrevious(), javaIterator.hasPrevious());
+        assertEquals(testIterator.hasNext(), javaIterator.hasNext());
+        assertEquals(testIterator.hasPrevious(), javaIterator.hasPrevious());
 
-		while (testIterator.hasNext()) {
-			assertSame(testIterator.next(), javaIterator.next());
-			assertSame(testIterator.previous(), javaIterator.previous());
-			assertSame(testIterator.next(), javaIterator.next());
-			assertEquals(testIterator.nextIndex(), javaIterator.nextIndex());
-			assertEquals(testIterator.previousIndex(), javaIterator.previousIndex());
-			assertEquals(testIterator.hasNext(), javaIterator.hasNext());
-			assertEquals(testIterator.hasPrevious(), testIterator.hasPrevious());
-		}
+        while (testIterator.hasNext()) {
+            assertSame(testIterator.next(), javaIterator.next());
+            assertSame(testIterator.previous(), javaIterator.previous());
+            assertSame(testIterator.next(), javaIterator.next());
+            assertEquals(testIterator.nextIndex(), javaIterator.nextIndex());
+            assertEquals(testIterator.previousIndex(), javaIterator.previousIndex());
+            assertEquals(testIterator.hasNext(), javaIterator.hasNext());
+            assertEquals(testIterator.hasPrevious(), testIterator.hasPrevious());
+        }
 
-		try {
-			testIterator.next();
-		}
-		catch (NoSuchElementException nsee) {
-			logger.info("Caught 'NoSuchelementException' correctly: " + nsee.getMessage());
-		}
+        try {
+            testIterator.next();
+        }
+        catch (NoSuchElementException nsee) {
+            logger.info("Caught 'NoSuchelementException' correctly: " + nsee.getMessage());
+        }
 
-		assertEquals(testIterator.hasNext(), javaIterator.hasNext());
-		assertEquals(testIterator.hasPrevious(), javaIterator.hasPrevious());
+        assertEquals(testIterator.hasNext(), javaIterator.hasNext());
+        assertEquals(testIterator.hasPrevious(), javaIterator.hasPrevious());
 
-		while (testIterator.hasPrevious()) {
-			assertSame(testIterator.previous(), javaIterator.previous());
-			assertSame(testIterator.next(), javaIterator.next());
-			assertSame(testIterator.previous(), javaIterator.previous());
-			assertEquals(testIterator.nextIndex(), javaIterator.nextIndex());
-			assertEquals(testIterator.previousIndex(), javaIterator.previousIndex());
-			assertEquals(testIterator.hasNext(), javaIterator.hasNext());
-			assertEquals(testIterator.hasPrevious(), testIterator.hasPrevious());
-		}
+        while (testIterator.hasPrevious()) {
+            assertSame(testIterator.previous(), javaIterator.previous());
+            assertSame(testIterator.next(), javaIterator.next());
+            assertSame(testIterator.previous(), javaIterator.previous());
+            assertEquals(testIterator.nextIndex(), javaIterator.nextIndex());
+            assertEquals(testIterator.previousIndex(), javaIterator.previousIndex());
+            assertEquals(testIterator.hasNext(), javaIterator.hasNext());
+            assertEquals(testIterator.hasPrevious(), testIterator.hasPrevious());
+        }
 
-		try {
-			testIterator.previous();
-		}
-		catch (NoSuchElementException nsee) {
-			logger.info("Caught 'NoSuchelementException' correctly: " + nsee.getMessage());
-		}
+        try {
+            testIterator.previous();
+        }
+        catch (NoSuchElementException nsee) {
+            logger.info("Caught 'NoSuchelementException' correctly: " + nsee.getMessage());
+        }
 
-		assertEquals(testIterator.hasNext(), javaIterator.hasNext());
-		assertEquals(testIterator.hasPrevious(), javaIterator.hasPrevious());
-	}
+        assertEquals(testIterator.hasNext(), javaIterator.hasNext());
+        assertEquals(testIterator.hasPrevious(), javaIterator.hasPrevious());
+    }
 
-	@Test
-	public void testAddAndRemoveAndSet() {
-		// reset the testIterator
-		testIterator.setAlgorithms(listOfPSOs);
+    @Test
+    public void testAddAndRemoveAndSet() {
+        // reset the testIterator
+        testIterator.setAlgorithms(listOfPSOs);
 
-		for (int i = 0; i < listOfPSOs.size(); i++) {
-			if (i == 0) {
-				try {
-					testIterator.remove();
-				}
-				catch (IndexOutOfBoundsException iobe) {
-					logger.info("Caught 'IndexOutOfBoundsException' correctly: " + iobe.getMessage());
-				}
-	
-				try {
-					testIterator.set(new PSO());
-				}
-				catch (IndexOutOfBoundsException iobe) {
-					logger.info("Caught 'IndexOutOfBoundsException' correctly: " + iobe.getMessage());
-				}
-			}
+        for (int i = 0; i < listOfPSOs.size(); i++) {
+            if (i == 0) {
+                try {
+                    testIterator.remove();
+                }
+                catch (IndexOutOfBoundsException iobe) {
+                    logger.info("Caught 'IndexOutOfBoundsException' correctly: " + iobe.getMessage());
+                }
+    
+                try {
+                    testIterator.set(new PSO());
+                }
+                catch (IndexOutOfBoundsException iobe) {
+                    logger.info("Caught 'IndexOutOfBoundsException' correctly: " + iobe.getMessage());
+                }
+            }
 
-			testIterator.next();
-			if (i > 4 && i < 7)
-				testIterator.remove();
-			if (i > 7 && i < 10) {
-				PSO tmp = new PSO();
-				testIterator.set(tmp);
-				assertSame(tmp, testIterator.current());
-			}
-		}
+            testIterator.next();
+            if (i > 4 && i < 7)
+                testIterator.remove();
+            if (i > 7 && i < 10) {
+                PSO tmp = new PSO();
+                testIterator.set(tmp);
+                assertSame(tmp, testIterator.current());
+            }
+        }
 
-		//	set last element
-		PSO tmp = new PSO();
-		testIterator.set(tmp);
-		assertSame(tmp, testIterator.current());
+        //    set last element
+        PSO tmp = new PSO();
+        testIterator.set(tmp);
+        assertSame(tmp, testIterator.current());
 
-		testNextAndPrevious();
-		
-		// reset the testIterator
-		testIterator.setAlgorithms(listOfPSOs);
+        testNextAndPrevious();
+        
+        // reset the testIterator
+        testIterator.setAlgorithms(listOfPSOs);
 
-		// clear the list
-		while (testIterator.hasNext()) {
-			testIterator.next();
-			testIterator.remove();
-		}
+        // clear the list
+        while (testIterator.hasNext()) {
+            testIterator.next();
+            testIterator.remove();
+        }
 
-		assertTrue(listOfPSOs.isEmpty());
-		assertFalse(testIterator.hasNext());
-		assertFalse(testIterator.hasPrevious());
-	}
+        assertTrue(listOfPSOs.isEmpty());
+        assertFalse(testIterator.hasNext());
+        assertFalse(testIterator.hasPrevious());
+    }
 }

@@ -34,17 +34,17 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author  Edwin Peer
  */
 public abstract class ParticleDecorator extends AbstractParticle {
-	private static final long serialVersionUID = -1604818864075431177L;
+    private static final long serialVersionUID = -1604818864075431177L;
 
-	private AbstractParticle target;
+    private AbstractParticle target;
 
-	public ParticleDecorator() {
-		this.neighbourhoodBestUpdateStrategy = null;
-		this.positionUpdateStrategy = null;
-		this.velocityUpdateStrategy = null;
+    public ParticleDecorator() {
+        this.neighbourhoodBestUpdateStrategy = null;
+        this.positionUpdateStrategy = null;
+        this.velocityUpdateStrategy = null;
 
-		target = null;
-	}
+        target = null;
+    }
 
     public ParticleDecorator(Particle target) {
         this.target = (AbstractParticle) target;
@@ -52,29 +52,29 @@ public abstract class ParticleDecorator extends AbstractParticle {
 
 
     @Override
-	public boolean equals(Object object) {
-    	if (this == object)
-    		return true;
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
 
-    	if ((object == null) || (this.getClass() != object.getClass()))
-    		return false;
+        if ((object == null) || (this.getClass() != object.getClass()))
+            return false;
 
-    	ParticleDecorator other = (ParticleDecorator) object;
-		return super.equals(other) && (this.target.equals(other.target));
-	}
+        ParticleDecorator other = (ParticleDecorator) object;
+        return super.equals(other) && (this.target.equals(other.target));
+    }
 
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int hashCode() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	public void setTarget(Particle target) {
-    	this.target = (AbstractParticle) target;
+    public void setTarget(Particle target) {
+        this.target = (AbstractParticle) target;
     }
 
     public Particle getTarget() {
-    	return target;
+        return target;
     }
 
     public abstract ParticleDecorator getClone();
@@ -95,9 +95,9 @@ public abstract class ParticleDecorator extends AbstractParticle {
         return target.getFitness();
     }
 
-	public long getId() {
-		return target.getId();
-	}
+    public long getId() {
+        return target.getId();
+    }
 
     public Particle getNeighbourhoodBest() {
         return target.getNeighbourhoodBest();
@@ -121,51 +121,51 @@ public abstract class ParticleDecorator extends AbstractParticle {
     }
 
     @Override
-	public void calculateFitness(boolean count) {
-		target.calculateFitness(count);
-	}
+    public void calculateFitness(boolean count) {
+        target.calculateFitness(count);
+    }
 
-	public void setNeighbourhoodBest(Particle particle) {
+    public void setNeighbourhoodBest(Particle particle) {
         target.setNeighbourhoodBest(particle);
     }
 
 
     public void updateVelocity() {
-    	target.updateVelocity();
+        target.updateVelocity();
     }
 
     public void updateControlParameters() {
-    	target.updateControlParameters();
+        target.updateControlParameters();
     }
 
     public VelocityUpdateStrategy getVelocityUpdateStrategy() {
-    	return target.velocityUpdateStrategy;
+        return target.velocityUpdateStrategy;
     }
 
     public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
-    	target.setVelocityUpdateStrategy(velocityUpdateStrategy);
+        target.setVelocityUpdateStrategy(velocityUpdateStrategy);
     }
 
 
     public StructuredType getCandidateSolution() {
-    	return target.getCandidateSolution();
+        return target.getCandidateSolution();
     }
 
     public void setCandidateSolution(StructuredType type) {
-    	this.target.setCandidateSolution(type);
+        this.target.setCandidateSolution(type);
     }
 
     public int compareTo(Entity o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
     public void setDimension(int dim) {
 
     }
 
     public Type getBehaviouralParameters() {
-    	return null;
+        return null;
     }
 
     public void setBehaviouralParameters(Type type) {

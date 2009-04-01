@@ -33,19 +33,19 @@ package net.sourceforge.cilib.functions.clustering;
  * @author Theuns Cloete
  */
 public class NonParametricClusteringFunction extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 5712216719378084294L;
+    private static final long serialVersionUID = 5712216719378084294L;
 
-	public NonParametricClusteringFunction() {
-		super();
-	}
+    public NonParametricClusteringFunction() {
+        super();
+    }
 
-	@Override
-	public double calculateFitness() {
-		return (calculateMaximumAverageDistance() + calculateQuantisationError()) / calculateMinimumInterClusterDistance();
-	}
+    @Override
+    public double calculateFitness() {
+        return (calculateMaximumAverageDistance() + calculateQuantisationError()) / calculateMinimumInterClusterDistance();
+    }
 
-	@Override
-	public NonParametricClusteringFunction getClone() {
-		return new NonParametricClusteringFunction();
-	}
+    @Override
+    public NonParametricClusteringFunction getClone() {
+        return new NonParametricClusteringFunction();
+    }
 }

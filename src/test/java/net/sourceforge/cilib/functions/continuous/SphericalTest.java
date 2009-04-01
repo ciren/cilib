@@ -43,7 +43,7 @@ public class SphericalTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
     @Test
     public void testEvaluate() {
-    	ContinuousFunction function = new Spherical();
+        ContinuousFunction function = new Spherical();
         function.setDomain("R(-100, 100)^3");
         //double[] x = {1, 2, 3};
         Vector x = new Vector();
@@ -55,7 +55,7 @@ public class SphericalTest {
     }
     
     public void testGradient() {
-    	// add gradient test
+        // add gradient test
     }
     
 }

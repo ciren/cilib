@@ -29,11 +29,11 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  */
 public class StandardFitnessUpdateStrategy implements FitnessUpdateStrategy {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateFitness(OptimisationProblem problem, Entity context) {
-		//context.setFitness(problem.getFitness(context.get(), true));
-		context.calculateFitness();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void updateFitness(OptimisationProblem problem, Entity context) {
+        //context.setFitness(problem.getFitness(context.get(), true));
+        context.calculateFitness();
+    }
 }

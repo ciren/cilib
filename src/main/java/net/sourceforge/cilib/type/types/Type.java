@@ -28,24 +28,24 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface Type extends Cloneable {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Type getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Type getClone();
 
-	/**
-	 * {@inheritDoc}
-	 * @see Object#equals(Object)
-	 */
-	@Override
-	public boolean equals(Object other);
+    /**
+     * {@inheritDoc}
+     * @see Object#equals(Object)
+     */
+    @Override
+    public boolean equals(Object other);
 
-	/**
-	 * {@inheritDoc}
-	 * @see Object#hashCode()
-	 */
-	@Override
-	public int hashCode();
+    /**
+     * {@inheritDoc}
+     * @see Object#hashCode()
+     */
+    @Override
+    public int hashCode();
 
 }

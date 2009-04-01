@@ -36,7 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Implements the Entity interface. Individual represents entities used within the EC paradigm.
  */
 public class Individual extends AbstractEntity {
-	private static final long serialVersionUID = -578986147850240655L;
+    private static final long serialVersionUID = -578986147850240655L;
 
     protected int dimension;
 
@@ -55,46 +55,46 @@ public class Individual extends AbstractEntity {
      * @param copy The {@linkplain Individual} to copy.
      */
     public Individual(Individual copy) {
-    	super(copy);
+        super(copy);
         this.dimension = copy.dimension;
     }
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
      public Individual getClone() {
-    	 return new Individual(this);
+         return new Individual(this);
      }
 
      /**
       * {@inheritDoc}
       */
-	@Override
-	public boolean equals(Object object) {
-		if (this == object)
-			return true;
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
 
-		if ((object == null) || (this.getClass() != object.getClass()))
-			return false;
+        if ((object == null) || (this.getClass() != object.getClass()))
+            return false;
 
-		Individual other = (Individual) object;
-		return super.equals(other) &&
-			(this.dimension == other.dimension);
-	}
+        Individual other = (Individual) object;
+        return super.equals(other) &&
+            (this.dimension == other.dimension);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + super.hashCode();
-		hash = 31 * hash + Integer.valueOf(dimension).hashCode();
-		return hash;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + Integer.valueOf(dimension).hashCode();
+        return hash;
+    }
 
-	/**
+    /**
       * Resets the fitness to <code>InferiorFitness</code>.
       */
      public void resetFitness() {
@@ -104,60 +104,60 @@ public class Individual extends AbstractEntity {
      /**
       * {@inheritDoc}
       */
-	 @Override
+     @Override
      public void initialise(OptimisationProblem problem) {
          // ID initialization is done in the clone method...
          // which is always enforced due to the semantics of the performInitialisation methods
 
-    	 this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-		 TypeUtil.randomize(this.getCandidateSolution());
+         this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
+         TypeUtil.randomize(this.getCandidateSolution());
 
-    	 if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
-    		 this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
-			 TypeUtil.randomize(this.getProperties().get(EntityType.Individual.PHENOTYPES));
-    	 }
+         if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
+             this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
+             TypeUtil.randomize(this.getProperties().get(EntityType.Individual.PHENOTYPES));
+         }
 
-    	 this.dimension = this.getCandidateSolution().size();
-    	 this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+         this.dimension = this.getCandidateSolution().size();
+         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
      }
 
      /**
       * {@inheritDoc}
       */
-	 @Override
+     @Override
      public int compareTo(Entity o) {
-    	 return this.getFitness().compareTo(o.getFitness());
+         return this.getFitness().compareTo(o.getFitness());
      }
 
      /**
       * {@inheritDoc}
       */
-	 @Override
+     @Override
      public void setCandidateSolution(StructuredType type) {
-    	 super.setCandidateSolution(type);
-    	 this.dimension = type.size();
+         super.setCandidateSolution(type);
+         this.dimension = type.size();
      }
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public void calculateFitness() {
-    	calculateFitness(true);
+        calculateFitness(true);
     }
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public void calculateFitness(boolean count) {
-    	this.getProperties().put(EntityType.FITNESS, this.getFitnessCalculator().getFitness(this, count));
+        this.getProperties().put(EntityType.FITNESS, this.getFitnessCalculator().getFitness(this, count));
     }
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public int getDimension() {
         return this.dimension;
     }
@@ -176,15 +176,15 @@ public class Individual extends AbstractEntity {
      * the current {@linkplain Individual}.
      * @return The textual representation of this {@linkplain Individual}.
      */
-	@Override
+    @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
 
         str.append(getCandidateSolution().toString());
 
         if (this.getProperties().get(EntityType.Individual.PHENOTYPES) != null) {
-        	str.append(" ");
-        	str.append(this.getProperties().get(EntityType.Individual.PHENOTYPES).toString());
+            str.append(" ");
+            str.append(this.getProperties().get(EntityType.Individual.PHENOTYPES).toString());
         }
 
         return str.toString();
@@ -192,29 +192,29 @@ public class Individual extends AbstractEntity {
 
 
     /**
-	 * Return the <tt>Entity</tt> associated behavioural parameters.
-	 * @return a <tt>Type</tt> representing the behavioural parameters.
-	 */
-	public Type getBehaviouralParameters() {
-		return this.getProperties().get(EntityType.Individual.PHENOTYPES);
-	}
+     * Return the <tt>Entity</tt> associated behavioural parameters.
+     * @return a <tt>Type</tt> representing the behavioural parameters.
+     */
+    public Type getBehaviouralParameters() {
+        return this.getProperties().get(EntityType.Individual.PHENOTYPES);
+    }
 
 
-	/**
-	 * Set the behavioural parameters for the <tt>Entity</tt>.
-	 * @param type The behavioural parameters to set.
-	 */
-	public void setBehaviouralParameters(Type type) {
-		if (type instanceof Vector)
-			this.getProperties().put(EntityType.Individual.PHENOTYPES, type);
-		else throw new RuntimeException("BehaviouralParameters need to be correct type! Please check and correct");
-	}
+    /**
+     * Set the behavioural parameters for the <tt>Entity</tt>.
+     * @param type The behavioural parameters to set.
+     */
+    public void setBehaviouralParameters(Type type) {
+        if (type instanceof Vector)
+            this.getProperties().put(EntityType.Individual.PHENOTYPES, type);
+        else throw new RuntimeException("BehaviouralParameters need to be correct type! Please check and correct");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void reinitialise() {
-		throw new UnsupportedOperationException("Implementation is required for this method");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reinitialise() {
+        throw new UnsupportedOperationException("Implementation is required for this method");
+    }
 }

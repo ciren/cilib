@@ -46,13 +46,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @version 1.0
  */
 public class Michalewicz12 extends ContinuousFunction {
-	private static final long serialVersionUID = -2885728189740122807L;
+    private static final long serialVersionUID = -2885728189740122807L;
 
-	private int m;
+    private int m;
 
-	/**
-	 * Create an instance of {@linkplain Michalewicz12}. Domain is set to R(0, PI)^30
-	 */
+    /**
+     * Create an instance of {@linkplain Michalewicz12}. Domain is set to R(0, PI)^30
+     */
     public Michalewicz12() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(0, 3.141592653589793)^30");
@@ -65,19 +65,19 @@ public class Michalewicz12 extends ContinuousFunction {
      */
     @Override
     public Michalewicz12 getClone() {
-    	return new Michalewicz12();
+        return new Michalewicz12();
     }
 
     /**
      * {@inheritDoc}
      */
     public Object getMinimum() {
-    	if (this.getDimension() == 5)
-    		return new Double(-4.687);
-    	else if (this.getDimension() == 10)
-    		return new Double(-9.66);
+        if (this.getDimension() == 5)
+            return new Double(-4.687);
+        else if (this.getDimension() == 10)
+            return new Double(-9.66);
 
-    	return new Double(-Double.MAX_VALUE);
+        return new Double(-Double.MAX_VALUE);
     }
 
     /**
@@ -91,30 +91,30 @@ public class Michalewicz12 extends ContinuousFunction {
         result += Math.sin(y)*Math.pow(Math.sin(y*y/Math.PI), 20);
         return result;*/
 
-    	double sumsq = 0.0;
+        double sumsq = 0.0;
 
-    	for (int i = 0; i < getDimension(); i++) {
-    		double x = input.getReal(i);
-    		sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
-    	}
+        for (int i = 0; i < getDimension(); i++) {
+            double x = input.getReal(i);
+            sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
+        }
 
-    	return -sumsq;
+        return -sumsq;
     }
 
     /**
      * Get the value for <code>M</code>.
      * @return The value for <code>M</code>.
      */
-	public int getM() {
-		return m;
-	}
+    public int getM() {
+        return m;
+    }
 
-	/**
-	 * Set the value for <code>M</code>.
-	 * @param m The value to set.
-	 */
-	public void setM(int m) {
-		this.m = m;
-	}
+    /**
+     * Set the value for <code>M</code>.
+     * @param m The value to set.
+     */
+    public void setM(int m) {
+        this.m = m;
+    }
 
 }

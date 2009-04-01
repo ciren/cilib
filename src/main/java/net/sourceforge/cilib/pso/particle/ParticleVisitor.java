@@ -30,9 +30,9 @@ import net.sourceforge.cilib.entity.Particle;
  */
 public abstract class ParticleVisitor extends Visitor<Particle> {
 
-	/**
-	 * Visit the provided particle.
-	 * @param entity The {@linkplain Particle} to apply the visitor to.
-	 */
+    /**
+     * Visit the provided particle.
+     * @param entity The {@linkplain Particle} to apply the visitor to.
+     */
     public abstract void visit(Particle entity);
 }

@@ -33,62 +33,62 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class GenericFunctionMeasurement implements Measurement {
-	private static final long serialVersionUID = 3301062975775598397L;
-	private Function function = null;
+    private static final long serialVersionUID = 3301062975775598397L;
+    private Function function = null;
 
-	/**
-	 * Create a new instance of {@linkplain GenericFunctionMeasurement}.
-	 */
-	public GenericFunctionMeasurement() {
-		function = null;
-	}
+    /**
+     * Create a new instance of {@linkplain GenericFunctionMeasurement}.
+     */
+    public GenericFunctionMeasurement() {
+        function = null;
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public GenericFunctionMeasurement(GenericFunctionMeasurement copy) {
-		function = copy.function;
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public GenericFunctionMeasurement(GenericFunctionMeasurement copy) {
+        function = copy.function;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public GenericFunctionMeasurement getClone() {
-		return new GenericFunctionMeasurement(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public GenericFunctionMeasurement getClone() {
+        return new GenericFunctionMeasurement(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getDomain() {
-		return "R";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String getDomain() {
+        return "R";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type getValue(Algorithm algorithm) {
-		if (function == null)
-			throw new InitialisationException("The function that should be evaluated has not been set");
+    /**
+     * {@inheritDoc}
+     */
+    public Type getValue(Algorithm algorithm) {
+        if (function == null)
+            throw new InitialisationException("The function that should be evaluated has not been set");
 
-		Vector vector = (Vector) algorithm.getBestSolution().getPosition();
-		return new Real(function.evaluate(vector));
-	}
+        Vector vector = (Vector) algorithm.getBestSolution().getPosition();
+        return new Real(function.evaluate(vector));
+    }
 
-	/**
-	 * Get the set function.
-	 * @return The contained function.
-	 */
-	public Function getFunction() {
-		return function;
-	}
+    /**
+     * Get the set function.
+     * @return The contained function.
+     */
+    public Function getFunction() {
+        return function;
+    }
 
-	/**
-	 * Set the function.
-	 * @param f The value to set.
-	 */
-	public void setFunction(Function f) {
-		function = f;
-	}
+    /**
+     * Set the function.
+     * @param f The value to set.
+     */
+    public void setFunction(Function f) {
+        function = f;
+    }
 }

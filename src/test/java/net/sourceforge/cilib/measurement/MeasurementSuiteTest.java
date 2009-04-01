@@ -45,8 +45,8 @@ import org.junit.runner.RunWith;
 public class MeasurementSuiteTest {
 
     private Mockery context = new JUnit4Mockery() {{
-		setImposteriser(ClassImposteriser.INSTANCE);
-	}};
+        setImposteriser(ClassImposteriser.INSTANCE);
+    }};
 
     @Test
     public void measure() throws IOException, ClassNotFoundException {

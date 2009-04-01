@@ -31,7 +31,7 @@ class ProgressFrame extends javax.swing.JFrame implements ProgressListener {
 
     private static final long serialVersionUID = 4007873302370282732L;
 
-	/** Creates new form ProgressFrame. */
+    /** Creates new form ProgressFrame. */
     public ProgressFrame(int simulations) {
         initComponents();
         jProgressBar1.setMinimum(0);

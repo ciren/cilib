@@ -38,9 +38,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  engel
  */
 public class Easom extends ContinuousFunction {
-	private static final long serialVersionUID = 7173528343222997045L;
+    private static final long serialVersionUID = 7173528343222997045L;
 
-	/** Creates a new instance of Easom. */
+    /** Creates a new instance of Easom. */
     public Easom() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
@@ -50,12 +50,12 @@ public class Easom extends ContinuousFunction {
      * {@inheritDoc}
      */
     public Easom getClone() {
-    	return new Easom();
+        return new Easom();
     }
 
     /**
-	 * Get the minimum of the function. It is defined to be a value of -1.0.
-	 */
+     * Get the minimum of the function. It is defined to be a value of -1.0.
+     */
     public Object getMinimum() {
         return new Double(-1.0);
     }
@@ -64,9 +64,9 @@ public class Easom extends ContinuousFunction {
      * {@inheritDoc}
      */
     public double evaluate(Vector x) {
-    	double powerTerm1 = -((x.getReal(0)-Math.PI)*(x.getReal(0)-Math.PI));
-    	double powerTerm2 = -((x.getReal(1)-Math.PI)*(x.getReal(1)-Math.PI));
-    	double power = powerTerm1 + powerTerm2;
+        double powerTerm1 = -((x.getReal(0)-Math.PI)*(x.getReal(0)-Math.PI));
+        double powerTerm2 = -((x.getReal(1)-Math.PI)*(x.getReal(1)-Math.PI));
+        double power = powerTerm1 + powerTerm2;
         return -Math.cos(x.getReal(0)) * Math.cos(x.getReal(1)) * Math.exp(power);
     }
 

@@ -28,73 +28,73 @@ import net.sourceforge.cilib.container.BitArray;
  */
 public final class StemConflictTable {
 
-	private static StemConflictTable instance = null;
+    private static StemConflictTable instance = null;
 
-	private BitArray[] matrix = null;
+    private BitArray[] matrix = null;
 
-	private int size;
+    private int size;
 
-	private StemConflictTable() {
-	}
+    private StemConflictTable() {
+    }
 
-	public static StemConflictTable getInstance() {
-		if (instance == null) {
-			instance = new StemConflictTable();
-		}
+    public static StemConflictTable getInstance() {
+        if (instance == null) {
+            instance = new StemConflictTable();
+        }
 
-		return instance;
-	}
+        return instance;
+    }
 
-	/**
-	 * Creates a matrix of dimensions size*size.
-	 * @param size The size of the matrix.
-	 */
-	public void create(int size) {
-		this.size = size;
-		matrix = new BitArray[size];
-		for (int i = 0; i < size; i++) {
-			matrix[i] = new BitArray(size);
-		}
-		clearAll();
-	}
+    /**
+     * Creates a matrix of dimensions size*size.
+     * @param size The size of the matrix.
+     */
+    public void create(int size) {
+        this.size = size;
+        matrix = new BitArray[size];
+        for (int i = 0; i < size; i++) {
+            matrix[i] = new BitArray(size);
+        }
+        clearAll();
+    }
 
-	/**
-	 * this method will set all the bits to 0.
-	 */
-	public void clearAll() {
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				matrix[i].clear(j);
-			}
-		}
-	}
+    /**
+     * this method will set all the bits to 0.
+     */
+    public void clearAll() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                matrix[i].clear(j);
+            }
+        }
+    }
 
-	/**
-	 * Sets a bit (1) in the matrix.
-	 * @param row the row.
-	 * @param col The column.
-	 */
-	public void setBit(int row, int col) {
-		matrix[row].set(col);
-	}
+    /**
+     * Sets a bit (1) in the matrix.
+     * @param row the row.
+     * @param col The column.
+     */
+    public void setBit(int row, int col) {
+        matrix[row].set(col);
+    }
 
-	/**
-	 * Returns the value of a bit.
-	 * @param row The row.
-	 * @param col The column.
-	 * @return the value of the bit at row and col.
-	 */
-	public boolean get(int row, int col) {
-		return matrix[row].get(col);
-	}
+    /**
+     * Returns the value of a bit.
+     * @param row The row.
+     * @param col The column.
+     * @return the value of the bit at row and col.
+     */
+    public boolean get(int row, int col) {
+        return matrix[row].get(col);
+    }
 
-	/**
-	 * Clears a specific bit (0) in the matrix.
-	 * @param row The row.
-	 * @param col The column.
-	 */
-	public void clear(int row, int col) {
-		matrix[row].clear(col);
-	}
+    /**
+     * Clears a specific bit (0) in the matrix.
+     * @param row The row.
+     * @param col The column.
+     */
+    public void clear(int row, int col) {
+        matrix[row].clear(col);
+    }
 
 }

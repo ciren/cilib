@@ -73,14 +73,14 @@ public class ZiffGFSR4 extends Random {
     /**
      * Create an instance of {@linkplain ZiffGFSR4}.
      */
-	public ZiffGFSR4() {
+    public ZiffGFSR4() {
         super(Seeder.getSeed());
     }
 
-	/**
-	 * Create an instance with the given seed value.
-	 * @param seed The seed value to use.
-	 */
+    /**
+     * Create an instance with the given seed value.
+     * @param seed The seed value to use.
+     */
     public ZiffGFSR4(long seed) {
         super(seed);
     }
@@ -89,7 +89,7 @@ public class ZiffGFSR4 extends Random {
      * {@inheritDoc}
      */
     public ZiffGFSR4 getClone() {
-    	return new ZiffGFSR4();
+        return new ZiffGFSR4();
     }
 
     private long getLCG(long n) {

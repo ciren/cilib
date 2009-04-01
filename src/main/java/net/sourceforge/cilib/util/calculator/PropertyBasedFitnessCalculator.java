@@ -30,23 +30,23 @@ import net.sourceforge.cilib.problem.Fitness;
  * Calculates the fitness by passing the entity's blackboard to the algorithm's optimization problem
  */
 public class PropertyBasedFitnessCalculator implements
-		FitnessCalculator<Entity> {
-	private static final long serialVersionUID = -5225410711497956675L;
+        FitnessCalculator<Entity> {
+    private static final long serialVersionUID = -5225410711497956675L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public FitnessCalculator getClone() {
-		return this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FitnessCalculator getClone() {
+        return this;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Fitness getFitness(Entity entity, boolean count) {
-		Algorithm algorithm = Algorithm.get();
-		return algorithm.getOptimisationProblem().getFitness(entity.getProperties(), count);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness getFitness(Entity entity, boolean count) {
+        Algorithm algorithm = Algorithm.get();
+        return algorithm.getOptimisationProblem().getFitness(entity.getProperties(), count);
+    }
 }

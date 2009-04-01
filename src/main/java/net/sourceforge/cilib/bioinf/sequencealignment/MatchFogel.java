@@ -34,108 +34,108 @@ import java.util.StringTokenizer;
  * @author Fabien Zablocki
  */
 public class MatchFogel implements ScoringMethod {
-	private boolean verbose = false;  //default, can be set via XML
-	private boolean linearScale = true;  // default, can be set via XML
+    private boolean verbose = false;  //default, can be set via XML
+    private boolean linearScale = true;  // default, can be set via XML
 
-	public void setVerbose(boolean verbose) {
-		this.verbose = verbose;
-	}
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
 
-	public void setLinearScale(boolean linearScale) {
-		this.linearScale = linearScale;
-	}
+    public void setLinearScale(boolean linearScale) {
+        this.linearScale = linearScale;
+    }
 
-	public double getScore(ArrayList<String> alignment) {
-		// prints the current raw alignment in verbose mode
-		if (verbose) {
-			System.out.println("Raw Alignment (no clean up):");
+    public double getScore(ArrayList<String> alignment) {
+        // prints the current raw alignment in verbose mode
+        if (verbose) {
+            System.out.println("Raw Alignment (no clean up):");
 
-			for (String s : alignment) {
-				System.out.println("'" + s + "'");
-			}
-		}
+            for (String s : alignment) {
+                System.out.println("'" + s + "'");
+            }
+        }
 
-		/*************************************************************
-		 *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
-		 *************************************************************/
+        /*************************************************************
+         *  POST - PROCESSING(CLEAN UP): REMOVE ENTIRE GAPS COLUMNS  *
+         *************************************************************/
 
-		int seqLength = alignment.get(0).length();
-		int count = 0;
+        int seqLength = alignment.get(0).length();
+        int count = 0;
 
-//		Iterate through the columns
-		for (int i = 0; i < seqLength; i++)	{
-			try{
-			 for (String st : alignment) {
-				 if (st.charAt(i) == '-') count++; //gets char at position i
-			 }
+//        Iterate through the columns
+        for (int i = 0; i < seqLength; i++)    {
+            try{
+             for (String st : alignment) {
+                 if (st.charAt(i) == '-') count++; //gets char at position i
+             }
 
-			 if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
-				 int which = 0;
-				 for (String st1 : alignment) {
-					 StringBuilder stB = new StringBuilder(st1);
-					 stB.setCharAt(i, '*');
-					 alignment.set(which, stB.toString());
-					 which++;
-				 }
-			 }
-			 count = 0;
+             if (count == alignment.size()) { // GOT ONE, PROCEED TO CLEAN UP
+                 int which = 0;
+                 for (String st1 : alignment) {
+                     StringBuilder stB = new StringBuilder(st1);
+                     stB.setCharAt(i, '*');
+                     alignment.set(which, stB.toString());
+                     which++;
+                 }
+             }
+             count = 0;
 
-			}
-			catch(StringIndexOutOfBoundsException e) {
-				e.getMessage();
-				//System.out.println("i :"+i);
-				}
-		}
+            }
+            catch(StringIndexOutOfBoundsException e) {
+                e.getMessage();
+                //System.out.println("i :"+i);
+                }
+        }
 
 
-		int which2 = 0;
-		for (String st : alignment)	{
-			StringTokenizer st1 = new StringTokenizer(st, "*", false);
-			String t="";
+        int which2 = 0;
+        for (String st : alignment)    {
+            StringTokenizer st1 = new StringTokenizer(st, "*", false);
+            String t="";
 
-			while (st1.hasMoreElements()) t += st1.nextElement();
-			alignment.set(which2, t);
-			which2++;
-		}
-			/************* END ***************/
+            while (st1.hasMoreElements()) t += st1.nextElement();
+            alignment.set(which2, t);
+            which2++;
+        }
+            /************* END ***************/
 
-		double fitness = 0.0;
-		double columnFitness = 0.0;
-		int seqLength1 = alignment.get(0).length();
-		char [] tmpArray;
-		int counter;
+        double fitness = 0.0;
+        double columnFitness = 0.0;
+        int seqLength1 = alignment.get(0).length();
+        char [] tmpArray;
+        int counter;
 
-		//Iterate through the columns
-		for (int i = 0; i < seqLength1; i++) {
-			tmpArray = new char [alignment.size()];
-			counter = 0;
+        //Iterate through the columns
+        for (int i = 0; i < seqLength1; i++) {
+            tmpArray = new char [alignment.size()];
+            counter = 0;
 
-			//go through all the seqs
-			for (String currentString : alignment) {
-				tmpArray[counter] = currentString.charAt(i); //gets a entire column of chars at position i in the alignment
-				counter++;
-			}
+            //go through all the seqs
+            for (String currentString : alignment) {
+                tmpArray[counter] = currentString.charAt(i); //gets a entire column of chars at position i in the alignment
+                counter++;
+            }
 
-			/* START comparisons*/
-			int track = 0;
-			for (int h1 = 0; h1 < alignment.size(); h1++) {  //exept the last
-				for (int h2 = 1+track; h2 < alignment.size(); h2++) { //starts at 1, not 0
-					//MATCH
-					if(tmpArray[h1] == tmpArray[h2] &&
-					//CONSIDER GAP MATCHES AS A GAP PENALTY, so discard/ignore them with
-						!(tmpArray[h1] == '-' && tmpArray[h2]== '-')
-					  ) columnFitness++;
-				}
-				track++;
-			}
-			/* END COMPARISON*/
+            /* START comparisons*/
+            int track = 0;
+            for (int h1 = 0; h1 < alignment.size(); h1++) {  //exept the last
+                for (int h2 = 1+track; h2 < alignment.size(); h2++) { //starts at 1, not 0
+                    //MATCH
+                    if(tmpArray[h1] == tmpArray[h2] &&
+                    //CONSIDER GAP MATCHES AS A GAP PENALTY, so discard/ignore them with
+                        !(tmpArray[h1] == '-' && tmpArray[h2]== '-')
+                      ) columnFitness++;
+                }
+                track++;
+            }
+            /* END COMPARISON*/
 
-			if (linearScale) fitness+=columnFitness*(1+(columnFitness/alignment.size()));  //add a the linear scale to the column fitness
-			else fitness+= columnFitness;
-			columnFitness = 0;
-			tmpArray = null;
-		}
-		//  Fitness for matches
-		return fitness;
-	}
+            if (linearScale) fitness+=columnFitness*(1+(columnFitness/alignment.size()));  //add a the linear scale to the column fitness
+            else fitness+= columnFitness;
+            columnFitness = 0;
+            tmpArray = null;
+        }
+        //  Fitness for matches
+        return fitness;
+    }
 }

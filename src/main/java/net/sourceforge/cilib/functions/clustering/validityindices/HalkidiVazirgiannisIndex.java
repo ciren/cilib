@@ -38,97 +38,97 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * NOTE: By default, the cluster center refers to the cluster centroid. See {@link ClusterCenterStrategy}.
  */
 public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 1164537525165848345L;
-	private double stdev = 0.0;
+    private static final long serialVersionUID = 1164537525165848345L;
+    private double stdev = 0.0;
 
-	/**
-	 * Create a new instance of {@linkplain HalkidiVazirgiannisIndex}.
-	 */
-	public HalkidiVazirgiannisIndex() {
-		super();
-	}
+    /**
+     * Create a new instance of {@linkplain HalkidiVazirgiannisIndex}.
+     */
+    public HalkidiVazirgiannisIndex() {
+        super();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double calculateFitness() {
-		return calculateWithinClusterScatter() + calculateBetweenClusterSeperation();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double calculateFitness() {
+        return calculateWithinClusterScatter() + calculateBetweenClusterSeperation();
+    }
 
-	/**
-	 * The variance of the dataset is calculated using the dataset mean, whereas the variance of a specific cluster
-	 * is calculated using the specific cluster's center as determined by the {@link ClusterCenterStrategy}.
-	 * @return the within-cluster-scatter for the specific clustering
-	 */
-	protected double calculateWithinClusterScatter() {
-		double scattering = 0.0;
-		double datasetVariance = helper.getDataSetVariance();
-		double clusterVariance = 0.0;
+    /**
+     * The variance of the dataset is calculated using the dataset mean, whereas the variance of a specific cluster
+     * is calculated using the specific cluster's center as determined by the {@link ClusterCenterStrategy}.
+     * @return the within-cluster-scatter for the specific clustering
+     */
+    protected double calculateWithinClusterScatter() {
+        double scattering = 0.0;
+        double datasetVariance = helper.getDataSetVariance();
+        double clusterVariance = 0.0;
 
-		stdev = 0.0;
-		for (int i = 0; i < clustersFormed; i++) {
-			clusterVariance = StatUtils.variance(arrangedClusters.get(i).values(), clusterCenterStrategy.getCenter(i));
-			scattering += clusterVariance;
-			stdev += clusterVariance;
-		}
-		stdev = Math.sqrt(stdev);
-		stdev /= clustersFormed;
-		scattering /= datasetVariance;
-		return scattering /= clustersFormed;
-	}
+        stdev = 0.0;
+        for (int i = 0; i < clustersFormed; i++) {
+            clusterVariance = StatUtils.variance(arrangedClusters.get(i).values(), clusterCenterStrategy.getCenter(i));
+            scattering += clusterVariance;
+            stdev += clusterVariance;
+        }
+        stdev = Math.sqrt(stdev);
+        stdev /= clustersFormed;
+        scattering /= datasetVariance;
+        return scattering /= clustersFormed;
+    }
 
-	/**
-	 * Calculate the distances between cluster separation.
-	 * @return The distance between cluster separation.
-	 */
-	protected double calculateBetweenClusterSeperation() {
-		Vector midPoint = null, leftCenter = null, rightCenter = null;
-		double density = 0.0;
-		int midDensity = 0, leftDensity = 0, rightDensity = 0;
+    /**
+     * Calculate the distances between cluster separation.
+     * @return The distance between cluster separation.
+     */
+    protected double calculateBetweenClusterSeperation() {
+        Vector midPoint = null, leftCenter = null, rightCenter = null;
+        double density = 0.0;
+        int midDensity = 0, leftDensity = 0, rightDensity = 0;
 
-		for (int i = 0; i < clustersFormed; i++) {
-			leftCenter = clusterCenterStrategy.getCenter(i);
-			for (int j = 0; j < clustersFormed; j++) {
-				if (i != j) {
-					rightCenter = clusterCenterStrategy.getCenter(j);
-					midPoint = leftCenter.plus(rightCenter);
-					midPoint = midPoint.divide(2.0);
-					midDensity = leftDensity = rightDensity = 0;
+        for (int i = 0; i < clustersFormed; i++) {
+            leftCenter = clusterCenterStrategy.getCenter(i);
+            for (int j = 0; j < clustersFormed; j++) {
+                if (i != j) {
+                    rightCenter = clusterCenterStrategy.getCenter(j);
+                    midPoint = leftCenter.plus(rightCenter);
+                    midPoint = midPoint.divide(2.0);
+                    midDensity = leftDensity = rightDensity = 0;
 
-					for (Pattern pattern : arrangedClusters.get(i).values()) {
-						if (helper.calculateDistance(pattern.data, midPoint) <= stdev)
-							++midDensity;
-						if (helper.calculateDistance(pattern.data, leftCenter) <= stdev)
-							++leftDensity;
-					}
+                    for (Pattern pattern : arrangedClusters.get(i).values()) {
+                        if (helper.calculateDistance(pattern.data, midPoint) <= stdev)
+                            ++midDensity;
+                        if (helper.calculateDistance(pattern.data, leftCenter) <= stdev)
+                            ++leftDensity;
+                    }
 
-					for (Pattern pattern : arrangedClusters.get(j).values()) {
-						if (helper.calculateDistance(pattern.data, midPoint) <= stdev)
-							++midDensity;
-						if (helper.calculateDistance(pattern.data, rightCenter) <= stdev)
-							++rightDensity;
-					}
+                    for (Pattern pattern : arrangedClusters.get(j).values()) {
+                        if (helper.calculateDistance(pattern.data, midPoint) <= stdev)
+                            ++midDensity;
+                        if (helper.calculateDistance(pattern.data, rightCenter) <= stdev)
+                            ++rightDensity;
+                    }
 
-					// prevent devision by zero (ArithmeticExceptions)
-					// leftDensity + rightDensity == 0 can mean one of two things:
-					// 1. both clusters didn't have any patterns in it or
-					// 2. the distance between the pattern and midPoint was not > stdev (for both
-					// clusters)
-					if (leftDensity + rightDensity > 0.0) {
-						density += midDensity / Math.max(leftDensity, rightDensity);
-					}
-				}
-			}
-		}
-		return density /= (clustersFormed * (clustersFormed - 1));
-	}
+                    // prevent devision by zero (ArithmeticExceptions)
+                    // leftDensity + rightDensity == 0 can mean one of two things:
+                    // 1. both clusters didn't have any patterns in it or
+                    // 2. the distance between the pattern and midPoint was not > stdev (for both
+                    // clusters)
+                    if (leftDensity + rightDensity > 0.0) {
+                        density += midDensity / Math.max(leftDensity, rightDensity);
+                    }
+                }
+            }
+        }
+        return density /= (clustersFormed * (clustersFormed - 1));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public HalkidiVazirgiannisIndex getClone() {
-		return new HalkidiVazirgiannisIndex();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public HalkidiVazirgiannisIndex getClone() {
+        return new HalkidiVazirgiannisIndex();
+    }
 }

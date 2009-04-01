@@ -30,20 +30,20 @@ import net.sourceforge.cilib.entity.operators.Operator;
  * @author Gary Pampara
  */
 public abstract class SelectionStrategy implements Operator {
-	private static final long serialVersionUID = 410467686448546547L;
+    private static final long serialVersionUID = 410467686448546547L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract SelectionStrategy getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract SelectionStrategy getClone();
 
-	/**
-	 * Apply the selection strategy and return a single {@linkplain Entity}.
-	 * @param population The {@linkplain Topology} to make the selection from.
-	 * @param <T> The Entity type.
-	 * @return The selected {@linkplain Entity}.
-	 */
-	public abstract <T extends Entity> T select(Topology<T> population);
+    /**
+     * Apply the selection strategy and return a single {@linkplain Entity}.
+     * @param population The {@linkplain Topology} to make the selection from.
+     * @param <T> The Entity type.
+     * @return The selected {@linkplain Entity}.
+     */
+    public abstract <T extends Entity> T select(Topology<T> population);
 
 }

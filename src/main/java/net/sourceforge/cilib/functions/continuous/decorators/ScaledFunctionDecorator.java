@@ -41,103 +41,103 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class ScaledFunctionDecorator extends ContinuousFunction {
-	private static final long serialVersionUID = -5316734133098401441L;
-	private ContinuousFunction function;
-	private double verticalScale;
-	private double horizontalScale;
+    private static final long serialVersionUID = -5316734133098401441L;
+    private ContinuousFunction function;
+    private double verticalScale;
+    private double horizontalScale;
 
-	/**
-	 * Create an instance of the decorator. Domain is set to "R" by default.
-	 */
-	public ScaledFunctionDecorator() {
-		setDomain("R");
-		verticalScale = 1.0;
-		horizontalScale = 1.0;
-	}
+    /**
+     * Create an instance of the decorator. Domain is set to "R" by default.
+     */
+    public ScaledFunctionDecorator() {
+        setDomain("R");
+        verticalScale = 1.0;
+        horizontalScale = 1.0;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ScaledFunctionDecorator getClone() {
-		return new ScaledFunctionDecorator();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ScaledFunctionDecorator getClone() {
+        return new ScaledFunctionDecorator();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
-		// adds the value of the verticalShift to the original function minimum
-		return new Double(((Double) function.getMinimum()).doubleValue() * verticalScale);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
+        // adds the value of the verticalShift to the original function minimum
+        return new Double(((Double) function.getMinimum()).doubleValue() * verticalScale);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
         Vector tmp = x.getClone();
 
-		for (int i = 0; i < x.getDimension(); i++) {
-			tmp.setReal(i, (horizontalScale * x.getReal(i)));
-		}
+        for (int i = 0; i < x.getDimension(); i++) {
+            tmp.setReal(i, (horizontalScale * x.getReal(i)));
+        }
 
-		return (verticalScale * function.evaluate(tmp));
-	}
+        return (verticalScale * function.evaluate(tmp));
+    }
 
-	/**
-	 * Get the decorated function.
-	 * @return The decorated function.
-	 */
-	public ContinuousFunction getFunction() {
-		return function;
-	}
+    /**
+     * Get the decorated function.
+     * @return The decorated function.
+     */
+    public ContinuousFunction getFunction() {
+        return function;
+    }
 
-	/**
-	 * Set the function that is to be decorated.
-	 * @param function The function to decorated.
-	 */
-	public void setFunction(ContinuousFunction function) {
-		this.function = function;
-		this.setDomain(function.getDomainRegistry().getDomainString());
-	}
+    /**
+     * Set the function that is to be decorated.
+     * @param function The function to decorated.
+     */
+    public void setFunction(ContinuousFunction function) {
+        this.function = function;
+        this.setDomain(function.getDomainRegistry().getDomainString());
+    }
 
-	/**
-	 * Get the horizontal scale value.
-	 * @return The horizontal scale value.
-	 */
-	public double getHorizontalScale() {
-		return horizontalScale;
-	}
+    /**
+     * Get the horizontal scale value.
+     * @return The horizontal scale value.
+     */
+    public double getHorizontalScale() {
+        return horizontalScale;
+    }
 
-	/**
-	 * Set the value of the horizontal scale.
-	 * @param horizontalScale The value of the horizontal scale.
-	 */
-	public void setHorizontalScale(double horizontalScale) {
-		if (horizontalScale <= 0)
-			throw new InitialisationException("Horizontal scale factor must be greater than zero!");
+    /**
+     * Set the value of the horizontal scale.
+     * @param horizontalScale The value of the horizontal scale.
+     */
+    public void setHorizontalScale(double horizontalScale) {
+        if (horizontalScale <= 0)
+            throw new InitialisationException("Horizontal scale factor must be greater than zero!");
 
-		this.horizontalScale = horizontalScale;
-	}
+        this.horizontalScale = horizontalScale;
+    }
 
-	/**
-	 * Get the value of the vertical scale.
-	 * @return The vertical scale value.
-	 */
-	public double getVerticalScale() {
-		return verticalScale;
-	}
+    /**
+     * Get the value of the vertical scale.
+     * @return The vertical scale value.
+     */
+    public double getVerticalScale() {
+        return verticalScale;
+    }
 
-	/**
-	 * Set the value of the vertical scale.
-	 * @param verticalScale The vertical scale to use.
-	 */
-	public void setVerticalScale(double verticalScale) {
-		if (verticalScale <= 0)
-			throw new InitialisationException("Vertical scale factor must be greater than zero!");
+    /**
+     * Set the value of the vertical scale.
+     * @param verticalScale The vertical scale to use.
+     */
+    public void setVerticalScale(double verticalScale) {
+        if (verticalScale <= 0)
+            throw new InitialisationException("Vertical scale factor must be greater than zero!");
 
-		this.verticalScale = verticalScale;
-	}
+        this.verticalScale = verticalScale;
+    }
 
 }

@@ -30,32 +30,32 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Edwin Peer
  */
 public interface AlgorithmListener extends Cloneable {
-	/**
-	 * This event is fired just prior to the execution of the main loop of the algorithm.
-	 * @param e an event containing a reference to the source algorithm.
-	 */
-	public void algorithmStarted(AlgorithmEvent e);
+    /**
+     * This event is fired just prior to the execution of the main loop of the algorithm.
+     * @param e an event containing a reference to the source algorithm.
+     */
+    public void algorithmStarted(AlgorithmEvent e);
 
-	/**
-	 * This event is fired when the algorithm has completed normally.
-	 * @param e an event containing a reference to the source algorithm.
-	 */
-	public void algorithmFinished(AlgorithmEvent e);
+    /**
+     * This event is fired when the algorithm has completed normally.
+     * @param e an event containing a reference to the source algorithm.
+     */
+    public void algorithmFinished(AlgorithmEvent e);
 
-	/**
-	 * This event is fired when the algorithm is terminated abnormally.
-	 * @param e an event containing a reference to the source algorithm.
-	 */
-	public void algorithmTerminated(AlgorithmEvent e);
+    /**
+     * This event is fired when the algorithm is terminated abnormally.
+     * @param e an event containing a reference to the source algorithm.
+     */
+    public void algorithmTerminated(AlgorithmEvent e);
 
-	/**
-	 * This event is fired after each iteration of the mail loop of the algorithm.
-	 * @param e an event containing a reference to the source algorithm.
-	 */
-	public void iterationCompleted(AlgorithmEvent e);
+    /**
+     * This event is fired after each iteration of the mail loop of the algorithm.
+     * @param e an event containing a reference to the source algorithm.
+     */
+    public void iterationCompleted(AlgorithmEvent e);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public AlgorithmListener getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public AlgorithmListener getClone();
 }

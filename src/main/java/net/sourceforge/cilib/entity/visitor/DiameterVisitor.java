@@ -35,31 +35,31 @@ public class DiameterVisitor extends TopologyVisitor {
 
     private double distance = -Double.MAX_VALUE;
 
-	public DiameterVisitor() {
-	}
+    public DiameterVisitor() {
+    }
 
-	@Override
-	public void visit(Topology<? extends Entity> topology) {
-		double maxDistance = 0.0;
+    @Override
+    public void visit(Topology<? extends Entity> topology) {
+        double maxDistance = 0.0;
 
-    	Iterator<? extends Entity> k1 = topology.iterator();
+        Iterator<? extends Entity> k1 = topology.iterator();
         while (k1.hasNext()) {
             Entity p1 = (Entity) k1.next();
-        	Vector position1 = (Vector) p1.getCandidateSolution();
+            Vector position1 = (Vector) p1.getCandidateSolution();
 
-        	Iterator<? extends Entity> k2 = topology.iterator();
-        	while (k2.hasNext()) {
-        		Entity p2 = (Entity) k2.next();
-        		Vector position2 = (Vector) p2.getCandidateSolution();
+            Iterator<? extends Entity> k2 = topology.iterator();
+            while (k2.hasNext()) {
+                Entity p2 = (Entity) k2.next();
+                Vector position2 = (Vector) p2.getCandidateSolution();
 
-        		double actualDistance = distanceMeasure.distance(position1, position2);
-        		if (actualDistance > maxDistance)
-        			maxDistance = actualDistance;
-        	}
+                double actualDistance = distanceMeasure.distance(position1, position2);
+                if (actualDistance > maxDistance)
+                    maxDistance = actualDistance;
+            }
         }
 
         distance = maxDistance;
-	}
+    }
 
     @Override
     public Double getResult() {

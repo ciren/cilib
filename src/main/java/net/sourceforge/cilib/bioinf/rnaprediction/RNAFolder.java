@@ -32,45 +32,45 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  * configuration for adding the new stems.
  */
 public abstract class RNAFolder {
-	/**
-	 *
-	 * @param currentfolding - This is a input/output parameter (passed by reference.
-	 * The new folding is returned in this parameter.
-	 * @param openStems - The stems to remove from the conformation.
-	 * @param closeStems - The stems to attempt to add to the conformation.
-	 */
-	public abstract void refold(RNAConformation currentfolding,
-			RNAConformation openStems,
-			RNAConformation closeStems);
+    /**
+     *
+     * @param currentfolding - This is a input/output parameter (passed by reference.
+     * The new folding is returned in this parameter.
+     * @param openStems - The stems to remove from the conformation.
+     * @param closeStems - The stems to attempt to add to the conformation.
+     */
+    public abstract void refold(RNAConformation currentfolding,
+            RNAConformation openStems,
+            RNAConformation closeStems);
 
-	/**
-	 * Does a general refold by removing the openStems and then adding as many
-	 * close stems as possible.
-	 * @param currentfolding This is a input/output parameter (passed by reference.
-	 * The new folding is returned in this parameter.
-	 * @param openStems The stems to remove from the conformation.
-	 * @param closeStems The stems to attempt to add to the conformation.
-	 */
-	/*
-	public void fastRefold(RNAConformation currentfolding,
-			RNAConformation openStems,
-			RNAConformation closeStems) {
+    /**
+     * Does a general refold by removing the openStems and then adding as many
+     * close stems as possible.
+     * @param currentfolding This is a input/output parameter (passed by reference.
+     * The new folding is returned in this parameter.
+     * @param openStems The stems to remove from the conformation.
+     * @param closeStems The stems to attempt to add to the conformation.
+     */
+    /*
+    public void fastRefold(RNAConformation currentfolding,
+            RNAConformation openStems,
+            RNAConformation closeStems) {
 
-		//		remove openStems
-		currentfolding.removeAll(openStems);
-		boolean conflicts = false;
+        //        remove openStems
+        currentfolding.removeAll(openStems);
+        boolean conflicts = false;
 
-		for (RNAStem tempStem : closeStems) {
-			//check if this stem conflicts with any of the current stems
-			conflicts = false;
-			for (RNAStem currentStem : currentfolding) {
-				if (((RNAStem)tempStem).conflictsWith((RNAStem)currentStem)) {
-					conflicts = true;
-					break;
-				}
-			}
-		}
-	}
-	*/
+        for (RNAStem tempStem : closeStems) {
+            //check if this stem conflicts with any of the current stems
+            conflicts = false;
+            for (RNAStem currentStem : currentfolding) {
+                if (((RNAStem)tempStem).conflictsWith((RNAStem)currentStem)) {
+                    conflicts = true;
+                    break;
+                }
+            }
+        }
+    }
+    */
 
 }

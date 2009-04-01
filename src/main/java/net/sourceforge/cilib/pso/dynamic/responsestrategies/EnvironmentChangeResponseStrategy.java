@@ -28,15 +28,15 @@ import net.sourceforge.cilib.util.Cloneable;
  * TODO: Complete this Javadoc.
  */
 public interface EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgorithm> extends Cloneable {
-	/**
-	 * Clone the <tt>EnvironmentChangeResponseStrategy</tt> object.
-	 * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
-	 */
-	public EnvironmentChangeResponseStrategy<E> getClone();
+    /**
+     * Clone the <tt>EnvironmentChangeResponseStrategy</tt> object.
+     * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
+     */
+    public EnvironmentChangeResponseStrategy<E> getClone();
 
-	/**
-	 * Adapt to environment change.
-	 * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.
-	 */
-	public void respond(E algorithm);
+    /**
+     * Adapt to environment change.
+     * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.
+     */
+    public void respond(E algorithm);
 }

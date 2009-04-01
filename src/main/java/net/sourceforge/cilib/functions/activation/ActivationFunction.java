@@ -30,28 +30,28 @@ import net.sourceforge.cilib.type.types.Type;
  * an abstraction for all functions that can be used in this manner.
  */
 public abstract class ActivationFunction extends Function implements Differentiable {
-	private static final long serialVersionUID = 4692200308338537909L;
+    private static final long serialVersionUID = 4692200308338537909L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract Double evaluate(Type x);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract Double evaluate(Type x);
 
-	/**
-	 * Determine the value of the {@link ActivationFunction} at the provided <code>point</code>.
-	 * The provided <code>point</code> is simply a {@linkplain Number} that is provided as input.
-	 * @param number The input value.
-	 * @return The evaluation of the {@link ActivationFunction}, given <code>number</code> as
-	 *         input.
-	 */
-	public abstract Double evaluate(Number number);
+    /**
+     * Determine the value of the {@link ActivationFunction} at the provided <code>point</code>.
+     * The provided <code>point</code> is simply a {@linkplain Number} that is provided as input.
+     * @param number The input value.
+     * @return The evaluation of the {@link ActivationFunction}, given <code>number</code> as
+     *         input.
+     */
+    public abstract Double evaluate(Number number);
 
-	/**
-	 * Determine the gradient of the {@link ActivationFunction} at the given point.
-	 * @param number The <code>point</code> at which the gradient is to be determined.
-	 * @return The value of the gradient and the provided input.
-	 */
-	public abstract Double getGradient(Number number);
+    /**
+     * Determine the gradient of the {@link ActivationFunction} at the given point.
+     * @param number The <code>point</code> at which the gradient is to be determined.
+     * @return The value of the gradient and the provided input.
+     */
+    public abstract Double getGradient(Number number);
 
 }

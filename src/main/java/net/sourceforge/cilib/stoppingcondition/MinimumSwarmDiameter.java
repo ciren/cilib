@@ -29,55 +29,55 @@ import net.sourceforge.cilib.pso.PSO;
  * @author Edwin Peer
  */
 public class MinimumSwarmDiameter implements StoppingCondition {
-	private static final long serialVersionUID = -1570485054918077401L;
+    private static final long serialVersionUID = -1570485054918077401L;
 
-	double minimumSwarmDiameter;
-	PSO algorithm;
+    double minimumSwarmDiameter;
+    PSO algorithm;
 
-	/** Creates a new instance of MinimumSwarmDiameterIndicator. */
-	public MinimumSwarmDiameter() {
-		minimumSwarmDiameter = 0.0001;
-	}
+    /** Creates a new instance of MinimumSwarmDiameterIndicator. */
+    public MinimumSwarmDiameter() {
+        minimumSwarmDiameter = 0.0001;
+    }
 
-	public MinimumSwarmDiameter(double minimumSwarmDiameter) {
-		this.minimumSwarmDiameter = minimumSwarmDiameter;
-	}
+    public MinimumSwarmDiameter(double minimumSwarmDiameter) {
+        this.minimumSwarmDiameter = minimumSwarmDiameter;
+    }
 
-	public MinimumSwarmDiameter(MinimumSwarmDiameter copy) {
-		this.minimumSwarmDiameter = copy.minimumSwarmDiameter;
-		this.algorithm = copy.algorithm;
-	}
+    public MinimumSwarmDiameter(MinimumSwarmDiameter copy) {
+        this.minimumSwarmDiameter = copy.minimumSwarmDiameter;
+        this.algorithm = copy.algorithm;
+    }
 
-	public MinimumSwarmDiameter getClone() {
-		return new MinimumSwarmDiameter(this);
-	}
+    public MinimumSwarmDiameter getClone() {
+        return new MinimumSwarmDiameter(this);
+    }
 
-	public void setDiameter(double minimumSwarmDiameter) {
-		this.minimumSwarmDiameter = minimumSwarmDiameter;
-	}
+    public void setDiameter(double minimumSwarmDiameter) {
+        this.minimumSwarmDiameter = minimumSwarmDiameter;
+    }
 
-	public double getDiameter() {
-		return minimumSwarmDiameter;
-	}
+    public double getDiameter() {
+        return minimumSwarmDiameter;
+    }
 
-	public double getPercentageCompleted() {
-		DiameterVisitor diameterVisitor = new DiameterVisitor();
-		algorithm.accept(diameterVisitor);
-		double diameter = diameterVisitor.getResult();
+    public double getPercentageCompleted() {
+        DiameterVisitor diameterVisitor = new DiameterVisitor();
+        algorithm.accept(diameterVisitor);
+        double diameter = diameterVisitor.getResult();
 
-		if (diameter <= minimumSwarmDiameter) {
-			return 1;
-		}
-		return minimumSwarmDiameter / diameter;
-	}
+        if (diameter <= minimumSwarmDiameter) {
+            return 1;
+        }
+        return minimumSwarmDiameter / diameter;
+    }
 
-	public boolean isCompleted() {
-		DiameterVisitor diameterVisitor = new DiameterVisitor();
-		algorithm.accept(diameterVisitor);
-		return (diameterVisitor.getResult() <= minimumSwarmDiameter);
-	}
+    public boolean isCompleted() {
+        DiameterVisitor diameterVisitor = new DiameterVisitor();
+        algorithm.accept(diameterVisitor);
+        return (diameterVisitor.getResult() <= minimumSwarmDiameter);
+    }
 
-	public void setAlgorithm(Algorithm algorithm) {
-		this.algorithm = (PSO) algorithm;
-	}
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = (PSO) algorithm;
+    }
 }

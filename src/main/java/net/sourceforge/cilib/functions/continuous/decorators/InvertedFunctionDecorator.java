@@ -32,31 +32,31 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class InvertedFunctionDecorator extends ContinuousFunction {
-	private static final long serialVersionUID = -7506823207533866371L;
+    private static final long serialVersionUID = -7506823207533866371L;
 
-	private Function function;
+    private Function function;
 
-	public InvertedFunctionDecorator getClone() {
-		return new InvertedFunctionDecorator();
-	}
+    public InvertedFunctionDecorator getClone() {
+        return new InvertedFunctionDecorator();
+    }
 
-	@Override
-	public double evaluate(Vector x) {
-		double innerFunctionValue = function.evaluate(x);
+    @Override
+    public double evaluate(Vector x) {
+        double innerFunctionValue = function.evaluate(x);
 
-		if (innerFunctionValue == 0)
-			throw new ArithmeticException("Inner function evaluation equated to 0. Division by zero is undefined");
+        if (innerFunctionValue == 0)
+            throw new ArithmeticException("Inner function evaluation equated to 0. Division by zero is undefined");
 
-		return (1.0 / innerFunctionValue);
-	}
+        return (1.0 / innerFunctionValue);
+    }
 
-	public Function getFunction() {
-		return function;
-	}
+    public Function getFunction() {
+        return function;
+    }
 
-	public void setFunction(Function function) {
-		this.function = function;
-		this.setDomain(function.getDomainRegistry().getDomainString());
-	}
+    public void setFunction(Function function) {
+        this.function = function;
+        this.setDomain(function.getDomainRegistry().getDomainString());
+    }
 
 }

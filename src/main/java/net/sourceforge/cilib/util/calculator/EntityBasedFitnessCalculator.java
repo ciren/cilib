@@ -30,21 +30,21 @@ import net.sourceforge.cilib.problem.Fitness;
  * an Entity instance.
  */
 public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {
-	private static final long serialVersionUID = -5053760817332028741L;
+    private static final long serialVersionUID = -5053760817332028741L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public EntityBasedFitnessCalculator getClone() {
-		return this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public EntityBasedFitnessCalculator getClone() {
+        return this;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Fitness getFitness(Entity entity, boolean count) {
-		Algorithm algorithm = Algorithm.get();
-		return algorithm.getOptimisationProblem().getFitness(entity.getCandidateSolution(), count);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Fitness getFitness(Entity entity, boolean count) {
+        Algorithm algorithm = Algorithm.get();
+        return algorithm.getOptimisationProblem().getFitness(entity.getCandidateSolution(), count);
+    }
 
 }

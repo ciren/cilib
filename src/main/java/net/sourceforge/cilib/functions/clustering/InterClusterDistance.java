@@ -29,17 +29,17 @@ package net.sourceforge.cilib.functions.clustering;
  * @author Theuns Cloete
  */
 public class InterClusterDistance extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 6533014298881438534L;
+    private static final long serialVersionUID = 6533014298881438534L;
 
-	@Override
-	public double calculateFitness() {
-		return calculateMinimumInterClusterDistance();
-	}
+    @Override
+    public double calculateFitness() {
+        return calculateMinimumInterClusterDistance();
+    }
 
-	@Override
-	public InterClusterDistance getClone() {
-		return new InterClusterDistance();
-	}
+    @Override
+    public InterClusterDistance getClone() {
+        return new InterClusterDistance();
+    }
 
 
 }

@@ -34,121 +34,121 @@ import net.sourceforge.cilib.util.VectorUtils;
  * be taken into consideration.
  */
 public class Sigmoid extends ActivationFunction {
-	private static final long serialVersionUID = 8291966233976579855L;
-	private ControlParameter steepness;
-	private ControlParameter offset;
+    private static final long serialVersionUID = 8291966233976579855L;
+    private ControlParameter steepness;
+    private ControlParameter offset;
 
-	/**
-	 * Create a new instance of {@code Sigmoid}. The default instance has the {@code steepness}
-	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter} set
-	 * to a value of {@code 1.0}, with the {@code offset} defined as {@code 0.0}.
-	 */
-	public Sigmoid() {
-		setDomain("R(0.0, 1.0)");
-		this.steepness = new ConstantControlParameter(1.0);
-		this.offset = new ConstantControlParameter(0.0);
-	}
+    /**
+     * Create a new instance of {@code Sigmoid}. The default instance has the {@code steepness}
+     * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter} set
+     * to a value of {@code 1.0}, with the {@code offset} defined as {@code 0.0}.
+     */
+    public Sigmoid() {
+        setDomain("R(0.0, 1.0)");
+        this.steepness = new ConstantControlParameter(1.0);
+        this.offset = new ConstantControlParameter(0.0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Sigmoid getClone() {
-		return this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Sigmoid getClone() {
+        return this;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Double evaluate(Type x) {
-		Vector vector = (Vector) x;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double evaluate(Type x) {
+        Vector vector = (Vector) x;
 
-		if (vector.getDimension() != 1)
-			throw new UnsupportedOperationException("Cannot determine the actvation of more than a single value");
+        if (vector.getDimension() != 1)
+            throw new UnsupportedOperationException("Cannot determine the actvation of more than a single value");
 
-		if (steepness.getParameter() < 0.0)
-			throw new UnsupportedOperationException("Steepness value for sigmoid function must be >= 0");
+        if (steepness.getParameter() < 0.0)
+            throw new UnsupportedOperationException("Steepness value for sigmoid function must be >= 0");
 
-		return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness.getParameter()*(vector.getReal(0)-offset.getParameter()))));
-	}
+        return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness.getParameter()*(vector.getReal(0)-offset.getParameter()))));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Double evaluate(Number number) {
-		Vector vector = new Vector();
-		vector.add(new Real(number.doubleValue()));
-		return evaluate(vector);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double evaluate(Number number) {
+        Vector vector = new Vector();
+        vector.add(new Real(number.doubleValue()));
+        return evaluate(vector);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Object getMaximum() {
-		return new Double(1.0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object getMaximum() {
+        return new Double(1.0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Object getMinimum() {
-		return new Double(0.0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object getMinimum() {
+        return new Double(0.0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Vector getGradient(Vector x) {
-		double point = x.getReal(0);
-		double valueAtPoint = evaluate(point);
-		double result = valueAtPoint * (1 - valueAtPoint);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Vector getGradient(Vector x) {
+        double point = x.getReal(0);
+        double valueAtPoint = evaluate(point);
+        double result = valueAtPoint * (1 - valueAtPoint);
 
-		return VectorUtils.create(result);
-	}
+        return VectorUtils.create(result);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Double getGradient(Number number) {
-		return getGradient(VectorUtils.create(number)).getReal(0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double getGradient(Number number) {
+        return getGradient(VectorUtils.create(number)).getReal(0);
+    }
 
-	/**
-	 * Get the {@literal steepness} associated with the {@linkplain Sigmoid}.
-	 * @return The {@linkplain ControlParameter} representing the {@literal steepness}.
-	 */
-	public ControlParameter getSteepness() {
-		return steepness;
-	}
+    /**
+     * Get the {@literal steepness} associated with the {@linkplain Sigmoid}.
+     * @return The {@linkplain ControlParameter} representing the {@literal steepness}.
+     */
+    public ControlParameter getSteepness() {
+        return steepness;
+    }
 
-	/**
-	 * Set the {@linkplain ControlParameter} to represent the {@literal steepness} of the function.
-	 * @param steepness The value to set.
-	 */
-	public void setSteepness(ControlParameter steepness) {
-		this.steepness = steepness;
-	}
+    /**
+     * Set the {@linkplain ControlParameter} to represent the {@literal steepness} of the function.
+     * @param steepness The value to set.
+     */
+    public void setSteepness(ControlParameter steepness) {
+        this.steepness = steepness;
+    }
 
-	/**
-	 * Get the {@literal offset} associated with the function.
-	 * @return The {@linkplain ControlParameter} representing the {@literal offset}.
-	 */
-	public ControlParameter getOffset() {
-		return offset;
-	}
+    /**
+     * Get the {@literal offset} associated with the function.
+     * @return The {@linkplain ControlParameter} representing the {@literal offset}.
+     */
+    public ControlParameter getOffset() {
+        return offset;
+    }
 
-	/**
-	 * Set the {@linkplain ControlParameter} to represent the {@literal offset} of the function.
-	 * @param offset The value to set.
-	 */
-	public void setOffset(ControlParameter offset) {
-		this.offset = offset;
-	}
+    /**
+     * Set the {@linkplain ControlParameter} to represent the {@literal offset} of the function.
+     * @param offset The value to set.
+     */
+    public void setOffset(ControlParameter offset) {
+        this.offset = offset;
+    }
 
 }

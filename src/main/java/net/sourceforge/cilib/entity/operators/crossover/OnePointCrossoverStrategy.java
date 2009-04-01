@@ -35,72 +35,72 @@ import net.sourceforge.cilib.type.types.container.Vector;
 * @author Gary Pampara
 */
 public class OnePointCrossoverStrategy extends CrossoverStrategy {
-	private static final long serialVersionUID = 7313531386910938748L;
+    private static final long serialVersionUID = 7313531386910938748L;
 
-	public OnePointCrossoverStrategy() {
-	}
+    public OnePointCrossoverStrategy() {
+    }
 
-	public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
-		super(copy);
-	}
+    public OnePointCrossoverStrategy(OnePointCrossoverStrategy copy) {
+        super(copy);
+    }
 
     /**
      * {@inheritDoc}
      */
-	public OnePointCrossoverStrategy getClone() {
-		return new OnePointCrossoverStrategy(this);
-	}
+    public OnePointCrossoverStrategy getClone() {
+        return new OnePointCrossoverStrategy(this);
+    }
 
-	public List<Entity> crossover(List<Entity> parentCollection) {
-		ArrayList<Entity> offspring = new ArrayList<Entity>();
-		offspring.ensureCapacity(parentCollection.size());
+    public List<Entity> crossover(List<Entity> parentCollection) {
+        ArrayList<Entity> offspring = new ArrayList<Entity>();
+        offspring.ensureCapacity(parentCollection.size());
 
-		// This needs a selection strategy to select the parent individuals!!!!
-		Entity parent1 = parentCollection.get(0);
-		Entity parent2 = parentCollection.get(1);
+        // This needs a selection strategy to select the parent individuals!!!!
+        Entity parent1 = parentCollection.get(0);
+        Entity parent2 = parentCollection.get(1);
 
-		if (this.getRandomNumber().getUniform() <= this.getCrossoverProbability().getParameter()) {
-			// Select the pivot point where crossover will occour
-			int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
-			int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue();
+        if (this.getRandomNumber().getUniform() <= this.getCrossoverProbability().getParameter()) {
+            // Select the pivot point where crossover will occour
+            int maxLength = Math.min(parent1.getDimension(), parent2.getDimension());
+            int crossoverPoint = Double.valueOf(this.getRandomNumber().getUniform(0, maxLength+1)).intValue();
 
-			Entity offspring1 = parent1.getClone();
-			Entity offspring2 = parent2.getClone();
+            Entity offspring1 = parent1.getClone();
+            Entity offspring2 = parent2.getClone();
 
-			Vector offspringVector1 = (Vector) offspring1.getCandidateSolution();
-			Vector offspringVector2 = (Vector) offspring2.getCandidateSolution();
+            Vector offspringVector1 = (Vector) offspring1.getCandidateSolution();
+            Vector offspringVector2 = (Vector) offspring2.getCandidateSolution();
 
-			for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
-				offspringVector1.remove(j);
-				offspringVector1.insert(j, offspringVector2.get(j));
-			}
+            for (int j = crossoverPoint; j < offspringVector2.getDimension(); j++) {
+                offspringVector1.remove(j);
+                offspringVector1.insert(j, offspringVector2.get(j));
+            }
 
-			for (int j = crossoverPoint; j < offspringVector1.getDimension(); j++) {
-				offspringVector2.remove(j);
-				offspringVector2.insert(j, offspringVector1.get(j));
-			}
+            for (int j = crossoverPoint; j < offspringVector1.getDimension(); j++) {
+                offspringVector2.remove(j);
+                offspringVector2.insert(j, offspringVector1.get(j));
+            }
 
-			offspring1.calculateFitness(false);
-			offspring2.calculateFitness(false);
+            offspring1.calculateFitness(false);
+            offspring2.calculateFitness(false);
 
-			offspring.add(offspring1);
-			offspring.add(offspring2);
-		}
+            offspring.add(offspring1);
+            offspring.add(offspring2);
+        }
 
-		return offspring;
-	}
+        return offspring;
+    }
 
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-	public void performOperation(TopologyHolder holder) {
-		List<Entity> parentCollection = new ArrayList<Entity>();
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    public void performOperation(TopologyHolder holder) {
+        List<Entity> parentCollection = new ArrayList<Entity>();
 
-		Topology<? extends Entity> topology = holder.getTopology();
-//		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
+        Topology<? extends Entity> topology = holder.getTopology();
+//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
 
-		parentCollection.add(getSelectionStrategy().select(topology));
-		parentCollection.add(getSelectionStrategy().select(topology));
+        parentCollection.add(getSelectionStrategy().select(topology));
+        parentCollection.add(getSelectionStrategy().select(topology));
 
-//		offspring.addAll(this.crossover(parentCollection));
-		holder.addAll(this.crossover(parentCollection));
-	}
+//        offspring.addAll(this.crossover(parentCollection));
+        holder.addAll(this.crossover(parentCollection));
+    }
 }

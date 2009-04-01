@@ -60,237 +60,237 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * value within problems which have a domain that spans <code>[0,1]</code>
  */
 public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
-	private static final long serialVersionUID = 5985694749940610522L;
-	private Random randomNumberGenerator;
-	private ControlParameter rhoLowerBound;
-	private ControlParameter rho;
-	private int successCount;
-	private int failureCount;
-	private int successCountThreshold;
-	private int failureCountThreshold;
+    private static final long serialVersionUID = 5985694749940610522L;
+    private Random randomNumberGenerator;
+    private ControlParameter rhoLowerBound;
+    private ControlParameter rho;
+    private int successCount;
+    private int failureCount;
+    private int successCountThreshold;
+    private int failureCountThreshold;
 
-	private Fitness oldFitness;
-	private ControlParameter rhoExpandCoefficient;
-	private ControlParameter rhoContractCoefficient;
+    private Fitness oldFitness;
+    private ControlParameter rhoExpandCoefficient;
+    private ControlParameter rhoContractCoefficient;
 
-	/**
-	 * Create an instance of the GC Velocity Update strategy.
-	 */
-	public GCVelocityUpdateStrategy() {
-		super();
-		randomNumberGenerator = new MersenneTwister();
-		oldFitness = InferiorFitness.instance();
+    /**
+     * Create an instance of the GC Velocity Update strategy.
+     */
+    public GCVelocityUpdateStrategy() {
+        super();
+        randomNumberGenerator = new MersenneTwister();
+        oldFitness = InferiorFitness.instance();
 
-		rho = new ConstantControlParameter(1.0);
-		rhoLowerBound = new ConstantControlParameter(1.0e-323);
-		successCount = 0;
-		failureCount = 0;
-		successCountThreshold = 15;
-		failureCountThreshold = 5;
-		rhoExpandCoefficient = new ConstantControlParameter(1.2);
-		rhoContractCoefficient = new ConstantControlParameter(0.5);
+        rho = new ConstantControlParameter(1.0);
+        rhoLowerBound = new ConstantControlParameter(1.0e-323);
+        successCount = 0;
+        failureCount = 0;
+        successCountThreshold = 15;
+        failureCountThreshold = 5;
+        rhoExpandCoefficient = new ConstantControlParameter(1.2);
+        rhoContractCoefficient = new ConstantControlParameter(0.5);
 
-		vMax = new ConstantControlParameter(0.5); // This needs to be set dynamically - this is not valid for all problems
-	}
+        vMax = new ConstantControlParameter(0.5); // This needs to be set dynamically - this is not valid for all problems
+    }
 
-	/**
-	 * Copy constructor. Copy the given instance.
-	 * @param copy The instance to copy.
-	 */
-	public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
-		super(copy);
-		this.randomNumberGenerator = new MersenneTwister();
-		this.oldFitness = copy.oldFitness.getClone();
+    /**
+     * Copy constructor. Copy the given instance.
+     * @param copy The instance to copy.
+     */
+    public GCVelocityUpdateStrategy(GCVelocityUpdateStrategy copy) {
+        super(copy);
+        this.randomNumberGenerator = new MersenneTwister();
+        this.oldFitness = copy.oldFitness.getClone();
 
-		this.rho = copy.rho.getClone();
-		this.rhoLowerBound = copy.rhoLowerBound.getClone();
-		this.successCount = copy.successCount;
-		this.failureCount = copy.failureCount;
-		this.successCountThreshold = copy.successCountThreshold;
-		this.failureCountThreshold = copy.failureCountThreshold;
-		this.rhoExpandCoefficient = copy.rhoExpandCoefficient.getClone();
-		this.rhoContractCoefficient = copy.rhoContractCoefficient.getClone();
+        this.rho = copy.rho.getClone();
+        this.rhoLowerBound = copy.rhoLowerBound.getClone();
+        this.successCount = copy.successCount;
+        this.failureCount = copy.failureCount;
+        this.successCountThreshold = copy.successCountThreshold;
+        this.failureCountThreshold = copy.failureCountThreshold;
+        this.rhoExpandCoefficient = copy.rhoExpandCoefficient.getClone();
+        this.rhoContractCoefficient = copy.rhoContractCoefficient.getClone();
 
-		this.vMax = copy.vMax.getClone();
-	}
+        this.vMax = copy.vMax.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public GCVelocityUpdateStrategy getClone() {
-		return new GCVelocityUpdateStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GCVelocityUpdateStrategy getClone() {
+        return new GCVelocityUpdateStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateVelocity(Particle particle) {
-		PSO pso = (PSO) Algorithm.get();
-		final Particle globalBest = pso.getTopology().getBestEntity();
+    /**
+     * {@inheritDoc}
+     */
+    public void updateVelocity(Particle particle) {
+        PSO pso = (PSO) Algorithm.get();
+        final Particle globalBest = pso.getTopology().getBestEntity();
 
-		if (particle == globalBest) {
-			final Vector velocity = (Vector) particle.getVelocity();
-			final Vector position = (Vector) particle.getPosition();
-			final Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getPosition();
+        if (particle == globalBest) {
+            final Vector velocity = (Vector) particle.getVelocity();
+            final Vector position = (Vector) particle.getPosition();
+            final Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getPosition();
 
-			for (int i = 0; i < velocity.getDimension(); ++i) {
-				double component = -position.getReal(i) + nBestPosition.getReal(i) +
-					this.inertiaWeight.getParameter()*velocity.getReal(i) +
-					rho.getParameter()*(1-2*randomNumberGenerator.nextDouble());
+            for (int i = 0; i < velocity.getDimension(); ++i) {
+                double component = -position.getReal(i) + nBestPosition.getReal(i) +
+                    this.inertiaWeight.getParameter()*velocity.getReal(i) +
+                    rho.getParameter()*(1-2*randomNumberGenerator.nextDouble());
 
-				velocity.setReal(i, component);
-				clamp(velocity, i);
-			}
+                velocity.setReal(i, component);
+                clamp(velocity, i);
+            }
 
-			oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
-			return;
-		}
+            oldFitness = particle.getFitness().getClone(); // Keep a copy of the old Fitness object - particle.calculateFitness() within the IterationStrategy resets the fitness value
+            return;
+        }
 
-		super.updateVelocity(particle);
-	}
+        super.updateVelocity(particle);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateControlParameters(Particle particle) {
-		// Remember NOT to reset the rho value to 1.0
-		PSO pso = (PSO) Algorithm.get();
+    /**
+     * {@inheritDoc}
+     */
+    public void updateControlParameters(Particle particle) {
+        // Remember NOT to reset the rho value to 1.0
+        PSO pso = (PSO) Algorithm.get();
 
-		if (particle == pso.getTopology().getBestEntity()) {
-			Fitness newFitness = pso.getOptimisationProblem().getFitness(particle.getPosition(), false);
+        if (particle == pso.getTopology().getBestEntity()) {
+            Fitness newFitness = pso.getOptimisationProblem().getFitness(particle.getPosition(), false);
 
-			if (!newFitness.equals(oldFitness)) {
-				this.failureCount = 0;
-				this.successCount++;
-			}
-			else {
-				this.successCount = 0;
-				this.failureCount++;
-			}
+            if (!newFitness.equals(oldFitness)) {
+                this.failureCount = 0;
+                this.successCount++;
+            }
+            else {
+                this.successCount = 0;
+                this.failureCount++;
+            }
 
-			updateRho((Vector) particle.getPosition());
-			return;
-		}
+            updateRho((Vector) particle.getPosition());
+            return;
+        }
 
-		failureCount = 0;
-		successCount = 0;
-		super.updateControlParameters(particle);
-	}
+        failureCount = 0;
+        successCount = 0;
+        super.updateControlParameters(particle);
+    }
 
-	/**
-	 * Update the <code>rho</code> value.
-	 * @param position
-	 */
-	private void updateRho(Vector position) { // the Rho value is problem and dimension dependent
-		double tmp = 0.0;
+    /**
+     * Update the <code>rho</code> value.
+     * @param position
+     */
+    private void updateRho(Vector position) { // the Rho value is problem and dimension dependent
+        double tmp = 0.0;
 
-		Numeric component = (Numeric) position.get(0);
-		double average = (component.getBounds().getUpperBound() - component.getBounds().getLowerBound()) / rhoExpandCoefficient.getParameter();
+        Numeric component = (Numeric) position.get(0);
+        double average = (component.getBounds().getUpperBound() - component.getBounds().getLowerBound()) / rhoExpandCoefficient.getParameter();
 
-		if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient.getParameter()*rho.getParameter();
-		if (failureCount >= failureCountThreshold) tmp = rhoContractCoefficient.getParameter()*rho.getParameter();
+        if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient.getParameter()*rho.getParameter();
+        if (failureCount >= failureCountThreshold) tmp = rhoContractCoefficient.getParameter()*rho.getParameter();
 
-		if (tmp <= rhoLowerBound.getParameter()) tmp = rhoLowerBound.getParameter();
-		if (tmp >= average) tmp = average;
+        if (tmp <= rhoLowerBound.getParameter()) tmp = rhoLowerBound.getParameter();
+        if (tmp >= average) tmp = average;
 
-		rho.setParameter(tmp);
-	}
+        rho.setParameter(tmp);
+    }
 
-	/**
-	 * Get the lower-bound value for <code>rho</code>.
-	 * @return The lower-bound value for <code>rho</code>.
-	 */
-	public ControlParameter getRhoLowerBound() {
-		return rhoLowerBound;
-	}
+    /**
+     * Get the lower-bound value for <code>rho</code>.
+     * @return The lower-bound value for <code>rho</code>.
+     */
+    public ControlParameter getRhoLowerBound() {
+        return rhoLowerBound;
+    }
 
-	/**
-	 * Set the lower-bound value for <code>rho</code>.
-	 * @param rhoLowerBound The lower-bound to set.
-	 */
-	public void setRhoLowerBound(ControlParameter rhoLowerBound) {
-		this.rhoLowerBound = rhoLowerBound;
-	}
+    /**
+     * Set the lower-bound value for <code>rho</code>.
+     * @param rhoLowerBound The lower-bound to set.
+     */
+    public void setRhoLowerBound(ControlParameter rhoLowerBound) {
+        this.rhoLowerBound = rhoLowerBound;
+    }
 
-	/**
-	 * Get the current value for <code>rho</code>.
-	 * @return The current value for <code>rho</code>.
-	 */
-	public ControlParameter getRho() {
-		return rho;
-	}
+    /**
+     * Get the current value for <code>rho</code>.
+     * @return The current value for <code>rho</code>.
+     */
+    public ControlParameter getRho() {
+        return rho;
+    }
 
-	/**
-	 * Set the value for <code>rho</code>.
-	 * @param rho The value to set.
-	 */
-	public void setRho(ControlParameter rho) {
-		this.rho = rho;
-	}
+    /**
+     * Set the value for <code>rho</code>.
+     * @param rho The value to set.
+     */
+    public void setRho(ControlParameter rho) {
+        this.rho = rho;
+    }
 
-	/**
-	 * Get the count of success threshold.
-	 * @return The success threshold.
-	 */
-	public int getSuccessCountThreshold() {
-		return successCountThreshold;
-	}
+    /**
+     * Get the count of success threshold.
+     * @return The success threshold.
+     */
+    public int getSuccessCountThreshold() {
+        return successCountThreshold;
+    }
 
-	/**
-	 * Set the threshold of success count value.
-	 * @param successCountThreshold The value to set.
-	 */
-	public void setSuccessCountThreshold(int successCountThreshold) {
-		this.successCountThreshold = successCountThreshold;
-	}
+    /**
+     * Set the threshold of success count value.
+     * @param successCountThreshold The value to set.
+     */
+    public void setSuccessCountThreshold(int successCountThreshold) {
+        this.successCountThreshold = successCountThreshold;
+    }
 
-	/**
-	 * Get the count of failure threshold.
-	 * @return The failure threshold.
-	 */
-	public int getFailureCountThreshold() {
-		return failureCountThreshold;
-	}
+    /**
+     * Get the count of failure threshold.
+     * @return The failure threshold.
+     */
+    public int getFailureCountThreshold() {
+        return failureCountThreshold;
+    }
 
-	/**
-	 * Set the count of failure threshold.
-	 * @param failureCountThreshold The value to set.
-	 */
-	public void setFailureCountThreshold(int failureCountThreshold) {
-		this.failureCountThreshold = failureCountThreshold;
-	}
+    /**
+     * Set the count of failure threshold.
+     * @param failureCountThreshold The value to set.
+     */
+    public void setFailureCountThreshold(int failureCountThreshold) {
+        this.failureCountThreshold = failureCountThreshold;
+    }
 
-	/**
-	 * Get the coefficient value for <code>rho</code> expansion.
-	 * @return The expansion coefficient value.
-	 */
-	public ControlParameter getRhoExpandCoefficient() {
-		return rhoExpandCoefficient;
-	}
+    /**
+     * Get the coefficient value for <code>rho</code> expansion.
+     * @return The expansion coefficient value.
+     */
+    public ControlParameter getRhoExpandCoefficient() {
+        return rhoExpandCoefficient;
+    }
 
-	/**
-	 * Set the value of the coefficient of expansion.
-	 * @param rhoExpandCoefficient The value to set.
-	 */
-	public void setRhoExpandCoefficient(ControlParameter rhoExpandCoefficient) {
-		this.rhoExpandCoefficient = rhoExpandCoefficient;
-	}
+    /**
+     * Set the value of the coefficient of expansion.
+     * @param rhoExpandCoefficient The value to set.
+     */
+    public void setRhoExpandCoefficient(ControlParameter rhoExpandCoefficient) {
+        this.rhoExpandCoefficient = rhoExpandCoefficient;
+    }
 
-	/**
-	 * Get the coefficient value for <code>rho</code> contraction.
-	 * @return The contraction coefficient value.
-	 */
-	public ControlParameter getRhoContractCoefficient() {
-		return rhoContractCoefficient;
-	}
+    /**
+     * Get the coefficient value for <code>rho</code> contraction.
+     * @return The contraction coefficient value.
+     */
+    public ControlParameter getRhoContractCoefficient() {
+        return rhoContractCoefficient;
+    }
 
-	/**
-	 * Set the contraction coefficient value.
-	 * @param rhoContractCoefficient The value to set.
-	 */
-	public void setRhoContractCoefficient(ControlParameter rhoContractCoefficient) {
-		this.rhoContractCoefficient = rhoContractCoefficient;
-	}
+    /**
+     * Set the contraction coefficient value.
+     * @param rhoContractCoefficient The value to set.
+     */
+    public void setRhoContractCoefficient(ControlParameter rhoContractCoefficient) {
+        this.rhoContractCoefficient = rhoContractCoefficient;
+    }
 
 }

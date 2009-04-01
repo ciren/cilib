@@ -28,8 +28,8 @@ import net.sourceforge.cilib.entity.Entity;
  * TODO: Complete this javadoc.
  */
 public class StandardContributionUpdateStrategy implements ContributionUpdateStrategy {
-	public void updateContribution(Entity src, int srcPos, CooperativeEntity dst, int dstPos, int length) {
-		//copy participant contribution to context only when the participant's fitness is better than the context's fitness
-		dst.update(src, srcPos, dstPos, length);
-	}
+    public void updateContribution(Entity src, int srcPos, CooperativeEntity dst, int dstPos, int length) {
+        //copy participant contribution to context only when the participant's fitness is better than the context's fitness
+        dst.update(src, srcPos, dstPos, length);
+    }
 }

@@ -33,36 +33,36 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class DataSetBuilder implements Iterable<DataSet>, Cloneable, Serializable {
 
-	private static final long serialVersionUID = 5252204062214206898L;
-	protected ArrayList<DataSet> dataSets = null;
+    private static final long serialVersionUID = 5252204062214206898L;
+    protected ArrayList<DataSet> dataSets = null;
 
-	public DataSetBuilder() {
-		this.dataSets = new ArrayList<DataSet>();
-	}
+    public DataSetBuilder() {
+        this.dataSets = new ArrayList<DataSet>();
+    }
 
-	public DataSetBuilder(DataSetBuilder rhs) {
-		dataSets = new ArrayList<DataSet>();
-		for (DataSet dataset : rhs.dataSets) {
-			dataSets.add(dataset.getClone());
-		}
-	}
+    public DataSetBuilder(DataSetBuilder rhs) {
+        dataSets = new ArrayList<DataSet>();
+        for (DataSet dataset : rhs.dataSets) {
+            dataSets.add(dataset.getClone());
+        }
+    }
 
-	public abstract DataSetBuilder getClone();
+    public abstract DataSetBuilder getClone();
 
-	public void addDataSet(DataSet dataSet) {
-		this.dataSets.add(dataSet);
-	}
+    public void addDataSet(DataSet dataSet) {
+        this.dataSets.add(dataSet);
+    }
 
-	public DataSet getDataSet(int index) {
-		return this.dataSets.get(index);
-	}
+    public DataSet getDataSet(int index) {
+        return this.dataSets.get(index);
+    }
 
-	public Iterator<DataSet> iterator() {
-		return this.dataSets.iterator();
-	}
+    public Iterator<DataSet> iterator() {
+        return this.dataSets.iterator();
+    }
 
-	public abstract void initialise();
+    public abstract void initialise();
 
-	public void uninitialise(Vector centroids) {
-	}
+    public void uninitialise(Vector centroids) {
+    }
 }

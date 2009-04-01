@@ -32,85 +32,85 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class MOOptimisationProblem implements OptimisationProblem {
-	private static final long serialVersionUID = 4997914969290350571L;
+    private static final long serialVersionUID = 4997914969290350571L;
 
-	public MOOptimisationProblem() {
-		problems = new ArrayList<OptimisationProblem>();
-	}
+    public MOOptimisationProblem() {
+        problems = new ArrayList<OptimisationProblem>();
+    }
 
-	public MOOptimisationProblem(MOOptimisationProblem copy) {
+    public MOOptimisationProblem(MOOptimisationProblem copy) {
 
-	}
+    }
 
-	public MOOptimisationProblem getClone() {
-		return new MOOptimisationProblem(this);
-	}
+    public MOOptimisationProblem getClone() {
+        return new MOOptimisationProblem(this);
+    }
 
-	public Fitness getFitness(Type[] solutions, boolean count) {
-		return new MOFitness(this, solutions, count);
-	}
+    public Fitness getFitness(Type[] solutions, boolean count) {
+        return new MOFitness(this, solutions, count);
+    }
 
-	public Fitness getFitness(Type solution, boolean count) {
-		return new MOFitness(this, new Type[]{solution}, count);
-	}
+    public Fitness getFitness(Type solution, boolean count) {
+        return new MOFitness(this, new Type[]{solution}, count);
+    }
 
-	public int getProblemCount() {
-		return problems.size();
-	}
+    public int getProblemCount() {
+        return problems.size();
+    }
 
-	public Fitness getFitness(int index, Type solution, boolean count) {
-		return problems.get(index).getFitness(solution, count);
-	}
+    public Fitness getFitness(int index, Type solution, boolean count) {
+        return problems.get(index).getFitness(solution, count);
+    }
 
-	public int getFitnessEvaluations() {
-		int sum = 0;
+    public int getFitnessEvaluations() {
+        int sum = 0;
 
-		for (OptimisationProblem problem : problems) {
-			sum += problem.getFitnessEvaluations();
-		}
-		return sum;
-	}
+        for (OptimisationProblem problem : problems) {
+            sum += problem.getFitnessEvaluations();
+        }
+        return sum;
+    }
 
-	public void addOptimisationProblem(OptimisationProblem problem) {
-		// TODO: Check problem domains match using DomainValidators.
-		problems.add(problem);
-	}
+    public void addOptimisationProblem(OptimisationProblem problem) {
+        // TODO: Check problem domains match using DomainValidators.
+        problems.add(problem);
+    }
 
-	public OptimisationProblem getOptimisationProblem(int index) {
-		return problems.get(index);
-	}
+    public OptimisationProblem getOptimisationProblem(int index) {
+        return problems.get(index);
+    }
 
-	public void removeOptimisationProblem(OptimisationProblem problem) {
-		problems.remove(problem);
-	}
+    public void removeOptimisationProblem(OptimisationProblem problem) {
+        problems.remove(problem);
+    }
 
-	private ArrayList<OptimisationProblem> problems;
+    private ArrayList<OptimisationProblem> problems;
 
-	public DomainRegistry getDomain() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public DomainRegistry getDomain() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public DomainRegistry getBehaviouralDomain() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public DomainRegistry getBehaviouralDomain() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public DataSetBuilder getDataSetBuilder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public DataSetBuilder getDataSetBuilder() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
-		// TODO Auto-generated method stub
+    public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	public void accept(ProblemVisitor visitor) {
-		throw new UnsupportedOperationException("This method is not implemented");
-	}
+    public void accept(ProblemVisitor visitor) {
+        throw new UnsupportedOperationException("This method is not implemented");
+    }
 
-	public void changeEnvironment() {
-		throw new UnsupportedOperationException("This method is not implemented");
-	}
+    public void changeEnvironment() {
+        throw new UnsupportedOperationException("This method is not implemented");
+    }
 }

@@ -38,82 +38,82 @@ import org.junit.Test;
  *
  */
 public class AngleModulationTest {
-	
-	@Test
-	public void testObjectDimensionality() {
+    
+    @Test
+    public void testObjectDimensionality() {
         AngleModulation angle = new AngleModulation();
-		angle.setDomain("R(-1000,1000)^4");
-		Vector builtRepresentation = (Vector) angle.getDomainRegistry().getBuiltRepresenation();
-		
-		assertEquals(4, builtRepresentation.getDimension());
-	}
-	
-	@Test(expected=ArithmeticException.class)
-	public void testSetPrecision() {
+        angle.setDomain("R(-1000,1000)^4");
+        Vector builtRepresentation = (Vector) angle.getDomainRegistry().getBuiltRepresenation();
+        
+        assertEquals(4, builtRepresentation.getDimension());
+    }
+    
+    @Test(expected=ArithmeticException.class)
+    public void testSetPrecision() {
         AngleModulation angle = new AngleModulation();
-		angle.setPrecision(4);
-		assertEquals(4, angle.getPrecision());
-		
-		angle.setPrecision(0);
-		assertEquals(0, angle.getPrecision());
-		
-		angle.setPrecision(-1);
-	}
-	
-	@Test
-	public void testCalcuateRequiredBits() {
+        angle.setPrecision(4);
+        assertEquals(4, angle.getPrecision());
+        
+        angle.setPrecision(0);
+        assertEquals(0, angle.getPrecision());
+        
+        angle.setPrecision(-1);
+    }
+    
+    @Test
+    public void testCalcuateRequiredBits() {
         AngleModulation angle = new AngleModulation();
         
-		DomainRegistry registry = new StringBasedDomainRegistry();
-		registry.setDomainString("R(-5.12,-5.12)^30");
-		
-		angle.setPrecision(3);
-		assertEquals(14, angle.getRequiredNumberOfBits(registry));
-		
-		angle.setPrecision(2);
-		assertEquals(10, angle.getRequiredNumberOfBits(registry));
-	}
-	
-	@Test
-	public void testGetDecoratedFunctionDomain() {
+        DomainRegistry registry = new StringBasedDomainRegistry();
+        registry.setDomainString("R(-5.12,-5.12)^30");
+        
+        angle.setPrecision(3);
+        assertEquals(14, angle.getRequiredNumberOfBits(registry));
+        
+        angle.setPrecision(2);
+        assertEquals(10, angle.getRequiredNumberOfBits(registry));
+    }
+    
+    @Test
+    public void testGetDecoratedFunctionDomain() {
         AngleModulation angle = new AngleModulation();
-		assertTrue(angle.getFunction() == null);
-	}
-	
-	@Test
-	public void testSetDecoratedFunctionDomain() {
+        assertTrue(angle.getFunction() == null);
+    }
+    
+    @Test
+    public void testSetDecoratedFunctionDomain() {
         AngleModulation angle = new AngleModulation();
-		angle.setFunction(new Rastrigin());
-		assertTrue(angle.getFunction() instanceof Rastrigin);
-	}
-	
-	@Test
-	public void testConversionToBitRepresentationLength() {
+        angle.setFunction(new Rastrigin());
+        assertTrue(angle.getFunction() instanceof Rastrigin);
+    }
+    
+    @Test
+    public void testConversionToBitRepresentationLength() {
         AngleModulation angle = new AngleModulation();
-		angle.setFunction(new Rastrigin());
-		
-		Vector testVector = new Vector();
-		testVector.append(new Real(0.0));
-		testVector.append(new Real(1.0));
-		testVector.append(new Real(1.0));
-		testVector.append(new Real(0.0));
-		
-		String converted = angle.generateBitString(testVector);
-		
-		assertEquals(420, converted.length());
-	}
-	
-	@Test
-	public void testBinaryConversion() {
+        angle.setFunction(new Rastrigin());
+        
+        Vector testVector = new Vector();
+        testVector.append(new Real(0.0));
+        testVector.append(new Real(1.0));
+        testVector.append(new Real(1.0));
+        testVector.append(new Real(0.0));
+        
+        String converted = angle.generateBitString(testVector);
+        
+        assertEquals(420, converted.length());
+    }
+    
+    @Test
+    public void testBinaryConversion() {
         AngleModulation angle = new AngleModulation();
         
-		String test = "1111";
-		String test2 = "1010";
-		
-		assertEquals(15.0, angle.valueOf(test), Double.MIN_NORMAL);
-		assertEquals(15.0, angle.valueOf(test, 0, 4), Double.MIN_NORMAL);
-		assertEquals(3.0, angle.valueOf(test, 2), Double.MIN_NORMAL);
-		assertEquals(10.0, angle.valueOf(test2, 0, 4), Double.MIN_NORMAL);
-	}
+        String test = "1111";
+        String test2 = "1010";
+        
+        assertEquals(15.0, angle.valueOf(test), Double.MIN_NORMAL);
+        assertEquals(15.0, angle.valueOf(test, 0, 4), Double.MIN_NORMAL);
+        assertEquals(3.0, angle.valueOf(test, 2), Double.MIN_NORMAL);
+        assertEquals(10.0, angle.valueOf(test2, 0, 4), Double.MIN_NORMAL);
+    }
 
 }

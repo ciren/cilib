@@ -32,31 +32,31 @@ import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
  * @author Theuns Cloete
  */
 public class TuriIndex extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 2457356424874462741L;
+    private static final long serialVersionUID = 2457356424874462741L;
 
-//	private double c = 0.0;
-//	private RandomNumber random = null;
-//	private double gaussian = 0.0;
+//    private double c = 0.0;
+//    private RandomNumber random = null;
+//    private double gaussian = 0.0;
 
-	public TuriIndex() {
-		super();
-//		random = new RandomNumber();
-//		gaussian = random.getGaussian(2, 1);
-	}
+    public TuriIndex() {
+        super();
+//        random = new RandomNumber();
+//        gaussian = random.getGaussian(2, 1);
+    }
 
-	@Override
-	public double calculateFitness() {
-//		gaussian = random.getGaussian(2, 1);
+    @Override
+    public double calculateFitness() {
+//        gaussian = random.getGaussian(2, 1);
 
-		return /*(c * gaussian + 1) * */(calculateAverageIntraClusterDistance() / calculateMinimumInterClusterDistance());
-	}
+        return /*(c * gaussian + 1) * */(calculateAverageIntraClusterDistance() / calculateMinimumInterClusterDistance());
+    }
 
-//	public void setC(double c) {
-//		this.c = c;
-//	}
+//    public void setC(double c) {
+//        this.c = c;
+//    }
 
-	@Override
-	public TuriIndex getClone() {
-		return new TuriIndex();
-	}
+    @Override
+    public TuriIndex getClone() {
+        return new TuriIndex();
+    }
 }

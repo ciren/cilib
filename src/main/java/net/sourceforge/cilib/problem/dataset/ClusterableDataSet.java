@@ -32,40 +32,40 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface ClusterableDataSet {
 
-	public int getNumberOfPatterns();
+    public int getNumberOfPatterns();
 
-	public Pattern getPattern(int index);
+    public Pattern getPattern(int index);
 
-	public ArrayList<Pattern> getPatterns();
-	public Vector getMean();
-	public double getVariance();
-	public double getCachedDistance(int x, int y);
-	public void initialise();
+    public ArrayList<Pattern> getPatterns();
+    public Vector getMean();
+    public double getVariance();
+    public double getCachedDistance(int x, int y);
+    public void initialise();
 
-	/**
-	 * TODO: Complete this javadoc.
-	 */
-	public class Pattern implements Cloneable {
-		private static final long serialVersionUID = 8831874859964777328L;
-		private String clas = "<not set>";
-		public Vector data = null;
+    /**
+     * TODO: Complete this javadoc.
+     */
+    public class Pattern implements Cloneable {
+        private static final long serialVersionUID = 8831874859964777328L;
+        private String clas = "<not set>";
+        public Vector data = null;
 
-		public Pattern(String c, Vector d) {
-			clas = c;
-			data = d;
-		}
+        public Pattern(String c, Vector d) {
+            clas = c;
+            data = d;
+        }
 
-		public Pattern(Pattern rhs) {
-			clas = rhs.clas;
-			data = rhs.data;
-		}
+        public Pattern(Pattern rhs) {
+            clas = rhs.clas;
+            data = rhs.data;
+        }
 
-		public Pattern getClone() {
-			return new Pattern(this);
-		}
+        public Pattern getClone() {
+            return new Pattern(this);
+        }
 
-		public String toString() {
-			return clas + " -> " + data;
-		}
-	}
+        public String toString() {
+            return clas + " -> " + data;
+        }
+    }
 }

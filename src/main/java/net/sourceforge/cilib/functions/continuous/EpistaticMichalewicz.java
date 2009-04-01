@@ -38,9 +38,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  engel
  */
 public class EpistaticMichalewicz extends ContinuousFunction {
-	private static final long serialVersionUID = -4391269929189674709L;
+    private static final long serialVersionUID = -4391269929189674709L;
 
-	/** Creates a new instance of EpistaticMichalewicz. */
+    /** Creates a new instance of EpistaticMichalewicz. */
     public EpistaticMichalewicz() {
         m = 10;
         setDomain("R(0, 3.141592653589793)^10");
@@ -50,19 +50,19 @@ public class EpistaticMichalewicz extends ContinuousFunction {
      * {@inheritDoc}
      */
     public EpistaticMichalewicz getClone() {
-    	return new EpistaticMichalewicz();
+        return new EpistaticMichalewicz();
     }
 
     /**
      * {@inheritDoc}
      */
     public Object getMinimum() {
-    	if (this.getDimension() == 5)
-    		return new Double(-4.687);
-    	else if (this.getDimension() == 10)
-    		return new Double(-9.66);
+        if (this.getDimension() == 5)
+            return new Double(-4.687);
+        else if (this.getDimension() == 10)
+            return new Double(-9.66);
 
-    	return new Double(-Double.MAX_VALUE);
+        return new Double(-Double.MAX_VALUE);
     }
 
     /**
@@ -76,14 +76,14 @@ public class EpistaticMichalewicz extends ContinuousFunction {
         result += Math.sin(y)*Math.pow(Math.sin(y*y/Math.PI), 20);
         return result;*/
 
-    	double sumsq = 0.0;
+        double sumsq = 0.0;
 
-    	for (int i = 0; i < getDimension(); i++) {
-    		double x = input.getReal(i);
-    		sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
-    	}
+        for (int i = 0; i < getDimension(); i++) {
+            double x = input.getReal(i);
+            sumsq += Math.sin(x) * Math.pow(Math.sin(((i+1) * x * x)/Math.PI), 2*m);
+        }
 
-    	return -sumsq;
+        return -sumsq;
     }
 
     /**

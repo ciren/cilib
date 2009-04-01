@@ -33,141 +33,141 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Edwin Peer
  */
 public class DeviationDecorator extends ParticleDecorator implements Cloneable {
-	private static final long serialVersionUID = -7919347953251165107L;
+    private static final long serialVersionUID = -7919347953251165107L;
 
-	private double[][] positions;
-	private Fitness[] fitnesses;
-	private int index;
-	private int observations;
-	private boolean enoughObservations;
+    private double[][] positions;
+    private Fitness[] fitnesses;
+    private int index;
+    private int observations;
+    private boolean enoughObservations;
 
-	public DeviationDecorator(Particle target, int observations) {
-		super(target);
-		index = 0;
-		enoughObservations = false;
-		this.observations = observations;
-	}
+    public DeviationDecorator(Particle target, int observations) {
+        super(target);
+        index = 0;
+        enoughObservations = false;
+        this.observations = observations;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DeviationDecorator getClone() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public DeviationDecorator getClone() {
+        return null;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		if (this == object)
-			return true;
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
 
-		if ((object == null) || (this.getClass() != object.getClass()))
-			return false;
+        if ((object == null) || (this.getClass() != object.getClass()))
+            return false;
 
-		throw new UnsupportedOperationException("This method is not implemented.");
-	}
+        throw new UnsupportedOperationException("This method is not implemented.");
+    }
 
-	@Override
-	public int hashCode() {
-		throw new UnsupportedOperationException("This method is not implemented.");
-	}
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException("This method is not implemented.");
+    }
 
-	/**
-	 * The initialise method overrides the parent class initialise method. The
-	 * fitness[] and positions[][] instance fields are instantiated.
-	 *
-	 * @param problem
-	 * @param i
-	 */
-	public void initialise(OptimisationProblem problem) {
-		//super.initialise(problem, i);
-		index = 0;
-		enoughObservations = false;
-		fitnesses = new Fitness[observations];
-		positions = new double[observations][problem.getDomain().getDimension()];
-	}
+    /**
+     * The initialise method overrides the parent class initialise method. The
+     * fitness[] and positions[][] instance fields are instantiated.
+     *
+     * @param problem
+     * @param i
+     */
+    public void initialise(OptimisationProblem problem) {
+        //super.initialise(problem, i);
+        index = 0;
+        enoughObservations = false;
+        fitnesses = new Fitness[observations];
+        positions = new double[observations][problem.getDomain().getDimension()];
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updatePosition() {
-		++index;
+    /**
+     * {@inheritDoc}
+     */
+    public void updatePosition() {
+        ++index;
 
-		if (index == observations) {
-			index = 0;
-			enoughObservations = true;
-		}
+        if (index == observations) {
+            index = 0;
+            enoughObservations = true;
+        }
 
-		fitnesses[index] = super.getFitness();
-		//double[] position = super.getPosition();
-		Vector position = (Vector) super.getPosition();
+        fitnesses[index] = super.getFitness();
+        //double[] position = super.getPosition();
+        Vector position = (Vector) super.getPosition();
 
-		for (int i = 0; i < super.getDimension(); ++i) {
-			//positions[index][i] = position[i];
-			positions[index][i] = position.getReal(i);
-		}
+        for (int i = 0; i < super.getDimension(); ++i) {
+            //positions[index][i] = position[i];
+            positions[index][i] = position.getReal(i);
+        }
 
-		super.updatePosition();
-	}
+        super.updatePosition();
+    }
 
-	public double getFitnessDeviation() {
-		if (!enoughObservations) {
-			return Double.MAX_VALUE;
-		}
+    public double getFitnessDeviation() {
+        if (!enoughObservations) {
+            return Double.MAX_VALUE;
+        }
 
-		double sum = 0;
-		double sumsq = 0;
+        double sum = 0;
+        double sumsq = 0;
 
-		for (int i = 0; i < observations; ++i) {
-			sum += ((Double) fitnesses[i].getValue()).doubleValue();
-			double tmp = ((Double) fitnesses[i].getValue()).doubleValue();
-			sumsq += tmp * tmp;
-		}
+        for (int i = 0; i < observations; ++i) {
+            sum += ((Double) fitnesses[i].getValue()).doubleValue();
+            double tmp = ((Double) fitnesses[i].getValue()).doubleValue();
+            sumsq += tmp * tmp;
+        }
 
-		return Math.sqrt((sumsq - (sum * sum) / observations) / (observations - 1));
-	}
+        return Math.sqrt((sumsq - (sum * sum) / observations) / (observations - 1));
+    }
 
-	public double getPositionDeviation() {
-		if (!enoughObservations) {
-			return Double.MAX_VALUE;
-		}
+    public double getPositionDeviation() {
+        if (!enoughObservations) {
+            return Double.MAX_VALUE;
+        }
 
-		double deviation = 0;
+        double deviation = 0;
 
-		for (int i = 0; i < super.getDimension(); ++i) {
-			double sum = 0;
-			double sumsq = 0;
+        for (int i = 0; i < super.getDimension(); ++i) {
+            double sum = 0;
+            double sumsq = 0;
 
-			for (int j = 0; j < observations; ++j) {
-				sum += positions[j][i];
-				sumsq += positions[j][i] * positions[j][i];
-			}
+            for (int j = 0; j < observations; ++j) {
+                sum += positions[j][i];
+                sumsq += positions[j][i] * positions[j][i];
+            }
 
-			deviation += Math.sqrt((sumsq - (sum * sum) / observations)	/ (observations - 1));
-		}
+            deviation += Math.sqrt((sumsq - (sum * sum) / observations)    / (observations - 1));
+        }
 
-		return deviation;
-	}
+        return deviation;
+    }
 
-	public void reset() {
-		index = 0;
-		enoughObservations = false;
-		fitnesses = new Fitness[observations];
-		positions = new double[observations][getDimension()];
-	}
+    public void reset() {
+        index = 0;
+        enoughObservations = false;
+        fitnesses = new Fitness[observations];
+        positions = new double[observations][getDimension()];
+    }
 
-	@Deprecated
-	public static DeviationDecorator extract(Particle particle) {
-		throw new UnsupportedOperationException("Method has been removed");
-	}
+    @Deprecated
+    public static DeviationDecorator extract(Particle particle) {
+        throw new UnsupportedOperationException("Method has been removed");
+    }
 
-	public int compareTo(Entity o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int compareTo(Entity o) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public void calculateFitness() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void calculateFitness() {
+        // TODO Auto-generated method stub
+    }
 
 }

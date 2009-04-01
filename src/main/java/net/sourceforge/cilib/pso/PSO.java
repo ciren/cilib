@@ -59,150 +59,150 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * @author Gary Pampara
  */
 public class PSO extends SinglePopulationBasedAlgorithm implements ParticipatingAlgorithm {
-	private static final long serialVersionUID = -8234345682394295357L;
-	private Topology<Particle> topology;
-	private IterationStrategy<PSO> iterationStrategy;
+    private static final long serialVersionUID = -8234345682394295357L;
+    private Topology<Particle> topology;
+    private IterationStrategy<PSO> iterationStrategy;
 
-	/**
-	 * Creates a new instance of <code>PSO</code>. All fields are initialised to reasonable
-	 * defaults. Note that the {@link net.sourceforge.cilib.problem.OptimisationProblem} is initially
-	 * <code>null</code> and must be set before {@link #initialise()} is called.
-	 */
-	public PSO() {
-		topology = new GBestTopology<Particle>();
+    /**
+     * Creates a new instance of <code>PSO</code>. All fields are initialised to reasonable
+     * defaults. Note that the {@link net.sourceforge.cilib.problem.OptimisationProblem} is initially
+     * <code>null</code> and must be set before {@link #initialise()} is called.
+     */
+    public PSO() {
+        topology = new GBestTopology<Particle>();
 
-		iterationStrategy = new SynchronousIterationStrategy();
+        iterationStrategy = new SynchronousIterationStrategy();
 
-		initialisationStrategy = new ClonedPopulationInitialisationStrategy();
-		initialisationStrategy.setEntityType(new StandardParticle());
-	}
+        initialisationStrategy = new ClonedPopulationInitialisationStrategy();
+        initialisationStrategy.setEntityType(new StandardParticle());
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public PSO(PSO copy) {
-		super(copy);
-		this.topology = copy.topology.getClone();
-		this.iterationStrategy = copy.iterationStrategy; // need to clone?
-		this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
-	}
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public PSO(PSO copy) {
+        super(copy);
+        this.topology = copy.topology.getClone();
+        this.iterationStrategy = copy.iterationStrategy; // need to clone?
+        this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public PSO getClone() {
-		return new PSO(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PSO getClone() {
+        return new PSO(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void reset() {
-		super.reset();
-		topology.clear();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reset() {
+        super.reset();
+        topology.clear();
+    }
 
-	/**
-	 * Perform the required initialisation for the algorithm. Create the particles and add then to
-	 * the specified topology.
-	 */
-	@Override
-	public void performInitialisation() {
-		this.initialisationStrategy.initialise(this.topology, this.getOptimisationProblem());
-	}
+    /**
+     * Perform the required initialisation for the algorithm. Create the particles and add then to
+     * the specified topology.
+     */
+    @Override
+    public void performInitialisation() {
+        this.initialisationStrategy.initialise(this.topology, this.getOptimisationProblem());
+    }
 
-	/**
-	 * Perform the iteration of the PSO algorithm, use the appropriate <code>IterationStrategy</code>
-	 * to perform the iteration.
-	 */
-	@Override
-	protected void algorithmIteration() {
-		this.topology.clearBestEntity();
+    /**
+     * Perform the iteration of the PSO algorithm, use the appropriate <code>IterationStrategy</code>
+     * to perform the iteration.
+     */
+    @Override
+    protected void algorithmIteration() {
+        this.topology.clearBestEntity();
 
-		iterationStrategy.performIteration(this);
+        iterationStrategy.performIteration(this);
 
-		for (Particle particle : this.getTopology()) {
-			particle.updateControlParameters();
-		}
-	}
+        for (Particle particle : this.getTopology()) {
+            particle.updateControlParameters();
+        }
+    }
 
-	/**
-	 * Get the best current solution. This best solution is determined from the personal bests of the
-	 * particles.
-	 * @return The <code>OptimisationSolution</code> representing the best solution.
-	 */
-	@Override
-	public OptimisationSolution getBestSolution() {
-		return new OptimisationSolution(this.getOptimisationProblem(), topology.getBestEntity().getBestPosition().getClone());
-	}
+    /**
+     * Get the best current solution. This best solution is determined from the personal bests of the
+     * particles.
+     * @return The <code>OptimisationSolution</code> representing the best solution.
+     */
+    @Override
+    public OptimisationSolution getBestSolution() {
+        return new OptimisationSolution(this.getOptimisationProblem(), topology.getBestEntity().getBestPosition().getClone());
+    }
 
-	/**
-	 * Get the collection of best solutions. This result does not actually make sense in the normal
-	 * PSO algorithm, but rather in a MultiObjective optimisation.
-	 * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
-	 */
-	@Override
-	public List<OptimisationSolution> getSolutions() {
-		return Arrays.asList(getBestSolution());
-	}
+    /**
+     * Get the collection of best solutions. This result does not actually make sense in the normal
+     * PSO algorithm, but rather in a MultiObjective optimisation.
+     * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
+     */
+    @Override
+    public List<OptimisationSolution> getSolutions() {
+        return Arrays.asList(getBestSolution());
+    }
 
-	/**
-	 * Sets the particle topology used. The default is {@link GBestTopology}.
-	 * @param A class that implements the {@link Topology} interface.
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public void setTopology(Topology topology) {
-		this.topology = topology;
-	}
+    /**
+     * Sets the particle topology used. The default is {@link GBestTopology}.
+     * @param A class that implements the {@link Topology} interface.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public void setTopology(Topology topology) {
+        this.topology = topology;
+    }
 
-	/**
-	 * Accessor for the topology being used.
-	 * @return The {@link Topology} being used.
-	 */
-	@Override
-	public Topology<Particle> getTopology() {
-		return topology;
-	}
+    /**
+     * Accessor for the topology being used.
+     * @return The {@link Topology} being used.
+     */
+    @Override
+    public Topology<Particle> getTopology() {
+        return topology;
+    }
 
-	// TODO: Move down heirarchy into MOPSO????
-	@Override
-	public Particle getContribution() {
-		return topology.getBestEntity();
-	}
+    // TODO: Move down heirarchy into MOPSO????
+    @Override
+    public Particle getContribution() {
+        return topology.getBestEntity();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Fitness getContributionFitness() {
-		return topology.getBestEntity().getBestFitness();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness getContributionFitness() {
+        return topology.getBestEntity().getBestFitness();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void updateContributionFitness(Fitness fitness) {
-		topology.getBestEntity().calculateFitness();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateContributionFitness(Fitness fitness) {
+        topology.getBestEntity().calculateFitness();
+    }
 
-	/**
-	 * Get the <code>IterationStrategy</code> of the PSO algorithm.
-	 * @return Returns the iterationStrategy..
-	 */
-	public IterationStrategy<PSO> getIterationStrategy() {
-		return iterationStrategy;
-	}
+    /**
+     * Get the <code>IterationStrategy</code> of the PSO algorithm.
+     * @return Returns the iterationStrategy..
+     */
+    public IterationStrategy<PSO> getIterationStrategy() {
+        return iterationStrategy;
+    }
 
-	/**
-	 * Set the <code>IterationStrategy</code> to be used.
-	 * @param iterationStrategy The iterationStrategy to set.
-	 */
-	public void setIterationStrategy(IterationStrategy<PSO> iterationStrategy) {
-		this.iterationStrategy = iterationStrategy;
-	}
+    /**
+     * Set the <code>IterationStrategy</code> to be used.
+     * @param iterationStrategy The iterationStrategy to set.
+     */
+    public void setIterationStrategy(IterationStrategy<PSO> iterationStrategy) {
+        this.iterationStrategy = iterationStrategy;
+    }
 }

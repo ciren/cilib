@@ -74,26 +74,26 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
     public abstract List<OptimisationSolution> getSolutions();
 
     /**
-	 * Get the current collection (population) of {@linkplain Entity entities}.
-	 * @return The current population.
-	 */
+     * Get the current collection (population) of {@linkplain Entity entities}.
+     * @return The current population.
+     */
     public abstract Topology<? extends Entity> getTopology();
 
     /**
-	 * General method to accept a visitor to perform a calculation on the current algorithm. The
-	 * operation is generally deferred down to the underlying topology associated with the
-	 * algorithm, as the algorithm does not contain information, but rather only behaviour to alter
-	 * the candidate solutions that are managed by the <tt>Topology</tt>.
-	 * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
-	 * @return The result of the visitor operation.
-	 */
-	public abstract Object accept(TopologyVisitor visitor);
+     * General method to accept a visitor to perform a calculation on the current algorithm. The
+     * operation is generally deferred down to the underlying topology associated with the
+     * algorithm, as the algorithm does not contain information, but rather only behaviour to alter
+     * the candidate solutions that are managed by the <tt>Topology</tt>.
+     * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
+     * @return The result of the visitor operation.
+     */
+    public abstract Object accept(TopologyVisitor visitor);
 
     /**
-	 *
-	 * @param initialisationStrategy
-	 */
-	public abstract void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy);
+     *
+     * @param initialisationStrategy
+     */
+    public abstract void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy);
 
     public abstract PopulationInitialisationStrategy getInitialisationStrategy();
 

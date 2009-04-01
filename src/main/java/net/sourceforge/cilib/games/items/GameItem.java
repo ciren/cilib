@@ -29,26 +29,26 @@ import net.sourceforge.cilib.util.Cloneable;
  * Any object that exists in the game.
  */
 public abstract class GameItem implements Cloneable {
-	private static final long serialVersionUID = -5725025967973967757L;
+    private static final long serialVersionUID = -5725025967973967757L;
 
-	protected ItemLocation itemLocation;
+    protected ItemLocation itemLocation;
 
-	public GameItem(){
+    public GameItem(){
 
-	}
+    }
 
-	public GameItem(GameItem other){
-		itemLocation = other.itemLocation.getClone();
-	}
+    public GameItem(GameItem other){
+        itemLocation = other.itemLocation.getClone();
+    }
 
-	public void setLoction(ItemLocation location){
-		itemLocation = location;
-	}
+    public void setLoction(ItemLocation location){
+        itemLocation = location;
+    }
 
-	public ItemLocation getLocation(){
-		return itemLocation;
-	}
+    public ItemLocation getLocation(){
+        return itemLocation;
+    }
 
-	public abstract GameItem getClone();
+    public abstract GameItem getClone();
 
 }

@@ -35,47 +35,47 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * @author Wiehann Matthysen
  */
 public class IndexedSplitStrategy implements SplitStrategy {
-	protected ArrayList<Integer> indices;
+    protected ArrayList<Integer> indices;
 
-	public IndexedSplitStrategy() {
-		indices = new ArrayList<Integer>();
-		indices.add(0);
-	}
+    public IndexedSplitStrategy() {
+        indices = new ArrayList<Integer>();
+        indices.add(0);
+    }
 
-	public void addSplitIndex(int index) {
-		indices.add(new Integer(index));
-	}
+    public void addSplitIndex(int index) {
+        indices.add(new Integer(index));
+    }
 
-	public int getSplitIndex(int position) {
-		return this.indices.get(position);
-	}
+    public int getSplitIndex(int position) {
+        return this.indices.get(position);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.sourceforge.cilib.cooperative.splitstrategies.SplitStrategy#split(net.sourceforge.cilib.problem.OptimisationProblem,
-	 *      net.sourceforge.cilib.cooperative.CooperativeEntity, java.util.List)
-	 */
+    /*
+     * (non-Javadoc)
+     * @see net.sourceforge.cilib.cooperative.splitstrategies.SplitStrategy#split(net.sourceforge.cilib.problem.OptimisationProblem,
+     *      net.sourceforge.cilib.cooperative.CooperativeEntity, java.util.List)
+     */
     @Override
-	public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations) {
-		if (populations.size() < 2)
-			throw new IllegalArgumentException("There should at least be two Cooperating populations in a Cooperative Algorithm");
-		if (indices.size() != populations.size())
-			throw new InitialisationException("The number of indices (" + indices.size() + ") is not sufficient to divide into the number of populations.");
-		if (indices.size() == 0)
-			throw new InitialisationException("No split indices set.");
-		if (problem.getDomain().getDimension() < populations.size())
-			throw new InitialisationException("Problem dimensionality should be equal to or greater than the number of cooperating populations.");
+    public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations) {
+        if (populations.size() < 2)
+            throw new IllegalArgumentException("There should at least be two Cooperating populations in a Cooperative Algorithm");
+        if (indices.size() != populations.size())
+            throw new InitialisationException("The number of indices (" + indices.size() + ") is not sufficient to divide into the number of populations.");
+        if (indices.size() == 0)
+            throw new InitialisationException("No split indices set.");
+        if (problem.getDomain().getDimension() < populations.size())
+            throw new InitialisationException("Problem dimensionality should be equal to or greater than the number of cooperating populations.");
 
-		for (int i = 0; i < populations.size(); ++i) {
-			Algorithm population = (Algorithm) populations.get(i);
-			int offset = indices.get(i);
-			int dimension;
-			if ((i + 1) < indices.size())
-				dimension = indices.get(i + 1) - indices.get(i);
-			else
-				dimension = problem.getDomain().getDimension() - indices.get(i);
-			// TODO check whether this cast is safe
-			((Algorithm) population).setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
-		}
-	}
+        for (int i = 0; i < populations.size(); ++i) {
+            Algorithm population = (Algorithm) populations.get(i);
+            int offset = indices.get(i);
+            int dimension;
+            if ((i + 1) < indices.size())
+                dimension = indices.get(i + 1) - indices.get(i);
+            else
+                dimension = problem.getDomain().getDimension() - indices.get(i);
+            // TODO check whether this cast is safe
+            ((Algorithm) population).setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
+        }
+    }
 }

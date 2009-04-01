@@ -31,83 +31,83 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
  *
  */
 public class Efn2RNAFitness extends RNAFitness {
-	private static final long serialVersionUID = 328787448081439602L;
+    private static final long serialVersionUID = 328787448081439602L;
 
-	public Efn2RNAFitness() {
-		nucleotides = NucleotideString.getInstance().getNucleotideString();
-	}
+    public Efn2RNAFitness() {
+        nucleotides = NucleotideString.getInstance().getNucleotideString();
+    }
 
-	public Efn2RNAFitness(Efn2RNAFitness copy) {
-		// @TODO: complete this
-	}
+    public Efn2RNAFitness(Efn2RNAFitness copy) {
+        // @TODO: complete this
+    }
 
-	public Efn2RNAFitness getClone() {
-		return new Efn2RNAFitness(this);
-	}
+    public Efn2RNAFitness getClone() {
+        return new Efn2RNAFitness(this);
+    }
 
-	@Override
-	public Double getRNAFitness(RNAConformation stems) {
-		String outputString = toCt(stems);
-		System.out.println("Conf ");
-		System.out.println(outputString);
-		System.out.println("\n\n");
+    @Override
+    public Double getRNAFitness(RNAConformation stems) {
+        String outputString = toCt(stems);
+        System.out.println("Conf ");
+        System.out.println(outputString);
+        System.out.println("\n\n");
 
-		return new Double(10.0);
-	}
+        return new Double(10.0);
+    }
 
-	/**
-	 *
-	 * @return a string containing the conformation in CT format.
-	 */
-	private String toCt(RNAConformation stems) {
-		int [] confArray = new int[131]; //!!!
-		//clear array
-		for (int i = 0; i < confArray.length; i++) {
-			confArray[i] = 0;
-		}
-		//fill in the confArray.
-//		for (RNAStem stem : stems) {
-//			for (int l = 0; l < stem.getLength(); l++) {
-			// FIXME This line cant be right?
-				//confArray[stem.getP5_index()+l] = stem.getP3_index()-l;
-//			}
-//		}
-	//	String line = "";
-		StringBuilder outString = new StringBuilder();
-		outString.append(nucleotides.length());
-		outString.append("\n");
-		for (int i = 0; i < nucleotides.length()-1; i++) {
-			outString.append("\t");
-			outString.append(i+1);	//1
-			outString.append((" "));
-			outString.append(nucleotides.charAt(i));	//2
-			outString.append("\t");
-			outString.append(i);	//3
-			outString.append("\t");
-			outString.append(i+2);	//4
-			outString.append("\t");
-			outString.append(confArray[i]);	//5
-			outString.append("\t");
-			outString.append(i+1);	//6
-			outString.append("\n");
-		}
-		//add last line
-		outString.append("\t");
-		outString.append(nucleotides.length());	//1
-		outString.append((" "));
-		outString.append(nucleotides.charAt(nucleotides.length()-1));	//2
-		outString.append("\t");
-		outString.append(nucleotides.length()-1);	//3
-		outString.append("\t");
-		outString.append("0");	//4
-		outString.append("\t");
-		outString.append(confArray[nucleotides.length()-1]);	//5
-		outString.append("\t");
-		outString.append(nucleotides.length());	//6
-		outString.append("\n");
-		outString.append("@");
+    /**
+     *
+     * @return a string containing the conformation in CT format.
+     */
+    private String toCt(RNAConformation stems) {
+        int [] confArray = new int[131]; //!!!
+        //clear array
+        for (int i = 0; i < confArray.length; i++) {
+            confArray[i] = 0;
+        }
+        //fill in the confArray.
+//        for (RNAStem stem : stems) {
+//            for (int l = 0; l < stem.getLength(); l++) {
+            // FIXME This line cant be right?
+                //confArray[stem.getP5_index()+l] = stem.getP3_index()-l;
+//            }
+//        }
+    //    String line = "";
+        StringBuilder outString = new StringBuilder();
+        outString.append(nucleotides.length());
+        outString.append("\n");
+        for (int i = 0; i < nucleotides.length()-1; i++) {
+            outString.append("\t");
+            outString.append(i+1);    //1
+            outString.append((" "));
+            outString.append(nucleotides.charAt(i));    //2
+            outString.append("\t");
+            outString.append(i);    //3
+            outString.append("\t");
+            outString.append(i+2);    //4
+            outString.append("\t");
+            outString.append(confArray[i]);    //5
+            outString.append("\t");
+            outString.append(i+1);    //6
+            outString.append("\n");
+        }
+        //add last line
+        outString.append("\t");
+        outString.append(nucleotides.length());    //1
+        outString.append((" "));
+        outString.append(nucleotides.charAt(nucleotides.length()-1));    //2
+        outString.append("\t");
+        outString.append(nucleotides.length()-1);    //3
+        outString.append("\t");
+        outString.append("0");    //4
+        outString.append("\t");
+        outString.append(confArray[nucleotides.length()-1]);    //5
+        outString.append("\t");
+        outString.append(nucleotides.length());    //6
+        outString.append("\n");
+        outString.append("@");
 
-		return outString.toString();
-	}
+        return outString.toString();
+    }
 
 }

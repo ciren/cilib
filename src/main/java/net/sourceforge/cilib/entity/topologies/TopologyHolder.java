@@ -29,35 +29,35 @@ import net.sourceforge.cilib.entity.Topology;
 
 public interface TopologyHolder {
 
-	public Topology<? extends Entity> getTopology();
+    public Topology<? extends Entity> getTopology();
 
-	/**
-	 * Add a child to the holder?
-	 * @param entity
-	 */
-	public void add(Entity entity);
+    /**
+     * Add a child to the holder?
+     * @param entity
+     */
+    public void add(Entity entity);
 
-	/**
-	 * plural version of add()
-	 * @param entities
-	 */
-	public void addAll(List<Entity> entities);
+    /**
+     * plural version of add()
+     * @param entities
+     */
+    public void addAll(List<Entity> entities);
 
-	public void add(Entity entity, boolean modifiable);
+    public void add(Entity entity, boolean modifiable);
 
-	/**
-	 * get the modifiable list of entities. The idea here is to return various
-	 * sets based on the type of topologyholder used.
-	 *
-	 * In the EC case, the actual offspring collection will be returned.
-	 * In a PSO, the main topology should be returned.
-	 *
-	 * @TODO: This gonna work? Looks like it might...
-	 *
-	 * @return
-	 */
-	public List<? extends Entity> getModifiable();
+    /**
+     * get the modifiable list of entities. The idea here is to return various
+     * sets based on the type of topologyholder used.
+     *
+     * In the EC case, the actual offspring collection will be returned.
+     * In a PSO, the main topology should be returned.
+     *
+     * @TODO: This gonna work? Looks like it might...
+     *
+     * @return
+     */
+    public List<? extends Entity> getModifiable();
 
-	public List<? extends Entity> getUnmodifiable();
+    public List<? extends Entity> getUnmodifiable();
 
 }

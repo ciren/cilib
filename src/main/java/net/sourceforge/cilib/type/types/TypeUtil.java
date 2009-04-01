@@ -31,144 +31,144 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  */
 public final class TypeUtil {
 
-	private TypeUtil() {
-	}
+    private TypeUtil() {
+    }
 
-	/**
-	 * Utility method. Change the values within the <code>Type</code>, randomly, based on the
-	 * upper and lower bounds that are defined for that <code>Type</code>
-	 */
-	public static void randomize(Type candidateSolution) {
-		if (candidateSolution instanceof StructuredType) {
-			StructuredType<?> structuredType = (StructuredType<?>) candidateSolution;
+    /**
+     * Utility method. Change the values within the <code>Type</code>, randomly, based on the
+     * upper and lower bounds that are defined for that <code>Type</code>
+     */
+    public static void randomize(Type candidateSolution) {
+        if (candidateSolution instanceof StructuredType) {
+            StructuredType<?> structuredType = (StructuredType<?>) candidateSolution;
 
-			for (Iterator<?> iterator = structuredType.iterator(); iterator.hasNext();) {
-				Type type = (Type) iterator.next();
-				randomize(type);
-			}
+            for (Iterator<?> iterator = structuredType.iterator(); iterator.hasNext();) {
+                Type type = (Type) iterator.next();
+                randomize(type);
+            }
 
-			return;
-		}
+            return;
+        }
 
-		if (candidateSolution instanceof BoundedType) {
-			BoundedType boundedType = (BoundedType) candidateSolution;
-			boundedType.randomize();
-			return;
-		}
-	}
+        if (candidateSolution instanceof BoundedType) {
+            BoundedType boundedType = (BoundedType) candidateSolution;
+            boundedType.randomize();
+            return;
+        }
+    }
 
-	/**
-	 * Determine if the current type instance is within the defined bounds
-	 * of the domain.
-	 * @return {@literal true} if it is in the bounds, {@literal false} otherwise.
-	 */
-	public static boolean isInsideBounds(Type candidateSolution) {
-		if (candidateSolution instanceof StructuredType) {
-			StructuredType structuredType = (StructuredType) candidateSolution;
-			BoundsVerificationVisitor visitor = new BoundsVerificationVisitor();
-			structuredType.accept(visitor);
-			return visitor.isValid();
-		}
+    /**
+     * Determine if the current type instance is within the defined bounds
+     * of the domain.
+     * @return {@literal true} if it is in the bounds, {@literal false} otherwise.
+     */
+    public static boolean isInsideBounds(Type candidateSolution) {
+        if (candidateSolution instanceof StructuredType) {
+            StructuredType structuredType = (StructuredType) candidateSolution;
+            BoundsVerificationVisitor visitor = new BoundsVerificationVisitor();
+            structuredType.accept(visitor);
+            return visitor.isValid();
+        }
 
-		if (candidateSolution instanceof Numeric) {
-			Numeric boundedType = (Numeric) candidateSolution;
-			Bounds bounds = boundedType.getBounds();
-			return bounds.isInsideBounds(boundedType.getReal());
-		}
+        if (candidateSolution instanceof Numeric) {
+            Numeric boundedType = (Numeric) candidateSolution;
+            Bounds bounds = boundedType.getBounds();
+            return bounds.isInsideBounds(boundedType.getReal());
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	private static class BoundsVerificationVisitor extends Visitor<Type> {
-		private boolean valid = true;
-		private boolean isDone = false;
+    private static class BoundsVerificationVisitor extends Visitor<Type> {
+        private boolean valid = true;
+        private boolean isDone = false;
 
-		@Override
-		public void visit(Type o) {
-			if (o instanceof Numeric) {
-				Numeric numeric = (Numeric) o;
-				if (!numeric.getBounds().isInsideBounds(numeric.getReal())) {
-					this.isDone = true;
-					this.valid = false;
-				}
-			}
-		}
+        @Override
+        public void visit(Type o) {
+            if (o instanceof Numeric) {
+                Numeric numeric = (Numeric) o;
+                if (!numeric.getBounds().isInsideBounds(numeric.getReal())) {
+                    this.isDone = true;
+                    this.valid = false;
+                }
+            }
+        }
 
-		public boolean isValid() {
-			return valid;
-		}
+        public boolean isValid() {
+            return valid;
+        }
 
-		@Override
-		public boolean isDone() {
-			return isDone;
-		}
-	}
+        @Override
+        public boolean isDone() {
+            return isDone;
+        }
+    }
 
 
-	/**
-	 * Get the representation of the type in the form expressed by the domain notation.
-	 * <p>
-	 * Examples:
-	 * <ul>
-	 * <li>R(-30,30)</li>
-	 * <li>Z(-7,4)</li>
-	 * <li>B</li>
-	 * </ul>
-	 * @param candidateSolution The type to represent.
-	 * @return A <code>String</code> representing the <code>Type</code> in domain notation.
-	 */
-	public static String getRepresentation(Type candidateSolution) {
-		StringBuilder builder = new StringBuilder();
+    /**
+     * Get the representation of the type in the form expressed by the domain notation.
+     * <p>
+     * Examples:
+     * <ul>
+     * <li>R(-30,30)</li>
+     * <li>Z(-7,4)</li>
+     * <li>B</li>
+     * </ul>
+     * @param candidateSolution The type to represent.
+     * @return A <code>String</code> representing the <code>Type</code> in domain notation.
+     */
+    public static String getRepresentation(Type candidateSolution) {
+        StringBuilder builder = new StringBuilder();
 
-		if (candidateSolution instanceof StructuredType) {
-			StructuredType structuredType = (StructuredType) candidateSolution;
+        if (candidateSolution instanceof StructuredType) {
+            StructuredType structuredType = (StructuredType) candidateSolution;
 
-			builder.append("[");
-			for (Iterator<?> iterator = structuredType.iterator(); iterator.hasNext();) {
-				Type type = (Type) iterator.next();
-				builder.append(getRepresentation(type));
-				builder.append(",");
-			}
-			builder.append("]");
-		}
+            builder.append("[");
+            for (Iterator<?> iterator = structuredType.iterator(); iterator.hasNext();) {
+                Type type = (Type) iterator.next();
+                builder.append(getRepresentation(type));
+                builder.append(",");
+            }
+            builder.append("]");
+        }
 
-		if (candidateSolution instanceof Numeric) {
-			Numeric numeric = (Numeric) candidateSolution;
-			builder.append(numeric.getRepresentation());
-		}
+        if (candidateSolution instanceof Numeric) {
+            Numeric numeric = (Numeric) candidateSolution;
+            builder.append(numeric.getRepresentation());
+        }
 
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 
-	/**
-	 * Get the dimension of the provided Type. If the provided type is a
-	 * StructuredType, the size returned will
-	 * @param value The type to determine the dimension of.
-	 * @return The dimensionality of the provided type.
-	 */
-	public static int getDimension(Type value) {
-		if (value instanceof StructuredType) {
-			StructuredType structuredType = (StructuredType) value;
-			return structuredType.size();
-		}
+    /**
+     * Get the dimension of the provided Type. If the provided type is a
+     * StructuredType, the size returned will
+     * @param value The type to determine the dimension of.
+     * @return The dimensionality of the provided type.
+     */
+    public static int getDimension(Type value) {
+        if (value instanceof StructuredType) {
+            StructuredType structuredType = (StructuredType) value;
+            return structuredType.size();
+        }
 
-		return 1; // This is the size for all non-structured types.
-	}
+        return 1; // This is the size for all non-structured types.
+    }
 
-	/**
-	 * Reset the current {@code Resetable} instance.
-	 * @see Resetable
-	 * @param type The type to reset
-	 * @throws UnsupportedOperationException if the provided type is not {@code Resetable}.
-	 */
-	public static void reset(Type type) {
-		if (type instanceof Resetable) {
-			Resetable resetable = (Resetable) type;
-			resetable.reset();
-			return;
-		}
+    /**
+     * Reset the current {@code Resetable} instance.
+     * @see Resetable
+     * @param type The type to reset
+     * @throws UnsupportedOperationException if the provided type is not {@code Resetable}.
+     */
+    public static void reset(Type type) {
+        if (type instanceof Resetable) {
+            Resetable resetable = (Resetable) type;
+            resetable.reset();
+            return;
+        }
 
-		throw new UnsupportedOperationException("The provided type instance [" + type.getClass().getSimpleName() + "] does not implement the Resetable interface.");
-	}
+        throw new UnsupportedOperationException("The provided type instance [" + type.getClass().getSimpleName() + "] does not implement the Resetable interface.");
+    }
 
 }

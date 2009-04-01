@@ -33,83 +33,83 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class StandardPattern implements NNPattern, Initializable {
-	private static final long serialVersionUID = 6917164648392481566L;
-	protected Vector input = null;
-	protected Vector target = null;
+    private static final long serialVersionUID = 6917164648392481566L;
+    protected Vector input = null;
+    protected Vector target = null;
 
 
 
-	public StandardPattern() {
-		super();
-		this.input = null;
-		this.target = null;
-	}
+    public StandardPattern() {
+        super();
+        this.input = null;
+        this.target = null;
+    }
 
 
 
-	public StandardPattern(Vector input, Vector target) {
-		super();
-		this.input = input;
-		this.target = target;
-	}
+    public StandardPattern(Vector input, Vector target) {
+        super();
+        this.input = input;
+        this.target = target;
+    }
 
 
 
-	public void initialize(){
-		if ((this.input == null)|| (this.target == null)){
-			throw new IllegalArgumentException("Required object was null during initialization");
-		}
-	}
+    public void initialize(){
+        if ((this.input == null)|| (this.target == null)){
+            throw new IllegalArgumentException("Required object was null during initialization");
+        }
+    }
 
 
 
-	public Vector getInput() {
-		return input;
-	}
+    public Vector getInput() {
+        return input;
+    }
 
 
-	public int getInputLength() {
-		return input.size();
-	}
+    public int getInputLength() {
+        return input.size();
+    }
 
 
-	public int getTargetLength() {
-		return target.size();
-	}
+    public int getTargetLength() {
+        return target.size();
+    }
 
 
-	public Vector getTarget() {
-		return target;
-	}
+    public Vector getTarget() {
+        return target;
+    }
 
-	public NNPattern getClone(){
-		StandardPattern tmp = new StandardPattern();
-		tmp.setInput(this.input);
-		tmp.setTarget(this.target);
-		return tmp;
-	}
+    public NNPattern getClone(){
+        StandardPattern tmp = new StandardPattern();
+        tmp.setInput(this.input);
+        tmp.setTarget(this.target);
+        return tmp;
+    }
 
-	public String toString(){
-		String tmp = new String();
-		tmp += "{";
-		for (int i = 0; i < input.size(); i++){
-			tmp+= (input.get(i) + " ");
-		}
-		tmp += " \t| ";
-		for (int i = 0; i < target.size(); i++){
-			tmp += (target.get(i) + " ");
-		}
-		tmp += "}";
-		return tmp;
-	}
+    public String toString(){
+        String tmp = new String();
+        tmp += "{";
+        for (int i = 0; i < input.size(); i++){
+            tmp+= (input.get(i) + " ");
+        }
+        tmp += " \t| ";
+        for (int i = 0; i < target.size(); i++){
+            tmp += (target.get(i) + " ");
+        }
+        tmp += "}";
+        return tmp;
+    }
 
-	public void setInput(Vector input) {
-		this.input = input;
-	}
+    public void setInput(Vector input) {
+        this.input = input;
+    }
 
-	public void setTarget(Vector target) {
-		this.target = target;
-	}
+    public void setTarget(Vector target) {
+        this.target = target;
+    }
 
 
 

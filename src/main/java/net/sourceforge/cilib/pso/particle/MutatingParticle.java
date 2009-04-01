@@ -36,205 +36,205 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @deprecated 25/01/2006
  */
 public class MutatingParticle extends StandardParticle {
-	private static final long serialVersionUID = -135676600466549570L;
+    private static final long serialVersionUID = -135676600466549570L;
 
-	private double mutationRate;
-	private double startingMutationRate;
-	private double endingMutationRate;
+    private double mutationRate;
+    private double startingMutationRate;
+    private double endingMutationRate;
 
-	private MaximumIterations maximum;
+    private MaximumIterations maximum;
 
-	public MutatingParticle() {
-		super();
+    public MutatingParticle() {
+        super();
 
-		startingMutationRate = 0.9;
-		endingMutationRate = 0.9;
-		mutationRate = startingMutationRate;
-		maximum = null;
-	}
+        startingMutationRate = 0.9;
+        endingMutationRate = 0.9;
+        mutationRate = startingMutationRate;
+        maximum = null;
+    }
 
-	public void move() {
+    public void move() {
 
-		Vector position = getPosition();
-		Vector velocity = getVelocity();
+        Vector position = getPosition();
+        Vector velocity = getVelocity();
 
-		for (int i = 0; i < position.getDimension(); ++i) {
-			double result = position.getReal(i) + velocity.getReal(i);
-			position.setReal(i, result);
-		}
+        for (int i = 0; i < position.getDimension(); ++i) {
+            double result = position.getReal(i) + velocity.getReal(i);
+            position.setReal(i, result);
+        }
 
-		if (maximum == null)
-			getStoppingConditionObjects();
+        if (maximum == null)
+            getStoppingConditionObjects();
 
-		if (((PSO) Algorithm.get()).getIterations() < mutationRate * (double) maximum.getMaximumIterations())
-			mutate();
+        if (((PSO) Algorithm.get()).getIterations() < mutationRate * (double) maximum.getMaximumIterations())
+            mutate();
 
-	}
+    }
 
-	private void getStoppingConditionObjects() {
-		List<StoppingCondition> conditions = (Algorithm.get()).getStoppingConditions();
+    private void getStoppingConditionObjects() {
+        List<StoppingCondition> conditions = (Algorithm.get()).getStoppingConditions();
 
-		for(StoppingCondition condition : conditions) {
-			if (condition instanceof MaximumIterations) {
-				maximum = (MaximumIterations) condition;
-				break;
-			}
-		}
-	}
+        for(StoppingCondition condition : conditions) {
+            if (condition instanceof MaximumIterations) {
+                maximum = (MaximumIterations) condition;
+                break;
+            }
+        }
+    }
 
-	public void setStartingMutationRate(double newRate) {
-		this.startingMutationRate = newRate;
-		this.mutationRate = newRate;
-	}
+    public void setStartingMutationRate(double newRate) {
+        this.startingMutationRate = newRate;
+        this.mutationRate = newRate;
+    }
 
-	public double getStartingMutationRate() {
-		return this.startingMutationRate;
-	}
+    public double getStartingMutationRate() {
+        return this.startingMutationRate;
+    }
 
-	public void setEndingMutationRate(double newRate) {
-		this.endingMutationRate = newRate;
-	}
+    public void setEndingMutationRate(double newRate) {
+        this.endingMutationRate = newRate;
+    }
 
-	public double getEndingMutationRate() {
-		return this.endingMutationRate;
-	}
+    public double getEndingMutationRate() {
+        return this.endingMutationRate;
+    }
 
-	/*private void mutate() {
-		PSO p = (PSO) Algorithm.get();
-		OptimisationProblem prob = p.getOptimisationProblem();
-		DomainComponent domain = prob.getDomain();
+    /*private void mutate() {
+        PSO p = (PSO) Algorithm.get();
+        OptimisationProblem prob = p.getOptimisationProblem();
+        DomainComponent domain = prob.getDomain();
 
-		double tempLower = 0.0;
-		double tempUpper = 0.0;
+        double tempLower = 0.0;
+        double tempUpper = 0.0;
 
-		for (int i = 0; i < position.length; ++i) { // Mutation
-			double number = strangeFunction(p, maximum);
-		 	double r = ran.nextLorentzian(0.0,1.000);
-		while (r > 1 || r < 0){
-			r = ran.nextLorentzian(0.0,1.000);
-		}
-			if (r >=0.5){
+        for (int i = 0; i < position.length; ++i) { // Mutation
+            double number = strangeFunction(p, maximum);
+             double r = ran.nextLorentzian(0.0,1.000);
+        while (r > 1 || r < 0){
+            r = ran.nextLorentzian(0.0,1.000);
+        }
+            if (r >=0.5){
 
-			int dimension = Double.valueOf(random.nextDouble()*position.length).intValue();
-				Quantitative component = (Quantitative) domain.getComponent(dimension);
-				double range = ((component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())* strangeFunction(p, maximum))/2;
+            int dimension = Double.valueOf(random.nextDouble()*position.length).intValue();
+                Quantitative component = (Quantitative) domain.getComponent(dimension);
+                double range = ((component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())* strangeFunction(p, maximum))/2;
 
-				if ((position[i] - range) < component.getLowerBound().doubleValue())
-					tempLower = component.getLowerBound().doubleValue();
-				else
-					tempLower = position[i] - range;
+                if ((position[i] - range) < component.getLowerBound().doubleValue())
+                    tempLower = component.getLowerBound().doubleValue();
+                else
+                    tempLower = position[i] - range;
 
-				if ((position[i] + range) > component.getUpperBound().doubleValue())
-					tempUpper = component.getUpperBound().doubleValue();
-				else
-					tempUpper = position[i] + range;
+                if ((position[i] + range) > component.getUpperBound().doubleValue())
+                    tempUpper = component.getUpperBound().doubleValue();
+                else
+                    tempUpper = position[i] + range;
 
-				// Now reinitialis the number randomly between tempUpper and tempLower
-			r = ran.nextLorentzian(0.0,1.000);
-		    while (r > 1 || r < 0){
-			   r = ran.nextLorentzian(0.0,1.000);
-		    }
-		   double tmp = r * (tempUpper-tempLower) + tempLower;
-			 position[i] = tmp;
-			// if (random.nextDouble() > 0.5) {
-			//	position[i] += function(p.getIterations(),tmp);
-			//	}
-			//	else {
-			//	position[i] -= function(p.getIterations(),tmp);
-			//}
-			//position[i] = tmp;
-		}
-		}
+                // Now reinitialis the number randomly between tempUpper and tempLower
+            r = ran.nextLorentzian(0.0,1.000);
+            while (r > 1 || r < 0){
+               r = ran.nextLorentzian(0.0,1.000);
+            }
+           double tmp = r * (tempUpper-tempLower) + tempLower;
+             position[i] = tmp;
+            // if (random.nextDouble() > 0.5) {
+            //    position[i] += function(p.getIterations(),tmp);
+            //    }
+            //    else {
+            //    position[i] -= function(p.getIterations(),tmp);
+            //}
+            //position[i] = tmp;
+        }
+        }
 
-		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getIterations() - p.getIterations()) / (double) maximum.getIterations())+endingMutationRate ;
+        mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getIterations() - p.getIterations()) / (double) maximum.getIterations())+endingMutationRate ;
 
-	}*/
+    }*/
 
-	private double strangeFunction(PSO p, MaximumIterations max) {
-//		System.out.println();
-		return Math.pow(1.0 - (double) p.getIterations() / (max.getMaximumIterations() * mutationRate), 1.5);
-	}
+    private double strangeFunction(PSO p, MaximumIterations max) {
+//        System.out.println();
+        return Math.pow(1.0 - (double) p.getIterations() / (max.getMaximumIterations() * mutationRate), 1.5);
+    }
 
-	/*private double function(double t, double y) {
-		//double r = ran.nextLorentzian(0.0,1.000);
-		//while (r > 1 || r < 0){
-		//	r = ran.nextLorentzian(0.0,1.000);
-		//}
-		double r = random.nextDouble();
-		double part1 = Math.pow((1.0-t/(double)maximum.getIterations()), 5.0);
-		double part2 = Math.pow(r, part1);
-		double part3 = 1.0 - part2;
-		double result = y * part3;
-		//System.out.println(result);
-		return result;
-	}*/
+    /*private double function(double t, double y) {
+        //double r = ran.nextLorentzian(0.0,1.000);
+        //while (r > 1 || r < 0){
+        //    r = ran.nextLorentzian(0.0,1.000);
+        //}
+        double r = random.nextDouble();
+        double part1 = Math.pow((1.0-t/(double)maximum.getIterations()), 5.0);
+        double part2 = Math.pow(r, part1);
+        double part3 = 1.0 - part2;
+        double result = y * part3;
+        //System.out.println(result);
+        return result;
+    }*/
 
-	/*	private double getCauchyNumber(double val) {
-			double rand = 0;
-	//while (rand > 1 | rand < 0){//System.out.println("R "+r);
-	//      rand = ran.nextLorentzian(1.0,0.0001);
-	//}
-	return ((0.2/Math.PI) * (1.0 / ((rand*rand)+(0.2*0.2))));
-	}*/
+    /*    private double getCauchyNumber(double val) {
+            double rand = 0;
+    //while (rand > 1 | rand < 0){//System.out.println("R "+r);
+    //      rand = ran.nextLorentzian(1.0,0.0001);
+    //}
+    return ((0.2/Math.PI) * (1.0 / ((rand*rand)+(0.2*0.2))));
+    }*/
 
 /*************************** NEW CODE ***********************************/
 
 
-	private void mutate() {
-		PSO p = (PSO) Algorithm.get();
-		//OptimisationProblem prob = p.getOptimisationProblem();
-		//DomainRegistry domain = prob.getDomain();
+    private void mutate() {
+        PSO p = (PSO) Algorithm.get();
+        //OptimisationProblem prob = p.getOptimisationProblem();
+        //DomainRegistry domain = prob.getDomain();
 
-		double tempLower = 0.0;
-		double tempUpper = 0.0;
+        double tempLower = 0.0;
+        double tempUpper = 0.0;
 
-		Vector position = getPosition();
+        Vector position = getPosition();
 
-		//for (int i = 0; i < position.length; ++i) { // Mutation
-		for (int i = 0; i < position.getDimension(); ++i) {
-			double number = Math.pow((1.0 - (double) p.getIterations() / (maximum.getMaximumIterations() * mutationRate)), 1.5);
-			if (MathUtil.flip(number) == 1) {
-				int dimension = randomInt(0, position.getDimension());
-				//Quantitative component = (Quantitative) domain.getComponent(dimension);
-				Real real = (Real) position.get(dimension);
-				//double range = ((component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())* strangeFunction(p, maximum))/2;
-				double range = ((real.getBounds().getUpperBound() - real.getBounds().getLowerBound())* strangeFunction(p, maximum))/2.0;
+        //for (int i = 0; i < position.length; ++i) { // Mutation
+        for (int i = 0; i < position.getDimension(); ++i) {
+            double number = Math.pow((1.0 - (double) p.getIterations() / (maximum.getMaximumIterations() * mutationRate)), 1.5);
+            if (MathUtil.flip(number) == 1) {
+                int dimension = randomInt(0, position.getDimension());
+                //Quantitative component = (Quantitative) domain.getComponent(dimension);
+                Real real = (Real) position.get(dimension);
+                //double range = ((component.getUpperBound().doubleValue() - component.getLowerBound().doubleValue())* strangeFunction(p, maximum))/2;
+                double range = ((real.getBounds().getUpperBound() - real.getBounds().getLowerBound())* strangeFunction(p, maximum))/2.0;
 
-				/*if ((position[i] - range) < component.getLowerBound().doubleValue())
-					tempLower = component.getLowerBound().doubleValue();
-				else
-					tempLower = position[i] - range;
+                /*if ((position[i] - range) < component.getLowerBound().doubleValue())
+                    tempLower = component.getLowerBound().doubleValue();
+                else
+                    tempLower = position[i] - range;
 
-				if ((position[i] + range) > component.getUpperBound().doubleValue())
-					tempUpper = component.getUpperBound().doubleValue();
-				else
-					tempUpper = position[i] + range;*/
+                if ((position[i] + range) > component.getUpperBound().doubleValue())
+                    tempUpper = component.getUpperBound().doubleValue();
+                else
+                    tempUpper = position[i] + range;*/
 
-				if ((real.getReal()-range) < real.getBounds().getLowerBound())
-					tempLower = real.getBounds().getLowerBound();
-				else
-					tempLower = real.getReal()-range;
+                if ((real.getReal()-range) < real.getBounds().getLowerBound())
+                    tempLower = real.getBounds().getLowerBound();
+                else
+                    tempLower = real.getReal()-range;
 
-				if ((real.getReal()+range) > real.getBounds().getUpperBound())
-					tempUpper = real.getBounds().getUpperBound();
-				else
-					tempUpper = real.getReal()+range;
+                if ((real.getReal()+range) > real.getBounds().getUpperBound())
+                    tempUpper = real.getBounds().getUpperBound();
+                else
+                    tempUpper = real.getReal()+range;
 
-				// Now reinitialis the number randomly between tempUpper and tempLower
-				double tmp = randomDouble(tempLower, tempUpper);
-				//position[i] = tmp;
-				position.setReal(i, tmp);
-			}
-		}
+                // Now reinitialis the number randomly between tempUpper and tempLower
+                double tmp = randomDouble(tempLower, tempUpper);
+                //position[i] = tmp;
+                position.setReal(i, tmp);
+            }
+        }
 
-		mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations())+endingMutationRate;
+        mutationRate = (startingMutationRate - endingMutationRate) * (((double) maximum.getMaximumIterations() - p.getIterations()) / (double) maximum.getMaximumIterations())+endingMutationRate;
 
-	}
+    }
 
-	double [] u = new double[97];
-	double c, cd, cm;
-	int i97, j97;
-	boolean test = false;
+    double [] u = new double[97];
+    double c, cd, cm;
+    int i97, j97;
+    boolean test = false;
 
 /*
    This is the initialization routine for the random number generator.

@@ -31,9 +31,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ShekelN extends ContinuousFunction {
     private static final long serialVersionUID = 4420382656606698465L;
 
-	/**
-	 * Creates a new instance of Step. Default domain is set to R(0, 10)^4
-	 */
+    /**
+     * Creates a new instance of Step. Default domain is set to R(0, 10)^4
+     */
     public ShekelN() {
         n = 10;
 
@@ -46,7 +46,7 @@ public class ShekelN extends ContinuousFunction {
      */
     @Override
     public ShekelN getClone() {
-    	return new ShekelN();
+        return new ShekelN();
     }
 
     /**

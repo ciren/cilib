@@ -37,86 +37,86 @@ import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
  * @author Fabien Zablocki
  */
 public class FASTADataSetBuilder extends DataSetBuilder {
-	private static final long serialVersionUID = 766658455852634831L;
+    private static final long serialVersionUID = 766658455852634831L;
 
-	private ArrayList<String> strings; // data structure that holds the input sequence
+    private ArrayList<String> strings; // data structure that holds the input sequence
 
-	/**
-	 * Create an instance of {@linkplain FASTADataSetBuilder}.
-	 */
-	public FASTADataSetBuilder() {
-		this.strings = new ArrayList<String>();
-	}
+    /**
+     * Create an instance of {@linkplain FASTADataSetBuilder}.
+     */
+    public FASTADataSetBuilder() {
+        this.strings = new ArrayList<String>();
+    }
 
-	/**
-	 * Copy constructor. Copy the given instane.
-	 * @param copy The instance to copy.
-	 */
-	public FASTADataSetBuilder(FASTADataSetBuilder copy) {
-		throw new UnsupportedOperationException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
-	}
+    /**
+     * Copy constructor. Copy the given instane.
+     * @param copy The instance to copy.
+     */
+    public FASTADataSetBuilder(FASTADataSetBuilder copy) {
+        throw new UnsupportedOperationException("'copy constructor' not implemented for '" + this.getClass().getName() + "'");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public FASTADataSetBuilder getClone() {
-		return new FASTADataSetBuilder(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FASTADataSetBuilder getClone() {
+        return new FASTADataSetBuilder(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	// Used to read in the unalignmed sequences in the FASTA format.
-	public void initialise() {
-		for (Iterator<DataSet> i = this.iterator(); i.hasNext();) {
-			DataSet dataSet = i.next();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    // Used to read in the unalignmed sequences in the FASTA format.
+    public void initialise() {
+        for (Iterator<DataSet> i = this.iterator(); i.hasNext();) {
+            DataSet dataSet = i.next();
 
-			String temp; // buffer
-			String result = ""; // hold the actual sequence
+            String temp; // buffer
+            String result = ""; // hold the actual sequence
 
-			try {
-				BufferedReader in = new BufferedReader(new InputStreamReader(dataSet.getInputStream()));
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(dataSet.getInputStream()));
 
-				temp = new String(in.readLine());
-				temp.trim();
-				while (temp != null) { // all the sequences in file
-					if (temp.contains(">")) { // it is the description line
-						temp = in.readLine();
+                temp = new String(in.readLine());
+                temp.trim();
+                while (temp != null) { // all the sequences in file
+                    if (temp.contains(">")) { // it is the description line
+                        temp = in.readLine();
 
-						while (!temp.startsWith(">")) { // collect sequence without space
-							StringTokenizer st = new StringTokenizer(temp, "\u0020");
-							String p = "";
+                        while (!temp.startsWith(">")) { // collect sequence without space
+                            StringTokenizer st = new StringTokenizer(temp, "\u0020");
+                            String p = "";
 
-							while (st.hasMoreElements()) {
-								String token = st.nextToken();
-								p += token;
-							}
-							result += p;
-							temp = in.readLine();
+                            while (st.hasMoreElements()) {
+                                String token = st.nextToken();
+                                p += token;
+                            }
+                            result += p;
+                            temp = in.readLine();
 
-							if (temp == null)
-								break;
-						}
+                            if (temp == null)
+                                break;
+                        }
 
-						strings.add(result); // adds sequence to the set
-						result = "";
-					}
-				}
-			}
-			catch (IOException ioException) {
-				throw new RuntimeException(ioException.getMessage());
-			}
-			System.out.println("Data set(s) initialization completed, aligning...");
-		}
-	}
+                        strings.add(result); // adds sequence to the set
+                        result = "";
+                    }
+                }
+            }
+            catch (IOException ioException) {
+                throw new RuntimeException(ioException.getMessage());
+            }
+            System.out.println("Data set(s) initialization completed, aligning...");
+        }
+    }
 
-	/**
-	 * Get the list of build {@linkplain String}s.
-	 * @return The list of {@linkplain String}s.
-	 */
-	public ArrayList<String> getStrings() {
-		return this.strings;
-	}
+    /**
+     * Get the list of build {@linkplain String}s.
+     * @return The list of {@linkplain String}s.
+     */
+    public ArrayList<String> getStrings() {
+        return this.strings;
+    }
 }

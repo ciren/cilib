@@ -38,11 +38,11 @@ class Line {
         }
     }
 
-	/**
-	 * Set the element at the given index.
-	 * @param index The position to set the value.
-	 * @param value The value to set.
-	 */
+    /**
+     * Set the element at the given index.
+     * @param index The position to set the value.
+     * @param value The value to set.
+     */
     public void setElement(int index, Object value) {
         if (values[index] == null) {
             values[index] = value;
@@ -50,29 +50,29 @@ class Line {
         }
     }
 
-	/**
-	 * Determine if the current line is full.
-	 * @return {@code true} if the line is full, {@code false} otherwsie.
-	 */
+    /**
+     * Determine if the current line is full.
+     * @return {@code true} if the line is full, {@code false} otherwsie.
+     */
     public boolean isFull() {
         return (count == elements);
     }
 
-	/**
-	 * {@inheritDoc}
-	 * @return
-	 */
-	@Override
+    /**
+     * {@inheritDoc}
+     * @return
+     */
+    @Override
     public String toString() {
-    	StringBuilder line = new StringBuilder();
+        StringBuilder line = new StringBuilder();
         for (int i = 0; i < elements; ++i) {
-        	if (values[i] != null) {
+            if (values[i] != null) {
                 line.append(values[i].toString());
-        	}
-        	else {
-        		line.append("<null>");
-        	}
-			line.append(" ");
+            }
+            else {
+                line.append("<null>");
+            }
+            line.append(" ");
         }
         return line.toString();
     }

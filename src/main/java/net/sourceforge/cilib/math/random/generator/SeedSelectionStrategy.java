@@ -27,10 +27,10 @@ package net.sourceforge.cilib.math.random.generator;
  */
 public interface SeedSelectionStrategy {
 
-	/**
-	 * Obtain the desired seed value based.
-	 * @return The seed value to use.
-	 */
-	public long getSeed();
+    /**
+     * Obtain the desired seed value based.
+     * @return The seed value to use.
+     */
+    public long getSeed();
 
 }

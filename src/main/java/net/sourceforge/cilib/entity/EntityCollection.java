@@ -37,12 +37,12 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <E> All types derived from {@linkplain Entity}.
  */
 public interface EntityCollection<E extends Entity>
-	extends Iterable<E>, List<E>, Cloneable, Serializable {
+    extends Iterable<E>, List<E>, Cloneable, Serializable {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public EntityCollection<E> getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public EntityCollection<E> getClone();
 
     /**
      * Adds an entity to the topology.

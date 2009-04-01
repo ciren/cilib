@@ -46,64 +46,64 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
-	private static final long serialVersionUID = 5683593481233814465L;
-	/** The best value for the varianceLimit should be determined empirically */
-	private ControlParameter maximumVariance = null;
+    private static final long serialVersionUID = 5683593481233814465L;
+    /** The best value for the varianceLimit should be determined empirically */
+    private ControlParameter maximumVariance = null;
 
-	public VeenmanReindersBackerIndex() {
-		super();
-		clusterCenterStrategy = new ClusterMeanStrategy();
-		maximumVariance = new ConstantControlParameter(1.0);	// default variance limit is 1.0
-	}
+    public VeenmanReindersBackerIndex() {
+        super();
+        clusterCenterStrategy = new ClusterMeanStrategy();
+        maximumVariance = new ConstantControlParameter(1.0);    // default variance limit is 1.0
+    }
 
-	@Override
-	public double calculateFitness() {
-		if (!holdsConstraint())
-			return worstFitness();
+    @Override
+    public double calculateFitness() {
+        if (!holdsConstraint())
+            return worstFitness();
 
-		double sumOfSquaredError = 0.0;
+        double sumOfSquaredError = 0.0;
 
-		for (int i = 0; i < arrangedClusters.size(); i++) {
-			Collection<Pattern> cluster = arrangedClusters.get(i).values();
-			Vector center = clusterCenterStrategy.getCenter(i);
+        for (int i = 0; i < arrangedClusters.size(); i++) {
+            Collection<Pattern> cluster = arrangedClusters.get(i).values();
+            Vector center = clusterCenterStrategy.getCenter(i);
 
-			// H(Y) in the paper refers to the homogeneity of Y (not variance, because we do not divide by |Y|)
-			for (Pattern pattern : cluster) {
-				sumOfSquaredError += Math.pow(helper.calculateDistance(pattern.data, center), 2);
-			}
-		}
-		return sumOfSquaredError /= helper.getNumberOfPatternsInDataSet();
-	}
+            // H(Y) in the paper refers to the homogeneity of Y (not variance, because we do not divide by |Y|)
+            for (Pattern pattern : cluster) {
+                sumOfSquaredError += Math.pow(helper.calculateDistance(pattern.data, center), 2);
+            }
+        }
+        return sumOfSquaredError /= helper.getNumberOfPatternsInDataSet();
+    }
 
-	private boolean holdsConstraint() {
-		for (int i = 0; i < clustersFormed - 1; i++) {
-			for (int j = i + 1; j < clustersFormed; j++) {
-				Collection<Pattern> union = new ArrayList<Pattern>();
-				union.addAll(arrangedClusters.get(i).values());
-				union.addAll(arrangedClusters.get(j).values());
+    private boolean holdsConstraint() {
+        for (int i = 0; i < clustersFormed - 1; i++) {
+            for (int j = i + 1; j < clustersFormed; j++) {
+                Collection<Pattern> union = new ArrayList<Pattern>();
+                union.addAll(arrangedClusters.get(i).values());
+                union.addAll(arrangedClusters.get(j).values());
 
-				if (StatUtils.variance(union, helper.getDataSetMean()) < getMaximumVariance()) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+                if (StatUtils.variance(union, helper.getDataSetMean()) < getMaximumVariance()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-	public void setMaximumVariance(ControlParameter cpus) {
-		maximumVariance = cpus;
-	}
+    public void setMaximumVariance(ControlParameter cpus) {
+        maximumVariance = cpus;
+    }
 
-	private double getMaximumVariance() {
-		return maximumVariance.getParameter();
-	}
+    private double getMaximumVariance() {
+        return maximumVariance.getParameter();
+    }
 
-	public void updateControlParameters() {
-		maximumVariance.updateParameter();
-	}
+    public void updateControlParameters() {
+        maximumVariance.updateParameter();
+    }
 
-	@Override
-	public VeenmanReindersBackerIndex getClone() {
-		return new VeenmanReindersBackerIndex();
-	}
+    @Override
+    public VeenmanReindersBackerIndex getClone() {
+        return new VeenmanReindersBackerIndex();
+    }
 }

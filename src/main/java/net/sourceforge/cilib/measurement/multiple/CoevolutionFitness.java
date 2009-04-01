@@ -41,44 +41,44 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Julien Duhain
  */
 public class CoevolutionFitness implements Measurement{
-	private static final long serialVersionUID = 2724661105974842752L;
+    private static final long serialVersionUID = 2724661105974842752L;
 
-	/** Creates a new instance of Fitness. */
-	public CoevolutionFitness() {
+    /** Creates a new instance of Fitness. */
+    public CoevolutionFitness() {
 
-	}
+    }
 
-	public CoevolutionFitness(CoevolutionFitness copy) {
+    public CoevolutionFitness(CoevolutionFitness copy) {
 
-	}
+    }
 
-	public CoevolutionFitness getClone() {
-		return new CoevolutionFitness(this);
-	}
+    public CoevolutionFitness getClone() {
+        return new CoevolutionFitness(this);
+    }
 
-	public String getDomain() {
-		return "Z";
-	}
+    public String getDomain() {
+        return "Z";
+    }
 
-	public Type getValue(Algorithm algorithm) {
- 		Vector populationFitnesses = new Vector();
-  		CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
- 		int popID = 1;
+    public Type getValue(Algorithm algorithm) {
+         Vector populationFitnesses = new Vector();
+          CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
+         int popID = 1;
 
- 		for(PopulationBasedAlgorithm currentAlgorithm : ca) {
- 			OptimisationSolution solution = currentAlgorithm.getBestSolution();
- 			CoevolutionEvaluationList competitors = ((CompetitiveCoevolutionIterationStrategy)ca.getCoevolutionIterationStrategy()).getOpponentSelectionStrategy().setCompetitors(popID, ca.getPopulations());
- 			//	((CompetitiveCoevolutionProblemAdapter)currentAlgorithm.getOptimisationProblem()).incrementEvaluationround(); //???
- 			Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
- 			blackboard.put(EntityType.CANDIDATE_SOLUTION, solution.getPosition());
- 			blackboard.put(EntityType.Coevolution.COMPETITOR_LIST, competitors);
- 			blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());
- 			Fitness val = currentAlgorithm.getOptimisationProblem().getFitness(blackboard, false);
- 			//PopulationFitnesses.add(new Int(popID));
- 			populationFitnesses.add(new Real(val.getValue()));
- 			++popID;
-		}
- 		return populationFitnesses;
-  	}
+         for(PopulationBasedAlgorithm currentAlgorithm : ca) {
+             OptimisationSolution solution = currentAlgorithm.getBestSolution();
+             CoevolutionEvaluationList competitors = ((CompetitiveCoevolutionIterationStrategy)ca.getCoevolutionIterationStrategy()).getOpponentSelectionStrategy().setCompetitors(popID, ca.getPopulations());
+             //    ((CompetitiveCoevolutionProblemAdapter)currentAlgorithm.getOptimisationProblem()).incrementEvaluationround(); //???
+             Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
+             blackboard.put(EntityType.CANDIDATE_SOLUTION, solution.getPosition());
+             blackboard.put(EntityType.Coevolution.COMPETITOR_LIST, competitors);
+             blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());
+             Fitness val = currentAlgorithm.getOptimisationProblem().getFitness(blackboard, false);
+             //PopulationFitnesses.add(new Int(popID));
+             populationFitnesses.add(new Real(val.getValue()));
+             ++popID;
+        }
+         return populationFitnesses;
+      }
 
 }

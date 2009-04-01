@@ -39,38 +39,38 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class DunnIndex33 extends GeneralisedDunnIndex {
-	private static final long serialVersionUID = -3307601269742583865L;
+    private static final long serialVersionUID = -3307601269742583865L;
 
-	public DunnIndex33() {
-		super();
-		clusterCenterStrategy = new ClusterMeanStrategy();
-	}
+    public DunnIndex33() {
+        super();
+        clusterCenterStrategy = new ClusterMeanStrategy();
+    }
 
-	/**
-	 * This method implements Equation 28 in the above-mentioned article.
-	 */
-	@Override
-	protected double calculateWithinClusterScatter(int k) {
-		double averageDistance = 0.0;
-		Collection<Pattern> cluster = arrangedClusters.get(k).values();
-		Vector center = clusterCenterStrategy.getCenter(k);
+    /**
+     * This method implements Equation 28 in the above-mentioned article.
+     */
+    @Override
+    protected double calculateWithinClusterScatter(int k) {
+        double averageDistance = 0.0;
+        Collection<Pattern> cluster = arrangedClusters.get(k).values();
+        Vector center = clusterCenterStrategy.getCenter(k);
 
-		for (Pattern pattern : cluster) {
-			averageDistance += helper.calculateDistance(pattern.data, center);
-		}
-		return 2.0 * (averageDistance / cluster.size());
-	}
+        for (Pattern pattern : cluster) {
+            averageDistance += helper.calculateDistance(pattern.data, center);
+        }
+        return 2.0 * (averageDistance / cluster.size());
+    }
 
-	/**
-	 * This method implements Equation 22 in the above-mentioned article.
-	 */
-	@Override
-	protected double calculateBetweenClusterSeperation(int i, int j) {
-		return calculateAverageSetDistance(i, j);
-	}
+    /**
+     * This method implements Equation 22 in the above-mentioned article.
+     */
+    @Override
+    protected double calculateBetweenClusterSeperation(int i, int j) {
+        return calculateAverageSetDistance(i, j);
+    }
 
-	@Override
-	public DunnIndex33 getClone() {
-		return new DunnIndex33();
-	}
+    @Override
+    public DunnIndex33 getClone() {
+        return new DunnIndex33();
+    }
 }

@@ -26,39 +26,39 @@ package net.sourceforge.cilib.games.game;
  * This class represents any game that takes place in a grid
  */
 public abstract class GridGame extends Game {
-	private static final long serialVersionUID = -3460317865794650394L;
+    private static final long serialVersionUID = -3460317865794650394L;
 
-	//width of the grid
-	protected int gridWidth;
-	//height of the grid
-	protected int gridHeight;
-	/**
-	 *
-	 */
-	public GridGame() {
-		gridWidth = 0;
-		gridHeight = 0;
-		// TODO Auto-generated constructor stub
-	}
-	/**
-	 * @param other
-	 */
-	public GridGame(GridGame other) {
-		super(other);
-		gridWidth = other.gridWidth;
-		gridHeight = other.gridHeight;
-	}
+    //width of the grid
+    protected int gridWidth;
+    //height of the grid
+    protected int gridHeight;
+    /**
+     *
+     */
+    public GridGame() {
+        gridWidth = 0;
+        gridHeight = 0;
+        // TODO Auto-generated constructor stub
+    }
+    /**
+     * @param other
+     */
+    public GridGame(GridGame other) {
+        super(other);
+        gridWidth = other.gridWidth;
+        gridHeight = other.gridHeight;
+    }
 
-	public int getWidth(){
-		return gridWidth;
-	}
-	public int getHeight(){
-		return gridHeight;
-	}
-	public void setWidth(int width){
-		gridWidth = width;
-	}
-	public void setHeight(int height){
-		gridHeight = height;
-	}
+    public int getWidth(){
+        return gridWidth;
+    }
+    public int getHeight(){
+        return gridHeight;
+    }
+    public void setWidth(int width){
+        gridWidth = width;
+    }
+    public void setHeight(int height){
+        gridHeight = height;
+    }
 }

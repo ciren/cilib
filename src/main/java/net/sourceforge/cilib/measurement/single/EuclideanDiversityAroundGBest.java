@@ -36,33 +36,33 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * TODO: Complete this javadoc.
  */
 public class EuclideanDiversityAroundGBest implements Measurement {
-	private static final long serialVersionUID = 8221420456303029095L;
+    private static final long serialVersionUID = 8221420456303029095L;
 
-	public EuclideanDiversityAroundGBest(EuclideanDiversityAroundGBest copy) {
+    public EuclideanDiversityAroundGBest(EuclideanDiversityAroundGBest copy) {
 
-	}
+    }
 
-	public EuclideanDiversityAroundGBest getClone() {
-		return new EuclideanDiversityAroundGBest(this);
-	}
+    public EuclideanDiversityAroundGBest getClone() {
+        return new EuclideanDiversityAroundGBest(this);
+    }
 
-	public String getDomain() {
-		return "R";
-	}
+    public String getDomain() {
+        return "R";
+    }
 
-	public Type getValue(Algorithm algorithm) {
-		PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
+    public Type getValue(Algorithm algorithm) {
+        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 
-		Vector center = (Vector) algorithm.getBestSolution().getPosition();
-		DistanceMeasure distance = new EuclideanDistanceMeasure();
-		double diameter = 0;
+        Vector center = (Vector) algorithm.getBestSolution().getPosition();
+        DistanceMeasure distance = new EuclideanDistanceMeasure();
+        double diameter = 0;
 
-		Topology<? extends Entity> topology = populationBasedAlgorithm.getTopology();
-		for (Entity entity : topology) {
-		     diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
-		}
+        Topology<? extends Entity> topology = populationBasedAlgorithm.getTopology();
+        for (Entity entity : topology) {
+             diameter += distance.distance(center, (Vector) entity.getCandidateSolution());
+        }
 
-		return new Real(diameter/topology.size());
-	}
+        return new Real(diameter/topology.size());
+    }
 
 }

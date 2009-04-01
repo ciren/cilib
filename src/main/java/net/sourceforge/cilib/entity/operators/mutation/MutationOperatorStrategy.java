@@ -29,36 +29,36 @@ import net.sourceforge.cilib.type.types.Numeric;
  */
 public interface MutationOperatorStrategy {
 
-	/**
-	 * Perform the evaluation based on the given parameters.
-	 * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
-	 * @param t2 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
-	 * @return The result of the evaluation with parameter t1 and t2.
-	 */
-	public double evaluate(Numeric t1, Numeric t2);
+    /**
+     * Perform the evaluation based on the given parameters.
+     * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
+     * @param t2 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
+     * @return The result of the evaluation with parameter t1 and t2.
+     */
+    public double evaluate(Numeric t1, Numeric t2);
 
-	/**
-	 * Perform the evaluation based on the given parameters.
-	 * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
-	 * @param value The second parameter: double.
-	 * @return The result of the evaluation with parameter t1 and t2.
-	 */
-	public double evaluate(Numeric t1, double value);
+    /**
+     * Perform the evaluation based on the given parameters.
+     * @param t1 The first parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
+     * @param value The second parameter: double.
+     * @return The result of the evaluation with parameter t1 and t2.
+     */
+    public double evaluate(Numeric t1, double value);
 
-	/**
-	 * Perform the evaluation based on the given parameters.
-	 * @param value The first parameter: double.
-	 * @param t1 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
-	 * @return The result of the evaluation with parameter value and t2.
-	 */
-	public double evaluate(double value, Numeric t1);
+    /**
+     * Perform the evaluation based on the given parameters.
+     * @param value The first parameter: double.
+     * @param t1 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
+     * @return The result of the evaluation with parameter value and t2.
+     */
+    public double evaluate(double value, Numeric t1);
 
-	/**
-	 * Perform the evaluation based on the given parameters.
-	 * @param t1 The first parameter: double.
-	 * @param t2 The second parameter: double.
-	 * @return The result of the evaluation with parameter t1 and t2.
-	 */
-	public double evaluate(double t1, double t2);
+    /**
+     * Perform the evaluation based on the given parameters.
+     * @param t1 The first parameter: double.
+     * @param t2 The second parameter: double.
+     * @return The result of the evaluation with parameter t1 and t2.
+     */
+    public double evaluate(double t1, double t2);
 
 }

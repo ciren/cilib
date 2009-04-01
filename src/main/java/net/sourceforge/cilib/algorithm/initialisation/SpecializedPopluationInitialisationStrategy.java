@@ -32,93 +32,67 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 /**
  * Initialise a specialised collection of {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
  */
-public class SpecializedPopluationInitialisationStrategy implements PopulationInitialisationStrategy {
-	private static final long serialVersionUID = -9146471282965793922L;
-	private List<Entity> entityList;
+public class SpecializedPopluationInitialisationStrategy extends PopulationInitialisationStrategy {
+    private static final long serialVersionUID = -9146471282965793922L;
+    private List<Entity> entityList;
 
-	/**
-	 * Create an instance of {@code SpecializedPopluationInitialisationStrategy}.
-	 */
-	public SpecializedPopluationInitialisationStrategy() {
-		this.entityList = new ArrayList<Entity>(40);
-	}
+    /**
+     * Create an instance of {@code SpecializedPopluationInitialisationStrategy}.
+     */
+    public SpecializedPopluationInitialisationStrategy() {
+        this.entityList = new ArrayList<Entity>(40);
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public SpecializedPopluationInitialisationStrategy(SpecializedPopluationInitialisationStrategy copy) {
-		this.entityList = new ArrayList<Entity>(copy.entityList.size());
-		for (Entity entity : copy.entityList) {
-			this.entityList.add(entity.getClone());
-		}
-	}
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public SpecializedPopluationInitialisationStrategy(SpecializedPopluationInitialisationStrategy copy) {
+        this.entityList = new ArrayList<Entity>(copy.entityList.size());
+        for (Entity entity : copy.entityList) {
+            this.entityList.add(entity.getClone());
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public SpecializedPopluationInitialisationStrategy getClone() {
-		return new SpecializedPopluationInitialisationStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public SpecializedPopluationInitialisationStrategy getClone() {
+        return new SpecializedPopluationInitialisationStrategy(this);
+    }
 
-	/**
-	 * Note that this method does not return a value, but rather throws
-	 * an exception as the method does <u>not</u> make sense in the
-	 * context of this class.
-	 * @return
-	 * @throws UnsupportedOperationException The type of entity is not defined,
-	 *         as there may be various specialied types of entities added to the
-	 *         list of initialisation entities.
-	 */
-	public Entity getEntityType() {
-		// this needs to be looked at... generalisation breaks here
-		throw new UnsupportedOperationException("Implementation needed");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Entity getEntityType() {
+        // this needs to be looked at... generalisation breaks here
+        throw new UnsupportedOperationException("Implementation needed");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	public void initialise(Topology topology, OptimisationProblem problem) {
-		if (problem == null)
-			throw new InitialisationException("No problem has been specified");
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void initialise(Topology topology, OptimisationProblem problem) {
+        if (problem == null)
+            throw new InitialisationException("No problem has been specified");
 
-		if (this.entityList.size() == 0)
-			throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
+        if (this.entityList.size() == 0)
+            throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
-		for (Entity entity : entityList) {
-			entity.initialise(problem);
-			topology.add(entity);
-		}
-	}
+        for (Entity entity : entityList) {
+            entity.initialise(problem);
+            topology.add(entity);
+        }
+    }
 
-	/**
-	 * Add defined entities to the current list of entities to be initialised.
-	 * @param entity The Entity to add during the population initialisation.
-	 */
-	@Override
-	public void setEntityType(Entity entity) {
-		this.entityList.add(entity);
-	}
-
-	/**
-	 * This method does not make sence in the context of this class. You cannot
-	 * determine the number entities, as they are dynamically defined.
-	 * @param entityNumber The number of entities
-	 * @throws UnsupportedOperationException Cannot determine the number of entities ahead of time.
-	 */
-	@Override
-	public void setEntityNumber(int entityNumber) {
-		throw new UnsupportedOperationException("Cannot defined the number of sepcialized entity instances.");
-	}
-
-	/**
-	 * Get the number entities that have been added to this
-	 * {@linkplain PopulationInitialisationStrategy intialization strategy}.
-	 * @return The number of defined entities.
-	 */
-	@Override
-	public int getEntityNumber() {
-		return this.entityList.size();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setEntityType(Entity entity) {
+        this.entityList.add(entity);
+    }
 }

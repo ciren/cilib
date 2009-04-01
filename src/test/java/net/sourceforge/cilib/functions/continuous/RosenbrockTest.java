@@ -43,7 +43,7 @@ public class RosenbrockTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Rosenbrock. */
     @Test
     public void testEvaluate() {
-    	ContinuousFunction function = new Rosenbrock();
+        ContinuousFunction function = new Rosenbrock();
         function.setDomain("R(-2.048, 2.048)^3");
         //double[] x = {1, 2, 3};
         //double[] y = {3, 2, 1};

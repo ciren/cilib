@@ -37,168 +37,168 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 @Deprecated
 public class Matrix<E> implements Cloneable {
-	private static final long serialVersionUID = 4621194915276987567L;
+    private static final long serialVersionUID = 4621194915276987567L;
 
-	private ArrayList< ArrayList<E> > data; // This is the ArrayList of the 1st dimension
-	private int rows;
-	private int cols;
+    private ArrayList< ArrayList<E> > data; // This is the ArrayList of the 1st dimension
+    private int rows;
+    private int cols;
 
-	/**
-	 * Create a new <code>Matrix</code> object with dimensions: rows x columns.
-	 * @param rows The number of rows the <code>Matrix</code> should contain.
-	 * @param cols The number of columns the <code>Matrix</code> should contain.
-	 */
-	public Matrix(int rows, int cols) {
-		if (rows == 0 || cols == 0) {
-			throw new IllegalArgumentException("Cannot create a Matrix with row or column dimension < 1");
-		}
+    /**
+     * Create a new <code>Matrix</code> object with dimensions: rows x columns.
+     * @param rows The number of rows the <code>Matrix</code> should contain.
+     * @param cols The number of columns the <code>Matrix</code> should contain.
+     */
+    public Matrix(int rows, int cols) {
+        if (rows == 0 || cols == 0) {
+            throw new IllegalArgumentException("Cannot create a Matrix with row or column dimension < 1");
+        }
 
-		this.rows = rows;
-		this.cols = cols;
+        this.rows = rows;
+        this.cols = cols;
 
-		data = new ArrayList< ArrayList<E> >();
+        data = new ArrayList< ArrayList<E> >();
 
-		for (int i = 0; i < rows; i++) {
-			ArrayList<E> tmp = new ArrayList<E>();
+        for (int i = 0; i < rows; i++) {
+            ArrayList<E> tmp = new ArrayList<E>();
 
-			for (int j = 0; j < cols; j++) {
-				tmp.add(null);
-			}
+            for (int j = 0; j < cols; j++) {
+                tmp.add(null);
+            }
 
-			data.add(tmp);
-		}
-	}
-
-
-	/**
-	 * Copy constructor.
-	 * @param copy The instance to copy.
-	 */
-	public Matrix(Matrix<E> copy) {
-		rows = copy.rows;
-		cols = copy.cols;
-
-		data = new ArrayList<ArrayList<E>>();
-
-		for (ArrayList<E> item : data) {
-			ArrayList<E> cloneList = new ArrayList<E>();
-
-			for (E j : item)
-				cloneList.add(j);
-		}
-	}
+            data.add(tmp);
+        }
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Matrix<E> getClone() {
-		return new Matrix<E>(this);
-	}
+    /**
+     * Copy constructor.
+     * @param copy The instance to copy.
+     */
+    public Matrix(Matrix<E> copy) {
+        rows = copy.rows;
+        cols = copy.cols;
 
-	/**
-	 * Place an <code>Object</code> at a point (row, column) within the <code>Matrix</code>.
-	 * @param row The row where the needed item is located
-	 * @param col The column where the needed item is located
-	 * @param object The <code>Object</code> to place the <code>Matrix</code> at prosition (row, column)
-	 */
-	public void set(int row, int col, E object) {
-		if ((row >= rows || col >= cols) && (row >= 0 || col >= 0))
-			throw new IndexOutOfBoundsException("Cannot set item at out of bounds index");
+        data = new ArrayList<ArrayList<E>>();
 
-		ArrayList<E> tmp = data.get(row);
-		tmp.set(col, object);
-	}
+        for (ArrayList<E> item : data) {
+            ArrayList<E> cloneList = new ArrayList<E>();
 
-	/**
-	 * Return the current item within the grid, located at (row, column).
-	 * @param row The row where the needed item is located
-	 * @param col The column where the needed item is located
-	 * @return The <code>Object</code> within the <code>Matrix</code> at position (row, column)
-	 */
-	public E get(int row, int col) {
-		if ((row >= rows || col >= cols) && (row >= 0 || col >= 0))
-			throw new IndexOutOfBoundsException("Cannot acces element - index out of bounds");
+            for (E j : item)
+                cloneList.add(j);
+        }
+    }
 
-		return data.get(row).get(col);
-	}
 
-	/**
-	 * Get the number of columns in the <code>Matrix</code>.
-	 * @return The number of columns in the <code>Matrix</code>.
-	 */
-	public int getColumnCount() {
-		return cols;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Matrix<E> getClone() {
+        return new Matrix<E>(this);
+    }
 
-	/**
-	 * Get the number of rows in the <code>Matrix</code>.
-	 * @return The number of rows in the <code>Matrix</code>.
-	 */
-	public int getRowCount() {
-		return rows;
-	}
+    /**
+     * Place an <code>Object</code> at a point (row, column) within the <code>Matrix</code>.
+     * @param row The row where the needed item is located
+     * @param col The column where the needed item is located
+     * @param object The <code>Object</code> to place the <code>Matrix</code> at prosition (row, column)
+     */
+    public void set(int row, int col, E object) {
+        if ((row >= rows || col >= cols) && (row >= 0 || col >= 0))
+            throw new IndexOutOfBoundsException("Cannot set item at out of bounds index");
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		return false;
-	}
+        ArrayList<E> tmp = data.get(row);
+        tmp.set(col, object);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
+    /**
+     * Return the current item within the grid, located at (row, column).
+     * @param row The row where the needed item is located
+     * @param col The column where the needed item is located
+     * @return The <code>Object</code> within the <code>Matrix</code> at position (row, column)
+     */
+    public E get(int row, int col) {
+        if ((row >= rows || col >= cols) && (row >= 0 || col >= 0))
+            throw new IndexOutOfBoundsException("Cannot acces element - index out of bounds");
 
-	/**
-	 * Clear the current <code>Matrix</code> of it's internal state.
-	 */
-	public void clear() {
-		data = null;
-		data = new ArrayList< ArrayList<E> >();
+        return data.get(row).get(col);
+    }
 
-		for (int i = 0; i < rows; i++) {
-			ArrayList<E> tmp = new ArrayList<E>();
+    /**
+     * Get the number of columns in the <code>Matrix</code>.
+     * @return The number of columns in the <code>Matrix</code>.
+     */
+    public int getColumnCount() {
+        return cols;
+    }
 
-			for (int j = 0; j < cols; j++)
-				tmp.add(null);
+    /**
+     * Get the number of rows in the <code>Matrix</code>.
+     * @return The number of rows in the <code>Matrix</code>.
+     */
+    public int getRowCount() {
+        return rows;
+    }
 
-			data.add(tmp);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
 
-	/**
-	 * Get a <code>Vector</code> representing the row within the <code>Matrix</code> at the given index.
-	 * @param row The row index of the row to be returned, indexed from 0.
-	 * @return A <code>Vector</code> representing the row within the <code>Matrix</code>.
-	 */
-	public Collection<E> getRow(int row) {
-		ArrayList<E> tmp = new ArrayList<E>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
-		for (int i = 0; i < cols; i++) {
-			tmp.add(this.get(row, i));
-		}
+    /**
+     * Clear the current <code>Matrix</code> of it's internal state.
+     */
+    public void clear() {
+        data = null;
+        data = new ArrayList< ArrayList<E> >();
 
-		return tmp;
-	}
+        for (int i = 0; i < rows; i++) {
+            ArrayList<E> tmp = new ArrayList<E>();
 
-	/**
-	 * Get a <code>Vector</code> representing the column within the <code>Matrix</code> at the given index.
-	 * @param col The column index of the row to be returned, indexed from 0.
-	 * @return A <code>Vector</code> representing the column within the <code>Matrix</code>.
-	 */
-	public Collection<E> getColumn(int col) {
-		Collection<E> tmp = new Vector<E>();
+            for (int j = 0; j < cols; j++)
+                tmp.add(null);
 
-		for (int i = 0; i < rows; i++)
-			tmp.add(this.get(i, col));
+            data.add(tmp);
+        }
+    }
 
-		return tmp;
-	}
+    /**
+     * Get a <code>Vector</code> representing the row within the <code>Matrix</code> at the given index.
+     * @param row The row index of the row to be returned, indexed from 0.
+     * @return A <code>Vector</code> representing the row within the <code>Matrix</code>.
+     */
+    public Collection<E> getRow(int row) {
+        ArrayList<E> tmp = new ArrayList<E>();
+
+        for (int i = 0; i < cols; i++) {
+            tmp.add(this.get(row, i));
+        }
+
+        return tmp;
+    }
+
+    /**
+     * Get a <code>Vector</code> representing the column within the <code>Matrix</code> at the given index.
+     * @param col The column index of the row to be returned, indexed from 0.
+     * @return A <code>Vector</code> representing the column within the <code>Matrix</code>.
+     */
+    public Collection<E> getColumn(int col) {
+        Collection<E> tmp = new Vector<E>();
+
+        for (int i = 0; i < rows; i++)
+            tmp.add(this.get(i, col));
+
+        return tmp;
+    }
 
 }

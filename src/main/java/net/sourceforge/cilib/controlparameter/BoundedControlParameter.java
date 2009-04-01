@@ -36,147 +36,147 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public abstract class BoundedControlParameter implements ControlParameter {
-	private static final long serialVersionUID = 3658446987351378005L;
+    private static final long serialVersionUID = 3658446987351378005L;
 
-	protected Real parameter;
-	protected String range = "";
-
-
-	/**
-	 * Create an instance of the {@code BoundedControlParameter}.
-	 */
-	public BoundedControlParameter() {
-		this.parameter = new Real();
-	}
+    protected Real parameter;
+    protected String range = "";
 
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance which to copy.
-	 */
-	public BoundedControlParameter(BoundedControlParameter copy) {
-		this.parameter = copy.parameter.getClone();
-		this.range = new String(copy.range);
-	}
+    /**
+     * Create an instance of the {@code BoundedControlParameter}.
+     */
+    public BoundedControlParameter() {
+        this.parameter = new Real();
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract BoundedControlParameter getClone();
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance which to copy.
+     */
+    public BoundedControlParameter(BoundedControlParameter copy) {
+        this.parameter = copy.parameter.getClone();
+        this.range = new String(copy.range);
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getParameter() {
-		return parameter.getReal();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getParameter(double min, double max) {
-		throw new UnsupportedOperationException("");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public abstract BoundedControlParameter getClone();
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setParameter(double value) {
-		this.parameter.setReal(value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double getParameter() {
+        return parameter.getReal();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateParameter() {
-		update();
-		clamp();
-	}
-
-	/**
-	 * Update the paramter.
-	 */
-	protected abstract void update();
-
-	/**
-	 * Clamp the current paramter vaue between the lower and upper bound values.
-	 */
-	protected void clamp() {
-		if (this.parameter.getReal() < this.parameter.getBounds().getLowerBound())
-			this.parameter.setReal(this.parameter.getBounds().getLowerBound());
-		else if (this.parameter.getReal() > this.parameter.getBounds().getUpperBound())
-			this.parameter.setReal(this.parameter.getBounds().getUpperBound());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double getParameter(double min, double max) {
+        throw new UnsupportedOperationException("");
+    }
 
 
-	/**
-	 * Get the lower bound of the
-	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control paramter}.
-	 * @return The lower bound value.
-	 */
-	public double getLowerBound() {
-		return this.parameter.getBounds().getLowerBound();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setParameter(double value) {
+        this.parameter.setReal(value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void updateParameter() {
+        update();
+        clamp();
+    }
+
+    /**
+     * Update the paramter.
+     */
+    protected abstract void update();
+
+    /**
+     * Clamp the current paramter vaue between the lower and upper bound values.
+     */
+    protected void clamp() {
+        if (this.parameter.getReal() < this.parameter.getBounds().getLowerBound())
+            this.parameter.setReal(this.parameter.getBounds().getLowerBound());
+        else if (this.parameter.getReal() > this.parameter.getBounds().getUpperBound())
+            this.parameter.setReal(this.parameter.getBounds().getUpperBound());
+    }
 
 
-	/**
-	 * Set the value of the lower bound.
-	 * @param lower The value to set.
-	 */
-	public void setLowerBound(double lower) {
-//		this.parameter.getBounds().setLowerBound(lower);
+    /**
+     * Get the lower bound of the
+     * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control paramter}.
+     * @return The lower bound value.
+     */
+    public double getLowerBound() {
+        return this.parameter.getBounds().getLowerBound();
+    }
+
+
+    /**
+     * Set the value of the lower bound.
+     * @param lower The value to set.
+     */
+    public void setLowerBound(double lower) {
+//        this.parameter.getBounds().setLowerBound(lower);
         Bounds bounds = parameter.getBounds();
         this.parameter.setBounds(lower, bounds.getUpperBound());
-	}
+    }
 
 
-	/**
-	 * Get the upper bound for the
-	 * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}.
-	 * @return The upper bound value.
-	 */
-	public double getUpperBound() {
-		return this.parameter.getBounds().getUpperBound();
-	}
+    /**
+     * Get the upper bound for the
+     * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}.
+     * @return The upper bound value.
+     */
+    public double getUpperBound() {
+        return this.parameter.getBounds().getUpperBound();
+    }
 
 
-	/**
-	 * Set the value for the upper bound.
-	 * @param value The value to set.
-	 */
-	public void setUpperBound(double value) {
-//		this.parameter.getBounds().setUpperBound(value);
+    /**
+     * Set the value for the upper bound.
+     * @param value The value to set.
+     */
+    public void setUpperBound(double value) {
+//        this.parameter.getBounds().setUpperBound(value);
         Bounds bounds = parameter.getBounds();
         this.parameter.setBounds(bounds.getLowerBound(), value);
-	}
+    }
 
 
-	/**
-	 * Get the range of the {@linkplain net.sourceforge.cilib.controlparameter.BoundedControlParameter}.
-	 * @return The string representing the range of the parameter.
-	 */
-	public String getRange() {
-		return range;
-	}
+    /**
+     * Get the range of the {@linkplain net.sourceforge.cilib.controlparameter.BoundedControlParameter}.
+     * @return The string representing the range of the parameter.
+     */
+    public String getRange() {
+        return range;
+    }
 
 
-	/**
-	 * Set the range of the parameter.
-	 * @param range The domain string representing the range.
-	 */
-	public void setRange(String range) {
-		this.range = range;
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse(this.range);
-		Vector v = (Vector) parser.getBuiltRepresentation();
+    /**
+     * Set the range of the parameter.
+     * @param range The domain string representing the range.
+     */
+    public void setRange(String range) {
+        this.range = range;
+        DomainParser parser = new DomainParser();
+        parser.parse(this.range);
+        Vector v = (Vector) parser.getBuiltRepresentation();
 
-		if (v.getDimension() != 1)
-			throw new RuntimeException("Range incorrect in BoundedUpdateStrategy! Please correct");
-		else
-			this.parameter = (Real) v.get(0);
-	}
+        if (v.getDimension() != 1)
+            throw new RuntimeException("Range incorrect in BoundedUpdateStrategy! Please correct");
+        else
+            this.parameter = (Real) v.get(0);
+    }
 
 }

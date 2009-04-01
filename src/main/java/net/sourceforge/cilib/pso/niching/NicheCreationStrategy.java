@@ -33,6 +33,6 @@ package net.sourceforge.cilib.pso.niching;
  */
 public interface NicheCreationStrategy {
 
-	public void create(Niche algorithm);
+    public void create(Niche algorithm);
 
 }

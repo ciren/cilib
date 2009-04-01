@@ -30,27 +30,27 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Edwin Peer
  */
 public class NastyBenchmark extends ContinuousFunction {
-	private static final long serialVersionUID = 6848836780892359015L;
+    private static final long serialVersionUID = 6848836780892359015L;
 
-	/**
-	 * Create a new instance of {@linkplain NastyBenchmark}.
-	 */
-	public NastyBenchmark() {
+    /**
+     * Create a new instance of {@linkplain NastyBenchmark}.
+     */
+    public NastyBenchmark() {
         setDomain("R(-500, 500)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NastyBenchmark getClone() {
-		return new NastyBenchmark();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public NastyBenchmark getClone() {
+        return new NastyBenchmark();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-	 * @return The function minimum value.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+     * @return The function minimum value.
+     */
     public Object getMinimum() {
         return new Double(0);
     }
@@ -61,8 +61,8 @@ public class NastyBenchmark extends ContinuousFunction {
     public double evaluate(Vector x) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {
-        	double factor = (x.getReal(i) - (i + 1));
-        	tmp += factor * factor;
+            double factor = (x.getReal(i) - (i + 1));
+            tmp += factor * factor;
         }
         return tmp;
     }

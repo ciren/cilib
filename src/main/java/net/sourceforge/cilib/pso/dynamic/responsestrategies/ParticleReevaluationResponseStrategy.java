@@ -33,55 +33,55 @@ import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
  * @author Anna Rakitianskaia
  */
 public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> implements
-		EnvironmentChangeResponseStrategy<E> {
-	private static final long serialVersionUID = -4389695103800841288L;
+        EnvironmentChangeResponseStrategy<E> {
+    private static final long serialVersionUID = -4389695103800841288L;
 
-	public ParticleReevaluationResponseStrategy() {
-		// empty constructor
-	}
+    public ParticleReevaluationResponseStrategy() {
+        // empty constructor
+    }
 
-	public ParticleReevaluationResponseStrategy(ParticleReevaluationResponseStrategy<E> copy) {
-		// empty copy constructor
-	}
+    public ParticleReevaluationResponseStrategy(ParticleReevaluationResponseStrategy<E> copy) {
+        // empty copy constructor
+    }
 
-	public ParticleReevaluationResponseStrategy<E> getClone() {
-		return new ParticleReevaluationResponseStrategy<E>(this);
-	}
+    public ParticleReevaluationResponseStrategy<E> getClone() {
+        return new ParticleReevaluationResponseStrategy<E>(this);
+    }
 
-	/**
-	 * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best.
-	 * @param algorithm PSO algorithm that has to respond to environment change
-	 */
-	public void respond(E algorithm) {
-		reevaluateParticles(algorithm);
-	}
+    /**
+     * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best.
+     * @param algorithm PSO algorithm that has to respond to environment change
+     */
+    public void respond(E algorithm) {
+        reevaluateParticles(algorithm);
+    }
 
-	/**
-	 * Re-evaluate each particle's position, personal best and neighbourhood best.
-	 * @param algorithm PSO algorithm that has to respond to environment change
-	 */
-	protected void reevaluateParticles(E algorithm) {
+    /**
+     * Re-evaluate each particle's position, personal best and neighbourhood best.
+     * @param algorithm PSO algorithm that has to respond to environment change
+     */
+    protected void reevaluateParticles(E algorithm) {
 
-		Topology<? extends Entity> topology = algorithm.getTopology();
+        Topology<? extends Entity> topology = algorithm.getTopology();
 
-		// Reevaluate current position. Update personal best (done by reevaluate()).
-		Iterator<? extends Entity> iterator = topology.iterator();
-		while (iterator.hasNext()) {
-			DynamicParticle current = (DynamicParticle) iterator.next();
-			current.reevaluate();
-		}
+        // Reevaluate current position. Update personal best (done by reevaluate()).
+        Iterator<? extends Entity> iterator = topology.iterator();
+        while (iterator.hasNext()) {
+            DynamicParticle current = (DynamicParticle) iterator.next();
+            current.reevaluate();
+        }
 
-		// Update the neighbourhood best
-		iterator = topology.iterator();
-		while (iterator.hasNext()) {
-			Particle current = (Particle) iterator.next();
-			Iterator<? extends Entity> j = topology.neighbourhood(iterator);
+        // Update the neighbourhood best
+        iterator = topology.iterator();
+        while (iterator.hasNext()) {
+            Particle current = (Particle) iterator.next();
+            Iterator<? extends Entity> j = topology.neighbourhood(iterator);
             while (j.hasNext()) {
-            	Particle other = (Particle) j.next();
-            	if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
-            		other.setNeighbourhoodBest(current);
+                Particle other = (Particle) j.next();
+                if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+                    other.setNeighbourhoodBest(current);
                 }
             } // end for
-		} // end for
-	}
+        } // end for
+    }
 } // end class

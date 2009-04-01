@@ -42,80 +42,80 @@ import net.sourceforge.cilib.type.types.Numeric;
  * @author Wiehann Matthysen
  */
 public class NearestBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
-	private static final long serialVersionUID = 2444348297389576657L;
+    private static final long serialVersionUID = 2444348297389576657L;
 
-	private ControlParameter turbulenceProbability;
+    private ControlParameter turbulenceProbability;
 
-	/**
-	 * Create a new instance of {@literal NearestBoundaryConstraintStrategy}.
-	 */
-	public NearestBoundaryConstraintStrategy() {
-		turbulenceProbability = new ConstantControlParameter();
-		turbulenceProbability.setParameter(0.0);
-	}
+    /**
+     * Create a new instance of {@literal NearestBoundaryConstraintStrategy}.
+     */
+    public NearestBoundaryConstraintStrategy() {
+        turbulenceProbability = new ConstantControlParameter();
+        turbulenceProbability.setParameter(0.0);
+    }
 
-	/**
-	 * Copy constructor. Create a copy o the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public NearestBoundaryConstraintStrategy(NearestBoundaryConstraintStrategy copy) {
-		turbulenceProbability = copy.turbulenceProbability.getClone();
-	}
+    /**
+     * Copy constructor. Create a copy o the provided instance.
+     * @param copy The instance to copy.
+     */
+    public NearestBoundaryConstraintStrategy(NearestBoundaryConstraintStrategy copy) {
+        turbulenceProbability = copy.turbulenceProbability.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public NearestBoundaryConstraintStrategy getClone() {
-		return new NearestBoundaryConstraintStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public NearestBoundaryConstraintStrategy getClone() {
+        return new NearestBoundaryConstraintStrategy(this);
+    }
 
-	/**
-	 * Set the turbulence probability with the provided {@linkplain ControlParameter}.
-	 * @param turbulenceProbability The value to set.
-	 */
-	public void setTurbulenceProbability(ControlParameter terbulenceProbability) {
-		this.turbulenceProbability = terbulenceProbability;
-	}
+    /**
+     * Set the turbulence probability with the provided {@linkplain ControlParameter}.
+     * @param turbulenceProbability The value to set.
+     */
+    public void setTurbulenceProbability(ControlParameter terbulenceProbability) {
+        this.turbulenceProbability = terbulenceProbability;
+    }
 
-	/**
-	 * Get the {@linkplain ControlParameter} representing the current turbulence probability.
-	 * @return The turbulence {@linkplain ControlParameter}.
-	 */
-	public ControlParameter getTurbulenceProbability() {
-		return turbulenceProbability;
-	}
+    /**
+     * Get the {@linkplain ControlParameter} representing the current turbulence probability.
+     * @return The turbulence {@linkplain ControlParameter}.
+     */
+    public ControlParameter getTurbulenceProbability() {
+        return turbulenceProbability;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void constrainLower(Numeric position, Numeric velocity) {
-		double upper = position.getBounds().getUpperBound();
-		double lower = position.getBounds().getLowerBound();
-		double range = Math.abs(upper - lower);
-		Numeric previousPosition = position.getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public void constrainLower(Numeric position, Numeric velocity) {
+        double upper = position.getBounds().getUpperBound();
+        double lower = position.getBounds().getLowerBound();
+        double range = Math.abs(upper - lower);
+        Numeric previousPosition = position.getClone();
 
-		position.set(lower);	// lower boundary is inclusive
-		if (MathUtil.random() < turbulenceProbability.getParameter()) {
-			position.set(position.getReal() + MathUtil.random() * range);
-		}
+        position.set(lower);    // lower boundary is inclusive
+        if (MathUtil.random() < turbulenceProbability.getParameter()) {
+            position.set(position.getReal() + MathUtil.random() * range);
+        }
 
-		velocity.set(position.getReal() - previousPosition.getReal());
-	}
+        velocity.set(position.getReal() - previousPosition.getReal());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void constrainUpper(Numeric position, Numeric velocity) {
-		double upper = position.getBounds().getUpperBound();
-		double lower = position.getBounds().getLowerBound();
-		double range = Math.abs(upper - lower);
-		Numeric previousPosition = position.getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public void constrainUpper(Numeric position, Numeric velocity) {
+        double upper = position.getBounds().getUpperBound();
+        double lower = position.getBounds().getLowerBound();
+        double range = Math.abs(upper - lower);
+        Numeric previousPosition = position.getClone();
 
-		position.set(upper - INFIMUM);	// upper boundary is exclusive
-		if (MathUtil.random() < turbulenceProbability.getParameter()) {
-			position.set(position.getReal() - MathUtil.random() * range);
-		}
+        position.set(upper - INFIMUM);    // upper boundary is exclusive
+        if (MathUtil.random() < turbulenceProbability.getParameter()) {
+            position.set(position.getReal() - MathUtil.random() * range);
+        }
 
-		velocity.set(position.getReal() - previousPosition.getReal());
-	}
+        velocity.set(position.getReal() - previousPosition.getReal());
+    }
 }

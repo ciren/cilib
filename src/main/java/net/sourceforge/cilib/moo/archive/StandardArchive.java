@@ -34,42 +34,42 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 
 public class StandardArchive extends ArrayList<OptimisationSolution> implements Archive {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 2395164492771478604L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2395164492771478604L;
 
-	private LocalGuideStrategy localGuideStrategy;
-	private GlobalGuideStrategy globalGuideStrategy;
+    private LocalGuideStrategy localGuideStrategy;
+    private GlobalGuideStrategy globalGuideStrategy;
 
-	public StandardArchive() {
-		localGuideStrategy = new DominatesStrategy();
-		globalGuideStrategy = null;
-	}
+    public StandardArchive() {
+        localGuideStrategy = new DominatesStrategy();
+        globalGuideStrategy = null;
+    }
 
-	public void accept(OptimisationSolution candidateNonDominatedSolution) {
+    public void accept(OptimisationSolution candidateNonDominatedSolution) {
 
-	}
+    }
 
-	public void accept(Collection<OptimisationSolution> paretoFront) {
+    public void accept(Collection<OptimisationSolution> paretoFront) {
 
-	}
+    }
 
-	public GlobalGuideStrategy getGlobalGuideStrategy() {
-		return globalGuideStrategy;
-	}
+    public GlobalGuideStrategy getGlobalGuideStrategy() {
+        return globalGuideStrategy;
+    }
 
-	public void setGlobalGuideStrategy(GlobalGuideStrategy globalGuideStrategy) {
-		this.globalGuideStrategy = globalGuideStrategy;
-	}
+    public void setGlobalGuideStrategy(GlobalGuideStrategy globalGuideStrategy) {
+        this.globalGuideStrategy = globalGuideStrategy;
+    }
 
-	public LocalGuideStrategy getLocalGuideStrategy() {
-		return localGuideStrategy;
-	}
+    public LocalGuideStrategy getLocalGuideStrategy() {
+        return localGuideStrategy;
+    }
 
-	public void setLocalGuideStrategy(LocalGuideStrategy localGuideStrategy) {
-		this.localGuideStrategy = localGuideStrategy;
-	}
+    public void setLocalGuideStrategy(LocalGuideStrategy localGuideStrategy) {
+        this.localGuideStrategy = localGuideStrategy;
+    }
 
 
 

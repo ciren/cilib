@@ -32,249 +32,249 @@ import net.sourceforge.cilib.math.MathUtil;
  * @author Gary Pampara
  */
 public class Real extends Numeric {
-	private static final long serialVersionUID = 5290504438178510485L;
-	private double value;
+    private static final long serialVersionUID = 5290504438178510485L;
+    private double value;
 
 
-	/**
-	 * Create the instance with a random value.
-	 */
-	public Real() {
-		this(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-	}
+    /**
+     * Create the instance with a random value.
+     */
+    public Real() {
+        this(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    }
 
-	/**
-	 * Create the instance with the given value.
-	 * @param value The value of the {@linkplain Real}.
-	 */
-	public Real(double value) {
-		this.value = value;
+    /**
+     * Create the instance with the given value.
+     * @param value The value of the {@linkplain Real}.
+     */
+    public Real(double value) {
+        this.value = value;
         Bounds bounds = BoundsFactory.create(-Double.MAX_VALUE, Double.MAX_VALUE);
         this.setBounds(bounds);
-	}
+    }
 
 
-	/**
-	 * Create the <code>Real</code> instance with the initial value which is random between <code>lower</code> and <code>upper</code>.
-	 * @param lower The lower boundary for the random number.
-	 * @param upper The upper boundary for the random number.
-	 */
-	public Real(double lower, double upper) {
-		double bottom = (lower == Double.NEGATIVE_INFINITY) ? -Double.MAX_VALUE : lower;
-		double top = (upper == Double.POSITIVE_INFINITY) ? Double.MAX_VALUE : upper;
-		value = (top-bottom)*MathUtil.random() + bottom;
+    /**
+     * Create the <code>Real</code> instance with the initial value which is random between <code>lower</code> and <code>upper</code>.
+     * @param lower The lower boundary for the random number.
+     * @param upper The upper boundary for the random number.
+     */
+    public Real(double lower, double upper) {
+        double bottom = (lower == Double.NEGATIVE_INFINITY) ? -Double.MAX_VALUE : lower;
+        double top = (upper == Double.POSITIVE_INFINITY) ? Double.MAX_VALUE : upper;
+        value = (top-bottom)*MathUtil.random() + bottom;
 
         this.setBounds(BoundsFactory.create(lower, upper));
-	}
+    }
 
-	/**
-	 * Copy construtor.
-	 * @param copy The instance to copy.
-	 */
-	public Real(Real copy) {
-		this.value = copy.value;
+    /**
+     * Copy construtor.
+     * @param copy The instance to copy.
+     */
+    public Real(Real copy) {
+        this.value = copy.value;
         this.setBounds(copy.getBounds());
-	}
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Real getClone() {
-		return new Real(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Real getClone() {
+        return new Real(this);
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object other) {
-		if (this == other)
-			return true;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
 
-		if ((other == null) || (this.getClass() != other.getClass()))
-			return false;
+        if ((other == null) || (this.getClass() != other.getClass()))
+            return false;
 
-		Real otherReal = (Real) other;
-		return Double.compare(this.value, otherReal.value) == 0 && super.equals(other);
-	}
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + super.hashCode();
-		hash = 31 * hash + Double.valueOf(this.value).hashCode();
-		return hash;
-	}
+        Real otherReal = (Real) other;
+        return Double.compare(this.value, otherReal.value) == 0 && super.equals(other);
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(String value) {
-		setReal(value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + Double.valueOf(this.value).hashCode();
+        return hash;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(boolean value) {
-		setBit(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(double value) {
-		setReal(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(int value) {
-		setInt(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean getBit() {
-		return (this.value == 0.0) ? false : true;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(String value) {
+        setReal(value);
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setBit(boolean value) {
-		this.value = value ? 1.0 : 0.0;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(boolean value) {
+        setBit(value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setBit(String value) {
-		setBit(Boolean.parseBoolean(value));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(double value) {
+        setReal(value);
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(int value) {
+        setInt(value);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getInt() {
-		return Double.valueOf(this.value).intValue();
-	}
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setInt(int value) {
-		this.value = Integer.valueOf(value).doubleValue();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setInt(String value) {
-		setInt(Integer.parseInt(value));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getReal() {
-		return this.value;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setReal(double value) {
-		this.value = value;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setReal(String value) {
-		setReal(Double.parseDouble(value));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean getBit() {
+        return (this.value == 0.0) ? false : true;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int compareTo(Numeric other) {
-		final Real otherReal = (Real) other;
-		return Double.compare(this.value, otherReal.value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setBit(boolean value) {
+        this.value = value ? 1.0 : 0.0;
+    }
 
-	/**
-	 * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
-	 */
-	public void randomize() {
-		this.value = (getBounds().getUpperBound()-getBounds().getLowerBound())*MathUtil.random() + getBounds().getLowerBound();
-	}
-
-
-	/**
-	 * Set the value of the <tt>Real</tt> to a default value of 0.0.
-	 */
-	public void reset() {
-		this.setReal(0.0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setBit(String value) {
+        setBit(Boolean.parseBoolean(value));
+    }
 
 
-	/**
-	 * Return a <code>String</code> representation of the <code>Real</code> object.
-	 * @return A <code>String</code> representing the object instance.
-	 */
-	public String toString() {
-		return String.valueOf(this.value);
-	}
-
-	/**
-	 * Get the type representation of this <tt>Real</tt> object as a string.
-	 *
-	 * @return The String representation of this <tt>Type</tt> object.
-	 */
-	public String getRepresentation() {
-		return "R(" + getBounds().getLowerBound() + "," + getBounds().getUpperBound() +")";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int getInt() {
+        return Double.valueOf(this.value).intValue();
+    }
 
 
-	/**
-	 * Serialize the {@linkplain Real} to the provided {@linkplain ObjectOutput}.
-	 * @param oos The provided {@linkplain ObjectOutput}.
-	 * @throws IOException if an error occurs.
-	 */
-	public void writeExternal(ObjectOutput oos) throws IOException {
-		oos.writeDouble(this.value);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setInt(int value) {
+        this.value = Integer.valueOf(value).doubleValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setInt(String value) {
+        setInt(Integer.parseInt(value));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public double getReal() {
+        return this.value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setReal(double value) {
+        this.value = value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setReal(String value) {
+        setReal(Double.parseDouble(value));
+    }
 
 
-	/**
-	 * Read the {@linkplain Real} from the provided {@linkplain ObjectInput}.
-	 * @param ois The provided {@linkplain ObjectInput}.
-	 * @throws IOException If an IO error occurs.
-	 * @throws ClassNotFoundException If a class cast problem occurs.
-	 */
-	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-		this.value = ois.readDouble();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int compareTo(Numeric other) {
+        final Real otherReal = (Real) other;
+        return Double.compare(this.value, otherReal.value);
+    }
+
+    /**
+     * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
+     */
+    public void randomize() {
+        this.value = (getBounds().getUpperBound()-getBounds().getLowerBound())*MathUtil.random() + getBounds().getLowerBound();
+    }
+
+
+    /**
+     * Set the value of the <tt>Real</tt> to a default value of 0.0.
+     */
+    public void reset() {
+        this.setReal(0.0);
+    }
+
+
+    /**
+     * Return a <code>String</code> representation of the <code>Real</code> object.
+     * @return A <code>String</code> representing the object instance.
+     */
+    public String toString() {
+        return String.valueOf(this.value);
+    }
+
+    /**
+     * Get the type representation of this <tt>Real</tt> object as a string.
+     *
+     * @return The String representation of this <tt>Type</tt> object.
+     */
+    public String getRepresentation() {
+        return "R(" + getBounds().getLowerBound() + "," + getBounds().getUpperBound() +")";
+    }
+
+
+    /**
+     * Serialize the {@linkplain Real} to the provided {@linkplain ObjectOutput}.
+     * @param oos The provided {@linkplain ObjectOutput}.
+     * @throws IOException if an error occurs.
+     */
+    public void writeExternal(ObjectOutput oos) throws IOException {
+        oos.writeDouble(this.value);
+    }
+
+
+    /**
+     * Read the {@linkplain Real} from the provided {@linkplain ObjectInput}.
+     * @param ois The provided {@linkplain ObjectInput}.
+     * @throws IOException If an IO error occurs.
+     * @throws ClassNotFoundException If a class cast problem occurs.
+     */
+    public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
+        this.value = ois.readDouble();
+    }
 
 }

@@ -28,9 +28,9 @@ package net.sourceforge.cilib.neuralnetwork.generic;
  */
 public interface Observer {
 
-	/**
-	 * @TODO
-	 */
-	public void validate();
+    /**
+     * @TODO
+     */
+    public void validate();
 
 }

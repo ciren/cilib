@@ -33,21 +33,21 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * @author Theuns Cloete
  */
 public class ClusterMeanStrategy implements ClusterCenterStrategy {
-	private static final long serialVersionUID = 9080168372118441393L;
+    private static final long serialVersionUID = 9080168372118441393L;
 
-	public ClusterMeanStrategy() {
-		super();
-	}
+    public ClusterMeanStrategy() {
+        super();
+    }
 
-	/**
-	 * In this case, we are interested in the mean of the cluster.
-	 * @param i The integer representing the cluster for which the mean should be returned
-	 * @return the mean of cluster i
-	 */
-	@Override
-	public Vector getCenter(int i) {
-		Collection<Pattern> cluster = ClusteringUtils.get().getArrangedClusters().get(i).values();
+    /**
+     * In this case, we are interested in the mean of the cluster.
+     * @param i The integer representing the cluster for which the mean should be returned
+     * @return the mean of cluster i
+     */
+    @Override
+    public Vector getCenter(int i) {
+        Collection<Pattern> cluster = ClusteringUtils.get().getArrangedClusters().get(i).values();
 
-		return StatUtils.meanVector(cluster);
-	}
+        return StatUtils.meanVector(cluster);
+    }
 }

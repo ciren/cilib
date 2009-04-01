@@ -28,10 +28,10 @@ import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
  */
 public interface EpochStrategy {
 
-	/**
-	 * Perform the iteration of the provided Neural Network.
-	 * @param evaluationMediator The Neural Network to perform the epoch on.
-	 */
-	public void performIteration(EvaluationMediator evaluationMediator);
+    /**
+     * Perform the iteration of the provided Neural Network.
+     * @param evaluationMediator The Neural Network to perform the epoch on.
+     */
+    public void performIteration(EvaluationMediator evaluationMediator);
 
 }

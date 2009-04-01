@@ -41,7 +41,7 @@ import net.sourceforge.cilib.type.types.Type;
 public class Diameter implements Measurement {
     private static final long serialVersionUID = 5136996282460480831L;
 
-	/** Creates a new instance of SwarmDiameter. */
+    /** Creates a new instance of SwarmDiameter. */
     public Diameter() {
     }
 
@@ -57,27 +57,27 @@ public class Diameter implements Measurement {
      * {@inheritDoc}
      */
     public Diameter getClone() {
-    	return new Diameter(this);
+        return new Diameter(this);
     }
 
     /**
      * {@inheritDoc}
      */
     public String getDomain() {
-    	return "R";
+        return "R";
     }
 
     /**
      * {@inheritDoc}
      */
-	public Type getValue(Algorithm algorithm) {
-    	PopulationBasedAlgorithm popAlg = (PopulationBasedAlgorithm) algorithm;
-    	Topology<? extends Entity> topology = popAlg.getTopology();
+    public Type getValue(Algorithm algorithm) {
+        PopulationBasedAlgorithm popAlg = (PopulationBasedAlgorithm) algorithm;
+        Topology<? extends Entity> topology = popAlg.getTopology();
 
-    	DiameterVisitor visitor = new DiameterVisitor();
+        DiameterVisitor visitor = new DiameterVisitor();
         topology.accept(visitor);
 
-    	return new Real(visitor.getResult());
+        return new Real(visitor.getResult());
     }
 
 }

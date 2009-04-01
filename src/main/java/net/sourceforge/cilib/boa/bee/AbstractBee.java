@@ -39,116 +39,116 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
-	private static final long serialVersionUID = 7005546673802814268L;
+    private static final long serialVersionUID = 7005546673802814268L;
 
-	protected BeePositionUpdateStrategy positionUpdateStrategy;
-	protected SelectionStrategy targetSelectionStrategy;
-	protected int dimension;
+    protected BeePositionUpdateStrategy positionUpdateStrategy;
+    protected SelectionStrategy targetSelectionStrategy;
+    protected int dimension;
 
-	/**
-	 * Default constructor. Defines reasonable defaults for common members.
-	 */
-	public AbstractBee() {
-		this.positionUpdateStrategy = new VisualPositionUpdateStategy();
-		this.targetSelectionStrategy = new RandomSelectionStrategy();
-	}
+    /**
+     * Default constructor. Defines reasonable defaults for common members.
+     */
+    public AbstractBee() {
+        this.positionUpdateStrategy = new VisualPositionUpdateStategy();
+        this.targetSelectionStrategy = new RandomSelectionStrategy();
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy the reference of the bee that is deep copied.
-	 */
-	public AbstractBee(AbstractBee copy) {
-		super(copy);
-		this.positionUpdateStrategy = copy.positionUpdateStrategy;
-		this.targetSelectionStrategy = copy.targetSelectionStrategy;
-		this.dimension = copy.dimension;
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy the reference of the bee that is deep copied.
+     */
+    public AbstractBee(AbstractBee copy) {
+        super(copy);
+        this.positionUpdateStrategy = copy.positionUpdateStrategy;
+        this.targetSelectionStrategy = copy.targetSelectionStrategy;
+        this.dimension = copy.dimension;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract AbstractBee getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract AbstractBee getClone();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public BeePositionUpdateStrategy getPositionUpdateStrategy() {
-		return this.positionUpdateStrategy;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BeePositionUpdateStrategy getPositionUpdateStrategy() {
+        return this.positionUpdateStrategy;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract void updatePosition();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract void updatePosition();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void calculateFitness() {
-		this.calculateFitness(true);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void calculateFitness() {
+        this.calculateFitness(true);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void calculateFitness(boolean count) {
-		this.getProperties().put(EntityType.FITNESS, getFitnessCalculator().getFitness(this, count));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void calculateFitness(boolean count) {
+        this.getProperties().put(EntityType.FITNESS, getFitnessCalculator().getFitness(this, count));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int compareTo(Entity o) {
-		return getFitness().compareTo(o.getFitness());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Entity o) {
+        return getFitness().compareTo(o.getFitness());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getDimension() {
-		return this.dimension;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getDimension() {
+        return this.dimension;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Vector getPosition() {
-		return (Vector) this.getCandidateSolution();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Vector getPosition() {
+        return (Vector) this.getCandidateSolution();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setPosition(Vector position) {
-		this.setCandidateSolution(position);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setPosition(Vector position) {
+        this.setCandidateSolution(position);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void initialise(OptimisationProblem problem) {
-		this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-		TypeUtil.randomize(this.getCandidateSolution());
-//		this.getCandidateSolution().randomise();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initialise(OptimisationProblem problem) {
+        this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
+        TypeUtil.randomize(this.getCandidateSolution());
+//        this.getCandidateSolution().randomise();
 
-		this.dimension = this.getCandidateSolution().size();
-		this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
-	}
+        this.dimension = this.getCandidateSolution().size();
+        this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void reinitialise() {
-		throw new UnsupportedOperationException("Reinitialise not implemented for AbstractBee");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reinitialise() {
+        throw new UnsupportedOperationException("Reinitialise not implemented for AbstractBee");
+    }
 
 }

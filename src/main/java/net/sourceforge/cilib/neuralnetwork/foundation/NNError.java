@@ -29,26 +29,26 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public interface NNError extends Fitness, Initializable {
 
-	public void computeIteration(Vector output, NNPattern input);
+    public void computeIteration(Vector output, NNPattern input);
 
-	public void finaliseError();
+    public void finaliseError();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public NNError getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public NNError getClone();
 
-	public void setValue(Object val);
+    public void setValue(Object val);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Double getValue();
+    /**
+     * {@inheritDoc}
+     */
+    public Double getValue();
 
-	public String getName();
+    public String getName();
 
-	public void setNoPatterns(int noPatterns);
+    public void setNoPatterns(int noPatterns);
 
-	public void setNoOutputs(int nr);
+    public void setNoOutputs(int nr);
 
 }

@@ -45,9 +45,9 @@ import net.sourceforge.cilib.entity.Topology;
  * @author Edwin Peer
  */
 public class GBestTopology<E extends Entity> extends Topology<E> {
-	private static final long serialVersionUID = 3190027340582769112L;
+    private static final long serialVersionUID = 3190027340582769112L;
 
-	protected ArrayList<E> entities;
+    protected ArrayList<E> entities;
 
     /**
      * Creates a new instance of <code>GBestTopology</code>.
@@ -57,16 +57,16 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     }
 
     @SuppressWarnings("unchecked")
-	public GBestTopology(GBestTopology<E> copy) {
-    	this.entities = new ArrayList<E>(copy.entities.size());
-    	for (E entity : copy.entities) {
-    		entity.reinitialise();
-    		this.entities.add((E) entity.getClone());
-    	}
+    public GBestTopology(GBestTopology<E> copy) {
+        this.entities = new ArrayList<E>(copy.entities.size());
+        for (E entity : copy.entities) {
+            entity.reinitialise();
+            this.entities.add((E) entity.getClone());
+        }
     }
 
     public GBestTopology<E> getClone() {
-    	return new GBestTopology<E>(this);
+        return new GBestTopology<E>(this);
     }
 
     public Iterator<E> iterator() {
@@ -82,8 +82,8 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
     }
 
     public boolean addAll(Collection<? extends E> set) {
-    	this.entities.ensureCapacity(entities.size()+set.size());
-    	return this.entities.addAll(set);
+        this.entities.ensureCapacity(entities.size()+set.size());
+        return this.entities.addAll(set);
     }
 
     public int size() {
@@ -102,7 +102,7 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
     private class GBestTopologyIterator<T extends Entity> implements ArrayIterator<T> {
 
-    	public GBestTopologyIterator(GBestTopology<T> topology) {
+        public GBestTopologyIterator(GBestTopology<T> topology) {
             this.topology = topology;
             index = -1;
         }
@@ -146,124 +146,124 @@ public class GBestTopology<E extends Entity> extends Topology<E> {
 
 
     public boolean remove(E indiv) {
-		return entities.remove(indiv);
-	}
+        return entities.remove(indiv);
+    }
 
-	public E get(int index) {
-		return this.entities.get(index);
-	}
+    public E get(int index) {
+        return this.entities.get(index);
+    }
 
-	public E set(int index, E particle) {
-		this.entities.set(index, particle);
-		return particle;
-	}
+    public E set(int index, E particle) {
+        this.entities.set(index, particle);
+        return particle;
+    }
 
-	@Override
-	public List<E> asList() {
-		return new ArrayList<E>(this.entities);
-	}
-
-
-	public boolean isEmpty() {
-		return this.entities.isEmpty();
-	}
+    @Override
+    public List<E> asList() {
+        return new ArrayList<E>(this.entities);
+    }
 
 
-	public void clear() {
-		this.entities.clear();
-	}
-
-	@Override
-	public boolean contains(Object entity) {
-		return this.entities.contains(entity);
-	}
+    public boolean isEmpty() {
+        return this.entities.isEmpty();
+    }
 
 
+    public void clear() {
+        this.entities.clear();
+    }
 
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
-
-	@Override
-	public int hashCode() {
-		return this.entities.hashCode();
-	}
-
-	@Override
-	public boolean remove(Object o) {
-		E entity = (E) o;
-		return this.remove(entity);
-	}
-
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
-
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
-
-	@Override
-	public Object[] toArray() {
-		return this.entities.toArray();
-	}
-
-	@Override
-	public <T> T[] toArray(T[] a) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
-
-	public boolean addAll(int index, Collection<? extends E> c) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
-
-	public void add(int index, E element) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
-
-	public E remove(int index) {
-		return this.entities.remove(index);
-	}
-
-	public int indexOf(Object o) {
-		return this.entities.indexOf(o);
-	}
-
-	public int lastIndexOf(Object o) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
-
-	public ListIterator<E> listIterator() {
-		return this.entities.listIterator();
-	}
-
-	public ListIterator<E> listIterator(int index) {
-		return this.entities.listIterator(index);
-	}
-
-	public List<E> subList(int fromIndex, int toIndex) {
-		throw new UnsupportedOperationException("Method not supported in GBestTopology");
-	}
+    @Override
+    public boolean contains(Object entity) {
+        return this.entities.contains(entity);
+    }
 
 
 
-	@Override
-	public String getId() {
-		return null;
-	}
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
 
-	@Override
-	public void setId(String id) {
+    @Override
+    public boolean equals(Object o) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
 
-	}
+    @Override
+    public int hashCode() {
+        return this.entities.hashCode();
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        E entity = (E) o;
+        return this.remove(entity);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
+
+    @Override
+    public Object[] toArray() {
+        return this.entities.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
+
+    public boolean addAll(int index, Collection<? extends E> c) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
+
+    public void add(int index, E element) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
+
+    public E remove(int index) {
+        return this.entities.remove(index);
+    }
+
+    public int indexOf(Object o) {
+        return this.entities.indexOf(o);
+    }
+
+    public int lastIndexOf(Object o) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
+
+    public ListIterator<E> listIterator() {
+        return this.entities.listIterator();
+    }
+
+    public ListIterator<E> listIterator(int index) {
+        return this.entities.listIterator(index);
+    }
+
+    public List<E> subList(int fromIndex, int toIndex) {
+        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    }
+
+
+
+    @Override
+    public String getId() {
+        return null;
+    }
+
+    @Override
+    public void setId(String id) {
+
+    }
 
 }
 

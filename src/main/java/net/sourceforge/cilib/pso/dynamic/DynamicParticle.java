@@ -34,25 +34,25 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  */
 public class DynamicParticle extends StandardParticle {
 
-	private static final long serialVersionUID = 1752969607979236619L;
+    private static final long serialVersionUID = 1752969607979236619L;
 
-	public DynamicParticle() {
-		super();
-	}
+    public DynamicParticle() {
+        super();
+    }
 
     public DynamicParticle(DynamicParticle copy) {
-    	super(copy);
+        super(copy);
     }
 
     public DynamicParticle getClone() {
-       	return new DynamicParticle(this);
+           return new DynamicParticle(this);
     }
 
     /**
      * Re-evaluate both best and current position of the particle.
      */
     public void reevaluate() {
-    	this.getProperties().put(EntityType.Particle.BEST_FITNESS, getFitnessCalculator().getFitness(this, true));
-    	this.calculateFitness();
+        this.getProperties().put(EntityType.Particle.BEST_FITNESS, getFitnessCalculator().getFitness(this, true));
+        this.calculateFitness();
     }
 }

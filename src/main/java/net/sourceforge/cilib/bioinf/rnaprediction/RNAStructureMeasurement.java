@@ -32,56 +32,56 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class RNAStructureMeasurement implements Measurement {
-	private static final long serialVersionUID = 5649656748412723897L;
+    private static final long serialVersionUID = 5649656748412723897L;
 
-	public RNAStructureMeasurement() {
-	}
+    public RNAStructureMeasurement() {
+    }
 
-	public RNAStructureMeasurement(RNAStructureMeasurement copy) {
-	}
+    public RNAStructureMeasurement(RNAStructureMeasurement copy) {
+    }
 
-	public RNAStructureMeasurement getClone() {
-		return new RNAStructureMeasurement(this);
-	}
+    public RNAStructureMeasurement getClone() {
+        return new RNAStructureMeasurement(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.Measurement.Measurement#getDomain()
-	 */
-	public String getDomain() {
-		return "?";
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.Measurement.Measurement#getDomain()
+     */
+    public String getDomain() {
+        return "?";
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.Measurement.Measurement#getValue()
-	 */
-	public Type getValue(Algorithm algorithm) {
-		OptimisationSolution os = algorithm.getBestSolution();
-		RNAConformation conf = (RNAConformation) os.getPosition();
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.Measurement.Measurement#getValue()
+     */
+    public Type getValue(Algorithm algorithm) {
+        OptimisationSolution os = algorithm.getBestSolution();
+        RNAConformation conf = (RNAConformation) os.getPosition();
 
-		StringType t = new StringType();
-		t.setString(new String(conf.getCharRepresentation())+"@");
-		return t;
-		/*
-		//StemGenerator generator = StemGenerator.getInstance();
-		char[] conf = new char[NucleotideString.getInstance().getNucleotideString().length()+2];
-		int [] indexes = new int[NucleotideString.getInstance().getNucleotideString().length()];
-		for (int i = 0; i < NucleotideString.getInstance().getNucleotideString().length();i++) {
-			conf[i] = '.';
-			indexes[i] = 0;
-		}
-		conf[conf.length-1] = '@';
-		conf[conf.length-2] = '@';
+        StringType t = new StringType();
+        t.setString(new String(conf.getCharRepresentation())+"@");
+        return t;
+        /*
+        //StemGenerator generator = StemGenerator.getInstance();
+        char[] conf = new char[NucleotideString.getInstance().getNucleotideString().length()+2];
+        int [] indexes = new int[NucleotideString.getInstance().getNucleotideString().length()];
+        for (int i = 0; i < NucleotideString.getInstance().getNucleotideString().length();i++) {
+            conf[i] = '.';
+            indexes[i] = 0;
+        }
+        conf[conf.length-1] = '@';
+        conf[conf.length-2] = '@';
 
-		for (Iterator<?> it = stems.iterator(); it.hasNext(); ) {
-			RNAStem s = (RNAStem) it.next();
-			for (int i = s.getP5_index(); i < s.getP5_index()+s.getLength();i++ ) {
-				conf[i] = '(';
-			}
-			for (int i = s.getP3_index(); i > s.getP3_index()-s.getLength();i--) {
-				conf[i] = ')';
-			}
-		}
-		return new String(conf);
-		*/
-	}
+        for (Iterator<?> it = stems.iterator(); it.hasNext(); ) {
+            RNAStem s = (RNAStem) it.next();
+            for (int i = s.getP5_index(); i < s.getP5_index()+s.getLength();i++ ) {
+                conf[i] = '(';
+            }
+            for (int i = s.getP3_index(); i > s.getP3_index()-s.getLength();i--) {
+                conf[i] = ')';
+            }
+        }
+        return new String(conf);
+        */
+    }
 }

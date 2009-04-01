@@ -29,11 +29,11 @@ package net.sourceforge.cilib.problem;
  */
 public abstract class DiscreteOptimisationProblem implements OptimisationProblem {
 
-	private static final long serialVersionUID = 5440388440045432271L;
+    private static final long serialVersionUID = 5440388440045432271L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract DiscreteOptimisationProblem getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public abstract DiscreteOptimisationProblem getClone();
 
 }

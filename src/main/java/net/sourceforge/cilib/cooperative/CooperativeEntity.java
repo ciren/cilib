@@ -35,111 +35,111 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class CooperativeEntity extends AbstractEntity {
-	private static final long serialVersionUID = -8298684370426283216L;
+    private static final long serialVersionUID = -8298684370426283216L;
 
-	protected Vector context = null;
-	protected Fitness fitness = null;
+    protected Vector context = null;
+    protected Fitness fitness = null;
 
-	public CooperativeEntity() {
-		context = new Vector();
-		fitness = InferiorFitness.instance();
-	}
+    public CooperativeEntity() {
+        context = new Vector();
+        fitness = InferiorFitness.instance();
+    }
 
-	public CooperativeEntity(CooperativeEntity rhs) {
-		context = rhs.context.getClone();
-		fitness = rhs.fitness;
-	}
+    public CooperativeEntity(CooperativeEntity rhs) {
+        context = rhs.context.getClone();
+        fitness = rhs.fitness;
+    }
 
-	public CooperativeEntity getClone() {
-		return new CooperativeEntity(this);
-	}
+    public CooperativeEntity getClone() {
+        return new CooperativeEntity(this);
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		if (this == object)
-			return true;
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
 
-		if ((object == null) || (this.getClass() != object.getClass()))
-			return false;
+        if ((object == null) || (this.getClass() != object.getClass()))
+            return false;
 
-		CooperativeEntity other = (CooperativeEntity) object;
-		return super.equals(other) &&
-			(this.context.equals(other.context)) &&
-			(this.fitness.equals(other.fitness));
-	}
+        CooperativeEntity other = (CooperativeEntity) object;
+        return super.equals(other) &&
+            (this.context.equals(other.context)) &&
+            (this.fitness.equals(other.fitness));
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + super.hashCode();
-		hash = 31 * hash + (this.context == null ? 0 : this.context.hashCode());
-		hash = 31 * hash + (this.fitness == null ? 0 : this.fitness.hashCode());
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + (this.context == null ? 0 : this.context.hashCode());
+        hash = 31 * hash + (this.fitness == null ? 0 : this.fitness.hashCode());
+        return hash;
+    }
 
-	public void reset() {
-		context.clear();
-	}
+    public void reset() {
+        context.clear();
+    }
 
-	public int compareTo(Entity o) {
-		return getFitness().compareTo(o.getFitness());
-	}
+    public int compareTo(Entity o) {
+        return getFitness().compareTo(o.getFitness());
+    }
 
-	public void append(Type value) {
-		if(value instanceof Vector)
-			context.append((Vector) value);
-		else
-			context.append(value);
-	}
+    public void append(Type value) {
+        if(value instanceof Vector)
+            context.append((Vector) value);
+        else
+            context.append(value);
+    }
 
-	public void append(Entity entity) {
-		append(entity.getCandidateSolution());
-	}
+    public void append(Entity entity) {
+        append(entity.getCandidateSolution());
+    }
 
-	public void update(Entity src, int srcPos, int dstPos, int length) {
-		for(int i = dstPos; i < dstPos + length; ++i) {
-			context.setReal(i, ((Vector) src.getCandidateSolution()).getReal(srcPos + i - dstPos));
-		}
-	}
+    public void update(Entity src, int srcPos, int dstPos, int length) {
+        for(int i = dstPos; i < dstPos + length; ++i) {
+            context.setReal(i, ((Vector) src.getCandidateSolution()).getReal(srcPos + i - dstPos));
+        }
+    }
 
-	public StructuredType getCandidateSolution() {
-		return context;
-	}
+    public StructuredType getCandidateSolution() {
+        return context;
+    }
 
-	public void setCandidateSolution(Type type) {
-		context.clear();
-		append(type);
-	}
+    public void setCandidateSolution(Type type) {
+        context.clear();
+        append(type);
+    }
 
-	public int getDimension() {
-		return context.getDimension();
-	}
+    public int getDimension() {
+        return context.getDimension();
+    }
 
-	public void setDimension(int dim) {
-		throw new UnsupportedOperationException("The dimension of a CooperativeEntity is determined by its context");
-	}
+    public void setDimension(int dim) {
+        throw new UnsupportedOperationException("The dimension of a CooperativeEntity is determined by its context");
+    }
 
-	public Fitness getFitness() {
-		return fitness;
-	}
+    public Fitness getFitness() {
+        return fitness;
+    }
 
-	public void setFitness(Fitness f) {
-		fitness = f;
-	}
+    public void setFitness(Fitness f) {
+        fitness = f;
+    }
 
-	public void initialise(OptimisationProblem problem) {
-		context = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
-	}
+    public void initialise(OptimisationProblem problem) {
+        context = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
+    }
 
-	public void reinitialise() {
-		throw new UnsupportedOperationException("Methd not implemented");
-	}
+    public void reinitialise() {
+        throw new UnsupportedOperationException("Methd not implemented");
+    }
 
-	public void calculateFitness() {
-		calculateFitness(true);
-	}
+    public void calculateFitness() {
+        calculateFitness(true);
+    }
 
-	public void calculateFitness(boolean count) {
-		fitness = getFitnessCalculator().getFitness(this, count);
-	}
+    public void calculateFitness(boolean count) {
+        fitness = getFitnessCalculator().getFitness(this, count);
+    }
 }

@@ -32,9 +32,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 public interface GlobalGuideStrategy {
 
-	public Vector getGlobalGuide();
+    public Vector getGlobalGuide();
 
-	public void setGlobalGuide(Vector newGlobalGuide);
+    public void setGlobalGuide(Vector newGlobalGuide);
 
-	public void updateGlobalGuide(Particle particle);
+    public void updateGlobalGuide(Particle particle);
 }

@@ -32,130 +32,130 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class ClassificationErrorReal implements NNError {
-	private static final long serialVersionUID = 8105183884502670240L;
+    private static final long serialVersionUID = 8105183884502670240L;
 
-	protected int numberPatternsCorrect = 0;
-	protected int numberPatternsIncorrect = 0;
-	protected double outputSensitivityThreshold;
-	protected double percentageCorrect = 9999999;
-
-
-
-	public ClassificationErrorReal() {
-		//Default behaviour is that output - target < 0.1
-		outputSensitivityThreshold = 0.2;
-	}
-
-
-	public void computeIteration(Vector output, NNPattern input) {
-
-		boolean isCorrect = true;
-
-		for (int i = 0; i < output.size(); i++){
-
-			if (Math.abs(((Real) output.get(i)).getReal() - input.getTarget().getReal(i)) > this.outputSensitivityThreshold) {
-				isCorrect = false;
-				break;
-			}
-		}
-
-		if (isCorrect){
-			this.numberPatternsCorrect++;
-		}
-		else this.numberPatternsIncorrect++;
-	}
-
-
-	public void finaliseError() {
-
-		this.percentageCorrect = (double) this.numberPatternsCorrect / ((double) this.numberPatternsIncorrect + (double) this.numberPatternsCorrect) * 100;
-		numberPatternsCorrect = 0;
-		numberPatternsIncorrect = 0;
-	}
-
-
-	public void setValue(Object val){
-		throw new UnsupportedOperationException("Setting value not supported as an operation");
-	}
-
-
-	public Double getValue() {
-		return new Double(this.percentageCorrect);
-	}
-
-
-	public int compareTo(Fitness f) {
-
-		if (!(f instanceof MSEErrorFunction)) {
-			throw new IllegalArgumentException("Incorrect class instance passed");
-		}
-
-		return (Double.valueOf(this.percentageCorrect)).compareTo((Double) ((ClassificationErrorReal) f).getValue());
-	}
-
-	public NNError getClone(){
-		ClassificationErrorReal tmp = new ClassificationErrorReal();
-		tmp.setOutputSensitivityThreshold(this.outputSensitivityThreshold);
-		tmp.percentageCorrect = this.percentageCorrect;
-		tmp.numberPatternsCorrect = this.numberPatternsCorrect;
-		tmp.numberPatternsIncorrect = this.numberPatternsIncorrect;
-		return tmp;
-	}
-
-
-	public String getName() {
-		return new String("Classification error for Real numbers");
-	}
+    protected int numberPatternsCorrect = 0;
+    protected int numberPatternsIncorrect = 0;
+    protected double outputSensitivityThreshold;
+    protected double percentageCorrect = 9999999;
 
 
 
-	public void setNoPatterns(int noPatterns) {
-		//not callable via XML interface as information set by EvaluationStrategy
-		//unsupported action, so do nothing.
-	}
+    public ClassificationErrorReal() {
+        //Default behaviour is that output - target < 0.1
+        outputSensitivityThreshold = 0.2;
+    }
+
+
+    public void computeIteration(Vector output, NNPattern input) {
+
+        boolean isCorrect = true;
+
+        for (int i = 0; i < output.size(); i++){
+
+            if (Math.abs(((Real) output.get(i)).getReal() - input.getTarget().getReal(i)) > this.outputSensitivityThreshold) {
+                isCorrect = false;
+                break;
+            }
+        }
+
+        if (isCorrect){
+            this.numberPatternsCorrect++;
+        }
+        else this.numberPatternsIncorrect++;
+    }
+
+
+    public void finaliseError() {
+
+        this.percentageCorrect = (double) this.numberPatternsCorrect / ((double) this.numberPatternsIncorrect + (double) this.numberPatternsCorrect) * 100;
+        numberPatternsCorrect = 0;
+        numberPatternsIncorrect = 0;
+    }
+
+
+    public void setValue(Object val){
+        throw new UnsupportedOperationException("Setting value not supported as an operation");
+    }
+
+
+    public Double getValue() {
+        return new Double(this.percentageCorrect);
+    }
+
+
+    public int compareTo(Fitness f) {
+
+        if (!(f instanceof MSEErrorFunction)) {
+            throw new IllegalArgumentException("Incorrect class instance passed");
+        }
+
+        return (Double.valueOf(this.percentageCorrect)).compareTo((Double) ((ClassificationErrorReal) f).getValue());
+    }
+
+    public NNError getClone(){
+        ClassificationErrorReal tmp = new ClassificationErrorReal();
+        tmp.setOutputSensitivityThreshold(this.outputSensitivityThreshold);
+        tmp.percentageCorrect = this.percentageCorrect;
+        tmp.numberPatternsCorrect = this.numberPatternsCorrect;
+        tmp.numberPatternsIncorrect = this.numberPatternsIncorrect;
+        return tmp;
+    }
+
+
+    public String getName() {
+        return new String("Classification error for Real numbers");
+    }
 
 
 
-	public void setNoOutputs(int nr) {
-		//unsupported action, so do nothing.
-	}
+    public void setNoPatterns(int noPatterns) {
+        //not callable via XML interface as information set by EvaluationStrategy
+        //unsupported action, so do nothing.
+    }
 
 
 
-	public double getOutputSensitivityThreshold() {
-		return outputSensitivityThreshold;
-	}
+    public void setNoOutputs(int nr) {
+        //unsupported action, so do nothing.
+    }
 
 
 
-	public void setOutputSensitivityThreshold(double outputSensitivityThreshold) {
-		this.outputSensitivityThreshold = outputSensitivityThreshold;
-	}
+    public double getOutputSensitivityThreshold() {
+        return outputSensitivityThreshold;
+    }
 
 
 
-	public int getNumberPatternsCorrect() {
-		return numberPatternsCorrect;
-	}
+    public void setOutputSensitivityThreshold(double outputSensitivityThreshold) {
+        this.outputSensitivityThreshold = outputSensitivityThreshold;
+    }
 
 
 
-	public int getNumberPatternsIncorrect() {
-		return numberPatternsIncorrect;
-	}
-
-	public String toString(){
-		return new String(Integer.valueOf(this.numberPatternsCorrect).toString());
-	}
-
-	public void initialize() {
-		throw new UnsupportedOperationException("Method not implemented.");
-	}
+    public int getNumberPatternsCorrect() {
+        return numberPatternsCorrect;
+    }
 
 
-	@Override
-	public Fitness newInstance(Double value) {
-		throw new UnsupportedOperationException("Not supported");
-	}
+
+    public int getNumberPatternsIncorrect() {
+        return numberPatternsIncorrect;
+    }
+
+    public String toString(){
+        return new String(Integer.valueOf(this.numberPatternsCorrect).toString());
+    }
+
+    public void initialize() {
+        throw new UnsupportedOperationException("Method not implemented.");
+    }
+
+
+    @Override
+    public Fitness newInstance(Double value) {
+        throw new UnsupportedOperationException("Not supported");
+    }
 
 }

@@ -34,80 +34,80 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class RNAOptimisationProblem extends OptimisationProblemAdapter {
-	private static final long serialVersionUID = -2995246748207035373L;
+    private static final long serialVersionUID = -2995246748207035373L;
 
-	private RNAFitness fit;
-	protected int fitnessEvaluations;
-	private DataSetBuilder dataSetBuilder;
+    private RNAFitness fit;
+    protected int fitnessEvaluations;
+    private DataSetBuilder dataSetBuilder;
 
-	public RNAOptimisationProblem() {
+    public RNAOptimisationProblem() {
 
-	}
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public RNAOptimisationProblem(RNAOptimisationProblem copy) {
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public RNAOptimisationProblem(RNAOptimisationProblem copy) {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public RNAOptimisationProblem getClone() {
-		return new RNAOptimisationProblem(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public RNAOptimisationProblem getClone() {
+        return new RNAOptimisationProblem(this);
+    }
 
-	/**
-	 * @return Returns the fit.
-	 */
-	public RNAFitness getFitnessCalculator() {
-		return fit;
-	}
-	/**
-	 * @param fit The fit to set.
-	 */
-	public void setFitnessCalculator(RNAFitness fit) {
-		this.fit = fit;
-	}
+    /**
+     * @return Returns the fit.
+     */
+    public RNAFitness getFitnessCalculator() {
+        return fit;
+    }
+    /**
+     * @param fit The fit to set.
+     */
+    public void setFitnessCalculator(RNAFitness fit) {
+        this.fit = fit;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected Fitness calculateFitness(Type solution) {
-		//System.out.println("object type of solution: " + solution.getClass().getName());
-		return new MinimisationFitness(fit.getRNAFitness((RNAConformation) solution));
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected Fitness calculateFitness(Type solution) {
+        //System.out.println("object type of solution: " + solution.getClass().getName());
+        return new MinimisationFitness(fit.getRNAFitness((RNAConformation) solution));
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
-		this.dataSetBuilder = dataSetBuilder;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
+        this.dataSetBuilder = dataSetBuilder;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DataSetBuilder getDataSetBuilder() {
-		return this.dataSetBuilder;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public DataSetBuilder getDataSetBuilder() {
+        return this.dataSetBuilder;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DomainRegistry getDomain() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public DomainRegistry getDomain() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DomainRegistry getBehaviouralDomain() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public DomainRegistry getBehaviouralDomain() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

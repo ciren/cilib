@@ -35,15 +35,15 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface NeighbourhoodBestUpdateStrategy extends Serializable, Cloneable {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public NeighbourhoodBestUpdateStrategy getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public NeighbourhoodBestUpdateStrategy getClone();
 
-	/**
-	 * Get the social best fitness (neighbourhood best) of the given {@linkplain Entity}.
-	 * @param entity The Entity to determine the social best fitness from.
-	 * @return The social best (neighbourhood best) {@linkplain Fitness}.
-	 */
-	public Fitness getSocialBestFitness(Entity entity);
+    /**
+     * Get the social best fitness (neighbourhood best) of the given {@linkplain Entity}.
+     * @param entity The Entity to determine the social best fitness from.
+     * @return The social best (neighbourhood best) {@linkplain Fitness}.
+     */
+    public Fitness getSocialBestFitness(Entity entity);
 }

@@ -33,58 +33,58 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class RNAInitialiser {
 
-	/**
-	 * Get the initial position for the {@linkplain Entity}, based on the provided
-	 * {@linkplain Problem}.
-	 * @param problem The problem to base the initialisation on.
-	 * @return The initialised {@linkplain Type}.
-	 */
-	public Type getInitialPosition(OptimisationProblem problem) {
-		RNAConformation position = new RNAConformation();
-		int rand;
-		int added = 0;
-		MersenneTwister r = new net.sourceforge.cilib.math.random.generator.MersenneTwister();
-		//
-		if (NucleotideString.getInstance().getNucleotideString().length() == 0)
-			System.out.println("RNAInitialiser.getInitialPosition(): Nucleotide String not yet initialised!");
-		int percentage = StemGenerator.getInstance().getAllStems().size() / 5;
-		//System.out.println("Initialising particles with "+ percentage + " stems.");
+    /**
+     * Get the initial position for the {@linkplain Entity}, based on the provided
+     * {@linkplain Problem}.
+     * @param problem The problem to base the initialisation on.
+     * @return The initialised {@linkplain Type}.
+     */
+    public Type getInitialPosition(OptimisationProblem problem) {
+        RNAConformation position = new RNAConformation();
+        int rand;
+        int added = 0;
+        MersenneTwister r = new net.sourceforge.cilib.math.random.generator.MersenneTwister();
+        //
+        if (NucleotideString.getInstance().getNucleotideString().length() == 0)
+            System.out.println("RNAInitialiser.getInitialPosition(): Nucleotide String not yet initialised!");
+        int percentage = StemGenerator.getInstance().getAllStems().size() / 5;
+        //System.out.println("Initialising particles with "+ percentage + " stems.");
 
-		for (int count = 0; count < percentage; count++) {
-			boolean conflicts = false;
-			StemGenerator generator = StemGenerator.getInstance();
-			//System.out.println("StemGenerator: " + generator.getAllStems());
-			rand = r.nextInt(generator.getAllStems().size());
-			RNAStem newStem = generator.getAllStems().get(rand);
-			for (RNAStem stem : position) {
-				if (newStem.conflictsWith(stem)) {
-					conflicts = true;
-					break;
-				}
-			}
-			if (!conflicts) {
-				position.add(newStem);
-				added++;
-			}
-		}
-		//System.out.println("Added "+ added + "stems to inital particle!");
-		//should not be invalid - just to check.
-		position.isInvalid();
-		//System.out.println("Initial Stem: "+new String(position.getRepresentation()));
-		//System.out.println();
-		return position;
-	}
+        for (int count = 0; count < percentage; count++) {
+            boolean conflicts = false;
+            StemGenerator generator = StemGenerator.getInstance();
+            //System.out.println("StemGenerator: " + generator.getAllStems());
+            rand = r.nextInt(generator.getAllStems().size());
+            RNAStem newStem = generator.getAllStems().get(rand);
+            for (RNAStem stem : position) {
+                if (newStem.conflictsWith(stem)) {
+                    conflicts = true;
+                    break;
+                }
+            }
+            if (!conflicts) {
+                position.add(newStem);
+                added++;
+            }
+        }
+        //System.out.println("Added "+ added + "stems to inital particle!");
+        //should not be invalid - just to check.
+        position.isInvalid();
+        //System.out.println("Initial Stem: "+new String(position.getRepresentation()));
+        //System.out.println();
+        return position;
+    }
 
-	/**
-	 * Get the initial velocity represented as a type.
-	 * @param problem The problem.
-	 * @return The initial velocity.
-	 */
-	public Type getInitialVelocity(OptimisationProblem problem) {
-		Vector mv = new Vector();
-		mv.add(new RNAConformation());
-		mv.add(new RNAConformation());
-		return mv;
-	}
+    /**
+     * Get the initial velocity represented as a type.
+     * @param problem The problem.
+     * @return The initial velocity.
+     */
+    public Type getInitialVelocity(OptimisationProblem problem) {
+        Vector mv = new Vector();
+        mv.add(new RNAConformation());
+        mv.add(new RNAConformation());
+        return mv;
+    }
 
 }

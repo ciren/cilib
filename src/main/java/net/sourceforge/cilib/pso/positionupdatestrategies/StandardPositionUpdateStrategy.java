@@ -32,43 +32,43 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class StandardPositionUpdateStrategy implements PositionUpdateStrategy {
-	private static final long serialVersionUID = 5547754413670196513L;
+    private static final long serialVersionUID = 5547754413670196513L;
 
-	/**
-	 * Create an new instance of {@code StandardPositionUpdateStrategy}.
-	 */
-	public StandardPositionUpdateStrategy() {
+    /**
+     * Create an new instance of {@code StandardPositionUpdateStrategy}.
+     */
+    public StandardPositionUpdateStrategy() {
 
-	}
+    }
 
-	/**
-	 * Copy constructor. Copy the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public StandardPositionUpdateStrategy(StandardPositionUpdateStrategy copy) {
+    /**
+     * Copy constructor. Copy the provided instance.
+     * @param copy The instance to copy.
+     */
+    public StandardPositionUpdateStrategy(StandardPositionUpdateStrategy copy) {
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public StandardPositionUpdateStrategy getClone() {
-		return new StandardPositionUpdateStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public StandardPositionUpdateStrategy getClone() {
+        return new StandardPositionUpdateStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updatePosition(Particle particle) {
-		Vector position = (Vector) particle.getPosition();
-		Vector velocity = (Vector) particle.getVelocity();
+    /**
+     * {@inheritDoc}
+     */
+    public void updatePosition(Particle particle) {
+        Vector position = (Vector) particle.getPosition();
+        Vector velocity = (Vector) particle.getVelocity();
 
-		for (int i = 0; i < position.getDimension(); ++i) {
-    		double value = position.getReal(i);
-    		value += velocity.getReal(i);
-    		position.setReal(i, value);
-    	}
+        for (int i = 0; i < position.getDimension(); ++i) {
+            double value = position.getReal(i);
+            value += velocity.getReal(i);
+            position.setReal(i, value);
+        }
 
-	}
+    }
 
 }

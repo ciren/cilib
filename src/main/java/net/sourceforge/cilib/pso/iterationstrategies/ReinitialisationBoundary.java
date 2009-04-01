@@ -28,24 +28,24 @@ import net.sourceforge.cilib.type.types.TypeUtil;
  * TODO: Complete this javadoc.
  */
 public class ReinitialisationBoundary implements BoundaryConstraint {
-	private static final long serialVersionUID = -512973040124015665L;
+    private static final long serialVersionUID = -512973040124015665L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Object getClone() {
-		return this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object getClone() {
+        return this;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void enforce(Entity entity) {
-		if (!TypeUtil.isInsideBounds(entity.getCandidateSolution())) {
-//		if (!entity.getCandidateSolution().isInsideBounds()) {
-			entity.reinitialise();
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void enforce(Entity entity) {
+        if (!TypeUtil.isInsideBounds(entity.getCandidateSolution())) {
+//        if (!entity.getCandidateSolution().isInsideBounds()) {
+            entity.reinitialise();
+        }
+    }
 
 }

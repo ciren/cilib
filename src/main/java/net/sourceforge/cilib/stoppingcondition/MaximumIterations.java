@@ -27,76 +27,76 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * @author Edwin Peer
  */
 public class MaximumIterations implements StoppingCondition {
-	private static final long serialVersionUID = -6344490201879962979L;
+    private static final long serialVersionUID = -6344490201879962979L;
 
-	private Algorithm algorithm;
-	private int maximumIterations;
+    private Algorithm algorithm;
+    private int maximumIterations;
 
-	/**
-	 * Creates a new instance of MaximumIterations.
-	 */
-	public MaximumIterations() {
-		maximumIterations = 10000;
-	}
+    /**
+     * Creates a new instance of MaximumIterations.
+     */
+    public MaximumIterations() {
+        maximumIterations = 10000;
+    }
 
-	/**
-	 * Copy constructor. Creates a copy of the given instance.
-	 * @param copy The instance to copy.
-	 */
-	public MaximumIterations(MaximumIterations copy) {
-		this.maximumIterations = copy.maximumIterations;
-		this.algorithm = copy.algorithm;
-	}
+    /**
+     * Copy constructor. Creates a copy of the given instance.
+     * @param copy The instance to copy.
+     */
+    public MaximumIterations(MaximumIterations copy) {
+        this.maximumIterations = copy.maximumIterations;
+        this.algorithm = copy.algorithm;
+    }
 
-	/**
-	 * Create an instance, with the given number of iterations.
-	 * @param maximumIterations The maximum number of iterations.
-	 */
-	public MaximumIterations(int maximumIterations) {
-		this.maximumIterations = maximumIterations;
-	}
+    /**
+     * Create an instance, with the given number of iterations.
+     * @param maximumIterations The maximum number of iterations.
+     */
+    public MaximumIterations(int maximumIterations) {
+        this.maximumIterations = maximumIterations;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public MaximumIterations getClone() {
-		return new MaximumIterations(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public MaximumIterations getClone() {
+        return new MaximumIterations(this);
+    }
 
-	/**
-	 * Get the maximum iteration count.
-	 * @return The maximum iterations.
-	 */
-	public int getMaximumIterations() {
-		return maximumIterations;
-	}
+    /**
+     * Get the maximum iteration count.
+     * @return The maximum iterations.
+     */
+    public int getMaximumIterations() {
+        return maximumIterations;
+    }
 
-	/**
-	 * Set the maximum number of iterations.
-	 * @param maximumIterations The value to set.
-	 */
-	public void setMaximumIterations(int maximumIterations) {
-		this.maximumIterations = maximumIterations;
-	}
+    /**
+     * Set the maximum number of iterations.
+     * @param maximumIterations The value to set.
+     */
+    public void setMaximumIterations(int maximumIterations) {
+        this.maximumIterations = maximumIterations;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getPercentageCompleted() {
-		return ((double) algorithm.getIterations()) / ((double) maximumIterations);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double getPercentageCompleted() {
+        return ((double) algorithm.getIterations()) / ((double) maximumIterations);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isCompleted() {
-		return algorithm.getIterations() >= maximumIterations;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isCompleted() {
+        return algorithm.getIterations() >= maximumIterations;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setAlgorithm(Algorithm algorithm) {
-		this.algorithm = algorithm;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
+    }
 }

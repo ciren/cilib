@@ -31,23 +31,23 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public final class T implements TypeCreator {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1198714503772193216L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1198714503772193216L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type create() {
-		return new StringType();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Type create() {
+        return new StringType();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type create(final double lower, final double upper) {
-		throw new UnsupportedOperationException("StringTypes with bounds do not exist");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Type create(final double lower, final double upper) {
+        throw new UnsupportedOperationException("StringTypes with bounds do not exist");
+    }
 
 }

@@ -33,46 +33,46 @@ import net.sourceforge.cilib.type.types.container.Vector;
 //This class is not fully completed and tested.... Draft version
 public class MNNNeuronAdapter extends NeuronConfig {
 
-	GenericTopology topology;
+    GenericTopology topology;
 
-	public Type computeActivationFunctionDerivativeAtPos(Type pos) {
-		throw new IllegalArgumentException("Method is unimplemented - please use a subclass.");
-	}
+    public Type computeActivationFunctionDerivativeAtPos(Type pos) {
+        throw new IllegalArgumentException("Method is unimplemented - please use a subclass.");
+    }
 
-	public Type computeActivationFunctionDerivativeUsingLastOutput(Type lastOutput) {
-		throw new IllegalArgumentException("Method is unimplemented - please use a subclass.");
-	}
+    public Type computeActivationFunctionDerivativeUsingLastOutput(Type lastOutput) {
+        throw new IllegalArgumentException("Method is unimplemented - please use a subclass.");
+    }
 
-	public Type computeOutput(NeuronConfig n, NNPattern p) {
+    public Type computeOutput(NeuronConfig n, NNPattern p) {
 
-		Vector inputMNN = new Vector();
-		Vector weightsMNN = new Vector();
+        Vector inputMNN = new Vector();
+        Vector weightsMNN = new Vector();
 
-		for (int i = 0; i < this.input.length; i++){
-			Vector tmpInput = ((Vector) input[i].getCurrentOutput());
-			Vector tmpWeight = ((Vector) inputWeights[i].getWeightValue());
+        for (int i = 0; i < this.input.length; i++){
+            Vector tmpInput = ((Vector) input[i].getCurrentOutput());
+            Vector tmpWeight = ((Vector) inputWeights[i].getWeightValue());
 
-			//copy relevant weights and inputs to vector
-			for (int j = 0; j < tmpInput.size(); j++){
-				if (tmpWeight.get(j) != null){
-					inputMNN.add(tmpInput.get(j));
-					weightsMNN.add(tmpWeight.get(j));
-				}
-			}
-		}//end for i
+            //copy relevant weights and inputs to vector
+            for (int j = 0; j < tmpInput.size(); j++){
+                if (tmpWeight.get(j) != null){
+                    inputMNN.add(tmpInput.get(j));
+                    weightsMNN.add(tmpWeight.get(j));
+                }
+            }
+        }//end for i
 
-		//compute output
-		NNPattern pat = new StandardPattern();
-		pat.setInput(inputMNN);
-		return this.topology.evaluate(pat);
-	}
+        //compute output
+        NNPattern pat = new StandardPattern();
+        pat.setInput(inputMNN);
+        return this.topology.evaluate(pat);
+    }
 
-	public Type computeOutputFunctionDerivativeAtPos(Type pos) {
-		throw new IllegalArgumentException("Method is unimplemented - please use a subclass.");
-	}
+    public Type computeOutputFunctionDerivativeAtPos(Type pos) {
+        throw new IllegalArgumentException("Method is unimplemented - please use a subclass.");
+    }
 
-	public Type computeOutputFunctionDerivativeUsingLastOutput(Type lastOutput) {
-		throw new IllegalArgumentException("Method is unimplemented - please use a subclass.");
-	}
+    public Type computeOutputFunctionDerivativeUsingLastOutput(Type lastOutput) {
+        throw new IllegalArgumentException("Method is unimplemented - please use a subclass.");
+    }
 
 }

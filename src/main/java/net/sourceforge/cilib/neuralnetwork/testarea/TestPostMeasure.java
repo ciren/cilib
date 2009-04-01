@@ -55,186 +55,186 @@ import net.sourceforge.cilib.type.types.Real;
  */
 public class TestPostMeasure {
 
-	public TestPostMeasure() {
-		this.problemDataFile = null;
-		this.postMeasuresFile = null;
-		this.layer1size = 0;
-		this.layer2size = 0;
-		this.layer3size = 0;
-		this.perTrain = 0;
-		this.perGen = 0;
-		this.perVal = 0;
-		this.perCan = 0;
-		this.learningRate = 0;
-		this.momentum = 0;
-		this.maxIterations = 0;
-		this.dataRandomSeed = 100;
-	}
+    public TestPostMeasure() {
+        this.problemDataFile = null;
+        this.postMeasuresFile = null;
+        this.layer1size = 0;
+        this.layer2size = 0;
+        this.layer3size = 0;
+        this.perTrain = 0;
+        this.perGen = 0;
+        this.perVal = 0;
+        this.perCan = 0;
+        this.learningRate = 0;
+        this.momentum = 0;
+        this.maxIterations = 0;
+        this.dataRandomSeed = 100;
+    }
 
-	String problemDataFile, postMeasuresFile;
-	int layer1size, layer2size, layer3size;
-	int perTrain, perGen, perVal, perCan;
-	double learningRate, momentum;
-	int maxIterations;
-	long dataRandomSeed;
+    String problemDataFile, postMeasuresFile;
+    int layer1size, layer2size, layer3size;
+    int perTrain, perGen, perVal, perCan;
+    double learningRate, momentum;
+    int maxIterations;
+    long dataRandomSeed;
 
-	public void runSimulation(){
+    public void runSimulation(){
 
-		NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
-			EvaluationMediator eval = new EvaluationMediator();
-			eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
-//			FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
-				GenericTopology topo = new LayeredGenericTopology();
-					FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
-						Weight base= new Weight();
-							base.setWeightValue(new Real(0.5));
-							base.setPreviousChange(new Real(0));
-					builder.setPrototypeWeight(base);
-					builder.addLayer(this.layer1size);
-					builder.addLayer(this.layer2size);
-					builder.addLayer(this.layer3size);
-				topo.setTopologyBuilder(builder);
-				topo.setWeightInitialiser(new FanInWeightInitialiser());
-			eval.setTopology(topo);
+        NeuralNetworkProblem neuralNetworkProblem = new NeuralNetworkProblem();
+            EvaluationMediator eval = new EvaluationMediator();
+            eval.setEpochStrategy(new BatchTrainingSetEpochStrategy());
+//            FFNNEvaluationMediator eval = new FFNNEvaluationMediator();
+                GenericTopology topo = new LayeredGenericTopology();
+                    FFNNgenericTopologyBuilder builder = new FFNNgenericTopologyBuilder();
+                        Weight base= new Weight();
+                            base.setWeightValue(new Real(0.5));
+                            base.setPreviousChange(new Real(0));
+                    builder.setPrototypeWeight(base);
+                    builder.addLayer(this.layer1size);
+                    builder.addLayer(this.layer2size);
+                    builder.addLayer(this.layer3size);
+                topo.setTopologyBuilder(builder);
+                topo.setWeightInitialiser(new FanInWeightInitialiser());
+            eval.setTopology(topo);
 
-				GenericData data = new GenericData();
-				RandomDistributionStrategy distributor = new RandomDistributionStrategy();
-				distributor.setFile(this.problemDataFile);
-				distributor.setNoInputs(this.layer1size - 1);
-				distributor.setPercentTrain(this.perTrain);
-				distributor.setPercentGen(this.perGen);
-				distributor.setPercentVal(this.perVal);
-				distributor.setPercentCan(this.perCan);
-				distributor.setPatternRandomizerSeed(this.dataRandomSeed);
-				data.setDistributor(distributor);
-			eval.setData(data);
+                GenericData data = new GenericData();
+                RandomDistributionStrategy distributor = new RandomDistributionStrategy();
+                distributor.setFile(this.problemDataFile);
+                distributor.setNoInputs(this.layer1size - 1);
+                distributor.setPercentTrain(this.perTrain);
+                distributor.setPercentGen(this.perGen);
+                distributor.setPercentVal(this.perVal);
+                distributor.setPercentCan(this.perCan);
+                distributor.setPatternRandomizerSeed(this.dataRandomSeed);
+                data.setDistributor(distributor);
+            eval.setData(data);
 
-				NNError err = new MSEErrorFunction();
-				err.setNoOutputs(this.layer3size);
-			eval.addPrototypError(err);
+                NNError err = new MSEErrorFunction();
+                err.setNoOutputs(this.layer3size);
+            eval.addPrototypError(err);
 
-				FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
-				trainer.setDelta(new SquaredErrorFunction());
-				trainer.setMomentum(this.momentum);
-				trainer.setLearningRate(this.learningRate);
-			eval.setTrainer(trainer);
+                FFNN_GD_TrainingStrategy trainer = new FFNN_GD_TrainingStrategy();
+                trainer.setDelta(new SquaredErrorFunction());
+                trainer.setMomentum(this.momentum);
+                trainer.setLearningRate(this.learningRate);
+            eval.setTrainer(trainer);
 
-		neuralNetworkProblem.setEvaluationStrategy(eval);
-
-
-
-		NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
-			neuralNetworkControl.setProblem(neuralNetworkProblem);
-			neuralNetworkControl.addStoppingCondition(new MaximumIterations(this.maxIterations));
-			PostMeasurementSuite measures = new PostMeasurementSuite();
-			measures.setOutputFile(this.postMeasuresFile);
-
-			AreaUnderROC auc = new AreaUnderROC();
-			auc.setData(data);
-			auc.setTopology(topo);
-			measures.addMeasurement(new ErrorDt(eval));
-			measures.addMeasurement(new ErrorDg(eval));
-			measures.addMeasurement(new ErrorDv(eval));
-			measures.addMeasurement(auc);
-			measures.addMeasurement(new DcPatternCount());
-			measures.addMeasurement(new DtPatternCount());
-			measures.addMeasurement(new DgPatternCount());
-			measures.addMeasurement(new DvPatternCount());
-			measures.addMeasurement(new RobelOverfittingRho());
-			measures.addMeasurement(new Time());
-			neuralNetworkControl.setMeasures(measures);
-
-		neuralNetworkControl.initialise();
+        neuralNetworkProblem.setEvaluationStrategy(eval);
 
 
-		System.out.println("Configuration completed...");
-//		-----------------------------------------------------------------------------------------------------------
+
+        NeuralNetworkController neuralNetworkControl = new NeuralNetworkController();
+            neuralNetworkControl.setProblem(neuralNetworkProblem);
+            neuralNetworkControl.addStoppingCondition(new MaximumIterations(this.maxIterations));
+            PostMeasurementSuite measures = new PostMeasurementSuite();
+            measures.setOutputFile(this.postMeasuresFile);
+
+            AreaUnderROC auc = new AreaUnderROC();
+            auc.setData(data);
+            auc.setTopology(topo);
+            measures.addMeasurement(new ErrorDt(eval));
+            measures.addMeasurement(new ErrorDg(eval));
+            measures.addMeasurement(new ErrorDv(eval));
+            measures.addMeasurement(auc);
+            measures.addMeasurement(new DcPatternCount());
+            measures.addMeasurement(new DtPatternCount());
+            measures.addMeasurement(new DgPatternCount());
+            measures.addMeasurement(new DvPatternCount());
+            measures.addMeasurement(new RobelOverfittingRho());
+            measures.addMeasurement(new Time());
+            neuralNetworkControl.setMeasures(measures);
+
+        neuralNetworkControl.initialise();
 
 
-		neuralNetworkControl.run();
-
-		data.printStatistics();
-
-	}
-
-	public void setDataRandomSeed(long dataRandomSeed) {
-		this.dataRandomSeed = dataRandomSeed;
-	}
-
-	public void setLayer1size(int layer1size) {
-		this.layer1size = layer1size;
-	}
-
-	public void setLayer2size(int layer2size) {
-		this.layer2size = layer2size;
-	}
-
-	public void setLayer3size(int layer3size) {
-		this.layer3size = layer3size;
-	}
-
-	public void setLearningRate(double learningRate) {
-		this.learningRate = learningRate;
-	}
-
-	public void setMaxIterations(int maxIterations) {
-		this.maxIterations = maxIterations;
-	}
-
-	public void setMomentum(double momentum) {
-		this.momentum = momentum;
-	}
-
-	public void setPerCan(int perCan) {
-		this.perCan = perCan;
-	}
-
-	public void setPerGen(int perGen) {
-		this.perGen = perGen;
-	}
-
-	public void setPerTrain(int perTrain) {
-		this.perTrain = perTrain;
-	}
-
-	public void setPerVal(int perVal) {
-		this.perVal = perVal;
-	}
-
-	public void setPostMeasuresFile(String postMeasuresFile) {
-		this.postMeasuresFile = postMeasuresFile;
-	}
-
-	public void setProblemDataFile(String problemDataFile) {
-		this.problemDataFile = problemDataFile;
-	}
+        System.out.println("Configuration completed...");
+//        -----------------------------------------------------------------------------------------------------------
 
 
+        neuralNetworkControl.run();
+
+        data.printStatistics();
+
+    }
+
+    public void setDataRandomSeed(long dataRandomSeed) {
+        this.dataRandomSeed = dataRandomSeed;
+    }
+
+    public void setLayer1size(int layer1size) {
+        this.layer1size = layer1size;
+    }
+
+    public void setLayer2size(int layer2size) {
+        this.layer2size = layer2size;
+    }
+
+    public void setLayer3size(int layer3size) {
+        this.layer3size = layer3size;
+    }
+
+    public void setLearningRate(double learningRate) {
+        this.learningRate = learningRate;
+    }
+
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    public void setMomentum(double momentum) {
+        this.momentum = momentum;
+    }
+
+    public void setPerCan(int perCan) {
+        this.perCan = perCan;
+    }
+
+    public void setPerGen(int perGen) {
+        this.perGen = perGen;
+    }
+
+    public void setPerTrain(int perTrain) {
+        this.perTrain = perTrain;
+    }
+
+    public void setPerVal(int perVal) {
+        this.perVal = perVal;
+    }
+
+    public void setPostMeasuresFile(String postMeasuresFile) {
+        this.postMeasuresFile = postMeasuresFile;
+    }
+
+    public void setProblemDataFile(String problemDataFile) {
+        this.problemDataFile = problemDataFile;
+    }
 
 
 
 
 
-	public static void main(String[] args) {
 
-		TestPostMeasure test = new TestPostMeasure();
-		test.setLayer1size(5);
-		test.setLayer2size(15);
-		test.setLayer3size(3);
 
-		test.setPerCan(0);
-		test.setPerTrain(80);
-		test.setPerGen(10);
-		test.setPerVal(10);
+    public static void main(String[] args) {
 
-		test.setLearningRate(0.5);
-		test.setMomentum(0.9);
-		test.setMaxIterations(1000);
-		test.setDataRandomSeed(((int) Math.random()*1000));
-		test.setProblemDataFile("c:\\masters\\classification\\source\\IrisScaled.txt");
-		test.setPostMeasuresFile("c:\\masters\\classification\\irisFSL.txt");
-		test.runSimulation();
+        TestPostMeasure test = new TestPostMeasure();
+        test.setLayer1size(5);
+        test.setLayer2size(15);
+        test.setLayer3size(3);
 
-	}
+        test.setPerCan(0);
+        test.setPerTrain(80);
+        test.setPerGen(10);
+        test.setPerVal(10);
+
+        test.setLearningRate(0.5);
+        test.setMomentum(0.9);
+        test.setMaxIterations(1000);
+        test.setDataRandomSeed(((int) Math.random()*1000));
+        test.setProblemDataFile("c:\\masters\\classification\\source\\IrisScaled.txt");
+        test.setPostMeasuresFile("c:\\masters\\classification\\irisFSL.txt");
+        test.runSimulation();
+
+    }
 
 }

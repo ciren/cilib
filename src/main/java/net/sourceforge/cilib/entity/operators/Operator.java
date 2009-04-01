@@ -31,19 +31,19 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface Operator extends Cloneable {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Operator getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Operator getClone();
 
-	/**
-	 * Perform the operator operation given the current {@link net.sourceforge.cilib.entity.topologies.TopologyHolder}.
-	 *
-	 * @param holder The {@link net.sourceforge.cilib.entity.topologies.TopologyHolder} representing the required
-	 *               {@link net.sourceforge.cilib.entity.Topology} instances.
-	 */
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring);
-	public void performOperation(TopologyHolder holder);
+    /**
+     * Perform the operator operation given the current {@link net.sourceforge.cilib.entity.topologies.TopologyHolder}.
+     *
+     * @param holder The {@link net.sourceforge.cilib.entity.topologies.TopologyHolder} representing the required
+     *               {@link net.sourceforge.cilib.entity.Topology} instances.
+     */
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring);
+    public void performOperation(TopologyHolder holder);
 
 }

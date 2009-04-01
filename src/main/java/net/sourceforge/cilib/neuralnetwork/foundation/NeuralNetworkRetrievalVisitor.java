@@ -30,18 +30,18 @@ import net.sourceforge.cilib.problem.ProblemVisitor;
 
 public class NeuralNetworkRetrievalVisitor extends ProblemVisitor {
 
-	private EvaluationMediator mediator;
+    private EvaluationMediator mediator;
 
-	@Override
-	public void visit(Problem o) {
-		FunctionOptimisationProblem functionOptimisationProblem = (FunctionOptimisationProblem) o;
-		Function function = functionOptimisationProblem.getFunction();
-		NNFunctionAdapter nnFunctionAdapter = (NNFunctionAdapter) function;
+    @Override
+    public void visit(Problem o) {
+        FunctionOptimisationProblem functionOptimisationProblem = (FunctionOptimisationProblem) o;
+        Function function = functionOptimisationProblem.getFunction();
+        NNFunctionAdapter nnFunctionAdapter = (NNFunctionAdapter) function;
 
-		this.mediator = nnFunctionAdapter.getMediator();
-	}
+        this.mediator = nnFunctionAdapter.getMediator();
+    }
 
-	public EvaluationMediator getMediator() {
-		return mediator;
-	}
+    public EvaluationMediator getMediator() {
+        return mediator;
+    }
 }

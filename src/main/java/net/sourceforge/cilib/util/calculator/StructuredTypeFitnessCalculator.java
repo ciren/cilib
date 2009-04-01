@@ -33,23 +33,23 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author gpampara
  */
 public class StructuredTypeFitnessCalculator<T extends StructuredType<?>> implements FitnessCalculator<T> {
-	private static final long serialVersionUID = 8578856272481600577L;
+    private static final long serialVersionUID = 8578856272481600577L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public FitnessCalculator<T> getClone() {
-		return this;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FitnessCalculator<T> getClone() {
+        return this;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Fitness getFitness(T structure, boolean count) {
-		Algorithm algorithm = Algorithm.get();
-		return algorithm.getOptimisationProblem().getFitness(structure, count);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness getFitness(T structure, boolean count) {
+        Algorithm algorithm = Algorithm.get();
+        return algorithm.getOptimisationProblem().getFitness(structure, count);
+    }
 
 }

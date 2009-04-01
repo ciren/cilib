@@ -36,18 +36,18 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class SolutionTest {
-	
-	@Test
-	public void testSolutionDomain() {
-		Measurement m = new Solution();
-		
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof StringType);
-	}
+    
+    @Test
+    public void testSolutionDomain() {
+        Measurement m = new Solution();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof StringType);
+    }
 
 }

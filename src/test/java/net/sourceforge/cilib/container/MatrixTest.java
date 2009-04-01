@@ -39,160 +39,160 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class MatrixTest {
-	
-	@Test
-	public void testMatrixCreation() {
-		Matrix<Double> m = new Matrix<Double>(3, 3);
-		assertEquals(3, m.getColumnCount());
-		assertEquals(3, m.getRowCount());
-	}
+    
+    @Test
+    public void testMatrixCreation() {
+        Matrix<Double> m = new Matrix<Double>(3, 3);
+        assertEquals(3, m.getColumnCount());
+        assertEquals(3, m.getRowCount());
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testMatrixExceptionCreation() {
-		new Matrix<Double>(0, 0);
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void testMatrixExceptionCreation() {
+        new Matrix<Double>(0, 0);
+    }
 
-	@Test
-	public void testDataMatrixInputOutputOperation() {
-		Matrix<Integer> m = new Matrix<Integer>(10, 5);
+    @Test
+    public void testDataMatrixInputOutputOperation() {
+        Matrix<Integer> m = new Matrix<Integer>(10, 5);
 
-		for (int i = 0; i < m.getRowCount(); i++) {
-			for (int j = 0; j < m.getColumnCount(); j++) {
-				int tmp = i*j;
-				m.set(i, j, tmp);
-				assertSame(tmp, m.get(i, j));
-				assertEquals(tmp, m.get(i, j).intValue());
-			}
-		}
-	}
+        for (int i = 0; i < m.getRowCount(); i++) {
+            for (int j = 0; j < m.getColumnCount(); j++) {
+                int tmp = i*j;
+                m.set(i, j, tmp);
+                assertSame(tmp, m.get(i, j));
+                assertEquals(tmp, m.get(i, j).intValue());
+            }
+        }
+    }
 
-	@Test
-	public void testNullGet() {
-		Matrix<Integer> m = new Matrix<Integer>(5, 5);
+    @Test
+    public void testNullGet() {
+        Matrix<Integer> m = new Matrix<Integer>(5, 5);
 
-		for (int i = 0; i < m.getRowCount(); i++) {
-			for (int j = 0; j < m.getColumnCount(); j++) {
-				assertEquals(null, m.get(i, j));
-			}
-		}
-	}
+        for (int i = 0; i < m.getRowCount(); i++) {
+            for (int j = 0; j < m.getColumnCount(); j++) {
+                assertEquals(null, m.get(i, j));
+            }
+        }
+    }
 
-	@Test
-	public void testOutOfBoundsSetOperation() {
-		Matrix<Double> m = new Matrix<Double>(2, 2);
-		try {
-			m.set(-1, 1, null);
-		}
-		catch (IndexOutOfBoundsException i1) {
-			try {
-				m.set(1, -1, null);
-			}
-			catch (IndexOutOfBoundsException i2) {
-				try {
-					m.set(0, 2, null);
-				}
-				catch (IndexOutOfBoundsException i3) {
-					try {
-						m.set(2, 0, null);
-					}
-					catch (IndexOutOfBoundsException i4) {
-						return;
-					}
-				}
-			}
-		}
-		fail("Boundary cases fail on the Matrix set operation");
-	}
+    @Test
+    public void testOutOfBoundsSetOperation() {
+        Matrix<Double> m = new Matrix<Double>(2, 2);
+        try {
+            m.set(-1, 1, null);
+        }
+        catch (IndexOutOfBoundsException i1) {
+            try {
+                m.set(1, -1, null);
+            }
+            catch (IndexOutOfBoundsException i2) {
+                try {
+                    m.set(0, 2, null);
+                }
+                catch (IndexOutOfBoundsException i3) {
+                    try {
+                        m.set(2, 0, null);
+                    }
+                    catch (IndexOutOfBoundsException i4) {
+                        return;
+                    }
+                }
+            }
+        }
+        fail("Boundary cases fail on the Matrix set operation");
+    }
 
-	@Test
-	public void testOutOfBoundsGetOperation() {
-		Matrix<Double> m = new Matrix<Double>(2, 2);
-		// Get operation
-		try {
-			m.get(-1, 1);			
-		}
-		catch (IndexOutOfBoundsException i) {
-			try {
-				m.get(1, -1);
-			}
-			catch (IndexOutOfBoundsException i2) {
-				try {
-					m.get(0, 2);
-				}
-				catch (IndexOutOfBoundsException i3) {
-					try {
-						m.get(2, 0);
-					}
-					catch (IndexOutOfBoundsException i4) {
-						return;
-					}
-				}
-			}
-		}
-		fail("Boundary cases fail on the Matrix get operation");
-	}
+    @Test
+    public void testOutOfBoundsGetOperation() {
+        Matrix<Double> m = new Matrix<Double>(2, 2);
+        // Get operation
+        try {
+            m.get(-1, 1);            
+        }
+        catch (IndexOutOfBoundsException i) {
+            try {
+                m.get(1, -1);
+            }
+            catch (IndexOutOfBoundsException i2) {
+                try {
+                    m.get(0, 2);
+                }
+                catch (IndexOutOfBoundsException i3) {
+                    try {
+                        m.get(2, 0);
+                    }
+                    catch (IndexOutOfBoundsException i4) {
+                        return;
+                    }
+                }
+            }
+        }
+        fail("Boundary cases fail on the Matrix get operation");
+    }
 
-	@Test
-	public void testClearOperation() {
-		Matrix<Double> m = new Matrix<Double>(2, 2);
+    @Test
+    public void testClearOperation() {
+        Matrix<Double> m = new Matrix<Double>(2, 2);
 
-		m.set(0, 0, new Double(5.0));
-		m.set(0, 1, new Double(4.0));
-		m.set(1, 0, new Double(3.0));
-		m.set(1, 1, new Double(2.0));
+        m.set(0, 0, new Double(5.0));
+        m.set(0, 1, new Double(4.0));
+        m.set(1, 0, new Double(3.0));
+        m.set(1, 1, new Double(2.0));
 
-		m.clear();
+        m.clear();
 
-		assertEquals(null, m.get(0, 0));
-		assertEquals(null, m.get(0, 1));
-		assertEquals(null, m.get(1, 0));
-		assertEquals(null, m.get(1, 1));
-	}
+        assertEquals(null, m.get(0, 0));
+        assertEquals(null, m.get(0, 1));
+        assertEquals(null, m.get(1, 0));
+        assertEquals(null, m.get(1, 1));
+    }
 
-	@Test
-	public void testGetRow() {
-		Matrix<Double> m = new Matrix<Double>(2, 2);
+    @Test
+    public void testGetRow() {
+        Matrix<Double> m = new Matrix<Double>(2, 2);
 
-		m.set(0, 0, new Double(5.0));
-		m.set(0, 1, new Double(4.0));
-		m.set(1, 0, new Double(3.0));
-		m.set(1, 1, new Double(2.0));
+        m.set(0, 0, new Double(5.0));
+        m.set(0, 1, new Double(4.0));
+        m.set(1, 0, new Double(3.0));
+        m.set(1, 1, new Double(2.0));
 
-		Collection<Double> c1 = m.getRow(0);
-		Collection<Double> c2 = m.getRow(1);
+        Collection<Double> c1 = m.getRow(0);
+        Collection<Double> c2 = m.getRow(1);
 
-		Iterator<Double> i1 = c1.iterator();
-		Iterator<Double> i2 = c2.iterator();
-		
-		for (int i = 0; i < m.getColumnCount(); i++) {
-			if (i1.hasNext()) assertEquals(m.get(0, i), i1.next());
-			else fail();
-			
-			if (i2.hasNext()) assertEquals(m.get(1, i), i2.next());
-			else fail();
-		}
-	}
+        Iterator<Double> i1 = c1.iterator();
+        Iterator<Double> i2 = c2.iterator();
+        
+        for (int i = 0; i < m.getColumnCount(); i++) {
+            if (i1.hasNext()) assertEquals(m.get(0, i), i1.next());
+            else fail();
+            
+            if (i2.hasNext()) assertEquals(m.get(1, i), i2.next());
+            else fail();
+        }
+    }
 
-	@Test
-	public void testGetColumn() {
-		Matrix<Double> m = new Matrix<Double>(2, 2);
+    @Test
+    public void testGetColumn() {
+        Matrix<Double> m = new Matrix<Double>(2, 2);
 
-		m.set(0, 0, new Double(5.0));
-		m.set(0, 1, new Double(4.0));
-		m.set(1, 0, new Double(3.0));
-		m.set(1, 1, new Double(2.0));
+        m.set(0, 0, new Double(5.0));
+        m.set(0, 1, new Double(4.0));
+        m.set(1, 0, new Double(3.0));
+        m.set(1, 1, new Double(2.0));
 
-		Collection<Double> c1 = m.getColumn(0);
-		Collection<Double> c2 = m.getColumn(1);
-		
-		Iterator<Double> i1 = c1.iterator();
-		Iterator<Double> i2 = c2.iterator();
+        Collection<Double> c1 = m.getColumn(0);
+        Collection<Double> c2 = m.getColumn(1);
+        
+        Iterator<Double> i1 = c1.iterator();
+        Iterator<Double> i2 = c2.iterator();
 
-		for (int i = 0; i < m.getColumnCount(); i++) {
-			if (i1.hasNext()) assertEquals(m.get(i, 0), i1.next());
-			else fail();
-			if (i2.hasNext()) assertEquals(m.get(i, 1), i2.next());
-			else fail();
-		}
-	}
+        for (int i = 0; i < m.getColumnCount(); i++) {
+            if (i1.hasNext()) assertEquals(m.get(i, 0), i1.next());
+            else fail();
+            if (i2.hasNext()) assertEquals(m.get(i, 1), i2.next());
+            else fail();
+        }
+    }
 }

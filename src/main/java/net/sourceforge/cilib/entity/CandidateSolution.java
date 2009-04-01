@@ -35,35 +35,35 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface CandidateSolution extends Cloneable {
 
-	/**
-	 * Get the contents of the <code>CandidateSoltion</code>. i.e.: The
-	 * potential solution.
-	 * @return A {@linkplain Type} representing the solution.
-	 */
-	public StructuredType getCandidateSolution();
+    /**
+     * Get the contents of the <code>CandidateSoltion</code>. i.e.: The
+     * potential solution.
+     * @return A {@linkplain Type} representing the solution.
+     */
+    public StructuredType getCandidateSolution();
 
-	/**
-	 * Set the solution that the <code>CandidateSolution</code> represents.
-	 * @param contents The potential solution to set.
-	 */
-	public void setCandidateSolution(StructuredType contents);
+    /**
+     * Set the solution that the <code>CandidateSolution</code> represents.
+     * @param contents The potential solution to set.
+     */
+    public void setCandidateSolution(StructuredType contents);
 
-	/**
-	 * Obtain the {@linkplain Fitness} of the current <code>CandidateSolution</code>.
-	 * @return The current {@linkplain Fitness} value.
-	 */
-	public Fitness getFitness();
+    /**
+     * Obtain the {@linkplain Fitness} of the current <code>CandidateSolution</code>.
+     * @return The current {@linkplain Fitness} value.
+     */
+    public Fitness getFitness();
 
-	/**
-	 * Set the {@code Blackboard} defining the properties of the {@code CandidateSolution}.
-	 * @param properties The properties to set.
-	 */
-	public void setProperties(Blackboard<Enum<?>, Type> properties);
+    /**
+     * Set the {@code Blackboard} defining the properties of the {@code CandidateSolution}.
+     * @param properties The properties to set.
+     */
+    public void setProperties(Blackboard<Enum<?>, Type> properties);
 
-	/**
-	 * Get the properties associated with this {@code CandidateSolution}.
-	 * @return The properties of the {@code CandidateSolution}.
-	 */
-	public Blackboard<Enum<?>, Type> getProperties();
+    /**
+     * Get the properties associated with this {@code CandidateSolution}.
+     * @return The properties of the {@code CandidateSolution}.
+     */
+    public Blackboard<Enum<?>, Type> getProperties();
 
 }

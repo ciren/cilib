@@ -34,33 +34,33 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  *
  */
 public class RandomSelectionStrategy extends SelectionStrategy {
-	private static final long serialVersionUID = -216894674927488180L;
+    private static final long serialVersionUID = -216894674927488180L;
 
-	private Random random;
+    private Random random;
 
-	public RandomSelectionStrategy() {
-		this.random = new MersenneTwister();
-	}
+    public RandomSelectionStrategy() {
+        this.random = new MersenneTwister();
+    }
 
-	@Override
-	public SelectionStrategy getClone() {
-		return new RandomSelectionStrategy();
-	}
+    @Override
+    public SelectionStrategy getClone() {
+        return new RandomSelectionStrategy();
+    }
 
-	@Override
-	public <T extends Entity> T select(Topology<T> population) {
-		int randomNumber = random.nextInt(population.size());
-		return population.get(randomNumber);
-	}
+    @Override
+    public <T extends Entity> T select(Topology<T> population) {
+        int randomNumber = random.nextInt(population.size());
+        return population.get(randomNumber);
+    }
 
-	@Override
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-	public void performOperation(TopologyHolder holder) {
-		Topology<? extends Entity> topology = holder.getTopology();
-//		Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
+    @Override
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    public void performOperation(TopologyHolder holder) {
+        Topology<? extends Entity> topology = holder.getTopology();
+//        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
 
-		holder.add(select(topology));
-//		offspring.add(select(topology));
-	}
+        holder.add(select(topology));
+//        offspring.add(select(topology));
+    }
 
 }

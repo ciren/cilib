@@ -29,6 +29,6 @@ import java.util.ArrayList;
  * @author Fabien Zablocki
  */
 public interface GapPenaltiesMethod {
-	public double getPenalty(ArrayList<String> alignment);
+    public double getPenalty(ArrayList<String> alignment);
 }
 

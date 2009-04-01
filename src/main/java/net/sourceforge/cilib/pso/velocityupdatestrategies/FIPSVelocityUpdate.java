@@ -36,82 +36,82 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class FIPSVelocityUpdate extends StandardVelocityUpdate {
-	private static final long serialVersionUID = 6391914534943249737L;
+    private static final long serialVersionUID = 6391914534943249737L;
 
-	private ControlParameter randomComponent;
+    private ControlParameter randomComponent;
 
-	public FIPSVelocityUpdate() {
-		super();
-		cognitiveAcceleration = new ConstantControlParameter(1.496180);
-		socialAcceleration = new ConstantControlParameter(1.496180);
-		randomComponent = new RandomizingControlParameter();
-	}
+    public FIPSVelocityUpdate() {
+        super();
+        cognitiveAcceleration = new ConstantControlParameter(1.496180);
+        socialAcceleration = new ConstantControlParameter(1.496180);
+        randomComponent = new RandomizingControlParameter();
+    }
 
-	public FIPSVelocityUpdate(FIPSVelocityUpdate copy) {
-		super(copy);
-		this.randomComponent = copy.randomComponent.getClone();
-	}
+    public FIPSVelocityUpdate(FIPSVelocityUpdate copy) {
+        super(copy);
+        this.randomComponent = copy.randomComponent.getClone();
+    }
 
-	public FIPSVelocityUpdate getClone() {
-		return new FIPSVelocityUpdate(this);
-	}
+    public FIPSVelocityUpdate getClone() {
+        return new FIPSVelocityUpdate(this);
+    }
 
-	@Override
-	public void updateVelocity(Particle particle) {
-		Vector velocity = (Vector) particle.getVelocity();
-		Vector position = (Vector) particle.getPosition();
+    @Override
+    public void updateVelocity(Particle particle) {
+        Vector velocity = (Vector) particle.getVelocity();
+        Vector position = (Vector) particle.getPosition();
 
-		Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
-		Iterator<Particle> swarmIterator = topology.iterator();
+        Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
+        Iterator<Particle> swarmIterator = topology.iterator();
 
-		while (swarmIterator.hasNext()) {
-			Particle currentTarget = swarmIterator.next();
-			if (currentTarget.getId() == particle.getId()) {
-				break;
-			}
-		}
+        while (swarmIterator.hasNext()) {
+            Particle currentTarget = swarmIterator.next();
+            if (currentTarget.getId() == particle.getId()) {
+                break;
+            }
+        }
 
-		for (int i = 0; i < particle.getDimension(); ++i) {
-			double informationSum = 0.0;
-			int numberOfNeighbours = 0;
+        for (int i = 0; i < particle.getDimension(); ++i) {
+            double informationSum = 0.0;
+            int numberOfNeighbours = 0;
 
-			Iterator<Particle> neighborhoodIterator = topology.neighbourhood(swarmIterator);
+            Iterator<Particle> neighborhoodIterator = topology.neighbourhood(swarmIterator);
 
-			while (neighborhoodIterator.hasNext()) {
-				Particle currentTarget = (Particle) neighborhoodIterator.next();
-				Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
+            while (neighborhoodIterator.hasNext()) {
+                Particle currentTarget = (Particle) neighborhoodIterator.next();
+                Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
-				randomComponent.setParameter(cognitiveAcceleration.getParameter() + socialAcceleration.getParameter());
+                randomComponent.setParameter(cognitiveAcceleration.getParameter() + socialAcceleration.getParameter());
 
-				informationSum += randomComponent.getParameter() * (currentTargetPosition.getReal(i) - position.getReal(i));
+                informationSum += randomComponent.getParameter() * (currentTargetPosition.getReal(i) - position.getReal(i));
 
-				numberOfNeighbours++;
-			}
+                numberOfNeighbours++;
+            }
 
-			double value = inertiaWeight.getParameter() * (velocity.getReal(i) + (informationSum / numberOfNeighbours));
+            double value = inertiaWeight.getParameter() * (velocity.getReal(i) + (informationSum / numberOfNeighbours));
 
-			velocity.setReal(i, value);
-			// clamp(velocity, i);
-		}
-	}
+            velocity.setReal(i, value);
+            // clamp(velocity, i);
+        }
+    }
 
-	/**
-	 * @return the randomComponent
-	 */
-	public ControlParameter getRandomComponent() {
-		return randomComponent;
-	}
+    /**
+     * @return the randomComponent
+     */
+    public ControlParameter getRandomComponent() {
+        return randomComponent;
+    }
 
-	/**
-	 * @param randomComponent the randomComponent to set
-	 */
-	public void setRandomComponent(ControlParameter randomComponent) {
-		this.randomComponent = randomComponent;
-	}
+    /**
+     * @param randomComponent the randomComponent to set
+     */
+    public void setRandomComponent(ControlParameter randomComponent) {
+        this.randomComponent = randomComponent;
+    }
 
-	@Override
-	public void updateControlParameters(Particle particle) {
-		super.updateControlParameters(particle);
-		randomComponent.updateParameter();
-	}
+    @Override
+    public void updateControlParameters(Particle particle) {
+        super.updateControlParameters(particle);
+        randomComponent.updateParameter();
+    }
 }

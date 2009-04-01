@@ -32,114 +32,114 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public interface Particle extends Entity {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Particle getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public Particle getClone();
 
-	/**
-	 * Get the current position of the {@linkplain Particle}.
-	 * @return The {@linkplain Type} representing the position.
-	 */
-	public Type getPosition();
+    /**
+     * Get the current position of the {@linkplain Particle}.
+     * @return The {@linkplain Type} representing the position.
+     */
+    public Type getPosition();
 
-	/**
-	 * Get the best position of the {@linkplain Particle}.
-	 * @return The {@linkplain Type} representing the best position.
-	 */
-	public Type getBestPosition();
+    /**
+     * Get the best position of the {@linkplain Particle}.
+     * @return The {@linkplain Type} representing the best position.
+     */
+    public Type getBestPosition();
 
-	/**
-	 * Get the current velocity of the {@linkplain Particle}.
-	 * @return The {@linkplain Type} representing the velocity.
-	 */
-	public Type getVelocity();
+    /**
+     * Get the current velocity of the {@linkplain Particle}.
+     * @return The {@linkplain Type} representing the velocity.
+     */
+    public Type getVelocity();
 
-	/**
-	 * Get the current best particle within the {@linkplain Particle}s neighbourhood.
-	 * @return The neighbourhood best particle.
-	 */
-	public Particle getNeighbourhoodBest();
+    /**
+     * Get the current best particle within the {@linkplain Particle}s neighbourhood.
+     * @return The neighbourhood best particle.
+     */
+    public Particle getNeighbourhoodBest();
 
-	/**
-	 * Set the current neighbourhood best particle within the current neighbourhood.
-	 * @param particle The particle to set as the neighbourhood best.
-	 */
-	public void setNeighbourhoodBest(Particle particle);
+    /**
+     * Set the current neighbourhood best particle within the current neighbourhood.
+     * @param particle The particle to set as the neighbourhood best.
+     */
+    public void setNeighbourhoodBest(Particle particle);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getDimension();
+    /**
+     * {@inheritDoc}
+     */
+    public int getDimension();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Fitness getFitness();
+    /**
+     * {@inheritDoc}
+     */
+    public Fitness getFitness();
 
-	/**
-	 * Get the best {@linkplain Fitness} for the particle.
-	 * @return The particle's best {@linkplain Fitness}.
-	 */
-	public Fitness getBestFitness();
+    /**
+     * Get the best {@linkplain Fitness} for the particle.
+     * @return The particle's best {@linkplain Fitness}.
+     */
+    public Fitness getBestFitness();
 
-	/**
-	 * Get the current social best fitness. This {@linkplain Fitness} value is dependent
-	 * on the current {@linkplain NeighbourhoodBestUpdateStrategy}.
-	 * @return The fitness based on the currently set {@linkplain NeighbourhoodBestUpdateStrategy}.
-	 */
-	public Fitness getSocialBestFitness();
+    /**
+     * Get the current social best fitness. This {@linkplain Fitness} value is dependent
+     * on the current {@linkplain NeighbourhoodBestUpdateStrategy}.
+     * @return The fitness based on the currently set {@linkplain NeighbourhoodBestUpdateStrategy}.
+     */
+    public Fitness getSocialBestFitness();
 
-	/**
-	 * Update the current position of the {@linkplain Particle}.
-	 */
-	public void updatePosition();
+    /**
+     * Update the current position of the {@linkplain Particle}.
+     */
+    public void updatePosition();
 
-	/**
-	 * Update the velocity of the {@linkplain Particle}.
-	 */
-	public void updateVelocity();
+    /**
+     * Update the velocity of the {@linkplain Particle}.
+     */
+    public void updateVelocity();
 
-	/**
-	 * Update all the {@linkplain ControlParameter}s that are maintained within the
-	 * {@linkplain Particle}.
-	 */
-	public void updateControlParameters();
+    /**
+     * Update all the {@linkplain ControlParameter}s that are maintained within the
+     * {@linkplain Particle}.
+     */
+    public void updateControlParameters();
 
-	/**
-	 * Get the strategy that will be used to update the velocity.
-	 * @return The current {@linkplain VelocityUpdateStrategy}.
-	 */
-	public VelocityUpdateStrategy getVelocityUpdateStrategy();
+    /**
+     * Get the strategy that will be used to update the velocity.
+     * @return The current {@linkplain VelocityUpdateStrategy}.
+     */
+    public VelocityUpdateStrategy getVelocityUpdateStrategy();
 
-	/**
-	 * Set the {@linkplain VelocityUpdateStrategy} to be used during velocity updates.
-	 * @param velocityUpdateStrategy the {@linkplain VelocityUpdateStrategy} to use.
-	 */
-	public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy);
+    /**
+     * Set the {@linkplain VelocityUpdateStrategy} to be used during velocity updates.
+     * @param velocityUpdateStrategy the {@linkplain VelocityUpdateStrategy} to use.
+     */
+    public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy);
 
-	/**
-	 * Get the strategy for the intialisation of the velocity.
-	 * @return The {@linkplain VelocityInitialisationStrategy} that is currently set.
-	 */
-	public VelocityInitialisationStrategy getVelocityInitialisationStrategy();
+    /**
+     * Get the strategy for the intialisation of the velocity.
+     * @return The {@linkplain VelocityInitialisationStrategy} that is currently set.
+     */
+    public VelocityInitialisationStrategy getVelocityInitialisationStrategy();
 
-	/**
-	 * Set the initialisation strategy for the {@linkplain Particle}s velocity.
-	 * @param velocityInitialisationStrategy The velocity initialisation strategy to set.
-	 */
-	public void setVelocityInitialisationStrategy(VelocityInitialisationStrategy velocityInitialisationStrategy);
+    /**
+     * Set the initialisation strategy for the {@linkplain Particle}s velocity.
+     * @param velocityInitialisationStrategy The velocity initialisation strategy to set.
+     */
+    public void setVelocityInitialisationStrategy(VelocityInitialisationStrategy velocityInitialisationStrategy);
 
-	/**
-	 * Get the current {@linkplain PositionUpdateStrategy} of the {@linkplain Particle}.
-	 * @return The current {@linkplain PositionUpdateStrategy}.
-	 */
-	public PositionUpdateStrategy getPositionUpdateStrategy();
+    /**
+     * Get the current {@linkplain PositionUpdateStrategy} of the {@linkplain Particle}.
+     * @return The current {@linkplain PositionUpdateStrategy}.
+     */
+    public PositionUpdateStrategy getPositionUpdateStrategy();
 
-	/**
-	 * Set the {@linkplain PositionUpdateStrategy} to use for particle position updates.
-	 * @param positionUpdateStrategy The {@linkplain PositionUpdateStrategy} to set.
-	 */
-	public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy);
+    /**
+     * Set the {@linkplain PositionUpdateStrategy} to use for particle position updates.
+     * @param positionUpdateStrategy The {@linkplain PositionUpdateStrategy} to set.
+     */
+    public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy);
 
 }

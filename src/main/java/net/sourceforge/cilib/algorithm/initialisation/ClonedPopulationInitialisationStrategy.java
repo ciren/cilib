@@ -32,83 +32,72 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  *
  * @author Gary Pampara
  */
-public class ClonedPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
-	private static final long serialVersionUID = -7354579791235878648L;
-	private Entity prototypeEntity;
-	private int entityNumber;
+public class ClonedPopulationInitialisationStrategy extends PopulationInitialisationStrategy {
+    private static final long serialVersionUID = -7354579791235878648L;
+    private Entity prototypeEntity;
 
-	/**
-	 * Create an instance of the {@code ClonedPopulationInitialisationStrategy}.
-	 */
-	public ClonedPopulationInitialisationStrategy() {
-		entityNumber = 20;
-		prototypeEntity = null; // This has to be manually set as Individuals are used in GAs etc...
-	}
+    /**
+     * Create an instance of the {@code ClonedPopulationInitialisationStrategy}.
+     */
+    public ClonedPopulationInitialisationStrategy() {
+        entityNumber = 20;
+        prototypeEntity = null; // This has to be manually set as Individuals are used in GAs etc...
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the given instance.
-	 * @param copy The instance to copy.
-	 */
-	public ClonedPopulationInitialisationStrategy(ClonedPopulationInitialisationStrategy copy) {
-		this.entityNumber = copy.entityNumber;
-		this.prototypeEntity = copy.prototypeEntity.getClone();
-	}
+    /**
+     * Copy constructor. Create a copy of the given instance.
+     * @param copy The instance to copy.
+     */
+    public ClonedPopulationInitialisationStrategy(ClonedPopulationInitialisationStrategy copy) {
+        this.entityNumber = copy.entityNumber;
+        this.prototypeEntity = copy.prototypeEntity.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public ClonedPopulationInitialisationStrategy getClone() {
-		return new ClonedPopulationInitialisationStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public ClonedPopulationInitialisationStrategy getClone() {
+        return new ClonedPopulationInitialisationStrategy(this);
+    }
 
-	/**
-	 * Perform the required initialisation, using the provided <tt>Topology</tt> and
-	 * <tt>Problem</tt>.
-	 * @param topology The given <tt>Topology</tt> to use in initialisation.
-	 * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
-	 * @throws InitialisationException if the initialisation cannot take place.
-	 */
-	@SuppressWarnings("unchecked")
-	public void initialise(Topology topology, OptimisationProblem problem) {
-		if (problem == null)
-			throw new InitialisationException("No problem has been specified");
+    /**
+     * Perform the required initialisation, using the provided <tt>Topology</tt> and
+     * <tt>Problem</tt>.
+     * @param topology The given <tt>Topology</tt> to use in initialisation.
+     * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
+     * @throws InitialisationException if the initialisation cannot take place.
+     */
+    @SuppressWarnings("unchecked")
+    public void initialise(Topology topology, OptimisationProblem problem) {
+        if (problem == null)
+            throw new InitialisationException("No problem has been specified");
 
-		if (prototypeEntity == null)
-			throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
+        if (prototypeEntity == null)
+            throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
-		for (int i = 0; i < entityNumber; ++i) {
-			Entity entity = prototypeEntity.getClone();
+        for (int i = 0; i < entityNumber; ++i) {
+            Entity entity = prototypeEntity.getClone();
 
-			entity.initialise(problem);
-			topology.add(entity);
-		}
-	}
+            entity.initialise(problem);
+            topology.add(entity);
+        }
+    }
 
-	/**
-	 * Set the prototype {@linkplain net.sourceforge.cilib.entity.Entity entity} for the copy process.
-	 * @param entityType The {@code Entity} to use for the cloning process.
-	 */
-	public void setEntityType(Entity entityType) {
-		this.prototypeEntity = entityType;
-	}
+    /**
+     * Set the prototype {@linkplain net.sourceforge.cilib.entity.Entity entity} for the copy process.
+     * @param entityType The {@code Entity} to use for the cloning process.
+     */
+    public void setEntityType(Entity entityType) {
+        this.prototypeEntity = entityType;
+    }
 
-	/**
-	 * Get the {@linkplain net.sourceforge.cilib.entity.Entity entity} that has been defined as
-	 * the prototype to for the copies.
-	 * @see ClonedPopulationInitialisationStrategy#getPrototypeEntity()
-	 * @return The prototype {@code Entity}.
-	 */
-	public Entity getEntityType() {
-		return this.prototypeEntity;
-	}
-
-	@Override
-	public void setEntityNumber(int entityNumber) {
-		this.entityNumber = entityNumber;
-	}
-
-	@Override
-	public int getEntityNumber() {
-		return this.entityNumber;
-	}
+    /**
+     * Get the {@linkplain net.sourceforge.cilib.entity.Entity entity} that has been defined as
+     * the prototype to for the copies.
+     * @see ClonedPopulationInitialisationStrategy#getPrototypeEntity()
+     * @return The prototype {@code Entity}.
+     */
+    public Entity getEntityType() {
+        return this.prototypeEntity;
+    }
 }

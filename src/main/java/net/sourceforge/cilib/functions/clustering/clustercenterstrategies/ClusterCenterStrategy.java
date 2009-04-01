@@ -32,10 +32,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public interface ClusterCenterStrategy extends Serializable {
-	/**
-	 * Sub-classes should implement this method to return the desired center of cluster i.
-	 * @param i The integer representing the cluster for which a center should be returned
-	 * @return a {@link Vector} representing the center of cluster i
-	 */
-	public Vector getCenter(int i);
+    /**
+     * Sub-classes should implement this method to return the desired center of cluster i.
+     * @param i The integer representing the cluster for which a center should be returned
+     * @return a {@link Vector} representing the center of cluster i
+     */
+    public Vector getCenter(int i);
 }

@@ -43,7 +43,7 @@ public class RastriginTest {
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Rastrigin. */
     @Test
     public void testEvaluate() {
-    	ContinuousFunction function = new Rastrigin();
+        ContinuousFunction function = new Rastrigin();
         function.setDomain("R(-5.12, 5.12)^3");
         //double[] x = {1, 2, 3};
         Vector x = new Vector();

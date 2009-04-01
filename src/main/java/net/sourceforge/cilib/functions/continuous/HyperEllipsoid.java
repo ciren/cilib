@@ -43,7 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class HyperEllipsoid extends ContinuousFunction {
     private static final long serialVersionUID = 813261964413884141L;
 
-	/** Creates a new instance of HyperEllipsoid. Default domain is set to R(-5.12, 5.12)^30 */
+    /** Creates a new instance of HyperEllipsoid. Default domain is set to R(-5.12, 5.12)^30 */
     public HyperEllipsoid() {
         setDomain("R(-5.12,5.12)^30");
     }
@@ -53,7 +53,7 @@ public class HyperEllipsoid extends ContinuousFunction {
      */
     @Override
     public HyperEllipsoid getClone() {
-    	return new HyperEllipsoid();
+        return new HyperEllipsoid();
     }
 
     /**

@@ -39,154 +39,154 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author CIRG
  */
 public class MOPSO extends PSO  {
-	private static final long serialVersionUID = -4388678573614103683L;
+    private static final long serialVersionUID = -4388678573614103683L;
 
-	private MOOptimisationProblem moproblem;
-	private Archive archive;
-	//private LocalGuideStrategy localGuideStrategy;
+    private MOOptimisationProblem moproblem;
+    private Archive archive;
+    //private LocalGuideStrategy localGuideStrategy;
 
-	public MOPSO() {
-		super();
+    public MOPSO() {
+        super();
 
-		this.archive = new StandardArchive();
+        this.archive = new StandardArchive();
 
-		Particle particle = new MultiObjectiveParticle();
-		particle.setPositionUpdateStrategy(new GaussianPositionUpdateStrategy());
-		this.getInitialisationStrategy().setEntityType(particle);
-	}
+        Particle particle = new MultiObjectiveParticle();
+        particle.setPositionUpdateStrategy(new GaussianPositionUpdateStrategy());
+        this.getInitialisationStrategy().setEntityType(particle);
+    }
 
-	@Override
-	public void performInitialisation() {
-		super.performInitialisation();
-		Topology<Particle> topology = this.getTopology();
+    @Override
+    public void performInitialisation() {
+        super.performInitialisation();
+        Topology<Particle> topology = this.getTopology();
 
-		for (Particle particle : topology) {
-			//particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
-			particle.calculateFitness();
-		}
+        for (Particle particle : topology) {
+            //particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
+            particle.calculateFitness();
+        }
 
-		// Look at Set
-		Collection<OptimisationSolution> paretoFront = new ArrayList<OptimisationSolution>();
+        // Look at Set
+        Collection<OptimisationSolution> paretoFront = new ArrayList<OptimisationSolution>();
 
-		// TODO : prevent fitness re-evaluations
-		// TODO : Check Jaco's code
-		paretoFront.add(new OptimisationSolution(this.getMoproblem(), topology.get(0).getPosition()));
-		for (Particle particle : topology) {
-			for (OptimisationSolution solution : paretoFront) {
-				int result = solution.getFitness().compareTo(particle.getFitness()); // Check this comparing
-				if (result > 0) {
-					// Replace
-				}
-				else if (result == 0) {
-					// Add
-					break;
-				}
-				else {
-					// Ignore
-				}
-			}
-		}
+        // TODO : prevent fitness re-evaluations
+        // TODO : Check Jaco's code
+        paretoFront.add(new OptimisationSolution(this.getMoproblem(), topology.get(0).getPosition()));
+        for (Particle particle : topology) {
+            for (OptimisationSolution solution : paretoFront) {
+                int result = solution.getFitness().compareTo(particle.getFitness()); // Check this comparing
+                if (result > 0) {
+                    // Replace
+                }
+                else if (result == 0) {
+                    // Add
+                    break;
+                }
+                else {
+                    // Ignore
+                }
+            }
+        }
 
-		this.archive.addAll(paretoFront);
+        this.archive.addAll(paretoFront);
 
-		createHypercubes();
-	}
+        createHypercubes();
+    }
 
-	/*
-	 * How the heck do we make hypercubes???
-	 */
-	private void createHypercubes() { // Look at creating a strategy to do this
+    /*
+     * How the heck do we make hypercubes???
+     */
+    private void createHypercubes() { // Look at creating a strategy to do this
 
-	}
+    }
 
-	@Override
-	public void algorithmIteration() {
-		// TODO Auto-generated method stub
+    @Override
+    public void algorithmIteration() {
+        // TODO Auto-generated method stub
 
-		StandardArchive standardArchive = (StandardArchive) this.archive;
-		Topology<Particle> topology = this.getTopology();
+        StandardArchive standardArchive = (StandardArchive) this.archive;
+        Topology<Particle> topology = this.getTopology();
 
-		for (Particle particle : topology) {
-			MultiObjectiveParticle moParticle = (MultiObjectiveParticle) particle;
+        for (Particle particle : topology) {
+            MultiObjectiveParticle moParticle = (MultiObjectiveParticle) particle;
 
-			Particle globalGuide = selectGlobalGuide(/*hypercube*/);
+            Particle globalGuide = selectGlobalGuide(/*hypercube*/);
 
-			standardArchive.getLocalGuideStrategy().updateLocalGuide(particle);
-			Vector localGuide = standardArchive.getLocalGuideStrategy().getLocalGuide();
+            standardArchive.getLocalGuideStrategy().updateLocalGuide(particle);
+            Vector localGuide = standardArchive.getLocalGuideStrategy().getLocalGuide();
 
-			moParticle.setNeighbourhoodBest(globalGuide);
-			moParticle.setBestPosition(localGuide);
+            moParticle.setNeighbourhoodBest(globalGuide);
+            moParticle.setBestPosition(localGuide);
 
-			moParticle.updateVelocity();
-			moParticle.updatePosition();
-		}
+            moParticle.updateVelocity();
+            moParticle.updatePosition();
+        }
 
-		maintainBoundaries();
+        maintainBoundaries();
 
-		for (Particle particle : topology) {
-			//particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
-			particle.calculateFitness();
-		}
+        for (Particle particle : topology) {
+            //particle.setFitness(this.moproblem.getFitness(particle.getPosition(), true));
+            particle.calculateFitness();
+        }
 
-		// TODO :: FIX THIS!!!!!!!!!!!!!!!!!!!!
-		//		 Look at Set
-		Collection<OptimisationSolution> paretoFront = new ArrayList<OptimisationSolution>();
+        // TODO :: FIX THIS!!!!!!!!!!!!!!!!!!!!
+        //         Look at Set
+        Collection<OptimisationSolution> paretoFront = new ArrayList<OptimisationSolution>();
 
-		// TODO : prevent fitness re-evaluations
-		// TODO : Check Jaco's code
-		paretoFront.add(new OptimisationSolution(this.getMoproblem(), topology.get(0).getPosition()));
-		for (Particle particle : topology) {
-			for (OptimisationSolution solution : paretoFront) {
-				int result = solution.getFitness().compareTo(particle.getFitness()); // Check this comparing
-				if (result > 0) {
-					// Replace
-				}
-				else if (result == 0) {
-					// Add
-					break;
-				}
-				else {
-					// Ignore
-				}
-			}
-		}
+        // TODO : prevent fitness re-evaluations
+        // TODO : Check Jaco's code
+        paretoFront.add(new OptimisationSolution(this.getMoproblem(), topology.get(0).getPosition()));
+        for (Particle particle : topology) {
+            for (OptimisationSolution solution : paretoFront) {
+                int result = solution.getFitness().compareTo(particle.getFitness()); // Check this comparing
+                if (result > 0) {
+                    // Replace
+                }
+                else if (result == 0) {
+                    // Add
+                    break;
+                }
+                else {
+                    // Ignore
+                }
+            }
+        }
 
-		archive.accept(paretoFront);
-	}
+        archive.accept(paretoFront);
+    }
 
-	private Particle selectGlobalGuide() { // Look at creating a strategy to do this
-		return null;
-	}
+    private Particle selectGlobalGuide() { // Look at creating a strategy to do this
+        return null;
+    }
 
-	//private Vector selectLocalGuide() { // Look at creating a strategy to do this
-	//	return null;
-	//}
+    //private Vector selectLocalGuide() { // Look at creating a strategy to do this
+    //    return null;
+    //}
 
-	private void maintainBoundaries() {
+    private void maintainBoundaries() {
 
-	}
+    }
 
-	public Archive getArchive() {
-		return archive;
-	}
+    public Archive getArchive() {
+        return archive;
+    }
 
-	public void setArchive(Archive archive) {
-		this.archive = archive;
-	}
+    public void setArchive(Archive archive) {
+        this.archive = archive;
+    }
 
-	public MOOptimisationProblem getMoproblem() {
-		return moproblem;
-	}
+    public MOOptimisationProblem getMoproblem() {
+        return moproblem;
+    }
 
-	public void setMoproblem(MOOptimisationProblem moproblem) {
-		this.moproblem = moproblem;
-	}
+    public void setMoproblem(MOOptimisationProblem moproblem) {
+        this.moproblem = moproblem;
+    }
 
 
-//	public Topology<? > getTopology() {
-//		// TODO Auto-generated method stub
-//		return super.getTopology();
-//	}
+//    public Topology<? > getTopology() {
+//        // TODO Auto-generated method stub
+//        return super.getTopology();
+//    }
 
 
 }

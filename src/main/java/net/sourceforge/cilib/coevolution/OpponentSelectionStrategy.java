@@ -32,19 +32,19 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
  */
 public abstract class OpponentSelectionStrategy {
 
-	public OpponentSelectionStrategy(){}
+    public OpponentSelectionStrategy(){}
 
-	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
+    public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
 
-	}
+    }
 
-	public abstract OpponentSelectionStrategy getClone();
+    public abstract OpponentSelectionStrategy getClone();
 
-	/**
-	 * selects the opponents from the pool
-	 * @param populationID id of current pop
-	 * @param pool the pool of potential opponents
-	 * @return list of selected opponents
-	 */
-	public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
+    /**
+     * selects the opponents from the pool
+     * @param populationID id of current pop
+     * @param pool the pool of potential opponents
+     * @return list of selected opponents
+     */
+    public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
 }

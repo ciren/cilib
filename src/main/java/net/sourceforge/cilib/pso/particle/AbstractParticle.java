@@ -44,9 +44,9 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public abstract class AbstractParticle extends AbstractEntity implements Particle {
-	private static final long serialVersionUID = 7511192728112990230L;
+    private static final long serialVersionUID = 7511192728112990230L;
 
-	protected PositionUpdateStrategy positionUpdateStrategy;
+    protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
     protected VelocityInitialisationStrategy velocityInitialisationStrategy;
     // TODO: Factor this out into a Particle intialisation strategy.... keep in mind the heterogeneous swarm thingy
@@ -58,108 +58,108 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     /**
      * Default constructor for all Particles.
      */
-	public AbstractParticle() {
-		super();
+    public AbstractParticle() {
+        super();
 
-		neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
-		positionUpdateStrategy = new StandardPositionUpdateStrategy();
-		velocityUpdateStrategy = new StandardVelocityUpdate();
+        neighbourhoodBestUpdateStrategy = new MemoryNeighbourhoodBestUpdateStrategy();
+        positionUpdateStrategy = new StandardPositionUpdateStrategy();
+        velocityUpdateStrategy = new StandardVelocityUpdate();
 
-		positionInitialisationStrategy = new RandomizedPositionInitialisationStrategy();
-		velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
-	}
-
-	/**
-	 * Copy constructor. Create a copy of the given instance.
-	 * @param copy The instance to copy.
-	 */
-	public AbstractParticle(AbstractParticle copy) {
-		super(copy);
-		this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
-		this.positionUpdateStrategy = copy.getPositionUpdateStrategy().getClone();
-		this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
-		this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
-		this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-    public abstract Particle getClone();
+        positionInitialisationStrategy = new RandomizedPositionInitialisationStrategy();
+        velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
+    }
 
     /**
-     * {@inheritDoc}
+     * Copy constructor. Create a copy of the given instance.
+     * @param copy The instance to copy.
      */
-	@Override
-	public boolean equals(Object object) {
-		if (this == object)
-			return true;
-
-		if ((object == null) || (this.getClass() != object.getClass()))
-			return false;
-
-		AbstractParticle other = (AbstractParticle) object;
-		return  super.equals(other) &&
-			(this.id == other.id);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + super.hashCode();
-		hash = 31 * hash + (Integer.valueOf(id).hashCode());
-		return hash;
-	}
-
-    /**
-     * {@inheritDoc}
-     */
-	@Override
-    public void calculateFitness() {
-    	calculateFitness(true);
+    public AbstractParticle(AbstractParticle copy) {
+        super(copy);
+        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
+        this.positionUpdateStrategy = copy.getPositionUpdateStrategy().getClone();
+        this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
+        this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
+        this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
+    public abstract Particle getClone();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+
+        if ((object == null) || (this.getClass() != object.getClass()))
+            return false;
+
+        AbstractParticle other = (AbstractParticle) object;
+        return  super.equals(other) &&
+            (this.id == other.id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + (Integer.valueOf(id).hashCode());
+        return hash;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void calculateFitness() {
+        calculateFitness(true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public abstract void calculateFitness(boolean count);
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public abstract Fitness getBestFitness();
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public abstract int getDimension();
 
     /**
      * Get the position of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s position.
      */
-	@Override
+    @Override
     public abstract Type getPosition();
 
     /**
      * Get the best position of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s best position.
      */
-	@Override
+    @Override
     public abstract Type getBestPosition();
 
     /**
      * Get the velocity representation of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s velocity.
      */
-	@Override
+    @Override
     public abstract Type getVelocity();
 
     /**
@@ -168,113 +168,113 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      *
      * @param particle The particle to use as the current particle's neighhod best particle
      */
-	@Override
+    @Override
     public abstract void setNeighbourhoodBest(Particle particle);
 
     /**
      * Get the current <tt>Particle</tt>'s neighbourhood best.
      * @return The neighbourhood best of the <tt>Particle</tt>
      */
-	@Override
+    @Override
     public abstract Particle getNeighbourhoodBest();
 
     /**
      * Update the position of the <tt>Particle</tt>.
      */
-	@Override
+    @Override
     public abstract void updatePosition();
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public abstract void updateVelocity();
 
     /**
      * {@inheritDoc}
      */
-	@Override
+    @Override
     public abstract void updateControlParameters();
 
-	/**
-	 * Get the current <tt>PostionUpdateStrategy</tt> associated with this <tt>Particle</tt>.
-	 * @return The currently associated <tt>PositionUpdateStrategy</tt>.
-	 */
-	@Override
-	public PositionUpdateStrategy getPositionUpdateStrategy() {
-		return positionUpdateStrategy;
-	}
+    /**
+     * Get the current <tt>PostionUpdateStrategy</tt> associated with this <tt>Particle</tt>.
+     * @return The currently associated <tt>PositionUpdateStrategy</tt>.
+     */
+    @Override
+    public PositionUpdateStrategy getPositionUpdateStrategy() {
+        return positionUpdateStrategy;
+    }
 
-	/**
-	 * Set the <tt>PostionUpdateStrategy</tt> for the <tt>Particle</tt>.
-	 * @param positionUpdateStrategy The <tt>PositionUpdateStrategy</tt> to use.
-	 */
-	@Override
-	public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy) {
-		this.positionUpdateStrategy = positionUpdateStrategy;
-	}
+    /**
+     * Set the <tt>PostionUpdateStrategy</tt> for the <tt>Particle</tt>.
+     * @param positionUpdateStrategy The <tt>PositionUpdateStrategy</tt> to use.
+     */
+    @Override
+    public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy) {
+        this.positionUpdateStrategy = positionUpdateStrategy;
+    }
 
-	/**
-	 * Get the {@see net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy}
-	 * of the current particle.
-	 *
-	 * @return Returns the velocityUpdateStrategy.
-	 */
-	@Override
-	public VelocityUpdateStrategy getVelocityUpdateStrategy() {
-		return velocityUpdateStrategy;
-	}
+    /**
+     * Get the {@see net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy}
+     * of the current particle.
+     *
+     * @return Returns the velocityUpdateStrategy.
+     */
+    @Override
+    public VelocityUpdateStrategy getVelocityUpdateStrategy() {
+        return velocityUpdateStrategy;
+    }
 
-	/**
-	 * Set the velocity updating strategy for the particle.
-	 * @param velocityUpdateStrategy The velocityUpdateStrategy to set.
-	 */
-	@Override
-	public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
-		this.velocityUpdateStrategy = velocityUpdateStrategy;
-	}
+    /**
+     * Set the velocity updating strategy for the particle.
+     * @param velocityUpdateStrategy The velocityUpdateStrategy to set.
+     */
+    @Override
+    public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy) {
+        this.velocityUpdateStrategy = velocityUpdateStrategy;
+    }
 
-	/**
-	 * Get the {@linkplain VelocityInitialisationStrategy}.
-	 * @return The current {@linkplain VelocityInitialisationStrategy}.
-	 */
-	@Override
-	public VelocityInitialisationStrategy getVelocityInitialisationStrategy() {
-		return velocityInitialisationStrategy;
-	}
+    /**
+     * Get the {@linkplain VelocityInitialisationStrategy}.
+     * @return The current {@linkplain VelocityInitialisationStrategy}.
+     */
+    @Override
+    public VelocityInitialisationStrategy getVelocityInitialisationStrategy() {
+        return velocityInitialisationStrategy;
+    }
 
-	/**
-	 * Set the velocityInitialisationStrategy.
-	 * @param velocityInitialisationStrategy The value to set.
-	 */
-	@Override
-	public void setVelocityInitialisationStrategy(
-			VelocityInitialisationStrategy velocityInitialisationStrategy) {
-		this.velocityInitialisationStrategy = velocityInitialisationStrategy;
-	}
+    /**
+     * Set the velocityInitialisationStrategy.
+     * @param velocityInitialisationStrategy The value to set.
+     */
+    @Override
+    public void setVelocityInitialisationStrategy(
+            VelocityInitialisationStrategy velocityInitialisationStrategy) {
+        this.velocityInitialisationStrategy = velocityInitialisationStrategy;
+    }
 
-	/**
-	 * Get the current {@linkplain PositionInitialisationStrategy}.
-	 * @return The current {@linkplain PositionInitialisationStrategy}.
-	 */
-	public PositionInitialisationStrategy getPositionInitialisationStrategy() {
-		return positionInitialisationStrategy;
-	}
+    /**
+     * Get the current {@linkplain PositionInitialisationStrategy}.
+     * @return The current {@linkplain PositionInitialisationStrategy}.
+     */
+    public PositionInitialisationStrategy getPositionInitialisationStrategy() {
+        return positionInitialisationStrategy;
+    }
 
-	/**
-	 * Set the {@linkplain PositionInitialisationStrategy} to be used.
-	 * @param positionInitialisationStrategy The value to set.
-	 */
-	public void setPositionInitialisationStrategy(PositionInitialisationStrategy positionInitialisationStrategy) {
-		this.positionInitialisationStrategy = positionInitialisationStrategy;
-	}
+    /**
+     * Set the {@linkplain PositionInitialisationStrategy} to be used.
+     * @param positionInitialisationStrategy The value to set.
+     */
+    public void setPositionInitialisationStrategy(PositionInitialisationStrategy positionInitialisationStrategy) {
+        this.positionInitialisationStrategy = positionInitialisationStrategy;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int compareTo(Entity o) {
-		return getFitness().compareTo(o.getFitness());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Entity o) {
+        return getFitness().compareTo(o.getFitness());
+    }
 
 }

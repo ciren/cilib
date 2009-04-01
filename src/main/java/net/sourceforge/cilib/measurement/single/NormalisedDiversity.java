@@ -53,72 +53,72 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 
 public class NormalisedDiversity implements Measurement {
-	private static final long serialVersionUID = 93751729329230145L;
+    private static final long serialVersionUID = 93751729329230145L;
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public NormalisedDiversity(NormalisedDiversity copy) {
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public NormalisedDiversity(NormalisedDiversity copy) {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public NormalisedDiversity getClone() {
-		return new NormalisedDiversity(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public NormalisedDiversity getClone() {
+        return new NormalisedDiversity(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public String getDomain() {
-		return "R";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public String getDomain() {
+        return "R";
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type getValue(Algorithm algorithm) {
+    /**
+     * {@inheritDoc}
+     */
+    public Type getValue(Algorithm algorithm) {
 
-		PSO pso = (PSO) algorithm;
+        PSO pso = (PSO) algorithm;
 
-		int numberParticles = pso.getPopulationSize();
+        int numberParticles = pso.getPopulationSize();
 
         Iterator<Particle> k = pso.getTopology().iterator();
         Particle particle = (Particle) k.next();
         Vector averageParticlePosition = (Vector) particle.getPosition().getClone();
         while (k.hasNext()) {
-        	particle = (Particle) k.next();
-        	Vector v = (Vector) particle.getPosition();
-        	for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
-        	   averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)+v.getReal(j));
+            particle = (Particle) k.next();
+            Vector v = (Vector) particle.getPosition();
+            for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
+               averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)+v.getReal(j));
         }
         for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberParticles);
         //System.out.println(averageParticlePosition);
 
-		Iterator<Particle> i = pso.getTopology().iterator();
-		double particleSum = 0.0;
-		while (i.hasNext()) {
-			particle = (Particle) i.next();
+        Iterator<Particle> i = pso.getTopology().iterator();
+        double particleSum = 0.0;
+        while (i.hasNext()) {
+            particle = (Particle) i.next();
 
-			double dimensionSum = 0.0;
-			Vector v = (Vector) particle.getPosition();
-			for (int j = 0; j < particle.getDimension(); ++j) {
-				dimensionSum += (v.getReal(j)-averageParticlePosition.getReal(j))*(v.getReal(j)-averageParticlePosition.getReal(j));
+            double dimensionSum = 0.0;
+            Vector v = (Vector) particle.getPosition();
+            for (int j = 0; j < particle.getDimension(); ++j) {
+                dimensionSum += (v.getReal(j)-averageParticlePosition.getReal(j))*(v.getReal(j)-averageParticlePosition.getReal(j));
 
-			}
-			particleSum += Math.sqrt(dimensionSum);
-		}
+            }
+            particleSum += Math.sqrt(dimensionSum);
+        }
 
-		double diversity = particleSum/numberParticles;
+        double diversity = particleSum/numberParticles;
 
-		DiameterVisitor diameterVisitor = new DiameterVisitor();
-		pso.accept(diameterVisitor);
-		double diameter = diameterVisitor.getResult();
+        DiameterVisitor diameterVisitor = new DiameterVisitor();
+        pso.accept(diameterVisitor);
+        double diameter = diameterVisitor.getResult();
 
-    	return new Real(diversity/diameter);
-	}
+        return new Real(diversity/diameter);
+    }
 
 }

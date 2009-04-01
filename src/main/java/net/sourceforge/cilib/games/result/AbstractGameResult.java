@@ -26,11 +26,11 @@ package net.sourceforge.cilib.games.result;
  * This class represents the result of a game after it has beenplayed
  */
 public abstract class AbstractGameResult {
-	/**
-	 *
-	 */
-	public AbstractGameResult() {
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     *
+     */
+    public AbstractGameResult() {
+        // TODO Auto-generated constructor stub
+    }
 
 }

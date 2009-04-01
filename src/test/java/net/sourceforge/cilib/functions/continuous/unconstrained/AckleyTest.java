@@ -42,13 +42,13 @@ public class AckleyTest {
     
     @Before
     public void instantiate() {
-    	this.function = new Ackley();
+        this.function = new Ackley();
     }
 
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Ackley. */
     @Test
     public void testEvaluate() {
-		function.setDomain("R(-32.768, 32.768)^3");
+        function.setDomain("R(-32.768, 32.768)^3");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
@@ -64,7 +64,7 @@ public class AckleyTest {
     
     @Test
     public void minimum() {
-    	assertEquals(0.0, function.getMinimum());
+        assertEquals(0.0, function.getMinimum());
     }
     
 }

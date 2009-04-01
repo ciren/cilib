@@ -34,9 +34,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  Edwin Peer
  */
 public class StandardVelocityUpdate implements VelocityUpdateStrategy {
-	private static final long serialVersionUID = 8204479765311251730L;
+    private static final long serialVersionUID = 8204479765311251730L;
 
-	protected ControlParameter inertiaWeight;
+    protected ControlParameter inertiaWeight;
     protected ControlParameter socialAcceleration;
     protected ControlParameter cognitiveAcceleration;
     protected ControlParameter vMax;
@@ -60,10 +60,10 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * @param copy The object to copy.
      */
     public StandardVelocityUpdate(StandardVelocityUpdate copy) {
-    	this.inertiaWeight = copy.inertiaWeight.getClone();
-    	this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-    	this.socialAcceleration = copy.socialAcceleration.getClone();
-    	this.vMax = copy.vMax.getClone();
+        this.inertiaWeight = copy.inertiaWeight.getClone();
+        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+        this.socialAcceleration = copy.socialAcceleration.getClone();
+        this.vMax = copy.vMax.getClone();
     }
 
 
@@ -71,7 +71,7 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * {@inheritDoc}
      */
     public StandardVelocityUpdate getClone() {
-    	return new StandardVelocityUpdate(this);
+        return new StandardVelocityUpdate(this);
     }
 
 
@@ -80,19 +80,19 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * @param particle The Particle velocity that should be updated.
      */
     public void updateVelocity(Particle particle) {
-    	Vector velocity = (Vector) particle.getVelocity();
-    	Vector position = (Vector) particle.getPosition();
-    	Vector bestPosition = (Vector) particle.getBestPosition();
-    	Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+        Vector velocity = (Vector) particle.getVelocity();
+        Vector position = (Vector) particle.getPosition();
+        Vector bestPosition = (Vector) particle.getBestPosition();
+        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
         for (int i = 0; i < particle.getDimension(); ++i) {
-    		double value = inertiaWeight.getParameter()*velocity.getReal(i) +
-    			(bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
-    			(nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
-    		velocity.setReal(i, value);
+            double value = inertiaWeight.getParameter()*velocity.getReal(i) +
+                (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
+                (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter();
+            velocity.setReal(i, value);
 
-    		clamp(velocity, i);
-    	}
+            clamp(velocity, i);
+        }
     }
 
 
@@ -101,24 +101,24 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * {@inheritDoc}
      */
     public void updateControlParameters(Particle particle) {
-    	this.inertiaWeight.updateParameter();
-    	this.cognitiveAcceleration.updateParameter();
-    	this.socialAcceleration.updateParameter();
-    	this.vMax.updateParameter();
-	}
+        this.inertiaWeight.updateParameter();
+        this.cognitiveAcceleration.updateParameter();
+        this.socialAcceleration.updateParameter();
+        this.vMax.updateParameter();
+    }
 
 
     /**
      * TODO: Need to have a VMax strategy.
-	 * @param velocity The {@link Vector} to be clamped.
-	 * @param i The dimension index to be clamped
-	 */
-	protected void clamp(Vector velocity, int i) {
-		if (velocity.getReal(i) < -vMax.getParameter())
-			velocity.setReal(i, -vMax.getParameter());
-		else if (velocity.getReal(i) > vMax.getParameter())
-			velocity.setReal(i, vMax.getParameter());
-	}
+     * @param velocity The {@link Vector} to be clamped.
+     * @param i The dimension index to be clamped
+     */
+    protected void clamp(Vector velocity, int i) {
+        if (velocity.getReal(i) < -vMax.getParameter())
+            velocity.setReal(i, -vMax.getParameter());
+        else if (velocity.getReal(i) > vMax.getParameter())
+            velocity.setReal(i, vMax.getParameter());
+    }
 
 
     /**
@@ -175,15 +175,15 @@ public class StandardVelocityUpdate implements VelocityUpdateStrategy {
      * @return The <code>ControlParameter</code> for the vMax.
      */
     public ControlParameter getVMax() {
-		return vMax;
-	}
+        return vMax;
+    }
 
     /**
      * Set the <tt>ControlParameter</tt> for the vMax parameter.
      * @param max The <tt>ControlParameter</tt> to set.
      */
-	public void setVMax(ControlParameter max) {
-		vMax = max;
-	}
+    public void setVMax(ControlParameter max) {
+        vMax = max;
+    }
 
 }

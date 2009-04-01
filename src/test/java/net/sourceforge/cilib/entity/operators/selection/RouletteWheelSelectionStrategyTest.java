@@ -47,55 +47,55 @@ import org.junit.Test;
  * </p>
  */
 public class RouletteWheelSelectionStrategyTest {
-	
-	private Topology<Individual> topology;
-	private Individual individual1;
-	private Individual individual2;
-	private Individual individual3;
+    
+    private Topology<Individual> topology;
+    private Individual individual1;
+    private Individual individual2;
+    private Individual individual3;
 
-	@Before
-	public void createDummyTopology() {
-		topology = new GBestTopology<Individual>();
-		
-		individual1 = new Individual();
-		individual2 = new Individual();
-		individual3 = new Individual();
-		topology.add(individual1);
-		topology.add(individual2);
-		topology.add(individual3);
-	}
+    @Before
+    public void createDummyTopology() {
+        topology = new GBestTopology<Individual>();
+        
+        individual1 = new Individual();
+        individual2 = new Individual();
+        individual3 = new Individual();
+        topology.add(individual1);
+        topology.add(individual2);
+        topology.add(individual3);
+    }
 
-	@Test(expected = UnsupportedOperationException.class)
-	public void selectionWithInferiorFitness() {
-		RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
-		rouletteWheelSelectionStrategy.select(topology);
-	}
-	
-	@Test
-	public void minimizationSelection() {
-		individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
-		individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
-		individual3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
+    @Test(expected = UnsupportedOperationException.class)
+    public void selectionWithInferiorFitness() {
+        RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
+        rouletteWheelSelectionStrategy.select(topology);
+    }
+    
+    @Test
+    public void minimizationSelection() {
+        individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
+        individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
+        individual3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
 
-		RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
-		Entity entity = rouletteWheelSelectionStrategy.select(topology);
+        RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
+        Entity entity = rouletteWheelSelectionStrategy.select(topology);
 
-		Assert.assertNotNull(entity);
-		Assert.assertTrue(topology.contains(entity));
-		Assert.assertEquals(entity, individual3);
-	}
+        Assert.assertNotNull(entity);
+        Assert.assertTrue(topology.contains(entity));
+        Assert.assertEquals(entity, individual3);
+    }
 
-	@Test
-	public void maximizationSelection() {
-		individual1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0));  // Should be the best entity
-		individual2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
-		individual3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+    @Test
+    public void maximizationSelection() {
+        individual1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0));  // Should be the best entity
+        individual2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+        individual3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 
-		RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
-		Entity entity = rouletteWheelSelectionStrategy.select(topology);
+        RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
+        Entity entity = rouletteWheelSelectionStrategy.select(topology);
 
-		Assert.assertNotNull(entity);
-		Assert.assertTrue(entity.equals(individual1));
-	}
+        Assert.assertNotNull(entity);
+        Assert.assertTrue(entity.equals(individual1));
+    }
 
 }

@@ -33,207 +33,207 @@ import net.sourceforge.cilib.type.types.Type;
  * history of one specific entity within a {@linkplain CoevolutionAlgorithm}.
  */
 public class EntityScoreboard implements Type, Resetable {
-	private static final long serialVersionUID = -2524835257237678625L;
-	private ArrayList<EntityScore> scores;
+    private static final long serialVersionUID = -2524835257237678625L;
+    private ArrayList<EntityScore> scores;
 
-	/**
-	 * Create a default score board.
-	 */
-	public EntityScoreboard() {
-		this.scores = new ArrayList<EntityScore>();
-	}
+    /**
+     * Create a default score board.
+     */
+    public EntityScoreboard() {
+        this.scores = new ArrayList<EntityScore>();
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public EntityScoreboard(EntityScoreboard copy) {
-		this.scores = new ArrayList<EntityScore>();
-		for (EntityScore score : copy.scores) {
-			this.scores.add(score);
-		}
-	}
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public EntityScoreboard(EntityScoreboard copy) {
+        this.scores = new ArrayList<EntityScore>();
+        for (EntityScore score : copy.scores) {
+            this.scores.add(score);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public EntityScoreboard getClone(){
-		return new EntityScoreboard(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public EntityScoreboard getClone(){
+        return new EntityScoreboard(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        // TODO Auto-generated method stub
+        return super.equals(obj);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + (this.scores == null ? 0 : this.scores.hashCode());
-		return hash;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (this.scores == null ? 0 : this.scores.hashCode());
+        return hash;
+    }
 
-	/**
-	 * Get a list of all the entities that the entity this
-	 * score board are used for has compete against with the
-	 * assosiated score hisotries.
-	 * @return A list of score histories.
-	 */
-	public ArrayList<EntityScore> getScores() {
-		return this.scores;
-	}
+    /**
+     * Get a list of all the entities that the entity this
+     * score board are used for has compete against with the
+     * assosiated score hisotries.
+     * @return A list of score histories.
+     */
+    public ArrayList<EntityScore> getScores() {
+        return this.scores;
+    }
 
-	/**
-	 * Get the number of times the entity this score board is
-	 * used for has won.
-	 *
-	 * @return The number of wins in the score board.
-	 */
-	public int getWinCount() {
-		int wins = 0;
-		for (EntityScore score : this.scores) {
-			wins += score.getWinCount();
-		}	//endFor
-		return wins;
-	}
+    /**
+     * Get the number of times the entity this score board is
+     * used for has won.
+     *
+     * @return The number of wins in the score board.
+     */
+    public int getWinCount() {
+        int wins = 0;
+        for (EntityScore score : this.scores) {
+            wins += score.getWinCount();
+        }    //endFor
+        return wins;
+    }
 
-	public int getWinCount(int round) {
-		int wins = 0;
-		for (EntityScore score : this.scores) {
-			if(score.getRound() == round){
-				wins += score.getWinCount();
-			}
-		}	//endFor
-		return wins;
-	}
+    public int getWinCount(int round) {
+        int wins = 0;
+        for (EntityScore score : this.scores) {
+            if(score.getRound() == round){
+                wins += score.getWinCount();
+            }
+        }    //endFor
+        return wins;
+    }
 
-	/**
-	 * Get the number of times the entity this score board is
-	 * used for has lost.
-	 *
-	 * @return The number of loses in the score board.
-	 */
-	public int getLoseCount() {
-		int lose = 0;
-		for (EntityScore score : this.scores) {
-			lose += score.getLoseCount();
-		}
-		return lose;
-	}
+    /**
+     * Get the number of times the entity this score board is
+     * used for has lost.
+     *
+     * @return The number of loses in the score board.
+     */
+    public int getLoseCount() {
+        int lose = 0;
+        for (EntityScore score : this.scores) {
+            lose += score.getLoseCount();
+        }
+        return lose;
+    }
 
-	/**
-	 * Get the number of times the entity this score board is
-	 * used for has drawed.
-	 *
-	 * @return The number of draws in the score board.
-	 */
-	public int getDrawCount() {
-		int draw = 0;
-		for (EntityScore score : this.scores) {
-			draw += score.getDrawCount();
-		}
+    /**
+     * Get the number of times the entity this score board is
+     * used for has drawed.
+     *
+     * @return The number of draws in the score board.
+     */
+    public int getDrawCount() {
+        int draw = 0;
+        for (EntityScore score : this.scores) {
+            draw += score.getDrawCount();
+        }
 
-		return draw;
-	}
+        return draw;
+    }
 
-	/**
-	 * Get the number of times the entity assosiated with this
-	 * score board has competed.
-	 *
-	 * @return The number of sum of the wins, loses and draws.
-	 */
-	public int getCompeteCount() {
-		int count = 0;
-		for (EntityScore score : this.scores) {
-			count += score.getWinCount() + score.getLoseCount() + score.getDrawCount();
-		}
+    /**
+     * Get the number of times the entity assosiated with this
+     * score board has competed.
+     *
+     * @return The number of sum of the wins, loses and draws.
+     */
+    public int getCompeteCount() {
+        int count = 0;
+        for (EntityScore score : this.scores) {
+            count += score.getWinCount() + score.getLoseCount() + score.getDrawCount();
+        }
 
-		return count;
-	}
+        return count;
+    }
 
-	public int getCompeteCount(int round){
-		int count = 0;
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				count += entityScore.getPlayCount();
-			}
-		}
-		return count;
-	}
+    public int getCompeteCount(int round){
+        int count = 0;
+        for (EntityScore entityScore : this.scores) {
+            if(entityScore.getRound() == round){
+                count += entityScore.getPlayCount();
+            }
+        }
+        return count;
+    }
 
-	public void mergeEntityScore(EntityScore scoreBoard){
-		for (EntityScore entityScore : this.scores) {
-			if (scoreBoard.getCompetitorGroup() == entityScore.getCompetitorGroup() &&
-					scoreBoard.getRound() == entityScore.getRound()) {
-						entityScore.mergeScoreBoard(scoreBoard);
-						return;
-			}
-		}
-		this.scores.add(scoreBoard);
-	}
+    public void mergeEntityScore(EntityScore scoreBoard){
+        for (EntityScore entityScore : this.scores) {
+            if (scoreBoard.getCompetitorGroup() == entityScore.getCompetitorGroup() &&
+                    scoreBoard.getRound() == entityScore.getRound()) {
+                        entityScore.mergeScoreBoard(scoreBoard);
+                        return;
+            }
+        }
+        this.scores.add(scoreBoard);
+    }
 
-	public ArrayList<Fitness> getWinScores(int round){
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				values.addAll(entityScore.getRoundsWon());
-			}
-		}
-		return values;
-	}
+    public ArrayList<Fitness> getWinScores(int round){
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        for (EntityScore entityScore : this.scores) {
+            if(entityScore.getRound() == round){
+                values.addAll(entityScore.getRoundsWon());
+            }
+        }
+        return values;
+    }
 
-	public ArrayList<Fitness> getDrawScores(int round){
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				values.addAll(entityScore.getRoundsDrawn());
-			}
-		}
-		return values;
-	}
+    public ArrayList<Fitness> getDrawScores(int round){
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        for (EntityScore entityScore : this.scores) {
+            if(entityScore.getRound() == round){
+                values.addAll(entityScore.getRoundsDrawn());
+            }
+        }
+        return values;
+    }
 
-	public ArrayList<Fitness> getLoseScores(int round){
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				values.addAll(entityScore.getRoundsLost());
-			}
-		}
-		return values;
-	}
+    public ArrayList<Fitness> getLoseScores(int round){
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        for (EntityScore entityScore : this.scores) {
+            if(entityScore.getRound() == round){
+                values.addAll(entityScore.getRoundsLost());
+            }
+        }
+        return values;
+    }
 
-	public ArrayList<Fitness> getScores(int round){
-		ArrayList<Fitness> values = new ArrayList<Fitness>();
-		for (EntityScore entityScore : this.scores) {
-			if(entityScore.getRound() == round){
-				values.addAll(entityScore.getRoundsWon());
-				values.addAll(entityScore.getRoundsDrawn());
-				values.addAll(entityScore.getRoundsLost());
-			}
-		}
-		return values;
-	}
+    public ArrayList<Fitness> getScores(int round){
+        ArrayList<Fitness> values = new ArrayList<Fitness>();
+        for (EntityScore entityScore : this.scores) {
+            if(entityScore.getRound() == round){
+                values.addAll(entityScore.getRoundsWon());
+                values.addAll(entityScore.getRoundsDrawn());
+                values.addAll(entityScore.getRoundsLost());
+            }
+        }
+        return values;
+    }
 
-	public void clearScoreBoard(){
-		scores.clear();
-	}
+    public void clearScoreBoard(){
+        scores.clear();
+    }
 
-	public void removeScores(int round){
-		for(int i = scores.size() - 1; i >= 0; --i){
-			if(scores.get(i).getRound() == round){
-				scores.remove(i);
-			}
-		}
-	}
+    public void removeScores(int round){
+        for(int i = scores.size() - 1; i >= 0; --i){
+            if(scores.get(i).getRound() == round){
+                scores.remove(i);
+            }
+        }
+    }
 
-	public void reset() {
-		this.scores = new ArrayList<EntityScore>();
-	}
+    public void reset() {
+        this.scores = new ArrayList<EntityScore>();
+    }
 }

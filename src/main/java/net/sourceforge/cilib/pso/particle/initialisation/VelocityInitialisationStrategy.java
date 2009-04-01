@@ -33,16 +33,16 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface VelocityInitialisationStrategy extends Cloneable, Serializable {
 
-	/**
-	 * Clone the VeclocityInitialisationStrategy.
-	 * @return A copy of the VelocityInitialisationStrategy.
-	 */
-	public VelocityInitialisationStrategy getClone();
+    /**
+     * Clone the VeclocityInitialisationStrategy.
+     * @return A copy of the VelocityInitialisationStrategy.
+     */
+    public VelocityInitialisationStrategy getClone();
 
-	/**
-	 * Initialise the Particle velocity.
-	 * @param particle The velocity vector of the particle to initialise.
-	 */
-	public void initialise(Particle particle);
+    /**
+     * Initialise the Particle velocity.
+     * @param particle The velocity vector of the particle to initialise.
+     */
+    public void initialise(Particle particle);
 
 }

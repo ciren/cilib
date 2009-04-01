@@ -37,41 +37,41 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Theuns Cloete
  */
 public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
-	private static final long serialVersionUID = -3016201656688883387L;
+    private static final long serialVersionUID = -3016201656688883387L;
 
-	private Random random = null;
+    private Random random = null;
 
-	/**
-	 * Create a new instance of {@linkplain DataSetBasedCentroidsInitialisationStrategy}.
-	 */
-	public DataSetBasedCentroidsInitialisationStrategy() {
-		random = new MersenneTwister();
-	}
+    /**
+     * Create a new instance of {@linkplain DataSetBasedCentroidsInitialisationStrategy}.
+     */
+    public DataSetBasedCentroidsInitialisationStrategy() {
+        random = new MersenneTwister();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DataSetBasedCentroidsInitialisationStrategy getClone() {
-		return new DataSetBasedCentroidsInitialisationStrategy();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public DataSetBasedCentroidsInitialisationStrategy getClone() {
+        return new DataSetBasedCentroidsInitialisationStrategy();
+    }
 
-	/**
-	 * Initialize the centroid vectors for a clustering from randomly chosen patterns in the
-	 * given dataset.
-	 *
-	 * @param problem the {@link ClusteringProblem} currently being optimized
-	 * @param dataset the {@link ClusterableDataSet} currently being clustered
-	 * @return a {@link Vector} that represents all the centroids
-	 */
-	public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
-		ArrayList<Pattern> patterns = dataset.getPatterns();
-		int numberOfCentroids = problem.getNumberOfClusters();
-		Vector centroids = new Vector(problem.getDomain().getDimension());
+    /**
+     * Initialize the centroid vectors for a clustering from randomly chosen patterns in the
+     * given dataset.
+     *
+     * @param problem the {@link ClusteringProblem} currently being optimized
+     * @param dataset the {@link ClusterableDataSet} currently being clustered
+     * @return a {@link Vector} that represents all the centroids
+     */
+    public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
+        ArrayList<Pattern> patterns = dataset.getPatterns();
+        int numberOfCentroids = problem.getNumberOfClusters();
+        Vector centroids = new Vector(problem.getDomain().getDimension());
 
-		for (int i = 0; i < numberOfCentroids; i++) {
-			Vector centroid = patterns.get((int) Math.round(random.nextInt(patterns.size()))).data;
-			centroids.append(centroid.getClone());
-		}
-		return centroids;
-	}
+        for (int i = 0; i < numberOfCentroids; i++) {
+            Vector centroid = patterns.get((int) Math.round(random.nextInt(patterns.size()))).data;
+            centroids.append(centroid.getClone());
+        }
+        return centroids;
+    }
 }

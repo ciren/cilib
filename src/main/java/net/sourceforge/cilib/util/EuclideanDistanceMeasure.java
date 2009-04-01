@@ -30,10 +30,10 @@ package net.sourceforge.cilib.util;
  */
 public class EuclideanDistanceMeasure extends MinkowskiMetric {
 
-	/**
-	 * Create an instance of the {@linkplain EuclideanDistanceMeasure}.
-	 */
-	public EuclideanDistanceMeasure() {
-		super(2);
-	}
+    /**
+     * Create an instance of the {@linkplain EuclideanDistanceMeasure}.
+     */
+    public EuclideanDistanceMeasure() {
+        super(2);
+    }
 }

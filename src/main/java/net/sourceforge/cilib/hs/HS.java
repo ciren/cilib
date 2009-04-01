@@ -45,194 +45,194 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class HS extends SingularAlgorithm {
-	private static final long serialVersionUID = 8019668923312811974L;
-	private RandomNumber random1;
-	private RandomNumber random2;
-	private RandomNumber random3;
-	private ControlParameter harmonyMemorySize;
-	private ControlParameter harmonyMemoryConsideringRate;
-	private ControlParameter pitchAdjustingRate;
-	private ControlParameter distanceBandwidth;
-	private SortedList<Harmony> harmonyMemory;
+    private static final long serialVersionUID = 8019668923312811974L;
+    private RandomNumber random1;
+    private RandomNumber random2;
+    private RandomNumber random3;
+    private ControlParameter harmonyMemorySize;
+    private ControlParameter harmonyMemoryConsideringRate;
+    private ControlParameter pitchAdjustingRate;
+    private ControlParameter distanceBandwidth;
+    private SortedList<Harmony> harmonyMemory;
 
-	/**
-	 * Default constructor.
-	 * <p>
-	 * Set the parameters for the algorithm up as:
-	 * <ul>
-	 *   <li>Memory size: 20</li>
-	 *   <li>Memory considering rate: 0.9</li>
-	 *   <li>Pitch adjustment rate: 0.35</li>
-	 *   <li>Distance bandwidth: 0.5</li>
-	 * </ul>
-	 */
-	public HS() {
-		this.random1 = new RandomNumber();
-		this.random2 = new RandomNumber();
-		this.random3 = new RandomNumber();
+    /**
+     * Default constructor.
+     * <p>
+     * Set the parameters for the algorithm up as:
+     * <ul>
+     *   <li>Memory size: 20</li>
+     *   <li>Memory considering rate: 0.9</li>
+     *   <li>Pitch adjustment rate: 0.35</li>
+     *   <li>Distance bandwidth: 0.5</li>
+     * </ul>
+     */
+    public HS() {
+        this.random1 = new RandomNumber();
+        this.random2 = new RandomNumber();
+        this.random3 = new RandomNumber();
 
-		this.harmonyMemorySize = new ConstantControlParameter(20); //should be equal to number of individuals
-		this.harmonyMemoryConsideringRate = new ConstantControlParameter(0.9);
-		this.pitchAdjustingRate = new ConstantControlParameter(0.35);
-		this.distanceBandwidth = new ConstantControlParameter(0.5);
+        this.harmonyMemorySize = new ConstantControlParameter(20); //should be equal to number of individuals
+        this.harmonyMemoryConsideringRate = new ConstantControlParameter(0.9);
+        this.pitchAdjustingRate = new ConstantControlParameter(0.35);
+        this.distanceBandwidth = new ConstantControlParameter(0.5);
 
-		this.harmonyMemory = new SortedList<Harmony>();
-	}
+        this.harmonyMemory = new SortedList<Harmony>();
+    }
 
-	/**
-	 * Copy constructor.
-	 * @param copy The instance to copy.
-	 */
-	public HS(HS copy) {
-		this.random1 = copy.random1.getClone();
-		this.random2 = copy.random2.getClone();
-		this.random3 = copy.random3.getClone();
+    /**
+     * Copy constructor.
+     * @param copy The instance to copy.
+     */
+    public HS(HS copy) {
+        this.random1 = copy.random1.getClone();
+        this.random2 = copy.random2.getClone();
+        this.random3 = copy.random3.getClone();
 
-		this.harmonyMemorySize = copy.harmonyMemorySize.getClone();
-		this.harmonyMemoryConsideringRate = copy.harmonyMemoryConsideringRate.getClone();
-		this.pitchAdjustingRate = copy.pitchAdjustingRate.getClone();
-		this.distanceBandwidth = copy.distanceBandwidth.getClone();
+        this.harmonyMemorySize = copy.harmonyMemorySize.getClone();
+        this.harmonyMemoryConsideringRate = copy.harmonyMemoryConsideringRate.getClone();
+        this.pitchAdjustingRate = copy.pitchAdjustingRate.getClone();
+        this.distanceBandwidth = copy.distanceBandwidth.getClone();
 
-		this.harmonyMemory = copy.harmonyMemory.getClone();
-	}
+        this.harmonyMemory = copy.harmonyMemory.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public HS getClone() {
-		return new HS(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public HS getClone() {
+        return new HS(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performInitialisation() {
-		for (int i = 0; i < harmonyMemorySize.getParameter(); i++) {
-			Harmony harmony = new Harmony();
-			harmony.initialise(getOptimisationProblem());
-			this.harmonyMemory.add(harmony);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performInitialisation() {
+        for (int i = 0; i < harmonyMemorySize.getParameter(); i++) {
+            Harmony harmony = new Harmony();
+            harmony.initialise(getOptimisationProblem());
+            this.harmonyMemory.add(harmony);
+        }
+    }
 
-	/**
-	 * Get the considering rate for the harmony memory.
-	 * @return The {@linkplain ControlParameter} for the considering rate.
-	 */
-	public ControlParameter getHarmonyMemoryConsideringRate() {
-		return harmonyMemoryConsideringRate;
-	}
+    /**
+     * Get the considering rate for the harmony memory.
+     * @return The {@linkplain ControlParameter} for the considering rate.
+     */
+    public ControlParameter getHarmonyMemoryConsideringRate() {
+        return harmonyMemoryConsideringRate;
+    }
 
-	/**
-	 * Set the considering rate for the harmony memory.
-	 * @param harmonyMemoryConsideringRate The {@linkplain ControlParameter} for the
-	 *        memory considering rate.
-	 */
-	public void setHarmonyMemoryConsideringRate(ControlParameter harmonyMemoryConsideringRate) {
-		this.harmonyMemoryConsideringRate = harmonyMemoryConsideringRate;
-	}
+    /**
+     * Set the considering rate for the harmony memory.
+     * @param harmonyMemoryConsideringRate The {@linkplain ControlParameter} for the
+     *        memory considering rate.
+     */
+    public void setHarmonyMemoryConsideringRate(ControlParameter harmonyMemoryConsideringRate) {
+        this.harmonyMemoryConsideringRate = harmonyMemoryConsideringRate;
+    }
 
-	/**
-	 * Get the size of the harmony memory.
-	 * @return The size of the harmony memory.
-	 */
-	public ControlParameter getHarmonyMemorySize() {
-		return harmonyMemorySize;
-	}
+    /**
+     * Get the size of the harmony memory.
+     * @return The size of the harmony memory.
+     */
+    public ControlParameter getHarmonyMemorySize() {
+        return harmonyMemorySize;
+    }
 
-	/**
-	 * Set the size of the harmony memory.
-	 * @param harmonyMemorySize The memory size to use.
-	 */
-	public void setHarmonyMemorySize(ControlParameter harmonyMemorySize) {
-		this.harmonyMemorySize = harmonyMemorySize;
-	}
+    /**
+     * Set the size of the harmony memory.
+     * @param harmonyMemorySize The memory size to use.
+     */
+    public void setHarmonyMemorySize(ControlParameter harmonyMemorySize) {
+        this.harmonyMemorySize = harmonyMemorySize;
+    }
 
-	/**
-	 * Get the current pitch adjusting rate as a {@linkplain ControlParameter}.
-	 * @return The pitch adjusting rate as a {@linkplain ControlParameter}.
-	 */
-	public ControlParameter getPitchAdjustingRate() {
-		return pitchAdjustingRate;
-	}
+    /**
+     * Get the current pitch adjusting rate as a {@linkplain ControlParameter}.
+     * @return The pitch adjusting rate as a {@linkplain ControlParameter}.
+     */
+    public ControlParameter getPitchAdjustingRate() {
+        return pitchAdjustingRate;
+    }
 
-	/**
-	 * Set the pitch adjusting rate.
-	 * @param pitchAdjustingRate The {@linkplain ControlParameter} to use.
-	 */
-	public void setPitchAdjustingRate(ControlParameter pitchAdjustingRate) {
-		this.pitchAdjustingRate = pitchAdjustingRate;
-	}
+    /**
+     * Set the pitch adjusting rate.
+     * @param pitchAdjustingRate The {@linkplain ControlParameter} to use.
+     */
+    public void setPitchAdjustingRate(ControlParameter pitchAdjustingRate) {
+        this.pitchAdjustingRate = pitchAdjustingRate;
+    }
 
-	/**
-	 * Get the distance bandwidth.
-	 * @return The {@linkplain ControlParameter} for the distance bandwidth.
-	 */
-	public ControlParameter getDistanceBandwidth() {
-		return distanceBandwidth;
-	}
+    /**
+     * Get the distance bandwidth.
+     * @return The {@linkplain ControlParameter} for the distance bandwidth.
+     */
+    public ControlParameter getDistanceBandwidth() {
+        return distanceBandwidth;
+    }
 
-	/**
-	 * Set the distance bandwidth.
-	 * @param distanceBandwidth The {@linkplain ControlParameter} to use.
-	 */
-	public void setDistanceBandwidth(ControlParameter distanceBandwidth) {
-		this.distanceBandwidth = distanceBandwidth;
-	}
+    /**
+     * Set the distance bandwidth.
+     * @param distanceBandwidth The {@linkplain ControlParameter} to use.
+     */
+    public void setDistanceBandwidth(ControlParameter distanceBandwidth) {
+        this.distanceBandwidth = distanceBandwidth;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void algorithmIteration() {
-		//TO-DO: Make sure that all fitnesses are evaluated initially, and
-		//that FE is incremented only once per iteration
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void algorithmIteration() {
+        //TO-DO: Make sure that all fitnesses are evaluated initially, and
+        //that FE is incremented only once per iteration
 
-		//calculate a new harmony
-		Harmony newHarmony = new Harmony();
-		newHarmony.initialise(getOptimisationProblem());
-		Vector newHarmonyVector = (Vector) newHarmony.getCandidateSolution();
+        //calculate a new harmony
+        Harmony newHarmony = new Harmony();
+        newHarmony.initialise(getOptimisationProblem());
+        Vector newHarmonyVector = (Vector) newHarmony.getCandidateSolution();
 
-		OptimisationProblem problem = getOptimisationProblem();
-//		Real newHarmonyValue;
-		for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
-			if (random1.getUniform() < harmonyMemoryConsideringRate.getParameter()) {
-				Harmony selectedHarmony = (Harmony) this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
-				Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
-				Real newHarmonyValue = (Real) selectedHarmonyContents.get(i).getClone();
-				if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
-					double pitchedValue = newHarmonyValue.getReal() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
-					if ((pitchedValue > newHarmonyValue.getBounds().getLowerBound()) && (pitchedValue < newHarmonyValue.getBounds().getUpperBound()))
-						newHarmonyValue.setReal(pitchedValue);
-				}
+        OptimisationProblem problem = getOptimisationProblem();
+//        Real newHarmonyValue;
+        for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
+            if (random1.getUniform() < harmonyMemoryConsideringRate.getParameter()) {
+                Harmony selectedHarmony = (Harmony) this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
+                Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
+                Real newHarmonyValue = (Real) selectedHarmonyContents.get(i).getClone();
+                if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
+                    double pitchedValue = newHarmonyValue.getReal() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
+                    if ((pitchedValue > newHarmonyValue.getBounds().getLowerBound()) && (pitchedValue < newHarmonyValue.getBounds().getUpperBound()))
+                        newHarmonyValue.setReal(pitchedValue);
+                }
 
-				newHarmonyVector.set(i, newHarmonyValue);
-			}
-			else {
-				double upper = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getBounds().getUpperBound();
-				double lower = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getBounds().getLowerBound();
-				newHarmonyVector.set(i, new Real(random3.getUniform(lower, upper)));
-			}
-		}
+                newHarmonyVector.set(i, newHarmonyValue);
+            }
+            else {
+                double upper = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getBounds().getUpperBound();
+                double lower = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getBounds().getLowerBound();
+                newHarmonyVector.set(i, new Real(random3.getUniform(lower, upper)));
+            }
+        }
 
-		newHarmony.calculateFitness();
-		harmonyMemory.add(newHarmony);
-		harmonyMemory.remove(harmonyMemory.get(0)/*getFirst()*/); // Remove the worst harmony in the memory
-	}
+        newHarmony.calculateFitness();
+        harmonyMemory.add(newHarmony);
+        harmonyMemory.remove(harmonyMemory.get(0)/*getFirst()*/); // Remove the worst harmony in the memory
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public OptimisationSolution getBestSolution() {
-		return new OptimisationSolution(getOptimisationProblem(), this.harmonyMemory.get/*First()*/(0).getCandidateSolution());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OptimisationSolution getBestSolution() {
+        return new OptimisationSolution(getOptimisationProblem(), this.harmonyMemory.get/*First()*/(0).getCandidateSolution());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<OptimisationSolution> getSolutions() {
-		return Arrays.asList(getBestSolution());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<OptimisationSolution> getSolutions() {
+        return Arrays.asList(getBestSolution());
+    }
 }

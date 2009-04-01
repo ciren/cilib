@@ -30,44 +30,44 @@ package net.sourceforge.cilib.simulator;
 public class ProgressText implements ProgressListener {
 
     /**
-	 * Creates new form ProgressFrame.
-	 *
-	 * @param simulations The number of simulations in total.
-	 * */
+     * Creates new form ProgressFrame.
+     *
+     * @param simulations The number of simulations in total.
+     * */
     public ProgressText(int simulations) {
         this.simulations = simulations;
-		printedDone = false;
+        printedDone = false;
     }
 
     public void handleProgressEvent(ProgressEvent event) {
-		if(printedDone) {
-			return;
-		}
-		double percentage = (int) (1000 * event.getPercentage()) / 10.0;
+        if(printedDone) {
+            return;
+        }
+        double percentage = (int) (1000 * event.getPercentage()) / 10.0;
         int nequals = (int) (50 * event.getPercentage());
-		int i = 0;
-		System.out.print("\rProgress (" + percentage + "%) |");
-		while(i++ < nequals) {
-			System.out.print("=");
-		}
-		while(i++ < 50) {
-			System.out.print(" ");
-		}
-		System.out.print("|");
-		if(nequals == 50) {
-			printedDone = true;
-			System.out.println(" done.");
-		}
-		else {
-			System.out.flush();
-		}
+        int i = 0;
+        System.out.print("\rProgress (" + percentage + "%) |");
+        while(i++ < nequals) {
+            System.out.print("=");
+        }
+        while(i++ < 50) {
+            System.out.print(" ");
+        }
+        System.out.print("|");
+        if(nequals == 50) {
+            printedDone = true;
+            System.out.println(" done.");
+        }
+        else {
+            System.out.flush();
+        }
     }
 
     public void setSimulation(int simulation) {
-		System.out.println("Starting simulation " + (simulation + 1) + " of " + simulations + ".");
-		printedDone = false;
+        System.out.println("Starting simulation " + (simulation + 1) + " of " + simulations + ".");
+        printedDone = false;
     }
 
-	private boolean printedDone;
+    private boolean printedDone;
     private int simulations;
 }

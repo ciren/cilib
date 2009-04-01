@@ -31,20 +31,20 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * The location of any item in the game
  */
 public abstract class ItemLocation implements Cloneable {
-	private static final long serialVersionUID = -6355670396743733974L;
+    private static final long serialVersionUID = -6355670396743733974L;
 
-	public ItemLocation(){
+    public ItemLocation(){
 
-	}
-	public ItemLocation(ItemLocation Other){
+    }
+    public ItemLocation(ItemLocation Other){
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract ItemLocation getClone();
-	public abstract Double getDistance(DistanceMeasure measure, ItemLocation other);
-	public abstract void moveItem(Type amount);
+    /**
+     * {@inheritDoc}
+     */
+    public abstract ItemLocation getClone();
+    public abstract Double getDistance(DistanceMeasure measure, ItemLocation other);
+    public abstract void moveItem(Type amount);
 
 }

@@ -36,18 +36,18 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class IterationsTest {
-	
-	@Test
-	public void testIterationsDomain() {
-		Measurement m = new Iterations();
-		
-		DomainParser parser = DomainParser.getInstance();
-		parser.parse(m.getDomain());
-		
-		Vector vector = (Vector) parser.getBuiltRepresentation();
-		
-		assertEquals(1, vector.getDimension());
-		assertTrue(vector.get(0) instanceof Int);
-	}
+    
+    @Test
+    public void testIterationsDomain() {
+        Measurement m = new Iterations();
+        
+        DomainParser parser = new DomainParser();
+        parser.parse(m.getDomain());
+        
+        Vector vector = (Vector) parser.getBuiltRepresentation();
+        
+        assertEquals(1, vector.getDimension());
+        assertTrue(vector.get(0) instanceof Int);
+    }
 
 }

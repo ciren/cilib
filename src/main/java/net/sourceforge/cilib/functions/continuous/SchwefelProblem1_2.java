@@ -39,47 +39,47 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class SchwefelProblem1_2 extends ContinuousFunction {
-	private static final long serialVersionUID = -65519037071861168L;
+    private static final long serialVersionUID = -65519037071861168L;
 
-	public SchwefelProblem1_2() {
-		setDomain("R(-100,100)^30");
-	}
+    public SchwefelProblem1_2() {
+        setDomain("R(-100,100)^30");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SchwefelProblem1_2 getClone() {
-		return new SchwefelProblem1_2();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SchwefelProblem1_2 getClone() {
+        return new SchwefelProblem1_2();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-	 * @return The function minimum value.
-	 */
-	public Object getMinimum() {
-		return new Double(0.0);
-	}
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+     * @return The function minimum value.
+     */
+    public Object getMinimum() {
+        return new Double(0.0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double sumsq = 0.0;
-		double sum = 0.0;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double sumsq = 0.0;
+        double sum = 0.0;
 
-		for (int i = 0; i < getDimension(); i++) {
-			sum = 0.0;
+        for (int i = 0; i < getDimension(); i++) {
+            sum = 0.0;
 
-			for (int j = 0; j < i; j++) {
-				sum += x.getReal(j);
-			}
+            for (int j = 0; j < i; j++) {
+                sum += x.getReal(j);
+            }
 
-			sumsq += sum * sum;
-		}
+            sumsq += sum * sum;
+        }
 
-		return sumsq;
-	}
+        return sumsq;
+    }
 
 }

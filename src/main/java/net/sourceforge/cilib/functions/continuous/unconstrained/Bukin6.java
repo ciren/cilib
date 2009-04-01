@@ -54,38 +54,38 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class Bukin6 extends ContinuousFunction implements Serializable {
-	private static final long serialVersionUID = -5557883529972004157L;
+    private static final long serialVersionUID = -5557883529972004157L;
 
-	/**
-	 * Create an instance of the function. Default domain is set to be R(-15,-5),R(-3,3).
-	 */
-	public Bukin6() {
+    /**
+     * Create an instance of the function. Default domain is set to be R(-15,-5),R(-3,3).
+     */
+    public Bukin6() {
         setDomain("R(-15,-5),R(-3,3)");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Bukin6 getClone() {
-		return new Bukin6();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Bukin6 getClone() {
+        return new Bukin6();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
         return new Double(0.0);
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double x1 = x.getReal(0);
-		double x2 = x.getReal(1);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double x1 = x.getReal(0);
+        double x2 = x.getReal(1);
 
-		return 100*Math.sqrt(Math.abs(x2-0.01*x1*x1)) + 0.01*Math.abs(x1+10);
-	}
+        return 100*Math.sqrt(Math.abs(x2-0.01*x1*x1)) + 0.01*Math.abs(x1+10);
+    }
 }

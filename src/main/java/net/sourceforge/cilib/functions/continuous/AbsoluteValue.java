@@ -29,40 +29,40 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class AbsoluteValue extends ContinuousFunction {
-	private static final long serialVersionUID = 1662988096338786773L;
+    private static final long serialVersionUID = 1662988096338786773L;
 
-	/**
-	 * Create an instance of {@linkplain AbsoluteValue}. Domain is defaulted to R(-100, 100)^30.
-	 */
-	public AbsoluteValue() {
-		setDomain("R(-100, 100)^30");
-	}
+    /**
+     * Create an instance of {@linkplain AbsoluteValue}. Domain is defaulted to R(-100, 100)^30.
+     */
+    public AbsoluteValue() {
+        setDomain("R(-100, 100)^30");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public AbsoluteValue getClone() {
-		return new AbsoluteValue();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AbsoluteValue getClone() {
+        return new AbsoluteValue();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getMinimum() {
-		return new Double(0);
-	 }
+    /**
+     * {@inheritDoc}
+     */
+    public Object getMinimum() {
+        return new Double(0);
+     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double evaluate(Vector x) {
-		double tmp = 0;
-		for (int i = 0; i < getDimension(); ++i) {
-			tmp += Math.abs(x.getReal(i));
-		}
-		return tmp;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(Vector x) {
+        double tmp = 0;
+        for (int i = 0; i < getDimension(); ++i) {
+            tmp += Math.abs(x.getReal(i));
+        }
+        return tmp;
+    }
 
 }

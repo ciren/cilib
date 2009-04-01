@@ -31,35 +31,35 @@ import net.sourceforge.cilib.entity.Entity;
  * @param <E> The {@linkplain Entity} type.
  */
 public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
-	private static final long serialVersionUID = -8328600903928335004L;
-	private int neighbourhoodSize;
+    private static final long serialVersionUID = -8328600903928335004L;
+    private int neighbourhoodSize;
 
-	public HypercubeTopology() {
-		super();
-		neighbourhoodSize = 5;
-	}
+    public HypercubeTopology() {
+        super();
+        neighbourhoodSize = 5;
+    }
 
-	public HypercubeTopology(HypercubeTopology<E> copy) {
-		super(copy);
-		this.neighbourhoodSize = copy.neighbourhoodSize;
-	}
+    public HypercubeTopology(HypercubeTopology<E> copy) {
+        super(copy);
+        this.neighbourhoodSize = copy.neighbourhoodSize;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public HypercubeTopology<E> getClone() {
-		return new HypercubeTopology<E>(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public HypercubeTopology<E> getClone() {
+        return new HypercubeTopology<E>(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         return new HypercubeNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
     }
 
-	/**
+    /**
      * Sets the number particles in the neighbourhood of each particle. The default is 5.
      *
      * @param neighbourhoodSize The size of the neighbourhood.
@@ -68,16 +68,16 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
         this.neighbourhoodSize = neighbourhoodSize;
     }
 
-	/**
+    /**
      * Accessor for the number of particles in a neighbourhood.
      *
      * @return The size of the neighbourhood.
      */
     public int getNeighbourhoodSize() {
-   		return neighbourhoodSize;
+           return neighbourhoodSize;
     }
 
-	private class HypercubeNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
+    private class HypercubeNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
         private HypercubeTopology<T> topology;
         private int index;
         private int count;
@@ -107,8 +107,8 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
             if (count >= topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
             }
-			int i = index ^ Double.valueOf(Math.pow(2, count)).intValue();
-			count++;
+            int i = index ^ Double.valueOf(Math.pow(2, count)).intValue();
+            count++;
 
             return topology.entities.get(i);
         }
@@ -117,7 +117,7 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
             topology.entities.remove(index);
             index = index ^ Double.valueOf(Math.pow(2, count)).intValue();
             if (index < 0) {
-            	index += topology.size();
+                index += topology.size();
             }
         }
     }

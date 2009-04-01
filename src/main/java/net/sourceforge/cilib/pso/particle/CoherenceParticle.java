@@ -28,11 +28,11 @@ package net.sourceforge.cilib.pso.particle;
  * @modified Daniel Lowes
  */
 public class CoherenceParticle extends StandardParticle {
-	private static final long serialVersionUID = 7558011414998829458L;
+    private static final long serialVersionUID = 7558011414998829458L;
 
     /** Creates a new instance of StandardParticle. */
     public CoherenceParticle() {
-    	super();
+        super();
     }
 
 
@@ -41,14 +41,14 @@ public class CoherenceParticle extends StandardParticle {
      * @param copy
      */
     public CoherenceParticle(CoherenceParticle copy) {
-    	super(copy);
+        super(copy);
     }
 
     /**
      *
      */
     public CoherenceParticle getClone() {
-       	return new CoherenceParticle(this);
+           return new CoherenceParticle(this);
     }
 
 

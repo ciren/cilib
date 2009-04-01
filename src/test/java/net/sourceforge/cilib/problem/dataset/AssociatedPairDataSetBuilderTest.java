@@ -30,23 +30,23 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AssociatedPairDataSetBuilderTest {
-	private static AssociatedPairDataSetBuilder dataSetBuilder = null;
+    private static AssociatedPairDataSetBuilder dataSetBuilder = null;
 
-	@BeforeClass
-	public static void intialise() {
-		dataSetBuilder = new AssociatedPairDataSetBuilder();
-		dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
-		ClusteringProblem problem = new ClusteringProblem();
-		problem.setDataSetBuilder(dataSetBuilder);
-	}
+    @BeforeClass
+    public static void intialise() {
+        dataSetBuilder = new AssociatedPairDataSetBuilder();
+        dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
+        ClusteringProblem problem = new ClusteringProblem();
+        problem.setDataSetBuilder(dataSetBuilder);
+    }
 
-	@AfterClass
-	public static void destroy() {
-		dataSetBuilder = null;
-	}
+    @AfterClass
+    public static void destroy() {
+        dataSetBuilder = null;
+    }
 
-	@Test
-	public void testNumberOfPatterns() {
-		assertEquals(93, dataSetBuilder.getNumberOfPatterns());
-	}
+    @Test
+    public void testNumberOfPatterns() {
+        assertEquals(93, dataSetBuilder.getNumberOfPatterns());
+    }
 }

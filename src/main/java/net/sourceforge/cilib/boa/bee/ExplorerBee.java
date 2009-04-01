@@ -38,84 +38,84 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  */
 public class ExplorerBee implements Cloneable {
-	private static final long serialVersionUID = 1068799535328234923L;
+    private static final long serialVersionUID = 1068799535328234923L;
 
-	private MersenneTwister random;			//generates a random position
-	private int previousUpdatedIteration;	//used to check whether the algorithm has entered a new iteration
-	private int numberOfUpdates;			//how many have occured in current iteration
-	private ControlParameter explorerBeeUpdateLimit;
+    private MersenneTwister random;            //generates a random position
+    private int previousUpdatedIteration;    //used to check whether the algorithm has entered a new iteration
+    private int numberOfUpdates;            //how many have occured in current iteration
+    private ControlParameter explorerBeeUpdateLimit;
 
-	/**
-	 * Default constructor. Creates a new instance of {@code ExplorerBee} with reasonable
-	 * default values.
-	 */
-	public ExplorerBee() {
-		random = new MersenneTwister(Seeder.getSeed());
-		previousUpdatedIteration = -1;
-		numberOfUpdates = 0;
-		explorerBeeUpdateLimit = new ConstantControlParameter(1.0);
-	}
+    /**
+     * Default constructor. Creates a new instance of {@code ExplorerBee} with reasonable
+     * default values.
+     */
+    public ExplorerBee() {
+        random = new MersenneTwister();
+        previousUpdatedIteration = -1;
+        numberOfUpdates = 0;
+        explorerBeeUpdateLimit = new ConstantControlParameter(1.0);
+    }
 
-	/**
-	 * Copy constructor. Creates a copy of the provided instance.
-	 * @param copy reference to explorer bee that deep copy is made of.
-	 */
-	public ExplorerBee(ExplorerBee copy) {
-		this.random = copy.random;
-		this.previousUpdatedIteration = copy.previousUpdatedIteration;
-		this.numberOfUpdates = copy.numberOfUpdates;
-		this.explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit;
-	}
+    /**
+     * Copy constructor. Creates a copy of the provided instance.
+     * @param copy reference to explorer bee that deep copy is made of.
+     */
+    public ExplorerBee(ExplorerBee copy) {
+        this.random = copy.random;
+        this.previousUpdatedIteration = copy.previousUpdatedIteration;
+        this.numberOfUpdates = copy.numberOfUpdates;
+        this.explorerBeeUpdateLimit = copy.explorerBeeUpdateLimit;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public ExplorerBee getClone() {
-		return new ExplorerBee(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public ExplorerBee getClone() {
+        return new ExplorerBee(this);
+    }
 
-	/**
-	 * Verifies it is allowed for a worker bee to convert to an explorer bee.
-	 * @precondition  an algorithm is on the algorithm stack.
-	 * @return whether the search is allowed.
-	 */
-	public boolean searchAllowed() {
-		int currentIteration = Algorithm.get().getIterations();
-		if (previousUpdatedIteration == currentIteration) {
-			//TODO: Add variable number of updates allowed
-			if (Double.compare(numberOfUpdates, explorerBeeUpdateLimit.getParameter()) < 0)
-				return true;
-			return false;
-		}
-		else {
-			numberOfUpdates = 0;
-		}
-		return true;
-	}
+    /**
+     * Verifies it is allowed for a worker bee to convert to an explorer bee.
+     * @precondition  an algorithm is on the algorithm stack.
+     * @return whether the search is allowed.
+     */
+    public boolean searchAllowed() {
+        int currentIteration = Algorithm.get().getIterations();
+        if (previousUpdatedIteration == currentIteration) {
+            //TODO: Add variable number of updates allowed
+            if (Double.compare(numberOfUpdates, explorerBeeUpdateLimit.getParameter()) < 0)
+                return true;
+            return false;
+        }
+        else {
+            numberOfUpdates = 0;
+        }
+        return true;
+    }
 
-	/**
-	 * Returns a new random position.
-	 * @precondition an algorithm is on the algorithm stack.
-	 * @precondition the search is allowed.
-	 * @param position random position with same dimension and bounds as given position.
-	 * @return The new position.
-	 */
-	public Vector getNewPosition(Vector position) {
-		previousUpdatedIteration = Algorithm.get().getIterations();
-		numberOfUpdates++;
+    /**
+     * Returns a new random position.
+     * @precondition an algorithm is on the algorithm stack.
+     * @precondition the search is allowed.
+     * @param position random position with same dimension and bounds as given position.
+     * @return The new position.
+     */
+    public Vector getNewPosition(Vector position) {
+        previousUpdatedIteration = Algorithm.get().getIterations();
+        numberOfUpdates++;
 
         Vector newPosition = position.getClone();
         newPosition.randomize();
 
         return newPosition;
-	}
+    }
 
-	public ControlParameter getExplorerBeeUpdateLimit() {
-		return explorerBeeUpdateLimit;
-	}
+    public ControlParameter getExplorerBeeUpdateLimit() {
+        return explorerBeeUpdateLimit;
+    }
 
-	public void setExplorerBeeUpdateLimit(ControlParameter explorerBeeUpdateLimit) {
-		this.explorerBeeUpdateLimit = explorerBeeUpdateLimit;
-	}
+    public void setExplorerBeeUpdateLimit(ControlParameter explorerBeeUpdateLimit) {
+        this.explorerBeeUpdateLimit = explorerBeeUpdateLimit;
+    }
 
 }

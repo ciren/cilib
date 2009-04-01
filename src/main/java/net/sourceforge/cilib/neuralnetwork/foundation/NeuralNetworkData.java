@@ -32,24 +32,24 @@ package net.sourceforge.cilib.neuralnetwork.foundation;
  */
 public interface NeuralNetworkData extends Initializable{
 
-	public int getCandidateSetSize();
+    public int getCandidateSetSize();
 
-	public int getTrainingSetSize();
+    public int getTrainingSetSize();
 
-	public int getGeneralisationSetSize();
+    public int getGeneralisationSetSize();
 
-	public int getValidationSetSize();
+    public int getValidationSetSize();
 
-	public NeuralNetworkDataIterator getTrainingSetIterator();
+    public NeuralNetworkDataIterator getTrainingSetIterator();
 
-	public NeuralNetworkDataIterator getGeneralisationSetIterator();
+    public NeuralNetworkDataIterator getGeneralisationSetIterator();
 
-	public NeuralNetworkDataIterator getValidationSetIterator();
+    public NeuralNetworkDataIterator getValidationSetIterator();
 
-	public NeuralNetworkDataIterator getCandidateSetIterator();
+    public NeuralNetworkDataIterator getCandidateSetIterator();
 
-	public void activeLearningUpdate(Object input);
+    public void activeLearningUpdate(Object input);
 
-	public void shuffleTrainingSet();
+    public void shuffleTrainingSet();
 
 }

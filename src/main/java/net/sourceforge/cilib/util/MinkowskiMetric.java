@@ -48,84 +48,84 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author Theuns Cloete
  */
 public class MinkowskiMetric implements DistanceMeasure {
-	protected int alpha = 0;
+    protected int alpha = 0;
 
-	/**
-	 * Instantiate the Minkowski Metric with 'alpha' value equal to zero. This means
-	 * that you have to call the setAlpha method right after calling this constructor.
-	 */
-	public MinkowskiMetric() {
-		alpha = 0;
-	}
+    /**
+     * Instantiate the Minkowski Metric with 'alpha' value equal to zero. This means
+     * that you have to call the setAlpha method right after calling this constructor.
+     */
+    public MinkowskiMetric() {
+        alpha = 0;
+    }
 
-	/**
-	 * Instantiate the Minkowski Metric with the specified 'alpha' value.
-	 * @param a the value to which 'alpha' should be set
-	 */
-	public MinkowskiMetric(int a) {
-		if(a < 1)
-			throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1");
+    /**
+     * Instantiate the Minkowski Metric with the specified 'alpha' value.
+     * @param a the value to which 'alpha' should be set
+     */
+    public MinkowskiMetric(int a) {
+        if(a < 1)
+            throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1");
 
-		alpha = a;
-	}
+        alpha = a;
+    }
 
-	/**
-	 * Calculate the distance between two vectors.
-	 * @param x the one vector.
-	 * @param y the other vector.
-	 * @return the distance (as a double) between the two vectors.
-	 * @throws IllegalArgumentException when the two vectors' dimension differ.
-	 */
-	public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
-		if(x.size() != y.size())
-			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.size() + " != " + y.size());
-		if(alpha < 1)
-			throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
+    /**
+     * Calculate the distance between two vectors.
+     * @param x the one vector.
+     * @param y the other vector.
+     * @return the distance (as a double) between the two vectors.
+     * @throws IllegalArgumentException when the two vectors' dimension differ.
+     */
+    public <T extends Type, U extends StructuredType<T>> double distance(U x, U y) {
+        if(x.size() != y.size())
+            throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.size() + " != " + y.size());
+        if(alpha < 1)
+            throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
 
-		Iterator<T> xIterator = x.iterator();
-		Iterator<T> yIterator = y.iterator();
+        Iterator<T> xIterator = x.iterator();
+        Iterator<T> yIterator = y.iterator();
 
-		double distance = 0.0;
-		for(int i = 0; i < x.size(); ++i) {
-			Numeric xElement = (Numeric) xIterator.next();
-			Numeric yElement = (Numeric) yIterator.next();
+        double distance = 0.0;
+        for(int i = 0; i < x.size(); ++i) {
+            Numeric xElement = (Numeric) xIterator.next();
+            Numeric yElement = (Numeric) yIterator.next();
 
-			distance += Math.pow(Math.abs(xElement.getReal() - yElement.getReal()), alpha);
-		}
-		return Math.pow(distance, 1.0 / alpha);
-	}
+            distance += Math.pow(Math.abs(xElement.getReal() - yElement.getReal()), alpha);
+        }
+        return Math.pow(distance, 1.0 / alpha);
+    }
 
-	/**
-	 * Calculate the distance between two vectors represented by Java Collection objects.
-	 * @param x the one Java Collection object.
-	 * @param y the other Java Collection object.
-	 * @return the distance (as a double) between the two vectors.
-	 * @throws IllegalArgumentException when the two vectors' dimension differ.
-	 */
-	public <T extends Collection<? extends Number>> double distance(T x, T y) {
-		if (x.size() != y.size())
-			throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.size() + " != " + y.size());
-		if(alpha < 1)
-			throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
+    /**
+     * Calculate the distance between two vectors represented by Java Collection objects.
+     * @param x the one Java Collection object.
+     * @param y the other Java Collection object.
+     * @return the distance (as a double) between the two vectors.
+     * @throws IllegalArgumentException when the two vectors' dimension differ.
+     */
+    public <T extends Collection<? extends Number>> double distance(T x, T y) {
+        if (x.size() != y.size())
+            throw new IllegalArgumentException("Cannot calculate Minkowski Metric for vectors of different dimensions: " + x.size() + " != " + y.size());
+        if(alpha < 1)
+            throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1, i.e. not " + alpha);
 
-		double distance = 0;
-		Iterator<? extends Number> i = x.iterator();
-		Iterator<? extends Number> j = y.iterator();
+        double distance = 0;
+        Iterator<? extends Number> i = x.iterator();
+        Iterator<? extends Number> j = y.iterator();
 
-		while (i.hasNext() && j.hasNext()) {
-			distance += Math.pow(Math.abs(i.next().doubleValue() - j.next().doubleValue()), alpha);
-		}
-		return Math.pow(distance, 1.0 / alpha);
-	}
+        while (i.hasNext() && j.hasNext()) {
+            distance += Math.pow(Math.abs(i.next().doubleValue() - j.next().doubleValue()), alpha);
+        }
+        return Math.pow(distance, 1.0 / alpha);
+    }
 
-	/**
-	 * Set the 'alpha' value that will be used in the calculation of the Minkowski Metric.
-	 * @param a the new 'alpha' value
-	 * @throws IllegalArgumentException when the given parameter is less than one.
-	 */
-	public void setAlpha(int a) {
-		if(a < 1)
-			throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1");
-		alpha = a;
-	}
+    /**
+     * Set the 'alpha' value that will be used in the calculation of the Minkowski Metric.
+     * @param a the new 'alpha' value
+     * @throws IllegalArgumentException when the given parameter is less than one.
+     */
+    public void setAlpha(int a) {
+        if(a < 1)
+            throw new IllegalArgumentException("The 'alpha' parameter of the Minkowski Metric must be >= 1");
+        alpha = a;
+    }
 }

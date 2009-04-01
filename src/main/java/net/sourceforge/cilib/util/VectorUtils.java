@@ -31,72 +31,72 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public final class VectorUtils {
 
-	/**
-	 * Default constructor. Specified constructor to be private so that an instance
-	 * of this utility class cannot be created.
-	 */
-	private VectorUtils() {
-	}
+    /**
+     * Default constructor. Specified constructor to be private so that an instance
+     * of this utility class cannot be created.
+     */
+    private VectorUtils() {
+    }
 
-	/**
-	 * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
-	 * set to the upper bound of that component.
-	 * @param vector The {@linkplain Vector} to create the upper bound vector from.
-	 * @throws UnsupportedOperationException When an element in the {@link Vector}
-	 *         is not a {@link Numeric}
-	 * @return a {@link Vector} with all the elements set to their respective upper bounds
-	 */
-	public static Vector createUpperBoundVector(Vector vector) {
-		Vector upper = vector.getClone();
+    /**
+     * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
+     * set to the upper bound of that component.
+     * @param vector The {@linkplain Vector} to create the upper bound vector from.
+     * @throws UnsupportedOperationException When an element in the {@link Vector}
+     *         is not a {@link Numeric}
+     * @return a {@link Vector} with all the elements set to their respective upper bounds
+     */
+    public static Vector createUpperBoundVector(Vector vector) {
+        Vector upper = vector.getClone();
 
-		for(Type element : upper) {
-			try {
-				Numeric numeric = (Numeric) element;
-				numeric.set(numeric.getBounds().getUpperBound());
-			}
-			catch (ClassCastException cce) {
-				throw new UnsupportedOperationException("Upper Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
-			}
-		}
-		return upper;
-	}
+        for(Type element : upper) {
+            try {
+                Numeric numeric = (Numeric) element;
+                numeric.set(numeric.getBounds().getUpperBound());
+            }
+            catch (ClassCastException cce) {
+                throw new UnsupportedOperationException("Upper Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
+            }
+        }
+        return upper;
+    }
 
-	/**
-	 * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
-	 * set to the lower bound of that component.
-	 * @param vector The {@linkplain Vector} from which to create the lower bound vector.
-	 * @throws UnsupportedOperationException when an element in the {@link Vector}
-	 *         is not a {@link Numeric}
-	 * @return a {@link Vector} with all the elements set to their respective lower bounds
-	 */
-	public static Vector createLowerBoundVector(Vector vector) {
-		Vector lower = vector.getClone();
+    /**
+     * Constructs a {@link Vector} from <code>vector</code> Vector with each component's value
+     * set to the lower bound of that component.
+     * @param vector The {@linkplain Vector} from which to create the lower bound vector.
+     * @throws UnsupportedOperationException when an element in the {@link Vector}
+     *         is not a {@link Numeric}
+     * @return a {@link Vector} with all the elements set to their respective lower bounds
+     */
+    public static Vector createLowerBoundVector(Vector vector) {
+        Vector lower = vector.getClone();
 
-		for(Type element : lower) {
-			try {
-				Numeric numeric = (Numeric) element;
-				numeric.set(numeric.getBounds().getLowerBound());
-			}
-			catch (ClassCastException cce) {
-				throw new UnsupportedOperationException("Lower Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
-			}
-		}
-		return lower;
-	}
+        for(Type element : lower) {
+            try {
+                Numeric numeric = (Numeric) element;
+                numeric.set(numeric.getBounds().getLowerBound());
+            }
+            catch (ClassCastException cce) {
+                throw new UnsupportedOperationException("Lower Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
+            }
+        }
+        return lower;
+    }
 
-	/**
-	 * Utility method to create a {@linkplain Vector}, given any number of {@linkplain Number} instances.
-	 * @param <T> The type extending {@linkplain Number}.
-	 * @param result The list of values to include within the created {@linkplain Vector}.
-	 * @return The created {@linkplain Vector} object, containing the provided list of items.
-	 */
-	public static <T extends Number> Vector create(T... result) {
-		Vector vector = new Vector();
+    /**
+     * Utility method to create a {@linkplain Vector}, given any number of {@linkplain Number} instances.
+     * @param <T> The type extending {@linkplain Number}.
+     * @param result The list of values to include within the created {@linkplain Vector}.
+     * @return The created {@linkplain Vector} object, containing the provided list of items.
+     */
+    public static <T extends Number> Vector create(T... result) {
+        Vector vector = new Vector();
 
-		for (T element : result)
-			vector.add(new Real(element.doubleValue()));
+        for (T element : result)
+            vector.add(new Real(element.doubleValue()));
 
-		return vector;
-	}
+        return vector;
+    }
 
 }

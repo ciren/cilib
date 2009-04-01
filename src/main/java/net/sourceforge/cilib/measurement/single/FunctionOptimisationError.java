@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.Type;
 public class FunctionOptimisationError implements Measurement {
     private static final long serialVersionUID = 7708362377448599712L;
 
-	/** Creates a new instance of FunctionMinimisationError. */
+    /** Creates a new instance of FunctionMinimisationError. */
     public FunctionOptimisationError() {
     }
 
@@ -42,21 +42,21 @@ public class FunctionOptimisationError implements Measurement {
     }
 
     public FunctionOptimisationError getClone() {
-    	return new FunctionOptimisationError(this);
+        return new FunctionOptimisationError(this);
     }
 
     public String getDomain() {
-    	return "R";
-    	//return "T";
+        return "R";
+        //return "T";
     }
 
     public Type getValue(Algorithm algorithm) {
-    	FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+        FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
 
-    	Double d = new Double(problem.getError(algorithm.getBestSolution().getPosition()));
+        Double d = new Double(problem.getError(algorithm.getBestSolution().getPosition()));
 
-    	//return new Double(problem.getError(algorithm.getBestSolution().getPosition()));
-    	return new Real(d.doubleValue());
+        //return new Double(problem.getError(algorithm.getBestSolution().getPosition()));
+        return new Real(d.doubleValue());
     }
 
 }

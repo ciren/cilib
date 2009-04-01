@@ -35,97 +35,97 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  * @author Gary Pampara
  */
 public abstract class MutationStrategy implements Operator {
-	private static final long serialVersionUID = 6670947597280440404L;
+    private static final long serialVersionUID = 6670947597280440404L;
 
-	private ControlParameter mutationProbability;
-	private RandomNumber randomNumber;
-	private String operator;
-	private MutationOperatorStrategy operatorStrategy;
+    private ControlParameter mutationProbability;
+    private RandomNumber randomNumber;
+    private String operator;
+    private MutationOperatorStrategy operatorStrategy;
 
-	public MutationStrategy() {
-		this.setOperator("+");
+    public MutationStrategy() {
+        this.setOperator("+");
 
-		mutationProbability = new ConstantControlParameter(0.3);
-		randomNumber = new RandomNumber();
-	}
+        mutationProbability = new ConstantControlParameter(0.3);
+        randomNumber = new RandomNumber();
+    }
 
-	public MutationStrategy(MutationStrategy copy) {
-		this.operator = copy.operator;
-		this.operatorStrategy = copy.operatorStrategy;
-		this.mutationProbability = copy.mutationProbability.getClone();
-		this.randomNumber = copy.randomNumber.getClone();
-	}
+    public MutationStrategy(MutationStrategy copy) {
+        this.operator = copy.operator;
+        this.operatorStrategy = copy.operatorStrategy;
+        this.mutationProbability = copy.mutationProbability.getClone();
+        this.randomNumber = copy.randomNumber.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public abstract MutationStrategy getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract MutationStrategy getClone();
 
-	/**
-	 * Perform the mutation operation on the provided list of offspring individuals.
-	 * @param offspringList The list of {@linkplain Entity} instances to perform a
-	 *                      mutation on.
-	 */
-	public abstract void mutate(List<? extends Entity> offspringList);
+    /**
+     * Perform the mutation operation on the provided list of offspring individuals.
+     * @param offspringList The list of {@linkplain Entity} instances to perform a
+     *                      mutation on.
+     */
+    public abstract void mutate(List<? extends Entity> offspringList);
 
-	/**
-	 *
-	 * @return
-	 */
-	public ControlParameter getMutationProbability() {
-		return mutationProbability;
-	}
+    /**
+     *
+     * @return
+     */
+    public ControlParameter getMutationProbability() {
+        return mutationProbability;
+    }
 
-	/**
-	 *
-	 * @param mutationProbability
-	 */
-	public void setMutationProbability(ControlParameter mutationProbability) {
-		this.mutationProbability = mutationProbability;
-	}
+    /**
+     *
+     * @param mutationProbability
+     */
+    public void setMutationProbability(ControlParameter mutationProbability) {
+        this.mutationProbability = mutationProbability;
+    }
 
-	public RandomNumber getRandomNumber() {
-		return randomNumber;
-	}
+    public RandomNumber getRandomNumber() {
+        return randomNumber;
+    }
 
-	public void setRandomNumber(RandomNumber randomNumber) {
-		this.randomNumber = randomNumber;
-	}
+    public void setRandomNumber(RandomNumber randomNumber) {
+        this.randomNumber = randomNumber;
+    }
 
-	public String getOperator() {
-		return operator;
-	}
+    public String getOperator() {
+        return operator;
+    }
 
-	/**
-	 * This sets the operator to be used within the mutation strategy.
-	 * The mutation can be multiplicative or additive.
-	 * Valid values for the operator are defined in the list below.<br>
-	 * <p>
-	 * <table border="1">
-	 * <tr><td>Multiplicative:</td><td>Additive:</td></tr>
-	 * <tr><td>*</td><td>+</td></tr>
-	 * <tr><td>times</td><td>plus, add</td></tr>
-	 * <tr><td>multiplicative</td><td>additive</td></tr>
-	 * </table>
-	 *
-	 * @param operator A {@link java.lang.String} defining the desired operation
-	 */
-	public void setOperator(String operator) {
-		this.operator = operator;
-		this.operatorStrategy = MutationOperatorFactory.getOperatorStrategy(operator);
-	}
+    /**
+     * This sets the operator to be used within the mutation strategy.
+     * The mutation can be multiplicative or additive.
+     * Valid values for the operator are defined in the list below.<br>
+     * <p>
+     * <table border="1">
+     * <tr><td>Multiplicative:</td><td>Additive:</td></tr>
+     * <tr><td>*</td><td>+</td></tr>
+     * <tr><td>times</td><td>plus, add</td></tr>
+     * <tr><td>multiplicative</td><td>additive</td></tr>
+     * </table>
+     *
+     * @param operator A {@link java.lang.String} defining the desired operation
+     */
+    public void setOperator(String operator) {
+        this.operator = operator;
+        this.operatorStrategy = MutationOperatorFactory.getOperatorStrategy(operator);
+    }
 
-	/**
-	 * Get the defined {@link net.sourceforge.cilib.offspringList.operators.mutation.MutationOperatorStrategy}.
-	 * @return
-	 */
-	public MutationOperatorStrategy getOperatorStrategy() {
-		return this.operatorStrategy;
-	}
+    /**
+     * Get the defined {@link net.sourceforge.cilib.offspringList.operators.mutation.MutationOperatorStrategy}.
+     * @return
+     */
+    public MutationOperatorStrategy getOperatorStrategy() {
+        return this.operatorStrategy;
+    }
 
-	public void setOperatorStrategy(MutationOperatorStrategy operatorStrategy) {
-		this.operatorStrategy = operatorStrategy;
-	}
+    public void setOperatorStrategy(MutationOperatorStrategy operatorStrategy) {
+        this.operatorStrategy = operatorStrategy;
+    }
 
 }

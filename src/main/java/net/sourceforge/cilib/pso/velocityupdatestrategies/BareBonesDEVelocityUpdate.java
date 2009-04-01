@@ -44,210 +44,210 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *  @author Andries Engelbrecht
  */
 public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
-	private static final long serialVersionUID = -8781011210069055197L;
+    private static final long serialVersionUID = -8781011210069055197L;
 
-	private RandomNumber rand1;
-	private RandomNumber rand2;
-	private RandomNumber rand3;
-	private ControlParameter cognitive;
-	private ControlParameter social;
-	private ControlParameter crossoverProbability;
+    private RandomNumber rand1;
+    private RandomNumber rand2;
+    private RandomNumber rand3;
+    private ControlParameter cognitive;
+    private ControlParameter social;
+    private ControlParameter crossoverProbability;
 
-	/**
-	 * Create a new instance of the {@linkplain BareBonesDEVelocityUpdate}.
-	 */
-	public BareBonesDEVelocityUpdate() {
-		rand1 = new RandomNumber();
-		rand2 = new RandomNumber();
-		rand3 = new RandomNumber();
-		cognitive = new RandomizingControlParameter();
-		social = new RandomizingControlParameter();
-		crossoverProbability = new ConstantControlParameter(0.5);
+    /**
+     * Create a new instance of the {@linkplain BareBonesDEVelocityUpdate}.
+     */
+    public BareBonesDEVelocityUpdate() {
+        rand1 = new RandomNumber();
+        rand2 = new RandomNumber();
+        rand3 = new RandomNumber();
+        cognitive = new RandomizingControlParameter();
+        social = new RandomizingControlParameter();
+        crossoverProbability = new ConstantControlParameter(0.5);
 
-		cognitive.setParameter(1);
-		social.setParameter(1);
-	}
+        cognitive.setParameter(1);
+        social.setParameter(1);
+    }
 
 
-	/**
-	 * Copy constructor. Create a copy of the given instance.
-	 * @param copy The instance to copy.
-	 */
-	public BareBonesDEVelocityUpdate(BareBonesDEVelocityUpdate copy) {
-		this();
+    /**
+     * Copy constructor. Create a copy of the given instance.
+     * @param copy The instance to copy.
+     */
+    public BareBonesDEVelocityUpdate(BareBonesDEVelocityUpdate copy) {
+        this();
 
-		cognitive.setParameter(copy.cognitive.getParameter());
-		social.setParameter(copy.social.getParameter());
-		crossoverProbability.setParameter(copy.crossoverProbability.getParameter());
-	}
+        cognitive.setParameter(copy.cognitive.getParameter());
+        social.setParameter(copy.social.getParameter());
+        crossoverProbability.setParameter(copy.crossoverProbability.getParameter());
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public BareBonesDEVelocityUpdate getClone() {
-		return new BareBonesDEVelocityUpdate(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public BareBonesDEVelocityUpdate getClone() {
+        return new BareBonesDEVelocityUpdate(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateVelocity(Particle particle) {
-		Vector personalBestPosition = (Vector) particle.getBestPosition();
-		Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
-		Vector velocity = (Vector) particle.getVelocity();
+    /**
+     * {@inheritDoc}
+     */
+    public void updateVelocity(Particle particle) {
+        Vector personalBestPosition = (Vector) particle.getBestPosition();
+        Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+        Vector velocity = (Vector) particle.getVelocity();
 
-		PSO pso = (PSO) Algorithm.get();
-		List<Entity> positions = getRandomParentEntities(pso.getTopology());
+        PSO pso = (PSO) Algorithm.get();
+        List<Entity> positions = getRandomParentEntities(pso.getTopology());
 
-		//select three random individuals, all different and different from particle
-		RandomNumber r1 = new RandomNumber();
+        //select three random individuals, all different and different from particle
+        RandomNumber r1 = new RandomNumber();
 
         Vector position1 = (Vector) positions.get(0).getCandidateSolution();
         Vector position2 = (Vector) positions.get(1).getCandidateSolution();
 //        Vector position3 = (Vector) positions.get(2).getContents();
         for (int i = 0; i < particle.getDimension(); ++i) {
-        	double r = r1.getUniform(0, 1);
-        	double attractor = r*personalBestPosition.getReal(i)+(1-r)*nBestPosition.getReal(i);
-        	double stepSize = rand3.getUniform(0, 1) * (position1.getReal(i)-position2.getReal(i));
+            double r = r1.getUniform(0, 1);
+            double attractor = r*personalBestPosition.getReal(i)+(1-r)*nBestPosition.getReal(i);
+            double stepSize = rand3.getUniform(0, 1) * (position1.getReal(i)-position2.getReal(i));
 
-        	if (rand2.getUniform(0, 1) > crossoverProbability.getParameter())
-        		velocity.setReal(i, attractor + stepSize);
-        	else
-        		velocity.setReal(i, ((Vector) particle.getPosition()).getReal(i)); //position3.getReal(i));
+            if (rand2.getUniform(0, 1) > crossoverProbability.getParameter())
+                velocity.setReal(i, attractor + stepSize);
+            else
+                velocity.setReal(i, ((Vector) particle.getPosition()).getReal(i)); //position3.getReal(i));
         }
-	}
+    }
 
-	/**
-	 * Get a list of individuals that are suitable to be used within
-	 * the recombination arithmetic operator.
-	 * @param topology The {@see net.sourceforge.cilib.entity.Topology Topology} containing the entites.
-	 * @return A list of unique entities.
-	 */
-	public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
-		List<Entity> parents = new ArrayList<Entity>(3);
+    /**
+     * Get a list of individuals that are suitable to be used within
+     * the recombination arithmetic operator.
+     * @param topology The {@see net.sourceforge.cilib.entity.Topology Topology} containing the entites.
+     * @return A list of unique entities.
+     */
+    public static List<Entity> getRandomParentEntities(Topology<? extends Entity> topology) {
+        List<Entity> parents = new ArrayList<Entity>(3);
 
-		RandomNumber randomNumber = new RandomNumber();
+        RandomNumber randomNumber = new RandomNumber();
 
-		int count = 0;
+        int count = 0;
 
-		while (count < 3) {
-			int random = randomNumber.getRandomGenerator().nextInt(topology.size());
-			Entity parent = topology.get(random);
-			if (!parents.contains(parent)) {
-				parents.add(parent);
-				count++;
-			}
-		}
+        while (count < 3) {
+            int random = randomNumber.getRandomGenerator().nextInt(topology.size());
+            Entity parent = topology.get(random);
+            if (!parents.contains(parent)) {
+                parents.add(parent);
+                count++;
+            }
+        }
 
-		return parents;
-	}
+        return parents;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateControlParameters(Particle particle) {
-		// TODO Auto-generated method stub
+    /**
+     * {@inheritDoc}
+     */
+    public void updateControlParameters(Particle particle) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	/**
-	 * Get the first {@linkplain RandomNumber}.
-	 * @return The first {@linkplain RandomNumber}.
-	 */
-	public RandomNumber getRand1() {
-		return rand1;
-	}
+    /**
+     * Get the first {@linkplain RandomNumber}.
+     * @return The first {@linkplain RandomNumber}.
+     */
+    public RandomNumber getRand1() {
+        return rand1;
+    }
 
-	/**
-	 * Set the first {@linkplain RandomNumber}.
-	 * @param rand1 The value to set.
-	 */
-	public void setRand1(RandomNumber rand1) {
-		this.rand1 = rand1;
-	}
+    /**
+     * Set the first {@linkplain RandomNumber}.
+     * @param rand1 The value to set.
+     */
+    public void setRand1(RandomNumber rand1) {
+        this.rand1 = rand1;
+    }
 
-	/**
-	 * Get the second{@linkplain RandomNumber}.
-	 * @return The second {@linkplain RandomNumber}.
-	 */
-	public RandomNumber getRand2() {
-		return rand2;
-	}
+    /**
+     * Get the second{@linkplain RandomNumber}.
+     * @return The second {@linkplain RandomNumber}.
+     */
+    public RandomNumber getRand2() {
+        return rand2;
+    }
 
-	/**
-	 * Set the second {@linkplain RandomNumber}.
-	 * @param rand2 The value to set.
-	 */
-	public void setRand2(RandomNumber rand2) {
-		this.rand2 = rand2;
-	}
-
-
-	/**
-	 * Get the third {@linkplain RandomNumber}.
-	 * @return The third {@linkplain RandomNumber}.
-	 */
-	public RandomNumber getRand3() {
-		return rand3;
-	}
+    /**
+     * Set the second {@linkplain RandomNumber}.
+     * @param rand2 The value to set.
+     */
+    public void setRand2(RandomNumber rand2) {
+        this.rand2 = rand2;
+    }
 
 
-	/**
-	 * Set the third {@linkplain RandomNumber}.
-	 * @param rand3 The value to set.
-	 */
-	public void setRand3(RandomNumber rand3) {
-		this.rand3 = rand3;
-	}
+    /**
+     * Get the third {@linkplain RandomNumber}.
+     * @return The third {@linkplain RandomNumber}.
+     */
+    public RandomNumber getRand3() {
+        return rand3;
+    }
 
 
-	/**
-	 * Get the cognitive component.
-	 * @return The cognitive component.
-	 */
-	public ControlParameter getCognitive() {
-		return cognitive;
-	}
+    /**
+     * Set the third {@linkplain RandomNumber}.
+     * @param rand3 The value to set.
+     */
+    public void setRand3(RandomNumber rand3) {
+        this.rand3 = rand3;
+    }
 
 
-	/**
-	 * Set the cognitive component.
-	 * @param cognitive The value to set.
-	 */
-	public void setCognitive(ControlParameter cognitive) {
-		this.cognitive = cognitive;
-	}
+    /**
+     * Get the cognitive component.
+     * @return The cognitive component.
+     */
+    public ControlParameter getCognitive() {
+        return cognitive;
+    }
 
-	/**
-	 * Get the social component.
-	 * @return The social component.
-	 */
-	public ControlParameter getSocial() {
-		return social;
-	}
 
-	/**
-	 * Set the social component {@linkplain ControlParameter}.
-	 * @param social The value to set.
-	 */
-	public void setSocial(ControlParameter social) {
-		this.social = social;
-	}
+    /**
+     * Set the cognitive component.
+     * @param cognitive The value to set.
+     */
+    public void setCognitive(ControlParameter cognitive) {
+        this.cognitive = cognitive;
+    }
 
-	/**
-	 * Get the cross-over probability.
-	 * @return The cross over probability {@linkplain ControlParameter}.
-	 */
-	public ControlParameter getCrossoverProbability() {
-		return crossoverProbability;
-	}
+    /**
+     * Get the social component.
+     * @return The social component.
+     */
+    public ControlParameter getSocial() {
+        return social;
+    }
 
-	/**
-	 * Set the crossover probability.
-	 * @param crossoverProbability The value to set.
-	 */
-	public void setCrossoverProbability(ControlParameter crossoverProbability) {
-		this.crossoverProbability = crossoverProbability;
-	}
+    /**
+     * Set the social component {@linkplain ControlParameter}.
+     * @param social The value to set.
+     */
+    public void setSocial(ControlParameter social) {
+        this.social = social;
+    }
+
+    /**
+     * Get the cross-over probability.
+     * @return The cross over probability {@linkplain ControlParameter}.
+     */
+    public ControlParameter getCrossoverProbability() {
+        return crossoverProbability;
+    }
+
+    /**
+     * Set the crossover probability.
+     * @param crossoverProbability The value to set.
+     */
+    public void setCrossoverProbability(ControlParameter crossoverProbability) {
+        this.crossoverProbability = crossoverProbability;
+    }
 
 }

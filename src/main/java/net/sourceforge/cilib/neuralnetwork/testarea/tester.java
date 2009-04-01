@@ -28,22 +28,22 @@ import java.util.Random;
  */
 public final class tester {
 
-	private tester() {
-	}
+    private tester() {
+    }
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Random ran1 = new Random(System.currentTimeMillis());
-		Random ran2 = new Random(System.currentTimeMillis());
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        Random ran1 = new Random(System.currentTimeMillis());
+        Random ran2 = new Random(System.currentTimeMillis());
 
-		ran1.setSeed(100);
-		ran2.setSeed(100);
+        ran1.setSeed(100);
+        ran2.setSeed(100);
 
-		for (int i = 0; i < 20; i++){
-			System.out.println("Ran1 = " + ran1.nextDouble() + ", ran2 = " + ran2.nextDouble());
-		}
-	}
+        for (int i = 0; i < 20; i++){
+            System.out.println("Ran1 = " + ran1.nextDouble() + ", ran2 = " + ran2.nextDouble());
+        }
+    }
 
 }

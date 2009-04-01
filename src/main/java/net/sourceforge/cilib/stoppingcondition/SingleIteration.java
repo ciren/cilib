@@ -27,42 +27,42 @@ import net.sourceforge.cilib.algorithm.Algorithm;
  * @author Edwin Peer
  */
 public class SingleIteration implements StoppingCondition {
-	private static final long serialVersionUID = 7136206631115015558L;
-	private int iteration;
-	private Algorithm algorithm;
+    private static final long serialVersionUID = 7136206631115015558L;
+    private int iteration;
+    private Algorithm algorithm;
 
-	/** Creates a new instance of SingleIteration. */
-	public SingleIteration() {
-	}
+    /** Creates a new instance of SingleIteration. */
+    public SingleIteration() {
+    }
 
-	public SingleIteration(SingleIteration copy) {
-		this.iteration = copy.iteration;
-		this.algorithm = copy.algorithm;
-	}
+    public SingleIteration(SingleIteration copy) {
+        this.iteration = copy.iteration;
+        this.algorithm = copy.algorithm;
+    }
 
-	public SingleIteration getClone() {
-		return new SingleIteration(this);
-	}
+    public SingleIteration getClone() {
+        return new SingleIteration(this);
+    }
 
-	public void reset() {
-		iteration = algorithm.getIterations();
-	}
+    public void reset() {
+        iteration = algorithm.getIterations();
+    }
 
-	public double getPercentageCompleted() {
-		if (iteration == algorithm.getIterations()) {
-			return 0.0;
-		}
-		else {
-			return 1.0;
-		}
-	}
+    public double getPercentageCompleted() {
+        if (iteration == algorithm.getIterations()) {
+            return 0.0;
+        }
+        else {
+            return 1.0;
+        }
+    }
 
-	public boolean isCompleted() {
-		return iteration != algorithm.getIterations();
-	}
+    public boolean isCompleted() {
+        return iteration != algorithm.getIterations();
+    }
 
-	public void setAlgorithm(Algorithm algorithm) {
-		this.algorithm = algorithm;
-		iteration = algorithm.getIterations();
-	}
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
+        iteration = algorithm.getIterations();
+    }
 }

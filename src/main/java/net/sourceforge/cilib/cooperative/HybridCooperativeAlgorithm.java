@@ -34,82 +34,82 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  *
  */
 public class HybridCooperativeAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
-	private static final long serialVersionUID = 4908040536174924734L;
+    private static final long serialVersionUID = 4908040536174924734L;
 
-	/**
-	 * Create a new instance of {@literal HybridCooperativeAlgorithm}.
-	 */
-	public HybridCooperativeAlgorithm() {
-	}
+    /**
+     * Create a new instance of {@literal HybridCooperativeAlgorithm}.
+     */
+    public HybridCooperativeAlgorithm() {
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public HybridCooperativeAlgorithm(HybridCooperativeAlgorithm copy) {
-		super(copy);
-	}
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public HybridCooperativeAlgorithm(HybridCooperativeAlgorithm copy) {
+        super(copy);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public HybridCooperativeAlgorithm getClone() {
-		return new HybridCooperativeAlgorithm(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public HybridCooperativeAlgorithm getClone() {
+        return new HybridCooperativeAlgorithm(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public OptimisationSolution getBestSolution() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public OptimisationSolution getBestSolution() {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public OptimisationProblem getOptimisationProblem() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public OptimisationProblem getOptimisationProblem() {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<OptimisationSolution> getSolutions() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public List<OptimisationSolution> getSolutions() {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setOptimisationProblem(OptimisationProblem problem) {
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setOptimisationProblem(OptimisationProblem problem) {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Entity getContribution() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Entity getContribution() {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Fitness getContributionFitness() {
-		return null;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Fitness getContributionFitness() {
+        return null;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateContributionFitness(Fitness fitness) {
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void updateContributionFitness(Fitness fitness) {
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void algorithmIteration() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void algorithmIteration() {
 
-	}
+    }
 
 }

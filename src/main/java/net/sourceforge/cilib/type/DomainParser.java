@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.type;
 
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -33,92 +32,77 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  */
 public final class DomainParser {
 
-	private DomainBuilder builder;
-	private DomainValidator validator;
+    private DomainBuilder builder;
+    private DomainValidator validator;
 
-	/**
-	 * Private constructor used in the singleton design pattern.
-	 *
-	 * Look at {@see DomainParser#getInstance()}
-	 */
-	private DomainParser() {
-		builder = new DomainBuilder();
-		validator = new DomainValidator();
-	}
+    /**
+     * Private constructor used in the singleton design pattern.
+     *
+     * Look at {@see DomainParser#getInstance()}
+     */
+    public DomainParser() {
+        builder = new DomainBuilder();
+        validator = new DomainValidator();
+    }
 
+    /**
+     * Build the representation and expand the domain string if the expanded domain string
+     * does not exist.
+     *
+     * The domain is first tested for validity before being processed into the constructed
+     * representation required by the rest of CILib.
+     *
+     * @param domain The domain string to be parsed
+     * @return <code>true</code> if the parsing is successful.
+     * @throws RuntimeException If the domain string is not valid.
+     */
+    public boolean parse(String domain) {
 
-	/**
-	 * Get the instance of the Singleton object. This object is the <tt>DomainParser</tt>
-	 *
-	 * @return The instance of the <code>DomainParser</code>
-	 */
-	public static DomainParser getInstance() {
-		return DomainParserHolder.instance;
-	}
+        if (isValid(domain)) {
+            String expandedRepresenation = expandDomainString(domain);
+            builder.build(expandedRepresenation);
 
-	private static class DomainParserHolder {
-		public static DomainParser instance = new DomainParser();
-	}
-
-	/**
-	 * Build the representation and expand the domain string if the expanded domain string
-	 * does not exist.
-	 *
-	 * The domain is first tested for validity before being processed into the constructed
-	 * representation required by the rest of CILib.
-	 *
-	 * @param domain The domain string to be parsed
-	 * @return <code>true</code> if the parsing is successful.
-	 * @throws RuntimeException If the domain string is not valid.
-	 */
-	public boolean parse(String domain) {
-
-		if (isValid(domain)) {
-			String expandedRepresenation = expandDomainString(domain);
-			builder.build(expandedRepresenation);
-
-			return true;
-		}
-		else
-			throw new RuntimeException("Domain string is not valid, please correct domain string");
-	}
+            return true;
+        }
+        else
+            throw new RuntimeException("Domain string is not valid, please correct domain string");
+    }
 
 
-	/**
-	 * Build the expanded string representation of the domain string.
-	 *
-	 * @param domain The string representing the domain to be built
-	 * @return A <code>String</code> representing the expanded represenation
-	 */
-	public String expandDomainString(String domain) {
-		String result = validator.expandString(domain);
+    /**
+     * Build the expanded string representation of the domain string.
+     *
+     * @param domain The string representing the domain to be built
+     * @return A <code>String</code> representing the expanded represenation
+     */
+    public String expandDomainString(String domain) {
+        String result = validator.expandString(domain);
 
-		return result;
-	}
-
-
-	/**
-	 * Test the domain string to see if it is valid. The domain string is passed
-	 * onto a {@see DomainValidator} object which perfroms the actual validation.
-	 *
-	 * @param domain The domain string to be validated
-	 *
-	 * @return <tt>true</tt> - if the domain string is valid;
-	 *         <tt>false</tt> - if the domain string is not valid
-	 */
-	public boolean isValid(String domain) {
-		return validator.validate(domain);
-	}
+        return result;
+    }
 
 
-	/**
-	 * Accessor method to get the constructed representation. The constructed
-	 * representation is constructed by {@see DomainBuilder}.
-	 *
-	 * @return The constructed domain string as a <tt>Type</tt>.
-	 */
-	public StructuredType getBuiltRepresentation() {
-		return builder.getBuiltRepresenation();
-	}
+    /**
+     * Test the domain string to see if it is valid. The domain string is passed
+     * onto a {@see DomainValidator} object which perfroms the actual validation.
+     *
+     * @param domain The domain string to be validated
+     *
+     * @return <tt>true</tt> - if the domain string is valid;
+     *         <tt>false</tt> - if the domain string is not valid
+     */
+    public boolean isValid(String domain) {
+        return validator.validate(domain);
+    }
+
+    /**
+     * Accessor method to get the constructed representation. The constructed
+     * representation is constructed by {@see DomainBuilder}.
+     *
+     * @return The constructed domain string as a <tt>Type</tt>.
+     */
+    public StructuredType getBuiltRepresentation() {
+        return builder.getBuiltRepresenation();
+    }
 
 }

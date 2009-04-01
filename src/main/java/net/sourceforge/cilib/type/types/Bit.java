@@ -36,264 +36,264 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  */
 public class Bit extends Numeric {
 
-	private static final long serialVersionUID = 1328646735062562469L;
-	private boolean state;
+    private static final long serialVersionUID = 1328646735062562469L;
+    private boolean state;
 
 
-	/**
-	 * Create a <tt>Bit</tt> object with a random state value.
-	 */
-	public Bit() {
-		this.state = new MersenneTwister().nextBoolean();
-		super.setBounds(BoundsFactory.create(0.0, 1.0));
-//		this.setLowerBound(0.0);
-//		this.setUpperBound(1.0);
-	}
+    /**
+     * Create a <tt>Bit</tt> object with a random state value.
+     */
+    public Bit() {
+        this.state = new MersenneTwister().nextBoolean();
+        super.setBounds(BoundsFactory.create(0.0, 1.0));
+//        this.setLowerBound(0.0);
+//        this.setUpperBound(1.0);
+    }
 
 
-	/**
-	 * Copy-constructor. Create a <tt>Bit</tt> object with the specified state.
-	 * @param state The state for the <tt>Bit</tt> object to be in
-	 */
-	public Bit(boolean state) {
-		this.state = state;
-		super.setBounds(BoundsFactory.create(0.0, 1.0));
-	}
+    /**
+     * Copy-constructor. Create a <tt>Bit</tt> object with the specified state.
+     * @param state The state for the <tt>Bit</tt> object to be in
+     */
+    public Bit(boolean state) {
+        this.state = state;
+        super.setBounds(BoundsFactory.create(0.0, 1.0));
+    }
 
-	/**
-	 * Copy constructor. Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public Bit(Bit copy) {
-		this.state = copy.state;
+    /**
+     * Copy constructor. Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public Bit(Bit copy) {
+        this.state = copy.state;
         super.setBounds(copy.getBounds());
-	}
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Bit getClone() {
-		return new Bit(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Bit getClone() {
+        return new Bit(this);
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean equals(Object other) {
-		if (this == other)
-			return true;
+    /**
+     * {@inheritDoc}
+     */
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
 
-		if ((other == null) || (this.getClass() != other.getClass()))
-			return false;
+        if ((other == null) || (this.getClass() != other.getClass()))
+            return false;
 
-		Bit otherBit = (Bit) other;
-		return super.equals(other) && (this.state == otherBit.state);
-	}
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + super.hashCode();
-		hash = 31 * hash + Boolean.valueOf(this.state).hashCode();
-		return hash;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(String value) {
-		setBit(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(boolean value) {
-		setBit(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(double value) {
-		setReal(value);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void set(int value) {
-		setInt(value);
-	}
+        Bit otherBit = (Bit) other;
+        return super.equals(other) && (this.state == otherBit.state);
+    }
 
 
-	/**
-	 * Return the state of the curent <tt>Bit</tt> object.
-	 *
-	 * @return The state of the current <tt>Bit</tt> object.
-	 */
-	public boolean getBit() {
-		return state;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + Boolean.valueOf(this.state).hashCode();
+        return hash;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(String value) {
+        setBit(value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(boolean value) {
+        setBit(value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(double value) {
+        setReal(value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(int value) {
+        setInt(value);
+    }
 
 
-	/**
-	 * Set the state of of this <tt>Bit</tt> object.
-	 *
-	 * @param value The state to be set.
-	 */
-	public void setBit(boolean value) {
-		this.state = value;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setBit(String value) {
-		setBit(Boolean.parseBoolean(value));
-	}
+    /**
+     * Return the state of the curent <tt>Bit</tt> object.
+     *
+     * @return The state of the current <tt>Bit</tt> object.
+     */
+    public boolean getBit() {
+        return state;
+    }
 
 
-	/**
-	 * Get the integer representation of the current <tt>Bit</tt> object.
-	 *
-	 * @return The integer value of the current <tt>Bit</tt>. Returns 1 if the state
-	 *         of the <tt>Bit</tt> object is <tt>true</tt>, else returns 0.
-	 */
-	public int getInt() {
-		if (state)
-			return 1;
-		else return 0;
-	}
+    /**
+     * Set the state of of this <tt>Bit</tt> object.
+     *
+     * @param value The state to be set.
+     */
+    public void setBit(boolean value) {
+        this.state = value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setBit(String value) {
+        setBit(Boolean.parseBoolean(value));
+    }
 
 
-	/**
-	 * Set the state of the current <tt>Bit</tt> object.
-	 *
-	 * If the integer value is 0, the state of <tt>false</tt> is assigned, else
-	 * a state of <tt>true</tt> is set.
-	 *
-	 * @param value The value to be used to set the state.
-	 */
-	public void setInt(int value) {
-		if (value == 0)
-			this.state = false;
-		else this.state = true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setInt(String value) {
-		setInt(Integer.parseInt(value));
-	}
+    /**
+     * Get the integer representation of the current <tt>Bit</tt> object.
+     *
+     * @return The integer value of the current <tt>Bit</tt>. Returns 1 if the state
+     *         of the <tt>Bit</tt> object is <tt>true</tt>, else returns 0.
+     */
+    public int getInt() {
+        if (state)
+            return 1;
+        else return 0;
+    }
 
 
-	/**
-	 * Get the state of the <tt>Bit</tt> returned as a double value.
-	 *
-	 * @return The state of this <tt>Bit</tt> object returned as a double.
-	 */
-	public double getReal() {
-		if (state)
-			return 1.0;
-		else return 0.0;
-	}
+    /**
+     * Set the state of the current <tt>Bit</tt> object.
+     *
+     * If the integer value is 0, the state of <tt>false</tt> is assigned, else
+     * a state of <tt>true</tt> is set.
+     *
+     * @param value The value to be used to set the state.
+     */
+    public void setInt(int value) {
+        if (value == 0)
+            this.state = false;
+        else this.state = true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setInt(String value) {
+        setInt(Integer.parseInt(value));
+    }
 
 
-	/**
-	 * Set the state of the <tt>Bit</tt> object using <i>value</i> as input. If the
-	 * value of <i>value</i> is 0.0, the state of the <tt>Bit</tt> is set to
-	 * <tt>false</tt>, else a state value of <tt>true</tt> is set.
-	 *
-	 * @param value The double value to be used to set the state.
-	 */
-	public void setReal(double value) {
-		this.state = (Double.compare(value, 0.5) < 0) ? false : true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setReal(String value) {
-		setReal(Double.parseDouble(value));
-	}
+    /**
+     * Get the state of the <tt>Bit</tt> returned as a double value.
+     *
+     * @return The state of this <tt>Bit</tt> object returned as a double.
+     */
+    public double getReal() {
+        if (state)
+            return 1.0;
+        else return 0.0;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public int compareTo(Numeric other) {
-		if (state == other.getBit())
-			return 0;
-		else
-			return state ? 1 : -1;
-	}
+    /**
+     * Set the state of the <tt>Bit</tt> object using <i>value</i> as input. If the
+     * value of <i>value</i> is 0.0, the state of the <tt>Bit</tt> is set to
+     * <tt>false</tt>, else a state value of <tt>true</tt> is set.
+     *
+     * @param value The double value to be used to set the state.
+     */
+    public void setReal(double value) {
+        this.state = (Double.compare(value, 0.5) < 0) ? false : true;
+    }
 
-	/**
-	 * Randomly choose a new valid for the <code>Bit</code> object.
-	 */
-	public void randomize() {
-		this.state = new MersenneTwister().nextBoolean();
-	}
-
-	/**
-	 * Set the <tt>Bit</tt> object to an initial value of <tt>false</tt>.
-	 */
-	public void reset() {
-		this.setBit(false);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setReal(String value) {
+        setReal(Double.parseDouble(value));
+    }
 
 
-	/**
-	 * Return the <tt>String</tt> representation of this object's value.
-	 *
-	 * @return The <tt>String</tt> represtnation of this object's value.
-	 */
-	public String toString() {
-		return state ? "1" : "0";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public int compareTo(Numeric other) {
+        if (state == other.getBit())
+            return 0;
+        else
+            return state ? 1 : -1;
+    }
 
-	/**
-	 * Get the type representation of this <tt>Bit</tt> object as a string.
-	 *
-	 * @return The String representation of this <tt>Type</tt> object.
-	 */
-	public String getRepresentation() {
-		return "B";
-	}
+    /**
+     * Randomly choose a new valid for the <code>Bit</code> object.
+     */
+    public void randomize() {
+        this.state = new MersenneTwister().nextBoolean();
+    }
 
-
-	/**
-	 * Externalise the current object to the provided <tt>ObjectOutput</tt>.
-	 *
-	 * @param oos The provided <tt>ObjectOutput</tt>
-	 * @throws IOException if an error occurs.
-	 */
-	public void writeExternal(ObjectOutput oos) throws IOException {
-		oos.writeBoolean(state);
-	}
+    /**
+     * Set the <tt>Bit</tt> object to an initial value of <tt>false</tt>.
+     */
+    public void reset() {
+        this.setBit(false);
+    }
 
 
-	/**
-	 * Externalise the current object to the provided <tt>ObjectInput</tt>.
-	 *
-	 * @param ois The provided <tt>ObjectInput</tt>
-	 * @throws IOException if an error occurs.
-	 * @throws ClassNotFoundException if the required class is not found.
-	 */
-	public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-		this.state = ois.readBoolean();
-	}
+    /**
+     * Return the <tt>String</tt> representation of this object's value.
+     *
+     * @return The <tt>String</tt> represtnation of this object's value.
+     */
+    public String toString() {
+        return state ? "1" : "0";
+    }
+
+    /**
+     * Get the type representation of this <tt>Bit</tt> object as a string.
+     *
+     * @return The String representation of this <tt>Type</tt> object.
+     */
+    public String getRepresentation() {
+        return "B";
+    }
+
+
+    /**
+     * Externalise the current object to the provided <tt>ObjectOutput</tt>.
+     *
+     * @param oos The provided <tt>ObjectOutput</tt>
+     * @throws IOException if an error occurs.
+     */
+    public void writeExternal(ObjectOutput oos) throws IOException {
+        oos.writeBoolean(state);
+    }
+
+
+    /**
+     * Externalise the current object to the provided <tt>ObjectInput</tt>.
+     *
+     * @param ois The provided <tt>ObjectInput</tt>
+     * @throws IOException if an error occurs.
+     * @throws ClassNotFoundException if the required class is not found.
+     */
+    public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
+        this.state = ois.readBoolean();
+    }
 
     /**
      * Set the bounds for the current {@code Bit} instance. This method is not a valid

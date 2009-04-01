@@ -37,23 +37,23 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface Measurement extends Cloneable {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Measurement getClone();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Measurement getClone();
 
-	/**
-	 * Get the domain string representing what this measurement's results will conform to.
-	 * @return The Domain String representing the represenation of the measurement
-	 */
-	public String getDomain();
+    /**
+     * Get the domain string representing what this measurement's results will conform to.
+     * @return The Domain String representing the represenation of the measurement
+     */
+    public String getDomain();
 
 
-	/**
-	 * Get the value of the measurement. The represenation of the measurement will be based
-	 * on the domain string defined {@see Measurement#getDomain()}
-	 * @return The <tt>Type</tt> representing the value of the measurement
-	 */
-	public Type getValue(Algorithm algorithm);
+    /**
+     * Get the value of the measurement. The represenation of the measurement will be based
+     * on the domain string defined {@see Measurement#getDomain()}
+     * @return The <tt>Type</tt> representing the value of the measurement
+     */
+    public Type getValue(Algorithm algorithm);
 }

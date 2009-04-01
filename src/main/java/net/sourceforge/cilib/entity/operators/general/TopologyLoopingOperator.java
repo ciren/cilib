@@ -30,50 +30,50 @@ import net.sourceforge.cilib.entity.topologies.TopologyHolder;
  * TODO: Complete this javadoc.
  */
 public class TopologyLoopingOperator implements Operator {
-	private static final long serialVersionUID = 5726039375836229914L;
-	private Operator operator;
+    private static final long serialVersionUID = 5726039375836229914L;
+    private Operator operator;
 
-	public TopologyLoopingOperator() {
+    public TopologyLoopingOperator() {
 
-	}
+    }
 
-	public TopologyLoopingOperator(TopologyLoopingOperator copy) {
-		this.operator = copy.operator.getClone();
-	}
+    public TopologyLoopingOperator(TopologyLoopingOperator copy) {
+        this.operator = copy.operator.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public TopologyLoopingOperator getClone() {
-		return new TopologyLoopingOperator(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TopologyLoopingOperator getClone() {
+        return new TopologyLoopingOperator(this);
+    }
 
-	/**
-	 * Perform the {@code TopologyLoopingOperator} by looping over the topology and
-	 * delegate the operation to the wrapped operator.
-	 * @param topology The {@linkplain Topology} to perform the operations on.
-	 * @param offspring The {@linkplain Topology} of offspring individuals.
-	 */
-	@Override
-//	public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
-	public void performOperation(TopologyHolder holder) {
-		if (operator == null)
-			throw new RuntimeException("Cannot perform a loop over the topology. The operator to apply has not been defined");
+    /**
+     * Perform the {@code TopologyLoopingOperator} by looping over the topology and
+     * delegate the operation to the wrapped operator.
+     * @param topology The {@linkplain Topology} to perform the operations on.
+     * @param offspring The {@linkplain Topology} of offspring individuals.
+     */
+    @Override
+//    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    public void performOperation(TopologyHolder holder) {
+        if (operator == null)
+            throw new RuntimeException("Cannot perform a loop over the topology. The operator to apply has not been defined");
 
-		Topology<? extends Entity> topology = holder.getTopology();
+        Topology<? extends Entity> topology = holder.getTopology();
 
-		for (int i = 0; i < topology.size(); i++)
-//			operator.performOperation(topology, offspring);
-			operator.performOperation(holder);
-	}
+        for (int i = 0; i < topology.size(); i++)
+//            operator.performOperation(topology, offspring);
+            operator.performOperation(holder);
+    }
 
-	public Operator getOperator() {
-		return operator;
-	}
+    public Operator getOperator() {
+        return operator;
+    }
 
-	public void setOperator(Operator operator) {
-		this.operator = operator;
-	}
+    public void setOperator(Operator operator) {
+        this.operator = operator;
+    }
 
 }

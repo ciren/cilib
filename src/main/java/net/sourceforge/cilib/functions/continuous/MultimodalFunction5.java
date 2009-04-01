@@ -28,27 +28,27 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * TODO: Complete this javadoc.
  */
 public class MultimodalFunction5 extends ContinuousFunction {
-	private static final long serialVersionUID = -8704025552791904890L;
+    private static final long serialVersionUID = -8704025552791904890L;
 
-	/**
-	 * Create a new instance of {@linkplain MultimodalFunction5}.
-	 */
-	public MultimodalFunction5() {
+    /**
+     * Create a new instance of {@linkplain MultimodalFunction5}.
+     */
+    public MultimodalFunction5() {
         setDomain("R(-6, 6)^2");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public MultimodalFunction5 getClone() {
-		return new MultimodalFunction5();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MultimodalFunction5 getClone() {
+        return new MultimodalFunction5();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-	 * @return The function minimum value.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+     * @return The function minimum value.
+     */
     public Object getMinimum() {
         return new Double(0);
     }

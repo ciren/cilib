@@ -28,65 +28,65 @@ package net.sourceforge.cilib.controlparameter;
  * @author Gary Pampara
  */
 public class ConstantControlParameter implements ControlParameter {
-	private static final long serialVersionUID = 8847038781478109426L;
-	protected double parameter;
+    private static final long serialVersionUID = 8847038781478109426L;
+    protected double parameter;
 
-	/**
-	 * Create a new instance of {@code ConstantControlParameter}.
-	 */
-	public ConstantControlParameter() {
+    /**
+     * Create a new instance of {@code ConstantControlParameter}.
+     */
+    public ConstantControlParameter() {
 
-	}
+    }
 
-	/**
-	 * Create a new instance of {@linkplain net.sourceforge.cilib.controlparameter.ConstantControlParameter}
-	 * with the provided value as the value for the {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}.
-	 * @param value The value to set.
-	 */
-	public ConstantControlParameter(double value) {
-		this.parameter = value;
-	}
+    /**
+     * Create a new instance of {@linkplain net.sourceforge.cilib.controlparameter.ConstantControlParameter}
+     * with the provided value as the value for the {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter}.
+     * @param value The value to set.
+     */
+    public ConstantControlParameter(double value) {
+        this.parameter = value;
+    }
 
-	/**
-	 * Create a copy of the provided instance.
-	 * @param copy The instance to copy.
-	 */
-	public ConstantControlParameter(ConstantControlParameter copy) {
-		this.parameter = copy.parameter;
-	}
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public ConstantControlParameter(ConstantControlParameter copy) {
+        this.parameter = copy.parameter;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public ConstantControlParameter getClone() {
-		return new ConstantControlParameter(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public ConstantControlParameter getClone() {
+        return new ConstantControlParameter(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getParameter() {
-		return parameter;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double getParameter() {
+        return parameter;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getParameter(double min, double max) {
-		throw new UnsupportedOperationException("This method is not supported");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double getParameter(double min, double max) {
+        throw new UnsupportedOperationException("This method is not supported");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setParameter(double value) {
-		this.parameter = value;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setParameter(double value) {
+        this.parameter = value;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateParameter() {
-		// Nothing to update - This paramter is constant.
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void updateParameter() {
+        // Nothing to update - This paramter is constant.
+    }
 }

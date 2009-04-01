@@ -36,21 +36,21 @@ import org.junit.Test;
  */
 
 public class BraninTest {
-	private ContinuousFunction function;
+    private ContinuousFunction function;
 
-	public BraninTest() {
+    public BraninTest() {
         
     }
-	
-	@Before
-	public void instantiate() {
-		this.function = new Branin();
-	}
+    
+    @Before
+    public void instantiate() {
+        this.function = new Branin();
+    }
     
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Branin. */
     @Test
     public void testEvaluate() {
-		function.setDomain("R(-5,10),R(0,15)");
+        function.setDomain("R(-5,10),R(0,15)");
         
         Vector x = new Vector();
         x.append(new Real(1.0));
@@ -65,6 +65,6 @@ public class BraninTest {
     
     @Test
     public void minimum() {
-    	assertEquals(0.397887, function.getMinimum());
+        assertEquals(0.397887, function.getMinimum());
     }
 }

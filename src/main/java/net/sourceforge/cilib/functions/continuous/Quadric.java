@@ -31,28 +31,28 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Quadric extends ContinuousFunction {
     private static final long serialVersionUID = -2555670302543357421L;
 
-	public Quadric() {
+    public Quadric() {
         setDomain("R(-100, 100)^30");
     }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Quadric getClone() {
-		return new Quadric();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Quadric getClone() {
+        return new Quadric();
+    }
 
-	/**
-	 * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
-	 * @return The function minimum value.
-	 */
+    /**
+     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+     * @return The function minimum value.
+     */
     public Object getMinimum() {
         return new Double(0);
     }
 
     public Object getMaximum() {
-    	return new Double(1248.2);
+        return new Double(1248.2);
     }
 
     /**

@@ -36,17 +36,17 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  * TODO test this class
  */
 public class PerfectSplitStrategy implements SplitStrategy {
-	public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations) {
-		if (populations.size() < 2)
-			throw new InitialisationException("There should at least be two Cooperating populations in a Cooperative Algorithm");
-		if (problem.getDomain().getDimension() % populations.size() != 0)
-			throw new InitialisationException("A Problem with dimension " + problem.getDomain().getDimension() + " cannot be split into parts of equal size when using " + populations.size() + " populations");
-		int dimension = problem.getDomain().getDimension() / populations.size();
-		int offset = 0;
-		for (Algorithm population : populations) {
-			// TODO check whether this cast is safe
-			population.setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
-			offset += dimension;
-		}
-	}
+    public void split(OptimisationProblem problem, CooperativeEntity context, List<PopulationBasedAlgorithm> populations) {
+        if (populations.size() < 2)
+            throw new InitialisationException("There should at least be two Cooperating populations in a Cooperative Algorithm");
+        if (problem.getDomain().getDimension() % populations.size() != 0)
+            throw new InitialisationException("A Problem with dimension " + problem.getDomain().getDimension() + " cannot be split into parts of equal size when using " + populations.size() + " populations");
+        int dimension = problem.getDomain().getDimension() / populations.size();
+        int offset = 0;
+        for (Algorithm population : populations) {
+            // TODO check whether this cast is safe
+            population.setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
+            offset += dimension;
+        }
+    }
 }

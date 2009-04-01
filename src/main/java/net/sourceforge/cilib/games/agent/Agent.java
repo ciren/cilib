@@ -33,54 +33,54 @@ import net.sourceforge.cilib.util.Cloneable;
  * This class represents a game playing agent.
  */
 public abstract class Agent implements Cloneable {
-	private static final long serialVersionUID = -9100541859324175287L;
+    private static final long serialVersionUID = -9100541859324175287L;
 
-	//the playerID of the agent
-	protected int playerID;
-	//the fitness of the agent
-	protected Fitness agentScore;
-	public Agent() {
-		this.playerID = 0;
-	}
-	public Agent(Agent other){
-		playerID = other.playerID;
-	}
+    //the playerID of the agent
+    protected int playerID;
+    //the fitness of the agent
+    protected Fitness agentScore;
+    public Agent() {
+        this.playerID = 0;
+    }
+    public Agent(Agent other){
+        playerID = other.playerID;
+    }
 
-	public int getPlayerID(){
-		return playerID;
-	}
+    public int getPlayerID(){
+        return playerID;
+    }
 
-	public void setPlayerID(int playerID){
-		this.playerID = playerID;
-	}
+    public void setPlayerID(int playerID){
+        this.playerID = playerID;
+    }
 
-	/**
-	 * Initialize the agent with the contents of an entity. This data should represent what the
-	 * @param agentData the data to initialize the agent with
-	 */
-	public abstract void initializeAgent(Type agentData);
+    /**
+     * Initialize the agent with the contents of an entity. This data should represent what the
+     * @param agentData the data to initialize the agent with
+     */
+    public abstract void initializeAgent(Type agentData);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public abstract Agent getClone();
+    /**
+     * {@inheritDoc}
+     */
+    public abstract Agent getClone();
 
-	/**
-	 * Alter the current game by making a decision.
-	 * @param game the game state
-	 */
-	public abstract void move(Game game);
+    /**
+     * Alter the current game by making a decision.
+     * @param game the game state
+     */
+    public abstract void move(Game game);
 
-	/**
-	 * Get the domain the agent's solution is represented by
-	 * @return the relevant {@linkplain DomainRegistry}
-	 */
-	public abstract DomainRegistry getAgentDomain();
+    /**
+     * Get the domain the agent's solution is represented by
+     * @return the relevant {@linkplain DomainRegistry}
+     */
+    public abstract DomainRegistry getAgentDomain();
 
-	public Fitness getAgentScore() {
-		return agentScore;
-	}
-	public void setAgentScore(Fitness agentScore) {
-		this.agentScore = agentScore;
-	}
+    public Fitness getAgentScore() {
+        return agentScore;
+    }
+    public void setAgentScore(Fitness agentScore) {
+        this.agentScore = agentScore;
+    }
 }

@@ -30,33 +30,33 @@ import net.sourceforge.cilib.util.Cloneable;
  * Defines how fitness values stored in the scoreboard are combined to get a single fitness value
  */
 public abstract class FitnessCalculationStrategy implements Cloneable {
-	private static final long serialVersionUID = -3708525082727758222L;
+    private static final long serialVersionUID = -3708525082727758222L;
 
-	int amountHistoricGames;
-	/**
-	 *
-	 */
-	public FitnessCalculationStrategy() {
-		amountHistoricGames = 0;
-	}
+    int amountHistoricGames;
+    /**
+     *
+     */
+    public FitnessCalculationStrategy() {
+        amountHistoricGames = 0;
+    }
 
-	public FitnessCalculationStrategy(FitnessCalculationStrategy other){
-		amountHistoricGames = other.amountHistoricGames;
-	}
+    public FitnessCalculationStrategy(FitnessCalculationStrategy other){
+        amountHistoricGames = other.amountHistoricGames;
+    }
 
-	/**
-	 * Calculate the fitness from the scoreboard
-	 * @param score the scoreboard
-	 * @param currentRound current round of competition
-	 * @return new fitness
-	 */
-	public abstract Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound);
+    /**
+     * Calculate the fitness from the scoreboard
+     * @param score the scoreboard
+     * @param currentRound current round of competition
+     * @return new fitness
+     */
+    public abstract Fitness calculateFitnessFromScoreBoard(EntityScoreboard score, int currentRound);
 
-	public int getAmountHistoricGames() {
-		return amountHistoricGames;
-	}
+    public int getAmountHistoricGames() {
+        return amountHistoricGames;
+    }
 
-	public void setAmountHistoricGames(int amountHistoricGames) {
-		this.amountHistoricGames = amountHistoricGames;
-	}
+    public void setAmountHistoricGames(int amountHistoricGames) {
+        this.amountHistoricGames = amountHistoricGames;
+    }
 }

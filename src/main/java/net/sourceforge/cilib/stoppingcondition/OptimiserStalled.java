@@ -34,103 +34,103 @@ import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
  * @author frans
  */
 public class OptimiserStalled implements StoppingCondition {
-	private static final long serialVersionUID = 4017249915571841835L;
+    private static final long serialVersionUID = 4017249915571841835L;
 
-	protected double minChange;
-	protected int maxConsecutiveMinChange;
-	protected int minChangeCounter;
+    protected double minChange;
+    protected int maxConsecutiveMinChange;
+    protected int minChangeCounter;
 
-	DistanceMeasure distMeasure;
-	Algorithm algorithm;
-	OptimisationSolution previousBest;
+    DistanceMeasure distMeasure;
+    Algorithm algorithm;
+    OptimisationSolution previousBest;
 
-	/**
-	 * Creates a new instance of OptimiserStalled.
-	 */
-	public OptimiserStalled() {
-		minChange = 0.05;
-		maxConsecutiveMinChange = 5;
+    /**
+     * Creates a new instance of OptimiserStalled.
+     */
+    public OptimiserStalled() {
+        minChange = 0.05;
+        maxConsecutiveMinChange = 5;
 
-		minChangeCounter = 0;
-		distMeasure = new ManhattanDistanceMeasure();
-	}
+        minChangeCounter = 0;
+        distMeasure = new ManhattanDistanceMeasure();
+    }
 
-	/**
-	 * Copy constructor.
-	 * @param copy The instance to create the copy from.
-	 */
-	public OptimiserStalled(OptimiserStalled copy) {
-		this.minChange = copy.minChange;
-		this.maxConsecutiveMinChange = copy.maxConsecutiveMinChange;
-		this.minChangeCounter = copy.minChangeCounter;
-		this.distMeasure = copy.distMeasure;
-		this.algorithm = copy.algorithm;
-	}
+    /**
+     * Copy constructor.
+     * @param copy The instance to create the copy from.
+     */
+    public OptimiserStalled(OptimiserStalled copy) {
+        this.minChange = copy.minChange;
+        this.maxConsecutiveMinChange = copy.maxConsecutiveMinChange;
+        this.minChangeCounter = copy.minChangeCounter;
+        this.distMeasure = copy.distMeasure;
+        this.algorithm = copy.algorithm;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public OptimiserStalled getClone() {
-		return new OptimiserStalled(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public OptimiserStalled getClone() {
+        return new OptimiserStalled(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double getPercentageCompleted() {
-		// check if this is the first iteration
-		if (previousBest == null) {
-			previousBest = algorithm.getBestSolution();
+    /**
+     * {@inheritDoc}
+     */
+    public double getPercentageCompleted() {
+        // check if this is the first iteration
+        if (previousBest == null) {
+            previousBest = algorithm.getBestSolution();
 
-			return 0.0;
-		}
+            return 0.0;
+        }
 
-		// get the distance between previous and current best
-		// double distance = distMeasure.distance((double[])previousBest.getPosition(),
-		// (double[])algorithm.getBestSolution().getPosition());
-		double distance = distMeasure.distance((Vector) previousBest.getPosition(), (Vector) algorithm.getBestSolution().getPosition());
+        // get the distance between previous and current best
+        // double distance = distMeasure.distance((double[])previousBest.getPosition(),
+        // (double[])algorithm.getBestSolution().getPosition());
+        double distance = distMeasure.distance((Vector) previousBest.getPosition(), (Vector) algorithm.getBestSolution().getPosition());
 
-		// compare to see change
-		if (distance < minChange)
-			minChangeCounter++;
-		else
-			minChangeCounter = 0;
+        // compare to see change
+        if (distance < minChange)
+            minChangeCounter++;
+        else
+            minChangeCounter = 0;
 
-		return minChangeCounter / maxConsecutiveMinChange;
-	}
+        return minChangeCounter / maxConsecutiveMinChange;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isCompleted() {
-		if (getPercentageCompleted() == 1.0)
-			return true;
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isCompleted() {
+        if (getPercentageCompleted() == 1.0)
+            return true;
 
-		previousBest = algorithm.getBestSolution();
-		return false;
-	}
+        previousBest = algorithm.getBestSolution();
+        return false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setAlgorithm(Algorithm algorithm) {
-		this.algorithm = algorithm;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
+    }
 
-	/**
-	 * sets the minimum percentage that the new best location must be from the previous.
-	 * @param distance The value to set.
-	 */
-	public void setMinimumChange(double distance) {
-		minChange = distance;
-	}
+    /**
+     * sets the minimum percentage that the new best location must be from the previous.
+     * @param distance The value to set.
+     */
+    public void setMinimumChange(double distance) {
+        minChange = distance;
+    }
 
-	/**
-	 * sets the maximum consecutive evalutions that an algorithm can improve less then the minimum.
-	 * percentage. this value relates to evaluations and not iterations.
-	 * @param count The value to set.
-	 */
-	public void setMaxConsecutiveMinChange(int count) {
-		maxConsecutiveMinChange = count;
-	}
+    /**
+     * sets the maximum consecutive evalutions that an algorithm can improve less then the minimum.
+     * percentage. this value relates to evaluations and not iterations.
+     * @param count The value to set.
+     */
+    public void setMaxConsecutiveMinChange(int count) {
+        maxConsecutiveMinChange = count;
+    }
 }

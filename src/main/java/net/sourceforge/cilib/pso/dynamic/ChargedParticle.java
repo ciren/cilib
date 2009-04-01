@@ -35,77 +35,77 @@ import net.sourceforge.cilib.pso.PSO;
  *
  */
 public class ChargedParticle extends DynamicParticle/*StandardParticle implements ReevaluatingParticle*/{
-	private static final long serialVersionUID = 7872499872488908368L;
-	private double charge;
-	private ChargedParticleInitialisationStrategy chargedParticleInitialisationStrategy;
+    private static final long serialVersionUID = 7872499872488908368L;
+    private double charge;
+    private ChargedParticleInitialisationStrategy chargedParticleInitialisationStrategy;
 
-	public ChargedParticle() {
-		super();
-		velocityUpdateStrategy = new ChargedVelocityUpdateStrategy();
-		chargedParticleInitialisationStrategy = new StandardChargedParticleInitialisationStrategy();
-	}
+    public ChargedParticle() {
+        super();
+        velocityUpdateStrategy = new ChargedVelocityUpdateStrategy();
+        chargedParticleInitialisationStrategy = new StandardChargedParticleInitialisationStrategy();
+    }
 
-	public ChargedParticle(ChargedParticle copy) {
-		super(copy);
+    public ChargedParticle(ChargedParticle copy) {
+        super(copy);
 
-		this.charge = copy.charge;
-		this.chargedParticleInitialisationStrategy = copy.chargedParticleInitialisationStrategy.getClone();
-	}
+        this.charge = copy.charge;
+        this.chargedParticleInitialisationStrategy = copy.chargedParticleInitialisationStrategy.getClone();
+    }
 
-	public ChargedParticle getClone() {
-		return new ChargedParticle(this);
-	}
+    public ChargedParticle getClone() {
+        return new ChargedParticle(this);
+    }
 
 
-	@Override
-	public boolean equals(Object object) {
-		if (this == object)
-			return true;
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
 
-		if ((object == null) || (this.getClass() != object.getClass()))
-			return false;
+        if ((object == null) || (this.getClass() != object.getClass()))
+            return false;
 
-		ChargedParticle other = (ChargedParticle) object;
-		return super.equals(object) &&
-			(Double.valueOf(this.charge).equals(Double.valueOf(other.charge)));
-	}
+        ChargedParticle other = (ChargedParticle) object;
+        return super.equals(object) &&
+            (Double.valueOf(this.charge).equals(Double.valueOf(other.charge)));
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 31 * hash + super.hashCode();
-		hash = 31 * hash + Double.valueOf(charge).hashCode();
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + Double.valueOf(charge).hashCode();
+        return hash;
+    }
 
-	/**
-	 * @return the charge
-	 */
-	public double getCharge() {
-		return charge;
-	}
-	/**
-	 * @param charge the charge to set
-	 */
-	public void setCharge(double charge) {
-		this.charge = charge;
-	}
-	/**
-	 * @return the chargedParticleInitialisationStrategy
-	 */
-	public ChargedParticleInitialisationStrategy getChargedParticleInitialisationStrategy() {
-		return chargedParticleInitialisationStrategy;
-	}
-	/**
-	 * @param chargedParticleInitialisationStrategy the chargedParticleInitialisationStrategy to set
-	 */
-	public void setChargedParticleInitialisationStrategy(
-			ChargedParticleInitialisationStrategy chargedParticleInitialisationStrategy) {
-		this.chargedParticleInitialisationStrategy = chargedParticleInitialisationStrategy;
-	}
+    /**
+     * @return the charge
+     */
+    public double getCharge() {
+        return charge;
+    }
+    /**
+     * @param charge the charge to set
+     */
+    public void setCharge(double charge) {
+        this.charge = charge;
+    }
+    /**
+     * @return the chargedParticleInitialisationStrategy
+     */
+    public ChargedParticleInitialisationStrategy getChargedParticleInitialisationStrategy() {
+        return chargedParticleInitialisationStrategy;
+    }
+    /**
+     * @param chargedParticleInitialisationStrategy the chargedParticleInitialisationStrategy to set
+     */
+    public void setChargedParticleInitialisationStrategy(
+            ChargedParticleInitialisationStrategy chargedParticleInitialisationStrategy) {
+        this.chargedParticleInitialisationStrategy = chargedParticleInitialisationStrategy;
+    }
 
-	@Override
-	public void initialise(OptimisationProblem problem) {
+    @Override
+    public void initialise(OptimisationProblem problem) {
         getPositionInitialisationStrategy().initialise(this, problem);
 
         // Create the velocity vector by cloning the position and setting all the values

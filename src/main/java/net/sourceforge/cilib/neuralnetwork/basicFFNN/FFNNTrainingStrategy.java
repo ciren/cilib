@@ -30,37 +30,37 @@ import net.sourceforge.cilib.neuralnetwork.foundation.TrainingStrategy;
  */
 public class FFNNTrainingStrategy implements TrainingStrategy{
 
-	FFNNTopology topology = null;
+    FFNNTopology topology = null;
 
-	public FFNNTrainingStrategy(FFNNTopology topology) {
-		super();
-		this.topology = topology;
-	}
-
-
-	public void invokeTrainer(Object args) {
-		topology.train();
-
-	}
+    public FFNNTrainingStrategy(FFNNTopology topology) {
+        super();
+        this.topology = topology;
+    }
 
 
-	public void preEpochActions(Object args) {
-		//do nothing
-	}
+    public void invokeTrainer(Object args) {
+        topology.train();
+
+    }
 
 
-	public void postEpochActions(Object args) {
-		//do nothing
-	}
+    public void preEpochActions(Object args) {
+        //do nothing
+    }
 
 
-	public void initialize() {
-		//do nothing
-	}
+    public void postEpochActions(Object args) {
+        //do nothing
+    }
 
 
-	public void setTopology(NeuralNetworkTopology topo) {
-		//do nothing
-	}
+    public void initialize() {
+        //do nothing
+    }
+
+
+    public void setTopology(NeuralNetworkTopology topo) {
+        //do nothing
+    }
 
 }

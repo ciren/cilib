@@ -30,23 +30,23 @@ import net.sourceforge.cilib.type.types.Type;
  */
 public class LinearOutputFunction implements NeuronFunction {
 
-	public LinearOutputFunction() {
-		super();
-	}
+    public LinearOutputFunction() {
+        super();
+    }
 
 
-	public Type computeFunction(Type in) {
-		return new Real(((Real) in).getReal());
-	}
+    public Type computeFunction(Type in) {
+        return new Real(((Real) in).getReal());
+    }
 
 
-	public Type computeDerivativeAtPos(Type pos) {
-		return new Real(1.0);
-	}
+    public Type computeDerivativeAtPos(Type pos) {
+        return new Real(1.0);
+    }
 
 
-	public Type computeDerivativeUsingLastOutput(Type lastOut) {
-		return new Real(1.0);
-	}
+    public Type computeDerivativeUsingLastOutput(Type lastOut) {
+        return new Real(1.0);
+    }
 
 }

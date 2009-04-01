@@ -25,33 +25,33 @@ package net.sourceforge.cilib.entity;
  * The defined types for all properties within {@linkplain Entity} objects.
  */
 public enum EntityType {
-	CANDIDATE_SOLUTION,
-	FITNESS;
+    CANDIDATE_SOLUTION,
+    FITNESS;
 
-	/**
-	 * {@linkplain Particle} specific constants.
-	 */
-	public enum Particle {
-		BEST_POSITION,
-		BEST_FITNESS,
-		VELOCITY;
-	}
+    /**
+     * {@linkplain Particle} specific constants.
+     */
+    public enum Particle {
+        BEST_POSITION,
+        BEST_FITNESS,
+        VELOCITY;
+    }
 
-	/**
-	 * {@linkplain Individual} specific constants.
-	 */
-	public enum Individual {
-		PHENOTYPES
-	}
+    /**
+     * {@linkplain Individual} specific constants.
+     */
+    public enum Individual {
+        PHENOTYPES
+    }
 
-	/**
-	 * Coevolution constants... This is probably going to be refactored to another location.
-	 * TODO: Check this
-	 */
-	public enum Coevolution { // Not sure about this... has a funky smell to it.
-		DISTANCE,
-		BOARD,
-		COMPETITOR_LIST,
-		POPULATION_ID;
-	}
+    /**
+     * Coevolution constants... This is probably going to be refactored to another location.
+     * TODO: Check this
+     */
+    public enum Coevolution { // Not sure about this... has a funky smell to it.
+        DISTANCE,
+        BOARD,
+        COMPETITOR_LIST,
+        POPULATION_ID;
+    }
 }

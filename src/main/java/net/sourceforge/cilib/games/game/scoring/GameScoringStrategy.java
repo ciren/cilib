@@ -29,15 +29,15 @@ import net.sourceforge.cilib.games.game.Game;
  */
 public abstract class GameScoringStrategy {
 
-	/**
-	 *
-	 */
-	public GameScoringStrategy() {
-		// TODO Auto-generated constructor stub
-	}
-	/**
-	 * Assign a {@linkplain Fitness} to each {@linkplain Agent} after the completion of a {@linkplain Game}
-	 * @param game the game object
-	 */
-	public abstract void assignPlayerScores(Game game);
+    /**
+     *
+     */
+    public GameScoringStrategy() {
+        // TODO Auto-generated constructor stub
+    }
+    /**
+     * Assign a {@linkplain Fitness} to each {@linkplain Agent} after the completion of a {@linkplain Game}
+     * @param game the game object
+     */
+    public abstract void assignPlayerScores(Game game);
 }

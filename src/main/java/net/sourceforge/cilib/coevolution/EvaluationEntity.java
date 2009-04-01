@@ -29,38 +29,38 @@ import net.sourceforge.cilib.util.Cloneable;
  * This class contains the entity data and population id of a coevolution competitor
  */
 public class EvaluationEntity implements Cloneable {
-	private static final long serialVersionUID = 2514848906149566022L;
+    private static final long serialVersionUID = 2514848906149566022L;
 
-	Type entityData;
-	int populationID;
+    Type entityData;
+    int populationID;
 
-	/**
-	 *
-	 */
-	public EvaluationEntity(Type entityData, int populationID) {
-		this.populationID = populationID;
-		this.entityData = entityData; //no clone, reference to the data
-	}
+    /**
+     *
+     */
+    public EvaluationEntity(Type entityData, int populationID) {
+        this.populationID = populationID;
+        this.entityData = entityData; //no clone, reference to the data
+    }
 
-	public EvaluationEntity(EvaluationEntity other) {
-		populationID = other.populationID;
-		entityData = other.entityData;
-	}
+    public EvaluationEntity(EvaluationEntity other) {
+        populationID = other.populationID;
+        entityData = other.entityData;
+    }
 
-	public Type getEntityData(){
-		return entityData;
-	}
+    public Type getEntityData(){
+        return entityData;
+    }
 
-	public int getPopulationID(){
-		return populationID;
-	}
+    public int getPopulationID(){
+        return populationID;
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.util.Cloneable#getClone()
-	 */
-	@Override
-	public EvaluationEntity getClone() {
-		return new EvaluationEntity(this);
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.util.Cloneable#getClone()
+     */
+    @Override
+    public EvaluationEntity getClone() {
+        return new EvaluationEntity(this);
+    }
 
 }

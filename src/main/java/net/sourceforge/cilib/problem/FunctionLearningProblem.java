@@ -43,7 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class FunctionLearningProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = -8903112361933892141L;
 
-	private Function function;
+    private Function function;
     private int sampleSetSize = 1000;
     private double trainingSetPercentage = 0.7;
     private double testingSetPercentage = 1.0 - trainingSetPercentage;
@@ -75,7 +75,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
     }
 
     public FunctionLearningProblem getClone() {
-    	return new FunctionLearningProblem(this);
+        return new FunctionLearningProblem(this);
     }
 
     public void initialise() {
@@ -107,9 +107,9 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             // create a random point within the function domain.
             Double[] p = new Double[function.getDimension()];
             for (int i = 0; i < p.length; i++) {
-            	Real real = (Real) vector.get(0);
+                Real real = (Real) vector.get(0);
                 double r = real.getBounds().getUpperBound() * random.nextDouble() -
-                	2.0 * real.getBounds().getLowerBound() * random.nextDouble();
+                    2.0 * real.getBounds().getLowerBound() * random.nextDouble();
                     //((Quantitative) domain.getComponent(0)).getUpperBound().doubleValue() * random.nextDouble()
                         //- 2.0 * ((Quantitative) domain.getComponent(0)).getLowerBound().doubleValue() * random.nextDouble();
                 p[i] = new Double(r);
@@ -137,8 +137,8 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
                 double r =
                     //domain.getUpperBound().doubleValue() * random.nextDouble()
                     //    - 2.0 * domain.getLowerBound().doubleValue() * random.nextDouble();
-                	//domain.getUpperBound() * random.nextDouble()
-                	/*	  - 2.0 * domain.getLowerBound() **/ random.nextDouble();
+                    //domain.getUpperBound() * random.nextDouble()
+                    /*      - 2.0 * domain.getLowerBound() **/ random.nextDouble();
                 p[i] = new Double(r);
             }
 
@@ -233,12 +233,12 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
 
     private Vector convertDoubleArray(Double[] oldArray) {
         // create memory for the new array.
-    	Vector vector = new Vector(oldArray.length);
+        Vector vector = new Vector(oldArray.length);
 //        double[] newArray = new double[oldArray.length];
 
         // convert the Double objects into primitive doubles.
         for (int i = 0; i < oldArray.length; i++) {
-        	vector.add(new Real(oldArray[i]));
+            vector.add(new Real(oldArray[i]));
 //            newArray[i] = oldArray[i].doubleValue();
         }
 
@@ -249,7 +249,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         return domain;
     }*/
     /*public Domain getDomain() {
-    	return Domain.getInstance();
+        return Domain.getInstance();
     }*/
 
     public void setFunction(Function function) {
@@ -308,15 +308,15 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         return sampleSetSize;
     }
 
-	public DomainRegistry getDomain() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public DomainRegistry getDomain() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public DomainRegistry getBehaviouralDomain() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public DomainRegistry getBehaviouralDomain() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
   /*  public void setNeuralNetwork(NN neuralNetwork) {
         this.neuralNetwork = neuralNetwork;

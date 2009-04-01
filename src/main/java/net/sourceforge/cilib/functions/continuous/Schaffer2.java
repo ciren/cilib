@@ -29,32 +29,32 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author  engel
  */
 public class Schaffer2 extends ContinuousFunction {
-	private static final long serialVersionUID = 7289010453718555694L;
+    private static final long serialVersionUID = 7289010453718555694L;
 
-	/** Creates a new instance of Schaffer. Domain defaults to R(-100, 100)^2 */
+    /** Creates a new instance of Schaffer. Domain defaults to R(-100, 100)^2 */
     public Schaffer2() {
         //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
     }
 
     /**
-	 * {@inheritDoc}
-	 */
+     * {@inheritDoc}
+     */
     @Override
-	public Schaffer2 getClone() {
-		return new Schaffer2();
-	}
+    public Schaffer2 getClone() {
+        return new Schaffer2();
+    }
 
     /**
-	 * {@inheritDoc}
-	 */
+     * {@inheritDoc}
+     */
     public Object getMinimum() {
         return new Double(0);
     }
 
     /**
-	 * {@inheritDoc}
-	 */
+     * {@inheritDoc}
+     */
     public double evaluate(Vector x) {
         double sum_squares = x.getReal(0) * x.getReal(0) + x.getReal(1) * x.getReal(1);
         double term1 = Math.pow(sum_squares, 0.25);

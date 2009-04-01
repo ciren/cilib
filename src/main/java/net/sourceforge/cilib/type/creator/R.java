@@ -29,20 +29,20 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Gary Pampara
  */
 public final class R implements TypeCreator {
-	private static final long serialVersionUID = -3393953231231613279L;
+    private static final long serialVersionUID = -3393953231231613279L;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type create() {
-		return new Real();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Type create() {
+        return new Real();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Type create(final double lower, final double upper) {
-		return new Real(lower, upper);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public Type create(final double lower, final double upper) {
+        return new Real(lower, upper);
+    }
 
 }

@@ -30,12 +30,12 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  */
 public interface FitnessUpdateStrategy {
 
-	/**
-	 * Update the fitness of the provided {@linkplain Entity}, based on the current
-	 * {@linkplain OptimisationProblem}.
-	 * @param problem The {@linkplain OptimisationProblem} to base the fitness
-	 *        calculation on.
-	 * @param context The {@linkplain Entity} to apply the fitness update on.
-	 */
-	void updateFitness(OptimisationProblem problem, Entity context);
+    /**
+     * Update the fitness of the provided {@linkplain Entity}, based on the current
+     * {@linkplain OptimisationProblem}.
+     * @param problem The {@linkplain OptimisationProblem} to base the fitness
+     *        calculation on.
+     * @param context The {@linkplain Entity} to apply the fitness update on.
+     */
+    void updateFitness(OptimisationProblem problem, Entity context);
 }

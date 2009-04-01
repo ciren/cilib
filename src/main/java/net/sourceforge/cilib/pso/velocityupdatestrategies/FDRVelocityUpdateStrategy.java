@@ -58,101 +58,101 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Olusegun Olorunda
  */
 public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
-	private static final long serialVersionUID = -7117135203986406944L;
-	protected ControlParameter fdrMaximizerAcceleration;
+    private static final long serialVersionUID = -7117135203986406944L;
+    protected ControlParameter fdrMaximizerAcceleration;
 
-	public FDRVelocityUpdateStrategy() {
-		inertiaWeight = new LinearDecreasingControlParameter();
-		fdrMaximizerAcceleration = new RandomizingControlParameter();
+    public FDRVelocityUpdateStrategy() {
+        inertiaWeight = new LinearDecreasingControlParameter();
+        fdrMaximizerAcceleration = new RandomizingControlParameter();
 
-		cognitiveAcceleration.setParameter(1);
+        cognitiveAcceleration.setParameter(1);
         socialAcceleration.setParameter(1);
         fdrMaximizerAcceleration.setParameter(2);
-	}
+    }
 
-	public FDRVelocityUpdateStrategy(FDRVelocityUpdateStrategy copy) {
-		this.inertiaWeight = copy.inertiaWeight.getClone();
-    	this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
-    	this.socialAcceleration = copy.socialAcceleration.getClone();
-    	this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.getClone();
-    	this.vMax = copy.vMax.getClone();
-	}
+    public FDRVelocityUpdateStrategy(FDRVelocityUpdateStrategy copy) {
+        this.inertiaWeight = copy.inertiaWeight.getClone();
+        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+        this.socialAcceleration = copy.socialAcceleration.getClone();
+        this.fdrMaximizerAcceleration = copy.fdrMaximizerAcceleration.getClone();
+        this.vMax = copy.vMax.getClone();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public FDRVelocityUpdateStrategy getClone() {
-		return new FDRVelocityUpdateStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public FDRVelocityUpdateStrategy getClone() {
+        return new FDRVelocityUpdateStrategy(this);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateVelocity(Particle particle) {
-		Vector velocity = (Vector) particle.getVelocity();
-		Vector position = (Vector) particle.getPosition();
-		Vector bestPosition = (Vector) particle.getBestPosition();
-		Vector neighbourhoodBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
+    /**
+     * {@inheritDoc}
+     */
+    public void updateVelocity(Particle particle) {
+        Vector velocity = (Vector) particle.getVelocity();
+        Vector position = (Vector) particle.getPosition();
+        Vector bestPosition = (Vector) particle.getBestPosition();
+        Vector neighbourhoodBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-		for (int i = 0; i < particle.getDimension(); ++i) {
-			Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
-			Iterator<Particle> swarmIterator = topology.iterator();
-			Particle fdrMaximizer = swarmIterator.next();
-			double maxFDR = 0.0;
+        for (int i = 0; i < particle.getDimension(); ++i) {
+            Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
+            Iterator<Particle> swarmIterator = topology.iterator();
+            Particle fdrMaximizer = swarmIterator.next();
+            double maxFDR = 0.0;
 
-			while (swarmIterator.hasNext()) {
-				Particle currentTarget = (Particle) swarmIterator.next();
+            while (swarmIterator.hasNext()) {
+                Particle currentTarget = (Particle) swarmIterator.next();
 
-				if (currentTarget.getId() != particle.getId()) {
-					Fitness currentTargetFitness = currentTarget.getBestFitness();
-					Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
+                if (currentTarget.getId() != particle.getId()) {
+                    Fitness currentTargetFitness = currentTarget.getBestFitness();
+                    Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
-					double fitnessDifference = (currentTargetFitness.getValue() - particle.getFitness().getValue());
-					double testFDR = fitnessDifference / Math.abs(position.getReal(i) - currentTargetPosition.getReal(i));
+                    double fitnessDifference = (currentTargetFitness.getValue() - particle.getFitness().getValue());
+                    double testFDR = fitnessDifference / Math.abs(position.getReal(i) - currentTargetPosition.getReal(i));
 
-					if (testFDR > maxFDR) {
-						maxFDR = testFDR;
-						fdrMaximizer = currentTarget;
-					}
-				}
-			}
+                    if (testFDR > maxFDR) {
+                        maxFDR = testFDR;
+                        fdrMaximizer = currentTarget;
+                    }
+                }
+            }
 
-			Vector fdrMaximizerPosition = (Vector) fdrMaximizer.getBestPosition();
+            Vector fdrMaximizerPosition = (Vector) fdrMaximizer.getBestPosition();
 
-			double value = (inertiaWeight.getParameter() * velocity.getReal(i)) +
-						cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) +
-						socialAcceleration.getParameter() * (neighbourhoodBestPosition.getReal(i) - position.getReal(i)) +
-						fdrMaximizerAcceleration.getParameter() * (fdrMaximizerPosition.getReal(i) - position.getReal(i));
+            double value = (inertiaWeight.getParameter() * velocity.getReal(i)) +
+                        cognitiveAcceleration.getParameter() * (bestPosition.getReal(i) - position.getReal(i)) +
+                        socialAcceleration.getParameter() * (neighbourhoodBestPosition.getReal(i) - position.getReal(i)) +
+                        fdrMaximizerAcceleration.getParameter() * (fdrMaximizerPosition.getReal(i) - position.getReal(i));
 
-			velocity.setReal(i, value);
-			clamp(velocity, i);
-		}
-	}
+            velocity.setReal(i, value);
+            clamp(velocity, i);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateControlParameters(Particle particle) {
-		inertiaWeight.updateParameter();
-		cognitiveAcceleration.updateParameter();
-		socialAcceleration.updateParameter();
-		fdrMaximizerAcceleration.updateParameter();
-		vMax.updateParameter();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void updateControlParameters(Particle particle) {
+        inertiaWeight.updateParameter();
+        cognitiveAcceleration.updateParameter();
+        socialAcceleration.updateParameter();
+        fdrMaximizerAcceleration.updateParameter();
+        vMax.updateParameter();
+    }
 
-	/**
-	 * @return the fdrMaximizerAcceleration
-	 */
-	public ControlParameter getFdrMaximizerAcceleration() {
-		return fdrMaximizerAcceleration;
-	}
+    /**
+     * @return the fdrMaximizerAcceleration
+     */
+    public ControlParameter getFdrMaximizerAcceleration() {
+        return fdrMaximizerAcceleration;
+    }
 
-	/**
-	 * @param fdrMaximizerAcceleration
-	 *            the fdrMaximizerAcceleration to set
-	 */
-	public void setFdrMaximizerAcceleration(ControlParameter fdrMaximizerAcceleration) {
-		this.fdrMaximizerAcceleration = fdrMaximizerAcceleration;
-	}
+    /**
+     * @param fdrMaximizerAcceleration
+     *            the fdrMaximizerAcceleration to set
+     */
+    public void setFdrMaximizerAcceleration(ControlParameter fdrMaximizerAcceleration) {
+        this.fdrMaximizerAcceleration = fdrMaximizerAcceleration;
+    }
 
 }

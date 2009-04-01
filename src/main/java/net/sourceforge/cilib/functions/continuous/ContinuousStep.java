@@ -37,7 +37,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class ContinuousStep extends ContinuousFunction {
     private static final long serialVersionUID = 4962101545621686038L;
 
-	/** Creates a new instance of Step. */
+    /** Creates a new instance of Step. */
     public ContinuousStep() {
         setDomain("R(-100.0, 100.0)^30");
     }
@@ -47,7 +47,7 @@ public class ContinuousStep extends ContinuousFunction {
      */
     @Override
     public ContinuousStep getClone() {
-    	return new ContinuousStep();
+        return new ContinuousStep();
     }
 
     /**
@@ -65,7 +65,7 @@ public class ContinuousStep extends ContinuousFunction {
      * @return An {@code Object} containing the value 55.0.
      */
     public Object getMaximum() {
-    	return new Double(55.0);
+        return new Double(55.0);
     }
 
     /**

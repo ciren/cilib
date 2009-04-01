@@ -34,39 +34,39 @@ package net.sourceforge.cilib.functions.clustering.validityindices;
  * @author Theuns Cloete
  */
 public abstract class GeneralisedDunnIndex extends ScatterSeperationRatio {
-	private static final long serialVersionUID = -2232760005736588472L;
+    private static final long serialVersionUID = -2232760005736588472L;
 
-	public GeneralisedDunnIndex() {
-		super();
-	}
+    public GeneralisedDunnIndex() {
+        super();
+    }
 
-	/**
-	 * This is a template method. It calls the <tt>calculateWithinClusterScatter</tt> and
-	 * <tt>calculateBetweenClusterSeperation</tt> methods defined in {@linkplain ScatterSeperationRatio}
-	 * that should be implemented by sub-classes.
-	 */
-	@Override
-	public double calculateFitness() {
-		double withinScatter = -Double.MAX_VALUE, betweenSeperation = Double.MAX_VALUE;
+    /**
+     * This is a template method. It calls the <tt>calculateWithinClusterScatter</tt> and
+     * <tt>calculateBetweenClusterSeperation</tt> methods defined in {@linkplain ScatterSeperationRatio}
+     * that should be implemented by sub-classes.
+     */
+    @Override
+    public double calculateFitness() {
+        double withinScatter = -Double.MAX_VALUE, betweenSeperation = Double.MAX_VALUE;
 
-		cacheWithinClusterScatter();
-		cacheBetweenClusterSeperation();
+        cacheWithinClusterScatter();
+        cacheBetweenClusterSeperation();
 
-		for (int i = 0; i < clustersFormed; i++) {
-			withinScatter = Math.max(withinScatter, getWithinClusterScatter(i));
-		}
+        for (int i = 0; i < clustersFormed; i++) {
+            withinScatter = Math.max(withinScatter, getWithinClusterScatter(i));
+        }
 
-		for (int i = 0; i < clustersFormed - 1; i++) {
-			for (int j = i + 1; j < clustersFormed; j++) {
-				betweenSeperation = Math.min(betweenSeperation, getBetweenClusterSeperation(i, j));
-			}
-		}
+        for (int i = 0; i < clustersFormed - 1; i++) {
+            for (int j = i + 1; j < clustersFormed; j++) {
+                betweenSeperation = Math.min(betweenSeperation, getBetweenClusterSeperation(i, j));
+            }
+        }
 
-		return betweenSeperation / withinScatter;
-	}
+        return betweenSeperation / withinScatter;
+    }
 
-	@Override
-	protected Double worstFitness() {
-		return getMinimum();
-	}
+    @Override
+    protected Double worstFitness() {
+        return getMinimum();
+    }
 }

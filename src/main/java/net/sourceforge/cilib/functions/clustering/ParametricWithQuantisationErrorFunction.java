@@ -36,62 +36,62 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
  * @author Theuns Cloete
  */
 public class ParametricWithQuantisationErrorFunction extends ParametricClusteringFunction {
-	private static final long serialVersionUID = -2022785065235231801L;
+    private static final long serialVersionUID = -2022785065235231801L;
 
-	/** Specifies the weight that incluences how much the Quantisation Error will contribute to the final fitness. */
-	protected ControlParameter w3 = null;
+    /** Specifies the weight that incluences how much the Quantisation Error will contribute to the final fitness. */
+    protected ControlParameter w3 = null;
 
-	/**
-	 * Create a new instance of {@literal ParametricWithQuantisationErrorFunction}.
-	 */
-	public ParametricWithQuantisationErrorFunction() {
-		super();
-		w1 = new ConstantControlParameter(0.3);
-		w2 = new ConstantControlParameter(0.3);
-		w3 = new ConstantControlParameter(0.4);
-	}
+    /**
+     * Create a new instance of {@literal ParametricWithQuantisationErrorFunction}.
+     */
+    public ParametricWithQuantisationErrorFunction() {
+        super();
+        w1 = new ConstantControlParameter(0.3);
+        w2 = new ConstantControlParameter(0.3);
+        w3 = new ConstantControlParameter(0.4);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public double calculateFitness() {
-		// make sure the sum of the parameters equal 1.0
-		if (getW1() + getW2() + getW3() != 1.0)
-			throw new IllegalArgumentException("The sum of w1, w2 and w3 must equal 1.0");
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double calculateFitness() {
+        // make sure the sum of the parameters equal 1.0
+        if (getW1() + getW2() + getW3() != 1.0)
+            throw new IllegalArgumentException("The sum of w1, w2 and w3 must equal 1.0");
 
-		// zMax only needs to be calculated once; domain is not supposed to change during a simulation
-		if (zMax < 0.0) {
-			zMax = zMax();
-		}
+        // zMax only needs to be calculated once; domain is not supposed to change during a simulation
+        if (zMax < 0.0) {
+            zMax = zMax();
+        }
 
-		return (getW1() * calculateMaximumAverageDistance()) + (getW2() * (zMax - calculateMinimumInterClusterDistance())) + (getW3() * calculateQuantisationError());
-	}
+        return (getW1() * calculateMaximumAverageDistance()) + (getW2() * (zMax - calculateMinimumInterClusterDistance())) + (getW3() * calculateQuantisationError());
+    }
 
-	/**
-	 * Set the weight that influences how much the Quantisation Error will contribute to the final
-	 * fitness.
-	 * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt>
-	 *        weight
-	 */
-	public void setW3(ControlParameter w) {
-		w3 = w;
-	}
+    /**
+     * Set the weight that influences how much the Quantisation Error will contribute to the final
+     * fitness.
+     * @param w the {@linkplain ControlParameter} that will control the <tt>w1</tt>
+     *        weight
+     */
+    public void setW3(ControlParameter w) {
+        w3 = w;
+    }
 
-	/**
-	 * Get the weight that the Quantisation Error contributes to the final fitness.
-	 * @return the weight that determines how much influence the Quantisation Error contributes to
-	 *         the final fitness
-	 */
-	protected double getW3() {
-		return w3.getParameter();
-	}
+    /**
+     * Get the weight that the Quantisation Error contributes to the final fitness.
+     * @return the weight that determines how much influence the Quantisation Error contributes to
+     *         the final fitness
+     */
+    protected double getW3() {
+        return w3.getParameter();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateControlParameters() {
-		super.updateControlParameters();
-		w3.updateParameter();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void updateControlParameters() {
+        super.updateControlParameters();
+        w3.updateParameter();
+    }
 }

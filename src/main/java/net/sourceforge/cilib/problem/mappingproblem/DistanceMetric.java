@@ -28,24 +28,24 @@ package net.sourceforge.cilib.problem.mappingproblem;
  * @author jkroon
  */
 public interface DistanceMetric {
-	/**
-	 * Gets called by CurvilinearDistEvaluator to indicate the precice problem
-	 * to make use of.  It is recommended that the results of the distances
-	 * be calculated and placed into some kind of matrix at this point to allow
-	 * for faster execution.
-	 *
-	 * @param prob The underlying MappingProblem.
-	 */
-	public void setMappingProblem(MappingProblem prob);
+    /**
+     * Gets called by CurvilinearDistEvaluator to indicate the precice problem
+     * to make use of.  It is recommended that the results of the distances
+     * be calculated and placed into some kind of matrix at this point to allow
+     * for faster execution.
+     *
+     * @param prob The underlying MappingProblem.
+     */
+    public void setMappingProblem(MappingProblem prob);
 
-	/**
-	 * Gets called by CurvilinearDistEvaluator to request the distance between
-	 * two vectors to be returned.
-	 *
-	 * @param i The index of the "from" vector.
-	 * @param j The index of the "to" vector.
-	 *
-	 * @return The distance between to two vectors.
-	 */
-	public double getDistance(int i, int j);
+    /**
+     * Gets called by CurvilinearDistEvaluator to request the distance between
+     * two vectors to be returned.
+     *
+     * @param i The index of the "from" vector.
+     * @param j The index of the "to" vector.
+     *
+     * @return The distance between to two vectors.
+     */
+    public double getDistance(int i, int j);
 }

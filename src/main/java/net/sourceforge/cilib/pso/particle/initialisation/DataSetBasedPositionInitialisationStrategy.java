@@ -40,32 +40,32 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * @author Theuns Cloete
  */
 public class DataSetBasedPositionInitialisationStrategy implements PositionInitialisationStrategy {
-	private static final long serialVersionUID = 1341622520702058537L;
+    private static final long serialVersionUID = 1341622520702058537L;
 
-	private CentroidsInitialisationStrategy centroidsInitialisationStrategy = null;
+    private CentroidsInitialisationStrategy centroidsInitialisationStrategy = null;
 
-	public DataSetBasedPositionInitialisationStrategy() {
-		centroidsInitialisationStrategy = new DataSetBasedCentroidsInitialisationStrategy();
-	}
+    public DataSetBasedPositionInitialisationStrategy() {
+        centroidsInitialisationStrategy = new DataSetBasedCentroidsInitialisationStrategy();
+    }
 
-	public DataSetBasedPositionInitialisationStrategy getClone() {
-		return new DataSetBasedPositionInitialisationStrategy();
-	}
+    public DataSetBasedPositionInitialisationStrategy getClone() {
+        return new DataSetBasedPositionInitialisationStrategy();
+    }
 
-	/**
-	 * Initialize the position and best position of the given {@link Particle} from the
-	 * current dataset using the {@link DataSetBasedCentroidsInitialisationStrategy}.
-	 *
-	 * @param particle the {@link Particle} that should be initialized
-	 * @param problem the {@link OptimisationProblem} that is currently being optimized. This
-	 *        should be a {@link ClusteringProblem}, but is ignored, because the clustering
-	 *        problem is found via the {@link ClusteringUtils#getClusteringProblem()} method.
-	 */
-	public void initialise(Particle particle, OptimisationProblem problem) {
-		ClusteringUtils helper = ClusteringUtils.get();
-		Vector centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());
+    /**
+     * Initialize the position and best position of the given {@link Particle} from the
+     * current dataset using the {@link DataSetBasedCentroidsInitialisationStrategy}.
+     *
+     * @param particle the {@link Particle} that should be initialized
+     * @param problem the {@link OptimisationProblem} that is currently being optimized. This
+     *        should be a {@link ClusteringProblem}, but is ignored, because the clustering
+     *        problem is found via the {@link ClusteringUtils#getClusteringProblem()} method.
+     */
+    public void initialise(Particle particle, OptimisationProblem problem) {
+        ClusteringUtils helper = ClusteringUtils.get();
+        Vector centroids = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());
 
-		particle.setCandidateSolution(centroids);
-		particle.getProperties().put(EntityType.Particle.BEST_POSITION, centroids.getClone());
-	}
+        particle.setCandidateSolution(centroids);
+        particle.getProperties().put(EntityType.Particle.BEST_POSITION, centroids.getClone());
+    }
 }

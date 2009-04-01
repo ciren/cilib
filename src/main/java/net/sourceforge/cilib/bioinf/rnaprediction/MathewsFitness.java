@@ -28,30 +28,30 @@ import net.sourceforge.cilib.type.types.container.Set;
  * TODO: Complete this javadoc.
  */
 public class MathewsFitness extends RNAFitness {
-	private static final long serialVersionUID = 4258571695099807985L;
+    private static final long serialVersionUID = 4258571695099807985L;
 
-	public MathewsFitness() {
-	}
+    public MathewsFitness() {
+    }
 
-	public MathewsFitness(MathewsFitness copy) {
-	}
+    public MathewsFitness(MathewsFitness copy) {
+    }
 
-	public MathewsFitness getClone() {
-		return new MathewsFitness(this);
-	}
+    public MathewsFitness getClone() {
+        return new MathewsFitness(this);
+    }
 
-	/* (non-Javadoc)
-	 * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(null)
-	 */
-	public Double getRNAFitness(Set<RNAStem> stems) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see net.sourceforge.cilib.BioInf.RNAFitness#getRNAFitness(null)
+     */
+    public Double getRNAFitness(Set<RNAStem> stems) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Double getRNAFitness(RNAConformation stems) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Double getRNAFitness(RNAConformation stems) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

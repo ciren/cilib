@@ -40,103 +40,103 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  */
 public abstract class OptimisationProblemAdapter implements OptimisationProblem {
-	private static final long serialVersionUID = -5008516277429476778L;
+    private static final long serialVersionUID = -5008516277429476778L;
 
-	protected AtomicInteger fitnessEvaluations;
-	protected DataSetBuilder dataSetBuilder;
-	private ChangeStrategy changeStrategy;
+    protected AtomicInteger fitnessEvaluations;
+    protected DataSetBuilder dataSetBuilder;
+    private ChangeStrategy changeStrategy;
 
-	public OptimisationProblemAdapter() {
-		fitnessEvaluations = new AtomicInteger(0);
-		changeStrategy = new NoChangeStrategy();
-	}
+    public OptimisationProblemAdapter() {
+        fitnessEvaluations = new AtomicInteger(0);
+        changeStrategy = new NoChangeStrategy();
+    }
 
-	public OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
-		fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
-		if(copy.dataSetBuilder != null)
-			dataSetBuilder = copy.dataSetBuilder.getClone();
-	}
+    public OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
+        fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
+        if(copy.dataSetBuilder != null)
+            dataSetBuilder = copy.dataSetBuilder.getClone();
+    }
 
-	@Override
-	public abstract OptimisationProblemAdapter getClone();
+    @Override
+    public abstract OptimisationProblemAdapter getClone();
 
-	/**
-	 * Determine the {@code Fitness} of the current {@link Problem} instance
-	 * based on the provided {@code solution}.
-	 * @param solution The {@link net.sourceforge.cilib.type.types.Type} representing the candidate solution.
-	 * @return The {@link Fitness} of the {@code solution} in the current {@linkplain Problem}.
-	 * @see OptimisationProblemAdapter#getFitness(Type, boolean)
-	 */
-	protected abstract Fitness calculateFitness(Type solution);
+    /**
+     * Determine the {@code Fitness} of the current {@link Problem} instance
+     * based on the provided {@code solution}.
+     * @param solution The {@link net.sourceforge.cilib.type.types.Type} representing the candidate solution.
+     * @return The {@link Fitness} of the {@code solution} in the current {@linkplain Problem}.
+     * @see OptimisationProblemAdapter#getFitness(Type, boolean)
+     */
+    protected abstract Fitness calculateFitness(Type solution);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final Fitness getFitness(Type solution, boolean count) {
-		if (count) {
-			fitnessEvaluations.incrementAndGet();
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public final Fitness getFitness(Type solution, boolean count) {
+        if (count) {
+            fitnessEvaluations.incrementAndGet();
+        }
 
-		/*
-		 * if (DomainParser.getInstance().isInsideBounds(solution)) { return
-		 * calculateFitness(solution); } else { return InferiorFitness.instance(); }
-		 */
+        /*
+         * if (DomainParser.getInstance().isInsideBounds(solution)) { return
+         * calculateFitness(solution); } else { return InferiorFitness.instance(); }
+         */
 
-		if (this.changeStrategy.change(this))
-			changeEnvironment();
+        if (this.changeStrategy.change(this))
+            changeEnvironment();
 
-		return calculateFitness(solution);
-	}
+        return calculateFitness(solution);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final int getFitnessEvaluations() {
-		return fitnessEvaluations.get();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public final int getFitnessEvaluations() {
+        return fitnessEvaluations.get();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DataSetBuilder getDataSetBuilder() {
-		return this.dataSetBuilder;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public DataSetBuilder getDataSetBuilder() {
+        return this.dataSetBuilder;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void setDataSetBuilder(DataSetBuilder dsb) {
-		dataSetBuilder = dsb;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void setDataSetBuilder(DataSetBuilder dsb) {
+        dataSetBuilder = dsb;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void accept(ProblemVisitor visitor) {
-		throw new UnsupportedOperationException("This method is not implemented");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void accept(ProblemVisitor visitor) {
+        throw new UnsupportedOperationException("This method is not implemented");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void changeEnvironment() {
-		throw new UnsupportedOperationException("Problems are static by default. Dynamic problems should override this method");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void changeEnvironment() {
+        throw new UnsupportedOperationException("Problems are static by default. Dynamic problems should override this method");
+    }
 
-	/**
-	 * Get the current Problem change strategy.
-	 * @return The current {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy}.
-	 */
-	public ChangeStrategy getChangeStrategy() {
-		return changeStrategy;
-	}
+    /**
+     * Get the current Problem change strategy.
+     * @return The current {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy}.
+     */
+    public ChangeStrategy getChangeStrategy() {
+        return changeStrategy;
+    }
 
-	/**
-	 * Set the {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} for this problem.
-	 * @param changeStrategy The {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} to set.
-	 */
-	public void setChangeStrategy(ChangeStrategy changeStrategy) {
-		this.changeStrategy = changeStrategy;
-	}
+    /**
+     * Set the {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} for this problem.
+     * @param changeStrategy The {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy} to set.
+     */
+    public void setChangeStrategy(ChangeStrategy changeStrategy) {
+        this.changeStrategy = changeStrategy;
+    }
 
 }

@@ -36,17 +36,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
-	private static final long serialVersionUID = -4052606351661988520L;
+    private static final long serialVersionUID = -4052606351661988520L;
 
-	private RandomNumber differentialEvolutionProbability; //Make a parameter to set via xml
-	private RandomNumber crossoverProbability;
-	private RandomNumber scaleParameter;
-	private RandomNumber rand1;
-	private RandomNumber rand2;
-	private RandomNumber rand3;
-	private RandomNumber rand4;
+    private RandomNumber differentialEvolutionProbability; //Make a parameter to set via xml
+    private RandomNumber crossoverProbability;
+    private RandomNumber scaleParameter;
+    private RandomNumber rand1;
+    private RandomNumber rand2;
+    private RandomNumber rand3;
+    private RandomNumber rand4;
 
-	public DEPositionUpdateStrategy() {
+    public DEPositionUpdateStrategy() {
        differentialEvolutionProbability = new RandomNumber();
        rand1 = new RandomNumber();
        rand2 = new RandomNumber();
@@ -54,81 +54,81 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
        rand4 = new RandomNumber();
        crossoverProbability = new RandomNumber();
        scaleParameter = new RandomNumber();
-	}
+    }
 
-	public DEPositionUpdateStrategy(DEPositionUpdateStrategy copy) {
-		this();
-	}
+    public DEPositionUpdateStrategy(DEPositionUpdateStrategy copy) {
+        this();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DEPositionUpdateStrategy getClone() {
-		return new DEPositionUpdateStrategy(this);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public DEPositionUpdateStrategy getClone() {
+        return new DEPositionUpdateStrategy(this);
+    }
 
-	public void updatePosition(Particle particle) {
-		Vector position = (Vector) particle.getPosition();
-		Vector velocity = (Vector) particle.getVelocity();
+    public void updatePosition(Particle particle) {
+        Vector position = (Vector) particle.getPosition();
+        Vector velocity = (Vector) particle.getVelocity();
 
-		if (rand1.getUniform() < differentialEvolutionProbability.getGaussian(0.8, 0.1)) {
-			particle.setCandidateSolution(position.plus(velocity));
-		}
-		else {
-			ArrayList<Vector> positions = new ArrayList<Vector>(3);
+        if (rand1.getUniform() < differentialEvolutionProbability.getGaussian(0.8, 0.1)) {
+            particle.setCandidateSolution(position.plus(velocity));
+        }
+        else {
+            ArrayList<Vector> positions = new ArrayList<Vector>(3);
 
-			//select three random individuals, all different and different from particle
-			PSO pso = (PSO) Algorithm.get();
+            //select three random individuals, all different and different from particle
+            PSO pso = (PSO) Algorithm.get();
 
-			/*Iterator k = pso.getTopology().iterator();
-			int counter = 0;
-			String particleId = particle.getId();
-			Vector pos;
-			while (k.hasNext() && (counter < 3)) {
-				Particle p = (Particle) k.next();
-				if ((p.getId() != particleId) && (rand2.getUniform(0,1) <= 0.5)) {
-					pos = (Vector) p.getPosition();
-					positions.add(pos);
-					counter++;
-				}
-			}*/
+            /*Iterator k = pso.getTopology().iterator();
+            int counter = 0;
+            String particleId = particle.getId();
+            Vector pos;
+            while (k.hasNext() && (counter < 3)) {
+                Particle p = (Particle) k.next();
+                if ((p.getId() != particleId) && (rand2.getUniform(0,1) <= 0.5)) {
+                    pos = (Vector) p.getPosition();
+                    positions.add(pos);
+                    counter++;
+                }
+            }*/
 
-			int count = 0;
+            int count = 0;
 
-			while (count < 3) {
-				int random = rand2.getRandomGenerator().nextInt(pso.getTopology().size());
-				Entity parent = pso.getTopology().get(random);
-				if (!positions.contains(parent)) {
-					positions.add((Vector) parent.getCandidateSolution());
-					count++;
-				}
-			}
+            while (count < 3) {
+                int random = rand2.getRandomGenerator().nextInt(pso.getTopology().size());
+                Entity parent = pso.getTopology().get(random);
+                if (!positions.contains(parent)) {
+                    positions.add((Vector) parent.getCandidateSolution());
+                    count++;
+                }
+            }
 
-			Vector position1 = positions.get(0);
-			Vector position2 = positions.get(1);
-			Vector position3 = positions.get(2);
+            Vector position1 = positions.get(0);
+            Vector position2 = positions.get(1);
+            Vector position3 = positions.get(2);
 
-			Vector dePosition = position.getClone();
-			int j = Double.valueOf(rand3.getUniform(0, position.getDimension())).intValue();
-			for (int i = 0; i < position.getDimension(); ++i) {
-				if ((rand4.getUniform(0, 1) < crossoverProbability.getGaussian(0.5, 0.3)) || (j == i)) {
-					double value = position1.getReal(i);
-					value += scaleParameter.getGaussian(0.7, 0.3) * (position2.getReal(i) - position3.getReal(i));
+            Vector dePosition = position.getClone();
+            int j = Double.valueOf(rand3.getUniform(0, position.getDimension())).intValue();
+            for (int i = 0; i < position.getDimension(); ++i) {
+                if ((rand4.getUniform(0, 1) < crossoverProbability.getGaussian(0.5, 0.3)) || (j == i)) {
+                    double value = position1.getReal(i);
+                    value += scaleParameter.getGaussian(0.7, 0.3) * (position2.getReal(i) - position3.getReal(i));
 
-					dePosition.setReal(i, value);
-				}
-					//else
-						//DEposition.setReal(i, )add(new Real(position3.getReal(i)));
-			}
+                    dePosition.setReal(i, value);
+                }
+                    //else
+                        //DEposition.setReal(i, )add(new Real(position3.getReal(i)));
+            }
 
 
-			//position should only become the offspring if its fitness is better
-			Fitness trialFitness = pso.getOptimisationProblem().getFitness(dePosition, false);
-			Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getCandidateSolution(), false);
+            //position should only become the offspring if its fitness is better
+            Fitness trialFitness = pso.getOptimisationProblem().getFitness(dePosition, false);
+            Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getCandidateSolution(), false);
 
-			if (trialFitness.compareTo(currentFitness) > 0) {
-				particle.setCandidateSolution(dePosition);
-			}
-		}
-	}
+            if (trialFitness.compareTo(currentFitness) > 0) {
+                particle.setCandidateSolution(dePosition);
+            }
+        }
+    }
 }
