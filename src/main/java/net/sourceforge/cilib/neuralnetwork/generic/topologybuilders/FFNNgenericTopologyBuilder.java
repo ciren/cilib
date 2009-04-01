@@ -28,7 +28,6 @@ import net.sourceforge.cilib.neuralnetwork.generic.neuron.BiasNeuronConfig;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.DotProductNeuronConfig;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.LinearOutputFunction;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
-import net.sourceforge.cilib.neuralnetwork.generic.neuron.SigmoidOutputFunction;
 import net.sourceforge.cilib.type.types.Real;
 
 /**
@@ -48,6 +47,9 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     public void initialize(){
 
         if ((this.layerSizes == null) || (this.prototypeWeight == null)){
@@ -63,6 +65,9 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public ArrayList<ArrayList<NeuronConfig>> createLayerList(){
 
         ArrayList<ArrayList<NeuronConfig>> network = new ArrayList<ArrayList<NeuronConfig>>();
@@ -99,7 +104,10 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
             ArrayList<NeuronConfig> tmp2 = new ArrayList<NeuronConfig>();
             for (int n = 0; n < layerSizes[layer] - 1; n++){
                 DotProductNeuronConfig neuron2 = new DotProductNeuronConfig();
-                neuron2.setOutputFunction(new SigmoidOutputFunction());
+                if(layer == layerSizes.length - 1 && outputActivationFunction != null)
+                    neuron2.setOutputFunction(outputActivationFunction.getClone()); //output layer gets output activation function
+                else
+                     neuron2.setOutputFunction(activationFunction.getClone()); //hidden layer act function
 
                 //set input neurons
                 NeuronConfig[] inputs = new NeuronConfig[network.get(layer - 1).size()];
@@ -141,7 +149,11 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
             }
             else {
                 DotProductNeuronConfig neuron2 = new DotProductNeuronConfig();
-                neuron2.setOutputFunction(new SigmoidOutputFunction());
+
+                if(outputActivationFunction != null)
+                    neuron2.setOutputFunction(outputActivationFunction.getClone()); //output layer act func
+                else
+                    neuron2.setOutputFunction(activationFunction.getClone()); //hidden layer act func
 
                 //set input neurons
                 NeuronConfig[] inputs = new NeuronConfig[network.get(layer - 1).size()];

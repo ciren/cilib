@@ -22,11 +22,15 @@
 package net.sourceforge.cilib.neuralnetwork.generic.neuron;
 
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * This is the interface that a Neuron output function needs to conform to.
  */
-public interface NeuronFunction {
+public interface NeuronFunction extends Cloneable {
+
+    @Override
+    public NeuronFunction getClone();
 
     public Type computeFunction(Type in);
 
@@ -34,4 +38,15 @@ public interface NeuronFunction {
 
     public Type computeDerivativeUsingLastOutput(Type lastOut);
 
+    /**
+     *  Return the lowerbound for the active range of this NeuronFunction
+     * @return the lowerbound
+     */
+    public double getLowerActiveRange();
+
+    /**
+     * Return the upperbound for the active range of this NeuronFunction
+     * @return the upperbound
+     */
+    public double getUpperActiveRange();
 }

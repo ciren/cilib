@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 package net.sourceforge.cilib.neuralnetwork.generic.neuron;
 
@@ -25,50 +25,62 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * @author stefanv
- *
+ * Hyperbollic Tangent Function.
  */
-public class LinearOutputFunction implements NeuronFunction {
-    private static final long serialVersionUID = -4242396710596279416L;
+public class HyperbollicTangentOutputFunction implements NeuronFunction {
 
-    public LinearOutputFunction() {
-        super();
+    private static final long serialVersionUID = 6996330036408791132L;
+
+    public HyperbollicTangentOutputFunction() {
     }
 
-
-    public Type computeFunction(Type in) {
-        return new Real(((Real) in).getReal());
-    }
-
-
+    /**
+     * {@inheritDoc}
+     */
     public Type computeDerivativeAtPos(Type pos) {
-        return new Real(1.0);
+        Real value = (Real) pos;
+        double result = 1 - Math.tanh(value.getReal())*Math.tanh(value.getReal());
+        return new Real(result);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     public Type computeDerivativeUsingLastOutput(Type lastOut) {
-        return new Real(1.0);
+        Real value = (Real) lastOut;
+        double result = 1 - Math.tanh(value.getReal())*Math.tanh(value.getReal());
+        return new Real(result);
     }
 
     /**
      * {@inheritDoc}
      */
-    public LinearOutputFunction getClone() {
-        return new LinearOutputFunction();
+    public Type computeFunction(Type in) {
+        double a = Math.exp(((Real)in).getReal());
+        double b = Math.exp(-((Real)in).getReal());
+        return new Real(((a-b)/(a+b)));
     }
 
     /**
      * {@inheritDoc}
      */
+    public HyperbollicTangentOutputFunction getClone() {
+        return new HyperbollicTangentOutputFunction();
+    }
+
+    /**
+    * {@inheritDoc}
+    * The active range is -Sqrt(3) - Sqrt(3), and Sqrt(3) = 1.732050808
+    */
     public double getLowerActiveRange() {
-        return Double.NEGATIVE_INFINITY;
+        return -1.732050808;
     }
 
     /**
-     * {@inheritDoc}
-     */
+    * {@inheritDoc}
+    */
     public double getUpperActiveRange() {
-        return Double.POSITIVE_INFINITY;
+        return 1.732050808;
     }
 
 }
