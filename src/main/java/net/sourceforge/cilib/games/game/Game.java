@@ -28,6 +28,7 @@ import net.sourceforge.cilib.coevolution.score.EntityScore;
 import net.sourceforge.cilib.games.agent.Agent;
 import net.sourceforge.cilib.games.game.scoring.GameScoringStrategy;
 import net.sourceforge.cilib.games.game.scoring.WinLoseDrawValueScoringStrategy;
+import net.sourceforge.cilib.games.measurement.AgentMeasure;
 import net.sourceforge.cilib.games.random.GameSeedingStrategy;
 import net.sourceforge.cilib.games.result.AbstractGameResult;
 import net.sourceforge.cilib.games.result.DrawResult;
@@ -57,6 +58,8 @@ public abstract class Game<E extends GameState> implements Cloneable {
     //protected boolean gameOver;
     //the scoring strategy assigns fitness values to the players
     private GameScoringStrategy scoringStrategy;
+    //A list of measurements
+    protected List<AgentMeasure> agentMeasurement;
     /**
      * Default constructor
      */
@@ -66,6 +69,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         currentPlayer = 1;
         //gameOver = false;
         scoringStrategy = new WinLoseDrawValueScoringStrategy();
+        agentMeasurement = new ArrayList<AgentMeasure>();
     }
     
     /**
@@ -83,6 +87,11 @@ public abstract class Game<E extends GameState> implements Cloneable {
         currentPlayer = other.currentPlayer;
         //gameOver = other.gameOver;
         scoringStrategy = other.scoringStrategy;
+
+        agentMeasurement = new ArrayList<AgentMeasure>();
+        for(AgentMeasure measure: other.agentMeasurement){
+            agentMeasurement.add(measure.getClone());
+        }
     }
     
     /**
@@ -99,6 +108,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         currentPlayer = other.currentPlayer;
         //gameOver = other.gameOver;
         scoringStrategy = other.scoringStrategy;
+        agentMeasurement = other.agentMeasurement;
     }
     
     /**
@@ -301,6 +311,42 @@ public abstract class Game<E extends GameState> implements Cloneable {
     }
     
     /**
+     * Measure features of the current state of the game, with the list of measurements supplied.
+     *
+     */
+    @SuppressWarnings("unchecked")
+    private void measureData(){
+        for(AgentMeasure measure: agentMeasurement){
+            measure.measure((Game<GameState>)this);
+        }
+    }
+    /**
+     * Remove all {@linkplain AgentMeasure} objects in the list
+     *
+     */
+    public void clearMeasurements(){
+        agentMeasurement.clear();
+    }
+    /**
+     * Clear all the measured data while keeping all the {@linkplain}AgentMeasure 
+     *
+     */
+    public void clearMeasurementData(){
+        for(AgentMeasure measure: agentMeasurement){
+            measure.clearData();
+        }
+    }
+    public List<AgentMeasure> getAgentMeasurements(){
+        return agentMeasurement;
+    }
+    /**
+     * Add a new {@linkplain AgentMeasure} to the list of measurements
+     * @param measure the new measurement
+     */
+    public void addMeasurement(AgentMeasure measure){
+        agentMeasurement.add(measure);
+    }
+    /**
      * initialize and play the game until the end conditions are met while recording any playing information.
      *  The Agents fitness values are assigned in this method
      */
@@ -311,6 +357,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         currentState.increaseIteration(); //set to 1
         initializeGame();
         boolean gameOver = gameOver();
+        measureData();
         if(display)
             display();
         
@@ -338,6 +385,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
             currentState.increaseIteration();    
             if(this instanceof RealTimeGame)
                 gameOver = gameOver();
+            measureData();
         }
         scoringStrategy.assignPlayerScores(this);
     }
@@ -419,6 +467,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
      */
     public void setScoringStrategy(GameScoringStrategy scoringStrategy) {
         this.scoringStrategy = scoringStrategy;
+        this.clearMeasurements();
         scoringStrategy.initializeMeasurements(this);
     }
 
