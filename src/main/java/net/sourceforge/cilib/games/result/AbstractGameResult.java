@@ -21,16 +21,17 @@
  */
 package net.sourceforge.cilib.games.result;
 
+import net.sourceforge.cilib.util.Cloneable;
+
 /**
  * @author leo
  * This class represents the result of a game after it has beenplayed
  */
-public abstract class AbstractGameResult {
+public abstract class AbstractGameResult implements Cloneable {
     /**
-     *
+     * {@inheritDoc}
      */
-    public AbstractGameResult() {
-        // TODO Auto-generated constructor stub
-    }
+    @Override
+    public abstract AbstractGameResult getClone();
 
 }

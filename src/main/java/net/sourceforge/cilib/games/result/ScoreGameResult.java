@@ -19,37 +19,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.games.game.predatorprey;
-
-import net.sourceforge.cilib.games.items.GridLocation;
-import net.sourceforge.cilib.games.items.PlayerItem;
+package net.sourceforge.cilib.games.result;
 
 /**
  * @author leo
- *
+ * there is no winner and or loser, each player is given a score in the game, and this is recorded
  */
-public class PredatorItem extends PlayerItem {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = -4134550960577913392L;
-
-    /**
-     * @param playerNo
-     */
-    public PredatorItem(int playerNo, int gridWidth, int gridHeight) {
-        super(playerNo);
-        // TODO Auto-generated constructor stub
-        itemLocation = new GridLocation(2, gridWidth, gridHeight);
+public class ScoreGameResult extends AbstractGameResult {    
+    private static final long serialVersionUID = -8148281346410253240L;
+    private double highScore;
+    
+    public ScoreGameResult(double highScore) {
+        this.highScore = highScore;
     }
-
+    
+    public ScoreGameResult(ScoreGameResult other){
+        highScore = other.highScore;
+    }
+    
+    public double getHighScore() {
+        return highScore;
+    }
     /**
-     * @param Other
+     * {@inheritDoc}
      */
-    public PredatorItem(PlayerItem Other) {
-        super(Other);
-        // TODO Auto-generated constructor stub
+    @Override
+    public ScoreGameResult getClone() {
+        return new ScoreGameResult(this);
     }
 
 }

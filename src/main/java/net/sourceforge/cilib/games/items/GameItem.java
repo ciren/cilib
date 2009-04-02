@@ -24,31 +24,51 @@ package net.sourceforge.cilib.games.items;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- *
- * @author leo
  * Any object that exists in the game.
+ * @author leo
  */
 public abstract class GameItem implements Cloneable {
     private static final long serialVersionUID = -5725025967973967757L;
-
+    Enum<?> token;
     protected ItemLocation itemLocation;
 
     public GameItem(){
-
+        token = GameToken.DEFAULT;
+        itemLocation = null;
     }
-
+    
+    public GameItem(Enum<?> token){
+        this.token = token;
+        itemLocation = null;
+    }
+    
+    public GameItem(Enum<?> token, ItemLocation itemLocation){
+        this.token = token;
+        this.itemLocation = itemLocation;
+    }
+    
     public GameItem(GameItem other){
-        itemLocation = other.itemLocation.getClone();
+        if(other.itemLocation != null)
+            itemLocation = other.itemLocation.getClone();
+        token = other.token;
     }
-
+    
     public void setLoction(ItemLocation location){
         itemLocation = location;
     }
-
+    
     public ItemLocation getLocation(){
-        return itemLocation;
+        return itemLocation;        
+    }
+    
+    public abstract GameItem getClone();
+
+    public Enum<?> getToken() {
+        return token;
     }
 
-    public abstract GameItem getClone();
+    public void setToken(Enum<?> token) {
+        this.token = token;
+    }
 
 }

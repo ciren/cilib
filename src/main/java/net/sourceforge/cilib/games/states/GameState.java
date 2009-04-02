@@ -20,74 +20,40 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.games.states;
-
-import net.sourceforge.cilib.games.items.GameItem;
-
-
-import java.util.Vector;
-
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * @author leo
  * This class represents a snapshot of the game at any given iteration.
  */
-public class GameState implements Cloneable {
-    /**
-     *
-     */
+public abstract class GameState implements Cloneable {
+    //the current iteration of the game. An iteration is completed after each player has made a move and the state is updated
+    protected int currentIteration;
     private static final long serialVersionUID = 3668288597302493178L;
-    protected Vector<GameItem> currentState;
-    /**
-     *
-     */
+    
     public GameState() {
-        // TODO Auto-generated constructor stub
-        currentState = new Vector<GameItem>();
+        currentIteration = 0;
     }
-
+    
     public GameState(GameState other){
-        currentState = new Vector<GameItem>(other.currentState);
+        currentIteration = other.currentIteration;
     }
-
-    public int getSize(){
-        return currentState.size();
-    }
-
-    public void addGameItem(GameItem item){
-        currentState.add(item);
-    }
-
-    public void clearState(){
-        currentState.clear();
-    }
-
-    public GameItem getItem(int index) {
-        if(index >= currentState.size())
-            throw new RuntimeException("Index greater than vector size");
-        return currentState.get(index);
-    }
-
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.util.Cloneable#getClone()
+    /**
+     * Clear the state and reset it to a start state.     
      */
-    public GameState getClone() {
-        return new GameState(this);
+    public abstract void clearState();
+    /**
+     * {@inheritDoc}
+     */
+    public abstract GameState getClone();
+    
+    public void resetIterationCount(){
+        currentIteration = 0;
     }
-
-    public void Merge(GameState other){
-
+    public void increaseIteration(){
+        ++currentIteration;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        // TODO Auto-generated method stub
-        if(!(other instanceof GameState))
-            return false;
-        return false;
+    public int getCurrentIteration(){
+        return currentIteration;
     }
-
-
-
-
 }

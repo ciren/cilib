@@ -25,6 +25,7 @@ package net.sourceforge.cilib.games.agent;
 import net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy;
 import net.sourceforge.cilib.games.agent.neural.NeuralStateInputStrategy;
 import net.sourceforge.cilib.games.game.Game;
+import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder;
@@ -40,22 +41,22 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class NeuralAgent extends Agent {
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = 5910765539852468020L;
     //this determines how the game state is given to the Neural Network as input
-    NeuralStateInputStrategy inputStrategy;
+    protected NeuralStateInputStrategy stateInputStrategy;
     //this determines how the output of the Neural Network alters the game state
-    NeuralOutputInterpretationStrategy outputStrategy;
-    int amHiddenNodes;
+    protected NeuralOutputInterpretationStrategy outputInterpretationStrategy;
+    //The amount of hidden nodes for the NN
+    protected int amHiddenNodes;
     //FFNNTopology nnet;
-    GenericTopology neuralNetwork;
+    protected GenericTopology neuralNetworkTopology;
     /**
      * @param playerNo
      */
     public NeuralAgent() {
         super();
-        // TODO Auto-generated constructor stub
         amHiddenNodes = 1;
     }
 
@@ -64,70 +65,77 @@ public class NeuralAgent extends Agent {
      */
     public NeuralAgent(NeuralAgent other) {
         super(other);
-        inputStrategy = other.inputStrategy;
-        outputStrategy = other.outputStrategy;
+        stateInputStrategy = other.stateInputStrategy;
+        outputInterpretationStrategy = other.outputInterpretationStrategy;
         amHiddenNodes = other.amHiddenNodes;
-        neuralNetwork = other.neuralNetwork; //CLONE?
+        neuralNetworkTopology = other.neuralNetworkTopology; //CLONE?
     }
-
+    
     private void initializeNeuralNetwork(){
-        ((FFNNgenericTopologyBuilder)neuralNetwork.getTopologyBuilder()).addLayer(inputStrategy.amountInputs() + 1);
-        ((FFNNgenericTopologyBuilder)neuralNetwork.getTopologyBuilder()).addLayer(amHiddenNodes + 1);
-        ((FFNNgenericTopologyBuilder)neuralNetwork.getTopologyBuilder()).addLayer(outputStrategy.getAmOutputs());
-        neuralNetwork.initialize();
+        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(stateInputStrategy.amountInputs() + 1);
+        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(amHiddenNodes + 1);
+        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(outputInterpretationStrategy.getAmOutputs());
+        neuralNetworkTopology.initialize();
     }
-
-    public void setHiddenNodes(int amount){
+    
+    public void setAmHiddenNodes(int amount){
         amHiddenNodes = amount;
-        if(inputStrategy != null && outputStrategy != null)
+        if(stateInputStrategy != null && outputInterpretationStrategy != null)
             initializeNeuralNetwork();
     }
-
-    public void setStateInputStrategy(NeuralStateInputStrategy inputStrategy){
-        this.inputStrategy = inputStrategy;
-        if(inputStrategy != null && outputStrategy != null)
+    
+    public void setStateInputStrategy(NeuralStateInputStrategy stateInputStrategy){
+        this.stateInputStrategy = stateInputStrategy;
+        if(stateInputStrategy != null && outputInterpretationStrategy != null)
             initializeNeuralNetwork();
     }
-
-    public void setOutputInterpretationStrategy(NeuralOutputInterpretationStrategy outputStrategy){
-        this.outputStrategy = outputStrategy;
-        if(inputStrategy != null && outputStrategy != null)
+    
+    public void setOutputInterpretationStrategy(NeuralOutputInterpretationStrategy outputInterpretationStrategy){
+        this.outputInterpretationStrategy = outputInterpretationStrategy;
+        if(stateInputStrategy != null && outputInterpretationStrategy != null)
             initializeNeuralNetwork();
     }
-
+    
     public void setWeights(Vector weights){
         //set the NN weights to the specified weight vector
-        neuralNetwork.setWeights(weights);
+        neuralNetworkTopology.setWeights(weights);
     }
-
+    /**
+     * Scale the input value from the specified range to the active range of the input nodes for the NN
+     * @param val the value to scale
+     * @param min the lower bound
+     * @param max the upper bound
+     * @return
+     */
     public double getScaledInput(double val, double min, double max){
          //scale to active range of activation function. need to get this from neural network object
-        double scaledMin = -1.0;
-        return (((val - min) * (1.0 - scaledMin)) / (max - min)) + scaledMin;
-    }
-
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.agent.Agent#getClone()
-     */
-    @Override
-    public Agent getClone() {
-        // TODO Auto-generated method stub
-        return new NeuralAgent(this);
+        double scaledMax = neuralNetworkTopology.getTopologyBuilder().getActivationFunction().getUpperActiveRange();
+        double scaledMin = neuralNetworkTopology.getTopologyBuilder().getActivationFunction().getLowerActiveRange();
+        return (((val - min) * (scaledMax - scaledMin)) / (max - min)) + scaledMin;
+        //return val;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void move(Game game) {
-        //set the input of the neural network to
-        Vector input = inputStrategy.getNeuralInputArray(this, game);
-        StandardPattern pattern = new StandardPattern(input, input);
-        //get the output vector
-        Vector NNOutput = neuralNetwork.evaluate(pattern);//perform NN iteration, get output
-        outputStrategy.applyOutputToState(NNOutput, this, game);
+    public Agent getClone() {
+        return new NeuralAgent(this);
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void move(Game<GameState> game) {
+        //set the input of the neural network to
+        Vector input = stateInputStrategy.getNeuralInputArray(this, game);
+        StandardPattern pattern = new StandardPattern(input, input);        
+        //get the output vector
+        Vector NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
+        outputInterpretationStrategy.applyOutputToState(NNOutput, this, game);
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -145,14 +153,30 @@ public class NeuralAgent extends Agent {
     public DomainRegistry getAgentDomain() {
         DomainRegistry agentDomain = new StringBasedDomainRegistry();
         double activationRange = 1.0;//1 / Math.sqrt(inputStrategy.amountInputs());
-        String representation = "R(-" + activationRange + ", " + activationRange + ")^" + neuralNetwork.getWeights().size(); //need to get min and max as well?!?
+        String representation = "R(-" + activationRange + ", " + activationRange + ")^" + neuralNetworkTopology.getWeights().size(); //need to get min and max as well?!?
         agentDomain.setDomainString(representation);
         return agentDomain;
     }
-
+    
     public void setNeuralNetworkTopology(GenericTopology topology){
-        neuralNetwork = topology;
+        neuralNetworkTopology = topology;
     }
 
+    public int getAmHiddenNodes() {
+        return amHiddenNodes;
+    }
 
+    public NeuralOutputInterpretationStrategy getOutputInterpretationStrategy() {
+        return outputInterpretationStrategy;
+    }
+
+    public NeuralStateInputStrategy getStateInputStrategy() {
+        return stateInputStrategy;
+    }
+
+    public GenericTopology getNeuralNetworkTopology() {
+        return neuralNetworkTopology;
+    }
+    
+    
 }

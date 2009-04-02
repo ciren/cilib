@@ -21,31 +21,42 @@
  */
 package net.sourceforge.cilib.games.items;
 
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.DistanceMeasure;
-
 /**
- * 
+ * An object in the game that is located in a grid.
  * @author leo
- * The location of any item in the game
+ *
  */
-public abstract interface ItemLocation extends Type {
+public class GridItem extends PlayerItem {
+    private static final long serialVersionUID = 4878803247778205144L;
+    /**
+     * @param playerNo
+     */
+    public GridItem(int playerNo, Enum<?> token, int gridWidth, int gridHeight) {
+        super(playerNo, token);        
+        itemLocation = new GridLocation(gridWidth, gridHeight);
+    }
+    
+    public GridItem(int playerNo, Enum<?> token, ItemLocation location) {
+        super(playerNo, token);        
+        itemLocation = location;
+    }
+    
+    public GridItem(int playerNo, Enum<?> token, int xMax, int yMax, int zMax) {
+        super(playerNo, token);
+        itemLocation = new GridLocation(xMax, yMax, zMax);
+    }
+    /**
+     * Copy constructor
+     * @param Other
+     */
+    public GridItem(GridItem Other) {
+        super(Other);
+    }
     /**
      * {@inheritDoc}
      */
-    public abstract ItemLocation getClone();
-    /**
-     * Calculate the distance between this location and another one with a specified distance measure
-     * @param measure The distance measure
-     * @param other The other location
-     * @return the distance
-     */
-    public abstract Double getDistance(DistanceMeasure measure, ItemLocation other);
-    /**
-     * Move this location by the specified amount
-     * @param amount
-     */
-    public abstract void moveItem(Type amount);
     @Override
-    public abstract boolean equals(Object other);
+    public GridItem getClone() {
+        return new GridItem(this);
+    }
 }

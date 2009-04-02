@@ -22,35 +22,37 @@
 package net.sourceforge.cilib.games.items;
 
 /**
- * @author leo
  * any game item controlled by a player
+ * @author leo
  */
 public class PlayerItem extends GameItem {
-    /**
-     *
-     */
     private static final long serialVersionUID = -674781677901305287L;
-    int playerNo;
-
+    int playerNo;    
+    
     public PlayerItem(int playerNo)
     {
-        this.playerNo = playerNo;
+        this.playerNo = playerNo;        
     }
-
+    
+    public PlayerItem(int playerNo, Enum<?> token)
+    {
+        super(token);
+        this.playerNo = playerNo;        
+    }
+    
     public PlayerItem(PlayerItem Other){
         super(Other);
         playerNo = Other.playerNo;
     }
-
+    
     public int getPlayerID(){
         return playerNo;
     }
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.items.GameItem#getClone()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public GameItem getClone() {
-        // TODO Auto-generated method stub
         return new PlayerItem(this);
     }
 

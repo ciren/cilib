@@ -27,16 +27,27 @@ package net.sourceforge.cilib.games.result;
  */
 //TODO Teams, multiple winners
 public class WinGameResult extends AbstractGameResult {
-    int playerNo;
-    /**
-     *
-     */
+    private static final long serialVersionUID = 2073705770597355550L;
+    int winPlayerID;
+    
     public WinGameResult(int playerNo) {
-        this.playerNo = playerNo;
+        this.winPlayerID = playerNo;
     }
-
-    public int getWinner(){
-        return playerNo;
+    
+    public WinGameResult(WinGameResult other){
+        winPlayerID = other.winPlayerID;
+    }
+    
+    public int getWinnerID(){
+        return winPlayerID;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WinGameResult getClone() {
+        return new WinGameResult(this);
     }
 
 }

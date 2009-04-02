@@ -23,7 +23,6 @@ package net.sourceforge.cilib.games.items;
 
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -31,19 +30,17 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * @author leo
  * A location inside a grid
  */
-public class GridLocation extends ItemLocation {
-    /**
-     *
-     */
+public class GridLocation extends Vector implements ItemLocation {
     private static final long serialVersionUID = 4974578979607886491L;
-    Vector position;
-    /**
-     *
-     */
-    public GridLocation(int gridDimention, int gridWidth, int gridHeight) {
-        position = new Vector(gridDimention);
-        position.add(new Int(0, gridWidth));
-        position.add(new Int(0, gridHeight));
+    public GridLocation(int gridWidth, int gridHeight) {        
+        this.add(new Int(0, gridWidth));
+        this.add(new Int(0, gridHeight));
+    }
+    
+    public GridLocation(int xMax, int yMax, int zMax) {        
+        this.add(new Int(0, xMax));
+        this.add(new Int(0, yMax));
+        this.add(new Int(0, zMax));
     }
 
     /**
@@ -51,63 +48,63 @@ public class GridLocation extends ItemLocation {
      */
     public GridLocation(GridLocation other) {
         super(other);
-        // TODO Auto-generated constructor stub
-        position = new Vector(other.position);
     }
-
-    public void Move(Vector coords){
-        moveItem(coords);
-    }
-
+    /**
+     * Set the position of this GridLocation to the given vector
+     * @param newPos the specified position
+     */
     public void setPosition(Vector newPos){
-        if(newPos.getDimension() != position.getDimension()){
+        if(newPos.getDimension() != this.getDimension()){
             throw new UnsupportedOperationException("Cannot set the postition to a vector with a different dimention");
         }
-        position = newPos;
+        this.clear();
+        for(Type t: newPos){
+            this.add(t.getClone());
+        }
     }
-
-    public Vector getPosition(){
-        return position;
-    }
-
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.items.ItemLocation#getClone()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public GridLocation getClone() {
-        // TODO Auto-generated method stub
         return new GridLocation(this);
     }
 
-/*    @Override
-    public Type getLocationData(){
-        return position;
-    }*/
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Double getDistance(DistanceMeasure measure, ItemLocation other) {
         if(!(other instanceof GridLocation))
             throw new RuntimeException("can only determine the distance between two gridlocation itemlocations");
-        Vector vector = ((GridLocation)other).getPosition();
-        double result = measure.distance(position, vector);
-
-        return result;
+        return measure.distance(this, ((GridLocation)other));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void moveItem(Type amount) {
         if(!(amount instanceof Vector))
             throw new RuntimeException("can only add a vector to gridlocation");
-
-        Vector amountVector = (Vector) amount;
-        Vector np = position.getClone();
-        for(int i = 0; i < amountVector.size(); ++i){
-            np.setInt(i, amountVector.getInt(i) + position.getInt(i));
-        }
-
-        if(TypeUtil.isInsideBounds(np)){
-            position = np;
+        for(int i = 0; i < ((Vector)amount).size(); ++i){
+            
+            int newVal = ((Vector)amount).getInt(i) + this.getInt(i);
+            if(newVal < this.getNumeric(i).getBounds().getLowerBound())
+                newVal = (int)this.getNumeric(i).getBounds().getLowerBound();
+            else if(newVal > this.getNumeric(i).getBounds().getUpperBound())
+                newVal = (int)this.getNumeric(i).getBounds().getUpperBound();
+            this.setInt(i, newVal);
         }
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof GridLocation)
+            return super.equals(((GridLocation)other));
+        return false;
+    }
 }

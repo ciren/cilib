@@ -21,44 +21,45 @@
  */
 package net.sourceforge.cilib.games.game;
 
+import net.sourceforge.cilib.games.states.GridGameState;
+
 /**
  * @author leo
- * This class represents any game that takes place in a grid
+ * This class represents any game that takes place in a grid. It will use the
+ * concrete {@linkplain GridGameState} object
  */
-public abstract class GridGame extends Game {
+public abstract class GridGame extends Game<GridGameState> {
     private static final long serialVersionUID = -3460317865794650394L;
-
-    //width of the grid
-    protected int gridWidth;
-    //height of the grid
-    protected int gridHeight;
     /**
-     *
+     * 
      */
     public GridGame() {
-        gridWidth = 0;
-        gridHeight = 0;
-        // TODO Auto-generated constructor stub
+        setCurrentGameState(new GridGameState());
     }
     /**
      * @param other
      */
     public GridGame(GridGame other) {
         super(other);
-        gridWidth = other.gridWidth;
-        gridHeight = other.gridHeight;
     }
-
+    /**
+     * @param other
+     */
+    public GridGame(GridGame other, GridGameState newState) {
+        super(other, newState);
+    }
+    
+    
     public int getWidth(){
-        return gridWidth;
+        return getCurrentState().getGridWidth();
     }
     public int getHeight(){
-        return gridHeight;
+        return getCurrentState().getGridHeight();
     }
     public void setWidth(int width){
-        gridWidth = width;
+        getCurrentState().setGridWidth(width);
     }
     public void setHeight(int height){
-        gridHeight = height;
+        getCurrentState().setGridHeight(height);
     }
 }

@@ -19,33 +19,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.games.items;
+package net.sourceforge.cilib.games.game;
 
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- * 
  * @author leo
- * The location of any item in the game
+ * This interface should be extended by real time games. In a real time game all players make a decision based on the 
+ * same game state, and their changes occur simultaneously. This implies that for a real time game the state of the game at the start
+ * of the round needs to be recorded so that all players can make a decision based on this game state.
  */
-public abstract interface ItemLocation extends Type {
+public interface RealTimeGame {
     /**
-     * {@inheritDoc}
+     * Record the state of the game at the start of the round
      */
-    public abstract ItemLocation getClone();
-    /**
-     * Calculate the distance between this location and another one with a specified distance measure
-     * @param measure The distance measure
-     * @param other The other location
-     * @return the distance
-     */
-    public abstract Double getDistance(DistanceMeasure measure, ItemLocation other);
-    /**
-     * Move this location by the specified amount
-     * @param amount
-     */
-    public abstract void moveItem(Type amount);
-    @Override
-    public abstract boolean equals(Object other);
+    public void recordRoundStartState();
 }

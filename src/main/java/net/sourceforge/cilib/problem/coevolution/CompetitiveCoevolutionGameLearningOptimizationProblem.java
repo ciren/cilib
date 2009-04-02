@@ -139,8 +139,7 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
      */
     @Override
     public int getAmountSubPopulations() {
-        // TODO Auto-generated method stub
-        return game.amPlayers();
+        return game.getPlayerCount();
     }
 
     /**
