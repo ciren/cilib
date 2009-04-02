@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.games.game;
 
 import java.util.List;
+import net.sourceforge.cilib.games.agent.state.StateEvaluationAgent;
 import net.sourceforge.cilib.games.states.GameState;
 
 /**
