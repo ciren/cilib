@@ -39,101 +39,101 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * becuase it's functionality is very similar.
  */
 public class NeuralStateEvaluator extends NeuralAgent implements StateEvaluator {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7781748822862754078L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7781748822862754078L;
 
-	/**
-	 * 
-	 */
-	public NeuralStateEvaluator() {
-	}
+    /**
+     *
+     */
+    public NeuralStateEvaluator() {
+    }
 
-	/**
-	 * Copy Constructor
-	 * @param other
-	 */
-	public NeuralStateEvaluator(NeuralStateEvaluator other) {
-		super(other);
-	}
+    /**
+     * Copy Constructor
+     * @param other
+     */
+    public NeuralStateEvaluator(NeuralStateEvaluator other) {
+        super(other);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public double evaluateState(Game<GameState> state, int decisionPlayerID) {
-		Vector input = stateInputStrategy.getNeuralInputArray(this, state);
-		StandardPattern pattern = new StandardPattern(input, input);		
-		//get the output vector
-		Vector NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
-		return NNOutput.getReal(0);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public double evaluateState(Game<GameState> state, int decisionPlayerID) {
+        Vector input = stateInputStrategy.getNeuralInputArray(this, state);
+        StandardPattern pattern = new StandardPattern(input, input);
+        //get the output vector
+        Vector NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
+        return NNOutput.getReal(0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public DomainRegistry getEvaluatorDomain() {
-		return this.getAgentDomain();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public DomainRegistry getEvaluatorDomain() {
+        return this.getAgentDomain();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void initializeEvaluator(Type evaluatorData) {
-		this.initializeAgent(evaluatorData);
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NeuralStateEvaluator getClone() {
-		return new NeuralStateEvaluator(this);
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setAmHiddenNodes(int amount){
-		amHiddenNodes = amount;
-		if(stateInputStrategy != null)
-			initializeNeuralNetwork();
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setStateInputStrategy(NeuralStateInputStrategy inputStrategy){
-		this.stateInputStrategy = inputStrategy;
-		if(inputStrategy != null)
-			initializeNeuralNetwork();
-	}
-	
-	/**
-	 * The {@linkplain NeuralOutputInterpretationStrategy} should not be set since this class funtions only as a state evaluator. A single output 
-	 * Neuron is used to rank the given state.
-	 */
-	@Override
-	public void setOutputInterpretationStrategy(NeuralOutputInterpretationStrategy outputStrategy){
-		throw new RuntimeException("Unable to set output interpretation strategy for neural state evaluation agent. Leave as null.");
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void move(Game game) {
-		throw new RuntimeException("This method should not be called.");
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	private void initializeNeuralNetwork(){
-		((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(stateInputStrategy.amountInputs() + 1);
-		((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(amHiddenNodes + 1);
-		((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(1); //there will only be 1 output neuron, the rank value of the state
-		neuralNetworkTopology.initialize();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void initializeEvaluator(Type evaluatorData) {
+        this.initializeAgent(evaluatorData);
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public NeuralStateEvaluator getClone() {
+        return new NeuralStateEvaluator(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setAmHiddenNodes(int amount){
+        amHiddenNodes = amount;
+        if(stateInputStrategy != null)
+            initializeNeuralNetwork();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setStateInputStrategy(NeuralStateInputStrategy inputStrategy){
+        this.stateInputStrategy = inputStrategy;
+        if(inputStrategy != null)
+            initializeNeuralNetwork();
+    }
+
+    /**
+     * The {@linkplain NeuralOutputInterpretationStrategy} should not be set since this class funtions only as a state evaluator. A single output
+     * Neuron is used to rank the given state.
+     */
+    @Override
+    public void setOutputInterpretationStrategy(NeuralOutputInterpretationStrategy outputStrategy){
+        throw new RuntimeException("Unable to set output interpretation strategy for neural state evaluation agent. Leave as null.");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void move(Game game) {
+        throw new RuntimeException("This method should not be called.");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    private void initializeNeuralNetwork(){
+        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(stateInputStrategy.amountInputs() + 1);
+        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(amHiddenNodes + 1);
+        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(1); //there will only be 1 output neuron, the rank value of the state
+        neuralNetworkTopology.initialize();
+    }
 }

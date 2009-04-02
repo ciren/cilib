@@ -19,32 +19,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.coevolution;
+package net.sourceforge.cilib.coevolution.selection;
 
-import java.util.List;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-
+import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
 
 /**
- * Selects parent class of the concrete opponents selection strategies used in competitive coevolution
+ * example of implementation of an OpponentSelectionStrategy, selects all the opponents in the pool
  * @author Julien Duhain
+ * @author leo
  *
  */
-public abstract class OpponentSelectionStrategy {
+public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrategy{
+	
+	private static final long serialVersionUID = -7695834817656232972L;
 
-    public OpponentSelectionStrategy(){}
-
-    public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
-
-    }
-
-    public abstract OpponentSelectionStrategy getClone();
-
-    /**
-     * selects the opponents from the pool
-     * @param populationID id of current pop
-     * @param pool the pool of potential opponents
-     * @return list of selected opponents
-     */
-    public abstract CoevolutionEvaluationList setCompetitors(int populationID, List<PopulationBasedAlgorithm> pool);
+	public SelectAllOpponentSelectionStrategy(){
+		super();
+	}
+	
+	public SelectAllOpponentSelectionStrategy(SelectAllOpponentSelectionStrategy copy){
+		
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public SelectAllOpponentSelectionStrategy getClone() {
+		return new SelectAllOpponentSelectionStrategy(this);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public  CoevolutionCompetitorList selectCompetitors(CoevolutionCompetitorList pool){
+		pool.setNumberofEntitiesPerList();
+		return pool;
+	}
 }
