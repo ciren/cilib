@@ -28,6 +28,7 @@ import net.sourceforge.cilib.coevolution.score.EntityScore;
 import net.sourceforge.cilib.games.agent.Agent;
 import net.sourceforge.cilib.games.game.scoring.GameScoringStrategy;
 import net.sourceforge.cilib.games.game.scoring.WinLoseDrawValueScoringStrategy;
+import net.sourceforge.cilib.games.random.GameSeedingStrategy;
 import net.sourceforge.cilib.games.result.AbstractGameResult;
 import net.sourceforge.cilib.games.result.DrawResult;
 import net.sourceforge.cilib.games.result.ScoreGameResult;
@@ -305,6 +306,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
      */
     @SuppressWarnings("unchecked")
     public void playGame(boolean display){
+        currentState.getRandomizer().seedGenerator();
         currentState.resetIterationCount(); //set to 0
         currentState.increaseIteration(); //set to 1
         initializeGame();
@@ -403,7 +405,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
      * @param newState the new sate to use
      * @return the copy
      */
-    public abstract Game<E> getShallowClone(E newState);
+    public abstract Game<E> getClone(E newState);
     
     
     /**
@@ -435,4 +437,13 @@ public abstract class Game<E extends GameState> implements Cloneable {
     public GameScoringStrategy getScoringStrategy() {
         return scoringStrategy;
     }
+    /**
+     * Set the seeding strategy of the game, this will determine how many and when unique games are played. The {@linkplain GameSeedingStrategy} is 
+     * in the {@linkplain GameState}
+     * @param seedStrategy
+     */
+    public void setSeedingStrategy(GameSeedingStrategy seedStrategy){
+        currentState.setRandomizer(seedStrategy);
+    }
+
 }

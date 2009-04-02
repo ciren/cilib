@@ -20,6 +20,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package net.sourceforge.cilib.games.states;
+
+
+
+import net.sourceforge.cilib.games.random.GameSeedingStrategy;
+import net.sourceforge.cilib.games.random.UniqueSeedingStrategy;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -29,14 +34,17 @@ import net.sourceforge.cilib.util.Cloneable;
 public abstract class GameState implements Cloneable {
     //the current iteration of the game. An iteration is completed after each player has made a move and the state is updated
     protected int currentIteration;
+    protected GameSeedingStrategy randomizer;
     private static final long serialVersionUID = 3668288597302493178L;
     
     public GameState() {
         currentIteration = 0;
+        randomizer = new UniqueSeedingStrategy();
     }
     
     public GameState(GameState other){
         currentIteration = other.currentIteration;
+        randomizer = other.randomizer.getClone();
     }
     /**
      * Clear the state and reset it to a start state.     
@@ -55,5 +63,13 @@ public abstract class GameState implements Cloneable {
     }
     public int getCurrentIteration(){
         return currentIteration;
+    }
+
+    public GameSeedingStrategy getRandomizer() {
+        return randomizer;
+    }
+
+    public void setRandomizer(GameSeedingStrategy randomizer) {
+        this.randomizer = randomizer;
     }
 }

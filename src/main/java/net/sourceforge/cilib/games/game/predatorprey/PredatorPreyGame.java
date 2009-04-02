@@ -139,7 +139,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
      * {@inheritDoc}
      */
     @Override
-    public PredatorPreyGame getShallowClone(ListGameState newState) {
+    public PredatorPreyGame getClone(ListGameState newState) {
         return new PredatorPreyGame(this, newState);
     }
 
