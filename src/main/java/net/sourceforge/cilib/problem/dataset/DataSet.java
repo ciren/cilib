@@ -39,7 +39,7 @@ public abstract class DataSet implements Cloneable, Serializable {
     protected String identifier = null;
 
     public DataSet() {
-        identifier = "<not set>";
+        identifier = "<unknown data set>";
     }
 
     public DataSet(DataSet rhs) {

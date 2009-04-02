@@ -130,8 +130,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
             // TODO: I don't know if this if-else is part of the original KMeans algorithm
             if (cluster.isEmpty()) {
                 // reinitialise the centroid if no patterns "belong" to it
-                ArrayList<Vector> tmp = this.centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
-                centroid = tmp.get(tmp.size() - 1); // use the last centroid that was generated; might return an unbounded Vector
+                centroid = this.centroidsInitialisationStrategy.reinitialise(centroids, i); // might return unbounded Vector
             }
             else {
                 // the centroid becomes the mean of cluster i

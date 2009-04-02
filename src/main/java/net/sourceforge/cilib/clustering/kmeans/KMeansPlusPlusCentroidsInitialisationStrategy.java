@@ -47,12 +47,10 @@ public class KMeansPlusPlusCentroidsInitialisationStrategy implements CentroidsI
     private static final long serialVersionUID = -1475341727508334776L;
     private ArrayList<Pattern> patterns;
     private DistanceMeasure distanceMeasure;
-    private ArrayList<Vector> chosenCentroids;
 
     public KMeansPlusPlusCentroidsInitialisationStrategy() {
         patterns = null;
         distanceMeasure = null;
-        chosenCentroids = null;
     }
 
     /**
@@ -72,29 +70,45 @@ public class KMeansPlusPlusCentroidsInitialisationStrategy implements CentroidsI
         RandomProvider randomPattern = new MersenneTwister();
         RandomProvider randomProbability = new MersenneTwister();
         int numberOfClusters = problem.getNumberOfClusters();
-        int centroidsChosen = 0;
 
         this.patterns = dataset.getPatterns();
         this.distanceMeasure = problem.getDistanceMeasure();
-        this.chosenCentroids = new ArrayList<Vector>();
+        ArrayList<Vector> chosenCentroids = new ArrayList<Vector>();
 
-        while (centroidsChosen < numberOfClusters) {
-            Vector candidateCentroid = Vector.copyOf(patterns.get(Math.round(randomPattern.nextInt(patterns.size()))).data);
+        for (int i = 0; i < numberOfClusters; ++i) {
+            Vector candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).data);
 
-            if (centroidsChosen > 0) {
-                double probability = calculateProbability(candidateCentroid);
-
-                if (randomProbability.nextDouble() >= probability) {
-                    continue;
+            if (i > 0) {
+                while (randomProbability.nextDouble() >= this.calculateProbability(chosenCentroids, candidateCentroid)) {
+                    candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).data);
                 }
             }
-            this.chosenCentroids.add(candidateCentroid);
-            ++centroidsChosen;
+            chosenCentroids.add(candidateCentroid);
         }
-        return this.chosenCentroids;
+        return chosenCentroids;
     }
 
-    private double calculateProbability(Vector candidateCentroid) {
+    /**
+     * Remove the unwanted centroid and replace it with a newly chosen centroid, still based on its contribtution to the
+     * overall potential.
+     * {@inheritDoc}
+     */
+    @Override
+    public Vector reinitialise(ArrayList<Vector> centroids, int which) {
+        Vector candidateCentroid = null;
+        RandomProvider randomPattern = new MersenneTwister();
+        RandomProvider randomProbability = new MersenneTwister();
+
+        do {
+            candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).data);
+        }
+        while (randomProbability.nextDouble() >= this.calculateProbability(centroids, candidateCentroid));
+
+        centroids.set(which, candidateCentroid);
+        return candidateCentroid;
+    }
+
+    private double calculateProbability(ArrayList<Vector> chosenCentroids, Vector candidateCentroid) {
         double probability = 0.0;
         double numerator = Double.MAX_VALUE;
 

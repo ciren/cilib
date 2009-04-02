@@ -50,9 +50,7 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
      * space. The built-representation of the behavioural domain of the given {@link ClusteringProblem} is used to build a
      * {@link Vector} that will house the centroids.
      *
-     * @param problem the {@link ClusteringProblem} currently being optimized
-     * @param dataset the {@link StaticDataSetBuilder} currently being clustered
-     * @return an {@link ArrayList} of {@link Vector}s that represents all the centroids
+     * {@inheritDoc}
      */
     @Override
     public ArrayList<Vector> initialise(ClusteringProblem problem, StaticDataSetBuilder dataset) {
@@ -61,5 +59,18 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
 
         centroids.randomize(new MersenneTwister());
         return ClusteringUtils.disassembleCentroids(centroids, numberOfCentroids);
+    }
+
+    /**
+     * Just randomize the centroid vector.
+     * {@inheritDoc}
+     */
+    @Override
+    public Vector reinitialise(ArrayList<Vector> centroids, int which) {
+        Vector reinitialised = centroids.get(which);
+
+        reinitialised.randomize(new MersenneTwister());
+
+        return reinitialised;
     }
 }

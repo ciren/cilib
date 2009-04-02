@@ -30,12 +30,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * This strategy allows for different ways of initializing the centroids of a clustering.
+ * This strategy allows for different ways of initializing the centroids of a clustering. It also allows for a specific
+ * centroid to be {@link #reinitialise(java.util.ArrayList, int) reinitialised}.
  * The following approaches have already been implemented:
  * <ul>
  * <li>Randomly ({@link RandomCentroidsInitialisationStrategy}); or</li>
  * <li>Based on random patterns chosen from the dataset ({@link DataSetBasedCentroidsInitialisationStrategy})</li>
- * <li>Based on the potential that each centroid contributes ({@link KMeansPlusPlusCentroidsInitialisationStrategy})</li>
+ * <li>Based on the contribution that each centroid contributes towards the overall potential
+ * ({@link KMeansPlusPlusCentroidsInitialisationStrategy})</li>
  * </ul>
  *
  * @author Theuns Cloete
@@ -45,7 +47,7 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
     public CentroidsInitialisationStrategy getClone();
 
     /**
-     * Initialize the centroid vectors for a clustering. Each centroid is individually initialised and then added to an
+     * Initialise the centroid vectors for a clustering. Each centroid is individually initialised and then added to an
      * {@link ArrayList} that represents all the centroids. This structure is then returned. The problem and/or dataset
      * that are currently being clustered can be used to get information about the clustering, such as the dimension of
      * the search space and centroids.
@@ -55,4 +57,12 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
      * @return an {@link ArrayList} of {@link Vector}s that represent all the centroids
      */
     public ArrayList<Vector> initialise(ClusteringProblem problem, StaticDataSetBuilder dataset);
+
+    /**
+     * Reinitialise the specified centroid (residing in the given list of centroids) and return it.
+     * @param centroids The list of centroid vectors containing the centroid that needs to be reinitialised.
+     * @param which The index of the centroid that should be reinitialised.
+     * @return the reinitialised centroid for convenience
+     */
+    public Vector reinitialise(ArrayList<Vector> centroids, int which);
 }

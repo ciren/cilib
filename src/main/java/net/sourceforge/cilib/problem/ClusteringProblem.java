@@ -180,7 +180,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
     /**
      * Duplicate the domain string of this clustering problem's dataset based on the number
      * of clusters that have been specified. For example, if the {@link #setDomain(String)}
-     * method has has been called with <code>"R(-1.0,1.0),R(-1.0,1.0)"</code> as parameter
+     * method has been called with <code>"R(-1.0,1.0),R(-1.0,1.0)"</code> as parameter
      * and the {@link #setNumberOfClusters(int)} method has been called with <code>3</code>
      * as parameter, then the clustering fitness function's domain will automatically be
      * regenerated to be

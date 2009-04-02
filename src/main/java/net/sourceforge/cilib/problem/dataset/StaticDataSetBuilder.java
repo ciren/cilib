@@ -30,10 +30,9 @@ import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This class "collects" and holds all the patterns of the {@link DataSet}s specified
- * through the {@link #addDataSet(DataSet)} method. The name is no longer relevant, because
- * this class no longer keeps track of cluster assignments. That is now the job of the
- * {@link ClusteringUtils} class. Therefore, this class' name will probably change to
- * something like ClusterableDataSetBuilder.
+ * through the {@link #addDataSet(DataSet)} method. It was originally the <code>AssociatedPairDataSetBuilder</code>
+ * class, but has since changed quite a lot. Most of the functionality is now handled by the {@link ClusteringUtils}
+ * helper class.
  *
  * @author Gary Pampara
  * @author Theuns Cloete
@@ -41,27 +40,32 @@ import net.sourceforge.cilib.util.ClusteringUtils;
 public class StaticDataSetBuilder extends DataSetBuilder {
     private static final long serialVersionUID = -7035524554252462144L;
 
-    protected ArrayList<Pattern> patterns = null;
-    protected Vector cachedMean = null;
-    protected double cachedVariance = 0.0;
-    protected double[] distanceCache = null;
-    protected String identifier = null;
+    protected ArrayList<Pattern> patterns;
+    protected Vector cachedMean;
+    protected double cachedVariance;
+    protected double[] distanceCache;
+    protected String identifier;
+    protected boolean cached;
 
     /**
      * Initialise the patterns data structure and set the identifier to be blank.
      */
     public StaticDataSetBuilder() {
-        patterns = new ArrayList<Pattern>();
-        identifier = "";
+        this.patterns = new ArrayList<Pattern>();
+        this.identifier = "<unknown built data set>";
+        this.cached = true;
     }
 
     public StaticDataSetBuilder(StaticDataSetBuilder rhs) {
         super(rhs);
-        patterns = new ArrayList<Pattern>();
+        this.patterns = new ArrayList<Pattern>();
 
         for (Pattern pattern : rhs.patterns) {
-            patterns.add(pattern.getClone());
+            this.patterns.add(pattern.getClone());
         }
+
+        this.identifier = rhs.identifier;
+        this.cached = rhs.cached;
     }
 
     @Override
@@ -103,22 +107,17 @@ public class StaticDataSetBuilder extends DataSetBuilder {
                 throw new IllegalArgumentException("Cannot combine datasets of different dimensions");
             }
             patterns.addAll(data);
-
-            if (identifier.equals("")) {
-                identifier += dataset.getIdentifier();
-            }
-            else {
-                identifier += "#|#" + dataset.getIdentifier();
-            }
             System.out.println(data.size() + " patterns added");
         }
 
-        cacheMeanAndVariance();
-        cacheDistances();
+        this.cacheMeanAndVariance();
+        if (this.cached) {
+            this.cacheDistances();
+        }
     }
 
     /**
-     * Calculate and cache the mean ({@link Vector}) and variance (scalar) of the dataset.
+     * Calculate and cached the mean ({@link Vector}) and variance (scalar) of the dataset.
      */
     private void cacheMeanAndVariance() {
         System.out.println("Caching dataset mean and variance");
@@ -147,7 +146,7 @@ public class StaticDataSetBuilder extends DataSetBuilder {
     }
 
     /**
-     * Calculate and cache the distances from all patterns to all other patterns. The cache
+     * Calculate and cache the distances from all patterns to all other patterns. The cached
      * structure looks like this (x represents a distance):
      *   0 1 2 3 4 5
      * 0 0 x x x x x
@@ -238,15 +237,47 @@ public class StaticDataSetBuilder extends DataSetBuilder {
     }
 
     /**
-     * Get the identifier that uniquely identifies this constructed/combined/built dataset.
+     * Get the identifier that uniquely identifies this constructed/combined/built data set. The returned string is
+     * created on the fly that lists all the {@link DataSet data sets} that comprises this built data set.
      *
      * @return the {@link #identifier}
      */
     public String getIdentifier() {
-        return identifier;
+        String identifiedAs = this.identifier + " = {";
+
+        for (int i = 0; i < this.dataSets.size(); ++i) {
+            identifiedAs += this.dataSets.get(i).getIdentifier();
+
+            if (i < this.dataSets.size() - 1) {
+                identifiedAs += ",";
+            }
+        }
+        return identifiedAs + "}";
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    /**
+     * Set the identifier that will initially uniquely identify this constructed/combined/built dataset that should
+     * still be constructed.
+     *
+     * @param id the identifying string that should be used.
+     */
+    public void setIdentifier(String id) {
+        this.identifier = id;
+    }
+
+    /**
+     * Checker whether the distances between every pattern (in this built-up data set) were cached?
+     * @return true/false
+     */
+    public boolean getCached() {
+        return this.cached;
+    }
+
+    /**
+     * Sets whether the distances between every pattern (in this built-up data set) should be cached.
+     * @param c true/false
+     */
+    public void setCached(boolean c) {
+        this.cached = c;
     }
 }

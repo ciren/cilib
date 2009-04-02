@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <!DOCTYPE simulator [
 <!ATTLIST algorithm id ID #IMPLIED>
 <!ATTLIST problem id ID #IMPLIED>
@@ -9,25 +8,18 @@
 <simulator>
     <algorithms>
         <algorithm id="kmeans.random" class="clustering.kmeans.KMeans">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
         </algorithm>
 
         <algorithm id="kmeans.biased" class="clustering.kmeans.KMeans">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
             <centroidsInitialisationStrategy class="clustering.kmeans.DataSetBasedCentroidsInitialisationStrategy"/>
         </algorithm>
 
-        <algorithm id="pso.random" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
-        </algorithm>
-
-        <algorithm id="pso.biased" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
-            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-                <entityType class="pso.particle.StandardParticle">
-                    <positionInitialisationStrategy class="entity.initialization.DataSetBasedInitializationStrategy"/>
-                </entityType>
-            </initialisationStrategy>
+        <algorithm id="kmeans.plusplus" class="clustering.kmeans.KMeans">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
+            <centroidsInitialisationStrategy class="clustering.kmeans.KMeansPlusPlusCentroidsInitialisationStrategy"/>
+            <centroidsDiversificationStrategy class="clustering.kmeans.StandardCentroidsDiversificationStrategy" interval="1" diversifyRatio="0.1" />
         </algorithm>
     </algorithms>
 
@@ -44,7 +36,8 @@
 
     <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.Fitness" />
-<!--        <addMeasurement class="measurement.single.GenericFunctionMeasurement">
+<!--
+        <addMeasurement class="measurement.single.GenericFunctionMeasurement">
             <function class="functions.clustering.InterClusterDistance" />
         </addMeasurement>
         <addMeasurement class="measurement.single.GenericFunctionMeasurement">
@@ -60,28 +53,21 @@
             <algorithm idref="kmeans.random"/>
             <problem idref="artificial" numberOfClusters="4" />
             <measurements idref="measurements" />
-	    <output format="TXT" file="measurements/kmeans.random.artificial.4.txt" />
-        </simulation>
-
-        <simulation samples="1">
-            <algorithm idref="pso.random"/>
-            <problem idref="artificial" numberOfClusters="4" />
-            <measurements idref="measurements" />
-	    <output format="TXT" file="measurements/pso.random.artificial.4.txt" />
+            <output format="TXT" file="measurements/kmeans.random.artificial.4.txt" />
         </simulation>
 
         <simulation samples="1">
             <algorithm idref="kmeans.biased"/>
             <problem idref="artificial" numberOfClusters="4" />
             <measurements idref="measurements" />
-	    <output format="TXT" file="measurements/kmeans.biased.artificial.4.txt" />
+            <output format="TXT" file="measurements/kmeans.biased.artificial.4.txt" />
         </simulation>
 
         <simulation samples="1">
-            <algorithm idref="pso.biased"/>
+            <algorithm idref="kmeans.plusplus"/>
             <problem idref="artificial" numberOfClusters="4" />
             <measurements idref="measurements" />
-	    <output format="TXT" file="measurements/pso.biased.artificial.4.txt" />
+            <output format="TXT" file="measurements/kmeans.plusplus.artificial.4.txt" />
         </simulation>
     </simulations>
 </simulator>
