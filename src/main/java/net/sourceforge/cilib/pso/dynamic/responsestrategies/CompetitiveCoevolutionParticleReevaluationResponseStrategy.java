@@ -62,29 +62,22 @@ public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extend
           //select new competitors and re-evaluate PBest vector of Particle                
          PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)Algorithm.get(); //the current sub population algorithm
          int populationID = -1;
-         double aveOld = 0.0;
-         double aveNew = 0.0;
          for(Entity e: currentAlgorithm.getTopology().asList()) {
              if(!(e instanceof AbstractParticle))
-                 throw new RuntimeException("CompetitiveCoevolutionParticleReevaluationResponceStrategy should only be used with Particles");
+                 throw new RuntimeException("CompetitiveCoevolutionParticleReevaluationResponseStrategy should only be used with Particles");
              if(populationID == -1)
                  populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
              Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
              blackboard.put(EntityType.CANDIDATE_SOLUTION, ((AbstractParticle)e).getBestPosition());
              blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());                
              Fitness val = currentAlgorithm.getOptimisationProblem().getFitness(blackboard, false);
-             aveOld += ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS)).getValue().doubleValue();
-             aveNew += val.getValue().doubleValue();
              e.getProperties().put(EntityType.Particle.BEST_FITNESS, val);
              //if currentV is better than re-evaluated pBest, then replace it
              if (e.getFitness().compareTo(e.getBestFitness()) > 0) {             
                  e.getProperties().put(EntityType.Particle.BEST_FITNESS, e.getFitness());
-                 e.getProperties().put(EntityType.Particle.BEST_POSITION, e.getProperties().get(EntityType.CANDIDATE_SOLUTION).getClone());
-             }
+                     e.getProperties().put(EntityType.Particle.BEST_POSITION, e.getProperties().get(EntityType.CANDIDATE_SOLUTION).getClone());
+                 }
         }
-         aveOld /= (double)currentAlgorithm.getTopology().size();
-         aveNew /= (double)currentAlgorithm.getTopology().size();
-         System.out.println("\nIteration: " + currentAlgorithm.getIterations() + " Population: " +populationID + " reevaluated" + "\nAve old pBest: " + aveOld + ", ave new pBest:" + aveNew+"\n");
     }
 
 }
