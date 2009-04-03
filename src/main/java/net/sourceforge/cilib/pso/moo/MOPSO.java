@@ -70,7 +70,7 @@ public class MOPSO extends PSO  {
 
         // TODO : prevent fitness re-evaluations
         // TODO : Check Jaco's code
-        paretoFront.add(new OptimisationSolution(this.getMoproblem(), topology.get(0).getPosition()));
+        paretoFront.add(new OptimisationSolution(topology.get(0).getPosition(), this.getMoproblem().getFitness(topology.get(0).getPosition(), false)));
         for (Particle particle : topology) {
             for (OptimisationSolution solution : paretoFront) {
                 int result = solution.getFitness().compareTo(particle.getFitness()); // Check this comparing
@@ -134,7 +134,7 @@ public class MOPSO extends PSO  {
 
         // TODO : prevent fitness re-evaluations
         // TODO : Check Jaco's code
-        paretoFront.add(new OptimisationSolution(this.getMoproblem(), topology.get(0).getPosition()));
+        paretoFront.add(new OptimisationSolution(topology.get(0).getPosition(), this.getMoproblem().getFitness(topology.get(0).getPosition(), false)));
         for (Particle particle : topology) {
             for (OptimisationSolution solution : paretoFront) {
                 int result = solution.getFitness().compareTo(particle.getFitness()); // Check this comparing

@@ -88,7 +88,7 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
 
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(optimisationProblem, context.getCandidateSolution().getClone());
+        return new OptimisationSolution(context.getCandidateSolution().getClone(), context.getFitness());
     }
 
     @Override

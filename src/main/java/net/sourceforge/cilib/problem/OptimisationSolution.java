@@ -34,18 +34,18 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
 
     private static final long serialVersionUID = 2119444179382452329L;
 
-    private OptimisationProblem problem;
-    private Type position;
+    private final Type position;
+    private final Fitness fitness;
 
     /**
      * Constructs a new instance of {@code OptimisationSolution}.
      *
-     * @param problem The optimisation problem for which  this is a solution.
      * @param position The position of the solution within the search space of the problem.
+     * @param fitness The fitness of the optimisation solution.
      */
-    public OptimisationSolution(OptimisationProblem problem, Type position) {
-        this.problem = problem;
-        this.position = position;
+    public OptimisationSolution(Type position, Fitness fitness) {
+        this.position = position.getClone();
+        this.fitness = fitness.getClone();
     }
 
     /**
@@ -65,7 +65,7 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
      * @return The fitness of this solution.
      */
     public Fitness getFitness() {
-        return problem.getFitness(position, false);
+        return fitness;
     }
 
     /**

@@ -163,7 +163,7 @@ public class KMeans extends SingularAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(this.getOptimisationProblem(), centroids.getClone());
+        return new OptimisationSolution(centroids.getClone(), getOptimisationProblem().getFitness(centroids, false));
     }
 
     /**

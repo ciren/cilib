@@ -225,7 +225,7 @@ public class HS extends SingularAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(getOptimisationProblem(), this.harmonyMemory.get/*First()*/(0).getCandidateSolution());
+        return new OptimisationSolution(this.harmonyMemory.get/*First()*/(0).getCandidateSolution(), this.harmonyMemory.get(0).getFitness());
     }
 
     /**

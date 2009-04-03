@@ -136,7 +136,8 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(this.getOptimisationProblem(), topology.getBestEntity().getBestPosition().getClone());
+        Particle bestEntity = topology.getBestEntity();
+        return new OptimisationSolution(bestEntity.getBestPosition().getClone(), bestEntity.getBestFitness());
     }
 
     /**

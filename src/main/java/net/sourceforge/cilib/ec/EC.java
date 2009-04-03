@@ -137,7 +137,8 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      * {@inheritDoc}
      */
     public OptimisationSolution getBestSolution() {
-        OptimisationSolution solution = new OptimisationSolution(problem, topology.getBestEntity().getCandidateSolution().getClone());
+        Entity bestEntity = topology.getBestEntity();
+        OptimisationSolution solution = new OptimisationSolution(bestEntity.getCandidateSolution().getClone(), bestEntity.getFitness());
 
         return solution;
     }
