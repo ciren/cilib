@@ -94,8 +94,8 @@ public class NeuralStateEvaluator extends NeuralAgent implements StateEvaluator 
      * {@inheritDoc}
      */
     @Override
-    public void setAmHiddenNodes(int amount){
-        amHiddenNodes = amount;
+    public void setHiddenNodes(int count){
+        hiddenNodesCount = count;
         if(stateInputStrategy != null)
             initializeNeuralNetwork();
     }
@@ -132,7 +132,7 @@ public class NeuralStateEvaluator extends NeuralAgent implements StateEvaluator 
      */
     private void initializeNeuralNetwork(){
         ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(stateInputStrategy.amountInputs() + 1);
-        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(amHiddenNodes + 1);
+        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(hiddenNodesCount + 1);
         ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(1); //there will only be 1 output neuron, the rank value of the state
         neuralNetworkTopology.initialize();
     }

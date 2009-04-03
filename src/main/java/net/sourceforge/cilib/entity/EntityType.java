@@ -51,7 +51,6 @@ public enum EntityType {
     public enum Coevolution { // Not sure about this... has a funky smell to it.
         DISTANCE,
         BOARD,
-        COMPETITOR_LIST,
         POPULATION_ID;
     }
 }

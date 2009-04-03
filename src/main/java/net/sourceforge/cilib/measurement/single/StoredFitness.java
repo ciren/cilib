@@ -19,70 +19,52 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.measurement.multiple;
+package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * This measurement only works for PSO. Simply find the Entity with the Best person best fitness in the population without re-calculating the fitness.
  * @author leo
- * This class currently only works for PSO, it finds the best personal best fitness
- * values for each population in a multi-population based algorithm without re-calculating
- * the fitness.
+ *
  */
-public class MultiPopulationFitness implements Measurement {
-    private static final long serialVersionUID = -608120128187899491L;
+public class StoredFitness implements Measurement {
+    private static final long serialVersionUID = 6502384299554109943L;
 
-    public MultiPopulationFitness() {
-
+    public StoredFitness() {
     }
 
-    public MultiPopulationFitness(MultiPopulationFitness other) {
-
+    public StoredFitness(StoredFitness other) {
     }
-
     /**
      * {@inheritDoc}
      */
-    @Override
-    public Measurement getClone() {
-
-        return new MultiPopulationFitness(this);
+    public StoredFitness getClone() {
+        return new StoredFitness(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String getDomain() {
-
-        return "T";
+        return "R";
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public Type getValue(Algorithm algorithm) {
-        Vector fitness = new Vector();
-        CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
-        for(PopulationBasedAlgorithm currentAlgorithm : ca) {
-            Fitness best = null;
-            for(Entity e: currentAlgorithm.getTopology().asList()){
-                if(best == null || ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0)
-                    best = ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS));
-            }
-            fitness.add(new Real(best.getValue()));
+        Fitness best = null;
+        PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)algorithm;
+        for(Entity e: currentAlgorithm.getTopology().asList()){
+            if(best == null || ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS)).compareTo(best) > 0)
+                best = ((Fitness)e.getProperties().get(EntityType.Particle.BEST_FITNESS));
         }
-        return fitness;
+        return new Real(best.getValue());
     }
 
 }

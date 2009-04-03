@@ -42,7 +42,7 @@ public class PeriodicDetectionStrategy<E extends PopulationBasedAlgorithm> exten
 
     @Override
     public boolean detect(PopulationBasedAlgorithm algorithm) {
-        if (algorithm.getIterations() % interval == 0) {
+        if (algorithm.getIterations() != 0 && algorithm.getIterations() % interval == 0) {
             return true;
         }
         return false;

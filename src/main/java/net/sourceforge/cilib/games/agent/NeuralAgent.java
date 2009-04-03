@@ -49,7 +49,7 @@ public class NeuralAgent extends Agent {
     //this determines how the output of the Neural Network alters the game state
     protected NeuralOutputInterpretationStrategy outputInterpretationStrategy;
     //The amount of hidden nodes for the NN
-    protected int amHiddenNodes;
+    protected int hiddenNodesCount;
     //FFNNTopology nnet;
     protected GenericTopology neuralNetworkTopology;
     /**
@@ -57,7 +57,7 @@ public class NeuralAgent extends Agent {
      */
     public NeuralAgent() {
         super();
-        amHiddenNodes = 1;
+        hiddenNodesCount = 1;
     }
 
     /**
@@ -67,19 +67,19 @@ public class NeuralAgent extends Agent {
         super(other);
         stateInputStrategy = other.stateInputStrategy;
         outputInterpretationStrategy = other.outputInterpretationStrategy;
-        amHiddenNodes = other.amHiddenNodes;
+        hiddenNodesCount = other.hiddenNodesCount;
         neuralNetworkTopology = other.neuralNetworkTopology; //CLONE?
     }
     
     private void initializeNeuralNetwork(){
         ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(stateInputStrategy.amountInputs() + 1);
-        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(amHiddenNodes + 1);
+        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(hiddenNodesCount + 1);
         ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(outputInterpretationStrategy.getAmOutputs());
         neuralNetworkTopology.initialize();
     }
     
-    public void setAmHiddenNodes(int amount){
-        amHiddenNodes = amount;
+    public void setHiddenNodes(int count){
+        hiddenNodesCount = count;
         if(stateInputStrategy != null && outputInterpretationStrategy != null)
             initializeNeuralNetwork();
     }
@@ -162,8 +162,8 @@ public class NeuralAgent extends Agent {
         neuralNetworkTopology = topology;
     }
 
-    public int getAmHiddenNodes() {
-        return amHiddenNodes;
+    public int getHiddenNodesCount() {
+        return hiddenNodesCount;
     }
 
     public NeuralOutputInterpretationStrategy getOutputInterpretationStrategy() {

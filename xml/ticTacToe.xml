@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+    <problems>
+        <problem id="NeuralvsHandcoded" class="problem.coevolution.GameLearningOptimizationProblem" numberOfEvaluations="10">
+            <game class="games.game.tictactoe.TicTacToe">
+                <agent class="games.agent.state.StateEvaluationAgent">
+                    <traversalStrategy class="games.agent.state.traversal.MinMaxAlphaBetaTraversalStrategy" MaxDepth="1"> 
+                        <evaluator class="games.agent.state.evaluation.NeuralStateEvaluator" hiddenNodes="2"> 
+                            <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
+                                <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
+                                    <prototypeWeight class="neuralnetwork.generic.Weight">
+                                        <weightValue class="type.types.Real" real="0.5"/>
+                                        <previousChange class="type.types.Real" real="0.0"/>
+                                    </prototypeWeight>
+                                </topologyBuilder>
+                                <weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
+                            </neuralNetworkTopology>
+                            <stateInputStrategy class="games.game.tictactoe.TTTStateInputStrategy"/>
+                        </evaluator>
+                    </traversalStrategy>
+                </agent>
+                <agent class="games.agent.state.StateEvaluationAgent">
+                    <traversalStrategy class="games.agent.state.traversal.MinMaxAlphaBetaTraversalStrategy" MaxDepth="9"> 
+                        <evaluator class="games.agent.state.evaluation.EndGameStateEvaluator"/> 
+                    </traversalStrategy>
+                </agent>
+                <scoringStrategy class="games.game.scoring.WinLoseDrawValueScoringStrategy" drawValue="1.0"/>
+            </game>
+        </problem>
+        <problem id="NeuralvsRandom" class="problem.coevolution.GameLearningOptimizationProblem" numberOfEvaluations="30">
+            <game class="games.game.tictactoe.TicTacToe">
+                <agent class="games.agent.state.StateEvaluationAgent">
+                    <traversalStrategy class="games.agent.state.traversal.MinMaxAlphaBetaTraversalStrategy" MaxDepth="1"> 
+                        <evaluator class="games.agent.state.evaluation.NeuralStateEvaluator" hiddenNodes="2"> 
+                            <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
+                                <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
+                                    <prototypeWeight class="neuralnetwork.generic.Weight">
+                                        <weightValue class="type.types.Real" real="0.5"/>
+                                        <previousChange class="type.types.Real" real="0.0"/>
+                                    </prototypeWeight>
+                                </topologyBuilder>
+                                <weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
+                            </neuralNetworkTopology>
+                            <stateInputStrategy class="games.game.tictactoe.TTTStateInputStrategy"/>
+                        </evaluator>
+                    </traversalStrategy>
+                </agent>
+                <agent class="games.agent.RandomAgent"/>
+                <scoringStrategy class="games.game.scoring.WinLoseDrawValueScoringStrategy"/>
+            </game>
+        </problem>
+    </problems>
+    <algorithms>
+        <algorithm id="lbest" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="20">
+            <entityType class="pso.particle.StandardParticle">
+                <FitnessCalculator class = "util.calculator.PropertyBasedFitnessCalculator"/>
+            </entityType>
+            </initialisationStrategy>
+        </algorithm>
+    </algorithms>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
+        <addMeasurement class="measurement.single.StoredFitness"/>
+    </measurements>
+
+<simulations>
+        <simulation>
+            <algorithm idref="lbest"/>
+            <problem idref="NeuralvsHandcoded"/>
+            <measurements idref="fitness" file="data/TTTNvH.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="lbest"/>
+            <problem idref="NeuralvsRandom"/>
+            <measurements idref="fitness" file="data/TTTNvR.txt"/>
+        </simulation>
+    </simulations>
+</simulator>
