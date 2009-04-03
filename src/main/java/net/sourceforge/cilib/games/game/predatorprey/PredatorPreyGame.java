@@ -24,6 +24,8 @@ package net.sourceforge.cilib.games.game.predatorprey;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.games.agent.Agent;
 import net.sourceforge.cilib.games.game.Game;
+import net.sourceforge.cilib.games.game.predatorprey.init.PredPreyPositionInitializationStrategy;
+import net.sourceforge.cilib.games.game.predatorprey.init.RandomPredPreyInitializationStrategy;
 import net.sourceforge.cilib.games.items.GameEnum;
 import net.sourceforge.cilib.games.items.GameItem;
 import net.sourceforge.cilib.games.items.GameToken;
@@ -47,6 +49,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
     int maxIterations;    
     int boardHeight;
     int boardWidth;
+    PredPreyPositionInitializationStrategy initializationStrategy;
     /**
      * {@inheritDoc}     
      */
@@ -55,6 +58,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
         boardHeight = 9;
         boardWidth = 9;
         setCurrentGameState(new ListGameState());
+        initializationStrategy = new RandomPredPreyInitializationStrategy();
     }
     /**
      * {@inheritDoc}     
@@ -64,6 +68,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
         boardHeight = other.boardHeight;
         boardWidth = other.boardWidth;
         maxIterations = other.maxIterations;
+        initializationStrategy = other.initializationStrategy.getClone();
     }
     /**
      * {@inheritDoc}     
@@ -73,6 +78,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
         boardHeight = other.boardHeight;
         boardWidth = other.boardWidth;
         maxIterations = other.maxIterations;
+        initializationStrategy = other.initializationStrategy;
     }
     /**
      * This function determins whether or not the predator has caught the prey
@@ -170,7 +176,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
         for(Agent p : players){
             getCurrentState().addGameItem(new GridItem(p.getPlayerID(), p.getAgentToken(), boardWidth, boardHeight));
         }
-        //initializationStrategy.initializePP(this); COMING IN A FOLLOWING PATCH!
+        initializationStrategy.initializePP(this);
     }
     
     /**
@@ -219,5 +225,14 @@ public class PredatorPreyGame extends Game<ListGameState> {
 
     public void setMaxIterations(int maxIterations) {
         this.maxIterations = maxIterations;
+    }
+
+    public void setInitializationStrategy(
+            PredPreyPositionInitializationStrategy initializationStrategy) {
+        this.initializationStrategy = initializationStrategy;
+    }
+
+    public PredPreyPositionInitializationStrategy getInitializationStrategy() {
+        return initializationStrategy;
     }
 }

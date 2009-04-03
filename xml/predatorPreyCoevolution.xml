@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+    
+    <problem id="PredatorPrey" class="problem.coevolution.CompetitiveCoevolutionGameLearningOptimizationProblem" numberOfEvaluations="10">
+        <game class="games.game.predatorprey.RealTimePredatorPreyGame" MaxIterations="20">
+            <agent class="games.agent.NeuralAgent" hiddenNodes="4" AgentToken="PredatorPrey.PREDATOR">
+                <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
+                    <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
+                        <activationFunction class = "neuralnetwork.generic.neuron.TanHOutputFunction"/>
+                        <prototypeWeight class="neuralnetwork.generic.Weight">
+                            <weightValue class="type.types.Real" real="0.5"/>
+                            <previousChange class="type.types.Real" real="0.0"/>
+                        </prototypeWeight>
+                    </topologyBuilder>
+                    <weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
+                </neuralNetworkTopology>
+                <stateInputStrategy class="games.game.predatorprey.PredatorPreyNeuralInputStrategy"/>
+                <outputInterpretationStrategy class="games.game.predatorprey.NeuralPredatorOutputStrategy"/>
+            </agent>
+            <agent class="games.agent.NeuralAgent" hiddenNodes="4" AgentToken="PredatorPrey.PREY"> 
+                <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
+                    <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
+                        <activationFunction class = "neuralnetwork.generic.neuron.TanHOutputFunction"/>
+                        <prototypeWeight class="neuralnetwork.generic.Weight">
+                            <weightValue class="type.types.Real" real="0.5"/>
+                            <previousChange class="type.types.Real" real="0.0"/>
+                        </prototypeWeight>
+                    </topologyBuilder>
+                    <weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
+                </neuralNetworkTopology>
+                <stateInputStrategy class="games.game.predatorprey.PredatorPreyNeuralInputStrategy"/>
+                <outputInterpretationStrategy class="games.game.predatorprey.NeuralPreyOutputStrategy"/>
+            </agent>
+            <scoringStrategy class="games.game.predatorprey.PredatorPreyGameScoringStrategy"/>
+        </game>
+    </problem>
+
+    <algorithms>
+        <algorithm id="lbest" class="pso.PSO">
+            <iterationStrategy class = "pso.dynamic.DynamicIterationStrategy">
+                <IterationStrategy class = "pso.iterationstrategies.ASynchronousIterationStrategy"/>
+                <DetectionStrategy class = "pso.dynamic.detectionstrategies.PeriodicDetectionStrategy" IterationsModulus="50"/>
+                <ResponseStrategy class = "pso.dynamic.responsestrategies.CompetitiveCoevolutionParticleReevaluationResponseStrategy"/>
+            </iterationStrategy>
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="40">
+            <entityType class="pso.dynamic.ChargedParticle">
+                <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
+                <velocityUpdateStrategy class="pso.dynamic.ChargedVelocityUpdateStrategy" pCore = "10" p = "1000">
+                    <vMax class="controlparameter.ConstantControlParameter" parameter="3.0"/>                    
+                </velocityUpdateStrategy>
+                <chargedParticleInitialisationStrategy class="pso.dynamic.StandardChargedParticleInitialisationStrategy" ChargeMagnitude = "1.0"/>
+            </entityType>
+            </initialisationStrategy>
+            <topology class="entity.topologies.LBestTopology">
+                <neighbourhoodSize class = "controlparameter.ConstantControlParameter" parameter = "3"/>
+            </topology>
+        </algorithm>                    
+
+        <algorithm id="compcoevol" class="coevolution.CoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+            <coevolutionIterationStrategy class="coevolution.CompetitiveCoevolutionIterationStrategy">
+                <opponentSelectionStrategy class="coevolution.selection.SelectNOpponentSelectionStrategy" numberOfOpponents="40">
+                    <addPoolSelectionStrategy class = "coevolution.selection.SelectpBestSolutionsPoolSelectionStrategy"/>
+                    <addPoolSelectionStrategy class = "coevolution.selection.SelectHOFPoolSelectionStrategy" HOFSize = "15" AddToHOFEpoch="50"/>
+                </opponentSelectionStrategy>
+            </coevolutionIterationStrategy>
+        </algorithm>
+    </algorithms>
+
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
+        <addMeasurement class="measurement.multiple.MultiPopulationFitness"/>
+    </measurements>
+
+<simulations>
+        <simulation>
+            <algorithm idref="compcoevol">
+                <algorithm idref="lbest"/>
+                <algorithm idref="lbest"/>
+            </algorithm>
+            <problem idref="PredatorPrey"/>
+            <measurements idref="fitness" file="data/PredatorPreyCoevolutionPSO.txt"/>
+        </simulation>
+    </simulations>
+</simulator>

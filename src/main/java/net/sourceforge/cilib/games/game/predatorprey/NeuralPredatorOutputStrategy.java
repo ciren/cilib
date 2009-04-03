@@ -59,8 +59,6 @@ public class NeuralPredatorOutputStrategy extends
             else 
                 y = -1;        
         
-        //if(x < 0 || y < 0)
-            //System.out.println("Pred: " + x + " " + y);
         game.movePlayer(currentPlayer.getPlayerID(), x, y);
     }
 
