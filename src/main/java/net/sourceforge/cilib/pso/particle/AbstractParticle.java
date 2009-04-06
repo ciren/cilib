@@ -32,6 +32,7 @@ import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationS
 import net.sourceforge.cilib.pso.particle.initialisation.ZeroInitialVelocityStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PersonalBestUpdateStrategy;
+import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
@@ -55,6 +56,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     protected PositionInitialisationStrategy positionInitialisationStrategy;
     // protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
     protected PersonalBestUpdateStrategy personalBestUpdateStrategy;
+    protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 
     private int id;
 
@@ -86,6 +88,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
         this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
         this.personalBestUpdateStrategy = copy.personalBestUpdateStrategy.getClone();
+        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
     }
 
     /**
@@ -273,6 +276,30 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     public void setPositionInitialisationStrategy(PositionInitialisationStrategy positionInitialisationStrategy) {
         this.positionInitialisationStrategy = positionInitialisationStrategy;
+    }
+
+    /**
+     * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>.
+     * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
+     */
+    public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {
+        return neighbourhoodBestUpdateStrategy;
+    }
+
+    /**
+     * Set the <code>NeighbourhoodBestUpdateStrategy</code> to be used by the {@linkplain Entity}.
+     * @param neighbourhoodBestUpdateStrategy The <code>NeighbourhoodBestUpdateStrategy</code> to be used
+     */
+    public void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy) {
+        this.neighbourhoodBestUpdateStrategy = neighbourhoodBestUpdateStrategy;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Fitness getSocialBestFitness() {
+        return this.neighbourhoodBestUpdateStrategy.getSocialBestFitness(this);
     }
 
     /**

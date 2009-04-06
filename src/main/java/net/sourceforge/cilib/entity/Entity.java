@@ -26,7 +26,6 @@ import java.io.Serializable;
 import java.util.Comparator;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -98,13 +97,6 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
      * @return The associated best {@linkplain Fitness} value.
      */
     public Fitness getBestFitness();
-
-    /**
-     * Get the social best fitness of the {@linkplain Entity}. The social best is determined
-     * but the predefined {@linkplain NeighbourhoodBestUpdateStrategy}.
-     * @return The social best fitness value.
-     */
-    public Fitness getSocialBestFitness();
 
     /**
      * Intialise the Entity to something meaningful and within the problem space.

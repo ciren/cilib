@@ -26,8 +26,6 @@ import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy;
-import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -44,7 +42,6 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 
     private long id;
     private final CandidateSolution candidateSolution;
-    protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
     private FitnessCalculator<Entity> fitnessCalculator;
 
     /**
@@ -54,7 +51,6 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
         this.id = EntityIdFactory.getNextId();
 
         this.candidateSolution = new CandidateSolutionMixin();
-        this.neighbourhoodBestUpdateStrategy = new IterationNeighbourhoodBestUpdateStrategy();
         this.fitnessCalculator = new EntityBasedFitnessCalculator();
     }
 
@@ -66,7 +62,6 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
         this.id = EntityIdFactory.getNextId();
 
         this.candidateSolution = (CandidateSolution) copy.candidateSolution.getClone();
-        this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy.getClone();
         this.fitnessCalculator = copy.fitnessCalculator.getClone();
     }
 
@@ -154,38 +149,15 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
      * {@inheritDoc}
      */
     @Override
-    public final Fitness getSocialBestFitness() {
-        return this.neighbourhoodBestUpdateStrategy.getSocialBestFitness(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Fitness getBestFitness() {
         return getFitness();
-    }
-
-    /**
-     * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>.
-     * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
-     */
-    public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {
-        return this.neighbourhoodBestUpdateStrategy;
-    }
-
-    /**
-     * Set the <code>NeighbourhoodBestUpdateStrategy</code> to be used by the {@linkplain Entity}.
-     * @param neighbourhoodBestUpdateStrategy The <code>NeighbourhoodBestUpdateStrategy</code> to be used
-     */
-    public void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy) {
-        this.neighbourhoodBestUpdateStrategy = neighbourhoodBestUpdateStrategy;
     }
 
     /**
      * Get the current {@code FitnessCalculator} for the current {@code Entity}.
      * @return The {@code FitnessCalculator} associated with this {@code Entity}.
      */
+    @Override
     public FitnessCalculator getFitnessCalculator() {
         return fitnessCalculator;
     }
