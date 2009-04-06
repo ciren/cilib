@@ -71,13 +71,13 @@
     <menu name="Documentation">
       <item name="Users Guide" href="/usersguide/index.html" collapse="true">
         <item name="Introduction" href="/usersguide/introduction.html" />
-	<item name="Quick Start" href="/usersguide/quick-start.html" />
-	<item name="XML Configuration" href="/usersguide/xml-configuration.html" />
-	<item name="Direct usage in code" href="/usersguide/direct-code-usage.html" />
+    <item name="Quick Start" href="/usersguide/quick-start.html" />
+    <item name="XML Configuration" href="/usersguide/xml-configuration.html" />
+    <item name="Direct usage in code" href="/usersguide/direct-code-usage.html" />
       </item>
       <item name="Developer's Guide" href="/developers/index.html" collapse="true">
         <item name="Code Style and conventions" href="/developers/code.html" />
-	<item name="Workflows" href="/developers/workflows.html" />
+    <item name="Workflows" href="/developers/workflows.html" />
       </item>
     </menu>
 

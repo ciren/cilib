@@ -33,17 +33,17 @@
     <fileSet>
       <includes>
         <include>README*</include>
-	<include>COPYING*</include>
+    <include>COPYING*</include>
         <include>LICENSE*</include>
-	<include>AUTHORS*</include>
+    <include>AUTHORS*</include>
         <include>NOTICE*</include>
-	<include>simulator*</include>
+    <include>simulator*</include>
       </includes>
     </fileSet>
     <fileSet>
       <directory>xml</directory>
       <includes>
-      	<include>*.xml</include>
+          <include>*.xml</include>
       </includes>
     </fileSet>
     <fileSet>

@@ -49,12 +49,12 @@
     algorithms, with performance of the algorithm not being as important as
     having an algorithmic framework that is highly generic and simplistic.
     The power of CIlib lies in the ability to compose the required 
-    algorithm quickly and	correctly from the available set of algorithmic
+    algorithm quickly and    correctly from the available set of algorithmic
     components.
     </p>
     <p>
     All algorithm definitions are defined as a tree structure. As a result,
-    the	use of XML leads to a very robust expression of the algorithm and the
+    the    use of XML leads to a very robust expression of the algorithm and the
     associated components.
     </p>
 

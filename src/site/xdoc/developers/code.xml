@@ -45,7 +45,7 @@
       removed.</li>
       <ul>
         <li>Netbeans users should use the "Remove Trailing Whitespace"
-	option under the "Source" menu item.</li>
+    option under the "Source" menu item.</li>
         <li>Eclipse users can use the <a href="http://andrei.gmxhome.de/anyedit">Anyedit Eclipse Plugin</a> to automatically remove trailing whitespace.</li>
       </ul>
       <li><b>EOL</b>: UNIX End Of Line characters are expected.</li>

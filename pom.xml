@@ -292,7 +292,7 @@
           <minimumTokens>100</minimumTokens>
           <targetJdk>1.5</targetJdk>
           <rulesets>
-	  </rulesets>
+      </rulesets>
           <ruleset>/rulesets/basic.xml</ruleset>
           <ruleset>/rulesets/javabeans.xml</ruleset>
         </configuration>
