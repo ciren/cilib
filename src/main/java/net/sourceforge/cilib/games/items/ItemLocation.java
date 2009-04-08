@@ -40,7 +40,7 @@ public abstract interface ItemLocation extends Type {
      * @param other The other location
      * @return the distance
      */
-    public abstract Double getDistance(DistanceMeasure measure, ItemLocation other);
+    public abstract double getDistance(DistanceMeasure measure, ItemLocation other);
     /**
      * Move this location by the specified amount
      * @param amount

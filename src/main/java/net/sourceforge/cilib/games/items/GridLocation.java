@@ -74,10 +74,10 @@ public class GridLocation extends Vector implements ItemLocation {
      * {@inheritDoc}
      */
     @Override
-    public Double getDistance(DistanceMeasure measure, ItemLocation other) {
+    public double getDistance(DistanceMeasure measure, ItemLocation other) {
         if(!(other instanceof GridLocation))
             throw new RuntimeException("can only determine the distance between two gridlocation itemlocations");
-        return measure.distance(this, ((GridLocation)other));
+        return measure.distance(this, ((GridLocation) other));
     }
 
     /**
