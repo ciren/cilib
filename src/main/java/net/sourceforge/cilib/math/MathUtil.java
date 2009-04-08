@@ -21,9 +21,8 @@
  */
 package net.sourceforge.cilib.math;
 
-import java.util.Random;
-
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 /**
  * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>
@@ -35,6 +34,8 @@ import net.sourceforge.cilib.math.random.generator.MersenneTwister;
  * @author Gary Pampara
  */
 public final class MathUtil {
+
+    private static Random random;
 
     private MathUtil() {
     }
@@ -100,7 +101,10 @@ public final class MathUtil {
      * @return A uniform random number in the range [0,1).
      */
     public static synchronized double random() {
-        return new MersenneTwister().nextDouble();
+        if (random == null)
+            random = new MersenneTwister();
+
+        return random.nextDouble();
     }
 
     /**
