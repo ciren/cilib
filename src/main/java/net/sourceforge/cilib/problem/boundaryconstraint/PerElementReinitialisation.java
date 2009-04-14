@@ -64,9 +64,7 @@ public class PerElementReinitialisation extends ReinitialisationBoundary {
 
     private void enforce(Numeric numeric) {
         if (!TypeUtil.isInsideBounds(numeric)) {
-//        if (!numeric.isInsideBounds()) {
             TypeUtil.randomize(numeric);
-//            numeric.randomise();
         }
     }
 }

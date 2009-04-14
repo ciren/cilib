@@ -25,6 +25,7 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 import java.util.Iterator;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -57,7 +58,8 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
         StructuredType structuredType = (StructuredType) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (structuredType == null)
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
+                + entity.getClass().getSimpleName());
 
         Iterator pIterator = entity.getCandidateSolution().iterator();
         Iterator vIterator = structuredType.iterator();
@@ -74,7 +76,7 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
                 velocity.set(previousPosition - position.getReal());
             }
             else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
-                position.set(bounds.getUpperBound() - Double.MIN_NORMAL);
+                position.set(bounds.getUpperBound() - MathUtil.EPSILON);
                 velocity.set(previousPosition - position.getReal());
             }
         }

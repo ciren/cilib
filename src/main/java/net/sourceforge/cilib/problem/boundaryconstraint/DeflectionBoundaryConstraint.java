@@ -41,10 +41,18 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
 
     private ControlParameter velocityDampingFactor;
 
+    /**
+     * Create a new instance. The {@code velocityDampingFactor} defaults to a
+     * value of -1.0.
+     */
     public DeflectionBoundaryConstraint() {
         this.velocityDampingFactor = new ConstantControlParameter(-1.0);
     }
 
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
     public DeflectionBoundaryConstraint(DeflectionBoundaryConstraint copy) {
         this.velocityDampingFactor = copy.velocityDampingFactor.getClone();
     }
@@ -65,7 +73,8 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
         StructuredType structuredType = (StructuredType) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (structuredType == null)
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
+                + entity.getClass().getSimpleName());
 
         Iterator pIterator = entity.getCandidateSolution().iterator();
         Iterator vIterator = structuredType.iterator();
@@ -87,10 +96,18 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
         }
     }
 
+    /**
+     * Get the current velocity dampening factor.
+     * @return The {@code ControlParameter} representing the parameter.
+     */
     public ControlParameter getVelocityDampingFactor() {
         return velocityDampingFactor;
     }
 
+    /**
+     * Set the control parameter to be used for the {@code velocity damping factor}.
+     * @param velocityDampingFactor The {@code ControlParameter} to set.
+     */
     public void setVelocityDampingFactor(ControlParameter velocityDampingFactor) {
         this.velocityDampingFactor = velocityDampingFactor;
     }

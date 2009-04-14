@@ -44,20 +44,26 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author Wiehann Matthysen
  */
 public class RandomBoundaryConstraint implements BoundaryConstraint {
-
     private static final long serialVersionUID = -4090871319456989303L;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BoundaryConstraint getClone() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void enforce(Entity entity) {
         StructuredType velocity = (StructuredType) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
         if (velocity == null) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
+                + entity.getClass().getSimpleName());
         }
 
         Iterator pIterator = entity.getCandidateSolution().iterator();

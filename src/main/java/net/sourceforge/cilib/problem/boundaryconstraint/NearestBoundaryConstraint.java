@@ -52,15 +52,33 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
 
     private ControlParameter turbulenceProbability;
 
+    /**
+     * Create an instance of the constraint with a turbulence probability
+     * initially set to 0.0.
+     */
     public NearestBoundaryConstraint() {
         turbulenceProbability = new ConstantControlParameter(0.0);
     }
 
-    @Override
-    public BoundaryConstraint getClone() {
-        return this;
+    /**
+     * Create a copy of the provided instance.
+     * @param copy The instance to copy.
+     */
+    public NearestBoundaryConstraint(NearestBoundaryConstraint copy) {
+        this.turbulenceProbability = copy.turbulenceProbability.getClone();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BoundaryConstraint getClone() {
+        return new NearestBoundaryConstraint(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void enforce(Entity entity) {
         StructuredType s = (StructuredType) entity.getProperties().get(EntityType.Particle.VELOCITY);
@@ -88,7 +106,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
                 velocity.set(position.getReal() - previousPosition);
             }
             else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
-                position.set(bounds.getUpperBound() - Double.MIN_NORMAL);    // upper boundary is exclusive
+                position.set(bounds.getUpperBound() - MathUtil.EPSILON);    // upper boundary is exclusive
                 if (MathUtil.random() < turbulenceProbability.getParameter()) {
                     position.set(position.getReal() - MathUtil.random() * bounds.getRange());
                 }

@@ -43,11 +43,17 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 public class PeriodicBoundaryConstraint implements BoundaryConstraint {
     private static final long serialVersionUID = 6381401553771951793L;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BoundaryConstraint getClone() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void enforce(Entity entity) {
         StructuredType<?> velocity = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);

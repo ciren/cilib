@@ -38,11 +38,17 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 public class ClampingBoundaryConstraint implements BoundaryConstraint {
     private static final long serialVersionUID = 3910725111116160491L;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ClampingBoundaryConstraint getClone() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void enforce(Entity entity) {
         StructuredType candidateSolution = entity.getCandidateSolution();
