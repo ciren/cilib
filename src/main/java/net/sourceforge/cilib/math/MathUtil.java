@@ -35,6 +35,8 @@ import net.sourceforge.cilib.math.random.generator.Random;
  */
 public final class MathUtil {
 
+    public static double EPSILON = 1.0E-15d;
+
     private static Random random;
 
     private MathUtil() {

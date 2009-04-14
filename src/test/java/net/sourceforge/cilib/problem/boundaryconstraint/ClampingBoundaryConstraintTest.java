@@ -23,6 +23,7 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.ec.Individual;
+import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -61,7 +62,7 @@ public class ClampingBoundaryConstraintTest {
 
         Assert.assertThat(((Real)candidateSolution.get(0)).getReal(), is(-5.0));
         Assert.assertThat(((Real)candidateSolution.get(1)).getReal(), is(3.0));
-        Assert.assertThat(((Real)candidateSolution.get(2)).getReal(), is(5.0));
+        Assert.assertThat(((Real)candidateSolution.get(2)).getReal(), is(5.0-MathUtil.EPSILON));
     }
 
 }

@@ -24,6 +24,7 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import java.util.Iterator;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.math.MathUtil;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -54,10 +55,7 @@ public class ClampingBoundaryConstraint implements BoundaryConstraint {
                 numeric.setReal(bounds.getLowerBound());
             }
             else if (Double.compare(numeric.getReal(), bounds.getUpperBound()) > 0) { // number > upper bound
-                System.out.println(bounds.getUpperBound());
-                System.out.println(numeric.getReal());
-                System.out.println(Double.compare(numeric.getReal(), bounds.getUpperBound()));
-                numeric.setReal(bounds.getUpperBound() - Double.MIN_NORMAL);
+                numeric.setReal(bounds.getUpperBound() - MathUtil.EPSILON);
             }
         }
     }
