@@ -19,13 +19,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.iterationstrategies;
+package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.TypeUtil;
 
 /**
- * TODO: Complete this javadoc.
+ * Once the entity has over shot the search space boundaries, re-initialise
+ * the Entity once again to be witihin the search psace of the problem at a
+ * random position.
  */
 public class ReinitialisationBoundary implements BoundaryConstraint {
     private static final long serialVersionUID = -512973040124015665L;
@@ -34,7 +36,7 @@ public class ReinitialisationBoundary implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public Object getClone() {
+    public ReinitialisationBoundary getClone() {
         return this;
     }
 
@@ -43,7 +45,6 @@ public class ReinitialisationBoundary implements BoundaryConstraint {
      */
     public void enforce(Entity entity) {
         if (!TypeUtil.isInsideBounds(entity.getCandidateSolution())) {
-//        if (!entity.getCandidateSolution().isInsideBounds()) {
             entity.reinitialise();
         }
     }

@@ -22,8 +22,8 @@
 package net.sourceforge.cilib.algorithm.population;
 
 import net.sourceforge.cilib.entity.operators.CompositeOperator;
-import net.sourceforge.cilib.pso.iterationstrategies.BoundaryConstraint;
-import net.sourceforge.cilib.pso.iterationstrategies.UnconstrainedBoundary;
+import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
+import net.sourceforge.cilib.problem.boundaryconstraint.UnconstrainedBoundary;
 
 /**
  * Generic {@code IterationStrategy} class for all population based algorithms. Each and every {@link IterationStrategy}

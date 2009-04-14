@@ -19,20 +19,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.iterationstrategies;
+package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.util.Cloneable;
 
 /**
- *
+ * This is the default boundary constraint. This constraint defines
+ * that no boundary checking is to be performed.
+ * @author gpampara
  */
-public interface BoundaryConstraint extends Cloneable {
+public class UnconstrainedBoundary implements BoundaryConstraint {
+
+    private static final long serialVersionUID = -6672863576480662484L;
 
     /**
-     * Enforce the defined boundary constraint on the provided {@linkplain Entity}.
-     * @param entity The {@linkplain Entity} with which the boundary is to be enforced.
+     * {@inheritDoc}
      */
-    public void enforce(Entity entity);
+    @Override
+    public UnconstrainedBoundary getClone() {
+        return this;
+    }
+
+
+    /**
+     * This enforcement of the boundary constraint does nothing.
+     */
+    public void enforce(Entity entity) {
+        // Do nothing as there is no boundary constraint to enforce
+    }
 
 }
