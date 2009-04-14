@@ -25,7 +25,9 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- *
+ * Enforce predefined boundary constraints on {@link Entity} instances that are
+ * operating in the current search space. Various strategies are available to
+ * enforce these boundary contraints on the provided {@link Entity} objects.
  */
 public interface BoundaryConstraint extends Cloneable {
 

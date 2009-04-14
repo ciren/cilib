@@ -33,18 +33,24 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
+ * <p>
  * If a <b>particle</b> oversteps the boundary it gets re-initialised and placed on the overstepped
  * boundary. A terbulence probability gets specified to allow particles to escape the boundaries.
+ * </p>
+ * <p>
  * References:
- * @inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi", title = "Handling
- *                       boundary constraints for numerical optimization by particle swarm flying in
- *                       periodic search space", booktitle = "IEEE Congress on Evolutionary
- *                       Computation", month = jun, year = {2004}, volume = "2", pages =
- *                       {2307--2311} }
- * @inproceedings{HW07, author = "S. Helwig and R. Wanka", title = "Particle Swarm Optimization in
- *                      High-Dimensional Bounded Search Spaces", booktitle = "Proceedings of the
- *                      2007 IEEE Swarm Intelligence Symposium", month = apr, year = {2007}, pages =
- *                      {198--205} }
+ * </p>
+ * <pre>
+ * &nbsp;@inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi",
+ *                 title = "Handling boundary constraints for numerical optimization by
+ *                 particle swarm flying in periodic search space",
+ *                 booktitle = "IEEE Congress on Evolutionary Computation", month = jun,
+ *                 year = {2004}, volume = "2", pages = {2307--2311} }
+ * &nbsp;@inproceedings{HW07, author = "S. Helwig and R. Wanka",
+ *                 title = "Particle Swarm Optimization in High-Dimensional Bounded Search Spaces",
+ *                 booktitle = "Proceedings of the 2007 IEEE Swarm Intelligence Symposium", month = apr,
+ *                 year = {2007}, pages = {198--205} }
+ * </pre>
  * @author Wiehann Matthysen
  */
 public class NearestBoundaryConstraint implements BoundaryConstraint {

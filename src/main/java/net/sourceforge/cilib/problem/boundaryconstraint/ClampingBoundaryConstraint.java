@@ -30,9 +30,9 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
- * Prevent any Entity from over-shooting the problem search space. Any
- * Entity that passes outside the search space is placed on the search
- * spaces boundary.
+ * Prevent any {@link Entity} from over-shooting the problem search space. Any
+ * Entity that passes outside the search space is placed on the boundaries of
+ * the seach space.
  * @author gpampara
  */
 public class ClampingBoundaryConstraint implements BoundaryConstraint {

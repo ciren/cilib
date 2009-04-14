@@ -28,7 +28,11 @@ import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * TODO: Complete this javadoc.
+ * Reinitialise each element within the provided {@code Type} element if
+ * it is no longer within the valid search space. Each element violating the
+ * condition will be reinitilaised witin the domain of the problem (search space).
+ *
+ * @see TypeUtil#isInsideBounds(net.sourceforge.cilib.type.types.Type)
  */
 public class PerElementReinitialisation extends ReinitialisationBoundary {
     private static final long serialVersionUID = 7080824227269710787L;

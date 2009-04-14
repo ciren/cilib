@@ -24,8 +24,9 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
- * This is the default boundary constraint. This constraint defines
- * that no boundary checking is to be performed.
+ * This is the default boundary constraint, whereby no boundary checking
+ * is performed. This constraint defines that no boundary checking is always
+ * defined to return {@code true}.
  * @author gpampara
  */
 public class UnconstrainedBoundary implements BoundaryConstraint {

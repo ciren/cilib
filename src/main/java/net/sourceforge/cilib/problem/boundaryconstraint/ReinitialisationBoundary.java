@@ -26,8 +26,10 @@ import net.sourceforge.cilib.type.types.TypeUtil;
 
 /**
  * Once the entity has over shot the search space boundaries, re-initialise
- * the Entity once again to be witihin the search psace of the problem at a
+ * the Entity once again to be witihin the search space of the problem at a
  * random position.
+ *
+ * @see TypeUtil#isInsideBounds(net.sourceforge.cilib.type.types.Type)
  */
 public class ReinitialisationBoundary implements BoundaryConstraint {
     private static final long serialVersionUID = -512973040124015665L;

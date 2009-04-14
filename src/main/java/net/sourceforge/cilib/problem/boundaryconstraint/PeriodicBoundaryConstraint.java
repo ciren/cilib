@@ -31,13 +31,20 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
+ * <p>
  * If a particle oversteps the upper boundary it gets re-initialised and placed near the lower
- * boundary and vice versa. References:
- * @inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi", title = "Handling
- *                       boundary constraints for numerical optimization by particle swarm flying in
- *                       periodic search space", booktitle = "IEEE Congress on Evolutionary
- *                       Computation", month = jun, year = {2004}, volume = "2", pages =
- *                       {2307--2311} }
+ * boundary and vice versa.
+ * </p>
+ * <p>
+ * References:
+ * </p>
+ * <pre>
+ * &nbsp;@inproceedings{ZXB04, author = "W.-J. Zhang and X.-F. Xie and D.-C. Bi",
+ *                      title = "Handling boundary constraints for numerical optimization by
+ *                      particle swarm flying in periodic search space",
+ *                      booktitle = "IEEE Congress on Evolutionary Computation", month = jun,
+ *                      year = {2004}, volume = "2", pages = {2307--2311} }
+ * </pre>
  * @author Wiehann Matthysen
  */
 public class PeriodicBoundaryConstraint implements BoundaryConstraint {

@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
- * Instead of making use of <i>reactive</i> Boundary Constraints that reinitialise an entire
+ * Instead of making use of <i>reactive</i> boundary constraints that reinitialise an entire
  * {@linkplain Particle} (or components thereof), this class is a <b>proactive</b> approach to
  * prevent the {@linkplain Particle} from moving outside of the domain. The component of the
  * {@linkplain Particle} that will be outside of the domain is placed on the boundary of the domain
