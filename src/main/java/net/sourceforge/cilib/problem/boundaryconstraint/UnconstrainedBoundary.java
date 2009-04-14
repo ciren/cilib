@@ -19,12 +19,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.iterationstrategies;
+package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.entity.Entity;
 
 /**
- *
+ * This is the default boundary constraint. This constraint defines
+ * that no boundary checking is to be performed.
  * @author gpampara
  */
 public class UnconstrainedBoundary implements BoundaryConstraint {
@@ -35,14 +36,16 @@ public class UnconstrainedBoundary implements BoundaryConstraint {
      * {@inheritDoc}
      */
     @Override
-    public Object getClone() {
+    public UnconstrainedBoundary getClone() {
         return this;
     }
 
 
     /**
      * This enforcement of the boundary constraint does nothing.
+     * @param entity The entity to which no contraint is to be applied.
      */
+    @Override
     public void enforce(Entity entity) {
         // Do nothing as there is no boundary constraint to enforce
     }

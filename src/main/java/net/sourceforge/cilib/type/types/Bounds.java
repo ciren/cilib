@@ -38,13 +38,16 @@ public class Bounds {
         this.upperBound = upperBound;
     }
 
-
     public double getLowerBound() {
         return this.lowerBound;
     }
 
     public double getUpperBound() {
         return this.upperBound;
+    }
+
+    public double getRange() {
+        return Math.abs(upperBound - lowerBound);
     }
 
     public boolean isInsideBounds(double value) {
@@ -79,7 +82,5 @@ public class Bounds {
         hash = 17 * hash + (int) (Double.doubleToLongBits(this.upperBound) ^ (Double.doubleToLongBits(this.upperBound) >>> 32));
         return hash;
     }
-
-
 
 }

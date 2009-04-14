@@ -19,33 +19,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.iterationstrategies;
+package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.type.types.TypeUtil;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * TODO: Complete this javadoc.
+ *
  */
-public class ReinitialisationBoundary implements BoundaryConstraint {
-    private static final long serialVersionUID = -512973040124015665L;
+public interface BoundaryConstraint extends Cloneable {
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public Object getClone() {
-        return this;
-    }
+    public BoundaryConstraint getClone();
 
     /**
-     * {@inheritDoc}
+     * Enforce the defined boundary constraint on the provided {@linkplain Entity}.
+     * @param entity The {@linkplain Entity} with which the boundary is to be enforced.
      */
-    public void enforce(Entity entity) {
-        if (!TypeUtil.isInsideBounds(entity.getCandidateSolution())) {
-//        if (!entity.getCandidateSolution().isInsideBounds()) {
-            entity.reinitialise();
-        }
-    }
+    public void enforce(Entity entity);
 
 }

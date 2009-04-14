@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -19,10 +19,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.positionupdatestrategies.boundaryconstraintstrategies;
+package net.sourceforge.cilib.problem.boundaryconstraint;
 
+import java.util.Iterator;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.TypeUtil;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * If a particle oversteps the boundary it gets randomly re-initialised within the boundary and its
@@ -38,42 +43,43 @@ import net.sourceforge.cilib.type.types.TypeUtil;
  *                      {198--205} }
  * @author Wiehann Matthysen
  */
-public class RandomBoundaryConstraintStrategy implements BoundaryConstraintStrategy {
-    private static final long serialVersionUID = -4049333767309340874L;
+public class RandomBoundaryConstraint implements BoundaryConstraint {
+    private static final long serialVersionUID = -4090871319456989303L;
 
     /**
-     * Create an instance of {@linkplain RandomBoundaryConstraintStrategy}.
+     * {@inheritDoc}
      */
-    public RandomBoundaryConstraintStrategy() {
-    }
-
-    /**
-     * Copy constructor. Create a copy of the provided {@linkplain RandomBoundaryConstraintStrategy}
-     * instance.
-     * @param copy The instance to copy.
-     */
-    public RandomBoundaryConstraintStrategy(RandomBoundaryConstraintStrategy copy) {
+    @Override
+    public BoundaryConstraint getClone() {
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public RandomBoundaryConstraintStrategy getClone() {
-        return new RandomBoundaryConstraintStrategy(this);
-    }
+    @Override
+    public void enforce(Entity entity) {
+        StructuredType velocity = (StructuredType) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
-    /**
-     * {@inheritDoc}
-     */
-    public void constrainLower(Numeric position, Numeric velocity) {
-        constrain(position, velocity);
-    }
+        if (velocity == null) {
+            throw new UnsupportedOperationException("Cannot perform this boundary constrain on a "
+                + entity.getClass().getSimpleName());
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void constrainUpper(Numeric position, Numeric velocity) {
-        constrain(position, velocity);
+        Iterator pIterator = entity.getCandidateSolution().iterator();
+        Iterator vIterator = velocity.iterator();
+
+        while (pIterator.hasNext()) {
+            Numeric pos = (Numeric) pIterator.next();
+            Numeric vel = (Numeric) vIterator.next();
+            Bounds bounds = pos.getBounds();
+
+            if (Double.compare(pos.getReal(), bounds.getLowerBound()) < 0) {
+                constrain(pos, vel);
+            } else if (Double.compare(pos.getReal(), bounds.getUpperBound()) > 0) {
+                constrain(pos, vel);
+            }
+        }
     }
 
     /**
