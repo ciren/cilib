@@ -106,6 +106,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
 
         // Evaluate the fitness values of the generated offspring
         for (Entity entity : holder.getModifiable()) {
+            boundaryConstraint.enforce(entity);
             entity.calculateFitness();
         }
 
@@ -115,8 +116,6 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         for (Entity entity : holder.getModifiable()) {
             topology.add(entity);
         }
-
-        //this.boundaryConstraint.enforce(entity);
 
         Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
         ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize());
