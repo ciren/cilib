@@ -21,12 +21,14 @@
  */
 package net.sourceforge.cilib.entity;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 
@@ -107,11 +109,15 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
     public abstract void setId(String id);
 
     /**
-     * Get the current best {@linkplain Entity} of the {@linkplain Topology}.
+     * Obtain the most fit {@link Entity} within the {@code Topology}. This is
+     * the same as {@code getBestEntity(Comparator)} with a {@link AscendingFitnessComparator}
+     * as the provided comparator.
+     * @see Topology#getBestEntity(java.util.Comparator)
      * @return The current best {@linkplain Entity}.
      */
     public E getBestEntity() {
-        if (bestEntity == null) {
+        return getBestEntity(new AscendingFitnessComparator());
+        /*if (bestEntity == null) {
             Iterator<E> i = this.iterator();
             bestEntity = i.next();
             Fitness bestFitness = bestEntity.getSocialBestFitness();
@@ -120,6 +126,28 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
                 if (entity.getSocialBestFitness().compareTo(bestFitness) > 0) {
                     bestEntity = entity;
                     bestFitness = bestEntity.getSocialBestFitness();
+                }
+            }
+        }
+
+        return bestEntity;*/
+    }
+
+    /**
+     * Obtain the {@link Entity} within the current {@code Topology}, based
+     * on the provided {@link Comparator} instance.
+     * @param comparator The {@link Comparator} to base the selection on.
+     * @return The best entity within the current topology.
+     */
+    public E getBestEntity(Comparator<? super E> comparator) {
+        if (bestEntity == null) {
+            Iterator<E> i = this.iterator();
+            bestEntity = i.next();
+
+            while (i.hasNext()) {
+                E entity = i.next();
+                if (comparator.compare(bestEntity, entity) < 0) { // bestEntity is worse than entity
+                    bestEntity = entity;
                 }
             }
         }

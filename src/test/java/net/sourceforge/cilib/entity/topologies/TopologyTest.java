@@ -24,6 +24,7 @@ package net.sourceforge.cilib.entity.topologies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -31,10 +32,14 @@ import java.util.List;
 
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
+import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -42,6 +47,25 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class TopologyTest {
+
+    @Test
+    public void comparatorBestEntity() {
+        Individual i1 = new Individual();
+        Individual i2 = new Individual();
+
+        i1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
+        i2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
+
+        Topology<Individual> topology = new GBestTopology<Individual>();
+        topology.add(i1);
+        topology.add(i2);
+
+        Individual best = topology.getBestEntity(new AscendingFitnessComparator());
+        Individual other = topology.getBestEntity();
+
+        Assert.assertThat(best, is(other));
+    }
+
     
     /**
      * Test the setter method for the IoC container
