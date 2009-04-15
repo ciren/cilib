@@ -42,7 +42,7 @@ public class EntityTest {
         Entity entity = new Individual();
         entity.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
 
-        Assert.assertTrue(entity.getComparator() instanceof AscendingFitnessComparator);
+        Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class EntityTest {
         Entity entity = new Individual();
         entity.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
 
-        Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
+        Assert.assertTrue(entity.getComparator() instanceof AscendingFitnessComparator);
     }
 
     @Test

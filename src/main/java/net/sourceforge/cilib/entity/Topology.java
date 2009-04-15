@@ -29,6 +29,7 @@ import java.util.Set;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.problem.Fitness;
 
@@ -116,21 +117,7 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
      * @return The current best {@linkplain Entity}.
      */
     public E getBestEntity() {
-        return getBestEntity(new AscendingFitnessComparator());
-        /*if (bestEntity == null) {
-            Iterator<E> i = this.iterator();
-            bestEntity = i.next();
-            Fitness bestFitness = bestEntity.getSocialBestFitness();
-            while (i.hasNext()) {
-                E entity = i.next();
-                if (entity.getSocialBestFitness().compareTo(bestFitness) > 0) {
-                    bestEntity = entity;
-                    bestFitness = bestEntity.getSocialBestFitness();
-                }
-            }
-        }
-
-        return bestEntity;*/
+        return getBestEntity(new SocialBestFitnessComparator());
     }
 
     /**
