@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -19,35 +19,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package net.sourceforge.cilib.entity.comparator;
 
 import java.util.Comparator;
-
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * Comparator to order {@linkplain Entity} instances based on fitness values.
- * This comparator results in a descending order. This ordering is effectively
- * an ordering from the "most fit" entity to the "least fit" entity.
- *
- * @author Gary Pampara
+ * Compare two {@link Entity} instances, based on the available social best
+ * fitness.
+ * @see Entity#getSocialBestFitness()
+ * @author gpampara
  */
-public class DescendingFitnessComparator implements Comparator<Entity> {
+public class SocialBestFitnessComparator implements Comparator<Entity> {
 
-    /**
-     * Compare the {@linkplain Entity} objects returning the desired ordering.
-     * @param e1 The first {@linkplain Entity} to be used in the comparison.
-     * @param e2 The second {@linkplain Entity} to be used in the comparison.
-     * @return -1 if e1 is less than e2;
-     *         0 if e1 and e2 are equal
-     *         1 if e2 is greater than e2
-     */
-    public int compare(Entity e1, Entity e2) {
-        Fitness f1 = e1.getFitness();
-        Fitness f2 = e2.getFitness();
+    @Override
+    public int compare(Entity o1, Entity o2) {
+        Fitness f1 = o1.getSocialBestFitness();
+        Fitness f2 = o2.getSocialBestFitness();
 
-        return -f1.compareTo(f2);
+        return f1.compareTo(f2);
     }
 
 }

@@ -215,8 +215,8 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
     @Override
     public final Comparator<Entity> getComparator() {
         return (getFitness() instanceof MinimisationFitness) ?
-            new AscendingFitnessComparator() :
-            new DescendingFitnessComparator();
+            new DescendingFitnessComparator() :
+            new AscendingFitnessComparator();
     }
 
 }

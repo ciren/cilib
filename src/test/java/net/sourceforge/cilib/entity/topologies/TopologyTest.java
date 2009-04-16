@@ -24,6 +24,7 @@ package net.sourceforge.cilib.entity.topologies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -31,10 +32,18 @@ import java.util.List;
 
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
+import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
+import net.sourceforge.cilib.problem.MaximisationFitness;
+import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.PSO;
 
+import net.sourceforge.cilib.pso.particle.StandardParticle;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -42,6 +51,51 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class TopologyTest {
+
+    @Test
+    public void comparatorBestEntity() {
+        Individual i1 = new Individual();
+        Individual i2 = new Individual();
+        Individual i3 = new Individual();
+
+        i1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
+        i2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
+        i3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.5));
+
+        Topology<Individual> topology = new GBestTopology<Individual>();
+        topology.add(i1);
+        topology.add(i2);
+
+        Individual socialBest = topology.getBestEntity(new SocialBestFitnessComparator());
+        topology.clearBestEntity();
+        Individual mostFit = topology.getBestEntity(new AscendingFitnessComparator());
+        topology.clearBestEntity();
+        Individual leastFit = topology.getBestEntity(new DescendingFitnessComparator());
+        topology.clearBestEntity();
+        Individual other = topology.getBestEntity();
+
+        Assert.assertThat(socialBest, is(other));
+        Assert.assertThat(mostFit, is(i1));
+        Assert.assertThat(leastFit, is(i2));
+    }
+
+    @Test
+    public void compareBestFitnessEntity() {
+        Particle p1 = new StandardParticle();
+        Particle p2 = new StandardParticle();
+
+        p1.getProperties().put(EntityType.Particle.BEST_FITNESS, new MaximisationFitness(400.0));
+        p2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MaximisationFitness(0.0));
+
+        Topology<Particle> topology = new GBestTopology<Particle>();
+        topology.add(p1);
+        topology.add(p2);
+
+        Particle best = topology.getBestEntity();
+
+        Assert.assertThat(best, is(p1));
+    }
+
     
     /**
      * Test the setter method for the IoC container
