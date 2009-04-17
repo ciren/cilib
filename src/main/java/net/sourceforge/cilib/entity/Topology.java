@@ -29,9 +29,7 @@ import java.util.Set;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
-import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
-import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * This an abstract class which extends from the abstract Topology class.

@@ -23,18 +23,20 @@
 package net.sourceforge.cilib.entity.comparator;
 
 import java.util.Comparator;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * Compare two {@link Entity} instances, based on the available social best
+ * Compare two {@link SocialEntity} instances, based on the available social best
  * fitness.
- * @see Entity#getSocialBestFitness()
+ * @see SocialEntity#getSocialBestFitness()
  * @author gpampara
  */
 public class SocialBestFitnessComparator implements Comparator<SocialEntity> {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int compare(SocialEntity o1, SocialEntity o2) {
         Fitness f1 = o1.getSocialBestFitness();

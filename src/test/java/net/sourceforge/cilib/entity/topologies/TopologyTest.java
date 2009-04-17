@@ -69,6 +69,7 @@ public class TopologyTest {
         Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(i1);
         topology.add(i2);
+        topology.add(i3);
 
         Particle socialBest = topology.getBestEntity(new SocialBestFitnessComparator());
         topology.clearBestEntity();
@@ -88,8 +89,8 @@ public class TopologyTest {
         Particle p1 = new StandardParticle();
         Particle p2 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.Particle.BEST_FITNESS, new MaximisationFitness(400.0));
-        p2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MaximisationFitness(0.0));
+        p1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(400.0));
+        p2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.0));
 
         Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(p1);

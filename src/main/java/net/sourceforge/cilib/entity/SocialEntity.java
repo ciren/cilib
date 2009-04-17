@@ -23,12 +23,22 @@
 package net.sourceforge.cilib.entity;
 
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
+ * <p>
+ * An Entity that can recieve information from other Entities.
+ * </p>
+ * <p>
+ * Social infomation sharing is very important. This is a marker interface
+ * that will identify Entity objects that are able to transfer knowledge to
+ * other Entities.
+ * </p>
  *
  * @author gpampara
  */
-public interface SocialEntity {
+public interface SocialEntity extends Cloneable {
 
      /**
      * Get the current social best fitness. This {@linkplain Fitness} value is dependent
@@ -36,5 +46,17 @@ public interface SocialEntity {
      * @return The fitness based on the currently set {@linkplain NeighbourhoodBestUpdateStrategy}.
      */
     public Fitness getSocialBestFitness();
+
+    /**
+     * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>.
+     * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
+     */
+    public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy();
+
+    /**
+     * Set the <code>NeighbourhoodBestUpdateStrategy</code> to be used by the {@linkplain Entity}.
+     * @param neighbourhoodBestUpdateStrategy The <code>NeighbourhoodBestUpdateStrategy</code> to be used
+     */
+    public void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy);
 
 }
