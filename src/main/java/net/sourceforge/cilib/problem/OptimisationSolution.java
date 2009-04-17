@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
-
     private static final long serialVersionUID = 2119444179382452329L;
 
     private final Type position;
@@ -48,13 +47,35 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
         this.fitness = fitness.getClone();
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if ((other == null) || (this.getClass() != other.getClass()))
+            return false;
+
+        OptimisationSolution otherSolution = (OptimisationSolution)other;
+        return this.position.equals(otherSolution.position) &&
+            this.fitness.equals(otherSolution.fitness);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (this.position == null ? 0 : this.position.hashCode());
+        hash = 31 * hash + (this.position == null ? 0 : this.fitness.hashCode());
+        return hash;
+    }
+
     /**
      * Returns the position of this solution within the search space of the problem.
      *
      * @return The position of this solution in search space.
      */
     public Type getPosition() {
-        return position;
+        return this.position;
     }
 
     /**
@@ -65,13 +86,14 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
      * @return The fitness of this solution.
      */
     public Fitness getFitness() {
-        return fitness;
+        return this.fitness;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(OptimisationSolution other) {
-        return getFitness().compareTo(other.getFitness());
+        return this.fitness.compareTo(other.fitness);
     }
 }

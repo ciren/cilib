@@ -22,6 +22,10 @@
 package net.sourceforge.cilib.problem;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -31,86 +35,191 @@ import net.sourceforge.cilib.type.types.Type;
  * @author Edwin Peer
  *
  */
-public class MOOptimisationProblem implements OptimisationProblem {
+public class MOOptimisationProblem implements OptimisationProblem, List<OptimisationProblem> {
+
     private static final long serialVersionUID = 4997914969290350571L;
+    protected List<OptimisationProblem> problems;
 
     public MOOptimisationProblem() {
         problems = new ArrayList<OptimisationProblem>();
     }
 
     public MOOptimisationProblem(MOOptimisationProblem copy) {
-
+        this.problems = new ArrayList<OptimisationProblem>();
+        for (OptimisationProblem optimisationProblem : copy.problems) {
+            this.problems.add(optimisationProblem.getClone());
+        }
     }
 
+    @Override
     public MOOptimisationProblem getClone() {
         return new MOOptimisationProblem(this);
     }
 
-    public Fitness getFitness(Type[] solutions, boolean count) {
+    public MOFitness getFitness(Type[] solutions, boolean count) {
         return new MOFitness(this, solutions, count);
     }
 
-    public Fitness getFitness(Type solution, boolean count) {
-        return new MOFitness(this, new Type[]{solution}, count);
-    }
-
-    public int getProblemCount() {
-        return problems.size();
+    @Override
+    public MOFitness getFitness(Type solution, boolean count) {
+        return new MOFitness(this, solution, count);
     }
 
     public Fitness getFitness(int index, Type solution, boolean count) {
         return problems.get(index).getFitness(solution, count);
     }
 
+    @Override
     public int getFitnessEvaluations() {
         int sum = 0;
-
-        for (OptimisationProblem problem : problems) {
+        for (OptimisationProblem problem : this.problems) {
             sum += problem.getFitnessEvaluations();
         }
         return sum;
     }
 
-    public void addOptimisationProblem(OptimisationProblem problem) {
-        // TODO: Check problem domains match using DomainValidators.
-        problems.add(problem);
-    }
-
-    public OptimisationProblem getOptimisationProblem(int index) {
-        return problems.get(index);
-    }
-
-    public void removeOptimisationProblem(OptimisationProblem problem) {
-        problems.remove(problem);
-    }
-
-    private ArrayList<OptimisationProblem> problems;
-
+    @Override
     public DomainRegistry getDomain() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("This method is not implemented");
     }
 
+    @Override
     public DomainRegistry getBehaviouralDomain() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("This method is not implemented");
     }
 
+    @Override
     public DataSetBuilder getDataSetBuilder() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("This method is not implemented");
     }
 
+    @Override
     public void setDataSetBuilder(DataSetBuilder dataSetBuilder) {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("This method is not implemented");
     }
 
+    @Override
     public void accept(ProblemVisitor visitor) {
         throw new UnsupportedOperationException("This method is not implemented");
     }
 
+    @Override
     public void changeEnvironment() {
         throw new UnsupportedOperationException("This method is not implemented");
+    }
+
+    @Override
+    public boolean add(OptimisationProblem problem) {
+        return this.problems.add(problem);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends OptimisationProblem> problems) {
+        return this.problems.addAll(problems);
+    }
+
+    @Override
+    public void clear() {
+        this.problems.clear();
+    }
+
+    @Override
+    public boolean contains(Object object) {
+        return this.problems.contains(object);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> objects) {
+        return this.problems.containsAll(objects);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.problems.isEmpty();
+    }
+
+    @Override
+    public Iterator<OptimisationProblem> iterator() {
+        return this.problems.iterator();
+    }
+
+    @Override
+    public boolean remove(Object object) {
+        return this.problems.remove(object);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> objects) {
+        return this.problems.removeAll(objects);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> objects) {
+        return this.problems.retainAll(objects);
+    }
+
+    @Override
+    public int size() {
+        return this.problems.size();
+    }
+
+    @Override
+    public Object[] toArray() {
+        return this.problems.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return this.problems.toArray(a);
+    }
+
+    @Override
+    public void add(int index, OptimisationProblem problem) {
+        this.problems.add(index, problem);
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends OptimisationProblem> problems) {
+        return this.problems.addAll(problems);
+    }
+
+    @Override
+    public OptimisationProblem get(int index) {
+        return this.problems.get(index);
+    }
+
+    @Override
+    public int indexOf(Object object) {
+        return this.problems.indexOf(object);
+    }
+
+    @Override
+    public int lastIndexOf(Object object) {
+        return this.problems.lastIndexOf(object);
+    }
+
+    @Override
+    public ListIterator<OptimisationProblem> listIterator() {
+        return this.problems.listIterator();
+    }
+
+    @Override
+    public ListIterator<OptimisationProblem> listIterator(int index) {
+        return this.problems.listIterator(index);
+    }
+
+    @Override
+    public OptimisationProblem remove(int index) {
+        return this.problems.remove(index);
+    }
+
+    @Override
+    public OptimisationProblem set(int index, OptimisationProblem problem) {
+        return this.problems.set(index, problem);
+    }
+
+    @Override
+    public List<OptimisationProblem> subList(int fromIndex, int toIndex) {
+        return this.problems.subList(fromIndex, toIndex);
     }
 }

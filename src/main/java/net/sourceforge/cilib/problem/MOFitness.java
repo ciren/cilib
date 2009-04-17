@@ -32,68 +32,96 @@ import net.sourceforge.cilib.type.types.Type;
 public class MOFitness implements Fitness {
 
     private static final long serialVersionUID = 1477723759384827131L;
-    private Fitness [] fitnesses;
+    private Fitness[] fitnesses;
 
     public MOFitness(MOOptimisationProblem problem, Type[] solution, boolean count) {
-        int size = problem.getProblemCount();
+        int size = problem.size();
         fitnesses = new Fitness[size];
         for (int i = 0; i < size; ++i) {
             fitnesses[i] = problem.getFitness(i, solution[i], count);
         }
     }
 
+    public MOFitness(MOOptimisationProblem problem, Type solution, boolean count) {
+        int size = problem.size();
+        fitnesses = new Fitness[size];
+        for (int i = 0; i < size; ++i) {
+            fitnesses[i] = problem.getFitness(i, solution, count);
+        }
+    }
+
+    public MOFitness(MOFitness copy) {
+        this.fitnesses = new Fitness[copy.fitnesses.length];
+        for (int i = 0; i < copy.fitnesses.length; ++i) {
+            this.fitnesses[i] = copy.fitnesses[i].getClone();
+        }
+    }
+
+    @Override
     public MOFitness getClone() {
-        throw new UnsupportedOperationException("Implement me");
+        return new MOFitness(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Double getValue() {
-        // TODO: Figure out what to do here
+        // TODO: Figure out what to do here.
         throw new UnsupportedOperationException();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public final Fitness newInstance(Double value) {
+        // TODO: Figure out what to do here.
         throw new UnsupportedOperationException();
+    }
+
+    public Fitness getFitness(int index) {
+        return this.fitnesses[index];
+    }
+
+    public int getDimension() {
+        return this.fitnesses.length;
+    }
+
+    public boolean dominates(MOFitness other) {
+        return this.compareTo(other) > 0;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(Fitness other) {
-        MOFitness tmp = (MOFitness) other;
-
-        boolean aDominateB = false;
-        boolean bDominateA = false;
-        boolean aMaydominateB = true;
-        boolean bMaydominateA = true;
-
-        for(int i = 0; i < fitnesses.length; i++) {
-            int r = fitnesses[i].compareTo(tmp.fitnesses[i]);
-
-            if(r < 0) {
-                aDominateB = true;
-                bMaydominateA = false;
-            }
-            else if(r > 0) {
-                bDominateA = true;
-                aMaydominateB = false;
-            }
-
-        }
-
-        if(aDominateB && aMaydominateB) {
-            return -1;
-        }
-        else if(bDominateA && bMaydominateA) {
+        if (other == InferiorFitness.instance()) {
             return 1;
-        }
-        else {
-            return 0;
+        } else {
+            MOFitness tmp = (MOFitness) other;
+
+            boolean aDominateB = false;
+            boolean bDominateA = false;
+            boolean aMaydominateB = true;
+            boolean bMaydominateA = true;
+
+            for (int i = 0; i < this.fitnesses.length; i++) {
+                int r = this.fitnesses[i].compareTo(tmp.fitnesses[i]);
+                if (r < 0) {
+                    aDominateB = true;
+                    bMaydominateA = false;
+                } else if (r > 0) {
+                    bDominateA = true;
+                    aMaydominateB = false;
+                }
+            }
+
+            if (aDominateB && aMaydominateB) {
+                return -1;
+            } else if (bDominateA && bMaydominateA) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -112,14 +140,24 @@ public class MOFitness implements Fitness {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if ((obj == null) || (getClass() != obj.getClass()))
+        if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
+        }
 
         final MOFitness other = (MOFitness) obj;
         return Arrays.equals(fitnesses, other.fitnesses);
     }
 
+    @Override
+    public String toString() {
+        String returnStr = "";
+        for (Fitness fitness : this.fitnesses) {
+            returnStr += fitness.toString() + " ";
+        }
+        return returnStr;
+    }
 }

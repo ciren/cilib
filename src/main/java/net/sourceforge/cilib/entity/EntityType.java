@@ -35,6 +35,11 @@ public enum EntityType {
         BEST_POSITION,
         BEST_FITNESS,
         VELOCITY;
+
+        public enum Guide {
+            LOCAL_GUIDE,
+            GLOBAL_GUIDE
+        }
     }
 
     /**
