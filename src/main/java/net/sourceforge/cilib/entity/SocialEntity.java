@@ -20,27 +20,21 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.cilib.entity.comparator;
+package net.sourceforge.cilib.entity;
 
-import java.util.Comparator;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
- * Compare two {@link Entity} instances, based on the available social best
- * fitness.
- * @see Entity#getSocialBestFitness()
+ *
  * @author gpampara
  */
-public class SocialBestFitnessComparator implements Comparator<SocialEntity> {
+public interface SocialEntity {
 
-    @Override
-    public int compare(SocialEntity o1, SocialEntity o2) {
-        Fitness f1 = o1.getSocialBestFitness();
-        Fitness f2 = o2.getSocialBestFitness();
-
-        return f1.compareTo(f2);
-    }
+     /**
+     * Get the current social best fitness. This {@linkplain Fitness} value is dependent
+     * on the current {@linkplain NeighbourhoodBestUpdateStrategy}.
+     * @return The fitness based on the currently set {@linkplain NeighbourhoodBestUpdateStrategy}.
+     */
+    public Fitness getSocialBestFitness();
 
 }

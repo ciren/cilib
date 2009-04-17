@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.Type;
 /**
  * Definition of a particle.
  */
-public interface Particle extends Entity {
+public interface Particle extends Entity, SocialEntity {
 
     /**
      * {@inheritDoc}
@@ -83,13 +83,6 @@ public interface Particle extends Entity {
      * @return The particle's best {@linkplain Fitness}.
      */
     public Fitness getBestFitness();
-
-    /**
-     * Get the current social best fitness. This {@linkplain Fitness} value is dependent
-     * on the current {@linkplain NeighbourhoodBestUpdateStrategy}.
-     * @return The fitness based on the currently set {@linkplain NeighbourhoodBestUpdateStrategy}.
-     */
-    public Fitness getSocialBestFitness();
 
     /**
      * Update the current position of the {@linkplain Particle}.

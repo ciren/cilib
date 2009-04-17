@@ -23,9 +23,7 @@
 package net.sourceforge.cilib.entity.comparator;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,13 +41,10 @@ import org.junit.Test;
  *
  * @author Gary Pampara
  */
-public class AscendingFitnessCompartorTest {
+public class DescendingFitnessComparatorTest {
 
     /**
-     * With minimisation fitnesses, the ordering will be the least fit (largest value) to
-     * the most fit (smallest value).
      *
-     * The resulting list of fitnesses should be: [2.0, 1.0, 0.0]
      */
     @Test
     public void minimisationFitnesses() {
@@ -62,15 +57,14 @@ public class AscendingFitnessCompartorTest {
         entity3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
 
         List<Entity> entities = Arrays.asList(entity1, entity2, entity3);
-        Collections.sort(entities, new AscendingFitnessComparator());
+        Collections.sort(entities, new DescendingFitnessComparator());
 
-        assertThat(entity1, is(entities.get(2)));
+        assertThat(entity3, is(entities.get(2)));
     }
 
-
     /**
-     * With minimisation fitnesses, the ordering will be the least fit (smallest value) to
-     * the most fit (largest value).
+     * With the case of MaximisationFitness values, a descending ordering will be
+     * from the most fit (largest value) to the least fit (smallest value).
      */
     @Test
     public void maximisationFitnesses() {
@@ -83,9 +77,9 @@ public class AscendingFitnessCompartorTest {
         entity3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(2.0));
 
         List<Entity> entities = Arrays.asList(entity1, entity2, entity3);
-        Collections.sort(entities, new AscendingFitnessComparator());
+        Collections.sort(entities, new DescendingFitnessComparator());
 
-        assertThat(entity3, is(entities.get(2)));
+        assertThat(entity3, is(entities.get(0)));
     }
 
 }

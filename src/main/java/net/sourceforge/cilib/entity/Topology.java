@@ -117,7 +117,7 @@ public abstract class Topology<E extends Entity> implements EntityCollection<E> 
      * @return The current best {@linkplain Entity}.
      */
     public E getBestEntity() {
-        return getBestEntity(new SocialBestFitnessComparator());
+        return getBestEntity(new AscendingFitnessComparator());
     }
 
     /**

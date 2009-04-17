@@ -54,25 +54,29 @@ public class TopologyTest {
 
     @Test
     public void comparatorBestEntity() {
-        Individual i1 = new Individual();
-        Individual i2 = new Individual();
-        Individual i3 = new Individual();
+        Particle i1 = new StandardParticle();
+        Particle i2 = new StandardParticle();
+        Particle i3 = new StandardParticle();
 
         i1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
         i2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
         i3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.5));
 
-        Topology<Individual> topology = new GBestTopology<Individual>();
+        i1.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.0));
+        i2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(1.0));
+        i3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.5));
+
+        Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(i1);
         topology.add(i2);
 
-        Individual socialBest = topology.getBestEntity(new SocialBestFitnessComparator());
+        Particle socialBest = topology.getBestEntity(new SocialBestFitnessComparator());
         topology.clearBestEntity();
-        Individual mostFit = topology.getBestEntity(new AscendingFitnessComparator());
+        Particle mostFit = topology.getBestEntity(new AscendingFitnessComparator());
         topology.clearBestEntity();
-        Individual leastFit = topology.getBestEntity(new DescendingFitnessComparator());
+        Particle leastFit = topology.getBestEntity(new DescendingFitnessComparator());
         topology.clearBestEntity();
-        Individual other = topology.getBestEntity();
+        Particle other = topology.getBestEntity();
 
         Assert.assertThat(socialBest, is(other));
         Assert.assertThat(mostFit, is(i1));
