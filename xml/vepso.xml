@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+	<algorithms>
+		<algorithm id="pso" class="pso.PSO">
+			<initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+				<entityType class="pso.particle.StandardParticle">
+					<velocityUpdateStrategy class="pso.velocityupdatestrategies.MOVelocityUpdateStrategy"/>
+				</entityType>
+			</initialisationStrategy>
+			<iterationStrategy class="algorithm.population.CompositeIterationStrategy">
+				<addIterationStrategy class="pso.moo.iterationstrategies.GuideSelectionIterationStep">
+					<localGuideSelectionStrategy class="pso.moo.guideselectionstrategies.PBestGuideSelectionStrategy"/>
+                    <localGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
+					<globalGuideSelectionStrategy class="pso.moo.guideselectionstrategies.VEPSOGuideSelectionStrategy">
+						<knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
+							<populationSelectionStrategy class="util.selection.selectionstrategies.RingBasedPopulationSelectionStrategy"/>
+							<entitySelectionStrategy class="util.selection.selectionstrategies.TournamentSelectionStrategy">
+								<weighingStrategy class="util.selection.weighingstrategies.FitnessBasedEntityWeighingStrategy"/>
+							</entitySelectionStrategy>
+						</knowledgeTransferStrategy>
+					</globalGuideSelectionStrategy>
+                    <globalGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
+				</addIterationStrategy>
+				<addIterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy"/>
+				<addIterationStrategy class="moo.iterationstrategies.ArchivingIterationStep">
+					<archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="1000"/>
+				</addIterationStrategy>
+			</iterationStrategy>
+		</algorithm>
+		
+		<algorithm id="vepso" class="algorithm.population.MultiPopulationCriterionBasedAlgorithm">
+			<addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
+			<objectiveAssignmentStrategy class="moo.criterion.objectiveassignmentstrategies.SequentialObjectiveAssignmentStrategy"/>
+			<addPopulationBasedAlgorithm idref="pso"/>
+			<addPopulationBasedAlgorithm idref="pso"/>
+		</algorithm>
+	</algorithms>
+
+	<problems>
+		<problem id="f1_x" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.ExpressionFunction" expression="(1 / 4) * (x12 + x22 + x32 + x42)" domain="R(0.0, 2.0)^4"/>
+		</problem>
+		
+		<problem id="f2_x" class="problem.FunctionMinimisationProblem">
+			<function class="functions.continuous.ExpressionFunction" expression="(1 / 4) * ((x1 - 2)2 + (x2 - 2)2 + (x3 - 2)2 + (x4 - 2)2)" domain="R(0.0, 2.0)^4"/>
+		</problem>
+		
+		<problem id="moo_toy_problem" class="problem.MOOptimisationProblem">
+			<add idref="f1_x"/>
+			<add idref="f2_x"/>
+		</problem>
+	</problems>
+
+	<measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="1">
+		<addMeasurement class="measurement.multiple.ParetoOptimalFront"/>
+	</measurements>
+
+	<simulations>
+		<simulation>
+			<algorithm idref="vepso"/>
+			<problem idref="moo_toy_problem"/>
+			<measurements idref="fitness" file="data/vepso.txt"/>
+		</simulation>
+	</simulations>
+</simulator>
