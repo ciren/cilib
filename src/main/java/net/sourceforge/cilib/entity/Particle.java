@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity;
 
+import net.sourceforge.cilib.pso.positionupdatestrategies.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
@@ -141,5 +142,17 @@ public interface Particle extends Entity {
      * @param positionUpdateStrategy The {@linkplain PositionUpdateStrategy} to set.
      */
     public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy);
+
+    /**
+     * Get the current strategy to perform personal best updates.
+     * @return The current {@link PersonalBestUpdateStrategy}.
+     */
+    public PersonalBestUpdateStrategy getPersonalBestUpdateStrategy();
+
+    /**
+     * Set the strategy to perform personal best updates.
+     * @param personalBestUpdateStrategy The instance to set.
+     */
+    public void setPersonalBestUpdateStrategy(PersonalBestUpdateStrategy personalBestUpdateStrategy);
 
 }

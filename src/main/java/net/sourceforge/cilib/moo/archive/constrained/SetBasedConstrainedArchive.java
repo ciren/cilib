@@ -30,7 +30,7 @@ import java.util.Set;
 
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.util.selection.selectionstrategies.ProbabilisticSelectionStrategy;
+import net.sourceforge.cilib.util.selection.selectionstrategies.RandomSelectionStrategy;
 import net.sourceforge.cilib.util.selection.selectionstrategies.SelectionStrategy;
 
 /**
@@ -49,7 +49,7 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
 
     public SetBasedConstrainedArchive() {
         this.solutions = new LinkedHashSet<OptimisationSolution>();
-        this.deleteSelectionStrategy = new ProbabilisticSelectionStrategy<OptimisationSolution>();
+        this.deleteSelectionStrategy = new RandomSelectionStrategy<OptimisationSolution>();
     }
 
     public void setDeleteSelectionStrategy(SelectionStrategy<OptimisationSolution> deleteSelectionStrategy) {

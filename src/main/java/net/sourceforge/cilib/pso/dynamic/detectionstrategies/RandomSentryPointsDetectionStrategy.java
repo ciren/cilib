@@ -48,12 +48,13 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
 
     public RandomSentryPointsDetectionStrategy() {
         // super() is automatically called
-        sentries = new ArrayList<Entity>(numberOfSentries);
+        int size = Double.valueOf(numberOfSentries.getParameter()).intValue();
+        sentries = new ArrayList<Entity>(size);
     }
 
     public RandomSentryPointsDetectionStrategy(RandomSentryPointsDetectionStrategy<E> rhs) {
         super(rhs);
-        sentries = new ArrayList<Entity>(numberOfSentries);
+        sentries = new ArrayList<Entity>(rhs.sentries.size());
 
         for (Entity sentry : rhs.sentries) {
             sentries.add(sentry.getClone());
@@ -116,10 +117,12 @@ public class RandomSentryPointsDetectionStrategy<E extends PopulationBasedAlgori
         if (sentries.size() != 0)
             throw new IllegalStateException("The sentry points have already been initialized");
 
-        Entity prototype = topology.get(randomGenerator.nextInt(topology.size()));
-        sentries.ensureCapacity(numberOfSentries);
+        int size = Double.valueOf(numberOfSentries.getParameter()).intValue();
 
-        for (int i = 0; i < numberOfSentries; i++) {
+        Entity prototype = topology.get(randomGenerator.nextInt(topology.size()));
+        sentries.ensureCapacity(size);
+
+        for (int i = 0; i < size; ++i) {
             Entity sentry = prototype.getClone();
             sentry.reinitialise();
             sentry.calculateFitness();

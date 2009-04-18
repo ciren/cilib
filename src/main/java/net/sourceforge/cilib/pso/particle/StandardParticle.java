@@ -163,10 +163,8 @@ public class StandardParticle extends AbstractParticle {
     public void calculateFitness(boolean count) {
         Fitness fitness = getFitnessCalculator().getFitness(this, count);
         this.getProperties().put(EntityType.FITNESS, fitness);
-        if (fitness.compareTo(getBestFitness()) > 0) {
-            this.getProperties().put(EntityType.Particle.BEST_FITNESS, fitness);
-            this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
-        }
+
+        this.personalBestUpdateStrategy.updatePersonalBest(this);
     }
 
     /**

@@ -105,7 +105,6 @@ public class DynamicIterationStrategy<E extends PopulationBasedAlgorithm> implem
     public void performIteration(E algorithm) {
         boolean hasChanged = detectionStrategy.detect(algorithm);
 
-        
         if (hasChanged) {
             responseStrategy.respond(algorithm);
         }

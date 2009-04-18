@@ -25,6 +25,8 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
@@ -43,18 +45,18 @@ import net.sourceforge.cilib.math.random.generator.Random;
 public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = -7299802900616282412L;
 
-    protected int numberOfSentries = 0;
+    protected ControlParameter numberOfSentries;
     protected Random randomGenerator = null;
 
     public RandomSentriesDetectionStrategy() {
         // super() is automatically called
-        numberOfSentries = 1;
+        numberOfSentries = new ConstantControlParameter(1.0);
         randomGenerator = new MersenneTwister();
     }
 
     public RandomSentriesDetectionStrategy(RandomSentriesDetectionStrategy<E> rhs) {
         super(rhs);
-        numberOfSentries = rhs.numberOfSentries;
+        numberOfSentries = rhs.numberOfSentries.getClone();
         randomGenerator = rhs.randomGenerator.getClone();
     }
 
@@ -77,7 +79,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
         if (algorithm.getIterations() % interval == 0) {
             List<? extends Entity> all = algorithm.getTopology().asList();
 
-            for (int i = 0; i < numberOfSentries; i++) {
+            for (int i = 0; i < numberOfSentries.getParameter(); i++) {
                 // select random sentry entity
                 int random = randomGenerator.nextInt(all.size());
                 Entity sentry = all.get(random);
@@ -98,15 +100,15 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
         return false;
     }
 
-    public void setNumberOfSentries(int nos) {
-        if (nos <= 0) {
+    public void setNumberOfSentries(ControlParameter parameter) {
+        if (parameter.getParameter() <= 0) {
             throw new IllegalArgumentException("It doesn't make sense to have <= 0 sentry points");
         }
 
-        numberOfSentries = nos;
+        numberOfSentries = parameter;
     }
 
-    public int getNumberOfSentries() {
+    public ControlParameter getNumberOfSentries() {
         return numberOfSentries;
     }
 

@@ -77,11 +77,6 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
             fitnessEvaluations.incrementAndGet();
         }
 
-        /*
-         * if (DomainParser.getInstance().isInsideBounds(solution)) { return
-         * calculateFitness(solution); } else { return InferiorFitness.instance(); }
-         */
-
         if (this.changeStrategy.change(this))
             changeEnvironment();
 

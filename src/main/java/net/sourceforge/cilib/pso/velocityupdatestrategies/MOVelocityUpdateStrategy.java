@@ -60,13 +60,26 @@ public class MOVelocityUpdateStrategy extends StandardVelocityUpdate {
     public void updateVelocity(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
+        Vector gbest = (Vector) particle.getNeighbourhoodBest().getCandidateSolution();
         Vector localGuide = (Vector) particle.getProperties().get(EntityType.Particle.Guide.LOCAL_GUIDE);
         Vector globalGuide = (Vector) particle.getProperties().get(EntityType.Particle.Guide.GLOBAL_GUIDE);
 
-        for (int i = 0; i < particle.getDimension(); ++i) {
+        int min = Math.min(localGuide.getDimension(), globalGuide.getDimension());
+        int i = 0;
+
+        for (; i < min; ++i) {
             double value = this.inertiaWeight.getParameter() * velocity.getReal(i) +
                     (localGuide.getReal(i) - position.getReal(i)) * this.cognitiveAcceleration.getParameter() +
                     (globalGuide.getReal(i) - position.getReal(i)) * this.socialAcceleration.getParameter();
+            velocity.setReal(i, value);
+
+            clamp(velocity, i);
+        }
+
+        for (; i < particle.getDimension(); ++i) {
+            double value = this.inertiaWeight.getParameter() * velocity.getReal(i) +
+                    (localGuide.getReal(i) - position.getReal(i)) * this.cognitiveAcceleration.getParameter() +
+                    (gbest.getReal(i) - position.getReal(i)) * this.socialAcceleration.getParameter();
             velocity.setReal(i, value);
 
             clamp(velocity, i);
