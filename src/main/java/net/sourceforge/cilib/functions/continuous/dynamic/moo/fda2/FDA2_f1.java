@@ -26,45 +26,45 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This function is the f1 function of the FDA2 problem defined on page 429 in the following paper:
- * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations 
+ * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
- * 
+ *
  * @author Marde Greeff
  */
 
 public class FDA2_f1 extends ContinuousFunction {
-	
-	private static final long serialVersionUID = 3509865802519318920L;
 
-	/**
-	 * Default Contructor
-	 */
-	public FDA2_f1 () {
-		super();
-		setDomain("R(0, 1)");
-	}
-	
-	/**
-	 * copy constructor
-	 * @param copy
-	 */
-	public FDA2_f1(FDA2_f1 copy) {
-		super(copy);
-		this.setDomain(copy.getDomain());
-	}
-	
-	/**
-	 * returns a clone
-	 */
-	public FDA2_f1 getClone() {
-		return new FDA2_f1(this);
-	}
-	
-	/**
-	 * Evaluates the function
-	 * f1(X_I) = x_1
-	 */
-	public double evaluate(Vector x) {		
-		return (double)(Math.abs(x.getReal(0)));
-	}
+    private static final long serialVersionUID = 3509865802519318920L;
+
+    /**
+     * Default Contructor
+     */
+    public FDA2_f1 () {
+        super();
+        setDomain("R(0, 1)");
+    }
+
+    /**
+     * copy constructor
+     * @param copy
+     */
+    public FDA2_f1(FDA2_f1 copy) {
+        super(copy);
+        this.setDomain(copy.getDomain());
+    }
+
+    /**
+     * returns a clone
+     */
+    public FDA2_f1 getClone() {
+        return new FDA2_f1(this);
+    }
+
+    /**
+     * Evaluates the function
+     * f1(X_I) = x_1
+     */
+    public double evaluate(Vector x) {
+        return (double)(Math.abs(x.getReal(0)));
+    }
 }

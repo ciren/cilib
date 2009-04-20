@@ -26,53 +26,53 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This function is the g function of the FDA2 problem defined on page 429 in the following paper:
- * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations 
+ * M.Farina, K.Deb, P.Amato. Dynamic multiobjective optimization problems: test cases, approximations
  * and applications, IEEE Transactions on Evolutionary Computation, 8(5): 425-442, 2003
- * 
+ *
  * @author Marde Greeff
  */
 
 public class FDA2_g extends ContinuousFunction {
-	
-	private static final long serialVersionUID = 8726700022515610264L;
 
-	/**
-	 * Default Constructor
-	 */
-	public FDA2_g() {
-		super();
-		setDomain("R(-1, 1)^15");
-	}
-	
-	/**
-	 * copy constructor
-	 * @param copy
-	 */
-	public FDA2_g(FDA2_g copy) {
-		super(copy);
-		this.setDomain(copy.getDomain());
-	}
-	
-	/**
-	 * return a clone
-	 */
-	public FDA2_g getClone() {
-		return new FDA2_g(this);
-	}
-	
-	/**
-	 * Evaluates the function
-	 * g(XII) = 1 + sum((x_i)^2)
-	 */
-	public double evaluate(Vector x) {
-			
-		double sum = 1.0;
-		
-		for (int k=0; k < x.getDimension(); k++) {
-			sum += Math.pow(x.getReal(0), 2);
-		}
-		
-		return sum;
-	}
+    private static final long serialVersionUID = 8726700022515610264L;
+
+    /**
+     * Default Constructor
+     */
+    public FDA2_g() {
+        super();
+        setDomain("R(-1, 1)^15");
+    }
+
+    /**
+     * copy constructor
+     * @param copy
+     */
+    public FDA2_g(FDA2_g copy) {
+        super(copy);
+        this.setDomain(copy.getDomain());
+    }
+
+    /**
+     * return a clone
+     */
+    public FDA2_g getClone() {
+        return new FDA2_g(this);
+    }
+
+    /**
+     * Evaluates the function
+     * g(XII) = 1 + sum((x_i)^2)
+     */
+    public double evaluate(Vector x) {
+
+        double sum = 1.0;
+
+        for (int k=0; k < x.getDimension(); k++) {
+            sum += Math.pow(x.getReal(0), 2);
+        }
+
+        return sum;
+    }
 
 }
