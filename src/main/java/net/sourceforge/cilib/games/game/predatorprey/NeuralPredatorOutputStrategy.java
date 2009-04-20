@@ -24,51 +24,53 @@ package net.sourceforge.cilib.games.game.predatorprey;
 import net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy;
 import net.sourceforge.cilib.games.agent.Agent;
 import net.sourceforge.cilib.games.game.Game;
+import net.sourceforge.cilib.games.items.GameToken;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author leo
- *
+ * This is a {@linkplain NeuralOutputInterpretationStrategy} that will interperet the output of a neural network to make a movement decision for a Predator agent.
  */
 public class NeuralPredatorOutputStrategy extends
         NeuralOutputInterpretationStrategy {
-
-    /**
-     *
-     */
     public NeuralPredatorOutputStrategy() {
-        // TODO Auto-generated constructor stub
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy#applyOutputToState(net.sourceforge.cilib.type.types.container.Vector)
+    /**
+     * {@inheritDoc}
      */
     @Override
     public void applyOutputToState(Vector outputData, Agent currentPlayer, Game oldState) {
         if(!(oldState instanceof PredatorPreyGame))
             throw new RuntimeException("Invalid game for this agent");
+        if(!currentPlayer.getAgentToken().equals(GameToken.PredatorPrey.PREDATOR))
+            throw new RuntimeException("This strategy can only be used on a prey player");
         PredatorPreyGame game = (PredatorPreyGame)oldState;
         int x = 0;
-        if(outputData.getReal(0) > 0.5) //move on x axis
-            if(outputData.getReal(1) > 0.5) //move right
+        if(outputData.getReal(0) > 0.0) //move on x axis
+            if(outputData.getReal(1) > 0.0) //move right
                 x = 1;
-            else
+            else 
                 x = -1;
         int y = 0;
-        if(outputData.getReal(2) > 0.5) //move on y axis
-            if(outputData.getReal(3) >  0.5) //move down
+        if(outputData.getReal(2) > 0.0) //move on y axis
+            if(outputData.getReal(3) >  0.0) //move down
                 y = 1;
-            else
-                y = -1;
+            else 
+                y = -1;        
+        
         game.movePlayer(currentPlayer.getPlayerID(), x, y);
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy#getAmOutputs()
+    /**
+     * This strategy requires 4 outputs:
+     * The first determines movement on the x axis
+     * the second determines if that movement is left or right
+     * The third determines movement on the y axes
+     * The fourth determines if it is up or down
      */
     @Override
     public int getAmOutputs() {
-        // TODO Auto-generated method stub
         return 4;
     }
 

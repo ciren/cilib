@@ -23,18 +23,65 @@ package net.sourceforge.cilib.moo.archive;
 
 import java.util.Collection;
 
+import net.sourceforge.cilib.moo.archive.constrained.SetBasedConstrainedArchive;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
+ * <p>
+ * A representation of an archive of non-dominated solutions used by Multi-objective optimisation
+ * algorithms for solution storage during a search.
+ * </p>
+ *
  * @author Andries Engelbrecht
+ * @author Wiehann Matthysen
  */
-public interface Archive extends Collection<OptimisationSolution> {
+public abstract class Archive implements Collection<OptimisationSolution> {
 
-    /*
-     * used to decide if a non-dominated solution should be accepted in the archive
+    private static ThreadLocal<Archive> currentArchive = new ThreadLocal<Archive>() {
+
+        @Override
+        protected Archive initialValue() {
+            return new SetBasedConstrainedArchive();
+        }
+    };
+
+    /**
+     * Static entrypoint to get to the Archive. This method is usefull especially
+     * in situations where you need to get to the archive from different locations
+     * such as a {@code GuideSelectionStrategy}, or the {@link ArchivingIterationStep}
+     * at the end of a multi-objective algorithm.
+     * @return The currently active archive for a multi-objective algortihm.
      */
-    public void accept(OptimisationSolution candidateNonDominatedSolution);
+    public static Archive get() {
+        return currentArchive.get();
+    }
 
-    public void accept(Collection<OptimisationSolution> paretoFront);
+    /***
+     * Set the archive to be used by a multi-objective optimisation algorithm.
+     * @param archive A concrete archive implementation to be used as the active archive.
+     */
+    public static void set(Archive archive) {
+        currentArchive.set(archive);
+    }
 
+    /**
+     * Accepts only the subset of non-dominated solutions from {@code candidateSolutions} into the archive.
+     * @param candidateSolutions A collection of dominated and non-dominated solutions.
+     * Subclasses must make sure that only the non-dominated solutions be added to the archive.
+     */
+    public abstract void accept(Collection<OptimisationSolution> candidateSolutions);
+
+    /**
+     * Checks the entire archive and accumulates the solutions that dominates {@code candidateSolution}.
+     * @param candidateSolution The solution to compare against all of the solutions in the archive.
+     * @return The collection of solutions that dominates {@code candidateSolution}.
+     */
+    public abstract Collection<OptimisationSolution> dominates(OptimisationSolution candidateSolution);
+
+    /**
+     * Checks the archive and accumulates all solutions that is dominated by {@code candidateSolution}.
+     * @param candidateSolution The solution to compare against all of the solutions in the archive.
+     * @return The collection of solutions dominated by the {@code candidateSolution}.
+     */
+    public abstract Collection<OptimisationSolution> isDominatedBy(OptimisationSolution candidateSolution);
 }

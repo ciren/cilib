@@ -189,7 +189,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         if (this.bestBee == null)
             throw new InitialisationException("Best solution cannot be determined before algorithm is run");
 
-        return new OptimisationSolution(this.getOptimisationProblem(), bestBee.getPosition());
+        return new OptimisationSolution(bestBee.getPosition(), bestBee.getFitness());
     }
 
     /**

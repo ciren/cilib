@@ -31,6 +31,7 @@ import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
+import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 
 /**
  * This is the super interface which all corresponding entity implementation and extending interfaces,
@@ -154,4 +155,10 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
      *         returned for maximization problems.
      */
     public Comparator<Entity> getComparator();
+
+    /**
+     * Get the current {@code FitnessCalculator} for the current {@code Entity}.
+     * @return The {@code FitnessCalculator} associated with this {@code Entity}.
+     */
+    public FitnessCalculator getFitnessCalculator();
 }

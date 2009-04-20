@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
- * Department of Computer Science
+ * Department of Computer Science 
  * University of Pretoria
  * South Africa
  *
@@ -22,70 +22,75 @@
 package net.sourceforge.cilib.coevolution;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.problem.coevolution.CompetitiveCoevolutionProblemAdapter;
-import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
+import net.sourceforge.cilib.coevolution.selection.OpponentSelectionStrategy;
+import net.sourceforge.cilib.coevolution.selection.SelectAllOpponentSelectionStrategy;
 
 
 
 /**
+ * This iteration strategy defines methods to select opponents.
  * @author Julien Duhain
- *
+ * @author leo
+ * TODO: Refactor this code, it seems unnecesary
  */
 public class CompetitiveCoevolutionIterationStrategy extends CoevolutionIterationStrategy {
 
-    private static final long serialVersionUID = 1061304146851715740L;
-    protected OpponentSelectionStrategy opponentSelectionStrategy;
-    protected FitnessSharingStrategy fitnessSharingStrategy;
+	private static final long serialVersionUID = 1061304146851715740L;
+	protected OpponentSelectionStrategy opponentSelectionStrategy;
+	protected FitnessSharingStrategy fitnessSharingStrategy;
+	
+	public CompetitiveCoevolutionIterationStrategy() {
+		super();
+		opponentSelectionStrategy = new SelectAllOpponentSelectionStrategy();
+		fitnessSharingStrategy = new StandardFitnessSharingStrategy();
+	}
 
-    public CompetitiveCoevolutionIterationStrategy() {
-        super();
-        opponentSelectionStrategy = new SelectAllOpponentSelectionStrategy();
-        fitnessSharingStrategy = new StandardFitnessSharingStrategy();
-    }
+	@Override
+	public CompetitiveCoevolutionIterationStrategy getClone(){
+		return new CompetitiveCoevolutionIterationStrategy(this);
+	}
+	
+	public CompetitiveCoevolutionIterationStrategy(CompetitiveCoevolutionIterationStrategy copy){
+		opponentSelectionStrategy = copy.opponentSelectionStrategy;
+		fitnessSharingStrategy = copy.fitnessSharingStrategy;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void performIteration(CoevolutionAlgorithm ca) {		
+		
+		 for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
+			currentAlgorithm.performIteration();
+		}	 		
+	}
+	
+	/**
+	 * Select opponents based on the current {@linkplain OpponentSelectionStrategy}
+	 * @param populationID the populationID of the {@linkplain Entity} for whom opponents are being selected
+	 * @param ca the Coevolution algorithm
+	 * @return the list of competitors
+	 */
+	public CoevolutionCompetitorList selectOpponents(int populationID, CoevolutionAlgorithm ca){
+		return opponentSelectionStrategy.setCompetitors(populationID, ca.getPopulations());
+	}
 
-    @Override
-    public CompetitiveCoevolutionIterationStrategy getClone(){
-        return new CompetitiveCoevolutionIterationStrategy(this);
-    }
+	public FitnessSharingStrategy getFitnessSharingStrategy() {
+		return fitnessSharingStrategy;
+	}
 
-    public CompetitiveCoevolutionIterationStrategy(CompetitiveCoevolutionIterationStrategy copy){
-        opponentSelectionStrategy = copy.opponentSelectionStrategy;
-        fitnessSharingStrategy = copy.fitnessSharingStrategy;
-    }
+	public void setFitnessSharingStrategy(
+			FitnessSharingStrategy fitnessSharingStrategy) {
+		this.fitnessSharingStrategy = fitnessSharingStrategy;
+	}
 
-    @Override
-    public void performIteration(CoevolutionAlgorithm ca) {
+	public OpponentSelectionStrategy getOpponentSelectionStrategy() {
+		return opponentSelectionStrategy;
+	}
 
-         for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
-             //new round of competitions
-             ((CompetitiveCoevolutionProblemAdapter)currentAlgorithm.getOptimisationProblem()).incrementEvaluationround();
-
-             for(int i=0; i<currentAlgorithm.getPopulationSize(); i++){
-                Entity e = currentAlgorithm.getTopology().get(i);
-                CoevolutionEvaluationList opponents = opponentSelectionStrategy.setCompetitors(((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt(), ca.getPopulations());
-                e.getProperties().put(EntityType.Coevolution.COMPETITOR_LIST, opponents);
-            }
-            currentAlgorithm.performIteration();
-        }
-
-    }
-
-    public FitnessSharingStrategy getFitnessSharingStrategy() {
-        return fitnessSharingStrategy;
-    }
-
-    public void setFitnessSharingStrategy(
-            FitnessSharingStrategy fitnessSharingStrategy) {
-        this.fitnessSharingStrategy = fitnessSharingStrategy;
-    }
-
-    public OpponentSelectionStrategy getOpponentSelectionStrategy() {
-        return opponentSelectionStrategy;
-    }
-
-    public void setOpponentSelectionStrategy(OpponentSelectionStrategy opponentSelectionStrategy) {
-        this.opponentSelectionStrategy = opponentSelectionStrategy;
-    }
+	public void setOpponentSelectionStrategy(OpponentSelectionStrategy opponentSelectionStrategy) {
+		this.opponentSelectionStrategy = opponentSelectionStrategy;
+	}
 }

@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.problem;
 
 import static org.junit.Assert.assertTrue;
@@ -35,94 +34,96 @@ import org.junit.Test;
  * @author jkroon
  */
 public class MOFitnessTest {
-    
+
     private static MOOptimisationProblem moproblem;
 
     public MOFitnessTest() {
-        
     }
-    
+
     @BeforeClass
     public static void setUp() {
         moproblem = new MOOptimisationProblem();
-        for(int i = 0; i < 3; i++) {
-            moproblem.addOptimisationProblem(new DummyOptimisationProblem(i));
+        for (int i = 0; i < 3; i++) {
+            moproblem.add(new DummyOptimisationProblem(i));
         }
     }
-        
+
     @Test
     public void testAllInferior() {
-        Fitness inferior[] = new Fitness[]{ InferiorFitness.instance(), InferiorFitness.instance(), InferiorFitness.instance() };
+        Fitness inferior[] = new Fitness[]{InferiorFitness.instance(), InferiorFitness.instance(), InferiorFitness.instance()};
         Fitness oneFitness[] = new Fitness[]{
-                new MinimisationFitness(new Integer(1).doubleValue()),
-                new MinimisationFitness(new Integer(1).doubleValue()),
-                new MinimisationFitness(new Integer(1).doubleValue()) };
-                
+            new MinimisationFitness(new Integer(1).doubleValue()),
+            new MinimisationFitness(new Integer(1).doubleValue()),
+            new MinimisationFitness(new Integer(1).doubleValue())};
+
         Fitness f1 = moproblem.getFitness(inferior, false);
         Fitness f2 = moproblem.getFitness(oneFitness, false);
-        
+
         assertTrue(f1.compareTo(f2) < 0);
         assertTrue(f2.compareTo(f1) > 0);
     }
 
-    
-    
     private static class DummyOptimisationProblem implements OptimisationProblem {
         private static final long serialVersionUID = -2955989686805159033L;
-        
         private int i;
-        
+
         public DummyOptimisationProblem(int i) {
             this.i = i;
         }
-        
+
         public DummyOptimisationProblem(DummyOptimisationProblem copy) {
-            
         }
-        
+
+        @Override
         public DummyOptimisationProblem getClone() {
             return new DummyOptimisationProblem(this);
         }
-    
+
+        @Override
         public Fitness getFitness(Type solution, boolean count) {
             return (Fitness) solution;
-//            return getFitness(new Type[]{solution}, count);
         }
-        
-        public Fitness getFitness(Type [] solution, boolean count) {
+
+        public Fitness getFitness(Type[] solution, boolean count) {
             return (Fitness) solution[i];
         }
 
+        @Override
         public int getFitnessEvaluations() {
             return 0;
         }
 
+        @Override
         public DomainRegistry getDomain() {
             // TODO Auto-generated method stub
             return null;
         }
 
+        @Override
         public DomainRegistry getBehaviouralDomain() {
             // TODO Auto-generated method stub
             return null;
         }
 
+        @Override
         public DataSetBuilder getDataSetBuilder() {
             // TODO Auto-generated method stub
             return null;
         }
 
+        @Override
         public void setDataSetBuilder(DataSetBuilder dataSet) {
             // TODO Auto-generated method stub
         }
 
+        @Override
         public void accept(ProblemVisitor visitor) {
             throw new UnsupportedOperationException("This method is not implemented");
         }
 
+        @Override
         public void changeEnvironment() {
             throw new UnsupportedOperationException("This method is not implemented");
         }
-        
     }
 }

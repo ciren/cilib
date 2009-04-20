@@ -49,8 +49,8 @@ public class MultiPopulationFitness implements Measurement {
 
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.measurement.Measurement#getClone()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public Measurement getClone() {
@@ -58,8 +58,8 @@ public class MultiPopulationFitness implements Measurement {
         return new MultiPopulationFitness(this);
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.measurement.Measurement#getDomain()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public String getDomain() {
@@ -67,12 +67,11 @@ public class MultiPopulationFitness implements Measurement {
         return "T";
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.measurement.Measurement#getValue()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public Type getValue(Algorithm algorithm) {
-
         Vector fitness = new Vector();
         CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
         for(PopulationBasedAlgorithm currentAlgorithm : ca) {

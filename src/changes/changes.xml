@@ -51,11 +51,11 @@
       </action>
       <action dev="gpampara" type="fix" issue="2112021">
         Corrected a sequencing issue. Coevolutionary algorithms should
-	behave as expected.
+    behave as expected.
       </action>
       <action dev="gpampara" type="fix" issue="2000258">
         Implemented correct equals() and hashCode() methods for stateful 
-	objects.
+    objects.
       </action>
       <action dev="gpampara" type="update" issue="2059318" due-to="Killearnith" due-to-email="Killearnith at users.sourceforge.net">
         Fixed a logic error in SelectiveContributionUpdateStrategy.
@@ -65,7 +65,7 @@
       </action>
       <action dev="gpampara" type="fix" issue="2046047">
         Added a new creation method that returns a Fitness object with the
-	provided value.
+    provided value.
       </action>
       <action dev="gpampara" type="fix" issue="2046158">
         Pulled the FitnessCalculator up into AbstractEntity.

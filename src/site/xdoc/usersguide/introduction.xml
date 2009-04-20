@@ -54,7 +54,7 @@
     </p>
     <p>
     All algorithm definitions are defined as a tree structure. As a result,
-    the	use of XML leads to a very robust expression of the algorithm and the
+    the    use of XML leads to a very robust expression of the algorithm and the
     associated components.
     </p>
 

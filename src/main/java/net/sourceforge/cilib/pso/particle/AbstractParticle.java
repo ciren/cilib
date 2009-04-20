@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.particle;
 
+import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPersonalBestUpdateStrategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
@@ -30,6 +31,7 @@ import net.sourceforge.cilib.pso.particle.initialisation.RandomizedPositionIniti
 import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
 import net.sourceforge.cilib.pso.particle.initialisation.ZeroInitialVelocityStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
+import net.sourceforge.cilib.pso.positionupdatestrategies.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
@@ -52,6 +54,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     // TODO: Factor this out into a Particle intialisation strategy.... keep in mind the heterogeneous swarm thingy
     protected PositionInitialisationStrategy positionInitialisationStrategy;
     // protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
+    protected PersonalBestUpdateStrategy personalBestUpdateStrategy;
 
     private int id;
 
@@ -67,6 +70,8 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
         positionInitialisationStrategy = new RandomizedPositionInitialisationStrategy();
         velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
+
+        personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
     }
 
     /**
@@ -80,6 +85,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
         this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
         this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
+        this.personalBestUpdateStrategy = copy.personalBestUpdateStrategy.getClone();
     }
 
     /**
@@ -275,6 +281,22 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     @Override
     public int compareTo(Entity o) {
         return getFitness().compareTo(o.getFitness());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PersonalBestUpdateStrategy getPersonalBestUpdateStrategy() {
+        return this.personalBestUpdateStrategy;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPersonalBestUpdateStrategy(PersonalBestUpdateStrategy personalBestUpdateStrategy) {
+        this.personalBestUpdateStrategy = personalBestUpdateStrategy;
     }
 
 }

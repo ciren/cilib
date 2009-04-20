@@ -34,17 +34,17 @@
       <includes>
         <include>README*</include>
         <include>LICENSE*</include>
-	<include>COPYING*</include>
-	<include>AUTHORS*</include>
+    <include>COPYING*</include>
+    <include>AUTHORS*</include>
         <include>NOTICE*</include>
-	<include>pom.xml</include>
+    <include>pom.xml</include>
         <include>simulator*</include>
       </includes>
     </fileSet>
     <fileSet>
       <directory>xml</directory>
       <includes>
-      	<include>*.xml</include>
+          <include>*.xml</include>
       </includes>
     </fileSet>
     <fileSet>

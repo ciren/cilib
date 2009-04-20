@@ -26,12 +26,14 @@ package net.sourceforge.cilib.games.result;
  * the game resulted in a draw
  */
 public class DrawResult extends AbstractGameResult {
-
-    /**
-     *
-     */
+    private static final long serialVersionUID = 1181989262020189L;
     public DrawResult() {
-        // TODO Auto-generated constructor stub
     }
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DrawResult getClone() {
+        return new DrawResult();
+    }
 }

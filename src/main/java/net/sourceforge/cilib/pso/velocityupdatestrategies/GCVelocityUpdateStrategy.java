@@ -158,7 +158,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
         PSO pso = (PSO) Algorithm.get();
 
         if (particle == pso.getTopology().getBestEntity()) {
-            Fitness newFitness = pso.getOptimisationProblem().getFitness(particle.getPosition(), false);
+            Fitness newFitness = particle.getFitnessCalculator().getFitness(particle, false);
 
             if (!newFitness.equals(oldFitness)) {
                 this.failureCount = 0;

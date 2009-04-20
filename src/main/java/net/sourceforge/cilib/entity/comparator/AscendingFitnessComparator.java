@@ -47,7 +47,7 @@ public class AscendingFitnessComparator implements Comparator<Entity> {
         Fitness f1 = e1.getFitness();
         Fitness f2 = e2.getFitness();
 
-        return f2.compareTo(f1);
+        return f1.compareTo(f2);
     }
 
 }

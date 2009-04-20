@@ -29,6 +29,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class LinearOutputFunction implements NeuronFunction {
+    private static final long serialVersionUID = -4242396710596279416L;
 
     public LinearOutputFunction() {
         super();
@@ -47,6 +48,27 @@ public class LinearOutputFunction implements NeuronFunction {
 
     public Type computeDerivativeUsingLastOutput(Type lastOut) {
         return new Real(1.0);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public LinearOutputFunction getClone() {
+        return new LinearOutputFunction();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public double getLowerActiveRange() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public double getUpperActiveRange() {
+        return Double.POSITIVE_INFINITY;
     }
 
 }

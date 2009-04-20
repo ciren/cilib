@@ -26,10 +26,12 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author stefanv
- *
+ * @deprecated This class should be replaced by
+ *             {@link net.sourceforge.cilib.functions.activation.Sigmoid}
  */
 public class SigmoidOutputFunction implements NeuronFunction{
 
+    private static final long serialVersionUID = -325038485455130520L;
     double lambda;
 
 
@@ -51,6 +53,27 @@ public class SigmoidOutputFunction implements NeuronFunction{
 
     public Type computeDerivativeUsingLastOutput(Type lastOut) {
         return new Real(((Real) lastOut).getReal() * (1 - ((Real) lastOut).getReal()));
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public SigmoidOutputFunction getClone() {
+        return new SigmoidOutputFunction();
+    }
+
+    /**
+     * {@inheritDoc}
+     * The active range for sigmoid is -Sqrt(3) - Sqrt(3), and Sqrt(3) = 1.732050808
+     */
+    public double getLowerActiveRange() {
+        return -1.732050808;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public double getUpperActiveRange() {
+        return 1.732050808;
     }
 
 }

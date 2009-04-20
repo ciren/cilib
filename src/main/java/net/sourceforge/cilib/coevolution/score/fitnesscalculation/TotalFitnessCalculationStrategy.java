@@ -27,53 +27,51 @@ import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
+ * the fitness is the total Fitness over all the fitness values attained in each round
  * @author leo
- * the fitness is the total from all the fitness values accumulated in each round
  */
 public class TotalFitnessCalculationStrategy extends FitnessCalculationStrategy {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -7283990410867858837L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -7283990410867858837L;
 
-    /**
-     *
-     */
-    public TotalFitnessCalculationStrategy() {
-    }
+	/**
+	 *
+	 */
+	public TotalFitnessCalculationStrategy() {
+	}
 
 
-    public TotalFitnessCalculationStrategy(FitnessCalculationStrategy other) {
-        super(other);
+	public TotalFitnessCalculationStrategy(FitnessCalculationStrategy other) {
+		super(other);
 
-    }
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score,
-            int currentRound) {
-        ArrayList<Fitness> values = new ArrayList<Fitness>();
-        values.addAll(score.getScores(currentRound));
-        //get the ave
-        double total = 0.0;
-        for(Fitness val: values){
-            total += val.getValue().doubleValue();
-        }
-        //get a clone of the fitness type
-        //Fitness newFit = values.get(0).getClone();
-        //set the value to the new fitness
-        return values.get(0).newInstance(new Double(total));
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Fitness calculateFitnessFromScoreBoard(EntityScoreboard score,
+			int currentRound) {
+		ArrayList<Fitness> values = new ArrayList<Fitness>();
+		values.addAll(score.getScores(currentRound));
+		//get the ave
+		double total = 0.0;
+		for(Fitness val: values){
+			total += val.getValue().doubleValue();
+		}
+		//set the value to the new fitness
+		return values.get(0).newInstance(new Double(total));
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object getClone() {
-        return new TotalFitnessCalculationStrategy(this);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getClone() {
+		return new TotalFitnessCalculationStrategy(this);
+	}
 
 }

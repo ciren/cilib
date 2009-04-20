@@ -24,25 +24,31 @@ package net.sourceforge.cilib.games.game.scoring;
 import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.result.AbstractGameResult;
 import net.sourceforge.cilib.games.result.DrawResult;
+import net.sourceforge.cilib.games.result.ScoreGameResult;
 import net.sourceforge.cilib.games.result.WinGameResult;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 
 /**
  * @author leo
- * This class assigns a fitness based upon the win/lose/draw result of the game and a value assosiated with each outcome
+ * This class assigns a fitness based upon the win/lose/draw result of the game and a value assosiated with each outcome.
+ * If the outcome is a {@linkplain ScoreGameResult} then assign the score attained as the fitness
  */
 public class WinLoseDrawValueScoringStrategy extends GameScoringStrategy {
     Double winValue;
     Double loseValue;
     Double drawValue;
-    /**
-     *
-     */
     public WinLoseDrawValueScoringStrategy() {
-        // TODO Auto-generated constructor stub
         winValue = 1.0;
         loseValue = -2.0;
         drawValue = 0.0;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initializeMeasurements(Game game) {
+        // this scoring strategy does not require agent measurements        
     }
 
     /**
@@ -50,18 +56,22 @@ public class WinLoseDrawValueScoringStrategy extends GameScoringStrategy {
      */
     @Override
     public void assignPlayerScores(Game game) {
-        // TODO Auto-generated method stub
         AbstractGameResult result = game.getGameResult();
         if(result instanceof DrawResult){
-            for(int i = 0; i < game.amPlayers(); ++i)
+            for(int i = 1; i <= game.getPlayerCount(); ++i)            
                 game.assignPlayerScore(i, new MaximisationFitness(drawValue));
+            
         }
-        else{
-            int winnerID = ((WinGameResult)result).getWinner();
+        else if (result instanceof WinGameResult){
+            int winnerID = ((WinGameResult)result).getWinnerID();        
             game.assignPlayerScore(winnerID, new MaximisationFitness(winValue));
-            for(int i = 1; i <= game.amPlayers(); ++i)
+            for(int i = 1; i <= game.getPlayerCount(); ++i)
                 if(i != winnerID)
                     game.assignPlayerScore(i, new MaximisationFitness(loseValue));
+        }
+        else{ //score game result
+            for(int i = 1; i <= game.getPlayerCount(); ++i)
+                game.assignPlayerScore(i, new MaximisationFitness(((ScoreGameResult)result).getHighScore()));
         }
     }
 

@@ -30,6 +30,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -99,7 +100,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
     @Override
     public OptimisationSolution getBestSolution() {
 //        throw new UnsupportedOperationException("Niching does not provide a single solution.");
-        return new OptimisationSolution(optimisationProblem, new Vector());
+        return new OptimisationSolution(new Vector(), InferiorFitness.instance());
     }
 
     @Override

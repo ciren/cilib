@@ -25,69 +25,64 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.util.calculator.PropertyBasedFitnessCalculator;
 
 /**
+ * This class is used by the sub populations of a competitive coevolution algorithm. It can only optimise {@linkplain Entitie}s using the {@linkplain PropertyBasedFitnessCalculator}
  * @author leo
- * This class is used by any population in a competitive coevolution algorithm. It contains the neccesary
  */
 public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAdapter {
-    //Id of the poulation
-    int populationID;
-    //domainregistry for the population
-    DomainRegistry domain;
-    //the coevolution problem
-    CoevolutionOptimisationProblem coevolutionProblem;
-    //the current evaluation round
-    int evaluationRound;
-    /**
-     *
-     */
-    private static final long serialVersionUID = -6940622506198881027L;
-    /**
-     *
-     */
-    public CompetitiveCoevolutionProblemAdapter(int populationID, DomainRegistry domain, CoevolutionOptimisationProblem coevolutionProblem) {
-        evaluationRound = 0;
-        this.populationID = populationID;
-        this.domain = domain;
-        this.coevolutionProblem = coevolutionProblem;
-    }
+	private static final long serialVersionUID = -6940622506198881027L;
+	//Id of the poulation
+	int populationID; 
+	//domainregistry for the population
+	DomainRegistry domain;	
+	//the coevolution problem
+	CoevolutionOptimisationProblem coevolutionProblem;	
+	//the current evaluation round
+	int evaluationRound;
+	public CompetitiveCoevolutionProblemAdapter(int populationID, DomainRegistry domain, CoevolutionOptimisationProblem coevolutionProblem) {
+		evaluationRound = 0;
+		this.populationID = populationID;
+		this.domain = domain;
+		this.coevolutionProblem = coevolutionProblem;
+	} 
+	
+	public CompetitiveCoevolutionProblemAdapter(CompetitiveCoevolutionProblemAdapter other){
+		populationID = other.populationID;
+		domain = other.domain;
+		coevolutionProblem = other.coevolutionProblem;
+		evaluationRound = other.evaluationRound;
+	}
+	
+	public void incrementEvaluationround(){
+		++evaluationRound;
+	}
 
-    public CompetitiveCoevolutionProblemAdapter(CompetitiveCoevolutionProblemAdapter other){
-        populationID = other.populationID;
-        domain = other.domain;
-        coevolutionProblem = other.coevolutionProblem;
-        evaluationRound = other.evaluationRound;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Fitness calculateFitness(Type solution) {
+		@SuppressWarnings("unchecked")
+		Fitness fitness = coevolutionProblem.evaluateEntity(populationID, evaluationRound, (Blackboard<Enum<?>, Type>) solution);
+		return fitness;
+	}
 
-    public void incrementEvaluationround(){
-        ++evaluationRound;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public OptimisationProblemAdapter getClone() {
+		return new CompetitiveCoevolutionProblemAdapter(this);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Fitness calculateFitness(Type solution) {
-        @SuppressWarnings("unchecked")
-        Fitness fitness = coevolutionProblem.evaluateEntity(populationID, evaluationRound, (Blackboard<Enum<?>, Type>) solution);
-        return fitness;
-    }
+	public DomainRegistry getBehaviouralDomain() {
+		return domain;
+	}
 
-    @Override
-    public OptimisationProblemAdapter getClone() {
-        // TODO Auto-generated method stub
-        return new CompetitiveCoevolutionProblemAdapter(this);
-    }
-
-    public DomainRegistry getBehaviouralDomain() {
-        // TODO Auto-generated method stub
-        return domain;
-    }
-
-    public DomainRegistry getDomain() {
-        // TODO Auto-generated method stub
-        return domain;
-    }
+	public DomainRegistry getDomain() {
+		return domain;
+	}
 
 }

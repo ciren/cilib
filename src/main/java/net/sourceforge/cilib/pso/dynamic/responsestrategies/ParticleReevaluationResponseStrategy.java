@@ -31,15 +31,17 @@ import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
 /**
  * @author Anna Rakitianskaia
+ * @deprecated Rather use {@link ReevaluationReactionStrategy}
  */
-public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> implements
+public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> extends
         EnvironmentChangeResponseStrategy<E> {
+
     private static final long serialVersionUID = -4389695103800841288L;
 
     public ParticleReevaluationResponseStrategy() {
         // empty constructor
     }
-
+    
     public ParticleReevaluationResponseStrategy(ParticleReevaluationResponseStrategy<E> copy) {
         // empty copy constructor
     }
@@ -47,30 +49,30 @@ public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgor
     public ParticleReevaluationResponseStrategy<E> getClone() {
         return new ParticleReevaluationResponseStrategy<E>(this);
     }
-
-    /**
+    
+    /** 
      * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best.
      * @param algorithm PSO algorithm that has to respond to environment change
      */
     public void respond(E algorithm) {
-        reevaluateParticles(algorithm);
+        performReaction(algorithm);
     }
-
+    
     /**
      * Re-evaluate each particle's position, personal best and neighbourhood best.
      * @param algorithm PSO algorithm that has to respond to environment change
      */
-    protected void reevaluateParticles(E algorithm) {
+    protected void performReaction(E algorithm) {
 
         Topology<? extends Entity> topology = algorithm.getTopology();
-
+        
         // Reevaluate current position. Update personal best (done by reevaluate()).
         Iterator<? extends Entity> iterator = topology.iterator();
         while (iterator.hasNext()) {
             DynamicParticle current = (DynamicParticle) iterator.next();
             current.reevaluate();
         }
-
+        
         // Update the neighbourhood best
         iterator = topology.iterator();
         while (iterator.hasNext()) {

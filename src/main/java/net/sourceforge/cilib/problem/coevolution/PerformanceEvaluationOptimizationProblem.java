@@ -29,44 +29,42 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
  * @author leo
  * This class represents all kinds of problems where an entity's fitness is determined by performing
  * a task a number of times.
- * For example when a game player is optimized the fitness is determined by playing the game a number of times and assigning a score
- * based on the entities performance in the game.
+ * For example when a game player is optimized the fitness is determined by playing the game a number of times and a score
+ * is assigned based on the entitie's performance in the game.
  */
 public abstract class PerformanceEvaluationOptimizationProblem extends
-        OptimisationProblemAdapter {
-    private static final long serialVersionUID = -736481594565770996L;
+		OptimisationProblemAdapter {
+	private static final long serialVersionUID = -736481594565770996L;
 
-    protected int amountEvaluations;
-    //this class determines how the fitness values from each evaluation will be combined
-    protected FitnessCalculationStrategy fitnessCalculation;
-    //scoring strategy
-    /**
-     *
-     */
-    public PerformanceEvaluationOptimizationProblem() {
-        amountEvaluations = 1;
-        fitnessCalculation = new TotalFitnessCalculationStrategy();
-    }
+	protected int numberOfEvaluations;
+	//this class determines how the fitness values from each evaluation will be combined
+	protected FitnessCalculationStrategy fitnessCalculation;
+	//scoring strategy
+	public PerformanceEvaluationOptimizationProblem() {
+		numberOfEvaluations = 1;
+		fitnessCalculation = new TotalFitnessCalculationStrategy();
+	}
 
-    /**
-     * @param copy
-     */
-    public PerformanceEvaluationOptimizationProblem(
-            PerformanceEvaluationOptimizationProblem copy) {
-        super(copy);
-        amountEvaluations = copy.amountEvaluations;
-        fitnessCalculation = copy.fitnessCalculation;
-    }
+	/**
+	 * Copy constructor
+	 * @param copy
+	 */
+	public PerformanceEvaluationOptimizationProblem(
+			PerformanceEvaluationOptimizationProblem copy) {
+		super(copy);
+		numberOfEvaluations = copy.numberOfEvaluations;
+		fitnessCalculation = copy.fitnessCalculation;
+	}
 
-    public void setFitnessCalculation(FitnessCalculationStrategy fitnessCalculation) {
-        this.fitnessCalculation = fitnessCalculation;
-    }
+	public void setFitnessCalculation(FitnessCalculationStrategy fitnessCalculation) {
+		this.fitnessCalculation = fitnessCalculation;
+	}
 
-    public int getAmountEvaluations() {
-        return amountEvaluations;
-    }
+	public int getNumberOfEvaluations() {
+		return numberOfEvaluations;
+	}
 
-    public void setAmountEvaluations(int amountEvaluations) {
-        this.amountEvaluations = amountEvaluations;
-    }
+	public void setNumberOfEvaluations(int amountEvaluations) {
+		this.numberOfEvaluations = amountEvaluations;
+	}
 }

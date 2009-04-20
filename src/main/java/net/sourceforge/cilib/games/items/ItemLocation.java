@@ -22,29 +22,30 @@
 package net.sourceforge.cilib.games.items;
 
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.Cloneable;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
- *
+ * 
  * @author leo
  * The location of any item in the game
  */
-public abstract class ItemLocation implements Cloneable {
-    private static final long serialVersionUID = -6355670396743733974L;
-
-    public ItemLocation(){
-
-    }
-    public ItemLocation(ItemLocation Other){
-
-    }
-
+public abstract interface ItemLocation extends Type {
     /**
      * {@inheritDoc}
      */
     public abstract ItemLocation getClone();
-    public abstract Double getDistance(DistanceMeasure measure, ItemLocation other);
+    /**
+     * Calculate the distance between this location and another one with a specified distance measure
+     * @param measure The distance measure
+     * @param other The other location
+     * @return the distance
+     */
+    public abstract double getDistance(DistanceMeasure measure, ItemLocation other);
+    /**
+     * Move this location by the specified amount
+     * @param amount
+     */
     public abstract void moveItem(Type amount);
-
+    @Override
+    public abstract boolean equals(Object other);
 }

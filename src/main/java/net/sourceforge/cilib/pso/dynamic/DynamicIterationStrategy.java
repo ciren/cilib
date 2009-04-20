@@ -22,19 +22,18 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
-import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.EnvironmentChangeDetectionStrategy;
-import net.sourceforge.cilib.pso.dynamic.detectionstrategies.RandomSentryDetectionStrategy;
+import net.sourceforge.cilib.pso.dynamic.detectionstrategies.RandomSentriesDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.responsestrategies.EnvironmentChangeResponseStrategy;
-import net.sourceforge.cilib.pso.dynamic.responsestrategies.PartialReinitialisationResponseStrategy;
-import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
+import net.sourceforge.cilib.pso.dynamic.responsestrategies.ReinitializationReactionStrategy;
 
 /**
- * Dynamic iteration strategy for PSO in dynamic environments.
- * In each iteration, it checks for an environmental change, and reinitialises
+ * Dynamic iteration strategy for PSO in dynamic environments. 
+ * In each iteration, it checks for an environmental change, and reinitialises 
  * a percentage of the swarm once such a change is detected in order to preserve
  * diversity.
- *
+ * 
  * The algorithm is adopted from<br/>
  * @book{focsi,
  *         author=         {Andries P. Engelbrecht},
@@ -42,32 +41,34 @@ import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrateg
  *        publisher=      {John Wiley \& Sons, Ltd},
  *         year=           {2005}
  * }
- *
+ * 
  * @author Anna Rakitianskaia
  */
-public class DynamicIterationStrategy implements IterationStrategy<PSO> {
+public class DynamicIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
     private static final long serialVersionUID = -4441422301948289718L;
 
-    private IterationStrategy<PSO> iterationStrategy;
+    
+    private IterationStrategy<PopulationBasedAlgorithm> iterationStrategy;
     //TODO: private DetectionStrategy<PSO> detection
     //TODO: private ReactionStrategy<PSO> reaction
-    private EnvironmentChangeDetectionStrategy<PSO> detectionStrategy;
-    private EnvironmentChangeResponseStrategy<PSO> responseStrategy;
-
+    private EnvironmentChangeDetectionStrategy<PopulationBasedAlgorithm> detectionStrategy;
+    private EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> responseStrategy;
+    
     /**
      * Create a new instance of {@linkplain DynamicIterationStrategy}.
      * <p>
-     * The following defaults are set in the constructor:
-     * randomiser is instantiated as a MersenneTwister,
-     * theta is set to 0.001,
+     * The following defaults are set in the constructor: 
+     * randomiser is instantiated as a MersenneTwister, 
+     * theta is set to 0.001, 
      * reinitialisationRatio is set to 0.5 (reinitialise one half of the swarm)
      */
     public DynamicIterationStrategy() {
-        this.iterationStrategy = new SynchronousIterationStrategy();
-        this.detectionStrategy = new RandomSentryDetectionStrategy<PSO>();
-        this.responseStrategy = new PartialReinitialisationResponseStrategy<PSO>();
+        //this.iterationStrategy = new SynchronousIterationStrategy();
+        this.detectionStrategy = new RandomSentriesDetectionStrategy<PopulationBasedAlgorithm>();
+        this.responseStrategy = new ReinitializationReactionStrategy<PopulationBasedAlgorithm>();
     }
 
+    
     /**
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
@@ -78,33 +79,35 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
         this.responseStrategy = copy.responseStrategy.getClone();
     }
 
+    
     /**
      * {@inheritDoc}
      */
     @Override
-    public DynamicIterationStrategy getClone() {
-        return new DynamicIterationStrategy(this);
+    public DynamicIterationStrategy<E> getClone() {
+        return new DynamicIterationStrategy<E>(this);
     }
 
     /**
      * @see net.sourceforge.cilib.PSO.IterationStrategy#performIteration()
-     *
+     * 
      * Structure of Dynamic iteration strategy with re-initialisation:
-     *
+     * 
      * <ol>
-     *   <li>Check for environment change</li>
+     *   <li>Check for environment change</li> 
      *   <li>If the environment has changed:</li>
      *   <ol>
      *     <li>Respond to change</li>
      *   <ol>
-     *   <li>Perform normal itartion</li>
-     * </ol>
+     *   <li>Perform normal iteration</li>
+     * </ol>  
      */
-    public void performIteration(PSO algorithm) {
+    public void performIteration(E algorithm) {
         boolean hasChanged = detectionStrategy.detect(algorithm);
 
-        if (hasChanged)
+        if (hasChanged) {
             responseStrategy.respond(algorithm);
+        }
 
         iterationStrategy.performIteration(algorithm);
     }
@@ -113,7 +116,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      * Get the current {@linkplain IterationStrategy}.
      * @return The current {@linkplain IterationStrategy}.
      */
-    public IterationStrategy<PSO> getIterationStrategy() {
+    public IterationStrategy<PopulationBasedAlgorithm> getIterationStrategy() {
         return iterationStrategy;
     }
 
@@ -121,15 +124,15 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      * Set the {@linkplain IterationStrategy} to be used.
      * @param iterationStrategy The value to set.
      */
-    public void setIterationStrategy(IterationStrategy<PSO> iterationStrategy) {
+    public void setIterationStrategy(IterationStrategy<PopulationBasedAlgorithm> iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
 
     /**
-     * Get the currently defined {@linkplain EnvironmentChangeDetectionStrategy}.
+     * Get the currently defined {@linkplain EnvironmentChangeDetectionStrategy}. 
      * @return The current {@linkplain EnvironmentChangeDetectionStrategy}.
      */
-    public EnvironmentChangeDetectionStrategy<PSO> getDetectionStrategy() {
+    public EnvironmentChangeDetectionStrategy<PopulationBasedAlgorithm> getDetectionStrategy() {
         return detectionStrategy;
     }
 
@@ -137,7 +140,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      * Set the {@linkplain EnvironmentChangeDetectionStrategy} to be used.
      * @param detectionStrategy The {@linkplain EnvironmentChangeDetectionStrategy} to set.
      */
-    public void setDetectionStrategy(EnvironmentChangeDetectionStrategy<PSO> detectionStrategy) {
+    public void setDetectionStrategy(EnvironmentChangeDetectionStrategy<PopulationBasedAlgorithm> detectionStrategy) {
         this.detectionStrategy = detectionStrategy;
     }
 
@@ -145,7 +148,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      * Get the currently defined {@linkplain EnvironmentChangeResponseStrategy},
      * @return The current {@linkplain EnvironmentChangeResponseStrategy}.
      */
-    public EnvironmentChangeResponseStrategy<PSO> getResponseStrategy() {
+    public EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> getResponseStrategy() {
         return responseStrategy;
     }
 
@@ -153,7 +156,7 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      * Set the current {@linkplain EnvironmentChangeResponseStrategy} to use.
      * @param responseStrategy The {@linkplain EnvironmentChangeResponseStrategy} to set.
      */
-    public void setResponseStrategy(EnvironmentChangeResponseStrategy<PSO> responseStrategy) {
+    public void setResponseStrategy(EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> responseStrategy) {
         this.responseStrategy = responseStrategy;
     }
 }

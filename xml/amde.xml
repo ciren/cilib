@@ -4,7 +4,7 @@
 <!ATTLIST problem id ID #IMPLIED>
 <!ATTLIST measurements id ID #IMPLIED>]>
 
-<simulator>	
+<simulator>    
     <algorithms>
         <algorithm id="de" class="ec.EC">
             <iterationStrategy class="ec.iterationstrategies.DifferentialEvolutionIterationStrategy"/>

@@ -31,21 +31,42 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
-
     private static final long serialVersionUID = 2119444179382452329L;
 
-    private OptimisationProblem problem;
-    private Type position;
+    private final Type position;
+    private final Fitness fitness;
 
     /**
      * Constructs a new instance of {@code OptimisationSolution}.
      *
-     * @param problem The optimisation problem for which  this is a solution.
      * @param position The position of the solution within the search space of the problem.
+     * @param fitness The fitness of the optimisation solution.
      */
-    public OptimisationSolution(OptimisationProblem problem, Type position) {
-        this.problem = problem;
-        this.position = position;
+    public OptimisationSolution(Type position, Fitness fitness) {
+        this.position = position.getClone();
+        this.fitness = fitness.getClone();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if ((other == null) || (this.getClass() != other.getClass()))
+            return false;
+
+        OptimisationSolution otherSolution = (OptimisationSolution)other;
+        return this.position.equals(otherSolution.position) &&
+            this.fitness.equals(otherSolution.fitness);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (this.position == null ? 0 : this.position.hashCode());
+        hash = 31 * hash + (this.position == null ? 0 : this.fitness.hashCode());
+        return hash;
     }
 
     /**
@@ -54,7 +75,7 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
      * @return The position of this solution in search space.
      */
     public Type getPosition() {
-        return position;
+        return this.position;
     }
 
     /**
@@ -65,13 +86,14 @@ public class OptimisationSolution implements Solution, Comparable<OptimisationSo
      * @return The fitness of this solution.
      */
     public Fitness getFitness() {
-        return problem.getFitness(position, false);
+        return this.fitness;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(OptimisationSolution other) {
-        return getFitness().compareTo(other.getFitness());
+        return this.fitness.compareTo(other.fitness);
     }
 }

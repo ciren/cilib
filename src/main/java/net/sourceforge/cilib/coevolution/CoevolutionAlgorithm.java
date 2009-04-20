@@ -37,10 +37,11 @@ import net.sourceforge.cilib.type.DomainRegistry;
 
 
 /**
+ * This is the framework for a coevolution algorithm, either competitive or cooperative
  * @author Julien Duhain
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * @author leo
+ * TODO: impliment and test cooperative side
+ * TODO: This code needs a lot of love, need to refactor!
  */
 public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = -3859431217295779546L;
@@ -54,6 +55,9 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
         this.coevolutionIterationStrategy = copy.coevolutionIterationStrategy;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CoevolutionAlgorithm getClone() {
         return new CoevolutionAlgorithm(this);
@@ -70,7 +74,10 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 
         return sum;
     }
-
+    /**
+     * Add a subpopulation Algorithm
+     * @param algorithm
+     */
     public void setAlgorithm(PopulationBasedAlgorithm algorithm) {
         subPopulationsAlgorithms.add(algorithm);
     }
@@ -83,7 +90,6 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
     }
     /**
      * initialises every population.
-     *
      */
     public void performInitialisation()    {
         CoevolutionOptimisationProblem problem = getCoevolutionOptimisationProblem();
@@ -92,14 +98,15 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
 
         int populationID = 1;
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
-            //coevolutionIterationStrategy.setEntityType(currentAlgorithm, populationID);
             problem.initializeEntities(currentAlgorithm, populationID);
             currentAlgorithm.setOptimisationProblem(new CompetitiveCoevolutionProblemAdapter(populationID, problem.getSubPopulationDomain(populationID), problem));
             currentAlgorithm.performInitialisation();
             populationID++;
         }
     }
-
+    /**
+     * This doesnt really make sense since in co-evolution you have a best solution for each population
+     */
     public OptimisationSolution getBestSolution() {
         OptimisationSolution bestSolution = subPopulationsAlgorithms.get(0).getBestSolution();
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
@@ -121,6 +128,9 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
         return solutions;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void algorithmIteration() {
         coevolutionIterationStrategy.performIteration(this);
@@ -135,11 +145,7 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
     }
 
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.Problem.OptimisationProblem#getFitnessEvaluations()
-     */
     public int getFitnessEvaluations() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -182,10 +188,11 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
     public Topology<? extends Entity> getTopology() {
         throw new UnsupportedOperationException("getTopology() is not supported");
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setOptimisationProblem(OptimisationProblem problem) {
-        // TODO Auto-generated method stub
         if(!(problem instanceof CoevolutionOptimisationProblem))
             throw new RuntimeException("Co-evolutionaty algorithms can only optimize problems that impliment the CoevolutionOptimisationProblem interface");
         super.setOptimisationProblem(problem);

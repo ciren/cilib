@@ -22,47 +22,74 @@
 package net.sourceforge.cilib.games.game.predatorprey;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
-import net.sourceforge.cilib.games.game.GridGame;
+import net.sourceforge.cilib.games.agent.Agent;
+import net.sourceforge.cilib.games.game.Game;
+import net.sourceforge.cilib.games.game.predatorprey.init.PredPreyPositionInitializationStrategy;
+import net.sourceforge.cilib.games.game.predatorprey.init.RandomPredPreyInitializationStrategy;
+import net.sourceforge.cilib.games.items.GameEnum;
+import net.sourceforge.cilib.games.items.GameItem;
+import net.sourceforge.cilib.games.items.GameToken;
+import net.sourceforge.cilib.games.items.GridItem;
 import net.sourceforge.cilib.games.items.GridLocation;
 import net.sourceforge.cilib.games.items.PlayerItem;
 import net.sourceforge.cilib.games.result.AbstractGameResult;
 import net.sourceforge.cilib.games.result.WinGameResult;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.games.states.ListGameState;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * @author leo
- *
+ * This is an implimentation of the predator prey game. The game is played on a 2 dimentional grid with a Predator and a Prey agent.
+ * The goal of the Predator is to catch the Prey, and vice versa. For this implimentation the players take turns making movement decisions.
  */
-public class PredatorPreyGame extends GridGame {
-    /**
-     *
-     */
+public class PredatorPreyGame extends Game<ListGameState> {
     private static final long serialVersionUID = 332203013419474482L;
-    int maxIterations;
-
-
+    int maxIterations;    
+    int boardHeight;
+    int boardWidth;
+    PredPreyPositionInitializationStrategy initializationStrategy;
+    /**
+     * {@inheritDoc}     
+     */
     public PredatorPreyGame(){
         maxIterations = 20;
-        turnBasedGame = false;
-        gridHeight = 9;
-        gridWidth = 9;
+        boardHeight = 9;
+        boardWidth = 9;
+        setCurrentGameState(new ListGameState());
+        initializationStrategy = new RandomPredPreyInitializationStrategy();
     }
-
+    /**
+     * {@inheritDoc}     
+     */
     public PredatorPreyGame(PredatorPreyGame other){
         super(other);
+        boardHeight = other.boardHeight;
+        boardWidth = other.boardWidth;
         maxIterations = other.maxIterations;
+        initializationStrategy = other.initializationStrategy.getClone();
     }
-
+    /**
+     * {@inheritDoc}     
+     */
+    public PredatorPreyGame(PredatorPreyGame other, ListGameState newState){
+        super(other, newState);
+        boardHeight = other.boardHeight;
+        boardWidth = other.boardWidth;
+        maxIterations = other.maxIterations;
+        initializationStrategy = other.initializationStrategy;
+    }
+    /**
+     * This function determins whether or not the predator has caught the prey
+     * @return true if the predator has caught the prey, otherwise false.
+     */
     private boolean predatorCaughtPrey()
-    {
+    {        
         try
         {
             //if predator and prey players are next to or on the same cell then game over
-            if(currentState.getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), currentState.getItem(1).getLocation()) <= 1.0)
+            if(getCurrentState().getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), getCurrentState().getItem(1).getLocation()) < 2.0)
                 return true;
 
             return false;
@@ -72,94 +99,140 @@ public class PredatorPreyGame extends GridGame {
             throw new InitialisationException("Game not initialized, predator and prey items do not exist");
         }
     }
-
+    
+    /**
+     * Move a specified player
+     * @param playerID the player to move
+     * @param x the amount to move on the X axes
+     * @param y the amount to move on the Y axes
+     */
     public void movePlayer(int playerID, int x, int y){
         try{
-            Vector moveVector = new Vector(2);
-            moveVector.add(new Int(x));
-            moveVector.add(new Int(y));
-            for(int i = 0; i < currentState.getSize(); ++i){
-                if(((PlayerItem)currentState.getItem(i)).getPlayerID() == playerID){
+            Vector moveVector = new Vector(2);    
+            moveVector.add(new Int(x));        
+            moveVector.add(new Int(y));    
+            for(int i = 0; i < getCurrentState().getSize(); ++i){
+                if(((PlayerItem)getCurrentState().getItem(i)).getPlayerID() == playerID){
                     //move the item by the specified coords
-                    currentState.getItem(i).getLocation().moveItem(moveVector);
-                }
+                    getCurrentState().getItem(i).getLocation().moveItem(moveVector);
+                }                    
             }
         }
         catch(Exception e){
             throw new InitialisationException("Game not initialized, predator and prey items not found");
         }
     }
-
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.game.Game#gameOver()
+    
+    /**
+     * {@inheritDoc}
      */
     @Override
     public boolean gameOver() {
-        if(currentIteration >= maxIterations)
+        if(getCurrentIteration() >= maxIterations)
             return true;
-
+        
         return predatorCaughtPrey();
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.game.Game#getClone()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public PredatorPreyGame getClone() {
         return new PredatorPreyGame(this);
     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PredatorPreyGame getClone(ListGameState newState) {
+        return new PredatorPreyGame(this, newState);
+    }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.game.Game#getGameResult()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public AbstractGameResult getGameResult() {
-        // TODO Auto-generated method stub
-        if((currentIteration >= maxIterations) && !predatorCaughtPrey())
-            return new WinGameResult(2); //prey won
+        int predatorID = 2;
+        if(getPlayer(1).getAgentToken().equals(GameToken.PredatorPrey.PREDATOR))
+            predatorID = 1;
+        if((getCurrentIteration() >= maxIterations) && !predatorCaughtPrey())
+            return new WinGameResult(predatorID == 1 ? 2 : 1); //prey won
         else
-            return new WinGameResult(1); //predator won
+            return new WinGameResult(predatorID); //predator won
     }
-
-    private void setRandomPositions(){
-        try{
-            Random rand = new MersenneTwister();
-            ((GridLocation)(currentState.getItem(0).getLocation())).getPosition().setInt(0, rand.nextInt(getWidth()));
-            ((GridLocation)(currentState.getItem(0).getLocation())).getPosition().setInt(1, rand.nextInt(getHeight()));
-            ((GridLocation)(currentState.getItem(1).getLocation())).getPosition().setInt(0, rand.nextInt(getWidth()));
-            ((GridLocation)(currentState.getItem(1).getLocation())).getPosition().setInt(1, rand.nextInt(getHeight()));
-        }
-        catch(Exception e){
-            throw new InitialisationException("Game not initialized, predator and prey items do not exist");
-        }
-    }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
     @Override
     public void initializeGame() {
-        currentState.clearState();
-        currentState.addGameItem(new PredatorItem(1, gridWidth, gridHeight));
-        currentState.addGameItem(new PreyItem(2, gridWidth, gridHeight));
-        setRandomPositions();
-    }
+        if(players.size() != 2)
+            throw new RuntimeException("Predator prey can only be played with 2 players");
 
+        getCurrentState().clearState();
+        for(Agent p : players){
+            getCurrentState().addGameItem(new GridItem(p.getPlayerID(), p.getAgentToken(), boardWidth, boardHeight));
+        }
+        initializationStrategy.initializePP(this);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void display() {
-        // TODO Auto-generated method stub
         System.out.println("");
-        for(int y = 0; y < gridHeight; ++y){
+        GridLocation itemLoc = new GridLocation(boardWidth, boardHeight);
+        for(int y = 0; y < boardHeight; ++y){
             String line = "|";
-            for(int x = 0; x < gridWidth; ++x){
-                if(((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(0) == x
-                        && ((GridLocation)(currentState.getItem(0).getLocation())).getPosition().getInt(1) == y)
-                    line += "P|";
-                else if(((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(0) == x
-                        && ((GridLocation)(currentState.getItem(1).getLocation())).getPosition().getInt(1) == y){
-                    line += "Y|";
+            for(int x = 0; x < boardWidth; ++x){
+                itemLoc.setInt(0, x);
+                itemLoc.setInt(1, y);
+                GameItem item = getCurrentState().getItem(itemLoc);
+                if(item != null){
+                    Enum<?> pp = item.getToken();
+                    line += ((GameEnum)pp).getDescription() + "|"; 
                 }
                 else
                     line += " |";
             }
             System.out.println(line);
         }
+    }
+
+    public int getBoardHeight() {
+        return boardHeight;
+    }
+
+    public void setBoardHeight(int boardHeight) {
+        this.boardHeight = boardHeight;
+    }
+
+    public int getBoardWidth() {
+        return boardWidth;
+    }
+
+    public void setBoardWidth(int boardWidth) {
+        this.boardWidth = boardWidth;
+    }
+
+    public int getMaxIterations() {
+        return maxIterations;
+    }
+
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    public void setInitializationStrategy(
+            PredPreyPositionInitializationStrategy initializationStrategy) {
+        this.initializationStrategy = initializationStrategy;
+    }
+
+    public PredPreyPositionInitializationStrategy getInitializationStrategy() {
+        return initializationStrategy;
     }
 }

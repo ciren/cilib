@@ -45,9 +45,6 @@ import org.junit.Test;
  */
 public class VonNeumannTopologyTest {
 
-    public VonNeumannTopologyTest() {
-    }
-    
     @BeforeClass
     public static void setUp() {
         empty = new VonNeumannTopology<Particle>();
@@ -166,7 +163,12 @@ public class VonNeumannTopologyTest {
             ++count;
         }
         assertEquals(5, count);
-            
+    }
+
+    @Test
+    public void topologyAsList() {
+        assertEquals(9, square.asList().size());
+        assertEquals(10, irregular.asList().size());
     }
     
     private static Topology<Particle> empty;

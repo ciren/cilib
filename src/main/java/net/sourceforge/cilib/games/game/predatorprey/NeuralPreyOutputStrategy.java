@@ -24,58 +24,62 @@ package net.sourceforge.cilib.games.game.predatorprey;
 import net.sourceforge.cilib.games.agent.Agent;
 import net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy;
 import net.sourceforge.cilib.games.game.Game;
+import net.sourceforge.cilib.games.items.GameToken;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author leo
- *
+ * This is a {@linkplain NeuralOutputInterpretationStrategy} that will interperet the output of a neural network to make a movement decision for a Prey agent
  */
 public class NeuralPreyOutputStrategy extends
         NeuralOutputInterpretationStrategy {
-
-    /**
-     *
-     */
     public NeuralPreyOutputStrategy() {
-        // TODO Auto-generated constructor stub
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy#applyOutputToState(net.sourceforge.cilib.type.types.container.Vector, net.sourceforge.cilib.games.agent.Agent, net.sourceforge.cilib.games.game.Game)
+    /**
+     * {@inheritDoc}
      */
     @Override
     public void applyOutputToState(Vector outputData, Agent currentPlayer, Game oldState) {
-
+        
         if(!(oldState instanceof PredatorPreyGame))
             throw new RuntimeException("Invalid game for this agent");
-
+        if(!currentPlayer.getAgentToken().equals(GameToken.PredatorPrey.PREY))
+            throw new RuntimeException("This strategy can only be used on a prey player");
+        
         PredatorPreyGame game = (PredatorPreyGame)oldState;
         int moveAmount = 1;
-        if(outputData.getReal(0) >  0.5) //move 2 squares
+        if(outputData.getReal(0) >  0.0) //move 2 squares
             moveAmount = 2;
-
+        
         int x = 0;
-        if(outputData.getReal(1) >  0.5) //move on x axis
-            if(outputData.getReal(2) >  0.5) //move right
+        if(outputData.getReal(1) >  0.0) //move on x axis
+            if(outputData.getReal(2) >  0.0) //move right
                 x = 1;
-            else
+            else 
                 x = -1;
-
+        
         int y = 0;
-        if(outputData.getReal(3) >  0.5) //move on y axis
-            if(outputData.getReal(4) >  0.5) //move down
+        if(outputData.getReal(3) >  0.0) //move on y axis
+            if(outputData.getReal(4) >  0.0) //move down
                 y = 1;
-            else
-                y = -1;
+            else 
+                y = -1;        
+        //if(x < 0 || y < 0)
+            //System.out.println("Prey: " + x * moveAmount + " " + y * moveAmount);
         game.movePlayer(currentPlayer.getPlayerID(), x * moveAmount, y * moveAmount);
     }
-
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy#getAmOutputs()
+    
+    /**
+     * This strategy requires 5 outputs:
+     * The first determins if the prey agent will Jump 2 cells, or move to an adjacent one
+     * The second determines movement on the x axis
+     * the third determines if that movement is left or right
+     * The fourth determines movement on the y axes
+     * The fifth determines if it is up or down
      */
     @Override
     public int getAmOutputs() {
-        // TODO Auto-generated method stub
         return 5;
     }
 
