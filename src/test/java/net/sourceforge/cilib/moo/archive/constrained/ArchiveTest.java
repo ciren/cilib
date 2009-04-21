@@ -497,7 +497,7 @@ public class ArchiveTest {
 
         // Then, check which solutions (corresponding to problem 2) is dominated by the second external solution corresponding to problem 1.
         dominatedSolutions = archive.isDominatedBy(new OptimisationSolution(testVector, problem1.getFitness(testVector, false)));
-        assertThat(dominatedSolutions.size(), is(0));	// No solutions dominate external solution.
+        assertThat(dominatedSolutions.size(), is(0));    // No solutions dominate external solution.
 
         // Now, insert this external solution and it should be accepted in archive and not replace any other solution.
         archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));

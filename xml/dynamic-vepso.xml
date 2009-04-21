@@ -37,7 +37,7 @@
             <numberOfSentries class="controlparameter.ConstantControlParameter" parameter="2"/>
           </detectionStrategy>
           <responseStrategy class="pso.dynamic.responsestrategies.ArchiveReevaluationResponseStrategy">
-	    </responseStrategy>
+        </responseStrategy>
         </addIterationStrategy>
         <addIterationStrategy class="moo.iterationstrategies.ArchivingIterationStep">
           <archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="1000">

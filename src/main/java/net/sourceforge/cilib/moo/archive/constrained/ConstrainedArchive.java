@@ -35,46 +35,46 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author Wiehann Matthysen
  */
 public abstract class ConstrainedArchive extends Archive {
-	
-	private int capacity;
-	
-	public ConstrainedArchive() {
-		this.capacity = 1000;
-	}
-	
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-	
-	public int getCapacity() {
-		return this.capacity;
-	}
-	
-	@Override
-	public void accept(Collection<OptimisationSolution> candidateSolutions) {
-		// For each candidate solution, try to add it to the archive.
-		for (OptimisationSolution candidateSolution : candidateSolutions) {
-			accept(candidateSolution);
-		}
-		// If the size of the archive is too large then invoke pruning method.
-		if (size() > getCapacity()) {
-			prune();
-		}
-	}
-	
-	protected void accept(OptimisationSolution candidateSolution) {
-		// If no solution in the archive dominates the candidate solution then proceed...
-		if (this.dominates(candidateSolution).size() == 0) {
-			// Remove all the solutions in the archive that is dominated by the candidate solution.
-			removeAll(this.isDominatedBy(candidateSolution));
-			// Add the candidate solution to the archive.
-			add(candidateSolution);
-		}
-	}
+    
+    private int capacity;
+    
+    public ConstrainedArchive() {
+        this.capacity = 1000;
+    }
+    
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+    
+    public int getCapacity() {
+        return this.capacity;
+    }
+    
+    @Override
+    public void accept(Collection<OptimisationSolution> candidateSolutions) {
+        // For each candidate solution, try to add it to the archive.
+        for (OptimisationSolution candidateSolution : candidateSolutions) {
+            accept(candidateSolution);
+        }
+        // If the size of the archive is too large then invoke pruning method.
+        if (size() > getCapacity()) {
+            prune();
+        }
+    }
+    
+    protected void accept(OptimisationSolution candidateSolution) {
+        // If no solution in the archive dominates the candidate solution then proceed...
+        if (this.dominates(candidateSolution).size() == 0) {
+            // Remove all the solutions in the archive that is dominated by the candidate solution.
+            removeAll(this.isDominatedBy(candidateSolution));
+            // Add the candidate solution to the archive.
+            add(candidateSolution);
+        }
+    }
 
     /**
      * This method needs to be implemented by all subclasses to provide a way
      * in which certain solutions will be removed if the archive grows too big.
      */
-	protected abstract void prune();
+    protected abstract void prune();
 }

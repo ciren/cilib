@@ -57,75 +57,75 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Wiehann Matthysen
  */
 public class GuideSelectionIterationStep implements IterationStrategy<PSO> {
-	private static final long serialVersionUID = 4326469501919309078L;
-	
-	private GuideSelectionStrategy localGuideSelectionStrategy;
-	private GuideSelectionStrategy globalGuideSelectionStrategy;
-	private GuideUpdateStrategy localGuideUpdateStrategy;
-	private GuideUpdateStrategy globalGuideUpdateStrategy;
-	
-	public GuideSelectionIterationStep() {
-		this.localGuideSelectionStrategy = new PBestGuideSelectionStrategy();
-		this.globalGuideSelectionStrategy = new NBestGuideSelectionStrategy();
-		this.localGuideUpdateStrategy = new StandardGuideUpdateStrategy();
-		this.globalGuideUpdateStrategy = new StandardGuideUpdateStrategy();
-	}
-	
-	public GuideSelectionIterationStep(GuideSelectionIterationStep copy) {
-		this.localGuideSelectionStrategy = copy.localGuideSelectionStrategy.getClone();
-		this.globalGuideSelectionStrategy = copy.globalGuideSelectionStrategy.getClone();
-		this.localGuideUpdateStrategy = copy.localGuideUpdateStrategy.getClone();
-		this.globalGuideUpdateStrategy = copy.globalGuideUpdateStrategy.getClone();
-	}
+    private static final long serialVersionUID = 4326469501919309078L;
+    
+    private GuideSelectionStrategy localGuideSelectionStrategy;
+    private GuideSelectionStrategy globalGuideSelectionStrategy;
+    private GuideUpdateStrategy localGuideUpdateStrategy;
+    private GuideUpdateStrategy globalGuideUpdateStrategy;
+    
+    public GuideSelectionIterationStep() {
+        this.localGuideSelectionStrategy = new PBestGuideSelectionStrategy();
+        this.globalGuideSelectionStrategy = new NBestGuideSelectionStrategy();
+        this.localGuideUpdateStrategy = new StandardGuideUpdateStrategy();
+        this.globalGuideUpdateStrategy = new StandardGuideUpdateStrategy();
+    }
+    
+    public GuideSelectionIterationStep(GuideSelectionIterationStep copy) {
+        this.localGuideSelectionStrategy = copy.localGuideSelectionStrategy.getClone();
+        this.globalGuideSelectionStrategy = copy.globalGuideSelectionStrategy.getClone();
+        this.localGuideUpdateStrategy = copy.localGuideUpdateStrategy.getClone();
+        this.globalGuideUpdateStrategy = copy.globalGuideUpdateStrategy.getClone();
+    }
 
-	@Override
-	public GuideSelectionIterationStep getClone() {
-		return new GuideSelectionIterationStep(this);
-	}
-	
-	public void setLocalGuideSelectionStrategy(GuideSelectionStrategy localGuideSelectionStrategy) {
-		this.localGuideSelectionStrategy = localGuideSelectionStrategy;
-	}
-	
-	public GuideSelectionStrategy getLocalGuideSelectionStrategy() {
-		return this.localGuideSelectionStrategy;
-	}
-	
-	public void setGlobalGuideSelectionStrategy(GuideSelectionStrategy globalGuideSelectionStrategy) {
-		this.globalGuideSelectionStrategy = globalGuideSelectionStrategy;
-	}
-	
-	public GuideSelectionStrategy getGlobalGuideSelectionStrategy() {
-		return this.globalGuideSelectionStrategy;
-	}
-	
-	public void setLocalGuideUpdateStrategy(GuideUpdateStrategy localGuideUpdateStrategy) {
-		this.localGuideUpdateStrategy = localGuideUpdateStrategy;
-	}
-	
-	public GuideUpdateStrategy getLocalGuideUpdateStrategy() {
-		return this.localGuideUpdateStrategy;
-	}
-	
-	public void setGlobalGuideUpdateStrategy(GuideUpdateStrategy globalGuideUpdateStrategy) {
-		this.globalGuideUpdateStrategy = globalGuideUpdateStrategy;
-	}
-	
-	public GuideUpdateStrategy getGlobalGuideUpdateStrategy() {
-		return this.globalGuideUpdateStrategy;
-	}
-	
-	@Override
-	public void performIteration(PSO algorithm) {
-		selectGuides(algorithm);
-	}
-	
-	protected void selectGuides(PSO currentSwarm) {
-		for (Particle particle : currentSwarm.getTopology()) {
-			Vector localGuide = this.localGuideSelectionStrategy.selectGuide(particle);
-			this.localGuideUpdateStrategy.updateGuide(particle, EntityType.Particle.Guide.LOCAL_GUIDE, localGuide);
-			Vector globalGuide = this.globalGuideSelectionStrategy.selectGuide(particle);
-			this.globalGuideUpdateStrategy.updateGuide(particle, EntityType.Particle.Guide.GLOBAL_GUIDE, globalGuide);
-		}
-	}
+    @Override
+    public GuideSelectionIterationStep getClone() {
+        return new GuideSelectionIterationStep(this);
+    }
+    
+    public void setLocalGuideSelectionStrategy(GuideSelectionStrategy localGuideSelectionStrategy) {
+        this.localGuideSelectionStrategy = localGuideSelectionStrategy;
+    }
+    
+    public GuideSelectionStrategy getLocalGuideSelectionStrategy() {
+        return this.localGuideSelectionStrategy;
+    }
+    
+    public void setGlobalGuideSelectionStrategy(GuideSelectionStrategy globalGuideSelectionStrategy) {
+        this.globalGuideSelectionStrategy = globalGuideSelectionStrategy;
+    }
+    
+    public GuideSelectionStrategy getGlobalGuideSelectionStrategy() {
+        return this.globalGuideSelectionStrategy;
+    }
+    
+    public void setLocalGuideUpdateStrategy(GuideUpdateStrategy localGuideUpdateStrategy) {
+        this.localGuideUpdateStrategy = localGuideUpdateStrategy;
+    }
+    
+    public GuideUpdateStrategy getLocalGuideUpdateStrategy() {
+        return this.localGuideUpdateStrategy;
+    }
+    
+    public void setGlobalGuideUpdateStrategy(GuideUpdateStrategy globalGuideUpdateStrategy) {
+        this.globalGuideUpdateStrategy = globalGuideUpdateStrategy;
+    }
+    
+    public GuideUpdateStrategy getGlobalGuideUpdateStrategy() {
+        return this.globalGuideUpdateStrategy;
+    }
+    
+    @Override
+    public void performIteration(PSO algorithm) {
+        selectGuides(algorithm);
+    }
+    
+    protected void selectGuides(PSO currentSwarm) {
+        for (Particle particle : currentSwarm.getTopology()) {
+            Vector localGuide = this.localGuideSelectionStrategy.selectGuide(particle);
+            this.localGuideUpdateStrategy.updateGuide(particle, EntityType.Particle.Guide.LOCAL_GUIDE, localGuide);
+            Vector globalGuide = this.globalGuideSelectionStrategy.selectGuide(particle);
+            this.globalGuideUpdateStrategy.updateGuide(particle, EntityType.Particle.Guide.GLOBAL_GUIDE, globalGuide);
+        }
+    }
 }
