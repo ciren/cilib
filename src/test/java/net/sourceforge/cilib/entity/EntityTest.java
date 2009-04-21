@@ -21,10 +21,12 @@
  */
 package net.sourceforge.cilib.entity;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
@@ -38,19 +40,46 @@ import org.junit.Test;
 public class EntityTest {
 
     @Test
-    public void ascendingFitnessComparator() {
+    public void fitnessComparator() {
         Entity entity = new Individual();
-        entity.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
 
+        entity.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
+        Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
+
+        entity.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
         Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
     }
 
     @Test
-    public void descendingFitnessComparator() {
-        Entity entity = new Individual();
-        entity.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
+    public void entitySortingMinimisation() {
+        Individual i1 = new Individual();
+        Individual i2 = new Individual();
+        Individual i3 = new Individual();
 
-        Assert.assertTrue(entity.getComparator() instanceof AscendingFitnessComparator);
+        i1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(300.0));
+        i2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
+        i3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(100.0));
+
+        List<Individual> list = Arrays.asList(i1, i2, i3);
+        Collections.sort(list, i1.getComparator());
+
+        Assert.assertEquals(i1, list.get(2));
+    }
+
+    @Test
+    public void entitySortingMaximisation() {
+        Individual i1 = new Individual();
+        Individual i2 = new Individual();
+        Individual i3 = new Individual();
+
+        i1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(300.0));
+        i2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(200.0));
+        i3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(100.0));
+
+        List<Individual> list = Arrays.asList(i1, i2, i3);
+        Collections.sort(list, i1.getComparator());
+
+        Assert.assertEquals(i1, list.get(0));
     }
 
     @Test

@@ -22,9 +22,9 @@
 package net.sourceforge.cilib.entity;
 
 import java.util.Comparator;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
@@ -207,16 +207,15 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
     }
 
     /**
-     * Get the correct {@code Comparator} to use for this {@code Entity}, based
-     * on the type of {@link net.sourceforge.cilib.problem.Problem}.
-     * @return The correct {@link java.util.Comparator} for the current
-     *         {@linkplain net.sourceforge.cilib.entity.Entity}.
+     * Get a comparator that orders values from most to least fit. It is
+     * dependent on the manner in which the Fitness comparisons are performed.
+     *
+     * @see MinimisationFitness#compareTo(net.sourceforge.cilib.problem.Fitness)
+     * @see MaximisationFitness#compareTo(net.sourceforge.cilib.problem.Fitness)
      */
     @Override
     public final Comparator<Entity> getComparator() {
-        return (getFitness() instanceof MinimisationFitness) ?
-            new DescendingFitnessComparator() :
-            new AscendingFitnessComparator();
+        return new DescendingFitnessComparator();
     }
 
 }

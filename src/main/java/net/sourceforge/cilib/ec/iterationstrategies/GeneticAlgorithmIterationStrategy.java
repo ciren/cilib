@@ -117,7 +117,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
             topology.add(entity);
         }
 
-        Collections.sort(ec.getTopology(), new AscendingFitnessComparator());
+        Collections.sort(ec.getTopology(), ec.getTopology().get(0).getComparator());
         ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize());
 
         while (i.hasNext()) {
