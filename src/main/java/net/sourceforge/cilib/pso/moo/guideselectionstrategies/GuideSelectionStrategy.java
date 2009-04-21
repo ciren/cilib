@@ -23,7 +23,6 @@ package net.sourceforge.cilib.pso.moo.guideselectionstrategies;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.moo.iterationstrategies.GuideSelectionIterationStep;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
@@ -32,8 +31,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * <p>
  * With Multi-objective {@link PSO}s the pBest and lBest (or gBest) particles are replaced with the
  * concept of local and global guides respectively. Concrete instances of this class are used during
- * the {@link GuideSelectionIterationStep} to select these guides and store it with a {@link Particle}
- * for usage in its {@link VelocityUpdateStrategy}.
+ * to select these guides and store it with a {@link Particle} for usage in its {@link VelocityUpdateStrategy}.
  * </p>
  *
  * @author Wiehann Matthysen

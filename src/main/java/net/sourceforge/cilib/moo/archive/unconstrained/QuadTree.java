@@ -45,11 +45,6 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 public class QuadTree extends Archive {
 
     @Override
-    public void accept(Collection<OptimisationSolution> candidateSolutions) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public Collection<OptimisationSolution> dominates(
             OptimisationSolution candidateSolution) {
         // TODO Auto-generated method stub

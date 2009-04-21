@@ -235,7 +235,7 @@ public class ArchiveTest {
         assertThat(fitness.getDimension(), is(2));
         assertEquals(1.46361111111, fitness.getFitness(0).getValue(), EPSILON);
         assertEquals(55, fitness.getFitness(1).getValue(), EPSILON);
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem.getFitness(testVector, false))));
         assertThat(archive.contains(new OptimisationSolution(testVector, problem.getFitness(testVector, false))), is(true));
 
         testVector = vectorIterator.next();
@@ -243,7 +243,7 @@ public class ArchiveTest {
         assertThat(fitness.getDimension(), is(2));
         assertEquals(0.491388888889, fitness.getFitness(0).getValue(), EPSILON);
         assertEquals(90, fitness.getFitness(1).getValue(), EPSILON);
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem.getFitness(testVector, false))));
         assertThat(archive.contains(new OptimisationSolution(testVector, problem.getFitness(testVector, false))), is(true));
         assertThat(archive.size(), is(2));
 
@@ -252,7 +252,7 @@ public class ArchiveTest {
         assertThat(fitness.getDimension(), is(2));
         assertEquals(0.261797052154, fitness.getFitness(0).getValue(), EPSILON);
         assertEquals(135, fitness.getFitness(1).getValue(), EPSILON);
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem.getFitness(testVector, false))));
         assertThat(archive.contains(new OptimisationSolution(testVector, problem.getFitness(testVector, false))), is(true));
         assertThat(archive.size(), is(3));
 
@@ -263,7 +263,7 @@ public class ArchiveTest {
             testVector = vectorIterator.next();
             fitness = (MOFitness) problem.getFitness(testVector, false);
             assertThat(fitness.getDimension(), is(2));
-            archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem.getFitness(testVector, false))));
+            archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem.getFitness(testVector, false))));
         }
         // Archive size must stay the same due to set-based behavior of archive.
         assertThat(archive.size(), is(3));
@@ -281,7 +281,7 @@ public class ArchiveTest {
         DummyOptimisationProblem1 problem1 = new DummyOptimisationProblem1();
         Collection<Vector> testVectors = createDummyVectors();
         for (Vector testVector : testVectors) {
-            archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));
+            archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));
         }
         // Arhive size is now 3.
         assertThat(archive.size(), is(3));
@@ -320,7 +320,7 @@ public class ArchiveTest {
         // solution with fitness (2.92722222222, 110) which is correct.
 
         // Finally, check that archive does not accept this solution.
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))));
         assertThat(archive.size(), is(3));
         assertThat(archive.contains(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))), is(false));
 
@@ -356,7 +356,7 @@ public class ArchiveTest {
         // solution with fitness (0.982777777778, 180) which is correct.
 
         // Finally, check that archive does not accept this solution.
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))));
         assertThat(archive.size(), is(3));
         assertThat(archive.contains(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))), is(false));
 
@@ -392,7 +392,7 @@ public class ArchiveTest {
         // solution with fitness (0.523594104308, 270) which is correct.
 
         // Finally, check that archive does not accept this solution.
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))));
         assertThat(archive.size(), is(3));
         assertThat(archive.contains(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))), is(false));
     }
@@ -410,7 +410,7 @@ public class ArchiveTest {
         DummyOptimisationProblem2 problem2 = new DummyOptimisationProblem2();
         Collection<Vector> testVectors = createDummyVectors();
         for (Vector testVector : testVectors) {
-            archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))));
+            archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem2.getFitness(testVector, false))));
         }
         // Arhive size is now 3.
         assertThat(archive.size(), is(3));
@@ -442,7 +442,7 @@ public class ArchiveTest {
         // Thus, no more solutions in archive is dominated by this external solution.
 
         // Now, insert this external solution and it should replace abovementioned dominated solution.
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));
         assertThat(archive.size(), is(3));
         assertThat(archive.contains(dominatedSolution), is(false));
         assertThat(archive.contains(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))), is(true));
@@ -477,7 +477,7 @@ public class ArchiveTest {
         assertEquals(270, ((MOFitness) dominatedSolution2.getFitness()).getFitness(1).getValue(), EPSILON);
 
         // Now, insert this external solution and it should replace both of the abovementioned dominated solutions.
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));
         assertThat(archive.size(), is(2));
         assertThat(archive.contains(dominatedSolution1), is(false));
         assertThat(archive.contains(dominatedSolution2), is(false));
@@ -500,7 +500,7 @@ public class ArchiveTest {
         assertThat(dominatedSolutions.size(), is(0));    // No solutions dominate external solution.
 
         // Now, insert this external solution and it should be accepted in archive and not replace any other solution.
-        archive.accept(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));
+        archive.addAll(Arrays.asList(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))));
         assertThat(archive.size(), is(3));
         assertThat(archive.contains(new OptimisationSolution(testVector, problem1.getFitness(testVector, false))), is(true));
 

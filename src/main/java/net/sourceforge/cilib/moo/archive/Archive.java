@@ -65,13 +65,6 @@ public abstract class Archive implements Collection<OptimisationSolution> {
     }
 
     /**
-     * Accepts only the subset of non-dominated solutions from {@code candidateSolutions} into the archive.
-     * @param candidateSolutions A collection of dominated and non-dominated solutions.
-     * Subclasses must make sure that only the non-dominated solutions be added to the archive.
-     */
-    public abstract void accept(Collection<OptimisationSolution> candidateSolutions);
-
-    /**
      * Checks the entire archive and accumulates the solutions that dominates {@code candidateSolution}.
      * @param candidateSolution The solution to compare against all of the solutions in the archive.
      * @return The collection of solutions that dominates {@code candidateSolution}.

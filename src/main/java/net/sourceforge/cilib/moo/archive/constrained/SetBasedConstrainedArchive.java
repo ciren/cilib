@@ -91,13 +91,8 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
     }
 
     @Override
-    public boolean add(OptimisationSolution optimisationSolution) {
+    public boolean addToStructure(OptimisationSolution optimisationSolution) {
         return this.solutions.add(optimisationSolution);
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends OptimisationSolution> optimisationSolutions) {
-        return this.solutions.addAll(optimisationSolutions);
     }
 
     @Override
