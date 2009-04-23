@@ -33,9 +33,9 @@ import net.sourceforge.cilib.entity.Entity;
  */
 public interface EntityWeighingStrategy extends WeighingStrategy<Double, Entity> {
 
-	@Override
-	public abstract EntityWeighingStrategy getClone();
-	
-	@Override
-	public abstract List<Pair<Double, Entity>> weigh(Collection<? extends Entity> entities);
+    @Override
+    public abstract EntityWeighingStrategy getClone();
+
+    @Override
+    public abstract List<Pair<Double, Entity>> weigh(Collection<? extends Entity> entities);
 }

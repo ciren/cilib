@@ -38,7 +38,7 @@ import net.sourceforge.cilib.util.Cloneable;
  *
  * @author gpampara
  */
-public interface SocialEntity extends Cloneable {
+public interface SocialEntity extends Entity, Cloneable {
 
      /**
      * Get the current social best fitness. This {@linkplain Fitness} value is dependent
