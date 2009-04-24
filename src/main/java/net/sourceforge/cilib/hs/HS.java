@@ -98,6 +98,7 @@ public class HS extends SingularAlgorithm {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HS getClone() {
         return new HS(this);
     }

@@ -84,7 +84,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
      */
     public void setTargetAlgorithm(Algorithm algorithm) {
         optimisationAlgorithm = algorithm;
-        this.algorithm = (Algorithm) algorithm;
+        this.algorithm = algorithm;
         this.algorithm.addStoppingCondition(singleIteration);
     }
 
@@ -148,7 +148,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
      * Equivalent to calling {@link Algorithm#removeStoppingCondition(StoppingCondition)} on
      * the algorithm set in {@link #setTargetAlgorithm(OptimisationAlgorithm)}.
      *
-     * @param indicator The {@link StoppingCondition} to be removed.
+     * @param condition The {@link StoppingCondition} to be removed.
      */
     public void removeRestartCondition(StoppingCondition condition) {
         algorithm.removeStoppingCondition(condition);

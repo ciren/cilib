@@ -31,7 +31,18 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.StatUtils;
 
 /**
- *
+ * <p>
+ * Identify if a niche has been located.
+ * </p>
+ * <p>
+ * Niches are defined to be found if the fitness of an entity has a standard deviation
+ * of less than a threshold value for a predefined number of iterations.
+ * </p>
+ * <p>
+ * If the fitness of the entity is indeed less than the predefined threshold, it is
+ * determined that a niche has been located and the entity is returned as a
+ * result for a new niching location.
+ * </p>
  * @author gpampara
  */
 public class StandardNicheIdentificationStrategy implements NicheIdentificationStrategy {
@@ -41,11 +52,14 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
     private Map<Entity, List<Double>> entityFitness;
 
     public StandardNicheIdentificationStrategy() {
-        this.threshold = -Double.MAX_VALUE;
+        this.threshold = 1.0E-6;
         this.stationaryCounter = 3;
         this.entityFitness = new HashMap<Entity, List<Double>>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Entity> identify(Topology<? extends Entity> topology) {
         Map<Entity, Double> stdev = new HashMap<Entity, Double>();
@@ -91,26 +105,40 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
         for (Map.Entry<Entity, Double> entry : stdev.entrySet()) {
             if (entry.getValue() < this.threshold) {
                 niches.add(entry.getKey());
-                System.out.println("Found a niche!");
-                System.out.println("niche fitness value: " + entry.getValue());
             }
         }
 
         return niches;
     }
 
+    /**
+     * Get the defined threshold value.
+     * @return The threshold value.
+     */
     public double getThreshold() {
         return threshold;
     }
 
+    /**
+     * Set the threshold value
+     * @param threshold The value to set.
+     */
     public void setThreshold(double threshold) {
         this.threshold = threshold;
     }
 
+    /**
+     * Obtain the stationary counter for the identification process.
+     * @return The value of the stationary counter.
+     */
     public int getStationaryCounter() {
         return stationaryCounter;
     }
 
+    /**
+     * Set the stationary counter for the identification process.
+     * @param stationaryCounter The counter value to set.
+     */
     public void setStationaryCounter(int stationaryCounter) {
         this.stationaryCounter = stationaryCounter;
     }

@@ -22,7 +22,6 @@
 
 package net.sourceforge.cilib.pso.niching;
 
-import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
@@ -33,7 +32,14 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
- *
+ * <p>
+ * Standard absorption strategy for NichePSO.
+ * </p>
+ * <p>
+ * Absorption is a process that occurs when an entity from the main swarm wonders
+ * into the radius of the sub-swarm. When this occurs, the entity is removed from
+ * the main swarm and is incorporated into the sub-swarm.
+ * </p>
  * @author gpampara
  */
 public class StandardAbsorptionStrategy implements AbsorptionStrategy {
@@ -44,23 +50,26 @@ public class StandardAbsorptionStrategy implements AbsorptionStrategy {
         this.distanceMeasure = new EuclideanDistanceMeasure();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void absorb(MultiPopulationBasedAlgorithm algorithm) {
+    public void absorb(Niche algorithm) {
         for (PopulationBasedAlgorithm pba : algorithm.getPopulations()) {
             RadiusVisitor radiusVisitor = new RadiusVisitor();
             pba.accept(radiusVisitor);
 
             double radius = radiusVisitor.getResult().doubleValue();
 
-            for (Entity entity : algorithm.getTopology()) {
-                double distance = distanceMeasure.distance(entity.getCandidateSolution(), algorithm.getTopology().getBestEntity().getCandidateSolution());
+            for (Entity entity : algorithm.getMainSwarm().getTopology()) {
+                double distance = distanceMeasure.distance(entity.getCandidateSolution(), algorithm.getMainSwarm().getTopology().getBestEntity().getCandidateSolution());
                 if (distance <= radius) {
                     Particle p = (Particle) entity;
                     p.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
                     p.setNeighbourhoodBest((Particle) pba.getTopology().getBestEntity());
                     Topology<Particle> topology = (Topology<Particle>) pba.getTopology();
                     topology.add(p);
-                    algorithm.getTopology().remove(entity);
+                    algorithm.getMainSwarm().getTopology().remove(entity);
                 }
             }
         }

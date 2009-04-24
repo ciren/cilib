@@ -40,7 +40,21 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * <p>
+ * Generalized Niche algorithm.
+ * </p>
+ * <p>
+ * This class is intended to be the base class (or even the only class) for all
+ * algorithms implementing a form of niching.
+ * </p>
+ * <p>
+ * Currently the main implementation is the NichePSO, however, any implementation
+ * can be achieved by correctly applying the different setter methods with the appropriate
+ * instances.
+ * </p>
+ * <pre>
+ * {@literal @}inproceedings{}
+ * </pre>
  * @author gpampara
  */
 public class Niche extends MultiPopulationBasedAlgorithm {
@@ -53,6 +67,9 @@ public class Niche extends MultiPopulationBasedAlgorithm {
     private AbsorptionStrategy absorptionStrategy;
     private MergeStrategy mergeStrategy;
 
+    /**
+     * Create a new instance of Niche.
+     */
     public Niche() {
         this.mainSwarm = new PSO();
 
@@ -74,6 +91,18 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mergeStrategy = new StandardMergeStrategy();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PopulationBasedAlgorithm getClone() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Initialise the main population based algorithm, provided such a notion exists.
+     * @see MultiPopulationBasedAlgorithm#performInitialisation()
+     */
     @Override
     public void performInitialisation() {
         for (StoppingCondition stoppingCondition : getStoppingConditions())
@@ -84,6 +113,22 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.initialise();
     }
 
+    /**
+     * <p>
+     * Perform the iteration of the algorithm.
+     * </p>
+     * <p>
+     * The general format of this method would be the following steps:
+     * <ol>
+     *   <li>Perform an iteration of the main swarm.</li>
+     *   <li>Perform an iteration for each of the contained sub-swarms.</li>
+     *   <li>Merge any sub-swarms as defined my the associated {@link MergeStrategy}.</li>
+     *   <li>Perform an absorption step defined by a {@link AbsorptionStrategy}.</li>
+     *   <li>Identify any new potential niches using a {@link NicheIdentificationStrategy}.</li>
+     *   <li>Create new sub-swarms via a {@link NicheCreationStrategy} for the identified niches.</li>
+     * </ol>
+     * </p>
+     */
     @Override
     protected void algorithmIteration() {
         mainSwarm.performIteration();
@@ -99,17 +144,20 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.swarmCreationStrategy.create(this, niches);
     }
 
-    @Override
-    public PopulationBasedAlgorithm getClone() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    /**
+     * There is no best solution associated with a top level Niche algorithm.
+     * @see #getSolutions()
+     */
     @Override
     public OptimisationSolution getBestSolution() {
-//        throw new UnsupportedOperationException("Niching does not provide a single solution.");
         return new OptimisationSolution(new Vector(), InferiorFitness.instance());
     }
 
+    /**
+     * Get the solutions of the the optimisation. The solutions are the best
+     * entities within each identified niche.
+     * @return The list of best solutions for each niche.
+     */
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> list = new ArrayList<OptimisationSolution>();
@@ -120,8 +168,20 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         return list;
     }
 
+    /**
+     * Get the main swarm.
+     * @return The main swarm.
+     */
     public PopulationBasedAlgorithm getMainSwarm() {
         return this.mainSwarm;
+    }
+
+    /**
+     * Set the main swarm of the Niche.
+     * @param mainSwarm The swarm to set.
+     */
+    public void setMainSwarm(PopulationBasedAlgorithm mainSwarm) {
+        this.mainSwarm = mainSwarm;
     }
 
 }

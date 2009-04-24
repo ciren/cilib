@@ -37,8 +37,12 @@ import org.junit.Test;
  */
 public class StandardNicheIdentificationStrategyTest {
 
+    /**
+     * Identify a niche when the fitness of an Entity does not change
+     * for a period of time.
+     */
     @Test
-    public void identify() {
+    public void simpleIdentification() {
         Individual i1 = new Individual();
 
         // Set the fitness directly
@@ -48,10 +52,39 @@ public class StandardNicheIdentificationStrategyTest {
         topology.add(i1);
 
         StandardNicheIdentificationStrategy nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
-        nicheIdentificationStrategy.setThreshold(3.0);
+        nicheIdentificationStrategy.setThreshold(0.1E-6);
+
+        List<Entity> results = nicheIdentificationStrategy.identify(topology);
+        Assert.assertEquals(0, results.size());
+        results = nicheIdentificationStrategy.identify(topology);
+        Assert.assertEquals(0, results.size());
+
+        results = nicheIdentificationStrategy.identify(topology);
+        Assert.assertEquals(1, results.size());
+    }
+
+    /**
+     * Identify a niche when the fitness of an entity is changed midway.
+     */
+    @Test
+    public void identificationWithChange() {
+        Individual i1 = new Individual();
+
+        // Set the fitness directly
+        i1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
+
+        Topology<Individual> topology = new GBestTopology<Individual>();
+        topology.add(i1);
+
+        StandardNicheIdentificationStrategy nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
+        nicheIdentificationStrategy.setThreshold(1.0);
 
         nicheIdentificationStrategy.identify(topology);
+
+        // Now apply a change to the fitness of the entity. This will
+        // reset the niche identification to use the new fitness value.
         i1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(4.0));
+
         List<Entity> results = nicheIdentificationStrategy.identify(topology);
         Assert.assertEquals(0, results.size());
         results = nicheIdentificationStrategy.identify(topology);

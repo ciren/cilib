@@ -22,15 +22,22 @@
 package net.sourceforge.cilib.pso.niching;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 
 /**
+ * Niche creation strategies.
  *
  * @author gpampara
  */
 public interface NicheCreationStrategy {
 
-    public void create(MultiPopulationBasedAlgorithm algorithm, List<Entity> niches);
+    /**
+     * Create new niching populations for the provided Niche. The newly found niche
+     * points are provided and are then used to create new niching populations for
+     * the provided Niche algorithm.
+     * @param algorithm The Niche containing all niching populations.
+     * @param niches The newly identified niching locations.
+     */
+    public void create(Niche algorithm, List<Entity> niches);
 
 }

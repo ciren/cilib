@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.pso.niching;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
@@ -31,7 +30,22 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrategy;
 
 /**
- *
+ * <p>
+ * Create a set of niching locations, based on a provided set of identified
+ * niching entities.
+ * </p>
+ * <p>
+ * For each newly discovered niching location, a new sub-swarm is creates that will
+ * maintain the niche. For the case of the PSO, the niching particle and the closest
+ * particle to the identified particle are gropuped into a niche. Sub-swarms will always
+ * then have at least two particles.
+ * </p>
+ * <p>
+ * The rational for two particles is that a particle is a social entity and as a result
+ * needs to share information. Ensuring that there are at least two particles within
+ * a sub-swarm will enable the velocity update equation associated with the particle
+ * to still operate.
+ * </p>
  * @author gpampara
  */
 public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
@@ -39,9 +53,12 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
     public StandardSwarmCreationStrategy() {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void create(MultiPopulationBasedAlgorithm algorithm, List<Entity> niches) {
-        Topology<? extends Entity> mainSwarm = algorithm.getTopology();
+    public void create(Niche algorithm, List<Entity> niches) {
+        Topology<? extends Entity> mainSwarm = algorithm.getMainSwarm().getTopology();
 
         for (int i = 0; i < niches.size(); i++) {
             Entity niche = niches.get(i);

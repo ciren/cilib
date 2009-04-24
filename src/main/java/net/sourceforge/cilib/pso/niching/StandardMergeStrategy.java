@@ -30,18 +30,49 @@ import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * <p>
+ * Merge sub-swarms if the radius of two subswarms overlap.
+ * </p>
+ * <p>
+ * This overlap is determined by the radius of the sub-swarm. If the overlap
+ * is less than a predefined threshold value, the sub-swarms will merge into
+ * a single sub-swarm but having all participants within the one swarm
+ * being transferred over to the other sub-swarm.
+ * </p>
+ * <p>
+ * Upon completion of the entity migration, the empty sub-swarm is destroyed.
+ * </p>
  * @author gpampara
  */
 public class StandardMergeStrategy implements MergeStrategy {
+    private static final long serialVersionUID = 6790307057694598017L;
 
-    private double threshold = 10e-3;
+    private double threshold;
 
     public StandardMergeStrategy() {
+        this.threshold  = 10e-3;
     }
 
+    public StandardMergeStrategy(StandardMergeStrategy copy) {
+        this.threshold = copy.threshold;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StandardMergeStrategy getClone() {
+        return new StandardMergeStrategy(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void merge(MultiPopulationBasedAlgorithm algorithm) {
+        if (algorithm.getPopulations().size() < 2)
+            throw new UnsupportedOperationException("Cannot perform a merge with less than 2 sub-populations.");
+
         RadiusVisitor radiusVisitor = new RadiusVisitor();
 
         for (int i = 0; i < algorithm.getPopulations().size(); i++) {
@@ -50,7 +81,7 @@ public class StandardMergeStrategy implements MergeStrategy {
             k1.accept(radiusVisitor);
             double k1Radius = radiusVisitor.getResult().doubleValue();
 
-            for (int j = 0; j < algorithm.getPopulations().size(); j++) {
+            for (int j = i+1; j < algorithm.getPopulations().size(); j++) {
                 PopulationBasedAlgorithm k2 = algorithm.getPopulations().get(j);
 
                 k2.accept(radiusVisitor);
@@ -78,17 +109,35 @@ public class StandardMergeStrategy implements MergeStrategy {
     }
 
     private void mergeSwarms(MultiPopulationBasedAlgorithm algorithm, PopulationBasedAlgorithm k1, PopulationBasedAlgorithm k2) {
+        Topology<Particle> topology = (Topology<Particle>) k1.getTopology();
+        Particle neighbourhoodBest = topology.getBestEntity();
+
         // migrate all entities from k2 into k1
         for (int i = 0; i < k2.getTopology().size(); i++) {
             Particle p = (Particle) k2.getTopology().get(i);
-
-            Topology<Particle> topology = (Topology<Particle>) k1.getTopology();
             topology.add(p);
 
-            p.setNeighbourhoodBest(topology.getBestEntity());
+            p.setNeighbourhoodBest(neighbourhoodBest);
         }
 
         algorithm.getPopulations().remove(k2);
+        k2 = null;
+    }
+
+    /**
+     * Get the merge threshold value.
+     * @return The value of the merge threshold.
+     */
+    public double getThreshold() {
+        return threshold;
+    }
+
+    /**
+     * Set the merge threshold value.
+     * @param threshold The value to set.
+     */
+    public void setThreshold(double threshold) {
+        this.threshold = threshold;
     }
 
 }

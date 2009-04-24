@@ -33,9 +33,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * <p>Minimum:
  * <ul>
- * <li> f(<b>x</b>*) = -106.764537 (approx) </li>
+ * <li> &fnof;(<b>x</b>*) = -106.764537 (approx) </li>
  * <li> <b>x</b>* = (??,??)</li>
- * <li> for x_1, x_2 in [-2*pi, 2*pi]</li>
+ * <li> for x<sub>1</sub>, x<sub>2</sub> in [-2*&pi;, 2*&pi;]</li>
  * </ul>
  * </p>
  *
