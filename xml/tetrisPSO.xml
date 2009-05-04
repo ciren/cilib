@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+	
+	<problem id="tetris" class="problem.coevolution.GameLearningOptimizationProblem" numberOfEvaluations="2">
+		<game class="games.game.tetris.Tetris" Width = "10" Height = "20" MaxLines = "10000000">
+			<agent class="games.agent.state.StateEvaluationAgent">
+				<traversalStrategy class="games.agent.state.traversal.MinMaxAlphaBetaTraversalStrategy" MaxDepth="1"> 
+					<evaluator class="games.agent.state.evaluation.NeuralStateEvaluator" HiddenNodes="0"> 
+						<neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
+							<topologyBuilder class="neuralnetwork.generic.topologybuilders.InputOutputGenericTopologyBuilder">
+								<prototypeWeight class="neuralnetwork.generic.Weight">
+									<weightValue class="type.types.Real" real="0.5"/>
+									<previousChange class="type.types.Real" real="0.0"/>
+								</prototypeWeight>
+								<ActivationFunction class="neuralnetwork.generic.neuron.TanHOutputFunction"/>
+							</topologyBuilder>
+							<weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
+						</neuralNetworkTopology>
+						<stateInputStrategy class="games.game.tetris.TetrisFeaturesInputStrategy" removedLines = "false"/>
+					</evaluator>
+				</traversalStrategy>
+			</agent>
+			<scoringStrategy class="games.game.tetris.TetrisScoringStrategy"/>
+			<seedingStrategy class = "games.random.FixedListSeedingStrategy" iterationModulus="40" useCount = "2">
+				<Seed value="3944606586505461405"/>
+				<Seed value="1000307146215334070"/>
+				<Seed value="3143331892621272574"/>
+				<Seed value="3622885855894700963"/>
+				<Seed value="-2728089894524748394"/>
+				<Seed value="847679055350624516"/>
+				<Seed value="-4066316519530753120"/>
+				<Seed value="-5718927913961735684"/>
+				<Seed value="-5449352068366349146"/>
+				<Seed value="1416821267114470034"/>
+			</seedingStrategy>
+		</game>
+	</problem>
+
+	<algorithms>
+ 		<algorithm id="gcpso-vn" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="30">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.GCVelocityUpdateStrategy"/>
+                    <FitnessCalculator class = "util.calculator.PropertyBasedFitnessCalculator"/>
+                </entityType>
+            </initialisationStrategy>
+            <topology class="entity.topologies.VonNeumannTopology" />
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
+        </algorithm>
+	</algorithms>
+
+	<measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
+		<addMeasurement class="measurement.single.Fitness"/>
+		<addMeasurement class="measurement.single.Solution"/>
+	</measurements>
+
+<simulations>
+		<simulation>
+			<algorithm idref="gcpso-vn"/>
+			<problem idref="tetris"/>
+			<measurements idref="fitness" file="data/tetrisPSO.txt"/>
+		</simulation>
+	</simulations>
+</simulator>
