@@ -32,12 +32,12 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  */
 public class GridLocation extends Vector implements ItemLocation {
     private static final long serialVersionUID = 4974578979607886491L;
-    public GridLocation(int gridWidth, int gridHeight) {        
+    public GridLocation(int gridWidth, int gridHeight) {
         this.add(new Int(0, gridWidth));
         this.add(new Int(0, gridHeight));
     }
-    
-    public GridLocation(int xMax, int yMax, int zMax) {        
+
+    public GridLocation(int xMax, int yMax, int zMax) {
         this.add(new Int(0, xMax));
         this.add(new Int(0, yMax));
         this.add(new Int(0, zMax));
@@ -88,7 +88,7 @@ public class GridLocation extends Vector implements ItemLocation {
         if(!(amount instanceof Vector))
             throw new RuntimeException("can only add a vector to gridlocation");
         for(int i = 0; i < ((Vector)amount).size(); ++i){
-            
+
             int newVal = ((Vector)amount).getInt(i) + this.getInt(i);
             if(newVal < this.getNumeric(i).getBounds().getLowerBound())
                 newVal = (int)this.getNumeric(i).getBounds().getLowerBound();
@@ -97,7 +97,7 @@ public class GridLocation extends Vector implements ItemLocation {
             this.setInt(i, newVal);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */

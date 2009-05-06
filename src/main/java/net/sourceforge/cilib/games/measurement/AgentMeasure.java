@@ -35,7 +35,7 @@ public abstract class AgentMeasure implements Cloneable {
     }
     public AgentMeasure(AgentMeasure other){
     }
-    
+
     /**
      * Measure game specific information and store it
      * @param game the game to measure information from
@@ -44,10 +44,10 @@ public abstract class AgentMeasure implements Cloneable {
     /**
      * return the measured data
      * @return
-     */    
-    public abstract Type getMeasuredData();    
+     */
+    public abstract Type getMeasuredData();
     /**
-     * Clear all measured data.     
+     * Clear all measured data.
      */
     public abstract void clearData();
     /**

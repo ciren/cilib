@@ -34,19 +34,19 @@ import net.sourceforge.cilib.games.items.GameToken;
 public abstract class SingleAgentMeasure extends AgentMeasure {
     Enum itemToken;
     public SingleAgentMeasure() {
-        itemToken = GameToken.DEFAULT;        
+        itemToken = GameToken.DEFAULT;
     }
-    
+
     public SingleAgentMeasure(Enum itemToken) {
         super();
         this.itemToken = itemToken;
     }
-    
+
     public SingleAgentMeasure(SingleAgentMeasure other) {
         super(other);
         itemToken = other.itemToken;
     }
-    
+
     public Enum getItemToken() {
         return itemToken;
     }

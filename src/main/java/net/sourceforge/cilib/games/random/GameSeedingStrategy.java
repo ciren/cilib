@@ -29,20 +29,22 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * This class is used to generate random numbers for {@linkplain Game}'s. By making sure the seed is only set once, and at the start of the game,
  * it becomes possible to duplicate games played by fixing the seed.
- * 
+ *
  * @author leo
  *
  */
 public abstract class GameSeedingStrategy implements Cloneable {
-    
-    Random generator;
-    long currentSeed;
+
+    protected Random generator;
+    protected long currentSeed;
+
     public GameSeedingStrategy() {
         currentSeed = Seeder.getSeed();
         generator = new MersenneTwister(currentSeed);
-    }    
+    }
+
     /**
-     * The copy constructor makes a shallow clone. The copy constructor of the Random class re-seeds the generator and that behavior is 
+     * The copy constructor makes a shallow clone. The copy constructor of the Random class re-seeds the generator and that behavior is
      * unwanted. There should only be one instance of this class per game instance.
      * NOTE: I'm not convinced a thread local singleton should be used here, but it is debateable.
      * @param other
@@ -51,12 +53,14 @@ public abstract class GameSeedingStrategy implements Cloneable {
         generator = other.generator; //shallow copy
         currentSeed = other.currentSeed;
     }
+
     /**
      * {@inheritDoc}
      */
     public abstract GameSeedingStrategy getClone();
+
     /**
-     * Get a seed value and seed the generator.     
+     * Get a seed value and seed the generator.
      */
     public abstract void seedGenerator();
 

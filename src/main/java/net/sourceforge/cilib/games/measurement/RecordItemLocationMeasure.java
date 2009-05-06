@@ -41,12 +41,12 @@ public class RecordItemLocationMeasure extends SingleAgentMeasure {
         super();
         locations = new Vector();
     }
-    
+
     public RecordItemLocationMeasure(Enum itemToken) {
         super(itemToken);
         locations = new Vector();
     }
-    
+
     public RecordItemLocationMeasure(RecordItemLocationMeasure other) {
         super(other);
         locations = other.locations.getClone();

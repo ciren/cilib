@@ -23,7 +23,7 @@ package net.sourceforge.cilib.games.random;
 
 /**
  * This seeding strategy always uses the same seed.
- * @author leo 
+ * @author leo
  */
 public class FixedSeedStrategy extends GameSeedingStrategy {
     private static final long serialVersionUID = -4840550863563767935L;

@@ -24,26 +24,35 @@ package net.sourceforge.cilib.games.random;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
- * This class is similar to the {@linkplain RandomListSeedingStrategy} but differs in the following way.
- * A list of specified seeds are stored. A seed in the list is used for a specified interval, and then
- * the next seed in the list is used. This class is used to set a fixed number of seeds and to alternate 
+ * This class is similar to the {@linkplain ListSeedingStrategy} but differs in the following way.
+ * A list of specified seeds are stored. The same number of seeds in the list are used multiple times, and at a fixed interval
+ * the next set of seeds in the list are used. This class is used to set a fixed number of seeds and to alternate
  * between them at fixed intervals.
  * @author leo
  *
  */
 public class FixedListSeedingStrategy extends RandomListSeedingStrategy {
-
     private static final long serialVersionUID = -6160406783725056326L;
+    int minIndex;
+    int maxIndex;
+    int useCount;
 
     public FixedListSeedingStrategy() {
+        minIndex = 0;
+        maxIndex = 1;
+        useCount = 1;
     }
 
     /**
      * @param other
      */
-    public FixedListSeedingStrategy(RandomListSeedingStrategy other) {
+    public FixedListSeedingStrategy(FixedListSeedingStrategy other) {
         super(other);
+        minIndex = other.minIndex;
+        maxIndex = other.maxIndex;
+        useCount = other.useCount;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -51,6 +60,7 @@ public class FixedListSeedingStrategy extends RandomListSeedingStrategy {
     public FixedListSeedingStrategy getClone(){
         return new FixedListSeedingStrategy(this);
     }
+
     /**
      * The seeds are never changed
      */
@@ -58,28 +68,37 @@ public class FixedListSeedingStrategy extends RandomListSeedingStrategy {
     protected void updateSeed(){
         //seeds dont change
     }
-    /**
-     * Set a seed value to use
-     * @param seed the value
-     */
-    public void setSeed(long seed){
-        seeds.add(seed);
-    }
+
     /**
      * Update the index that is used to get a seed from the list. This index changes at
      * a specified interval.
      */
     @Override
-    protected void updateIndex(){    
+    protected void updateIndex(){
+        ++index;
+        if(index >= maxIndex)
+            index = minIndex;
         //index changes with algorithm iterations
         int currentIteration = Algorithm.get().getIterations();
-        if(currentIteration != changeIteration && currentIteration  % iterationModulus == 0){
+        if (currentIteration != changeIteration && currentIteration  % iterationModulus == 0) {
             changeIteration = currentIteration;
-            ++index;
-            if(index >= seeds.size())
-                index = 0;            
-            System.out.println("Index changed. Iteration: " + currentIteration + " new Seed: " + seeds.get(index));
+            minIndex += useCount;
+            if(minIndex >= seeds.size())
+                minIndex = 0;
+
+            maxIndex = minIndex + useCount;
+            index = minIndex;
         }
+    }
+
+    /**
+     * This method sets the number of seeds to repeatedly use in the list for the specified interval
+     * @param useCount The number of seeds to repeatedly use in the list
+     */
+    public void setUseCount(int useCount){
+        this.useCount = useCount;
+        minIndex = 0;
+        maxIndex = useCount;
     }
 
 }
