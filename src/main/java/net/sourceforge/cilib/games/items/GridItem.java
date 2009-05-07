@@ -32,15 +32,15 @@ public class GridItem extends PlayerItem {
      * @param playerNo
      */
     public GridItem(int playerNo, Enum<?> token, int gridWidth, int gridHeight) {
-        super(playerNo, token);        
+        super(playerNo, token);
         itemLocation = new GridLocation(gridWidth, gridHeight);
     }
-    
+
     public GridItem(int playerNo, Enum<?> token, ItemLocation location) {
-        super(playerNo, token);        
+        super(playerNo, token);
         itemLocation = location;
     }
-    
+
     public GridItem(int playerNo, Enum<?> token, int xMax, int yMax, int zMax) {
         super(playerNo, token);
         itemLocation = new GridLocation(xMax, yMax, zMax);

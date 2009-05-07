@@ -39,7 +39,7 @@ public enum GameToken implements GameEnum {
     }
     /**
      * Predator Prey tokens
-     * @author leo     
+     * @author leo
      */
     public enum PredatorPrey implements GameEnum{
         PREDATOR,
@@ -80,7 +80,7 @@ public enum GameToken implements GameEnum {
     }
     /**
      * Tetris tokens
-     * @author leo     
+     * @author leo
      */
     public enum Tetris implements GameEnum{
         BOX,

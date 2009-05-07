@@ -37,18 +37,18 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class AverageItemDistanceMeasure extends AgentMeasure {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8680949683153569536L;
     List<Double> vals;
-    
+
     /**
-     * 
+     *
      */
     public AverageItemDistanceMeasure() {
         vals = new ArrayList<Double>();
     }
-    
+
     public AverageItemDistanceMeasure(AverageItemDistanceMeasure other) {
         super(other);
         vals = other.vals;
@@ -85,7 +85,7 @@ public class AverageItemDistanceMeasure extends AgentMeasure {
         GameState state = game.getCurrentState();
         if(!(state instanceof ListGameState))
             throw new RuntimeException("Impliment for other state types");
-        
+
         if(((ListGameState)state).getSize() != 2)
             throw new RuntimeException("Impliment for more than 2 items");
         double d =  ((ListGameState)state).getItem(0).getLocation().getDistance(new EuclideanDistanceMeasure(), ((ListGameState)state).getItem(1).getLocation());

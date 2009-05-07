@@ -27,25 +27,23 @@ package net.sourceforge.cilib.games.items;
  */
 public class PlayerItem extends GameItem {
     private static final long serialVersionUID = -674781677901305287L;
-    int playerNo;    
-    
-    public PlayerItem(int playerNo)
-    {
-        this.playerNo = playerNo;        
+    int playerNo;
+
+    public PlayerItem(int playerNo) {
+        this.playerNo = playerNo;
     }
-    
-    public PlayerItem(int playerNo, Enum<?> token)
-    {
+
+    public PlayerItem(int playerNo, Enum<?> token) {
         super(token);
-        this.playerNo = playerNo;        
+        this.playerNo = playerNo;
     }
-    
-    public PlayerItem(PlayerItem Other){
+
+    public PlayerItem(PlayerItem Other) {
         super(Other);
         playerNo = Other.playerNo;
     }
-    
-    public int getPlayerID(){
+
+    public int getPlayerID() {
         return playerNo;
     }
     /**

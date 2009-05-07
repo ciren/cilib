@@ -36,31 +36,31 @@ public abstract class GameItem implements Cloneable {
         token = GameToken.DEFAULT;
         itemLocation = null;
     }
-    
+
     public GameItem(Enum<?> token){
         this.token = token;
         itemLocation = null;
     }
-    
+
     public GameItem(Enum<?> token, ItemLocation itemLocation){
         this.token = token;
         this.itemLocation = itemLocation;
     }
-    
+
     public GameItem(GameItem other){
         if(other.itemLocation != null)
             itemLocation = other.itemLocation.getClone();
         token = other.token;
     }
-    
+
     public void setLoction(ItemLocation location){
         itemLocation = location;
     }
-    
+
     public ItemLocation getLocation(){
-        return itemLocation;        
+        return itemLocation;
     }
-    
+
     public abstract GameItem getClone();
 
     public Enum<?> getToken() {

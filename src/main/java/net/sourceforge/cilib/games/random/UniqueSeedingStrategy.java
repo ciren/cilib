@@ -32,9 +32,10 @@ import net.sourceforge.cilib.math.random.generator.Seeder;
 public class UniqueSeedingStrategy extends GameSeedingStrategy {
 
     private static final long serialVersionUID = 5817137361511527106L;
+
     public UniqueSeedingStrategy() {
-    
     }
+
     public UniqueSeedingStrategy(GameSeedingStrategy other) {
         super(other);
     }
