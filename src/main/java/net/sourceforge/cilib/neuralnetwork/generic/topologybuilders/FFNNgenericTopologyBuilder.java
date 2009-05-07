@@ -36,8 +36,8 @@ import net.sourceforge.cilib.type.types.Real;
  */
 public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
 
-    int[] layerSizes;
-    Weight prototypeWeight = null;
+    protected int[] layerSizes;
+    protected Weight prototypeWeight = null;
 
 
     public FFNNgenericTopologyBuilder() {
@@ -195,7 +195,9 @@ public class FFNNgenericTopologyBuilder extends GenericTopologyBuilder{
     }
 
 
-    //Used to add the array of layer sizes in XML
+    /**
+     * Used to add the array of layer sizes in XML
+     */
     public void addLayer(int nrNeurons){
 
         if (nrNeurons <= 0){
