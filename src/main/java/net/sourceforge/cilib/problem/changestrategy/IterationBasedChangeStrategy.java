@@ -20,11 +20,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.sourceforge.cilib.problem.changestrategy;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -33,6 +28,13 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
+ * An {@code IterationBasedChangeStrategy} is a test to ensure that a problem is
+ * altered or changed at a predefined frequency.
+ * <p>
+ * The default behaviour is to return {@code true} for all iterations. ie: the frequency
+ * paramater {@code resolution} is set to have a value of {@code 1.0}.
+ * </p>
+ * @see ControlParameter
  *
  * @author gpampara
  */
@@ -40,12 +42,21 @@ public class IterationBasedChangeStrategy implements ChangeStrategy {
 
     private ControlParameter resolution;
 
+    /**
+     * Create a new instance.
+     */
     public IterationBasedChangeStrategy() {
         this.resolution = new ConstantControlParameter(1.0);
     }
 
+    /**
+     * Determine if a change should be applied to the current problem, based
+     * on the current number of iterations that have been completed.
+     * @param problem The problem to query.
+     * @return {@code true} if a change should be performed, {@code false} otherwise.
+     */
     @Override
-    public boolean change(Problem problem) {
+    public boolean shouldApply(Problem problem) {
         int iterations = Algorithm.get().getIterations();
         if (iterations != 0 && iterations % Double.valueOf(resolution.getParameter()).intValue() == 0)
            return true;

@@ -152,7 +152,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
 
     /**
      * Sets the particle topology used. The default is {@link GBestTopology}.
-     * @param A class that implements the {@link Topology} interface.
+     * @param topology A class that implements the {@link Topology} interface.
      */
     @Override
     @SuppressWarnings("unchecked")

@@ -20,29 +20,24 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.cilib.problem.changestrategy;
-
-import net.sourceforge.cilib.problem.Problem;
-
 /**
- * Interface used to determine if change operations should be applied to the current problem.
+ * Dynamic environments need to know when it should be applicable to change
+ * the problem.
  * <p>
- * This is particularly useful in Dynamic Environments when the need to alter the
- * problem search space.
+ * Various strategies exist to do this, but for CIlib the simple process
+ * to enable this is to implement the {@code ChangeStrategy} and attach
+ * it to the problem.
  * </p>
  * <p>
- * It is possible to classify all problem instances as being dynamic problems. Problems that
- * remain unchanged are effectively problems where the applied change is a change that
- * preserves the problem search space, thus leaving it unchanged.
+ * {@code ChangeStrategy} classes implement a simple boolean function which
+ * determines if a change should occur or not.
  * </p>
+ * <p>
+ * {@code ChangeStrategy} classes are used as follows:
+ * </p>
+ * <pre>
+ * if (changeStrategy.shouldApply(problem))
+ *     problem.changeEnvironment();
+ * </pre>
  */
-public interface ChangeStrategy {
-
-    /**
-     * Test if a change should be applied on the provided {@code problem} instance.
-     * @param problem The problem on which a change test is to be applied.
-     * @return {@code true} if a change should be applied, {@code false} otherwise.
-     */
-    public boolean shouldApply(Problem problem);
-
-}
+package net.sourceforge.cilib.problem.changestrategy;

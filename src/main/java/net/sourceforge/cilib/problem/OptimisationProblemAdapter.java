@@ -77,7 +77,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
             fitnessEvaluations.incrementAndGet();
         }
 
-        if (this.changeStrategy.change(this))
+        if (this.changeStrategy.shouldApply(this))
             changeEnvironment();
 
         return calculateFitness(solution);
@@ -119,7 +119,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     }
 
     /**
-     * Get the current Problem change strategy.
+     * Get the current problem change strategy.
      * @return The current {@link net.sourceforge.cilib.problem.changestrategy.ChangeStrategy}.
      */
     public ChangeStrategy getChangeStrategy() {

@@ -25,7 +25,8 @@ package net.sourceforge.cilib.problem.changestrategy;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
- * Environmental change strategy for problems that does nothing.
+ * Environmental change strategy for problems that does not allow
+ * a change to occur.
  */
 public class NoChangeStrategy implements ChangeStrategy {
 
@@ -34,8 +35,11 @@ public class NoChangeStrategy implements ChangeStrategy {
      * the search space intact.
      * <p>
      * This method simply returns {@code false} and performs no actions.
+     * @param problem The problem to be queried for change.
+     * @return {@code false} always.
      */
-    public boolean change(Problem problem) {
+    @Override
+    public boolean shouldApply(Problem problem) {
         return false;
         // For Theuns: Living Laxly Like A Lazy Lounge Lizzard
     }
