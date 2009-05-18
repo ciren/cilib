@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.particle.initialisation;
 
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -45,7 +46,7 @@ public class RandomInitialVelocityStrategy implements VelocityInitialisationStra
 
     public void initialise(Particle particle) {
         Vector velocity = (Vector) particle.getVelocity();
-        velocity.randomize();
+        velocity.randomize(new MersenneTwister());
     }
 
 }

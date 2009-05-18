@@ -26,6 +26,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 
 /**
@@ -34,10 +35,6 @@ import net.sourceforge.cilib.math.MathUtil;
  *
  */
 public class Int extends Numeric {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 271271478995857543L;
     private int value;
 
@@ -55,7 +52,6 @@ public class Int extends Numeric {
      * @param upper The upper bound.
      */
     public Int(int lower, int upper) {
-        value = Double.valueOf(MathUtil.random()*(upper-lower)).intValue() + lower;
         this.setBounds(BoundsFactory.create(lower, upper));
     }
 
@@ -222,8 +218,8 @@ public class Int extends Numeric {
     /**
      * {@inheritDoc}
      */
-    public void randomize() {
-        double tmp = MathUtil.random()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
+    public void randomize(Random random) {
+        double tmp = random.nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
     }
 

@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 
 /**
@@ -241,6 +242,11 @@ public class Set<E> implements StructuredType<E> {
      */
     public boolean isInsideBounds() {
         return false;
+    }
+
+    @Override
+    public void randomize(Random random) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

@@ -69,7 +69,7 @@ public class ABCTest {
             map.put(bee.getCandidateSolution(), bee.getCandidateSolution());
         }
         
-        assertEquals(map.size(), 100);
+        assertEquals(100, map.size());
     }
 
 }

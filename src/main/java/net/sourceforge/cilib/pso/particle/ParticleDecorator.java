@@ -83,7 +83,7 @@ public abstract class ParticleDecorator extends AbstractParticle {
         return target.getBestFitness();
     }
 
-    public Type getBestPosition() {
+    public StructuredType getBestPosition() {
         return target.getBestPosition();
     }
 
@@ -103,11 +103,11 @@ public abstract class ParticleDecorator extends AbstractParticle {
         return target.getNeighbourhoodBest();
     }
 
-    public Type getPosition() {
+    public StructuredType getPosition() {
         return target.getPosition();
     }
 
-    public Type getVelocity() {
+    public StructuredType getVelocity() {
         return target.getVelocity();
     }
 

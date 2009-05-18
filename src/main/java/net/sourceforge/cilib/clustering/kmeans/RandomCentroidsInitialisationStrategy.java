@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -53,7 +54,7 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
     public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
         Vector centroids = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
 
-        centroids.randomize();
+        centroids.randomize(new MersenneTwister());
         return centroids;
     }
 }

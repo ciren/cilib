@@ -37,8 +37,6 @@ public final class MathUtil {
 
     public static double EPSILON = 1.0E-15d;
 
-    private static Random random;
-
     private MathUtil() {
     }
 
@@ -102,12 +100,12 @@ public final class MathUtil {
      * method.
      * @return A uniform random number in the range [0,1).
      */
-    public static synchronized double random() {
-        if (random == null)
-            random = new MersenneTwister();
-
-        return random.nextDouble();
-    }
+//    public static synchronized double random() {
+//        if (random == null)
+//            random = new MersenneTwister();
+//
+//        return random.nextDouble();
+//    }
 
     /**
      * Determine if a "flip" would occur given the provided probability value.

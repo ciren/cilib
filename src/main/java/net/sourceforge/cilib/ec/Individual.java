@@ -114,7 +114,7 @@ public class Individual extends AbstractEntity {
 
          if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
              this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
-             TypeUtil.randomize(this.getProperties().get(EntityType.Individual.PHENOTYPES));
+             TypeUtil.randomize((StructuredType) this.getProperties().get(EntityType.Individual.PHENOTYPES));
          }
 
          this.dimension = this.getCandidateSolution().size();

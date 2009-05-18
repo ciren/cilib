@@ -28,6 +28,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -57,6 +58,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
     private static final long serialVersionUID = 3177150919194273857L;
 
     private ControlParameter turbulenceProbability;
+    private RandomNumber random;
 
     /**
      * Create an instance of the constraint with a turbulence probability
@@ -64,6 +66,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
      */
     public NearestBoundaryConstraint() {
         turbulenceProbability = new ConstantControlParameter(0.0);
+        this.random = new RandomNumber();
     }
 
     /**
@@ -106,15 +109,15 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
             if (Double.compare(position.getReal(), bounds.getLowerBound()) < 0) {
                 position.set(bounds.getLowerBound());    // lower boundary is inclusive
 
-                if (MathUtil.random() < turbulenceProbability.getParameter()) {
-                    position.set(position.getReal() + MathUtil.random() * bounds.getRange());
+                if (random.getUniform() < turbulenceProbability.getParameter()) {
+                    position.set(position.getReal() + random.getUniform() * bounds.getRange());
                 }
                 velocity.set(position.getReal() - previousPosition);
             }
             else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
                 position.set(bounds.getUpperBound() - MathUtil.EPSILON);    // upper boundary is exclusive
-                if (MathUtil.random() < turbulenceProbability.getParameter()) {
-                    position.set(position.getReal() - MathUtil.random() * bounds.getRange());
+                if (random.getUniform() < turbulenceProbability.getParameter()) {
+                    position.set(position.getReal() - random.getUniform() * bounds.getRange());
                 }
                 velocity.set(position.getReal() - previousPosition);
             }

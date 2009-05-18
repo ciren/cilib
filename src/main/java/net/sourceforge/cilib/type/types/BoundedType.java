@@ -43,6 +43,4 @@ public interface BoundedType {
 
     public void setBounds(double lower, double upper);
 
-    public void randomize();
-
 }

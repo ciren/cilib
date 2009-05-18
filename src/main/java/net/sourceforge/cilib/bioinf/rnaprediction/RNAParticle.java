@@ -180,14 +180,14 @@ public class RNAParticle extends AbstractParticle {
     /**
      * {@inheritDoc}
      */
-    public Type getPosition() {
+    public StructuredType getPosition() {
         return position;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Type getBestPosition() {
+    public StructuredType getBestPosition() {
         return bestPosition;
     }
 
@@ -202,7 +202,7 @@ public class RNAParticle extends AbstractParticle {
     /**
      * {@inheritDoc}
      */
-    public Type getVelocity() {
+    public StructuredType getVelocity() {
         return velocity;
     }
 

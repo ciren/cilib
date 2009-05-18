@@ -22,6 +22,7 @@
 
 package net.sourceforge.cilib.type.types;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -97,7 +98,7 @@ public class BitTest {
     public void testRandomize() {
         Bit b1 = new Bit(true);
         Bit b2 = new Bit(true);
-        b2.randomize();
+        b2.randomize(new MersenneTwister());
         
         if (b2.getBit())
             assertTrue(b1.getBit() == b2.getBit());

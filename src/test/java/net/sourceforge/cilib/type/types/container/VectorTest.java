@@ -22,6 +22,7 @@
 
 package net.sourceforge.cilib.type.types.container;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import static java.lang.Math.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -253,7 +254,7 @@ public class VectorTest {
         m.add(new Real(1.0));
         m.add(new Real(2.0));
         m.add(new Real(3.0));
-        m.randomize();
+        m.randomize(new MersenneTwister());
         
         assertFalse(m.getReal(0) == 1.0);
         assertFalse(m.getReal(1) == 2.0);

@@ -24,6 +24,7 @@ package net.sourceforge.cilib.type.types.container;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.type.types.Randomizable;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -31,7 +32,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @param <E> the type of object the {@linkplain Structure} may contain.
  */
-public interface StructuredType<E> extends Iterable<E>, Type {
+public interface StructuredType<E> extends Iterable<E>, Type, Randomizable {
 
     @Override
     public StructuredType getClone();
