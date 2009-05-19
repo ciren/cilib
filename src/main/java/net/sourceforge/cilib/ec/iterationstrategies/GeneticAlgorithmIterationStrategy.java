@@ -29,7 +29,6 @@ import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.comparator.AscendingFitnessComparator;
 import net.sourceforge.cilib.entity.operators.Operator;
 import net.sourceforge.cilib.entity.operators.crossover.CrossoverStrategy;
 import net.sourceforge.cilib.entity.operators.crossover.UniformCrossoverStrategy;
@@ -117,12 +116,10 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
             topology.add(entity);
         }
 
-        Collections.sort(ec.getTopology(), ec.getTopology().get(0).getComparator());
-        ListIterator<? extends Entity> i = ec.getTopology().listIterator(ec.getPopulationSize());
+        Collections.sort(ec.getTopology());
 
-        while (i.hasNext()) {
-            i.next();
-            i.remove();
+        for (int i = 0; i < ec.getTopology().size()-ec.getPopulationSize(); i++) {
+            ec.getTopology().remove(0);
         }
 
         offspring.clear();

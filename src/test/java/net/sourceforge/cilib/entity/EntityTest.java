@@ -40,17 +40,6 @@ import org.junit.Test;
 public class EntityTest {
 
     @Test
-    public void fitnessComparator() {
-        Entity entity = new Individual();
-
-        entity.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
-        Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
-
-        entity.getProperties().put(EntityType.FITNESS, new MaximisationFitness(1.0));
-        Assert.assertTrue(entity.getComparator() instanceof DescendingFitnessComparator);
-    }
-
-    @Test
     public void entitySortingMinimisation() {
         Individual i1 = new Individual();
         Individual i2 = new Individual();
@@ -61,9 +50,9 @@ public class EntityTest {
         i3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(100.0));
 
         List<Individual> list = Arrays.asList(i1, i2, i3);
-        Collections.sort(list, i1.getComparator());
+        Collections.sort(list);
 
-        Assert.assertEquals(i1, list.get(2));
+        Assert.assertEquals(i1, list.get(0));
     }
 
     @Test
@@ -77,9 +66,9 @@ public class EntityTest {
         i3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(100.0));
 
         List<Individual> list = Arrays.asList(i1, i2, i3);
-        Collections.sort(list, i1.getComparator());
+        Collections.sort(list);
 
-        Assert.assertEquals(i1, list.get(0));
+        Assert.assertEquals(i1, list.get(list.size()-1));
     }
 
     @Test

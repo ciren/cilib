@@ -57,7 +57,7 @@ public class ElitistSelectionStrategyTest {
         final Individual selected = selector.select(population);
 
         List<Individual> list = population.asList();
-        Collections.sort(list, list.get(0).getComparator());
+        Collections.sort(list);
 
         assertThat(selected.getFitness(), is(indiv2.getFitness()));
     }
@@ -81,7 +81,7 @@ public class ElitistSelectionStrategyTest {
         final Individual selected = selector.select(population);
 
         List<Individual> list = population.asList();
-        Collections.sort(list, list.get(0).getComparator());
+        Collections.sort(list);
 
         Assert.assertEquals(indiv1.getFitness().getValue(), selected.getFitness().getValue());
     }

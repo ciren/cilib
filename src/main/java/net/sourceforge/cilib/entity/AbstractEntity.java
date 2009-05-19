@@ -21,11 +21,7 @@
  */
 package net.sourceforge.cilib.entity;
 
-import java.util.Comparator;
-import net.sourceforge.cilib.entity.comparator.DescendingFitnessComparator;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.problem.MaximisationFitness;
-import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -176,18 +172,6 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
     @Override
     public long getId() {
         return this.id;
-    }
-
-    /**
-     * Get a comparator that orders values from most to least fit. It is
-     * dependent on the manner in which the Fitness comparisons are performed.
-     *
-     * @see MinimisationFitness#compareTo(net.sourceforge.cilib.problem.Fitness)
-     * @see MaximisationFitness#compareTo(net.sourceforge.cilib.problem.Fitness)
-     */
-    @Override
-    public final Comparator<Entity> getComparator() {
-        return new DescendingFitnessComparator();
     }
 
 }
