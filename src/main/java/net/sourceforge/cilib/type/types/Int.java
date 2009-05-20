@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.math.Maths;
 
 
 /**
@@ -55,7 +55,7 @@ public class Int extends Numeric {
      * @param upper The upper bound.
      */
     public Int(int lower, int upper) {
-        value = Double.valueOf(MathUtil.random()*(upper-lower)).intValue() + lower;
+        value = Double.valueOf(Maths.random()*(upper-lower)).intValue() + lower;
         this.setBounds(BoundsFactory.create(lower, upper));
     }
 
@@ -223,7 +223,7 @@ public class Int extends Numeric {
      * {@inheritDoc}
      */
     public void randomize() {
-        double tmp = MathUtil.random()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
+        double tmp = Maths.random()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
     }
 

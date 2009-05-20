@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
-import net.sourceforge.cilib.math.StatUtils;
+import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -68,7 +68,7 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
 
         stdev = 0.0;
         for (int i = 0; i < clustersFormed; i++) {
-            clusterVariance = StatUtils.variance(arrangedClusters.get(i).values(), clusterCenterStrategy.getCenter(i));
+            clusterVariance = Stats.variance(arrangedClusters.get(i).values(), clusterCenterStrategy.getCenter(i));
             scattering += clusterVariance;
             stdev += clusterVariance;
         }

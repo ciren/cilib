@@ -48,7 +48,7 @@ public class StringTypeTest {
     public void testDimensionality() {
         StringType s = new StringType("This is a StringType");
         
-        assertEquals(1, TypeUtil.getDimension(s));
+        assertEquals(1, Types.getDimension(s));
     }
 
 }

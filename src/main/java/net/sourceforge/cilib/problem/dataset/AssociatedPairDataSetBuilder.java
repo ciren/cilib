@@ -23,9 +23,7 @@ package net.sourceforge.cilib.problem.dataset;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.math.StatUtils;
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.simulator.Simulation;
+import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -105,7 +103,7 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
         }
         patterns.addAll(data);
 
-        if (identifier == "") {
+        if (identifier.equals("")) {
             identifier += dataset.getFile();
         }
         else {
@@ -128,8 +126,8 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
      * Calculate and cache the mean ({@link Vector}) and variance (scalar) of the dataset.
      */
     private void cacheMeanAndVariance() {
-        cachedMean = StatUtils.meanVector(patterns);
-        cachedVariance = StatUtils.variance(patterns, cachedMean);
+        cachedMean = Stats.meanVector(patterns);
+        cachedVariance = Stats.variance(patterns, cachedMean);
     }
 
     /**

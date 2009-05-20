@@ -28,7 +28,7 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
-import net.sourceforge.cilib.math.StatUtils;
+import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -121,7 +121,7 @@ public class KMeans extends SingularAlgorithm {
                 centroid = reinitialiseCentroid(centroid);
             }
             else {                        // the centroid becomes the mean of cluster i
-                centroid = StatUtils.meanVector(cluster.values());
+                centroid = Stats.meanVector(cluster.values());
             }
             updateCentroid(centroid, i);
         }

@@ -25,7 +25,7 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 import java.util.Iterator;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -76,7 +76,7 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
                 velocity.set(previousPosition - position.getReal());
             }
             else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
-                position.set(bounds.getUpperBound() - MathUtil.EPSILON);
+                position.set(bounds.getUpperBound() - Maths.EPSILON);
                 velocity.set(previousPosition - position.getReal());
             }
         }

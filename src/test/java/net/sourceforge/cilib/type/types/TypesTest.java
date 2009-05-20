@@ -32,14 +32,14 @@ import static org.hamcrest.CoreMatchers.not;
  *
  * @author gpampara
  */
-public class TypeUtilTest {
+public class TypesTest {
 
     @Test
     public void randomizeStructuredType() {
         Vector vector = new Vector(30, new Real(-5.0, 5.0));
         Vector original = vector.getClone();
 
-        TypeUtil.randomize(vector);
+        Types.randomize(vector);
 
         for (Type type : vector) {
             Real r = (Real) type;
@@ -55,17 +55,17 @@ public class TypeUtilTest {
     @Test
     public void structureDimension() {
         Vector vector = new Vector();
-        Assert.assertEquals(0, TypeUtil.getDimension(vector));
+        Assert.assertEquals(0, Types.getDimension(vector));
 
         vector.add(new Real());
-        Assert.assertEquals(1, TypeUtil.getDimension(vector));
+        Assert.assertEquals(1, Types.getDimension(vector));
     }
 
     @Test
     public void nonStructureDimension() {
         Real r = new Real();
 
-        Assert.assertEquals(1, TypeUtil.getDimension(r));
+        Assert.assertEquals(1, Types.getDimension(r));
     }
 
     @Test
@@ -76,6 +76,6 @@ public class TypeUtilTest {
 
         vector.add(r);
 
-        Assert.assertFalse(TypeUtil.isInsideBounds(vector));
+        Assert.assertFalse(Types.isInsideBounds(vector));
     }
 }

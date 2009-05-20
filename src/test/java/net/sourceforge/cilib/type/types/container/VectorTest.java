@@ -34,7 +34,7 @@ import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
-import net.sourceforge.cilib.util.VectorUtils;
+import net.sourceforge.cilib.util.Vectors;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -516,7 +516,7 @@ public class VectorTest {
 
     @Test
     public void subList() {
-        Vector original = VectorUtils.create(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Vector original = Vectors.create(1, 2, 3, 4, 5, 6, 7, 8, 9);
         Vector subVector = original.subList(0, 3);
 
         Assert.assertEquals(4, subVector.size());

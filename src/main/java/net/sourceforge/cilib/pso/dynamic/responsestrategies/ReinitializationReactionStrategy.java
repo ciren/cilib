@@ -29,7 +29,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
-import net.sourceforge.cilib.type.types.TypeUtil;
+import net.sourceforge.cilib.type.types.Types;
 
 /**
  * This reaction strategy reinitializes the specified
@@ -87,7 +87,7 @@ public class ReinitializationReactionStrategy<E extends PopulationBasedAlgorithm
         for (int i = 0; i < reinitializeCount; i++) {
             int random = randomGenerator.nextInt(entities.size());
             Entity entity = entities.get(random);
-            TypeUtil.randomize(entity.getCandidateSolution());    // entity contents -> current position
+            Types.randomize(entity.getCandidateSolution());    // entity contents -> current position
             // remove the selected element from the all list preventing it from being selected again
             entities.remove(random);
         }

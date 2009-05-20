@@ -22,8 +22,8 @@
 
 package net.sourceforge.cilib.type;
 
-import net.sourceforge.cilib.type.types.TypeUtil;
-import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.Types;
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,9 +38,9 @@ public class StringBasedDomainRegistryTest {
         DomainRegistry registry = new StringBasedDomainRegistry();
         registry.setDomainString("R(-30.0, 30)^30");
 
-        StructuredType<?> structure = registry.getBuiltRepresenation();
-        Assert.assertEquals(30, structure.size());
-        Assert.assertTrue(TypeUtil.isInsideBounds(structure));
+        Vector vector = (Vector) registry.getBuiltRepresenation();
+        Assert.assertEquals(30, vector.getDimension());
+        Assert.assertTrue(Types.isInsideBounds(vector));
     }
 
 }

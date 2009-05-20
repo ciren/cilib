@@ -27,7 +27,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -106,15 +106,15 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
             if (Double.compare(position.getReal(), bounds.getLowerBound()) < 0) {
                 position.set(bounds.getLowerBound());    // lower boundary is inclusive
 
-                if (MathUtil.random() < turbulenceProbability.getParameter()) {
-                    position.set(position.getReal() + MathUtil.random() * bounds.getRange());
+                if (Maths.random() < turbulenceProbability.getParameter()) {
+                    position.set(position.getReal() + Maths.random() * bounds.getRange());
                 }
                 velocity.set(position.getReal() - previousPosition);
             }
             else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
-                position.set(bounds.getUpperBound() - MathUtil.EPSILON);    // upper boundary is exclusive
-                if (MathUtil.random() < turbulenceProbability.getParameter()) {
-                    position.set(position.getReal() - MathUtil.random() * bounds.getRange());
+                position.set(bounds.getUpperBound() - Maths.EPSILON);    // upper boundary is exclusive
+                if (Maths.random() < turbulenceProbability.getParameter()) {
+                    position.set(position.getReal() - Maths.random() * bounds.getRange());
                 }
                 velocity.set(position.getReal() - previousPosition);
             }

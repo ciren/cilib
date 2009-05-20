@@ -29,9 +29,9 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  *
  * @author gpampara
  */
-public final class TypeUtil {
+public final class Types {
 
-    private TypeUtil() {
+    private Types() {
     }
 
     /**

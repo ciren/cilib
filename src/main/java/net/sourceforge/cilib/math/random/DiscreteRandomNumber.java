@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.math.random;
 
-import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.math.Maths;
 
 /**
  *
@@ -45,7 +45,7 @@ public final class DiscreteRandomNumber {
      */
     public static double getPoisson(double x, double lambda) {
         double numerator = Math.pow(Math.E, -lambda) * Math.pow(lambda, x);
-        double denominator = MathUtil.factorial(x);
+        double denominator = Maths.factorial(x);
         return numerator / denominator;
     }
 
@@ -58,7 +58,7 @@ public final class DiscreteRandomNumber {
      * @return The value of the binomial distribution.
      */
     public static double getBinomial(double x, double p, double n) {
-        return MathUtil.combination(n, x) * Math.pow(p, x) * Math.pow((1-p), (n-x));
+        return Maths.combination(n, x) * Math.pow(p, x) * Math.pow((1-p), (n-x));
     }
 
 }

@@ -29,13 +29,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * Utility methods for {@linkplain Vector}s.
  */
-public final class VectorUtils {
+public final class Vectors {
 
     /**
      * Default constructor. Specified constructor to be private so that an instance
      * of this utility class cannot be created.
      */
-    private VectorUtils() {
+    private Vectors() {
     }
 
     /**

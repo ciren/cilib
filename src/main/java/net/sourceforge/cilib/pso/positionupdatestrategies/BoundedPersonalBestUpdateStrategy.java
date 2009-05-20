@@ -25,7 +25,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.type.types.TypeUtil;
+import net.sourceforge.cilib.type.types.Types;
 
 /**
  * Update the personal best of the particle, if it is a valid update. Valid updates are
@@ -53,7 +53,7 @@ public class BoundedPersonalBestUpdateStrategy extends StandardPersonalBestUpdat
      */
     @Override
     public void updatePersonalBest(Particle particle) {
-        if (!TypeUtil.isInsideBounds(particle.getPosition())) {
+        if (!Types.isInsideBounds(particle.getPosition())) {
             particle.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
             return;
         }

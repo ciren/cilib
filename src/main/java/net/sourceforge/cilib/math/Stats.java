@@ -31,9 +31,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * Some simple methods for determining some statistics.
  *
  */
-public final class StatUtils {
+public final class Stats {
 
-    private StatUtils() {
+    private Stats() {
     }
 
     /**

@@ -24,7 +24,7 @@ package net.sourceforge.cilib.ec;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.type.types.TypeUtil;
+import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
@@ -110,11 +110,11 @@ public class Individual extends AbstractEntity {
          // which is always enforced due to the semantics of the performInitialisation methods
 
          this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-         TypeUtil.randomize(this.getCandidateSolution());
+         Types.randomize(this.getCandidateSolution());
 
          if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
              this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
-             TypeUtil.randomize(this.getProperties().get(EntityType.Individual.PHENOTYPES));
+             Types.randomize(this.getProperties().get(EntityType.Individual.PHENOTYPES));
          }
 
          this.dimension = this.getCandidateSolution().size();

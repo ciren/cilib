@@ -24,7 +24,7 @@ package net.sourceforge.cilib.functions.clustering;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.VectorUtils;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * This class makes use of the helper/member functions defined and implemented in
@@ -115,8 +115,8 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
      */
     protected double zMax() {
         Vector prototype = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();
-        Vector upperBoundVector = VectorUtils.createUpperBoundVector(prototype);
-        Vector lowerBoundVector = VectorUtils.createLowerBoundVector(prototype);
+        Vector upperBoundVector = Vectors.createUpperBoundVector(prototype);
+        Vector lowerBoundVector = Vectors.createLowerBoundVector(prototype);
 
         return helper.calculateDistance(upperBoundVector, lowerBoundVector);
     }

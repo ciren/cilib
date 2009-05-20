@@ -33,13 +33,13 @@ import net.sourceforge.cilib.math.random.generator.Random;
  *
  * @author Gary Pampara
  */
-public final class MathUtil {
+public final class Maths {
 
     public static double EPSILON = 1.0E-15d;
 
     private static Random random;
 
-    private MathUtil() {
+    private Maths() {
     }
 
     /**

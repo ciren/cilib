@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.type.types.container;
 
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.TypeUtil;
+import net.sourceforge.cilib.type.types.Types;
 
 /**
  * The basic definition for all {@linkplain Type} objects that are based on a list.
@@ -77,7 +77,7 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
      * @param value The {@linkplain Type} to add.
      */
     public void append(E value) {
-        int position = TypeUtil.getDimension(this);
+        int position = Types.getDimension(this);
         insert(position, value);
     }
 
@@ -125,7 +125,7 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
         int dimension = 1;
 
         for (int i = 0; i < size(); i++) {
-            current = TypeUtil.getRepresentation(this.get(i));
+            current = Types.getRepresentation(this.get(i));
             if (current.equals(previous)) {
                 dimension++;
             }

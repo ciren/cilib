@@ -39,9 +39,9 @@ public class NumericTest {
         Int i = new Int();
         Bit b = new Bit();
         
-        assertEquals(1, TypeUtil.getDimension(r));
-        assertEquals(1, TypeUtil.getDimension(i));
-        assertEquals(1, TypeUtil.getDimension(b));
+        assertEquals(1, Types.getDimension(r));
+        assertEquals(1, Types.getDimension(i));
+        assertEquals(1, Types.getDimension(b));
     }
     
     @Test(expected=UnsupportedOperationException.class)

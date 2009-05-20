@@ -26,7 +26,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.VectorUtils;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * The generalised sigmoid function. The function is the general case of the sigmoid function
@@ -108,7 +108,7 @@ public class Sigmoid extends ActivationFunction {
         double valueAtPoint = evaluate(point);
         double result = valueAtPoint * (1 - valueAtPoint);
 
-        return VectorUtils.create(result);
+        return Vectors.create(result);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Sigmoid extends ActivationFunction {
      */
     @Override
     public Double getGradient(Number number) {
-        return getGradient(VectorUtils.create(number)).getReal(0);
+        return getGradient(Vectors.create(number)).getReal(0);
     }
 
     /**

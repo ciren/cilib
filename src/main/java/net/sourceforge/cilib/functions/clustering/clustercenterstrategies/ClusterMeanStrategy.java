@@ -23,7 +23,7 @@ package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
 import java.util.Collection;
 
-import net.sourceforge.cilib.math.StatUtils;
+import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
@@ -48,6 +48,6 @@ public class ClusterMeanStrategy implements ClusterCenterStrategy {
     public Vector getCenter(int i) {
         Collection<Pattern> cluster = ClusteringUtils.get().getArrangedClusters().get(i).values();
 
-        return StatUtils.meanVector(cluster);
+        return Stats.meanVector(cluster);
     }
 }

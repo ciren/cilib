@@ -1,5 +1,5 @@
 /*
- * StatUtilsTest.java
+ * StatsTest.java
  *
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
@@ -36,7 +36,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class StatUtilsTest {
+public class StatsTest {
     private static ArrayList<Pattern> set;
     private static Vector mean = null;
     private static final int SIZE = 3;
@@ -75,24 +75,24 @@ public class StatUtilsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySetForMeanVector() {
-        StatUtils.meanVector(new ArrayList<Pattern>());
+        Stats.meanVector(new ArrayList<Pattern>());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySetForVarianceScalar() {
-        StatUtils.variance(new ArrayList<Pattern>(), mean);
+        Stats.variance(new ArrayList<Pattern>(), mean);
     }
 
     @Test
     public void testMeanVector() {
         Vector calculated = new Vector(SIZE, new Real(2));
 
-        mean = StatUtils.meanVector(set);
+        mean = Stats.meanVector(set);
         assertThat(mean, equalTo(calculated));
     }
 
     @Test
     public void testVarianceScalar() {
-        assertThat(StatUtils.variance(set, mean), equalTo(1.2));    // more accurate than StatUtils.varianceVector()
+        assertThat(Stats.variance(set, mean), equalTo(1.2));    // more accurate than Stats.varianceVector()
     }
 }

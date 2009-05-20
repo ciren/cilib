@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.sourceforge.cilib.math.MathUtil;
+import net.sourceforge.cilib.math.Maths;
 
 
 /**
@@ -62,7 +62,7 @@ public class Real extends Numeric {
     public Real(double lower, double upper) {
         double bottom = (lower == Double.NEGATIVE_INFINITY) ? -Double.MAX_VALUE : lower;
         double top = (upper == Double.POSITIVE_INFINITY) ? Double.MAX_VALUE : upper;
-        value = (top-bottom)*MathUtil.random() + bottom;
+        value = (top-bottom)*Maths.random() + bottom;
 
         this.setBounds(BoundsFactory.create(lower, upper));
     }
@@ -227,7 +227,7 @@ public class Real extends Numeric {
      * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
      */
     public void randomize() {
-        this.value = (getBounds().getUpperBound()-getBounds().getLowerBound())*MathUtil.random() + getBounds().getLowerBound();
+        this.value = (getBounds().getUpperBound()-getBounds().getLowerBound())*Maths.random() + getBounds().getLowerBound();
     }
 
 

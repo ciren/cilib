@@ -22,14 +22,14 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.type.types.TypeUtil;
+import net.sourceforge.cilib.type.types.Types;
 
 /**
  * Once the entity has over shot the search space boundaries, re-initialise
  * the Entity once again to be witihin the search space of the problem at a
  * random position.
  *
- * @see TypeUtil#isInsideBounds(net.sourceforge.cilib.type.types.Type)
+ * @see Types#isInsideBounds(net.sourceforge.cilib.type.types.Type)
  */
 public class ReinitialisationBoundary implements BoundaryConstraint {
     private static final long serialVersionUID = -512973040124015665L;
@@ -46,7 +46,7 @@ public class ReinitialisationBoundary implements BoundaryConstraint {
      * {@inheritDoc}
      */
     public void enforce(Entity entity) {
-        if (!TypeUtil.isInsideBounds(entity.getCandidateSolution())) {
+        if (!Types.isInsideBounds(entity.getCandidateSolution())) {
             entity.reinitialise();
         }
     }

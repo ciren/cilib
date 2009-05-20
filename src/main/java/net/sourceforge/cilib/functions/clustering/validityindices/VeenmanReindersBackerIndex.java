@@ -28,7 +28,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
-import net.sourceforge.cilib.math.StatUtils;
+import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -82,7 +82,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
                 union.addAll(arrangedClusters.get(i).values());
                 union.addAll(arrangedClusters.get(j).values());
 
-                if (StatUtils.variance(union, helper.getDataSetMean()) < getMaximumVariance()) {
+                if (Stats.variance(union, helper.getDataSetMean()) < getMaximumVariance()) {
                     return false;
                 }
             }

@@ -26,7 +26,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.TypeUtil;
+import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -96,7 +96,7 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
      */
     private void constrain(Numeric position, Numeric velocity) {
         Numeric previousPosition = position.getClone();
-        TypeUtil.randomize(position);
+        Types.randomize(position);
         velocity.set(position.getReal() - previousPosition.getReal());
     }
 }

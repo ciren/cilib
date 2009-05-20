@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
+import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Resetable;
 
