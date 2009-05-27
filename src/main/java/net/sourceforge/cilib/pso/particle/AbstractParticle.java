@@ -307,7 +307,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      */
     @Override
     public int compareTo(Entity o) {
-        return getFitness().compareTo(o.getFitness());
+        return this.getFitness().compareTo(o.getFitness());
     }
 
     /**

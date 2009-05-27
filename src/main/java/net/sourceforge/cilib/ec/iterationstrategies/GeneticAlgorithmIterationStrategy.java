@@ -117,9 +117,15 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         }
 
         Collections.sort(ec.getTopology());
+        ListIterator<? extends Entity> i = ec.getTopology().listIterator();
 
-        for (int i = 0; i < ec.getTopology().size()-ec.getPopulationSize(); i++) {
-            ec.getTopology().remove(0);
+        int count = 0;
+        int size = ec.getTopology().size() - ec.getPopulationSize();
+
+        while (i.hasNext() && count < size) {
+            i.next();
+            i.remove();
+            count++;
         }
 
         offspring.clear();

@@ -19,33 +19,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.entity.operators.selection;
-
-import java.util.Collections;
 
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.entity.topologies.TopologyHolder;
+import net.sourceforge.cilib.util.selection.recipes.ElitistSelection;
 
 public class ElitistSelectionStrategy extends SelectionStrategy {
     private static final long serialVersionUID = -3055600262753819388L;
-
+    
     private ControlParameter selectionPercentage;
 
     public ElitistSelectionStrategy() {
         this.selectionPercentage = new ProportionalControlParameter();
     }
 
+    public ElitistSelectionStrategy(ElitistSelectionStrategy copy) {
+        this.selectionPercentage = copy.selectionPercentage.getClone();
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public SelectionStrategy getClone() {
-        return this;
+    public ElitistSelectionStrategy getClone() {
+        return new ElitistSelectionStrategy(this);
     }
 
     /**
@@ -58,12 +59,7 @@ public class ElitistSelectionStrategy extends SelectionStrategy {
      */
     @Override
     public <T extends Entity> T select(Topology<T> population) {
-        Topology<T> tmp = new GBestTopology<T>();
-        tmp.addAll(population);
-
-        Collections.sort(tmp, tmp.get(0).getComparator());
-
-        return tmp.get(0);
+        return new ElitistSelection<T>().select(population);
     }
 
     /**
@@ -98,5 +94,4 @@ public class ElitistSelectionStrategy extends SelectionStrategy {
     public void setSelectionPercentage(ControlParameter selectionPercentage) {
         this.selectionPercentage = selectionPercentage;
     }
-
 }

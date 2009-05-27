@@ -33,7 +33,7 @@ import net.sourceforge.cilib.problem.Fitness;
  *
  * @author Gary Pampara
  */
-public class DescendingFitnessComparator implements Comparator<Entity> {
+public class DescendingFitnessComparator<E extends Entity> implements Comparator<E> {
 
     /**
      * Compare the {@linkplain Entity} objects returning the desired ordering.
@@ -43,7 +43,8 @@ public class DescendingFitnessComparator implements Comparator<Entity> {
      *         0 if e1 and e2 are equal
      *         1 if e2 is greater than e2
      */
-    public int compare(Entity e1, Entity e2) {
+    @Override
+    public int compare(E e1, E e2) {
         Fitness f1 = e1.getFitness();
         Fitness f2 = e2.getFitness();
 

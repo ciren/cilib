@@ -21,16 +21,12 @@
  */
 package net.sourceforge.cilib.entity.operators.selection;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.TopologyHolder;
-import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.util.selection.recipes.TournamentSelection;
 
 /**
  * Perform a tournament selection process on the provided {@linkplain Topology}
@@ -40,15 +36,14 @@ import net.sourceforge.cilib.math.random.RandomNumber;
  */
 public class TournamentSelectionStrategy extends SelectionStrategy {
     private static final long serialVersionUID = -7520711765609204590L;
+
     private ControlParameter tournamentProportion;
-    private RandomNumber randomNumber;
 
     /**
      * Create a new instance of {@linkplain TournamentSelectionStrategy}.
      */
     public TournamentSelectionStrategy() {
         this.tournamentProportion = new ProportionalControlParameter();
-        this.randomNumber = new RandomNumber();
     }
 
     /**
@@ -57,12 +52,12 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
      */
     public TournamentSelectionStrategy(TournamentSelectionStrategy copy) {
         this.tournamentProportion = copy.tournamentProportion.getClone();
-        this.randomNumber = copy.randomNumber.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public TournamentSelectionStrategy getClone() {
         return new TournamentSelectionStrategy(this);
     }
@@ -70,21 +65,11 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
     /**
      * {@inheritDoc}
      */
+    @Override
     public <T extends Entity> T select(Topology<T> population) {
-        int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter()*population.size()).intValue();
-
-        List<T> tournamentEntities = new ArrayList<T>();
-
-        for (int i = 0; i < tournamentSize; i++) {
-            double random = randomNumber.getUniform(0, population.size());
-            T tmp = population.get(Double.valueOf(random).intValue());
-
-            tournamentEntities.add(tmp);
-        }
-
-        Collections.sort(tournamentEntities, tournamentEntities.get(0).getComparator());
-
-        return tournamentEntities.get(0);
+        TournamentSelection<T> selection = new TournamentSelection<T>();
+        selection.setTournamentSize(this.tournamentProportion);
+        return selection.select(population);
     }
 
     /**
@@ -104,25 +89,10 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
     }
 
     /**
-     * Get the {@linkplain RandomNumber} defined for this {@linkplain SelectionStrategy}.
-     * @return The current {@linkplain RandomNumber}.
-     */
-    public RandomNumber getRandomNumber() {
-        return randomNumber;
-    }
-
-    /**
-     * Set the {@linkplain RandomNumber} for the {@linkplain TournamentSelectionStrategy}.
-     * @param randomNumber The {@linkplain RandomNumber} to set.
-     */
-    public void setRandomNumber(RandomNumber randomNumber) {
-        this.randomNumber = randomNumber;
-    }
-
-    /**
      * {@inheritDoc}
      */
 //    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring) {
+    @Override
     public void performOperation(TopologyHolder holder) {
 //        Topology<Entity> offspring = (Topology<Entity>) holder.getOffpsring();
         Topology<? extends Entity> topology = holder.getTopology();
@@ -130,5 +100,4 @@ public class TournamentSelectionStrategy extends SelectionStrategy {
 //        offspring.add(this.select(topology));
         holder.add(select(topology));
     }
-
 }

@@ -38,16 +38,22 @@ public class ProportionalControlParameter implements ControlParameter {
         this.proportion = 0.1;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public ProportionalControlParameter getClone() {
-        return null;
+    public ProportionalControlParameter(ProportionalControlParameter copy) {
+        this.proportion = copy.proportion;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
+    public ProportionalControlParameter getClone() {
+        return new ProportionalControlParameter(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public double getParameter() {
         return this.proportion;
     }
@@ -55,6 +61,7 @@ public class ProportionalControlParameter implements ControlParameter {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getParameter(double min, double max) {
         double diff = max - min;
         return this.proportion * diff;
@@ -63,6 +70,7 @@ public class ProportionalControlParameter implements ControlParameter {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setParameter(double value) {
         if (value < 0)
             throw new IllegalArgumentException("The proportion must be positive");
@@ -73,6 +81,7 @@ public class ProportionalControlParameter implements ControlParameter {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateParameter() {
     }
 }

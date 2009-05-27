@@ -32,13 +32,13 @@ import net.sourceforge.cilib.problem.Fitness;
  * @see SocialEntity#getSocialBestFitness()
  * @author gpampara
  */
-public class SocialBestFitnessComparator implements Comparator<SocialEntity> {
+public class SocialBestFitnessComparator<E extends SocialEntity> implements Comparator<E> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int compare(SocialEntity o1, SocialEntity o2) {
+    public int compare(E o1, E o2) {
         Fitness f1 = o1.getSocialBestFitness();
         Fitness f2 = o2.getSocialBestFitness();
 

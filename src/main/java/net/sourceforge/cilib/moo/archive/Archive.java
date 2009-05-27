@@ -23,6 +23,7 @@ package net.sourceforge.cilib.moo.archive;
 
 import java.util.Collection;
 
+import java.util.List;
 import net.sourceforge.cilib.moo.archive.constrained.SetBasedConstrainedArchive;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
@@ -35,7 +36,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * @author Andries Engelbrecht
  * @author Wiehann Matthysen
  */
-public abstract class Archive implements Collection<OptimisationSolution> {
+public abstract class Archive implements List<OptimisationSolution> {
 
     private static ThreadLocal<Archive> currentArchive = new ThreadLocal<Archive>() {
 

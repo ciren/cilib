@@ -68,6 +68,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public LBestTopology<E> getClone() {
         return new LBestTopology<E>(this);
     }
@@ -78,10 +79,10 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
      * @param iterator The {@linkplain Iterator} to wrap.
      * @return a new iterator for this topology.
      */
-    @SuppressWarnings("unchecked")
+    @Override
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
         neighbourhoodSize.updateParameter();
-        return new LBestNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
+        return new LBestNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
     }
 
     /**
@@ -112,9 +113,9 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
         return rounded;
     }
 
-    private class LBestNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
+    private class LBestNeighbourhoodIterator<T extends Entity> implements IndexedIterator<T> {
 
-        public LBestNeighbourhoodIterator(LBestTopology<T> topology, ArrayIterator<T> iterator) {
+        public LBestNeighbourhoodIterator(LBestTopology<T> topology, IndexedIterator<T> iterator) {
             if (iterator.getIndex() == -1) {
                 throw new IllegalStateException();
             }
@@ -126,14 +127,17 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
             count = 0;
         }
 
+        @Override
         public int getIndex() {
             return index;
         }
 
+        @Override
         public boolean hasNext() {
             return (count != topology.getNeighbourhoodSize());
         }
 
+        @Override
         public T next() {
             if (count == topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
@@ -146,6 +150,7 @@ public class LBestTopology<E extends Entity> extends GBestTopology<E> {
             return topology.entities.get(index);
         }
 
+        @Override
         public void remove() {
             topology.entities.remove(index);
             --index;

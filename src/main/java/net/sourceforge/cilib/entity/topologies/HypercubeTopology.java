@@ -47,6 +47,7 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HypercubeTopology<E> getClone() {
         return new HypercubeTopology<E>(this);
     }
@@ -54,9 +55,9 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @Override
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator) {
-        return new HypercubeNeighbourhoodIterator<E>(this, (ArrayIterator<E>) iterator);
+        return new HypercubeNeighbourhoodIterator<E>(this, (IndexedIterator<E>) iterator);
     }
 
     /**
@@ -77,12 +78,12 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
            return neighbourhoodSize;
     }
 
-    private class HypercubeNeighbourhoodIterator<T extends Entity> implements ArrayIterator<T> {
+    private class HypercubeNeighbourhoodIterator<T extends Entity> implements IndexedIterator<T> {
         private HypercubeTopology<T> topology;
         private int index;
         private int count;
 
-        public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, ArrayIterator<T> iterator) {
+        public HypercubeNeighbourhoodIterator(HypercubeTopology<T> topology, IndexedIterator<T> iterator) {
             if (iterator.getIndex() == -1) {
                 throw new IllegalStateException();
             }
@@ -95,14 +96,17 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
             count = 0;
         }
 
+        @Override
         public int getIndex() {
             return index;
         }
 
+        @Override
         public boolean hasNext() {
             return (count < topology.getNeighbourhoodSize());
         }
 
+        @Override
         public T next() {
             if (count >= topology.getNeighbourhoodSize()) {
                 throw new NoSuchElementException();
@@ -113,6 +117,7 @@ public class HypercubeTopology<E extends Entity> extends GBestTopology<E> {
             return topology.entities.get(i);
         }
 
+        @Override
         public void remove() {
             topology.entities.remove(index);
             index = index ^ Double.valueOf(Math.pow(2, count)).intValue();

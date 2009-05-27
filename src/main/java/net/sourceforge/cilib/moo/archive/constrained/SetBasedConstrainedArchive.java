@@ -26,18 +26,20 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.util.selection.selectionstrategies.RandomSelectionStrategy;
-import net.sourceforge.cilib.util.selection.selectionstrategies.SelectionStrategy;
+import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.recipes.RandomSelection;
+import net.sourceforge.cilib.util.selection.recipes.SelectionRecipe;
 
 /**
  * <p>
  * A constrained set-driven {@link Archive} implementation. It makes use of
- * a {@link SelectionStrategy} to determine which solution from the archive
- * will be selected next for removal.
+ * a {@link Selection} to determine which solution from the archive
+ * will be selected next for removal if the archive grows larger than the capacity.
  * </p>
  * 
  * @author Wiehann Matthysen
@@ -45,19 +47,19 @@ import net.sourceforge.cilib.util.selection.selectionstrategies.SelectionStrateg
 public class SetBasedConstrainedArchive extends ConstrainedArchive {
 
     private Set<OptimisationSolution> solutions;
-    private SelectionStrategy<OptimisationSolution> deleteSelectionStrategy;
+    private SelectionRecipe<OptimisationSolution> pruningSelection;
 
     public SetBasedConstrainedArchive() {
         this.solutions = new LinkedHashSet<OptimisationSolution>();
-        this.deleteSelectionStrategy = new RandomSelectionStrategy<OptimisationSolution>();
+        this.pruningSelection = new RandomSelection<OptimisationSolution>();
     }
 
-    public void setDeleteSelectionStrategy(SelectionStrategy<OptimisationSolution> deleteSelectionStrategy) {
-        this.deleteSelectionStrategy = deleteSelectionStrategy;
+    public void setPruningSelection(SelectionRecipe<OptimisationSolution> pruningSelection) {
+        this.pruningSelection = pruningSelection;
     }
 
-    public SelectionStrategy<OptimisationSolution> getDeleteSelectionStrategy() {
-        return this.deleteSelectionStrategy;
+    public SelectionRecipe<OptimisationSolution> getPruningSelection() {
+        return this.pruningSelection;
     }
 
     @Override
@@ -86,8 +88,10 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
     protected void prune() {
         // If the archive size is greater than the capacity, select a group of solutions and remove them from the archive.
         int numSolutionsToRemove = size() - getCapacity();
-        Collection<OptimisationSolution> solutionsToRemove = this.deleteSelectionStrategy.select(this.solutions, numSolutionsToRemove);
-        removeAll(solutionsToRemove);
+        for (int i = 0; i < numSolutionsToRemove; ++i) {
+            OptimisationSolution solutionToRemove = this.pruningSelection.select(this);
+            remove(solutionToRemove);
+        }
     }
 
     @Override
@@ -148,5 +152,55 @@ public class SetBasedConstrainedArchive extends ConstrainedArchive {
     @Override
     public <T> T[] toArray(T[] a) {
         return this.solutions.toArray(a);
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends OptimisationSolution> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public OptimisationSolution get(int index) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public OptimisationSolution set(int index, OptimisationSolution element) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void add(int index, OptimisationSolution element) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public OptimisationSolution remove(int index) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ListIterator<OptimisationSolution> listIterator() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ListIterator<OptimisationSolution> listIterator(int index) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<OptimisationSolution> subList(int fromIndex, int toIndex) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

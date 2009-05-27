@@ -15,10 +15,8 @@
                         <localGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
                         <globalGuideSelectionStrategy class="pso.moo.guideselectionstrategies.VEPSOGuideSelectionStrategy">
                             <knowledgeTransferStrategy class="algorithm.population.knowledgetransferstrategies.SelectiveKnowledgeTransferStrategy">
-                                <populationSelectionStrategy class="util.selection.selectionstrategies.RingBasedPopulationSelectionStrategy"/>
-                                <entitySelectionStrategy class="util.selection.selectionstrategies.TournamentSelectionStrategy">
-                                    <weighingStrategy class="util.selection.weighingstrategies.FitnessBasedEntityWeighingStrategy"/>
-                                </entitySelectionStrategy>
+                                <populationSelection class="util.selection.recipes.RingBasedPopulationSelection"/>
+                                <entitySelection class="util.selection.recipes.TournamentSelection"/>
                             </knowledgeTransferStrategy>
                         </globalGuideSelectionStrategy>
                         <globalGuideUpdateStrategy class="pso.moo.guideupdatestrategies.StandardGuideUpdateStrategy"/>
@@ -28,7 +26,7 @@
             </initialisationStrategy>
             <iterationStrategy class="moo.iterationstrategies.ArchivingIterationStrategy">
                 <archive class="moo.archive.constrained.SetBasedConstrainedArchive" capacity="1000">
-                    <deleteSelectionStrategy class="util.selection.selectionstrategies.RandomSelectionStrategy"/>
+                    <pruningSelection class="util.selection.recipes.RandomSelection"/>
                 </archive>
                 <iterationStrategy class="pso.dynamic.DynamicIterationStrategy">
                     <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">

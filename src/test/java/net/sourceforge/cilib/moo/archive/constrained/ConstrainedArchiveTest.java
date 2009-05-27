@@ -37,12 +37,13 @@ import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.selection.selectionstrategies.NormalisedProbabilisticSelectionStrategy;
-import net.sourceforge.cilib.util.selection.selectionstrategies.WeighedSelectionStrategy;
-import net.sourceforge.cilib.util.selection.weighingstrategies.LinearWeighingStrategy;
 
+import net.sourceforge.cilib.util.selection.recipes.RandomSelection;
 import org.junit.Test;
 
+/**
+ * @author Wiehann Matthysen
+ */
 public class ConstrainedArchiveTest {
 
     private class SubOptimisationProblem1 extends OptimisationProblemAdapter {
@@ -61,7 +62,7 @@ public class ConstrainedArchiveTest {
 
         @Override
         public OptimisationProblemAdapter getClone() {
-            return null;
+            return this;
         }
 
         @Override
@@ -91,7 +92,7 @@ public class ConstrainedArchiveTest {
 
         @Override
         public OptimisationProblemAdapter getClone() {
-            return null;
+            return this;
         }
 
         @Override
@@ -121,7 +122,7 @@ public class ConstrainedArchiveTest {
 
         @Override
         public OptimisationProblemAdapter getClone() {
-            return null;
+            return this;
         }
 
         @Override
@@ -151,7 +152,7 @@ public class ConstrainedArchiveTest {
 
         @Override
         public OptimisationProblemAdapter getClone() {
-            return null;
+            return this;
         }
 
         @Override
@@ -181,14 +182,7 @@ public class ConstrainedArchiveTest {
     @Test
     public void testSetBasedConstrainedArchive() {
         SetBasedConstrainedArchive archive = new SetBasedConstrainedArchive();
-        WeighedSelectionStrategy<Double, OptimisationSolution> deleteSelectionStrategy =
-                new NormalisedProbabilisticSelectionStrategy<OptimisationSolution>();
-        LinearWeighingStrategy<OptimisationSolution> weighingStrategy =
-                new LinearWeighingStrategy<OptimisationSolution>();
-        weighingStrategy.setMinWeight(0.0);
-        weighingStrategy.setMaxWeight(50.0);
-        deleteSelectionStrategy.setWeighingStrategy(weighingStrategy);
-        archive.setDeleteSelectionStrategy(deleteSelectionStrategy);
+        archive.setPruningSelection(new RandomSelection<OptimisationSolution>());
         archive.setCapacity(100);
         DummyOptimisationProblem1 problem = new DummyOptimisationProblem1();
         for (int i = 1; i <= 500; ++i) {
