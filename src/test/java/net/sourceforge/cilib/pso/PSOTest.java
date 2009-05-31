@@ -57,7 +57,6 @@ public class PSOTest {
      */
     @Test
     public void algorithmExecution() {
-        /*
         SeedSelectionStrategy seedStrategy = Seeder.getSeederStrategy();
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
@@ -72,12 +71,12 @@ public class PSOTest {
             pso.initialise();
             pso.run();
 
-            Assert.assertThat(pso.getBestSolution().getFitness().getValue(), is(311.5875022791459));
+//            System.out.println(pso.getBestSolution().getFitness().getValue());
+            Assert.assertThat(pso.getBestSolution().getFitness().getValue(), is(400.5332366469983));
         }
         finally {
             Seeder.setSeederStrategy(seedStrategy);
         }
-        */
     }
 
 }

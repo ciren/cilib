@@ -29,6 +29,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
 import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -136,8 +137,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
     @Override
     public void initialise(OptimisationProblem problem) {
         this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-        TypeUtil.randomize(this.getCandidateSolution());
-//        this.getCandidateSolution().randomise();
+        this.getCandidateSolution().randomize(new MersenneTwister());
 
         this.dimension = this.getCandidateSolution().size();
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());

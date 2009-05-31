@@ -34,6 +34,7 @@ public interface BoundaryConstraint extends Cloneable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public BoundaryConstraint getClone();
 
     /**

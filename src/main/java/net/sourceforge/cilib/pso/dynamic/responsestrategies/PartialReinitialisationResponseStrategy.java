@@ -27,8 +27,6 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -80,7 +78,8 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
                 // ELSE
                 Particle aParticle = (Particle) topology.get(index);
                 StructuredType position = aParticle.getPosition();
-                TypeUtil.randomize(position);
+//                TypeUtil.randomize(position);
+                position.randomize(randomiser);
                 used[index] = true;
                 gotParticle = true;
             }

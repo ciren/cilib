@@ -19,20 +19,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+package net.sourceforge.cilib.type.types;
 
-package net.sourceforge.cilib.type.types.container;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 /**
- * Implementing this interface allows an object to be "randomizable".
- * This implies that the object is able to be set into a state that is random.
+ *
  * @author gpampara
  */
 public interface Randomizable {
 
     /**
-     * Alter the state of the object in a random manner.
-     * @return {@code true} if successful, {@code false} otherwise.
+     * Apply a randomization using the provided {@code Random}.
+     * @param random The {@code Random} to use for the randomization.
      */
-    public boolean randomize();
+    public void randomize(Random random);
     
 }

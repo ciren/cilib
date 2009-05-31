@@ -23,8 +23,6 @@ package net.sourceforge.cilib.type.types;
 
 import java.util.Iterator;
 import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -37,33 +35,9 @@ public final class TypeUtil {
     }
 
     /**
-     * Utility method. Change the values within the <code>Type</code>, randomly, based on the
-     * upper and lower bounds that are defined for that <code>Type</code>
-     */
-    public static void randomize(Randomizable randomizable) {
-        Random random = new MersenneTwister();
-        randomizable.randomize(random);
-//        if (candidateSolution instanceof StructuredType) {
-//            StructuredType<?> structuredType = (StructuredType<?>) candidateSolution;
-//
-//            for (Iterator<?> iterator = structuredType.iterator(); iterator.hasNext();) {
-//                Type type = (Type) iterator.next();
-//                randomize(type);
-//            }
-//
-//            return;
-//        }
-//
-//        if (candidateSolution instanceof BoundedType) {
-//            BoundedType boundedType = (BoundedType) candidateSolution;
-//            boundedType.randomize();
-//            return;
-//        }
-    }
-
-    /**
      * Determine if the current type instance is within the defined bounds
      * of the domain.
+     * @param candidateSolution 
      * @return {@literal true} if it is in the bounds, {@literal false} otherwise.
      */
     public static boolean isInsideBounds(Type candidateSolution) {

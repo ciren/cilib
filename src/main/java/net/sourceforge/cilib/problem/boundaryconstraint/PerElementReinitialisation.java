@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.problem.boundaryconstraint;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.TypeUtil;
@@ -36,6 +38,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class PerElementReinitialisation extends ReinitialisationBoundary {
     private static final long serialVersionUID = 7080824227269710787L;
+
+    private Random random;
+
+    public PerElementReinitialisation() {
+        this.random = new MersenneTwister();
+    }
 
     /**
      * {@inheritDoc}
@@ -68,7 +76,8 @@ public class PerElementReinitialisation extends ReinitialisationBoundary {
 
     private void enforce(Numeric numeric) {
         if (!TypeUtil.isInsideBounds(numeric)) {
-            TypeUtil.randomize(numeric);
+            numeric.randomize(random);
+//            TypeUtil.randomize(numeric);
         }
     }
 }
