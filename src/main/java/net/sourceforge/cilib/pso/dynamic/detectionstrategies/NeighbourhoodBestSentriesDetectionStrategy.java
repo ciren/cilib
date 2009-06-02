@@ -27,6 +27,7 @@ import java.util.Set;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topologies;
 
 public class NeighbourhoodBestSentriesDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = 3598067152913033487L;
@@ -47,7 +48,7 @@ public class NeighbourhoodBestSentriesDetectionStrategy<E extends PopulationBase
     @Override
     public boolean detect(PopulationBasedAlgorithm algorithm) {
         if (algorithm.getIterations() % interval == 0) {
-            Set<? extends Entity> sentries = algorithm.getTopology().getNeighbourhoodBestEntities();
+            Set<? extends Entity> sentries = Topologies.getNeighbourhoodBestEntities(algorithm.getTopology());
 
             for (Entity sentry : sentries) {
                 double previousFitness = sentry.getFitness().getValue();

@@ -50,7 +50,7 @@ import org.junit.Test;
  * 
  * @author Gary Pampara
  */
-public class TopologyTest {
+public class AbstractTopologyTest {
 
     @Test
     public void comparatorBestEntity() {

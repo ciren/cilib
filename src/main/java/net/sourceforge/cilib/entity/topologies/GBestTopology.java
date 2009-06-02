@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 
 /**
  * <p>
@@ -45,7 +45,7 @@ import net.sourceforge.cilib.entity.Topology;
  * @param <E> The {@linkplain Entity} type.
  * @author Edwin Peer
  */
-public class GBestTopology<E extends Entity> extends Topology<E> {
+public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     private static final long serialVersionUID = 3190027340582769112L;
 
     protected LinkedList<E> entities;

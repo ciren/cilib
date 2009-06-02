@@ -24,14 +24,12 @@ package net.sourceforge.cilib.algorithm.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -43,9 +41,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JMock.class)
 public class ClonedPopulationInitialisationStrategyTest {
-    private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-    }};
+    private Mockery context = new JUnit4Mockery();
     
     /**
      * Test that the initialisation of the entity does indeed mean that the initialised
@@ -53,8 +49,7 @@ public class ClonedPopulationInitialisationStrategyTest {
      */
     @Test
     public void initialiseClonedTopology() {
-        @SuppressWarnings("unchecked")
-        final Topology<Entity> topology = context.mock(GBestTopology.class);
+        final Topology<Entity> topology = context.mock(Topology.class);
         final Entity entity = context.mock(Entity.class);
         final OptimisationProblem problem = context.mock(OptimisationProblem.class);
         

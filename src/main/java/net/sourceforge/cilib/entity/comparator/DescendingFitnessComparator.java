@@ -31,6 +31,7 @@ import net.sourceforge.cilib.problem.Fitness;
  * This comparator results in a descending order. This ordering is effectively
  * an ordering from the "most fit" entity to the "least fit" entity.
  *
+ * @param <E> The {@code Entity} type.
  * @author Gary Pampara
  */
 public class DescendingFitnessComparator<E extends Entity> implements Comparator<E> {

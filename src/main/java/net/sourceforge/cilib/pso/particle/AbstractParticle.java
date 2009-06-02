@@ -282,6 +282,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>.
      * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
      */
+    @Override
     public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy() {
         return neighbourhoodBestUpdateStrategy;
     }
@@ -290,6 +291,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Set the <code>NeighbourhoodBestUpdateStrategy</code> to be used by the {@linkplain Entity}.
      * @param neighbourhoodBestUpdateStrategy The <code>NeighbourhoodBestUpdateStrategy</code> to be used
      */
+    @Override
     public void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy) {
         this.neighbourhoodBestUpdateStrategy = neighbourhoodBestUpdateStrategy;
     }

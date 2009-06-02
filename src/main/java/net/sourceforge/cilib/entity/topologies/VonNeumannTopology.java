@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import net.sourceforge.cilib.entity.AbstractTopology;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 
 /**
  * <p>
@@ -48,7 +48,7 @@ import net.sourceforge.cilib.entity.Topology;
  *
  * @param <E> A {@linkplain Entity} instance.
  */
-public class VonNeumannTopology<E extends Entity> extends Topology<E> {
+public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
     private static final long serialVersionUID = -4795901403887110994L;
 
     private enum Direction { CENTER, NORTH, EAST, SOUTH, WEST, DONE };
