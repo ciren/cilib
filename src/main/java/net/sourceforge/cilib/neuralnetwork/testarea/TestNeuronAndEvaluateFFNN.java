@@ -33,6 +33,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.ErrorSigna
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.FFNN_GD_TrainingStrategy;
 import net.sourceforge.cilib.neuralnetwork.generic.trainingstrategies.SquaredErrorFunction;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -114,7 +115,7 @@ public final class TestNeuronAndEvaluateFFNN {
         targt.add(new Real(0.7666));
         NNPattern p = new StandardPattern(ins, targt);
 
-        Vector result = new Vector();
+        TypeList result = new TypeList();
 
         ErrorSignal delta = new SquaredErrorFunction();
 
@@ -171,7 +172,7 @@ public final class TestNeuronAndEvaluateFFNN {
 
         for (int counter = 0; counter < 100; counter++){
 
-            result = new Vector();
+            result = new TypeList();
             result = ffnn.evaluate(p);
             real = ((Real) result.get(0)).getReal();
 

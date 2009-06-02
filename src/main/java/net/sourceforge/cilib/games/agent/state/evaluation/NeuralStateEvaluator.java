@@ -30,7 +30,9 @@ import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -65,8 +67,8 @@ public class NeuralStateEvaluator extends NeuralAgent implements StateEvaluator 
         Vector input = stateInputStrategy.getNeuralInputArray(this, state);
         StandardPattern pattern = new StandardPattern(input, input);
         //get the output vector
-        Vector NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
-        return NNOutput.getReal(0);
+        TypeList NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
+        return ((Numeric) NNOutput.get(0)).getReal();
     }
 
     /**

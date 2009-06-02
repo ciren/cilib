@@ -20,34 +20,29 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.cilib.measurement.multiple;
+package net.sourceforge.cilib.type.types.container;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.DomainParser;
-import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.container.TypeList;
-
+import net.sourceforge.cilib.type.types.Int;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
  *
- * @author Gary Pampara
+ * @author gpampara
  */
-public class MultipleFitnessTest {
+public class TypeListTest {
 
     @Test
-    public void testMultipleFitnessDomain() {
-        Measurement m = new MultipleFitness();
+    public void subList() {
+       TypeList list = new TypeList();
+       list.add(new Vector());
+       list.add(new BinaryTree());
+       list.add(new Int());
+       list.add(new Set());
+       list.add(new NaryTree());
 
-        DomainParser parser = new DomainParser();
-        parser.parse(m.getDomain());
+       TypeList subList = list.subList(0, 3);
 
-        TypeList vector = (TypeList) parser.getBuiltRepresentation();
-
-        assertEquals(1, vector.size());
-        assertTrue(vector.get(0) instanceof StringType);
+       Assert.assertEquals(4, subList.size());
     }
-
 }

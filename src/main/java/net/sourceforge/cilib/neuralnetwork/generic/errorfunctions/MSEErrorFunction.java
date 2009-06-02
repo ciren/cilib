@@ -27,7 +27,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkData;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * @author stefanv
@@ -96,7 +96,7 @@ public class MSEErrorFunction implements NNError, Initializable {
     }
 
 
-    public void computeIteration(Vector output, NNPattern input) {
+    public void computeIteration(TypeList output, NNPattern input) {
 
         if (input.getTargetLength() != output.size()){
             throw new IllegalArgumentException("Output and target lenghts don't match");

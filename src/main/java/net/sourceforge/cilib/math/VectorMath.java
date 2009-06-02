@@ -31,35 +31,34 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public interface VectorMath {
 
     /**
-     * Adding this {@see net.sourceforge.cilib.type.types.Vector} to another
-     * will result in a resultant {@see net.sourceforge.cilib.type.types.Vector}.
+     * Adding this {@code Vector} to another will result in a resultant {@code Vector}.
      *
-     * @param vector The {@see net.sourceforge.cilib.type.types.Vector} to add to the current one
-     * @return The resultant {@see net.sourceforge.cilib.type.types.Vector}
+     * @param vector The {@code Vector} to add to the current one
+     * @return The resultant {@code Vector}
      */
     public Vector plus(Vector vector);
 
     /**
-     *
-     * @param vector
-     * @return
+     * Subtract the provided {@code Vector} from the current {@code Vector}.
+     * The result of the subtraction operation is a new {@code Vector} instance,
+     * maintaining the immutability of the operation.
+     * @param vector The {@code Vector} to subtract.
+     * @return A new {@code Vector} instance representing the result of the operation.
      */
     public Vector subtract(Vector vector);
 
     /**
-     *
-     * @param vector
-     * @return
+     * Divide the elements of the current {@code Vector} by the provided {@code scalar}.
+     * @param scalar The value to divide all elements within the {@code Vector} by.
+     * @return A new {@code Vector} instance containing the result of the operator.
      */
-    public Vector divide(Vector vector);
     public Vector divide(double scalar);
 
     /**
-     *
-     * @param vector
-     * @return
+     * Multiply a {@code scalar} with each component in the {@code Vector}.
+     * @param scalar The scalar to multiply in.
+     * @return A new {@code Vector} instance containing the result of the operator.
      */
-    public Vector multiply(Vector vector);
     public Vector multiply(double scalar);
 
     /**

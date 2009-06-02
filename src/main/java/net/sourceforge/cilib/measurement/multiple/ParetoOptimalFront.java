@@ -30,7 +30,7 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MOFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * <p>
@@ -62,11 +62,11 @@ public class ParetoOptimalFront implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        Vector allFitnessValues = new Vector();
+        TypeList allFitnessValues = new TypeList();
         Collection<OptimisationSolution> solutions = Archive.get();
         for (OptimisationSolution solution : solutions) {
             MOFitness fitnesses = (MOFitness) solution.getFitness();
-            Vector fitnessValues = new Vector();
+            TypeList fitnessValues = new TypeList();
             for (int i = 0; i < fitnesses.getDimension(); ++i) {
                 Fitness fitness = fitnesses.getFitness(i);
                 fitnessValues.add(fitness);

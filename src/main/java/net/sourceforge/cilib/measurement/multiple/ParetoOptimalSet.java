@@ -28,6 +28,7 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -59,7 +60,7 @@ public class ParetoOptimalSet implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        Vector allPositions = new Vector();
+        TypeList allPositions = new TypeList();
         Collection<OptimisationSolution> solutions = Archive.get();
         for (OptimisationSolution solution : solutions) {
             Vector position = (Vector) solution.getPosition();

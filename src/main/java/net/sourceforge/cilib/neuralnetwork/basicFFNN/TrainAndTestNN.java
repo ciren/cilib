@@ -34,6 +34,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPatter
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -110,7 +111,7 @@ public final class TrainAndTestNN {
 
         StandardPattern p = new StandardPattern(in, null);
 
-        Vector result = neuralNetworkTopology.evaluate(p);
+        TypeList result = neuralNetworkTopology.evaluate(p);
 
         //output line - add any status here that reports on the manual pattern entered.
         System.out.println("test result: 1 and 1 = 0.6    -->  " + ((Real) result.get(0)).getReal());

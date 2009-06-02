@@ -22,14 +22,14 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * TODO: Complete this javadoc.
  */
 public interface NNError extends Fitness, Initializable {
 
-    public void computeIteration(Vector output, NNPattern input);
+    public void computeIteration(TypeList output, NNPattern input);
 
     public void finaliseError();
 

@@ -72,8 +72,7 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
         Vector bestPosition = (Vector) particle.getBestPosition();
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
-        Vector acceleration = new Vector(velocity.getDimension());
-        acceleration.initialise(velocity.getDimension(), new Real(0));
+        Vector acceleration = new Vector(velocity.getDimension(), new Real(0.0));
         PSO pso = (PSO) Algorithm.get();
         Iterator<Particle> iter = null;
         // make iter point to the current particle

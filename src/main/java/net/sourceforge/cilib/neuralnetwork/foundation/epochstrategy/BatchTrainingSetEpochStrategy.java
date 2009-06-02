@@ -23,7 +23,7 @@ package net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 public class BatchTrainingSetEpochStrategy implements EpochStrategy {
 
@@ -37,7 +37,7 @@ public class BatchTrainingSetEpochStrategy implements EpochStrategy {
         //iterate over each applicable pattern in training dataset
         while (iteratorDt.hasMore()){
 
-            Vector output = evaluationMediator.getTopology().evaluate(iteratorDt.value());
+            TypeList output = evaluationMediator.getTopology().evaluate(iteratorDt.value());
             evaluationMediator.incrementEvaluationsPerEpoch();
 
             //compute the per pattern error.

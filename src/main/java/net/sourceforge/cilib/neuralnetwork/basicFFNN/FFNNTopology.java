@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -102,7 +103,7 @@ public class FFNNTopology implements NeuralNetworkTopology {
      * (non-Javadoc)
      * @see net.sourceforge.cilib.NeuralNetwork.Foundation.NeuralNetworkTopology#evaluate(net.sourceforge.cilib.NeuralNetwork.Foundation.NNPattern)
      */
-    public Vector evaluate(NNPattern p) {
+    public TypeList evaluate(NNPattern p) {
         // Still need to check here for right length vector then exception
         // Does not delete the activation of hidden or output units, used to feed back...
         // zeroes activation before doing a feedforward though...
@@ -143,7 +144,7 @@ public class FFNNTopology implements NeuralNetworkTopology {
         }
 
         // convert to ArrayList...
-        Vector temp = new Vector();
+        TypeList temp = new TypeList();
         output = new ArrayList<Double>();
         for (int i = 0; i < nrOutput; i++) {
             temp.add(new Real(outputResult[i]));

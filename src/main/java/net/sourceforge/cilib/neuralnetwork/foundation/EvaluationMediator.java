@@ -29,6 +29,7 @@ import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.EmptyEpochStrategy;
 import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.EpochStrategy;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -104,7 +105,7 @@ public class EvaluationMediator extends SingularAlgorithm {
         this.epochStrategy.performIteration(this);
     }
 
-    public void computeErrorIteration(NNError[] err, Vector output, NNPattern input){
+    public void computeErrorIteration(NNError[] err, TypeList output, NNPattern input){
 
         for (int e = 0; e < err.length; e++){
             err[e].computeIteration(output, input);
@@ -113,7 +114,7 @@ public class EvaluationMediator extends SingularAlgorithm {
     }
 
     // This might not be needed in this class.
-    public Vector evaluate(NNPattern p) {
+    public TypeList evaluate(NNPattern p) {
         return topology.evaluate(p);
     }
 //    public abstract Vector evaluate(NNPattern p);

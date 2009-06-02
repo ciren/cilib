@@ -147,7 +147,7 @@ public class FDA2_f2 extends ContinuousFunction {
     public double evaluate(Vector x) {
         Vector y = x;
         if (x.getDimension() > 1)
-            y = x.subVector(1, fda2_g.getDimension()); //-1
+            y = x.subList(1, fda2_g.getDimension()); //-1
         double g = this.fda2_g.evaluate(y);
         double h = this.fda2_h.evaluate(x);
 

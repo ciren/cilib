@@ -32,6 +32,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.FFNNgenericT
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -132,7 +133,7 @@ public class NeuralAgent extends Agent {
         Vector input = stateInputStrategy.getNeuralInputArray(this, game);
         StandardPattern pattern = new StandardPattern(input, input);        
         //get the output vector
-        Vector NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
+        TypeList NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
         outputInterpretationStrategy.applyOutputToState(NNOutput, this, game);
     }
     

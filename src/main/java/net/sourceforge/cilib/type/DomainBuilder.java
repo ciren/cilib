@@ -26,8 +26,11 @@ import java.io.IOException;
 import java.io.StreamTokenizer;
 
 import net.sourceforge.cilib.type.creator.TypeCreator;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.AbstractList;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -52,7 +55,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class DomainBuilder {
 
-    private Vector representation;
+    private TypeList representation;
     private StreamTokenizer parser;
     private double lower;
     private double upper;
@@ -74,9 +77,8 @@ public class DomainBuilder {
      * @param expandedDomain The expanded domain string
      * @return A container containing the built represenation
      */
-    public Vector build(String expandedDomain) {
-
-        representation = new Vector();
+    public StructuredType build(String expandedDomain) {
+        representation = new TypeList();
         parser = new StreamTokenizer(new CharArrayReader(expandedDomain.toCharArray()));
 
         try {
@@ -87,7 +89,7 @@ public class DomainBuilder {
             throw new RuntimeException("IOException occoured during building of the domain\n" + e);
         }
 
-        return representation;
+        return getBuiltRepresenation();
     }
 
 
@@ -97,7 +99,10 @@ public class DomainBuilder {
      * @return The constructed <tt>Type</tt> object representing the domain string.
      */
     public StructuredType getBuiltRepresenation() {
-        return this.representation;
+        if (isVector(representation))
+            return toVector(representation);
+
+        return representation;
     }
 
 
@@ -109,8 +114,8 @@ public class DomainBuilder {
         parser.nextToken();
 
         if ((char) parser.ttype == '[') {
-            final Vector tmp = this.representation;
-            this.representation = new Vector();
+            final TypeList tmp = this.representation;
+            this.representation = new TypeList();
             buildDomain();
 
             parser.nextToken();
@@ -290,6 +295,23 @@ public class DomainBuilder {
             return;
         else
             throw new RuntimeException("Parser error: " + c + " was expected but received: " + (char) parser.ttype);
+    }
+
+    private boolean isVector(TypeList representation) {
+        for (Type type : representation)
+            if (!(type instanceof Numeric))
+                return false;
+
+        return true;
+    }
+
+    private AbstractList toVector(TypeList representation) {
+        Vector vector = new Vector(representation.size());
+
+        for (Type type : representation)
+            vector.add((Numeric) type);
+
+        return vector;
     }
 
 }

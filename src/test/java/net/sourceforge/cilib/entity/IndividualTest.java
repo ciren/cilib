@@ -26,9 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;

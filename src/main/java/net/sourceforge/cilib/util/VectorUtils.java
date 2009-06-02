@@ -49,15 +49,11 @@ public final class VectorUtils {
     public static Vector createUpperBoundVector(Vector vector) {
         Vector upper = vector.getClone();
 
-        for(Type element : upper) {
-            try {
-                Numeric numeric = (Numeric) element;
-                numeric.set(numeric.getBounds().getUpperBound());
-            }
-            catch (ClassCastException cce) {
-                throw new UnsupportedOperationException("Upper Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
-            }
+        for (Type element : upper) {
+            Numeric numeric = (Numeric) element;
+            numeric.set(numeric.getBounds().getUpperBound());
         }
+
         return upper;
     }
 
@@ -72,15 +68,11 @@ public final class VectorUtils {
     public static Vector createLowerBoundVector(Vector vector) {
         Vector lower = vector.getClone();
 
-        for(Type element : lower) {
-            try {
-                Numeric numeric = (Numeric) element;
-                numeric.set(numeric.getBounds().getLowerBound());
-            }
-            catch (ClassCastException cce) {
-                throw new UnsupportedOperationException("Lower Bounds are only applicable to 'Numeric' types and not '" + element.getClass().getSimpleName() + "' types");
-            }
+        for (Type element : lower) {
+            Numeric numeric = (Numeric) element;
+            numeric.set(numeric.getBounds().getLowerBound());
         }
+
         return lower;
     }
 

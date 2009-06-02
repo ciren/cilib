@@ -26,8 +26,10 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -89,7 +91,7 @@ public class CooperativeEntity extends AbstractEntity {
         if(value instanceof Vector)
             context.append((Vector) value);
         else
-            context.append(value);
+            context.append((Numeric) value);
     }
 
     public void append(Entity entity) {

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * TODO: Complete this javadoc.
@@ -49,9 +49,10 @@ public class LayeredGenericTopology extends GenericTopology {
         super.initialize();
     }
 
-    public Vector evaluate(NNPattern p){
+    @Override
+    public TypeList evaluate(NNPattern p){
 
-        Vector output = new Vector();
+        TypeList output = new TypeList();
 
         for (int layer = 0; layer < layerList.size(); layer++){
 

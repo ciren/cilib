@@ -24,8 +24,7 @@ package net.sourceforge.cilib.bioinf.rnaprediction;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
-
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * @author mneethling
@@ -81,7 +80,7 @@ public class RNAInitialiser {
      * @return The initial velocity.
      */
     public Type getInitialVelocity(OptimisationProblem problem) {
-        Vector mv = new Vector();
+        TypeList mv = new TypeList();
         mv.add(new RNAConformation());
         mv.add(new RNAConformation());
         return mv;

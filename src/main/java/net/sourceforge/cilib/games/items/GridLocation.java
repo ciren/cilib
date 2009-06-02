@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.games.items;
 
 import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -58,7 +59,7 @@ public class GridLocation extends Vector implements ItemLocation {
             throw new UnsupportedOperationException("Cannot set the postition to a vector with a different dimention");
         }
         this.clear();
-        for(Type t: newPos){
+        for(Numeric t : newPos){
             this.add(t.getClone());
         }
     }
@@ -90,10 +91,10 @@ public class GridLocation extends Vector implements ItemLocation {
         for(int i = 0; i < ((Vector)amount).size(); ++i){
 
             int newVal = ((Vector)amount).getInt(i) + this.getInt(i);
-            if(newVal < this.getNumeric(i).getBounds().getLowerBound())
-                newVal = (int)this.getNumeric(i).getBounds().getLowerBound();
-            else if(newVal > this.getNumeric(i).getBounds().getUpperBound())
-                newVal = (int)this.getNumeric(i).getBounds().getUpperBound();
+            if(newVal < this.get(i).getBounds().getLowerBound())
+                newVal = (int)this.get(i).getBounds().getLowerBound();
+            else if(newVal > this.get(i).getBounds().getUpperBound())
+                newVal = (int)this.get(i).getBounds().getUpperBound();
             this.setInt(i, newVal);
         }
     }

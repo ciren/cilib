@@ -54,7 +54,7 @@
   <distributionManagement>
     <site>
       <id>sourceforge</id>
-      <url>sftp://web.sourceforge.net/home/groups/c/ci/cilib/htdocs</url>
+      <url>scp://shell.sourceforge.net/home/groups/c/ci/cilib/htdocs</url>
     </site>
   </distributionManagement>
   <developers>

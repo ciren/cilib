@@ -28,7 +28,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
 import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 
 /**
@@ -112,7 +112,7 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
                 NNPattern p = dcIter.value();
 
                 //Evaluate p against current NN topology.
-                Vector output = this.topology.evaluate(p);
+                TypeList output = this.topology.evaluate(p);
 
                 //determine informativeness of p
                 NNError patternError = prototypeError.getClone();

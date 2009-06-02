@@ -25,7 +25,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * @author Stefan
@@ -47,7 +47,7 @@ public class ClassificationErrorReal implements NNError {
     }
 
 
-    public void computeIteration(Vector output, NNPattern input) {
+    public void computeIteration(TypeList output, NNPattern input) {
 
         boolean isCorrect = true;
 
@@ -90,7 +90,7 @@ public class ClassificationErrorReal implements NNError {
             throw new IllegalArgumentException("Incorrect class instance passed");
         }
 
-        return (Double.valueOf(this.percentageCorrect)).compareTo((Double) ((ClassificationErrorReal) f).getValue());
+        return (Double.valueOf(this.percentageCorrect)).compareTo(((ClassificationErrorReal) f).getValue());
     }
 
     public NNError getClone(){

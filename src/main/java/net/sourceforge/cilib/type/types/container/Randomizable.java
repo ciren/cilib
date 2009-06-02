@@ -20,34 +20,19 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.cilib.measurement.multiple;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.DomainParser;
-import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.container.TypeList;
-
-import org.junit.Test;
+package net.sourceforge.cilib.type.types.container;
 
 /**
- *
- * @author Gary Pampara
+ * Implementing this interface allows an object to be "randomizable".
+ * This implies that the object is able to be set into a state that is random.
+ * @author gpampara
  */
-public class MultipleFitnessTest {
+public interface Randomizable {
 
-    @Test
-    public void testMultipleFitnessDomain() {
-        Measurement m = new MultipleFitness();
-
-        DomainParser parser = new DomainParser();
-        parser.parse(m.getDomain());
-
-        TypeList vector = (TypeList) parser.getBuiltRepresentation();
-
-        assertEquals(1, vector.size());
-        assertTrue(vector.get(0) instanceof StringType);
-    }
-
+    /**
+     * Alter the state of the object in a random manner.
+     * @return {@code true} if successful, {@code false} otherwise.
+     */
+    public boolean randomize();
+    
 }

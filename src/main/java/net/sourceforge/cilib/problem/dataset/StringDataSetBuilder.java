@@ -39,7 +39,6 @@ public class StringDataSetBuilder extends TextDataSetBuilder {
 
     public StringDataSetBuilder() {
         this.strings = new ArrayList<String>();
-        // System.out.println("Building...");
     }
 
     public StringDataSetBuilder(StringDataSetBuilder rhs) {
@@ -66,7 +65,6 @@ public class StringDataSetBuilder extends TextDataSetBuilder {
                 String result = in.readLine();
 
                 while (result != null) {
-                    // System.out.println(result);
                     strings.add(result);
 
                     result = in.readLine();
@@ -75,7 +73,6 @@ public class StringDataSetBuilder extends TextDataSetBuilder {
             catch (IOException ioException) {
                 throw new RuntimeException(ioException);
             }
-            // System.out.println("Data set(s) initialised, proceeding...");
         }
     }
 

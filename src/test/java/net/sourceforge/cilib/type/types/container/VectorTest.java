@@ -27,7 +27,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import net.sourceforge.cilib.type.types.Bit;
@@ -35,7 +34,9 @@ import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 
+import net.sourceforge.cilib.util.VectorUtils;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -105,44 +106,18 @@ public class VectorTest {
     }
     
     @Test
-    public void testNonNumericGet() {
-        Vector m = new Vector();
-        Set<Real> realSet = new Set<Real>();
-        
-        m.add(realSet);
-        
-        assertFalse(m.get(0) instanceof Numeric);
-        assertSame(realSet, m.get(0));
-        
-        assertNotSame(m.get(0), vector.get(0));
-    }
-    
-    @Test
     public void testNumericSet() {
         assertEquals(1.0, vector.getReal(0), 0.0);
         vector.setReal(0, 99.9);
         assertEquals(99.9, vector.getReal(0), 0.0);
     
         vector.setInt(0, 2);
-        assertEquals((int) 2, vector.getInt(0), 0.0);
+        assertEquals(2, vector.getInt(0), 0.0);
         
         vector.setReal(0, 1.0);
         assertEquals(1.0, vector.getReal(0), 0.0);
     }
     
-    @Test
-    public void testNonNumericSet() {
-        Vector m = new Vector();
-        Set<Object> s = new Set<Object>();
-        Vector v = new Vector();
-        
-        m.add(s);
-        m.add(v);
-        
-        assertSame(s, m.get(0));
-        assertSame(v, m.get(1));
-    }
-
     @Test
     public void testDimension() {
         assertFalse(vector.getDimension() == 3);
@@ -409,9 +384,9 @@ public class VectorTest {
         assertNotSame(sum, b);
 
         for(int i = 0; i < 10; i++) {
-            assertNotSame(a.getType(i), b.getType(i));
-            assertNotSame(sum.getType(i), a.getType(i));
-            assertNotSame(sum.getType(i), b.getType(i));
+            assertNotSame(a.get(i), b.get(i));
+            assertNotSame(sum.get(i), a.get(i));
+            assertNotSame(sum.get(i), b.get(i));
 
             assertEquals(a.getReal(i), Integer.valueOf(i).doubleValue(), 0.0);
             assertEquals(b.getReal(i), Double.valueOf(9.0 - i), 0.0);
@@ -453,79 +428,16 @@ public class VectorTest {
         assertNotSame(difference, b);
 
         for(int i = 0; i < 10; i++) {
-            assertNotNull(a.getType(i));
-            assertNotNull(b.getType(i));
-            assertNotNull(difference.getType(i));
-            assertNotSame(a.getType(i), b.getType(i));
-            assertNotSame(difference.getType(i), a.getType(i));
-            assertNotSame(difference.getType(i), b.getType(i));
+            assertNotNull(a.get(i));
+            assertNotNull(b.get(i));
+            assertNotNull(difference.get(i));
+            assertNotSame(a.get(i), b.get(i));
+            assertNotSame(difference.get(i), a.get(i));
+            assertNotSame(difference.get(i), b.get(i));
 
             assertEquals(a.getReal(i), (double)i, 0.0);
-            assertEquals(b.getReal(i), (double)(9.0 - i), 0.0);
-            assertEquals(difference.getReal(i), (double)(i - (9.0 - i)), 0.0);
-        }
-    }
-    
-    @Test(expected = UnsupportedOperationException.class)
-    public void invalidVectorDivision() {
-        Vector a = new Vector();
-        Vector b = new Vector();
-
-        for(int i = 1; i < 11; i++)
-            a.append(new Real(i));
-        for(int i = 1; i < 10; i++)
-            b.prepend(new Real(i));
-        
-        a.divide(b);
-    }
-    
-    @Test(expected = ArithmeticException.class)
-    public void vectorDivisionByZero() {
-        Vector a = new Vector();
-        Vector b = new Vector();
-
-        for(int i = 1; i < 11; i++)
-            a.append(new Real(i));
-        for(int i = 1; i < 10; i++)
-            b.prepend(new Real(i));
-        
-        b.prepend(new Real(0));
-        
-        a.divide(b);
-    }
-
-    @Test
-    public void testVectorDivision() {
-        Vector a = new Vector();
-        Vector b = new Vector();
-
-        for(int i = 1; i < 11; i++)
-            a.append(new Real(i));
-        for(int i = 1; i < 10; i++)
-            b.prepend(new Real(i));
-
-        b.prepend(new Real(0));
-        ((Numeric)b.getType(0)).setReal(10);
-        Vector divided = a.divide(b);
-
-        assertNotNull(a);
-        assertNotNull(b);
-        assertNotNull(divided);
-        assertNotSame(a, b);
-        assertNotSame(divided, a);
-        assertNotSame(divided, b);
-
-        for(int i = 0; i < 10; i++) {
-            assertNotNull(a.getType(i));
-            assertNotNull(b.getType(i));
-            assertNotNull(divided.getType(i));
-            assertNotSame(a.getType(i), b.getType(i));
-            assertNotSame(divided.getType(i), a.getType(i));
-            assertNotSame(divided.getType(i), b.getType(i));
-
-            assertEquals(a.getReal(i), (double)(i + 1), 0.0);
-            assertEquals(b.getReal(i), (double)(10.0 - i), 0.0);
-            assertEquals(divided.getReal(i), (double)((i + 1) / (10.0 - i)), 0.0);
+            assertEquals(b.getReal(i), (9.0 - i), 0.0);
+            assertEquals(difference.getReal(i), (i - (9.0 - i)), 0.0);
         }
     }
     
@@ -553,62 +465,15 @@ public class VectorTest {
         assertNotSame(divided, a);
 
         for(int i = 0; i < 10; i++) {
-            assertNotNull(a.getType(i));
-            assertNotNull(divided.getType(i));
-            assertNotSame(divided.getType(i), a.getType(i));
+            assertNotNull(a.get(i));
+            assertNotNull(divided.get(i));
+            assertNotSame(divided.get(i), a.get(i));
 
-            assertEquals(a.getReal(i), (double)i, 0.0);
-            assertEquals(divided.getReal(i), (double)(i / 3.0), 0.000000001);
+            assertEquals(a.getReal(i), (double) i, 0.0);
+            assertEquals(divided.getReal(i), (i / 3.0), 0.000000001);
         }
     }
     
-    @Test(expected = UnsupportedOperationException.class)
-    public void invalidVectorMultiplication() {
-        Vector a = new Vector();
-        Vector b = new Vector();
-
-        for(int i = 0; i < 10; i++)
-            a.append(new Real(i));
-        for(int i = 0; i < 9; i++)
-            b.prepend(new Real(i));
-
-        a.multiply(b);
-    }
-
-    @Test
-    public void testVectorMultiplication() {
-        Vector a = new Vector();
-        Vector b = new Vector();
-
-        for(int i = 0; i < 10; i++)
-            a.append(new Real(i));
-        for(int i = 0; i < 9; i++)
-            b.prepend(new Real(i));
-
-        b.prepend(new Real(9));
-        Vector product = a.multiply(b);
-
-        assertNotNull(a);
-        assertNotNull(b);
-        assertNotNull(product);
-        assertNotSame(a, b);
-        assertNotSame(product, a);
-        assertNotSame(product, b);
-
-        for(int i = 0; i < 10; i++) {
-            assertNotNull(a.getType(i));
-            assertNotNull(b.getType(i));
-            assertNotNull(product.getType(i));
-            assertNotSame(a.getType(i), b.getType(i));
-            assertNotSame(product.getType(i), a.getType(i));
-            assertNotSame(product.getType(i), b.getType(i));
-
-            assertEquals(a.getReal(i), (double)i, 0.0);
-            assertEquals(b.getReal(i), (double)(9.0 - i), 0.0);
-            assertEquals(product.getReal(i), (double)(i * (9.0 - i)), 0.0);
-        }
-    }
-
     @Test
     public void testScalarMultiplication() {
         Vector a = new Vector();
@@ -623,12 +488,12 @@ public class VectorTest {
         assertNotSame(product, a);
 
         for(int i = 0; i < 10; i++) {
-            assertNotNull(a.getType(i));
-            assertNotNull(product.getType(i));
-            assertNotSame(product.getType(i), a.getType(i));
+            assertNotNull(a.get(i));
+            assertNotNull(product.get(i));
+            assertNotSame(product.get(i), a.get(i));
 
             assertEquals(a.getReal(i), (double)i, 0.0);
-            assertEquals(product.getReal(i), (double)(i * 3.0), 0.0);
+            assertEquals(product.getReal(i), (i * 3.0), 0.0);
         }
     }
     
@@ -647,5 +512,13 @@ public class VectorTest {
         assertTrue(b.equals(b));
         assertTrue(a.equals(a));
         assertTrue(a.equals(b));
+    }
+
+    @Test
+    public void subList() {
+        Vector original = VectorUtils.create(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Vector subVector = original.subList(0, 3);
+
+        Assert.assertEquals(4, subVector.size());
     }
 }

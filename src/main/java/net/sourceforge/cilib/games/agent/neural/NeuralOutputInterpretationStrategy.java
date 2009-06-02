@@ -22,9 +22,10 @@
 package net.sourceforge.cilib.games.agent.neural;
 
 import net.sourceforge.cilib.games.agent.Agent;
+import net.sourceforge.cilib.games.agent.NeuralAgent;
 import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.states.GameState;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * @author leo
@@ -46,5 +47,5 @@ public abstract class NeuralOutputInterpretationStrategy {
      * @param currentPlayer the agent that is represented by the Neural Network
      * @param oldState the game state to be altered
      */
-    public abstract void applyOutputToState(Vector outputData, Agent currentPlayer, Game<GameState> oldState);
+    public abstract void applyOutputToState(TypeList outputData, Agent currentPlayer, Game<GameState> oldState);
 }

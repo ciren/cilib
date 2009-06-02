@@ -99,10 +99,8 @@ public class LongestCommonSubsequence extends DiscreteFunction {
      */
     private int length(Vector x) {
         int count = 0;
-        Iterator<Type> i = x.iterator();
 
-        while (i.hasNext()) {
-            Numeric n = (Numeric) i.next();
+        for (Numeric n : x) {
             if (n.getBit())
                 count++;
         }

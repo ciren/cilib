@@ -33,7 +33,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * @author stefanv
@@ -112,11 +112,11 @@ public class FFNN_GD_TrainingStrategy implements TrainingStrategy, Observer {
 
         NNPattern p = (NNPattern) args;
         ArrayList<NeuronConfig> updateNeuronList = new ArrayList<NeuronConfig>();
-        Vector deltaUpdateList = new Vector();
+        TypeList deltaUpdateList = new TypeList();
 
         //iterate over output layer
         LayerIterator outputIter = topology.getLayerIterator(topology.getNrLayers() - 1);
-        Vector prevDeltaList = new Vector(outputIter.getNrNeurons());
+        TypeList prevDeltaList = new TypeList(outputIter.getNrNeurons());
         LayerIterator prevIter = null;
 
         for (NeuronConfig oi = outputIter.value(); outputIter.hasMore(); outputIter.nextNeuron()){
@@ -140,7 +140,7 @@ public class FFNN_GD_TrainingStrategy implements TrainingStrategy, Observer {
         //Iterate backwards over all remaining layers L = #nrlayers-1 ... 1.  layer 0 not done as input layer
 
             LayerIterator layerIter = topology.getLayerIterator(layer);
-            Vector deltaList = new Vector(layerIter.getNrNeurons());
+            TypeList deltaList = new TypeList(layerIter.getNrNeurons());
 
             //iterate over all neurons in layer L
             for (NeuronConfig li = layerIter.value(); layerIter.hasMore(); layerIter.nextNeuron()){

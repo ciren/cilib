@@ -35,7 +35,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.GenericData;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.RandomDistributionStrategy;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * Measurement to determine the output of a Neural Network.
@@ -89,7 +89,7 @@ public class NNOutput implements Measurement {
         iteratorDc.reset();
 
         while(iteratorDc.hasMore()){
-            Vector outputDg = topology.evaluate(iteratorDc.value());
+            TypeList outputDg = topology.evaluate(iteratorDc.value());
 
             try {
                 out.write(iteratorDc.value().getInput().toString() + " " + outputDg.toString());

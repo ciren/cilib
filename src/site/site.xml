@@ -6,17 +6,17 @@
     Department of Computer Science
     University of Pretoria
     South Africa
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -36,7 +36,7 @@
   </bannerRight>
 
   <poweredBy>
-    <logo 
+    <logo
       href="http://sourceforge.net/projects/cilib"
       img="http://sflogo.sourceforge.net/sflogo.php?group_id=72233&amp;type=11"
       name="Get Computational Intelligence Library at SourceForge.net. Fast, secure and Free Open Source software downloads"
@@ -50,6 +50,20 @@
   </poweredBy>
 
   <body>
+    <head>
+      <meta content="Computational Intelligence, CI, Artificial Intelligence, AI, PSO, Particle swarm optimization, Evolutionary computation, GA, Genetic Algorithm, DE, Differential evolution, ABC, Artificial Bee Colony" name="KEYWORDS"/>
+      <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+      </script>
+      <script type="text/javascript">
+        try {
+            var pageTracker = _gat._getTracker("UA-4962709-1");
+            pageTracker._trackPageview();
+        } catch(err) {}
+      </script>
+    </head>
+
     <links>
       <item name="SoureForge.net project page"
             href="http://www.sourceforge.net/projects/cilib" />

@@ -22,12 +22,12 @@
 
 package net.sourceforge.cilib.measurement.single;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 import org.junit.Test;
 
@@ -44,10 +44,10 @@ public class BestParticlePositionTest {
         DomainParser parser = new DomainParser();
         parser.parse(m.getDomain());
         
-        Vector t = (Vector) parser.getBuiltRepresentation();
+        TypeList t = (TypeList) parser.getBuiltRepresentation();
         
         assertTrue(t.get(0) instanceof StringType);
-        assertEquals(1, t.getDimension());
+        assertEquals(1, t.size());
     }
 
 }

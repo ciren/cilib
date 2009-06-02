@@ -25,6 +25,7 @@ import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.items.GameItem;
 import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.games.states.ListGameState;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -36,9 +37,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class RecordItemLocationMeasure extends SingleAgentMeasure {
     private static final long serialVersionUID = -7742916583743476119L;
-    Vector locations;
+    private Vector locations;
+
     public RecordItemLocationMeasure() {
-        super();
         locations = new Vector();
     }
 
@@ -81,7 +82,7 @@ public class RecordItemLocationMeasure extends SingleAgentMeasure {
         if(!(state instanceof ListGameState))
             throw new RuntimeException("Impliment for other state types");
         GameItem item = ((ListGameState)state).getItem(itemToken);
-        locations.add(item.getLocation().getClone());
+        locations.add((Numeric) item.getLocation().getClone());
     }
 
 }

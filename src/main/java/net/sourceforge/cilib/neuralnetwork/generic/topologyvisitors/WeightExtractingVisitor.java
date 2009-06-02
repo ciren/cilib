@@ -23,6 +23,7 @@ package net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors;
 
 import net.sourceforge.cilib.neuralnetwork.generic.Weight;
 import net.sourceforge.cilib.neuralnetwork.generic.neuron.NeuronConfig;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -42,7 +43,7 @@ public class WeightExtractingVisitor implements GenericTopologyVisitor {
             Weight[] neuronWeights = n.getInputWeights();
 
             for (int i = 0; i < neuronWeights.length; i++){
-                weights.add(neuronWeights[i].getWeightValue().getClone());
+                weights.add((Numeric) neuronWeights[i].getWeightValue().getClone());
             }
         }
 

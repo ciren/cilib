@@ -39,9 +39,9 @@ import net.sourceforge.cilib.problem.Problem;
 public interface ChangeStrategy {
 
     /**
-     * Test if a change should be applied on the provided {@code problem} instance.
-     * @param problem The problem on which a change test is to be applied.
-     * @return {@code true} if a change should be applied, {@code false} otherwise.
+     * Determine whether a change should be applied to the provided {@code problem} instance.
+     * @param problem The problem on which a change is to be applied.
+     * @return {@code true} if a change occoured, {@code false} otherwise.
      */
     public boolean shouldApply(Problem problem);
 

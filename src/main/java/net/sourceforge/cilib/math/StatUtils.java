@@ -24,6 +24,7 @@ package net.sourceforge.cilib.math;
 import java.util.Collection;
 
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -86,7 +87,7 @@ public final class StatUtils {
      * Calculates the variance of the given set/cluster/collection of @{link Pattern}s.
      *
      * This is illustrated in Equation 4.c of:<br/>
-     * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
+     * {@literal @}InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
      *                 "Clustering Validity Assessment: Finding the Optimal Partitioning of a Data
      *                 Set", booktitle = "Proceedings of the IEEE International Conference on Data
      *                 Mining", year = "2001", isbn = "0-7695-1119-8", pages = "187--194", publisher =
@@ -104,7 +105,8 @@ public final class StatUtils {
         variance.reset();        // initialize the variance to be all zeroes
         for (Pattern pattern : set) {
             Vector diffSquare = pattern.data.subtract(center);
-            diffSquare = diffSquare.multiply(diffSquare);
+            for (Numeric numeric : diffSquare)
+                numeric.setReal(numeric.getReal()*numeric.getReal());
             variance = variance.plus(diffSquare);
         }
         return variance.norm() / set.size();

@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 import org.junit.Test;
 
@@ -44,9 +44,9 @@ public class ParticlePositionsTest {
         DomainParser parser = new DomainParser();
         parser.parse(m.getDomain());
         
-        Vector vector = (Vector) parser.getBuiltRepresentation();
+        TypeList vector = (TypeList) parser.getBuiltRepresentation();
         
-        assertEquals(1, vector.getDimension());
+        assertEquals(1, vector.size());
         assertTrue(vector.get(0) instanceof StringType);
     }
 }

@@ -28,7 +28,7 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * Measurement to perform measurements on a set of contained {@code Algorithm}
@@ -68,7 +68,7 @@ public class CompositeMeasurement implements Measurement {
      */
     @Override
     public Type getValue(Algorithm algorithm) {
-        Vector vector = new Vector();
+        TypeList vector = new TypeList();
 
         MultiPopulationBasedAlgorithm multi = (MultiPopulationBasedAlgorithm) algorithm;
 

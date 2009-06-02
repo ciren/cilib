@@ -23,6 +23,7 @@ package net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy;
 
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 public class StochasticTrainingGeneralisationEpochStrategy implements
@@ -43,7 +44,7 @@ public class StochasticTrainingGeneralisationEpochStrategy implements
         //iterate over each applicable pattern in training dataset
         while(iteratorDt.hasMore()){
 
-            Vector output = evaluationMediator.getTopology().evaluate(iteratorDt.value());
+            TypeList output = evaluationMediator.getTopology().evaluate(iteratorDt.value());
             evaluationMediator.incrementEvaluationsPerEpoch();
 
             //compute the per pattern error, use it to train the topology stochastically be default
@@ -62,7 +63,7 @@ public class StochasticTrainingGeneralisationEpochStrategy implements
 
         while(iteratorDg.hasMore()){
 
-            Vector outputDg = evaluationMediator.getTopology().evaluate(iteratorDg.value());
+            TypeList outputDg = evaluationMediator.getTopology().evaluate(iteratorDg.value());
 
             //compute the per pattern error, use it to train the topology stochastically be default
             evaluationMediator.computeErrorIteration(evaluationMediator.getErrorDg(), outputDg, iteratorDg.value());

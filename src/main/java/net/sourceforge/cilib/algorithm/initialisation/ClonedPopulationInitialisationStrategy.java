@@ -67,7 +67,7 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
      * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
      * @throws InitialisationException if the initialisation cannot take place.
      */
-    @SuppressWarnings("unchecked")
+    @Override
     public void initialise(Topology topology, OptimisationProblem problem) {
         if (problem == null)
             throw new InitialisationException("No problem has been specified");

@@ -21,31 +21,34 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.TypeUtil;
 
 /**
  * The basic definition for all {@linkplain Type} objects that are based on a list.
  *
+ * @param <E> The type element.
  * @author Gary Pampara
  */
-public abstract class AbstractList implements StructuredType<Type> {
+public abstract class AbstractList<E extends Type> implements StructuredType<E> {
     private static final long serialVersionUID = -7855489699409219241L;
 
     /**
      * {@inheritDoc}
      */
-    public abstract AbstractList getClone();
+    @Override
+    public abstract AbstractList<E> getClone();
 
     /**
      * {@inheritDoc}
      */
-    public abstract boolean equals(Object obj);
+    @Override
+    public abstract boolean equals(Object o);
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract int hashCode();
 
     /**
@@ -53,114 +56,58 @@ public abstract class AbstractList implements StructuredType<Type> {
      * @param index The index to inspect to return.
      * @return The {@linkplain Type} found at <code>index</code>.
      */
-    public abstract Type get(int index);
+    public abstract E get(int index);
 
     /**
      * Set the {@linkplain Type} at the index <code>index</code>.
      * @param index The index to set.
      * @param value The value to set.
      */
-    public abstract void set(int index, Type value);
+    public abstract void set(int index, E value);
 
     /**
      * Insert the provided {@linkplain Type} at the specified {@code index}.
      * @param index The index where to insert the {@linkplain Type}.
      * @param value The value to set.
      */
-    public abstract void insert(int index, Type value);
+    public abstract void insert(int index, E value);
 
     /**
      * Add the provided {@linkplain Type} to the end of the current list.
      * @param value The {@linkplain Type} to add.
      */
-    public void append(Type value) {
+    public void append(E value) {
         int position = TypeUtil.getDimension(this);
         insert(position, value);
     }
 
     /**
      * Add the provided {@linkplain AbstractList} to the end of the current list.
-     * @param vector The object to add.
+     * @param list The object to add.
      * @return <code>true</code> if the operation was successful, <code>false</code> otherwise.
      */
-    public abstract boolean append(AbstractList vector);
+    public abstract boolean append(AbstractList<E> list);
 
     /**
      * Prepend the provided {@linkplain Type} to the from of this list.
      * @param value The {@linkplain Type} to prepend.
      */
-    public void prepend(Type value) {
+    public void prepend(E value) {
         insert(0, value);
     }
 
     /**
      * Add the provided {@linkplain AbstractList} to the start of the current list.
-     * @param vector The object to add.
+     * @param list The object to add.
      * @return <code>true</code> if the operation was successful, <code>false</code> otherwise.
      */
-    public abstract boolean prepend(AbstractList vector);
-
-    /**
-     * Get the {@linkplain Numeric} at the given <code>index</code>.
-     * @param index The index of the desired {@linkplain Numeric}.
-     * @return The {@linkplain Numeric} at position <code>index</code>.
-     */
-    public abstract Numeric getNumeric(int index);
-
-    /**
-     * Get the bit-value of the {@linkplain Type} at the given <code>index</code>.
-     * @param index The index of the desired {@linkplain Numeric}.
-     * @return The bit-value at position <code>index</code>.
-     */
-    public abstract boolean getBit(int index);
-
-    /**
-     * Set the value of the {@linkplain net.sourceforge.cilib.type.types.Bit} located at position <code>index</code>.
-     * @param index The index of the bit to set the value.
-     * @param value The value of the bit to set.
-     */
-    public abstract void setBit(int index, boolean value);
-
-    /**
-     * Get the value specified at {@code index} as an {@code int}.
-     * @param index The index of the value to get.
-     * @return The value at {@code index}.
-     */
-    public abstract int getInt(int index);
-
-    /**
-     * Set the value at {@code index} to {@code value}.
-     * @param index The index of the value to set.
-     * @param value The value to set.s
-     */
-    public abstract void setInt(int index, int value);
-
-    /**
-     * Get the value at {@code index} as a {@code double}.
-     * @param index The index of the value to get.
-     * @return The value as a {@code double}.
-     */
-    public abstract double getReal(int index);
-
-    /**
-     * Set the value at {@code index} to {@code value}.
-     * @param index The index of the value to set.
-     * @param value The value to set.
-     */
-    public abstract void setReal(int index, double value);
+    public abstract boolean prepend(AbstractList<E> list);
 
     /**
      * Create an <code>Object []</code> from this <code>Vector</code>.
      * @return an <code>Object []</code> representing the <code>Vector</code>
      */
     public abstract Object[] toArray();
-
-    /**
-     * Get the {@linkplain Type} instance at the given index.
-     * @param index The position of the {@linkplain Type} to return.
-     * @return The {@linkplain Type} at index {@literal index}.
-     */
-    protected abstract Type getType(int index);
 
     /**
      * Get the representation of this <tt>Vector</tt> object in the form expressed by the domain notation.
@@ -207,15 +154,16 @@ public abstract class AbstractList implements StructuredType<Type> {
 
     /**
      * Create a sub vector from the current {@linkplain Vector}.
-     * @param fromIndex The index to start the sub-vector from.
-     * @param toIndex The last index to end the sub-vector at.
-     * @return The created sub-vector instance.
+     * @param fromIndex The index to start the sub-list from.
+     * @param toIndex The last index to end the sub-list at.
+     * @return The created sub-list instance.
      */
-    public abstract AbstractList subVector(int fromIndex, int toIndex);
+    public abstract AbstractList<E> subList(int fromIndex, int toIndex);
 
     /**
      * Create a new (cloned) <tt>Vector</tt> consisting of <tt>rhs</tt> that has been appended to
      * <tt>lhs</tt>.
+     * @param <T> The type element.
      * @param lhs The <tt>Vector</tt> that will form the front part of the new (cloned)
      *        <tt>Vector</tt>.
      * @param rhs The <tt>Vector</tt> that will form the back part of the new (cloned)
@@ -223,8 +171,8 @@ public abstract class AbstractList implements StructuredType<Type> {
      * @return A new <tt>Vector</tt> consisting of the concatenation of <tt>lhs</tt> and
      *         <tt>rhs</tt>.
      */
-    public static AbstractList append(AbstractList lhs, AbstractList rhs) {
-        AbstractList cat = lhs.getClone();
+    public static <T extends Type> AbstractList<T> append(AbstractList<T> lhs, AbstractList<T> rhs) {
+        AbstractList<T> cat = lhs.getClone();
         cat.append(rhs.getClone());
         return cat;
     }
@@ -285,6 +233,7 @@ public abstract class AbstractList implements StructuredType<Type> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         return toString('[', ']', ',');
     }
@@ -299,11 +248,4 @@ public abstract class AbstractList implements StructuredType<Type> {
         return toString('[', ']', delimiter);
     }
 
-    /**
-     * Initialise the {@linkplain Type} to contain <code>size</code> elements all of the type
-     * <code>element</code>.
-     * @param size The required size
-     * @param element The {@linkplain Type} to use to initialise the {@linkplain AbstractList}.
-     */
-    public abstract void initialise(int size, Type element);
 }

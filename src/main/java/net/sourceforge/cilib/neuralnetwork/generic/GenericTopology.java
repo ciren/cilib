@@ -32,6 +32,7 @@ import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.GenericTopol
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.SpecificWeightInitialiser;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightExtractingVisitor;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -95,7 +96,7 @@ public abstract class GenericTopology implements NeuralNetworkTopology, Initiali
     }
 
 
-    public abstract Vector evaluate(NNPattern p);
+    public abstract TypeList evaluate(NNPattern p);
 
 
     public ArrayList<NeuronConfig> getLayer(int index){

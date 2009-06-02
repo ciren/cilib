@@ -28,6 +28,7 @@ import net.sourceforge.cilib.problem.ProblemVisitor;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -70,7 +71,7 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
         return evaluationStrategy.getErrorDt();
     }
 
-    public Vector evaluate(Vector in){
+    public TypeList evaluate(Vector in){
         StandardPattern p = new StandardPattern(in, null);
         return evaluationStrategy.evaluate(p);
     }

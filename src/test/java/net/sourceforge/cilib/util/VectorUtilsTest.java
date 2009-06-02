@@ -60,12 +60,6 @@ public class VectorUtilsTest {
         }
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void createUpperBoundVector() {
-        vector.add(new Vector());
-        VectorUtils.createUpperBoundVector(vector);
-    }
-    
     @Test
     public void testLowerBounds() {
         int i = 1;
@@ -76,11 +70,4 @@ public class VectorUtilsTest {
         }
     }
     
-    @Test(expected = UnsupportedOperationException.class)
-    public void createLowerBoundVector() {
-        vector.add(new Vector());
-        VectorUtils.createLowerBoundVector(vector);
-    }
-
-
 }

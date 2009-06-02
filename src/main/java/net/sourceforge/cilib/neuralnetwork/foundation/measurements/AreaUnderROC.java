@@ -30,7 +30,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkTopology;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * TODO: Fill in some javadoc.
@@ -82,7 +82,7 @@ public class AreaUnderROC implements Measurement{
 
             //Determine winning output, determine if misclassification
             NNPattern p = iterDv.value();
-            Vector output = this.topology.evaluate(p);
+            TypeList output = this.topology.evaluate(p);
 
             int winningOutput = 99999;
             double winningOutputValue = 0.0;
@@ -181,7 +181,7 @@ public class AreaUnderROC implements Measurement{
         }
         String accuracy = String.valueOf(accuracyVal / totalPats);
 
-        Vector v = new Vector();
+        TypeList v = new TypeList();
         v.add(new Real(totalAUC));
         v.add(new StringType(countString));
         v.add(new StringType(matrix));

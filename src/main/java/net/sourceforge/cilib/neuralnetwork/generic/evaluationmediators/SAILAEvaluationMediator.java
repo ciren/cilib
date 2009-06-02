@@ -32,7 +32,7 @@ import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
 import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.SAILARealData;
 import net.sourceforge.cilib.neuralnetwork.generic.errorfunctions.MSEErrorFunction;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 
 /**
@@ -118,7 +118,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
         iteratorDg = data.getGeneralisationSetIterator();
 
         //set the initial error to the error on Dt = 1 pattern.
-        Vector tmpO = topology.evaluate(iteratorDt.value());
+        TypeList tmpO = topology.evaluate(iteratorDt.value());
         subsetBeginErrorDt.computeIteration(tmpO, iteratorDt.value());
         subsetBeginErrorDg.computeIteration(tmpO, iteratorDg.value());
         subsetBeginErrorDt.finaliseError();
@@ -156,7 +156,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
         //iterate over training set
         while(iteratorDt.hasMore()){
 
-            Vector outputDt = topology.evaluate(iteratorDt.value());
+            TypeList outputDt = topology.evaluate(iteratorDt.value());
 
             //compute the per pattern error, use it to train the topology stochastically by default
             this.computeErrorIteration(this.errorDt, outputDt, iteratorDt.value());
@@ -174,7 +174,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 
         while(iteratorDg.hasMore()){
 
-            Vector outputDg = topology.evaluate(iteratorDg.value());
+            TypeList outputDg = topology.evaluate(iteratorDg.value());
 
             //compute the per pattern error, use it to train the topology stochastically be default
             this.computeErrorIteration(this.errorDg, outputDg, iteratorDg.value());
@@ -234,7 +234,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
         }
 
         //save the local var this.errorDt[0] as previous
-        errorDtPrevious.setValue(((Double) this.errorDt[0].getValue()).doubleValue());
+        errorDtPrevious.setValue((this.errorDt[0].getValue()).doubleValue());
 
 
         //criterion 4: Error on Dg increases too much
@@ -242,19 +242,19 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 
         //averageNew = (averageOld * periodsOld + new_sample) / (periodsOld + 1)
         epochNumber++;
-        averageErrorDg = ((double) (averageErrorDg * (epochNumber - 1)) + ((Double) this.errorDg[0].getValue()).doubleValue()) / (double) epochNumber;
+        averageErrorDg = ((averageErrorDg * (epochNumber - 1)) + (this.errorDg[0].getValue()).doubleValue()) / (double) epochNumber;
 
         history.add(this.errorDt[0]);
         double errorDgStdDev = 0;
 
         for(int i = 0; i < history.size(); i++){
-            errorDgStdDev += Math.pow(((Double) history.get(i).getValue()).doubleValue() - averageErrorDg, 2);
+            errorDgStdDev += Math.pow((history.get(i).getValue()).doubleValue() - averageErrorDg, 2);
         }
 
         errorDgStdDev = Math.sqrt(errorDgStdDev / (double) history.size());
 
 
-        if (((Double) this.errorDg[0].getValue()).doubleValue() > (averageErrorDg + errorDgStdDev)) {
+        if ((this.errorDg[0].getValue()).doubleValue() > (averageErrorDg + errorDgStdDev)) {
             terminate = true;
             System.out.println("___________SAILA Termination criterion 4: Validation error rising too much, overfitting detected");
         }
@@ -272,15 +272,15 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
             subsetEpochCounter = 0;
 
             //criterion 2 reset
-            ((MSEErrorFunction) subsetBeginErrorDt).setValue(((Double) this.errorDt[0].getValue()).doubleValue());
-            ((MSEErrorFunction) subsetBeginErrorDg).setValue(((Double) this.errorDg[0].getValue()).doubleValue());
+            ((MSEErrorFunction) subsetBeginErrorDt).setValue((this.errorDt[0].getValue()).doubleValue());
+            ((MSEErrorFunction) subsetBeginErrorDg).setValue((this.errorDg[0].getValue()).doubleValue());
         }
 
         data.shuffleTrainingSet();
     }
 
 
-    public Vector evaluate(NNPattern p) {
+    public TypeList evaluate(NNPattern p) {
         return topology.evaluate(p);
     }
 

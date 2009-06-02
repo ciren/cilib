@@ -23,7 +23,7 @@
 package net.sourceforge.cilib.type;
 
 import net.sourceforge.cilib.type.types.TypeUtil;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,9 +38,9 @@ public class StringBasedDomainRegistryTest {
         DomainRegistry registry = new StringBasedDomainRegistry();
         registry.setDomainString("[R(-5.0, 5.0)^10]^10");
 
-        Vector matrix = (Vector) registry.getBuiltRepresenation();
-        Assert.assertEquals(10, matrix.getDimension());
-        Assert.assertEquals(10, ((Vector) matrix.get(0)).size());
+        TypeList matrix = (TypeList) registry.getBuiltRepresenation();
+        Assert.assertEquals(10, matrix.size());
+        Assert.assertEquals(10, ((TypeList) matrix.get(0)).size());
         Assert.assertTrue(TypeUtil.isInsideBounds(matrix));
     }
 }

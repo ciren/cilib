@@ -262,17 +262,17 @@ public class ClusteringUtilsTest {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testArrangedCentroids() {
-        assertThat(arrangedCentroids.get(0), equalTo(centroids.subVector(0, 1)));
+        assertThat(arrangedCentroids.get(0), equalTo(centroids.subList(0, 1)));
 
-        assertThat(arrangedCentroids.get(1), equalTo(centroids.subVector(2, 3)));
+        assertThat(arrangedCentroids.get(1), equalTo(centroids.subList(2, 3)));
 
-        assertThat(arrangedCentroids.get(2), equalTo(centroids.subVector(4, 5)));
+        assertThat(arrangedCentroids.get(2), equalTo(centroids.subList(4, 5)));
 
-        assertThat(arrangedCentroids.get(3), equalTo(centroids.subVector(6, 7)));
+        assertThat(arrangedCentroids.get(3), equalTo(centroids.subList(6, 7)));
 
-        assertThat(arrangedCentroids.get(4), equalTo(centroids.subVector(8, 9)));
+        assertThat(arrangedCentroids.get(4), equalTo(centroids.subList(8, 9)));
 
-        assertThat(arrangedCentroids.get(5), equalTo(centroids.subVector(10, 11)));
+        assertThat(arrangedCentroids.get(5), equalTo(centroids.subList(10, 11)));
 
         // the last centroid is useless, i.e. no pattern "belongs" to it
         // should throw an exception (no such element / index out of bounds)

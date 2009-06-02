@@ -24,12 +24,11 @@ package net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
  * @author stefanv
@@ -72,7 +71,7 @@ public class FFNNEvaluationMediator extends EvaluationMediator {
         //iterate over each applicable pattern in training dataset
         while(iteratorDt.hasMore()){
 
-            Vector output = topology.evaluate(iteratorDt.value());
+            TypeList output = topology.evaluate(iteratorDt.value());
             this.nrEvaluationsPerEpoch++;
 
             //compute the per pattern error, use it to train the topology stochastically be default
@@ -91,7 +90,7 @@ public class FFNNEvaluationMediator extends EvaluationMediator {
 
         while(iteratorDg.hasMore()){
 
-            Vector outputDg = topology.evaluate(iteratorDg.value());
+            TypeList outputDg = topology.evaluate(iteratorDg.value());
 
             //compute the per pattern error, use it to train the topology stochastically be default
             this.computeErrorIteration(this.errorDg, outputDg, iteratorDg.value());
@@ -107,7 +106,7 @@ public class FFNNEvaluationMediator extends EvaluationMediator {
     }
 
 
-    public Vector evaluate(NNPattern p) {
+    public TypeList evaluate(NNPattern p) {
         return topology.evaluate(p);
     }
 

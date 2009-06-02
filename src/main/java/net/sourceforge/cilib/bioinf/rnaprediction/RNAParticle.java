@@ -28,6 +28,7 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -40,7 +41,7 @@ public class RNAParticle extends AbstractParticle {
 
     private RNAConformation position;
     private RNAConformation bestPosition;
-    private Vector velocity;
+    private TypeList velocity;
 
     private Fitness bestFitness;
 
@@ -54,7 +55,7 @@ public class RNAParticle extends AbstractParticle {
     public RNAParticle() {
         position = new RNAConformation();
         bestPosition = new RNAConformation();
-        velocity = new Vector();
+        velocity = new TypeList();
     }
 
     /**
@@ -169,7 +170,7 @@ public class RNAParticle extends AbstractParticle {
         position = (RNAConformation) i.getInitialPosition(problem);
         bestPosition.clear();
         bestPosition.addAll(position);
-        velocity = (Vector) i.getInitialVelocity(problem);
+        velocity = (TypeList) i.getInitialVelocity(problem);
         bestFitness = InferiorFitness.instance();
         neighbourhoodBest = this;
         //fitnessCalc = new SimpleRNAFitness();

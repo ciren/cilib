@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
 
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -31,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public interface NeuralNetworkTopology extends Initializable{
 
-    public Vector evaluate(NNPattern p);
+    public TypeList evaluate(NNPattern p);
 
     public Vector getWeights();
 

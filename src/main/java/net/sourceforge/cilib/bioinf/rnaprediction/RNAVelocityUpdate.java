@@ -27,6 +27,7 @@ import java.util.Random;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
+import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -83,7 +84,7 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
      */
 
     public void updateVelocity(Particle particle) {
-        Vector velocity = (Vector) particle.getVelocity();
+        TypeList velocity = (TypeList) particle.getVelocity();
         RNAConformation openStems = (RNAConformation) velocity.get(0);
         RNAConformation closeStems = (RNAConformation) velocity.get(1);
 

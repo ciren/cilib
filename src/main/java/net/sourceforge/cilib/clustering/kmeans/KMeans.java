@@ -155,7 +155,7 @@ public class KMeans extends SingularAlgorithm {
         Vector tmp = centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getClusterableDataSet());
 
         // this first centroid will do
-        return tmp.subVector(0, centroid.getDimension() - 1);
+        return tmp.subList(0, centroid.getDimension() - 1);
     }
 
     /**

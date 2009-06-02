@@ -33,7 +33,6 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.AbstractList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -197,7 +196,7 @@ public class HS extends SingularAlgorithm {
 //        Real newHarmonyValue;
         for (int i = 0; i < problem.getDomain().getDimension(); ++i) {
             if (random1.getUniform() < harmonyMemoryConsideringRate.getParameter()) {
-                Harmony selectedHarmony = (Harmony) this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
+                Harmony selectedHarmony = this.harmonyMemory.get((int) random2.getUniform(0, harmonyMemory.size()-1));
                 Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
                 Real newHarmonyValue = (Real) selectedHarmonyContents.get(i).getClone();
                 if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
@@ -209,8 +208,8 @@ public class HS extends SingularAlgorithm {
                 newHarmonyVector.set(i, newHarmonyValue);
             }
             else {
-                double upper = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getBounds().getUpperBound();
-                double lower = ((AbstractList) problem.getDomain().getBuiltRepresenation()).getNumeric(i).getBounds().getLowerBound();
+                double upper = ((Vector) problem.getDomain().getBuiltRepresenation()).get(i).getBounds().getUpperBound();
+                double lower = ((Vector) problem.getDomain().getBuiltRepresenation()).get(i).getBounds().getLowerBound();
                 newHarmonyVector.set(i, new Real(random3.getUniform(lower, upper)));
             }
         }
