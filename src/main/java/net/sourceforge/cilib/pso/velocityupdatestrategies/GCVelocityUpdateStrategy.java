@@ -27,6 +27,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
@@ -127,7 +128,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      */
     public void updateVelocity(Particle particle) {
         PSO pso = (PSO) Algorithm.get();
-        final Particle globalBest = pso.getTopology().getBestEntity();
+        final Particle globalBest = pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>());
 
         if (particle == globalBest) {
             final Vector velocity = (Vector) particle.getVelocity();
@@ -157,7 +158,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
         // Remember NOT to reset the rho value to 1.0
         PSO pso = (PSO) Algorithm.get();
 
-        if (particle == pso.getTopology().getBestEntity()) {
+        if (particle == pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>())) {
             Fitness newFitness = particle.getFitnessCalculator().getFitness(particle, false);
 
             if (!newFitness.equals(oldFitness)) {
@@ -185,7 +186,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
     private void updateRho(Vector position) { // the Rho value is problem and dimension dependent
         double tmp = 0.0;
 
-        Numeric component = (Numeric) position.get(0);
+        Numeric component = position.get(0);
         double average = (component.getBounds().getUpperBound() - component.getBounds().getLowerBound()) / rhoExpandCoefficient.getParameter();
 
         if (successCount >= successCountThreshold) tmp = rhoExpandCoefficient.getParameter()*rho.getParameter();

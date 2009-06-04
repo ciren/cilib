@@ -89,7 +89,8 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
      */
     @Override
     public E getBestEntity(Comparator<? super E> comparator) {
-        if (bestEntity == null) {
+//        if (bestEntity == null) {
+        E bestEntity = null;
             Iterator<E> i = this.iterator();
             bestEntity = i.next();
 
@@ -99,7 +100,7 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
                     bestEntity = entity;
                 }
             }
-        }
+//        }
 
         return bestEntity;
     }

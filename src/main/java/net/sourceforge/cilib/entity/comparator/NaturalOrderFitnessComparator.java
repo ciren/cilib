@@ -19,31 +19,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.entity.comparator;
 
 import java.util.Comparator;
-import net.sourceforge.cilib.entity.SocialEntity;
-import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.entity.Entity;
 
 /**
- * Compare two {@link SocialEntity} instances, based on the available social best
- * fitness.
- * @param <E> The {@code SocialEntity} type.
- * @see SocialEntity#getSocialBestFitness()
+ * Perform a comparison based on the natural ordering of fitnesses.
+ * @param <E> The {@code Entity} type.
  * @author gpampara
  */
-public class SocialBestFitnessComparator<E extends SocialEntity> implements Comparator<E> {
+public class NaturalOrderFitnessComparator<E extends Entity> implements Comparator<E> {
 
     /**
      * {@inheritDoc}
      */
     @Override
     public int compare(E o1, E o2) {
-        Fitness f1 = o1.getSocialBestFitness();
-        Fitness f2 = o2.getSocialBestFitness();
-
-        return f1.compareTo(f2);
+        return o1.getFitness().compareTo(o2.getFitness());
     }
 
 }

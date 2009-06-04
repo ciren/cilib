@@ -22,9 +22,11 @@
 
 package net.sourceforge.cilib.entity;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import net.sourceforge.cilib.entity.comparator.NaturalOrderFitnessComparator;
 
 /**
  * Topology related utilities.
@@ -36,32 +38,43 @@ public final class Topologies {
     }
 
     /**
+     * Obtain the best entity from each neighbourhood and return them.
+     * @param <T> The {@code Entity} type.
+     * @param topology The topology to query.
+     * @return a {@code Set} of neighbourhood best entities.
+     */
+    public static <T extends Entity> Set<T> getNeighbourhoodBestEntities(Topology<T> topology) {
+        return getNeighbourhoodBestEntities(topology, new NaturalOrderFitnessComparator<T>());
+    }
+
+    /**
      * Gather the best entity of each neighbourhood (in this {@link Topology}) in a
      * {@link Set} (duplicates are not allowed) and return them. A single {@link Entity} may
      * dominate in more than one neighbourhood, but we just want unique entities.
      *
-     * @param <E> The entity type.
+     * @param <T> The entity type.
      * @param topology The topology to query.
+     * @param comparator The comparator to use.
      * @return a {@link Set} cosisting of the best entity of each neighbourhood in the
      *         topology
      * @author Theuns Cloete
      */
-    public static <E extends Entity> Set<E> getNeighbourhoodBestEntities(Topology<E> topology) {
+    public static <T extends Entity> Set<T> getNeighbourhoodBestEntities(Topology<T> topology, Comparator<T> comparator) {
         // a Set does not allow duplicates
-        Set<E> neighbourhoodBests = new HashSet<E>(topology.size());
-        Iterator<E> topologyIterator = topology.iterator();
+        Set<T> neighbourhoodBests = new HashSet<T>(topology.size());
+        Iterator<T> topologyIterator = topology.iterator();
 
         // iterate over all entities in the topology
         while (topologyIterator.hasNext()) {
             topologyIterator.next();
-            Iterator<E> neighbourhoodIterator = topology.neighbourhood(topologyIterator);
-            E currentBestEntity = null;
+            Iterator<T> neighbourhoodIterator = topology.neighbourhood(topologyIterator);
+            T currentBestEntity = null;
 
             // iterate over the neighbours of the current entity
             while (neighbourhoodIterator.hasNext()) {
-                E anotherEntity = neighbourhoodIterator.next();
+                T anotherEntity = neighbourhoodIterator.next();
                 // keep track of the best entity
-                if (currentBestEntity == null || currentBestEntity.compareTo(anotherEntity) > 0) {
+                if (currentBestEntity == null || comparator.compare(currentBestEntity, anotherEntity) > 0) {
                     currentBestEntity = anotherEntity;
                 }
             }

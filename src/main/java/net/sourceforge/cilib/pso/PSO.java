@@ -30,6 +30,7 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -136,7 +137,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        Particle bestEntity = topology.getBestEntity();
+        Particle bestEntity = topology.getBestEntity(new SocialBestFitnessComparator<Particle>());
         return new OptimisationSolution(bestEntity.getBestPosition().getClone(), bestEntity.getBestFitness());
     }
 
