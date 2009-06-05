@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -19,50 +19,47 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Before;
+import org.junit.Test;
+
 /**
- * The absolute value function.
- * @author Olusegun Olorunda
- */
-public class AbsoluteValue extends ContinuousFunction {
-    private static final long serialVersionUID = 1662988096338786773L;
+* @author Andries Engelbrecht
+*/
+public class AbsoluteValueTest {
 
-    /**
-     * Create an instance of {@linkplain AbsoluteValue}. Domain is defaulted to R(-100, 100)^30.
-     */
-    public AbsoluteValue() {
-        setDomain("R(-100, 100)^30");
+    private ContinuousFunction function;
+
+    @Before
+    public void instantiate() {
+        this.function = new AbsoluteValue();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public AbsoluteValue getClone() {
-        return new AbsoluteValue();
+    /** Test of evaluate method, of class cilib.functions.unconstrained.AbsoluteValue. */
+    @Test
+    public void testEvaluate() {
+        function.setDomain("R(-100, 100)^3");
+
+        Vector x = new Vector();
+        x.append(new Real(-1.0));
+        x.append(new Real(2.0));
+        x.append(new Real(-3.0));
+        assertEquals(6.0, function.evaluate(x), 0.0);
+
+        x.setReal(0, 0.0);
+        x.setReal(1, 0.0);
+        x.setReal(2, 0.0);
+        assertEquals(0.0, function.evaluate(x), 0.0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Object getMinimum() {
-        return new Double(0);
-     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double evaluate(Vector x) {
-        double tmp = 0;
-        for (int i = 0; i < getDimension(); ++i) {
-            tmp += Math.abs(x.getReal(i));
-        }
-        return tmp;
+    @Test
+    public void minimum() {
+        assertEquals(0.0, function.getMinimum());
     }
-
 }

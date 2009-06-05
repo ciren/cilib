@@ -1,5 +1,4 @@
-/*
- * Copyright (C) 2003 - 2008
+/* Copyright (C) 2003 - 2008
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -19,13 +18,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The Collville function.
+ * <p><b>The Colville Function.</b></p>
+ *
+ * <p><b>Reference:</b> Doo-Hyun Choi, Cooperative mutation based evolutionary programming for continuous function optimization, Operations Research Letters, Volume 30, Issue 3, June 2002, Pages 195-201/p>
+ *
+ * <p>Minimum:
+ * <ul>
+ * <li> f(<b>x</b>*) = 0</li>
+ * <li> <b>x</b>* = (1, 1, 1, 1)</li>
+ * <li> for x_i in [-10, 10]</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Characteristics:
+ * <ul>
+ * <li>Unimodal</li>
+ * <li>Non-seperable</li>
+ * <li>Regular</li>
+ * </ul>
+ * </p>
  *
  * @author  engel
  */
@@ -69,8 +86,9 @@ public class Colville extends ContinuousFunction {
             (1-a) * (1-a) +
             90 * (d-c*c) * (d-c*c) +
             (1-c) * (1-c) +
-            10.1 * ((b-1) * (b-1) + (d-1) * (d-1)) +
+            10.1 * ((c-1) * (c-1) + (d-1) * (d-1)) +
             19.8 * (b-1) * (d-1);
     }
 
 }
+
