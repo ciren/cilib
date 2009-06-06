@@ -28,8 +28,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -49,7 +47,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class StateAwareMeasurement implements Measurement, Externalizable {
 
-    private Logger logger = LoggerFactory.getLogger(StateAwareMeasurement.class);
     private boolean stateAware;
 
     public StateAwareMeasurement() {
@@ -82,7 +79,6 @@ public abstract class StateAwareMeasurement implements Measurement, Externalizab
      */
     public void setState(MeasurementMemento memento) throws IOException, ClassNotFoundException {
         if (memento.getData() == null) {
-            logger.warn("Provided memento does not contain data. Please correct. Not internalizing state.");
             return;
         }
 

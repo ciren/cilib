@@ -21,9 +21,6 @@
  */
 package net.sourceforge.cilib.problem;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
@@ -87,7 +84,6 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class ClusteringProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = 7027242527499147957L;
-    private static Logger logger = LoggerFactory.getLogger(ClusteringProblem.class);
 
     private FunctionOptimisationProblem innerProblem;
     private int numberOfClusters;
@@ -199,7 +195,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      */
     private void regenerateDomain() {
         if (innerProblem == null || innerProblem.getFunction() == null || domainRegistry == null || numberOfClusters == UNINITIALISED) {
-            logger.warn("Preliminary: ClusteringProblem not completely configured yet");
+            System.out.println("Preliminary: ClusteringProblem not completely configured yet");
             return;
         }
 

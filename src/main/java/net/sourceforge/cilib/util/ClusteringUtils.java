@@ -33,9 +33,6 @@ import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A class that simplifies clustering when making use of a {@link ClusteringProblem}, a
  * {@link ClusterableDataSet} and a {@link ClusteringFitnessFunction}. <br/> This
@@ -45,7 +42,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class ClusteringUtils {
     private static final long serialVersionUID = 4878437477807660149L;
-    private static Logger logger = LoggerFactory.getLogger(ClusteringUtils.class);
 
     /**
      * A thread local instance of this class.
@@ -84,10 +80,10 @@ public final class ClusteringUtils {
                 clusteringProblem = (ClusteringProblem) algorithm.getOptimisationProblem();
                 clusterableDataSet = (ClusterableDataSet) clusteringProblem.getDataSetBuilder();
 
-                logger.info("Initialised Algorithm found: " + ClusteringUtils.class.getSimpleName() + " is now configured");
+                System.out.println("Initialised Algorithm found: " + ClusteringUtils.class.getSimpleName() + " is now configured");
             }
             catch (EmptyStackException ese) {
-                logger.error("Preliminary: Algorithm not initialised yet");
+                System.out.println("Preliminary: Algorithm not initialised yet");
                 // there is no active algorithm when running the unit test
                 // we need to return, otherwise it will break
                 return;

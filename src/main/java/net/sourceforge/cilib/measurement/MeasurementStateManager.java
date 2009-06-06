@@ -26,15 +26,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author gpampara
  */
 public class MeasurementStateManager {
-    private Logger logger = LoggerFactory.getLogger(MeasurementStateManager.class);
     private ConcurrentHashMap<Algorithm, ConcurrentHashMap<Measurement, MeasurementMemento>> algorithmData;
 
     public MeasurementStateManager() {
@@ -68,11 +65,11 @@ public class MeasurementStateManager {
             measurement.setState(memento);
         }
         catch (IOException io) {
-            logger.error("Error restoring state of measurement [{}] for algorithm [{}]", measurement, algorithm);
-            logger.error("Execption: ", io);
+//            logger.error("Error restoring state of measurement [{}] for algorithm [{}]", measurement, algorithm);
+//            logger.error("Execption: ", io);
         }
         catch (ClassNotFoundException c) {
-            logger.error("Class cannot be found!", c);
+//            logger.error("Class cannot be found!", c);
         }
     }
 
@@ -96,8 +93,8 @@ public class MeasurementStateManager {
             return memento;
         }
         catch (IOException io) {
-           logger.error("Error persisting state of measurement {} for algorithm {}", measurement, algorithm);
-           logger.error("Execption: ", io);
+//           logger.error("Error persisting state of measurement {} for algorithm {}", measurement, algorithm);
+//           logger.error("Execption: ", io);
         }
 
         return null;

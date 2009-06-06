@@ -23,10 +23,9 @@ package net.sourceforge.cilib.problem.dataset;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.sourceforge.cilib.math.StatUtils;
+import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.simulator.Simulation;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -42,7 +41,6 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  */
 public class AssociatedPairDataSetBuilder extends DataSetBuilder implements ClusterableDataSet {
     private static final long serialVersionUID = -7035524554252462144L;
-    private static Logger log = LoggerFactory.getLogger(AssociatedPairDataSetBuilder.class);
 
     protected ArrayList<Pattern> patterns = null;
     private Vector cachedMean = null;
@@ -130,7 +128,6 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
      * Calculate and cache the mean ({@link Vector}) and variance (scalar) of the dataset.
      */
     private void cacheMeanAndVariance() {
-        log.info("Caching dataset mean and variance");
         cachedMean = StatUtils.meanVector(patterns);
         cachedVariance = StatUtils.variance(patterns, cachedMean);
     }
@@ -168,7 +165,6 @@ public class AssociatedPairDataSetBuilder extends DataSetBuilder implements Clus
      * stored.
      */
     private void cacheDistances() {
-        log.info("Caching distances between patterns of dataset");
         ClusteringUtils helper = ClusteringUtils.get();
         int numPatterns = getNumberOfPatterns();
         int cacheSize = (numPatterns * (numPatterns - 1)) / 2;
