@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.type;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -38,7 +41,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      */
     private static final long serialVersionUID = 3821361290684036030L;
     private String domainString;
-    private String expandedRepresentation;
+//    private String expandedRepresentation;
     private StructuredType builtRepresenation;
 
 
@@ -55,7 +58,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      */
     public StringBasedDomainRegistry(StringBasedDomainRegistry copy) {
         this.domainString = copy.domainString;
-        this.expandedRepresentation = copy.expandedRepresentation;
+//        this.expandedRepresentation = copy.expandedRepresentation;
         this.builtRepresenation = copy.builtRepresenation.getClone();
     }
 
@@ -79,28 +82,31 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      */
     public void setDomainString(String domainString) {
         this.domainString = domainString;
-
-        DomainParser parser = new DomainParser();
-        parser.parse(domainString);
-
-        setExpandedRepresentation(parser.expandDomainString(domainString));
-        setBuiltRepresenation(parser.getBuiltRepresentation());
+        try {
+//        DomainParser parser = new DomainParser();
+//        parser.parse(domainString);
+//        setExpandedRepresentation(parser.expandDomainString(domainString));
+//        setBuiltRepresenation(parser.getBuiltRepresentation());
+            setBuiltRepresenation(net.sourceforge.cilib.type.parser.DomainParser.parse(domainString));
+        } catch (ParseException ex) {
+            Logger.getLogger(StringBasedDomainRegistry.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
-    public String getExpandedRepresentation() {
-        return expandedRepresentation;
-    }
+//    public String getExpandedRepresentation() {
+//        return expandedRepresentation;
+//    }
 
     /**
      * Set the value of the expaded domain string.
      * @param expandedRepresentation The expandedRepresentation to set.
      */
-    public void setExpandedRepresentation(String expandedRepresentation) {
-        this.expandedRepresentation = expandedRepresentation;
-    }
+//    public void setExpandedRepresentation(String expandedRepresentation) {
+//        this.expandedRepresentation = expandedRepresentation;
+//    }
 
     /**
      * {@inheritDoc}

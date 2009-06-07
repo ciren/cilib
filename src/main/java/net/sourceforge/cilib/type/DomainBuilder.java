@@ -52,7 +52,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </ul>
  *
  * @author Gary Pampara
+ * @deprecated in favor of the JavaCC generated parser.
  */
+@Deprecated
 public class DomainBuilder {
 
     private TypeList representation;

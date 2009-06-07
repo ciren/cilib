@@ -29,7 +29,9 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * represenation.
  *
  * @author Gary Pampara
+ * @deprecated in favor of the JavaCC generated parser.
  */
+@Deprecated
 public final class DomainParser {
 
     private DomainBuilder builder;

@@ -52,6 +52,7 @@ import java.util.ArrayList;
  * where <tt>[]</tt> represents an empty string.
  *
  * @author Gary Pampara
+ * @deprecated in favor of the JavaCC generated parser.
  */
 public class DomainValidator {
 

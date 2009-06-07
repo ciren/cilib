@@ -26,7 +26,6 @@ import java.util.Collection;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
-import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -118,7 +117,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 
     public DomainRegistry getDomain() {  //computes the domain according to the input sequences and amount of gaps to insert
         if (this.domainRegistry.getDomainString() == null) {
-            DomainParser parser = new DomainParser();
+//            DomainParser parser = new DomainParser();
 
             //reads in the input data sets.
             FASTADataSetBuilder stringBuilder = (FASTADataSetBuilder) this.getDataSetBuilder();
@@ -163,7 +162,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
 
             System.out.println("Domain: "+rep);  //extra for debug, can be commented out
 
-            parser.parse(rep);
+//            parser.parse(rep);
 
             domainRegistry.setDomainString(rep);
         }

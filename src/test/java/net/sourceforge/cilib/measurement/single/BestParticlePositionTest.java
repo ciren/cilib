@@ -22,13 +22,14 @@
 
 package net.sourceforge.cilib.measurement.single;
 
+import net.sourceforge.cilib.type.parser.ParseException;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.DomainParser;
+import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.container.TypeList;
 
+import net.sourceforge.cilib.type.types.container.TypeList;
 import org.junit.Test;
 
 /**
@@ -38,13 +39,10 @@ import org.junit.Test;
 public class BestParticlePositionTest {
     
     @Test
-    public void testBestParticlePositionDomain() {
+    public void testBestParticlePositionDomain() throws ParseException {
         Measurement m = new BestParticlePosition();
-        
-        DomainParser parser = new DomainParser();
-        parser.parse(m.getDomain());
-        
-        TypeList t = (TypeList) parser.getBuiltRepresentation();
+
+        TypeList t = (TypeList) DomainParser.parse(m.getDomain());
         
         assertTrue(t.get(0) instanceof StringType);
         assertEquals(1, t.size());

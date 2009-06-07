@@ -22,10 +22,11 @@
 
 package net.sourceforge.cilib.measurement.single;
 
+import net.sourceforge.cilib.type.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.DomainParser;
+import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -38,13 +39,10 @@ import org.junit.Test;
 public class FitnessTest {
     
     @Test
-    public void testFitnessDomain() {
+    public void testFitnessDomain() throws ParseException {
         Measurement m = new Fitness();
         
-        DomainParser p = new DomainParser();
-        p.parse(m.getDomain());
-        
-        Vector t = (Vector) p.getBuiltRepresentation();
+        Vector t = (Vector) DomainParser.parse(m.getDomain());
         
         assertEquals(1, t.getDimension());
         assertTrue(t.get(0) instanceof Real);
