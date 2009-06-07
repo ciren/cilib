@@ -1,0 +1,43 @@
+options {
+  STATIC=false;
+  MULTI=true;
+  VISITOR=true;
+}
+
+PARSER_BEGIN( DomainParser )
+package net.sourceforge.cilib.parser;
+public class DomainParser {}
+
+class DomainNode extends SimpleNode {
+  String value;
+  public DomainNode() { super(0); }
+  public DomainNode(String value) { super(0); this.value = value; }
+  public String getValue() { return value; }
+  public String toString() { return value; }
+}
+PARSER_END( DomainParser )
+
+ASTrootElement rootElement()       : {} { element() <EOF> { return jjtThis; }}
+void element()                     : {} { domainElement() (repeat())?  }
+void domainElement()               : {} { type() (dimension())? }
+void type()                        : { Token t = null; } { t=<TYPE> {jjtThis.jjtAddChild(new DomainNode(t.image), 0);}}
+void exponent()                    : { Token t = null; } { <EXPONENT> t=<INTEGER> {jjtThis.jjtAddChild(new DomainNode(t.image), 0);}}
+void dimension()                   : {} { (lowerDim() | exponent() ) }
+void lowerDim()                    : {} { "(" number() ( upperDim() | value() ) }
+void upperDim()                    : {} { "," number() ")" (exponent())? }
+void value()                       : {} { ")" (exponent())? }
+void repeat()                      : {} { "," element() }
+void number()                      : { Token t = null; } {
+    t=<NUMBER> { jjtThis.jjtAddChild(new DomainNode(t.image), 0);}
+|   <MINUS> t=<NUMBER> {jjtThis.jjtAddChild(new DomainNode("-"+t.image), 0);}
+}
+
+SKIP  : { " " | "\t" | "\n" | "\r" }
+TOKEN : {
+    < INTEGER : (<DIGIT>)+ >
+|   < NUMBER : <INTEGER> ( "." <INTEGER> )? >
+|   < DIGIT : ["0"-"9"] >
+|   < TYPE : ( "R" | "B" | "Z" ) >
+|   < MINUS : "-" >
+|   < EXPONENT : "^" >
+}
