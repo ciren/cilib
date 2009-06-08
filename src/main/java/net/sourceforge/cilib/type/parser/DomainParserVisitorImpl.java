@@ -35,17 +35,37 @@ import net.sourceforge.cilib.type.types.container.TypeList;
  */
 public class DomainParserVisitorImpl implements DomainParserVisitor {
 
+    /**
+     * Top level visit operation - no actions are performed.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(SimpleNode node, Object data) {
         return null;
     }
 
+    /**
+     * The root starting point of the grammar. No actions are performed apart from
+     * deferring to other production rules.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTrootElement node, Object data) {
         ASTelement element = (ASTelement) node.jjtGetChild(0);
         return element.jjtAccept(this, data);
     }
 
+    /**
+     * Obtain the results of the visitation of the {@code domainElement}
+     * and any possible {@code repeat}s.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTelement node, Object data) {
         ASTdomainElement domainElement = (ASTdomainElement) node.jjtGetChild(0);
@@ -59,6 +79,13 @@ public class DomainParserVisitorImpl implements DomainParserVisitor {
         return null;
     }
 
+    /**
+     * Obtain the data from the domainElement. Actual types are constructed based
+     * on the determined type, bounds and exponent values.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTdomainElement node, Object data) {
         int children = node.jjtGetNumChildren();
@@ -85,14 +112,18 @@ public class DomainParserVisitorImpl implements DomainParserVisitor {
             if (dimensionOrExponent instanceof ASTexponent) {
                 exponent = getExponent(node, data, 1);
             }
-
         }
 
         expandDomain(creator, bounds, exponent, data);
-
         return null;
     }
 
+    /**
+     * Obtain the type defined in the portion of the domain string.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTtype node, Object data) {
         DomainNode domainNode = (DomainNode) node.jjtGetChild(0);
@@ -103,31 +134,51 @@ public class DomainParserVisitorImpl implements DomainParserVisitor {
             Class<?> creatorClass = Class.forName("net.sourceforge.cilib.type.creator." + domainNode.getValue());
             instance = (TypeCreator) creatorClass.newInstance();
         } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
         } catch (InstantiationException ex) {
+            ex.printStackTrace();
         } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
         }
 
         return instance;
     }
 
+    /**
+     * Extract the exponent value for the portion of the domain string.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTexponent node, Object data) {
         DomainNode domainNode = (DomainNode) node.jjtGetChild(0);
         return domainNode.getValue();
     }
 
+    /**
+     * Determine the dimension elements of the potion of the domain string.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTdimension node, Object data) {
         ASTlowerDim lowerDim = (ASTlowerDim) node.jjtGetChild(0);
         return lowerDim.jjtAccept(this, data);
     }
 
+    /**
+     * Extract the lower bounds information from the portion of the domain string.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTlowerDim node, Object data) {
         List<Double> bounds = new ArrayList<Double>();
 
         ASTnumber number1 = (ASTnumber) node.jjtGetChild(0);
-
         Double value1 = Double.valueOf((String) number1.jjtAccept(this, data));
         bounds.add(value1);
 
@@ -136,6 +187,10 @@ public class DomainParserVisitorImpl implements DomainParserVisitor {
             ASTupperDim upper = (ASTupperDim) remainder;
             Double value2 = Double.valueOf((String) upper.jjtAccept(this, data));
             bounds.add(value2);
+
+            if (value1.compareTo(value2) > 0)
+                throw new UnsupportedOperationException("Parsed bound values are not in order." +
+                    "Upper bound is less than lower bound.");
         }
 
         if (remainder instanceof ASTvalue) {
@@ -146,24 +201,48 @@ public class DomainParserVisitorImpl implements DomainParserVisitor {
         return bounds;
     }
 
+    /**
+     * Obtain the value for the upper bound and return it.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTupperDim node, Object data) {
         ASTnumber number = (ASTnumber) node.jjtGetChild(0);
         return number.jjtAccept(this, data);
     }
 
+    /**
+     * Perfrom no actions. This is a terminal node for bounds.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return {@code null} - no action is performed.
+     */
     @Override
     public Object visit(ASTvalue node, Object data) {
         // Nothing to be done as this is a terminal node that simply ends a statement.
         return null;
     }
 
+    /**
+     * Apply the repeat action as defined in the grammar.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTrepeat node, Object data) {
         ASTelement element = (ASTelement) node.jjtGetChild(0);
         return element.jjtAccept(this, data);
     }
 
+    /**
+     * Extract the number that is defined in the domain string.
+     * @param node The abstract syntax tree node to visit.
+     * @param data The passed in data object.
+     * @return The result of the visit opertion.
+     */
     @Override
     public Object visit(ASTnumber node, Object data) {
         DomainNode domainNode = (DomainNode) node.jjtGetChild(0);

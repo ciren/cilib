@@ -25,23 +25,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Class to perform the needed mappings between a top level domain string
  * and the built representation.
  *
  * @author Gary Pampara
- *
  */
 public class StringBasedDomainRegistry implements DomainRegistry {
-
-    /**
-     * Generated <u>Serial Version UID</u> for the serialization.
-     */
     private static final long serialVersionUID = 3821361290684036030L;
     private String domainString;
-//    private String expandedRepresentation;
     private StructuredType builtRepresenation;
 
 
@@ -58,13 +51,13 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      */
     public StringBasedDomainRegistry(StringBasedDomainRegistry copy) {
         this.domainString = copy.domainString;
-//        this.expandedRepresentation = copy.expandedRepresentation;
         this.builtRepresenation = copy.builtRepresenation.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public StringBasedDomainRegistry getClone() {
         return new StringBasedDomainRegistry(this);
     }
@@ -72,6 +65,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomainString() {
         return domainString;
     }
@@ -80,14 +74,11 @@ public class StringBasedDomainRegistry implements DomainRegistry {
      * Set the value of the string representing the domain.
      * @param domainString The domainString to set.
      */
+    @Override
     public void setDomainString(String domainString) {
         this.domainString = domainString;
         try {
-//        DomainParser parser = new DomainParser();
-//        parser.parse(domainString);
-//        setExpandedRepresentation(parser.expandDomainString(domainString));
-//        setBuiltRepresenation(parser.getBuiltRepresentation());
-            setBuiltRepresenation(net.sourceforge.cilib.type.parser.DomainParser.parse(domainString));
+            this.builtRepresenation = net.sourceforge.cilib.type.parser.DomainParser.parse(domainString);
         } catch (ParseException ex) {
             Logger.getLogger(StringBasedDomainRegistry.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -96,21 +87,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
     /**
      * {@inheritDoc}
      */
-//    public String getExpandedRepresentation() {
-//        return expandedRepresentation;
-//    }
-
-    /**
-     * Set the value of the expaded domain string.
-     * @param expandedRepresentation The expandedRepresentation to set.
-     */
-//    public void setExpandedRepresentation(String expandedRepresentation) {
-//        this.expandedRepresentation = expandedRepresentation;
-//    }
-
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public StructuredType getBuiltRepresenation() {
         return this.builtRepresenation;
     }
@@ -128,8 +105,9 @@ public class StringBasedDomainRegistry implements DomainRegistry {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getDimension() {
-        return ((Vector) this.builtRepresenation).getDimension();
+        return this.builtRepresenation.size();
     }
 
 }

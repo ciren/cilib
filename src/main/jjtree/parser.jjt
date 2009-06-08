@@ -62,21 +62,21 @@ ASTrootElement rootElement() : {} { element() <EOF> { return jjtThis; }}
 void element()               : {} { domainElement() (repeat())?  }
 void domainElement()         : {} { type() (dimension() (exponent())? | exponent())? }
 void type()                  : { Token t = null; } { t=<TYPE> {jjtThis.jjtAddChild(new DomainNode(t.image), 0);}}
-void exponent()              : { Token t = null; } { <EXPONENT> t=<INTEGER> {jjtThis.jjtAddChild(new DomainNode(t.image), 0);}}
+void exponent()              : { Token t = null; } { <EXPONENT> t=<POSITIVE_INTEGER> {jjtThis.jjtAddChild(new DomainNode(t.image), 0);}}
 void dimension()             : {} { lowerDim() }
 void lowerDim()              : {} { "(" number() ( upperDim() | value() ) }
 void upperDim()              : {} { "," number() ")" }
 void value()                 : {} { ")" }
 void repeat()                : {} { "," element() }
 void number()                : { Token t = null; } {
-    (t=<NUMBER> | t=<INTEGER>) { jjtThis.jjtAddChild(new DomainNode(t.image), 0);}
-|   <MINUS> (t=<NUMBER> | t=<INTEGER>) {jjtThis.jjtAddChild(new DomainNode("-"+t.image), 0);}
+    (t=<POSITIVE_INTEGER> | t=<NUMBER>) { jjtThis.jjtAddChild(new DomainNode(t.image), 0);}
+|   <MINUS> (t=<POSITIVE_INTEGER> | t=<NUMBER>) {jjtThis.jjtAddChild(new DomainNode("-"+t.image), 0);}
 }
 
 SKIP  : { " " | "\t" | "\n" | "\r" }
 TOKEN : {
-    < INTEGER : (<DIGIT>)+ >
-|   < NUMBER : <INTEGER> ( "." <INTEGER> )? >
+    < POSITIVE_INTEGER : (["1"-"9"]) (<DIGIT>)* >
+|   < NUMBER : (<DIGIT>)+ ( "." (<DIGIT>)+ )? >
 |   < DIGIT : ["0"-"9"] >
 |   < TYPE : ( "R" | "B" | "Z" | "T" ) >
 |   < MINUS : "-" >

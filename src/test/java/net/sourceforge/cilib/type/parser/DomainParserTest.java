@@ -27,11 +27,15 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- *
+ * Tests related to the parsing of domain strings.
  * @author gpampara
  */
 public class DomainParserTest {
 
+    /**
+     * Creation of {@code StringType}.
+     * @throws ParseException if an exception occurs during parsing.
+     */
     @Test
     public void stringType() throws ParseException  {
         StructuredType vector = DomainParser.parse("T");
@@ -39,8 +43,12 @@ public class DomainParserTest {
         Assert.assertEquals(1, vector.size());
     }
 
+    /**
+     * The default kind of domain string that would be quite common.
+     * @throws ParseException
+     */
     @Test
-    public void test() throws ParseException {
+    public void dimensionRange() throws ParseException {
         Vector vector = (Vector) DomainParser.parse("R(-9.0, 9.0)^6");
 
         Assert.assertEquals(6, vector.size());
@@ -83,4 +91,38 @@ public class DomainParserTest {
 
         Assert.assertEquals(10, vector.size());
     }
+
+    @Test(expected=TokenMgrError.class)
+    public void invalidDomain() throws ParseException {
+        DomainParser.parse("Y");
+    }
+
+    @Test(expected=ParseException.class)
+    public void parseNotValid() throws ParseException {
+        DomainParser.parse("R(-5, -4, -5)^-7");
+    }
+
+    @Test(expected=ParseException.class)
+    public void negativeExponent() throws ParseException {
+        DomainParser.parse("R^-9");
+    }
+
+    @Test(expected=ParseException.class)
+    public void zeroExponent() throws ParseException {
+        DomainParser.parse("R^0");
+    }
+
+    @Test
+    public void integerBounds() throws ParseException {
+        DomainParser.parse("R(1,3)");
+        DomainParser.parse("R(-1,3)");
+        DomainParser.parse("R(-3,-1)");
+        DomainParser.parse("R(-3,-1)^9");
+    }
+
+    @Test(expected=UnsupportedOperationException.class)
+    public void incorrectBoundsOrder() throws ParseException {
+        DomainParser.parse("R(3, 2)"); // Lower bound > Upper bound = WRONG!
+    }
+
 }
