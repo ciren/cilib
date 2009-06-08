@@ -53,7 +53,8 @@ public interface Measurement extends Cloneable {
     /**
      * Get the value of the measurement. The represenation of the measurement will be based
      * on the domain string defined {@see Measurement#getDomain()}
-     * @return The <tt>Type</tt> representing the value of the measurement
+     * @param algorithm The algorithm to obtain the measurement from.
+     * @return The <tt>Type</tt> representing the value of the measurement.
      */
     public Type getValue(Algorithm algorithm);
 }

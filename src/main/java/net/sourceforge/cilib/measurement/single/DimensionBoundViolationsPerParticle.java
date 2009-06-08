@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -31,6 +30,7 @@ import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Calculates the average number of violations of boundary constraints
@@ -41,7 +41,6 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Andries Engelbrecht
  */
 public class DimensionBoundViolationsPerParticle implements Measurement {
-
     private static final long serialVersionUID = -3633155366562479197L;
 
     /** Creates a new instance of DimensionBoundViolationsPerParticle. */
@@ -59,6 +58,7 @@ public class DimensionBoundViolationsPerParticle implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public DimensionBoundViolationsPerParticle getClone() {
         return new DimensionBoundViolationsPerParticle(this);
     }
@@ -66,6 +66,7 @@ public class DimensionBoundViolationsPerParticle implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "R";
     }
@@ -73,22 +74,15 @@ public class DimensionBoundViolationsPerParticle implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getValue(Algorithm algorithm) {
-
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-
-        Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
 
         int numberOfViolations = 0;
         int populationSize = populationBasedAlgorithm.getPopulationSize();
 
-        while (populationIterator.hasNext()) {
-            Entity entity = populationIterator.next();
-
-            Iterator positionIterator = entity.getCandidateSolution().iterator();
-
-            while (positionIterator.hasNext()) {
-                Numeric position = (Numeric) positionIterator.next();
+        for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
+            for (Numeric position : (Vector) populationEntity.getCandidateSolution()) {
                 Bounds bounds = position.getBounds();
 
                 if (!bounds.isInsideBounds(position.getReal()))
