@@ -71,7 +71,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param copy The {@code Vector} to copy.
      */
     public Vector(Vector copy) {
-        this.components = new ArrayList<Numeric>();
+        this.components = new ArrayList<Numeric>(copy.size());
         for (Numeric numeric : copy.components)
             this.components.add(numeric.getClone());
     }
