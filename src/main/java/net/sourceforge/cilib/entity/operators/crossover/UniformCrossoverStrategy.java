@@ -59,28 +59,35 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
         List<Entity> offspring = new ArrayList<Entity>(parentCollection.size());
 
         //How do we handle variable sizes? Resizing the entities?
-        Entity offspring1 = parentCollection.get(0).getClone();
-        Entity offspring2 = parentCollection.get(1).getClone();
+        Entity parent1 = parentCollection.get(0);
+        Entity parent2 = parentCollection.get(1);
 
         if (this.getCrossoverProbability().getParameter() >= this.getRandomNumber().getUniform()) {
-            Vector parentChromosome1 = (Vector) parentCollection.get(0).getCandidateSolution();
-            Vector parentChromosome2 = (Vector) parentCollection.get(1).getCandidateSolution();
+            int minDimension = Math.min(parent1.getDimension(), parent2.getDimension());
+
+            Entity offspring1 = parent1.getClone();
+            Entity offspring2 = parent2.getClone();
+
+            // Calculate the mask for the cross-over
+            boolean[] mask = new boolean[minDimension];
+            for (int i = 0; i < minDimension; i++) {
+                if (this.getRandomNumber().getUniform() <= 0.5)
+                    mask[i] = true;
+            }
+
+            // Now apply the mask
+            Vector parentChromosome1 = (Vector) parent1.getCandidateSolution();
+            Vector parentChromosome2 = (Vector) parent2.getCandidateSolution();
             Vector offspringChromosome1 = (Vector) offspring1.getCandidateSolution();
             Vector offspringChromosome2 = (Vector) offspring2.getCandidateSolution();
-
-            int sizeParent1 = parentChromosome1.getDimension();
-            int sizeParent2 = parentChromosome2.getDimension();
-
-            int minDimension = Math.min(sizeParent1, sizeParent2);
-
             for (int i = 0; i < minDimension; i++) {
-                if (i%2 == 0) {
-                    offspringChromosome1.set(i, parentChromosome1.get(i));
-                    offspringChromosome2.set(i, parentChromosome2.get(i));
+                if (!mask[i]) {
+                    offspringChromosome1.set(i, parentChromosome1.get(i).getClone());
+                    offspringChromosome2.set(i, parentChromosome2.get(i).getClone());
                 }
                 else {
-                    offspringChromosome1.set(i, parentChromosome2.get(i));
-                    offspringChromosome2.set(i, parentChromosome1.get(i));
+                    offspringChromosome1.set(i, parentChromosome2.get(i).getClone());
+                    offspringChromosome2.set(i, parentChromosome1.get(i).getClone());
                 }
             }
 
