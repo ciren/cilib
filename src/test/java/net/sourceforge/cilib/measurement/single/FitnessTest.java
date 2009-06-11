@@ -24,7 +24,6 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -41,7 +40,7 @@ import org.junit.Test;
 public class FitnessTest {
 
     @Test
-    public void testFitnessDomain() {
+    public void results() {
         EC ec = new EC();
         Topology<Individual> topology = (Topology<Individual>) ec.getTopology();
 
