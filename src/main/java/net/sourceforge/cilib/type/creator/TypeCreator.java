@@ -42,6 +42,13 @@ public interface TypeCreator {
      */
     public Type create();
 
+    /**
+     * Create the type with the specified value.
+     * @param value The value for the {@code Type}.
+     * @return The created {@code Type} with the provided value.
+     */
+    public Type create(double value);
+
 
     /**
      * Create the type using the bounds <tt>lower</tt> and <tt>upper</tt>.

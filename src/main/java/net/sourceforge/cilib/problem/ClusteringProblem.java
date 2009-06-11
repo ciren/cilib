@@ -25,7 +25,6 @@ import net.sourceforge.cilib.problem.dataset.AssociatedPairDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.DataSetManager;
-import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -227,8 +226,8 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      *        clustered
      */
     public void setDomain(String representation) {
-        DomainParser parser = new DomainParser();//DomainParser.getInstance();
-        parser.parse(representation);
+//        DomainParser parser = new DomainParser();//DomainParser.getInstance();
+//        parser.parse(representation);
 
         domainRegistry.setDomainString(representation);
         regenerateDomain();

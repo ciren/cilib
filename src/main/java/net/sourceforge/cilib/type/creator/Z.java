@@ -46,6 +46,15 @@ public final class Z implements TypeCreator {
     /**
      * {@inheritDoc}
      */
+    public Type create(double value) {
+        Int i = new Int();
+        i.setReal(value);
+        return i;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public Type create(final double lower, final double upper) {
         return new Int(Double.valueOf(lower).intValue(), Double.valueOf(upper).intValue());
     }

@@ -56,7 +56,7 @@ public interface DomainRegistry extends Cloneable, Serializable {
      * a dimensional string with a descriptve component for each dimension.
      * @return Returns the expandedRepresentation.
      */
-    public String getExpandedRepresentation();
+//    public String getExpandedRepresentation();
 
     /**
      * Get the instance of the built representation for this domain string.

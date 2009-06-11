@@ -21,11 +21,13 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.algorithm.InitialisationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
-import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
+import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.TypeUtil;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -65,12 +67,17 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
             if (i < offset + dimension - 1)
                 expandedDomain += ",";
         }
-        DomainParser dp = new DomainParser();
-        if (dp.parse(expandedDomain)) {
-            domainRegistry.setDomainString(expandedDomain);
+        try {
+//        DomainParser dp = new DomainParser();
+//        if (dp.parse(expandedDomain)) {
+//            domainRegistry.setDomainString(expandedDomain);
+//        }
+//        else
+//            throw new InitialisationException("The expanded domain string \"" + expandedDomain + "\" could not be parsed.");
+            DomainParser.parse(expandedDomain);
+        } catch (ParseException ex) {
+            Logger.getLogger(CooperativeOptimisationProblemAdapter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        else
-            throw new InitialisationException("The expanded domain string \"" + expandedDomain + "\" could not be parsed.");
     }
 
     public CooperativeOptimisationProblemAdapter(CooperativeOptimisationProblemAdapter copy) {

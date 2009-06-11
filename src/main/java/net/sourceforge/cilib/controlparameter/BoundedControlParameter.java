@@ -21,9 +21,9 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-import net.sourceforge.cilib.type.DomainParser;
+import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.BoundsFactory;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -167,11 +167,11 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * Set the range of the parameter.
      * @param range The domain string representing the range.
      */
-    public void setRange(String range) {
+    public void setRange(String range) throws ParseException {
         this.range = range;
-        DomainParser parser = new DomainParser();
-        parser.parse(this.range);
-        Vector v = (Vector) parser.getBuiltRepresentation();
+        Vector v = (Vector) DomainParser.parse(this.range);
+//        parser.parse(this.range);
+//        Vector v = (Vector) parser.getBuiltRepresentation();
 
         if (v.getDimension() != 1)
             throw new RuntimeException("Range incorrect in BoundedUpdateStrategy! Please correct");

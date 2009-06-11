@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.discrete;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
-import net.sourceforge.cilib.type.DomainParser;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;

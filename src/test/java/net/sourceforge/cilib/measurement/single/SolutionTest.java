@@ -22,10 +22,11 @@
 
 package net.sourceforge.cilib.measurement.single;
 
+import net.sourceforge.cilib.type.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.DomainParser;
+import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.TypeList;
 
@@ -38,13 +39,10 @@ import org.junit.Test;
 public class SolutionTest {
     
     @Test
-    public void testSolutionDomain() {
+    public void testSolutionDomain() throws ParseException {
         Measurement m = new Solution();
-        
-        DomainParser parser = new DomainParser();
-        parser.parse(m.getDomain());
-        
-        TypeList vector = (TypeList) parser.getBuiltRepresentation();
+
+        TypeList vector = (TypeList) DomainParser.parse(m.getDomain());
         
         assertEquals(1, vector.size());
         assertTrue(vector.get(0) instanceof StringType);

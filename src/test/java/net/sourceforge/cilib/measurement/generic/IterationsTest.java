@@ -22,10 +22,11 @@
 
 package net.sourceforge.cilib.measurement.generic;
 
+import net.sourceforge.cilib.type.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.DomainParser;
+import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -38,13 +39,10 @@ import org.junit.Test;
 public class IterationsTest {
     
     @Test
-    public void testIterationsDomain() {
+    public void testIterationsDomain() throws ParseException {
         Measurement m = new Iterations();
         
-        DomainParser parser = new DomainParser();
-        parser.parse(m.getDomain());
-        
-        Vector vector = (Vector) parser.getBuiltRepresentation();
+        Vector vector = (Vector) DomainParser.parse(m.getDomain());
         
         assertEquals(1, vector.getDimension());
         assertTrue(vector.get(0) instanceof Int);
