@@ -115,8 +115,8 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
      */
     protected double zMax() {
         Vector prototype = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();
-        Vector upperBoundVector = Vectors.createUpperBoundVector(prototype);
-        Vector lowerBoundVector = Vectors.createLowerBoundVector(prototype);
+        Vector upperBoundVector = Vectors.upperBoundVector(prototype);
+        Vector lowerBoundVector = Vectors.lowerBoundVector(prototype);
 
         return helper.calculateDistance(upperBoundVector, lowerBoundVector);
     }

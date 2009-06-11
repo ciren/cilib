@@ -53,7 +53,7 @@ public class VectorsTest {
     @Test
     public void testUpperBounds() {
         int i = 1;
-        for (Type element : Vectors.createUpperBoundVector(vector)) {
+        for (Type element : Vectors.upperBoundVector(vector)) {
             Numeric numeric = (Numeric) element;
             assertFalse(Types.isInsideBounds(numeric));
             assertEquals(i++ * 2, numeric.getReal(), 0.0);
@@ -63,7 +63,7 @@ public class VectorsTest {
     @Test
     public void testLowerBounds() {
         int i = 1;
-        for (Type element : Vectors.createLowerBoundVector(vector)) {
+        for (Type element : Vectors.lowerBoundVector(vector)) {
             Numeric numeric = (Numeric) element;
             assertTrue(Types.isInsideBounds(numeric));
             assertEquals(i++ * -2, numeric.getReal(), 0.0);

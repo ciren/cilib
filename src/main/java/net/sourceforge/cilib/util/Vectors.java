@@ -46,7 +46,7 @@ public final class Vectors {
      *         is not a {@link Numeric}
      * @return a {@link Vector} with all the elements set to their respective upper bounds
      */
-    public static Vector createUpperBoundVector(Vector vector) {
+    public static Vector upperBoundVector(Vector vector) {
         Vector upper = vector.getClone();
 
         for (Type element : upper) {
@@ -65,7 +65,7 @@ public final class Vectors {
      *         is not a {@link Numeric}
      * @return a {@link Vector} with all the elements set to their respective lower bounds
      */
-    public static Vector createLowerBoundVector(Vector vector) {
+    public static Vector lowerBoundVector(Vector vector) {
         Vector lower = vector.getClone();
 
         for (Type element : lower) {
