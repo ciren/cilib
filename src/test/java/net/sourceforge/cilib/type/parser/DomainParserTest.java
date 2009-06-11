@@ -125,4 +125,37 @@ public class DomainParserTest {
         DomainParser.parse("R(3, 2)"); // Lower bound > Upper bound = WRONG!
     }
 
+     @Test
+    public void testParseReal() throws ParseException {
+        net.sourceforge.cilib.type.parser.DomainParser.parse("R(0.0,9.0)");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("R");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("R^6");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("R(-9.0,9.0)");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("R(-30.0,30.0)^6");
+    }
+
+
+    @Test
+    public void testParseBit() throws ParseException {
+        net.sourceforge.cilib.type.parser.DomainParser.parse("B");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("B^6");
+    }
+
+
+    @Test
+    public void testParseInteger() throws ParseException {
+        net.sourceforge.cilib.type.parser.DomainParser.parse("Z");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("Z(-1,0)");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("Z(0,1)");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("Z(-999,999)");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("Z^8");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("Z(0,1)^10");
+    }
+
+
+    @Test
+    public void testParseString() throws ParseException {
+        net.sourceforge.cilib.type.parser.DomainParser.parse("T^5");
+    }
+
 }
