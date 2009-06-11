@@ -46,6 +46,13 @@ public final class T implements TypeCreator {
     /**
      * {@inheritDoc}
      */
+    public Type create(double value) {
+        throw new UnsupportedOperationException("StringTypes with single values do not exist");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public Type create(final double lower, final double upper) {
         throw new UnsupportedOperationException("StringTypes with bounds do not exist");
     }

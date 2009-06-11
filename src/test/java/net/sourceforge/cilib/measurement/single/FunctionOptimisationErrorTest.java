@@ -22,13 +22,14 @@
 
 package net.sourceforge.cilib.measurement.single;
 
+import net.sourceforge.cilib.type.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.DomainParser;
+import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
 
+import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 /**
@@ -38,13 +39,10 @@ import org.junit.Test;
 public class FunctionOptimisationErrorTest {
 
     @Test
-    public void testFunctionOptimisationErrorDomain() {
+    public void testFunctionOptimisationErrorDomain() throws ParseException {
         Measurement m = new FunctionOptimisationError();
         
-        DomainParser parser = new DomainParser();
-        parser.parse(m.getDomain());
-        
-        Vector vector = (Vector) parser.getBuiltRepresentation();
+        Vector vector = (Vector) DomainParser.parse(m.getDomain());
         
         assertEquals(1, vector.getDimension());
         assertTrue(vector.get(0) instanceof Real);

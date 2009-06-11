@@ -41,6 +41,14 @@ public final class R implements TypeCreator {
     /**
      * {@inheritDoc}
      */
+    @Override
+    public Type create(double value) {
+        return new Real(value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public Type create(final double lower, final double upper) {
         return new Real(lower, upper);
     }

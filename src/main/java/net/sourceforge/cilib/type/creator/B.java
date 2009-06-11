@@ -30,15 +30,12 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public final class B implements TypeCreator {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 7124782787032789332L;
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type create() {
         return new Bit();
     }
@@ -46,6 +43,17 @@ public final class B implements TypeCreator {
     /**
      * {@inheritDoc}
      */
+    @Override
+    public Type create(double value) {
+        Bit b = new Bit();
+        b.setReal(value);
+        return b;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Type create(final double lower, final double upper) {
         throw new UnsupportedOperationException("Bit types cannot be constructed with bounds");
     }
