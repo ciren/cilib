@@ -115,7 +115,7 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
                 velocity.set(position.getReal() - previousPosition);
             }
             else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
-                position.set(bounds.getUpperBound() - MathUtil.EPSILON);    // upper boundary is exclusive
+                position.set(bounds.getUpperBound() - Maths.EPSILON);    // upper boundary is exclusive
                 if (random.getUniform() < turbulenceProbability.getParameter()) {
                     position.set(position.getReal() - random.getUniform() * bounds.getRange());
                 }
