@@ -29,6 +29,7 @@ import java.util.Stack;
 import net.sourceforge.cilib.container.visitor.PreOrderVisitorDecorator;
 import net.sourceforge.cilib.container.visitor.PrePostVisitor;
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -162,6 +163,11 @@ public abstract class AbstractTree<E extends Cloneable & Comparable<? super E>> 
         this.accept(visitor);
 
         return buffer.toString();
+    }
+
+    @Override
+    public void randomize(Random random) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

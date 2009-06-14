@@ -87,7 +87,7 @@ public class ReinitializationReactionStrategy<E extends PopulationBasedAlgorithm
         for (int i = 0; i < reinitializeCount; i++) {
             int random = randomGenerator.nextInt(entities.size());
             Entity entity = entities.get(random);
-            Types.randomize(entity.getCandidateSolution());    // entity contents -> current position
+            entity.getCandidateSolution().randomize(randomGenerator);
             // remove the selected element from the all list preventing it from being selected again
             entities.remove(random);
         }

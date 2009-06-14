@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.entity;
 
 import net.sourceforge.cilib.type.types.Types;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -116,7 +117,7 @@ public class Harmony extends AbstractEntity {
     @Override
     public void initialise(OptimisationProblem problem) {
         StructuredType harmony = problem.getDomain().getBuiltRepresenation().getClone();
-        Types.randomize(harmony);
+        harmony.randomize(new MersenneTwister());
 
         setCandidateSolution(harmony);
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
@@ -127,7 +128,8 @@ public class Harmony extends AbstractEntity {
      */
     @Override
     public void reinitialise() {
-        Types.randomize(getCandidateSolution());
+//        TypeUtil.randomize(getCandidateSolution());
+        throw new UnsupportedOperationException("Not implemetned yet.");
     }
 
 }

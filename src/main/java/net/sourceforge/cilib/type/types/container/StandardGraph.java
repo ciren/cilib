@@ -34,6 +34,7 @@ import java.util.Set;
 
 import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 /**
  * TODO: Complete this javadoc.
@@ -357,6 +358,11 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
         }
 
         return edgeSet;
+    }
+
+    @Override
+    public void randomize(Random random) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 

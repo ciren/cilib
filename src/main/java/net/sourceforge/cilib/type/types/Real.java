@@ -26,6 +26,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.Maths;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 
 /**
@@ -49,8 +50,7 @@ public class Real extends Numeric {
      */
     public Real(double value) {
         this.value = value;
-        Bounds bounds = BoundsFactory.create(-Double.MAX_VALUE, Double.MAX_VALUE);
-        this.setBounds(bounds);
+        this.setBounds(BoundsFactory.create(-Double.MAX_VALUE, Double.MAX_VALUE));
     }
 
 
@@ -60,10 +60,6 @@ public class Real extends Numeric {
      * @param upper The upper boundary for the random number.
      */
     public Real(double lower, double upper) {
-        double bottom = (lower == Double.NEGATIVE_INFINITY) ? -Double.MAX_VALUE : lower;
-        double top = (upper == Double.POSITIVE_INFINITY) ? Double.MAX_VALUE : upper;
-        value = (top-bottom)*Maths.random() + bottom;
-
         this.setBounds(BoundsFactory.create(lower, upper));
     }
 
@@ -226,8 +222,8 @@ public class Real extends Numeric {
     /**
      * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
      */
-    public void randomize() {
-        this.value = (getBounds().getUpperBound()-getBounds().getLowerBound())*Maths.random() + getBounds().getLowerBound();
+    public void randomize(Random random) {
+        this.value = random.nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
     }
 
 

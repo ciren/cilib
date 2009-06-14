@@ -37,8 +37,6 @@ public final class Maths {
 
     public static double EPSILON = 1.0E-15d;
 
-    private static Random random;
-
     private Maths() {
     }
 
@@ -91,22 +89,6 @@ public final class Maths {
      */
     public static double permutation(double n, double r) {
         return factorial(n) / factorial(n-r);
-    }
-
-    /**
-     * Obtain a pseudo uniform random number. The returned number will
-     * be a pseudo random number from a random seed. Each time this method is
-     * invoked, a new pseudo random number generater is created with a new
-     * seed. For operations which need a lot of random numbers, it is advisable
-     * that new instance of a random number generator is used in favor of this
-     * method.
-     * @return A uniform random number in the range [0,1).
-     */
-    public static synchronized double random() {
-        if (random == null)
-            random = new MersenneTwister();
-
-        return random.nextDouble();
     }
 
     /**

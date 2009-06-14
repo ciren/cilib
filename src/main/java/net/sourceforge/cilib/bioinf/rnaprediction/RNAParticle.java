@@ -28,8 +28,8 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.particle.AbstractParticle;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author marais
@@ -180,14 +180,14 @@ public class RNAParticle extends AbstractParticle {
     /**
      * {@inheritDoc}
      */
-    public Type getPosition() {
+    public StructuredType getPosition() {
         return position;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Type getBestPosition() {
+    public StructuredType getBestPosition() {
         return bestPosition;
     }
 
@@ -202,7 +202,7 @@ public class RNAParticle extends AbstractParticle {
     /**
      * {@inheritDoc}
      */
-    public Type getVelocity() {
+    public StructuredType getVelocity() {
         return velocity;
     }
 

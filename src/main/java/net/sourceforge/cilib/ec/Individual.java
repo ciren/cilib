@@ -24,7 +24,7 @@ package net.sourceforge.cilib.ec;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.type.types.Types;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Type;
@@ -108,13 +108,15 @@ public class Individual extends AbstractEntity {
      public void initialise(OptimisationProblem problem) {
          // ID initialization is done in the clone method...
          // which is always enforced due to the semantics of the performInitialisation methods
+         MersenneTwister random = new MersenneTwister();
 
          this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-         Types.randomize(this.getCandidateSolution());
+         this.getCandidateSolution().randomize(random);
 
          if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
              this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
-             Types.randomize(this.getProperties().get(EntityType.Individual.PHENOTYPES));
+             StructuredType phenotypes = (StructuredType) this.getProperties().get(EntityType.Individual.PHENOTYPES);
+             phenotypes.randomize(random);
          }
 
          this.dimension = this.getCandidateSolution().size();

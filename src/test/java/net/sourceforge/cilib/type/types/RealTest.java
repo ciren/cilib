@@ -22,6 +22,7 @@
 
 package net.sourceforge.cilib.type.types;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -76,6 +77,9 @@ public class RealTest {
     public void testCompareTo() {
         Real r1 = new Real(0.0, 30.0);
         Real r2 = new Real(-30.0, 0.0);
+
+        r1.setReal(15.0);
+        r2.setReal(-15.0);
         
         assertEquals(0, r1.compareTo(r1));
         assertEquals(0, r2.compareTo(r2));
@@ -102,7 +106,7 @@ public class RealTest {
         Real r2 = r1.getClone();
         
         assertTrue(r1.getReal() == r2.getReal());
-        r1.randomize();
+        r1.randomize(new MersenneTwister());
         assertTrue(r1.getReal() != r2.getReal());
     }
     

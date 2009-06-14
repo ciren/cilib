@@ -23,8 +23,9 @@ package net.sourceforge.cilib.pso.particle.initialisation;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.type.types.Types;
 
 
 /**
@@ -40,14 +41,19 @@ public class RandomizedPositionInitialisationStrategy implements
         PositionInitialisationStrategy {
     private static final long serialVersionUID = -47429588645761362L;
 
+    private Random random;
+
+    public RandomizedPositionInitialisationStrategy() {
+        this.random = new MersenneTwister();
+    }
+
     public RandomizedPositionInitialisationStrategy getClone() {
         return new RandomizedPositionInitialisationStrategy();
     }
 
     public void initialise(Particle particle, OptimisationProblem problem) {
         particle.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
-//        particle.getPosition().randomise();
-        Types.randomize(particle.getPosition());
+        particle.getPosition().randomize(random);
 
         particle.getProperties().put(EntityType.Particle.BEST_POSITION, particle.getPosition().getClone());
     }

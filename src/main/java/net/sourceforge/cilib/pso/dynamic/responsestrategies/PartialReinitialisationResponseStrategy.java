@@ -27,8 +27,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
-import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.Types;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * @author Anna Rakitianskaia
@@ -36,16 +35,16 @@ import net.sourceforge.cilib.type.types.Types;
 public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends
         ParticleReevaluationResponseStrategy<E>{
     private static final long serialVersionUID = 4619744183683905269L;
-    
+
     private double reinitialisationRatio;
     private Random randomiser;
-    
+
     public PartialReinitialisationResponseStrategy() {
         super();
         reinitialisationRatio = 0.5;
         randomiser = new MersenneTwister();
     }
-    
+
     public PartialReinitialisationResponseStrategy(PartialReinitialisationResponseStrategy<E> copy) {
         this.reinitialisationRatio = copy.reinitialisationRatio;
         this.randomiser = copy.randomiser.getClone();
@@ -56,7 +55,7 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
         return new PartialReinitialisationResponseStrategy<E>(this);
     }
 
-    /** 
+    /**
      * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best,
      * and reinitialising the positions of a specified percentage of particles.
      * @param algorithm PSO algorithm that has to respond to environment change
@@ -78,8 +77,8 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
                 if(used[index]) continue;
                 // ELSE
                 Particle aParticle = (Particle) topology.get(index);
-                Type position = aParticle.getPosition();
-                Types.randomize(position);
+                StructuredType position = aParticle.getPosition();
+                position.randomize(randomiser);
                 used[index] = true;
                 gotParticle = true;
             }

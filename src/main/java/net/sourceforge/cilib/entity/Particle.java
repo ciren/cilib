@@ -27,6 +27,7 @@ import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationS
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * Definition of a particle.
@@ -42,19 +43,19 @@ public interface Particle extends Entity, SocialEntity {
      * Get the current position of the {@linkplain Particle}.
      * @return The {@linkplain Type} representing the position.
      */
-    public Type getPosition();
+    public StructuredType getPosition();
 
     /**
      * Get the best position of the {@linkplain Particle}.
      * @return The {@linkplain Type} representing the best position.
      */
-    public Type getBestPosition();
+    public StructuredType getBestPosition();
 
     /**
      * Get the current velocity of the {@linkplain Particle}.
      * @return The {@linkplain Type} representing the velocity.
      */
-    public Type getVelocity();
+    public StructuredType getVelocity();
 
     /**
      * Get the current best particle within the {@linkplain Particle}s neighbourhood.

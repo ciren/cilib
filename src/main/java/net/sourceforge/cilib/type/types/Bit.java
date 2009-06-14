@@ -26,6 +26,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 
 
 /**
@@ -242,8 +243,8 @@ public class Bit extends Numeric {
     /**
      * Randomly choose a new valid for the <code>Bit</code> object.
      */
-    public void randomize() {
-        this.state = new MersenneTwister().nextBoolean();
+    public void randomize(Random random) {
+        this.state = random.nextBoolean();
     }
 
     /**

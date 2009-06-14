@@ -20,8 +20,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package net.sourceforge.cilib.pso;
+package net.sourceforge.cilib.ec;
 
+import net.sourceforge.cilib.ec.iterationstrategies.DifferentialEvolutionIterationStrategy;
 import net.sourceforge.cilib.functions.continuous.Spherical;
 import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.Seeder;
@@ -37,43 +38,53 @@ import static org.hamcrest.CoreMatchers.is;
  *
  * @author gpampara
  */
-public class PSOTest {
+public class ECTest {
 
-    /**
-     * <p>
-     * This test ensures that the general functioning of the PSO is correct.
-     * the correctness is enforced by ensuring that the algorithm is no longer
-     * stochastic by forcing all the random numbers to have the same seed. This
-     * results in a very deterministic algorithm.
-     * </p>
-     * <p>
-     * The PSO is tested using the following defaults:
-     * <ul>
-     *   <li>Function minimization of the Spherical function.</li>
-     *   <li>1000 iterations.</li>
-     *   <li>GBest topology with 20 particles.</li>
-     * </ul>
-     * </p>
-     */
     @Test
-    public void algorithmExecution() {
+    public void algorithmTest() {
         SeedSelectionStrategy seedStrategy = Seeder.getSeederStrategy();
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
         try {
+            EC ec = new EC();
+
+            ec.addStoppingCondition(new MaximumIterations(10));
+
             FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
             problem.setFunction(new Spherical());
 
-            PSO pso = new PSO();
-            pso.setOptimisationProblem(problem);
-            pso.addStoppingCondition(new MaximumIterations(1000));
+            ec.setOptimisationProblem(problem);
 
-            pso.initialise();
-            pso.run();
+            ec.initialise();
+            ec.run();
 
-            Assert.assertThat(pso.getBestSolution().getFitness().getValue(), is(400.5332366469983));
+            Assert.assertThat(ec.getBestSolution().getFitness().getValue(), is(270.0592679172665));
+        } finally {
+            Seeder.setSeederStrategy(seedStrategy);
         }
-        finally {
+    }
+
+    @Test
+    public void deTest() {
+        SeedSelectionStrategy seedStrategy = Seeder.getSeederStrategy();
+        Seeder.setSeederStrategy(new ZeroSeederStrategy());
+
+        try {
+            EC ec = new EC();
+            ec.setIterationStrategy(new DifferentialEvolutionIterationStrategy());
+
+            ec.addStoppingCondition(new MaximumIterations(10));
+
+            FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
+            problem.setFunction(new Spherical());
+
+            ec.setOptimisationProblem(problem);
+
+            ec.initialise();
+            ec.run();
+
+            Assert.assertThat(ec.getBestSolution().getFitness().getValue(), is(400.5332366469983));
+        } finally {
             Seeder.setSeederStrategy(seedStrategy);
         }
     }

@@ -37,7 +37,7 @@ import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy
 import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
  * This class defines the common behaviour available for all {@linkplain Particle}
@@ -155,21 +155,21 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s position.
      */
     @Override
-    public abstract Type getPosition();
+    public abstract StructuredType getPosition();
 
     /**
      * Get the best position of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representng the <tt>Particle</tt>'s best position.
      */
     @Override
-    public abstract Type getBestPosition();
+    public abstract StructuredType getBestPosition();
 
     /**
      * Get the velocity representation of the <tt>Particle</tt>.
      * @return A <tt>Type</tt> representing the <tt>Particle</tt>'s velocity.
      */
     @Override
-    public abstract Type getVelocity();
+    public abstract StructuredType getVelocity();
 
     /**
      * Set the neighbourhood best particle for the current Particle based on the

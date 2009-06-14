@@ -22,13 +22,13 @@
 
 package net.sourceforge.cilib.type.types.container;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import static java.lang.Math.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -143,19 +143,16 @@ public class VectorTest {
         for (int i = 0; i < 4; i++) {
             assertEquals(targetResults[i], m.getReal(i), 0.0);
         }
-        
-        // Test the invalid indexes
-        try {
-            m.insert(6, new Real(1.0));
-            fail("Insert worked on an invalid index???");
-        }
-        catch (Exception e) {}
-        
-        try {
-            m.insert(-1, new Real(1.0));
-            fail("Insert worked on an invalid index???");
-        }
-        catch (Exception e) {}
+    }
+
+    @Test(expected=IndexOutOfBoundsException.class)
+    public void invalidIndexInsert() {
+        vector.insert(6, new Real(1.0));
+    }
+
+    @Test(expected=IndexOutOfBoundsException.class)
+    public void negativeIndexInsert() {
+        vector.insert(-1, new Real(1.0));
     }
     
     @Test
@@ -170,19 +167,17 @@ public class VectorTest {
         m.remove(1);
         assertEquals(1.0, m.getReal(0), 0.0);
         assertEquals(1, m.getDimension());
-        
+    }
+
+    @Test(expected=IndexOutOfBoundsException.class)
+    public void removeNegativeIndex() {
         // Invalid indexes
-        try {
-            m.remove(-1);
-            fail("Remove accepted and invalid range!");
-        }
-        catch (Exception e) {}
-        
-        try {
-            m.remove(10);
-            fail("Remove accepted and invalid range!");
-        }
-        catch (Exception e) {}
+        vector.remove(-1);
+    }
+
+    @Test(expected=IndexOutOfBoundsException.class)
+    public void removeIndexToLarge() {
+        vector.remove(10);
     }
 
     @Test
@@ -248,16 +243,16 @@ public class VectorTest {
     }
     
     @Test
-    public void testRandomize() {
-        Vector m = new Vector();
-        m.add(new Real(1.0));
-        m.add(new Real(2.0));
-        m.add(new Real(3.0));
-        m.randomize();
-        
-        assertFalse(m.getReal(0) == 1.0);
-        assertFalse(m.getReal(1) == 2.0);
-        assertFalse(m.getReal(2) == 3.0);
+    public void randomize() {
+        Vector target = new Vector();
+        target.add(new Real(1.0));
+        target.add(new Real(2.0));
+        target.add(new Real(3.0));
+        target.randomize(new MersenneTwister());
+
+        assertFalse(target.getReal(0) == 1.0);
+        assertFalse(target.getReal(1) == 2.0);
+        assertFalse(target.getReal(2) == 3.0);
     }
     
     @Test

@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
+import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -263,6 +265,22 @@ public class TypeList extends AbstractList<Type> {
         for (Type type : this.components)
             if (!visitor.isDone())
                 visitor.visit(type);
+    }
+
+    @Override
+    public void randomize(Random random) {
+        for (int i = 0; i < components.size(); i++) {
+            Type type = components.get(i);
+            if (type instanceof Numeric) {
+                Numeric numeric = (Numeric) type;
+                numeric.randomize(random);
+            }
+
+            if (type instanceof StructuredType) {
+                StructuredType structuredType = (StructuredType) type;
+                structuredType.randomize(random);
+            }
+        }
     }
 
 }

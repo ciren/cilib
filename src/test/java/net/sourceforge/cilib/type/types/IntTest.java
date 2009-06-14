@@ -22,6 +22,7 @@
 
 package net.sourceforge.cilib.type.types;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -66,6 +67,9 @@ public class IntTest {
     public void testCompareTo() {
         Int i1 = new Int(0, 30);
         Int i2 = new Int(-30, 0);
+
+        i1.setInt(15);
+        i2.setInt(-15);
         
         assertEquals(0, i1.compareTo(i1));
         assertEquals(0, i2.compareTo(i2));
@@ -79,7 +83,7 @@ public class IntTest {
         Int i2 = i1.getClone();
         
         assertTrue(i1.getInt() == i2.getInt());
-        i1.randomize();
+        i1.randomize(new MersenneTwister());
         assertTrue(i1.getInt() != i2.getInt());
     }
 

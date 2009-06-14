@@ -26,7 +26,7 @@ package net.sourceforge.cilib.type.types;
  *
  * @author Gary Pampara
  */
-public abstract class Numeric implements Type, BoundedType, Resetable, Comparable<Numeric> {
+public abstract class Numeric implements Type, BoundedType, Resetable, Comparable<Numeric>, Randomizable {
     private static final long serialVersionUID = 3795529161693499589L;
 
     private Bounds bounds;

@@ -26,8 +26,9 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
-import net.sourceforge.cilib.type.types.Types;
+import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Randomizable;
 import net.sourceforge.cilib.type.types.Resetable;
 
 /**
@@ -456,14 +457,13 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
 
     /**
      * Randomize all the elements contained within the {@code Vector}.
-     * @return {@code true} if successful.
+     * @param random The {@code Random} to use to randomize the {@code Vector}.
      */
     @Override
-    public boolean randomize() {
-        for(Numeric numeric : this.components)
-            numeric.randomize();
-
-        return true;
+    public void randomize(Random random) {
+        for (int i = 0; i < components.size(); i++) {
+            this.components.get(i).randomize(random);
+        }
     }
 
     /**
