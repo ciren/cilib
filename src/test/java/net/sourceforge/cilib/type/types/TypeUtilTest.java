@@ -25,32 +25,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 
 /**
  *
  * @author gpampara
  */
 public class TypeUtilTest {
-
-    @Test
-    public void randomizeStructuredType() {
-//        Vector vector = new Vector(30, new Real(-5.0, 5.0));
-//        Vector original = vector.getClone();
-//
-//        TypeUtil.randomize(vector);
-//
-//        for (Type type : vector) {
-//            Real r = (Real) type;
-//            Assert.assertFalse(Double.compare(0.0, r.getReal()) == 0);
-//            Assert.assertTrue(r.getBounds().getLowerBound() <= r.getReal() && r.getBounds().getUpperBound() >= r.getReal());
-//        }
-//
-//        for (int i = 0; i < vector.size(); i++) {
-//            Assert.assertThat(original.getReal(i), is(not(vector.getReal(i))));
-//        }
-    }
 
     @Test
     public void structureDimension() {
