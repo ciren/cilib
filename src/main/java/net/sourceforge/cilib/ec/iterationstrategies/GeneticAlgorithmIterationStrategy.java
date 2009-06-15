@@ -84,7 +84,6 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
      * @param ec The EC algorithm to perform the iteration on.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public void performIteration(EC ec) {
         Topology<Entity> offspring = new GBestTopology<Entity>();
         Topology<Entity> population = (Topology<Entity>) ec.getTopology();
