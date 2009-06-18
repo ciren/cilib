@@ -32,7 +32,7 @@ import net.sourceforge.cilib.boa.ABC;
 import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.Rastrigin;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;

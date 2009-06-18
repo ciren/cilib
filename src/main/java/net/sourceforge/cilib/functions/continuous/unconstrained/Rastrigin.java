@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
@@ -27,7 +27,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * The rastrigin function.
+ * <p><b>The rastrigin function.</b></p>
+ *
+ *<p><b>Reference:</b> X. Yao and Y. Liu and G. Liu, <i>Evolutionary Programming Made Faster</i>,
+ * IEEE Transactions on Evolutionary Computation, vol 3, number 2, pages 82--102, 1999.</p>
  *
  * Characteristics:
  * <ul>
@@ -93,3 +96,4 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
         return tmp;
     }
 }
+

@@ -22,6 +22,7 @@
 
 package net.sourceforge.cilib.functions.continuous;
 
+import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;

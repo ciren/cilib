@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.continuous.Rastrigin;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 
 import org.junit.Test;

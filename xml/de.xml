@@ -23,7 +23,7 @@
       <function class="functions.continuous.Rosenbrock"/>
     </problem>
     <problem id="griewank" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.Griewank"/>
+      <function class="functions.continuous.unconstrained.Griewank"/>
     </problem>
     <problem id="hyperellipsoid" class="problem.FunctionMinimisationProblem">
       <function class="functions.continuous.HyperEllipsoid"/>

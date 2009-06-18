@@ -18,10 +18,10 @@
       <function class="functions.continuous.Rosenbrock"/>
     </problem>
     <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.Rastrigin"/>
+      <function class="functions.continuous.unconstrained.Rastrigin"/>
     </problem>
     <problem id="griewank" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.Griewank"/>
+      <function class="functions.continuous.unconstrained.Griewank"/>
     </problem>
     <problem id="quadric" class="problem.FunctionMinimisationProblem">
       <function class="functions.continuous.Quadric"/>

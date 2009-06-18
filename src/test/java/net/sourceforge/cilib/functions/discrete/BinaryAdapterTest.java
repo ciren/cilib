@@ -24,7 +24,7 @@ package net.sourceforge.cilib.functions.discrete;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.functions.continuous.Rastrigin;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
