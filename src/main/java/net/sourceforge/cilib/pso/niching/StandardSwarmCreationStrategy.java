@@ -60,7 +60,11 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
     public void create(Niche algorithm, List<Entity> niches) {
         Topology<? extends Entity> mainSwarm = algorithm.getMainSwarm().getTopology();
 
+        if (mainSwarm.size() < 2)
+            return;
+
         for (int i = 0; i < niches.size(); i++) {
+            System.out.println("main swarm size: " + mainSwarm.size());
             Entity niche = niches.get(i);
 
             // Determine the closest Entity to the current
@@ -70,9 +74,13 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
 
             Particle nicheMainParticle = (Particle) niche;
             Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult();
+            System.out.println("closest particle: " + nicheClosestParticle);
 
             mainSwarm.remove(nicheMainParticle);
             mainSwarm.remove(nicheClosestParticle);
+
+            niches.remove(nicheMainParticle);
+            niches.remove(nicheClosestParticle);
 
             nicheMainParticle.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
             nicheClosestParticle.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
@@ -80,6 +88,7 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
             nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
 
             PSO pso = new PSO();
+            pso.setOptimisationProblem(algorithm.getOptimisationProblem());
             pso.getTopology().add(nicheMainParticle);
             pso.getTopology().add(nicheClosestParticle);
 

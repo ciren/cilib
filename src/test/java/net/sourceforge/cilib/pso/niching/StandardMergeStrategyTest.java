@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2003 - 2008
+ * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.niching;
 
 import net.sourceforge.cilib.entity.EntityType;
@@ -73,18 +72,7 @@ public class StandardMergeStrategyTest {
         mergeStrategy.merge(niche);
 
         Assert.assertEquals(1, niche.getPopulations().size());
-        Assert.assertEquals(4, niche.getPopulations().get(0).getPopulationSize());
-    }
-
-    @Test(expected=UnsupportedOperationException.class)
-    public void illegalPopulationSize() {
-        PSO pso = new PSO();
-        Niche niche = new Niche();
-
-        niche.addPopulationBasedAlgorithm(pso);
-
-        MergeStrategy merge = new StandardMergeStrategy();
-        merge.merge(niche);
+        Assert.assertEquals(4, niche.getPopulations().get(0).getTopology().size());
     }
 
     /**

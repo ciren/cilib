@@ -24,10 +24,7 @@ package net.sourceforge.cilib.boa.bee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-<<<<<<< HEAD
 import net.sourceforge.cilib.math.random.generator.Random;
-=======
->>>>>>> Niching algorithm fixes and unit tests.
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 

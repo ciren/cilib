@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2003 - 2008
+ * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.niching;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.math.StatUtils;
+import net.sourceforge.cilib.math.Stats;
 
 /**
  * <p>
@@ -97,7 +96,7 @@ public class StandardNicheIdentificationStrategy implements NicheIdentificationS
             if (entry.getValue().size() <= 2)
                 continue;
 
-            stdev.put(entry.getKey(), StatUtils.stdDeviation(entry.getValue().toArray(new Double []{})));
+            stdev.put(entry.getKey(), Stats.stdDeviation(entry.getValue().toArray(new Double []{})));
         }
 
         // Identify the niches

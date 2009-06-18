@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2003 - 2008
+ * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.niching;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -61,7 +60,9 @@ public class StandardAbsorptionStrategy implements AbsorptionStrategy {
 
             double radius = radiusVisitor.getResult().doubleValue();
 
-            for (Entity entity : algorithm.getMainSwarm().getTopology()) {
+            Topology<? extends Entity> mainSwarmTopology = algorithm.getMainSwarm().getTopology();
+            for (int i = 0; i < mainSwarmTopology.size(); i++) {
+                Entity entity = mainSwarmTopology.get(i);
                 double distance = distanceMeasure.distance(entity.getCandidateSolution(), algorithm.getMainSwarm().getTopology().getBestEntity().getCandidateSolution());
                 if (distance <= radius) {
                     Particle p = (Particle) entity;

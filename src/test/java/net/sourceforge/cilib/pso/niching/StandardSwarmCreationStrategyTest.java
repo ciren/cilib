@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2003 - 2008
+ * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.niching;
 
 import java.util.ArrayList;
@@ -56,9 +55,9 @@ public class StandardSwarmCreationStrategyTest {
         Particle p4 = new StandardParticle();
 
         p1.setCandidateSolution(new Vector(1, new Real(0.0)));
-        p2.setCandidateSolution(new Vector(1, new Real(1.0)));
-        p3.setCandidateSolution(new Vector(1, new Real(4.0)));
-        p4.setCandidateSolution(new Vector(1, new Real(5.0)));
+        p2.setCandidateSolution(new Vector(1, new Real(0.1)));
+        p3.setCandidateSolution(new Vector(1, new Real(0.4)));
+        p4.setCandidateSolution(new Vector(1, new Real(0.5)));
 
         // Create the main swarm
         PSO pso = new PSO();
@@ -75,8 +74,8 @@ public class StandardSwarmCreationStrategyTest {
         creationStrategy.create(niche, locatedNiche);
 
         Assert.assertEquals(1, niche.getPopulations().size());
-        Assert.assertEquals(2, niche.getPopulations().get(0).getPopulationSize());
-        Assert.assertEquals(2, niche.getMainSwarm().getPopulationSize());
+        Assert.assertEquals(2, niche.getPopulations().get(0).getTopology().size());
+        Assert.assertEquals(2, niche.getMainSwarm().getTopology().size());
         Assert.assertTrue(niche.getMainSwarm().getTopology().contains(p3));
         Assert.assertTrue(niche.getMainSwarm().getTopology().contains(p4));
     }

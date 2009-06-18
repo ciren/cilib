@@ -140,7 +140,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mergeStrategy.merge(this);
         this.absorptionStrategy.absorb(this);
 
-        List<Entity> niches = this.nicheIdentificationStrategy.identify(this.getTopology());
+        List<Entity> niches = this.nicheIdentificationStrategy.identify(mainSwarm.getTopology());
         this.swarmCreationStrategy.create(this, niches);
     }
 

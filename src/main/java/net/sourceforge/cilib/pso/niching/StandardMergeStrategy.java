@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2003 - 2008
+ * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.pso.niching;
 
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
@@ -50,7 +49,7 @@ public class StandardMergeStrategy implements MergeStrategy {
     private double threshold;
 
     public StandardMergeStrategy() {
-        this.threshold  = 10e-3;
+        this.threshold  = 10e-8;
     }
 
     public StandardMergeStrategy(StandardMergeStrategy copy) {
@@ -71,7 +70,7 @@ public class StandardMergeStrategy implements MergeStrategy {
     @Override
     public void merge(MultiPopulationBasedAlgorithm algorithm) {
         if (algorithm.getPopulations().size() < 2)
-            throw new UnsupportedOperationException("Cannot perform a merge with less than 2 sub-populations.");
+            return;
 
         RadiusVisitor radiusVisitor = new RadiusVisitor();
 
@@ -94,14 +93,21 @@ public class StandardMergeStrategy implements MergeStrategy {
 
                 double distance = Math.abs(normalK1.subtract(normalK2).norm());
 
+                System.out.println("k1Radius: " + k1Radius);
+                System.out.println("k2Radius: " + k2Radius);
+                System.out.println("distance: " + distance);
+                System.out.println("threshold: " + threshold);
+
                 if (k1Radius == k2Radius && k1Radius == 0) {
                     if (distance < threshold)
+                        System.out.println("k1Radius == k2Radius && k1Radius == 0 &&& distance < threshold");
                         mergeSwarms(algorithm, k1, k2);
 
                     continue;
                 }
 
                 if (distance < (k1Radius + k2Radius)) {
+                    System.out.println("distance < (k1Radius + k2Radius)");
                     mergeSwarms(algorithm, k1, k2);
                 }
             }
