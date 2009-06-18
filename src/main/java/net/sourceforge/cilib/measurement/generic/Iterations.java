@@ -56,7 +56,6 @@ public class Iterations implements Measurement {
      */
     public String getDomain() {
         return "Z";
-        //return "T";
     }
 
     /**

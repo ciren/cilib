@@ -58,8 +58,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     protected PersonalBestUpdateStrategy personalBestUpdateStrategy;
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 
-    private int id;
-
     /**
      * Default constructor for all Particles.
      */
@@ -109,8 +107,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
             return false;
 
         AbstractParticle other = (AbstractParticle) object;
-        return  super.equals(other) &&
-            (this.id == other.id);
+        return super.equals(other);
     }
 
     /**
@@ -120,7 +117,6 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + super.hashCode();
-        hash = 31 * hash + (Integer.valueOf(id).hashCode());
         return hash;
     }
 

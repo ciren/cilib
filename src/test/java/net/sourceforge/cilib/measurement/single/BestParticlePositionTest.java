@@ -4,17 +4,17 @@
  * Department of Computer Science
  * University of Pretoria
  * South Africa
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -22,30 +22,36 @@
 
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.type.parser.ParseException;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.types.StringType;
+import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
 
-import net.sourceforge.cilib.type.types.container.TypeList;
+import net.sourceforge.cilib.util.VectorUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class BestParticlePositionTest {
-    
-    @Test
-    public void testBestParticlePositionDomain() throws ParseException {
-        Measurement m = new BestParticlePosition();
 
-        TypeList t = (TypeList) DomainParser.parse(m.getDomain());
-        
-        assertTrue(t.get(0) instanceof StringType);
-        assertEquals(1, t.size());
+    @Test
+    public void testBestParticlePositionDomain() {
+        Particle p = new StandardParticle();
+        p.getProperties().put(EntityType.Particle.BEST_POSITION, VectorUtils.create(4.0));
+        p.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
+
+        PSO pso = new PSO();
+        pso.getTopology().add(p);
+
+        Measurement measurement = new BestParticlePosition();
+        measurement.getValue(pso);
+
+        Assert.assertEquals(p.getBestPosition().toString(), measurement.getValue(pso).toString());
     }
 
 }

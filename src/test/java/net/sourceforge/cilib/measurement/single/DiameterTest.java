@@ -22,14 +22,17 @@
 
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.type.parser.ParseException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.container.Vector;
 
+import net.sourceforge.cilib.util.VectorUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -39,13 +42,49 @@ import org.junit.Test;
 public class DiameterTest {
 
     @Test
-    public void testDiameterTestDomain() throws ParseException {
+    public void simpleDiameter() {
+        Particle p1 = new StandardParticle();
+        Particle p2 = new StandardParticle();
+
+        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(0.0, 0.0));
+        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(2.0, 2.0));
+
+        Topology<Particle> topology = new GBestTopology<Particle>();
+        topology.add(p1);
+        topology.add(p2);
+
+        PSO pso = new PSO();
+        pso.setTopology(topology);
+
         Measurement m = new Diameter();
 
-        Vector vector = (Vector) DomainParser.parse(m.getDomain());
+        Assert.assertEquals(new Real(Math.sqrt(8)), m.getValue(pso));
+    }
 
-        assertEquals(1, vector.getDimension());
-        assertTrue(vector.get(0) instanceof Real);
+    @Test
+    public void complexDiameter() {
+        Particle p1 = new StandardParticle();
+        Particle p2 = new StandardParticle();
+        Particle p3 = new StandardParticle();
+        Particle p4 = new StandardParticle();
+
+        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(0.0, 0.0));
+        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(1.0, 1.0));
+        p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(1.5, 1.5));
+        p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(2.0, 2.0));
+
+        Topology<Particle> topology = new GBestTopology<Particle>();
+        topology.add(p1);
+        topology.add(p2);
+        topology.add(p3);
+        topology.add(p4);
+
+        PSO pso = new PSO();
+        pso.setTopology(topology);
+
+        Measurement m = new Diameter();
+
+        Assert.assertEquals(new Real(Math.sqrt(8)), m.getValue(pso));
     }
 
 }
