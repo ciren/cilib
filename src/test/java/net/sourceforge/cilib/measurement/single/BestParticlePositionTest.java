@@ -28,8 +28,8 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.sourceforge.cilib.util.Vectors;
 
-import net.sourceforge.cilib.util.VectorUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class BestParticlePositionTest {
     @Test
     public void testBestParticlePositionDomain() {
         Particle p = new StandardParticle();
-        p.getProperties().put(EntityType.Particle.BEST_POSITION, VectorUtils.create(4.0));
+        p.getProperties().put(EntityType.Particle.BEST_POSITION, Vectors.create(4.0));
         p.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
 
         PSO pso = new PSO();

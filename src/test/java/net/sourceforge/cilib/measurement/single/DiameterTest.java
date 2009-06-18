@@ -31,7 +31,7 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Real;
 
-import net.sourceforge.cilib.util.VectorUtils;
+import net.sourceforge.cilib.util.Vectors;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -46,8 +46,8 @@ public class DiameterTest {
         Particle p1 = new StandardParticle();
         Particle p2 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(0.0, 0.0));
-        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(2.0, 2.0));
+        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(0.0, 0.0));
+        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(2.0, 2.0));
 
         Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(p1);
@@ -68,10 +68,10 @@ public class DiameterTest {
         Particle p3 = new StandardParticle();
         Particle p4 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(0.0, 0.0));
-        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(1.0, 1.0));
-        p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(1.5, 1.5));
-        p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, VectorUtils.create(2.0, 2.0));
+        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(0.0, 0.0));
+        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(1.0, 1.0));
+        p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(1.5, 1.5));
+        p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(2.0, 2.0));
 
         Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(p1);

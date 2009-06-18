@@ -31,9 +31,9 @@ import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.TypeList;
-
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.VectorUtils;
+import net.sourceforge.cilib.util.Vectors;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,7 +48,7 @@ public class SolutionTest {
 
     @Test
     public void result() {
-        Vector target = VectorUtils.create(1.0);
+        Vector target = Vectors.create(1.0);
         Individual i = new Individual();
         i.getProperties().put(EntityType.CANDIDATE_SOLUTION, target);
 
