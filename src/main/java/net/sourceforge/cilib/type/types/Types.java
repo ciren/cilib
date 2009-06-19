@@ -69,7 +69,12 @@ public final class Types {
                     this.isDone = true;
                     this.valid = false;
                 }
+
+                return;
             }
+
+            isDone = true;
+            valid = false;
         }
 
         public boolean isValid() {

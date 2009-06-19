@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.types;
 
+import net.sourceforge.cilib.math.Maths;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -45,6 +46,16 @@ public class BoundsTest {
 
         Assert.assertEquals(b1, b2);
         Assert.assertSame(b1, b2);
+    }
+
+    @Test
+    public void boundsEdgeCases() {
+        Bounds b1 = BoundsFactory.create(0.0, 2.0);
+        Assert.assertTrue(b1.isInsideBounds(2.0));
+        Assert.assertTrue(b1.isInsideBounds(0.0));
+
+        Assert.assertFalse(b1.isInsideBounds(2.0 + Maths.EPSILON));
+        Assert.assertFalse(b1.isInsideBounds(0.0 - Maths.EPSILON));
     }
 
 }

@@ -24,7 +24,6 @@ package net.sourceforge.cilib.util;
 
 import net.sourceforge.cilib.type.types.BoundsFactory;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
@@ -55,7 +54,7 @@ public class VectorsTest {
         int i = 1;
         for (Type element : Vectors.upperBoundVector(vector)) {
             Numeric numeric = (Numeric) element;
-            assertFalse(Types.isInsideBounds(numeric));
+            assertTrue(Types.isInsideBounds(numeric));
             assertEquals(i++ * 2, numeric.getReal(), 0.0);
         }
     }

@@ -49,7 +49,7 @@ public class TypesTest {
     }
 
     @Test
-    public void structureIsInsideBounds() {
+    public void structureIsNotInsideBounds() {
         Vector vector = new Vector();
         Real r = new Real(-5.0, 5.0);
         r.setReal(-7.0);
@@ -57,5 +57,19 @@ public class TypesTest {
         vector.add(r);
 
         Assert.assertFalse(Types.isInsideBounds(vector));
+    }
+
+    @Test
+    public void structureInBounds() {
+        Vector vector = new Vector();
+        Real r1 = new Real(-5.0, 5.0);
+        Real r2 = new Real(-5.0, 5.0);
+        r1.setReal(-5.0);
+        r2.setReal(5.0);
+
+        vector.add(r1);
+        vector.add(r2);
+
+        Assert.assertTrue(Types.isInsideBounds(vector));
     }
 }

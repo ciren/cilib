@@ -51,7 +51,7 @@ public class Bounds {
     }
 
     public boolean isInsideBounds(double value) {
-        if (value < upperBound && value >= lowerBound)
+        if (Double.compare(value, upperBound) <= 0 && Double.compare(value, lowerBound) >= 0)
             return true;
 
         return false;

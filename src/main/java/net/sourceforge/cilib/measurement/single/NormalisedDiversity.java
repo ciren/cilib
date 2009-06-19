@@ -86,22 +86,21 @@ public class NormalisedDiversity implements Measurement {
         int numberParticles = pso.getPopulationSize();
 
         Iterator<Particle> k = pso.getTopology().iterator();
-        Particle particle = (Particle) k.next();
+        Particle particle = k.next();
         Vector averageParticlePosition = (Vector) particle.getPosition().getClone();
         while (k.hasNext()) {
-            particle = (Particle) k.next();
+            particle = k.next();
             Vector v = (Vector) particle.getPosition();
             for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
                averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)+v.getReal(j));
         }
         for (int j = 0; j < averageParticlePosition.getDimension(); ++j)
            averageParticlePosition.setReal(j, averageParticlePosition.getReal(j)/numberParticles);
-        //System.out.println(averageParticlePosition);
 
         Iterator<Particle> i = pso.getTopology().iterator();
         double particleSum = 0.0;
         while (i.hasNext()) {
-            particle = (Particle) i.next();
+            particle = i.next();
 
             double dimensionSum = 0.0;
             Vector v = (Vector) particle.getPosition();
