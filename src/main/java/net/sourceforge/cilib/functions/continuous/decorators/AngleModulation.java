@@ -69,22 +69,25 @@ public class AngleModulation extends ContinuousFunction {
     }
 
     /**
-     *
+     * {@inheritDoc}
      */
+    @Override
     public Object getMinimum() {
         return function.getMinimum();
     }
 
     /**
-     *
+     * {@inheritDoc}
      */
+    @Override
     public Object getMaximum() {
         return function.getMaximum();
     }
 
     /**
-     *
+     * {@inheritDoc}
      */
+    @Override
     public double evaluate(Vector x) {
         String solution = generateBitString(x);
         Vector expandedVector = decodeBitString(solution);
@@ -121,7 +124,7 @@ public class AngleModulation extends ContinuousFunction {
 
     /**
      *
-     * @param funciton
+     * @param decoratedFunciton
      */
     public void setFunction(Function decoratedFunciton) {
         this.function = decoratedFunciton;
@@ -130,7 +133,7 @@ public class AngleModulation extends ContinuousFunction {
 
     /**
      *
-     * @param string
+     * @param domain
      * @return
      */
     public int getRequiredNumberOfBits(DomainRegistry domain) {
@@ -210,8 +213,8 @@ public class AngleModulation extends ContinuousFunction {
      * TODO: Move this into a class that will make sense.
      *
      * @param bitString The bitsting as a string
-     * @param i The starting index
-     * @param j The ending index
+     * @param startIndex The starting index
+     * @param endIndex The ending index
      * @return The value of the bitstring
      */
     public double valueOf(String bitString, int startIndex, int endIndex) {

@@ -63,15 +63,6 @@ public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgo
     protected abstract void algorithmIteration();
 
     /**
-     * Get the size of the current population within the algorithm.
-     * @return The size of the current Population.
-     */
-    @Override
-    public int getPopulationSize() {
-        return this.initialisationStrategy.getEntityNumber();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

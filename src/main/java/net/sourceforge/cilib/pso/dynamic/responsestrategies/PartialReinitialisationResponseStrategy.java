@@ -64,7 +64,7 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
     public void performReaction(E algorithm) {
         // Reset positions:
         Topology<? extends Entity> topology = algorithm.getTopology();
-        int populationSize = algorithm.getPopulationSize();
+        int populationSize = topology.size();
         boolean [] used = new boolean[populationSize];
         for (int i = 0; i < populationSize; ++i) used[i] = false;
         int numParticlesToReinitialise = (int) Math.floor(populationSize * reinitialisationRatio);

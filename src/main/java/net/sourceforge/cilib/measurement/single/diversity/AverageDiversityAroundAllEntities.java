@@ -47,7 +47,7 @@ public class AverageDiversityAroundAllEntities extends Diversity {
     public Type getValue() {
 
         PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-        int numberOfEntities = algorithm.getPopulationSize();
+        int numberOfEntities = algorithm.getTopology().size();
 
         Iterator<? extends Entity> populationCenterIterator = algorithm.getTopology().iterator();
 

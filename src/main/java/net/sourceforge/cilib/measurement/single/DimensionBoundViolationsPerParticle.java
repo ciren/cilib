@@ -79,7 +79,7 @@ public class DimensionBoundViolationsPerParticle implements Measurement {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 
         int numberOfViolations = 0;
-        int populationSize = populationBasedAlgorithm.getPopulationSize();
+        int populationSize = populationBasedAlgorithm.getTopology().size();
 
         for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
             for (Numeric position : (Vector) populationEntity.getCandidateSolution()) {

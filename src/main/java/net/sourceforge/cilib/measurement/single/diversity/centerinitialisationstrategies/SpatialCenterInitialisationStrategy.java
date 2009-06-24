@@ -36,7 +36,7 @@ public class SpatialCenterInitialisationStrategy extends CenterInitialisationStr
     @Override
     public Vector getCenter() {
         PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
-        int numberOfEntities = algorithm.getPopulationSize();
+        int numberOfEntities = algorithm.getTopology().size();//getPopulationSize();
 
         Iterator<? extends Entity> averageIterator = algorithm.getTopology().iterator();
         Entity entity = averageIterator.next();

@@ -50,12 +50,6 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
     public abstract PopulationBasedAlgorithm getClone();
 
     /**
-     * Return the size of the current population.
-     * @return The size of the population.
-     */
-    public abstract int getPopulationSize();
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -90,11 +84,15 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
     public abstract Object accept(TopologyVisitor visitor);
 
     /**
-     *
-     * @param initialisationStrategy
+     * Set the initialisation strategy to use for the initialisation of the population.
+     * @param initialisationStrategy The population initialisation strategy to set.
      */
     public abstract void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy);
 
+    /**
+     * Get the current {@code PopulationInitialisationStrategy}.
+     * @return The current {@code PopulationInitialisationStrategy}.
+     */
     public abstract PopulationInitialisationStrategy getInitialisationStrategy();
 
 }

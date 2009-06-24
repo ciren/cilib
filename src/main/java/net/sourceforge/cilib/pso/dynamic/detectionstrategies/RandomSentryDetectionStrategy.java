@@ -69,7 +69,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
 
         boolean envChangeOccured = false;
         ArrayList<Entity> sentryList = new ArrayList<Entity>();
-        int populationSize = algorithm.getPopulationSize();
+        int populationSize = topology.size();
                 
         for (int i = 0; i < sentries; i++) {
             int index = randomiser.nextInt(populationSize);

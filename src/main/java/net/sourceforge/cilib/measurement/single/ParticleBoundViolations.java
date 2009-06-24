@@ -79,7 +79,7 @@ public class ParticleBoundViolations implements Measurement {
         Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
 
         int numberOfViolations = 0;
-        int populationSize = populationBasedAlgorithm.getPopulationSize();
+        int populationSize = populationBasedAlgorithm.getTopology().size();
 
         while (populationIterator.hasNext()) {
             Entity entity = populationIterator.next();

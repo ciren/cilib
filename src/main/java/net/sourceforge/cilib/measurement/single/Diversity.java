@@ -68,7 +68,7 @@ public class Diversity implements Measurement {
     public Type getValue(Algorithm algorithm) {
 
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-        int numberOfEntities = populationBasedAlgorithm.getPopulationSize();
+        int numberOfEntities = populationBasedAlgorithm.getTopology().size();
 
         Iterator<? extends Entity> k = populationBasedAlgorithm.getTopology().iterator();
         Entity entity = k.next();

@@ -166,12 +166,6 @@ public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgor
     }
 
     @Override
-    public int getPopulationSize() {
-        // TODO: Should this method return the size as the sum of each subpopulation?
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public Topology<? extends Entity> getTopology() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

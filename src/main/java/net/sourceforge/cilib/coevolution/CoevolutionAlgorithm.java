@@ -69,7 +69,7 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
     public int getPopulationSize() {
         int sum = 0;
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
-            sum += currentAlgorithm.getPopulationSize();
+            sum += currentAlgorithm.getTopology().size();
         }
 
         return sum;

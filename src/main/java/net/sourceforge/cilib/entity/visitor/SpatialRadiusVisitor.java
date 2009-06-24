@@ -44,7 +44,7 @@ public class SpatialRadiusVisitor extends TopologyVisitor {
         double maxDistance = 0.0;
 
         // get number of entities in the population
-        int numberOfEntities = ((PopulationBasedAlgorithm) this.currentAlgorithm).getPopulationSize();
+        int numberOfEntities = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().size();
 
         // initialize iterator to be used to calculate spatial center
         Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().iterator();

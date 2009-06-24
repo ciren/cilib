@@ -120,7 +120,7 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         ListIterator<? extends Entity> i = ec.getTopology().listIterator();
 
         int count = 0;
-        int size = ec.getTopology().size() - ec.getPopulationSize();
+        int size = ec.getTopology().size() - ec.getInitialisationStrategy().getEntityNumber();
 
         while (i.hasNext() && count < size) {
             i.next();
