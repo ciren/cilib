@@ -21,45 +21,44 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import java.util.Iterator;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Calculates the average number of particles in the current swarm that
- * violates boundary constraints. This measure can be used as an
- * indicator of whether the algorithm spend too much time exploring
- * in infeasible space (with respect to the boundary constraints).
+ * Calculates the average number of personal best positions in
+ * the current swarm that violates boundary constraints.
  *
  * @author  Andries Engelbrecht
  */
-public class ParticleBoundViolations implements Measurement {
-    private static final long serialVersionUID = 2232130008790333636L;
+public class PbestBoundViolations implements Measurement {
+    private static final long serialVersionUID = 7547646366505677446L;
 
-    /** Creates a new instance of ParticleBoundViolations.*/
-    public ParticleBoundViolations() {
+    /** Creates a new instance of PbestBoundViolations. */
+    public PbestBoundViolations() {
     }
 
     /**
      * Copy constructor. Creates a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public ParticleBoundViolations(ParticleBoundViolations copy) {
+    public PbestBoundViolations(PbestBoundViolations copy) {
+
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Measurement getClone() {
-        return new ParticleBoundViolations(this);
+    public PbestBoundViolations getClone() {
+        return new PbestBoundViolations(this);
     }
 
     /**
@@ -77,25 +76,24 @@ public class ParticleBoundViolations implements Measurement {
     public Type getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 
-        Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();
-
         int numberOfViolations = 0;
-        int populationSize = populationBasedAlgorithm.getTopology().size();
+        int populationSize = populationBasedAlgorithm.getPopulationSize();
 
-        while (populationIterator.hasNext()) {
-            Entity entity = populationIterator.next();
+        for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
+            Vector pbest = (Vector) populationEntity.getProperties().get(EntityType.Particle.BEST_POSITION);
+        if (pbest == null)
+               throw new UnsupportedOperationException("Entity is not a particle.");
 
-            Iterator positionIterator = entity.getCandidateSolution().iterator();
-
-            while (positionIterator.hasNext()) {
-                Numeric position = (Numeric) positionIterator.next();
+            for (Numeric position : pbest) {
                 Bounds bounds = position.getBounds();
+
                 if (!bounds.isInsideBounds(position.getReal())) {
                     numberOfViolations++;
                     break;
                 }
             }
         }
+
         return new Real((double)numberOfViolations/(double)populationSize);
     }
 
