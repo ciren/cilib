@@ -234,8 +234,11 @@
           </excludes>
           <useDefaultExcludes>true</useDefaultExcludes>
           <properties>
-            <year>2008</year>
+            <year>2009</year>
           </properties>
+	  <mapping>
+	    <jjt>JAVADOC_STYLE</jjt>
+	  </mapping>
         </configuration>
         <executions>
           <execution>
