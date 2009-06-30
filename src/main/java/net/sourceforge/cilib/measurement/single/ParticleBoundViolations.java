@@ -41,7 +41,6 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Andries Engelbrecht
  */
 public class ParticleBoundViolations implements Measurement {
-
     private static final long serialVersionUID = 2232130008790333636L;
 
     /** Creates a new instance of ParticleBoundViolations.*/
@@ -58,6 +57,7 @@ public class ParticleBoundViolations implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Measurement getClone() {
         return new ParticleBoundViolations(this);
     }
@@ -65,6 +65,7 @@ public class ParticleBoundViolations implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "R";
     }
@@ -72,8 +73,8 @@ public class ParticleBoundViolations implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getValue(Algorithm algorithm) {
-
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 
         Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();

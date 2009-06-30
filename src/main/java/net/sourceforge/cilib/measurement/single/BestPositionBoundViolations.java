@@ -21,10 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
@@ -33,25 +30,24 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Calculates the average number of violations of boundary constraints
- * with respect to each dimension. This measure can be used as an
- * indicator of whether the algorithm spend too much time exploring
- * in infeasible space (with respect to the boundary constraints).
+ * Checks of the best position in the current population violates
+ * boundary constraints.
  *
  * @author  Andries Engelbrecht
  */
-public class DimensionBoundViolationsPerParticle implements Measurement {
-    private static final long serialVersionUID = -3633155366562479197L;
+public class BestPositionBoundViolations implements Measurement {
 
-    /** Creates a new instance of DimensionBoundViolationsPerParticle. */
-    public DimensionBoundViolationsPerParticle() {
+    private static final long serialVersionUID = 8707987903689437725L;
+
+    /** Creates a new instance of BestPositionBoundViolations. */
+    public BestPositionBoundViolations() {
     }
 
     /**
      * Copy constructor. Creates a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public DimensionBoundViolationsPerParticle(DimensionBoundViolationsPerParticle copy) {
+    public BestPositionBoundViolations(BestPositionBoundViolations copy) {
 
     }
 
@@ -59,8 +55,8 @@ public class DimensionBoundViolationsPerParticle implements Measurement {
      * {@inheritDoc}
      */
     @Override
-    public DimensionBoundViolationsPerParticle getClone() {
-        return new DimensionBoundViolationsPerParticle(this);
+    public BestPositionBoundViolations getClone() {
+        return new BestPositionBoundViolations(this);
     }
 
     /**
@@ -76,26 +72,19 @@ public class DimensionBoundViolationsPerParticle implements Measurement {
      */
     @Override
     public Type getValue(Algorithm algorithm) {
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
-        double sumOfAverageViolations = 0.0;
-        int populationSize = populationBasedAlgorithm.getTopology().size();
-        int numberOfViolations;
-        int dimension = 0;
+        Vector gbest = (Vector) algorithm.getBestSolution().getPosition();
 
-        for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
-            numberOfViolations = 0;
-            dimension = populationEntity.getDimension();
+        double numberOfViolations = 0.0;
+        for (Numeric position : gbest) {
+            Bounds bounds = position.getBounds();
 
-            for (Numeric position : (Vector) populationEntity.getCandidateSolution()) {
-                Bounds bounds = position.getBounds();
-
-                if (!bounds.isInsideBounds(position.getReal()))
-                    numberOfViolations++;
+            if (!bounds.isInsideBounds(position.getReal())) {
+                numberOfViolations++;
+                break;
             }
-            sumOfAverageViolations += (double)numberOfViolations / (double)dimension;
         }
 
-        return new Real(sumOfAverageViolations / (double)populationSize * (double)dimension);
+        return new Real(numberOfViolations);
     }
 
 }
