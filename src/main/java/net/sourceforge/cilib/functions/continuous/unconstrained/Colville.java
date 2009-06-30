@@ -1,4 +1,5 @@
-/* Copyright (C) 2003 - 2008
+/**
+ * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
