@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2003 - 2008
+ * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -77,7 +77,7 @@ public class PbestBoundViolations implements Measurement {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 
         int numberOfViolations = 0;
-        int populationSize = populationBasedAlgorithm.getPopulationSize();
+        int populationSize = populationBasedAlgorithm.getTopology().size();
 
         for (Entity populationEntity : populationBasedAlgorithm.getTopology()) {
             Vector pbest = (Vector) populationEntity.getProperties().get(EntityType.Particle.BEST_POSITION);
