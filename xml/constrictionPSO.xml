@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+<simulator>
+    <algorithms>
+        <algorithm id="constrictionPSO" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.ConstrictionVelocityUpdate">
+                        <kappa class="controlparameter.ConstantControlParameter" parameter="0.1" />
+                        <socialAcceleration class="controlparameter.RandomizingControlParameter" parameter="3.0" />
+                        <cognitiveAcceleration class="controlparameter.RandomizingControlParameter" parameter="3.0" />
+                        <!--vMax class="controlparameter.ConstantControlParameter" parameter="0.1" /-->
+                    </velocityUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <topology class="entity.topologies.GBestTopology"/>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+        </algorithm>
+    </algorithms>
+  
+    <problems>
+        <problem id="spherical" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.Spherical"/>
+        </problem>
+        <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.Rosenbrock"/>
+        </problem>
+        <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Rastrigin"/>
+        </problem>
+    </problems>
+  
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="1">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+    <simulations>
+        <simulation>
+            <algorithm idref="constrictionPSO"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" file="data/constrictionpso_spherical.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="constrictionPSO"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" file="data/constrictionpso_rosenbrock.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="constrictionPSO"/>
+            <problem idref="rastrigin"/>
+            <measurements idref="fitness" file="data/constrictionpso_rastrigin.txt"/>
+        </simulation>
+    </simulations>
+</simulator>
