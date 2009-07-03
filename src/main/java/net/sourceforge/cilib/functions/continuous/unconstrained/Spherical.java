@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Differentiable;
@@ -27,7 +27,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * Spherical function.
+ * <p>Spherical function.</p>
+ *
+ * <p><b>Reference:</b> X. Yao, Y. Liu, G. Liu, <i>Evolutionary Programming
+ * Made Faster</i>,  IEEE Transactions on Evolutionary Computation,
+ * 3(2):82--102, 1999</p>
  *
  * <p>
  * Characteristics:
@@ -35,6 +39,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Unimodal</li>
  * <li>Continuous</li>
  * <li>Separable</li>
+ * <li>Regular</li>
  * <li>Convex</li>
  * </ul>
  *
@@ -67,14 +72,6 @@ public class Spherical extends ContinuousFunction implements Differentiable {
      */
     public Object getMinimum() {
         return new Double(0);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @return The function maximum defined in the default range of the function.
-     */
-    public Object getMaximum() {
-        return new Double(78.6432);
     }
 
     /**

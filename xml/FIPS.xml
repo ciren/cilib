@@ -23,13 +23,13 @@
             </initialisationStrategy>
         </algorithm>
     </algorithms>
-    
-    <problems> 
+
+    <problems>
         <problem id="spherical" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.Spherical"/>
+            <function class="functions.continuous.unconstrained.Spherical"/>
         </problem>
     </problems>
-    
+
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="5" samples="1">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>

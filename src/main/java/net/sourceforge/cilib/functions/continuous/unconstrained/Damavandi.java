@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -31,18 +31,19 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * <p>
  * Global Minimum: f(x,y) = 0;  (x,y) = (2, 2)
+ * Note that if (x,y) = (2,2), then the function results in division by 0
  * Local Minimum: f(x,y) = 2; (x,y) = (7, 7)
  *
  * <p>
  * Characteristics:
  * <ul>
  * <li>Multimodal</li>
+ * <li>Non-separanle</li>
  * <li>Deceptive</li>
  * </ul>
  *
  * @author  Andries Engelbrecht
  */
-
 public class Damavandi extends ContinuousFunction {
     private static final long serialVersionUID = 2857754134712271398L;
 

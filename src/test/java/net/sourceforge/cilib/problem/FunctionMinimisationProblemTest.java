@@ -27,7 +27,7 @@ import java.util.Random;
 
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
-import net.sourceforge.cilib.functions.continuous.Spherical;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

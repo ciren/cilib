@@ -19,36 +19,45 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
+import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Before;
+import org.junit.Test;
+
 /**
- *
- * @author gpampara
- */
-class EggHolder extends ContinuousFunction {
+* @author Andries Engelbrecht
+*/
+public class EasomTest {
 
-    public EggHolder() {
-        this.setDomain("R(-512,512)^30");
+    private ContinuousFunction function;
+
+    @Before
+    public void instantiate() {
+        this.function = new Easom();
     }
 
-    @Override
-    public ContinuousFunction getClone() {
-        return this;
+    /** Test of evaluate method, of class cilib.functions.unconstrained.Easom. */
+    @Test
+    public void testEvaluate() {
+        function.setDomain("R(-100, 100)^2");
+
+        Vector x = new Vector();
+        x.append(new Real(Math.PI));
+        x.append(new Real(Math.PI));
+        assertEquals(-1.0, function.evaluate(x), 0.0);
+
+        x.setReal(0, Math.PI/2.0);
+        x.setReal(1, Math.PI/2.0);
+        assertEquals(0.0, function.evaluate(x), 0.0000000001);
     }
 
-    @Override
-    public double evaluate(Vector x) {
-        double sum = 0.0;
-        for (int i = 0; i < x.getDimension() - 1; i++) {
-            sum += (-1*(x.getReal(i+1) + 47)
-                    *Math.sin(Math.sqrt(Math.abs(x.getReal(i+1) + x.getReal(i)/2 + 47)))
-                    + Math.sin(Math.sqrt(Math.abs(x.getReal(i) - (x.getReal(i+1)+47))))
-                    *(-1*x.getReal(i)));
-        }
-        return sum;
+    @Test
+    public void minimum() {
+        assertEquals(-1.0, function.getMinimum());
     }
-
 }

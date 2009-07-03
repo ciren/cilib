@@ -19,42 +19,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import static org.junit.Assert.assertEquals;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Before;
 import org.junit.Test;
 
-
 /**
- *
- * @author Edwin Peer
- */
-public class SphericalTest {
-    
-    public SphericalTest() {
+* @author Andries Engelbrecht
+*/
+public class DamavandiTest {
+    private ContinuousFunction function;
 
+    @Before
+    public void instantiate() {
+        this.function = new Damavandi();
     }
-    
-    /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
+
+    /** Test of evaluate method, of class cilib.functions.unconstrained.Damavandi. */
     @Test
     public void testEvaluate() {
-        ContinuousFunction function = new Spherical();
-        function.setDomain("R(-100, 100)^3");
-        //double[] x = {1, 2, 3};
+        function.setDomain("R(0, 12)^2");
+
         Vector x = new Vector();
-        x.append(new Real(1.0));
-        x.append(new Real(2.0));
-        x.append(new Real(3.0));
-        
-        assertEquals(14.0, function.evaluate(x), 0.0);
+        x.append(new Real(2.0000001));
+        x.append(new Real(2.0000001));
+        assertEquals(0.0, function.evaluate(x), 0.000000001);
+
+        x.setReal(0, 7.0);
+        x.setReal(1, 7.0);
+        assertEquals(2.0, function.evaluate(x), 0.0);
     }
-    
-    public void testGradient() {
-        // add gradient test
+
+    @Test
+    public void minimum() {
+        assertEquals(0.0, function.getMinimum());
     }
-    
 }

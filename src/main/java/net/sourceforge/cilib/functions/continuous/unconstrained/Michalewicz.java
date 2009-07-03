@@ -19,29 +19,47 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * EpistaticMichalewicz funtion.
+ * <p>Michalewicz funtion 12.</p>
+ *
+ ** <p><b>Reference:</b>
+ *  http://www.geatbx.com/docu/fcnindex-01.html#TopOfPage</p>
+ *
+ * <p>Minimum:
+ * <ul>
+ * <li> if n=5 then f(<b>x</b>*) = -4.687 </li>
+ * <li> if n=10 then f(<b>x</b>*) = -9.66 </li>
+ * <li> for x_i in [0, pi]</li>
+ * </ul>
+ * </p>
  *
  * Characteristics:
  * <ul>
  * <li>Multi-modal</li>
+ * <li>Has n! local minima</li>
+ * <li>Non seperable</li>
  * </ul>
- *
- * @TODO: Find the minimum!!!
- *
+
  * @author  engel
  */
-public class EpistaticMichalewicz extends ContinuousFunction {
+public class Michalewicz extends ContinuousFunction {
+
     private static final long serialVersionUID = -4391269929189674709L;
 
+    /**
+     * m controls the steepness of the valleys; the larger m, the
+     * more difficult the search
+     */
+    private int m;
+
     /** Creates a new instance of EpistaticMichalewicz. */
-    public EpistaticMichalewicz() {
+    public Michalewicz() {
         m = 10;
         setDomain("R(0, 3.141592653589793)^10");
     }
@@ -49,8 +67,8 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public EpistaticMichalewicz getClone() {
-        return new EpistaticMichalewicz();
+    public Michalewicz getClone() {
+        return new Michalewicz();
     }
 
     /**
@@ -69,12 +87,6 @@ public class EpistaticMichalewicz extends ContinuousFunction {
      * {@inheritDoc}
      */
     public double evaluate(Vector input) {
-        /*double x = X.getReal(0);
-        double y = X.getReal(1);
-
-        double result = Math.sin(x)*Math.pow(Math.sin(x*x/Math.PI), 20);
-        result += Math.sin(y)*Math.pow(Math.sin(y*y/Math.PI), 20);
-        return result;*/
 
         double sumsq = 0.0;
 
@@ -101,6 +113,4 @@ public class EpistaticMichalewicz extends ContinuousFunction {
     public void setM(int m) {
         this.m = m;
     }
-
-    private int m;
 }

@@ -16,10 +16,10 @@
   </algorithms>
   <problems>
     <problem id="spherical" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.Spherical"/>
+      <function class="functions.continuous.unconstrained.Spherical"/>
     </problem>
     <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.Rosenbrock"/>
+      <function class="functions.continuous.unconstrained.Rosenbrock"/>
     </problem>
     <problem id="griewank" class="problem.FunctionMinimisationProblem">
       <function class="functions.continuous.unconstrained.Griewank"/>

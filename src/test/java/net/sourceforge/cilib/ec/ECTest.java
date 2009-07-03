@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.ec;
 
 import net.sourceforge.cilib.ec.iterationstrategies.DifferentialEvolutionIterationStrategy;
-import net.sourceforge.cilib.functions.continuous.Spherical;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
