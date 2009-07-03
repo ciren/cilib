@@ -5,11 +5,11 @@
         <algorithm class="pso.PSO">
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000"/>
         </algorithm>
-        
+
         <problem class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.Spherical" />
+            <function class="functions.continuous.unconstrained.Spherical" />
         </problem>
-        
+
         <measurements class="simulator.MeasurementSuite" file="data/pso-positions.txt" resolution="100" samples="1">
             <addMeasurement class="measurement.single.ParticlePositions"/>
         </measurements>

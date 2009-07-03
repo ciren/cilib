@@ -19,18 +19,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Easom function.
+ * Easom function as taken from
+ * www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files
  *
  * <p>
  * Characteristics:
  * <ul>
- * <li>Uni-modal</li>
+ * <li>Multimodal</li>
+ * <li>Not separable</li>
+ * <li>Regular</li>
  * </ul>
  *
  * f(x) = -1.0;  x = (Pi, Pi);
@@ -40,9 +43,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class Easom extends ContinuousFunction {
     private static final long serialVersionUID = 7173528343222997045L;
 
-    /** Creates a new instance of Easom. */
+    /**
+     * Create an instance of {@linkplain Easom}. Domain is defaulted to R(-100, 100)^2.
+     */
     public Easom() {
-        //constraint.add(new DimensionValidator(2));
         setDomain("R(-100, 100)^2");
     }
 

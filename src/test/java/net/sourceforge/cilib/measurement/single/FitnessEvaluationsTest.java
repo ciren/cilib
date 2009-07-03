@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.functions.continuous.Spherical;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.pso.PSO;

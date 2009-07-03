@@ -12,11 +12,11 @@
                 </entityType>
             </initialisationStrategy>
         </algorithm>
-        
+
         <problem class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.Spherical" />
+            <function class="functions.continuous.unconstrained.Spherical" />
         </problem>
-        
+
         <measurements class="simulator.MeasurementSuite" resolution="100" samples="1" file="data/pso-inertia.txt">
             <addMeasurement class="measurement.generic.Iterations"/>
             <addMeasurement class="measurement.single.FunctionOptimisationError" />

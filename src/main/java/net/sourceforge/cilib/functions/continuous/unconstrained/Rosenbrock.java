@@ -19,19 +19,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Generalised Rosenbrock function.
+ * <p>Generalised Rosenbrock function.</p>
+ *
+ * <p><b>Reference:</b> X. Yao, Y. Liu, G. Liu, <i>Evolutionary Programming
+ * Made Faster</i>,  IEEE Transactions on Evolutionary Computation,
+ * 3(2):82--102, 1999</p>
  *
  * Characteristics:
  * <ul>
  * <li>Unimodal</li>
  * <li>Non Separable</li>
  * <li>Continuous</li>
+ * <li>Regular</li>
  * </ul>
  *
  * f(x) = 0; x = 1
@@ -72,11 +77,6 @@ public class Rosenbrock extends ContinuousFunction {
     @Override
     public double evaluate(Vector x) {
         double tmp = 0;
-        /*for (int i = 1; i <= getDimension() / 2; ++i) {
-            double a = x.getReal((i<<1)-1);
-            double b = x.getReal((i<<1)-2);
-            tmp += 100 * (a - b * b) * (a - b * b) + (b - 1) * (b - 1);
-        }*/
 
         for (int i = 0; i < x.getDimension()-1; ++i) {
             double a = x.getReal(i);

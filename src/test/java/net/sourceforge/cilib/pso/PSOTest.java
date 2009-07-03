@@ -21,16 +21,16 @@
  */
 package net.sourceforge.cilib.pso;
 
-import net.sourceforge.cilib.functions.continuous.Spherical;
+import static org.hamcrest.CoreMatchers.is;
+import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
