@@ -35,19 +35,19 @@ public class MinimisationFitnessTest {
 
     public MinimisationFitnessTest() {
     }
-    
+
     @BeforeClass
     public static void setUp() {
         oneFitness = new MinimisationFitness(new Integer(1).doubleValue());
         twoFitness = new MinimisationFitness(new Integer(2).doubleValue());
         inferiorFitness = InferiorFitness.instance();
     }
-        
+
     @Test
     public void testLessThan() {
         assertEquals(twoFitness.compareTo(oneFitness), -1);
     }
-    
+
     @Test
     public void testMoreThan() {
         assertEquals(oneFitness.compareTo(twoFitness), 1);
@@ -58,9 +58,9 @@ public class MinimisationFitnessTest {
         assertEquals(oneFitness.compareTo(oneFitness), 0);
         assertEquals(twoFitness.compareTo(twoFitness), 0);
     }
-        
+
     @Test
-    public void testInferior() {        
+    public void testInferior() {
         assertEquals(inferiorFitness.compareTo(oneFitness), -1);
         assertEquals(oneFitness.compareTo(inferiorFitness), 1);
     }
@@ -68,5 +68,5 @@ public class MinimisationFitnessTest {
     private static Fitness oneFitness;
     private static Fitness twoFitness;
     private static Fitness inferiorFitness;
-    
+
 }

@@ -33,21 +33,21 @@ import org.junit.Test;
  * @author Edwin Peer
  */
 public class RANLUXTest {
-    
+
     public RANLUXTest() {
-      
+
     }
-    
+
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
         Random r = new RANLUX();
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
-            assertTrue("Random value out of range", 0 <= d && d < 1); 
+            assertTrue("Random value out of range", 0 <= d && d < 1);
             tester.addSample(d);
         }
         assertTrue("Samples are not random", tester.hasRandomSamples());
     }
-    
+
 }

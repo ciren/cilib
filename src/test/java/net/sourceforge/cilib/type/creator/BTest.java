@@ -29,25 +29,25 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class BTest {
-    
+
     private static B creator = null;
-    
+
     @BeforeClass
     public static void setUp() {
         creator = new B();
     }
-    
+
     @Test
     public void testCreateNoBounds() {
         Type b = creator.create();
-        
+
         assertTrue(b instanceof Bit);
     }
-    
+
     @Test(expected = UnsupportedOperationException.class)
     public void testCreateBounds() {
         Type b = creator.create(0, 3);

@@ -30,13 +30,13 @@ import net.sourceforge.cilib.games.game.Game;
 public abstract class GameScoringStrategy {
     public GameScoringStrategy() {
     }
-    
+
     /**
      * Initialize the game with the neccesary {@linkplain AgentMeasure}'s that the scoring strategy may require to calculate the {@linkplain Fitness}
      * for all the {@linkplain Agent}s
      * @param game the game to initilaise
      */
-    public abstract void initializeMeasurements(Game game); 
+    public abstract void initializeMeasurements(Game game);
     /**
      * Assign a {@linkplain Fitness} to each {@linkplain Agent} after the completion of a {@linkplain Game}
      * @param game the game object

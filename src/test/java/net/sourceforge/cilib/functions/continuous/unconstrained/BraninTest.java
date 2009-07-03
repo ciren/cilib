@@ -38,30 +38,30 @@ public class BraninTest {
     private ContinuousFunction function;
 
     public BraninTest() {
-        
+
     }
-    
+
     @Before
     public void instantiate() {
         this.function = new Branin();
     }
-    
+
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Branin. */
     @Test
     public void testEvaluate() {
         function.setDomain("R(-5,10),R(0,15)");
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
-           
+
         assertEquals(21.62763539206238, function.evaluate(x), 0.00000000000001);
-        
+
         x.setReal(0, -Math.PI);
         x.setReal(1, 12.275);
         assertEquals(0.397887, function.evaluate(x), 0.0000009);
     }
-    
+
     @Test
     public void minimum() {
         assertEquals(0.397887, function.getMinimum());

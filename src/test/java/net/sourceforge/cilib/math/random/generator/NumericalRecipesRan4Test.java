@@ -33,12 +33,12 @@ import org.junit.Test;
  * @author Edwin Peer
  */
 public class NumericalRecipesRan4Test {
-    
+
     public NumericalRecipesRan4Test() {
-       
+
     }
-    
-    
+
+
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
@@ -46,11 +46,11 @@ public class NumericalRecipesRan4Test {
  //       Random r = new NumericalRecipesRan4();  // Not GPL
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
-            assertTrue("Random value out of range", 0 <= d && d < 1); 
+            assertTrue("Random value out of range", 0 <= d && d < 1);
             tester.addSample(d);
         }
         assertTrue("Samples are not random", tester.hasRandomSamples());
     }
-    
-    
+
+
 }

@@ -32,22 +32,22 @@ import org.junit.Test;
  * @author Edwin Peer
  */
 public class ZiffGFSR4Test {
-    
+
     public ZiffGFSR4Test() {
-        
+
     }
-    
-   
+
+
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();
         Random r = new ZiffGFSR4();
         for (int i = 0; i < 100000; ++i) {
             double d = r.nextDouble();
-            assertTrue("Random value out of range", 0 <= d && d < 1); 
+            assertTrue("Random value out of range", 0 <= d && d < 1);
             tester.addSample(d);
         }
         assertTrue("Samples are not random", tester.hasRandomSamples());
-    }    
-    
+    }
+
 }

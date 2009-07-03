@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 public class IndividualTest {
-    
+
     @Test
     public void testClone() {
         Vector genes = new Vector(5);
@@ -40,40 +40,40 @@ public class IndividualTest {
         genes.add(new Real(3.0));
         genes.add(new Real(4.0));
         genes.add(new Real(5.0));
-        
+
         Individual i = new Individual();
         i.setCandidateSolution(genes);
-        
+
         Individual clone = i.getClone();
-        
+
         assertEquals(5, i.getDimension());
         assertEquals(5, clone.getDimension());
         assertEquals(i.getDimension(), clone.getDimension());
-        
+
         Vector cloneVector = (Vector) clone.getCandidateSolution();
-        
+
         for (int k = 0; k < cloneVector.getDimension(); k++) {
             assertEquals(genes.get(k), cloneVector.get(k));
         }
     }
-    
+
     @Test
     public void equals() {
         Individual i1 = new Individual();
         Individual i2 = new Individual();
-        
+
         assertFalse(i1.equals(i2));
         assertFalse(i2.equals(i1));
         assertTrue(i1.equals(i1));
-        
+
         assertFalse(i1.equals(null));
     }
-    
+
     @Test
     public void hashCodes() {
         Individual i1 = new Individual();
         Individual i2 = new Individual();
-        
+
         assertTrue(i1.hashCode() != i2.hashCode());
     }
 

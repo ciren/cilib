@@ -48,9 +48,9 @@ public class LShape extends AbstractShape {
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.LSHAPE, block.getClone()));
 		block.setInt(0, (int)(gridWidth / 2) - 1);
 		block.setInt(1, 1);
-		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.LSHAPE, block.getClone()));		
+		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.LSHAPE, block.getClone()));
 	}
-	
+
 	public LShape(LShape other){
 		super(other);
 	}
@@ -73,7 +73,7 @@ public class LShape extends AbstractShape {
             	moveBlock(shapeBlocks.get(0), -1, -1);
                 moveBlock(shapeBlocks.get(2), 1, 1);
                 moveBlock(shapeBlocks.get(3), 2, 0);
-                
+
 
                 ++currentOrientation;
                 break;
@@ -81,7 +81,7 @@ public class LShape extends AbstractShape {
             	 moveBlock(shapeBlocks.get(0), -1, 1);
                 moveBlock(shapeBlocks.get(2), 1, -1);
                 moveBlock(shapeBlocks.get(3), 0, -2);
-               
+
 
                 ++currentOrientation;
                 break;

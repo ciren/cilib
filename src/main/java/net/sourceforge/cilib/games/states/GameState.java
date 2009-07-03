@@ -36,25 +36,25 @@ public abstract class GameState implements Cloneable {
     protected int currentIteration;
     protected GameSeedingStrategy randomizer;
     private static final long serialVersionUID = 3668288597302493178L;
-    
+
     public GameState() {
         currentIteration = 0;
         randomizer = new UniqueSeedingStrategy();
     }
-    
+
     public GameState(GameState other){
         currentIteration = other.currentIteration;
         randomizer = other.randomizer.getClone();
     }
     /**
-     * Clear the state and reset it to a start state.     
+     * Clear the state and reset it to a start state.
      */
     public abstract void clearState();
     /**
      * {@inheritDoc}
      */
     public abstract GameState getClone();
-    
+
     public void resetIterationCount(){
         currentIteration = 0;
     }

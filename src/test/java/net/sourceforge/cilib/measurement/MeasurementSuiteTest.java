@@ -37,7 +37,7 @@ import org.junit.runner.RunWith;
 /**
  * This test class tests the MeasurementSuite. I'm not sure how effective these
  * tests are though...
- * 
+ *
  * @author gpampara
  */
 @RunWith(JMock.class)

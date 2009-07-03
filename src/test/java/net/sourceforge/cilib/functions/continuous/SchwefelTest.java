@@ -34,12 +34,12 @@ import org.junit.Test;
  * @author Edwin Peer
  */
 public class SchwefelTest {
-    
+
     public SchwefelTest() {
 
     }
-   
-    
+
+
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Schwefel. */
     @Test
     public void testEvaluate() {
@@ -47,20 +47,20 @@ public class SchwefelTest {
         function.setDomain("R(-500, 500)^3");
         //double[] x = {1, 2, 3};
         //double[] y = {-1, -2, -3};
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         x.append(new Real(3.0));
-        
+
         Vector y = new Vector();
         y.append(new Real(-1.0));
         y.append(new Real(-2.0));
         y.append(new Real(-3.0));
-        
+
         assertEquals(1262.726744, function.evaluate(x), 0.0000009);
-        assertEquals(1251.170579, function.evaluate(y), 0.0000009);   
+        assertEquals(1251.170579, function.evaluate(y), 0.0000009);
     }
-    
-    
+
+
 }

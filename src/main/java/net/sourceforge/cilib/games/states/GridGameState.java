@@ -39,7 +39,7 @@ public class GridGameState extends GameState {
         gridHeight = 0;
         state = new GameItem[gridWidth][gridHeight];
     }
-    
+
     public GridGameState(int gridWidth, int gridHeight) {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
@@ -92,7 +92,7 @@ public class GridGameState extends GameState {
             throw new RuntimeException("Invalid Index : " + i + ", " + j);
         return state[i][j];
     }
-    
+
     /**
      * Set an item at a specific index in the matrix
      * @param i the specified Column
@@ -103,7 +103,7 @@ public class GridGameState extends GameState {
     public void setItem(int i, int j, GameItem item){
         state[i][j] = item;
     }
-    
+
     /**
      * {@inheritDoc}
      */

@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * This class is used to give a Neural Network a Tic Tac Toe game. 
+ * This class is used to give a Neural Network a Tic Tac Toe game.
  * For this {@linkplain NeuralStateInputStrategy} the Neural Network needs to have a number of inputs equals to the number of cells in the game.
  * Each input is then given to the network depending if the cell is occupied by the current player, the opponent player or if its empty.
  * @author leo
@@ -60,7 +60,7 @@ public class TTTStateInputStrategy extends NeuralStateInputStrategy {
         int Width = ((GridGame)state).getWidth();
         int Height = ((GridGame)state).getHeight();
         GridGameState gstate = (GridGameState)state.getDecisionState();
-        
+
         for(int j = 0; j < Height; ++j){
             for(int i = 0; i < Width; ++i){
                 GameItem item =gstate.getItem(i, j);
@@ -68,13 +68,13 @@ public class TTTStateInputStrategy extends NeuralStateInputStrategy {
                     if(((PlayerItem)item).getPlayerID() == currentPlayer.getPlayerID())
                         input.add(new Real(currentPlayer.getScaledInput(1, -1, 1))); //it is me
                     else
-                        input.add(new Real(currentPlayer.getScaledInput(-1, -1, 1))); //it is not me        
+                        input.add(new Real(currentPlayer.getScaledInput(-1, -1, 1))); //it is not me
                 }
                 else
                     input.add(new Real(currentPlayer.getScaledInput(0, -1, 1))); //it is nobody
             }
         }
-        return input;    
+        return input;
     }
 
 }

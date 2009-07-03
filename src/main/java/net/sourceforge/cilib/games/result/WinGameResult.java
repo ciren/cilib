@@ -29,19 +29,19 @@ package net.sourceforge.cilib.games.result;
 public class WinGameResult extends AbstractGameResult {
     private static final long serialVersionUID = 2073705770597355550L;
     int winPlayerID;
-    
+
     public WinGameResult(int playerNo) {
         this.winPlayerID = playerNo;
     }
-    
+
     public WinGameResult(WinGameResult other){
         winPlayerID = other.winPlayerID;
     }
-    
+
     public int getWinnerID(){
         return winPlayerID;
     }
-    
+
     /**
      * {@inheritDoc}
      */

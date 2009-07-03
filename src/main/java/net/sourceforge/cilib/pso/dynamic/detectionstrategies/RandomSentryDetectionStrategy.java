@@ -35,9 +35,9 @@ import net.sourceforge.cilib.math.random.generator.Random;
  */
 public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = -7961604921868908664L;
-    
+
     private int sentries;
-    private double theta; 
+    private double theta;
     private Random randomiser;
 
     public RandomSentryDetectionStrategy() {
@@ -45,42 +45,42 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
         theta = 0.001;
         randomiser = new MersenneTwister();
     }
-    
+
     public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy<E> copy) {
         this.sentries = copy.sentries;
         this.theta = copy.theta;
         this.randomiser = copy.randomiser.getClone();
     }
-    
+
     public RandomSentryDetectionStrategy<E> getClone() {
         return new RandomSentryDetectionStrategy<E>(this);
     }
-    
+
 
     /** Check for environment change:
-     * Pick the specified number of random particles (sentries) and evaluate their current positions. 
+     * Pick the specified number of random particles (sentries) and evaluate their current positions.
      * If the difference between the old fitness and the newly generated one is significant (exceeds a predefined theta)
      * for one or more of the sentry particles, assume that the environment has changed.
      * @param algorithm PSO algorithm that operates in a dynamic environment
      * @return true if any changes are detected, false otherwise
-     */        
+     */
     public boolean detect(E algorithm) {
         Topology<? extends Entity> topology = algorithm.getTopology();
 
         boolean envChangeOccured = false;
         ArrayList<Entity> sentryList = new ArrayList<Entity>();
         int populationSize = topology.size();
-                
+
         for (int i = 0; i < sentries; i++) {
             int index = randomiser.nextInt(populationSize);
             sentryList.add((Entity)topology.get(index));
         }
-        
+
         for (Entity nextSentry : sentryList) {
             double oldSentryFitness = nextSentry.getFitness().getValue();
             nextSentry.calculateFitness(false);
             double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getCandidateSolution(), false).getValue();
-            
+
             if(Math.abs(oldSentryFitness - newSentryFitness) >=  theta) {
                 envChangeOccured = true;
                 break;

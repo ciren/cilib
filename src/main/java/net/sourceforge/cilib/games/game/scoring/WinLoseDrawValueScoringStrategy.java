@@ -42,13 +42,13 @@ public class WinLoseDrawValueScoringStrategy extends GameScoringStrategy {
         loseValue = -2.0;
         drawValue = 0.0;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void initializeMeasurements(Game game) {
-        // this scoring strategy does not require agent measurements        
+        // this scoring strategy does not require agent measurements
     }
 
     /**
@@ -58,12 +58,12 @@ public class WinLoseDrawValueScoringStrategy extends GameScoringStrategy {
     public void assignPlayerScores(Game game) {
         AbstractGameResult result = game.getGameResult();
         if(result instanceof DrawResult){
-            for(int i = 1; i <= game.getPlayerCount(); ++i)            
+            for(int i = 1; i <= game.getPlayerCount(); ++i)
                 game.assignPlayerScore(i, new MaximisationFitness(drawValue));
-            
+
         }
         else if (result instanceof WinGameResult){
-            int winnerID = ((WinGameResult)result).getWinnerID();        
+            int winnerID = ((WinGameResult)result).getWinnerID();
             game.assignPlayerScore(winnerID, new MaximisationFitness(winValue));
             for(int i = 1; i <= game.getPlayerCount(); ++i)
                 if(i != winnerID)

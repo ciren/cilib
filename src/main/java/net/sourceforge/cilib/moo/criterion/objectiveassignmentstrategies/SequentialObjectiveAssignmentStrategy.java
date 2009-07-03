@@ -37,7 +37,7 @@ import net.sourceforge.cilib.problem.MOOptimisationProblem;
  * first sub-objective again until every {@code PopulationBasedAlgorithm} is assigned a
  * sub-objective.
  * </p>
- * 
+ *
  * @author Wiehann Matthysen
  */
 public class SequentialObjectiveAssignmentStrategy implements ObjectiveAssignmentStrategy {

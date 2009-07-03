@@ -34,28 +34,28 @@ import org.junit.Test;
 public class MaximisationFitnessTest {
 
     public MaximisationFitnessTest() {
-        
+
     }
-    
+
     @BeforeClass
     public static void setUp() {
         oneFitness = new MaximisationFitness(new Integer(1).doubleValue());
         twoFitness = new MaximisationFitness(new Integer(2).doubleValue());
         inferiorFitness = InferiorFitness.instance();
     }
-        
+
     @Test
     public void testLessThan() {
         assertEquals(oneFitness.compareTo(twoFitness), -1);
     }
-    
+
     @Test
     public void testMoreThan() {
         assertEquals(twoFitness.compareTo(oneFitness), 1);
     }
-    
+
     @Test
-    public void testInferior() {        
+    public void testInferior() {
         assertEquals(inferiorFitness.compareTo(oneFitness), -1);
         assertEquals(oneFitness.compareTo(inferiorFitness), 1);
     }
@@ -63,5 +63,5 @@ public class MaximisationFitnessTest {
     private static Fitness oneFitness;
     private static Fitness twoFitness;
     private static Fitness inferiorFitness;
-    
+
 }

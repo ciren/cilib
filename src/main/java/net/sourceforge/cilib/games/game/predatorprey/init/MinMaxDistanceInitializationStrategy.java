@@ -64,7 +64,7 @@ public class MinMaxDistanceInitializationStrategy extends
      */
     @Override
     public void initializePP(PredatorPreyGame game) {
-        Random rand = game.getCurrentState().getRandomizer().getGenerator();    
+        Random rand = game.getCurrentState().getRandomizer().getGenerator();
         double distance = 0;
         while(distance < minDistance || (maxDistance != -1 && distance > maxDistance)){
             for(int i = 0; i < game.getCurrentState().getSize(); ++i){

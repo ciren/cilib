@@ -37,7 +37,7 @@ import net.sourceforge.cilib.games.items.GridLocation;
 import net.sourceforge.cilib.games.states.GridGameState;
 /**
  * This class represents a Tetris game state.
- * 
+ *
  * @author leo
  *
  */
@@ -55,7 +55,7 @@ public class TetrisGameState extends GridGameState {
 		currentScore = 0;
 		totalRowsCleared = 0;
 	}
-	
+
 	public TetrisGameState(TetrisGameState other) {
 		super(other);
 		if(other.currentShape != null)
@@ -77,7 +77,7 @@ public class TetrisGameState extends GridGameState {
 	 */
 	public void createNewShape(){
 		currentShape = null;
-        int NShape = randomizer.getGenerator().nextInt(7);        
+        int NShape = randomizer.getGenerator().nextInt(7);
         switch (NShape)
         {
             case 0:
@@ -115,13 +115,13 @@ public class TetrisGameState extends GridGameState {
 	private void mergeShape(AbstractShape shape){
 		if(shape != null){
 			List<TetrisBlock> shapeBlocks = shape.getBlocks();
-	        for(TetrisBlock B: shapeBlocks){     
-	        	GridLocation itemLoc = (GridLocation)B.getLocation();	        	
+	        for(TetrisBlock B: shapeBlocks){
+	        	GridLocation itemLoc = (GridLocation)B.getLocation();
 	        	setItem(itemLoc.getInt(0), itemLoc.getInt(1), B.getClone());
-	        }    
+	        }
 		}
 	}
-	
+
 	@Override
     public void setItem(int i, int j, GameItem item){
 		if(state[i][j] != null)
@@ -136,7 +136,7 @@ public class TetrisGameState extends GridGameState {
 		mergeShape(currentShape);
 		currentShape = null;
 	}
-	
+
 	/**
 	 * Calculate the score based on the amount of rows cleared
 	 * @param rowsCleared
@@ -163,11 +163,11 @@ public class TetrisGameState extends GridGameState {
             {
             	currentLevel++;
             }
-            
+
             int pointAward = ((21 + (3 * (int)currentLevel))); //- freefallIterations);
             currentScore += pointAward;
         }
-    }    
+    }
     /**
      * Get the number of blocks form the current {@linkplain AbstractShape} that will be removed if the
      * shape was to be merged at its current position
@@ -189,8 +189,8 @@ public class TetrisGameState extends GridGameState {
                 }
             }
             if (fullRow)
-            {                   
-            	erodedShapeCount += currentShape.countCellsInRow(y);            		
+            {
+            	erodedShapeCount += currentShape.countCellsInRow(y);
             }
         }
         return erodedShapeCount;
@@ -212,7 +212,7 @@ public class TetrisGameState extends GridGameState {
     	}
     	return count;
     }
-    
+
     /**
      * Clear all full rows for a given game grid
      * @param state the grid of blocks
@@ -249,7 +249,7 @@ public class TetrisGameState extends GridGameState {
                         	((TetrisBlock)state[x][yUp]).addMoveDown();
                         	int [] pos = new int[2];
                         	pos[0] = x;
-                        	pos[1] = yUp;                        	
+                        	pos[1] = yUp;
                             changeKeys.add(pos);
                         }
                     }
@@ -270,20 +270,20 @@ public class TetrisGameState extends GridGameState {
                 if (((GridLocation)(B.getLocation())).getInt(1) != key[1])
                 {
                     changeBlocks.add((TetrisBlock)B.getClone());
-                    state[key[0]][key[1]] = null;                      
+                    state[key[0]][key[1]] = null;
                 }
             }
         }
         //update all new ones
         for (TetrisBlock change: changeBlocks)
-        {                
+        {
         	GridLocation loc = (GridLocation)change.getLocation();
-        	state[loc.getInt(0)][loc.getInt(1)] = change;   
+        	state[loc.getInt(0)][loc.getInt(1)] = change;
         }
 		return rowsCleared;
 
 	}
-	
+
 	/**
 	 * Clear any full rows in the current game grid.
 	 * @return
@@ -304,17 +304,17 @@ public class TetrisGameState extends GridGameState {
     	List<TetrisBlock> subShape = currentShape.getLeftBlocks();
     	int x = 0;
     	boolean collides = collides(subShape);
-    	while(!collides && (left - x) > 0){    	
+    	while(!collides && (left - x) > 0){
     		++x;
         	for(TetrisBlock B: subShape)
         		if(B.getInt(1) >= 0 && state[B.getInt(0) - x][B.getInt(1)] != null)
-        			collides = true;  	        	
+        			collides = true;
     	}
     	if(collides && x > 0)
     		--x;
     	if(x > 0)
-    		currentShape.moveShapeX(-x);    		
-    	
+    		currentShape.moveShapeX(-x);
+
     	return !currentShapeCollides();
     }
     /**
@@ -327,17 +327,17 @@ public class TetrisGameState extends GridGameState {
     	int bottom = currentShape.getBottomMostBlock().getInt(1);
     	List<TetrisBlock> subShape = currentShape.getBottomBlocks();
     	int y = 0;
-        boolean collides = collides(subShape);    
+        boolean collides = collides(subShape);
         while (!collides && (bottom + y) <= getGridHeight() - 2){
         	++y;
         	for(TetrisBlock B: subShape)
         		if(state[B.getInt(0)][B.getInt(1) + y] != null)
-        			collides = true;        
+        			collides = true;
         }
     	if(collides && y > 0)
     		--y;
     	if(y > 0){
-	        currentShape.moveShapeY(y);	        
+	        currentShape.moveShapeY(y);
     	}
     	collides = currentShapeCollides();
         if(!collides && currentShape.getTopMostBlock().getInt(1) >= 0)
@@ -354,9 +354,9 @@ public class TetrisGameState extends GridGameState {
     	if(right.getInt(0) == getGridWidth() - 1){
     		return false;
     	}
-    	currentShape.moveShapeX(1); 
-    	    	
-        return !currentShapeCollides();    	
+    	currentShape.moveShapeX(1);
+
+        return !currentShapeCollides();
     }
 	/**
 	 * Check whether one of the blocks in the current shape of the game collides in the grid
@@ -380,7 +380,7 @@ public class TetrisGameState extends GridGameState {
 	 */
     public boolean collides(List<TetrisBlock> blocks){
 		for(TetrisBlock B: blocks){
-			GridLocation loc = (GridLocation)B.getLocation();		
+			GridLocation loc = (GridLocation)B.getLocation();
 			try{
 				if(state[loc.getInt(0)][loc.getInt(1)] != null) //if there is a block then this one collides with it!
 					return true;
@@ -413,7 +413,7 @@ public class TetrisGameState extends GridGameState {
 		return currentScore;
 	}
 
-	public AbstractShape getCurrentShape() {		
+	public AbstractShape getCurrentShape() {
 		return currentShape == null ? null : currentShape;
 	}
 	public void setCurrentShape(AbstractShape newShape) {

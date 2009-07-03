@@ -38,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {
 
     /**
-     * 
+     *
      */
     public PredatorPreyNeuralInputStrategy() {
     }

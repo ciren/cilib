@@ -46,12 +46,12 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  */
 public class PredatorPreyGame extends Game<ListGameState> {
     private static final long serialVersionUID = 332203013419474482L;
-    int maxIterations;    
+    int maxIterations;
     int boardHeight;
     int boardWidth;
     PredPreyPositionInitializationStrategy initializationStrategy;
     /**
-     * {@inheritDoc}     
+     * {@inheritDoc}
      */
     public PredatorPreyGame(){
         maxIterations = 20;
@@ -61,7 +61,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
         initializationStrategy = new RandomPredPreyInitializationStrategy();
     }
     /**
-     * {@inheritDoc}     
+     * {@inheritDoc}
      */
     public PredatorPreyGame(PredatorPreyGame other){
         super(other);
@@ -71,7 +71,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
         initializationStrategy = other.initializationStrategy.getClone();
     }
     /**
-     * {@inheritDoc}     
+     * {@inheritDoc}
      */
     public PredatorPreyGame(PredatorPreyGame other, ListGameState newState){
         super(other, newState);
@@ -85,7 +85,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
      * @return true if the predator has caught the prey, otherwise false.
      */
     private boolean predatorCaughtPrey()
-    {        
+    {
         try
         {
             //if predator and prey players are next to or on the same cell then game over
@@ -99,7 +99,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
             throw new InitialisationException("Game not initialized, predator and prey items do not exist");
         }
     }
-    
+
     /**
      * Move a specified player
      * @param playerID the player to move
@@ -108,21 +108,21 @@ public class PredatorPreyGame extends Game<ListGameState> {
      */
     public void movePlayer(int playerID, int x, int y){
         try{
-            Vector moveVector = new Vector(2);    
-            moveVector.add(new Int(x));        
-            moveVector.add(new Int(y));    
+            Vector moveVector = new Vector(2);
+            moveVector.add(new Int(x));
+            moveVector.add(new Int(y));
             for(int i = 0; i < getCurrentState().getSize(); ++i){
                 if(((PlayerItem)getCurrentState().getItem(i)).getPlayerID() == playerID){
                     //move the item by the specified coords
                     getCurrentState().getItem(i).getLocation().moveItem(moveVector);
-                }                    
+                }
             }
         }
         catch(Exception e){
             throw new InitialisationException("Game not initialized, predator and prey items not found");
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -130,7 +130,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
     public boolean gameOver() {
         if(getCurrentIteration() >= maxIterations)
             return true;
-        
+
         return predatorCaughtPrey();
     }
 
@@ -162,7 +162,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
         else
             return new WinGameResult(predatorID); //predator won
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -178,7 +178,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
         }
         initializationStrategy.initializePP(this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -194,7 +194,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
                 GameItem item = getCurrentState().getItem(itemLoc);
                 if(item != null){
                     Enum<?> pp = item.getToken();
-                    line += ((GameEnum)pp).getDescription() + "|"; 
+                    line += ((GameEnum)pp).getDescription() + "|";
                 }
                 else
                     line += " |";

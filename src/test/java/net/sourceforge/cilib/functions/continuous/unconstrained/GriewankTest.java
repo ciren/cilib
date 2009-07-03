@@ -41,24 +41,24 @@ public class GriewankTest {
     public void instantiate() {
         this.function = new Griewank();
     }
-    
+
     /** Test of evaluate method, of class cilib.functions.unconstrained.Griewank. */
     @Test
     public void testEvaluate() {
         function.setDomain("R(-600,600)^2");
-        
+
         Vector x = new Vector();
         x.append(new Real(0.0));
         x.append(new Real(0.0));
-           
+
         assertEquals(0.0, function.evaluate(x), 0.0);
-        
+
         x.setReal(0, Math.PI/2);
         x.setReal(1, Math.PI/2);
-        
+
         assertEquals(1.0012337, function.evaluate(x), 0.0000001);
     }
-    
+
     @Test
     public void minimum() {
         assertEquals(0.0, function.getMinimum());

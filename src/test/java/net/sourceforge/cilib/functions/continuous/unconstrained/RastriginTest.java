@@ -41,24 +41,24 @@ public class RastriginTest {
     public void instantiate() {
         this.function = new Rastrigin();
     }
-    
+
     /** Test of evaluate method, of class cilib.functions.unconstrained.Rastrigin. */
     @Test
     public void testEvaluate() {
         function.setDomain("R(-5.12, 5.12)^2");
-        
+
         Vector x = new Vector();
         x.append(new Real(0.0));
         x.append(new Real(0.0));
-           
+
         assertEquals(0.0, function.evaluate(x), 0.0);
-        
+
         x.setReal(0, Math.PI/2);
         x.setReal(1, Math.PI/2);
-        
+
         assertEquals(42.9885094392, function.evaluate(x), 0.0000000001);
     }
-    
+
     @Test
     public void minimum() {
         assertEquals(0.0, function.getMinimum());

@@ -30,15 +30,15 @@ import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
  *
  */
 public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrategy{
-	
+
 	private static final long serialVersionUID = -7695834817656232972L;
 
 	public SelectAllOpponentSelectionStrategy(){
 		super();
 	}
-	
+
 	public SelectAllOpponentSelectionStrategy(SelectAllOpponentSelectionStrategy copy){
-		
+
 	}
 	/**
 	 * {@inheritDoc}
@@ -47,7 +47,7 @@ public class SelectAllOpponentSelectionStrategy extends OpponentSelectionStrateg
 	public SelectAllOpponentSelectionStrategy getClone() {
 		return new SelectAllOpponentSelectionStrategy(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class AveTetrisFeaturesMeasure extends AgentMeasure {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6733754320928755214L;
 	int counter;
@@ -44,7 +44,7 @@ public class AveTetrisFeaturesMeasure extends AgentMeasure {
 	long columntransitionsCount;
 	long heightCount;
 	/**
-	 * 
+	 *
 	 */
 	public AveTetrisFeaturesMeasure() {
 		/*holesCount = new ArrayList<Integer>();
@@ -118,7 +118,7 @@ public class AveTetrisFeaturesMeasure extends AgentMeasure {
 		}
 		int Width = state.getGridWidth();
 		int Height = state.getGridHeight();
-		
+
 		 int highestYCell = Height; //low y is high cell
          int amHoleCells = 0;
 
@@ -126,7 +126,7 @@ public class AveTetrisFeaturesMeasure extends AgentMeasure {
          int columnTransitions = 0;
 
          boolean[] lastXOcc = new boolean[highestYCell];
-         
+
          for (int x = 0; x < Width; ++x)
          {
              int amEmpty = 0;
@@ -144,7 +144,7 @@ public class AveTetrisFeaturesMeasure extends AgentMeasure {
                      if (!lastYOccupied) //this cell is occupied, if the precious one was not
                          ++columnTransitions;
                      lastYOccupied = true;
-                     
+
                      if(x != 0 && !lastXOcc[y]){ //left and rightmost are occ
                      	++rowTransitions;
                      }
@@ -173,7 +173,7 @@ public class AveTetrisFeaturesMeasure extends AgentMeasure {
              }
              //outside cell counts as not occupied
              if (lastYOccupied)
-                 ++columnTransitions;         
+                 ++columnTransitions;
          }
          ++counter;
          holesCount += amHoleCells;

@@ -42,7 +42,7 @@ public class SelectAllSolutionsPoolSelectionStrategy extends
 
 	public SelectAllSolutionsPoolSelectionStrategy() {
 	}
-	
+
 	public SelectAllSolutionsPoolSelectionStrategy(SelectAllSolutionsPoolSelectionStrategy other) {
 	}
 

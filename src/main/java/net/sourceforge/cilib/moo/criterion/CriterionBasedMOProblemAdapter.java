@@ -45,7 +45,7 @@ import net.sourceforge.cilib.type.types.Type;
  * {@link ObjectiveAssignmentStrategy} is used to assign the different sub-objectives
  * to different sub-populations.
  * </p>
- * 
+ *
  * @author Wiehann Matthysen
  */
 public class CriterionBasedMOProblemAdapter extends OptimisationProblemAdapter {

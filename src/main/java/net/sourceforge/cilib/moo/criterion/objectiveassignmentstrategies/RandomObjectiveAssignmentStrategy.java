@@ -41,14 +41,14 @@ public class RandomObjectiveAssignmentStrategy implements ObjectiveAssignmentStr
 	private static final long serialVersionUID = 2421634715881142661L;
 
 	public RandomObjectiveAssignmentStrategy() { }
-	
+
 	public RandomObjectiveAssignmentStrategy(RandomObjectiveAssignmentStrategy copy) { }
 
 	@Override
 	public RandomObjectiveAssignmentStrategy getClone() {
 		return new RandomObjectiveAssignmentStrategy(this);
 	}
-	
+
 	@Override
 	public void assignObjectives(MOOptimisationProblem problem, List<PopulationBasedAlgorithm> populations) {
 		Random generator = new MersenneTwister();

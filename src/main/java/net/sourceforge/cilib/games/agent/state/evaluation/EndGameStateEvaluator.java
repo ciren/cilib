@@ -30,27 +30,27 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  * @author leo
- * This is a {@linkplain StateEvaluator} that simply scores the state that results in a win for the decision player with a value of 1, and everything else with a value of -1. 
+ * This is a {@linkplain StateEvaluator} that simply scores the state that results in a win for the decision player with a value of 1, and everything else with a value of -1.
  * This evaluator can only evaluate game states where the game is completed.
  */
 public class EndGameStateEvaluator implements StateEvaluator {
 	public EndGameStateEvaluator() {
-		
+
 	}
 	public EndGameStateEvaluator(EndGameStateEvaluator other) {
-	
+
 	}
 	/**
 	 * {@inheritDoc}
 	 */
-	public double evaluateState(Game<GameState>  state, int decisionPlayerID) {	
+	public double evaluateState(Game<GameState>  state, int decisionPlayerID) {
 		if(!state.gameOver())
 			throw new RuntimeException("This evaluator can only evaluate end game states");
 		AbstractGameResult result = state.getGameResult();
 		if(result instanceof WinGameResult){
 			if(((WinGameResult)result).getWinnerID() == decisionPlayerID)
 				return 1;
-			else 
+			else
 				return -1;
 		}
 		else

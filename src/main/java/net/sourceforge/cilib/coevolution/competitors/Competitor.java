@@ -34,26 +34,26 @@ public class Competitor implements Cloneable {
 	Type entityData;
 	int populationID;
 	Fitness entityFitness;
-	public Competitor(Type entityData, Fitness entityFitness, int populationID) {		
+	public Competitor(Type entityData, Fitness entityFitness, int populationID) {
 		this.populationID = populationID;
 		this.entityFitness = entityFitness;
 		this.entityData = entityData; //no clone, reference to the data
 	}
-	
-	public Competitor(Type entityData, int populationID) {		
+
+	public Competitor(Type entityData, int populationID) {
 		this.populationID = populationID;
 		this.entityData = entityData; //no clone, reference to the data
 	}
-	
+
 	public Competitor(Competitor other) {
 		populationID = other.populationID;
 		entityData = other.entityData;
 	}
-	
+
 	public Type getEntityData(){
 		return entityData;
 	}
-	
+
 	public int getPopulationID(){
 		return populationID;
 	}

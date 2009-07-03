@@ -34,7 +34,7 @@ import org.junit.Test;
 public class EggHolderTest {
 
     public EggHolderTest() {
-        
+
     }
 
     @Test

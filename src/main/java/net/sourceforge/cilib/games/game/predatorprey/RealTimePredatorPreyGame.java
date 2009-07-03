@@ -41,12 +41,12 @@ public class RealTimePredatorPreyGame extends PredatorPreyGame implements RealTi
         super(other);
         roundStartGameState = other.roundStartGameState.getClone();
     }
-    
+
     public RealTimePredatorPreyGame(RealTimePredatorPreyGame other, ListGameState newstate) {
         super(other, newstate);
         roundStartGameState = other.roundStartGameState.getClone();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -60,7 +60,7 @@ public class RealTimePredatorPreyGame extends PredatorPreyGame implements RealTi
     public ListGameState getDecisionState() {
         return roundStartGameState;
     }
-    
+
     /**
      * {@inheritDoc}
      */

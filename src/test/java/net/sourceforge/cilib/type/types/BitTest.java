@@ -34,75 +34,75 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class BitTest {
-    
+
     @Test
     public void testClone() {
         Bit b = new Bit(false);
         Bit clone = (Bit) b.getClone();
-    
+
         assertNotSame(b, clone);
         assertTrue(b.equals(clone));
     }
-    
+
     @Test
     public void testEquals() {
         Bit b1 = new Bit(false);
         Bit b2 = new Bit(false);
         Bit b3 = new Bit(true);
         Bit b4 = new Bit(true);
-        
+
         assertTrue(b1.equals(b1));
         assertTrue(b2.equals(b2));
         assertTrue(b3.equals(b3));
         assertTrue(b4.equals(b4));
-        
+
         assertTrue(b1.equals(b2));
         assertTrue(b3.equals(b4));
         assertFalse(b2.equals(b3));
         assertFalse(b1.equals(b4));
     }
-    
+
     @Test
     public void testGet() {
         Bit b1 = new Bit(true);
         Bit b2 = new Bit(false);
-        
+
         assertEquals(true, b1.getBit());
         assertEquals(false, b2.getBit());
     }
-    
+
     @Test
     public void testSet() {
         Bit b1 = new Bit(true);
         Bit b2 = new Bit(false);
-        
+
         b1.setBit(false);
         b2.setBit(true);
-        
+
         assertEquals(false, b1.getBit());
-        assertEquals(true, b2.getBit());        
+        assertEquals(true, b2.getBit());
     }
-    
+
     @Test
     public void testCompareTo() {
         Bit b1 = new Bit(true);
         Bit b2 = new Bit(false);
-        
+
         assertEquals(0, b1.compareTo(b1));
         assertEquals(-1, b2.compareTo(b1));
         assertEquals(1, b1.compareTo(b2));
     }
-    
+
     @Test
     public void testRandomize() {
         Bit b1 = new Bit(true);
         Bit b2 = new Bit(true);
         b2.randomize(new MersenneTwister());
-        
+
         if (b2.getBit())
             assertTrue(b1.getBit() == b2.getBit());
         else
             assertTrue(b1.getBit() != b2.getBit());
     }
-        
+
  }

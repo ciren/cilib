@@ -36,56 +36,56 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class Agent implements Cloneable {
     private static final long serialVersionUID = -9100541859324175287L;
-    
+
     //the playerID of the agent
     protected int playerID;
     //the fitness of the agent
     protected Fitness agentScore;
     //the token representing the agent, this is initialized to DEFAULT
     protected Enum<?> agentToken;
-    
+
     public Agent() {
-        this.playerID = 0;        
+        this.playerID = 0;
         agentToken = GameToken.DEFAULT;
     }
-    public Agent(Agent other){        
+    public Agent(Agent other){
         playerID = other.playerID;
         if(other.agentScore != null)
             agentScore = other.agentScore.getClone();
         agentToken = other.agentToken;
     }
-    
+
     public int getPlayerID(){
-        return playerID;        
+        return playerID;
     }
-    
+
     public void setPlayerID(int playerID){
         this.playerID = playerID;
     }
-    
+
     /**
-     * Initialize the agent with the contents of an entity. This data should represent what the  
+     * Initialize the agent with the contents of an entity. This data should represent what the
      * @param agentData the data to initialize the agent with
      */
     public abstract void initializeAgent(Type agentData);
-    
+
     /**
      * {@inheritDoc}
      */
     public abstract Agent getClone();
-    
+
     /**
      * Alter the current game by making a decision.
      * @param game the game state
      */
     public abstract void move(Game<GameState> game);
-    
+
     /**
      * Get the domain the agent's solution is represented by
      * @return the relevant {@linkplain DomainRegistry}
      */
     public abstract DomainRegistry getAgentDomain();
-    
+
     public Fitness getAgentScore() {
         return agentScore;
     }
@@ -105,7 +105,7 @@ public abstract class Agent implements Cloneable {
      */
     @SuppressWarnings("unchecked")
     public void setAgentToken(String agentToken) {
-        try{            
+        try{
             String [] tokenParts = agentToken.split("\\.");
             Enum<?> vals[] = (Enum<?>[])Class.forName("net.sourceforge.cilib.games.items.GameToken$" + tokenParts[0]).getEnumConstants();
             for(Enum instance: vals){

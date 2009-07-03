@@ -27,7 +27,7 @@ import net.sourceforge.cilib.math.random.RandomNumber;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  *
  */
@@ -43,22 +43,22 @@ public class RandomNumberTest {
             assertTrue(number < 5.0);
         }
     }
-    
+
     @Test
     public void testUniform() {
         RandomNumber rand = new RandomNumber();
-        
+
         for (int i = 0; i < 200; i++) {
             double number = rand.getUniform();
             assertTrue(number <= 1.0);
             assertTrue(0.0 <= number);
         }
     }
-    
+
     @Test
     public void testCauchy() {
         RandomNumber rand = new RandomNumber();
-        
+
         for (int i = 0; i < 200; i++ ) {
             double number = rand.getCauchy();
             assertTrue(-7.0 < number);

@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.container.TypeList;
 public abstract class NeuralOutputInterpretationStrategy {
     public NeuralOutputInterpretationStrategy() {
     }
-    
+
     /**
      * the the number of output units that this strategy requires
      * @return the output count

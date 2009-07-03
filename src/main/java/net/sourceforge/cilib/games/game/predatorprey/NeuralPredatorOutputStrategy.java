@@ -51,15 +51,15 @@ public class NeuralPredatorOutputStrategy extends
         if(((Numeric) outputData.get(0)).getReal() > 0.0) //move on x axis
             if(((Numeric) outputData.get(1)).getReal() > 0.0) //move right
                 x = 1;
-            else 
+            else
                 x = -1;
         int y = 0;
         if(((Numeric) outputData.get(2)).getReal() > 0.0) //move on y axis
             if(((Numeric) outputData.get(3)).getReal() >  0.0) //move down
                 y = 1;
-            else 
-                y = -1;        
-        
+            else
+                y = -1;
+
         game.movePlayer(currentPlayer.getPlayerID(), x, y);
     }
 

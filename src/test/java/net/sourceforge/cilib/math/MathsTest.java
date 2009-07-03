@@ -27,16 +27,16 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class MathsTest {
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void invalidFactorialParameter() {
         Maths.factorial(-1.0);
     }
-    
+
     @Test
     public void testFactorial() {
         assertEquals(1.0, Maths.factorial(0.0), Double.MIN_NORMAL);
@@ -45,32 +45,32 @@ public class MathsTest {
         assertEquals(720.0, Maths.factorial(6), Double.MIN_NORMAL);
         assertEquals(9.33262154439441E157, Maths.factorial(100), Double.MIN_NORMAL);
     }
-    
+
     @Test
     public void testCombination() {
         assertEquals(792.0, Maths.combination(12, 5), Double.MIN_NORMAL);
-        
+
         try {
             Maths.combination(-1, -5);
             fail("Invalid input!");
         }
         catch (Exception e) {}
-        
+
         try {
             Maths.combination(-1, 5);
             fail("Invalid input!");
         }
         catch (Exception e) {}
-        
+
         try {
             Maths.combination(1, -5);
             fail("Invalid input!");
         }
         catch (Exception e) {}
-        
+
         assertEquals(1.0, Maths.combination(0, 0), Double.MIN_NORMAL);
         assertEquals(1.0, Maths.combination(1, 0), Double.MIN_NORMAL);
         assertEquals(1.0, Maths.combination(1, 1), Double.MIN_NORMAL);
     }
-    
+
 }

@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.TypeList;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class ParticlePositionsTest {
@@ -40,9 +40,9 @@ public class ParticlePositionsTest {
     @Test
     public void testParticlePositionsDomain() throws ParseException {
         Measurement m = new ParticlePositions();
-        
+
         TypeList vector = (TypeList) DomainParser.parse(m.getDomain());
-        
+
         assertEquals(1, vector.size());
         assertTrue(vector.get(0) instanceof StringType);
     }

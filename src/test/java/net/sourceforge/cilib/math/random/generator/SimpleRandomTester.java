@@ -25,22 +25,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * TODO: This random number tester is extremely primitive. We need to implement something like the die-hard test suite to test for simulation quality. 
- * 
+ * TODO: This random number tester is extremely primitive. We need to implement something like the die-hard test suite to test for simulation quality.
+ *
  * @author  Edwin Peer
  */
 public class SimpleRandomTester implements RandomTester {
-    
+
     /** Creates a new instance of SimpleRandomTester */
     public SimpleRandomTester() {
         samples = new ArrayList<Double>();
     }
-    
+
     public boolean hasRandomSamples() {
         int l = 1;
         int n1 = 0;
         int n2 = 0;
-        
+
         Iterator<Double> i = samples.iterator();
         double previous = i.next().doubleValue();
         if (previous >= 0.5) {
@@ -66,16 +66,16 @@ public class SimpleRandomTester implements RandomTester {
             }
             previous = current;
         }
-        
+
         if (n1 == 0 || n2 == 0) {
             return false;
         }
-        
+
         double u = ((double) 2 * n1 * n2) / ((double) n1 + n2) + 1;
         double s = ((double) 2 * n1 * n2 * (2 * n1 * n2 - n1 - n2))
                  / ((double) (n1 + n2) * (n1 + n2) * (n1 + n2 - 1));
         double z = ((double) l - u) / s;
-        
+
         if (z <= -2.5796 || z >= 2.5796) {
             return false;
         }
@@ -83,7 +83,7 @@ public class SimpleRandomTester implements RandomTester {
             return true;
         }
     }
-    
+
     public void addSample(double number) {
         samples.add(new Double(number));
     }

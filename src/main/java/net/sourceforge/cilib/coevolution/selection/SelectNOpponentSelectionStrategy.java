@@ -43,7 +43,7 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 		numberOfOpponents = 5;
 		random = new RandomNumber();
 	}
-	
+
 	public SelectNOpponentSelectionStrategy(SelectNOpponentSelectionStrategy copy){
 		this.numberOfOpponents = copy.numberOfOpponents;
 		this.random = copy.random;
@@ -61,11 +61,11 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 	@Override
 	public  CoevolutionCompetitorList selectCompetitors(CoevolutionCompetitorList pool){
 		CoevolutionCompetitorList opponents = new CoevolutionCompetitorList(numberOfOpponents);
-	
+
 		for(int i = 0; i < pool.getNumberOfLists(); ++i){
 			List<Competitor> selectedOpponents = new ArrayList<Competitor>();
 			int pID = -1;
-			for(int o=0; o<numberOfOpponents;o++){			
+			for(int o=0; o<numberOfOpponents;o++){
 				int selected = (int)random.getUniform(0, pool.getNumberOfCompetitors(i));
 				Competitor sel = pool.getCompetitor(i, selected);
 				if(pID == -1)
@@ -78,7 +78,7 @@ public class SelectNOpponentSelectionStrategy extends OpponentSelectionStrategy 
 		}
 		return opponents;
 	}
-	
+
 	public int getNumberOfOpponents() {
 		return numberOfOpponents;
 	}

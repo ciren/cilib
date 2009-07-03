@@ -40,17 +40,17 @@ public class PopulationCompetitorList implements Cloneable {
 	public PopulationCompetitorList(int populationID) {
 		competitors = new ArrayList<Competitor>();
 	}
-	
+
 	public PopulationCompetitorList(int populationID, List<Competitor> competitors) {
 		this.competitors = competitors;
 	}
-	
+
 	public PopulationCompetitorList(PopulationCompetitorList other) {
 		competitors = new ArrayList<Competitor>();
 		for(Competitor c: other.competitors)
 			competitors.add(c.getClone());
 	}
-	
+
 	/**
 	 * Return the {@linkplain Competitor} at the specified index in the list
 	 * @param index The index in the list
@@ -68,7 +68,7 @@ public class PopulationCompetitorList implements Cloneable {
 	public void removeCompetitor(int index){
 		competitors.remove(index);
 	}
-	
+
 	public int size(){
 		return competitors.size();
 	}
@@ -117,7 +117,7 @@ public class PopulationCompetitorList implements Cloneable {
 	}
 	/**
 	 * Change the population ID of this list
-	 * 
+	 *
 	 * @param oldPopulationID The original populationID
 	 * @param newPopulationID The new populationID
 	 */
@@ -152,7 +152,7 @@ public class PopulationCompetitorList implements Cloneable {
 	public int getPopulationID() {
 		if(competitors.size() > 0)
 			return competitors.get(0).getPopulationID();
-		else 
+		else
 			return -1;
 	}
 

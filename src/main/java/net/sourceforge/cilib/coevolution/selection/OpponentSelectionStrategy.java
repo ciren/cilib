@@ -45,7 +45,7 @@ public abstract class OpponentSelectionStrategy implements Cloneable{
 		ownPopulationID = -1;
 		selectFromOwnPopulation = false;
 	}
-	
+
 	public OpponentSelectionStrategy(OpponentSelectionStrategy copy) {
 		ownPopulationID = copy.ownPopulationID;
 		poolSelection = new ArrayList<OpponentPoolSelectionStrategy>();
@@ -90,7 +90,7 @@ public abstract class OpponentSelectionStrategy implements Cloneable{
 		//Select opponents from the pool.
 		return selectCompetitors(competitorPool);
 	}
-	
+
 	public void setOwnPopulationID(int ownPopulationID) {
 		this.ownPopulationID = ownPopulationID;
 	}
@@ -98,11 +98,11 @@ public abstract class OpponentSelectionStrategy implements Cloneable{
 	public void setSelectFromOwnPopulation(boolean selectFromOwnPopulation) {
 		this.selectFromOwnPopulation = selectFromOwnPopulation;
 	}
-	
+
 	public void addPoolSelectionStrategy(OpponentPoolSelectionStrategy strategy){
 		poolSelection.add(strategy);
 	}
-	
+
 	public void clearPoolSelectionStrategies(){
 		poolSelection.clear();
 	}

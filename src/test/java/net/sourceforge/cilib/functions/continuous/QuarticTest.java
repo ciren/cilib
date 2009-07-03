@@ -33,13 +33,13 @@ public class QuarticTest {
     @Test
     public void evaluationTest() {
         Function function = new Quartic();
-        
+
         Vector v = new Vector();
         v.add(new Real(0.0));
         v.add(new Real(1.0));
         v.add(new Real(2.0));
-        
+
         assertEquals(33.0, function.evaluate(v), 0);
     }
-    
+
 }

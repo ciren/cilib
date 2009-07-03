@@ -27,20 +27,20 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
 import net.sourceforge.cilib.util.Cloneable;
 /**
- * This strategy is used to select the pool of potential opponents for a competitive coevolution algorithm. 
+ * This strategy is used to select the pool of potential opponents for a competitive coevolution algorithm.
  * When opponents is selected for an {@linkplain Entity} the algorithm uses an arbitrary number of
  * {@linkplain OpponentPoolSelectionStrategy}'s to determine the potentail pool of competitors, then they are
  * selected with the {@linkplain OpponentSelectionStrategy}
  * @author leo
  *
  */
-public abstract class OpponentPoolSelectionStrategy implements Cloneable 
+public abstract class OpponentPoolSelectionStrategy implements Cloneable
 {
 	public OpponentPoolSelectionStrategy(){
-		
+
 	}
 	public OpponentPoolSelectionStrategy(OpponentPoolSelectionStrategy other){
-		
+
 	}
 	/**
 	 * {@inheritDoc}

@@ -50,15 +50,15 @@ public class Tetris extends Game<TetrisGameState> implements UpdateGame, StateGa
 	 * {@inheritDoc}
 	 */
 	public Tetris(Tetris other) {
-		super(other);	
+		super(other);
 		maxLines = other.maxLines;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public Tetris(Tetris other, TetrisGameState newState) {
-		super(other, newState);	
+		super(other, newState);
 		maxLines = other.maxLines;
 	}
 	/**
@@ -78,7 +78,7 @@ public class Tetris extends Game<TetrisGameState> implements UpdateGame, StateGa
 		super.setAgent(player, playerID);
 		if(players.size() > 1)
 			throw new RuntimeException("Tetris is a single player game");
-	}    
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -93,14 +93,14 @@ public class Tetris extends Game<TetrisGameState> implements UpdateGame, StateGa
 				GameItem item = null;
 				if(getCurrentState().getCurrentShape() != null)
 					item = getCurrentState().getCurrentShape().getBlock(i, j);
-				
+
 				if(item == null){
 					item = getCurrentState().getItem(i, j);
 					shape = 1;
 				}else if(getCurrentState().getItem(i, j) != null){
 					shape = 2;
 				}
-				
+
 				char player = ' ';
 				if(item != null){
 					player = shape == 0 ? 'S' : (shape == 1 ? 'X' : 'C');//((GameEnum)getPlayer(((PlayerItem)item).getPlayerID()).getAgentToken()).getDescription().charAt(0);
@@ -123,14 +123,14 @@ public class Tetris extends Game<TetrisGameState> implements UpdateGame, StateGa
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Tetris getClone() {		
+	public Tetris getClone() {
 		return new Tetris(this);
 	}
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Tetris getClone(TetrisGameState newState) {		
+	public Tetris getClone(TetrisGameState newState) {
 		return new Tetris(this, newState);
 	}
 	/**
@@ -145,27 +145,27 @@ public class Tetris extends Game<TetrisGameState> implements UpdateGame, StateGa
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void initializeGame() {	
+	public void initializeGame() {
 		if(getCurrentState().getGridWidth() == 0 || getCurrentState().getGridHeight() == 0)
-			throw new RuntimeException("Grid Widht and/or Height cannot be 0. Please specify grid size");		
-		getCurrentState().clearState();		
+			throw new RuntimeException("Grid Widht and/or Height cannot be 0. Please specify grid size");
+		getCurrentState().clearState();
 	}
 	/**
 	 * {@inheritDoc}
 	 */
-	public void Update() {	
+	public void Update() {
 		getCurrentState().mergeCurrentShape();
 		int amRows = getCurrentState().clearFullRows();
-		getCurrentState().calculateScore(amRows);	   
+		getCurrentState().calculateScore(amRows);
 		getCurrentState().createNewShape();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<GameState> generateStates(int currentPlater) {				   
+	public List<GameState> generateStates(int currentPlater) {
 		List<GameState> newStates = new ArrayList<GameState>();
-		AbstractShape currentShape = getCurrentState().getCurrentShape();		
+		AbstractShape currentShape = getCurrentState().getCurrentShape();
 		if(currentShape != null){
 			TetrisGameState newState = getCurrentState().getClone();
             int amRotate = 0;
@@ -173,8 +173,8 @@ public class Tetris extends Game<TetrisGameState> implements UpdateGame, StateGa
             while (newState.getCurrentShape().rotate(amRotate)){
             	if(newState.setShapeLeftGrid()){
 	                boolean canRight = true;
-	                while (canRight){                	
-	                	if(newState.FitShapeInGridTopDown()){                   	
+	                while (canRight){
+	                	if(newState.FitShapeInGridTopDown()){
 	                		newStates.add(newState.getClone());
 	                	}
 	                	newState.getCurrentShape().setShapeTopGrid();
@@ -204,8 +204,8 @@ public class Tetris extends Game<TetrisGameState> implements UpdateGame, StateGa
 	public void setHeight(int height){
 		getCurrentState().setGridHeight(height);
 	}
-	
-	public void recordRoundStartState() {		
+
+	public void recordRoundStartState() {
 	}
 
 	public void setMaxLines(int maxLines) {

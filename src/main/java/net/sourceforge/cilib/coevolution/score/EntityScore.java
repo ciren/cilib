@@ -36,7 +36,7 @@ import net.sourceforge.cilib.problem.Fitness;
  */
 public class EntityScore {
 	/**
-	 * The current round and competitor group. A competitor group is a unique nubmer assigned to a group of opponents this entitry 
+	 * The current round and competitor group. A competitor group is a unique nubmer assigned to a group of opponents this entitry
 	 * competed against
 	 */
 	private int round;

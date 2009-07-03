@@ -49,7 +49,7 @@ public class RZigZagShape extends AbstractShape {
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.RZIGZAG, block.getClone()));
 		block.setInt(0, (int)(gridWidth / 2));
 		block.setInt(1, 1);
-		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.RZIGZAG, block.getClone()));	
+		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.RZIGZAG, block.getClone()));
 
 	}
 

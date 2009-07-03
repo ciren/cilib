@@ -39,29 +39,29 @@ public class Bukin6Test {
     private ContinuousFunction function;
 
     public Bukin6Test() {
-        
+
     }
-    
+
     @Before
     public void instantiate() {
         this.function = new Bukin6();
     }
-    
+
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bukin6. */
     @Test
     public void testEvaluate() {
         function.setDomain("R(-15,-5),R(-3,3)");
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         assertEquals(141.17735979665886, function.evaluate(x), 0.000000000001);
-        
+
         x.setReal(0, -10.0);
         x.setReal(1, 1.0);
         assertEquals(0.0, function.evaluate(x), 0.0);
     }
-    
+
     @Test
     public void minimum() {
         assertEquals(0.0, function.getMinimum());
