@@ -23,95 +23,112 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
-import net.sourceforge.cilib.functions.continuous.Spherical;
+import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.Maths;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
+import net.sourceforge.cilib.math.random.generator.Seeder;
+import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Unit test for the constriction velocity update.
  * @author andrich
  */
+@RunWith(JMock.class)
 public class ConstrictionVelocityUpdateTest {
+    private Mockery mockery = new JUnit4Mockery();
 
     /**
      * Test cloning and implicetly the copy constructor.
      */
     @Test
-    public void testClone() {
+    public void getClone() {
         ConstrictionVelocityUpdate original = new ConstrictionVelocityUpdate();
-        ConstrictionVelocityUpdate copy = (ConstrictionVelocityUpdate) original.getClone();
-        
+        ConstrictionVelocityUpdate copy = original.getClone();
+
         Assert.assertEquals(original.getKappa().getParameter(), copy.getKappa().getParameter(), Maths.EPSILON);
         Assert.assertEquals(original.getVMax().getParameter(), copy.getVMax().getParameter(), Maths.EPSILON);
-        Assert.assertEquals(((RandomizingControlParameter)original.cognitiveAcceleration).getControlParameter().getParameter(),
-                ((RandomizingControlParameter)copy.cognitiveAcceleration).getControlParameter().getParameter(), Maths.EPSILON);
-        Assert.assertEquals(((RandomizingControlParameter)original.socialAcceleration).getControlParameter().getParameter(),
-                ((RandomizingControlParameter)copy.socialAcceleration).getControlParameter().getParameter(), Maths.EPSILON);
+        Assert.assertEquals(((RandomizingControlParameter)original.getCognitiveAcceleration()).getControlParameter().getParameter(),
+                ((RandomizingControlParameter)copy.getCognitiveAcceleration()).getControlParameter().getParameter(), Maths.EPSILON);
+        Assert.assertEquals(((RandomizingControlParameter)original.getSocialAcceleration()).getControlParameter().getParameter(),
+                ((RandomizingControlParameter)copy.getSocialAcceleration()).getControlParameter().getParameter(), Maths.EPSILON);
 
         copy.setKappa(new ConstantControlParameter(0.7));
         copy.setVMax(new ConstantControlParameter(0.7));
         RandomizingControlParameter randomizingControlParameter = new RandomizingControlParameter();
         randomizingControlParameter.setParameter(4.0);
-        copy.setSocialAcceleration(new RandomizingControlParameter(randomizingControlParameter.getClone()));
-        copy.setCognitiveAcceleration(new RandomizingControlParameter(randomizingControlParameter.getClone()));
+        copy.setSocialAcceleration(randomizingControlParameter.getClone());
+        copy.setCognitiveAcceleration(randomizingControlParameter.getClone());
 
         Assert.assertFalse(Double.compare(original.getKappa().getParameter(), copy.getKappa().getParameter()) == 0);
         Assert.assertFalse(Double.compare(original.getVMax().getParameter(), copy.getVMax().getParameter()) == 0);
-        Assert.assertFalse(Double.compare(((RandomizingControlParameter)original.cognitiveAcceleration).getControlParameter().getParameter(),
-                ((RandomizingControlParameter)copy.cognitiveAcceleration).getControlParameter().getParameter()) == 0);
-        Assert.assertFalse(Double.compare(((RandomizingControlParameter)original.socialAcceleration).getControlParameter().getParameter(),
-                ((RandomizingControlParameter)copy.socialAcceleration).getControlParameter().getParameter()) == 0);
+        Assert.assertFalse(Double.compare(((RandomizingControlParameter)original.getCognitiveAcceleration()).getControlParameter().getParameter(),
+                ((RandomizingControlParameter)copy.getCognitiveAcceleration()).getControlParameter().getParameter()) == 0);
+        Assert.assertFalse(Double.compare(((RandomizingControlParameter)original.getSocialAcceleration()).getControlParameter().getParameter(),
+                ((RandomizingControlParameter)copy.getSocialAcceleration()).getControlParameter().getParameter()) == 0);
     }
 
     /**
-     * Test the velocity update as well as the constraint assertion.
+     * Test the velocity update as well as the constraint assertion. This
+     * sadly needs to use an annoying try..finally to ensure that the type
+     * of random numbers is expected to reproduce values always.
      */
     @Test
-    public void testUpdateAndConstraintAssertion() {
-        MersenneTwister twister = new MersenneTwister();
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setFunction(new Spherical());
+    public void velocityUpdate() {
+        SeedSelectionStrategy strategy = Seeder.getSeederStrategy();
+        Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
-        StandardParticle nBest = new StandardParticle();
-        StandardParticle particle = new StandardParticle();
-        particle.initialise(problem);
-        nBest.initialise(problem);
-        ((Vector)particle.getVelocity()).randomize(twister);
-        particle.setNeighbourhoodBest(nBest);
-
-        ConstrictionVelocityUpdate constrictionVelocityUpdate = new ConstrictionVelocityUpdate();
-
-        boolean assertionExceptionOccured = false;
         try {
-            constrictionVelocityUpdate.updateVelocity(particle);
-        }
-        catch(UnsupportedOperationException ex) {
-            assertionExceptionOccured = true;
-        }
+            Particle particle = createParticle(Vectors.create(0.0));
+            Particle nBest = createParticle(Vectors.create(1.0));
+            particle.setNeighbourhoodBest(nBest);
+            nBest.setNeighbourhoodBest(nBest);
 
-        Assert.assertFalse(assertionExceptionOccured);
+            ConstrictionVelocityUpdate velocityUpdate = new ConstrictionVelocityUpdate();
+            velocityUpdate.updateVelocity(particle);
+
+            Vector velocity = (Vector) particle.getVelocity();
+            Assert.assertEquals(0.09831319691873514, velocity.getReal(0), Maths.EPSILON);
+        }
+        finally {
+            Seeder.setSeederStrategy(strategy);
+        }
+    }
+
+    private Particle createParticle(Vector vector) {
+        Particle particle = new StandardParticle();
+        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, vector);
+        particle.getProperties().put(EntityType.Particle.VELOCITY, Vectors.create(0.0));
+        particle.getProperties().put(EntityType.Particle.BEST_POSITION, vector.getClone());
+
+        return particle;
+    }
+
+    @Test(expected=UnsupportedOperationException.class)
+    public void illegalVelocityUpdate() {
+        final Particle particle = mockery.mock(Particle.class);
 
         RandomizingControlParameter randomizingControlParameter = new RandomizingControlParameter();
-        randomizingControlParameter.setParameter(1.0);
-        constrictionVelocityUpdate.setSocialAcceleration(new RandomizingControlParameter(randomizingControlParameter.getClone()));
-        constrictionVelocityUpdate.setCognitiveAcceleration(new RandomizingControlParameter(randomizingControlParameter.getClone()));
+        ConstrictionVelocityUpdate velocityUpdate = new ConstrictionVelocityUpdate();
+        velocityUpdate.setCognitiveAcceleration(randomizingControlParameter);
+        velocityUpdate.setSocialAcceleration(randomizingControlParameter);
 
-        assertionExceptionOccured = false;
-        try {
-            constrictionVelocityUpdate.updateVelocity(particle);
-        }
-        catch(UnsupportedOperationException ex) {
-            assertionExceptionOccured = true;
-        }
+        mockery.checking(new Expectations() {{
+            ignoring(particle);
+        }});
 
-        Assert.assertTrue(assertionExceptionOccured);
-        
+        velocityUpdate.updateVelocity(particle);
     }
 
     /**
@@ -119,21 +136,16 @@ public class ConstrictionVelocityUpdateTest {
      */
     @Test
     public void testClamping() {
-        MersenneTwister twister = new MersenneTwister();
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setFunction(new Spherical());
-        
-        StandardParticle nBest = new StandardParticle();
-        StandardParticle particle = new StandardParticle();
-        particle.initialise(problem);
-        nBest.initialise(problem);
-        ((Vector)particle.getVelocity()).randomize(twister);
+        Particle particle = createParticle(Vectors.create(0.0));
+        Particle nBest = createParticle(Vectors.create(1.0));
         particle.setNeighbourhoodBest(nBest);
+        nBest.setNeighbourhoodBest(nBest);
 
         ConstrictionVelocityUpdate constrictionVelocityUpdate = new ConstrictionVelocityUpdate();
         constrictionVelocityUpdate.setVMax(new ConstantControlParameter(0.5));
         constrictionVelocityUpdate.updateVelocity(particle);
-        Vector velocity = particle.getVelocity();
+        Vector velocity = (Vector) particle.getVelocity();
+
         for (Numeric number : velocity) {
             Assert.assertTrue(Double.compare(number.getReal(), 0.5) <= 0);
             Assert.assertTrue(Double.compare(number.getReal(), -0.5) >= 0);

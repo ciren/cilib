@@ -29,25 +29,66 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A velocity update strategy that utilizes the constriction coefficient as
- * developed by Clerc. References:
+ * developed by Clerc.
+ * <p>References:
  * <ul>
  * <li>
- * Inproceedings (Clerc1999)
- * Clerc, M.
- * The swarm and the queen: towards a deterministic and adaptive particle swarm
- * optimization
- * Evolutionary Computation, 1999. CEC 99. Proceedings of the 1999 Congress on,
- * 1999, 3, -1957 Vol. 3
+ * <pre>
+{@literal @}INPROCEEDINGS{785513,
+title={The swarm and the queen: towards a deterministic and adaptive particle swarm optimization},
+author={Clerc, M.},
+booktitle={Evolutionary Computation, 1999. CEC 99. Proceedings of the 1999 Congress on},
+year={1999},
+month={},
+volume={3},
+number={},
+pages={-1957 Vol. 3},
+abstract={A very simple particle swarm optimization iterative algorithm is presented, with just
+one equation and one social/confidence parameter. We define a “no-hope” convergence criterion and
+a “rehope” method so that, from time to time, the swarm re-initializes its position, according to
+some gradient estimations of the objective function and to the previous re-initialization (it means
+it has a kind of very rudimentary memory). We then study two different cases, a quite “easy” one
+(the Alpine function) and a “difficult” one (the Banana function), but both just in dimension two.
+The process is improved by taking into account the swarm gravity center (the “queen”) and the results
+are good enough so that it is certainly worthwhile trying the method on more complex problems},
+keywords={adaptive systems, deterministic algorithms, evolutionary computation, iterative methodsAlpine function,
+Banana function, adaptive particle swarm optimization, gradient estimations, no-hope convergence criterion,
+objective function, queen, re-initialization, rehope method, rudimentary memory, simple particle swarm
+optimization iterative algorithm, social/confidence parameter, swarm gravity center},
+doi={10.1109/CEC.1999.785513},
+ISSN={}, }
+</pre>
  * </li>
  * <li>
- * Article (Clerc2002)
- * Clerc, M. & Kennedy, J.
- * The particle swarm - explosion, stability, and convergence in a 
- * multidimensional complex space Evolutionary Computation,
- * IEEE Transactions on, 2002, 6, 58-73
+ * <pre>
+{@literal @}ARTICLE{985692,
+title={The particle swarm - explosion, stability, and convergence in a multidimensional complex space},
+author={Clerc, M. and Kennedy, J.},
+journal={Evolutionary Computation, IEEE Transactions on},
+year={2002},
+month={Feb},
+volume={6},
+number={1},
+pages={58-73},
+abstract={The particle swarm is an algorithm for finding optimal regions of complex search spaces
+through the interaction of individuals in a population of particles. This paper analyzes a particle's
+trajectory as it moves in discrete time (the algebraic view), then progresses to the view of it in
+continuous time (the analytical view). A five-dimensional depiction is developed, which describes
+the system completely. These analyses lead to a generalized model of the algorithm, containing a set
+of coefficients to control the system's convergence tendencies. Some results of the particle swarm optimizer,
+implementing modifications derived from the analysis, suggest methods for altering the original algorithm
+in ways that eliminate problems and increase the ability of the particle swarm to find optima of some well-studied
+test functions },
+keywords={convergence of numerical methods, genetic algorithms, numerical stability, search problemsconvergence,
+evolutionary computation, multidimensional complex space, optimization, particle swarm, particle trajectory,
+search spaces, stability},
+doi={10.1109/4235.985692},
+ISSN={1089-778X}, }
+</pre>
  * </li>
  * </ul>
- * 
+ *
+ * <p>
  * Note, this strategy does not the inertia control parameter.
  * Certain constraints are imposed on the other control parameters in order to
  * calculate the constriction coefficient, namely:
@@ -57,11 +98,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author andrich
  */
 public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
+    private static final long serialVersionUID = -4470110903487138758L;
 
-    protected ControlParameter socialAcceleration;
-    protected ControlParameter cognitiveAcceleration;
-    protected ControlParameter vMax;
-    protected ControlParameter kappa;
+    private ControlParameter socialAcceleration;
+    private ControlParameter cognitiveAcceleration;
+    private ControlParameter vMax;
+    private ControlParameter kappa;
 
     /**
      * Default constructor. The values given to the control parameters attempt to
@@ -82,20 +124,20 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
 
     /**
      * Copy constructor.
-     * @param orig the ConstrictionVelocityUpdate to copy.
+     * @param copy the ConstrictionVelocityUpdate to copy.
      */
-    public ConstrictionVelocityUpdate(ConstrictionVelocityUpdate orig) {
-        this.socialAcceleration = new RandomizingControlParameter((RandomizingControlParameter) orig.socialAcceleration);
-        this.cognitiveAcceleration = new RandomizingControlParameter((RandomizingControlParameter) orig.cognitiveAcceleration);
-        this.vMax = new ConstantControlParameter((ConstantControlParameter) orig.vMax);
-        this.kappa = new ConstantControlParameter((ConstantControlParameter) orig.kappa);
+    public ConstrictionVelocityUpdate(ConstrictionVelocityUpdate copy) {
+        this.socialAcceleration = copy.socialAcceleration.getClone();
+        this.cognitiveAcceleration = copy.cognitiveAcceleration.getClone();
+        this.vMax = copy.vMax.getClone();
+        this.kappa = copy.kappa.getClone();
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public VelocityUpdateStrategy getClone() {
+    public ConstrictionVelocityUpdate getClone() {
         return new ConstrictionVelocityUpdate(this);
     }
 

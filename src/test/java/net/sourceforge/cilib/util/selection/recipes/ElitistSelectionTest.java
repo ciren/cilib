@@ -41,7 +41,7 @@ import static org.hamcrest.CoreMatchers.is;
  */
 public class ElitistSelectionTest {
 
-        @Test
+    @Test
     public void selectionOfMostFit() {
         Individual indiv1 = new Individual();
         Individual indiv2 = new Individual();
