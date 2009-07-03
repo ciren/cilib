@@ -34,11 +34,11 @@ import net.sourceforge.cilib.util.calculator.PropertyBasedFitnessCalculator;
 public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAdapter {
 	private static final long serialVersionUID = -6940622506198881027L;
 	//Id of the poulation
-	int populationID; 
+	int populationID;
 	//domainregistry for the population
-	DomainRegistry domain;	
+	DomainRegistry domain;
 	//the coevolution problem
-	CoevolutionOptimisationProblem coevolutionProblem;	
+	CoevolutionOptimisationProblem coevolutionProblem;
 	//the current evaluation round
 	int evaluationRound;
 	public CompetitiveCoevolutionProblemAdapter(int populationID, DomainRegistry domain, CoevolutionOptimisationProblem coevolutionProblem) {
@@ -46,15 +46,15 @@ public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAda
 		this.populationID = populationID;
 		this.domain = domain;
 		this.coevolutionProblem = coevolutionProblem;
-	} 
-	
+	}
+
 	public CompetitiveCoevolutionProblemAdapter(CompetitiveCoevolutionProblemAdapter other){
 		populationID = other.populationID;
 		domain = other.domain;
 		coevolutionProblem = other.coevolutionProblem;
 		evaluationRound = other.evaluationRound;
 	}
-	
+
 	public void incrementEvaluationround(){
 		++evaluationRound;
 	}

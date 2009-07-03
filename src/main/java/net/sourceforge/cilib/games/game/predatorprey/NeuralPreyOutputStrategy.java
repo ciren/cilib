@@ -42,35 +42,35 @@ public class NeuralPreyOutputStrategy extends
      */
     @Override
     public void applyOutputToState(TypeList outputData, Agent currentPlayer, Game oldState) {
-        
+
         if(!(oldState instanceof PredatorPreyGame))
             throw new RuntimeException("Invalid game for this agent");
         if(!currentPlayer.getAgentToken().equals(GameToken.PredatorPrey.PREY))
             throw new RuntimeException("This strategy can only be used on a prey player");
-        
+
         PredatorPreyGame game = (PredatorPreyGame)oldState;
         int moveAmount = 1;
         if(((Numeric) outputData.get(0)).getReal() >  0.0) //move 2 squares
             moveAmount = 2;
-        
+
         int x = 0;
         if(((Numeric) outputData.get(1)).getReal() >  0.0) //move on x axis
             if(((Numeric) outputData.get(2)).getReal() >  0.0) //move right
                 x = 1;
-            else 
+            else
                 x = -1;
-        
+
         int y = 0;
         if(((Numeric) outputData.get(3)).getReal() >  0.0) //move on y axis
             if(((Numeric) outputData.get(4)).getReal() >  0.0) //move down
                 y = 1;
-            else 
-                y = -1;        
+            else
+                y = -1;
         //if(x < 0 || y < 0)
             //System.out.println("Prey: " + x * moveAmount + " " + y * moveAmount);
         game.movePlayer(currentPlayer.getPlayerID(), x * moveAmount, y * moveAmount);
     }
-    
+
     /**
      * This strategy requires 5 outputs:
      * The first determins if the prey agent will Jump 2 cells, or move to an adjacent one

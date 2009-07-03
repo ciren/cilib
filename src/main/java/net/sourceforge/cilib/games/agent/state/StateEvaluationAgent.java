@@ -46,7 +46,7 @@ public class StateEvaluationAgent extends Agent {
 		super();
 	}
 
-	/** 
+	/**
 	 * Copy constructor
 	 * @param other
 	 */
@@ -62,7 +62,7 @@ public class StateEvaluationAgent extends Agent {
 	public StateEvaluationAgent getClone() {
 		return new StateEvaluationAgent(this);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -80,7 +80,7 @@ public class StateEvaluationAgent extends Agent {
 	public void setTraversalStrategy(StateTraversalStrategy traversalStrategy) {
 		this.traversalStrategy = traversalStrategy;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

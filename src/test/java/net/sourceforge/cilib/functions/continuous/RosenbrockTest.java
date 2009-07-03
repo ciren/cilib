@@ -34,11 +34,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Edwin Peer
  */
 public class RosenbrockTest {
-    
+
     public RosenbrockTest() {
 
     }
-    
+
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Rosenbrock. */
     @Test
     public void testEvaluate() {
@@ -46,22 +46,22 @@ public class RosenbrockTest {
         function.setDomain("R(-2.048, 2.048)^3");
         //double[] x = {1, 2, 3};
         //double[] y = {3, 2, 1};
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         x.append(new Real(3.0));
-        
+
         Vector y = new Vector();
         y.append(new Real(3.0));
         y.append(new Real(2.0));
         y.append(new Real(1.0));
-        
+
         //assertEquals(100.0, function.evaluate(x), 0.0);
         assertEquals(201.0, function.evaluate(x), 0.0);
         //assertEquals(4904.0, function.evaluate(y), 0.0);
         assertEquals(5805.0, function.evaluate(y), 0.0);
-        
+
         function = new Rosenbrock();
         function.setDomain("R(-2.048, 2.048)^4");
         //double[] z = {1, 2, 3, 4};
@@ -73,6 +73,6 @@ public class RosenbrockTest {
         //assertEquals(2604.0, function.evaluate(z), 0.0);
         assertEquals(2705.0, function.evaluate(z), 0.0);
     }
-    
-    
+
+
 }

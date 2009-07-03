@@ -50,7 +50,7 @@ public class BitArrayTest {
     @Test
     public void testBitArraySet() {
         BitArray b = new BitArray(); // default with 32 bits
-        
+
         b.set(2);
         assertEquals(true, b.get(2));
         assertEquals(false, b.get(30));
@@ -81,7 +81,7 @@ public class BitArrayTest {
     @Test
     public void testBitArrayClear() {
         BitArray b = new BitArray(40);
-        
+
         assertEquals(false, b.get(35));
         b.set(35);
         assertEquals(true, b.get(35));

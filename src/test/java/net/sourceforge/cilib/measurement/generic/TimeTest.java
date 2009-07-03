@@ -32,13 +32,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 public class TimeTest {
-    
+
     @Test
     public void testTimeDomain() throws ParseException {
         Measurement m = new Time();
-        
+
         Vector vector = (Vector) DomainParser.parse(m.getDomain());
-        
+
         assertEquals(1, vector.getDimension());
         assertTrue(vector.get(0) instanceof Int);
     }

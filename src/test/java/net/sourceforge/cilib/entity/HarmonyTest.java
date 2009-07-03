@@ -32,19 +32,19 @@ public class HarmonyTest {
     public void equals() {
         Harmony h1 = new Harmony();
         Harmony h2 = new Harmony();
-        
+
         assertFalse(h1.equals(h2));
         assertFalse(h2.equals(h1));
         assertTrue(h1.equals(h1));
-        
+
         assertFalse(h1.equals(null));
     }
-    
+
     @Test
     public void hashCodes() {
         Harmony h1 = new Harmony();
         Harmony h2 = new Harmony();
-        
+
         assertTrue(h1.hashCode() != h2.hashCode());
     }
 }

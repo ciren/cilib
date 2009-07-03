@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * Placeholder class for anybody interested in implementing this Multi-objective PSO.
  * The reference where the implementation details can be found is:
- * 
+ *
  * <p>
  * References:
  * </p>

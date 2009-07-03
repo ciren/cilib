@@ -41,7 +41,7 @@ public class WorkerBeeTest {
         ContinuousFunction func = new Rastrigin();
         func.setDomain("R(-10.048, 10.048)^100");
         problem.setFunction(func);
-        
+
         ClonedPopulationInitialisationStrategy initStrategy = new ClonedPopulationInitialisationStrategy();
         initStrategy.setEntityNumber(100);
         WorkerBee clone = new WorkerBee();
@@ -49,7 +49,7 @@ public class WorkerBeeTest {
         initStrategy.setEntityType(clone);
         Topology<WorkerBee> population = new GBestTopology<WorkerBee>();
         initStrategy.initialise(population, problem);
-        
+
         for (WorkerBee bee : population) {
             assertEquals(bee.getForageLimit().getParameter(), 680.0, 0.0001);
         }

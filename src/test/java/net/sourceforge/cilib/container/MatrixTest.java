@@ -38,7 +38,7 @@ import org.junit.Test;
  * @author Gary Pampara
  */
 public class MatrixTest {
-    
+
     @Test
     public void testMatrixCreation() {
         Matrix<Double> m = new Matrix<Double>(3, 3);
@@ -108,7 +108,7 @@ public class MatrixTest {
         Matrix<Double> m = new Matrix<Double>(2, 2);
         // Get operation
         try {
-            m.get(-1, 1);            
+            m.get(-1, 1);
         }
         catch (IndexOutOfBoundsException i) {
             try {
@@ -162,11 +162,11 @@ public class MatrixTest {
 
         Iterator<Double> i1 = c1.iterator();
         Iterator<Double> i2 = c2.iterator();
-        
+
         for (int i = 0; i < m.getColumnCount(); i++) {
             if (i1.hasNext()) assertEquals(m.get(0, i), i1.next());
             else fail();
-            
+
             if (i2.hasNext()) assertEquals(m.get(1, i), i2.next());
             else fail();
         }
@@ -183,7 +183,7 @@ public class MatrixTest {
 
         Collection<Double> c1 = m.getColumn(0);
         Collection<Double> c2 = m.getColumn(1);
-        
+
         Iterator<Double> i1 = c1.iterator();
         Iterator<Double> i2 = c2.iterator();
 

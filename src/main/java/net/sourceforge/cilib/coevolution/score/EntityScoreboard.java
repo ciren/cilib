@@ -120,11 +120,11 @@ public class EntityScoreboard implements Type {
 		}
 		return lose;
 	}
-	
+
 	/**
 	 * Get the number of times the entity this score board is
 	 * used for has drawn.
-	 * 
+	 *
 	 * @return The number of draws in the score board.
 	 */
 	public int getDrawCount() {
@@ -148,7 +148,7 @@ public class EntityScoreboard implements Type {
 		}
 		return count;
 	}
-	
+
 	public int getCompeteCount(int round){
 		int count = 0;
 		for (EntityScore entityScore : this.scores) {

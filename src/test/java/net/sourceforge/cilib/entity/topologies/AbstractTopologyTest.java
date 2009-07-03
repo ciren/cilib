@@ -46,7 +46,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class AbstractTopologyTest {
@@ -100,32 +100,32 @@ public class AbstractTopologyTest {
         Assert.assertThat(best, is(p1));
     }
 
-    
+
     /**
      * Test the setter method for the IoC container
      *
      */
     @Test
     public void testIoCSetterMethod() {
-        
+
         try {
             PSO p = new PSO();
-            
+
             Method m = p.getClass().getMethod("setTopology", new Class[] {Topology.class});
-            
+
             Topology<Individual> top1 = new LBestTopology<Individual>();
             Topology<Particle> top2 = new VonNeumannTopology<Particle>();
             Topology<Entity> top3 = new HypercubeTopology<Entity>();
-            
+
             m.invoke(p, top1);
             assertTrue(p.getTopology() instanceof LBestTopology);
-            
+
             m.invoke(p, top2);
             assertTrue(p.getTopology() instanceof VonNeumannTopology);
-            
+
             m.invoke(p, top3);
             assertTrue(p.getTopology() instanceof HypercubeTopology);
-            
+
         } catch (SecurityException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -136,16 +136,16 @@ public class AbstractTopologyTest {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-        }        
+        }
     }
-    
+
     @Test
     public void testGeneric() {
         PSO p = new PSO();
         List<Particle> list = p.getTopology().asList();
-        
+
         assertEquals(p.getTopology().size(), list.size());
-        
+
         for (Particle particle : p.getTopology()) {
             assertTrue(list.contains(particle));
         }

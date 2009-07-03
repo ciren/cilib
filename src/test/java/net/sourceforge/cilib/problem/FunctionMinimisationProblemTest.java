@@ -42,21 +42,21 @@ public class FunctionMinimisationProblemTest {
     private static double[] x;
     private static Function function;
     private static FunctionMinimisationProblem problem;
-    
+
     public FunctionMinimisationProblemTest() {
-      
+
     }
-    
+
     /*public static void main(java.lang.String[] args) {
         junit.textui.TestRunner.run(suite());
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(FunctionMinimisationProblemTest.class);
-        
+
         return suite;
     }*/
-    
+
     @BeforeClass
     public static void setUp() {
         function = new Spherical();
@@ -69,15 +69,15 @@ public class FunctionMinimisationProblemTest {
             x[i] = random.nextDouble();
         }
     }
-       
-    
-    
+
+
+
     /** Test of getFunction method, of class za.ac.up.cs.ailib.Functions.FunctionMinimisationProblem. */
     @Test
     public void testGetFunction() {
         assertSame(function, problem.getFunction());
     }
-    
+
     /** Test of setFunction method, of class za.ac.up.cs.ailib.Functions.FunctionMinimisationProblem. */
     @Test
     public void testSetFunction() {
@@ -85,5 +85,5 @@ public class FunctionMinimisationProblemTest {
         problem.setFunction(f);
         assertSame(f, problem.getFunction());
     }
-    
+
 }

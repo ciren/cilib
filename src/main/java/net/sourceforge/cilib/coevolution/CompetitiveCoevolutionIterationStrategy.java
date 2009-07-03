@@ -39,7 +39,7 @@ public class CompetitiveCoevolutionIterationStrategy extends CoevolutionIteratio
 	private static final long serialVersionUID = 1061304146851715740L;
 	protected OpponentSelectionStrategy opponentSelectionStrategy;
 	protected FitnessSharingStrategy fitnessSharingStrategy;
-	
+
 	public CompetitiveCoevolutionIterationStrategy() {
 		super();
 		opponentSelectionStrategy = new SelectAllOpponentSelectionStrategy();
@@ -50,23 +50,23 @@ public class CompetitiveCoevolutionIterationStrategy extends CoevolutionIteratio
 	public CompetitiveCoevolutionIterationStrategy getClone(){
 		return new CompetitiveCoevolutionIterationStrategy(this);
 	}
-	
+
 	public CompetitiveCoevolutionIterationStrategy(CompetitiveCoevolutionIterationStrategy copy){
 		opponentSelectionStrategy = copy.opponentSelectionStrategy;
 		fitnessSharingStrategy = copy.fitnessSharingStrategy;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void performIteration(CoevolutionAlgorithm ca) {		
-		
+	public void performIteration(CoevolutionAlgorithm ca) {
+
 		 for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
 			currentAlgorithm.performIteration();
-		}	 		
+		}
 	}
-	
+
 	/**
 	 * Select opponents based on the current {@linkplain OpponentSelectionStrategy}
 	 * @param populationID the populationID of the {@linkplain Entity} for whom opponents are being selected

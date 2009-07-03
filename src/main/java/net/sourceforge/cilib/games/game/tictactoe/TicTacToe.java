@@ -56,15 +56,15 @@ public class TicTacToe extends GridGame implements StateGame {
      * @param other
      */
     public TicTacToe(TicTacToe other) {
-        super(other);        
+        super(other);
         result = other.result;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public TicTacToe(TicTacToe other, GridGameState newState) {
-        super(other, newState);        
+        super(other, newState);
         result = other.result;
     }
 
@@ -95,21 +95,21 @@ public class TicTacToe extends GridGame implements StateGame {
     public boolean gameOver() {
         int[][] Down = new int[2][getWidth()];
         int[][] Across = new int[2][getHeight()];
-        int[][] SideWays = new int[2][2];        
-        boolean allCelssOccupied = true; 
+        int[][] SideWays = new int[2][2];
+        boolean allCelssOccupied = true;
         for(int i = 0; i < getWidth(); ++i){
             for(int j = 0; j < getHeight(); ++j){
                 GameItem item = getCurrentState().getItem(i, j);
                 if(item != null){
                     int player = ((PlayerItem)item).getPlayerID();
-                    
+
                     ++Down[player - 1][i];
                     ++Across[player - 1][j];
                     if(Down[player - 1][i] == getWidth() || Across[player - 1][j] == getHeight()){
                         result = new WinGameResult(player);
                         return true;
                     }
-                    
+
                     if(i == j){ //side left to right
                         ++SideWays[player - 1][0];
                         if(SideWays[player - 1][0] == getWidth()){
@@ -127,7 +127,7 @@ public class TicTacToe extends GridGame implements StateGame {
                 }
                 else
                     allCelssOccupied = false;
-            }            
+            }
         }
         if(allCelssOccupied)
             result = new DrawResult();
@@ -183,7 +183,7 @@ public class TicTacToe extends GridGame implements StateGame {
                 GameItem item = getCurrentState().getItem(i, j);
                 if(item == null){
                     GridGameState newState = getCurrentState().getClone();
-                    newState.setItem(i, j, new PlayerItem(currentPlayer, getPlayer(currentPlayer).getAgentToken()));                    
+                    newState.setItem(i, j, new PlayerItem(currentPlayer, getPlayer(currentPlayer).getAgentToken()));
                     newStates.add(newState);
                 }
             }

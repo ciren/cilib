@@ -42,27 +42,27 @@ import net.sourceforge.cilib.type.types.Type;
 public class SelectHOFPoolSelectionStrategy extends
 		OpponentPoolSelectionStrategy {
 	private static final long serialVersionUID = 4878959204065018821L;
-	
-	CoevolutionCompetitorList hOF;	
+
+	CoevolutionCompetitorList hOF;
 	int addToHOFEpoch; //the epoch at which a new Competitor will be added to the HOF
 	int hOFSize; //The max size of the HOF
 	int lasIterationAdded[]; //Coutners to ensure Competitors are only added once at the specified epoch
 	/**
-	 * 
+	 *
 	 */
 	public SelectHOFPoolSelectionStrategy() {
 		hOFSize = 50;
 		addToHOFEpoch = 10;
-		hOF = new CoevolutionCompetitorList(hOFSize);	
+		hOF = new CoevolutionCompetitorList(hOFSize);
 		lasIterationAdded = new int[0];
 	}
 	public SelectHOFPoolSelectionStrategy(SelectHOFPoolSelectionStrategy other) {
 		super(other);
 		hOFSize = other.hOFSize;
 		addToHOFEpoch = other.addToHOFEpoch;
-		hOF = other.hOF.getClone();	
+		hOF = other.hOF.getClone();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -75,7 +75,7 @@ public class SelectHOFPoolSelectionStrategy extends
 			int currIteration = algorithm.getIterations();
 			int pID = ((Int)algorithm.getTopology().get(0).getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
 			if(currIteration != 0 && currIteration != lasIterationAdded[pID - 1] && currIteration % addToHOFEpoch == 0){
-				
+
 				Fitness bestFit = null;
 				Type solution = null;
 				for(Entity e: algorithm.getTopology()){

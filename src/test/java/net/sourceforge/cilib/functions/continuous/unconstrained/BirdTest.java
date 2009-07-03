@@ -43,19 +43,19 @@ public class BirdTest {
     public void instantiate() {
         this.function = new Bird();
     }
-    
+
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bird. */
     @Test
     public void testEvaluate() {
         function.setDomain("R(-6.285714286,6.285714286)^2");
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
-           
+
         assertEquals(6.8250541015507, function.evaluate(x), 0.00000000001);
     }
-    
+
     @Test
     public void minimum() {
         assertEquals(-106.764537, function.getMinimum());

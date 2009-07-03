@@ -32,17 +32,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class RestartsTest {
-    
+
     @Test
     public void testRestartsDomain() throws ParseException {
         Measurement m = new Restarts();
-        
+
         Vector vector = (Vector) DomainParser.parse(m.getDomain());
-        
+
         assertEquals(1, vector.getDimension());
         assertTrue(vector.get(0) instanceof Int);
     }

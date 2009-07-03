@@ -56,7 +56,7 @@ public abstract class EnvironmentChangeDetectionStrategy<E extends PopulationBas
      * @return A cloned <tt>EnvironmentChangeDetectionStrategy</tt>
      */
     public abstract EnvironmentChangeDetectionStrategy<E> getClone();
-    
+
     /**
      * Check the environment in which the specified PSO algorithm is running for changes.
      * @param algorithm The <tt>PSO</tt> that runs in a dynamic environment.

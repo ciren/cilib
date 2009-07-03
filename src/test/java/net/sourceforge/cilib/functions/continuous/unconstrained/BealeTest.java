@@ -43,23 +43,23 @@ public class BealeTest {
     public void instantiate() {
         this.function = new Beale();
     }
-    
+
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Beale. */
     @Test
     public void testEvaluate() {
         function = new Beale();
         function.setDomain("R(-4.5, 4.5)^2");
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         assertEquals(126.4531250, function.evaluate(x), 0.0);
-        
+
         x.setReal(0, 3.0);
         x.setReal(1, 0.5);
         assertEquals(0.0, function.evaluate(x), 0.0);
-    } 
-    
+    }
+
     @Test
     public void minimum() {
         assertEquals(0.0, function.getMinimum());

@@ -56,8 +56,8 @@ public class MinMaxAlphaBetaTraversalStrategy extends StateTraversalStrategy {
 	public StateTraversalStrategy getClone() {
 		return new MinMaxAlphaBetaTraversalStrategy(this);
 	}
-	
-	
+
+
 	/**
 	 * return the min or max score for the specified depth of the tree.
 	 * @param game the game being played
@@ -81,7 +81,7 @@ public class MinMaxAlphaBetaTraversalStrategy extends StateTraversalStrategy {
 		for(int i = 0; i < amStates; ++i){
 			//randomize the order in which the states are traversed
 			int index = rand.nextInt(nextStates.size());
-			//make this state current state of game object	
+			//make this state current state of game object
 			GameState state = nextStates.get(index);
 			nextStates.remove(index);
 			state.increaseIteration();
@@ -89,14 +89,14 @@ public class MinMaxAlphaBetaTraversalStrategy extends StateTraversalStrategy {
 			newGame.setCurrentPlayer(currentPlayerID);
 			//get the move value for this state
 			double moveValue = minMax(newGame, !maxPlayer, game.getNextPlayerID(currentPlayerID), currentDepth + 1, alpha, beta);
-			
+
 			if(maxPlayer){ //MAX Player
 				if(moveValue > bestMoveValue){
 					bestMoveValue = moveValue;
 					if(moveValue > alpha)
-						alpha = moveValue;					
+						alpha = moveValue;
 				}
-				
+
 				if(beta <= alpha){
 					return bestMoveValue;
 				}
@@ -107,7 +107,7 @@ public class MinMaxAlphaBetaTraversalStrategy extends StateTraversalStrategy {
 					if(moveValue < beta)
 						beta = moveValue;
 				}
-				
+
 				if(beta <= alpha){
 					return bestMoveValue;
 				}
@@ -130,13 +130,13 @@ public class MinMaxAlphaBetaTraversalStrategy extends StateTraversalStrategy {
 		double alpha = -999999;
 		double beta = 999999;
 		int amStates = startStates.size();
-		for(int i = 0; i < amStates; ++i){			
+		for(int i = 0; i < amStates; ++i){
 			int index = rand.nextInt(startStates.size());
 			GameState state = startStates.get(index);
 			startStates.remove(index);
 			state.increaseIteration();
 			//clone the game with the specified state
-			Game<GameState> newGame = game.getClone(state);	
+			Game<GameState> newGame = game.getClone(state);
 			//get the score for the state
 			double score = minMax(newGame, false, newGame.getNextPlayerID(playerID), 1, alpha, beta);
 			if(score > bestScore){

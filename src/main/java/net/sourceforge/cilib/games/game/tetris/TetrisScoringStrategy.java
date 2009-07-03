@@ -48,15 +48,15 @@ public class TetrisScoringStrategy extends GameScoringStrategy {
 	public void assignPlayerScores(Game game) {
 		int Width = ((GridGameState)game.getCurrentState()).getGridWidth();
 		int Height = ((GridGameState)game.getCurrentState()).getGridHeight();
-		
+
 		double amountLines = ((ScoreGameResult)game.getGameResult()).getHighScore();
 		Vector measuredData = (Vector)((AgentMeasure)game.getAgentMeasurements().get(0)).getMeasuredData();
 		int counter = ((Int)measuredData.get(0)).getInt();
 		long holesInv = ((long)(Width * (Height - 1)) * counter) - ((Long)measuredData.get(1)).getLong();
 		long rowTransInv = ((long)(Width * Height) * counter) - ((Long)measuredData.get(2)).getLong();
-		long colTransInv = ((long)(Width * Height) * counter) - ((Long)measuredData.get(3)).getLong();		
+		long colTransInv = ((long)(Width * Height) * counter) - ((Long)measuredData.get(3)).getLong();
 		long heightInv = ((long)Height * counter) - ((Long)measuredData.get(4)).getLong();
-		
+
 		double holeVal = ((double)holesInv / ((long)(Width * (Height - 1)) * counter)) * 500.0;
 		double rowTransVal = ((double)rowTransInv / ((long)(Width * Height) * counter)) * 500.0;
 		double colTransVal = ((double)colTransInv / ((long)(Width * Height) * counter)) * 500.0;

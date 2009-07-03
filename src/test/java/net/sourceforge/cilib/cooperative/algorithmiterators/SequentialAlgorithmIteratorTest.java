@@ -36,7 +36,7 @@ import static org.junit.Assert.assertFalse;
 
 /*
  * This is not a good unit test. All unit tests are supposed to test atomic actions, not aggregations.
- * This will need to be refactored. 
+ * This will need to be refactored.
  */
 public class SequentialAlgorithmIteratorTest {
     private AlgorithmIterator<PSO> testIterator = null;
@@ -111,7 +111,7 @@ public class SequentialAlgorithmIteratorTest {
                 }
                 catch (IndexOutOfBoundsException iobe) {
                 }
-    
+
                 try {
                     testIterator.set(new PSO());
                 }
@@ -135,7 +135,7 @@ public class SequentialAlgorithmIteratorTest {
         assertSame(tmp, testIterator.current());
 
         testNextAndPrevious();
-        
+
         // reset the testIterator
         testIterator.setAlgorithms(listOfPSOs);
 

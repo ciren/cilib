@@ -35,7 +35,7 @@ public class TShape extends AbstractShape {
 	private static final long serialVersionUID = 8977818851989287283L;
 
 	public TShape(int gridWidth, int gridHeight) {
-		super();  
+		super();
 		staticCellIndex = 1;
 		GridLocation block = new GridLocation(gridWidth, gridHeight);
 		block.setInt(0, (int)(gridWidth / 2) - 1);
@@ -49,14 +49,14 @@ public class TShape extends AbstractShape {
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.T, block.getClone()));
 		block.setInt(0, (int)(gridWidth / 2));
 		block.setInt(1, 1);
-		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.T, block.getClone()));	
+		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.T, block.getClone()));
 	}
 
 	/**
 	 * @param other
 	 */
 	public TShape(AbstractShape other) {
-		super(other);		
+		super(other);
 	}
 
 	/**

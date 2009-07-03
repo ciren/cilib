@@ -54,7 +54,7 @@ public class StatsTest {
             tmp.add(new Real(i));
         }
         set.add(new Pattern("class1", tmp));
-        
+
         tmp = new Vector(SIZE, new Real(1));
         set.add(new Pattern("class2", tmp));
 

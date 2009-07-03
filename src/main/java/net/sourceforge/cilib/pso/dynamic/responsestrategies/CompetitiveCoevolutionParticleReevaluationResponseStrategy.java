@@ -33,7 +33,7 @@ import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * This class re-calculates all the personal best positions in the population. It will only work for PSO algorithms. 
+ * This class re-calculates all the personal best positions in the population. It will only work for PSO algorithms.
  * @author leo
  *
  */
@@ -43,7 +43,7 @@ public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extend
     public CompetitiveCoevolutionParticleReevaluationResponseStrategy() {
 
     }
-    
+
     public CompetitiveCoevolutionParticleReevaluationResponseStrategy(CompetitiveCoevolutionParticleReevaluationResponseStrategy<E> other) {
 
     }
@@ -59,7 +59,7 @@ public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extend
      * {@inheritDoc}
      */
     public void performReaction(PopulationBasedAlgorithm algorithm) {
-          //select new competitors and re-evaluate PBest vector of Particle                
+          //select new competitors and re-evaluate PBest vector of Particle
          PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)Algorithm.get(); //the current sub population algorithm
          int populationID = -1;
          for(Entity e: currentAlgorithm.getTopology().asList()) {
@@ -69,11 +69,11 @@ public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extend
                  populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
              Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
              blackboard.put(EntityType.CANDIDATE_SOLUTION, ((AbstractParticle)e).getBestPosition());
-             blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());                
+             blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());
              Fitness val = currentAlgorithm.getOptimisationProblem().getFitness(blackboard, false);
              e.getProperties().put(EntityType.Particle.BEST_FITNESS, val);
              //if currentV is better than re-evaluated pBest, then replace it
-             if (e.getFitness().compareTo(e.getBestFitness()) > 0) {             
+             if (e.getFitness().compareTo(e.getBestFitness()) > 0) {
                  e.getProperties().put(EntityType.Particle.BEST_FITNESS, e.getFitness());
                      e.getProperties().put(EntityType.Particle.BEST_POSITION, e.getProperties().get(EntityType.CANDIDATE_SOLUTION).getClone());
                  }

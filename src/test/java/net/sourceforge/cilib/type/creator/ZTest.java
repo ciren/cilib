@@ -29,29 +29,29 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class ZTest {
-    
+
     private static Z creator = null;
-    
+
     @BeforeClass
     public static void setUp() {
         creator = new Z();
     }
-    
+
     @Test
     public void testCreateNoBounds() {
         Type z = creator.create();
-        
+
         assertTrue(z instanceof Int);
     }
-    
+
     @Test
     public void testCreateBounds() {
         Type z = creator.create(0, 2);
-        
+
         assertTrue(z instanceof Int);
     }
 

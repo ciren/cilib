@@ -40,30 +40,30 @@ public class Bohachevsky1Test {
     private ContinuousFunction function;
 
     public Bohachevsky1Test() {
-        
+
     }
-    
+
     @Before
     public void instantiate() {
         this.function = new Bohachevsky1();
     }
-    
+
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Bohachevsky1. */
     @Test
     public void testEvaluate() {
         function.setDomain("R(-100,100)^2");
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
-           
+
         assertEquals(9.6, function.evaluate(x), 0.0);
 
         x.setReal(0, 0.0);
         x.setReal(1, 0.0);
         assertEquals(0.0, function.evaluate(x), 0.0);
     }
-    
+
     @Test
     public void minimum() {
         assertEquals(0.0, function.getMinimum());

@@ -44,5 +44,5 @@ public interface SelectionRecipe<E> extends Cloneable {
      * @return The selected element.
      */
     public E select(List<? extends E> elements);
-    
+
 }

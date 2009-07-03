@@ -35,7 +35,7 @@ import net.sourceforge.cilib.math.random.generator.Random;
  * This class defines a detection strategy that uses a user-specified
  * {@link #numberOfSentries number of sentry entities} and an {@local #epsilon} value to
  * detect whether a change has occured in the environment.
- * 
+ *
  * @TechReport{ title = "Tracking Changing Extrema with Particle Swarm Optimizer", author =
  *              "Anthony Jack Carlisle and Gerry V. Dozier", institution = "Huntingdon
  *              College", year = "2001", number = "CSSE01-08" }
@@ -71,7 +71,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
      * their current fitness values. An environment change is detected when the difference
      * between the previous and current fitness values are &gt;= the specified
      * {@link #epsilon} value.
-     * 
+     *
      * @param algorithm used to get hold of topology of entities and number of iterations
      * @return true if a change has been detected, false otherwise
      */

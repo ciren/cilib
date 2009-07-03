@@ -39,7 +39,7 @@ public class ChebyshevDistanceMeasureTest {
     @Test(expected=IllegalArgumentException.class)
     public void testVectorDistance() {
         DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
-        
+
         Vector v1 = new Vector();
         Vector v2 = new Vector();
 
@@ -61,7 +61,7 @@ public class ChebyshevDistanceMeasureTest {
     @Test(expected=IllegalArgumentException.class)
     public void testCollectionDistance() {
         DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
-        
+
         List<Double> l1 = new ArrayList<Double>();
         List<Double> l2 = new ArrayList<Double>();
 
@@ -83,7 +83,7 @@ public class ChebyshevDistanceMeasureTest {
     @Test
     public void testSingleDimension() {
         DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
-        
+
         List<Double> list1 = new ArrayList<Double>(1);
         List<Double> list2 = new ArrayList<Double>(1);
 

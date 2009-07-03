@@ -27,33 +27,33 @@ import java.util.List;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * This class maintains a list of competitors per population for a coevolution problem. 
+ * This class maintains a list of competitors per population for a coevolution problem.
  * It could also be used to represent a HOF.
  * @author leo
- * 
+ *
  */
 public class CoevolutionCompetitorList implements Type{
 	private static final long serialVersionUID = -2894509571214982344L;
 	List<PopulationCompetitorList> competitorLists;
 	int numberOfEntitiesPerList; //set to indicate that all sublists should have this size.
 	/**
-	 * 
+	 *
 	 */
 	public CoevolutionCompetitorList() {
 		competitorLists = new ArrayList<PopulationCompetitorList>();
 		numberOfEntitiesPerList = -1;
 	}
-	
+
 	public CoevolutionCompetitorList(int numberOfEntitiesPerList) {
 		competitorLists = new ArrayList<PopulationCompetitorList>();
 		this.numberOfEntitiesPerList = numberOfEntitiesPerList;
 	}
-	
+
 	public CoevolutionCompetitorList(CoevolutionCompetitorList other) {
 		competitorLists = new ArrayList<PopulationCompetitorList>();
 		numberOfEntitiesPerList = other.numberOfEntitiesPerList;
-		for(PopulationCompetitorList popList: other.competitorLists){	
-			competitorLists.add(popList.getClone());			
+		for(PopulationCompetitorList popList: other.competitorLists){
+			competitorLists.add(popList.getClone());
 		}
 	}
 	/**
@@ -61,7 +61,7 @@ public class CoevolutionCompetitorList implements Type{
 	 * @param list The competitors
 	 */
 	public void addCompetitorList(PopulationCompetitorList list){
-		
+
 		for(PopulationCompetitorList popList: competitorLists){
 			if(popList.getPopulationID() == list.getPopulationID()){
 				if(numberOfEntitiesPerList != -1 && (popList.size() + list.size()) > numberOfEntitiesPerList)
@@ -79,7 +79,7 @@ public class CoevolutionCompetitorList implements Type{
 	 * @param populationID The ID of the population these competitors are from
 	 * @param list The list of competitors
 	 */
-	
+
 	public void addCompetitorList(int populationID, List<Competitor> list){
 
 		for(PopulationCompetitorList popList: competitorLists){
@@ -106,7 +106,7 @@ public class CoevolutionCompetitorList implements Type{
 		}
 	}
 	/**
-	 * Add a competitor to the list of population competitors. First see if it will fit in a 
+	 * Add a competitor to the list of population competitors. First see if it will fit in a
 	 * {@linkplain PopulationCompetitorList} based on its populationID, if not create a new
 	 * {@linkplain PopulationCompetitorList}
 	 * @param competitor The {@linkplain Competitor} to add
@@ -125,7 +125,7 @@ public class CoevolutionCompetitorList implements Type{
 		list.addCompetitor(competitor);
 		competitorLists.add(list);
 	}
-	
+
 	/**
 	 * get one entry from each list at index
 	 * @param index the specified index which relates to a population ID
@@ -147,20 +147,20 @@ public class CoevolutionCompetitorList implements Type{
 	public void removeSubList(int index){
 		competitorLists.remove(index);
 	}
-	
+
 	public int getNumberOfEntitesPerList(){
 		return numberOfEntitiesPerList;
 	}
-	
+
 	public void setNumberofEntitiesPerList(){
 		if(competitorLists.size() > 0)
 			numberOfEntitiesPerList = competitorLists.get(0).size();
 	}
-	
+
 	public int getNumberOfLists(){
 		return competitorLists.size();
 	}
-	
+
 	public int getPopulationID(int index){
 		return competitorLists.get(index).getPopulationID();
 	}

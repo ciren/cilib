@@ -42,7 +42,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class NeuralAgent extends Agent {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 5910765539852468020L;
     //this determines how the game state is given to the Neural Network as input
@@ -71,32 +71,32 @@ public class NeuralAgent extends Agent {
         hiddenNodesCount = other.hiddenNodesCount;
         neuralNetworkTopology = other.neuralNetworkTopology; //CLONE?
     }
-    
+
     private void initializeNeuralNetwork(){
         ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(stateInputStrategy.amountInputs() + 1);
         ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(hiddenNodesCount + 1);
         ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(outputInterpretationStrategy.getAmOutputs());
         neuralNetworkTopology.initialize();
     }
-    
+
     public void setHiddenNodes(int count){
         hiddenNodesCount = count;
         if(stateInputStrategy != null && outputInterpretationStrategy != null)
             initializeNeuralNetwork();
     }
-    
+
     public void setStateInputStrategy(NeuralStateInputStrategy stateInputStrategy){
         this.stateInputStrategy = stateInputStrategy;
         if(stateInputStrategy != null && outputInterpretationStrategy != null)
             initializeNeuralNetwork();
     }
-    
+
     public void setOutputInterpretationStrategy(NeuralOutputInterpretationStrategy outputInterpretationStrategy){
         this.outputInterpretationStrategy = outputInterpretationStrategy;
         if(stateInputStrategy != null && outputInterpretationStrategy != null)
             initializeNeuralNetwork();
     }
-    
+
     public void setWeights(Vector weights){
         //set the NN weights to the specified weight vector
         neuralNetworkTopology.setWeights(weights);
@@ -123,7 +123,7 @@ public class NeuralAgent extends Agent {
     public Agent getClone() {
         return new NeuralAgent(this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -131,12 +131,12 @@ public class NeuralAgent extends Agent {
     public void move(Game<GameState> game) {
         //set the input of the neural network to
         Vector input = stateInputStrategy.getNeuralInputArray(this, game);
-        StandardPattern pattern = new StandardPattern(input, input);        
+        StandardPattern pattern = new StandardPattern(input, input);
         //get the output vector
         TypeList NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
         outputInterpretationStrategy.applyOutputToState(NNOutput, this, game);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -158,7 +158,7 @@ public class NeuralAgent extends Agent {
         agentDomain.setDomainString(representation);
         return agentDomain;
     }
-    
+
     public void setNeuralNetworkTopology(GenericTopology topology){
         neuralNetworkTopology = topology;
     }
@@ -178,6 +178,6 @@ public class NeuralAgent extends Agent {
     public GenericTopology getNeuralNetworkTopology() {
         return neuralNetworkTopology;
     }
-    
-    
+
+
 }

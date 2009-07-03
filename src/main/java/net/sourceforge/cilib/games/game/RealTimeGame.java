@@ -24,7 +24,7 @@ package net.sourceforge.cilib.games.game;
 
 /**
  * @author leo
- * This interface should be extended by real time games. In a real time game all players make a decision based on the 
+ * This interface should be extended by real time games. In a real time game all players make a decision based on the
  * same game state, and their changes occur simultaneously. This implies that for a real time game the state of the game at the start
  * of the round needs to be recorded so that all players can make a decision based on this game state.
  */

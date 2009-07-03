@@ -56,7 +56,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
         for (E element : copy.adjacencyMap.keySet()) {
             List<Entry<E>> connections = copy.adjacencyMap.get(element);
             List<Entry<E>> clonedconnections = new ArrayList<Entry<E>>();
-            
+
             for (Entry<E> entry : connections) {
                 clonedconnections.add(entry.getClone());
             }

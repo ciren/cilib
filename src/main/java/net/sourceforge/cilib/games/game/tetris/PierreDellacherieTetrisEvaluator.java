@@ -40,29 +40,29 @@ public class PierreDellacherieTetrisEvaluator implements StateEvaluator {
 	 * {@inheritDoc}
 	 */
 	public double evaluateState(Game<GameState> state, int decisionPlayerID) {
-       
+
 		TetrisGameState stateData = (TetrisGameState)state.getCurrentState().getClone();
 		int Width = stateData.getGridWidth();
 		int Height = stateData.getGridHeight();
 		double landingHeight = 0.5 * ((stateData.getCurrentShape().getBottomMostBlock().getInt(1) + 1) + (stateData.getCurrentShape().getTopMostBlock().getInt(1) + 1));
 		int erodedPieceCount = stateData.getErodedShapeCount();
-		int shapeX = stateData.getCurrentShape().getStaticBlock().getInt(0);		
+		int shapeX = stateData.getCurrentShape().getStaticBlock().getInt(0);
 		int shapeRotation = stateData.getCurrentShape().getCurrentOrientation();
-		stateData.mergeCurrentShape();	
+		stateData.mergeCurrentShape();
         int amLinesRemoved = stateData.clearFullRows();
         erodedPieceCount *= amLinesRemoved;
         int amHoleCells = 0;
         int wellCount = 0;
 
         int rowTransitions = 0;
-        int columnTransitions = 0;        
+        int columnTransitions = 0;
         boolean[] lastXOcc = new boolean[Height];
         for (int x = 0; x < Width; ++x)
         {
             int amEmpty = 0;
          //   int ColumWellHeight = 0;
             boolean LastYOccupied = true; //below grid counts as occupied
-           
+
             for (int y = Height - 1; y >= 0; --y) //Iterate from bottom of grid to top. 0 is the top position
             {
                 if (stateData.getItem(x, y) != null) //If this cell is occupied
@@ -105,14 +105,14 @@ public class PierreDellacherieTetrisEvaluator implements StateEvaluator {
                     	else
                     		++rowTransitions;
                     }
-                    
+
                     lastXOcc[y] = false;
                 }
             }
             //above grid is not occupied
             if (LastYOccupied)
                 ++columnTransitions;
-   
+
         }
 
         double rating = 0;
@@ -136,13 +136,13 @@ public class PierreDellacherieTetrisEvaluator implements StateEvaluator {
      //   System.out.println("Hole Count: " + amHoleCells);
      //   System.out.println("Well Count: " + wellCount);
        // System.out.println("Rating: " + rating);
-        
-        
+
+
         int startX = (Width / 2) + 1;
         int absoluteDistanceX = (shapeX + 1) - startX;
         if(absoluteDistanceX < 0)
         	absoluteDistanceX *= -1.0;
-        
+
         int priority = (100 * absoluteDistanceX);
         if(shapeX < startX){
         	priority += 10;

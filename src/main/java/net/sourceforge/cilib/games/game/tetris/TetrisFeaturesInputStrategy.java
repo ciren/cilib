@@ -37,14 +37,14 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
     boolean removedLines;
     boolean erodedShapeBlocks;
-    boolean pileHeight;    
-    boolean holes;    
+    boolean pileHeight;
+    boolean holes;
     boolean landingHeight;
     boolean noBlocks;
     boolean maxWellDepth;
     boolean sumWells;
     boolean altitudeDiff;
-    boolean rowTransitions;       
+    boolean rowTransitions;
     boolean columnTransitions;
     boolean weightedBlocks;
     boolean connectedHoles;
@@ -57,10 +57,10 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
 	    maxWellDepth =
 	    sumWells =
 	    altitudeDiff =
-	    rowTransitions =     
+	    rowTransitions =
 	    columnTransitions =
 	    weightedBlocks =
-	    connectedHoles = 
+	    connectedHoles =
 	    erodedShapeBlocks = true;
 	}
 
@@ -69,36 +69,36 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
 	 */
 	@Override
 	public int amountInputs() {
-		return  (removedLines ? 1 : 0) + 
-				(pileHeight ? 1 : 0) + 
+		return  (removedLines ? 1 : 0) +
+				(pileHeight ? 1 : 0) +
 				(holes ? 1 : 0) +
 			    (landingHeight ? 1 : 0) +
 			    (noBlocks ? 1 : 0) +
 			    (maxWellDepth ? 1 : 0) +
 			    (sumWells ? 1 : 0) +
 			    (altitudeDiff ? 1 : 0) +
-			    (rowTransitions ? 1 : 0) +    
+			    (rowTransitions ? 1 : 0) +
 			    (columnTransitions ? 1 : 0) +
 			    (weightedBlocks ? 1 : 0) +
-			    (connectedHoles ? 1 : 0) + 
+			    (connectedHoles ? 1 : 0) +
 			    (erodedShapeBlocks ? 1 : 0);
 	}
 
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Vector getNeuralInputArray(NeuralAgent currentPlayer,
 			Game state) {
-		
+
 		             //set as inputs the following criteria
 
             //1.Removed Lines: The number of lines that were cleared in the last step to get to the
             //current board.
 
             //2. Pile Height: The row of the highest occupied cell in the board.
-            
+
             //3. Holes: The number of all unoccupied cells that have at least one occupied above them.
 
             //4.Landing Height (PD): The height at which the last tetramino has been placed.
@@ -114,7 +114,7 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
 
             //9. Row Transitions (PD): Sum of all horizontal occupied/unoccupied-transitions on the
             //board. The outside to the left and right counts as occupied.
-            
+
             //10. Column Transitions (PD): As Row Transitions above, but counts vertical transitions.
             //The outside below the game-board is considered occupied.
 
@@ -127,9 +127,9 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
 			int Width = stateData.getGridWidth();
 			int Height = stateData.getGridHeight();
 			Vector input = new Vector(amountInputs());
-			double landingHeight = 0.5 * ((stateData.getCurrentShape().getBottomMostBlock().getInt(1) + 1) + (stateData.getCurrentShape().getTopMostBlock().getInt(1) + 1));			
+			double landingHeight = 0.5 * ((stateData.getCurrentShape().getBottomMostBlock().getInt(1) + 1) + (stateData.getCurrentShape().getTopMostBlock().getInt(1) + 1));
 			int erodedPieceCount = stateData.getErodedShapeCount();
-			stateData.mergeCurrentShape();			
+			stateData.mergeCurrentShape();
             int amLinesRemoved = stateData.clearFullRows();
             erodedPieceCount *= amLinesRemoved;
             int HighestYCell = Height; //low y is high cell
@@ -146,9 +146,9 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
             boolean[] lastXOcc = new boolean[HighestYCell];
 
             float weightedBlockCount = 0;
-            
+
             float CellWeight = 0.1f;
-            
+
             for (int x = 0; x < Width; ++x)
             {
                 int amEmpty = 0;
@@ -215,12 +215,12 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
                     ++columnTransitionsCount;
 
                 wellCount += ColumWellHeight;
-                if (ColumWellHeight > maximumWellDepth)                
+                if (ColumWellHeight > maximumWellDepth)
                     maximumWellDepth = ColumWellHeight;
 
-                if (ColumnLowestFree != -1 
+                if (ColumnLowestFree != -1
                     && ColumnLowestFree > lowestFreeCell)
-                        lowestFreeCell = ColumnLowestFree;                
+                        lowestFreeCell = ColumnLowestFree;
             }
 
             float MaxWeightedSum = 0;
@@ -269,7 +269,7 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
             if (weightedBlocks){
                 input.add(new Real(currentPlayer.getScaledInput(weightedBlockCount, 0, MaxWeightedSum)));
             }
-            return input;		 
+            return input;
 	}
 
 	public boolean isAltitudeDiff() {

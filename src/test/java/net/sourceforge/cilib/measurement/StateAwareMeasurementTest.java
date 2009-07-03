@@ -38,7 +38,7 @@ public class StateAwareMeasurementTest {
     @Test
     public void extractAndLoadData() throws IOException, ClassNotFoundException {
         String expected = "this is a test string";
-        
+
         MockStateAwareMeasurement measurement1 = new MockStateAwareMeasurement();
         measurement1.setValue(expected);
 

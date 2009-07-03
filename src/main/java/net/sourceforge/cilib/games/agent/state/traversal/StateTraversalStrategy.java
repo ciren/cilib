@@ -36,14 +36,14 @@ public abstract class StateTraversalStrategy implements Cloneable {
 	protected StateEvaluator evaluator;
 	//The maximim tree depth that the strategy should look into
 	protected int maxDepth;
-	public StateTraversalStrategy() {	
+	public StateTraversalStrategy() {
 		maxDepth = 1;
 	}
 	public StateTraversalStrategy(StateTraversalStrategy other){
 		evaluator = other.evaluator;
 		maxDepth = other.maxDepth;
 	}
-	
+
 	/**
 	 * Select a {@linkplain GameState} from the given game objects list of possible states for the specified player.
 	 * @param game the game at the state when the decision should be made

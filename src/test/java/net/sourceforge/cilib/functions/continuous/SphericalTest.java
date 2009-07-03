@@ -34,11 +34,11 @@ import org.junit.Test;
  * @author Edwin Peer
  */
 public class SphericalTest {
-    
+
     public SphericalTest() {
 
     }
-    
+
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Spherical. */
     @Test
     public void testEvaluate() {
@@ -49,12 +49,12 @@ public class SphericalTest {
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         x.append(new Real(3.0));
-        
+
         assertEquals(14.0, function.evaluate(x), 0.0);
     }
-    
+
     public void testGradient() {
         // add gradient test
     }
-    
+
 }

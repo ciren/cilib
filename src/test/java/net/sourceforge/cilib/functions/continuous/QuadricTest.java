@@ -34,23 +34,23 @@ import org.junit.Test;
  * @author Edwin Peer
  */
 public class QuadricTest {
-    
+
     public QuadricTest() {
     }
-    
+
     /** Test of evaluate method, of class za.ac.up.cs.ailib.Functions.Quadric. */
     @Test
     public void testEvaluate() {
         ContinuousFunction function = new Quadric();
         function.setDomain("R(-100, 100)^3");
         //double[] x = {1, 2, 3};
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
         x.append(new Real(3.0));
         assertEquals(46.0, function.evaluate(x), 0.0);
     }
-    
-    
+
+
 }

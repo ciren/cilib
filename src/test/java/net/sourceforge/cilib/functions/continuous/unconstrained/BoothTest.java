@@ -39,30 +39,30 @@ public class BoothTest {
     private ContinuousFunction function;
 
     public BoothTest() {
-        
+
     }
-    
+
     @Before
     public void instantiate() {
         this.function = new Booth();
     }
-    
+
     /** Test of evaluate method, of class za.ac.u.cs.ailib.Functions.Booth. */
     @Test
     public void testEvaluate() {
         function.setDomain("R(-10,10)^2");
-        
+
         Vector x = new Vector();
         x.append(new Real(1.0));
         x.append(new Real(2.0));
-           
+
         assertEquals(5.0, function.evaluate(x), 0.0);
 
         x.setReal(0, 1.0);
         x.setReal(1, 3.0);
         assertEquals(0.0, function.evaluate(x), 0.0);
     }
-    
+
     @Test
     public void minimum() {
         assertEquals(0.0, function.getMinimum());

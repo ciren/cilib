@@ -32,17 +32,17 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public abstract class NeuralStateInputStrategy {
     /**
-     * 
+     *
      */
     public NeuralStateInputStrategy() {
     }
-    
+
     /**
      * get the amount of inputs that the Neural Network should have based on this input strategy
      * @return the input count
      */
     public abstract int amountInputs();
-    
+
     /**
      * Get an input vector for the given game state
      * @param currentPlayer the agent represented by the Neural Network

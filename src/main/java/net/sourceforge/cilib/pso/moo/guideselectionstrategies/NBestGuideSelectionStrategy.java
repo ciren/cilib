@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * A concrete implementation of {@link GuideSelectionStrategy} where the neighbourhood
  * best position of a particle gets selected as a guide (usually global guide).
  * </p>
- * 
+ *
  * @author Wiehann Matthysen
  */
 public class NBestGuideSelectionStrategy implements GuideSelectionStrategy {

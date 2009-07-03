@@ -31,7 +31,7 @@ import net.sourceforge.cilib.games.states.GridGameState;
 public abstract class GridGame extends Game<GridGameState> {
     private static final long serialVersionUID = -3460317865794650394L;
     /**
-     * 
+     *
      */
     public GridGame() {
         setCurrentGameState(new GridGameState());
@@ -48,8 +48,8 @@ public abstract class GridGame extends Game<GridGameState> {
     public GridGame(GridGame other, GridGameState newState) {
         super(other, newState);
     }
-    
-    
+
+
     public int getWidth(){
         return getCurrentState().getGridWidth();
     }

@@ -37,7 +37,7 @@ public final class Types {
     /**
      * Determine if the current type instance is within the defined bounds
      * of the domain.
-     * @param candidateSolution 
+     * @param candidateSolution
      * @return {@literal true} if it is in the bounds, {@literal false} otherwise.
      */
     public static boolean isInsideBounds(Type candidateSolution) {

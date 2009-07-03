@@ -41,7 +41,7 @@ public class ClusteringFitnessFunctionTest {
     private static ClusteringProblem problem = null;
     private static FunctionOptimisationProblem innerProblem = null;
     private static final double DELTA = 0.000000000001;
-    
+
     @BeforeClass
     public static void intialise() {
         dataSetBuilder = new AssociatedPairDataSetBuilder();
@@ -71,8 +71,8 @@ public class ClusteringFitnessFunctionTest {
         centroids.append(new Int(5));
         centroids.append(new Int(50));
     }
-    
-    
+
+
     @AfterClass
     public static void destroy() {
         function = null;

@@ -55,7 +55,7 @@ public class BoxShape extends AbstractShape {
 	 * @param other
 	 */
 	public BoxShape(AbstractShape other) {
-		super(other);		
+		super(other);
 	}
 
 	/**

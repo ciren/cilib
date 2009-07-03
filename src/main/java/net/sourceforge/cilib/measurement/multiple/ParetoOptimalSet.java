@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>
  * Measures the set of non-dominated decision vectors within an archive.
  * </p>
- * 
+ *
  * @author Wiehann Matthysen
  */
 public class ParetoOptimalSet implements Measurement {

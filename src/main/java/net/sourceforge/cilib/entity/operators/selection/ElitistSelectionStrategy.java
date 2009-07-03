@@ -30,7 +30,7 @@ import net.sourceforge.cilib.util.selection.recipes.ElitistSelection;
 
 public class ElitistSelectionStrategy extends SelectionStrategy {
     private static final long serialVersionUID = -3055600262753819388L;
-    
+
     private ControlParameter selectionPercentage;
 
     public ElitistSelectionStrategy() {

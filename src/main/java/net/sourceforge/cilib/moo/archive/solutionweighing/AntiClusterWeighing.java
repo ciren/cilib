@@ -46,7 +46,7 @@ import net.sourceforge.cilib.util.selection.Selection.Entry;
  * solutions that are good candidates to be used as guides in a Multi-objective optimisation
  * algorithm (see {@link GuideSelectionStrategy}).
  * </p>
- * 
+ *
  * @author Wiehann Matthysen
  */
 public class AntiClusterWeighing implements SolutionWeighing {

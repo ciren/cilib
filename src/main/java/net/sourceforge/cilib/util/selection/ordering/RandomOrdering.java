@@ -69,7 +69,7 @@ public class RandomOrdering<E> implements Ordering<E> {
      * This method has been added to the implemenation due to the fact that Collections.shuffle()
      * does not perform the same operations. Collections.shuffle() does not use the current size
      * of the permutable sublist.
-     * 
+     *
      * @param elements The elements to shuffle.
      */
     private void shuffle(List<Selection.Entry<E>> elements) {

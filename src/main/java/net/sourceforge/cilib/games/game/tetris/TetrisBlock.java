@@ -53,22 +53,22 @@ public class TetrisBlock extends GameItem {
 	public TetrisBlock getClone() {
 		return new TetrisBlock(this);
 	}
-	
+
 	public boolean update(double currentSpeed, GridGameState state){
 		//add value to the amount of time spent in this position, if it exceeds the threshold for the current speed then this block moves down
 		return true;
 	}
-	
+
 	public void addMoveDown(){
 		++movesDown;
 	}
-	
+
 	public void updateMovesDown(){
 		int currY = ((GridLocation)itemLocation).getInt(1);
 		((GridLocation)itemLocation).setInt(1, currY + movesDown);
 		movesDown = 0;
 	}
-	
+
 	public int getInt(int dimension){
 		return ((GridLocation)itemLocation).getInt(dimension);
 	}

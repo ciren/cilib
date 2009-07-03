@@ -35,7 +35,7 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBasedAlgorithm> implements Cloneable, Serializable {
     protected boolean hasMemory = true;
-    
+
     public EnvironmentChangeResponseStrategy() {
         this.hasMemory = true;
     }
@@ -46,7 +46,7 @@ public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBase
 
     /**
      * Clone the <tt>EnvironmentChangeResponseStrategy</tt> object.
-     * 
+     *
      * @return A cloned <tt>EnvironmentChangeResponseStrategy</tt>
      */
     public abstract EnvironmentChangeResponseStrategy<E> getClone();
@@ -58,7 +58,7 @@ public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBase
      * <li>{@link #performReaction(PopulationBasedAlgorithm)}</li>
      * <li>{@link #updateNeighbourhoodBestEntities(Topology)}</li>
      * </ul>
-     * 
+     *
      * @param algorithm some {@link PopulationBasedAlgorithm population based algorithm}
      */
     public void respond(E algorithm) {
@@ -76,7 +76,7 @@ public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBase
      * TODO: The problem with this is that it is PSO specific. It uses {@link Particle particles}
      * instead of {@link Entity entities}, because the {@link Entity} class does not have the
      * notion of a neighbourhood best.
-     * 
+     *
      * @param topology a topology of {@link Particle particles} :-(
      */
     protected void updateNeighbourhoodBestEntities(Topology<? extends Entity> topology) {

@@ -35,13 +35,13 @@ import org.junit.runner.RunWith;
 /**
  * Class to test the concept of initialising a <tt>Topology</tt> of
  * <tt>Entity</tt> objects, by cloning a given prototype <tt>Entity</tt>.
- *  
+ *
  * @author Gary Pampara
  */
 @RunWith(JMock.class)
 public class ClonedPopulationInitialisationStrategyTest {
     private Mockery context = new JUnit4Mockery();
-    
+
     /**
      * Test that the initialisation of the entity does indeed mean that the initialised
      * Entity is added to the topology and the Entity is not the same as the original.
@@ -51,19 +51,19 @@ public class ClonedPopulationInitialisationStrategyTest {
         final Topology<Entity> topology = context.mock(Topology.class);
         final Entity entity = context.mock(Entity.class);
         final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-        
+
         final PopulationInitialisationStrategy initialisationBuilder = new ClonedPopulationInitialisationStrategy();
         initialisationBuilder.setEntityType(entity);
         initialisationBuilder.setEntityNumber(20);
-        
+
         context.checking(new Expectations() {{
             exactly(20).of(entity).getClone(); // The prototype entity is cloned exactly 20 times.
-            
+
             // The cloned entity will be added to the topology
             exactly(20).of(topology).add(with(any(Entity.class)));
             will(returnValue(true));
         }});
-        
+
         initialisationBuilder.initialise(topology, problem);
     }
 

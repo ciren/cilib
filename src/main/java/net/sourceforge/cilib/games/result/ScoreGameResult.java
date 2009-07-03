@@ -25,18 +25,18 @@ package net.sourceforge.cilib.games.result;
  * @author leo
  * there is no winner and or loser, each player is given a score in the game, and this is recorded
  */
-public class ScoreGameResult extends AbstractGameResult {    
+public class ScoreGameResult extends AbstractGameResult {
     private static final long serialVersionUID = -8148281346410253240L;
     private double highScore;
-    
+
     public ScoreGameResult(double highScore) {
         this.highScore = highScore;
     }
-    
+
     public ScoreGameResult(ScoreGameResult other){
         highScore = other.highScore;
     }
-    
+
     public double getHighScore() {
         return highScore;
     }

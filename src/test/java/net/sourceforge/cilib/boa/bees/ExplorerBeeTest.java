@@ -52,7 +52,7 @@ public class ExplorerBeeTest {
 
         StoppingCondition condition = new MaximumIterations(2);
 
-        abc = new ABC();    
+        abc = new ABC();
         ClonedPopulationInitialisationStrategy initStrategy = new ClonedPopulationInitialisationStrategy();
         initStrategy.setEntityNumber(10);
         WorkerBee bee = new WorkerBee();

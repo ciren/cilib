@@ -45,7 +45,7 @@ public class SelectpBestSolutionsPoolSelectionStrategy extends
 	public SelectpBestSolutionsPoolSelectionStrategy() {
 
 	}
-	
+
 	public SelectpBestSolutionsPoolSelectionStrategy(SelectpBestSolutionsPoolSelectionStrategy other) {
 
 	}
@@ -71,7 +71,7 @@ public class SelectpBestSolutionsPoolSelectionStrategy extends
 				pool.addCompetitorList(populationID, competitors);
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

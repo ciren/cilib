@@ -36,7 +36,7 @@ import net.sourceforge.cilib.problem.MaximisationFitness;
 public class PredatorPreyGameScoringStrategy extends GameScoringStrategy {
 
     /**
-     * 
+     *
      */
     public PredatorPreyGameScoringStrategy() {
 
@@ -46,7 +46,7 @@ public class PredatorPreyGameScoringStrategy extends GameScoringStrategy {
      */
     @Override
     public void initializeMeasurements(Game game) {
-        // this scoring strategy does not require agent measurements        
+        // this scoring strategy does not require agent measurements
     }
     /**
      * {@inheritDoc}
@@ -63,7 +63,7 @@ public class PredatorPreyGameScoringStrategy extends GameScoringStrategy {
             if(p.getAgentToken().equals(GameToken.PredatorPrey.PREY)){
                 score += game.getCurrentIteration() * 0.05;
             }
-                
+
             game.assignPlayerScore(i, new MaximisationFitness(score));
         }
     }

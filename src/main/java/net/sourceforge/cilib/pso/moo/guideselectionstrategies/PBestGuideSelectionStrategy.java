@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * A concrete implementation of {@link GuideSelectionStrategy} where the personal
  * best position of a particle gets selected as a guide (usually local guide).
  * </p>
- * 
+ *
  * @author Wiehann Matthysen
  */
 public class PBestGuideSelectionStrategy implements GuideSelectionStrategy {

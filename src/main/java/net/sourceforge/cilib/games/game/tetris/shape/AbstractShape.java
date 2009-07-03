@@ -41,7 +41,7 @@ public abstract class AbstractShape implements Cloneable {
 		staticCellIndex = 0;
 		currentOrientation = 0;
 		shapeBlocks = new ArrayList<TetrisBlock>();
-	}	
+	}
 	/**
 	 * {@inheritDoc}
 	 */
@@ -50,7 +50,7 @@ public abstract class AbstractShape implements Cloneable {
 		currentOrientation = other.currentOrientation;
 		shapeBlocks = new ArrayList<TetrisBlock>();
 		for(int i = 0; i < other.shapeBlocks.size(); ++i)
-			shapeBlocks.add(other.shapeBlocks.get(i).getClone());		
+			shapeBlocks.add(other.shapeBlocks.get(i).getClone());
 	}
 	/**
 	*attempt to move each block in shape down
@@ -68,7 +68,7 @@ public abstract class AbstractShape implements Cloneable {
 		//else return true
 		return true;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -76,7 +76,7 @@ public abstract class AbstractShape implements Cloneable {
 	/**
 	 * Rotate the shape to its next possible orientation
 	 */
-	public abstract void rotate();	
+	public abstract void rotate();
 	/**
 	 * Rotate this shape for the specified amount of times
 	 * @param AmRotations the amount of Rotations to do
@@ -119,7 +119,7 @@ public abstract class AbstractShape implements Cloneable {
     		B.setInt(1, B.getInt(1) + amY);
     	}
     }
-    
+
     /**
      * Get a list of all the {@linkplain TetrisBlock}s for this shape
      * @return the list
@@ -159,7 +159,7 @@ public abstract class AbstractShape implements Cloneable {
         }
         return T;
     }
-    /**     
+    /**
      * @return A shape that only consists of the left most blocks for each row the current shape occupies.
      */
 	public List<TetrisBlock> getLeftBlocks(){
@@ -200,13 +200,13 @@ public abstract class AbstractShape implements Cloneable {
      */
     public TetrisBlock getBottomMostBlock(int x){
     	TetrisBlock T = null;
-    	for (TetrisBlock B: shapeBlocks){    		
+    	for (TetrisBlock B: shapeBlocks){
             if (B.getInt(0) == x && (T == null || T.getInt(1) < B.getInt(1)))
                 T = B;
         }
         return T;
     }
-    /**     
+    /**
      * @return A shape that only consists of the lowest blocks for each column the current shape occupies.
      */
     public List<TetrisBlock> getBottomBlocks(){
@@ -252,7 +252,7 @@ public abstract class AbstractShape implements Cloneable {
     	}
     	return count;
     }
-    
+
     /**
      * Check if there are any Blocks in the specified cell
      * @param x the X coord

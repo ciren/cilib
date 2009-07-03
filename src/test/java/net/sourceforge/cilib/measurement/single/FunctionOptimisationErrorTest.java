@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Gary Pampara
  */
 public class FunctionOptimisationErrorTest {
@@ -40,9 +40,9 @@ public class FunctionOptimisationErrorTest {
     @Test
     public void testFunctionOptimisationErrorDomain() throws ParseException {
         Measurement m = new FunctionOptimisationError();
-        
+
         Vector vector = (Vector) DomainParser.parse(m.getDomain());
-        
+
         assertEquals(1, vector.getDimension());
         assertTrue(vector.get(0) instanceof Real);
     }

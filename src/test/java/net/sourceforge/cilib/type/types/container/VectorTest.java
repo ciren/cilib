@@ -63,26 +63,26 @@ public class VectorTest {
         vector = null;
         tmpVector = null;
     }
-    
+
     private void recreateTmpVector() {
         tmpVector = new Vector();
         tmpVector.append(new Real(1.0));
         tmpVector.append(new Real(2.0));
         tmpVector.append(new Real(3.0));
     }
-    
+
     @Test
     public void testClone() {
         Vector v = vector.getClone();
-        
+
         assertEquals(v.size(), vector.size());
-                
+
         for (int i = 0; i < vector.getDimension(); i++) {
             assertEquals(vector.getReal(i), v.getReal(i), 0.0);
             assertNotSame(vector.get(i), v.get(i));
         }
     }
-    
+
     @Test
     public void testSet() {
         vector.setReal(0, 3.0);
@@ -90,55 +90,55 @@ public class VectorTest {
         vector.setReal(0, 1.0);
         assertEquals(1.0, vector.getReal(0), 0.0);
     }
-    
+
     @Test
     public void testNumericGet() {
         recreateTmpVector();
-        
+
         assertEquals(1.0, tmpVector.getReal(0), 0.0);
         assertEquals(2.0, tmpVector.getReal(1), 0.0);
         assertEquals(3.0, tmpVector.getReal(2), 0.0);
-        
+
         Real t = (Real) tmpVector.get(0);
-        
+
         assertEquals(1.0, t.getReal(), 0.0);
     }
-    
+
     @Test
     public void testNumericSet() {
         assertEquals(1.0, vector.getReal(0), 0.0);
         vector.setReal(0, 99.9);
         assertEquals(99.9, vector.getReal(0), 0.0);
-    
+
         vector.setInt(0, 2);
         assertEquals(2, vector.getInt(0), 0.0);
-        
+
         vector.setReal(0, 1.0);
         assertEquals(1.0, vector.getReal(0), 0.0);
     }
-    
+
     @Test
     public void testDimension() {
         assertFalse(vector.getDimension() == 3);
         assertTrue(vector.getDimension() == 4);
         assertFalse(vector.getDimension() == 5);
     }
-    
+
     @Test
     public void testInsert() {
         Vector m = new Vector();
         double [] targetResults = { 0.0, 1.0, 2.0, 3.0, 4.0 };
-        
+
         m.add(new Real(1.0));
         m.add(new Real(3.0));
         assertEquals(2, m.getDimension());
-        
+
         m.insert(1, new Real(2.0));
         assertEquals(3, m.getDimension());
-        
+
         m.insert(0, new Real(0.0));
         assertEquals(4, m.getDimension());
-        
+
         for (int i = 0; i < 4; i++) {
             assertEquals(targetResults[i], m.getReal(i), 0.0);
         }
@@ -153,16 +153,16 @@ public class VectorTest {
     public void negativeIndexInsert() {
         vector.insert(-1, new Real(1.0));
     }
-    
+
     @Test
     public void testRemove() {
         Vector m = new Vector();
-        
+
         m.add(new Real(1.0));
         m.add(new Real(2.2));
-        
+
         assertEquals(2, m.getDimension());
-        
+
         m.remove(1);
         assertEquals(1.0, m.getReal(0), 0.0);
         assertEquals(1, m.getDimension());
@@ -183,32 +183,32 @@ public class VectorTest {
     public void testAdd() {
         Vector m = new Vector();
         assertEquals(0, m.getDimension());
-        
+
         m.add(new Real(1.0));
         assertEquals(1, m.getDimension());
     }
-    
+
     @Test
     public void testGetReal() {
         Object tmp = vector.getReal(0);
         assertTrue(tmp instanceof Double);
     }
-    
+
     @Test
     public void testSetReal() {
         Vector m = new Vector();
         m.add(new Real(-10.0, 10.0));
         m.setReal(0, 10.0);
-        
+
         assertEquals(10.0, m.getReal(0), 0.0);
     }
-    
+
     @Test
     public void testGetInt() {
         Object tmp = vector.getInt(0);
         assertTrue(tmp instanceof Integer);
     }
-    
+
     @Test
     public void testSetInt() {
         Vector m = new Vector();
@@ -216,31 +216,31 @@ public class VectorTest {
         assertEquals(2, m.getInt(0));
         m.setInt(0, 5);
         assertEquals(5, m.getInt(0));
-        
+
         m.add(new Real(-99.99));
         m.setInt(1, 1);
         assertEquals(1, m.getInt(1));
-        
+
         m.add(new Bit());
         m.setBit(2, true);
         assertTrue(m.getBit(2));
     }
-    
+
     @Test
     public void testGetBit() {
         Object tmp = vector.getBit(0);
         assertTrue(tmp instanceof Boolean);
     }
-    
+
     @Test
     public void testSetBit() {
         Vector m = new Vector();
         m.add(new Bit());
         m.setBit(0, false);
-        
-        assertFalse(m.getBit(0));        
+
+        assertFalse(m.getBit(0));
     }
-    
+
     @Test
     public void randomize() {
         Vector target = new Vector();
@@ -253,20 +253,20 @@ public class VectorTest {
         assertFalse(target.getReal(1) == 2.0);
         assertFalse(target.getReal(2) == 3.0);
     }
-    
+
     @Test
     public void testVectorNorm() {
         Vector m = new Vector();
-        
+
         m.add(new Real(1.0));
         m.add(new Real(1.0));
         m.add(new Real(1.0));
         m.add(new Real(1.0));
         m.add(new Real(1.0));
         assertEquals(sqrt(5.0), m.norm(), 0.0);
-        
+
         m.clear();
-        
+
         m.add(new Real(2.0));
         m.add(new Real(-2.0));
         m.add(new Real(2.0));
@@ -275,22 +275,22 @@ public class VectorTest {
         m.add(new Real(-2.0));
         assertEquals(sqrt(24.0), m.norm(), 0.0);
     }
-    
+
     @Test
     public void testVectorDotProduct() {
         Vector v1 = new Vector();
         Vector v2 = new Vector();
-        
+
         v1.add(new Real(1.0));
         v1.add(new Real(2.0));
         v1.add(new Real(3.0));
-        
+
         v2.add(new Real(3.0));
         v2.add(new Real(2.0));
         v2.add(new Real(1.0));
-        
+
         assertEquals(10.0, v1.dot(v2), 0.0);
-        
+
         v2.setReal(0, -3.0);
         assertEquals(4.0, v1.dot(v2), 0.0);
     }
@@ -331,7 +331,7 @@ public class VectorTest {
 
         v1.cross(v2);
     }
-    
+
     @Test(expected = ArithmeticException.class)
     public void invalidVectorLengthCrossPorduct() {
         Vector v1 = new Vector();
@@ -345,7 +345,7 @@ public class VectorTest {
 
         v1.cross(v2);
     }
-        
+
     @Test(expected = UnsupportedOperationException.class)
     public void invalidVectorAddition() {
         Vector a = new Vector();
@@ -368,7 +368,7 @@ public class VectorTest {
             a.append(new Real(i));
         for(int i = 0; i < 9; i++)
             b.prepend(new Real(i));
-        
+
         b.prepend(new Real(9));
         Vector sum = a.plus(b);
 
@@ -387,7 +387,7 @@ public class VectorTest {
             assertEquals(sum.getReal(i), 9.0, 0.0);
         }
     }
-    
+
     @Test(expected = UnsupportedOperationException.class)
     public void invalidVectorsubtraction() {
         Vector a = new Vector();
@@ -434,8 +434,8 @@ public class VectorTest {
             assertEquals(difference.getReal(i), (i - (9.0 - i)), 0.0);
         }
     }
-    
-    @Test(expected = ArithmeticException.class) 
+
+    @Test(expected = ArithmeticException.class)
     public void vectorDivisionByScalarZero() {
         Vector a = new Vector();
 
@@ -467,7 +467,7 @@ public class VectorTest {
             assertEquals(divided.getReal(i), (i / 3.0), 0.000000001);
         }
     }
-    
+
     @Test
     public void testScalarMultiplication() {
         Vector a = new Vector();
@@ -490,18 +490,18 @@ public class VectorTest {
             assertEquals(product.getReal(i), (i * 3.0), 0.0);
         }
     }
-    
+
     @Test
     public void equals() {
         Vector a = new Vector();
         Vector b = new Vector();
-        
+
         a.add(new Real(1.0));
         a.add(new Real(2.0));
-        
+
         b.add(new Real(1.0));
         b.add(new Real(2.0));
-        
+
         assertFalse(a.equals(null));
         assertTrue(b.equals(b));
         assertTrue(a.equals(a));

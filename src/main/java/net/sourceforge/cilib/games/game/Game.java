@@ -47,7 +47,7 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class Game<E extends GameState> implements Cloneable {
     private static final long serialVersionUID = -4258915435750291244L;
-    
+
     //The current state of the game
     private E currentState;
     //an array of game players
@@ -64,14 +64,14 @@ public abstract class Game<E extends GameState> implements Cloneable {
      * Default constructor
      */
     public Game() {
-        
+
         players = new ArrayList<Agent>();
         currentPlayer = 1;
         //gameOver = false;
         scoringStrategy = new WinLoseDrawValueScoringStrategy();
         agentMeasurement = new ArrayList<AgentMeasure>();
     }
-    
+
     /**
      * Copy constructor
      * @param other the other game object
@@ -93,7 +93,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
             agentMeasurement.add(measure.getClone());
         }
     }
-    
+
     /**
      * Copy constructor, copy the given {@linkplain Game} object but use the given {@linkplain GameState} obect.
      * @param other the other game object
@@ -110,7 +110,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         scoringStrategy = other.scoringStrategy;
         agentMeasurement = other.agentMeasurement;
     }
-    
+
     /**
      * Returns the state of the game that the agent needs to make a decision. This implies that
      * the state the agent receives isn't necceseraly the entire game state as it is
@@ -128,7 +128,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
     public E getCurrentState(){
         return currentState;
     }
-    
+
     /**
      * Set the current state of the game
      * @param state the new game state
@@ -154,7 +154,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
     public void setAgent(Agent player){
         if(player.getPlayerID() == 0)
             player.setPlayerID(players.size() + 1);
-        
+
         players.add(player);
     }
     /**
@@ -164,7 +164,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
      */
     public void setAgent(Agent player, int playerID){
         player.setPlayerID(playerID);
-        
+
         boolean found = false;
         for(int i = 0; i < players.size(); ++i){
             if(players.get(i).getPlayerID() == playerID){
@@ -177,7 +177,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
             players.add(player);
         }
     }
-    
+
     /**
      * This method is used to get the specific domain for an agents solution vector
      * @param playerID the id of the player
@@ -191,7 +191,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         }
         throw new RuntimeException("invalid playerid specified");
     }
-    
+
     /**
      * Assign a score to a player
      * @param playerID the id of the player
@@ -206,7 +206,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         }
         throw new RuntimeException("invalid playerid specified");
     }
-    
+
     /**
      * return the fitness of the agent
      * @param playerID the id of the player
@@ -220,7 +220,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         }
         throw new RuntimeException("invalid playerid specified");
     }
-    
+
     /**
      * get the number of players
      * @return number of players
@@ -228,7 +228,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
     public int getPlayerCount(){
         return players.size();
     }
-    
+
     /**
      * This method initializes an agent with entity data.
      * @param playerID the id of the player
@@ -243,8 +243,8 @@ public abstract class Game<E extends GameState> implements Cloneable {
         }
         throw new RuntimeException("invalid playerid specified");
     }
-    
-    
+
+
     /**
      * Re-arrange the players in the player vector to put a new agent first
      * @param startPlayer the id of the lpayer to go first
@@ -260,12 +260,12 @@ public abstract class Game<E extends GameState> implements Cloneable {
                 break;
             }
         }
-        
+
         if(startNo != 0){
             Agent newStart = players.get(startNo).getClone();
             players.remove(startNo);
             players.add(0, newStart);
-        }        
+        }
     }
     public Agent getPlayer(int playerID){
         for(Agent p : players){
@@ -276,7 +276,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         throw new RuntimeException("invalid playerid specified");
     }
     /**
-     * This method returns the playerID who would play directly after the playerID that is given to the method. 
+     * This method returns the playerID who would play directly after the playerID that is given to the method.
      * This is not necceseraly in numeric order, since players take turns going first
      * @param playerID the playerID that preceeds the playerID to be returned
      * @return the player who's turn it is next
@@ -309,7 +309,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         }
         return IDs;
     }
-    
+
     /**
      * Measure features of the current state of the game, with the list of measurements supplied.
      *
@@ -328,7 +328,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         agentMeasurement.clear();
     }
     /**
-     * Clear all the measured data while keeping all the {@linkplain}AgentMeasure 
+     * Clear all the measured data while keeping all the {@linkplain}AgentMeasure
      *
      */
     public void clearMeasurementData(){
@@ -360,29 +360,29 @@ public abstract class Game<E extends GameState> implements Cloneable {
         measureData();
         if(display)
             display();
-        
+
         while(!gameOver)
-        {        
+        {
             if(this instanceof RealTimeGame)
                 ((RealTimeGame)this).recordRoundStartState();
-            for(Agent p : players){    
+            for(Agent p : players){
                 currentPlayer = p.getPlayerID();
-                p.move((Game<GameState>)this);                
+                p.move((Game<GameState>)this);
                 if(!(this instanceof RealTimeGame)){
                     if(display)
                         display();
                     if(gameOver()){
                         gameOver = true;
-                        break;            
+                        break;
                     }
-                }                
-            }            
+                }
+            }
             if(!gameOver && (this instanceof UpdateGame)){
-                ((UpdateGame)this).Update();                
-            }            
+                ((UpdateGame)this).Update();
+            }
             if(display && this instanceof RealTimeGame)
                 display();
-            currentState.increaseIteration();    
+            currentState.increaseIteration();
             if(this instanceof RealTimeGame)
                 gameOver = gameOver();
             measureData();
@@ -391,8 +391,8 @@ public abstract class Game<E extends GameState> implements Cloneable {
     }
     public void playGame(){
         playGame(false);
-    }    
-    
+    }
+
     /**
      * Store the result and fitness for a specific player in the entityscore object
      * @param playerID the id of the agent
@@ -413,31 +413,31 @@ public abstract class Game<E extends GameState> implements Cloneable {
             score.win(getPlayerScore(playerID));
         }
     }
-    
+
     /**
      * perform any game specific initialization
      */
     public abstract void initializeGame();
-    
+
     /**
      * check if the game should terminate
      * @return the endgame flag
      */
     public abstract boolean gameOver();
-    
+
     /**
-     * Get the result of the game (Win/Lose/Draw) 
+     * Get the result of the game (Win/Lose/Draw)
      * @return the relevant {@linkplain}AbstractGameResult object
       */
     public abstract AbstractGameResult getGameResult();
-    
+
     /**
      * {@inheritDoc}
      */
-    public abstract Game<E> getClone();        
-    
+    public abstract Game<E> getClone();
+
     /**
-     * Make a clone of this Game object but only do a deep copy on that which is neccesary, this would typically exlude game player logic. 
+     * Make a clone of this Game object but only do a deep copy on that which is neccesary, this would typically exlude game player logic.
      * This method is typically used by the {@linkplain}StateTraversalStrategy and {@linkplain}Agent with regards to decision making when playing
      * the game. Since this process includes making alot of copies of the game a seperate, faster method is neccesary that does not waste time by
      * making unneccesary copies of the object. This method uses the copy constructor for the Game class and passes true to the quickCopy flag
@@ -454,10 +454,10 @@ public abstract class Game<E extends GameState> implements Cloneable {
      * @return the copy
      */
     public abstract Game<E> getClone(E newState);
-    
-    
+
+
     /**
-     * Print the game to the console, is useful during testing.     
+     * Print the game to the console, is useful during testing.
      */
     public abstract void display();
     /**
@@ -487,7 +487,7 @@ public abstract class Game<E extends GameState> implements Cloneable {
         return scoringStrategy;
     }
     /**
-     * Set the seeding strategy of the game, this will determine how many and when unique games are played. The {@linkplain GameSeedingStrategy} is 
+     * Set the seeding strategy of the game, this will determine how many and when unique games are played. The {@linkplain GameSeedingStrategy} is
      * in the {@linkplain GameState}
      * @param seedStrategy
      */

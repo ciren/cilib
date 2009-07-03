@@ -46,7 +46,7 @@ public class GameLearningOptimizationProblem extends
 
 	}
 
-	/** 
+	/**
 	 * Copy constructor
 	 * @param copy
 	 */
@@ -87,7 +87,7 @@ public class GameLearningOptimizationProblem extends
 	 */
 	public void playGame(int currentPlayerID, EntityScore currentScore){
 		//currentScore.getRound(); //check if this is a new round of competitions. If so, reset the seed?!?!
-		int[] playerList = game.getPlayerIDList(currentPlayerID);		
+		int[] playerList = game.getPlayerIDList(currentPlayerID);
 		game.setStartPlayer(currentPlayerID);
 		int amPlayers = game.getPlayerCount();
 		boolean turnBasedGame = !(game instanceof RealTimeGame);
@@ -99,7 +99,7 @@ public class GameLearningOptimizationProblem extends
 			}
 			game.clearMeasurementData(); //Not too confident about this, what if you want to measure across multiple games
 			game.playGame();
-			game.setEntityScore(currentPlayerID, currentScore);	
+			game.setEntityScore(currentPlayerID, currentScore);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class GameLearningOptimizationProblem extends
 		//one fixed set of competitors
 		if(!(solution instanceof Blackboard))
 			throw new RuntimeException("Please use the PropertyBasedFitnessCalculator with the entity optimizing the game, current type is: " + solution.getClass().getSimpleName());
-		
+
 		//for each game, add the score {win/lose/tie : score} to a scoreboard. then use the scoring strategy to assign a score to the player
 		EntityScore score = new EntityScore(1,1); //in the case of optimizing against static opponents the opponent id is not so important, or is it?!?
 		// initialize the first player, which is the one being optimized, to the contents of solution
@@ -121,7 +121,7 @@ public class GameLearningOptimizationProblem extends
 		playGame(1, score);
 		EntityScoreboard board = new EntityScoreboard();//(EntityScoreboard)((Blackboard<Enum<?>, Type>)solution).get(EntityType.Coevolution.BOARD);
 		board.mergeEntityScore(score);
-		//need to store the entityscoreboard and current competition round in blackboard. should I put them in the blackboard here, or somewhere else? 
+		//need to store the entityscoreboard and current competition round in blackboard. should I put them in the blackboard here, or somewhere else?
 		return fitnessCalculation.calculateFitnessFromScoreBoard(board, 1);
 	}
 
