@@ -19,42 +19,47 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.particle.initialisation;
+package net.sourceforge.cilib.entity.initialization;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
+ * @param <E>
  * @author Andries Engelbrecht
  */
-public class RandomBoundedInitialVelocityStrategy implements
-        VelocityInitialisationStrategy {
+public class RandomBoundedInitializationStrategy<E extends Entity> implements
+        InitializationStrategy<E> {
     private static final long serialVersionUID = -7926839076670354209L;
     private ControlParameter lowerBound;
     private ControlParameter upperBound;
     private RandomNumber random1;
 
-    public RandomBoundedInitialVelocityStrategy() {
+    public RandomBoundedInitializationStrategy() {
         this.lowerBound = new ConstantControlParameter(0.1);
         this.upperBound = new ConstantControlParameter(0.1);
         this.random1 = new RandomNumber();
     }
 
-    public RandomBoundedInitialVelocityStrategy(RandomBoundedInitialVelocityStrategy copy) {
+    public RandomBoundedInitializationStrategy(RandomBoundedInitializationStrategy copy) {
         this.lowerBound = copy.lowerBound;
         this.upperBound = copy.upperBound;
         this.random1 = copy.random1;
     }
 
-    public RandomBoundedInitialVelocityStrategy getClone() {
-        return new RandomBoundedInitialVelocityStrategy(this);
+    @Override
+    public RandomBoundedInitializationStrategy getClone() {
+        return new RandomBoundedInitializationStrategy(this);
     }
 
-    public void initialise(Particle particle) {
+    @Override
+    public void initialize(Enum<?> key, E entity) {
+        Particle particle = (Particle) entity;
         Vector velocity = (Vector) particle.getVelocity();
         for (int i = 0; i < velocity.getDimension(); i++)
            velocity.setReal(i, random1.getUniform(lowerBound.getParameter(), upperBound.getParameter()));

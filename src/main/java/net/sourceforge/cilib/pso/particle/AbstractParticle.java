@@ -25,11 +25,11 @@ import net.sourceforge.cilib.pso.positionupdatestrategies.StandardPersonalBestUp
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.particle.initialisation.PositionInitialisationStrategy;
 import net.sourceforge.cilib.pso.particle.initialisation.RandomizedPositionInitialisationStrategy;
-import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
-import net.sourceforge.cilib.pso.particle.initialisation.ZeroInitialVelocityStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
@@ -51,7 +51,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
     protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
-    protected VelocityInitialisationStrategy velocityInitialisationStrategy;
+    protected InitializationStrategy velocityInitializationStrategy;
     // TODO: Factor this out into a Particle intialisation strategy.... keep in mind the heterogeneous swarm thingy
     protected PositionInitialisationStrategy positionInitialisationStrategy;
     // protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
@@ -69,7 +69,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         velocityUpdateStrategy = new StandardVelocityUpdate();
 
         positionInitialisationStrategy = new RandomizedPositionInitialisationStrategy();
-        velocityInitialisationStrategy = new ZeroInitialVelocityStrategy();
+        velocityInitializationStrategy = new ConstantInitializationStrategy(0.0);
 
         personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
     }
@@ -84,7 +84,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         this.positionUpdateStrategy = copy.getPositionUpdateStrategy().getClone();
         this.velocityUpdateStrategy = copy.velocityUpdateStrategy.getClone();
         this.positionInitialisationStrategy = copy.positionInitialisationStrategy.getClone();
-        this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
+        this.velocityInitializationStrategy = copy.velocityInitializationStrategy.getClone();
         this.personalBestUpdateStrategy = copy.personalBestUpdateStrategy.getClone();
         this.neighbourhoodBestUpdateStrategy = copy.neighbourhoodBestUpdateStrategy;
     }
@@ -240,22 +240,21 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
     }
 
     /**
-     * Get the {@linkplain VelocityInitialisationStrategy}.
-     * @return The current {@linkplain VelocityInitialisationStrategy}.
+     * Get the {@link net.sourceforge.cilib.entity.initialization.InitializationStrategy}.
+     * @return The current {@link net.sourceforge.cilib.entity.initialization.InitializationStrategy}.
      */
     @Override
-    public VelocityInitialisationStrategy getVelocityInitialisationStrategy() {
-        return velocityInitialisationStrategy;
+    public InitializationStrategy getVelocityInitializationStrategy() {
+        return velocityInitializationStrategy;
     }
 
     /**
-     * Set the velocityInitialisationStrategy.
-     * @param velocityInitialisationStrategy The value to set.
+     * Set the velocityInitializationStrategy.
+     * @param initializationStrategy The value to set.
      */
     @Override
-    public void setVelocityInitialisationStrategy(
-            VelocityInitialisationStrategy velocityInitialisationStrategy) {
-        this.velocityInitialisationStrategy = velocityInitialisationStrategy;
+    public void setVelocityInitializationStrategy(InitializationStrategy initializationStrategy) {
+        this.velocityInitializationStrategy = initializationStrategy;
     }
 
     /**

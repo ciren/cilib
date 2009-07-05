@@ -12,7 +12,7 @@
       <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
         <entityNumber value="10"/>
         <entityType class="pso.particle.StandardParticle">
-          <velocityInitialisationStrategy class="pso.particle.initialisation.RandomInitialVelocityStrategy"/>
+          <velocityInitializationStrategy class="entity.initialization.RandomInitializationStrategy"/>
           <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
             <vMax class="controlparameter.ConstantControlParameter" parameter="0.07"/>
           </velocityUpdateStrategy>
@@ -24,7 +24,7 @@
       <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
         <entityNumber value="20"/>
         <entityType class="pso.particle.StandardParticle">
-          <velocityInitialisationStrategy class="pso.particle.initialisation.RandomInitialVelocityStrategy"/>
+          <velocityInitializationStrategy class="entity.initialization.RandomInitializationStrategy"/>
         </entityType>
       </initialisationStrategy>
     </algorithm>

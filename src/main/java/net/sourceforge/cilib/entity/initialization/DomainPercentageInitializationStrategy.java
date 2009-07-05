@@ -19,38 +19,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.particle.initialisation;
+package net.sourceforge.cilib.entity.initialization;
 
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * TODO: this class should be refactored to use the RandomInitialVelocityStrategy or to be a compound
  * operation where the velocity is first randomised and then scaled by a percentage.
+ * @param <E> The entity type.
  */
-public class DomainPercentageVelocityInitialisationStrategy implements
-    VelocityInitialisationStrategy {
+public class DomainPercentageInitializationStrategy<E extends Entity> implements
+    InitializationStrategy<E> {
 
     private static final long serialVersionUID = -7178323673738508287L;
-    private VelocityInitialisationStrategy velocityInitialisationStrategy;
+    private InitializationStrategy velocityInitialisationStrategy;
     private double percentage;
 
-    public DomainPercentageVelocityInitialisationStrategy() {
-        this.velocityInitialisationStrategy = new RandomInitialVelocityStrategy();
+    public DomainPercentageInitializationStrategy() {
+        this.velocityInitialisationStrategy = new RandomInitializationStrategy();
         this.percentage = 0.1;
     }
 
-    public DomainPercentageVelocityInitialisationStrategy(DomainPercentageVelocityInitialisationStrategy copy) {
+    public DomainPercentageInitializationStrategy(DomainPercentageInitializationStrategy copy) {
         this.velocityInitialisationStrategy = copy.velocityInitialisationStrategy.getClone();
         this.percentage = copy.percentage;
     }
 
-    public DomainPercentageVelocityInitialisationStrategy getClone() {
-        return new DomainPercentageVelocityInitialisationStrategy(this);
+    @Override
+    public DomainPercentageInitializationStrategy getClone() {
+        return new DomainPercentageInitializationStrategy(this);
     }
 
-    public void initialise(Particle particle) {
-        velocityInitialisationStrategy.initialise(particle);
+    @Override
+    public void initialize(Enum<?> key, E entity) {
+        Particle particle = (Particle) entity;
+        velocityInitialisationStrategy.initialize(EntityType.Particle.VELOCITY, particle);
 
         Vector velocity = (Vector) particle.getVelocity();
         for (int i = 0; i < velocity.getDimension(); ++i) {

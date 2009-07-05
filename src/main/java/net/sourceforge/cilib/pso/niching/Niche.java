@@ -29,11 +29,11 @@ import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.pso.particle.initialisation.ZeroInitialVelocityStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -52,7 +52,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm = new PSO();
 
         Particle mainSwarmParticle = new StandardParticle();
-        mainSwarmParticle.setVelocityInitialisationStrategy(new ZeroInitialVelocityStrategy());
+        mainSwarmParticle.setVelocityInitializationStrategy(new ConstantInitializationStrategy(0.0));
         StandardVelocityUpdate velocityUpdateStrategy = new StandardVelocityUpdate();
         velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
 

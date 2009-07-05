@@ -26,7 +26,6 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -140,7 +139,7 @@ public class StandardParticle extends AbstractParticle {
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
-        velocityInitialisationStrategy.initialise(this);
+        velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
 
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
         this.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
@@ -194,29 +193,8 @@ public class StandardParticle extends AbstractParticle {
     /**
      * {@inheritDoc}
      */
-    public void setDimension(int dim) {
-        // TODO Auto-generated method stub
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Type getBehaviouralParameters() {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void setBehaviouralParameters(Type type) {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void reinitialise() {
-        this.velocityInitialisationStrategy.initialise(this);
+        this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
     }
 }

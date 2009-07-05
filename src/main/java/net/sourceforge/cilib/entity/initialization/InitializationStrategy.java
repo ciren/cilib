@@ -19,30 +19,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.particle.initialisation;
 
-import java.io.Serializable;
+package net.sourceforge.cilib.entity.initialization;
 
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Interface defining the valid tasks available for velocity intialisation.
  *
- * @author Gary Pampara
  */
-public interface VelocityInitialisationStrategy extends Cloneable, Serializable {
+public interface InitializationStrategy<E> extends Cloneable {
 
-    /**
-     * Clone the VeclocityInitialisationStrategy.
-     * @return A copy of the VelocityInitialisationStrategy.
-     */
-    public VelocityInitialisationStrategy getClone();
+    @Override
+    public InitializationStrategy getClone();
 
-    /**
-     * Initialise the Particle velocity.
-     * @param particle The velocity vector of the particle to initialise.
-     */
-    public void initialise(Particle particle);
+    public void initialize(Enum<?> key, E entity);
 
 }

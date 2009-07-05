@@ -19,35 +19,48 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.particle.initialisation;
+package net.sourceforge.cilib.entity.initialization;
 
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @author Gary Pampara
+ * @param <E> 
  */
-public class ZeroInitialVelocityStrategy implements
-        VelocityInitialisationStrategy {
-    private static final long serialVersionUID = 7339106246533286485L;
+public class ConstantInitializationStrategy<E extends Entity> implements InitializationStrategy<E> {
+    private static final long serialVersionUID = 4198258321374130337L;
 
-    public ZeroInitialVelocityStrategy() {
+    private double constant;
 
+    public ConstantInitializationStrategy() {
+        this.constant = 0.0;
     }
 
-    public ZeroInitialVelocityStrategy(ZeroInitialVelocityStrategy copy) {
-
+    public ConstantInitializationStrategy(double value) {
+        this.constant = value;
     }
 
-    public ZeroInitialVelocityStrategy getClone() {
-        return new ZeroInitialVelocityStrategy(this);
+    @Override
+    public ConstantInitializationStrategy getClone() {
+        return this;
     }
 
-    public void initialise(Particle particle) {
-        Vector velocity = (Vector) particle.getVelocity();
+    @Override
+    public void initialize(Enum<?> key, E entity) {
+        Vector vector = (Vector) entity.getProperties().get(key);
 
-        velocity.reset();
+        for (int i = 0; i < vector.size(); i++) {
+            vector.setReal(i, constant);
+        }
+    }
+
+    public double getConstant() {
+        return constant;
+    }
+
+    public void setConstant(double constant) {
+        this.constant = constant;
     }
 
 }

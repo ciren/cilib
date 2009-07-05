@@ -21,9 +21,10 @@
  */
 package net.sourceforge.cilib.entity;
 
+import net.sourceforge.cilib.controlparameter.ControlParameter;
+import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.pso.particle.initialisation.VelocityInitialisationStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
@@ -37,6 +38,7 @@ public interface Particle extends Entity, SocialEntity {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Particle getClone();
 
     /**
@@ -117,13 +119,13 @@ public interface Particle extends Entity, SocialEntity {
      * Get the strategy for the intialisation of the velocity.
      * @return The {@linkplain VelocityInitialisationStrategy} that is currently set.
      */
-    public VelocityInitialisationStrategy getVelocityInitialisationStrategy();
+    public InitializationStrategy getVelocityInitializationStrategy();
 
     /**
      * Set the initialisation strategy for the {@linkplain Particle}s velocity.
      * @param velocityInitialisationStrategy The velocity initialisation strategy to set.
      */
-    public void setVelocityInitialisationStrategy(VelocityInitialisationStrategy velocityInitialisationStrategy);
+    public void setVelocityInitializationStrategy(InitializationStrategy velocityInitialisationStrategy);
 
     /**
      * Get the current {@linkplain PositionUpdateStrategy} of the {@linkplain Particle}.
