@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2003 - 2008
+/**
+ * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
  * University of Pretoria
@@ -36,6 +36,7 @@ import net.sourceforge.cilib.entity.operators.selection.TournamentSelectionStrat
  *
  */
 public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationStrategy<EC> {
+    private static final long serialVersionUID = 4966470754016818350L;
 
     private MutationStrategy mutationStrategy;
     private SelectionStrategy selectionStrategy;
@@ -68,8 +69,8 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
 
         topology.addAll(offspring);
 
-        List<Individual> newPopulation = new ArrayList<Individual>(algorithm.getPopulationSize());
-        for (int i = 0; i < algorithm.getPopulationSize(); i++) {
+        List<Individual> newPopulation = new ArrayList<Individual>(algorithm.getInitialisationStrategy().getEntityNumber());
+        for (int i = 0; i < algorithm.getInitialisationStrategy().getEntityNumber(); i++) {
             Individual individual = this.selectionStrategy.select(topology);
             newPopulation.add(individual);
         }

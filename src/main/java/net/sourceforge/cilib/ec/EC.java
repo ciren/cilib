@@ -74,6 +74,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     /**
      * {@inheritDoc}
      */
+    @Override
     public EC getClone() {
         return new EC(this);
     }
@@ -98,7 +99,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         this.topology.clearBestEntity();
 
         for (Entity entity : this.getTopology()) {
-            //entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
             entity.calculateFitness();
         }
 
@@ -141,6 +141,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     /**
      * {@inheritDoc}
      */
+    @Override
     public OptimisationSolution getBestSolution() {
         Entity bestEntity = topology.getBestEntity();
         OptimisationSolution solution = new OptimisationSolution(bestEntity.getCandidateSolution().getClone(), bestEntity.getFitness());
