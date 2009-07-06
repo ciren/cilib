@@ -27,9 +27,8 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.problem.Fitness;
-import net.sourceforge.cilib.pso.particle.initialisation.PositionInitialisationStrategy;
-import net.sourceforge.cilib.pso.particle.initialisation.RandomizedPositionInitialisationStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.MemoryNeighbourhoodBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PersonalBestUpdateStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.NeighbourhoodBestUpdateStrategy;
@@ -51,10 +50,9 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
 
     protected PositionUpdateStrategy positionUpdateStrategy;
     protected VelocityUpdateStrategy velocityUpdateStrategy;
-    protected InitializationStrategy velocityInitializationStrategy;
-    // TODO: Factor this out into a Particle intialisation strategy.... keep in mind the heterogeneous swarm thingy
-    protected PositionInitialisationStrategy positionInitialisationStrategy;
-    // protected PersonalBestInitialisationStrategy personalBestInitialisationStrategy;
+    protected InitializationStrategy<Particle> velocityInitializationStrategy;
+    protected InitializationStrategy<Particle> positionInitialisationStrategy;
+    protected InitializationStrategy<Particle> personalBestInitialisationStrategy;
     protected PersonalBestUpdateStrategy personalBestUpdateStrategy;
     protected NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy;
 
@@ -68,8 +66,8 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
         positionUpdateStrategy = new StandardPositionUpdateStrategy();
         velocityUpdateStrategy = new StandardVelocityUpdate();
 
-        positionInitialisationStrategy = new RandomizedPositionInitialisationStrategy();
-        velocityInitializationStrategy = new ConstantInitializationStrategy(0.0);
+        velocityInitializationStrategy = new ConstantInitializationStrategy<Particle>(0.0);
+        positionInitialisationStrategy = new RandomInitializationStrategy<Particle>();
 
         personalBestUpdateStrategy = new StandardPersonalBestUpdateStrategy();
     }
@@ -261,7 +259,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Get the current {@linkplain PositionInitialisationStrategy}.
      * @return The current {@linkplain PositionInitialisationStrategy}.
      */
-    public PositionInitialisationStrategy getPositionInitialisationStrategy() {
+    public InitializationStrategy<Particle> getPositionInitialisationStrategy() {
         return positionInitialisationStrategy;
     }
 
@@ -269,7 +267,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * Set the {@linkplain PositionInitialisationStrategy} to be used.
      * @param positionInitialisationStrategy The value to set.
      */
-    public void setPositionInitialisationStrategy(PositionInitialisationStrategy positionInitialisationStrategy) {
+    public void setPositionInitialisationStrategy(InitializationStrategy positionInitialisationStrategy) {
         this.positionInitialisationStrategy = positionInitialisationStrategy;
     }
 

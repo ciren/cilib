@@ -23,7 +23,7 @@ package net.sourceforge.cilib.entity.initialization;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -55,12 +55,12 @@ public class DomainPercentageInitializationStrategy<E extends Entity> implements
 
     @Override
     public void initialize(Enum<?> key, E entity) {
-        Particle particle = (Particle) entity;
-        velocityInitialisationStrategy.initialize(EntityType.Particle.VELOCITY, particle);
+        this.velocityInitialisationStrategy.initialize(EntityType.Particle.VELOCITY, entity);
+        Type type = entity.getProperties().get(key);
+        Vector vector = (Vector) type;
 
-        Vector velocity = (Vector) particle.getVelocity();
-        for (int i = 0; i < velocity.getDimension(); ++i) {
-            velocity.setReal(i, velocity.getReal(i) * percentage);
+        for (int i = 0; i < vector.getDimension(); ++i) {
+            vector.setReal(i, vector.getReal(i) * percentage);
         }
     }
 
@@ -71,4 +71,13 @@ public class DomainPercentageInitializationStrategy<E extends Entity> implements
     public void setPercentage(double percentage) {
         this.percentage = percentage;
     }
+
+    public InitializationStrategy getVelocityInitialisationStrategy() {
+        return velocityInitialisationStrategy;
+    }
+
+    public void setVelocityInitialisationStrategy(InitializationStrategy velocityInitialisationStrategy) {
+        this.velocityInitialisationStrategy = velocityInitialisationStrategy;
+    }
+
 }

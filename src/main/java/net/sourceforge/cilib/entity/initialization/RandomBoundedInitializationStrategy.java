@@ -24,13 +24,13 @@ package net.sourceforge.cilib.entity.initialization;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @param <E>
+ * @param <E> The entity type.
  * @author Andries Engelbrecht
  */
 public class RandomBoundedInitializationStrategy<E extends Entity> implements
@@ -38,18 +38,18 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
     private static final long serialVersionUID = -7926839076670354209L;
     private ControlParameter lowerBound;
     private ControlParameter upperBound;
-    private RandomNumber random1;
+    private RandomNumber random;
 
     public RandomBoundedInitializationStrategy() {
         this.lowerBound = new ConstantControlParameter(0.1);
         this.upperBound = new ConstantControlParameter(0.1);
-        this.random1 = new RandomNumber();
+        this.random = new RandomNumber();
     }
 
     public RandomBoundedInitializationStrategy(RandomBoundedInitializationStrategy copy) {
         this.lowerBound = copy.lowerBound;
         this.upperBound = copy.upperBound;
-        this.random1 = copy.random1;
+        this.random = copy.random;
     }
 
     @Override
@@ -59,10 +59,11 @@ public class RandomBoundedInitializationStrategy<E extends Entity> implements
 
     @Override
     public void initialize(Enum<?> key, E entity) {
-        Particle particle = (Particle) entity;
-        Vector velocity = (Vector) particle.getVelocity();
+        Type type = entity.getProperties().get(key);
+        Vector velocity = (Vector) type;
+
         for (int i = 0; i < velocity.getDimension(); i++)
-           velocity.setReal(i, random1.getUniform(lowerBound.getParameter(), upperBound.getParameter()));
+            velocity.setReal(i, random.getUniform(lowerBound.getParameter(), upperBound.getParameter()));
     }
 
     public ControlParameter getLowerBound() {

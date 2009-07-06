@@ -29,7 +29,7 @@ import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
- * @param <E> 
+ * @param <E>
  */
 public class RandomInitializationStrategy<E extends Entity> implements InitializationStrategy<E> {
     private static final long serialVersionUID = 5630272366805104400L;
@@ -40,9 +40,13 @@ public class RandomInitializationStrategy<E extends Entity> implements Initializ
         this.random = new MersenneTwister();
     }
 
+    public RandomInitializationStrategy(RandomInitializationStrategy copy) {
+        this.random = copy.random.getClone();
+    }
+
     @Override
     public RandomInitializationStrategy getClone() {
-        return this;
+        return new RandomInitializationStrategy(this);
     }
 
     @Override

@@ -94,7 +94,7 @@ ISSN={1089-778X}, }
  * calculate the constriction coefficient, namely:
  * $c1r1 + c2r2 \leq 4$ , and
  * $\kappa \in [0, 1]$
- * 
+ *
  * @author andrich
  */
 public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {

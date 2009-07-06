@@ -22,11 +22,12 @@
 package net.sourceforge.cilib.entity.initialization;
 
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
- * @param <E> 
+ * @param <E>
  */
 public class ConstantInitializationStrategy<E extends Entity> implements InitializationStrategy<E> {
     private static final long serialVersionUID = 4198258321374130337L;
@@ -41,18 +42,29 @@ public class ConstantInitializationStrategy<E extends Entity> implements Initial
         this.constant = value;
     }
 
+    public ConstantInitializationStrategy(ConstantInitializationStrategy copy) {
+        this.constant = copy.constant;
+    }
+
     @Override
     public ConstantInitializationStrategy getClone() {
-        return this;
+        return new ConstantInitializationStrategy(this);
     }
 
     @Override
     public void initialize(Enum<?> key, E entity) {
-        Vector vector = (Vector) entity.getProperties().get(key);
+        Type type = entity.getProperties().get(key);
+        if (type instanceof Vector) {
+            Vector vector = (Vector) type;
 
-        for (int i = 0; i < vector.size(); i++) {
-            vector.setReal(i, constant);
+            for (int i = 0; i < vector.size(); i++) {
+                vector.setReal(i, constant);
+            }
+
+            return;
         }
+
+        throw new UnsupportedOperationException("Cannot perfrom initialization on a non Vector type.");
     }
 
     public double getConstant() {

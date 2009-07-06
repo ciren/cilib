@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.math.random.generator.Random;
 
 
