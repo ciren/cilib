@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -21,29 +21,69 @@
  */
 package net.sourceforge.cilib.pso.dynamic.detectionstrategies;
 
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
 /**
  * @author Anna Rakitianskaia
- * @deprecated rather use {@link RandomSentriesDetectionStrategy}
  */
-public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
-    private static final long serialVersionUID = -7961604921868908664L;
+public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends
+        EnvironmentChangeDetectionStrategy<E> {
+    private static final long serialVersionUID = 6254159986113630555L;
 
     private int sentries;
     private double theta;
     private Random randomiser;
+    private int[] sentryIDs;
+    private boolean initialized = false;
+    ArrayList<Particle> sentryList;
 
     public RandomSentryDetectionStrategy() {
         sentries = 1;
         theta = 0.001;
         randomiser = new MersenneTwister();
+    }
+
+    public void Initialize(E algorithm){
+        sentryIDs = new int[sentries];
+        int populationSize = algorithm.getTopology().size();
+
+        //randomly select the sentries among the particles
+        for(int i=0; i<sentries; i++){
+            sentryIDs[i] = Math.abs(randomiser.nextInt()%populationSize);
+            for(int j=0;j<i;j++){//doesn't pick the same entity twice
+                if(sentryIDs[j]==sentryIDs[i]){
+                    --i;
+                    break;
+                }
+            }//for
+        }//for
+        Arrays.sort(sentryIDs);
+
+        Topology<? extends Entity> topology = algorithm.getTopology();
+        this.sentryList = new ArrayList<Particle>();
+        Iterator<? extends Entity> iterator = topology.iterator();
+
+        int sentryCounter = 0;
+        while (iterator.hasNext() && sentryCounter<sentries) {
+            DynamicParticle current = (DynamicParticle) iterator.next();
+            if(current.getId() == (new Integer(this.sentryIDs[sentryCounter]))){
+                sentryList.add(current);
+                ++sentryCounter;
+            }//if
+        }//while
+
+        this.initialized = true;
     }
 
     public RandomSentryDetectionStrategy(RandomSentryDetectionStrategy<E> copy) {
@@ -65,21 +105,14 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
      * @return true if any changes are detected, false otherwise
      */
     public boolean detect(E algorithm) {
-        Topology<? extends Entity> topology = algorithm.getTopology();
-
-        boolean envChangeOccured = false;
-        ArrayList<Entity> sentryList = new ArrayList<Entity>();
-        int populationSize = topology.size();
-
-        for (int i = 0; i < sentries; i++) {
-            int index = randomiser.nextInt(populationSize);
-            sentryList.add((Entity)topology.get(index));
+        if(initialized == false){
+            this.Initialize(algorithm);
         }
+        boolean envChangeOccured = false;
 
-        for (Entity nextSentry : sentryList) {
+        for (Particle nextSentry : sentryList) {
             double oldSentryFitness = nextSentry.getFitness().getValue();
-            nextSentry.calculateFitness(false);
-            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getCandidateSolution(), false).getValue();
+            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getPosition(), false).getValue();
 
             if(Math.abs(oldSentryFitness - newSentryFitness) >=  theta) {
                 envChangeOccured = true;
@@ -88,6 +121,8 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
         }
         return envChangeOccured;
     }
+
+
 
     /**
      * @return the randomiser

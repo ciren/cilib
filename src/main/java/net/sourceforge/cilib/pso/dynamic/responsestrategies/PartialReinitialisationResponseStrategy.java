@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -21,19 +21,21 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
+import java.util.Iterator;
+
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
-import net.sourceforge.cilib.type.types.container.StructuredType;
+import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
 /**
- * @author Anna Rakitianskaia
+ * @author Anna Rakitianskaia, Julien Duhain
  */
 public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAlgorithm> extends
-        ParticleReevaluationResponseStrategy<E>{
+        ParticleReevaluationResponseStrategy<E> {
     private static final long serialVersionUID = 4619744183683905269L;
 
     private double reinitialisationRatio;
@@ -57,34 +59,42 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
 
     /**
      * Respond to environment change by re-evaluating each particle's position, personal best and neighbourhood best,
-     * and reinitialising the positions of a specified percentage of particles.
+     * and reinitializing the positions of a specified percentage of particles.
      * @param algorithm PSO algorithm that has to respond to environment change
      */
     @Override
-    public void performReaction(E algorithm) {
-        // Reset positions:
+    public void respond(E algorithm) {
+
         Topology<? extends Entity> topology = algorithm.getTopology();
-        int populationSize = topology.size();
-        boolean [] used = new boolean[populationSize];
-        for (int i = 0; i < populationSize; ++i) used[i] = false;
-        int numParticlesToReinitialise = (int) Math.floor(populationSize * reinitialisationRatio);
-        int run = 0;
-        while (run < numParticlesToReinitialise) {
-            ++run;
-            boolean gotParticle = false;
-            while (!gotParticle) {
-                int index = randomiser.nextInt(populationSize);
-                if(used[index]) continue;
-                // ELSE
-                Particle aParticle = (Particle) topology.get(index);
-                StructuredType position = aParticle.getPosition();
-                position.randomize(randomiser);
-                used[index] = true;
-                gotParticle = true;
-            }
+
+        // Reevaluate current position. Update personal best (done by reevaluate()).
+        Iterator<? extends Entity> iterator = topology.iterator();
+        int reinitCounter = 0;
+        int keepCounter = 0;
+        int populationSize = algorithm.getTopology().size();
+        while (iterator.hasNext()) {
+            DynamicParticle current = (DynamicParticle) iterator.next();
+
+            //makes sure the charged particles are randomly positionned accross the topology
+            if(reinitCounter < Math.floor(populationSize*reinitialisationRatio) && randomiser.nextDouble() < reinitialisationRatio && current != ((E)algorithm).getTopology().getBestEntity()){
+                current.getPosition().randomize(null);
+                current.getVelocity().reset();
+                current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());
+                ++reinitCounter;
+            }//if
+            else if(keepCounter > Math.floor(populationSize*(1.0-reinitialisationRatio)) && current != ((E)algorithm).getTopology().getBestEntity()){
+                current.getPosition().randomize(this.randomiser);
+                current.getVelocity().reset();
+                current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());
+                ++reinitCounter;
+            }//else if
+            else{
+                ++keepCounter;
+            }//else
         }
+
         // Re-evaluate:
-        super.performReaction(algorithm); // super class method
+        reevaluateParticles(algorithm); // super class method
     }
 
     /**

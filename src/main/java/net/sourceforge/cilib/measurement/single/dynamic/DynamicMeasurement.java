@@ -1,4 +1,9 @@
 /*
+ * CollectiveMeanFitness.java
+ *
+ * Created on February 4, 2003, 8:25 PM
+ *
+ *
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -18,27 +23,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-package net.sourceforge.cilib.pso.dynamic;
-
-import net.sourceforge.cilib.util.Cloneable;
-
-
-/**
- * Interface for ChargedParticle intialisation.
  *
- * @author Anna Rakitianskaia
  */
-public interface ChargedParticleInitialisationStrategy extends Cloneable {
-    /**
-     * Clone the ChargedParticleInitialisationStrategy.
-     * @return A copy of the ChargedParticleInitialisationStrategy.
-     */
-    public ChargedParticleInitialisationStrategy getClone();
 
-    /**
-     * Initialise the Particle charge.
-     * @param particle The particle to initialise. The particle must be of type ChargedParticle.
-     */
-    public void initialise(ChargedParticle particle);
+package net.sourceforge.cilib.measurement.single.dynamic;
+
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
+import net.sourceforge.cilib.measurement.StateAwareMeasurement;
+
+public abstract class DynamicMeasurement extends StateAwareMeasurement {
+
+    protected double avg;
+
+    public DynamicMeasurement() {
+        setStateAware(true);
+    }
+
+    @Override
+    public String getDomain() {
+        return "R";
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        this.avg = in.readDouble();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeDouble(avg);
+    }
 }

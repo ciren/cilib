@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
+import java.util.Arrays;
+
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
@@ -31,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * to paper by Blackwell and Branke, "Multiswarms, Exclusion, and Anti-
  * Convergence in Dynamic Environments."
  *
- * @author Anna Rakitianskaia
+ * @author Anna Rakitianskaia, Julien Duhain
  */
 public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
 
@@ -39,6 +42,15 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
     private static final double EPSILON = 0.000000001;
     private double radius;
     private RandomNumber randomizer;
+    Vector nucleus;
+
+    public Vector getNucleus() {
+        return nucleus;
+    }
+
+    public void setNucleus(Vector nucleus) {
+        this.nucleus = nucleus;
+    }
 
     public QuantumPositionUpdateStrategy() {
         radius = 5;
@@ -73,14 +85,43 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
             }
         }
         else { // the particle is charged
-            Vector position = (Vector) particle.getPosition();
-            Vector nucleus = (Vector) particle.getNeighbourhoodBest().getBestPosition(); // gbest
+            //based on the Pythagorean theorem,
+            //the following code breaks the square of the radius distance into smaller
+            //parts that are then "distributed" among the dimensions of the problem.
+            //the position of the particle is determined in each dimension by a random number
+            //between 0 and the part of the radius assigned to that dimension
+            //This ensures that the quantum particles are placed randomly within the
+            //multidimensional sphere determined by the quantum radius.
 
-            for (int i = 0; i < position.getDimension(); ++i) {
-                double centre = nucleus.getReal(i);
-                position.setReal(i, randomizer.getUniform(centre - radius, centre + radius));
-            }
-        }
+            Vector position = (Vector) particle.getPosition();
+            nucleus = (Vector) Algorithm.get().getBestSolution().getPosition();
+
+            double distance = Math.pow(this.radius,2); //square of the radius
+            int dimensions = position.getDimension();
+            double[] pieces = new double[dimensions]; // break up of the distance
+            pieces[dimensions-1] = distance;
+            for(int i=0; i<dimensions-1; i++){
+                pieces[i]=randomizer.getUniform(0, distance);
+            }//for
+            Arrays.sort(pieces);
+            int sign = 1;
+            if(randomizer.getUniform() <= 0.5){
+                sign = -1;
+            }//if
+            //deals with first dimension
+            position.setReal(0, nucleus.getReal(0) + sign*randomizer.getUniform(0,Math.sqrt(pieces[0])));
+            //deals with the other dimensions
+            for(int i=1; i<dimensions; i++){
+                sign=1;
+                if(randomizer.getUniform() <= 0.5){
+                    sign = -1;
+                }//if
+                double rad = Math.sqrt(pieces[i]-pieces[i-1]);
+                double dis = randomizer.getUniform(0, rad);
+                double newpos = nucleus.getReal(i) + sign*dis;
+                position.setReal(i, newpos);
+            }//for
+        }//else
     }
 
     /**
