@@ -152,7 +152,7 @@ git checkout fix_something
     </p>
     <source>
 git add path/to/file
-git delete path/to/file
+git rm path/to/file
 git commit
     </source>
     <p>
