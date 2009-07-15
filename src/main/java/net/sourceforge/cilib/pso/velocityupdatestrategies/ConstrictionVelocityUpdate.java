@@ -29,33 +29,28 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * A velocity update strategy that utilizes the constriction coefficient as
- * developed by Clerc.
+ * developed by M. Clerc.
  * <p>References:
  * <ul>
  * <li>
  * <pre>
-{@literal @}INPROCEEDINGS{785513,
-title={The swarm and the queen: towards a deterministic and adaptive particle swarm optimization},
-author={Clerc, M.},
-booktitle={Evolutionary Computation, 1999. CEC 99. Proceedings of the 1999 Congress on},
-year={1999},
+{@literal @}@INPROCEEDINGS{870279,
+title={Comparing inertia weights and constriction factors in particle swarm optimization},
+author={Eberhart, R.C. and Shi, Y.},
+booktitle={Evolutionary Computation, 2000. Proceedings of the 2000 Congress on},
+year={2000},
 month={},
-volume={3},
+volume={1},
 number={},
-pages={-1957 Vol. 3},
-abstract={A very simple particle swarm optimization iterative algorithm is presented, with just
-one equation and one social/confidence parameter. We define a “no-hope” convergence criterion and
-a “rehope” method so that, from time to time, the swarm re-initializes its position, according to
-some gradient estimations of the objective function and to the previous re-initialization (it means
-it has a kind of very rudimentary memory). We then study two different cases, a quite “easy” one
-(the Alpine function) and a “difficult” one (the Banana function), but both just in dimension two.
-The process is improved by taking into account the swarm gravity center (the “queen”) and the results
-are good enough so that it is certainly worthwhile trying the method on more complex problems},
-keywords={adaptive systems, deterministic algorithms, evolutionary computation, iterative methodsAlpine function,
-Banana function, adaptive particle swarm optimization, gradient estimations, no-hope convergence criterion,
-objective function, queen, re-initialization, rehope method, rudimentary memory, simple particle swarm
-optimization iterative algorithm, social/confidence parameter, swarm gravity center},
-doi={10.1109/CEC.1999.785513},
+pages={84-88 vol.1},
+abstract={The performance of particle swarm optimization using an inertia weight is compared
+with performance using a constriction factor. Five benchmark functions are used for the
+comparison. It is concluded that the best approach is to use the constriction factor while
+limiting the maximum velocity Vmax to the dynamic range of the variable Xmax on each
+dimension. This approach provides performance on the benchmark functions superior to any
+other published results known by the authors},
+keywords={evolutionary computationbenchmark functions, constriction factors, inertia weights, particle swarm optimization},
+doi={10.1109/CEC.2000.870279},
 ISSN={}, }
 </pre>
  * </li>
@@ -89,21 +84,22 @@ ISSN={1089-778X}, }
  * </ul>
  *
  * <p>
- * Note, this strategy does not the inertia control parameter.
+ * Note, this strategy does not use the inertia control parameter.
  * Certain constraints are imposed on the other control parameters in order to
  * calculate the constriction coefficient, namely:
- * $c1r1 + c2r2 \leq 4$ , and
+ * $c1 + c2 \leq 4$ , and
  * $\kappa \in [0, 1]$
  *
  * @author andrich
  */
 public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
-    private static final long serialVersionUID = -4470110903487138758L;
 
+    private static final long serialVersionUID = -4470110903487138758L;
     private ControlParameter socialAcceleration;
     private ControlParameter cognitiveAcceleration;
     private ControlParameter vMax;
     private ControlParameter kappa;
+    private ControlParameter constrictionCoefficient;
 
     /**
      * Default constructor. The values given to the control parameters attempt to
@@ -115,11 +111,12 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
         cognitiveAcceleration = new RandomizingControlParameter();
         vMax = new ConstantControlParameter();
         kappa = new ConstantControlParameter();
+        constrictionCoefficient = null;
 
-        socialAcceleration.setParameter(3.0);
-        cognitiveAcceleration.setParameter(3.0);
+        socialAcceleration.setParameter(2.05);
+        cognitiveAcceleration.setParameter(2.05);
+        kappa.setParameter(1.0);
         vMax.setParameter(Double.MAX_VALUE);
-        kappa.setParameter(0.1);
     }
 
     /**
@@ -146,8 +143,10 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      */
     @Override
     public void updateVelocity(Particle particle) {
-        assertAccelerationConstraints();
-
+        // lazy construction (necessary to do this after user has set c1 and c2, and to only do it once per particle).
+        if (constrictionCoefficient == null) {
+            calculateConstrictionCoefficient();
+        }
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
         Vector bestPosition = (Vector) particle.getBestPosition();
@@ -155,22 +154,9 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
 
 
         for (int i = 0; i < particle.getDimension(); ++i) {
-            // calculate the constriction coefficient
-            double c1 = cognitiveAcceleration.getParameter();
-            double c2 = socialAcceleration.getParameter();
-            // c1r1 + c2r2 has to be greater or equal to 4
-            while ((c1 + c2) < 4) {
-                c1 = cognitiveAcceleration.getParameter();
-                c2 = socialAcceleration.getParameter();
-            }
-            double phi = c1 + c2;
-            double constrictionCoefficient = (2 * kappa.getParameter()) /
-                    Math.abs(2 - phi - Math.sqrt(phi * (phi - 4.0)));
-
-            double value = velocity.getReal(i) +
-                    (bestPosition.getReal(i) - position.getReal(i)) * c1 +
-                    (nBestPosition.getReal(i) - position.getReal(i)) * c2;
-            value = constrictionCoefficient * value;
+            double value = constrictionCoefficient.getParameter() * (velocity.getReal(i) +
+                    (bestPosition.getReal(i) - position.getReal(i)) * cognitiveAcceleration.getParameter() +
+                    (nBestPosition.getReal(i) - position.getReal(i)) * socialAcceleration.getParameter());
             velocity.setReal(i, value);
 
             clamp(velocity, i);
@@ -206,17 +192,25 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
     }
 
     /**
-     * Ensure that values of c1 and c2 make it possible to calculate the
-     * constriction coefficient.
+     * Calculate the constriction coefficient as well as the
+     * maximum acceleration.
      */
-    private void assertAccelerationConstraints() {
+    private void calculateConstrictionCoefficient() {
         double c1 = ((RandomizingControlParameter) cognitiveAcceleration).getControlParameter().getParameter();
         double c2 = ((RandomizingControlParameter) socialAcceleration).getControlParameter().getParameter();
-        if (c1 + c2 < 4) {
+        
+        double phi = c1 + c2;
+        if (phi < 4.0) {
             throw new UnsupportedOperationException("Parameter constraint violation: " +
                     "The sum of the Cognitive (" + c1 + ") and Social (" + c2 + ") acceleration parameters " +
                     "has to be greater than or equal to 4.");
         }
+        double chi;
+        chi = (2 * kappa.getParameter()) /
+                Math.abs(2 - phi - Math.sqrt(phi * (phi - 4.0)));
+        
+        constrictionCoefficient = new ConstantControlParameter();
+        constrictionCoefficient.setParameter(chi);
     }
 
     /**
@@ -271,7 +265,7 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      * Get the maximum velocity parameter.
      * @return the maximum velocity {@link ControlParameter control parameter }.
      */
-    public ControlParameter getVMax() {
+    public ControlParameter getvMax() {
         return vMax;
     }
 
@@ -279,7 +273,23 @@ public class ConstrictionVelocityUpdate implements VelocityUpdateStrategy {
      * Set the maximum velocity parameter.
      * @param vMax the new maximum velocity {@link ControlParameter control parameter }.
      */
-    public void setVMax(ControlParameter vMax) {
+    public void setvMax(ControlParameter vMax) {
         this.vMax = vMax;
+    }
+
+    /**
+     * Gets the constriction coefficient.
+     * @return the constriction coefficient  {@link ControlParameter control parameter }.
+     */
+    public ControlParameter getConstrictionCoefficient() {
+        return constrictionCoefficient;
+    }
+
+    /**
+     * Sets the constriction coefficient.
+     * @param constrictionCoefficient the new constriction coefficient  {@link ControlParameter control parameter }.
+     */
+    public void setConstrictionCoefficient(ControlParameter constrictionCoefficient) {
+        this.constrictionCoefficient = constrictionCoefficient;
     }
 }
