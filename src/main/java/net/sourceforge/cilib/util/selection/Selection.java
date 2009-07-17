@@ -252,6 +252,45 @@ public final class Selection<E> implements SelectionSyntax<E> {
     }
 
     /**
+     * Remove any {@code Entry}'s from {@code elements} that are also contained in {@code exclusion}.
+     * @return A selection containing the remaining elements which do not occur in {@code exclusion}.
+     */
+    @Override
+    public Selection<E> exclude(List<? extends E> exclusion) {
+        for(int i = elements.size() - 1; i >= 0; --i){
+            Entry element = elements.get(i);
+            if(exclusion.contains(element.getElement()))
+                elements.remove(element);
+        }
+        return this;
+    }
+
+    /**
+     * Obtain a random element from the current Selection.
+     * @param random The random number to be used in the selection.
+     * @return A selection containing a random element from the original {@code elements} member.
+     */
+    @Override
+    public SelectionSyntax<E> random(Random random) {
+        Entry<E> randomEntry = Selection.randomFrom(elements, random);
+        elements.clear();
+        elements.add(randomEntry);
+        return this;
+    }
+
+    /**
+     * Obtain a random number of elements from the current Selection.
+     * @param random The random number to be used in the selection.
+     * @param number The number of elements to select.
+     * @return A selection containing the random elements from the original {@code elements} member.
+     */
+    @Override
+    public SelectionSyntax<E> random(Random random, int number) {
+        elements = Selection.randomFrom(elements, random, number);
+        return this;
+    }
+
+    /**
      * This class provides the notion of an entry within a list
      * for the selection process.
      * <p>

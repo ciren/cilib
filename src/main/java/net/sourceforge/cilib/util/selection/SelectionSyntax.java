@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.util.selection;
 
 import java.util.List;
+import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
 
@@ -42,6 +43,12 @@ public interface SelectionSyntax<E> {
     public SelectionSyntax<E> last();
 
     public SelectionSyntax<E> last(int number);
+
+    public SelectionSyntax<E> exclude(List<? extends E> exclusion);
+
+    public SelectionSyntax<E> random(Random random);
+
+    public SelectionSyntax<E> random(Random random, int number);
 
     public List<E> select();
 

@@ -61,4 +61,15 @@ public class SelectionTest {
         Assert.assertEquals(1, selection.get(0).intValue());
         Assert.assertEquals(1, selection.size());
     }
+
+    @Test
+    public void exclusionSelection(){
+        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        List<Integer> exlusionElements = Arrays.asList(1, 2, 4, 6);
+        List<Integer> selection = Selection.from(elements).exclude(exlusionElements).first(3).select();
+        Assert.assertEquals(3, selection.size());
+        Assert.assertEquals(3, selection.get(0).intValue());
+        Assert.assertEquals(5, selection.get(1).intValue());
+        Assert.assertEquals(7, selection.get(2).intValue());
+    }
 }
