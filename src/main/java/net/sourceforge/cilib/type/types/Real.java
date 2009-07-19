@@ -147,7 +147,7 @@ public class Real extends Numeric {
      * {@inheritDoc}
      */
     public boolean getBit() {
-        return (this.value == 0.0) ? false : true;
+        return Double.compare(this.value, 0.0) == 0 ? false : true;
     }
 
 
