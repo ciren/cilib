@@ -21,33 +21,8 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import java.util.List;
-import net.sourceforge.cilib.util.selection.ordering.Ordering;
-import net.sourceforge.cilib.util.selection.weighing.Weighing;
+public interface UniqueSyntax<E> {
 
-/**
- * @author Wiehann Matthysen
- * @param <E>
- */
-public interface SelectionSyntax<E> {
+    public SelectionSyntax<E> unique();
 
-    public SelectionSyntax<E> orderBy(Ordering<E> ordering);
-
-    public SelectionSyntax<E> weigh(Weighing<E> weighing);
-
-    public SelectionSyntax<E> first();
-
-    public SelectionSyntax<E> first(int number);
-
-    public SelectionSyntax<E> last();
-
-    public SelectionSyntax<E> last(int number);
-
-    public SelectionSyntax<E> exclude(List<? extends E> exclusion);
-
-    public List<E> select();
-
-    public List<Selection.Entry<E>> entries();
-
-    public E singleSelect();
 }

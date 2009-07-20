@@ -21,33 +21,12 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import java.util.List;
-import net.sourceforge.cilib.util.selection.ordering.Ordering;
-import net.sourceforge.cilib.util.selection.weighing.Weighing;
+import net.sourceforge.cilib.math.random.generator.Random;
 
-/**
- * @author Wiehann Matthysen
- * @param <E>
- */
-public interface SelectionSyntax<E> {
+public interface RandomSyntax<E> {
 
-    public SelectionSyntax<E> orderBy(Ordering<E> ordering);
+    public SelectionSyntax<E> random(Random random);
 
-    public SelectionSyntax<E> weigh(Weighing<E> weighing);
+    public SelectionSyntax<E> random(Random random, int number);
 
-    public SelectionSyntax<E> first();
-
-    public SelectionSyntax<E> first(int number);
-
-    public SelectionSyntax<E> last();
-
-    public SelectionSyntax<E> last(int number);
-
-    public SelectionSyntax<E> exclude(List<? extends E> exclusion);
-
-    public List<E> select();
-
-    public List<Selection.Entry<E>> entries();
-
-    public E singleSelect();
 }

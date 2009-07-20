@@ -74,7 +74,7 @@ public class RandCreationStrategy implements CreationStrategy {
     @Override
     public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology) {
         Random random = new MersenneTwister();
-        List<Entity> participants = Selection.from(topology.asList()).exclude(Arrays.asList(targetEntity, current)).random(random, (int)numberOfDifferenceVectors.getParameter()).select();
+        List<Entity> participants = Selection.from(topology.asList()).exclude(Arrays.asList(targetEntity, current)).unique().random(random, (int)numberOfDifferenceVectors.getParameter()).select();
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = (Vector) targetEntity.getCandidateSolution();
