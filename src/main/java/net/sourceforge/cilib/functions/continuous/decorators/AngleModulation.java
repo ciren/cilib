@@ -137,7 +137,6 @@ public class AngleModulation extends ContinuousFunction {
      * @return
      */
     public int getRequiredNumberOfBits(DomainRegistry domain) {
-
         if (domain.getDomainString().contains("B")) {
             return 1;
         }
