@@ -21,13 +21,11 @@
  */
 package net.sourceforge.cilib.boa.bees;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.boa.ABC;
+import net.sourceforge.cilib.boa.bee.ExplorerBee;
 import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -35,9 +33,9 @@ import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,34 +64,27 @@ public class ExplorerBeeTest {
     }
 
     @Test
+    public void testSearchAllowed() {
+        //get up a position with bounds
+        Vector oldPosition = abc.getWorkerBees().get(0).getPosition().getClone();;
+        //update position with explorer bee
+        ExplorerBee explorerBee = abc.getExplorerBee();
+        Assert.assertTrue(explorerBee.searchAllowed(1));
+        explorerBee.getNewPosition(1,oldPosition);
+        //only one update is allowed for the same iteration, this must therefore be false...
+        Assert.assertTrue(!explorerBee.searchAllowed(1));
+        //and this true.
+        Assert.assertTrue(explorerBee.searchAllowed(2));
+    }
+
+    @Test
     public void testGetNewPosition() {
         //get up a position with bounds
-        Vector currentPosition;
-
-        //update position with explorer bee since forage threshold is -1
-        ArrayList<Vector> oldPositions = new ArrayList<Vector>();
-        for (int k = 0; k < abc.getWorkerTopology().size(); k++) {
-            oldPositions.add((Vector)abc.getWorkerTopology().get(k).getPosition().getClone());
-        }
-        abc.performIteration();
-
-        boolean explorerUpdateOccured = false;
-        //assertions
-        for (int k = 0; k < abc.getWorkerTopology().size(); k++) {
-            boolean allDimensionsChanged = true;
-            currentPosition = (Vector)abc.getWorkerTopology().get(k).getCandidateSolution();
-            assertEquals(5,currentPosition.size());
-            for (int i = 0; i < currentPosition.size(); i++) {
-                assertTrue(((Real)currentPosition.get(i)).getReal() != Double.NaN);
-                assertTrue(!Double.isInfinite(((Real)currentPosition.get(i)).getReal()));
-                allDimensionsChanged = allDimensionsChanged & (Double.compare(((Real)currentPosition.get(i)).getReal(),
-                        ((Real)oldPositions.get(k).get(i)).getReal())!=0);
-                assertTrue(((Real)currentPosition.get(i)).getReal() <= 5.0);
-                assertTrue(((Real)currentPosition.get(i)).getReal() >= -5.0);
-            }
-            explorerUpdateOccured = explorerUpdateOccured | allDimensionsChanged;
-        }
-        assertTrue(explorerUpdateOccured);
+        Vector oldPosition = abc.getWorkerBees().get(0).getPosition().getClone();;
+        //update position with explorer bee
+        ExplorerBee explorerBee = abc.getExplorerBee();
+        Vector newPosition = explorerBee.getNewPosition(1,oldPosition);
+        Assert.assertTrue(!oldPosition.equals(newPosition));
     }
 
 }

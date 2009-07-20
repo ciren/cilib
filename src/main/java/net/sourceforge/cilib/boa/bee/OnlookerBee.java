@@ -39,6 +39,10 @@ public class OnlookerBee extends AbstractBee implements HoneyBee {
     public OnlookerBee() {
     }
 
+    /**
+     * Copy constructor.
+     * @param bee the original bee to copy.
+     */
     public OnlookerBee(AbstractBee bee) {
         super(bee);
     }
@@ -65,10 +69,10 @@ public class OnlookerBee extends AbstractBee implements HoneyBee {
     @Override
     public void updatePosition() {
         ABC algorithm = (ABC) Algorithm.get();
-        HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
+        HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerBees());
 
         while (target == this) {
-            target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
+            target = targetSelectionStrategy.select(algorithm.getWorkerBees());
         }
 
         this.positionUpdateStrategy.updatePosition(this, target);

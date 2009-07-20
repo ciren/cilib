@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.boa.positionupdatestrategies;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
@@ -31,6 +30,7 @@ import net.sourceforge.cilib.boa.bee.WorkerBee;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Rastrigin;
+import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
@@ -41,6 +41,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class VisualPositionUpdateStategyTest {
+
     private ABC abc;
 
     @Before
@@ -59,7 +60,7 @@ public class VisualPositionUpdateStategyTest {
         initStrategy.setEntityType(bee);
         abc.setInitialisationStrategy(initStrategy);
         abc.setWorkerBeePercentage(new ConstantControlParameter(0.5));
-        abc.setForageLimit(new ConstantControlParameter(-1));
+        abc.setForageLimit(new ConstantControlParameter(Integer.MAX_VALUE));
         abc.addStoppingCondition(condition);
         abc.setOptimisationProblem(problem);
         abc.initialise();
@@ -67,16 +68,20 @@ public class VisualPositionUpdateStategyTest {
 
     @Test
     public void testUpdatePosition() {
-        HoneyBee bee = abc.getWorkerTopology().get(0);
+        HoneyBee bee = abc.getWorkerBees().get(0);
         abc.performIteration();
-        Vector currentPosition = (Vector)bee.getPosition();
-        assertEquals(10,currentPosition.size());
+        Fitness oldFitness = bee.getFitness().getClone();
+        abc.performIteration();
+        Vector currentPosition = (Vector) bee.getPosition();
+        System.out.println(currentPosition);
+        assertEquals(10, currentPosition.size());
         for (int i = 0; i < currentPosition.size(); i++) {
-            assertTrue(((Real)currentPosition.get(i)).getReal() != Double.NaN);
-            assertTrue(!Double.isInfinite(((Real)currentPosition.get(i)).getReal()));
-            assertTrue(((Real)currentPosition.get(i)).getReal() <= 5.0);
-            assertTrue(((Real)currentPosition.get(i)).getReal() >= -5.0);
+            assertTrue(((Real) currentPosition.get(i)).getReal() != Double.NaN);
+            assertTrue(!Double.isInfinite(((Real) currentPosition.get(i)).getReal()));
         }
+        Fitness newFitness = bee.getFitness();
+        System.out.println(oldFitness.getValue());
+        System.out.println(newFitness.getValue());
+        assertTrue(newFitness.compareTo(oldFitness)  >= 0);
     }
-
 }

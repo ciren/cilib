@@ -35,11 +35,13 @@ public interface HoneyBee extends Entity {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HoneyBee getClone();
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Fitness getFitness();
 
     /**

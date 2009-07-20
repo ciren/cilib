@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.boa.positionupdatestrategies;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.boa.bee.HoneyBee;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
@@ -63,10 +63,12 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
         newPosition.set(j, newValue);
 
         //Determine if new position is better than old and update
-        Fitness oldFitness =  Algorithm.get().getOptimisationProblem().getFitness(oldPosition, false);
-        Fitness newFitness =  Algorithm.get().getOptimisationProblem().getFitness(newPosition, false);
+        Fitness oldFitness =  bee.getFitness().getClone();
+        bee.calculateFitness();
+        Fitness newFitness = bee.getFitness();
         if (newFitness.compareTo(oldFitness) < 0) {
             bee.setPosition(oldPosition);
+            bee.getProperties().put(EntityType.FITNESS, oldFitness);
             return false;
         }
 

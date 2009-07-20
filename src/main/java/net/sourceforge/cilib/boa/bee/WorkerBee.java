@@ -31,8 +31,8 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
  * @author Andrich
  */
 public class WorkerBee extends AbstractBee implements HoneyBee {
-    private static final long serialVersionUID = 3657591650621784765L;
 
+    private static final long serialVersionUID = 3657591650621784765L;
     private ControlParameter forageLimit;
     private int failureCount;
 
@@ -68,20 +68,20 @@ public class WorkerBee extends AbstractBee implements HoneyBee {
     @Override
     public void updatePosition() {
         ABC algorithm = (ABC) Algorithm.get();
-        HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
+        HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerBees());
 
         while (target == this) {
-            target = targetSelectionStrategy.select(algorithm.getWorkerTopology());
+            target = targetSelectionStrategy.select(algorithm.getWorkerBees());
         }
 
         boolean success = this.positionUpdateStrategy.updatePosition(this, target);
         if (!success) {
             failureCount++;
-            if (failureCount >= forageLimit.getParameter())    {
+            if (failureCount >= forageLimit.getParameter()) {
                 failureCount = 0;
                 ExplorerBee explorerBee = algorithm.getExplorerBee();
-                if (explorerBee.searchAllowed()) {
-                    this.setPosition(explorerBee.getNewPosition(this.getPosition()));
+                if (explorerBee.searchAllowed(algorithm.getIterations())) {
+                    this.setPosition(explorerBee.getNewPosition(algorithm.getIterations(), this.getPosition()));
                 }
             }
         }
@@ -101,5 +101,21 @@ public class WorkerBee extends AbstractBee implements HoneyBee {
      */
     public void setForageLimit(ControlParameter forageLimit) {
         this.forageLimit = forageLimit;
+    }
+
+    /**
+     * Gets the failure count.
+     * @return the number of times the bee has failed to find a better position.
+     */
+    public int getFailureCount() {
+        return failureCount;
+    }
+
+    /**
+     * Sets the failure count.
+     * @param failureCount the new number of times the bee has failed to find a better position.
+     */
+    public void setFailureCount(int failureCount) {
+        this.failureCount = failureCount;
     }
 }
