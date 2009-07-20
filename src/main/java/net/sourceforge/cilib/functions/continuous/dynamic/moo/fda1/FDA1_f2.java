@@ -76,7 +76,7 @@ public class FDA1_f2 extends ContinuousFunction {
      */
     public void setFDA1_g(FunctionMinimisationProblem problem) {
         this.fda1_g_problem = problem;
-        this.fda1_g = (ContinuousFunction)problem.getFunction();
+        this.fda1_g = problem.getFunction();
         this.fda1_g.setDomain(fda1_g.getDomainRegistry().getDomainString());
     }
 
@@ -111,7 +111,7 @@ public class FDA1_f2 extends ContinuousFunction {
      */
     public void setFDA1_h(FunctionMinimisationProblem problem) {
         this.fda1_h_problem = problem;
-        this.fda1_h = (ContinuousFunction)problem.getFunction();
+        this.fda1_h = problem.getFunction();
         this.fda1_h.setDomain(fda1_h.getDomainRegistry().getDomainString());
     }
 
@@ -144,11 +144,10 @@ public class FDA1_f2 extends ContinuousFunction {
      * Evaluates the function
      * g*h
      */
-    public double evaluate(Vector x) {
-
-        Vector y = x.subList(1, x.getDimension()-1);
+    public Double evaluate(Vector input) {
+        Vector y = input.subList(1, input.getDimension()-1);
         double g = this.fda1_g.evaluate(y);
-        double h = this.fda1_h.evaluate(x);
+        double h = this.fda1_h.evaluate(input);
 
         double value = g*h;
 

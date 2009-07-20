@@ -21,13 +21,12 @@
  */
 package net.sourceforge.cilib.functions;
 
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Gary Pampara
  */
-public abstract class DiscreteFunction extends Function {
+public abstract class DiscreteFunction extends AbstractFunction<Vector, Integer> {
     private static final long serialVersionUID = -1966158048234228064L;
 
     /**
@@ -39,36 +38,15 @@ public abstract class DiscreteFunction extends Function {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(-Double.MAX_VALUE);
+    public Integer getMinimum() {
+        return -Integer.MAX_VALUE;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object getMaximum() {
-        return new Double(Double.MAX_VALUE);
+    public Integer getMaximum() {
+        return Integer.MAX_VALUE;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Double evaluate(Type x) {
-        Double d = null;
-        try {
-            d = new Double(evaluate((Vector) x));
-        }
-        catch (ClassCastException c) {
-            c.printStackTrace();
-        }
-
-        return d;
-    }
-
-    /**
-     * Evaluate the function output, given the function input, {@code x}.
-     * @param x The {@linkplain Vector} representing the function input.
-     * @return The result of the evaluation.
-     */
-    public abstract double evaluate(Vector x);
 }

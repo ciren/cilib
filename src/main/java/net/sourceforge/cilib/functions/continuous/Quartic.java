@@ -52,25 +52,26 @@ public class Quartic extends ContinuousFunction {
      *
      * This is extra stuff i hope is added.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object getMaximum() {
-        return new Double(1248.2);
+    public Double getMaximum() {
+        return 1248.2;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double result = 0.0;
 
-        for (int i = 0; i < x.getDimension(); i++) {
-            double square = x.getReal(i) * x.getReal(i);
+        for (int i = 0; i < input.getDimension(); i++) {
+            double square = input.getReal(i) * input.getReal(i);
             double square2 = square * square;
 
             result += i * square2;

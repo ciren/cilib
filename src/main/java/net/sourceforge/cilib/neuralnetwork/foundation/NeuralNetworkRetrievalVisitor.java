@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.neuralnetwork.foundation;
 
-import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.functions.AbstractFunction;
 import net.sourceforge.cilib.neuralnetwork.testarea.NNFunctionAdapter;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
@@ -34,7 +34,7 @@ public class NeuralNetworkRetrievalVisitor extends ProblemVisitor {
     @Override
     public void visit(Problem o) {
         FunctionOptimisationProblem functionOptimisationProblem = (FunctionOptimisationProblem) o;
-        Function function = functionOptimisationProblem.getFunction();
+        AbstractFunction function = (AbstractFunction) functionOptimisationProblem.getFunction();
         NNFunctionAdapter nnFunctionAdapter = (NNFunctionAdapter) function;
 
         this.mediator = nnFunctionAdapter.getMediator();

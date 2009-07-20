@@ -42,6 +42,7 @@ public class Queens extends DiscreteFunction {
         this.boardSize = 8;
     }
 
+    @Override
     public Queens getClone() {
         return new Queens();
     }
@@ -53,14 +54,13 @@ public class Queens extends DiscreteFunction {
      * For every direction, there should be no conflicts. Move queen until
      * you run off board
      *
-     * @param x
      */
     @Override
-    public double evaluate(Vector x) {
-        double fitness = 0;
+    public Integer evaluate(Vector input) {
+        int fitness = 0;
         double [][] board = new double[boardSize][boardSize];
 
-        initialiseBoard(board, x);
+        initialiseBoard(board, input);
 
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize; col++) {

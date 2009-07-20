@@ -57,14 +57,15 @@ public class Ripple extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(2.2);
+    public Double getMinimum() {
+        return 2.2;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector input) {
+    @Override
+    public Double evaluate(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);
 

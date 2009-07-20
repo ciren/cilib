@@ -73,16 +73,16 @@ public class Bohachevsky1 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
-        return x.getReal(0)*x.getReal(0) + 2*x.getReal(1)*x.getReal(1) - 0.3*Math.cos(3*Math.PI*x.getReal(0)) - 0.4*Math.cos(4*Math.PI*x.getReal(1))+0.7;
+    public Double evaluate(Vector input) {
+        return input.getReal(0)*input.getReal(0) + 2*input.getReal(1)*input.getReal(1) - 0.3*Math.cos(3*Math.PI*input.getReal(0)) - 0.4*Math.cos(4*Math.PI*input.getReal(1))+0.7;
     }
 
 }

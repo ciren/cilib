@@ -70,17 +70,18 @@ public class Spherical extends ContinuousFunction implements Differentiable {
      * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double tmp = 0;
-        for (int i = 0; i < x.getDimension(); i++) {
-            double value = x.getReal(i);
+        for (int i = 0; i < input.getDimension(); i++) {
+            double value = input.getReal(i);
             tmp += value * value;
         }
         return tmp;

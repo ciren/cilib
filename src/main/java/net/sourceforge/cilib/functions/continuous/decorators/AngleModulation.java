@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
+import net.sourceforge.cilib.functions.AbstractFunction;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -46,7 +47,7 @@ public class AngleModulation extends ContinuousFunction {
     private int requiredBits;
     private double lowerBound;
     private double upperBound;
-    private Function function;
+    private AbstractFunction function;
 
     public AngleModulation() {
         setDomain("R(-1.0,1.0)^4");
@@ -72,27 +73,29 @@ public class AngleModulation extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Object getMinimum() {
-        return function.getMinimum();
+    public Double getMinimum() {
+        Number n = (Number) function.getMinimum();
+        return n.doubleValue();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getMaximum() {
-        return function.getMaximum();
+    public Double getMaximum() {
+        Number n = (Number) function.getMaximum();
+        return n.doubleValue();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
-        String solution = generateBitString(x);
+    public Double evaluate(Vector input) {
+        String solution = generateBitString(input);
         Vector expandedVector = decodeBitString(solution);
-
-        return function.evaluate(expandedVector);
+        Number result = (Number) function.evaluate(expandedVector);
+        return result.doubleValue();
     }
 
     /**
@@ -127,7 +130,7 @@ public class AngleModulation extends ContinuousFunction {
      * @param decoratedFunciton
      */
     public void setFunction(Function decoratedFunciton) {
-        this.function = decoratedFunciton;
+        this.function = (AbstractFunction) decoratedFunciton;
         requiredBits = getRequiredNumberOfBits(function.getDomainRegistry());
     }
 
@@ -149,7 +152,6 @@ public class AngleModulation extends ContinuousFunction {
             range = range.substring(0, range.indexOf(')'));
 
             String [] bounds = range.split(",");
-
             lowerBound = Double.valueOf(bounds[0]).doubleValue();
             upperBound = Double.valueOf(bounds[1]).doubleValue();
 

@@ -52,25 +52,26 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object getMaximum() {
-        return new Double(maxheight);
+    public Double getMaximum() {
+        return maxheight;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double[] elements = new double[getDimension()];
 
         for (int i = 0; i < getDimension(); ++i) {
-            elements[i] = x.getReal(i);
+            elements[i] = input.getReal(i);
 
         }
         return evaluateMovpeaks(elements);

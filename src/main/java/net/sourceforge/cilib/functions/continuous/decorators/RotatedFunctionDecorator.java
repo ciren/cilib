@@ -67,18 +67,18 @@ public class RotatedFunctionDecorator extends ContinuousFunction {
      * being decorated with the rotated vector as the parameter.
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         RandomNumber rotateOrNot = new RandomNumber();
 
         if(rotationMatrix == null || rotateOrNot.getUniform() < rotationProbability.getParameter())
             setRotationMatrix();
 
-        Vector rotatedX = x.getClone();
+        Vector rotatedX = input.getClone();
         rotatedX.reset();
 
-        for(int j = 0; j < x.getDimension(); j++) {
-            for(int i = 0; i < x.getDimension(); i++) {
-                rotatedX.setReal(j, rotatedX.getReal(j) + x.getReal(i) * rotationMatrix[i][j]);
+        for(int j = 0; j < input.getDimension(); j++) {
+            for(int i = 0; i < input.getDimension(); i++) {
+                rotatedX.setReal(j, rotatedX.getReal(j) + input.getReal(i) * rotationMatrix[i][j]);
             }
         }
 

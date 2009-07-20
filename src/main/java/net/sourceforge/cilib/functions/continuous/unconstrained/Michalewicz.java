@@ -74,20 +74,20 @@ public class Michalewicz extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
+    public Double getMinimum() {
         if (this.getDimension() == 5)
-            return new Double(-4.687);
+            return -4.687;
         else if (this.getDimension() == 10)
-            return new Double(-9.66);
+            return -9.66;
 
-        return new Double(-Double.MAX_VALUE);
+        return -Double.MAX_VALUE;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector input) {
-
+    @Override
+    public Double evaluate(Vector input) {
         double sumsq = 0.0;
 
         for (int i = 0; i < getDimension(); i++) {

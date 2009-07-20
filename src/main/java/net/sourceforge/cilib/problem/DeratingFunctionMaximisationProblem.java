@@ -25,7 +25,7 @@ package net.sourceforge.cilib.problem;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.MaximumDeratingFunction1;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -59,7 +59,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * This is the Derating Function that will be used to modify the
      * search at every position that is in the vectorSolutions
      */
-    private Function deratingFunction = new MaximumDeratingFunction1();
+    private ContinuousFunction deratingFunction = new MaximumDeratingFunction1();
     /**
      * This hashtable is more convenience rather than a necessity.
      * It used to add a solution to the vectorSolutions only if the
@@ -128,7 +128,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
 
             // modify the fitness.
             if (distance < radius) {
-                fitness = fitness * (getDeratingFunction().evaluate(dist)).doubleValue();
+                fitness = fitness * getDeratingFunction().evaluate(dist);
             }
         }
         return new MaximisationFitness(new Double(fitness));
@@ -186,7 +186,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * search space, i.e. the derating function
      * @return The deratingFunction
      */
-    public Function getDeratingFunction() {
+    public ContinuousFunction getDeratingFunction() {
         return deratingFunction;
     }
 
@@ -196,7 +196,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      * @param deratingFunction The derating function to use
      * when modifying the search space.
      */
-    public void setDeratingFunction(Function deratingFunction) {
+    public void setDeratingFunction(ContinuousFunction deratingFunction) {
         this.deratingFunction = deratingFunction;
     }
 
@@ -230,14 +230,13 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
      */
     public void clear() {
         vectorSolutions.clear();
-//        hashtableSolutions.clear();
     }
 
     /**
      * This method sets the function to evaluate (that is the search space).
      * @param function The function to evaluate.
      */
-    public void setFunction(Function function) {
+    public void setFunction(ContinuousFunction function) {
         super.setFunction(function);
     }
 }

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.problem;
 
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -34,14 +35,14 @@ import net.sourceforge.cilib.type.types.Type;
 public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = 7944544624736580311L;
 
-    protected Function function;
+    protected ContinuousFunction function;
 
     /**
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
      * Remember to always set a {@link net.sourceforge.cilib.functions.Function} before attempting to apply
      * an {@linkplain net.sourceforge.cilib.algorithm.Algorithm algorithm} to this problem.
      *
-     * @see #setFunction(net.sourceforge.cilib.Functions.Function)
+     * @see #setFunction(net.sourceforge.cilib.functions.Function)
      */
     public FunctionOptimisationProblem() {
         function = null;
@@ -66,7 +67,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      *
      * @param function The function.
      */
-    public void setFunction(Function function) {
+    public void setFunction(ContinuousFunction function) {
         this.function = function;
     }
 
@@ -75,7 +76,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      *
      * @return The function
      */
-    public Function getFunction() {
+    public ContinuousFunction getFunction() {
         return function;
     }
 
@@ -92,7 +93,8 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      *
      */
     public DomainRegistry getBehaviouralDomain() {
-        return function.getBehavioralDomainRegistry();
+//        return function.getBehavioralDomainRegistry();
+        return null;
     }
 
     /**

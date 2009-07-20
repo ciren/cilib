@@ -48,15 +48,16 @@ public class Schaffer2 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
-        double sum_squares = x.getReal(0) * x.getReal(0) + x.getReal(1) * x.getReal(1);
+    @Override
+    public Double evaluate(Vector input) {
+        double sum_squares = input.getReal(0) * input.getReal(0) + input.getReal(1) * input.getReal(1);
         double term1 = Math.pow(sum_squares, 0.25);
         double term2 = Math.pow(50 * Math.pow(sum_squares, 0.1), 2) + 1;
         return term1 * term2;

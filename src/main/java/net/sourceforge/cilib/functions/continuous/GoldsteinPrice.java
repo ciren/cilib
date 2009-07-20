@@ -56,17 +56,17 @@ public class GoldsteinPrice extends ContinuousFunction {
     /**
      * Get the minimum of the function. The value of the minimum of 3.0.
      */
-    public Object getMinimum() {
-        return new Double(3.0);
+    public Double getMinimum() {
+        return 3.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
-        double part1 = 1 + (x.getReal(0) + x.getReal(1) + 1.0) * (x.getReal(0) + x.getReal(1) + 1.0) * (19.0 - 14.0 * x.getReal(0) + 3 * x.getReal(0) * x.getReal(0) - 14 * x.getReal(1) + 6 * x.getReal(0) * x.getReal(1) + 3 * x.getReal(1) * x.getReal(1));
-        double part2 = 30 + (2 * x.getReal(0) - 3 * x.getReal(1)) * (2 * x.getReal(0) - 3 * x.getReal(1)) * (18 - 32 * x.getReal(0) + 12 * x.getReal(0) * x.getReal(0) + 48 * x.getReal(1) - 36 * x.getReal(0) * x.getReal(1) + 27 * x.getReal(1) * x.getReal(1));
+    public Double evaluate(Vector input) {
+        double part1 = 1 + (input.getReal(0) + input.getReal(1) + 1.0) * (input.getReal(0) + input.getReal(1) + 1.0) * (19.0 - 14.0 * input.getReal(0) + 3 * input.getReal(0) * input.getReal(0) - 14 * input.getReal(1) + 6 * input.getReal(0) * input.getReal(1) + 3 * input.getReal(1) * input.getReal(1));
+        double part2 = 30 + (2 * input.getReal(0) - 3 * input.getReal(1)) * (2 * input.getReal(0) - 3 * input.getReal(1)) * (18 - 32 * input.getReal(0) + 12 * input.getReal(0) * input.getReal(0) + 48 * input.getReal(1) - 36 * input.getReal(0) * input.getReal(1) + 27 * input.getReal(1) * input.getReal(1));
         return part1 * part2;
     }
 }

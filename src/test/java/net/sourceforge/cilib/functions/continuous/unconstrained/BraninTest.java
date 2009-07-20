@@ -26,8 +26,10 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
@@ -64,6 +66,6 @@ public class BraninTest {
 
     @Test
     public void minimum() {
-        assertEquals(0.397887, function.getMinimum());
+        Assert.assertThat(function.getMinimum().doubleValue(), is(0.397887));
     }
 }

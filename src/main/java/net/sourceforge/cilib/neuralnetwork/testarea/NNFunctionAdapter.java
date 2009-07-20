@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.neuralnetwork.testarea;
 
-import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.functions.AbstractFunction;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.generic.GenericTopology;
 import net.sourceforge.cilib.neuralnetwork.generic.topologyvisitors.WeightCountingVisitor;
@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * TODO: Complete this javadoc.
  */
-public class NNFunctionAdapter extends Function {
+public class NNFunctionAdapter extends AbstractFunction<Type, Double> {
     private static final long serialVersionUID = -8189968864920232174L;
 
     private EvaluationMediator mediator;
@@ -48,12 +48,12 @@ public class NNFunctionAdapter extends Function {
         return mediator.getErrorDt()[0].getValue();
     }
 
-    public Object getMaximum() {
+    public Double getMaximum() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public Object getMinimum() {
+    public Double getMinimum() {
         // TODO Auto-generated method stub
         return null;
     }

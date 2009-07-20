@@ -70,18 +70,19 @@ public class Colville extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
-        double a = x.getReal(0);
-        double b = x.getReal(1);
-        double c = x.getReal(2);
-        double d = x.getReal(3);
+    @Override
+    public Double evaluate(Vector input) {
+        double a = input.getReal(0);
+        double b = input.getReal(1);
+        double c = input.getReal(2);
+        double d = input.getReal(3);
 
         return 100 * (b-a*a) * (b-a*a) +
             (1-a) * (1-a) +

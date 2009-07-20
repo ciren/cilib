@@ -144,12 +144,12 @@ public class FDA2_f2 extends ContinuousFunction {
      * Evaluates the function
      * g*h
      */
-    public double evaluate(Vector x) {
-        Vector y = x;
-        if (x.getDimension() > 1)
-            y = x.subList(1, fda2_g.getDimension()); //-1
+    public Double evaluate(Vector input) {
+        Vector y = input;
+        if (input.getDimension() > 1)
+            y = input.subList(1, fda2_g.getDimension()); //-1
         double g = this.fda2_g.evaluate(y);
-        double h = this.fda2_h.evaluate(x);
+        double h = this.fda2_h.evaluate(input);
 
         double value = g*h;
         return value;

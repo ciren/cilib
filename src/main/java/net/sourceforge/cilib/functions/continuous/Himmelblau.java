@@ -63,20 +63,16 @@ public class Himmelblau extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
-     * Evaluate the function and return the result of the evaluation.
-     *
-     * @param vector The {@linkplain Vector} containing the two dimensional data.
-     * @return The value of the Himmalblau function with {@code vector} containing the
-     *         function input.
+     * {@inheritDoc}
      */
-    public double evaluate(Vector vector) {
-        double x = vector.getReal(0);
-        double y = vector.getReal(1);
+    public Double evaluate(Vector input) {
+        double x = input.getReal(0);
+        double y = input.getReal(1);
 
         return -Math.pow((x*x + y -11), 2) + Math.pow((x + y*y -7), 2);
     }

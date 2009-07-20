@@ -109,19 +109,16 @@ public class BitStringMatcher extends DiscreteFunction {
 
 
     /**
-     * Evaluate the fitness of the provided solution <code>x</code>. The provided
-     * solution is compared, bit for bit to the target solution and every match
-     * results in a better fitness. Non-matching bits are not penalised.
-     *
-     *  @param x The potential solution provided
+     * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
-        double result = 0.0;
+    @Override
+    public Integer evaluate(Vector input) {
+        int result = 0;
 
-        for (int i = 0; i < x.getDimension(); i++) {
+        for (int i = 0; i < input.getDimension(); i++) {
             boolean bitValue = (this.targetRandomString.charAt(i) == '1') ? true : false;
 
-            if (x.getBit(i) == bitValue)
+            if (input.getBit(i) == bitValue)
                 result++;
         }
 

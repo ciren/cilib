@@ -64,12 +64,13 @@ public class FDA2_g extends ContinuousFunction {
      * Evaluates the function
      * g(XII) = 1 + sum((x_i)^2)
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
 
         double sum = 1.0;
 
-        for (int k=0; k < x.getDimension(); k++) {
-            sum += Math.pow(x.getReal(0), 2);
+        for (int k=0; k < input.getDimension(); k++) {
+            sum += Math.pow(input.getReal(0), 2);
         }
 
         return sum;

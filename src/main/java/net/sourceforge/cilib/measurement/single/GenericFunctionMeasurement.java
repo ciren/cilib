@@ -32,9 +32,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * @author Theuns Cloete
  */
-public class GenericFunctionMeasurement implements Measurement {
+public class GenericFunctionMeasurement<F, T> implements Measurement {
     private static final long serialVersionUID = 3301062975775598397L;
-    private Function function = null;
+    private Function<Vector, Double> function = null;
 
     /**
      * Create a new instance of {@linkplain GenericFunctionMeasurement}.
@@ -80,7 +80,7 @@ public class GenericFunctionMeasurement implements Measurement {
      * Get the set function.
      * @return The contained function.
      */
-    public Function getFunction() {
+    public Function<Vector, Double> getFunction() {
         return function;
     }
 
@@ -88,7 +88,7 @@ public class GenericFunctionMeasurement implements Measurement {
      * Set the function.
      * @param f The value to set.
      */
-    public void setFunction(Function f) {
+    public void setFunction(Function<Vector, Double> f) {
         function = f;
     }
 }

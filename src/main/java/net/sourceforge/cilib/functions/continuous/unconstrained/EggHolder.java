@@ -68,18 +68,18 @@ class EggHolder extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(-959.64);
+    public Double getMinimum() {
+        return -959.64;
      }
 
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         double sum = 0.0;
-        for (int i = 0; i < x.getDimension() - 1; i++) {
-            sum += (-1*(x.getReal(i+1) + 47)
-                    *Math.sin(Math.sqrt(Math.abs(x.getReal(i+1) + x.getReal(i)/2 + 47)))
-                    + Math.sin(Math.sqrt(Math.abs(x.getReal(i) - (x.getReal(i+1)+47))))
-                    *(-1*x.getReal(i)));
+        for (int i = 0; i < input.getDimension() - 1; i++) {
+            sum += (-1*(input.getReal(i+1) + 47)
+                    *Math.sin(Math.sqrt(Math.abs(input.getReal(i+1) + input.getReal(i)/2 + 47)))
+                    + Math.sin(Math.sqrt(Math.abs(input.getReal(i) - (input.getReal(i+1)+47))))
+                    *(-1*input.getReal(i)));
         }
         return sum;
     }

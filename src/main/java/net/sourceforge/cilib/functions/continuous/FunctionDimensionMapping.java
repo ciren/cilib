@@ -68,10 +68,10 @@ public class FunctionDimensionMapping extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         // The vector x is an entities information vector which represents the seed to
         // a random number generator.
-        long seed = convert(x);
+        long seed = convert(input);
         Random generator = new MersenneTwister();
         generator.setSeed(seed);
 

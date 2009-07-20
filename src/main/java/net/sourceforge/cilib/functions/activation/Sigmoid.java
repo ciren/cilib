@@ -24,7 +24,6 @@ package net.sourceforge.cilib.functions.activation;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
@@ -61,16 +60,14 @@ public class Sigmoid extends ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Type x) {
-        Vector vector = (Vector) x;
-
-        if (vector.getDimension() != 1)
+    public Double evaluate(Vector input) {
+        if (input.getDimension() != 1)
             throw new UnsupportedOperationException("Cannot determine the actvation of more than a single value");
 
         if (steepness.getParameter() < 0.0)
             throw new UnsupportedOperationException("Steepness value for sigmoid function must be >= 0");
 
-        return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness.getParameter()*(vector.getReal(0)-offset.getParameter()))));
+        return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness.getParameter()*(input.getReal(0)-offset.getParameter()))));
     }
 
     /**
@@ -87,16 +84,16 @@ public class Sigmoid extends ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Object getMaximum() {
-        return new Double(1.0);
+    public Double getMaximum() {
+        return 1.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getMinimum() {
-        return new Double(0.0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**

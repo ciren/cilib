@@ -58,19 +58,19 @@ public class SchwefelProblem2_21 extends ContinuousFunction {
      * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
-        double max = Math.abs(x.getReal(0));
+    public Double evaluate(Vector input) {
+        double max = Math.abs(input.getReal(0));
         double value;
 
-        for (int i = 1; i < x.getDimension(); ++i) {
-            value = Math.abs(x.getReal(i));
+        for (int i = 1; i < input.getDimension(); ++i) {
+            value = Math.abs(input.getReal(i));
             if (value > max)
                 max = value;
         }

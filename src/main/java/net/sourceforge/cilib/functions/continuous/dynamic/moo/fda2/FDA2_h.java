@@ -207,19 +207,20 @@ public class FDA2_h extends ContinuousFunction {
      * Evaluates the function
      * h(X_III, f_1, g) = 1-(f_1/g)^(H(t) + sum(x_i-H(t))^2)^(-1)
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         this.tau = Algorithm.get().getIterations();
 
         double t = (1.0/(double)n_t)*Math.floor((double)this.tau/(double)this.tau_t);
         double H = 0.75 + 0.7*(Math.sin(0.5*Math.PI*t));
 
-        Vector xI = x;
-        Vector xII = x;
-        Vector xIII = x;
-        if (x.getDimension() > 1) {
-            xI = x.subList(0, 0);
-            xII = x.subList(1, 15);
-            xIII = x.subList(16, x.getDimension()-1);
+        Vector xI = input;
+        Vector xII = input;
+        Vector xIII = input;
+        if (input.getDimension() > 1) {
+            xI = input.subList(0, 0);
+            xII = input.subList(1, 15);
+            xIII = input.subList(16, input.getDimension()-1);
         }
 
         double f = this.fda2_f.evaluate(xI);
@@ -233,7 +234,7 @@ public class FDA2_h extends ContinuousFunction {
         }
 
         power = Math.pow(power, -1);
-        double f_div_g = (double)f / (double)g;
+        double f_div_g = f / g;
         value -= Math.pow(f_div_g, power);
 
         return value;

@@ -59,17 +59,18 @@ public class HyperEllipsoid extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            tmp += (i + 1) * x.getReal(i) * x.getReal(i);
+            tmp += (i + 1) * input.getReal(i) * input.getReal(i);
         }
         return tmp;
     }

@@ -58,6 +58,6 @@ public class EasomTest {
 
     @Test
     public void minimum() {
-        assertEquals(-1.0, function.getMinimum());
+        assertEquals(-1.0, function.getMinimum().doubleValue(), 0.0001);
     }
 }

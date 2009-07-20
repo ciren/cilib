@@ -94,16 +94,17 @@ public class Branin extends ContinuousFunction implements Serializable {
      *
      * The minimum is located at <code>0.397887</code>.
      */
-    public Object getMinimum() {
-        return new Double(0.397887);
+    public Double getMinimum() {
+        return 0.397887;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
-        double x1 = x.getReal(0);
-        double x2 = x.getReal(1);
+    @Override
+    public Double evaluate(Vector input) {
+        double x1 = input.getReal(0);
+        double x2 = input.getReal(1);
 
         return a*Math.pow((x2 - b*x1*x1 + c*x1 - d), 2) + e*(1 - f)*Math.cos(x1) + e;
     }

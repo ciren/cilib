@@ -66,13 +66,13 @@ public class KnightsTour extends DiscreteFunction {
     /**
      *
      */
-    public Object getMaximum() {
-        double tmp = boardSize * boardSize;
+    public Integer getMaximum() {
+        int tmp = boardSize * boardSize;
 
         if (isCyclic()) {
-            return new Double(tmp);
+            return tmp;
         } else {
-            return new Double(tmp - 1);
+            return tmp-1;
         }
     }
 
@@ -80,16 +80,16 @@ public class KnightsTour extends DiscreteFunction {
      *
      * @return
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Integer getMinimum() {
+        return 0;
     }
 
     /**
      *
      */
     @Override
-    public double evaluate(Vector x) {
-        double fitness = 0.0;
+    public Integer evaluate(Vector input) {
+        int fitness = 0;
 
         int row = startX;
         int col = startY;
@@ -105,11 +105,11 @@ public class KnightsTour extends DiscreteFunction {
         int move = 0;
         while (true) {
             if (0 <= row && row < boardSize && 0 <= col && col < boardSize) {
-                int moveNum = decode(x.getInt(move * 3), x.getInt(move * 3 + 1), x.getInt(move * 3 + 2));
+                int moveNum = decode(input.getInt(move * 3), input.getInt(move * 3 + 1), input.getInt(move * 3 + 2));
                 if (!visited[row][col]) {
                     fitness++;
                     move++;
-                    if (move == ((Double) getMaximum()).doubleValue() - 1) {
+                    if (move == getMaximum() - 1) {
                         break;
                     }
 
@@ -140,7 +140,7 @@ public class KnightsTour extends DiscreteFunction {
 
                                 test++;
 
-                                modifyBits(x, move, k);
+                                modifyBits(input, move, k);
 
                                 break;
                             }
