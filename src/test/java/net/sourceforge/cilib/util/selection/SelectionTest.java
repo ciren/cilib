@@ -23,8 +23,11 @@ package net.sourceforge.cilib.util.selection;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
+import net.sourceforge.cilib.math.random.generator.Random;
 import org.junit.Assert;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
@@ -72,4 +75,47 @@ public class SelectionTest {
         Assert.assertEquals(5, selection.get(1).intValue());
         Assert.assertEquals(7, selection.get(2).intValue());
     }
+
+    @Test
+    public void randomFrom() {
+        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Integer selection = Selection.randomFrom(elements, new MockRandom());
+
+        Assert.assertEquals(1, selection.intValue());
+    }
+
+    @Test(expected=NoSuchElementException.class)
+    public void emptyRandomFrom() {
+        List<Integer> elements = Arrays.asList();
+        Selection.randomFrom(elements, new MockRandom());
+    }
+
+    @Test
+    public void multipleRandomFrom() {
+        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        List<Integer> selection = Selection.randomFrom(elements, new MockRandom(), 2);
+
+        Assert.assertEquals(2, selection.size());
+        Assert.assertThat(selection.get(0), is(1));
+        Assert.assertThat(selection.get(1), is(1));
+    }
+
+    private class MockRandom extends Random {
+        private static final long serialVersionUID = 6512653155066129236L;
+
+        public MockRandom() {
+            super(0);
+        }
+
+        @Override
+        public Random getClone() {
+            return this;
+        }
+
+        @Override
+        public int nextInt(int n) {
+            return 0;
+        }
+    }
+
 }

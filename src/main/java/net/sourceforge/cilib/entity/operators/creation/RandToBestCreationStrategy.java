@@ -24,7 +24,6 @@
  */
 package net.sourceforge.cilib.entity.operators.creation;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -69,7 +68,7 @@ public class RandToBestCreationStrategy extends RandCreationStrategy {
             Topology<? extends Entity> topology) {
         Entity bestEntity = topology.getBestEntity();
         Random random = new MersenneTwister();
-        List<Entity> participants = Selection.from(topology.asList()).exclude(Arrays.asList(targetEntity, bestEntity, current)).unique().random(random, (int)numberOfDifferenceVectors.getParameter()).select();
+        List<Entity> participants = Selection.from(topology.asList()).exclude(targetEntity, bestEntity, current).unique().random(random, (int)numberOfDifferenceVectors.getParameter()).select();
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = ((Vector) targetEntity.getCandidateSolution()).multiply(1 - greedynessParameter.getParameter());

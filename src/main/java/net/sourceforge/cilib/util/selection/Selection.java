@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.util.selection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -90,8 +91,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Create an instance of {@code UniqueSelection} that contains the same elements as this Selection
-     * @return An instance of {@code UniqueSelection} with identical elements.
+     * {@inheritDoc}
      */
     @Override
     public UniqueSelection<E> unique(){
@@ -147,11 +147,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Apply the provided ordering on the current selection. The result of the
-     * operation will result in a modified selection.
-     * @param ordering The ordering to orderBy.
-     * @return A selection upon which the ordering has been applied.
-     * @throws UnsupportedOperationException if the ordering cannot be applied.
+     * {@inheritDoc}
      */
     @Override
     public Selection<E> orderBy(Ordering<E> ordering) {
@@ -166,10 +162,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Apply the provided weighing on the current selection. The result of the
-     * operation will result in new weighed selection.
-     * @param weighing The weighing to weighWith.
-     * @return A selection upon which the weighing has been applied.
+     * {@inheritDoc}
      */
     @Override
     public Selection<E> weigh(Weighing<E> weighing) {
@@ -184,9 +177,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Obtain the first result from the current selection. These elements are returned
-     * from the front of the current selection.
-     * @return A selection containing the first element.
+     * {@inheritDoc}
      */
     @Override
     public Selection<E> first() {
@@ -195,10 +186,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Obtain the first {@code number} of elements from the current selection. These
-     * elements are returned from the front of the current selection.
-     * @param number The number of elements to return.
-     * @return A selection containing the first {@code number} elements.
+     * {@inheritDoc}
      */
     @Override
     public Selection<E> first(int number) {
@@ -207,8 +195,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Obtain the last element contained within the current selection.
-     * @return A selection containing the last element.
+     * {@inheritDoc}
      */
     @Override
     public Selection<E> last() {
@@ -217,9 +204,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Obtain the last {@code number} of elements from the current selection.
-     * @param number The number of elements to select.
-     * @return A selection containing the last {@code number} of elements.
+     * {@inheritDoc}
      */
     @Override
     public Selection<E> last(int number) {
@@ -228,8 +213,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Obtain the result of the selection.
-     * @return A list of elements that the selection has selected.
+     * {@inheritDoc}
      */
     @Override
     public List<E> select() {
@@ -243,8 +227,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Obtain the first result of the selection.
-     * @return The first element returned by the selection.
+     * {@inheritDoc}
      */
     @Override
     public E singleSelect() {
@@ -252,8 +235,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Obtain the list of internal {@code Entry} instances.
-     * @return The list of internal {@code Entry} instances.
+     * {@inheritDoc}
      */
     @Override
     public List<Selection.Entry<E>> entries() {
@@ -261,41 +243,48 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
     }
 
     /**
-     * Remove any {@code Entry}'s from {@code elements} that are also contained in {@code exclusion}.
-     * @return A selection containing the remaining elements which do not occur in {@code exclusion}.
+     * {@inheritDoc}
      */
     @Override
-    public Selection<E> exclude(List<? extends E> exclusion) {
-        for(int i = elements.size() - 1; i >= 0; --i){
-            Entry element = elements.get(i);
-            if(exclusion.contains(element.getElement()))
-                elements.remove(element);
+    public Selection<E> exclude(E... exclusions) {
+        List<E> exclusionList = Arrays.asList(exclusions);
+        return this.exclude(exclusionList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Selection<E> exclude(Iterable<E> exclusions) {
+        List<Entry<E>> tmp = new ArrayList<Entry<E>>();
+
+        for (E e : exclusions) {
+            for (Entry<E> entry : this.elements)
+                if (entry.getElement().equals(e))
+                    tmp.add(entry);
         }
+
+        this.elements.removeAll(tmp);
         return this;
     }
 
     /**
-     * Obtain a random element from the current Selection.
-     * @param random The random number to be used in the selection.
-     * @return A selection containing a random element from the original {@code elements} member.
+     * {@inheritDoc}
      */
     @Override
     public Selection<E> random(Random random) {
-        Entry<E> randomEntry = Selection.randomFrom(elements, random);
-        elements.clear();
-        elements.add(randomEntry);
+        Entry<E> randomEntry = randomFrom(this.elements, random);
+        this.elements.clear();
+        this.elements.add(randomEntry);
         return this;
     }
 
     /**
-     * Obtain a random number of elements from the current Selection.
-     * @param random The random number to be used in the selection.
-     * @param number The number of elements to select.
-     * @return A selection containing the random elements from the original {@code elements} member.
+     * {@inheritDoc}
      */
     @Override
     public Selection<E> random(Random random, int number) {
-        elements = Selection.randomFrom(elements, random, number);
+        this.elements = randomFrom(this.elements, random, number);
         return this;
     }
 
