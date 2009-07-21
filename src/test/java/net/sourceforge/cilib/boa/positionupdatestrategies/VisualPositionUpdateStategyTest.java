@@ -72,16 +72,13 @@ public class VisualPositionUpdateStategyTest {
         abc.performIteration();
         Fitness oldFitness = bee.getFitness().getClone();
         abc.performIteration();
-        Vector currentPosition = (Vector) bee.getPosition();
-        System.out.println(currentPosition);
+        Vector currentPosition = bee.getPosition();
         assertEquals(10, currentPosition.size());
         for (int i = 0; i < currentPosition.size(); i++) {
             assertTrue(((Real) currentPosition.get(i)).getReal() != Double.NaN);
             assertTrue(!Double.isInfinite(((Real) currentPosition.get(i)).getReal()));
         }
         Fitness newFitness = bee.getFitness();
-        System.out.println(oldFitness.getValue());
-        System.out.println(newFitness.getValue());
         assertTrue(newFitness.compareTo(oldFitness)  >= 0);
     }
 }
