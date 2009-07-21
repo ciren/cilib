@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.util.selection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -32,8 +33,8 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
 /**
  * <p>
  * A {@code Selection} is an abstraction that allows operations to be applied to
- * a collection instace that result in a selection of list elements, based on a varied of
- * potential combination of operators.
+ * a collection instance that result in a selection of list elements, based on
+ * a variety of potential combination of operators.
  * </p>
  * <p>
  * The {@code Selection} is implemented to be a fluent interface that is easily
@@ -61,7 +62,7 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * @param <E> The comparable type.
  * @author gpampara
  */
-public final class Selection<E> implements SelectionSyntax<E> {
+public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, UniqueSyntax<E> {
 
     private List<Entry<E>> elements;
 
@@ -87,6 +88,14 @@ public final class Selection<E> implements SelectionSyntax<E> {
      */
     public static <T> Selection<T> from(List<? extends T> elements) {
         return new Selection<T>(elements);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UniqueSelection<E> unique(){
+        return UniqueSelection.from(this.select());
     }
 
     /**
@@ -138,14 +147,10 @@ public final class Selection<E> implements SelectionSyntax<E> {
     }
 
     /**
-     * Apply the provided ordering on the current selection. The result of the
-     * operation will result in a modified selection.
-     * @param ordering The ordering to orderBy.
-     * @return A selection upon which the ordering has been applied.
-     * @throws UnsupportedOperationException if the ordering cannot be applied.
+     * {@inheritDoc}
      */
     @Override
-    public SelectionSyntax<E> orderBy(Ordering<E> ordering) {
+    public Selection<E> orderBy(Ordering<E> ordering) {
         boolean result = ordering.order(this.elements);
 
         if (result) {
@@ -157,13 +162,10 @@ public final class Selection<E> implements SelectionSyntax<E> {
     }
 
     /**
-     * Apply the provided weighing on the current selection. The result of the
-     * operation will result in new weighed selection.
-     * @param weighing The weighing to weighWith.
-     * @return A selection upon which the weighing has been applied.
+     * {@inheritDoc}
      */
     @Override
-    public SelectionSyntax<E> weigh(Weighing<E> weighing) {
+    public Selection<E> weigh(Weighing<E> weighing) {
         boolean result = weighing.weigh(this.elements);
 
         if (result) {
@@ -175,52 +177,43 @@ public final class Selection<E> implements SelectionSyntax<E> {
     }
 
     /**
-     * Obtain the first result from the current selection. These elements are returned
-     * from the front of the current selection.
-     * @return A selection containing the first element.
+     * {@inheritDoc}
      */
     @Override
-    public SelectionSyntax<E> first() {
+    public Selection<E> first() {
         this.elements = this.elements.subList(0, 1);
         return this;
     }
 
     /**
-     * Obtain the frist {@code number} of elements from the current selection. These
-     * elements are returned from the front of the current selection.
-     * @param number The number of elements to return.
-     * @return A selection containing the first {@code number} elements.
+     * {@inheritDoc}
      */
     @Override
-    public SelectionSyntax<E> first(int number) {
+    public Selection<E> first(int number) {
         this.elements = this.elements.subList(0, number);
         return this;
     }
 
     /**
-     * Obtain the last element contained within the current selection.
-     * @return A selection containing the last element.
+     * {@inheritDoc}
      */
     @Override
-    public SelectionSyntax<E> last() {
+    public Selection<E> last() {
         this.elements = this.elements.subList(this.elements.size() - 1, this.elements.size());
         return this;
     }
 
     /**
-     * Obtain the last {@code number} of elements from the current selection.
-     * @param number The number of elements to select.
-     * @return A selection containing the last {@code number} of elements.
+     * {@inheritDoc}
      */
     @Override
-    public SelectionSyntax<E> last(int number) {
+    public Selection<E> last(int number) {
         this.elements = this.elements.subList(this.elements.size() - number, this.elements.size());
         return this;
     }
 
     /**
-     * Obtain the result of the selection.
-     * @return A list of elements that the selection has selected.
+     * {@inheritDoc}
      */
     @Override
     public List<E> select() {
@@ -234,8 +227,7 @@ public final class Selection<E> implements SelectionSyntax<E> {
     }
 
     /**
-     * Obtain the first result of the selection.
-     * @return The first element returned by the selection.
+     * {@inheritDoc}
      */
     @Override
     public E singleSelect() {
@@ -243,12 +235,57 @@ public final class Selection<E> implements SelectionSyntax<E> {
     }
 
     /**
-     * Obtain the list of internal {@code Entry} instances.
-     * @return The list of internal {@code Entry} instances.
+     * {@inheritDoc}
      */
     @Override
     public List<Selection.Entry<E>> entries() {
         return this.elements;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Selection<E> exclude(E... exclusions) {
+        List<E> exclusionList = Arrays.asList(exclusions);
+        return this.exclude(exclusionList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Selection<E> exclude(Iterable<E> exclusions) {
+        List<Entry<E>> tmp = new ArrayList<Entry<E>>();
+
+        for (E e : exclusions) {
+            for (Entry<E> entry : this.elements)
+                if (entry.getElement().equals(e))
+                    tmp.add(entry);
+        }
+
+        this.elements.removeAll(tmp);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Selection<E> random(Random random) {
+        Entry<E> randomEntry = randomFrom(this.elements, random);
+        this.elements.clear();
+        this.elements.add(randomEntry);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Selection<E> random(Random random, int number) {
+        this.elements = randomFrom(this.elements, random, number);
+        return this;
     }
 
     /**
@@ -268,7 +305,7 @@ public final class Selection<E> implements SelectionSyntax<E> {
         /**
          * Create a new {@code Entry}. This constructor is private intentionall
          * @param element The element to decorate.                             +         */
-        private Entry(E element) {
+        Entry(E element) {
             this.element = element;
             this.weight = 0.0;
         }

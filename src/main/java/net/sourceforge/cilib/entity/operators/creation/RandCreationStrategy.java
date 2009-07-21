@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.entity.operators.creation;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,24 +28,25 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.operators.selection.RandomSelectionStrategy;
-import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
 import net.sourceforge.cilib.entity.topologies.TopologyHolder;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.selection.Selection;
 
 public class RandCreationStrategy implements CreationStrategy {
     private static final long serialVersionUID = 930740770470361009L;
 
-    private ControlParameter scaleParameter;
-    private ControlParameter numberOfDifferenceVectors;
+    protected ControlParameter scaleParameter;
+    protected ControlParameter numberOfDifferenceVectors;
 
     /**
      * Create a new instance of {@code CurrentToRandCreationStrategy}.
      */
     public RandCreationStrategy() {
         this.scaleParameter = new ConstantControlParameter(0.5);
-        this.numberOfDifferenceVectors = new ConstantControlParameter(1);
+        this.numberOfDifferenceVectors = new ConstantControlParameter(2);
     }
 
     /**
@@ -72,7 +72,8 @@ public class RandCreationStrategy implements CreationStrategy {
      */
     @Override
     public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology) {
-        List<Entity> participants = selectEntities(current, topology);
+        Random random = new MersenneTwister();
+        List<Entity> participants = Selection.from(topology.asList()).exclude(targetEntity, current).unique().random(random, (int)numberOfDifferenceVectors.getParameter()).select();
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = (Vector) targetEntity.getCandidateSolution();
@@ -92,7 +93,7 @@ public class RandCreationStrategy implements CreationStrategy {
      *        reduce the diversity of the population as not all entities will be considered.
      * @return A {@linkplain Vector} representing the resultant of all calculated difference vectors.
      */
-    private Vector determineDistanceVector(List<Entity> participants) {
+    protected Vector determineDistanceVector(List<Entity> participants) {
         Vector distanceVector = new Vector(participants.get(0).getCandidateSolution().size(), new Real(0.0));
         Iterator<Entity> iterator = participants.iterator();
 
@@ -108,36 +109,20 @@ public class RandCreationStrategy implements CreationStrategy {
     }
 
     /**
-     * This private method implements the "y" part of the DE/x/y/z structure.
-     * @param current The current {@linkplain Entity} in the {@linkplain Topology}
-     * @param topology The current population.
-     * @return {@linkplain List} containing the entities to be used in the calculation of
-     *         the difference vectors.
-     */
-    private List<Entity> selectEntities(Entity current, Topology<? extends Entity> topology) {
-        SelectionStrategy randomSelectionStrategy = new RandomSelectionStrategy();
-        List<Entity> participants = new ArrayList<Entity>();
-
-        int total = 2 * Double.valueOf(this.numberOfDifferenceVectors.getParameter()).intValue();
-
-        while (participants.size() < total) {
-            Entity entity = randomSelectionStrategy.select(topology);
-
-            if (participants.contains(entity)) continue;
-            if (current == entity) continue;
-
-            participants.add(entity);
-        }
-
-        return participants;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public void performOperation(TopologyHolder holder) {
         throw new UnsupportedOperationException("Not supported yet. This may need some more refactoring. May require looping operator?");
+    }
+
+    public void setScaleParameter(ControlParameter scaleParameter) {
+        this.scaleParameter = scaleParameter;
+    }
+
+    public void setNumberOfDifferenceVectors(
+            ControlParameter numberOfDifferenceVectors) {
+        this.numberOfDifferenceVectors = numberOfDifferenceVectors;
     }
 
 

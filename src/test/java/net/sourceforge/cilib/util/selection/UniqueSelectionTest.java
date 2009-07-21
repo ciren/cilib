@@ -23,18 +23,16 @@ package net.sourceforge.cilib.util.selection;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
-import net.sourceforge.cilib.math.random.generator.Random;
+
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
+import net.sourceforge.cilib.math.random.generator.Seeder;
+import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
+
 import org.junit.Assert;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
 
-/**
- *
- * @author gpampara
- */
-public class SelectionTest {
-
+public class UniqueSelectionTest {
     @Test
     public void lastSelection() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -77,45 +75,20 @@ public class SelectionTest {
     }
 
     @Test
-    public void randomFrom() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Integer selection = Selection.randomFrom(elements, new MockRandom());
+    public void randomSelection(){
+        SeedSelectionStrategy seedStrategy = Seeder.getSeederStrategy();
+        Seeder.setSeederStrategy(new ZeroSeederStrategy());
 
-        Assert.assertEquals(1, selection.intValue());
-    }
-
-    @Test(expected=NoSuchElementException.class)
-    public void emptyRandomFrom() {
-        List<Integer> elements = Arrays.asList();
-        Selection.randomFrom(elements, new MockRandom());
-    }
-
-    @Test
-    public void multipleRandomFrom() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Integer> selection = Selection.randomFrom(elements, new MockRandom(), 2);
-
-        Assert.assertEquals(2, selection.size());
-        Assert.assertThat(selection.get(0), is(1));
-        Assert.assertThat(selection.get(1), is(1));
-    }
-
-    private class MockRandom extends Random {
-        private static final long serialVersionUID = 6512653155066129236L;
-
-        public MockRandom() {
-            super(0);
-        }
-
-        @Override
-        public Random getClone() {
-            return this;
-        }
-
-        @Override
-        public int nextInt(int n) {
-            return 0;
+        try {
+            List<Integer> elements = Arrays.asList(1, 2, 3, 4);
+            List<Integer> selection = UniqueSelection.from(elements).random(new MersenneTwister(), 4).select();
+            Assert.assertEquals(4, selection.size());
+            Assert.assertEquals(4, selection.get(0).intValue());
+            Assert.assertEquals(1, selection.get(1).intValue());
+            Assert.assertEquals(3, selection.get(2).intValue());
+            Assert.assertEquals(2, selection.get(3).intValue());
+        } finally {
+            Seeder.setSeederStrategy(seedStrategy);
         }
     }
-
 }
