@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.boa.bee;
 
-import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.boa.positionupdatestrategies.BeePositionUpdateStrategy;
 import net.sourceforge.cilib.boa.positionupdatestrategies.VisualPositionUpdateStategy;
 import net.sourceforge.cilib.entity.AbstractEntity;
@@ -40,8 +39,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
-    private static final long serialVersionUID = 7005546673802814268L;
 
+    private static final long serialVersionUID = 7005546673802814268L;
     protected BeePositionUpdateStrategy positionUpdateStrategy;
     protected SelectionStrategy targetSelectionStrategy;
     protected int dimension;
@@ -77,6 +76,14 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
     @Override
     public BeePositionUpdateStrategy getPositionUpdateStrategy() {
         return this.positionUpdateStrategy;
+    }
+
+    /**
+     * Sets the position update strategy of the bee.
+     * @param positionUpdateStrategy the new position update strategy.
+     */
+    public void setPositionUpdateStrategy(BeePositionUpdateStrategy positionUpdateStrategy) {
+        this.positionUpdateStrategy = positionUpdateStrategy;
     }
 
     /**
@@ -118,6 +125,14 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
     }
 
     /**
+     * Sets the dimension of the solution used by the bee.
+     * @param dimension the new dimension of the solution.
+     */
+    public void setDimension(int dimension) {
+        this.dimension = dimension;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public Vector getPosition() {
@@ -151,4 +166,19 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
         throw new UnsupportedOperationException("Reinitialise not implemented for AbstractBee");
     }
 
+    /**
+     * Gets the target selection strategy, for selecting bees to follow in position updates.
+     * @return the target selection strategy.
+     */
+    public SelectionStrategy getTargetSelectionStrategy() {
+        return targetSelectionStrategy;
+    }
+
+    /**
+     * Sets the target selection strategy, for selecting bees to follow in position updates.
+     * @param targetSelectionStrategy  the new target selection strategy.
+     */
+    public void setTargetSelectionStrategy(SelectionStrategy targetSelectionStrategy) {
+        this.targetSelectionStrategy = targetSelectionStrategy;
+    }
 }

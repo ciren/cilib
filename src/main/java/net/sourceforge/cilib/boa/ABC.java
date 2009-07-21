@@ -63,19 +63,16 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  *
  */
 public class ABC extends SinglePopulationBasedAlgorithm {
-    private static final long serialVersionUID = 7918711449442012960L;
 
+    private static final long serialVersionUID = 7918711449442012960L;
     private Topology<HoneyBee> workerBees;                //keeps references to the worker bees
     private Topology<HoneyBee> onlookerBees;            //keeps references to the onlooker bees
     private Topology<HoneyBee> hive;                    //keeps references to all the bees (workers and onlookers)
-
     private ExplorerBee explorerBee;                    //explorer bee
     private SelectionStrategy dancingSelectionStrategy; //bee dancing selection strategy
-
     private ControlParameter workerBeePercentage;        //control parameter for number of worker bees
     private ControlParameter forageLimit;                //control parameter for the forage limit
     private ControlParameter explorerBeeUpdateLimit;    //control parameter to limit the explorer bee position updates per iteration
-
     private HoneyBee bestBee;                            //reference to best solution found so far
 
     /**
@@ -134,7 +131,7 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         this.initialisationStrategy.initialise(hive, this.optimisationProblem);
 
         int i;
-        int numWorkerBees = (int) (workerBeePercentage.getParameter()*hive.size());
+        int numWorkerBees = (int) (workerBeePercentage.getParameter() * hive.size());
         for (i = 0; i < numWorkerBees; i++) {
             WorkerBee bee = (WorkerBee) hive.get(i);
             bee.setForageLimit(this.forageLimit.getClone());
@@ -158,11 +155,9 @@ public class ABC extends SinglePopulationBasedAlgorithm {
     protected void algorithmIteration() {
         for (HoneyBee bee : workerBees) {
             bee.updatePosition();
-            bee.calculateFitness();
             if (bestBee == null) {
                 bestBee = bee.getClone();
-            }
-            else if (bee.getBestFitness().compareTo(bestBee.getBestFitness()) > 0) {
+            } else if (bee.getBestFitness().compareTo(bestBee.getBestFitness()) > 0) {
                 bestBee = bee.getClone();
             }
         }
@@ -171,11 +166,9 @@ public class ABC extends SinglePopulationBasedAlgorithm {
             HoneyBee selectedBee = dancingSelectionStrategy.select(workerBees);
             bee.setPosition(selectedBee.getPosition().getClone());
             bee.updatePosition();
-            bee.calculateFitness();
             if (bestBee == null) {
                 bestBee = bee;
-            }
-            else if (bee.getBestFitness().compareTo(bestBee.getBestFitness()) > 0) {
+            } else if (bee.getBestFitness().compareTo(bestBee.getBestFitness()) > 0) {
                 bestBee = bee;
             }
         }
@@ -186,8 +179,9 @@ public class ABC extends SinglePopulationBasedAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        if (this.bestBee == null)
+        if (this.bestBee == null) {
             throw new InitialisationException("Best solution cannot be determined before algorithm is run");
+        }
 
         return new OptimisationSolution(bestBee.getPosition(), bestBee.getFitness());
     }
@@ -208,14 +202,6 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         return this.hive;
     }
 
-    public Topology<HoneyBee> getWorkerTopology() {
-        return this.workerBees;
-    }
-
-    public Topology<HoneyBee> getOnlookerTopology() {
-        return this.onlookerBees;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -224,41 +210,156 @@ public class ABC extends SinglePopulationBasedAlgorithm {
         throw new UnsupportedOperationException("Method not implemented");
     }
 
+    /**
+     * Gets the bee dancing selection strategy.
+     * @return the bee dancing selection strategy.
+     */
     public SelectionStrategy getDancingSelectionStrategy() {
         return dancingSelectionStrategy;
     }
 
+    /**
+     * Sets the bee dancinc selection strategy.
+     * @param dancingSelectionStrategy the new bee dancing selection strategy.
+     */
     public void setDancingSelectionStrategy(
             SelectionStrategy dancingSelectionStrategy) {
         this.dancingSelectionStrategy = dancingSelectionStrategy;
     }
 
+    /**
+     * Gets the explorer bee.
+     * @return the explorer bee.
+     */
     public ExplorerBee getExplorerBee() {
         return this.explorerBee;
     }
 
+    /**
+     * Sets the explorer bee.
+     * @param explorerBee the new explorer bee.
+     */
+    public void setExplorerBee(ExplorerBee explorerBee) {
+        this.explorerBee = explorerBee;
+    }
+
+    /**
+     * Gets the {@code ControlParameter} specifying the number of worker bees.
+     * @return the {@code ControlParameter} specifying the number of worker bees.
+     */
     public ControlParameter getWorkerBeeNumber() {
         return workerBeePercentage;
     }
 
+    /**
+     * Gets the {@code ControlParameter} specifying  the percentage of worker bees.
+     * @return the  {@code ControlParameter} specifying the percentage of worker bees.
+     */
+    public ControlParameter getWorkerBeePercentage() {
+        return workerBeePercentage;
+    }
+
+    /**
+     * Sets the {@code ControlParameter} specifying  the percentage of worker bees..
+     * @param workerBeeNumber  the new  {@code ControlParameter} specifying the percentage of worker bees.
+     */
     public void setWorkerBeePercentage(ControlParameter workerBeeNumber) {
         this.workerBeePercentage = workerBeeNumber;
     }
 
+    /**
+     * Gets the {@code ControlParameter} specifying the foraging limit.
+     * @return the  {@code ControlParameter} specifying the foraging limit.
+     */
     public ControlParameter getForageLimit() {
         return forageLimit;
     }
 
+    /**
+     * Sets the {@code ControlParameter} specifying the foraging limit.
+     * @param forageThreshold  the new  {@code ControlParameter} specifying the foraging limit.
+     */
     public void setForageLimit(ControlParameter forageThreshold) {
         this.forageLimit = forageThreshold;
     }
 
+     /**
+     * Gets the {@code ControlParameter} specifying the limit to how many times the explorer bee can update positions.
+     * @return the  {@code ControlParameter} specifying the limit to how many times the explorer bee can update positions.
+     */
     public ControlParameter getExplorerBeeUpdateLimit() {
         return explorerBeeUpdateLimit;
     }
 
+    /**
+     * Sets the {@code ControlParameter} specifying the limit to how many times the explorer bee can update positions.
+     * @param explorerBeeUpdateLimit  the  {@code ControlParameter} specifying the limit to how many times the explorer bee can update positions.
+     */
     public void setExplorerBeeUpdateLimit(ControlParameter explorerBeeUpdateLimit) {
         this.explorerBeeUpdateLimit = explorerBeeUpdateLimit;
     }
 
+    /**
+     * Gets the bee with the highest fitness during the algorithm execution.
+     * @return the bee with the highest fitness.
+     */
+    public HoneyBee getBestBee() {
+        return bestBee;
+    }
+
+    /**
+     * Sets the bee with the highest fitness during the algorithm execution.
+     * @param bestBee the new bee with the highest fitness.
+     */
+    public void setBestBee(HoneyBee bestBee) {
+        this.bestBee = bestBee;
+    }
+
+    /**
+     * Get the {@code Topology}  containing all the bees in the hive.
+     * @return the {@code Topology}  containing all bees in the hive.
+     */
+    public Topology<HoneyBee> getHive() {
+        return hive;
+    }
+
+    /**
+     * Set the {@code Topology}  containing all the bees in the hive.
+     * @param hive the new {@code Topology}  containing all bees in the hive.
+     */
+    public void setHive(Topology<HoneyBee> hive) {
+        this.hive = hive;
+    }
+
+    /**
+     * Get the {@code Topology}  containing the onlooker bees.
+     * @return the {@code Topology} containing the onlooker bees.
+     */
+    public Topology<HoneyBee> getOnlookerBees() {
+        return onlookerBees;
+    }
+
+    /**
+     * Set the {@code Topology}  containing the onlooker bees.
+     * @param onlookerBees the new {@code Topology} containing the onlooker bees.
+     */
+    public void setOnlookerBees(Topology<HoneyBee> onlookerBees) {
+        this.onlookerBees = onlookerBees;
+    }
+
+    /**
+     * Get the {@code Topology}  containing the worker bees.
+     * @return the {@code Topology} containing the worker bees.
+     */
+    public Topology<HoneyBee> getWorkerBees() {
+        return workerBees;
+    }
+
+    /**
+     * Set the {@code Topology}  containing the worker bees.
+     * @param workerBees the new {@code Topology} containing the worker bees.
+     */
+    public void setWorkerBees(Topology<HoneyBee> workerBees) {
+        this.workerBees = workerBees;
+    }
 }
