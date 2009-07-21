@@ -50,4 +50,5 @@ public interface SelectionSyntax<E> {
     public List<Selection.Entry<E>> entries();
 
     public E singleSelect();
+
 }

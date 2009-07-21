@@ -32,8 +32,8 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
 /**
  * <p>
  * A {@code Selection} is an abstraction that allows operations to be applied to
- * a collection instace that result in a selection of list elements, based on a varied of
- * potential combination of operators.
+ * a collection instance that result in a selection of list elements, based on
+ * a variety of potential combination of operators.
  * </p>
  * <p>
  * The {@code Selection} is implemented to be a fluent interface that is easily
@@ -154,7 +154,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @throws UnsupportedOperationException if the ordering cannot be applied.
      */
     @Override
-    public SelectionSyntax<E> orderBy(Ordering<E> ordering) {
+    public Selection<E> orderBy(Ordering<E> ordering) {
         boolean result = ordering.order(this.elements);
 
         if (result) {
@@ -172,7 +172,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A selection upon which the weighing has been applied.
      */
     @Override
-    public SelectionSyntax<E> weigh(Weighing<E> weighing) {
+    public Selection<E> weigh(Weighing<E> weighing) {
         boolean result = weighing.weigh(this.elements);
 
         if (result) {
@@ -189,19 +189,19 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A selection containing the first element.
      */
     @Override
-    public SelectionSyntax<E> first() {
+    public Selection<E> first() {
         this.elements = this.elements.subList(0, 1);
         return this;
     }
 
     /**
-     * Obtain the frist {@code number} of elements from the current selection. These
+     * Obtain the first {@code number} of elements from the current selection. These
      * elements are returned from the front of the current selection.
      * @param number The number of elements to return.
      * @return A selection containing the first {@code number} elements.
      */
     @Override
-    public SelectionSyntax<E> first(int number) {
+    public Selection<E> first(int number) {
         this.elements = this.elements.subList(0, number);
         return this;
     }
@@ -211,7 +211,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A selection containing the last element.
      */
     @Override
-    public SelectionSyntax<E> last() {
+    public Selection<E> last() {
         this.elements = this.elements.subList(this.elements.size() - 1, this.elements.size());
         return this;
     }
@@ -222,7 +222,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A selection containing the last {@code number} of elements.
      */
     @Override
-    public SelectionSyntax<E> last(int number) {
+    public Selection<E> last(int number) {
         this.elements = this.elements.subList(this.elements.size() - number, this.elements.size());
         return this;
     }
@@ -280,7 +280,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A selection containing a random element from the original {@code elements} member.
      */
     @Override
-    public SelectionSyntax<E> random(Random random) {
+    public Selection<E> random(Random random) {
         Entry<E> randomEntry = Selection.randomFrom(elements, random);
         elements.clear();
         elements.add(randomEntry);
@@ -294,7 +294,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A selection containing the random elements from the original {@code elements} member.
      */
     @Override
-    public SelectionSyntax<E> random(Random random, int number) {
+    public Selection<E> random(Random random, int number) {
         elements = Selection.randomFrom(elements, random, number);
         return this;
     }

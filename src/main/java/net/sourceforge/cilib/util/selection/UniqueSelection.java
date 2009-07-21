@@ -19,9 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-/**
- *
- */
 package net.sourceforge.cilib.util.selection;
 
 import java.util.ArrayList;
@@ -37,10 +34,10 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * <p>
  * A {@code UniqueSelection} is an abstraction that allows operations to be applied to
  * a collection instace that result in a selection of list elements, based on a varied of
- * potential combination of operators. {@code UniqueSelection} is similar to {@code Selection}, except that the {#code random(int)} method
- * will return a list of unique random entries.
+ * potential combination of operators. {@code UniqueSelection} is similar to {@code Selection},
+ * except that the {#code random(int)} method will return a list of unique random entries.
  * </p>
-  * @param <E> The comparable type.
+ * @param <E> The selection type.
  * @author gpampara
  * @author leo
  */
@@ -63,11 +60,14 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
 
     /**
      * Create a selection that will operate on the provided collection.
+     * This method is intentionally package private as we don't want manual creation
+     * of UniqueSelection<T> instances. All access must be through the Selection<T>
+     * interface.
      * @param <T> The comparable type.
      * @param elements The collection of elements to operate on.
      * @return A UniqueSelection based on the provided collection.
      */
-    public static <T> UniqueSelection<T> from(List<? extends T> elements) {
+    static <T> UniqueSelection<T> from(List<? extends T> elements) {
         return new UniqueSelection<T>(elements);
     }
 
@@ -79,7 +79,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * @throws UnsupportedOperationException if the ordering cannot be applied.
      */
     @Override
-    public SelectionSyntax<E> orderBy(Ordering<E> ordering) {
+    public UniqueSelection<E> orderBy(Ordering<E> ordering) {
         boolean result = ordering.order(this.elements);
 
         if (result) {
@@ -97,7 +97,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * @return A selection upon which the weighing has been applied.
      */
     @Override
-    public SelectionSyntax<E> weigh(Weighing<E> weighing) {
+    public UniqueSelection<E> weigh(Weighing<E> weighing) {
         boolean result = weighing.weigh(this.elements);
 
         if (result) {
@@ -114,19 +114,19 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * @return A selection containing the first element.
      */
     @Override
-    public SelectionSyntax<E> first() {
+    public UniqueSelection<E> first() {
         this.elements = this.elements.subList(0, 1);
         return this;
     }
 
     /**
-     * Obtain the frist {@code number} of elements from the current selection. These
+     * Obtain the first {@code number} of elements from the current selection. These
      * elements are returned from the front of the current selection.
      * @param number The number of elements to return.
      * @return A selection containing the first {@code number} elements.
      */
     @Override
-    public SelectionSyntax<E> first(int number) {
+    public UniqueSelection<E> first(int number) {
         this.elements = this.elements.subList(0, number);
         return this;
     }
@@ -136,7 +136,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * @return A selection containing the last element.
      */
     @Override
-    public SelectionSyntax<E> last() {
+    public UniqueSelection<E> last() {
         this.elements = this.elements.subList(this.elements.size() - 1, this.elements.size());
         return this;
     }
@@ -147,7 +147,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * @return A selection containing the last {@code number} of elements.
      */
     @Override
-    public SelectionSyntax<E> last(int number) {
+    public UniqueSelection<E> last(int number) {
         this.elements = this.elements.subList(this.elements.size() - number, this.elements.size());
         return this;
     }
@@ -205,7 +205,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * @return A selection containing a random element from the original {@code elements} member.
      */
     @Override
-    public SelectionSyntax<E> random(Random random) {
+    public UniqueSelection<E> random(Random random) {
         Entry<E> randomEntry = Selection.randomFrom(elements, random);
         elements.clear();
         elements.add(randomEntry);
@@ -213,13 +213,13 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
     }
 
     /**
-     * Obtain a random number of elements from the current Selection. Each of these elements has to be unqiue
+     * Obtain a random number of elements from the current Selection. Each of these elements has to be unqiue.
      * @param random The random number to be used in the selection.
      * @param number The number of elements to select.
      * @return A selection containing the random elements from the original {@code elements} member.
      */
     @Override
-    public SelectionSyntax<E> random(Random random, int number) {
+    public UniqueSelection<E> random(Random random, int number) {
         if(number > elements.size())
             throw new RuntimeException("Unable to select " + number + " unique elements, current Selection only contains " + elements.size() + " elements.");
         List<Entry<E>> tmp = new ArrayList<Entry<E>>(number);
