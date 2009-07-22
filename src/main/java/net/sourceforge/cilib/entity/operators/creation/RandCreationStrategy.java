@@ -140,5 +140,36 @@ public class RandCreationStrategy implements CreationStrategy {
         throw new UnsupportedOperationException("Not supported yet. This may need some more refactoring. May require looping operator?");
     }
 
+    /**
+     * Get the number of difference vectors to create.
+     * @return The {@code ControlParameter} describing the numberof difference vectors.
+     */
+    public ControlParameter getNumberOfDifferenceVectors() {
+        return numberOfDifferenceVectors;
+    }
+
+    /**
+     * Set the number of difference vectors to create.
+     * @param numberOfDifferenceVectors The value to set.
+     */
+    public void setNumberOfDifferenceVectors(ControlParameter numberOfDifferenceVectors) {
+        this.numberOfDifferenceVectors = numberOfDifferenceVectors;
+    }
+
+    /**
+     * Get the current scale parameter, used within the creation.
+     * @return The {@code ControlParameter} representing the scale parameter.
+     */
+    public ControlParameter getScaleParameter() {
+        return scaleParameter;
+    }
+
+    /**
+     * Set the scale parameter for the creation strategy.
+     * @param scaleParameter The value to set.
+     */
+    public void setScaleParameter(ControlParameter scaleParameter) {
+        this.scaleParameter = scaleParameter;
+    }
 
 }
