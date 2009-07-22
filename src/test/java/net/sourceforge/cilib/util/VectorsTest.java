@@ -30,8 +30,10 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
 
 public class VectorsTest {
 
@@ -66,6 +68,19 @@ public class VectorsTest {
             assertTrue(Types.isInsideBounds(numeric));
             assertEquals(i++ * -2, numeric.getReal(), 0.0);
         }
+    }
+
+    @Test
+    public void vectorSum() {
+        Vector v1 = Vectors.create(1.0);
+        Vector v2 = Vectors.create(1.0);
+        Vector v3 = Vectors.create(1.0);
+        Vector v4 = Vectors.create(1.0);
+        Vector v5 = Vectors.create(1.0);
+
+        Vector result = Vectors.sumOf(v1, v2, v3, v4, v5);
+
+        Assert.assertThat(result.getReal(0), is(5.0));
     }
 
 }
