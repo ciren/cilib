@@ -139,6 +139,4 @@ public class RandCreationStrategy implements CreationStrategy {
     public void performOperation(TopologyHolder holder) {
         throw new UnsupportedOperationException("Not supported yet. This may need some more refactoring. May require looping operator?");
     }
-
-
 }
