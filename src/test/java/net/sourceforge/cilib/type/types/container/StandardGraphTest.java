@@ -23,6 +23,7 @@ package net.sourceforge.cilib.type.types.container;
 
 import org.junit.Assert;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
@@ -139,6 +140,20 @@ public class StandardGraphTest {
         g.addEdge(1.0, 2.0);
 
         Assert.assertEquals(1.0, g.distance(1.0, 2.0), 9);
+    }
+
+    @Test
+    public void vertexRemoval() {
+        StandardGraph<Double> g = new StandardGraph<Double>();
+        g.add(1.0);
+        g.add(2.0);
+        g.addEdge(1.0, 2.0);
+
+        g.remove(1.0);
+
+        Assert.assertThat(g.getVertex(0), is(2.0));
+        Assert.assertThat(g.edgeCount(), is(0));
+        Assert.assertThat(g.edgesOf(2.0).size(), is(0));
     }
 
 }
