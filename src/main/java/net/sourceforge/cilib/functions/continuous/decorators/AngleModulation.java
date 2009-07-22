@@ -141,7 +141,7 @@ public class AngleModulation extends ContinuousFunction {
             return 1;
         }
         else {
-            String range = new String(domain.getDomainString());
+            String range = domain.getDomainString();
 
             // now remove all the irrelevant details from the domain provided
             range = range.substring(range.indexOf('(')+1);

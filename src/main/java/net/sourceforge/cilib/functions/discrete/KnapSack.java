@@ -22,10 +22,8 @@
 package net.sourceforge.cilib.functions.discrete;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import net.sourceforge.cilib.functions.DiscreteFunction;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -34,7 +32,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class KnapSack extends DiscreteFunction {
-
     private static final long serialVersionUID = 79098409450300605L;
 
     private int capacity;
@@ -42,68 +39,51 @@ public class KnapSack extends DiscreteFunction {
     private ArrayList<Double> weights;
     private ArrayList<Double> values;
 
-
     public KnapSack() {
         weights = new ArrayList<Double>();
         values = new ArrayList<Double>();
     }
 
+    @Override
     public KnapSack getClone() {
         return new KnapSack();
     }
 
+    @Override
     public Object getMinimum() {
         return new Double(0);
     }
 
-
-    public Object getMaximum() {
-        return new Double(this.capacity);
-    }
-
-
-
     /**
      *
      */
+    @Override
     public double evaluate(Vector x) {
-        if (weights.size() == 0 && values.size() == 0) {
+        double weight = 0.0;
+
+        for (int i = 0; i < x.size(); i++) {
+            int bitValue = x.getBit(i) ? 1 : 0;
+            weight += bitValue * this.weights.get(i);
+        }
+
+        if (weight > capacity)
+            return Double.MIN_VALUE; // This needs to be checked.
+
+        double profit = 0.0;
+
+        for (int i = 0; i < x.size(); i++) {
+            int bitValue = x.getBit(i) ? 1 : 0;
+            profit += bitValue * this.values.get(i);
+        }
+
+        return profit;
+        /*if (weights.size() == 0 && values.size() == 0) {
             randomInitialise();
-        }
-        else {
-            if (weights.size() == 0) {
-                weights = values;
-            }
-            else if (values.size() == 0) {
-                values = weights;
-            }
-        }
-
-        double knapsackValue = 0;
-        double weightSum = 0;
-
-        for (int i = 0; i < this.numberOfObjects; i++) {
-            weightSum += x.getInt(i)*weights.get(i);
-        }
-
-        //System.out.println("WeightSum: " + weightSum);
-
-        if (weightSum <= this.capacity) { // weightSum does not violate constraint
-            // All is ok.... now calculate the fitness
-            for (int i = 0; i < this.numberOfObjects; i++) {
-                knapsackValue += x.getInt(i)*values.get(i);
-            }
-
-            //System.out.println("knapsackValue: " + knapsackValue);
-            return knapsackValue;
-        }
-        else {
-            return -1;
-        }
+        }*/
     }
 
 
-    private void randomInitialise() {
+/*    private void randomInitialise() {
         Random random = new MersenneTwister();
 
         for (int i = 0; i < this.numberOfObjects; i++) {
@@ -120,7 +100,7 @@ public class KnapSack extends DiscreteFunction {
 
             values.add(i, Integer.valueOf(number).doubleValue());
         }
-    }
+    }*/
 
 
     /**
@@ -178,11 +158,11 @@ public class KnapSack extends DiscreteFunction {
      *                    each selection bucket.
      */
     public void setValue(String valueString) {
-        String [] values = valueString.split(",");
+        String[] parts = valueString.split(",");
         this.values.clear();
 
-        for (int i = 0; i < values.length; i++) {
-            this.values.add(Double.valueOf(values[i]));
+        for (int i = 0; i < parts.length; i++) {
+            this.values.add(Double.valueOf(parts[i]));
         }
     }
 
@@ -211,11 +191,11 @@ public class KnapSack extends DiscreteFunction {
      *                     each selection bucket.
      */
     public void setWeight(String weightString) {
-        String [] values = weightString.split(",");
+        String[] parts = weightString.split(",");
         this.weights.clear();
 
-        for (int i = 0; i < values.length; i++) {
-            this.weights.add(Double.valueOf(values[i]));
+        for (int i = 0; i < parts.length; i++) {
+            this.weights.add(Double.valueOf(parts[i]));
         }
     }
 
