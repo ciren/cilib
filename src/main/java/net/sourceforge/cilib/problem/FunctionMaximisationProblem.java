@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  *
@@ -49,7 +50,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
      * {@inheritDoc}
      */
     protected Fitness calculateFitness(Type solution) {
-        return new MaximisationFitness(function.evaluate(solution));
+        return new MaximisationFitness(function.evaluate((Vector) solution));
     }
 
     /**
@@ -66,6 +67,6 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
      * @return The error.
      */
     public double getError(Type solution) {
-        return ((Number) function.getMaximum()).doubleValue() - ((Number) function.evaluate(solution)).doubleValue();
+        return function.getMaximum() - function.evaluate((Vector) solution);
     }
 }

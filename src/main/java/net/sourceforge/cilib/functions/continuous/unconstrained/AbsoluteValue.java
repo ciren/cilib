@@ -66,18 +66,18 @@ public class AbsoluteValue extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
      }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         double tmp = 0.0;
         for (int i = 0; i < getDimension(); ++i) {
-            tmp += Math.abs(x.getReal(i));
+            tmp += Math.abs(input.getReal(i));
         }
         return tmp;
     }

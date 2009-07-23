@@ -67,14 +67,13 @@ public class Queens extends DiscreteFunction {
      * Get the matrix and determine if there are any conflicts. If there are no
      * conflicts, then a suitable solution has been found.
      *
-     * @param x The bit vector to evaluate.
      */
     @Override
-    public double evaluate(Vector x) {
-        double fitness = 0.0;
-        boolean [][] board = new boolean[boardSize][boardSize];
+    public Integer evaluate(Vector input) {
+        int fitness = 0;
+        double [][] board = new double[boardSize][boardSize];
 
-        initialiseBoard(board, x);
+        initialiseBoard(board, input);
 
         if (numberOfQueens(board) != boardSize)
             return 30000.0; // Should this not be a big number from somewhere else? Integer.MAX_VALUE?

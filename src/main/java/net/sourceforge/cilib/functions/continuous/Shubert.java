@@ -56,19 +56,20 @@ public class Shubert extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(-186.7309088);
+    public Double getMinimum() {
+        return -186.7309088;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double result = 1.0;
         for (int i=0; i < getDimension(); ++i) {
             double result2 = 0.0;
             for (int j=1; j<=5; j++) {
-                result2 += j*Math.cos((j+1)*x.getReal(i) + j);
+                result2 += j*Math.cos((j+1)*input.getReal(i) + j);
             }
             result *= result2;
         }

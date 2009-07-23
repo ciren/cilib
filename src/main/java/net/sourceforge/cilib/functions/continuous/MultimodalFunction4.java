@@ -49,19 +49,20 @@ public class MultimodalFunction4 extends ContinuousFunction {
      * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector parm1) {
+    @Override
+    public Double evaluate(Vector input) {
         double dResult = 0.0;
         for (int i = 0; i < getDimension(); i++) {
-            double x = Math.pow(Math.sin(5.0 * Math.PI * (Math.pow(parm1.getReal(i), 0.75) - 0.05)), 6.0);
+            double x = Math.pow(Math.sin(5.0 * Math.PI * (Math.pow(input.getReal(i), 0.75) - 0.05)), 6.0);
             double exp1 = -2.0 * Math.log(2);
-            double exp2 = Math.pow((parm1.getReal(i) - 0.08) / 0.854, 2.0);
+            double exp2 = Math.pow((input.getReal(i) - 0.08) / 0.854, 2.0);
             double y = Math.exp(exp1 * exp2);
             dResult += x * y;
         }

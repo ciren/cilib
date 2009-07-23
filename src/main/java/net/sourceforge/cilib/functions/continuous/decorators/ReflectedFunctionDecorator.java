@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -60,7 +60,7 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
         return new ReflectedFunctionDecorator();
     }
 
-    public Object getMinimum() {
+    public Double getMinimum() {
         // adds the value of the verticalShift to the original function minimum
         return function.getMinimum();
     }
@@ -69,12 +69,12 @@ public class ReflectedFunctionDecorator extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
-        Vector tmp = x.getClone();
+    public Double evaluate(Vector input) {
+        Vector tmp = input.getClone();
 
         if (horizontalReflection) {
-            for (int i = 0; i < x.getDimension(); i++) {
-                tmp.setReal(i, -x.getReal(i));
+            for (int i = 0; i < input.getDimension(); i++) {
+                tmp.setReal(i, -input.getReal(i));
             }
         }
 

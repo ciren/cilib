@@ -51,22 +51,22 @@ public class Neumaier3 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
+    public Double getMinimum() {
         double dimension = getDimension();
-        return new Double((dimension * (dimension + 4) * (dimension - 1)) / 6);
+        return (dimension * (dimension + 4.0) * (dimension - 1.0)) / 6.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         double tmp1 = 0;
         double tmp2 = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            tmp1 += (x.getReal(i) - 1) * (x.getReal(i) - 1);
+            tmp1 += (input.getReal(i) - 1) * (input.getReal(i) - 1);
         }
         for (int i = 1; i < getDimension(); ++i) {
-            tmp2 += x.getReal(i) * x.getReal(i - 1);
+            tmp2 += input.getReal(i) * input.getReal(i - 1);
         }
         return tmp1 - tmp2;
     }

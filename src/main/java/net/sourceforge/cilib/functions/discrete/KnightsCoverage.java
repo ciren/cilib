@@ -36,7 +36,7 @@ public class KnightsCoverage extends DiscreteFunction {
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Integer evaluate(Vector input) {
         throw new UnsupportedOperationException("Method not implemented.");
     }
 

@@ -21,15 +21,13 @@
  */
 package net.sourceforge.cilib.functions;
 
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Edwin Peer
  * @author Olusegun Olorunda
  */
-public abstract class ContinuousFunction extends Function {
-
+public abstract class ContinuousFunction extends AbstractFunction<Vector, Double> {
     private static final long serialVersionUID = -2483529496289508896L;
 
     /**
@@ -50,42 +48,23 @@ public abstract class ContinuousFunction extends Function {
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract ContinuousFunction getClone();
 
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(-Double.MAX_VALUE);
+    @Override
+    public Double getMinimum() {
+        return -Double.MAX_VALUE;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object getMaximum() {
-        return new Double(Double.MAX_VALUE);
+    @Override
+    public Double getMaximum() {
+        return Double.MAX_VALUE;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Double evaluate(Type x) {
-        Double d = null;
-        try {
-            d = new Double(evaluate((Vector) x));
-        }
-        catch (ClassCastException c) {
-            c.printStackTrace();
-        }
-
-        return d;
-    }
-
-    /**
-     * Evaluate the function with the given {@link net.sourceforge.cilib.type.types.container.Vector} as input.
-     * @param x The input {@link net.sourceforge.cilib.type.types.container.Vector}.
-     * @return The value of the evaluation.
-     */
-    public abstract double evaluate(Vector x);
 
 }

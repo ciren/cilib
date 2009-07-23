@@ -26,6 +26,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,7 +67,7 @@ public class Bohachevsky1Test {
 
     @Test
     public void minimum() {
-        assertEquals(0.0, function.getMinimum());
+        Assert.assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
     }
 }
 

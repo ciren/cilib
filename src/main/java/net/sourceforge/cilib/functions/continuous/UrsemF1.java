@@ -50,14 +50,15 @@ public class UrsemF1 extends ContinuousFunction {
         return new UrsemF1();
     }
 
-    public Object getMinimum() {
-        return new Double(4.81681);
+    public Double getMinimum() {
+        return 4.81681;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector input) {
+    @Override
+    public Double evaluate(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);
 

@@ -63,17 +63,17 @@ public class Bird extends ContinuousFunction {
         return new Bird();
     }
 
-    public Object getMinimum() {
-        return new Double(-106.764537);
+    public Double getMinimum() {
+        return -106.764537;
     }
 
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */
     @Override
-    public double evaluate(Vector x) {
-        double x1 = x.getReal(0);
-        double x2 = x.getReal(1);
+    public Double evaluate(Vector input) {
+        double x1 = input.getReal(0);
+        double x2 = input.getReal(1);
 
         return Math.sin(x1)*Math.exp((1-Math.cos(x2))*(1-Math.cos(x2)))+Math.cos(x2)*Math.exp((1-Math.sin(x1))*(1-Math.sin(x1)))+(x1-x2)*(x1-x2);
     }

@@ -56,14 +56,15 @@ public class UrsemF4 extends ContinuousFunction {
      * Get the minimum of the function. It is defined to be a value of <code>1.5</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(1.5);
+    public Double getMinimum() {
+        return 1.5;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector input) {
+    @Override
+    public Double evaluate(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);
         double result = 3.0*Math.sin(0.5*Math.PI*x + 0.5*Math.PI)*(2.0 - Math.sqrt(x*x + y*y)/4.0);

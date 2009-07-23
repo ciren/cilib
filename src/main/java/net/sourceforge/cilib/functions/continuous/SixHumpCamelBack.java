@@ -65,16 +65,17 @@ public class SixHumpCamelBack extends ContinuousFunction {
      * Get the minimum of the function. It is defined to be a value of <code>-1.0316</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(-1.0316);
+    public Double getMinimum() {
+        return -1.0316;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
-        double x1 = x.getReal(0);
-        double x2 = x.getReal(1);
+    @Override
+    public Double evaluate(Vector input) {
+        double x1 = input.getReal(0);
+        double x2 = input.getReal(1);
 
         double result = (4 - 2.1*x1*x1 + Math.pow(x1, 4.0)/3.0)*x1*x1 + x1*x2 + 4*(x2*x2 -1)*x2*x2;
         return result;

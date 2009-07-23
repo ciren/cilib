@@ -22,21 +22,15 @@
 package net.sourceforge.cilib.functions.activation;
 
 import net.sourceforge.cilib.functions.Differentiable;
-import net.sourceforge.cilib.functions.Function;
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.functions.AbstractFunction;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Activation functions are functions that are typically used within Neurons. This class provides
  * an abstraction for all functions that can be used in this manner.
  */
-public abstract class ActivationFunction extends Function implements Differentiable {
+public abstract class ActivationFunction extends AbstractFunction<Vector, Double> implements Differentiable {
     private static final long serialVersionUID = 4692200308338537909L;
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract Double evaluate(Type x);
 
     /**
      * Determine the value of the {@link ActivationFunction} at the provided <code>point</code>.

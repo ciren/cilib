@@ -66,20 +66,20 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
+    public Double getMinimum() {
         // adds the value of the verticalShift to the original function minimum
-        return new Double(((Double) function.getMinimum()).doubleValue() * verticalScale);
+        return new Double((function.getMinimum()).doubleValue() * verticalScale);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
-        Vector tmp = x.getClone();
+    public Double evaluate(Vector input) {
+        Vector tmp = input.getClone();
 
-        for (int i = 0; i < x.getDimension(); i++) {
-            tmp.setReal(i, (horizontalScale * x.getReal(i)));
+        for (int i = 0; i < input.getDimension(); i++) {
+            tmp.setReal(i, (horizontalScale * input.getReal(i)));
         }
 
         return (verticalScale * function.evaluate(tmp));

@@ -54,25 +54,26 @@ public class Griewank extends ContinuousFunction {
      * {@inheritDoc}
      */
     public Griewank getClone() {
-        return new Griewank();
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double sumsq = 0;
         double prod = 1;
         for (int i = 0; i < getDimension(); ++i) {
-            sumsq += x.getReal(i) * x.getReal(i);
-            prod *= Math.cos(x.getReal(i) / Math.sqrt(i + 1));
+            sumsq += input.getReal(i) * input.getReal(i);
+            prod *= Math.cos(input.getReal(i) / Math.sqrt(i + 1));
         }
         return 1 + sumsq * (1.0/4000.0) - prod;
     }

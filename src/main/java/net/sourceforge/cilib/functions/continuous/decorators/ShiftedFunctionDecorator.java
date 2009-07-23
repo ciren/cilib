@@ -67,8 +67,8 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        Double functionMinimum = (Double) function.getMinimum();
+    public Double getMinimum() {
+        Double functionMinimum = function.getMinimum();
         return new Double(functionMinimum + verticalShift);
     }
 
@@ -76,11 +76,11 @@ public class ShiftedFunctionDecorator extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         Vector tmp = new Vector();
 
-        for (int i = 0; i < x.getDimension(); i++) {
-            tmp.add(new Real(x.getReal(i) + horizontalShift));
+        for (int i = 0; i < input.getDimension(); i++) {
+            tmp.add(new Real(input.getReal(i) + horizontalShift));
         }
 
         return function.evaluate(tmp) + verticalShift;

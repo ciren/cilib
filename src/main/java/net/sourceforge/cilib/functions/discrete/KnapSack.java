@@ -34,7 +34,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class KnapSack extends DiscreteFunction {
-
     private static final long serialVersionUID = 79098409450300605L;
 
     private int capacity;
@@ -52,21 +51,20 @@ public class KnapSack extends DiscreteFunction {
         return new KnapSack();
     }
 
-    public Object getMinimum() {
-        return new Double(0);
+    public Integer getMinimum() {
+        return 0;
     }
 
 
-    public Object getMaximum() {
-        return new Double(this.capacity);
+    public Integer getMaximum() {
+        return this.capacity;
     }
-
-
 
     /**
      *
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Integer evaluate(Vector input) {
         if (weights.size() == 0 && values.size() == 0) {
             randomInitialise();
         }
@@ -79,11 +77,11 @@ public class KnapSack extends DiscreteFunction {
             }
         }
 
-        double knapsackValue = 0;
+        int knapsackValue = 0;
         double weightSum = 0;
 
         for (int i = 0; i < this.numberOfObjects; i++) {
-            weightSum += x.getInt(i)*weights.get(i);
+            weightSum += input.getInt(i)*weights.get(i);
         }
 
         //System.out.println("WeightSum: " + weightSum);
@@ -91,7 +89,7 @@ public class KnapSack extends DiscreteFunction {
         if (weightSum <= this.capacity) { // weightSum does not violate constraint
             // All is ok.... now calculate the fitness
             for (int i = 0; i < this.numberOfObjects; i++) {
-                knapsackValue += x.getInt(i)*values.get(i);
+                knapsackValue += input.getInt(i)*values.get(i);
             }
 
             //System.out.println("knapsackValue: " + knapsackValue);

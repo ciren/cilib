@@ -128,15 +128,16 @@ public class FDA1_g extends ContinuousFunction {
      * Evaluates the function
      * f(XII) = 1 + sum ( x_i - G(t))^2
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         this.tau = Algorithm.get().getIterations();
 
         double t = (1.0/(double)n_t)*Math.floor((double)this.tau/(double)this.tau_t);
         double G = Math.sin(0.5*Math.PI*t);
 
         double sum = 1.0;
-        for (int k=0; k < x.getDimension(); k++) {
-            sum += Math.pow(x.getReal(k) - G, 2);
+        for (int k=0; k < input.getDimension(); k++) {
+            sum += Math.pow(input.getReal(k) - G, 2);
         }
 
         return sum;

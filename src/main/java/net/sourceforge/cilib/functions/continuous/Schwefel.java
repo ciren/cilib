@@ -65,17 +65,18 @@ public class Schwefel extends ContinuousFunction { // ?
      * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double sum = 0;
-        for (int i = 0; i < x.getDimension(); ++i) {
-            sum += x.getReal(i) * Math.sin(Math.sqrt(Math.abs(x.getReal(i))));
+        for (int i = 0; i < input.getDimension(); ++i) {
+            sum += input.getReal(i) * Math.sin(Math.sqrt(Math.abs(input.getReal(i))));
         }
         sum += getDimension() * 4.18982887272434686131e+02;
         return sum;

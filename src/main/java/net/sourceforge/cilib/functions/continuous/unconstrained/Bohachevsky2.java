@@ -70,8 +70,8 @@ public class Bohachevsky2 extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
-        return x.getReal(0)*x.getReal(0) + 2*x.getReal(1)*x.getReal(1) - 0.3*Math.cos(3*Math.PI*x.getReal(0)) * Math.cos(4*Math.PI*x.getReal(1))+0.3;
+    public Double evaluate(Vector input) {
+        return input.getReal(0)*input.getReal(0) + 2*input.getReal(1)*input.getReal(1) - 0.3*Math.cos(3*Math.PI*input.getReal(0)) * Math.cos(4*Math.PI*input.getReal(1))+0.3;
     }
 
 }

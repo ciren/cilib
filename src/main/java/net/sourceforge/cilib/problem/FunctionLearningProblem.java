@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import net.sourceforge.cilib.functions.AbstractFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkProblem;
@@ -43,7 +44,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class FunctionLearningProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = -8903112361933892141L;
 
-    private Function function;
+    private Function<Type, Double> function;
     private int sampleSetSize = 1000;
     private double trainingSetPercentage = 0.7;
     private double testingSetPercentage = 1.0 - trainingSetPercentage;
@@ -58,7 +59,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
     }
 
     public FunctionLearningProblem(
-        Function function,
+        AbstractFunction function,
         int sampleSetSize,
         double trainingSetPercentage,
         NeuralNetworkProblem neuralNetwork) {
@@ -117,7 +118,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
 
             // evaluate the input to determine the largest value for the function.
             Vector input = convertDoubleArray(p);
-            double result = ((Double) function.evaluate(input)).doubleValue();
+            double result = (function.evaluate(input)).doubleValue();
             if (result > functionMaxValue) {
                 functionMaxValue = result;
             }
@@ -144,7 +145,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
 
             // evaluate the input to determine the largest value for the function.
             Vector input = convertDoubleArray(p);
-            double result = ((Double) function.evaluate(input)).doubleValue();
+            double result = (function.evaluate(input)).doubleValue();
             if (result > functionMaxValue) {
                 functionMaxValue = result;
             }
@@ -228,7 +229,7 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
             totalFitness -= Math.pow(exp_output[0] - output[0], 2.0);
         }
 
-        return (double) (totalFitness / testingSet.size());
+        return (totalFitness / testingSet.size());
     }
 
     private Vector convertDoubleArray(Double[] oldArray) {
@@ -252,11 +253,11 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         return Domain.getInstance();
     }*/
 
-    public void setFunction(Function function) {
+    public void setFunction(AbstractFunction function) {
         this.function = function;
     }
 
-    public Function getFunction() {
+    public Function<Type, Double> getFunction() {
         return function;
     }
 

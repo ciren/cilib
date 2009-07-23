@@ -113,11 +113,11 @@ public class Individual extends AbstractEntity {
          this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
          this.getCandidateSolution().randomize(random);
 
-         if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
-             this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
-             StructuredType phenotypes = (StructuredType) this.getProperties().get(EntityType.Individual.PHENOTYPES);
-             phenotypes.randomize(random);
-         }
+//         if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
+//             this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
+//             StructuredType phenotypes = (StructuredType) this.getProperties().get(EntityType.Individual.PHENOTYPES);
+//             phenotypes.randomize(random);
+//         }
 
          this.dimension = this.getCandidateSolution().size();
          this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());

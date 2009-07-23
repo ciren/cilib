@@ -62,20 +62,20 @@ public class Ackley extends ContinuousFunction {
         return new Ackley();
     }
 
-    public Object getMinimum() {
-        return new Double(0.0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
          double sumsq = 0.0;
             double sumcos = 0.0;
             for (int i = 0; i < getDimension(); ++i) {
-                sumsq += x.getReal(i) * x.getReal(i);
-                sumcos += Math.cos(2 * Math.PI * x.getReal(i));
+                sumsq += input.getReal(i) * input.getReal(i);
+                sumcos += Math.cos(2 * Math.PI * input.getReal(i));
             }
             return -20.0 * Math.exp(-0.2 * Math.sqrt(sumsq / getDimension())) - Math.exp(sumcos / getDimension()) + 20 + Math.E;
     }

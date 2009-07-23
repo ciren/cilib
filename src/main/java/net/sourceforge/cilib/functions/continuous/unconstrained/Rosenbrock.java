@@ -67,20 +67,20 @@ public class Rosenbrock extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         double tmp = 0;
 
-        for (int i = 0; i < x.getDimension()-1; ++i) {
-            double a = x.getReal(i);
-            double b = x.getReal(i+1);
+        for (int i = 0; i < input.getDimension()-1; ++i) {
+            double a = input.getReal(i);
+            double b = input.getReal(i+1);
 
             tmp += ((100 * (b-a*a) * (b-a*a)) + ((a-1.0) * (a-1.0)));
         }

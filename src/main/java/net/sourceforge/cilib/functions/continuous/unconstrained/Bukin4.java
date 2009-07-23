@@ -65,17 +65,17 @@ public class Bukin4 extends ContinuousFunction implements Serializable {
         return new Bukin4();
     }
 
-    public Object getMinimum() {
-        return new Double(0.0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /* (non-Javadoc)
      * @see net.sourceforge.cilib.functions.redux.ContinuousFunction#evaluate(net.sourceforge.cilib.type.types.container.Vector)
      */
     @Override
-    public double evaluate(Vector x) {
-        double x1 = x.getReal(0);
-        double x2 = x.getReal(1);
+    public Double evaluate(Vector input) {
+        double x1 = input.getReal(0);
+        double x2 = input.getReal(1);
 
         return 100*x2*x2 + 0.01*Math.abs(x1+10);
     }

@@ -66,16 +66,18 @@ public class Damavandi extends ContinuousFunction {
     /**
      * Get the minimum of the function. It is defined to be a value of 0.0.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    @Override
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
-        double x1 = x.getReal(0);
-        double x2 = x.getReal(1);
+    @Override
+    public Double evaluate(Vector input) {
+        double x1 = input.getReal(0);
+        double x2 = input.getReal(1);
 
         double numerator = Math.sin(Math.PI*(x1-2))*Math.sin(Math.PI*(x2-2));
         double denumerator = Math.PI*Math.PI*(x1-2)*(x2-2);

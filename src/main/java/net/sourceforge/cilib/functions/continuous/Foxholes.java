@@ -56,15 +56,16 @@ public class Foxholes extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(1.0);
+    public Double getMinimum() {
+        return 1.0;
     }
 
     /**
      * {@inheritDoc}
      */
     // This impl is according to the function defined by Xin Yao in the FastEP and by the DE guys
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double result = 0.002;
         double sum = 0.0;
 
@@ -78,7 +79,7 @@ public class Foxholes extends ContinuousFunction {
                 else
                     tmp_a = a[1][j/5];
 
-                tmp += Math.pow((x.getReal(i) - tmp_a), 6);
+                tmp += Math.pow((input.getReal(i) - tmp_a), 6);
             }
 
             sum += 1.0 / (j + tmp);
