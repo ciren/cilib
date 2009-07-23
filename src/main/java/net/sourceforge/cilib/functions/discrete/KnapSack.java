@@ -49,20 +49,21 @@ public class KnapSack extends DiscreteFunction {
         return new KnapSack();
     }
 
+    @Override
     public Integer getMinimum() {
         return 0;
     }
 
-
+    @Override
     public Integer getMaximum() {
         return this.capacity;
     }
 
     /**
-     *
+     * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Integer evaluate(Vector x) {
         double weight = 0.0;
 
         for (int i = 0; i < x.size(); i++) {
@@ -71,9 +72,9 @@ public class KnapSack extends DiscreteFunction {
         }
 
         if (weight > capacity)
-            return Double.MIN_VALUE; // This needs to be checked.
+            return Integer.MIN_VALUE; // This needs to be checked.
 
-        double profit = 0.0;
+        int profit = 0;
 
         for (int i = 0; i < x.size(); i++) {
             int bitValue = x.getBit(i) ? 1 : 0;
