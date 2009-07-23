@@ -71,12 +71,12 @@ public class Queens extends DiscreteFunction {
     @Override
     public Integer evaluate(Vector input) {
         int fitness = 0;
-        double [][] board = new double[boardSize][boardSize];
+        boolean[][] board = new boolean[boardSize][boardSize];
 
         initialiseBoard(board, input);
 
         if (numberOfQueens(board) != boardSize)
-            return 30000.0; // Should this not be a big number from somewhere else? Integer.MAX_VALUE?
+            return 30000; // Should this not be a big number from somewhere else? Integer.MAX_VALUE?
 
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize; col++) {
