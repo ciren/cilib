@@ -50,11 +50,11 @@ public class Step extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         double sum = 0.0;
 
-        for (int i = 0; i < x.getDimension(); i++)
-            sum += Math.floor(x.getReal(i));
+        for (int i = 0; i < input.getDimension(); i++)
+            sum += Math.floor(input.getReal(i));
 
         return sum;
     }

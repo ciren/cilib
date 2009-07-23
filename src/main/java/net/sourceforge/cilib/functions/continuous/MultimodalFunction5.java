@@ -49,14 +49,15 @@ public class MultimodalFunction5 extends ContinuousFunction {
      * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector input) {
+    @Override
+    public Double evaluate(Vector input) {
         double x = input.getReal(0);
         double y = input.getReal(1);
         double result;

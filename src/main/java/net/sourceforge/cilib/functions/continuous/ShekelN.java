@@ -52,11 +52,11 @@ public class ShekelN extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
+    public Double getMinimum() {
         switch (n) {
-            case 5: return new Double(-10.15320);
-            case 7: return new Double(-10.40294);
-            case 10: return new Double(-10.53641);
+            case 5: return -10.15320;
+            case 7: return -10.40294;
+            case 10: return -10.53641;
             default: return super.getMinimum();
         }
     }
@@ -64,12 +64,13 @@ public class ShekelN extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
        double sum = 0;
        for (int i = 0; i < n; ++i) {
            double innerSum = 0;
            for (int j = 0; j < 4; ++j) {
-               innerSum += (x.getReal(j) - A[i][j]) * (x.getReal(j) - A[i][j]);
+               innerSum += (input.getReal(j) - A[i][j]) * (input.getReal(j) - A[i][j]);
            }
            sum += 1 / (innerSum + C[i]);
        }

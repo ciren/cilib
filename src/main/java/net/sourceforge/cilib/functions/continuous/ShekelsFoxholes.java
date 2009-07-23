@@ -62,20 +62,21 @@ public class ShekelsFoxholes extends ContinuousFunction {
         return new ShekelsFoxholes();
     }
 
-    public Object getMinimum() {
-        return new Double(0.9980038);
+    public Double getMinimum() {
+        return 0.9980038;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double result = 0.002;
         double resultI = 0.0;
         for (int i=1; i<=25; i++) {
             double resultJ = 0.0;
             for (int j=0; j<2; j++) {
-                resultJ += Math.pow(x.getReal(j) - a[j][i-1], 6);
+                resultJ += Math.pow(input.getReal(j) - a[j][i-1], 6);
             }
             resultJ = i + resultJ;
             resultI += 1/resultJ;

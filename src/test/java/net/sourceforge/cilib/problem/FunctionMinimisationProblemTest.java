@@ -25,7 +25,7 @@ import static org.junit.Assert.assertSame;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
 
@@ -40,7 +40,7 @@ public class FunctionMinimisationProblemTest {
 
     private static Random random;
     private static double[] x;
-    private static Function function;
+    private static ContinuousFunction function;
     private static FunctionMinimisationProblem problem;
 
     public FunctionMinimisationProblemTest() {
@@ -81,7 +81,7 @@ public class FunctionMinimisationProblemTest {
     /** Test of setFunction method, of class za.ac.up.cs.ailib.Functions.FunctionMinimisationProblem. */
     @Test
     public void testSetFunction() {
-        Function f = new Ackley();
+        ContinuousFunction f = new Ackley();
         problem.setFunction(f);
         assertSame(f, problem.getFunction());
     }

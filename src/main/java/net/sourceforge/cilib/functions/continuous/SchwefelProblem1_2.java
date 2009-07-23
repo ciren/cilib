@@ -57,15 +57,15 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
      * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(0.0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         double sumsq = 0.0;
         double sum = 0.0;
 
@@ -73,7 +73,7 @@ public class SchwefelProblem1_2 extends ContinuousFunction {
             sum = 0.0;
 
             for (int j = 0; j < i; j++) {
-                sum += x.getReal(j);
+                sum += input.getReal(j);
             }
 
             sumsq += sum * sum;

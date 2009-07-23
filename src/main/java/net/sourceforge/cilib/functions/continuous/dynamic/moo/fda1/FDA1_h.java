@@ -144,19 +144,20 @@ public class FDA1_h extends ContinuousFunction {
      * Evaluates the function
      * h(f_1, g) = 1-sqrt(f_1/g)
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
 
         //only the first element
-        Vector y = x.subList(0, 0);
+        Vector y = input.subList(0, 0);
         //all the elements except the first element
-        Vector z = x.subList(1, x.getDimension()-1);
+        Vector z = input.subList(1, input.getDimension()-1);
         //evaluate the fda1_g function
         double g = this.fda1_g.evaluate(z);
         //evaluate the fda1_f1 function
         double f1 = this.fda1_f1.evaluate(y);
 
         double value = 1.0;
-        value -= Math.sqrt((double)f1 / (double)g);
+        value -= Math.sqrt(f1 / g);
 
         return value;
     }

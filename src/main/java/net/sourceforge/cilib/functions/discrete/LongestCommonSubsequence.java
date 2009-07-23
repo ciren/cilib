@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import java.util.Iterator;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -29,7 +28,6 @@ import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.TextDataSetBuilder;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -44,16 +42,18 @@ public class LongestCommonSubsequence extends DiscreteFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public LongestCommonSubsequence getClone() {
         return new LongestCommonSubsequence();
     }
 
 
-    public double evaluate(Vector x) {
-        double v = 0.0;
-        double l = length(x);
-        double m = matches(x);
-        double k = this.getDataSetSize();
+    @Override
+    public Integer evaluate(Vector input) {
+        int v = 0;
+        int l = length(input);
+        int m = matches(input);
+        int k = this.getDataSetSize();
 
         v = l + (30*m);
 
@@ -133,7 +133,7 @@ public class LongestCommonSubsequence extends DiscreteFunction {
         String result = "";
 
         for (int i = 0; i < x.getDimension(); i++) {
-            Numeric n = (Numeric) x.get(i);
+            Numeric n = x.get(i);
             if (n.getBit())
                 result += target.charAt(i);
         }

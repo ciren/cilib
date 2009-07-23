@@ -60,18 +60,19 @@ public class Easom extends ContinuousFunction {
     /**
      * Get the minimum of the function. It is defined to be a value of -1.0.
      */
-    public Object getMinimum() {
-        return new Double(-1.0);
+    public Double getMinimum() {
+        return -1.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
-        double powerTerm1 = -((x.getReal(0)-Math.PI)*(x.getReal(0)-Math.PI));
-        double powerTerm2 = -((x.getReal(1)-Math.PI)*(x.getReal(1)-Math.PI));
+    @Override
+    public Double evaluate(Vector input) {
+        double powerTerm1 = -((input.getReal(0)-Math.PI)*(input.getReal(0)-Math.PI));
+        double powerTerm2 = -((input.getReal(1)-Math.PI)*(input.getReal(1)-Math.PI));
         double power = powerTerm1 + powerTerm2;
-        return -Math.cos(x.getReal(0)) * Math.cos(x.getReal(1)) * Math.exp(power);
+        return -Math.cos(input.getReal(0)) * Math.cos(input.getReal(1)) * Math.exp(power);
     }
 
 }

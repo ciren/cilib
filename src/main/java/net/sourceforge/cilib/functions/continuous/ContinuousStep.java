@@ -55,8 +55,8 @@ public class ContinuousStep extends ContinuousFunction {
      * be the value of 0.0.
      * @return An {@code Object} containing the value 0.0.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
@@ -64,17 +64,18 @@ public class ContinuousStep extends ContinuousFunction {
      * be the value of 55.0.
      * @return An {@code Object} containing the value 55.0.
      */
-    public Object getMaximum() {
-        return new Double(55.0);
+    public Double getMaximum() {
+        return 55.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double sum = 0.0;
         for (int i = 0; i < getDimension(); ++i) {
-            sum += (x.getReal(i) + 0.5) * (x.getReal(i) + 0.5);
+            sum += (input.getReal(i) + 0.5) * (input.getReal(i) + 0.5);
         }
         return sum;
     }

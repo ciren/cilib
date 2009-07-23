@@ -53,8 +53,8 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
@@ -92,17 +92,17 @@ public class MaximumDeratingFunction1 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector parm1) {
+    public Double evaluate(Vector input) {
         // the derating function is only to be used with Derating Function Problem
         // if the this class is misused, then prcocess will exit inorder to prevent
         // errorneous results.
         //if (parm1.length > 1) {
-        if (parm1.getDimension() > 1)
+        if (input.getDimension() > 1)
             throw new RuntimeException("derating function may only be used in one dimension");
 
-        if (parm1.getReal(0) >= radius)
+        if (input.getReal(0) >= radius)
             return 1.0;
 
-        return Math.pow(parm1.getReal(0) / radius, alpha);
+        return Math.pow(input.getReal(0) / radius, alpha);
     }
 }

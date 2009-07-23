@@ -53,18 +53,19 @@ public class SchwefelProblem2_26 extends ContinuousFunction {
         return new SchwefelProblem2_26();
     }
 
-    public Object getMinimum() {
-        return new Double(-12569.5);
+    public Double getMinimum() {
+        return -12569.5;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double sum = 0.0;
 
         for (int i = 0; i < getDimension(); i++) {
-            sum += x.getReal(i)*Math.sin(Math.sqrt(Math.abs(x.getReal(i))));
+            sum += input.getReal(i)*Math.sin(Math.sqrt(Math.abs(input.getReal(i))));
         }
         return -sum;
     }

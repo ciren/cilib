@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
+import java.util.List;
+
 /**
  * Definition of Graph operations.
  *
@@ -41,6 +43,8 @@ public interface Graph<E> extends StructuredType<E> {
      * @return The number of contained edges.
      */
     public int edgeCount();
+
+    public List<Graph.Edge<E>> edgesOf(E vertex);
 
     /**
      * Create an edge / link between the given two vertices.
@@ -83,5 +87,49 @@ public interface Graph<E> extends StructuredType<E> {
      * @return The value of the vertex at <code>index</code>.
      */
     public E getVertex(int index);
+
+    /**
+     * Definition of an edge within a {@code Graph} structure.
+     * @param <E> The edge type.
+     */
+    public interface Edge<E> {
+
+        /**
+         * Obtain the cost associated with the {@code Edge}.
+         * @return The edge cost.
+         */
+        public Double getCost();
+
+        /**
+         * Obtain the {@code Vertex} to which this edge is connected.
+         * @return The "other" connected vertex.
+         */
+        public E getConnectedVertex();
+
+        /**
+         * Obtain the weight value associated with this {@code Edge}.
+         * @return The associated weight.
+         */
+        public Double getWeight();
+
+        /**
+         * Set the cost value for this {@code Edge}.
+         * @param cost The value to set.
+         */
+        public void setCost(Double cost);
+
+        /**
+         * Set the vertex to which the current edge is connected.
+         * @param element The element to set.
+         */
+        public void setConnectedVertex(E element);
+
+        /**
+         * Set the weight value for this {@code Edge}.
+         * @param weight The value to set.
+         */
+        public void setWeight(Double weight);
+
+    }
 
 }

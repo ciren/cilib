@@ -74,9 +74,9 @@ public class ExpressionFunction extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         for (int i = 0; i < getDimension(); i++) {
-            this.parser.addVariable("x" + Integer.toString(i + 1), x.getReal(i));
+            this.parser.addVariable("x" + Integer.toString(i + 1), input.getReal(i));
         }
         return this.parser.getValue();
     }

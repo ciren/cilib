@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * An implementation of {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} that can be used to find the minimum of
@@ -51,7 +52,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
      */
     protected Fitness calculateFitness(Type solution) {
         /* Add code to enforce the boundary constraint */
-        return new MinimisationFitness(function.evaluate(solution));
+        return new MinimisationFitness(function.evaluate((Vector) solution));
     }
 
     /**
@@ -68,6 +69,6 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
      * @return The error.
      */
     public double getError(Type solution) {
-        return ((Number) function.evaluate(solution)).doubleValue() - ((Number) function.getMinimum()).doubleValue();
+        return function.evaluate((Vector) solution) - function.getMinimum();
     }
 }

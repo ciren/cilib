@@ -74,17 +74,17 @@ public class Bukin6 extends ContinuousFunction implements Serializable {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0.0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
-        double x1 = x.getReal(0);
-        double x2 = x.getReal(1);
+    public Double evaluate(Vector input) {
+        double x1 = input.getReal(0);
+        double x2 = input.getReal(1);
 
         return 100*Math.sqrt(Math.abs(x2-0.01*x1*x1)) + 0.01*Math.abs(x1+10);
     }

@@ -73,17 +73,17 @@ public class Booth extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMinimum() {
-        return new Double(0.0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double evaluate(Vector x) {
-        double x1 = x.getReal(0);
-        double x2 = x.getReal(1);
+    public Double evaluate(Vector input) {
+        double x1 = input.getReal(0);
+        double x2 = input.getReal(1);
 
         return (x1+2*x2-7)*(x1+2*x2-7) + (2*x1+x2-5)*(2*x1+x2-5);
     }

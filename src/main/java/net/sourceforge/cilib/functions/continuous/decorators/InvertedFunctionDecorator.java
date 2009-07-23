@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.functions.AbstractFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -34,15 +35,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class InvertedFunctionDecorator extends ContinuousFunction {
     private static final long serialVersionUID = -7506823207533866371L;
 
-    private Function function;
+    private Function<Vector, Double> function;
 
+    @Override
     public InvertedFunctionDecorator getClone() {
         return new InvertedFunctionDecorator();
     }
 
     @Override
-    public double evaluate(Vector x) {
-        double innerFunctionValue = function.evaluate(x);
+    public Double evaluate(Vector input) {
+        double innerFunctionValue = function.evaluate(input);
 
         if (innerFunctionValue == 0)
             throw new ArithmeticException("Inner function evaluation equated to 0. Division by zero is undefined");
@@ -50,11 +52,11 @@ public class InvertedFunctionDecorator extends ContinuousFunction {
         return (1.0 / innerFunctionValue);
     }
 
-    public Function getFunction() {
+    public Function<Vector, Double> getFunction() {
         return function;
     }
 
-    public void setFunction(Function function) {
+    public void setFunction(AbstractFunction function) {
         this.function = function;
         this.setDomain(function.getDomainRegistry().getDomainString());
     }

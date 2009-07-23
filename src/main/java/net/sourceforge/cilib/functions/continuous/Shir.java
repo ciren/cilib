@@ -67,14 +67,15 @@ public class Shir extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    public Object getMaximum() {
-        return new Double(1);
+    public Double getMaximum() {
+        return 1.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double sinTerm;
         double expTerm;
         double product = 1.0;
@@ -82,8 +83,8 @@ public class Shir extends ContinuousFunction {
         for (int i = 0; i < getDimension(); i++) {
             sinTerm = 1.0;
             for (int k = 1; k <= sharpness; k++)
-                sinTerm *= Math.sin(l1*Math.PI*x.getReal(i) + l2);
-            expTerm = Math.exp(-l3*((x.getReal(i)-l4)/l5)*((x.getReal(i)-l4)/l5));
+                sinTerm *= Math.sin(l1*Math.PI*input.getReal(i) + l2);
+            expTerm = Math.exp(-l3*((input.getReal(i)-l4)/l5)*((input.getReal(i)-l4)/l5));
             product *= (sinTerm * expTerm);
         }
 

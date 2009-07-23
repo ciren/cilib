@@ -51,17 +51,18 @@ public class NastyBenchmark extends ContinuousFunction {
      * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
      * @return The function minimum value.
      */
-    public Object getMinimum() {
-        return new Double(0);
+    public Double getMinimum() {
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double tmp = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            double factor = (x.getReal(i) - (i + 1));
+            double factor = (input.getReal(i) - (i + 1));
             tmp += factor * factor;
         }
         return tmp;

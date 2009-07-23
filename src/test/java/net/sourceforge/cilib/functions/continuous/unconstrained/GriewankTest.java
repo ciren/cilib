@@ -61,6 +61,6 @@ public class GriewankTest {
 
     @Test
     public void minimum() {
-        assertEquals(0.0, function.getMinimum());
+        assertEquals(0.0, function.getMinimum().doubleValue(), 0.0001);
     }
 }

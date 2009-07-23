@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.discrete;
 
 import net.sourceforge.cilib.functions.DiscreteFunction;
-import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -35,10 +35,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Gary Pampara
  */
 public class BinaryAdapter extends DiscreteFunction {
-
     private static final long serialVersionUID = -329657439970469569L;
 
-    private Function function;
+    private ContinuousFunction function;
     private int bitsPerDimension;
     private int precision;
 
@@ -50,6 +49,7 @@ public class BinaryAdapter extends DiscreteFunction {
         precision = 0;
     }
 
+    @Override
     public BinaryAdapter getClone() {
         return new BinaryAdapter();
     }
@@ -63,30 +63,27 @@ public class BinaryAdapter extends DiscreteFunction {
      * @param vector The {@see net.sourceforge.cilib.type.types.Bit} vector to evaluate
      */
     @Override
-    public double evaluate(Vector vector) {
+    public Integer evaluate(Vector input) {
         //System.out.println("vector: " + vector);
-        Vector decodedVector = this.decodeBitString(vector);
+        Vector decodedVector = this.decodeBitString(input);
         //System.out.println("decoded: " + decodedVector);
 
-        return function.evaluate(decodedVector);
+        return function.evaluate(decodedVector).intValue();
     }
 
     /**
      *
      */
-    public Object getMinimum() {
-        return function.getMinimum();
+    public Integer getMinimum() {
+        return function.getMinimum().intValue();
     }
-
 
     /**
      *
      */
-    public Object getMaximum() {
-        return function.getMaximum();
+    public Integer getMaximum() {
+        return function.getMaximum().intValue();
     }
-
-
 
     /**
      * @return Returns the bitsPerDimension.
@@ -125,14 +122,14 @@ public class BinaryAdapter extends DiscreteFunction {
     /**
      * @return Returns the function.
      */
-    public Function getFunction() {
+    public ContinuousFunction getFunction() {
         return function;
     }
 
     /**
      * @param function The function to set.
      */
-    public void setFunction(Function function) {
+    public void setFunction(ContinuousFunction function) {
         this.function = function;
     }
 

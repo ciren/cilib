@@ -21,113 +21,44 @@
  */
 package net.sourceforge.cilib.functions;
 
-import java.io.Serializable;
-
-import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.StringBasedDomainRegistry;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * All functions should inherit from <code>Function</code>.
- * @author Edwin Peer
- * @author Gary Pampara
+ * Function difinition. All functions apply some or other transformation
+ * on a set of input variables and create an output that is representative of
+ * the input.
+ * @param <F> The "from" type.
+ * @param <T> The "to" type.
  */
-public abstract class Function implements Cloneable, Serializable {
-    private static final long serialVersionUID = -4843291761555348251L;
-
-    private DomainRegistry domainRegistry;
-    private DomainRegistry behavioralDomainRegistry;
+public interface Function<F, T> extends Cloneable {
 
     /**
-     * Create a new instance of {@linkplain Function}.
+     * Perfrom the evaluation of the input and return the result.
+     * @param input The input for the function.
+     * @return The result of the evaluation.
      */
-    public Function() {
-        domainRegistry = new StringBasedDomainRegistry();
-        behavioralDomainRegistry = new StringBasedDomainRegistry();
-    }
+    public T evaluate(F input);
 
     /**
-     * Create a copy of the provided instance.
-     * @param copy The instance to copy.
+     * The maximum of the function.
+     * @return The function maximum.
      */
-    public Function(Function copy) {
-        domainRegistry = copy.domainRegistry.getClone();
-        behavioralDomainRegistry = copy.behavioralDomainRegistry.getClone();
-    }
+    public T getMaximum();
+
+    /**
+     * The minimum of the function.
+     * @return The function minimum.
+     */
+    public T getMinimum();
 
     /**
      * @return The dimension of the function.
      */
-    public int getDimension() {
-        return this.getDomainRegistry().getDimension();
-    }
-
-    /**
-     * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
-     * @return The function domain.
-     */
-    public DomainRegistry getDomainRegistry() {
-        return domainRegistry;
-    }
-
-    /**
-     * @return Returns the behaviouralDomainRegistry.
-     */
-    public DomainRegistry getBehavioralDomainRegistry() {
-        return behavioralDomainRegistry;
-    }
-
-    /**
-     * @param behavioralDomainRegistry The behaviouralDomainRegistry to set.
-     */
-    public void setBehaviouralDomainRegistry(StringBasedDomainRegistry behavioralDomainRegistry) {
-        throw new UnsupportedOperationException("You are not allowed to set the BehaviroalDomainRegistry!");
-    }
+    public int getDimension();
 
     /**
      * @return The domain {@linkplain String}.
      */
-    public String getDomain() {
-        return domainRegistry.getDomainString();
-    }
-
-    /**
-     * Sets the domain of the function.
-     * @param representation the string representation for the function domain.
-     */
-    public void setDomain(String representation) {
-        this.domainRegistry.setDomainString(representation);
-    }
-
-    /**
-     * Set the behavioural domain of the {@linkplain Function}.
-     * @param behavioralDomain The value to set.
-     */
-    public void setBehavioralDomain(String behavioralDomain) {
-        this.behavioralDomainRegistry.setDomainString(behavioralDomain);
-    }
-
-    /**
-     * Accessor for the function minimum. This is the minimum value of the function in the given
-     * domain.
-     * @return The minimum function value.
-     */
-    public abstract Object getMinimum();
-
-    /**
-     * Accessor for the function maximum. This is the maximum value of the function in the given
-     * domain.
-     * @return The maximum of the function.
-     */
-    public abstract Object getMaximum();
-
-    /**
-     * Each function must provide an implementation which returns the function value at the given
-     * position. The length of the position array should be the same as the function dimension.
-     * @param x the position
-     * @return The result of the evaluation.
-     */
-    public abstract Double evaluate(Type x);
-
+    public String getDomain();
+    
 }
