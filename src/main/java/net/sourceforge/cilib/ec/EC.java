@@ -30,7 +30,10 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.NullInitializationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -49,6 +52,8 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     private IterationStrategy<EC> iterationStrategy;
     private Topology<Individual> topology;
 
+    private InitializationStrategy<Entity> strategyParameterInitialization;
+
     /**
      * Create a new instance of {@code EC}.
      */
@@ -58,6 +63,8 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 
         this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
         this.topology = new GBestTopology<Individual>();
+
+        this.strategyParameterInitialization = new NullInitializationStrategy<Entity>();
     }
 
     /**
@@ -89,6 +96,10 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         for (Entity individual : individuals)
             topology.add((Individual) individual);
 //        Iterables.addAll(topology, individuals);
+
+        for (Entity entity : topology) {
+            this.strategyParameterInitialization.initialize(EntityType.Individual.PHENOTYPES, entity);
+        }
     }
 
     /**
@@ -197,6 +208,14 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         //TODO: This might not be what you want, change as desired
         //getBestEntity().setFitness(fitness);
         this.topology.getBestEntity().calculateFitness();
+    }
+
+    public InitializationStrategy<Entity> getStrategyParameterInitialization() {
+        return strategyParameterInitialization;
+    }
+
+    public void setStrategyParameterInitialization(InitializationStrategy<Entity> strategyParameterInitialization) {
+        this.strategyParameterInitialization = strategyParameterInitialization;
     }
 
 }
