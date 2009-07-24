@@ -30,7 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.cilib.simulator.MeasurementSuite;
 import net.sourceforge.cilib.simulator.ProgressListener;
 import net.sourceforge.cilib.simulator.ProgressText;
-import net.sourceforge.cilib.simulator.Simulation;
+import net.sourceforge.cilib.simulator.Simulator;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -79,7 +79,7 @@ public class XMLFileTest {
                 XMLProblemFactory problemFactory = new XMLProblemFactory(doc, (Element) current.getElementsByTagName("problem").item(0));
                 XMLObjectFactory measurementsFactory = new XMLObjectFactory(doc, (Element) current.getElementsByTagName("measurements").item(0));
                 MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
-                Simulation simulation = new Simulation(algorithmFactory, problemFactory, suite);
+                Simulator simulation = new Simulator(algorithmFactory, problemFactory, suite);
                 if(progress != null) {
                     simulation.addProgressListener(progress);
                 }

@@ -58,14 +58,13 @@ public final class Main {
             XMLProblemFactory problemFactory = new XMLProblemFactory(config, (Element) current.getElementsByTagName("problem").item(0));
             XMLObjectFactory measurementsFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("measurements").item(0));
             MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
-            Simulation simulation = new Simulation(algorithmFactory, problemFactory, suite);
+            Simulator simulator = new Simulator(algorithmFactory, problemFactory, suite);
             if(progress != null) {
-                simulation.addProgressListener(progress);
+                simulator.addProgressListener(progress);
             }
 
-            simulation.initialise();
-            simulation.run();
-            simulation = null;
+            simulator.execute();
+            simulator = null;
             System.gc();
         }
     }
