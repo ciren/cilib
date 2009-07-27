@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.algorithm;
 
 import com.google.common.collect.ImmutableList;
+import java.util.List;
 import java.util.Stack;
 
 /**
