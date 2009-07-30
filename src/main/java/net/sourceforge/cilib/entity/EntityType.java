@@ -26,7 +26,8 @@ package net.sourceforge.cilib.entity;
  */
 public enum EntityType {
     CANDIDATE_SOLUTION,
-    FITNESS;
+    FITNESS,
+    STRATEGY_PARAMETERS;
 
     /**
      * {@linkplain Particle} specific constants.
@@ -40,13 +41,6 @@ public enum EntityType {
             LOCAL_GUIDE,
             GLOBAL_GUIDE
         }
-    }
-
-    /**
-     * {@linkplain Individual} specific constants.
-     */
-    public enum Individual {
-        PHENOTYPES
     }
 
     /**

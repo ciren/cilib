@@ -27,7 +27,7 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.Resetable;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -46,7 +46,6 @@ public class Individual extends AbstractEntity {
     public Individual() {
         dimension = 0;
         setCandidateSolution(new Vector());
-        this.getProperties().put(EntityType.Individual.PHENOTYPES, new Vector());
         this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
     }
 
@@ -113,11 +112,8 @@ public class Individual extends AbstractEntity {
          this.setCandidateSolution(problem.getDomain().getBuiltRepresenation().getClone());
          this.getCandidateSolution().randomize(random);
 
-//         if (problem.getBehaviouralDomain().getBuiltRepresenation() != null) {
-//             this.getProperties().put(EntityType.Individual.PHENOTYPES, problem.getBehaviouralDomain().getBuiltRepresenation().getClone());
-//             StructuredType phenotypes = (StructuredType) this.getProperties().get(EntityType.Individual.PHENOTYPES);
-//             phenotypes.randomize(random);
-//         }
+         this.getProperties().put(EntityType.STRATEGY_PARAMETERS, getCandidateSolution().getClone());
+         ((Resetable) this.getProperties().get(EntityType.STRATEGY_PARAMETERS)).reset();
 
          this.dimension = this.getCandidateSolution().size();
          this.getProperties().put(EntityType.FITNESS, InferiorFitness.instance());
@@ -175,33 +171,9 @@ public class Individual extends AbstractEntity {
         StringBuilder str = new StringBuilder();
 
         str.append(getCandidateSolution().toString());
-
-        if (this.getProperties().get(EntityType.Individual.PHENOTYPES) != null) {
-            str.append(" ");
-            str.append(this.getProperties().get(EntityType.Individual.PHENOTYPES).toString());
-        }
+        str.append(getProperties().get(EntityType.STRATEGY_PARAMETERS));
 
         return str.toString();
-    }
-
-
-    /**
-     * Return the <tt>Entity</tt> associated behavioural parameters.
-     * @return a <tt>Type</tt> representing the behavioural parameters.
-     */
-    public Type getBehaviouralParameters() {
-        return this.getProperties().get(EntityType.Individual.PHENOTYPES);
-    }
-
-
-    /**
-     * Set the behavioural parameters for the <tt>Entity</tt>.
-     * @param type The behavioural parameters to set.
-     */
-    public void setBehaviouralParameters(Type type) {
-        if (type instanceof Vector)
-            this.getProperties().put(EntityType.Individual.PHENOTYPES, type);
-        else throw new RuntimeException("BehaviouralParameters need to be correct type! Please check and correct");
     }
 
     /**

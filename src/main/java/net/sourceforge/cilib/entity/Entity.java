@@ -133,4 +133,5 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
      * @return The {@code FitnessCalculator} associated with this {@code Entity}.
      */
     public FitnessCalculator getFitnessCalculator();
+
 }

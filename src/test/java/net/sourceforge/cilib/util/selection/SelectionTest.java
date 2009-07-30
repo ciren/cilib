@@ -23,7 +23,6 @@ package net.sourceforge.cilib.util.selection;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import net.sourceforge.cilib.math.random.generator.Random;
 import org.junit.Assert;
 import org.junit.Test;
@@ -84,7 +83,7 @@ public class SelectionTest {
         Assert.assertEquals(1, selection.intValue());
     }
 
-    @Test(expected=NoSuchElementException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void emptyRandomFrom() {
         List<Integer> elements = Arrays.asList();
         Selection.randomFrom(elements, new MockRandom());
@@ -98,6 +97,12 @@ public class SelectionTest {
         Assert.assertEquals(2, selection.size());
         Assert.assertThat(selection.get(0), is(1));
         Assert.assertThat(selection.get(1), is(1));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void emptyMultipleRandomFrom() {
+        List<Integer> elements = Arrays.asList();
+        Selection.randomFrom(elements, new MockRandom(), 2);
     }
 
     private class MockRandom extends Random {

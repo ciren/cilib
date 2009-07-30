@@ -23,9 +23,7 @@ package net.sourceforge.cilib.problem;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-
 
 /**
  *
@@ -33,40 +31,36 @@ import org.junit.Test;
  */
 public class MinimisationFitnessTest {
 
-    public MinimisationFitnessTest() {
-    }
-
-    @BeforeClass
-    public static void setUp() {
-        oneFitness = new MinimisationFitness(new Integer(1).doubleValue());
-        twoFitness = new MinimisationFitness(new Integer(2).doubleValue());
-        inferiorFitness = InferiorFitness.instance();
-    }
-
     @Test
-    public void testLessThan() {
+    public void lessThan() {
+        Fitness oneFitness = new MinimisationFitness(1.0);
+        Fitness twoFitness = new MinimisationFitness(2.0);
         assertEquals(twoFitness.compareTo(oneFitness), -1);
     }
 
     @Test
-    public void testMoreThan() {
+    public void moreThan() {
+        Fitness oneFitness = new MinimisationFitness(1.0);
+        Fitness twoFitness = new MinimisationFitness(2.0);
         assertEquals(oneFitness.compareTo(twoFitness), 1);
     }
 
     @Test
     public void equality() {
+        Fitness oneFitness = new MinimisationFitness(1.0);
+        Fitness twoFitness = new MinimisationFitness(2.0);
+
         assertEquals(oneFitness.compareTo(oneFitness), 0);
         assertEquals(twoFitness.compareTo(twoFitness), 0);
     }
 
     @Test
-    public void testInferior() {
-        assertEquals(inferiorFitness.compareTo(oneFitness), -1);
-        assertEquals(oneFitness.compareTo(inferiorFitness), 1);
-    }
+    public void inferior() {
+        Fitness oneFitness = new MinimisationFitness(1.0);
+        Fitness inferior = InferiorFitness.instance();
 
-    private static Fitness oneFitness;
-    private static Fitness twoFitness;
-    private static Fitness inferiorFitness;
+        assertEquals(inferior.compareTo(oneFitness), -1);
+        assertEquals(oneFitness.compareTo(inferior), 1);
+    }
 
 }

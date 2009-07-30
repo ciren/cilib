@@ -39,22 +39,17 @@ public class Fitness implements Measurement {
     }
 
     /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public Fitness(Fitness copy) {
-    }
-
-    /**
      * {@inheritDoc}
      */
+    @Override
     public Fitness getClone() {
-        return new Fitness(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "R";
     }
@@ -62,6 +57,7 @@ public class Fitness implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getValue(Algorithm algorithm) {
         double fitness = algorithm.getBestSolution().getFitness().getValue();
         return new Real(fitness);
