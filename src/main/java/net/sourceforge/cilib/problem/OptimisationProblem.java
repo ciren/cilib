@@ -53,10 +53,9 @@ public interface OptimisationProblem extends Problem {
      * falls outside the search space of this problem.
      *
      * @param solution The potential solution found by the optimisation algorithm.
-     * @param count True if this call should contribute to the fitness evaluation count, see {@link #getFitnessEvaluations()}.
      * @return The fitness of the solution.
      */
-    public Fitness getFitness(Type solution, boolean count);
+    public Fitness getFitness(Type solution);
 
     /**
      * Returns the number of times the underlying fitness function has been evaluated.

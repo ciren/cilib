@@ -111,7 +111,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
         for (int i = 0; i < dimension; ++i) {
             ((Vector) context.getCandidateSolution()).setReal(offset + i, participant.getReal(i));
         }
-        return problem.getFitness(context.getCandidateSolution(), true);
+        return problem.getFitness(context.getCandidateSolution());
     }
 
     public DomainRegistry getDomain() {

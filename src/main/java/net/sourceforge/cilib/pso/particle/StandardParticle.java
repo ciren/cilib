@@ -163,7 +163,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void calculateFitness() {
-        Fitness fitness = getFitnessCalculator().getFitness(this, true);
+        Fitness fitness = getFitnessCalculator().getFitness(this);
         this.getProperties().put(EntityType.FITNESS, fitness);
 
         this.personalBestUpdateStrategy.updatePersonalBest(this);

@@ -97,7 +97,7 @@ public abstract class AbstractBee extends AbstractEntity implements HoneyBee {
      */
     @Override
     public void calculateFitness() {
-        this.getProperties().put(EntityType.FITNESS, getFitnessCalculator().getFitness(this, true));
+        this.getProperties().put(EntityType.FITNESS, getFitnessCalculator().getFitness(this));
     }
 
     /**

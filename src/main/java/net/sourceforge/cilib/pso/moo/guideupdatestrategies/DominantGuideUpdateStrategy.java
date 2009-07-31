@@ -56,8 +56,8 @@ public class DominantGuideUpdateStrategy implements GuideUpdateStrategy {
         Vector previousGuide = (Vector) particle.getProperties().get(guideType);
         Algorithm topLevelAlgorithm = Algorithm.getAlgorithmList().get(0);
         OptimisationProblem problem = topLevelAlgorithm.getOptimisationProblem();
-        Fitness currentFitness = problem.getFitness(newGuide, false);
-        if (previousGuide == null || currentFitness.compareTo(problem.getFitness(previousGuide, false)) > 0) {
+        Fitness currentFitness = problem.getFitness(newGuide);
+        if (previousGuide == null || currentFitness.compareTo(problem.getFitness(previousGuide)) > 0) {
             particle.getProperties().put(guideType, newGuide);
         }
     }

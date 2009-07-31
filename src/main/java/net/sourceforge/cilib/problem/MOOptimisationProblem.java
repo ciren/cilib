@@ -56,17 +56,17 @@ public class MOOptimisationProblem implements OptimisationProblem, List<Optimisa
         return new MOOptimisationProblem(this);
     }
 
-    public MOFitness getFitness(Type[] solutions, boolean count) {
-        return new MOFitness(this, solutions, count);
+    public MOFitness getFitness(Type[] solutions) {
+        return new MOFitness(this, solutions);
     }
 
     @Override
-    public MOFitness getFitness(Type solution, boolean count) {
-        return new MOFitness(this, solution, count);
+    public MOFitness getFitness(Type solution) {
+        return new MOFitness(this, solution);
     }
 
-    public Fitness getFitness(int index, Type solution, boolean count) {
-        return problems.get(index).getFitness(solution, count);
+    public Fitness getFitness(int index, Type solution) {
+        return problems.get(index).getFitness(solution);
     }
 
     @Override

@@ -79,7 +79,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
         for (Entity nextSentry : sentryList) {
             double oldSentryFitness = nextSentry.getFitness().getValue();
             nextSentry.calculateFitness();
-            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getCandidateSolution(), false).getValue();
+            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getCandidateSolution()).getValue();
 
             if(Math.abs(oldSentryFitness - newSentryFitness) >=  theta) {
                 envChangeOccured = true;

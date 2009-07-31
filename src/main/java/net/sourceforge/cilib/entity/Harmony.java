@@ -80,7 +80,7 @@ public class Harmony extends AbstractEntity {
      */
     @Override
     public void calculateFitness() {
-        Fitness fitness = getFitnessCalculator().getFitness(this, true);
+        Fitness fitness = getFitnessCalculator().getFitness(this);
         this.getProperties().put(EntityType.FITNESS, fitness);
     }
 

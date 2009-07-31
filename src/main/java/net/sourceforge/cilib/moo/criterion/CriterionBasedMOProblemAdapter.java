@@ -83,7 +83,7 @@ public class CriterionBasedMOProblemAdapter extends OptimisationProblemAdapter {
 
     @Override
     protected Fitness calculateFitness(Type solution) {
-        return this.problem.getFitness(this.activeIndex, solution, true);
+        return this.problem.getFitness(this.activeIndex, solution);
     }
 
     @Override

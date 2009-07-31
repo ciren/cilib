@@ -34,19 +34,19 @@ public class MOFitness implements Fitness {
     private static final long serialVersionUID = 1477723759384827131L;
     private Fitness[] fitnesses;
 
-    public MOFitness(MOOptimisationProblem problem, Type[] solution, boolean count) {
+    public MOFitness(MOOptimisationProblem problem, Type[] solution) {
         int size = problem.size();
         fitnesses = new Fitness[size];
         for (int i = 0; i < size; ++i) {
-            fitnesses[i] = problem.getFitness(i, solution[i], count);
+            fitnesses[i] = problem.getFitness(i, solution[i]);
         }
     }
 
-    public MOFitness(MOOptimisationProblem problem, Type solution, boolean count) {
+    public MOFitness(MOOptimisationProblem problem, Type solution) {
         int size = problem.size();
         fitnesses = new Fitness[size];
         for (int i = 0; i < size; ++i) {
-            fitnesses[i] = problem.getFitness(i, solution, count);
+            fitnesses[i] = problem.getFitness(i, solution);
         }
     }
 
