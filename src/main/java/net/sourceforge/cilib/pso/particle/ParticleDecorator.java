@@ -121,8 +121,8 @@ public abstract class ParticleDecorator extends AbstractParticle {
     }
 
     @Override
-    public void calculateFitness(boolean count) {
-        target.calculateFitness(count);
+    public void calculateFitness() {
+        target.calculateFitness();
     }
 
     public void setNeighbourhoodBest(Particle particle) {

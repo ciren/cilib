@@ -122,15 +122,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * {@inheritDoc}
      */
     @Override
-    public void calculateFitness() {
-        calculateFitness(true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract void calculateFitness(boolean count);
+    public abstract void calculateFitness();
 
     /**
      * {@inheritDoc}

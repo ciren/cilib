@@ -43,6 +43,7 @@ public interface OptimisationProblem extends Problem {
     /**
      * {@inheritDoc}
      */
+    @Override
     public OptimisationProblem getClone();
 
     /**

@@ -54,7 +54,7 @@ public class TopologyBestSentryDetectionStrategy<E extends PopulationBasedAlgori
         if (algorithm.getIterations() % interval == 0) {
             Entity sentry = algorithm.getTopology().getBestEntity();
             double previousFitness = sentry.getFitness().getValue();
-            sentry.calculateFitness(false);
+            sentry.calculateFitness();
             double currentFitness = sentry.getFitness().getValue();
 
             if (Math.abs(previousFitness - currentFitness) >=  epsilon) {

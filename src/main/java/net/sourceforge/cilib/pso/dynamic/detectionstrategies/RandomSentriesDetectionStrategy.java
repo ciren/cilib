@@ -86,7 +86,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
 
                 // check for change
                 double previousFitness = sentry.getFitness().getValue();
-                sentry.calculateFitness(false);
+                sentry.calculateFitness();
                 double currentFitness = sentry.getFitness().getValue();
 
                 if (Math.abs(previousFitness - currentFitness) >= epsilon) {
