@@ -60,6 +60,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
         randomGenerator = rhs.randomGenerator.getClone();
     }
 
+    @Override
     public RandomSentriesDetectionStrategy<E> getClone() {
         return new RandomSentriesDetectionStrategy<E>(this);
     }
@@ -75,6 +76,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
      * @param algorithm used to get hold of topology of entities and number of iterations
      * @return true if a change has been detected, false otherwise
      */
+    @Override
     public boolean detect(E algorithm) {
         if (algorithm.getIterations() % interval == 0) {
             List<? extends Entity> all = algorithm.getTopology().asList();

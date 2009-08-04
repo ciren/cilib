@@ -36,17 +36,9 @@ import net.sourceforge.cilib.entity.Entity;
 public class TopologyBestSentryDetectionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeDetectionStrategy<E> {
     private static final long serialVersionUID = 7060690546029355964L;
 
-    public TopologyBestSentryDetectionStrategy() {
-        // super() is automatically called
-    }
-
-    public TopologyBestSentryDetectionStrategy(EnvironmentChangeDetectionStrategy<E> rhs) {
-        super(rhs);
-    }
-
     @Override
     public EnvironmentChangeDetectionStrategy<E> getClone() {
-        return new TopologyBestSentryDetectionStrategy<E>(this);
+        return this;
     }
 
     @Override
