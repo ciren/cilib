@@ -98,7 +98,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 //        Iterables.addAll(topology, individuals);
 
         for (Entity entity : topology) {
-            this.strategyParameterInitialization.initialize(EntityType.Individual.PHENOTYPES, entity);
+            this.strategyParameterInitialization.initialize(EntityType.STRATEGY_PARAMETERS, entity);
         }
     }
 
@@ -127,7 +127,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void setTopology(Topology topology) {
         this.topology = topology;
@@ -173,7 +172,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      * Set the current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
      * @param iterationStrategy The value to set.
      */
-    @SuppressWarnings("unchecked")
     public void setIterationStrategy(IterationStrategy iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }

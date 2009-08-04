@@ -22,15 +22,18 @@
 package net.sourceforge.cilib.ec.iterationstrategies;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
+import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.ec.EC;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.operators.mutation.GaussianMutationStrategy;
 import net.sourceforge.cilib.entity.operators.mutation.MutationStrategy;
-import net.sourceforge.cilib.entity.operators.selection.SelectionStrategy;
-import net.sourceforge.cilib.entity.operators.selection.TournamentSelectionStrategy;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.util.selection.Selection;
 
 /**
  *
@@ -39,16 +42,18 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
     private static final long serialVersionUID = 4966470754016818350L;
 
     private MutationStrategy mutationStrategy;
-    private SelectionStrategy selectionStrategy;
 
     public EvolutionaryProgrammingIterationStrategy() {
         this.mutationStrategy = new GaussianMutationStrategy();
-        this.selectionStrategy = new TournamentSelectionStrategy();
+    }
+
+    private EvolutionaryProgrammingIterationStrategy(EvolutionaryProgrammingIterationStrategy copy) {
+        this.mutationStrategy = copy.mutationStrategy.getClone();
     }
 
     @Override
-    public AbstractIterationStrategy<EC> getClone() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public EvolutionaryProgrammingIterationStrategy getClone() {
+        return new EvolutionaryProgrammingIterationStrategy(this);
     }
 
     @Override
@@ -57,8 +62,7 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
         List<Individual> offspring = new ArrayList<Individual>();
 
         for (Individual individual : topology) {
-            // Create an offspring by cloning the parent.
-            offspring.add(individual.getClone());
+            offspring.add(individual.getClone()); // Create an offspring by cloning the parent.
         }
 
         // Apply the mutation
@@ -70,13 +74,46 @@ public class EvolutionaryProgrammingIterationStrategy extends AbstractIterationS
         topology.addAll(offspring);
 
         List<Individual> newPopulation = new ArrayList<Individual>(algorithm.getInitialisationStrategy().getEntityNumber());
+
+        List<Pair<Individual, Integer>> scores = new ArrayList<Pair<Individual, Integer>>();
+        for (int i = 0; i < topology.size(); i++) {
+            Individual current = topology.get(i);
+            int score = getScore(current, topology);
+            scores.add(new Pair<Individual, Integer>(current, score));
+        }
+
+        Collections.sort(scores, new Comparator<Pair<Individual, Integer>>() {
+            @Override
+            public int compare(Pair<Individual, Integer> o1, Pair<Individual, Integer> o2) {
+                return o1.getValue().compareTo(o2.getValue());
+            }
+        });
+
         for (int i = 0; i < algorithm.getInitialisationStrategy().getEntityNumber(); i++) {
-            Individual individual = this.selectionStrategy.select(topology);
-            newPopulation.add(individual);
+            newPopulation.add(scores.get(i).getKey());
         }
 
         topology.clear();
         topology.addAll(newPopulation);
+    }
+
+    private int getScore(Individual current, Topology<Individual> topology) {
+        int score = 0;
+        List<Individual> selection = Selection.from(topology).unique().random(new MersenneTwister(), 10).select();
+
+        for (Individual i : selection)
+            if (current.getFitness().compareTo(i.getFitness()) < 0)
+                score++;
+
+        return score;
+    }
+
+    public MutationStrategy getMutationStrategy() {
+        return mutationStrategy;
+    }
+
+    public void setMutationStrategy(MutationStrategy mutationStrategy) {
+        this.mutationStrategy = mutationStrategy;
     }
 
 }
