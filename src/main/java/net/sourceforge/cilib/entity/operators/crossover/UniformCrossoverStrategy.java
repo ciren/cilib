@@ -91,8 +91,8 @@ public class UniformCrossoverStrategy extends CrossoverStrategy {
                 }
             }
 
-            offspring1.calculateFitness(false);
-            offspring2.calculateFitness(false);
+            offspring1.calculateFitness();
+            offspring2.calculateFitness();
 
             offspring.add(offspring1);
             offspring.add(offspring2);

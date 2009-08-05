@@ -56,8 +56,8 @@ public class MOFitnessTest {
             new MinimisationFitness(new Integer(1).doubleValue()),
             new MinimisationFitness(new Integer(1).doubleValue())};
 
-        Fitness f1 = moproblem.getFitness(inferior, false);
-        Fitness f2 = moproblem.getFitness(oneFitness, false);
+        Fitness f1 = moproblem.getFitness(inferior);
+        Fitness f2 = moproblem.getFitness(oneFitness);
 
         assertTrue(f1.compareTo(f2) < 0);
         assertTrue(f2.compareTo(f1) > 0);
@@ -80,12 +80,8 @@ public class MOFitnessTest {
         }
 
         @Override
-        public Fitness getFitness(Type solution, boolean count) {
+        public Fitness getFitness(Type solution) {
             return (Fitness) solution;
-        }
-
-        public Fitness getFitness(Type[] solution, boolean count) {
-            return (Fitness) solution[i];
         }
 
         @Override

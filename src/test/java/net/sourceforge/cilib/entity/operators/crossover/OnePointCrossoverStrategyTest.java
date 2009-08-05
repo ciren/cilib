@@ -84,7 +84,7 @@ public class OnePointCrossoverStrategyTest {
         }
 
         @Override
-        public Fitness getFitness(Individual entity, boolean count) {
+        public Fitness getFitness(Individual entity) {
             return InferiorFitness.instance();
         }
     }

@@ -73,7 +73,7 @@ public class KMeans extends SingularAlgorithm {
 
     /**
      * Create a copy of the provided instance.
-     * @param rhs The instance to copy.
+     * @param copy The instance to copy.
      */
     public KMeans(KMeans copy) {
         super(copy);
@@ -105,7 +105,7 @@ public class KMeans extends SingularAlgorithm {
      */
     @Override
     public void algorithmIteration() {
-        calculator.getFitness(centroids, true);
+        calculator.getFitness(centroids);
 
         // the fitness calculation step already arranged the clusters and centroids for us
         ClusteringUtils helper = ClusteringUtils.get();
@@ -163,7 +163,7 @@ public class KMeans extends SingularAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(centroids.getClone(), getOptimisationProblem().getFitness(centroids, false));
+        return new OptimisationSolution(centroids.getClone(), getOptimisationProblem().getFitness(centroids));
     }
 
     /**

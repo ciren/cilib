@@ -162,8 +162,8 @@ public class StandardParticle extends AbstractParticle {
      * {@inheritDoc}
      */
     @Override
-    public void calculateFitness(boolean count) {
-        Fitness fitness = getFitnessCalculator().getFitness(this, count);
+    public void calculateFitness() {
+        Fitness fitness = getFitnessCalculator().getFitness(this);
         this.getProperties().put(EntityType.FITNESS, fitness);
 
         this.personalBestUpdateStrategy.updatePersonalBest(this);

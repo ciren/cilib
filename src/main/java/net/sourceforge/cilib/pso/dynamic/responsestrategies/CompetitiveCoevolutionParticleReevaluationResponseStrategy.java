@@ -70,7 +70,7 @@ public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extend
              Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
              blackboard.put(EntityType.CANDIDATE_SOLUTION, ((AbstractParticle)e).getBestPosition());
              blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());
-             Fitness val = currentAlgorithm.getOptimisationProblem().getFitness(blackboard, false);
+             Fitness val = currentAlgorithm.getOptimisationProblem().getFitness(blackboard);
              e.getProperties().put(EntityType.Particle.BEST_FITNESS, val);
              //if currentV is better than re-evaluated pBest, then replace it
              if (e.getFitness().compareTo(e.getBestFitness()) > 0) {

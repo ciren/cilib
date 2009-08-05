@@ -35,6 +35,7 @@ public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public EntityBasedFitnessCalculator getClone() {
         return this;
     }
@@ -42,9 +43,10 @@ public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {
     /**
      * {@inheritDoc}
      */
-    public Fitness getFitness(Entity entity, boolean count) {
+    @Override
+    public Fitness getFitness(Entity entity) {
         Algorithm algorithm = Algorithm.get();
-        return algorithm.getOptimisationProblem().getFitness(entity.getCandidateSolution(), count);
+        return algorithm.getOptimisationProblem().getFitness(entity.getCandidateSolution());
     }
 
 }
