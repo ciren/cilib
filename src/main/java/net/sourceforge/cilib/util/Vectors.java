@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.util;
 
+import java.util.Arrays;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -83,14 +84,15 @@ public final class Vectors {
      * @return The created {@linkplain Vector} object, containing the provided list of items.
      */
     public static <T extends Number> Vector create(T... elements) {
-        Vector vector = new Vector();
-
-        for (T element : elements)
-            vector.add(new Real(element.doubleValue()));
-
-        return vector;
+        return create(Arrays.asList(elements));
     }
 
+    /**
+     * Utility method to create a {@linkplain Vector}, given any number of {@linkplain Number} instances.
+     * @param <T> The type extending {@linkplain Number}.
+     * @param elements The iterable of values to include within the created {@linkplain Vector}.
+     * @return The created {@linkplain Vector} object, containing the provided list of items.
+     */
     public static <T extends Number> Vector create(Iterable<T> elements) {
         Vector vector = new Vector();
 

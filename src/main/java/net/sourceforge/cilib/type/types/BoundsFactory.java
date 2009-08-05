@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import com.google.common.collect.Maps;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public class BoundsFactory {
 
-    private final static Map<Integer, Bounds> bounds = Maps.newHashMap();
+    private final static Map<Integer, Bounds> bounds = new HashMap<Integer, Bounds>();
 
     /**
      * Create a new {@code Bounds} object, or alternatively return a precreated instance.
