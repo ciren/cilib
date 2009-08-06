@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -31,11 +31,9 @@ import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
 /**
  * @author Anna Rakitianskaia
- * @deprecated Rather use {@link ReevaluationReactionStrategy}
  */
 public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgorithm> extends
         EnvironmentChangeResponseStrategy<E> {
-
     private static final long serialVersionUID = -4389695103800841288L;
 
     public ParticleReevaluationResponseStrategy() {
@@ -55,14 +53,14 @@ public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgor
      * @param algorithm PSO algorithm that has to respond to environment change
      */
     public void respond(E algorithm) {
-        performReaction(algorithm);
+        reevaluateParticles(algorithm);
     }
 
     /**
      * Re-evaluate each particle's position, personal best and neighbourhood best.
      * @param algorithm PSO algorithm that has to respond to environment change
      */
-    protected void performReaction(E algorithm) {
+    protected void reevaluateParticles(E algorithm) {
 
         Topology<? extends Entity> topology = algorithm.getTopology();
 
@@ -85,5 +83,10 @@ public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgor
                 }
             } // end for
         } // end for
+    }
+
+    @Override
+    protected void performReaction(E algorithm) {
+        reevaluateParticles(algorithm);
     }
 } // end class

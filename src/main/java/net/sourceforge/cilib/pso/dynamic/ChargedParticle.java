@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -110,7 +110,6 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
-
         velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
 
         // Initialise particle charge

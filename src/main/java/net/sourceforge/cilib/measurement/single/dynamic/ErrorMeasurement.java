@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -19,45 +19,42 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.dynamic;
+
+package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.continuous.dynamic.MovingPeaks;
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author anna
+ * Calculate the error between the current best value of the swarm and the global optimum of the
+ * function.
+ *
+ * @author Anna Rakitianskaia, Julien Duhain
  *
  */
-public class MovingPeaksOfflinePerformanceMeasurement implements Measurement {
+public class ErrorMeasurement implements Measurement {
 
-    private static final long serialVersionUID = 3204341758731244688L;
+    private static final long serialVersionUID = 2632671785674388015L;
 
-    public MovingPeaksOfflinePerformanceMeasurement() {}
-    public MovingPeaksOfflinePerformanceMeasurement(MovingPeaksOfflinePerformanceMeasurement rhs) {}
+    public ErrorMeasurement() {}
+    public ErrorMeasurement(ErrorMeasurement rhs) {}
 
-    public MovingPeaksOfflinePerformanceMeasurement getClone() {
-        return new MovingPeaksOfflinePerformanceMeasurement(this);
-    }
-
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.measurement.Measurement#getDomain()
-     */
     public String getDomain() {
         return "R";
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.measurement.Measurement#getValue()
-     */
     public Type getValue(Algorithm algorithm) {
-        MovingPeaks func = (MovingPeaks) ((FunctionMaximisationProblem) (algorithm.getOptimisationProblem())).getFunction();
-        Vector err = new Vector();
-        err.add(new Real(func.getOfflinePerformance()));
+        double n = algorithm.getBestSolution().getFitness().getValue();
+           ContinuousFunction func = (ContinuousFunction)((FunctionMaximisationProblem)(Algorithm.get().getOptimisationProblem())).getFunction();
+           Real err = new Real((Double)func.getMaximum() - n);
         return err;
+    }
+    @Override
+    public Measurement getClone() {
+        return new ErrorMeasurement(this);
     }
 }

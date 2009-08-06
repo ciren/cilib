@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
@@ -30,7 +31,7 @@ import net.sourceforge.cilib.pso.particle.StandardParticle;
  * the particle. A dynamic algorithm usually re-evaluates all particles when a
  * change in the environment has been detected.
  *
- * @author Anna Rakitianskaia
+ * @author Anna Rakitianskaia, Julien Duhain
  */
 public class DynamicParticle extends StandardParticle {
 
@@ -52,7 +53,8 @@ public class DynamicParticle extends StandardParticle {
      * Re-evaluate both best and current position of the particle.
      */
     public void reevaluate() {
-        this.getProperties().put(EntityType.Particle.BEST_FITNESS, getFitnessCalculator().getFitness(this, true));
-        this.calculateFitness();
+        Algorithm.get().getOptimisationProblem().getFitness(this.getCandidateSolution(), true);
+        this.getProperties().put(EntityType.Particle.BEST_FITNESS, Algorithm.get().getOptimisationProblem().getFitness(this.getBestPosition(), true));
+    //    this.calculateFitness();
     }
 }

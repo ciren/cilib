@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.pso.dynamic;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
+
 
 /**
  * @author Anna Rakitianskaia
@@ -32,18 +35,23 @@ public class StandardChargedParticleInitialisationStrategy implements
     private static final long serialVersionUID = -652103945949329612L;
     private double chargedRatio; // determines the percentage of the swarm that is to be charged
     private double chargeMagnitude; // charge magnitude
-    private static int populationSize;
-    private static int chargedCounter = 0; // maybe a bad idea, but this variable keeps track of the number of particles already charged
+    private int populationSize;
+    private int chargedCounter; // maybe a bad idea, but this variable keeps track of the number of particles already charged
+    private int neutralCounter; // this variable keeps track of the number of neutral particles already selected
 
     public StandardChargedParticleInitialisationStrategy() {
         // defaults:
         chargedRatio = 0.5;    // one half of the swarm is charged => Atomic swarm
         chargeMagnitude = 16; // the obscure value 16 comes from the article where the chraged PSO was analysed for the 1st time by its creators
+        chargedCounter = 0;
+        neutralCounter = 0;
     }
 
     public StandardChargedParticleInitialisationStrategy(StandardChargedParticleInitialisationStrategy copy) {
         this.chargedRatio = copy.chargedRatio;
         this.chargeMagnitude = copy.chargeMagnitude;
+        this.chargedCounter = 0;
+        this.neutralCounter = 0;
     }
 
     public StandardChargedParticleInitialisationStrategy getClone() {
@@ -54,13 +62,21 @@ public class StandardChargedParticleInitialisationStrategy implements
      * @see net.sourceforge.cilib.pso.particle.initialisation.ChargedParticleInitialisationStrategy#initialise(net.sourceforge.cilib.pso.particle.ChargedParticle)
      */
     public void initialise(ChargedParticle particle) {
-        if(chargedCounter < Math.floor(populationSize*chargedRatio)) {
+        Random r = new MersenneTwister();
+
+        //makes sure the charged particles are randomly positioned across the topology
+        if(chargedCounter < Math.floor(populationSize*chargedRatio) && r.nextDouble() < chargedRatio){
             particle.setCharge(chargeMagnitude);
             ++chargedCounter;
-        }
-        else {
+        }//if
+        else if(neutralCounter > Math.floor(populationSize*(1.0-chargedRatio))){
+            particle.setCharge(chargeMagnitude);
+            ++chargedCounter;
+        }//else if
+        else{
             particle.setCharge(0);
-        }
+            ++neutralCounter;
+        }//else
     }
 
 
@@ -97,7 +113,7 @@ public class StandardChargedParticleInitialisationStrategy implements
      * @param populationSize the populationSize to set
      */
     public void setPopulationSize(int populationSize) {
-        StandardChargedParticleInitialisationStrategy.populationSize = populationSize;
+        this.populationSize = populationSize;
     }
 
 }

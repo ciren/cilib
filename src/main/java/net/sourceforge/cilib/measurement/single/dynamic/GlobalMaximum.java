@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -19,45 +19,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.pso.dynamic;
+
+package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.continuous.dynamic.MovingPeaks;
+import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * @author anna
+ * Give the current value of the global optimum of the
+ * function.
+ *
+ * @author Julien Duhain
  *
  */
-public class MovingPeaksOfflineErrorMeasurement implements Measurement {
+public class GlobalMaximum implements Measurement {
 
-    private static final long serialVersionUID = 2632671785674388015L;
+    private static final long serialVersionUID = 2658868675629949642L;
+    public GlobalMaximum() {}
+    public GlobalMaximum(GlobalMaximum rhs) {}
 
-    public MovingPeaksOfflineErrorMeasurement() {}
-    public MovingPeaksOfflineErrorMeasurement(MovingPeaksOfflineErrorMeasurement rhs) {}
-
-    public MovingPeaksOfflineErrorMeasurement getClone() {
-        return new MovingPeaksOfflineErrorMeasurement(this);
+    public GlobalMaximum clone() {
+        return new GlobalMaximum(this);
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.measurement.Measurement#getDomain()
-     */
     public String getDomain() {
         return "R";
     }
 
-    /* (non-Javadoc)
-     * @see net.sourceforge.cilib.measurement.Measurement#getValue()
-     */
     public Type getValue(Algorithm algorithm) {
-        MovingPeaks func = (MovingPeaks) ((FunctionMaximisationProblem) (algorithm.getOptimisationProblem())).getFunction();
-        Vector err = new Vector();
-        err.add(new Real(func.getOfflineError()));
-        return err;
+        return new Real((Double)((ContinuousFunction)((FunctionMaximisationProblem)(algorithm.getOptimisationProblem())).getFunction()).getMaximum());
+    }
+
+    @Override
+    public Measurement getClone() {
+        return new GlobalMaximum(this);
     }
 }
+
