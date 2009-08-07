@@ -169,6 +169,29 @@ public final class Matrix implements Type {
     }
 
     /**
+     * 
+     * @param angle The rotation angle defined in radians.
+     * @return
+     */
+    public Matrix rotate(double angle) {
+        Matrix rotation = new Matrix(2, 2);
+        rotation.contents[0][0] = Math.cos(angle);
+        rotation.contents[0][1] = -Math.sin(angle);
+        rotation.contents[1][0] = Math.sin(angle);
+        rotation.contents[1][1] = Math.cos(angle);
+
+        return this.times(rotation);
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public double determinant() {
+        return contents[0][0]*contents[1][1] - contents[1][0]*contents[0][1];
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
