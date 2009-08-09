@@ -58,7 +58,7 @@ public class Schaffer6 extends ContinuousFunction {
      */
     @Override
     public Schaffer6 getClone() {
-        return new Schaffer6();
+        return this;
     }
 
 
@@ -66,6 +66,7 @@ public class Schaffer6 extends ContinuousFunction {
      * Initialise the function minimum value.
      * @return The minimum value as a <tt>Double</tt> object with value of 0.0
      */
+    @Override
     public Double getMinimum() {
         return -1.0;
     }
@@ -74,7 +75,7 @@ public class Schaffer6 extends ContinuousFunction {
     /**
      * Evaluate the function and return the evaluation.
      *
-     * @param x The input vector to the function
+     * @param input The input vector to the function
      * @return A double value representing the function evaluation
      */
     @Override
