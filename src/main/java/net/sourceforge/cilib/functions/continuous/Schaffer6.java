@@ -67,7 +67,7 @@ public class Schaffer6 extends ContinuousFunction {
      * @return The minimum value as a <tt>Double</tt> object with value of 0.0
      */
     public Double getMinimum() {
-        return -1.0;
+        return 0.0;
     }
 
 
@@ -90,7 +90,7 @@ public class Schaffer6 extends ContinuousFunction {
         double denominatorTmp = 1.0 + 0.001*squared;
         double denominator = denominatorTmp * denominatorTmp;
 
-        return -0.5 + (numerator / denominator);
+        return 0.5 + (numerator / denominator);
     }
 
 }
