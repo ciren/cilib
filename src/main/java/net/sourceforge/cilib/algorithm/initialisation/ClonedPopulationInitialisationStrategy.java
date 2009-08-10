@@ -32,9 +32,10 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
  *
  * @author Gary Pampara
  */
-public class ClonedPopulationInitialisationStrategy extends PopulationInitialisationStrategy {
+public class ClonedPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
     private static final long serialVersionUID = -7354579791235878648L;
     private Entity prototypeEntity;
+    private int entityNumber;
 
     /**
      * Create an instance of the {@code ClonedPopulationInitialisationStrategy}.
@@ -56,6 +57,7 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
     /**
      * {@inheritDoc}
      */
+    @Override
     public ClonedPopulationInitialisationStrategy getClone() {
         return new ClonedPopulationInitialisationStrategy(this);
     }
@@ -87,6 +89,7 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
      * Set the prototype {@linkplain net.sourceforge.cilib.entity.Entity entity} for the copy process.
      * @param entityType The {@code Entity} to use for the cloning process.
      */
+    @Override
     public void setEntityType(Entity entityType) {
         this.prototypeEntity = entityType;
     }
@@ -97,7 +100,27 @@ public class ClonedPopulationInitialisationStrategy extends PopulationInitialisa
      * @see ClonedPopulationInitialisationStrategy#getPrototypeEntity()
      * @return The prototype {@code Entity}.
      */
+    @Override
     public Entity getEntityType() {
         return this.prototypeEntity;
     }
+
+    /**
+     * Get the defined number of {@code Entity} instances to create.
+     * @return The number of {@code Entity} instances.
+     */
+    @Override
+    public int getEntityNumber() {
+        return this.entityNumber;
+    }
+
+    /**
+     * Set the number of {@code Entity} instances to clone.
+     * @param entityNumber The number to clone.
+     */
+    @Override
+    public void setEntityNumber(int entityNumber) {
+        this.entityNumber = entityNumber;
+    }
+
 }
