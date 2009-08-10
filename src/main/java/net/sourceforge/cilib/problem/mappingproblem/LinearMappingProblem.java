@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.problem.mappingproblem;
 
-import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.type.DomainRegistry;
+import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -75,7 +75,7 @@ public class LinearMappingProblem extends MappingProblem {
      *
      * @author jkroon
      */
-    protected final void performMapping(Matrix<Double> input, Vector matrix, Matrix<Double> output) {
+    protected final void performMapping(Matrix input, Vector matrix, Matrix output) {
         int outputDimension = getOutputDim(); // D
         int inputDimension = getInputDim(); // M
         int numberOfVectors = getNumInputVectors(); // N
@@ -83,11 +83,11 @@ public class LinearMappingProblem extends MappingProblem {
         for(int v = 0; v < numberOfVectors; v++) {
             int base = 0;
             for(int d = 0; d < outputDimension; d++) {
-                output.set(v, d, 0.0);
+//                output.set(v, d, 0.0);
                 for(int m = 0; m < inputDimension; m++) {
-                    double value = matrix.getReal(base+m) * input.get(v, m);
+                    double value = matrix.getReal(base+m) * input.valueAt(v, m);
                     //output[v][d] += matrix[base + m] * input[v][m];
-                    output.set(v, d, value);
+//                    output.set(v, d, value);
                 }
                 base += inputDimension;
             }

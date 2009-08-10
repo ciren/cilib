@@ -88,15 +88,15 @@ public final class Vectors {
     }
 
     /**
-     * Utility method to create a {@linkplain Vector}, given any number of {@linkplain Number} instances.
-     * @param <T> The type extending {@linkplain Number}.
-     * @param elements The iterable of values to include within the created {@linkplain Vector}.
-     * @return The created {@linkplain Vector} object, containing the provided list of items.
+     * Create a {@code Vector} from the provided {@code Iterable}.
+     * @param <T> The number type.
+     * @param iterable The iterable of data elements.
+     * @return A {@code Vector} of the provided objects.
      */
-    public static <T extends Number> Vector create(Iterable<T> elements) {
+    public static <T extends Number> Vector create(Iterable<T> iterable) {
         Vector vector = new Vector();
 
-        for (T element : elements)
+        for (T element : iterable)
             vector.add(new Real(element.doubleValue()));
 
         return vector;

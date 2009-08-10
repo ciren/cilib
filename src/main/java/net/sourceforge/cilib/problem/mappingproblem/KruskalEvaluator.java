@@ -21,9 +21,9 @@
  */
 package net.sourceforge.cilib.problem.mappingproblem;
 
-import net.sourceforge.cilib.container.Matrix;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.type.types.container.Matrix;
 
 /**
  * Implements the Kruskal stress function for evaluating the fitness of the MappingProblem.
@@ -40,7 +40,7 @@ public class KruskalEvaluator implements MappingEvaluator {
      *
      * @author jkroon
      */
-    public Fitness evaluateMapping(Matrix<Double> dist) {
+    public Fitness evaluateMapping(Matrix dist) {
         double above = 0.0;
         double below = 0.0;
 
@@ -49,11 +49,11 @@ public class KruskalEvaluator implements MappingEvaluator {
         for(int i = 0; i < numvect; i++) {
             for(int j = i + 1; j < numvect; j++) {
                 double inp_dist = prob.getDistanceInputVect(i, j);
-                double tmp = inp_dist - dist.get(i, j);
+                double tmp = inp_dist - dist.valueAt(i, j);
 
                 above += tmp * tmp;
 //                below += inp_dist * inp_dist;
-                below += dist.get(i, j) * dist.get(i, j);
+                below += dist.valueAt(i, j) * dist.valueAt(i, j);
             }
         }
 
