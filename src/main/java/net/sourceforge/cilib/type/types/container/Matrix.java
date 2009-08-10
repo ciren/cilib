@@ -142,6 +142,20 @@ public final class Matrix implements Type {
      * The result of this operation is a new immutable matrix.
      * @param b The {@code Matrix} to to multiply the current {@code Matrix} with.
      * @return A new {@code Matrix} representing the result of the multiplication.
+     * @see Matrix#times(net.sourceforge.cilib.type.types.container.Matrix)
+     */
+    public Matrix multiply(Matrix b) {
+        return this.times(b);
+    }
+
+    /**
+     * Perform multiplication on the current {@code Matrix} and the provided {@code Matrix}.
+     * Naturally, matrix multiplication can only be performed on matricies that adhere
+     * to the required matrix multiplication rules.
+     * <p>
+     * The result of this operation is a new immutable matrix.
+     * @param b The {@code Matrix} to to multiply the current {@code Matrix} with.
+     * @return A new {@code Matrix} representing the result of the multiplication.
      */
     public Matrix times(Matrix b) {
         Preconditions.checkArgument(this.getRows() == b.getColumns(), "Illegal matrix dimensions for matrix multiplication.");
@@ -169,9 +183,9 @@ public final class Matrix implements Type {
     }
 
     /**
-     * 
+     * Perform a rotation on the provided matrix by the specified {@code angle}.
      * @param angle The rotation angle defined in radians.
-     * @return
+     * @return A rotated {@code Matrix}, which is a new instance.
      */
     public Matrix rotate(double angle) {
         Matrix rotation = new Matrix(2, 2);
@@ -184,8 +198,8 @@ public final class Matrix implements Type {
     }
 
     /**
-     * 
-     * @return
+     * Obtain the determinant of the current matrix.
+     * @return The determinant value.
      */
     public double determinant() {
         return contents[0][0]*contents[1][1] - contents[1][0]*contents[0][1];
