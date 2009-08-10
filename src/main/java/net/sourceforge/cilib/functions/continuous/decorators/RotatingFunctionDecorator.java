@@ -22,11 +22,12 @@
 package net.sourceforge.cilib.functions.continuous.decorators;
 
 
-import java.util.StringTokenizer;
-
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
 import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeStrategy;
+import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.type.parser.ParseException;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.type.types.container.SimpleMatrix;
 
@@ -175,14 +176,21 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
      * @param function the function to set
      */
     public void setFunction(ContinuousFunction function) {
-        this.function = function;
-        this.setDomain(function.getDomainRegistry().getDomainString());
-        StringTokenizer st = new StringTokenizer(function.getDomainRegistry().getDomainString(), "R(,)^");
-        double lowerLimit = Double.parseDouble(st.nextToken());
-        double upperLimit = Double.parseDouble(st.nextToken());
-        center = (upperLimit - lowerLimit)/2 + lowerLimit;
+        try {
+            this.function = function;
+            this.setDomain(function.getDomainRegistry().getDomainString());
 
-        this.N = function.getDimension();
-        initMatrices();
+            Vector structure = (Vector) DomainParser.parse(function.getDomainRegistry().getDomainString());
+            Bounds bounds = structure.get(0).getBounds();
+            double lowerLimit = bounds.getLowerBound();
+            double upperLimit = bounds.getUpperBound();
+
+            center = (upperLimit - lowerLimit) / 2 + lowerLimit;
+            this.N = function.getDimension();
+            initMatrices();
+
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException(ex);
+        }
     }
 }
