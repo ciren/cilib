@@ -25,8 +25,9 @@ import java.io.EOFException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
-
-import net.sourceforge.cilib.container.Matrix;
+import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.cilib.type.types.container.Matrix;
 
 /**
  * TODO: This needs to implement the reading of a matrix as needed by MappingProblem.
@@ -35,7 +36,7 @@ import net.sourceforge.cilib.container.Matrix;
 public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
     private static final long serialVersionUID = 1141280214032774956L;
 
-    private Matrix<Double> matrix;
+    private Matrix matrix;
     private int numvectors = 0;
     private int m = -1;
     private int d = -1;
@@ -57,6 +58,7 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
 
     @Override
     public void initialise() {
+        Matrix.Builder matrixBuilder = null;
 
         try {
             InputStream is = this.getDataSet(0).getInputStream();
@@ -79,7 +81,7 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
             if (m <= 0)
                 throw new IllegalStateException("Need to have a positive number as the input dimensions");
 
-            matrix = new Matrix<Double>(numvectors, m);
+            matrixBuilder = Matrix.builder().rows(numvectors).columns(m);
 
             if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
                 throw new IllegalStateException("Expected an integer number as the third token in the dataset");
@@ -93,6 +95,7 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
                 throw new IllegalStateException("Output dimension must be less than input dimension");
 
             for (int i = 0; i < numvectors; i++) {
+                List<Double> rowVector = new ArrayList<Double>();
                 for (int j = 0; j < m; j++) {
                     int tok_ret = tok.nextToken();
                     while (tok_ret != StreamTokenizer.TT_NUMBER) {
@@ -106,20 +109,23 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
                         }
                     }
 
-                    matrix.set(i, j, tok.nval);
+                    rowVector.add(tok.nval);
                 }
+                matrixBuilder.addRow(rowVector);
             }
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        matrix = matrixBuilder.build();
     }
 
     /**
      * Get the constructed {@see net.sourceforge.cilib.container.Matrix Matrix}.
      * @return The current {@code Matrix} instance.
      */
-    public Matrix<Double> getMatrix() {
+    public Matrix getMatrix() {
         return this.matrix;
     }
 
