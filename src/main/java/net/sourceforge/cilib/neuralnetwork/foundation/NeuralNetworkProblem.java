@@ -76,11 +76,10 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
         return evaluationStrategy.evaluate(p);
     }
 
-    public Fitness getFitness(Type solution, boolean count) {
+    @Override
+    public Fitness getFitness(Type solution) {
+        ++fitnessEvaluations;
 
-        if (count) {
-            ++fitnessEvaluations;
-        }
         this.getTopology().setWeights((Vector) solution);
 
             //Defaults to first error element as the main fitness...

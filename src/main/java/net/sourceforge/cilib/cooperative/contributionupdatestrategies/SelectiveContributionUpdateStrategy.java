@@ -38,7 +38,7 @@ public class SelectiveContributionUpdateStrategy implements ContributionUpdateSt
         dstTest.update(src, srcPos, dstPos, length);
 
         // calculate new fitness of updated clone
-        dstTest.calculateFitness(false);
+        dstTest.calculateFitness();
 
         // if updated clone is better than original context, update context
         if(dstTest.compareTo(dst) > 0) {

@@ -123,8 +123,8 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
 
 
             //position should only become the offspring if its fitness is better
-            Fitness trialFitness = pso.getOptimisationProblem().getFitness(dePosition, false);
-            Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getCandidateSolution(), false);
+            Fitness trialFitness = pso.getOptimisationProblem().getFitness(dePosition);
+            Fitness currentFitness = pso.getOptimisationProblem().getFitness(particle.getCandidateSolution());
 
             if (trialFitness.compareTo(currentFitness) > 0) {
                 particle.setCandidateSolution(dePosition);

@@ -75,13 +75,6 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
     public void calculateFitness();
 
     /**
-     * Calculate the fitness of the <code>Entity</code>. This method may or may not
-     * increment the number of fitness evaluations of the algorithm.
-     * @param count Add or do not add this fitness evaluation to the algorithm global count.
-     */
-    public void calculateFitness(boolean count);
-
-    /**
      * Returns the {@linkplain Entity} fitness.
      * @return The {@linkplain Fitness} of the {@linkplain Entity}.
      */

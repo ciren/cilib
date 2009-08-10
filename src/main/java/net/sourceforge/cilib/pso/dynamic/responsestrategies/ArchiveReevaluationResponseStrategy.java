@@ -46,7 +46,7 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
     @Override
     protected void performReaction(PopulationBasedAlgorithm algorithm) {
         for (Entity entity : algorithm.getTopology()) {
-            entity.getProperties().put(EntityType.Particle.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity, true));
+            entity.getProperties().put(EntityType.Particle.BEST_FITNESS, entity.getFitnessCalculator().getFitness(entity));
             //entity.getProperties().put(EntityType.Particle.BEST_POSITION, entity.getCandidateSolution());
             entity.calculateFitness();
         }
@@ -56,7 +56,7 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
 
         List<OptimisationSolution> newList = new LinkedList<OptimisationSolution>();
         for (OptimisationSolution solution : Archive.get()) {
-            OptimisationSolution os = new OptimisationSolution(solution.getPosition(), problem.getFitness(solution.getPosition(), false));
+            OptimisationSolution os = new OptimisationSolution(solution.getPosition(), problem.getFitness(solution.getPosition()));
             newList.add(os);
         }
 

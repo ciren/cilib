@@ -53,8 +53,7 @@ public class DynamicParticle extends StandardParticle {
      * Re-evaluate both best and current position of the particle.
      */
     public void reevaluate() {
-        Algorithm.get().getOptimisationProblem().getFitness(this.getCandidateSolution(), true);
-        this.getProperties().put(EntityType.Particle.BEST_FITNESS, Algorithm.get().getOptimisationProblem().getFitness(this.getBestPosition(), true));
-    //    this.calculateFitness();
+        this.getProperties().put(EntityType.Particle.BEST_FITNESS, getFitnessCalculator().getFitness(this));
+        this.calculateFitness();
     }
 }

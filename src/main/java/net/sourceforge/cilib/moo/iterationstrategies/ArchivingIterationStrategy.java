@@ -72,12 +72,12 @@ public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> impl
     }
 
     protected void updateArchive(Topology<? extends Entity> population) {
-        Algorithm topLevelAlgorithm = (Algorithm) Algorithm.getAlgorithmList().get(0);
+        Algorithm topLevelAlgorithm = Algorithm.getAlgorithmList().get(0);
         List<OptimisationSolution> optimisationSolutions = new ArrayList<OptimisationSolution>();
         for (Entity entity : population) {
             Type solution = entity.getCandidateSolution().getClone();
             optimisationSolutions.add(new OptimisationSolution(solution,
-                    topLevelAlgorithm.getOptimisationProblem().getFitness(solution, false)));
+                    topLevelAlgorithm.getOptimisationProblem().getFitness(solution)));
         }
         Archive.get().addAll(optimisationSolutions);
     }

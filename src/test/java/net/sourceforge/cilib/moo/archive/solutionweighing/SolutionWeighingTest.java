@@ -72,7 +72,7 @@ public class SolutionWeighingTest {
         }
 
         @Override
-        public Fitness getFitness(Type solution, boolean count) {
+        public Fitness getFitness(Type solution) {
             Vector position = (Vector) solution;
             return new MinimisationFitness(position.getReal(index));
         }
@@ -123,27 +123,27 @@ public class SolutionWeighingTest {
         Vector position = new Vector();
         position.add(new Real(1));
         position.add(new Real(1));
-        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position, false)));
+        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
         position = new Vector();
         position.add(new Real(2));
         position.add(new Real(4));
-        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position, false)));
+        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
         position = new Vector();
         position.add(new Real(3));
         position.add(new Real(2));
-        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position, false)));
+        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
         position = new Vector();
         position.add(new Real(4));
         position.add(new Real(6));
-        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position, false)));
+        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
 
         position = new Vector();
         position.add(new Real(5));
         position.add(new Real(1));
-        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position, false)));
+        solutions.add(new OptimisationSolution(position, moProblem.getFitness(position)));
     }
 
     @Test

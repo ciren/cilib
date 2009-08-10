@@ -246,7 +246,7 @@ public class VonNeumannTopologyTest {
         }
 
         @Override
-        public void calculateFitness(boolean count) {
+        public void calculateFitness() {
             throw new UnsupportedOperationException("Mocked object - not allowed");
         }
 

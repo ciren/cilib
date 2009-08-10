@@ -46,9 +46,9 @@ public class StructuredTypeFitnessCalculator<T extends StructuredType<?>> implem
      * {@inheritDoc}
      */
     @Override
-    public Fitness getFitness(T structure, boolean count) {
+    public Fitness getFitness(T structure) {
         Algorithm algorithm = Algorithm.get();
-        return algorithm.getOptimisationProblem().getFitness(structure, count);
+        return algorithm.getOptimisationProblem().getFitness(structure);
     }
 
 }

@@ -190,7 +190,7 @@ public class ConstrainedArchiveTest {
             for (int j = i; j < i + 5; ++j) {
                 vector.add(new Real(j));
             }
-            archive.addAll(Arrays.asList(new OptimisationSolution(vector, problem.getFitness(vector, false))));
+            archive.addAll(Arrays.asList(new OptimisationSolution(vector, problem.getFitness(vector))));
         }
         assertThat(archive.size(), is(100));
         archive.clear();
@@ -201,7 +201,7 @@ public class ConstrainedArchiveTest {
             for (int j = i; j < i + 5; ++j) {
                 vector.add(new Real(j));
             }
-            solutions.add(new OptimisationSolution(vector, problem.getFitness(vector, false)));
+            solutions.add(new OptimisationSolution(vector, problem.getFitness(vector)));
         }
         archive.addAll(solutions);
         assertThat(archive.size(), is(100));

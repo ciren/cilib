@@ -7,7 +7,7 @@
   <version>0.7.1-SNAPSHOT</version>
   <name>cilib</name>
   <description>Collaborative component based framework for developing Computational Intelligence software</description>
-  <url>http://cilib.sourceforge.net</url>
+  <url>http://www.cilib.net</url>
   <licenses>
     <license>
       <name>GPL</name>
@@ -53,8 +53,8 @@
   </issueManagement>
   <distributionManagement>
     <site>
-      <id>sourceforge</id>
-      <url>scp://shell.sourceforge.net/home/groups/c/ci/cilib/htdocs</url>
+      <id>cilib.net</id>
+      <url>scp://cilib.net/var/www/www.cilib.net/htdocs</url>
     </site>
   </distributionManagement>
   <developers>

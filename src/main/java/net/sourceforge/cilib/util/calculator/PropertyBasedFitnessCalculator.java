@@ -45,8 +45,8 @@ public class PropertyBasedFitnessCalculator implements
      * {@inheritDoc}
      */
     @Override
-    public Fitness getFitness(Entity entity, boolean count) {
+    public Fitness getFitness(Entity entity) {
         Algorithm algorithm = Algorithm.get();
-        return algorithm.getOptimisationProblem().getFitness(entity.getProperties(), count);
+        return algorithm.getOptimisationProblem().getFitness(entity.getProperties());
     }
 }

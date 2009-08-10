@@ -22,9 +22,6 @@
 package net.sourceforge.cilib.simulator;
 
 import java.lang.reflect.Method;
-import java.util.Hashtable;
-import java.util.Vector;
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
@@ -34,164 +31,111 @@ import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.problem.ProblemFactory;
 
 /**
- * <p>
- * This class represents a single simulation experiment. The experiment is repeated based on the
- * number of samples that the measurement suite requires. In this implementation each experiment is
- * run in its own thread. Thus, each experiment is run in parallel for a given simulation.
- * </p>
- * <p>
- * The simulation executes a given algorithm on the given problem. Factories are utilised so that
- * the simulation can create as many alogirthms and problems as it needs to run many experiments.
- * </p>
- * <p>
- * The primary purpose of running simulations is to measure the performance of the given algorithm
- * on a given problem. For that reason, a simulation accepts a measurement suite which it uses to
- * record the performace.
- * </p>
- * @author Edwin Peer
+ * A Simulation is a complete simulation that runs as a separate thread.
  */
-public class Simulation extends Thread implements AlgorithmListener {
-    private static final long serialVersionUID = 8987667794610802908L;
-    private MeasurementSuite measurementSuite;
-    private Algorithm[] algorithms;
-    private Thread[] threads;
-    private Vector<ProgressListener> progressListeners;
-    private Hashtable<Algorithm, Double> progress;
+class Simulation extends Thread implements AlgorithmListener {
+    private static final long serialVersionUID = -3733724215662398762L;
 
-    public Simulation getClone() {
-        return null;
+    private final Simulator simulator;
+    private final AlgorithmFactory algorithmFactory;
+    private final ProblemFactory problemFactory;
+
+    private Algorithm algorithm;
+
+    /**
+     * Create a Simulation with the required dependencies.
+     * @param simulator The controlling {@code Simulator}.
+     * @param algorithmFactory The factory that creates {@code Algorithm} instances.
+     * @param problemFactory The factory that creates {@code Problem} instances.
+     */
+    public Simulation(Simulator simulator, AlgorithmFactory algorithmFactory, ProblemFactory problemFactory) {
+        this.simulator = simulator;
+        this.algorithmFactory = algorithmFactory;
+        this.problemFactory = problemFactory;
     }
 
     /**
-     * Creates a new instance of Simulation given an algorithm factory, a problem factory and a
-     * measurement suite. {@see net.sourceforge.cilib.XMLObjectFactory}
-     * @param algorithmFactory The algorithm factory.
-     * @param problemFactory The problem factory.
-     * @param measurementSuite The measurement suite.
+     * Execute the simulation.
      */
-    public Simulation(AlgorithmFactory algorithmFactory, ProblemFactory problemFactory, MeasurementSuite measurementSuite) {
-
-        measurementSuite.initialise();
-        this.measurementSuite = measurementSuite;
-        progressListeners = new Vector<ProgressListener>();
-        progress = new Hashtable<Algorithm, Double>();
-
-        algorithms = new Algorithm[measurementSuite.getSamples()];
-        threads = new Thread[measurementSuite.getSamples()];
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            algorithms[i] = algorithmFactory.newAlgorithm();
-            threads[i] = new Thread(algorithms[i]);
-            algorithms[i].addAlgorithmListener(this);
-            Problem problem = problemFactory.newProblem();
-            try {
-                Class<? extends Object> current = problem.getClass();
-                // System.out.println(current.getName());
-                while (!current.getSuperclass().equals(Object.class)) {
-                    current = current.getSuperclass();
-                    // System.out.println(current.getName());
-                }
-                String type = current.getInterfaces()[0].getName();
-                // System.out.println("type: " + type);
-                Class<?> [] parameters = new Class[1];
-                parameters[0] = Class.forName(type);
-                // System.out.println("parameters: " + parameters[0].getName());
-                String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);
-                // System.out.println("setMethodName: " + setMethodName);
-                Method setProblemMethod = algorithms[i].getClass().getMethod(setMethodName, parameters);
-                // System.out.println("setProblemMethod: " + setProblemMethod.getName());
-                setProblemMethod.invoke(algorithms[i], new Object[] {problem});
-            }
-            catch (Exception ex) {
-                throw new InitialisationException(algorithms[i].getClass().getName() + " does not support problems of type " + problem.getClass().getName());
-            }
-            progress.put(algorithms[i], new Double(0));
-        }
-    }
-
-    public void initialise() {
-        for (Algorithm algorithm : algorithms)
-            algorithm.initialise();
-    }
-
-    /**
-     * Executes all the experiments for this simulation.
-     */
+    @Override
     public void run() {
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            threads[i].start();
-        }
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            try {
-                threads[i].join();
+        algorithm = algorithmFactory.newAlgorithm();
+        algorithm.addAlgorithmListener(this);
+
+        Problem problem = problemFactory.newProblem();
+        try {
+            Class<? extends Object> current = problem.getClass();
+
+            while (!current.getSuperclass().equals(Object.class)) {
+                current = current.getSuperclass();
             }
-            catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
+
+            String type = current.getInterfaces()[0].getName();
+            Class<?> [] parameters = new Class[1];
+            parameters[0] = Class.forName(type);
+            String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);
+            Method setProblemMethod = algorithm.getClass().getMethod(setMethodName, parameters);
+            setProblemMethod.invoke(algorithm, new Object[] {problem});
         }
-        measurementSuite.getOutputBuffer().close();
-        measurementSuite = null;
-        algorithms = null;
-        progress = null;
-        progressListeners = null;
-        threads = null;
+        catch (Exception ex) {
+            throw new InitialisationException(algorithm.getClass().getName() + " does not support problems of type " + problem.getClass().getName());
+        }
+
+        algorithm.initialise();
+        algorithm.run();
     }
 
     /**
-     * Terminates all the experiments.
+     * Terminate the current simulation.
      */
     public void terminate() {
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            algorithms[i].terminate();
-        }
+        algorithm.terminate();
     }
 
     /**
-     * Adds a listener for progress events. A progress is fired periodically based on the resolution
-     * of the measurements. {@see ProgressEvent} {@see ProgressListener}
-     * @param The event listener
+     * {@inheritDoc}
      */
-    public void addProgressListener(ProgressListener listener) {
-        progressListeners.add(listener);
-    }
-
-    /**
-     * Removes a listener for progress events.
-     * @param The event listener
-     */
-    public void removeProgressListener(ProgressListener listener) {
-        progressListeners.remove(listener);
-    }
-
-    private synchronized void notifyProgress() {
-        double ave = 0;
-        for (Double tmp : progress.values()) {
-            ave += tmp.doubleValue();
-        }
-
-        ave /= progress.size();
-
-        for (ProgressListener listener : progressListeners) {
-            listener.handleProgressEvent(new ProgressEvent(ave));
-        }
-    }
-
+    @Override
     public void algorithmStarted(AlgorithmEvent e) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void algorithmFinished(AlgorithmEvent e) {
-        measurementSuite.measure(e.getSource());
-        progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
-        notifyProgress();
+        this.simulator.simulationFinished(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void algorithmTerminated(AlgorithmEvent e) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void iterationCompleted(AlgorithmEvent e) {
-        if (e.getSource().getIterations() % measurementSuite.getResolution() == 0) {
-            measurementSuite.measure(e.getSource());
-            progress.put(e.getSource(), new Double(e.getSource().getPercentageComplete()));
-            notifyProgress();
-        }
+        this.simulator.simulationIterationCompleted(this);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AlgorithmListener getClone() {
+        return this;
+    }
+
+    /**
+     * Obtain the {@code Algorithm} of the current {@code Simulation}.
+     * @return The current {@code Algorithm}.
+     */
+    public Algorithm getAlgorithm() {
+        return algorithm;
+    }
+
 }

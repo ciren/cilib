@@ -80,11 +80,11 @@ public final class Vectors {
     /**
      * Utility method to create a {@linkplain Vector}, given any number of {@linkplain Number} instances.
      * @param <T> The type extending {@linkplain Number}.
-     * @param result The list of values to include within the created {@linkplain Vector}.
+     * @param elements The list of values to include within the created {@linkplain Vector}.
      * @return The created {@linkplain Vector} object, containing the provided list of items.
      */
-    public static <T extends Number> Vector create(T... result) {
-        return create(Arrays.asList(result));
+    public static <T extends Number> Vector create(T... elements) {
+        return create(Arrays.asList(elements));
     }
 
     /**

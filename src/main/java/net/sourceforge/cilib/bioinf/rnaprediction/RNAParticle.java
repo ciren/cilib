@@ -324,7 +324,7 @@ public class RNAParticle extends AbstractParticle {
      * {@inheritDoc}
      */
     @Override
-    public void calculateFitness(boolean count) {
+    public void calculateFitness() {
         // TODO Auto-generated method stub
     }
 

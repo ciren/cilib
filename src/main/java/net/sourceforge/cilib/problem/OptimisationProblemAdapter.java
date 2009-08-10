@@ -72,10 +72,8 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     /**
      * {@inheritDoc}
      */
-    public final Fitness getFitness(Type solution, boolean count) {
-        if (count) {
-            fitnessEvaluations.incrementAndGet();
-        }
+    public final Fitness getFitness(Type solution) {
+        fitnessEvaluations.incrementAndGet();
 
         if (this.changeStrategy.shouldApply(this))
             changeEnvironment();

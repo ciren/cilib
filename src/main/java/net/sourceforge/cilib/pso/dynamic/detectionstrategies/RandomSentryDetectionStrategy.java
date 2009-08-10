@@ -96,7 +96,6 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
         return new RandomSentryDetectionStrategy<E>(this);
     }
 
-
     /** Check for environment change:
      * Pick the specified number of random particles (sentries) and evaluate their current positions.
      * If the difference between the old fitness and the newly generated one is significant (exceeds a predefined theta)
@@ -112,7 +111,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
 
         for (Particle nextSentry : sentryList) {
             double oldSentryFitness = nextSentry.getFitness().getValue();
-            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getPosition(), false).getValue();
+            double newSentryFitness = algorithm.getOptimisationProblem().getFitness(nextSentry.getPosition()).getValue();
 
             if(Math.abs(oldSentryFitness - newSentryFitness) >=  theta) {
                 envChangeOccured = true;
@@ -121,8 +120,6 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
         }
         return envChangeOccured;
     }
-
-
 
     /**
      * @return the randomiser
@@ -166,3 +163,4 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
         this.theta = theta;
     }
 }
+

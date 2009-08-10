@@ -145,15 +145,7 @@ public class Individual extends AbstractEntity {
      */
     @Override
     public void calculateFitness() {
-        calculateFitness(true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void calculateFitness(boolean count) {
-        this.getProperties().put(EntityType.FITNESS, this.getFitnessCalculator().getFitness(this, count));
+        this.getProperties().put(EntityType.FITNESS, this.getFitnessCalculator().getFitness(this));
     }
 
     /**

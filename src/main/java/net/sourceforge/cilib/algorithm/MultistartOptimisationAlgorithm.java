@@ -251,7 +251,7 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
          * @see net.sourceforge.cilib.Problem.OptimisationProblemAdapter#calculateFitness(java.lang.Object)
          */
         protected Fitness calculateFitness(Type solution) {
-            return target.getFitness(solution, true);
+            return target.getFitness(solution);
         }
 
         public void resetFitnessCounter() {

@@ -29,7 +29,6 @@ import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
-import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -52,6 +51,7 @@ public class CooperativeEntity extends AbstractEntity {
         fitness = rhs.fitness;
     }
 
+    @Override
     public CooperativeEntity getClone() {
         return new CooperativeEntity(this);
     }
@@ -137,11 +137,8 @@ public class CooperativeEntity extends AbstractEntity {
         throw new UnsupportedOperationException("Methd not implemented");
     }
 
+    @Override
     public void calculateFitness() {
-        calculateFitness(true);
-    }
-
-    public void calculateFitness(boolean count) {
-        fitness = getFitnessCalculator().getFitness(this, count);
+        fitness = getFitnessCalculator().getFitness(this);
     }
 }
