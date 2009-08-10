@@ -28,15 +28,15 @@ import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeSt
 import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.type.types.container.SimpleMatrix;
 
 /**
  * @author Julien Duhain
  *
  * Rotates a n-dimensional continuous function according to the pseudo-code found in:
- *
- * @article{salomon1996reg,
+ * <pre>
+ * {@literal @}article{salomon1996reg,
  * title={{Re-evaluating genetic algorithm performance under coordinate rotation of benchmark functions. A survey of some theoretical and practical aspects of genetic algorithms}},
  * author={Salomon, R.},
  * journal={BioSystems},
@@ -46,6 +46,7 @@ import net.sourceforge.cilib.type.types.container.SimpleMatrix;
  * year={1996},
  * publisher={Elsevier}
  *}
+ * </pre>
  *
  * The function rotates around the center of its domain (unless specified otherwise). The domain rotates
  * with the function so that the domain size stays constant.
@@ -59,11 +60,9 @@ import net.sourceforge.cilib.type.types.container.SimpleMatrix;
 public class RotatingFunctionDecorator extends ContinuousFunction {
     private static final long serialVersionUID = 3107473364744861153L;
     private ContinuousFunction function;
-    private SimpleMatrix ME;
-    private SimpleMatrix MTurn;
-    private SimpleMatrix MResult;
     private int N;
     private double alpha=0;
+    private Matrix matrix;
 
     private int cycleLength = 100;
     private int rotatingFrequency = 5;
@@ -95,43 +94,44 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
         changeStrategy = new IterationBasedSingleChangeStrategy(rotatingFrequency);
     }
 
-    private void initMatrices(){
-        this.ME = new SimpleMatrix(N, N);
+    private Matrix initMatrices(){
+        Matrix.Builder matrixBuilder = Matrix.builder().rows(N).columns(N);
         for(int i=0; i<N; i++){
             for(int j=0; j<N; j++){
                 if(i==j){
-                    ME.getMatrix()[i][j] = 1;
+                    matrixBuilder.valueAt(i, j, 1);
                 }//if
                 else{
-                    ME.getMatrix()[i][j] = 0;
+                    matrixBuilder.valueAt(i, j, 0);
                 }//else
             }//for
         }//for
+
+        return matrixBuilder.build();
     }
 
-    private void MRot(int i, int j){
-        MTurn = ME.getClone();
+    private Matrix localRotate(int i, int j){
+        Matrix tmp = this.matrix.getClone();
 
         if (this.changeStrategy.shouldApply(null)){
             alpha += 2*Math.PI/cycleLength;
         }
 
-        MTurn.getMatrix()[i][i] = Math.cos(alpha);
-        MTurn.getMatrix()[j][j] = Math.cos(alpha);
-        MTurn.getMatrix()[i][j] = Math.sin(alpha);
-        MTurn.getMatrix()[j][i] = -Math.sin(alpha);
+        return tmp.rotate(alpha);
     }
 
-    private void CreateMatrix(){
-        this.MResult = ME.getClone();
+    private Matrix createMatrix(){
+        Matrix result = this.matrix.getClone();
         for(int i=1; i<N; i++){
-            MRot(0,i);
-            MResult = MResult.multiply(MTurn);
+            Matrix rotated = localRotate(0,i);
+            result = result.times(rotated);
         }//for
         for(int i=1; i<N-1; i++){
-            MRot(i,N-1);
-            MResult = MResult.multiply(MTurn);
+            Matrix rotated = localRotate(i,N-1);
+            result = result.multiply(rotated);
         }//for
+
+        return result;
     }
 
     public RotatingFunctionDecorator() {
@@ -148,14 +148,13 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
 
     @Override
     public Double evaluate(Vector input) {
-
-        CreateMatrix();
+        Matrix result = createMatrix();
         Vector rotatedX = input.getClone();
         rotatedX.reset();
 
         for(int j = 0; j < input.getDimension(); j++) {
             for(int i = 0; i < input.getDimension(); i++) {
-                double value = rotatedX.getReal(j) + (input.getReal(i)-center) * MResult.getMatrix()[i][j];
+                double value = rotatedX.getReal(j) + (input.getReal(i)-center) * result.valueAt(i, j);
                 rotatedX.setReal(j, value);
             }
             double rotatedValue=rotatedX.getReal(j)+center;
@@ -187,7 +186,7 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
 
             center = (upperLimit - lowerLimit) / 2 + lowerLimit;
             this.N = function.getDimension();
-            initMatrices();
+            this.matrix = initMatrices();
 
         } catch (ParseException ex) {
             throw new IllegalArgumentException(ex);

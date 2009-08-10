@@ -134,6 +134,10 @@ public final class Matrix implements Type {
         return result;
     }
 
+    public Matrix multiply(Matrix b) {
+        return this.times(b);
+    }
+
     /**
      * Perform multiplication on the current {@code Matrix} and the provided {@code Matrix}.
      * Naturally, matrix multiplication can only be performed on matricies that adhere
@@ -195,8 +199,14 @@ public final class Matrix implements Type {
      * {@inheritDoc}
      */
     @Override
-    public Type getClone() {
-        throw new UnsupportedOperationException("Cloning a Matrix is not possible.");
+    public Matrix getClone() {
+        Matrix matrix = new Matrix(this.getRows(), this.getColumns());
+
+        for (int i = 0; i < getRows(); i++)
+            for (int j = 0; j < getColumns(); j++)
+                matrix.contents[i][j] = this.contents[i][j];
+
+        return matrix;
     }
 
     @Override
