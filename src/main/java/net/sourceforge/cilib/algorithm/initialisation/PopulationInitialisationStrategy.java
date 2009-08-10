@@ -30,22 +30,13 @@ import net.sourceforge.cilib.util.Cloneable;
  * Interface describing the manner in which populations are initialised.
  * @author Gary Pampara
  */
-public abstract class PopulationInitialisationStrategy implements Cloneable {
-    private static final long serialVersionUID = -3920357703919058930L;
-    protected int entityNumber;
+public interface PopulationInitialisationStrategy extends Cloneable {
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract PopulationInitialisationStrategy getClone();
-
-    /**
-     * Set the number of entities that are required.
-     * @param entityNumber The number of entities to set
-     */
-    public void setEntityNumber(int entityNumber) {
-        this.entityNumber = entityNumber;
-    }
 
     /**
      * Set the entity type to use.
@@ -71,7 +62,12 @@ public abstract class PopulationInitialisationStrategy implements Cloneable {
      * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>.
      * @return The number of entities to construct.
      */
-    public int getEntityNumber() {
-        return this.entityNumber;
-    }
+    public int getEntityNumber();
+
+    /**
+     * Set the number of {@code Entity} instances to clone.
+     * @param entityNumber The number to clone.
+     */
+    public void setEntityNumber(int entityNumber);
+
 }
