@@ -27,12 +27,12 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.Vectors;
 import net.sourceforge.cilib.util.calculator.FitnessCalculator;
 import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
@@ -116,12 +116,12 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      */
     @Override
     public void algorithmIteration() {
-        calculator.getFitness(ClusteringUtils.assembleCentroids(this.centroids));
+        calculator.getFitness(ClusteringFunctions.assembleCentroids(this.centroids));
 
         //TODO: When we start using Guice, this statement should be updated
         //TODO: This algorithm is not a population based algorithm and therefore Algorithm.get() will return the correct algorithm
         ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.get().getOptimisationProblem();
-        ArrayList<Cluster<Vector>> clusters = ClusteringUtils.arrangeClustersAndCentroids(this.centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
+        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.arrangeClustersAndCentroids(this.centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
 
         for (int i = 0; i < clusters.size(); ++i) {
             Cluster<Vector> cluster = clusters.get(i);
@@ -138,7 +138,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
             }
 
             // we need to set the bounds of the centroid, because some centroids might be unbounded Vectors
-            Vector builtRepresentation = ClusteringUtils.disassembleCentroids((Vector) problem.getDomain().getBuiltRepresenation(), problem.getNumberOfClusters()).get(0);
+            Vector builtRepresentation = ClusteringFunctions.disassembleCentroids((Vector) problem.getDomain().getBuiltRepresenation(), problem.getNumberOfClusters()).get(0);
 
             centroid = Vectors.setBounds(centroid, Vectors.lowerBoundVector(builtRepresentation), Vectors.upperBoundVector(builtRepresentation));
             this.centroids.set(i, centroid);
@@ -152,7 +152,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        Vector assembled = ClusteringUtils.assembleCentroids(centroids);
+        Vector assembled = ClusteringFunctions.assembleCentroids(centroids);
 
         return new OptimisationSolution(assembled, this.getOptimisationProblem().getFitness(assembled));
     }

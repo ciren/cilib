@@ -19,14 +19,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util;
+package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.functions.clustering.QuantisationErrorFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
@@ -36,6 +35,7 @@ import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -48,7 +48,7 @@ import static org.junit.Assert.assertThat;
 /**
  * @author Theuns Cloete
  */
-public class ClusteringUtilsTest {
+public class ClusteringFunctionsTest {
     private static Vector centroids;
     private static StaticDataSetBuilder dataSetBuilder;
     private static ClusteringProblem problem;
@@ -106,12 +106,12 @@ public class ClusteringUtilsTest {
 
     @Test
     public void testArrangeClustersAndCentroidsCombined() {
-        testArrangeClustersAndCentroids(ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, dataSetBuilder));
+        testArrangeClustersAndCentroids(ClusteringFunctions.arrangeClustersAndCentroids(centroids, problem, dataSetBuilder));
     }
 
     @Test
     public void testArrangeClustersAndCentroidsSeparate() {
-        testArrangeClustersAndCentroids(ClusteringUtils.arrangeClustersAndCentroids(ClusteringUtils.disassembleCentroids(centroids, 4), problem, dataSetBuilder));
+        testArrangeClustersAndCentroids(ClusteringFunctions.arrangeClustersAndCentroids(ClusteringFunctions.disassembleCentroids(centroids, 4), problem, dataSetBuilder));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class ClusteringUtilsTest {
         separated.add(Vector.of(3.0, 4.0, 5.0));
         separated.add(Vector.of(6.0, 7.0, 8.0));
 
-        Vector assembled = ClusteringUtils.assembleCentroids(separated);
+        Vector assembled = ClusteringFunctions.assembleCentroids(separated);
 
         assertThat(assembled.size(), is(9));
         assertThat(assembled.get(0).doubleValue(), is(0.0));
@@ -139,7 +139,7 @@ public class ClusteringUtilsTest {
     @Test
     public void testDisassembleCentroids() {
         Vector assembled = Vector.of(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-        List<Vector> separated = ClusteringUtils.disassembleCentroids(assembled, 3);
+        List<Vector> separated = ClusteringFunctions.disassembleCentroids(assembled, 3);
 
         assertThat(separated.size(), is(3));
         assertThat(separated.get(0).size(), is(3));
@@ -158,8 +158,8 @@ public class ClusteringUtilsTest {
 
     @Test
     public void testFormClusters() {
-        ArrayList<Vector> separate = ClusteringUtils.disassembleCentroids(centroids, 4);
-        ArrayList<Cluster<Vector>> clusters = ClusteringUtils.formClusters(separate, problem, dataSetBuilder.getPatterns());
+        ArrayList<Vector> separate = ClusteringFunctions.disassembleCentroids(centroids, 4);
+        ArrayList<Cluster<Vector>> clusters = ClusteringFunctions.formClusters(separate, problem, dataSetBuilder.getPatterns());
 
         assertThat(clusters.size(), is(4));
 
@@ -196,7 +196,7 @@ public class ClusteringUtilsTest {
         cluster = new Cluster<Vector>(Vector.of(6.0, 7.0, 8.0));
         clusters.add(cluster);
 
-        ArrayList<Cluster<Vector>> significant = ClusteringUtils.significantClusters(clusters);
+        ArrayList<Cluster<Vector>> significant = ClusteringFunctions.significantClusters(clusters);
 
         assertThat(significant.size(), is(2));
         assertThat(significant.get(0).size(), is(3));

@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
-import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;

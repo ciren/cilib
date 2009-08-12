@@ -24,6 +24,7 @@ package net.sourceforge.cilib.measurement.single.clustering;
 import java.util.ArrayList;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
@@ -32,7 +33,6 @@ import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -68,7 +68,7 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
 //        System.out.print("plot [-0.5:10][-5:5] sin(x) - 0.5, 0.5 - sin(x), ");
         System.out.print("plot ");
 
-        ArrayList<Cluster<Vector>> arrangedClusters = ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
+        ArrayList<Cluster<Vector>> arrangedClusters = ClusteringFunctions.arrangeClustersAndCentroids(centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
 
         for (int i = 0, n = arrangedClusters.size(); i < n; ++i) {
             System.out.print("'-' title 'cluster" + i + "', ");

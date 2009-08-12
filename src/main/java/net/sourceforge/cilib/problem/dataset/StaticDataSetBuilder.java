@@ -29,7 +29,6 @@ import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This class "collects" and holds all the patterns of the {@link DataSet}s specified

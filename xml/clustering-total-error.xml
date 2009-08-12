@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+    <algorithms>
+        <algorithm id="kmeans.random" class="clustering.kmeans.KMeans">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100" />
+            <centroidsDiversificationStrategy class="clustering.kmeans.StandardCentroidsDiversificationStrategy" interval="1" diversifyRatio="0.1" />
+        </algorithm>
+
+        <algorithm id="kmeans.biased" class="clustering.kmeans.KMeans">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100" />
+            <centroidsInitialisationStrategy class="clustering.kmeans.DataSetBasedCentroidsInitialisationStrategy"/>
+            <centroidsDiversificationStrategy class="clustering.kmeans.StandardCentroidsDiversificationStrategy" interval="1" diversifyRatio="0.1" />
+        </algorithm>
+
+        <algorithm id="pso.random" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100" />
+        </algorithm>
+
+        <algorithm id="pso.biased" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100" />
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <positionInitialisationStrategy class="pso.particle.initialisation.DataSetBasedPositionInitialisationStrategy"/>
+                </entityType>
+            </initialisationStrategy>
+        </algorithm>
+    </algorithms>
+
+    <problems>
+<!--
+        <problem id="ghana24" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/datasets/ghana/gh-discount-pivot-24.csv" delimiter="\s+" beginIndex="2" endIndex="25" />
+            </dataSetBuilder>
+        </problem>
+
+        <problem id="ghana24-unique" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24-unique">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-24-unique.csv" delimiter="\s+" weightIndex="0" beginIndex="1" endIndex="24" />
+            </dataSetBuilder>
+        </problem>
+
+        <problem id="ghana6" class="problem.ClusteringProblem" domain="Z(0,100)^6">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana6">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-6groups.csv" delimiter="\s+" beginIndex="2" endIndex="7" />
+            </dataSetBuilder>
+        </problem>
+-->
+        <problem id="ghana24.day1" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24.day1">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-24-day1.csv" delimiter="\s+" classIndex="0" beginIndex="2" endIndex="25" />
+            </dataSetBuilder>
+        </problem>
+
+        <problem id="ghana24.day2" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24.day2">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-24-day2.csv" delimiter="\s+" beginIndex="2" endIndex="25" />
+            </dataSetBuilder>
+        </problem>
+
+        <problem id="ghana24.day3" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24.day3">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-24-day3.csv" delimiter="\s+" beginIndex="2" endIndex="25" />
+            </dataSetBuilder>
+        </problem>
+
+        <problem id="ghana24.day4" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24.day4">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-24-day4.csv" delimiter="\s+" beginIndex="2" endIndex="25" />
+            </dataSetBuilder>
+        </problem>
+
+        <problem id="ghana24.day5" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24.day5">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-24-day5.csv" delimiter="\s+" beginIndex="2" endIndex="25" />
+            </dataSetBuilder>
+        </problem>
+
+        <problem id="ghana24.day6" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24.day6">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-24-day6.csv" delimiter="\s+" beginIndex="2" endIndex="25" />
+            </dataSetBuilder>
+        </problem>
+
+        <problem id="ghana24.day7" class="problem.ClusteringProblem" domain="Z(0,100)^24">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="ghana24.day7">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/ghana/gh-discount-pivot-24-day7.csv" delimiter="\s+" beginIndex="2" endIndex="25" />
+            </dataSetBuilder>
+        </problem>
+    </problems>
+
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.Fitness" />
+<!--
+        <addMeasurement class="measurement.single.clustering.PlotHighDimensionalClustersAndCentroids" />
+        <addMeasurement class="measurement.single.GenericFunctionMeasurement">
+            <function class="functions.clustering.ClustikaCompactnessFunction" />
+        </addMeasurement>
+        <addMeasurement class="measurement.single.GenericFunctionMeasurement">
+            <function class="functions.clustering.ClustikaSeparationFunction" />
+        </addMeasurement>
+
+        <addMeasurement class="measurement.single.clustering.DataSetDiameter" />
+        <addMeasurement class="measurement.single.clustering.SearchSpaceDiameter" />
+        <addMeasurement class="measurement.single.clustering.NumberOfClustersFormed" />
+        <addMeasurement class="measurement.single.clustering.ClusterVariances" />
+        <addMeasurement class="measurement.single.clustering.ClusterStandardDeviations" />
+        <addMeasurement class="measurement.single.clustering.ClusterMeans" />
+        <addMeasurement class="measurement.single.clustering.ClusterCentroids" />
+-->
+    </measurements>
+    <simulations>
+        <simulation samples="1">
+            <algorithm idref="kmeans.random"/>
+            <problem idref="ghana24.day1" numberOfClusters="40" />
+            <measurements idref="measurements" />
+	    <output format="TXT" file="measurements/kmeans.random.ghana24.day1.total.40.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso.random"/>
+            <problem idref="ghana24.day1" numberOfClusters="40" />
+            <measurements idref="measurements" />
+	    <output format="TXT" file="measurements/pso.random.ghana24.day1.total.40.txt" />
+        </simulation>
+    </simulations>
+</simulator>

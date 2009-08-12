@@ -22,11 +22,11 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -53,7 +53,7 @@ public class SearchSpaceDiameter implements Measurement<Real> {
         if (zMax == null) {
             ClusteringProblem problem = (ClusteringProblem) algorithm.getOptimisationProblem();
             Vector functionDomain = (Vector) problem.getDomain().getBuiltRepresenation();
-            Vector domain = ClusteringUtils.disassembleCentroids(functionDomain, problem.getNumberOfClusters()).get(0);
+            Vector domain = ClusteringFunctions.disassembleCentroids(functionDomain, problem.getNumberOfClusters()).get(0);
 
             this.zMax = Real.valueOf(Vectors.zMax(problem.getDistanceMeasure(), domain));
         }

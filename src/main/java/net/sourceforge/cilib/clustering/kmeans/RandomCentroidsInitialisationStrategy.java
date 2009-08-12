@@ -21,12 +21,13 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import java.util.ArrayList;
+
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This strategy initializes the centroids of a clustering to random positions in the search
@@ -58,7 +59,7 @@ public class RandomCentroidsInitialisationStrategy implements CentroidsInitialis
         Vector centroids = (Vector) problem.getDomain().getBuiltRepresenation().getClone();
 
         centroids.randomize(new MersenneTwister());
-        return ClusteringUtils.disassembleCentroids(centroids, numberOfCentroids);
+        return ClusteringFunctions.disassembleCentroids(centroids, numberOfCentroids);
     }
 
     /**

@@ -24,6 +24,7 @@ package net.sourceforge.cilib.measurement.single.clustering;
 import java.util.ArrayList;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
@@ -33,7 +34,6 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This measurement is handy when debugging a clustering in R^n space using GNUplot. Logging should be disabled and no
@@ -67,7 +67,7 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
         System.out.println("set style data lines");
         System.out.println("set key off");
 
-        ArrayList<Cluster<Vector>> arrangedClusters = ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
+        ArrayList<Cluster<Vector>> arrangedClusters = ClusteringFunctions.arrangeClustersAndCentroids(centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
         int iteration = AbstractAlgorithm.get().getIterations();
 
         this.plotCentroids(iteration, arrangedClusters);

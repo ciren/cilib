@@ -26,11 +26,11 @@ import net.sourceforge.cilib.clustering.kmeans.CentroidsInitialisationStrategy;
 import net.sourceforge.cilib.clustering.kmeans.DataSetBasedCentroidsInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This strategy initializes the position as well as the best position of a {@link Particle}
@@ -69,7 +69,7 @@ public class DataSetBasedInitializationStrategy<E extends Entity> implements Ini
     public void initialize(Enum<?> key, E particle) {
         //TODO: When we start using Guice, this statement should be updated (we want the main algorithm)
         ClusteringProblem clusteringProblem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
-        Vector centroids = ClusteringUtils.assembleCentroids(this.centroidsInitialisationStrategy.initialise(clusteringProblem, (StaticDataSetBuilder) clusteringProblem.getDataSetBuilder()));
+        Vector centroids = ClusteringFunctions.assembleCentroids(this.centroidsInitialisationStrategy.initialise(clusteringProblem, (StaticDataSetBuilder) clusteringProblem.getDataSetBuilder()));
 
         particle.setCandidateSolution(centroids);
     }

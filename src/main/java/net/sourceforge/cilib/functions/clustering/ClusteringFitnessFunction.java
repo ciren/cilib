@@ -32,7 +32,6 @@ import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This abstract class defines member variables and member functions that can be used by
@@ -92,7 +91,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
         //TODO: When we start using Guice, this statement should be updated (we want the main algorithm)
         this.problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
 
-        significantClusters = ClusteringUtils.arrangeClustersAndCentroids(centroids, this.problem, (StaticDataSetBuilder) this.problem.getDataSetBuilder());
+        significantClusters = ClusteringFunctions.arrangeClustersAndCentroids(centroids, this.problem, (StaticDataSetBuilder) this.problem.getDataSetBuilder());
         clustersFormed = significantClusters.size();
 
         /*

@@ -23,13 +23,13 @@ package net.sourceforge.cilib.measurement.single.clustering;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.functions.clustering.ClusteringFunctions;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This measurement measures the number of clusters that were formed during a particular clustering.
@@ -69,6 +69,6 @@ public class NumberOfClustersFormed implements Measurement<Int> {
         StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
         Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
 
-        return Int.valueOf(ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, dataSetBuilder).size());
+        return Int.valueOf(ClusteringFunctions.arrangeClustersAndCentroids(centroids, problem, dataSetBuilder).size());
     }
 }

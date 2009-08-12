@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.util;
+package net.sourceforge.cilib.functions.clustering;
 
 import com.google.common.collect.Lists;
 
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
@@ -43,7 +43,18 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Theuns Cloete
  */
-public final class ClusteringUtils {
+public final class ClusteringFunctions {
+
+    private ClusteringFunctions() {
+    }
+
+    /**
+     * TODO: When we start using Guice to inject the ClusteringProblem into the ClusteringFunction, then this method
+     * will probably be deprecated and removed. For now we want the main algorithm, i.e. the outer most algorithm.
+     */
+    public static ClusteringProblem getClusteringProblem() {
+        return (ClusteringProblem) AbstractAlgorithm.get().getOptimisationProblem();
+    }
 
     /**
      * The three methods called in this method must be called in that specific order, i.e.

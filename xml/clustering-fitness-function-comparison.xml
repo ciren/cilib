@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE simulator [
+<!ATTLIST algorithm id ID #IMPLIED>
+<!ATTLIST dataSetBuilder id ID #IMPLIED>
+<!ATTLIST problem id ID #IMPLIED>
+<!ATTLIST measurements id ID #IMPLIED>
+]>
+
+<simulator>
+    <algorithms>
+        <algorithm id="pso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10" />
+
+            <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
+                <boundaryConstraint class="problem.boundaryconstraint.PerElementReinitialisation" />
+            </iterationStrategy>
+        </algorithm>
+    </algorithms>
+
+    <dataSetBuilder id="artificial" class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
+        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
+    </dataSetBuilder>
+
+    <dataSetBuilder id="iris" class="problem.dataset.StaticDataSetBuilder" identifier="iris">
+        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/iris/iris.data" delimiter="," beginIndex="0" endIndex="3" classIndex="4" />
+    </dataSetBuilder>
+
+    <dataSetBuilder id="glass" class="problem.dataset.StaticDataSetBuilder" identifier="glass">
+        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/glass/glass.data" delimiter="," beginIndex="1" endIndex="9" classIndex="10" />
+    </dataSetBuilder>
+
+    <problems>
+        <problem id="artificial.kharmonic.means" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.KHarmonicMeansFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.non.parametric" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.NonParametricClusteringFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.parametric" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.ParametricClusteringFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.parametric.quantisation.error" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.ParametricWithQuantisationErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.quantisation.error" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.QuantisationErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.davies.bouldin.index" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.validityindices.DaviesBouldinIndex" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.dunn.index" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMaximisationProblem">
+                <function class="functions.clustering.validityindices.DunnIndex" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.dunn.index33" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMaximisationProblem">
+                <function class="functions.clustering.validityindices.DunnIndex33" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.dunn.index53" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMaximisationProblem">
+                <function class="functions.clustering.validityindices.DunnIndex53" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.halkidi.vazirgiannis.index" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.validityindices.HalkidiVazirgiannisIndex" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.maulik.bandyopadhyay.index" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.validityindices.MaulikBandyopadhyayIndex" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.turi.index" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.validityindices.TuriIndex" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.veenman.reinders.backer.index" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.validityindices.VeenmanReindersBackerIndex" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+        <problem id="artificial.total" class="problem.ClusteringProblem" domain="R(-1.0,1.0)^2">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="artificial" />
+        </problem>
+
+        <problem id="iris.total" class="problem.ClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="iris" />
+        </problem>
+
+        <problem id="glass.total" class="problem.ClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="glass" />
+        </problem>
+
+        <problem id="scaled.glass.total" class="problem.ClusteringProblem" domain="R(0.0,1.0)^9">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="scaled.glass">
+                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/glass/scaled.glass.data" delimiter="," beginIndex="1" endIndex="9" classIndex="10" />
+            </dataSetBuilder>
+        </problem>
+    </problems>
+
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
+        <addMeasurement class="measurement.single.Fitness" />
+        <addMeasurement class="measurement.single.clustering.NumberOfClustersFormed" />
+<!--
+        <addMeasurement class="measurement.single.clustering.PlotClustersAndCentroids" />
+        <addMeasurement class="measurement.single.clustering.PlotHighDimensionalClustersAndCentroids" />
+-->
+    </measurements>
+
+    <simulations>
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.kharmonic.means" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.kharmonic.means.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.non.parametric" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.non.parametric.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.parametric" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.parametric.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.parametric.quantisation.error" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.parametric.quantisation.error.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.quantisation.error" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.quantisation.error.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.davies.bouldin.index" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.davies.bouldin.index.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.dunn.index" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.dunn.index.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.dunn.index33" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.dunn.index33.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.dunn.index53" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.dunn.index53.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.halkidi.vazirgiannis.index" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.halkidi.vazirgiannis.index.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.maulik.bandyopadhyay.index" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.maulik.bandyopadhyay.index.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.turi.index" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.turi.index.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.veenman.reinders.backer.index" numberOfClusters="4" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.veenman.reinders.backer.index.artificial.4.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="artificial.total" numberOfClusters="12" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.total.artificial.12.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="iris.total" numberOfClusters="3" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.total.iris.3.txt" />
+        </simulation>
+    </simulations>
+</simulator>

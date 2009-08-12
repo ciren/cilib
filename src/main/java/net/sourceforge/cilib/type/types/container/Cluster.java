@@ -39,6 +39,7 @@ public class Cluster<C extends Vector> extends ForwardingSet<Pattern<C>> impleme
     private C centroid;
 
     public Cluster() {
+        this.patterns = Sets.newHashSet();
     }
 
     public Cluster(C centroid) {
