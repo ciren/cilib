@@ -81,7 +81,7 @@ public class MatrixDataSetBuilder extends BinaryDataSetBuilder {
             if (m <= 0)
                 throw new IllegalStateException("Need to have a positive number as the input dimensions");
 
-            matrixBuilder = Matrix.builder().rows(numvectors).columns(m);
+            matrixBuilder = Matrix.builder().dimensions(numvectors, m);
 
             if (tok.nextToken() != StreamTokenizer.TT_NUMBER)
                 throw new IllegalStateException("Expected an integer number as the third token in the dataset");

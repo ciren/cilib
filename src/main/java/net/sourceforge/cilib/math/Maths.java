@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.math;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
 
@@ -89,6 +92,107 @@ public final class Maths {
      */
     public static double permutation(double n, double r) {
         return factorial(n) / factorial(n-r);
+    }
+
+    public static <T> Iterator<List<T>> permutation(final List<T> input, final int number) {
+        return new Iterator<List<T>>() {
+            private List<T> internalList = new ArrayList<T>(input); // Keep our own copy
+            private int n = input.size();
+            private int m = number;
+            private int[] index = initialize();
+            private boolean hasMore = true;
+
+            @Override
+            public boolean hasNext() {
+                return this.hasMore;
+            }
+
+            @Override
+            public List<T> next() {
+                if (!this.hasMore){
+                    return null;
+                }
+                List<T> list =  new ArrayList<T>(this.m);
+                for (int i = 0; i < this.m; i++) {
+                    int thisIndexI = this.index[i];
+                    T element = internalList.get(thisIndexI);
+                    list.add(element);
+                }
+                moveIndex();
+                return list;
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            private int[] initialize() {
+                if (!(this.n >= m && m >= 0))
+                    throw new IllegalStateException("Permutation error! n >= m");
+
+                int[] tmp = new int[this.n];
+                for (int i = 0; i < this.n; i++) {
+                    tmp[i] = i;
+                }
+
+                reverseAfter(tmp, m - 1);
+                return tmp;
+            }
+
+            /**
+             * Reverse the index elements to the right of the specified index.
+             */
+            private void reverseAfter(int[] indicies, int i) {
+                int start = i + 1;
+                int end = this.n - 1;
+                while (start < end) {
+                    int t = indicies[start];
+                    indicies[start] = indicies[end];
+                    indicies[end] = t;
+                    start++;
+                    end--;
+                }
+            }
+
+            private void moveIndex(){
+                // find the index of the first element that dips
+                int i = rightmostDip();
+                if (i < 0) {
+                    this.hasMore = false;
+                    return;
+                }
+
+                // find the least greater element to the right of the dip
+                int leastToRightIndex = i + 1;
+                for (int j = i + 2; j < this.n; j++){
+                    if (this.index[j] < this.index[leastToRightIndex] &&  this.index[j] > this.index[i]) {
+                        leastToRightIndex = j;
+                    }
+                }
+
+                // switch dip element with least greater element to its right
+                int t = this.index[i];
+                this.index[i] = this.index[leastToRightIndex];
+                this.index[leastToRightIndex] = t;
+
+                if (this.m - 1 > i) {
+                    // reverse the elements to the right of the dip
+                    reverseAfter(this.index, i);
+                    // reverse the elements to the right of m - 1
+                    reverseAfter(this.index, this.m - 1);
+                }
+            }
+
+            private int rightmostDip() {
+                for (int i = this.n - 2; i >= 0; i--){
+                    if (this.index[i] < this.index[i+1]){
+                        return i;
+                    }
+                }
+                return -1;
+            }
+        };
     }
 
     /**
