@@ -408,7 +408,7 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
      * {@inheritDoc}
      */
     public void clear() {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
+        this.entities.clear();
     }
 
 

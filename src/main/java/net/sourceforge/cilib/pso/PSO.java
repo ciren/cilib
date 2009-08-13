@@ -102,7 +102,6 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public void reset() {
-        super.reset();
         topology.clear();
     }
 

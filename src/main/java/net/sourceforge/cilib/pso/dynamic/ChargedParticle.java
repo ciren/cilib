@@ -105,12 +105,15 @@ public class ChargedParticle extends DynamicParticle/*StandardParticle implement
 
     @Override
     public void initialise(OptimisationProblem problem) {
+        this.getProperties().put(EntityType.CANDIDATE_SOLUTION, problem.getDomain().getBuiltRepresenation().getClone());
+
         getPositionInitialisationStrategy().initialize(EntityType.CANDIDATE_SOLUTION, this);
+        this.getProperties().put(EntityType.Particle.BEST_POSITION, getPosition().getClone());
 
         // Create the velocity vector by cloning the position and setting all the values
         // within the velocity to 0
         this.getProperties().put(EntityType.Particle.VELOCITY, getPosition().getClone());
-        velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
+        this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
 
         // Initialise particle charge
         chargedParticleInitialisationStrategy.initialise(this);
