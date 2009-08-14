@@ -25,26 +25,91 @@ import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * Implementation of the Knight's Coverage problem.
  *
+ * <p>
+ * The problem....
  *
  */
 public class KnightsCoverage extends DiscreteFunction {
-
     private static final long serialVersionUID = -8039165934381145252L;
+
+    private final int[] movesX = {1, 2, 2, 1, -1, -2, -2, -1};
+    private final int[] movesY = {-2, -1, 1, 2, 2, 1, -1, -2};
+
+    private int boardSize;
+
+    public KnightsCoverage() {
+        this.boardSize = 8;
+        setDomain("B^"+boardSize*boardSize);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public KnightsCoverage getClone() {
+        return this;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Integer evaluate(Vector input) {
-        throw new UnsupportedOperationException("Method not implemented.");
+        int[][] board = new int[boardSize][boardSize];
+
+        // Place the knights (represented by a -1)
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (input.getBit(i*boardSize + j))
+                    board[i][j] = -1;
+            }
+        }
+
+        // Now determine the coverage.
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (board[i][j] == -1)
+                    determineCoverage(board, i, j);
+            }
+        }
+
+        // Sum up for the fitness value
+        int fitness = 0;
+
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (board[i][j] == -1)
+                    fitness += 100;
+                else if (board[i][j] == 0)
+                    fitness += 1000;
+                else fitness -= 200;
+            }
+        }
+
+        return fitness;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public KnightsCoverage getClone() {
-        return new KnightsCoverage();
+    private void determineCoverage(int[][] board, int i, int j) {
+        // Move through all the available moves
+        for (int m = 0; m < movesX.length; m++) {
+            int moveX = movesX[m] + i;
+            int moveY = movesY[m] + j;
+
+            if ((moveX >= 0 && moveX < boardSize) && (moveY >= 0 && moveY < boardSize))
+                if (board[moveX][moveY] != -1)
+                    board[moveX][moveY]++;
+        }
+    }
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
+    public void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
+        setDomain("B^"+boardSize*boardSize);
     }
 
 }
