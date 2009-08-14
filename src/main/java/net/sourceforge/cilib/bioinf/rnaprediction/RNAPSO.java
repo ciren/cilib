@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
+import com.google.common.collect.Iterables;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,6 +29,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
@@ -54,7 +57,12 @@ public class RNAPSO extends PSO {
 
         readDataSet();
 
-        this.getInitialisationStrategy().initialise(this.getTopology(), getOptimisationProblem());
+        Topology<Particle> topology = getTopology();
+        Iterable<Particle> particles = this.initialisationStrategy.initialise(getOptimisationProblem());
+        
+        //Iterables.addAll(getTopology(), particles); // Use this instead?
+        for (Particle particle : particles)
+            topology.add(particle);
     }
 
     /**

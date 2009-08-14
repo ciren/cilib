@@ -22,41 +22,41 @@
 package net.sourceforge.cilib.algorithm.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Interface describing the manner in which populations are initialised.
+ * @param <E> The {@code Entity} type.
  * @author Gary Pampara
  */
-public interface PopulationInitialisationStrategy extends Cloneable {
+public interface PopulationInitialisationStrategy<E extends Entity> extends Cloneable {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract PopulationInitialisationStrategy getClone();
+    public PopulationInitialisationStrategy getClone();
 
     /**
      * Set the entity type to use.
      * @param entity The entity type to use.
      */
-    public abstract void setEntityType(Entity entity);
+    public void setEntityType(Entity entity);
 
     /**
      * Get the current entity type.
      * @return The entity being used.
      */
-    public abstract Entity getEntityType();
+    public Entity getEntityType();
 
     /**
      * Initialise the {@see net.sourceforge.cilib.entity.Entity} collection based on the given
      * Topology and Problem.
-     * @param topology The topology to initialise with Entity objects
      * @param problem The Problem to based the initialisation on
+     * @return An {@code Iterable<E>} of instances.
      */
-    public abstract void initialise(Topology<? extends Entity> topology, OptimisationProblem problem);
+    public Iterable<E> initialise(OptimisationProblem problem);
 
     /**
      * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>.

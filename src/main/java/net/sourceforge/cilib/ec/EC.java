@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.ec;
 
+import com.google.common.collect.Iterables;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
@@ -46,7 +47,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 
     private OptimisationProblem problem;
     private IterationStrategy<EC> iterationStrategy;
-    private Topology<? extends Entity> topology;
+    private Topology<Individual> topology;
 
     /**
      * Create a new instance of {@code EC}.
@@ -82,7 +83,11 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      */
     @Override
     public void performInitialisation() {
-        this.initialisationStrategy.initialise(this.topology, this.problem);
+        Iterable<Individual> individuals = this.initialisationStrategy.initialise(this.problem);
+        //Iterables.addAll(getTopology(), particles); // Use this instead?
+        for (Individual individual : individuals)
+            topology.add(individual);
+//        Iterables.addAll(topology, individuals);
     }
 
     /**

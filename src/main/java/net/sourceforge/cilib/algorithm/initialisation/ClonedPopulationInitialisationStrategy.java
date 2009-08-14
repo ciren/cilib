@@ -21,18 +21,20 @@
  */
 package net.sourceforge.cilib.algorithm.initialisation;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
  * Create a collection of {@linkplain net.sourceforge.cilib.entity.Entity entities}
  * by cloning the given prototype {@link net.sourceforge.cilib.entity.Entity}.
  *
+ * @param <E> The {@code Entity} type.
  * @author Gary Pampara
  */
-public class ClonedPopulationInitialisationStrategy implements PopulationInitialisationStrategy {
+public class ClonedPopulationInitialisationStrategy<E extends Entity> implements PopulationInitialisationStrategy<E> {
     private static final long serialVersionUID = -7354579791235878648L;
     private Entity prototypeEntity;
     private int entityNumber;
@@ -65,24 +67,28 @@ public class ClonedPopulationInitialisationStrategy implements PopulationInitial
     /**
      * Perform the required initialisation, using the provided <tt>Topology</tt> and
      * <tt>Problem</tt>.
-     * @param topology The given <tt>Topology</tt> to use in initialisation.
      * @param problem The <tt>Problem</tt> to use in the initialisation of the topology.
+     * @return An {@code Iterable<E>} of cloned instances.
      * @throws InitialisationException if the initialisation cannot take place.
      */
     @Override
-    public void initialise(Topology topology, OptimisationProblem problem) {
+    public Iterable<E> initialise(OptimisationProblem problem) {
         if (problem == null)
             throw new InitialisationException("No problem has been specified");
 
         if (prototypeEntity == null)
             throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
+        List<E> clones = new ArrayList<E>();
+
         for (int i = 0; i < entityNumber; ++i) {
-            Entity entity = prototypeEntity.getClone();
+            E entity = (E) prototypeEntity.getClone();
 
             entity.initialise(problem);
-            topology.add(entity);
+            clones.add(entity);
         }
+
+        return clones;
     }
 
     /**

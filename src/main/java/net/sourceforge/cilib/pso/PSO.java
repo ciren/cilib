@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso;
 
+import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
 
@@ -112,7 +113,11 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public void performInitialisation() {
-        this.initialisationStrategy.initialise(this.topology, this.getOptimisationProblem());
+        Iterable<Particle> particles = this.initialisationStrategy.initialise(this.getOptimisationProblem());
+        //Iterables.addAll(getTopology(), particles); // Use this instead?
+        for (Particle particle : particles)
+            topology.add(particle);
+//        Iterables.addAll(topology, iterable);
     }
 
     /**
