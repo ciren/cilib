@@ -26,13 +26,12 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 
 /**
  * Initialise a specialised collection of {@linkplain net.sourceforge.cilib.entity.Entity entity} objects.
  */
-public class SpecializedPopluationInitialisationStrategy extends PopulationInitialisationStrategy {
+public class SpecializedPopluationInitialisationStrategy implements PopulationInitialisationStrategy<Entity> {
     private static final long serialVersionUID = -9146471282965793922L;
     private List<Entity> entityList;
 
@@ -57,6 +56,7 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
     /**
      * {@inheritDoc}
      */
+    @Override
     public SpecializedPopluationInitialisationStrategy getClone() {
         return new SpecializedPopluationInitialisationStrategy(this);
     }
@@ -73,19 +73,21 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
-    public void initialise(Topology topology, OptimisationProblem problem) {
+    public Iterable<Entity> initialise(OptimisationProblem problem) {
         if (problem == null)
             throw new InitialisationException("No problem has been specified");
 
         if (this.entityList.size() == 0)
             throw new InitialisationException("No prototype Entity object has been defined for the clone operation in the entity constrution process.");
 
+        List<Entity> entities = new ArrayList<Entity>();
         for (Entity entity : entityList) {
             entity.initialise(problem);
-            topology.add(entity);
+            entities.add(entity);
         }
+
+        return entities;
     }
 
     /**
@@ -94,5 +96,21 @@ public class SpecializedPopluationInitialisationStrategy extends PopulationIniti
     @Override
     public void setEntityType(Entity entity) {
         this.entityList.add(entity);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getEntityNumber() {
+        return this.entityList.size();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setEntityNumber(int entityNumber) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

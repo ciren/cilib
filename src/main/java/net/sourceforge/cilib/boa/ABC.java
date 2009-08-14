@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.boa;
 
+import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
 
@@ -128,7 +129,10 @@ public class ABC extends SinglePopulationBasedAlgorithm {
      */
     @Override
     public void performInitialisation() {
-        this.initialisationStrategy.initialise(hive, this.optimisationProblem);
+        Iterable<? extends Entity> bees = this.initialisationStrategy.initialise(this.optimisationProblem);
+        //Iterables.addAll(getTopology(), particles); // Use this instead?
+        for (Entity bee : bees)
+            hive.add((HoneyBee) bee);
 
         int i;
         int numWorkerBees = (int) (workerBeePercentage.getParameter() * hive.size());

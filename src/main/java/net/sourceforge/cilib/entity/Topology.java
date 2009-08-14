@@ -55,7 +55,6 @@ public interface Topology<E extends Entity>
     @Override
     public boolean add(E entity);
 
-
     /**
      * Removes an entity from the topology.
      * @param entity The entity to be removed.

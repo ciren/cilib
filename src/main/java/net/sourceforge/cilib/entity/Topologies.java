@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -85,4 +86,5 @@ public final class Topologies {
 
         return neighbourhoodBests;
     }
+
 }

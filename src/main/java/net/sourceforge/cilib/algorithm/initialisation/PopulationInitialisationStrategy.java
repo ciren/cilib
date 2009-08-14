@@ -22,56 +22,52 @@
 package net.sourceforge.cilib.algorithm.initialisation;
 
 import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * Interface describing the manner in which populations are initialised.
+ * @param <E> The {@code Entity} type.
  * @author Gary Pampara
  */
-public abstract class PopulationInitialisationStrategy implements Cloneable {
-    private static final long serialVersionUID = -3920357703919058930L;
-    protected int entityNumber;
+public interface PopulationInitialisationStrategy<E extends Entity> extends Cloneable {
 
     /**
      * {@inheritDoc}
      */
-    public abstract PopulationInitialisationStrategy getClone();
-
-    /**
-     * Set the number of entities that are required.
-     * @param entityNumber The number of entities to set
-     */
-    public void setEntityNumber(int entityNumber) {
-        this.entityNumber = entityNumber;
-    }
+    @Override
+    public PopulationInitialisationStrategy getClone();
 
     /**
      * Set the entity type to use.
      * @param entity The entity type to use.
      */
-    public abstract void setEntityType(Entity entity);
+    public void setEntityType(Entity entity);
 
     /**
      * Get the current entity type.
      * @return The entity being used.
      */
-    public abstract Entity getEntityType();
+    public Entity getEntityType();
 
     /**
      * Initialise the {@see net.sourceforge.cilib.entity.Entity} collection based on the given
      * Topology and Problem.
-     * @param topology The topology to initialise with Entity objects
      * @param problem The Problem to based the initialisation on
+     * @return An {@code Iterable<E>} of instances.
      */
-    public abstract void initialise(Topology<? extends Entity> topology, OptimisationProblem problem);
+    public Iterable<E> initialise(OptimisationProblem problem);
 
     /**
      * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>.
      * @return The number of entities to construct.
      */
-    public int getEntityNumber() {
-        return this.entityNumber;
-    }
+    public int getEntityNumber();
+
+    /**
+     * Set the number of {@code Entity} instances to clone.
+     * @param entityNumber The number to clone.
+     */
+    public void setEntityNumber(int entityNumber);
+
 }

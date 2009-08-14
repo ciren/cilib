@@ -28,6 +28,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.algorithm.InitialisationException;
+import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
@@ -54,7 +57,12 @@ public class RNAPSO extends PSO {
 
         readDataSet();
 
-        this.getInitialisationStrategy().initialise(this.getTopology(), getOptimisationProblem());
+        Topology<Particle> topology = getTopology();
+        Iterable<? extends Entity> particles = this.initialisationStrategy.initialise(getOptimisationProblem());
+        
+        //Iterables.addAll(getTopology(), particles); // Use this instead?
+        for (Entity particle : particles)
+            topology.add((Particle) particle);
     }
 
     /**

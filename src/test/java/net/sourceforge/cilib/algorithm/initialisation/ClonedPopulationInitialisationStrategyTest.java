@@ -48,23 +48,18 @@ public class ClonedPopulationInitialisationStrategyTest {
      */
     @Test
     public void initialiseClonedTopology() {
-        final Topology<Entity> topology = context.mock(Topology.class);
         final Entity entity = context.mock(Entity.class);
         final OptimisationProblem problem = context.mock(OptimisationProblem.class);
 
-        final PopulationInitialisationStrategy initialisationBuilder = new ClonedPopulationInitialisationStrategy();
+        final PopulationInitialisationStrategy<Entity> initialisationBuilder = new ClonedPopulationInitialisationStrategy<Entity>();
         initialisationBuilder.setEntityType(entity);
         initialisationBuilder.setEntityNumber(20);
 
         context.checking(new Expectations() {{
             exactly(20).of(entity).getClone(); // The prototype entity is cloned exactly 20 times.
-
-            // The cloned entity will be added to the topology
-            exactly(20).of(topology).add(with(any(Entity.class)));
-            will(returnValue(true));
         }});
 
-        initialisationBuilder.initialise(topology, problem);
+        initialisationBuilder.initialise(problem);
     }
 
 }
