@@ -34,7 +34,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgorithm {
     private static final long serialVersionUID = -4095104893057340895L;
 
-    protected PopulationInitialisationStrategy initialisationStrategy;
+    protected PopulationInitialisationStrategy<? extends Entity> initialisationStrategy;
 
     /**
      * Create an empty {@linkplain PopulationBasedAlgorithm}.
@@ -88,7 +88,7 @@ public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgo
      * @param initialisationStrategy The {@linkplain PopulationInitialisationStrategy} to use.
      */
     @Override
-    public void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy) {
+    public void setInitialisationStrategy(PopulationInitialisationStrategy<? extends Entity> initialisationStrategy) {
         this.initialisationStrategy = initialisationStrategy;
     }
 

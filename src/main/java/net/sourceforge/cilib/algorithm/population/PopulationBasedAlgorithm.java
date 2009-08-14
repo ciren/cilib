@@ -86,7 +86,7 @@ public abstract class PopulationBasedAlgorithm extends Algorithm {
      * Set the initialisation strategy to use for the initialisation of the population.
      * @param initialisationStrategy The population initialisation strategy to set.
      */
-    public abstract void setInitialisationStrategy(PopulationInitialisationStrategy initialisationStrategy);
+    public abstract void setInitialisationStrategy(PopulationInitialisationStrategy<? extends Entity> initialisationStrategy);
 
     /**
      * Get the current {@code PopulationInitialisationStrategy}.

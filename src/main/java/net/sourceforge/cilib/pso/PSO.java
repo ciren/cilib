@@ -29,6 +29,7 @@ import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisa
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
@@ -113,11 +114,10 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     public void performInitialisation() {
-        Iterable<Particle> particles = this.initialisationStrategy.initialise(this.getOptimisationProblem());
+        Iterable<? extends Entity> particles = this.initialisationStrategy.initialise(this.getOptimisationProblem());
         //Iterables.addAll(getTopology(), particles); // Use this instead?
-        for (Particle particle : particles)
-            topology.add(particle);
-//        Iterables.addAll(topology, iterable);
+        for (Entity particle : particles)
+            topology.add((Particle) particle);
     }
 
     /**
