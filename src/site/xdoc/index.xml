@@ -28,7 +28,14 @@
     <author email="gpampara@cs.up.ac.za">Gary Pampara</author>
   </properties>
   <body>
-    <section name="Welcome to CIlib">
+    <section name="News">
+      <p>
+        CIlib 0.7.1 has been released. Get the new release from
+	<a
+	href="http://sourceforge.net/projects/cilib">Sourceforge.net</a>.
+      </p>
+    </section>
+    <section name="About CIlib">
       <p>
         CIlib (Computational Intelligence Library) is a collaborative component
         based framework for developing
