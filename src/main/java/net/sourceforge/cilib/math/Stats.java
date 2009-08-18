@@ -42,7 +42,18 @@ public final class Stats {
      * @return
      */
     public static double mean(Vector vector) {
-        return org.apache.commons.math.stat.StatUtils.mean(unwrap(vector));
+        double sum = 0.0;
+        for (int i = 0; i < vector.size(); i++) {
+            sum += vector.getReal(i);
+        }
+
+        double xbar = sum / vector.size();
+        double correction = 0.0;
+        for (int i = 0; i < vector.size(); i++) {
+            correction += (vector.getReal(i) - xbar);
+        }
+
+        return xbar + (correction / vector.size());
     }
 
     /**
@@ -79,8 +90,15 @@ public final class Stats {
      * @param vector
      * @return
      */
-    public static double variance(Vector vector) {
-        return org.apache.commons.math.stat.StatUtils.variance(unwrap(vector));
+    public static double variance(final Vector vector) {
+        double mean = mean(vector);
+        double summation = 0.0;
+        
+        for (int i = 0; i < vector.size(); i++) {
+            summation += (vector.getReal(i) - mean) * (vector.getReal(i) - mean);
+        }
+
+        return summation / vector.size();
     }
 
     /**
@@ -112,20 +130,12 @@ public final class Stats {
         return variance.norm() / set.size();
     }
 
-    private static double[] unwrap(Vector vector) {
-        double[] unwrapped = new double[vector.getDimension()];
-        for (int i = 0; i < vector.getDimension(); i++)
-            unwrapped[i] = vector.getReal(i);
-
-        return unwrapped;
-    }
-
     /**
      *
      * @param vector
      * @return
      */
-    public static double stdDeviation(Vector vector) {
+    public static double stdDeviation(final Vector vector) {
         return Math.sqrt(variance(vector));
     }
 
