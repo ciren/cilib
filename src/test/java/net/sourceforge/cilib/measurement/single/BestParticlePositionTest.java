@@ -21,36 +21,39 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.util.Vectors;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author Gary Pampara
  */
+@RunWith(JMock.class)
 public class BestParticlePositionTest {
+    private Mockery mockery = new JUnit4Mockery();
 
     @Test
     public void testBestParticlePositionDomain() {
-        Particle p = new StandardParticle();
-        p.getProperties().put(EntityType.Particle.BEST_POSITION, Vectors.create(4.0));
-        p.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
+        final Algorithm algorithm = mockery.mock(Algorithm.class);
+        final OptimisationSolution mockSolution = new OptimisationSolution(Vectors.create(4.0), InferiorFitness.instance());
 
-        PSO pso = new PSO();
-        pso.getTopology().add(p);
+        mockery.checking(new Expectations() {{
+            oneOf(algorithm).getBestSolution(); will(returnValue(mockSolution));
+        }});
 
         Measurement measurement = new BestParticlePosition();
-        measurement.getValue(pso);
-
-        Assert.assertEquals(p.getBestPosition().toString(), measurement.getValue(pso).toString());
+        Assert.assertEquals("[4.0]", measurement.getValue(algorithm).toString());
     }
 
 }
