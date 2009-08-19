@@ -23,7 +23,7 @@ package net.sourceforge.cilib.measurement.single.diversity.centerinitialisations
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -35,7 +35,7 @@ public class SpatialCenterInitialisationStrategy extends CenterInitialisationStr
 
     @Override
     public Vector getCenter() {
-        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
         int numberOfEntities = algorithm.getTopology().size();//getPopulationSize();
 
         Iterator<? extends Entity> averageIterator = algorithm.getTopology().iterator();

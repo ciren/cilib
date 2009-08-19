@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.algorithm.population;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -33,7 +33,7 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
  * Base class for all algorithms that manage a collection of
  * {@linkplain Entity entities} in some manner.
  */
-public abstract class PopulationBasedAlgorithm extends Algorithm {
+public abstract class PopulationBasedAlgorithm extends AbstractAlgorithm {
 
     protected PopulationBasedAlgorithm() {
     }

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.pso.moo.guideupdatestrategies;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
@@ -54,7 +55,7 @@ public class DominantGuideUpdateStrategy implements GuideUpdateStrategy {
     @Override
     public void updateGuide(Particle particle, EntityType.Particle.Guide guideType, Vector newGuide) {
         Vector previousGuide = (Vector) particle.getProperties().get(guideType);
-        Algorithm topLevelAlgorithm = Algorithm.getAlgorithmList().get(0);
+        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
         OptimisationProblem problem = topLevelAlgorithm.getOptimisationProblem();
         Fitness currentFitness = problem.getFitness(newGuide);
         if (previousGuide == null || currentFitness.compareTo(problem.getFitness(previousGuide)) > 0) {

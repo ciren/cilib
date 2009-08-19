@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import java.util.Random;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
@@ -127,7 +127,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      * {@inheritDoc}
      */
     public void updateVelocity(Particle particle) {
-        PSO pso = (PSO) Algorithm.get();
+        PSO pso = (PSO) AbstractAlgorithm.get();
         final Particle globalBest = pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>());
 
         if (particle == globalBest) {
@@ -156,7 +156,7 @@ public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
      */
     public void updateControlParameters(Particle particle) {
         // Remember NOT to reset the rho value to 1.0
-        PSO pso = (PSO) Algorithm.get();
+        PSO pso = (PSO) AbstractAlgorithm.get();
 
         if (particle == pso.getTopology().getBestEntity(new SocialBestFitnessComparator<Particle>())) {
             Fitness newFitness = particle.getFitnessCalculator().getFitness(particle);

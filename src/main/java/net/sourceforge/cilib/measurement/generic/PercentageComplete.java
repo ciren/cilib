@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
@@ -49,7 +50,8 @@ public class PercentageComplete implements Measurement {
     }
 
     public Type getValue(Algorithm algorithm) {
-        return new Real(algorithm.getPercentageComplete());
+        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
+        return new Real(alg.getPercentageComplete());
     }
 
 }

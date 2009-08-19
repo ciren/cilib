@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -85,7 +84,7 @@ public class KMeans extends SingularAlgorithm {
      * {@inheritDoc}
      */
     @Override
-    public Algorithm getClone() {
+    public KMeans getClone() {
         return new KMeans(this);
     }
 

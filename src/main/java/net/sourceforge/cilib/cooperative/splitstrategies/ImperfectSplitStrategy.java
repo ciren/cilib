@@ -23,7 +23,6 @@ package net.sourceforge.cilib.cooperative.splitstrategies;
 
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
@@ -54,7 +53,7 @@ public class ImperfectSplitStrategy extends IndexedSplitStrategy {
         int offset = 0;
 
         if (remainder == 0) {
-            for (Algorithm population : populations) {
+            for (PopulationBasedAlgorithm population : populations) {
                 population.setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, splitSize, offset));
                 offset += splitSize;
             }
@@ -75,7 +74,7 @@ public class ImperfectSplitStrategy extends IndexedSplitStrategy {
             }
 
             for (int i = 0; i < populations.size(); ++i) {
-                Algorithm population = (Algorithm) populations.get(i);
+                PopulationBasedAlgorithm population = populations.get(i);
                 offset = indices.get(i);
                 int dimension;
                 if ((i + 1) < indices.size())
@@ -83,7 +82,7 @@ public class ImperfectSplitStrategy extends IndexedSplitStrategy {
                 else
                     dimension = problem.getDomain().getDimension() - indices.get(i);
                 // TODO check whether this cast is safe
-                ((Algorithm) population).setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
+                population.setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
             }
         }
     }

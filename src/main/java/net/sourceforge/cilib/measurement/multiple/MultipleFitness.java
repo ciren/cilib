@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.measurement.multiple;
 
-import java.util.Collection;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -89,7 +88,7 @@ public class MultipleFitness implements Measurement {
         return fitnessValues.toArray();*/
 
         Vector fitnessValues = new Vector();
-        Collection<OptimisationSolution> solutions = algorithm.getSolutions();
+        Iterable<OptimisationSolution> solutions = algorithm.getSolutions();
 
         for (OptimisationSolution solution : solutions) {
             Double fitness = solution.getFitness().getValue();

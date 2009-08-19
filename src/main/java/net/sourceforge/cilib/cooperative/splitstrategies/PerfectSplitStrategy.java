@@ -23,7 +23,6 @@ package net.sourceforge.cilib.cooperative.splitstrategies;
 
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
@@ -43,7 +42,7 @@ public class PerfectSplitStrategy implements SplitStrategy {
             throw new InitialisationException("A Problem with dimension " + problem.getDomain().getDimension() + " cannot be split into parts of equal size when using " + populations.size() + " populations");
         int dimension = problem.getDomain().getDimension() / populations.size();
         int offset = 0;
-        for (Algorithm population : populations) {
+        for (PopulationBasedAlgorithm population : populations) {
             // TODO check whether this cast is safe
             population.setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
             offset += dimension;

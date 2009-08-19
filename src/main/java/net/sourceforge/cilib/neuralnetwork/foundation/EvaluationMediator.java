@@ -24,13 +24,11 @@ package net.sourceforge.cilib.neuralnetwork.foundation;
 
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.EmptyEpochStrategy;
 import net.sourceforge.cilib.neuralnetwork.foundation.epochstrategy.EpochStrategy;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 
 
@@ -258,7 +256,7 @@ public class EvaluationMediator extends SingularAlgorithm {
     }
 
     @Override
-    public Algorithm getClone() {
+    public EvaluationMediator getClone() {
         // TODO Auto-generated method stub
         return null;
     }

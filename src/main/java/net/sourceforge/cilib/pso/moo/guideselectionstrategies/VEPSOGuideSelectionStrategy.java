@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.moo.guideselectionstrategies;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.MultiPopulationCriterionBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.knowledgetransferstrategies.KnowledgeTransferStrategy;
@@ -89,7 +89,7 @@ public class VEPSOGuideSelectionStrategy implements GuideSelectionStrategy {
     @SuppressWarnings("unchecked")
     @Override
     public Vector selectGuide(Particle particle) {
-        MultiPopulationBasedAlgorithm topLevelAlgorithm = (MultiPopulationBasedAlgorithm) Algorithm.getAlgorithmList().get(0);
+        MultiPopulationBasedAlgorithm topLevelAlgorithm = (MultiPopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
         Blackboard<Enum<?>, Type> knowledge = (Blackboard<Enum<?>, Type>) this.knowledgeTransferStrategy.transferKnowledge(topLevelAlgorithm.getPopulations());
         return (Vector) knowledge.get(EntityType.Particle.BEST_POSITION);
     }

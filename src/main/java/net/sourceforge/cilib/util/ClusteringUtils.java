@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Hashtable;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
@@ -76,7 +77,7 @@ public final class ClusteringUtils {
     private ClusteringUtils() {
         if (clusteringProblem == null || clusterableDataSet == null) {
             try {
-                Algorithm algorithm = Algorithm.get();
+                Algorithm algorithm = AbstractAlgorithm.get();
                 clusteringProblem = (ClusteringProblem) algorithm.getOptimisationProblem();
                 clusterableDataSet = (ClusterableDataSet) clusteringProblem.getDataSetBuilder();
 

@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.games.random;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 
 /**
  * This class is similar to the {@linkplain ListSeedingStrategy} but differs in the following way.
@@ -79,7 +79,7 @@ public class FixedListSeedingStrategy extends RandomListSeedingStrategy {
         if(index >= maxIndex)
             index = minIndex;
         //index changes with algorithm iterations
-        int currentIteration = Algorithm.get().getIterations();
+        int currentIteration = AbstractAlgorithm.get().getIterations();
         if (currentIteration != changeIteration && currentIteration  % iterationModulus == 0) {
             changeIteration = currentIteration;
             minIndex += useCount;

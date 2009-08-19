@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -88,7 +89,7 @@ public class MinimumDiversity implements StoppingCondition {
      */
     public boolean isCompleted() {
         updateControlParameters();
-        calculatedDiversity = ((Real) diversity.getValue(Algorithm.get())).getReal();
+        calculatedDiversity = ((Real) diversity.getValue(AbstractAlgorithm.get())).getReal();
         maximumDiversity = Math.max(maximumDiversity, calculatedDiversity);
 
         iterations = calculatedDiversity < minimumDiversity.getParameter() ? iterations + 1 : 0;

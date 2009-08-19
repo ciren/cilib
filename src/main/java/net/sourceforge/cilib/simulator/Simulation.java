@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.simulator;
 
 import java.lang.reflect.Method;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
@@ -40,7 +41,7 @@ class Simulation extends Thread implements AlgorithmListener {
     private final AlgorithmFactory algorithmFactory;
     private final ProblemFactory problemFactory;
 
-    private Algorithm algorithm;
+    private AbstractAlgorithm algorithm;
 
     /**
      * Create a Simulation with the required dependencies.
@@ -59,7 +60,7 @@ class Simulation extends Thread implements AlgorithmListener {
      */
     @Override
     public void run() {
-        algorithm = algorithmFactory.newAlgorithm();
+        algorithm = (AbstractAlgorithm) algorithmFactory.newAlgorithm();
         algorithm.addAlgorithmListener(this);
 
         Problem problem = problemFactory.newProblem();

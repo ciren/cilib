@@ -100,7 +100,6 @@ public class ConvergedDimensions implements Measurement {
      * @throws ParseException if the provided {@code String} cannot be parsed.
      */
     public void setTargetSolution(String stringRepresentation) throws ParseException {
-        System.out.println("Setting the target solition to: " + stringRepresentation);
         this.targetSolution = (Vector) DomainParser.parse(stringRepresentation);
     }
 

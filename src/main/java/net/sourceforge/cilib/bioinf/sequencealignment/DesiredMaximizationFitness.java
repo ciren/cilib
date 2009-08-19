@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
@@ -33,7 +34,7 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  */
 public class DesiredMaximizationFitness implements StoppingCondition {
     private static final long serialVersionUID = 6494553632698710933L;
-    private Algorithm algorithm;
+    private AbstractAlgorithm algorithm;
     private double desiredFitness;
     private int quitAnywayAfterIterations;
 
@@ -69,7 +70,7 @@ public class DesiredMaximizationFitness implements StoppingCondition {
     }
 
     public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
+        this.algorithm = (AbstractAlgorithm) algorithm;
     }
 
     public int getQuitAnywayAfterIterations() {

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.util.calculator;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
@@ -46,7 +47,7 @@ public class PropertyBasedFitnessCalculator implements
      */
     @Override
     public Fitness getFitness(Entity entity) {
-        Algorithm algorithm = Algorithm.get();
+        Algorithm algorithm = AbstractAlgorithm.get();
         return algorithm.getOptimisationProblem().getFitness(entity.getProperties());
     }
 }

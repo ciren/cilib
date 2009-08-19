@@ -24,7 +24,6 @@ package net.sourceforge.cilib.cooperative.splitstrategies;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
@@ -67,7 +66,7 @@ public class IndexedSplitStrategy implements SplitStrategy {
             throw new InitialisationException("Problem dimensionality should be equal to or greater than the number of cooperating populations.");
 
         for (int i = 0; i < populations.size(); ++i) {
-            Algorithm population = (Algorithm) populations.get(i);
+            PopulationBasedAlgorithm population = populations.get(i);
             int offset = indices.get(i);
             int dimension;
             if ((i + 1) < indices.size())
@@ -75,7 +74,7 @@ public class IndexedSplitStrategy implements SplitStrategy {
             else
                 dimension = problem.getDomain().getDimension() - indices.get(i);
             // TODO check whether this cast is safe
-            ((Algorithm) population).setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
+            population.setOptimisationProblem(new CooperativeOptimisationProblemAdapter(problem, context, dimension, offset));
         }
     }
 }

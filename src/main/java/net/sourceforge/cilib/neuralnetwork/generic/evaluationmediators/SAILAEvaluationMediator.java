@@ -24,7 +24,6 @@ package net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNError;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
@@ -293,7 +292,7 @@ public class SAILAEvaluationMediator extends EvaluationMediator {
 
 
     @Override
-    public Algorithm getClone() {
+    public SAILAEvaluationMediator getClone() {
         // TODO Auto-generated method stub
         return null;
     }

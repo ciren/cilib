@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.LinkedList;
 import java.util.List;
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
@@ -51,7 +51,7 @@ public class ArchiveReevaluationResponseStrategy extends EnvironmentChangeRespon
             entity.calculateFitness();
         }
 
-        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) Algorithm.getAlgorithmList().get(0);
+        PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.getAlgorithmList().get(0);
         OptimisationProblem problem = populationBasedAlgorithm.getOptimisationProblem();
 
         List<OptimisationSolution> newList = new LinkedList<OptimisationSolution>();

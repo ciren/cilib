@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
@@ -63,7 +64,7 @@ public class Iterations implements Measurement {
      */
     public Type getValue(Algorithm algorithm) {
         Int i = new Int();
-        i.setInt(algorithm.getIterations());
+        i.setInt(((AbstractAlgorithm)algorithm).getIterations());
 
         return i;
     }

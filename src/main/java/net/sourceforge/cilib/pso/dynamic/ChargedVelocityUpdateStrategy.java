@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.dynamic;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
@@ -73,7 +73,7 @@ public class ChargedVelocityUpdateStrategy extends StandardVelocityUpdate {
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
         Vector acceleration = new Vector(velocity.getDimension(), new Real(0.0));
-        PSO pso = (PSO) Algorithm.get();
+        PSO pso = (PSO) AbstractAlgorithm.get();
         Iterator<Particle> iter = null;
         // make iter point to the current particle
         for (Iterator<Particle> i = pso.getTopology().iterator(); i.hasNext();) {

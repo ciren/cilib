@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
@@ -62,7 +63,7 @@ public class LinearIncreasingControlParameter extends BoundedControlParameter {
      * The update is done in an increasing manner.
      */
     public void update() {
-        double result = getLowerBound() + (getUpperBound() - getLowerBound()) * Algorithm.get().getPercentageComplete();
+        double result = getLowerBound() + (getUpperBound() - getLowerBound()) * AbstractAlgorithm.get().getPercentageComplete();
         parameter.setReal(result);
     }
 

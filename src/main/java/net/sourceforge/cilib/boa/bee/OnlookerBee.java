@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.boa.bee;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.boa.ABC;
 
 
@@ -68,7 +68,7 @@ public class OnlookerBee extends AbstractBee implements HoneyBee {
      */
     @Override
     public void updatePosition() {
-        ABC algorithm = (ABC) Algorithm.get();
+        ABC algorithm = (ABC) AbstractAlgorithm.get();
         HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerBees());
 
         while (target == this) {
