@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.algorithm.population;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
@@ -31,7 +32,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  * These types of algoruthms typically include PSO , EC, ACO etc.
  * @author Gary Pampara
  */
-public abstract class SinglePopulationBasedAlgorithm extends PopulationBasedAlgorithm {
+public abstract class SinglePopulationBasedAlgorithm extends AbstractAlgorithm implements PopulationBasedAlgorithm {
     private static final long serialVersionUID = -4095104893057340895L;
 
     protected PopulationInitialisationStrategy<? extends Entity> initialisationStrategy;

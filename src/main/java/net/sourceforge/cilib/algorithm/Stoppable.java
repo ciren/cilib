@@ -19,23 +19,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.container.visitor;
 
+package net.sourceforge.cilib.algorithm;
 
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Test;
+import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
-public class TopologyVisitorTest {
-    private Mockery context = new JUnit4Mockery();
+/**
+ *
+ */
+public interface Stoppable {
 
     /**
-     * Initialize a dummy algorithm and then test if the visitor knows
-     * which algorithm it used for it's evaluation.
+     * Add a stopping condition
+     * @param condition The stopping condition to add.
      */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void currentAlgorithmUsed() {
-    }
+    public void addStoppingCondition(StoppingCondition condition);
 
+    /**
+     * Remove the specified stopping condition.
+     * @param condition The stopping condition to remove.
+     */
+    public void removeStoppingCondition(StoppingCondition condition);
+    
 }

@@ -57,4 +57,12 @@ public interface Algorithm extends Cloneable {
      * Not Needed>??>????????????
      */
      public int getIterations();
+
+    /**
+     * Set the optimisation problem to be solved. By default, the problem is <code>null</code>.
+     * That is, it is necessary to set the optimisation problem before calling {@link #initialise()}.
+     * @param problem An implementation of the
+     * {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
+     */
+    public void setOptimisationProblem(OptimisationProblem problem);
 }

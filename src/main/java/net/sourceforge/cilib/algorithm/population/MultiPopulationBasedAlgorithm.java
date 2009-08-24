@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
@@ -48,7 +49,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  *
  * @author Gary Pampara
  */
-public abstract class MultiPopulationBasedAlgorithm extends PopulationBasedAlgorithm implements Iterable<PopulationBasedAlgorithm> {
+public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm implements PopulationBasedAlgorithm, Iterable<PopulationBasedAlgorithm> {
     private static final long serialVersionUID = -5311450612897848103L;
     protected List<PopulationBasedAlgorithm> subPopulationsAlgorithms;
     protected AlgorithmIterator<PopulationBasedAlgorithm> algorithmIterator;

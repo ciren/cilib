@@ -24,6 +24,7 @@ package net.sourceforge.cilib.neuralnetwork.foundation;
 import java.io.IOException;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.neuralnetwork.foundation.postSimulation.PostMeasurementSuite;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -35,7 +36,7 @@ import net.sourceforge.cilib.problem.Problem;
  * @deprecated This class is no longer viable - Please see {@linkplain EvaluationMediator}
  */
 @Deprecated
-public class NeuralNetworkController extends SingularAlgorithm {
+public class NeuralNetworkController extends AbstractAlgorithm implements SingularAlgorithm {
     private static final long serialVersionUID = -904395696777716473L;
     protected NeuralNetworkProblem problem = null;
     protected NNError[] errorDt = null;

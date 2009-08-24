@@ -28,27 +28,6 @@ package net.sourceforge.cilib.algorithm;
  * Examples of such algorithms will include <tt>KMeans</tt>, <tt>Gradient Decent</tt> etc.
  *
  */
-public abstract class SingularAlgorithm extends AbstractAlgorithm {
-    private static final long serialVersionUID = 8524134633474124524L;
-
-    /**
-     * Create a new instance of {@linkplain SingularAlgorithm}.
-     */
-    public SingularAlgorithm() {
-    }
-
-    /**
-     * Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public SingularAlgorithm(SingularAlgorithm copy) {
-        super(copy);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract void algorithmIteration();
+public interface SingularAlgorithm extends Algorithm, Stoppable {
 
 }

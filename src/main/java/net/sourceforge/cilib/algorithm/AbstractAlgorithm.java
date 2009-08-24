@@ -39,7 +39,7 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * </p>
  * @author Edwin Peer
  */
-public abstract class AbstractAlgorithm implements Algorithm, Runnable {
+public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnable {
     private static final long serialVersionUID = 7197544770653732632L;
     private List<StoppingCondition> stoppingConditions;
     private List<AlgorithmListener> algorithmListeners;
@@ -98,12 +98,6 @@ public abstract class AbstractAlgorithm implements Algorithm, Runnable {
         if (copy.optimisationProblem != null)
             optimisationProblem = copy.optimisationProblem.getClone();
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract AbstractAlgorithm getClone();
 
 
     /**
@@ -348,6 +342,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Runnable {
      * @param problem An implementation of the
      *        {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
      */
+    @Override
     public void setOptimisationProblem(OptimisationProblem problem) {
         this.optimisationProblem = problem;
     }

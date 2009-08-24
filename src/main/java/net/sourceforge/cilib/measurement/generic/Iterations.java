@@ -64,7 +64,7 @@ public class Iterations implements Measurement {
      */
     public Type getValue(Algorithm algorithm) {
         Int i = new Int();
-        i.setInt(((AbstractAlgorithm)algorithm).getIterations());
+        i.setInt(algorithm.getIterations());
 
         return i;
     }

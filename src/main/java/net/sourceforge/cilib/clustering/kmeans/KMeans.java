@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.OptimisationSolution;
@@ -55,7 +56,7 @@ import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
  * @author Theuns Cloete
  * @TODO: Check that removing the FitnessCalculator does not break the functionality of this class.
  */
-public class KMeans extends SingularAlgorithm {
+public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     private static final long serialVersionUID = -3301123926538450441L;
 
     private CentroidsInitialisationStrategy centroidsInitialisationStrategy = null;
