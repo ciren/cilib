@@ -4,7 +4,7 @@
   <groupId>net.sourceforge.cilib</groupId>
   <artifactId>cilib</artifactId>
   <packaging>jar</packaging>
-  <version>0.7.1</version>
+  <version>0.7.2-SNAPSHOT</version>
   <name>cilib</name>
   <description>Collaborative component based framework for developing Computational Intelligence software</description>
   <url>http://www.cilib.net</url>
@@ -117,19 +117,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>jep</groupId>
-      <artifactId>jep</artifactId>
-      <version>2.24</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-math</groupId>
-      <artifactId>commons-math</artifactId>
-      <version>1.1</version>
-    </dependency>
-    <dependency>
       <groupId>com.google.collections</groupId>
       <artifactId>google-collections</artifactId>
       <version>1.0-rc2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>2.0</version>
     </dependency>
   </dependencies>
   <build>
@@ -241,6 +236,19 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-shade-plugin</artifactId>
+	<version>1.2.1</version>
+	<executions>
+	  <execution>
+	    <phase>package</phase>
+	    <goals>
+	      <goal>shade</goal>
+	    </goals>
+	  </execution>
+	</executions>
       </plugin>
     </plugins>
   </build>
