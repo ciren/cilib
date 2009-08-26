@@ -28,37 +28,25 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Print the position of the best particle in the swarm.
+ * Print the position of the best entity within a topology.
  *
  * @author Gary Pampara
  */
-public class BestParticlePosition implements Measurement {
+public class BestEntityPosition implements Measurement {
     private static final long serialVersionUID = 5808686984197365658L;
 
     /**
-     * Create a nw instance of {@linkplain BestParticlePosition}.
+     * {@inheritDoc}
      */
-    public BestParticlePosition() {
-    }
-
-    /**
-     * Copy the provided instance.
-     * @param copy The instance to copy.
-     */
-    public BestParticlePosition(BestParticlePosition copy) {
-
+    @Override
+    public BestEntityPosition getClone() {
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public BestParticlePosition getClone() {
-        return new BestParticlePosition(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public String getDomain() {
         return "T";
     }
@@ -66,6 +54,7 @@ public class BestParticlePosition implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type getValue(Algorithm algorithm) {
         Vector solution = (Vector) algorithm.getBestSolution().getPosition();
 

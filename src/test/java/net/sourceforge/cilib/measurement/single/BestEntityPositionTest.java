@@ -25,6 +25,7 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Vectors;
 
 import org.jmock.Expectations;
@@ -40,20 +41,23 @@ import org.junit.runner.RunWith;
  * @author Gary Pampara
  */
 @RunWith(JMock.class)
-public class BestParticlePositionTest {
+public class BestEntityPositionTest {
     private Mockery mockery = new JUnit4Mockery();
 
     @Test
     public void testBestParticlePositionDomain() {
+        Vector expectedPosition = Vectors.create(4.0);
         final Algorithm algorithm = mockery.mock(Algorithm.class);
-        final OptimisationSolution mockSolution = new OptimisationSolution(Vectors.create(4.0), InferiorFitness.instance());
+        final OptimisationSolution mockSolution = new OptimisationSolution(expectedPosition, InferiorFitness.instance());
 
         mockery.checking(new Expectations() {{
             oneOf(algorithm).getBestSolution(); will(returnValue(mockSolution));
         }});
 
-        Measurement measurement = new BestParticlePosition();
-        Assert.assertEquals("[4.0]", measurement.getValue(algorithm).toString());
+        Measurement measurement = new BestEntityPosition();
+        Assert.assertEquals(expectedPosition.toString(), measurement.getValue(algorithm).toString());
     }
 
 }
+
+

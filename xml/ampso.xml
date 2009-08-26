@@ -20,7 +20,7 @@
     </problem>
     <measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/ampso-quadric.txt">
       <addMeasurement class="measurement.single.Fitness"/>
-      <addMeasurement class="measurement.single.BestParticlePosition"/>
+      <addMeasurement class="measurement.single.Solution"/>
     </measurements>
   </simulation>
 </simulator>

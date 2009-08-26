@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
 import net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIterator;
@@ -76,19 +75,6 @@ public abstract class MultiPopulationBasedAlgorithm extends AbstractAlgorithm im
         }
 
         algorithmIterator = copy.algorithmIterator;
-        algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void reset() {
-        super.reset();
-
-        for(Algorithm algorithm : subPopulationsAlgorithms)
-            algorithm.reset();
-
         algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
     }
 

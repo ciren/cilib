@@ -26,34 +26,45 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
- *
+ * Base interface defining all {@code Algorithm} classes.
  */
 public interface Algorithm extends Cloneable {
 
-    public OptimisationSolution getBestSolution();
-
+    /**
+     * Perform the actions of the current {@linkplain Algorithm} for a single iteration.
+     */
     public void performIteration();
 
-     /**
-     * Not Needed>??>????????????
+    /**
+     * Perform the needed initialisation required before the execution of the algorithm
+     * starts.
      */
     public void performInitialisation();
 
-     /**
-     * Not Needed>??>????????????
+    /**
+     * Perform the needed unintialisation steps after the algorithm completes it's
+     * execution.
      */
     public void performUninitialisation();
 
+    /**
+     * Obtain the best current solution.
+     * @return The {@code OptimisationSolution} representing the best solution.
+     * @see net.sourceforge.cilib.entity.Topology#getBestEntity()
+     */
+    public OptimisationSolution getBestSolution();
+
+    /**
+     * Obtain the collection of best solutions. This result does not actually make sense in normal
+     * {@code PopulationBasedAlgorithm}s, but rather in a MultiObjective optimization.
+     * @return An {@code Iterable} containing the solutions.
+     */
     public Iterable<OptimisationSolution> getSolutions();
 
-    public OptimisationProblem getOptimisationProblem();
-
     /**
-     * ???? Not needed?
-     */
-    public void reset();
-
-    /**
+     * Returns the number of iterations that have been performed by the algorihtm.
+     * @return The number of iterations.
+     *
      * Not Needed>??>????????????
      */
      public int getIterations();
@@ -65,4 +76,10 @@ public interface Algorithm extends Cloneable {
      * {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
      */
     public void setOptimisationProblem(OptimisationProblem problem);
+
+    /**
+     * Get the specified {@linkplain OptimisationProblem}.
+     * @return The specified {@linkplain OptimisationProblem}.
+     */
+    public OptimisationProblem getOptimisationProblem();
 }

@@ -54,6 +54,8 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      * executing algorithm. It is defined as a static member and as a result is not
      * required to be marked as transient as static members are not allowed to be
      * serializable according to the Java Specification.
+     *
+     * @TODO: This static variable needs to be removed.
      */
     private static ThreadLocal<AlgorithmStack> currentAlgorithmStack = new ThreadLocal<AlgorithmStack>() {
         @Override
@@ -99,14 +101,6 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
             optimisationProblem = copy.optimisationProblem.getClone();
     }
 
-
-    /**
-     * Reset the {@linkplain Algorithm} internals if needed.
-     */
-    public void reset() {
-         throw new UnsupportedOperationException("'reset()' method not implemented for '" + this.getClass().getName() + "'");
-    }
-
     /**
      * Initialises the algorithm. Must be called before {@link #run()} is called.
      */
@@ -127,10 +121,9 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
     }
 
     /**
-     * Perform the actions of the current {@linkplain Algorithm} for a single iteration. This
-     * method calls {@linkplain Algorithm#algorithmIteration()} after it performs some
-     * internal tasks by maintaining the stack of the currently executing algorithm instances.
+     * {@inheritDoc}
      */
+    @Override
     public final void performIteration() {
         currentAlgorithmStack.get().push(this);
         algorithmIteration();
@@ -145,17 +138,17 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
     protected abstract void algorithmIteration();
 
     /**
-     * Perform the needed initialisation required before the execution of the algorithm
-     * starts.
+     * {@inheritDoc}
      */
+    @Override
     public void performInitialisation() {
         // subclasses can override the behaviour for this method
     }
 
     /**
-     * Perform the needed unintialisation steps after the algorithm completes it's
-     * execution.
+     * {@inheritDoc}
      */
+    @Override
     public void performUninitialisation() {
         // subclasses can override the behaviour for this method
     }
@@ -196,6 +189,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      * @param stoppingCondition A {@link net.sourceforge.cilib.stoppingcondition.StoppingCondition}
      *        to be added.
      */
+    @Override
     public final void addStoppingCondition(StoppingCondition stoppingCondition) {
         stoppingConditions.add(stoppingCondition);
     }
@@ -205,6 +199,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      * @param stoppingCondition The {@link net.sourceforge.cilib.stoppingcondition.StoppingCondition}
      *        to be removed.
      */
+    @Override
     public final void removeStoppingCondition(StoppingCondition stoppingCondition) {
         stoppingConditions.remove(stoppingCondition);
     }
@@ -227,9 +222,9 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
     }
 
     /**
-     * Returns the number of iterations that have been performed by the algorihtm.
-     * @return The number of iterations.
+     * {@inheritDoc}
      */
+    @Override
     public final int getIterations() {
         return iterations;
     }
@@ -337,10 +332,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
     }
 
     /**
-     * Set the optimisation problem to be solved. By default, the problem is <code>null</code>.
-     * That is, it is necessary to set the optimisation problem before calling {@link #initialise()}.
-     * @param problem An implementation of the
-     *        {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} interface.
+     * {@inheritDoc}
      */
     @Override
     public void setOptimisationProblem(OptimisationProblem problem) {
@@ -348,25 +340,23 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
     }
 
     /**
-     * Get the specified {@linkplain OptimisationProblem}.
-     * @return The specified {@linkplain OptimisationProblem}.
+     * {@inheritDoc}
      */
+    @Override
     public OptimisationProblem getOptimisationProblem() {
         return this.optimisationProblem;
     }
 
     /**
-     * Get the best current solution. This best solution is determined from the personal bests of the
-     * particles.
-     * @return The <code>OptimisationSolution</code> representing the best solution.
+     * {@inheritDoc}
      */
+    @Override
     public abstract OptimisationSolution getBestSolution();
 
     /**
-     * Get the collection of best solutions. This result does not actually make sense in the normal
-     * PSO algorithm, but rather in a MultiObjective optimization.
-     * @return The <code>Collection&lt;OptimisationSolution&gt;</code> containing the solutions.
+     * {@inheritDoc}
      */
-    public abstract List<OptimisationSolution> getSolutions();
+    @Override
+    public abstract Iterable<OptimisationSolution> getSolutions();
 
 }

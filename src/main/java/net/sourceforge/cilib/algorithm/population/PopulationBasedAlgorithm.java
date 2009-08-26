@@ -34,6 +34,7 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  */
 public interface PopulationBasedAlgorithm extends Algorithm, Stoppable {
 
+    @Override
     public PopulationBasedAlgorithm getClone();
 
     /**

@@ -99,15 +99,6 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void reset() {
-        super.reset();
-        topology.clear();
-    }
-
-    /**
      * Perform the required initialisation for the algorithm. Create the particles and add then to
      * the specified topology.
      */
