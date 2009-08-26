@@ -24,7 +24,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
@@ -96,7 +96,7 @@ public class BareBonesDEVelocityUpdate implements VelocityUpdateStrategy {
         Vector nBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
         Vector velocity = (Vector) particle.getVelocity();
 
-        PSO pso = (PSO) Algorithm.get();
+        PSO pso = (PSO) AbstractAlgorithm.get();
         List<Entity> positions = getRandomParentEntities(pso.getTopology());
 
         //select three random individuals, all different and different from particle

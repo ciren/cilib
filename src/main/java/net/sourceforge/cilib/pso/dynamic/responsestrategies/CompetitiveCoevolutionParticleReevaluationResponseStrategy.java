@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
 import net.sourceforge.cilib.entity.Entity;
@@ -60,7 +60,7 @@ public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extend
      */
     public void performReaction(PopulationBasedAlgorithm algorithm) {
           //select new competitors and re-evaluate PBest vector of Particle
-         PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)Algorithm.get(); //the current sub population algorithm
+         PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get(); //the current sub population algorithm
          int populationID = -1;
          for(Entity e: currentAlgorithm.getTopology().asList()) {
              if(!(e instanceof AbstractParticle))

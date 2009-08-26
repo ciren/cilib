@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.util.calculator;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -47,7 +48,7 @@ public class StructuredTypeFitnessCalculator<T extends StructuredType<?>> implem
      */
     @Override
     public Fitness getFitness(T structure) {
-        Algorithm algorithm = Algorithm.get();
+        Algorithm algorithm = AbstractAlgorithm.get();
         return algorithm.getOptimisationProblem().getFitness(structure);
     }
 

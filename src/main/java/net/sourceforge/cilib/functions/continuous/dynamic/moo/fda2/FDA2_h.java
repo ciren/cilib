@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.functions.continuous.dynamic.moo.fda2;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
@@ -209,7 +209,7 @@ public class FDA2_h extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        this.tau = Algorithm.get().getIterations();
+        this.tau = AbstractAlgorithm.get().getIterations();
 
         double t = (1.0/(double)n_t)*Math.floor((double)this.tau/(double)this.tau_t);
         double H = 0.75 + 0.7*(Math.sin(0.5*Math.PI*t));

@@ -24,6 +24,7 @@ package net.sourceforge.cilib.simulator;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
 import net.sourceforge.cilib.problem.ProblemFactory;
@@ -140,7 +141,7 @@ public class Simulator {
      */
     void simulationFinished(Simulation simulation) {
         measurementSuite.measure(simulation.getAlgorithm());
-        progress.put(simulation, new Double(simulation.getAlgorithm().getPercentageComplete()));
+        progress.put(simulation, new Double(((AbstractAlgorithm) simulation.getAlgorithm()).getPercentageComplete()));
         notifyProgress();
     }
 
@@ -152,7 +153,7 @@ public class Simulator {
         Algorithm algorithm = simulation.getAlgorithm();
         if (algorithm.getIterations() % measurementSuite.getResolution() == 0) {
             measurementSuite.measure(simulation.getAlgorithm());
-            progress.put(simulation, new Double(algorithm.getPercentageComplete()));
+            progress.put(simulation, new Double(((AbstractAlgorithm)algorithm).getPercentageComplete()));
             notifyProgress();
         }
     }

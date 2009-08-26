@@ -51,7 +51,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author  Edwin Peer
  */
-public class MultistartOptimisationAlgorithm extends Algorithm implements ParticipatingAlgorithm {
+public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implements ParticipatingAlgorithm {
     private static final long serialVersionUID = 1493525363256406120L;
 
     /** Creates a new instance of MultistartOptimisationAlgorithm. */
@@ -83,8 +83,8 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
      * @param algorithm Any {@link OptimisationAlgorithm} that extends {@link Algorithm}.
      */
     public void setTargetAlgorithm(Algorithm algorithm) {
-        optimisationAlgorithm = algorithm;
-        this.algorithm = (Algorithm) algorithm;
+        optimisationAlgorithm = (AbstractAlgorithm) algorithm;
+        this.algorithm = (AbstractAlgorithm) algorithm;
         this.algorithm.addStoppingCondition(singleIteration);
     }
 
@@ -215,8 +215,8 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
         return solutions;
     }
 
-    private Algorithm algorithm;
-    private Algorithm optimisationAlgorithm;
+    private AbstractAlgorithm algorithm;
+    private AbstractAlgorithm optimisationAlgorithm;
     private int restarts;
     private SingleIteration singleIteration;
     private MultistartProblemAdapter problem;

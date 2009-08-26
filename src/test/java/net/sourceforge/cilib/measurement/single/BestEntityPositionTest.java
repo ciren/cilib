@@ -23,56 +23,41 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
+
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
- * Print the position of the best particle in the swarm.
  *
  * @author Gary Pampara
  */
-public class BestParticlePosition implements Measurement {
-    private static final long serialVersionUID = 5808686984197365658L;
+@RunWith(JMock.class)
+public class BestEntityPositionTest {
+    private Mockery mockery = new JUnit4Mockery();
 
-    /**
-     * Create a nw instance of {@linkplain BestParticlePosition}.
-     */
-    public BestParticlePosition() {
-    }
+    @Test
+    public void testBestParticlePositionDomain() {
+        Vector expectedPosition = Vectors.create(4.0);
+        final Algorithm algorithm = mockery.mock(Algorithm.class);
+        final OptimisationSolution mockSolution = new OptimisationSolution(expectedPosition, InferiorFitness.instance());
 
-    /**
-     * Copy the provided instance.
-     * @param copy The instance to copy.
-     */
-    public BestParticlePosition(BestParticlePosition copy) {
+        mockery.checking(new Expectations() {{
+            oneOf(algorithm).getBestSolution(); will(returnValue(mockSolution));
+        }});
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public BestParticlePosition getClone() {
-        return new BestParticlePosition(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String getDomain() {
-        return "T";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Type getValue(Algorithm algorithm) {
-        Vector solution = (Vector) algorithm.getBestSolution().getPosition();
-
-        StringType t = new StringType();
-        t.setString(solution.toString());
-
-        return t;
+        Measurement measurement = new BestEntityPosition();
+        Assert.assertEquals(expectedPosition.toString(), measurement.getValue(algorithm).toString());
     }
 
 }
+
+

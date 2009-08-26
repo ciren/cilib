@@ -19,35 +19,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.util.calculator;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.entity.Entity;
-import net.sourceforge.cilib.problem.Fitness;
+package net.sourceforge.cilib.algorithm;
+
+import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
- * A fitness calculator tht is specialised to determine the fitness of
- * an Entity instance.
+ *
  */
-public class EntityBasedFitnessCalculator implements FitnessCalculator<Entity> {
-    private static final long serialVersionUID = -5053760817332028741L;
+public interface Stoppable {
 
     /**
-     * {@inheritDoc}
+     * Add a stopping condition
+     * @param condition The stopping condition to add.
      */
-    @Override
-    public EntityBasedFitnessCalculator getClone() {
-        return this;
-    }
+    public void addStoppingCondition(StoppingCondition condition);
 
     /**
-     * {@inheritDoc}
+     * Remove the specified stopping condition.
+     * @param condition The stopping condition to remove.
      */
-    @Override
-    public Fitness getFitness(Entity entity) {
-        Algorithm algorithm = AbstractAlgorithm.get();
-        return algorithm.getOptimisationProblem().getFitness(entity.getCandidateSolution());
-    }
-
+    public void removeStoppingCondition(StoppingCondition condition);
+    
 }

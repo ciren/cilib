@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.util.selection.recipes;
 
 import java.util.List;
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
@@ -47,7 +47,7 @@ public class RingBasedPopulationSelection implements SelectionRecipe<PopulationB
      */
     @Override
     public PopulationBasedAlgorithm select(List<? extends PopulationBasedAlgorithm> elements) {
-        Ordering<PopulationBasedAlgorithm> ordering = new RingBasedOrdering<PopulationBasedAlgorithm>((PopulationBasedAlgorithm) Algorithm.get());
+        Ordering<PopulationBasedAlgorithm> ordering = new RingBasedOrdering<PopulationBasedAlgorithm>((PopulationBasedAlgorithm) AbstractAlgorithm.get());
         return Selection.from(elements).orderBy(ordering).first().singleSelect();
     }
 }

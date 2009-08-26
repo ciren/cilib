@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.measurement.multiple;
 
-import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -56,7 +55,7 @@ public class MultipleSolutions implements Measurement {
 
     public Type getValue(Algorithm algorithm) {
         Vector v = new Vector();
-        List<OptimisationSolution> solutions = algorithm.getSolutions();
+        Iterable<OptimisationSolution> solutions = algorithm.getSolutions();
 
         for (OptimisationSolution solution : solutions) {
             v.append((Vector) solution.getPosition());

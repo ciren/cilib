@@ -21,34 +21,40 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.ec.EC;
-import net.sourceforge.cilib.ec.Individual;
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 
 import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.util.Vectors;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author Gary Pampara
  */
+@RunWith(JMock.class)
 public class FitnessTest {
+    private Mockery mockery = new JUnit4Mockery();
 
     @Test
     public void results() {
-        EC ec = new EC();
-        Topology<Individual> topology = (Topology<Individual>) ec.getTopology();
+        final Algorithm algorithm = mockery.mock(Algorithm.class);
+        final OptimisationSolution mockSolution = new OptimisationSolution(Vectors.create(1.0), new MinimisationFitness(0.0));
 
-        Individual i = new Individual();
-        i.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-        topology.add(i);
+        mockery.checking(new Expectations() {{
+            oneOf(algorithm).getBestSolution(); will(returnValue(mockSolution));
+        }});
 
         Measurement m = new Fitness();
-        Assert.assertEquals(0.0, ((Real) m.getValue(ec)).getReal(), 0.00001);
+        Assert.assertEquals(0.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
     }
 
 }

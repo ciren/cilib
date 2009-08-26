@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
@@ -81,7 +81,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
 
         Vector averageVelocity = velocity.getClone();
         averageVelocity.reset();
-        PSO pso = (PSO) Algorithm.get();
+        PSO pso = (PSO) AbstractAlgorithm.get();
         for (Particle p : pso.getTopology()) {
             Vector particleVelocity = (Vector) p.getVelocity();
             averageVelocity = averageVelocity.plus(particleVelocity);

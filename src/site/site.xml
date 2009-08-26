@@ -77,21 +77,20 @@
       <item name="Downloads" href="http://sourceforge.net/project/platformdownload.php?group_id=72233&amp;sel_platform=740" />
       <item name="Forums" href="http://forums.cilib.net" />
       <item name="Issue Tracker" href="http://forums.cilib.net/tracker.php" />
-<!--      <item name="Wiki" href="http://cilib.wiki.sourceforge.net"
-	  />-->
-      <item name="API docs" href="/apidocs/index.html" />
+      <item name="CIlib Blog" href="http://performiteration.blogspot.com" />
     </menu>
 
     <menu name="Documentation">
-      <item name="Users Guide" href="/usersguide/index.html" collapse="true">
+      <item name="Javadoc API" href="/apidocs/index.html" />
+      <item name="Users Guide" href="/usersguide/index.html" collapse="false">
         <item name="Introduction" href="/usersguide/introduction.html" />
-    <item name="Quick Start" href="/usersguide/quick-start.html" />
-    <item name="XML Configuration" href="/usersguide/xml-configuration.html" />
-    <item name="Direct usage in code" href="/usersguide/direct-code-usage.html" />
+        <item name="Quick Start" href="/usersguide/quick-start.html" />
+        <item name="XML Configuration" href="/usersguide/xml-configuration.html" />
+        <item name="Direct usage in code" href="/usersguide/direct-code-usage.html" />
       </item>
       <item name="Developer's Guide" href="/developers/index.html" collapse="true">
         <item name="Code Style and conventions" href="/developers/code.html" />
-    <item name="Workflows" href="/developers/workflows.html" />
+        <item name="Workflows" href="/developers/workflows.html" />
       </item>
     </menu>
 

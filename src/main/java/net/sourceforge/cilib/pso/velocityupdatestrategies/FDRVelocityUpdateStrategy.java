@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.LinearDecreasingControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
@@ -95,13 +95,13 @@ public class FDRVelocityUpdateStrategy extends StandardVelocityUpdate {
         Vector neighbourhoodBestPosition = (Vector) particle.getNeighbourhoodBest().getBestPosition();
 
         for (int i = 0; i < particle.getDimension(); ++i) {
-            Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
+            Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
             Iterator<Particle> swarmIterator = topology.iterator();
             Particle fdrMaximizer = swarmIterator.next();
             double maxFDR = 0.0;
 
             while (swarmIterator.hasNext()) {
-                Particle currentTarget = (Particle) swarmIterator.next();
+                Particle currentTarget = swarmIterator.next();
 
                 if (currentTarget.getId() != particle.getId()) {
                     Fitness currentTargetFitness = currentTarget.getBestFitness();

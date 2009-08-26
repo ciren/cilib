@@ -25,6 +25,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkController;
@@ -76,7 +77,7 @@ public class NNOutput implements Measurement {
         data.setDistributor(distributor);
         data.initialize();
 
-        int iter = Algorithm.get().getIterations();
+        int iter = AbstractAlgorithm.get().getIterations();
         try {
             out = new BufferedWriter(new FileWriter(this.outputFile + "_" + String.valueOf(iter) + ".txt"));
         }

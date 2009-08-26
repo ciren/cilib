@@ -23,7 +23,6 @@ package net.sourceforge.cilib.type.types;
 
 /**
  *
- * @author gpampara
  */
 public interface Resetable {
 

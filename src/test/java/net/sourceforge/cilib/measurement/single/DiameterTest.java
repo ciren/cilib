@@ -21,24 +21,31 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Real;
 
 import net.sourceforge.cilib.util.Vectors;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author Gary Pampara
  */
+@RunWith(JMock.class)
 public class DiameterTest {
+    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void simpleDiameter() {
@@ -48,16 +55,18 @@ public class DiameterTest {
         p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(0.0, 0.0));
         p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(2.0, 2.0));
 
-        Topology<Particle> topology = new GBestTopology<Particle>();
+        final Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(p1);
         topology.add(p2);
 
-        PSO pso = new PSO();
-        pso.setTopology(topology);
+        final PopulationBasedAlgorithm algorithm = context.mock(PopulationBasedAlgorithm.class);
+
+        context.checking(new Expectations() {{
+            oneOf(algorithm).getTopology(); will(returnValue(topology));
+        }});
 
         Measurement m = new Diameter();
-
-        Assert.assertEquals(new Real(Math.sqrt(8)), m.getValue(pso));
+        Assert.assertEquals(new Real(Math.sqrt(8)), m.getValue(algorithm));
     }
 
     @Test
@@ -72,18 +81,20 @@ public class DiameterTest {
         p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(1.5, 1.5));
         p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(2.0, 2.0));
 
-        Topology<Particle> topology = new GBestTopology<Particle>();
+        final Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(p1);
         topology.add(p2);
         topology.add(p3);
         topology.add(p4);
 
-        PSO pso = new PSO();
-        pso.setTopology(topology);
+        final PopulationBasedAlgorithm algorithm = context.mock(PopulationBasedAlgorithm.class);
 
+        context.checking(new Expectations() {{
+            oneOf(algorithm).getTopology(); will(returnValue(topology));
+        }});
+        
         Measurement m = new Diameter();
-
-        Assert.assertEquals(new Real(Math.sqrt(8)), m.getValue(pso));
+        Assert.assertEquals(new Real(Math.sqrt(8)), m.getValue(algorithm));
     }
 
 }

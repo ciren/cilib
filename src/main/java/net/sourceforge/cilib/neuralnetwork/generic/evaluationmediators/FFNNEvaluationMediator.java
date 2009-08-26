@@ -23,7 +23,6 @@ package net.sourceforge.cilib.neuralnetwork.generic.evaluationmediators;
 
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.neuralnetwork.foundation.EvaluationMediator;
 import net.sourceforge.cilib.neuralnetwork.foundation.NNPattern;
 import net.sourceforge.cilib.neuralnetwork.foundation.NeuralNetworkDataIterator;
@@ -117,7 +116,7 @@ public class FFNNEvaluationMediator extends EvaluationMediator {
     }
 
     @Override
-    public Algorithm getClone() {
+    public FFNNEvaluationMediator getClone() {
         // TODO Auto-generated method stub
         return null;
     }

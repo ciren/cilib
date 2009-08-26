@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.RandomizingControlParameter;
@@ -61,7 +61,7 @@ public class FIPSVelocityUpdate extends StandardVelocityUpdate {
         Vector velocity = (Vector) particle.getVelocity();
         Vector position = (Vector) particle.getPosition();
 
-        Topology<Particle> topology = ((PSO) Algorithm.get()).getTopology();
+        Topology<Particle> topology = ((PSO) AbstractAlgorithm.get()).getTopology();
         Iterator<Particle> swarmIterator = topology.iterator();
 
         while (swarmIterator.hasNext()) {
