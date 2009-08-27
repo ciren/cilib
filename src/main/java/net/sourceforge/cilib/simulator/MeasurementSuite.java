@@ -47,7 +47,6 @@ public class MeasurementSuite implements Serializable {
     private SynchronizedOutputBuffer buffer;
     private MeasurementStateManager measurementStateManager;
 
-
     /** Creates a new instance of MeasurementSuite. */
     public MeasurementSuite() {
         measurements = new ArrayList<Measurement>();

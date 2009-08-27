@@ -24,11 +24,9 @@ package net.sourceforge.cilib.simulator;
 import java.lang.reflect.Method;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
-import net.sourceforge.cilib.algorithm.AlgorithmFactory;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
 import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.ProblemFactory;
 
 /**
  * A Simulation is a complete simulation that runs as a separate thread.
@@ -37,10 +35,8 @@ class Simulation extends Thread implements AlgorithmListener {
     private static final long serialVersionUID = -3733724215662398762L;
 
     private final Simulator simulator;
-    private final AlgorithmFactory algorithmFactory;
-    private final ProblemFactory problemFactory;
-
-    private Algorithm algorithm;
+    private final Algorithm algorithm;
+    private final Problem problem;
 
     /**
      * Create a Simulation with the required dependencies.
@@ -48,10 +44,10 @@ class Simulation extends Thread implements AlgorithmListener {
      * @param algorithmFactory The factory that creates {@code Algorithm} instances.
      * @param problemFactory The factory that creates {@code Problem} instances.
      */
-    public Simulation(Simulator simulator, AlgorithmFactory algorithmFactory, ProblemFactory problemFactory) {
+    public Simulation(Simulator simulator, Algorithm algorithm, Problem problem) {
         this.simulator = simulator;
-        this.algorithmFactory = algorithmFactory;
-        this.problemFactory = problemFactory;
+        this.algorithm = algorithm;
+        this.problem = problem;
     }
 
     /**
@@ -59,10 +55,8 @@ class Simulation extends Thread implements AlgorithmListener {
      */
     @Override
     public void run() {
-        algorithm = algorithmFactory.newAlgorithm();
         algorithm.addAlgorithmListener(this);
 
-        Problem problem = problemFactory.newProblem();
         try {
             Class<? extends Object> current = problem.getClass();
 
