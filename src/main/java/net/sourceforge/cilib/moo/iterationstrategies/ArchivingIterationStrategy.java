@@ -24,6 +24,7 @@ package net.sourceforge.cilib.moo.iterationstrategies;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -72,7 +73,7 @@ public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> impl
     }
 
     protected void updateArchive(Topology<? extends Entity> population) {
-        Algorithm topLevelAlgorithm = Algorithm.getAlgorithmList().get(0);
+        Algorithm topLevelAlgorithm = AbstractAlgorithm.getAlgorithmList().get(0);
         List<OptimisationSolution> optimisationSolutions = new ArrayList<OptimisationSolution>();
         for (Entity entity : population) {
             Type solution = entity.getCandidateSolution().getClone();

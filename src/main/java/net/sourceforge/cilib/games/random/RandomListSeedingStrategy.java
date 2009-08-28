@@ -23,7 +23,7 @@ package net.sourceforge.cilib.games.random;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 
 /**
@@ -66,7 +66,7 @@ public class RandomListSeedingStrategy extends ListSeedingStrategy {
      * Check if the seed list needs to be randomised. If so, generate a new list of seeds
      */
     protected void updateSeed(){
-        int currentIteration = Algorithm.get().getIterations();
+        int currentIteration = AbstractAlgorithm.get().getIterations();
         if(currentIteration != changeIteration && currentIteration  % iterationModulus == 0){
             changeIteration = currentIteration;
             randomizeSeeds(seeds.size());

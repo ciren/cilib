@@ -21,36 +21,47 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.entity.EntityType;
-import net.sourceforge.cilib.entity.Particle;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.util.Vectors;
-
-import org.junit.Assert;
-import org.junit.Test;
+import net.sourceforge.cilib.type.types.StringType;
+import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * Print the position of the best entity within a topology.
  *
  * @author Gary Pampara
  */
-public class BestParticlePositionTest {
+public class BestEntityPosition implements Measurement<StringType> {
+    private static final long serialVersionUID = 5808686984197365658L;
 
-    @Test
-    public void testBestParticlePositionDomain() {
-        Particle p = new StandardParticle();
-        p.getProperties().put(EntityType.Particle.BEST_POSITION, Vectors.create(4.0));
-        p.getProperties().put(EntityType.Particle.BEST_FITNESS, InferiorFitness.instance());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BestEntityPosition getClone() {
+        return this;
+    }
 
-        PSO pso = new PSO();
-        pso.getTopology().add(p);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDomain() {
+        return "T";
+    }
 
-        Measurement measurement = new BestParticlePosition();
-        measurement.getValue(pso);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StringType getValue(Algorithm algorithm) {
+        Vector solution = (Vector) algorithm.getBestSolution().getPosition();
 
-        Assert.assertEquals(p.getBestPosition().toString(), measurement.getValue(pso).toString());
+        StringType t = new StringType();
+        t.setString(solution.toString());
+
+        return t;
     }
 
 }

@@ -35,22 +35,21 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 /**
  * TODO: Complete this javadoc.
  */
-public class EuclideanDiversityAroundGBest implements Measurement {
+public class EuclideanDiversityAroundGBest implements Measurement<Real> {
     private static final long serialVersionUID = 8221420456303029095L;
 
-    public EuclideanDiversityAroundGBest(EuclideanDiversityAroundGBest copy) {
-
-    }
-
+    @Override
     public EuclideanDiversityAroundGBest getClone() {
-        return new EuclideanDiversityAroundGBest(this);
+        return this;
     }
 
+    @Override
     public String getDomain() {
         return "R";
     }
 
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 
         Vector center = (Vector) algorithm.getBestSolution().getPosition();

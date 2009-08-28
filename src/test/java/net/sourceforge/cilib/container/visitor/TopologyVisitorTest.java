@@ -21,24 +21,13 @@
  */
 package net.sourceforge.cilib.container.visitor;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
-import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
-import net.sourceforge.cilib.pso.PSO;
 
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
 
 public class TopologyVisitorTest {
-    private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-    }};
+    private Mockery context = new JUnit4Mockery();
 
     /**
      * Initialize a dummy algorithm and then test if the visitor knows
@@ -47,19 +36,6 @@ public class TopologyVisitorTest {
     @SuppressWarnings("unchecked")
     @Test
     public void currentAlgorithmUsed() {
-        final Topology<Particle> topology = context.mock(Topology.class);
-        final TopologyVisitor visitor = new RadiusVisitor();
-
-        PSO pso = new PSO();
-        pso.setTopology(topology);
-
-        context.checking(new Expectations() {{
-            one(topology).accept(visitor);
-        }});
-
-        pso.accept(visitor);
-
-        assertThat(pso, is(visitor.getCurrentAlgorithm()));
     }
 
 }

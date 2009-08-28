@@ -52,7 +52,7 @@ public class GenericAlgorithmTest {
     @Test(expected=EmptyStackException.class)
     public void serialisationAndInitialisation() {
         // Any algorithm can be used, just need a concrete class
-        Algorithm algorithm = new PSO();
+        AbstractAlgorithm algorithm = new PSO();
         ByteArrayOutputStream byteArray = null;
 
         try {
@@ -63,11 +63,11 @@ public class GenericAlgorithmTest {
         } catch (IOException io) {}
 
         byte [] classData = byteArray.toByteArray();
-        Algorithm target = null;
+        AbstractAlgorithm target = null;
 
         try {
             ObjectInputStream i = new ObjectInputStream(new ByteArrayInputStream(classData));
-            target = (Algorithm) i.readObject();
+            target = (AbstractAlgorithm) i.readObject();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,8 +85,8 @@ public class GenericAlgorithmTest {
     public void stoppingConditionInitialization() {
         final StoppingCondition stoppingCondition = context.mock(StoppingCondition.class);
         final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-        Algorithm algorithm = new Algorithm() {
-            public Algorithm getClone() { return null; }
+        AbstractAlgorithm algorithm = new AbstractAlgorithm() {
+            public AbstractAlgorithm getClone() { return null; }
             protected void algorithmIteration() {}
             public OptimisationSolution getBestSolution() { return null; }
             public List<OptimisationSolution> getSolutions() { return null; }

@@ -47,7 +47,7 @@ public class AlignmentVisualizer implements Measurement {
         String lineOfStars="";
         fullyMatchedColumnCounter = 0;
 
-        ArrayList<String> as = new ArrayList<String>(((AlignmentCreator) ((MSAProblem) algorithm.getOptimisationProblem()).getAlignmentCreator()).getAlignment());
+        ArrayList<String> as = new ArrayList<String>((((MSAProblem) algorithm.getOptimisationProblem()).getAlignmentCreator()).getAlignment());
 
         //checks for fully matched columns
         if (fullColumns) {

@@ -24,38 +24,26 @@ package net.sourceforge.cilib.measurement.single;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Edwin Peer
  */
-public class Solution implements Measurement {
+public class Solution implements Measurement<StringType> {
     private static final long serialVersionUID = -7485598441585703760L;
 
     /**
-     * Default constructor.
-     */
-    public Solution() {
-    }
-
-    /**
-     * Copy constructor.
-     * @param copy The instance to copy.
-     */
-    public Solution(Solution copy) {
-    }
-
-    /**
      * {@inheritDoc}
      */
+    @Override
     public Solution getClone() {
-        return new Solution(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "T";
     }
@@ -63,7 +51,8 @@ public class Solution implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public StringType getValue(Algorithm algorithm) {
         StringType s = new StringType();
 
         Vector solution = (Vector) algorithm.getBestSolution().getPosition();

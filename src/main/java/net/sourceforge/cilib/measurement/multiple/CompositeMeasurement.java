@@ -35,14 +35,15 @@ import net.sourceforge.cilib.type.types.container.TypeList;
  * instances. This type of measurement is generally only defined for
  * {@link net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm}.
  */
-public class CompositeMeasurement implements Measurement {
-    private List<Measurement> measurements;
+public class CompositeMeasurement implements Measurement<TypeList> {
+    private static final long serialVersionUID = -7109719897119621328L;
+    private List<Measurement<? extends Type>> measurements;
 
     /**
      * Create a new instance with zero measurements.
      */
     public CompositeMeasurement() {
-        this.measurements = new ArrayList<Measurement>();
+        this.measurements = new ArrayList<Measurement<? extends Type>>();
     }
 
     /**
@@ -67,13 +68,13 @@ public class CompositeMeasurement implements Measurement {
      * @return The values of measurements applied to all contained algorithms.
      */
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public TypeList getValue(Algorithm algorithm) {
         TypeList vector = new TypeList();
 
         MultiPopulationBasedAlgorithm multi = (MultiPopulationBasedAlgorithm) algorithm;
 
         for (PopulationBasedAlgorithm single : multi) {
-            for (Measurement measurement : measurements) {
+            for (Measurement<? extends Type> measurement : measurements) {
                 vector.add(measurement.getValue(single));
             }
         }
@@ -85,7 +86,7 @@ public class CompositeMeasurement implements Measurement {
      * Add a measurement to the composite for evaluation on the sub-algorithms.
      * @param measurement The measurement to add.
      */
-    public void addMeasurement(Measurement measurement) {
+    public void addMeasurement(Measurement<? extends Type> measurement) {
         this.measurements.add(measurement);
     }
 

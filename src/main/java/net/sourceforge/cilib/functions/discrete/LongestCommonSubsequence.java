@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.functions.discrete;
 
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -76,7 +76,7 @@ public class LongestCommonSubsequence extends DiscreteFunction {
      * @return The shortest length
      */
     private String getShortestString() {
-        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) Algorithm.get();
+        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
         OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
         TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
 
@@ -84,7 +84,7 @@ public class LongestCommonSubsequence extends DiscreteFunction {
     }
 
     private int getDataSetSize() {
-        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) Algorithm.get();
+        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
         OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
         TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
 
@@ -110,7 +110,7 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 
 
     private int matches(Vector x) {
-        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) Algorithm.get();
+        PopulationBasedAlgorithm popAlgorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
         OptimisationProblem problem = popAlgorithm.getOptimisationProblem();
         TextDataSetBuilder dataSetBuilder = (TextDataSetBuilder) problem.getDataSetBuilder();
 

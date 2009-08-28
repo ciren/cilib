@@ -24,6 +24,7 @@ package net.sourceforge.cilib.hs;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
 import net.sourceforge.cilib.container.SortedList;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -43,7 +44,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Andries Engelbrecht
  */
-public class HS extends SingularAlgorithm {
+public class HS extends AbstractAlgorithm implements SingularAlgorithm {
     private static final long serialVersionUID = 8019668923312811974L;
     private RandomNumber random1;
     private RandomNumber random2;

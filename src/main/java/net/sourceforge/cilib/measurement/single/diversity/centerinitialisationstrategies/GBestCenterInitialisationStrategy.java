@@ -21,18 +21,18 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * TODO: Complete this javadoc.
  */
-public class GBestCenterInitialisationStrategy extends CenterInitialisationStrategy {
+public class GBestCenterInitialisationStrategy implements CenterInitialisationStrategy {
 
     @Override
     public Vector getCenter() {
-        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
 
         return (Vector) algorithm.getTopology().getBestEntity().getCandidateSolution();
     }

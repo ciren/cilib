@@ -21,44 +21,56 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Int;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
 import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
  * @author Gary Pampara
  */
+@RunWith(JMock.class)
 public class IterationsTest {
+    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void iterationNumber() {
-        PSO pso = new PSO();
+        final int expected = 1000;
+        final PopulationBasedAlgorithm algorithm = context.mock(PopulationBasedAlgorithm.class);
 
-        for (int i = 0; i < 10; i++)
-            pso.performIteration();
-
+        context.checking(new Expectations() {{
+            oneOf(algorithm).getIterations(); will(returnValue(expected));
+        }});
+        
         Measurement m = new Iterations();
-        Assert.assertEquals(pso.getIterations(), ((Int) m.getValue(pso)).getInt());
+        Assert.assertEquals(expected, ((Int) m.getValue(algorithm)).getInt());
     }
 
     @Test
     public void domain() {
         Iterations iterations = new Iterations();
-
         Assert.assertEquals(iterations.getDomain(), "Z");
     }
 
     @Test
     public void resultType() {
-        PSO pso = new PSO();
-        Measurement m = new Iterations();
+        final PopulationBasedAlgorithm algorithm = context.mock(PopulationBasedAlgorithm.class);
 
-        Assert.assertThat(m.getValue(pso), is(Int.class));
+        context.checking(new Expectations() {{
+            ignoring(algorithm);
+        }});
+
+        Measurement m = new Iterations();
+        Assert.assertThat(m.getValue(algorithm), is(Int.class));
     }
 
 }

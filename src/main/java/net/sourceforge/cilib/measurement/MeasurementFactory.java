@@ -21,10 +21,12 @@
  */
 package net.sourceforge.cilib.measurement;
 
+import net.sourceforge.cilib.type.types.Type;
+
 /**
  *
  * @author  Edwin Peer
  */
 public interface MeasurementFactory {
-    public Measurement newMeasurement();
+    public Measurement<? extends Type> newMeasurement();
 }

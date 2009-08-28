@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
@@ -29,7 +28,6 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -40,7 +38,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author  Andries Engelbrecht
  */
-public class DimensionBoundViolationsPerParticle implements Measurement {
+public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
     private static final long serialVersionUID = -3633155366562479197L;
 
     /** Creates a new instance of DimensionBoundViolationsPerParticle. */
@@ -75,7 +73,7 @@ public class DimensionBoundViolationsPerParticle implements Measurement {
      * {@inheritDoc}
      */
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         double sumOfAverageViolations = 0.0;
         int populationSize = populationBasedAlgorithm.getTopology().size();

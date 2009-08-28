@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
-import java.util.Collection;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -47,7 +46,7 @@ public class RNAAccuracyMeasurement implements Measurement {
     }
 
     public Type getValue(Algorithm algorithm) {
-        Collection<OptimisationSolution> solutions = algorithm.getSolutions();
+        Iterable<OptimisationSolution> solutions = algorithm.getSolutions();
         StringBuilder sb = new StringBuilder();
         //Iterator i = solutions.iterator();
         for (OptimisationSolution solution : solutions) {

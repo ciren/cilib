@@ -75,7 +75,6 @@ import org.w3c.dom.Text;
  *
  * @author  Edwin Peer
  */
-
 // TODO: Rewrite to use SAX instead of maintaining a DOM tree.
 public class XMLObjectFactory {
 

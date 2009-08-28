@@ -21,8 +21,9 @@
  */
 package net.sourceforge.cilib.measurement.single.diversity.normalisation;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 
@@ -46,7 +47,7 @@ public class TopologyBasedNormalisation extends NormalisationParameter {
      */
     @Override
     public double getValue() {
-        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) Algorithm.get();
+        PopulationBasedAlgorithm algorithm = (PopulationBasedAlgorithm) AbstractAlgorithm.get();
         visitor.setDistanceMeasure(distanceMeasure);
         algorithm.accept(visitor);
         this.normalisationParameter = (Double) visitor.getResult();

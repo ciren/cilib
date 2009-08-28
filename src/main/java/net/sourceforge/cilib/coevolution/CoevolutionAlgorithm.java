@@ -123,7 +123,8 @@ public class CoevolutionAlgorithm extends MultiPopulationBasedAlgorithm {
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
         for (PopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
-             solutions.addAll(currentAlgorithm.getSolutions());
+            for (OptimisationSolution solution : currentAlgorithm.getSolutions())
+             solutions.add(solution);
         }
         return solutions;
     }

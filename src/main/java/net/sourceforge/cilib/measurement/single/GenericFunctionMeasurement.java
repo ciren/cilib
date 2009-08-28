@@ -26,13 +26,14 @@ import net.sourceforge.cilib.algorithm.InitialisationException;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
+ * @param <F> The "from" type.
+ * @param <T> The "to" type.
  * @author Theuns Cloete
  */
-public class GenericFunctionMeasurement<F, T> implements Measurement {
+public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
     private static final long serialVersionUID = 3301062975775598397L;
     private Function<Vector, Double> function = null;
 
@@ -54,6 +55,7 @@ public class GenericFunctionMeasurement<F, T> implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public GenericFunctionMeasurement getClone() {
         return new GenericFunctionMeasurement(this);
     }
@@ -61,6 +63,7 @@ public class GenericFunctionMeasurement<F, T> implements Measurement {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "R";
     }
@@ -68,7 +71,8 @@ public class GenericFunctionMeasurement<F, T> implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Real getValue(Algorithm algorithm) {
         if (function == null)
             throw new InitialisationException("The function that should be evaluated has not been set");
 

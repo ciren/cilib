@@ -31,7 +31,6 @@ import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationst
 import net.sourceforge.cilib.measurement.single.diversity.centerinitialisationstrategies.SpatialCenterInitialisationStrategy;
 import net.sourceforge.cilib.measurement.single.diversity.normalisation.NormalisationParameter;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -42,7 +41,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * @author gpampara
  *
  */
-public class Diversity implements Measurement {
+public class Diversity implements Measurement<Real> {
     private static final long serialVersionUID = 7417526206433000209L;
     protected DistanceMeasure distanceMeasure;
     protected CenterInitialisationStrategy populationCenter;
@@ -60,15 +59,18 @@ public class Diversity implements Measurement {
         this.normalisationParameter = other.normalisationParameter;
     }
 
+    @Override
     public Diversity getClone() {
         return new Diversity(this);
     }
 
+    @Override
     public String getDomain() {
         return "R";
     }
 
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         int numberOfEntities = populationBasedAlgorithm.getTopology().size();
 

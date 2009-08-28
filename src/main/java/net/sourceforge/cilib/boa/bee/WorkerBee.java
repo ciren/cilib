@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.boa.bee;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.boa.ABC;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
@@ -67,7 +67,7 @@ public class WorkerBee extends AbstractBee implements HoneyBee {
      */
     @Override
     public void updatePosition() {
-        ABC algorithm = (ABC) Algorithm.get();
+        ABC algorithm = (ABC) AbstractAlgorithm.get();
         HoneyBee target = targetSelectionStrategy.select(algorithm.getWorkerBees());
 
         while (target == this) {

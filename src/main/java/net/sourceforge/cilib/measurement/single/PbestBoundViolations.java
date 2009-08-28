@@ -29,7 +29,6 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -38,27 +37,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author  Andries Engelbrecht
  */
-public class PbestBoundViolations implements Measurement {
+public class PbestBoundViolations implements Measurement<Real> {
     private static final long serialVersionUID = 7547646366505677446L;
-
-    /** Creates a new instance of PbestBoundViolations. */
-    public PbestBoundViolations() {
-    }
-
-    /**
-     * Copy constructor. Creates a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public PbestBoundViolations(PbestBoundViolations copy) {
-
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public PbestBoundViolations getClone() {
-        return new PbestBoundViolations(this);
+        return this;
     }
 
     /**
@@ -73,7 +60,7 @@ public class PbestBoundViolations implements Measurement {
      * {@inheritDoc}
      */
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 
         int numberOfViolations = 0;

@@ -81,12 +81,6 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
     }
 
     @Override
-    public void reset() {
-        super.reset();
-        context.reset();
-    }
-
-    @Override
     public OptimisationSolution getBestSolution() {
         return new OptimisationSolution(context.getCandidateSolution().getClone(), context.getFitness());
     }
@@ -150,23 +144,6 @@ public class SplitCooperativeAlgorithm extends MultiPopulationBasedAlgorithm imp
         context.setFitness(fitness);
     }
 
-/*    public Iterator<Algorithm> iterator() {
-        if(populationIterator == null)
-            throw new InitialisationException("The PopulationIterator has not been initialised yet.");
-        return populationIterator.clone();
-    }
-
-    public Iterator getPopulationtIterator() {
-        return populationIterator;
-    }
-
-    public void setPopulationIterator(PopulationIterator iterator) {
-        if(subPopulationsAlgorithms == null)
-            throw new InitialisationException("The populations (ArrayList<Algorithms>) have not been initialised yet.");
-        populationIterator = iterator;
-        populationIterator.setPopulations(subPopulationsAlgorithms);
-    }
-*/
     public FitnessUpdateStrategy getFitnessUpdateStrategy() {
         return fitnessUpdateStrategy;
     }

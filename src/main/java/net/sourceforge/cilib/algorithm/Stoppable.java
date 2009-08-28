@@ -19,34 +19,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.measurement.generic;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.Real;
+package net.sourceforge.cilib.algorithm;
+
+import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
 /**
  *
- * @author  Edwin Peer
  */
-public class PercentageComplete implements Measurement<Real> {
-    private static final long serialVersionUID = 552272710698138639L;
+public interface Stoppable {
 
-    @Override
-    public PercentageComplete getClone() {
-        return this;
-    }
+    /**
+     * Add a stopping condition
+     * @param condition The stopping condition to add.
+     */
+    public void addStoppingCondition(StoppingCondition condition);
 
-    @Override
-    public String getDomain() {
-        return "R(0,1)";
-    }
-
-    @Override
-    public Real getValue(Algorithm algorithm) {
-        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
-        return new Real(alg.getPercentageComplete());
-    }
-
+    /**
+     * Remove the specified stopping condition.
+     * @param condition The stopping condition to remove.
+     */
+    public void removeStoppingCondition(StoppingCondition condition);
+    
 }

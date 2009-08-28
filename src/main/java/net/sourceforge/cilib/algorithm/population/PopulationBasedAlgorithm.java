@@ -21,50 +21,21 @@
  */
 package net.sourceforge.cilib.algorithm.population;
 
-import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.Stoppable;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
-import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
  * Base class for all algorithms that manage a collection of
  * {@linkplain Entity entities} in some manner.
  */
-public abstract class PopulationBasedAlgorithm extends Algorithm {
+public interface PopulationBasedAlgorithm extends Algorithm, Stoppable {
 
-    protected PopulationBasedAlgorithm() {
-    }
-
-    protected PopulationBasedAlgorithm(PopulationBasedAlgorithm copy) {
-        super(copy);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public abstract PopulationBasedAlgorithm getClone();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected abstract void algorithmIteration();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract OptimisationSolution getBestSolution();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract List<OptimisationSolution> getSolutions();
+    public PopulationBasedAlgorithm getClone();
 
     /**
      * Get the current collection (population) of {@linkplain Entity entities}.

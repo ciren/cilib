@@ -28,7 +28,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Calculates the swarm diameter as the maximum euclidean distance between any
@@ -38,31 +37,21 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author  Andries Engelbrecht
  */
-public class Diameter implements Measurement {
+public class Diameter implements Measurement<Real> {
     private static final long serialVersionUID = 5136996282460480831L;
 
-    /** Creates a new instance of SwarmDiameter. */
-    public Diameter() {
-    }
-
-    /**
-     * Copy constructor. Creates a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public Diameter(Diameter copy) {
-
-    }
-
     /**
      * {@inheritDoc}
      */
+    @Override
     public Diameter getClone() {
-        return new Diameter(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "R";
     }
@@ -70,7 +59,8 @@ public class Diameter implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm popAlg = (PopulationBasedAlgorithm) algorithm;
         Topology<? extends Entity> topology = popAlg.getTopology();
 

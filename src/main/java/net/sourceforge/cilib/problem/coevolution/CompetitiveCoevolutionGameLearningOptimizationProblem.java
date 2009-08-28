@@ -24,7 +24,7 @@ package net.sourceforge.cilib.problem.coevolution;
 
 import java.util.List;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.CoevolutionAlgorithm;
 import net.sourceforge.cilib.coevolution.CompetitiveCoevolutionIterationStrategy;
@@ -35,6 +35,7 @@ import net.sourceforge.cilib.coevolution.score.EntityScoreboard;
 import net.sourceforge.cilib.entity.AbstractEntity;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
+import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Blackboard;
@@ -80,7 +81,7 @@ public class CompetitiveCoevolutionGameLearningOptimizationProblem extends
 		else if(evaluationRound > fitnessCalculation.getAmountHistoricGames()){
 			scoreBoard.removeScores(evaluationRound - fitnessCalculation.getAmountHistoricGames());
 		}
-		CoevolutionAlgorithm ca = (CoevolutionAlgorithm)Algorithm.getAlgorithmList().get(0);
+		CoevolutionAlgorithm ca = (CoevolutionAlgorithm)AbstractAlgorithm.getAlgorithmList().get(0);
 		CoevolutionCompetitorList entities = ((CompetitiveCoevolutionIterationStrategy)ca.getCoevolutionIterationStrategy()).selectOpponents(populationID, ca);
 		for(int i = 0; i < entities.getNumberOfEntitesPerList(); ++i)
 		{

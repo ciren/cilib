@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
@@ -60,7 +61,7 @@ public class ExponentiallyIncreasingControlParameter extends BoundedControlParam
      */
     @Override
     public void update() {
-        double result = Math.exp(Algorithm.get().getPercentageComplete() - 1);
+        double result = Math.exp(AbstractAlgorithm.get().getPercentageComplete() - 1);
         this.parameter.setReal(result);
     }
 

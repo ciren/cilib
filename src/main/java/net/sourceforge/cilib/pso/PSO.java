@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.pso;
 
-import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
 
@@ -97,14 +96,6 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
     @Override
     public PSO getClone() {
         return new PSO(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void reset() {
-        topology.clear();
     }
 
     /**

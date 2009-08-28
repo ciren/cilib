@@ -25,36 +25,26 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.MultistartOptimisationAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
  * @author  Edwin Peer
  */
-public class Restarts implements Measurement {
+public class Restarts implements Measurement<Int> {
     private static final long serialVersionUID = 3990735185462072444L;
 
-    /** Creates a new instance of Restarts. */
-    public Restarts() {
-    }
-
-    /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public Restarts(Restarts copy) {
-    }
-
     /**
      * {@inheritDoc}
      */
+    @Override
     public Restarts getClone() {
-        return new Restarts(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "Z";
         //return "T";
@@ -63,7 +53,8 @@ public class Restarts implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Int getValue(Algorithm algorithm) {
         MultistartOptimisationAlgorithm m = (MultistartOptimisationAlgorithm) algorithm;
 
         return new Int(m.getRestarts());

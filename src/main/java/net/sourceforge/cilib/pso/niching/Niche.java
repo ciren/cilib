@@ -73,7 +73,8 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
         this.mainSwarm.setOptimisationProblem(getOptimisationProblem());
 
-        this.mainSwarm.initialise();
+//        this.mainSwarm.initialise();
+        this.mainSwarm.performInitialisation();
     }
 
 

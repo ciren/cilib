@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import java.util.ArrayList;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
@@ -78,7 +78,7 @@ public class DEPositionUpdateStrategy implements PositionUpdateStrategy {
             ArrayList<Vector> positions = new ArrayList<Vector>(3);
 
             //select three random individuals, all different and different from particle
-            PSO pso = (PSO) Algorithm.get();
+            PSO pso = (PSO) AbstractAlgorithm.get();
 
             /*Iterator k = pso.getTopology().iterator();
             int counter = 0;

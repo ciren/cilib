@@ -21,50 +21,54 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.functions.continuous.unconstrained.Spherical;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
-import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  *
  * @author Gary Pampara
  */
+@RunWith(JMock.class)
 public class FitnessEvaluationsTest {
+    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void result() {
-        FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
-        problem.setFunction(new Spherical());
+        final PopulationBasedAlgorithm pba = context.mock(PopulationBasedAlgorithm.class);
+        final OptimisationProblem problem = context.mock(OptimisationProblem.class);
 
-        PSO pso = new PSO();
-        pso.setOptimisationProblem(problem);
-        pso.addStoppingCondition(new MaximumIterations(1));
-
-        pso.initialise();
-        pso.performIteration();
+        context.checking(new Expectations() {{
+            exactly(2).of(pba).getOptimisationProblem(); will(returnValue(problem));
+            exactly(2).of(problem).getFitnessEvaluations(); will(onConsecutiveCalls(returnValue(10), returnValue(20)));
+        }});
 
         Measurement m = new FitnessEvaluations();
-        Assert.assertEquals(20, ((Int) m.getValue(pso)).getInt());
+        Int i1 = (Int) m.getValue(pba);
+        Int i2 = (Int) m.getValue(pba);
 
-        pso.performIteration();
-        Assert.assertEquals(40, ((Int) m.getValue(pso)).getInt());
+        Assert.assertThat(i1.getInt(), is(10));
+        Assert.assertThat(i2.getInt(), is(20));
     }
 
     @Test
     public void testFitnessEvaluationsDomain() throws ParseException {
         Measurement m = new FitnessEvaluations();
-
         Vector vector = (Vector) DomainParser.parse(m.getDomain());
 
         assertEquals(1, vector.getDimension());

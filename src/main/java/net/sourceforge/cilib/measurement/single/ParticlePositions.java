@@ -28,38 +28,26 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author Edwin Peer
  */
-public class ParticlePositions implements Measurement {
+public class ParticlePositions implements Measurement<StringType> {
     private static final long serialVersionUID = -7891715753767819344L;
 
     /**
-     * Default constructor.
-     */
-    public ParticlePositions() {
-    }
-
-    /**
-     * Copy constructor.
-     * @param copy The instance to copy.
-     */
-    public ParticlePositions(ParticlePositions copy) {
-    }
-
-    /**
      * {@inheritDoc}
      */
+    @Override
     public ParticlePositions getClone() {
-        return new ParticlePositions(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "T";
     }
@@ -67,14 +55,15 @@ public class ParticlePositions implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public StringType getValue(Algorithm algorithm) {
         StringBuilder tmp = new StringBuilder();
 
         PSO pso = (PSO) algorithm;
         //Iterator i = pso.getTopology().particles();
         Iterator<Particle> i = pso.getTopology().iterator();
         while (i.hasNext()) {
-            Particle particle = (Particle) i.next();
+            Particle particle = i.next();
             tmp.append("\nParticle: ");
             //tmp.append(particle.getId());
             tmp.append(" Current Fitness: ");

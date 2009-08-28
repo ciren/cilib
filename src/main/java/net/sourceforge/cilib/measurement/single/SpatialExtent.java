@@ -28,7 +28,6 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ChebyshevDistanceMeasure;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -48,25 +47,21 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * </li></ul></p>
  * @author Andries Engelbrecht
  */
-public class SpatialExtent implements Measurement {
+public class SpatialExtent implements Measurement<Real> {
     private static final long serialVersionUID = -6846992935896199456L;
 
-    public SpatialExtent() {
-
-    }
-
-    public SpatialExtent(SpatialExtent copy) {
-    }
-
+    @Override
     public SpatialExtent getClone() {
-        return new SpatialExtent(this);
+        return this;
     }
 
+    @Override
     public String getDomain() {
         return "R";
     }
 
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Real getValue(Algorithm algorithm) {
 
         /*PSO pso = (PSO) Algorithm.get();
 
