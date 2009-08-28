@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.multiswarm;
 
 import java.util.ListIterator;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
@@ -43,15 +44,25 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  * @author Julien Duhain
  *
  */
-public class SelfAdaptingMultiSwarmIterationStrategy extends
-AbstractIterationStrategy<MultiSwarm> {
-
-    /**
-     *
-     */
+public class SelfAdaptingMultiSwarmIterationStrategy extends AbstractIterationStrategy<MultiSwarm> {
     private static final long serialVersionUID = -5097047091224569980L;
     private double dynamicConvergenceRadius = 5;//reinitialise swarms that are within each other's exclusion radius
     private int nexcess = 3;//remove the worst non converged swarm if more than nexcess non converged swarms
+
+    public SelfAdaptingMultiSwarmIterationStrategy(){
+        super();
+    }
+
+    public SelfAdaptingMultiSwarmIterationStrategy(SelfAdaptingMultiSwarmIterationStrategy copy){
+        super();
+        this.dynamicConvergenceRadius = copy.dynamicConvergenceRadius;
+        this.nexcess = copy.nexcess;
+    }
+
+    @Override
+    public SelfAdaptingMultiSwarmIterationStrategy getClone() {
+        return new SelfAdaptingMultiSwarmIterationStrategy(this);
+    }
 
     public int getNexcess() {
         return nexcess;
@@ -69,33 +80,18 @@ AbstractIterationStrategy<MultiSwarm> {
         this.dynamicConvergenceRadius = exlusionRadius;
     }
 
-    public SelfAdaptingMultiSwarmIterationStrategy(){
-        super();
-    }
-
-    public SelfAdaptingMultiSwarmIterationStrategy(SelfAdaptingMultiSwarmIterationStrategy copy){
-        super();
-        this.dynamicConvergenceRadius = copy.dynamicConvergenceRadius;
-        this.nexcess = copy.nexcess;
-    }
-
-    @Override
-    public SelfAdaptingMultiSwarmIterationStrategy getClone() {
-        return new SelfAdaptingMultiSwarmIterationStrategy(this);
-    }
-
     /**
      * Calculates the dynamic convergence radius that is used to determine both
      * exclusion and convergence
      */
     double calculateRadius() {
-        double d = Algorithm.get().getOptimisationProblem().getDomain().getDimension();
+        double d = AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDimension();
         //double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getUpperBound()
         //        - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getLowerBound();
-        double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
-        - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
+        double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
+        - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
 
-        double M = ((MultiSwarm) (Algorithm.get())).getPopulations().size();
+        double M = ((MultiSwarm) (AbstractAlgorithm.get())).getPopulations().size();
         return X / (2 * Math.pow(M, 1 / d));
 
     }
@@ -173,7 +169,6 @@ AbstractIterationStrategy<MultiSwarm> {
     }
 
     public void reInitialise(PSO algorithm) {
-        algorithm.reset();
         algorithm.performInitialisation();
     }
 }

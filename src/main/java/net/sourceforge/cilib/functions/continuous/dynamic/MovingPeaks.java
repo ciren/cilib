@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.functions.continuous.dynamic;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.DynamicFunction;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.algorithm.Algorithm;
 
 /**
  * @author csbmcd
@@ -294,10 +294,10 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     public double evaluateMovpeaks(double[] gen) {
         double maximum = -Double.MAX_VALUE;
         if ((this.changeFrequency > 0)
-                && (Algorithm.get().getIterations() % this.changeFrequency == 0)
-                && (changeOnlyOnce != Algorithm.get().getIterations())) {
+                && (AbstractAlgorithm.get().getIterations() % this.changeFrequency == 0)
+                && (changeOnlyOnce != AbstractAlgorithm.get().getIterations())) {
             this.changePeaks();
-            changeOnlyOnce = Algorithm.get().getIterations();
+            changeOnlyOnce = AbstractAlgorithm.get().getIterations();
         }// if
 
         maximum = dummyEval(gen);

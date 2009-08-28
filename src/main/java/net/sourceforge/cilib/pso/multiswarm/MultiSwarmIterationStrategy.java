@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.multiswarm;
 
 import java.util.ListIterator;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.population.AbstractIterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
@@ -75,6 +75,11 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
         this.exclusionRadius = copy.exclusionRadius;
     }
 
+    @Override
+    public MultiSwarmIterationStrategy getClone() {
+        return new MultiSwarmIterationStrategy(this);
+    }
+
     public double getExclusionRadius() {
         return exclusionRadius;
     }
@@ -84,12 +89,12 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
     }
 
     double calculateRadius() {
-        double d = Algorithm.get().getOptimisationProblem().getDomain().getDimension();
+        double d = AbstractAlgorithm.get().getOptimisationProblem().getDomain().getDimension();
     //    double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getUpperBound()
     //            - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).getNumeric(0).getBounds().getLowerBound();
-        double X = ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
-                    - ((Vector) Algorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
-        double M = ((MultiSwarm) (Algorithm.get())).getPopulations().size();
+        double X = ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getUpperBound()
+                    - ((Vector) AbstractAlgorithm.get().getOptimisationProblem().getDomain().getBuiltRepresenation()).get(0).getBounds().getLowerBound();
+        double M = ((MultiSwarm) (AbstractAlgorithm.get())).getPopulations().size();
         return X / (2 * Math.pow(M, 1 / d));
     }
 
@@ -153,12 +158,7 @@ public class MultiSwarmIterationStrategy extends AbstractIterationStrategy<Multi
     }
 
     public void reInitialise(PSO algorithm){
-        algorithm.reset();
         algorithm.performInitialisation();
     }
 
-    @Override
-    public MultiSwarmIterationStrategy  getClone() {
-        return new MultiSwarmIterationStrategy(this);
-    }
 }

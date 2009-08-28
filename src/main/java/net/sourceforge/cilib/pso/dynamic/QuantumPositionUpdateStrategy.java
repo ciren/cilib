@@ -23,7 +23,7 @@ package net.sourceforge.cilib.pso.dynamic;
 
 import java.util.Arrays;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
@@ -94,7 +94,7 @@ public class QuantumPositionUpdateStrategy implements PositionUpdateStrategy {
             //multidimensional sphere determined by the quantum radius.
 
             Vector position = (Vector) particle.getPosition();
-            nucleus = (Vector) Algorithm.get().getBestSolution().getPosition();
+            nucleus = (Vector) AbstractAlgorithm.get().getBestSolution().getPosition();
 
             double distance = Math.pow(this.radius,2); //square of the radius
             int dimensions = position.getDimension();

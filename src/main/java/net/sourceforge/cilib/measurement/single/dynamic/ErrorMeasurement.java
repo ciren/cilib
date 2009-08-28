@@ -22,6 +22,7 @@
 
 package net.sourceforge.cilib.measurement.single.dynamic;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -37,24 +38,23 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public class ErrorMeasurement implements Measurement {
-
     private static final long serialVersionUID = 2632671785674388015L;
 
-    public ErrorMeasurement() {}
-    public ErrorMeasurement(ErrorMeasurement rhs) {}
-
+    @Override
     public String getDomain() {
         return "R";
     }
 
+    @Override
     public Type getValue(Algorithm algorithm) {
         double n = algorithm.getBestSolution().getFitness().getValue();
-           ContinuousFunction func = (ContinuousFunction)((FunctionMaximisationProblem)(Algorithm.get().getOptimisationProblem())).getFunction();
-           Real err = new Real((Double)func.getMaximum() - n);
+           ContinuousFunction func = ((FunctionMaximisationProblem) (AbstractAlgorithm.get().getOptimisationProblem())).getFunction();
+           Real err = new Real(func.getMaximum() - n);
         return err;
     }
+
     @Override
     public Measurement getClone() {
-        return new ErrorMeasurement(this);
+        return this;
     }
 }

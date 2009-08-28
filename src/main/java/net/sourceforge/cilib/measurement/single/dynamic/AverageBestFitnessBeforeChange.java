@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -70,7 +71,7 @@ public class AverageBestFitnessBeforeChange extends DynamicMeasurement {
     public Type getValue(Algorithm algorithm) {
         double n = algorithm.getBestSolution().getFitness().getValue();
 
-        if((Algorithm.get().getIterations()+1)%cycleSize == 0){
+        if((AbstractAlgorithm.get().getIterations()+1)%cycleSize == 0){
             avg = (avg * cycleNr + n) / (cycleNr + 1);
             cycleNr++;
         }

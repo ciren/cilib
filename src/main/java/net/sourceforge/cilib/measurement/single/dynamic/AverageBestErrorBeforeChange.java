@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
@@ -70,10 +71,10 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement{
     }
 
     public synchronized Type getValue(Algorithm algorithm) {
-        if((Algorithm.get().getIterations()+1)%cycleSize == 0){
+        if((AbstractAlgorithm.get().getIterations()+1)%cycleSize == 0){
             double n = algorithm.getBestSolution().getFitness().getValue();
-            ContinuousFunction func = (ContinuousFunction)((FunctionMaximisationProblem)(algorithm.getOptimisationProblem())).getFunction();
-            Real err = new Real((Double)func.getMaximum() - n);
+            ContinuousFunction func = ((FunctionMaximisationProblem) (algorithm.getOptimisationProblem())).getFunction();
+            Real err = new Real(func.getMaximum() - n);
 
             avg = (avg * this.cycleNr + err.getReal()) / (this.cycleNr + 1);
             this.cycleNr++;

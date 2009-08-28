@@ -34,15 +34,10 @@ import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
 
-
-
 /**
- * @author Julien Duhain
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class MultiSwarm extends MultiPopulationBasedAlgorithm{
+public class MultiSwarm extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = -3859431217295779546L;
     protected  IterationStrategy<MultiSwarm> multiSwarmsIterationStrategy;
     public MultiSwarm() {
@@ -80,6 +75,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm{
      * initialises every population.
      *
      */
+    @Override
     public void performInitialisation()    {
         OptimisationProblem problem = getOptimisationProblem();//getCoevolutionOptimisationProblem();
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
@@ -88,6 +84,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm{
         }//for
     }
 
+    @Override
     public OptimisationSolution getBestSolution() {
         OptimisationSolution bestSolution = subPopulationsAlgorithms.get(0).getBestSolution();
         for (PopulationBasedAlgorithm currentAlgorithm : subPopulationsAlgorithms) {
@@ -101,10 +98,12 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm{
      * Can be useful to compare how the different populations are performing.
      * @return a list of the best solution in each population.
      */
+    @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> solutions = new ArrayList<OptimisationSolution>();
         for (PopulationBasedAlgorithm currentAlgorithm : this.getPopulations()) {
-             solutions.addAll(currentAlgorithm.getSolutions());
+             for (OptimisationSolution solution : currentAlgorithm.getSolutions())
+                 solutions.add(solution);
         }
         return solutions;
     }
@@ -127,8 +126,7 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm{
      * @see net.sourceforge.cilib.Problem.OptimisationProblem#getFitnessEvaluations()
      */
     public int getFitnessEvaluations() {
-        // TODO Auto-generated method stub
-        return 0;
+        throw new UnsupportedOperationException("Implementation still required.");
     }
 
     public DomainRegistry getDomain() {
@@ -136,18 +134,15 @@ public class MultiSwarm extends MultiPopulationBasedAlgorithm{
     }
 
     public DomainRegistry getBehaviouralDomain() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Implementation still required.");
     }
 
     public DataSetBuilder getDataSetBuilder() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Implementation still required.");
     }
 
     public void setDataSetBuilder(DataSetBuilder dataSet) {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Implementation still required.");
     }
 
     public void setPopulationSize(int i) {
