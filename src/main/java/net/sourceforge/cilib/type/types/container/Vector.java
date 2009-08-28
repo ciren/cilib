@@ -28,14 +28,13 @@ import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Randomizable;
 import net.sourceforge.cilib.type.types.Resetable;
 
 /**
  *
  * @author gpampara
  */
-public class Vector extends AbstractList<Numeric> implements VectorMath, Resetable, Randomizable {
+public class Vector extends AbstractList<Numeric> implements VectorMath, Resetable {
     private static final long serialVersionUID = -4853190809813810272L;
 
     private List<Numeric> components;

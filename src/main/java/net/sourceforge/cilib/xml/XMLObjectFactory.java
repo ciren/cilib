@@ -331,16 +331,16 @@ public class XMLObjectFactory {
     }
 
     private String getParameterString(Object[] parameters) {
+        StringBuilder builder = new StringBuilder();
         boolean comma = false;
-        String parameterString = "";
         for (int i = 0; i < parameters.length; ++i) {
             if (comma) {
-                parameterString += ", ";
+                builder.append(", ");
             }
-            parameterString += parameters[i].getClass().getName();
+            builder.append(parameters[i].getClass().getName());
             comma = true;
         }
-        return parameterString;
+        return builder.toString();
     }
 
     private void invokeMethod(Element xml, Object target, String methodName, Object[] parameters) {

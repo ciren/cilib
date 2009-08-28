@@ -77,7 +77,7 @@ public class StringType implements Type {
      * @param newString The value to be contained by the {@linkplain StringType}.
      */
     public void setString(String newString) {
-        this.string = new String(newString);
+        this.string = newString;
     }
 
     /**

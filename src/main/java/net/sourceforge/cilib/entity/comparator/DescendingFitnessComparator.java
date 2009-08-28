@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity.comparator;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import net.sourceforge.cilib.entity.Entity;
@@ -34,7 +35,8 @@ import net.sourceforge.cilib.problem.Fitness;
  * @param <E> The {@code Entity} type.
  * @author Gary Pampara
  */
-public class DescendingFitnessComparator<E extends Entity> implements Comparator<E> {
+public class DescendingFitnessComparator<E extends Entity> implements Comparator<E>, Serializable {
+    private static final long serialVersionUID = 6320495046411962803L;
 
     /**
      * Compare the {@linkplain Entity} objects returning the desired ordering.

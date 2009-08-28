@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity.comparator;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.problem.Fitness;
@@ -32,7 +33,8 @@ import net.sourceforge.cilib.problem.Fitness;
  * @see SocialEntity#getSocialBestFitness()
  * @author gpampara
  */
-public class SocialBestFitnessComparator<E extends SocialEntity> implements Comparator<E> {
+public class SocialBestFitnessComparator<E extends SocialEntity> implements Comparator<E>, Serializable {
+    private static final long serialVersionUID = 9035734190908368266L;
 
     /**
      * {@inheritDoc}

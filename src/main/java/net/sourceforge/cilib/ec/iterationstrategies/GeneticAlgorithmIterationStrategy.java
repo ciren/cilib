@@ -129,7 +129,6 @@ public class GeneticAlgorithmIterationStrategy extends AbstractIterationStrategy
         }
 
         offspring.clear();
-        offspring = null;
     }
 
     /**

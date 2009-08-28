@@ -46,12 +46,6 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
     public Entity getClone();
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Entity o);
-
-    /**
      * Get the candidate solution of the entity. The contents will depend on the subclass.
      * Eg. genotypes for Individual
      *     position for Particle

@@ -43,6 +43,7 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean equals(Object other) {
         if (this == other)
             return true;
@@ -59,6 +60,7 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
     /**
      * {@inheritDoc}
      */
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + this.bounds.hashCode();
@@ -142,11 +144,6 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
      * @param value The value to set.
      */
     public abstract void setReal(String value);
-
-    /**
-     * {@inheritDoc}
-     */
-    public abstract int compareTo(Numeric other);
 
     @Override
     public Bounds getBounds() {

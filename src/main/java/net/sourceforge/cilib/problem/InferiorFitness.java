@@ -66,15 +66,12 @@ public final class InferiorFitness implements Fitness {
     /**
      * Returns -1, unless other is also the <code>InferiorFitness</code> instance.
      *
+     * @param other The {@code Fitness} to compare.
      * @return 0 if other is <code>InferiorFitness</code> instance, -1 otherwise.
      */
+    @Override
     public int compareTo(Fitness other) {
-        if (this == other) {
-            return 0;
-        }
-        else {
-            return -1;
-        }
+        return (this == other) ? 0 : -1;
     }
 
     /**

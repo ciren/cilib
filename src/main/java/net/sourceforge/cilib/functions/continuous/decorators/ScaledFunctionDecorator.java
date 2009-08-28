@@ -66,9 +66,10 @@ public class ScaledFunctionDecorator extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Double getMinimum() {
         // adds the value of the verticalShift to the original function minimum
-        return new Double((function.getMinimum()).doubleValue() * verticalScale);
+        return Double.valueOf(function.getMinimum().doubleValue() * verticalScale);
     }
 
     /**

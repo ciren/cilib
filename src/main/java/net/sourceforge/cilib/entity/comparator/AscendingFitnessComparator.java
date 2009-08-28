@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity.comparator;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import net.sourceforge.cilib.entity.Entity;
@@ -31,9 +32,11 @@ import net.sourceforge.cilib.problem.Fitness;
  * This comparator results in a ascending order. This ordering is effectively
  * an ordering of entity instances from the "least fit" to the "most fit".
  *
+ * @param <E> The {@code Entity} type.
  * @author Gary Pampara
  */
-public class AscendingFitnessComparator<E extends Entity> implements Comparator<E> {
+public class AscendingFitnessComparator<E extends Entity> implements Comparator<E>, Serializable {
+    private static final long serialVersionUID = -4303050310093446507L;
 
     /**
      * Compare the {@linkplain Entity} objects returning the desired ordering.

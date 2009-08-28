@@ -121,8 +121,11 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
      * @return A <code>String</code> representing the <code>Type</code> in domain notation.
      */
     public String getRepresentation() {
-        String representation = "", current = "", previous = "";
+        StringBuilder representation = new StringBuilder();
         int dimension = 1;
+
+        String current = "";
+        String previous = "";
 
         for (int i = 0; i < size(); i++) {
             current = Types.getRepresentation(this.get(i));
@@ -131,13 +134,13 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
             }
             else {    //the else part will always happen for the first element
                 if (dimension > 1) {
-                    representation += "^" + String.valueOf(dimension);
+                    representation.append("^").append(String.valueOf(dimension));
                     dimension = 1;
                 }
                 if (i > 0) {        //Puts a ',' before the 'current' element; only when 'current' is not the first element
-                        representation += ',';
+                        representation.append(',');
                 }
-                representation += current;
+                representation.append(current);
             }
             //remember the previous element, so that we can compare
             previous = current;
@@ -145,11 +148,11 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
 
         //in case the last couple of elements are the same
         if (dimension > 1) {
-            representation += "^" + String.valueOf(dimension);
+            representation.append("^").append(String.valueOf(dimension));
             dimension = 1;
         }
 
-        return representation;
+        return representation.toString();
     }
 
     /**
