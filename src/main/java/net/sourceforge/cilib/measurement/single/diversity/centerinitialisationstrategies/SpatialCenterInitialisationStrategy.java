@@ -31,7 +31,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * TODO: Complete this javadoc.
  */
-public class SpatialCenterInitialisationStrategy extends CenterInitialisationStrategy {
+public class SpatialCenterInitialisationStrategy implements CenterInitialisationStrategy {
 
     @Override
     public Vector getCenter() {

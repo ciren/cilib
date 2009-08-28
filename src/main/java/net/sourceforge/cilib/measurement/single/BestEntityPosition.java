@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class BestEntityPosition implements Measurement {
+public class BestEntityPosition implements Measurement<StringType> {
     private static final long serialVersionUID = 5808686984197365658L;
 
     /**
@@ -55,7 +55,7 @@ public class BestEntityPosition implements Measurement {
      * {@inheritDoc}
      */
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public StringType getValue(Algorithm algorithm) {
         Vector solution = (Vector) algorithm.getBestSolution().getPosition();
 
         StringType t = new StringType();

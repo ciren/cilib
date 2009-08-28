@@ -23,8 +23,9 @@ package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
+import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -43,24 +44,24 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * </ol>
  * @author Theuns Cloete
  */
-public class NumberOfClustersFormed implements Measurement {
+public class NumberOfClustersFormed implements Measurement<Int> {
     private static final long serialVersionUID = 2174807313995885918L;
 
-    public NumberOfClustersFormed() {
-    }
-
-    public NumberOfClustersFormed(NumberOfClustersFormed rhs) {
-    }
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public NumberOfClustersFormed getClone() {
-        return new NumberOfClustersFormed(this);
+        return this;
     }
 
+    @Override
     public String getDomain() {
         return "Z";
     }
 
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Int getValue(Algorithm algorithm) {
         ClusteringUtils helper = ClusteringUtils.get();
         Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
         helper.arrangeClustersAndCentroids(centroids);

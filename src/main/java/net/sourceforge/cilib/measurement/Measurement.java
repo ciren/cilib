@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.measurement;
 
-
-import java.io.Externalizable;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.util.Cloneable;
@@ -32,10 +30,11 @@ import net.sourceforge.cilib.util.Cloneable;
  * All measurements must implement this interface. The measurment must return
  * the value of what it is measuring given the algorithm that it is measuring.
  *
+ * @param <E> The return {@code Type}.
  * @author Edwin Peer
  * @author Gary Pampara
  */
-public interface Measurement extends Cloneable {
+public interface Measurement<E extends Type> extends Cloneable {
 
     /**
      * {@inheritDoc}
@@ -56,5 +55,5 @@ public interface Measurement extends Cloneable {
      * @param algorithm The algorithm to obtain the measurement from.
      * @return The <tt>Type</tt> representing the value of the measurement.
      */
-    public Type getValue(Algorithm algorithm);
+    public E getValue(Algorithm algorithm);
 }

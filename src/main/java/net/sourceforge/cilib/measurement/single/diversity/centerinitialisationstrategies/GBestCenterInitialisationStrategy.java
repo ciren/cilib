@@ -28,7 +28,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 /**
  * TODO: Complete this javadoc.
  */
-public class GBestCenterInitialisationStrategy extends CenterInitialisationStrategy {
+public class GBestCenterInitialisationStrategy implements CenterInitialisationStrategy {
 
     @Override
     public Vector getCenter() {

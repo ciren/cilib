@@ -29,7 +29,6 @@ import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -52,26 +51,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * to type-cast this back to a double?
  */
 
-public class NormalisedDiversity implements Measurement {
+public class NormalisedDiversity implements Measurement<Real> {
     private static final long serialVersionUID = 93751729329230145L;
 
     /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public NormalisedDiversity(NormalisedDiversity copy) {
-    }
-
-    /**
      * {@inheritDoc}
      */
+    @Override
     public NormalisedDiversity getClone() {
-        return new NormalisedDiversity(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "R";
     }
@@ -79,8 +73,7 @@ public class NormalisedDiversity implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
-
+    public Real getValue(Algorithm algorithm) {
         PSO pso = (PSO) algorithm;
 
         int numberParticles = pso.getTopology().size();

@@ -31,16 +31,21 @@ import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author Gary Pampara
  */
+@RunWith(JMock.class)
 public class PercentageCompleteTest {
+    private Mockery context = new JUnit4Mockery();
 
     @Test
     public void value() {
@@ -53,15 +58,19 @@ public class PercentageCompleteTest {
             pso.performIteration();
 
         PercentageComplete percentageComplete = new PercentageComplete();
-        Assert.assertEquals(0.1, ((Real) percentageComplete.getValue(pso)).getReal(), 0.001);
+        Assert.assertEquals(0.1, percentageComplete.getValue(pso).getReal(), 0.001);
     }
 
     @Test
     public void resultType() {
-        PSO pso = new PSO();
-        PercentageComplete percentageComplete = new PercentageComplete();
-
-        Assert.assertThat(percentageComplete.getValue(pso), is(Real.class));
+//        final Algorithm algorithm = context.mock(Algorithm.class);
+//
+//        context.checking(new Expectations() {{
+////            oneOf(algorithm).
+//        }});
+//
+//        PercentageComplete percentageComplete = new PercentageComplete();
+//        Assert.assertThat(percentageComplete.getValue(pso), is(Real.class));
     }
 
     @Test

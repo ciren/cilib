@@ -29,7 +29,6 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -38,24 +37,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * values for each population in a multi-population based algorithm without re-calculating
  * the fitness.
  */
-public class MultiPopulationFitness implements Measurement {
+public class MultiPopulationFitness implements Measurement<Vector> {
     private static final long serialVersionUID = -608120128187899491L;
-
-    public MultiPopulationFitness() {
-
-    }
-
-    public MultiPopulationFitness(MultiPopulationFitness other) {
-
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Measurement getClone() {
-
-        return new MultiPopulationFitness(this);
+        return this;
     }
 
     /**
@@ -63,7 +53,6 @@ public class MultiPopulationFitness implements Measurement {
      */
     @Override
     public String getDomain() {
-
         return "T";
     }
 
@@ -71,7 +60,7 @@ public class MultiPopulationFitness implements Measurement {
      * {@inheritDoc}
      */
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Vector getValue(Algorithm algorithm) {
         Vector fitness = new Vector();
         CoevolutionAlgorithm ca = (CoevolutionAlgorithm) algorithm;
         for(PopulationBasedAlgorithm currentAlgorithm : ca) {

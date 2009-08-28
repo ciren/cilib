@@ -26,7 +26,6 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -35,28 +34,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author  Andries Engelbrecht
  */
-public class BestPositionBoundViolations implements Measurement {
-
+public class BestPositionBoundViolations implements Measurement<Real> {
     private static final long serialVersionUID = 8707987903689437725L;
-
-    /** Creates a new instance of BestPositionBoundViolations. */
-    public BestPositionBoundViolations() {
-    }
-
-    /**
-     * Copy constructor. Creates a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public BestPositionBoundViolations(BestPositionBoundViolations copy) {
-
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public BestPositionBoundViolations getClone() {
-        return new BestPositionBoundViolations(this);
+        return this;
     }
 
     /**
@@ -71,7 +57,7 @@ public class BestPositionBoundViolations implements Measurement {
      * {@inheritDoc}
      */
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         Vector gbest = (Vector) algorithm.getBestSolution().getPosition();
 
         double numberOfViolations = 0.0;

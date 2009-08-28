@@ -29,7 +29,6 @@ import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MOFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.TypeList;
 
 /**
@@ -40,19 +39,13 @@ import net.sourceforge.cilib.type.types.container.TypeList;
  *
  * @author Wiehann Matthysen
  */
-public class ParetoOptimalFront implements Measurement {
+public class ParetoOptimalFront implements Measurement<TypeList> {
 
     private static final long serialVersionUID = 6695894359780745776L;
 
-    public ParetoOptimalFront() {
-    }
-
-    public ParetoOptimalFront(ParetoOptimalFront copy) {
-    }
-
     @Override
     public ParetoOptimalFront getClone() {
-        return new ParetoOptimalFront(this);
+        return this;
     }
 
     @Override
@@ -61,7 +54,7 @@ public class ParetoOptimalFront implements Measurement {
     }
 
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public TypeList getValue(Algorithm algorithm) {
         TypeList allFitnessValues = new TypeList();
         Collection<OptimisationSolution> solutions = Archive.get();
         for (OptimisationSolution solution : solutions) {

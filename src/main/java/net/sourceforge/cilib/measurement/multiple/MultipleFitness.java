@@ -26,7 +26,6 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -43,42 +42,30 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *             should be used instead
  */
 @Deprecated
-public class MultipleFitness implements Measurement {
+public class MultipleFitness implements Measurement<Vector> {
     private static final long serialVersionUID = -255308745515061075L;
 
     /**
-     * Create an instance of {@linkplain MultipleFitness}.
-     */
-    public MultipleFitness() {
-    }
-
-    /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public MultipleFitness(MultipleFitness copy) {
-    }
-
-    /**
      * {@inheritDoc}
      */
+    @Override
     public MultipleFitness getClone() {
-        return new MultipleFitness(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
-        //return "?^N";
-        //return "R";
         return "T";
     }
 
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Vector getValue(Algorithm algorithm) {
         /*Vector<Comparable> fitnessValues = new Vector<Comparable>();
         Collection<OptimisationSolution> solutions = ((OptimisationAlgorithm) Algorithm.get()).getSolutions();
         for (Iterator i=solutions.iterator(); i.hasNext(); ) {

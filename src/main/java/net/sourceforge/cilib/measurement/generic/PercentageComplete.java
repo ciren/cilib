@@ -25,31 +25,26 @@ import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
  * @author  Edwin Peer
  */
-public class PercentageComplete implements Measurement {
+public class PercentageComplete implements Measurement<Real> {
     private static final long serialVersionUID = 552272710698138639L;
 
-    /** Creates a new instance of PercentageComplete. */
-    public PercentageComplete() {
-    }
-
-    public PercentageComplete(PercentageComplete copy) {
-    }
-
+    @Override
     public PercentageComplete getClone() {
-        return new PercentageComplete(this);
+        return this;
     }
 
+    @Override
     public String getDomain() {
         return "R(0,1)";
     }
 
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Real getValue(Algorithm algorithm) {
         AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
         return new Real(alg.getPercentageComplete());
     }
