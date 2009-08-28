@@ -28,28 +28,26 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * This measurement only works for PSO. Simply find the Entity with the Best person best fitness in the population without re-calculating the fitness.
  * @author leo
- *
  */
-public class StoredFitness implements Measurement {
+public class StoredFitness implements Measurement<Real> {
     private static final long serialVersionUID = 6502384299554109943L;
 
-    public StoredFitness() {
-    }
-
-    public StoredFitness(StoredFitness other) {
-    }
     /**
      * {@inheritDoc}
      */
+    @Override
     public StoredFitness getClone() {
-        return new StoredFitness(this);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getDomain() {
         return "R";
     }
@@ -57,7 +55,8 @@ public class StoredFitness implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Real getValue(Algorithm algorithm) {
         Fitness best = null;
         PopulationBasedAlgorithm currentAlgorithm = (PopulationBasedAlgorithm)algorithm;
         for(Entity e: currentAlgorithm.getTopology().asList()){

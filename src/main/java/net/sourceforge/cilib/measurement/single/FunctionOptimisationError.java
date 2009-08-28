@@ -25,37 +25,39 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
  * @author  Edwin Peer
  */
-public class FunctionOptimisationError implements Measurement {
+public class FunctionOptimisationError implements Measurement<Real> {
     private static final long serialVersionUID = 7708362377448599712L;
 
-    /** Creates a new instance of FunctionMinimisationError. */
-    public FunctionOptimisationError() {
-    }
-
-    public FunctionOptimisationError(FunctionOptimisationError copy) {
-    }
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public FunctionOptimisationError getClone() {
-        return new FunctionOptimisationError(this);
+        return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getDomain() {
         return "R";
-        //return "T";
     }
 
-    public Type getValue(Algorithm algorithm) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Real getValue(Algorithm algorithm) {
         FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
 
         Double d = new Double(problem.getError(algorithm.getBestSolution().getPosition()));
 
-        //return new Double(problem.getError(algorithm.getBestSolution().getPosition()));
         return new Real(d.doubleValue());
     }
 

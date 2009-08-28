@@ -28,7 +28,6 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -47,26 +46,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  */
 
-public class Diversity implements Measurement {
+public class Diversity implements Measurement<Real> {
     private static final long serialVersionUID = -6536136932133521018L;
 
-    public Diversity() {
-    }
-
-    public Diversity(Diversity copy) {
-
-    }
-
+    @Override
     public Diversity getClone() {
-        return new Diversity(this);
+        return this;
     }
 
+    @Override
     public String getDomain() {
         return "R";
     }
 
-    public Type getValue(Algorithm algorithm) {
-
+    @Override
+    public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         int numberOfEntities = populationBasedAlgorithm.getTopology().size();
 

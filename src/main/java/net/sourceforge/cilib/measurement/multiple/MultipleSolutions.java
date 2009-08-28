@@ -25,7 +25,6 @@ package net.sourceforge.cilib.measurement.multiple;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -36,24 +35,21 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *             should be used instead
  */
 @Deprecated
-public class MultipleSolutions implements Measurement {
+public class MultipleSolutions implements Measurement<Vector> {
     private static final long serialVersionUID = 1617755270627315980L;
 
-    public MultipleSolutions() {
-    }
-
-    public MultipleSolutions(MultipleSolutions copy) {
-    }
-
+    @Override
     public MultipleSolutions getClone() {
-        return new MultipleSolutions(this);
+        return this;
     }
 
+    @Override
     public String getDomain() {
         return "T";
     }
 
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Vector getValue(Algorithm algorithm) {
         Vector v = new Vector();
         Iterable<OptimisationSolution> solutions = algorithm.getSolutions();
 

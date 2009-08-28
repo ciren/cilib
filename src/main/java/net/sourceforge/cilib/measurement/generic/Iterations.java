@@ -21,40 +21,29 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
  * @author  Edwin Peer
  */
-public class Iterations implements Measurement {
+public class Iterations implements Measurement<Int> {
     private static final long serialVersionUID = -1689111168205874937L;
 
-    /** Creates a new instance of Iterations. */
-    public Iterations() {
-    }
-
-    /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public Iterations(Iterations copy) {
-    }
-
     /**
      * {@inheritDoc}
      */
+    @Override
     public Iterations getClone() {
-        return new Iterations(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "Z";
     }
@@ -62,7 +51,8 @@ public class Iterations implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Int getValue(Algorithm algorithm) {
         Int i = new Int();
         i.setInt(algorithm.getIterations());
 

@@ -30,7 +30,6 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  * Calculates the average number of particles in the current swarm that
@@ -40,26 +39,15 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author  Andries Engelbrecht
  */
-public class ParticleBoundViolations implements Measurement {
+public class ParticleBoundViolations implements Measurement<Real> {
     private static final long serialVersionUID = 2232130008790333636L;
-
-    /** Creates a new instance of ParticleBoundViolations.*/
-    public ParticleBoundViolations() {
-    }
-
-    /**
-     * Copy constructor. Creates a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public ParticleBoundViolations(ParticleBoundViolations copy) {
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Measurement getClone() {
-        return new ParticleBoundViolations(this);
+        return this;
     }
 
     /**
@@ -74,7 +62,7 @@ public class ParticleBoundViolations implements Measurement {
      * {@inheritDoc}
      */
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
 
         Iterator<? extends Entity> populationIterator = populationBasedAlgorithm.getTopology().iterator();

@@ -27,12 +27,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  *
  */
-public abstract class CenterInitialisationStrategy {
+public interface CenterInitialisationStrategy {
 
     /**
      * Get the population center.
      * @return the populationCenter
      */
-    public abstract Vector getCenter();
+    public Vector getCenter();
 
 }

@@ -21,50 +21,38 @@
  */
 package net.sourceforge.cilib.measurement.single;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Int;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
  * @author  Edwin Peer
  */
-public class FitnessEvaluations implements Measurement {
+public class FitnessEvaluations implements Measurement<Int> {
     private static final long serialVersionUID = 8843539724541605245L;
 
-    /** Creates a new instance of FitnessEvaluations. */
-    public FitnessEvaluations() {
-    }
-
-    /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public FitnessEvaluations(FitnessEvaluations copy) {
-
-    }
-
     /**
      * {@inheritDoc}
      */
+    @Override
     public FitnessEvaluations getClone() {
-        return new FitnessEvaluations(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "Z";
-        //return "T";
     }
 
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Int getValue(Algorithm algorithm) {
         int evaluations = algorithm.getOptimisationProblem().getFitnessEvaluations();
         return new Int(evaluations);
     }

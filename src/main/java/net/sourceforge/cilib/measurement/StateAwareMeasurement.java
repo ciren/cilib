@@ -27,6 +27,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import net.sourceforge.cilib.type.types.Type;
 
 /**
  * <p>
@@ -42,9 +43,10 @@ import java.io.ObjectOutputStream;
  * current algorithm.
  * </p>
  *
+ * @param <E> The {@code Type} type.
  * @author gpampara
  */
-public abstract class StateAwareMeasurement implements Measurement, Externalizable {
+public abstract class StateAwareMeasurement<E extends Type> implements Measurement<E>, Externalizable {
 
     private boolean stateAware;
 

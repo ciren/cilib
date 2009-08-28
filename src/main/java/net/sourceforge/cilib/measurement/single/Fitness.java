@@ -24,37 +24,26 @@ package net.sourceforge.cilib.measurement.single;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
  *
  * @author  Edwin Peer
  */
-public class Fitness implements Measurement {
-
+public class Fitness implements Measurement<Real> {
     private static final long serialVersionUID = 4152219744331703008L;
 
-    /** Creates a new instance of Fitness. */
-    public Fitness() {
-    }
-
-    /**
-     * Copy constructor. Create a copy of the provided instance.
-     * @param copy The instance to copy.
-     */
-    public Fitness(Fitness copy) {
-    }
-
     /**
      * {@inheritDoc}
      */
+    @Override
     public Fitness getClone() {
-        return new Fitness(this);
+        return this;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomain() {
         return "R";
     }
@@ -62,7 +51,8 @@ public class Fitness implements Measurement {
     /**
      * {@inheritDoc}
      */
-    public Type getValue(Algorithm algorithm) {
+    @Override
+    public Real getValue(Algorithm algorithm) {
         double fitness = algorithm.getBestSolution().getFitness().getValue();
         return new Real(fitness);
     }

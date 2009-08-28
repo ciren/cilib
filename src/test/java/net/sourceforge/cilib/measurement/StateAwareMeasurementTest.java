@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.StringType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -50,7 +50,8 @@ public class StateAwareMeasurementTest {
         Assert.assertEquals(expected, measurement2.getValue());
     }
 
-    private class MockStateAwareMeasurement extends StateAwareMeasurement {
+    private class MockStateAwareMeasurement extends StateAwareMeasurement<StringType> {
+        private static final long serialVersionUID = 6211593968000330634L;
         private String value;
 
         @Override
@@ -64,7 +65,7 @@ public class StateAwareMeasurementTest {
         }
 
         @Override
-        public Type getValue(Algorithm algorithm) {
+        public StringType getValue(Algorithm algorithm) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 

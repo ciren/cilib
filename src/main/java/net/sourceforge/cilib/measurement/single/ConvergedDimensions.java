@@ -31,7 +31,6 @@ import net.sourceforge.cilib.type.parser.DomainParser;
 import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -44,7 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author  Andries Engelbrecht
  */
-public class ConvergedDimensions implements Measurement {
+public class ConvergedDimensions implements Measurement<Real> {
     private static final long serialVersionUID = 7322191932976445577L;
 
     private ControlParameter errorThreshold;
@@ -115,7 +114,7 @@ public class ConvergedDimensions implements Measurement {
      * {@inheritDoc}
      */
     @Override
-    public Type getValue(Algorithm algorithm) {
+    public Real getValue(Algorithm algorithm) {
         PopulationBasedAlgorithm populationBasedAlgorithm = (PopulationBasedAlgorithm) algorithm;
         int populationSize = populationBasedAlgorithm.getTopology().size();
 
