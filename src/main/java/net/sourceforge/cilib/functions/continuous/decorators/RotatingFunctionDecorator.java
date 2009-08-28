@@ -117,7 +117,7 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
             alpha += 2*Math.PI/cycleLength;
         }
 
-        return tmp.rotate(alpha);
+        return tmp.rotate(alpha, i, j);
     }
 
     private Matrix createMatrix(){

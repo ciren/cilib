@@ -185,14 +185,16 @@ public final class Matrix implements Type {
     /**
      * Perform a rotation on the provided matrix by the specified {@code angle}.
      * @param angle The rotation angle defined in radians.
+     * @param i
+     * @param j
      * @return A rotated {@code Matrix}, which is a new instance.
      */
-    public Matrix rotate(double angle) {
-        Matrix rotation = new Matrix(2, 2);
-        rotation.contents[0][0] = Math.cos(angle);
-        rotation.contents[0][1] = -Math.sin(angle);
-        rotation.contents[1][0] = Math.sin(angle);
-        rotation.contents[1][1] = Math.cos(angle);
+    public Matrix rotate(double angle, int i, int j) {
+        Matrix rotation = getClone();
+        rotation.contents[i][i] = Math.cos(angle);
+        rotation.contents[j][j] = Math.cos(angle);
+        rotation.contents[i][j] = Math.sin(angle);
+        rotation.contents[j][i] = -Math.sin(angle);
 
         return this.times(rotation);
     }
