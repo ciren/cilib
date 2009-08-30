@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity.comparator;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import net.sourceforge.cilib.entity.Entity;
 
@@ -29,7 +30,8 @@ import net.sourceforge.cilib.entity.Entity;
  * @param <E> The {@code Entity} type.
  * @author gpampara
  */
-public class NaturalOrderFitnessComparator<E extends Entity> implements Comparator<E> {
+public class NaturalOrderFitnessComparator<E extends Entity> implements Comparator<E>, Serializable {
+    private static final long serialVersionUID = -7915197939462591121L;
 
     /**
      * {@inheritDoc}

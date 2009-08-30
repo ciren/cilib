@@ -90,7 +90,14 @@ public class MOFitness implements Fitness {
     }
 
     /**
-     * {@inheritDoc}
+     * Compare the current fitness instance to the provided instance. Returns
+     * a negative integer, zero and a positive integer as this object is
+     * less than, equal to or greater than the specified object.
+     *
+     * @param other The fitness to be compared.
+     * @return a negative integer, zero or a positive integer if this object is
+     *         less than, equal to or greater than the specified object.
+     * @see java.lang.Comparable
      */
     @Override
     public int compareTo(Fitness other) {
@@ -154,10 +161,10 @@ public class MOFitness implements Fitness {
 
     @Override
     public String toString() {
-        String returnStr = "";
+        StringBuilder builder = new StringBuilder();
         for (Fitness fitness : this.fitnesses) {
-            returnStr += fitness.toString() + " ";
+            builder.append(fitness.toString()).append(" ");
         }
-        return returnStr;
+        return builder.toString();
     }
 }

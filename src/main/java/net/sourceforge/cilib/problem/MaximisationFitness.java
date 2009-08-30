@@ -70,10 +70,16 @@ public class MaximisationFitness implements Fitness {
     }
 
     /**
-     * Returns superior fitness for larger fitness values.
+     * Compare the current fitness instance to the provided instance. Returns
+     * a negative integer, zero and a positive integer as this object is
+     * less than, equal to or greater than the specified object.
      *
-     * @return 1 for superior fitness, -1 for inferior fitness and 0 for equivalent fitness.
+     * @param other The fitness to be compared.
+     * @return a negative integer, zero or a positive integer if this object is
+     *         less than, equal to or greater than the specified object.
+     * @see java.lang.Comparable
      */
+    @Override
     public int compareTo(Fitness other) {
         if (other == InferiorFitness.instance()) {
             return 1;

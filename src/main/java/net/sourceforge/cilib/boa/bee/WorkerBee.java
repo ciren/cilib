@@ -30,7 +30,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
  * A worker bee that forages for food and updates the hive information by dancing.
  * @author Andrich
  */
-public class WorkerBee extends AbstractBee implements HoneyBee {
+public class WorkerBee extends AbstractBee {
 
     private static final long serialVersionUID = 3657591650621784765L;
     private ControlParameter forageLimit;

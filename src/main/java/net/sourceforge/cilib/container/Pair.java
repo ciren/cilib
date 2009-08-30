@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.container;
 
-import java.io.Serializable;
-
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -33,7 +31,7 @@ import net.sourceforge.cilib.util.Cloneable;
  * @param <K> The key value.
  * @param <V> The Object to associate to the key.
  */
-public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair<K, V>>, Cloneable, Serializable {
+public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair<K, V>>, Cloneable {
     private static final long serialVersionUID = -1557021513377872749L;
     private K key;
     private V value;
@@ -70,6 +68,7 @@ public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair
     /**
      * {@inheritDoc}
      */
+    @Override
     public Pair<K, V> getClone() {
         return new Pair<K, V>(this);
     }
@@ -112,6 +111,7 @@ public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair
      * @param o The {@linkplain Pair} to perform the comparison with.
      * @return The result of the comparison.
      */
+    @Override
     public int compareTo(Pair<K, V> o) {
         K t1 = this.key;
         return t1.compareTo(o.key);
@@ -121,6 +121,7 @@ public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         return this.getKey().toString();
     }
@@ -140,7 +141,6 @@ public class Pair<K extends Comparable<? super K>, V> implements Comparable<Pair
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

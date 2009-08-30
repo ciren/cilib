@@ -160,7 +160,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
-        <version>2.5</version>
         <executions>
           <execution>
             <id>jjtree-javacc</id>
@@ -209,7 +208,6 @@
       <plugin>
         <groupId>com.google.code.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
-        <version>1.4.0</version>
         <configuration>
           <header>src/main/resources/java-header.txt</header>
           <failIfMissing>true</failIfMissing>
@@ -290,7 +288,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.2</version>
         <configuration>
           <configLocation>src/main/resources/checkstyle.xml</configLocation>
         </configuration>
@@ -310,6 +307,10 @@
         <configuration>
           <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+	<artifactId>findbugs-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>

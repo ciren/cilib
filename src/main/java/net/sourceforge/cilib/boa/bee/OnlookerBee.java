@@ -30,7 +30,7 @@ import net.sourceforge.cilib.boa.ABC;
  * @author Andrich
  *
  */
-public class OnlookerBee extends AbstractBee implements HoneyBee {
+public class OnlookerBee extends AbstractBee {
     private static final long serialVersionUID = -4714791530850285930L;
 
     /**

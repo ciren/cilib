@@ -62,6 +62,7 @@ public class ShekelsFoxholes extends ContinuousFunction {
         return new ShekelsFoxholes();
     }
 
+    @Override
     public Double getMinimum() {
         return 0.9980038;
     }
@@ -71,7 +72,6 @@ public class ShekelsFoxholes extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double result = 0.002;
         double resultI = 0.0;
         for (int i=1; i<=25; i++) {
             double resultJ = 0.0;
@@ -83,9 +83,7 @@ public class ShekelsFoxholes extends ContinuousFunction {
         }
         resultI = 0.002 + resultI;
 
-        result = 1.0/resultI;
-
-        return result;
+        return 1.0/resultI;
     }
 
 }
