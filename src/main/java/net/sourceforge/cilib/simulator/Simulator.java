@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
@@ -52,7 +52,10 @@ public class Simulator {
     private MeasurementSuite measurementSuite;
     private Simulation[] simulations;
     private Vector<ProgressListener> progressListeners;
-    private Hashtable<Simulation, Double> progress;
+    private HashMap<Simulation, Double> progress;
+
+    private final AlgorithmFactory algorithmFactory;
+    private final ProblemFactory problemFactory;
 
     /**
      * Creates a new instance of Simulator given an algorithm factory, a problem factory and a
@@ -65,19 +68,23 @@ public class Simulator {
         measurementSuite.initialise();
         this.measurementSuite = measurementSuite;
         progressListeners = new Vector<ProgressListener>();
-        progress = new Hashtable<Simulation, Double>();
+        progress = new HashMap<Simulation, Double>();
 
         simulations = new Simulation[measurementSuite.getSamples()];
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            simulations[i] = new Simulation(this, algorithmFactory, problemFactory);
-            progress.put(simulations[i], 0.0);
-        }
+
+        this.algorithmFactory = algorithmFactory;
+        this.problemFactory = problemFactory;
     }
 
     /**
      * Executes all the experiments for this simulation.
      */
     public void execute() {
+        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
+            simulations[i] = new Simulation(this, algorithmFactory.newAlgorithm(), problemFactory.newProblem());
+            progress.put(simulations[i], 0.0);
+        }
+
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
             simulations[i].start();
         }
