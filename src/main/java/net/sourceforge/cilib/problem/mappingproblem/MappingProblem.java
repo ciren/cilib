@@ -195,7 +195,7 @@ public abstract class MappingProblem extends OptimisationProblemAdapter {
         MatrixDataSetBuilder matrixDataSetBuilder = (MatrixDataSetBuilder) dataSetBuilder;
         inputs = matrixDataSetBuilder.getMatrix();
 
-        Matrix.Builder matrixBuilder = Matrix.builder().rows(numvectors).columns(numvectors);
+        Matrix.Builder matrixBuilder = Matrix.builder().dimensions(numvectors, numvectors);
 
         for(int i = 0; i < numvectors; i++) {
             for(int j = 0; j < i; j++) {

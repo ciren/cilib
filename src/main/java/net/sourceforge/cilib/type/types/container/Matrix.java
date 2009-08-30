@@ -200,11 +200,22 @@ public final class Matrix implements Type {
     }
 
     /**
-     * Obtain the determinant of the current matrix.
+     * Obtain the determinant of the current matrix. The determinant is obtained
+     * by creating a LU decomposition matrix. The determinant is then calculated by:
+     * <p>
+     * <pre>
+     * \begin{equation}
+     * \mbox{det($A$)} = |L| \dot |U|
+     * \end{equation}
+     * </pre>
+     * where |L| = 1 and |U| is the product of the diagonal elements.
      * @return The determinant value.
      */
     public double determinant() {
-        return contents[0][0]*contents[1][1] - contents[1][0]*contents[0][1];
+        Preconditions.checkState(isSquare(), "Cannot obtain determinant of a non-square matrix");
+
+        LUDecomposition decomposition = new LUDecomposition(this);
+        return decomposition.determinant();
     }
 
     /**
@@ -268,22 +279,19 @@ public final class Matrix implements Type {
         }
 
         /**
-         * Define the number of rows that the built up {@code Matrix} will contain.
-         * @param rows The required number of rows.
+         * Define the dimensions (rows and coloums) that the bult up {@code Matrix} will
+         * contain.
+         * @param rows The number of rows.
+         * @param columns The number of columns.
          * @return The current {@code Builder}.
+         * @throws IllegalArgumentException if {@code rows} or {@code columns} are less than 1.
          */
-        public Builder rows(int rows) {
-            this.rowNumber = rows;
-            return this;
-        }
+        public Builder dimensions(int rows, int columns) {
+            Preconditions.checkArgument(rows >= 1);
+            Preconditions.checkArgument(columns >= 1);
 
-        /**
-         * Define the number of coloumns that the built up {@code Matrix}  will contain.
-         * @param colummns The required number of columns.
-         * @return The current {@code Builder}.
-         */
-        public Builder columns(int colummns) {
-            this.colNumber = colummns;
+            this.rowNumber = rows;
+            this.colNumber = columns;
             return this;
         }
 
@@ -416,6 +424,100 @@ public final class Matrix implements Type {
 
         public int getY() {
             return y;
+        }
+    }
+
+    /**
+     * This class is an implementation of the Doolittle / Crout algorithms.
+     * <p>
+     * Please refer to <a href=http://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm>
+     * the Wikipedia entry</a> for more information.
+     * <p>
+     * Additional help and code was obtained from the JAMA project (which seems to
+     * be stagnant) and from the commons-math.
+     */
+    private static final class LUDecomposition {
+        private double[][] lu;
+
+        private int m;
+        private int n;
+        private int pivsign;
+        private int[] piv;
+
+        private LUDecomposition(Matrix matrix) {
+            m = matrix.getRows();
+            n = matrix.getColumns();
+            pivsign = 1;
+
+            lu = new double[m][n];
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    lu[i][j] = matrix.contents[i][j];
+                }
+            }
+
+            piv = new int[m];
+            for (int i = 0; i < m; i++)
+                piv[i] = i;
+
+            double[] LUrowi;
+            double[] LUcolj = new double[m];
+
+            // Outer-loop
+            for (int j = 0; j < n; j++) {
+                // Make a copy of the j-th column.
+                for (int i = 0; i < m; i++) {
+                    LUcolj[i] = lu[i][j];
+                }
+
+                // Apply previous transformations
+                for (int i = 0; i < m; i++) {
+                    LUrowi = lu[i];
+
+                    int kmax = Math.min(i, j);
+                    double s = 0.0;
+                    for (int k = 0; k < kmax; k++) {
+                        s += LUrowi[k]*LUcolj[k];
+                    }
+
+                    LUcolj[i] -= s;
+                    LUrowi[j] = LUcolj[i];
+                }
+
+                // Find the pivot and exchange if needed
+                int p = j;
+                for (int i = j+1; i < m; i++) {
+                    if (Math.abs(LUcolj[i]) > Math.abs(LUcolj[p])) {
+                        p = i;
+                    }
+                }
+
+                if (p != j) {
+                    for (int k = 0; k < n; k++) {
+                        double t = lu[p][k]; lu[p][k] = lu[j][k]; lu[j][k] = t;
+                    }
+                    int k = piv[p]; piv[p] = piv[j]; piv[j] = k;
+                    pivsign = -pivsign;
+                }
+
+                // Compute multipliers.
+                if (j < m & lu[j][j] != 0.0) {
+                    for (int i = j+1; i < m; i++) {
+                        lu[i][j] /= lu[j][j];
+                    }
+                }
+            }
+        }
+
+        public double determinant() {
+            Preconditions.checkState(m == n, "Matrix must be square.");
+
+            double d = Integer.valueOf(pivsign).doubleValue();
+            for (int j = 0; j < n; j++) {
+                d *= lu[j][j];
+            }
+
+            return d;
         }
     }
 }

@@ -21,10 +21,15 @@
  */
 package net.sourceforge.cilib.math;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+
 
 /**
  *
@@ -39,38 +44,50 @@ public class MathsTest {
 
     @Test
     public void testFactorial() {
-        assertEquals(1.0, Maths.factorial(0.0), Double.MIN_NORMAL);
-        assertEquals(1.0, Maths.factorial(1.0), Double.MIN_NORMAL);
-        assertEquals(6.0, Maths.factorial(3), Double.MIN_NORMAL);
-        assertEquals(720.0, Maths.factorial(6), Double.MIN_NORMAL);
-        assertEquals(9.33262154439441E157, Maths.factorial(100), Double.MIN_NORMAL);
+        Assert.assertEquals(1.0, Maths.factorial(0.0), Double.MIN_NORMAL);
+        Assert.assertEquals(1.0, Maths.factorial(1.0), Double.MIN_NORMAL);
+        Assert.assertEquals(6.0, Maths.factorial(3), Double.MIN_NORMAL);
+        Assert.assertEquals(720.0, Maths.factorial(6), Double.MIN_NORMAL);
+        Assert.assertEquals(9.33262154439441E157, Maths.factorial(100), Double.MIN_NORMAL);
     }
 
     @Test
     public void testCombination() {
-        assertEquals(792.0, Maths.combination(12, 5), Double.MIN_NORMAL);
+        Assert.assertEquals(792.0, Maths.combination(12, 5), Double.MIN_NORMAL);
+    }
 
-        try {
-            Maths.combination(-1, -5);
-            fail("Invalid input!");
+    @Test(expected=IllegalArgumentException.class)
+    public void combinationInvalidN() {
+        Maths.combination(-1, 5);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void combinationInvalidR() {
+        Maths.combination(1, -5);
+    }
+
+    @Test
+    public void combinationSpecialCase() {
+        Assert.assertEquals(1.0, Maths.combination(0, 0), Double.MIN_NORMAL);
+        Assert.assertEquals(1.0, Maths.combination(1, 0), Double.MIN_NORMAL);
+        Assert.assertEquals(1.0, Maths.combination(1, 1), Double.MIN_NORMAL);
+    }
+
+    @Test
+    public void listPermutation() {
+        List<Integer> numbers = Arrays.asList(1, 2);
+        List<List<Integer>> permutationList = new ArrayList<List<Integer>>();
+
+        for (Iterator<List<Integer>> permutations = Maths.permutation(numbers, 2); permutations.hasNext(); ) {
+            permutationList.add(permutations.next());
         }
-        catch (Exception e) {}
 
-        try {
-            Maths.combination(-1, 5);
-            fail("Invalid input!");
-        }
-        catch (Exception e) {}
+        Assert.assertThat(permutationList.size(), is(2));
 
-        try {
-            Maths.combination(1, -5);
-            fail("Invalid input!");
-        }
-        catch (Exception e) {}
-
-        assertEquals(1.0, Maths.combination(0, 0), Double.MIN_NORMAL);
-        assertEquals(1.0, Maths.combination(1, 0), Double.MIN_NORMAL);
-        assertEquals(1.0, Maths.combination(1, 1), Double.MIN_NORMAL);
+        List<Integer> expected1 = Arrays.asList(1, 2);
+        List<Integer> expected2 = Arrays.asList(2, 1);
+        Assert.assertTrue(permutationList.contains(expected1));
+        Assert.assertTrue(permutationList.contains(expected2));
     }
 
 }

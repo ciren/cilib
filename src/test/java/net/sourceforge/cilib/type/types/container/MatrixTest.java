@@ -35,29 +35,29 @@ public class MatrixTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void constructionZeroRow() {
-        Matrix.builder().rows(0).build();
+        Matrix.builder().dimensions(0, 1).build();
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void constructionZeroColumn() {
-        Matrix.builder().columns(0).build();
+        Matrix.builder().dimensions(1, 0).build();
     }
 
     @Test
     public void square() {
-        Matrix a = Matrix.builder().rows(2).columns(2).build();
+        Matrix a = Matrix.builder().dimensions(2, 2).build();
         Assert.assertTrue(a.isSquare());
     }
 
     @Test
     public void notSquare() {
-        Matrix a = Matrix.builder().rows(3).columns(4).build();
+        Matrix a = Matrix.builder().dimensions(3, 4).build();
         Assert.assertFalse(a.isSquare());
     }
 
     @Test
     public void valueAt() {
-        Matrix a = Matrix.builder().rows(1).columns(2)
+        Matrix a = Matrix.builder().dimensions(1, 2)
             .addRow(1.0, 2.0)
             .build();
 
@@ -67,13 +67,13 @@ public class MatrixTest {
 
     @Test(expected=IndexOutOfBoundsException.class)
     public void invalidValueOf() {
-        Matrix a = Matrix.builder().rows(1).columns(1).build();
+        Matrix a = Matrix.builder().dimensions(1, 1).build();
         a.valueAt(1, 2);
     }
 
     @Test
     public void getRow() {
-        Matrix a = Matrix.builder().rows(2).columns(2)
+        Matrix a = Matrix.builder().dimensions(2, 2)
             .addRow(1.0, 1.0)
             .addRow(2.0, 2.0)
             .build();
@@ -86,23 +86,23 @@ public class MatrixTest {
 
     @Test
     public void rowNumber() {
-        Matrix a = Matrix.builder().rows(4).columns(5).build();
+        Matrix a = Matrix.builder().dimensions(4, 5).build();
         Assert.assertThat(a.getRows(), is(4));
     }
 
     @Test
     public void columnNumber() {
-        Matrix a = Matrix.builder().rows(5).columns(8).build();
+        Matrix a = Matrix.builder().dimensions(5, 8).build();
         Assert.assertThat(a.getColumns(), is(8));
     }
 
     @Test
     public void addition() {
-        Matrix a = Matrix.builder().rows(2).columns(2)
+        Matrix a = Matrix.builder().dimensions(2, 2)
             .addRow(1.0, 2.0)
             .addRow(3.0, 4.0)
             .build();
-        Matrix b = Matrix.builder().rows(2).columns(2)
+        Matrix b = Matrix.builder().dimensions(2, 2)
             .addRow(1.0, 2.0)
             .addRow(3.0, 4.0)
             .build();
@@ -115,18 +115,18 @@ public class MatrixTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void invalidAddition() {
-        Matrix a = Matrix.builder().rows(3).columns(2).build();
-        Matrix b = Matrix.builder().rows(1).columns(2).build();
+        Matrix a = Matrix.builder().dimensions(3, 2).build();
+        Matrix b = Matrix.builder().dimensions(1, 2).build();
         a.plus(b);
     }
 
     @Test
     public void subtraction() {
-        Matrix a = Matrix.builder().rows(2).columns(2)
+        Matrix a = Matrix.builder().dimensions(2, 2)
             .addRow(2.0, 4.0)
             .addRow(6.0, 8.0)
             .build();
-        Matrix b = Matrix.builder().rows(2).columns(2)
+        Matrix b = Matrix.builder().dimensions(2, 2)
             .addRow(1.0, 2.0)
             .addRow(3.0, 4.0)
             .build();
@@ -139,18 +139,18 @@ public class MatrixTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void invalidSubtraction() {
-        Matrix a = Matrix.builder().rows(2).columns(2).build();
-        Matrix b = Matrix.builder().rows(2).columns(3).build();
+        Matrix a = Matrix.builder().dimensions(2, 2).build();
+        Matrix b = Matrix.builder().dimensions(2, 3).build();
         a.minus(b);
     }
 
     @Test
     public void multiplication() {
-        Matrix a = Matrix.builder().rows(2).columns(2)
+        Matrix a = Matrix.builder().dimensions(2, 2)
             .addRow(2.0, 4.0)
             .addRow(6.0, 8.0)
             .build();
-        Matrix b = Matrix.builder().rows(2).columns(2)
+        Matrix b = Matrix.builder().dimensions(2, 2)
             .addRow(1.0, 2.0)
             .addRow(3.0, 4.0)
             .build();
@@ -163,7 +163,7 @@ public class MatrixTest {
 
     @Test
     public void squareTranspose() {
-        Matrix a = Matrix.builder().rows(2).columns(2)
+        Matrix a = Matrix.builder().dimensions(2, 2)
             .addRow(2.0, 4.0)
             .addRow(6.0, 8.0)
             .build();
@@ -176,7 +176,7 @@ public class MatrixTest {
 
     @Test
     public void transposeRowVector() {
-        Matrix a = Matrix.builder().rows(1).columns(2)
+        Matrix a = Matrix.builder().dimensions(1, 2)
             .addRow(2.0, 4.0)
             .build();
 
@@ -188,7 +188,7 @@ public class MatrixTest {
 
     @Test
     public void transposeColumnVector() {
-        Matrix a = Matrix.builder().rows(2).columns(1)
+        Matrix a = Matrix.builder().dimensions(2, 1)
             .addRow(2.0)
             .addRow(4.0)
             .build();
@@ -201,7 +201,7 @@ public class MatrixTest {
 
     @Test
     public void identity() {
-        Matrix identity = Matrix.builder().rows(4).columns(4).identity().build();
+        Matrix identity = Matrix.builder().dimensions(4, 4).identity().build();
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -214,9 +214,8 @@ public class MatrixTest {
     @Test
     public void rotation() {
         double angle = Math.PI / 4.0;
-        
-        Matrix matrix = Matrix.builder().rows(2).columns(2).addRow(1.0, 1.0).addRow(1.0, 1.0).build();
-        Matrix result = matrix.rotate(angle, 1, 0);
+        Matrix matrix = Matrix.builder().dimensions(2, 2).addRow(1.0, 1.0).addRow(1.0, 1.0).build();
+        Matrix result = matrix.rotate(angle);
 
         Assert.assertThat(result.valueAt(0, 0), is(1.414213562373095));
         Assert.assertThat(result.valueAt(0, 1), is(1.1102230246251565E-16));
@@ -226,18 +225,19 @@ public class MatrixTest {
 
     @Test
     public void determinant() {
-        Matrix matrix = Matrix.builder().rows(2).columns(2).addRow(1.0, 1.0).addRow(1.0, 1.0).build();
-        Assert.assertThat(matrix.determinant(), is(0.0));
+        Matrix matrix = Matrix.builder().dimensions(3, 3).addRow(2.0, 1.0, 0.0).addRow(1.0, 2.0, -1.0).addRow(3.0, 2.0, 1.0).build();
+        double value = matrix.determinant();
+        Assert.assertEquals(4.0, value, 0.00001);
     }
 
     @Test(expected=IllegalStateException.class)
     public void invalidIdentity() {
-        Matrix.builder().rows(2).columns(5).identity().build();
+        Matrix.builder().dimensions(2, 5).identity().build();
     }
 
     @Test
     public void uniquePositionSetting() {
-        Matrix a = Matrix.builder().rows(2).columns(2)
+        Matrix a = Matrix.builder().dimensions(2, 2)
             .valueAt(0, 0, 3.0)
             .build();
 
@@ -250,8 +250,8 @@ public class MatrixTest {
     @Test
     public void equal() {
         Matrix.Builder builder = Matrix.builder();
-        Matrix a = builder.rows(1).columns(1).valueAt(0, 0, 2.0).build();
-        Matrix b = builder.rows(1).columns(1).valueAt(0, 0, 2.0).build();
+        Matrix a = builder.dimensions(1, 1).valueAt(0, 0, 2.0).build();
+        Matrix b = builder.dimensions(1, 1).valueAt(0, 0, 2.0).build();
 
         Assert.assertTrue(a.equals(b));
     }
@@ -259,8 +259,8 @@ public class MatrixTest {
     @Test
     public void hash() {
         Matrix.Builder builder = Matrix.builder();
-        Matrix a = builder.rows(1).columns(1).valueAt(0, 0, 2.0).build();
-        Matrix b = builder.rows(1).columns(1).valueAt(0, 0, 2.0).build();
+        Matrix a = builder.dimensions(1, 1).valueAt(0, 0, 2.0).build();
+        Matrix b = builder.dimensions(1, 1).valueAt(0, 0, 2.0).build();
 
         Assert.assertTrue(a.hashCode() == b.hashCode());
     }
