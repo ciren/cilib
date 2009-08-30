@@ -30,14 +30,14 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * <p>
@@ -72,9 +72,11 @@ public class Niche extends MultiPopulationBasedAlgorithm {
      */
     public Niche() {
         this.mainSwarm = new PSO();
+        PSO pso = (PSO) this.mainSwarm;
+        ((SynchronousIterationStrategy)pso.getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
 
         Particle mainSwarmParticle = new StandardParticle();
-        mainSwarmParticle.setVelocityInitializationStrategy(new ConstantInitializationStrategy(0.0));
+        mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
         StandardVelocityUpdate velocityUpdateStrategy = new StandardVelocityUpdate();
         velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
 
@@ -87,7 +89,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
         this.nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
         this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
-        this.absorptionStrategy = new StandardAbsorptionStrategy();
+        this.absorptionStrategy = new NullAbsorptionStrategy();
         this.mergeStrategy = new StandardMergeStrategy();
     }
 
@@ -150,7 +152,7 @@ public class Niche extends MultiPopulationBasedAlgorithm {
      */
     @Override
     public OptimisationSolution getBestSolution() {
-        return new OptimisationSolution(new Vector(), InferiorFitness.instance());
+        throw new UnsupportedOperationException("Niching algorithms do not have a single solution.");
     }
 
     /**

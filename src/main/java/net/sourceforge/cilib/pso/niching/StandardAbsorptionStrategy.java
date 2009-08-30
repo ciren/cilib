@@ -63,7 +63,7 @@ public class StandardAbsorptionStrategy implements AbsorptionStrategy {
             Topology<? extends Entity> mainSwarmTopology = algorithm.getMainSwarm().getTopology();
             for (int i = 0; i < mainSwarmTopology.size(); i++) {
                 Entity entity = mainSwarmTopology.get(i);
-                double distance = distanceMeasure.distance(entity.getCandidateSolution(), algorithm.getMainSwarm().getTopology().getBestEntity().getCandidateSolution());
+                double distance = distanceMeasure.distance(entity.getCandidateSolution(), pba.getTopology().getBestEntity().getCandidateSolution());
                 if (distance <= radius) {
                     Particle p = (Particle) entity;
                     p.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());

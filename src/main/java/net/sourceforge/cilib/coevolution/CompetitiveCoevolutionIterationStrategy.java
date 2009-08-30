@@ -25,6 +25,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.coevolution.competitors.CoevolutionCompetitorList;
 import net.sourceforge.cilib.coevolution.selection.OpponentSelectionStrategy;
 import net.sourceforge.cilib.coevolution.selection.SelectAllOpponentSelectionStrategy;
+import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 
 
 
@@ -93,4 +94,14 @@ public class CompetitiveCoevolutionIterationStrategy extends CoevolutionIteratio
 	public void setOpponentSelectionStrategy(OpponentSelectionStrategy opponentSelectionStrategy) {
 		this.opponentSelectionStrategy = opponentSelectionStrategy;
 	}
+
+    @Override
+    public BoundaryConstraint getBoundaryConstraint() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

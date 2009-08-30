@@ -411,7 +411,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
 
         // If the norm() of the vector is 0.0, then we are takling about the "normal vector"
         // (\vector{0}) and as a result the normal vector is it's own normal.
-        return (value != 0.0) ? local.divide(value) : local;
+        return (Double.compare(value, 0.0) != 0) ? local.divide(value) : local;
     }
 
     /**

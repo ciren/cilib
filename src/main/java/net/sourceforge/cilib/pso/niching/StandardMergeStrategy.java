@@ -27,6 +27,8 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.RadiusVisitor;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.DistanceMeasure;
+import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
  * <p>
@@ -41,6 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <p>
  * Upon completion of the entity migration, the empty sub-swarm is destroyed.
  * </p>
+ *
  * @author gpampara
  */
 public class StandardMergeStrategy implements MergeStrategy {
@@ -72,9 +75,10 @@ public class StandardMergeStrategy implements MergeStrategy {
         if (algorithm.getPopulations().size() < 2)
             return;
 
+        DistanceMeasure distanceMeasure = new EuclideanDistanceMeasure();
         RadiusVisitor radiusVisitor = new RadiusVisitor();
 
-        for (int i = 0; i < algorithm.getPopulations().size(); i++) {
+        for (int i = 0; i < algorithm.getPopulations().size()-1; i++) {
             PopulationBasedAlgorithm k1 = algorithm.getPopulations().get(i);
 
             k1.accept(radiusVisitor);
@@ -88,33 +92,29 @@ public class StandardMergeStrategy implements MergeStrategy {
                 Vector vectorK1 = (Vector) k1.getTopology().getBestEntity().getCandidateSolution();
                 Vector vectorK2 = (Vector) k2.getTopology().getBestEntity().getCandidateSolution();
 
-                Vector normalK1 = vectorK1.normalize();
-                Vector normalK2 = vectorK2.normalize();
+                // Radii need to be normalized based on the size of the domain?????????
+//                Vector normalK1 = vectorK1.normalize();
+//                Vector normalK2 = vectorK2.normalize();
+                Vector normalK1 = vectorK1;
+                Vector normalK2 = vectorK2;
 
-                double distance = Math.abs(normalK1.subtract(normalK2).norm());
-
-                System.out.println("k1Radius: " + k1Radius);
-                System.out.println("k2Radius: " + k2Radius);
-                System.out.println("distance: " + distance);
-                System.out.println("threshold: " + threshold);
+                double distance = distanceMeasure.distance(normalK1, normalK2);//Math.abs(normalK1.subtract(normalK2).norm());
 
                 if (k1Radius == k2Radius && k1Radius == 0) {
                     if (distance < threshold)
-                        System.out.println("k1Radius == k2Radius && k1Radius == 0 &&& distance < threshold");
                         mergeSwarms(algorithm, k1, k2);
 
                     continue;
                 }
 
-                if (distance < (k1Radius + k2Radius)) {
-                    System.out.println("distance < (k1Radius + k2Radius)");
+                if (distance < threshold) {
                     mergeSwarms(algorithm, k1, k2);
                 }
             }
         }
     }
 
-    private void mergeSwarms(MultiPopulationBasedAlgorithm algorithm, PopulationBasedAlgorithm k1, PopulationBasedAlgorithm k2) {
+    private void mergeSwarms(final MultiPopulationBasedAlgorithm algorithm, final PopulationBasedAlgorithm k1, PopulationBasedAlgorithm k2) {
         Topology<Particle> topology = (Topology<Particle>) k1.getTopology();
         Particle neighbourhoodBest = topology.getBestEntity();
 

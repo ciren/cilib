@@ -26,8 +26,9 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.ClosestEntityVisitor;
+import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrategy;
+import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 
 /**
  * <p>
@@ -50,9 +51,6 @@ import net.sourceforge.cilib.pso.velocityupdatestrategies.GCVelocityUpdateStrate
  */
 public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
 
-    public StandardSwarmCreationStrategy() {
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -64,7 +62,6 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
             return;
 
         for (int i = 0; i < niches.size(); i++) {
-            System.out.println("main swarm size: " + mainSwarm.size());
             Entity niche = niches.get(i);
 
             // Determine the closest Entity to the current
@@ -74,7 +71,6 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
 
             Particle nicheMainParticle = (Particle) niche;
             Particle nicheClosestParticle = (Particle) closestEntityVisitor.getResult();
-            System.out.println("closest particle: " + nicheClosestParticle);
 
             mainSwarm.remove(nicheMainParticle);
             mainSwarm.remove(nicheClosestParticle);
@@ -82,12 +78,11 @@ public class StandardSwarmCreationStrategy implements NicheCreationStrategy {
             niches.remove(nicheMainParticle);
             niches.remove(nicheClosestParticle);
 
-            nicheMainParticle.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
-            nicheClosestParticle.setVelocityUpdateStrategy(new GCVelocityUpdateStrategy());
             nicheMainParticle.setNeighbourhoodBest(nicheMainParticle);
             nicheClosestParticle.setNeighbourhoodBest(nicheMainParticle);
 
             PSO pso = new PSO();
+            ((SynchronousIterationStrategy)pso.getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
             pso.setOptimisationProblem(algorithm.getOptimisationProblem());
             pso.getTopology().add(nicheMainParticle);
             pso.getTopology().add(nicheClosestParticle);

@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.EnvironmentChangeDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.RandomSentriesDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.responsestrategies.EnvironmentChangeResponseStrategy;
@@ -46,7 +47,6 @@ import net.sourceforge.cilib.pso.dynamic.responsestrategies.ReinitializationReac
  */
 public class DynamicIterationStrategy<E extends PopulationBasedAlgorithm> implements IterationStrategy<E> {
     private static final long serialVersionUID = -4441422301948289718L;
-
 
     private IterationStrategy<PopulationBasedAlgorithm> iterationStrategy;
     //TODO: private DetectionStrategy<PSO> detection
@@ -158,5 +158,15 @@ public class DynamicIterationStrategy<E extends PopulationBasedAlgorithm> implem
      */
     public void setResponseStrategy(EnvironmentChangeResponseStrategy<PopulationBasedAlgorithm> responseStrategy) {
         this.responseStrategy = responseStrategy;
+    }
+
+    @Override
+    public BoundaryConstraint getBoundaryConstraint() {
+        return this.iterationStrategy.getBoundaryConstraint();
+    }
+
+    @Override
+    public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
+        this.iterationStrategy.setBoundaryConstraint(boundaryConstraint);
     }
 }

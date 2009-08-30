@@ -71,8 +71,8 @@ public class StandardMergeStrategyTest {
         StandardMergeStrategy mergeStrategy = new StandardMergeStrategy();
         mergeStrategy.merge(niche);
 
-        Assert.assertEquals(1, niche.getPopulations().size());
-        Assert.assertEquals(4, niche.getPopulations().get(0).getTopology().size());
+        Assert.assertEquals(2, niche.getPopulations().size());
+        Assert.assertEquals(2, niche.getPopulations().get(0).getTopology().size());
     }
 
     /**
