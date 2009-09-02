@@ -56,7 +56,8 @@ class Simulation extends Thread implements AlgorithmListener {
      */
     @Override
     public void run() {
-        algorithm.addAlgorithmListener(this);
+        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
+        alg.addAlgorithmListener(this);
 
         try {
             Class<? extends Object> current = problem.getClass();
@@ -76,15 +77,15 @@ class Simulation extends Thread implements AlgorithmListener {
             throw new InitialisationException(algorithm.getClass().getName() + " does not support problems of type " + problem.getClass().getName());
         }
 
-        algorithm.initialise();
-        algorithm.run();
+        alg.initialise();
+        alg.run();
     }
 
     /**
      * Terminate the current simulation.
      */
     public void terminate() {
-        algorithm.terminate();
+        ((AbstractAlgorithm) algorithm).terminate();
     }
 
     /**

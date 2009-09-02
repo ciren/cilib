@@ -95,7 +95,7 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
     }
 
     private Matrix initMatrices(){
-        Matrix.Builder matrixBuilder = Matrix.builder().rows(N).columns(N);
+        Matrix.Builder matrixBuilder = Matrix.builder().dimensions(N, N);
         for(int i=0; i<N; i++){
             for(int j=0; j<N; j++){
                 if(i==j){

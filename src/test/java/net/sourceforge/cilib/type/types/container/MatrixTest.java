@@ -215,7 +215,7 @@ public class MatrixTest {
     public void rotation() {
         double angle = Math.PI / 4.0;
         Matrix matrix = Matrix.builder().dimensions(2, 2).addRow(1.0, 1.0).addRow(1.0, 1.0).build();
-        Matrix result = matrix.rotate(angle);
+        Matrix result = matrix.rotate(angle, 1, 0);
 
         Assert.assertThat(result.valueAt(0, 0), is(1.414213562373095));
         Assert.assertThat(result.valueAt(0, 1), is(1.1102230246251565E-16));
