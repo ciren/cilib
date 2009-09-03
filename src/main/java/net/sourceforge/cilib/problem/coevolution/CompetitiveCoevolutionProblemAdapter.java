@@ -77,10 +77,6 @@ public class CompetitiveCoevolutionProblemAdapter extends OptimisationProblemAda
 		return new CompetitiveCoevolutionProblemAdapter(this);
 	}
 
-	public DomainRegistry getBehaviouralDomain() {
-		return domain;
-	}
-
 	public DomainRegistry getDomain() {
 		return domain;
 	}

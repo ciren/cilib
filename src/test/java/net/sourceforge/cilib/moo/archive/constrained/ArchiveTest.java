@@ -75,11 +75,6 @@ public class ArchiveTest {
         }
 
         @Override
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
-        }
-
-        @Override
         public DomainRegistry getDomain() {
             return null;
         }
@@ -101,11 +96,6 @@ public class ArchiveTest {
 
         @Override
         public OptimisationProblemAdapter getClone() {
-            return null;
-        }
-
-        @Override
-        public DomainRegistry getBehaviouralDomain() {
             return null;
         }
 
@@ -135,11 +125,6 @@ public class ArchiveTest {
         }
 
         @Override
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
-        }
-
-        @Override
         public DomainRegistry getDomain() {
             return null;
         }
@@ -161,11 +146,6 @@ public class ArchiveTest {
 
         @Override
         public OptimisationProblemAdapter getClone() {
-            return null;
-        }
-
-        @Override
-        public DomainRegistry getBehaviouralDomain() {
             return null;
         }
 

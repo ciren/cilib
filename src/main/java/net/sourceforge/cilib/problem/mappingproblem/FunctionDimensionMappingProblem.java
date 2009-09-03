@@ -76,11 +76,6 @@ public class FunctionDimensionMappingProblem extends OptimisationProblemAdapter 
         return function.getDomainRegistry();
     }
 
-    public DomainRegistry getBehaviouralDomain() {
-        return function.getDomainRegistry();
-    }
-
-
 
     /**
      * @return Returns the function.

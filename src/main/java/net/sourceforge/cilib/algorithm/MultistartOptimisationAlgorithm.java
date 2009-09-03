@@ -264,10 +264,6 @@ public class MultistartOptimisationAlgorithm extends Algorithm implements Partic
             return null;
         }
 
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
-        }
-
         private OptimisationProblem target;
 
     }

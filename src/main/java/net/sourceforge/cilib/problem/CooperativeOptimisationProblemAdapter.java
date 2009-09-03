@@ -118,9 +118,4 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
         return domainRegistry;
     }
 
-    public DomainRegistry getBehaviouralDomain() {
-        // QUESTION What exactly does the problem.getBehaviouralDomain() method return and what is
-        // really needed?
-        return domainRegistry;
-    }
 }

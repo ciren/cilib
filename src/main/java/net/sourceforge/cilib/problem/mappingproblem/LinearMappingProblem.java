@@ -110,8 +110,4 @@ public class LinearMappingProblem extends MappingProblem {
         return null;
     }
 
-    public DomainRegistry getBehaviouralDomain() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

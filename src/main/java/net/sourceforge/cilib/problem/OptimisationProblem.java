@@ -73,16 +73,6 @@ public interface OptimisationProblem extends Problem {
 
 
     /**
-     * Returns the domain component that describes the search space of the needed
-     * behavioral characteristics of the problem. This is mainly used for ECs, however,
-     * the use of behavioral parameters with PSO will be investigated.
-     *
-     * @return The domain of the behavioral component
-     */
-    public DomainRegistry getBehaviouralDomain();
-
-
-    /**
      * Get the associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
      * @return The currently associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
      */

@@ -88,11 +88,6 @@ public class SolutionWeighingTest {
         }
 
         @Override
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
-        }
-
-        @Override
         public DataSetBuilder getDataSetBuilder() {
             return null;
         }

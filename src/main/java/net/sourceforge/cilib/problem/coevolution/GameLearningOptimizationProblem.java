@@ -68,14 +68,6 @@ public class GameLearningOptimizationProblem extends
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DomainRegistry getBehaviouralDomain() {
-		return game.getDomainForPlayer(1); //player one is the player being optimized
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public DomainRegistry getDomain() {
 		return game.getDomainForPlayer(1); //player one is the player being optimized
 	}

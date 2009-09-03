@@ -84,11 +84,6 @@ public class MOOptimisationProblem implements OptimisationProblem, List<Optimisa
     }
 
     @Override
-    public DomainRegistry getBehaviouralDomain() {
-        throw new UnsupportedOperationException("This method is not implemented");
-    }
-
-    @Override
     public DataSetBuilder getDataSetBuilder() {
         throw new UnsupportedOperationException("This method is not implemented");
     }

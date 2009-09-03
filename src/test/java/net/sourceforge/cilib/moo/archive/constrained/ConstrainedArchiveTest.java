@@ -66,11 +66,6 @@ public class ConstrainedArchiveTest {
         }
 
         @Override
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
-        }
-
-        @Override
         public DomainRegistry getDomain() {
             return null;
         }
@@ -93,11 +88,6 @@ public class ConstrainedArchiveTest {
         @Override
         public OptimisationProblemAdapter getClone() {
             return this;
-        }
-
-        @Override
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
         }
 
         @Override
@@ -126,11 +116,6 @@ public class ConstrainedArchiveTest {
         }
 
         @Override
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
-        }
-
-        @Override
         public DomainRegistry getDomain() {
             return null;
         }
@@ -153,11 +138,6 @@ public class ConstrainedArchiveTest {
         @Override
         public OptimisationProblemAdapter getClone() {
             return this;
-        }
-
-        @Override
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
         }
 
         @Override

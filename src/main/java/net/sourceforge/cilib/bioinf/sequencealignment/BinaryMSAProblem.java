@@ -127,13 +127,6 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
     /**
      * {@inheritDoc}
      */
-    public DomainRegistry getBehaviouralDomain() {
-        return this.domainRegistry;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     protected Fitness calculateFitness(Type solution) {  //    solution = particule position vector
         Vector realValuedPosition = (Vector) solution;
         //System.out.println("Fitness for matches: "+alignmentCreator.getFitness(strings, realValuedPosition, gapsArray));   // debug purpose

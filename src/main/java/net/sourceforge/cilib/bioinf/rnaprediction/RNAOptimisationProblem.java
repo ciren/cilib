@@ -102,12 +102,4 @@ public class RNAOptimisationProblem extends OptimisationProblemAdapter {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public DomainRegistry getBehaviouralDomain() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

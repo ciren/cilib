@@ -314,17 +314,4 @@ public class FunctionLearningProblem extends OptimisationProblemAdapter {
         return null;
     }
 
-    public DomainRegistry getBehaviouralDomain() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-  /*  public void setNeuralNetwork(NN neuralNetwork) {
-        this.neuralNetwork = neuralNetwork;
-        domain = new Compound(neuralNetwork.getNumberOfWeights(), new Real(-1.0, 1.0));
-    }
-
-    public NN getNeuralNetwork() {
-        return neuralNetwork;
-    }*/
 }
