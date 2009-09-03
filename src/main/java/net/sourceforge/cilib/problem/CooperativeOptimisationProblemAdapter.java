@@ -21,13 +21,9 @@
  */
 package net.sourceforge.cilib.problem;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.cilib.cooperative.CooperativeEntity;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
-import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.ParseException;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.Types;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -60,24 +56,15 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
         dimension = d;
         offset = o;
         domainRegistry = new StringBasedDomainRegistry();
-        String expandedDomain = "";
+        StringBuilder builder = new StringBuilder();
         for (int i = offset; i < offset + dimension; i++) {
             String tmp = Types.getRepresentation(((Vector) context.getCandidateSolution()).get(i));
-            expandedDomain += tmp;//((Vector) context.getCandidateSolution()).get(i).getRepresentation();
+            builder.append(tmp);//((Vector) context.getCandidateSolution()).get(i).getRepresentation();
             if (i < offset + dimension - 1)
-                expandedDomain += ",";
+                builder.append(",");
         }
-        try {
-//        DomainParser dp = new DomainParser();
-//        if (dp.parse(expandedDomain)) {
-//            domainRegistry.setDomainString(expandedDomain);
-//        }
-//        else
-//            throw new InitialisationException("The expanded domain string \"" + expandedDomain + "\" could not be parsed.");
-            DomainParser.parse(expandedDomain);
-        } catch (ParseException ex) {
-            Logger.getLogger(CooperativeOptimisationProblemAdapter.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        domainRegistry.setDomainString(builder.toString());
     }
 
     public CooperativeOptimisationProblemAdapter(CooperativeOptimisationProblemAdapter copy) {
@@ -89,6 +76,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
         offset = copy.offset;
     }
 
+    @Override
     public CooperativeOptimisationProblemAdapter getClone() {
         return new CooperativeOptimisationProblemAdapter(this);
     }
@@ -114,6 +102,7 @@ public class CooperativeOptimisationProblemAdapter extends OptimisationProblemAd
         return problem.getFitness(context.getCandidateSolution());
     }
 
+    @Override
     public DomainRegistry getDomain() {
         return domainRegistry;
     }
