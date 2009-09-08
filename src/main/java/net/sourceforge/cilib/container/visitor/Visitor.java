@@ -24,29 +24,21 @@ package net.sourceforge.cilib.container.visitor;
 /**
  * Abstract class defining the general structure of a <tt>Visitor</tt>.
  *
- * @author Gary Pampara
+ * @author Gary Pampara, andrich
  * @param <E> The type object.
  */
-public abstract class Visitor<E> {
-
-    /**
-     * Create the {@linkplain Visitor} instance.
-     */
-    protected Visitor() {
-    }
+public interface Visitor<E> {
 
     /**
      * Visit the provided object.
      * @param o The object to visit.
      */
-    public abstract void visit(E o);
+    public void visit(E o);
 
     /**
      * Determine if the visitor has completed its visit operation.
      * @return <code>true</code> if the visit operation is complete,
      *         <code>false</code> otherwise.
      */
-    public boolean isDone() {
-        return false;
-    }
+    public boolean isDone();
 }

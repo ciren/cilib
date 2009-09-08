@@ -33,6 +33,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class RadiusVisitor extends TopologyVisitor {
 
     private double radius = -Double.MAX_VALUE;
+    private boolean done;
 
     /**
      * {@inheritDoc}
@@ -41,6 +42,7 @@ public class RadiusVisitor extends TopologyVisitor {
      */
     @Override
     public void visit(Topology<? extends Entity> topology) {
+        done = false;
         double maxDistance = 0.0;
 
         Vector swarmBestParticlePosition = (Vector) this.currentAlgorithm.getBestSolution().getPosition();
@@ -57,11 +59,24 @@ public class RadiusVisitor extends TopologyVisitor {
         }
 
         radius = maxDistance;
+        done = true;
     }
 
+    /**
+     * Obtain the value of the {@code radius} for the visited {@code Topology}.
+     * @return The value of the radius.
+     */
     @Override
     public Double getResult() {
         return this.radius;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isDone() {
+        return done;
     }
 
 }

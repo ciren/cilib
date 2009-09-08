@@ -34,13 +34,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class SpatialRadiusVisitor extends TopologyVisitor {
 
     private double radius = -Double.MAX_VALUE;
+    private boolean done;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void visit(Topology<? extends Entity> topology) {
-//         set radius value to be returned to zero
+        done = false;
+        // set radius value to be returned to zero
         double maxDistance = 0.0;
 
         // get number of entities in the population
@@ -78,11 +80,20 @@ public class SpatialRadiusVisitor extends TopologyVisitor {
         }
 
         radius = maxDistance;
+        done = true;
     }
 
     @Override
     public Double getResult() {
         return this.radius;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isDone() {
+        return done;
     }
 
 }
