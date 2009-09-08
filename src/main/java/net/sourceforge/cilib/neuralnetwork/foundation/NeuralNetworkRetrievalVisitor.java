@@ -43,4 +43,12 @@ public class NeuralNetworkRetrievalVisitor extends ProblemVisitor {
     public EvaluationMediator getMediator() {
         return mediator;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isDone() {
+        return false;
+    }
 }

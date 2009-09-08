@@ -57,7 +57,7 @@ public final class Types {
         return false;
     }
 
-    private static class BoundsVerificationVisitor extends Visitor<Type> {
+    private static class BoundsVerificationVisitor implements Visitor<Type> {
         private boolean valid = true;
         private boolean isDone = false;
 

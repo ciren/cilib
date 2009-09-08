@@ -36,7 +36,7 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
  *
  * @author gpampara
  */
-public abstract class TopologyVisitor extends Visitor<Topology<? extends Entity>> {
+public abstract class TopologyVisitor implements Visitor<Topology<? extends Entity>> {
 
     protected Algorithm currentAlgorithm;
     protected DistanceMeasure distanceMeasure;

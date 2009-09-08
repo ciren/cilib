@@ -23,11 +23,12 @@ package net.sourceforge.cilib.problem;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
 
-public abstract class ProblemVisitor extends Visitor<Problem> {
+public abstract class ProblemVisitor implements Visitor<Problem> {
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract void visit(Problem o);
 
 }

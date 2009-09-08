@@ -31,7 +31,7 @@ package net.sourceforge.cilib.container.visitor;
  * @author Gary Pampara
  * @param <E> The element type.
  */
-public class PrePostVisitor<E> extends Visitor<E> {
+public class PrePostVisitor<E> implements Visitor<E> {
 
     /**
      * Create a new instance of {@linkplain PrePostVisitor}.
@@ -48,6 +48,7 @@ public class PrePostVisitor<E> extends Visitor<E> {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void visit(E o) {};
 
     /**
@@ -55,4 +56,12 @@ public class PrePostVisitor<E> extends Visitor<E> {
      * @param o The element to post visit.
      */
     public void postVisit(E o) {};
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isDone() {
+        return false;
+    }
 }

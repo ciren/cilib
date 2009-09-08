@@ -32,14 +32,16 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * within the <code>visit</code> method.
  */
 public class DiameterVisitor extends TopologyVisitor {
-
     private double distance = -Double.MAX_VALUE;
+    private boolean done;
 
-    public DiameterVisitor() {
-    }
-
+    /**
+     * Obtain the {@code diameter} of the provided {@code Topology}.
+     * @param topology The topology to inspect.
+     */
     @Override
     public void visit(Topology<? extends Entity> topology) {
+        done = false;
         double maxDistance = 0.0;
 
         Iterator<? extends Entity> k1 = topology.iterator();
@@ -59,11 +61,25 @@ public class DiameterVisitor extends TopologyVisitor {
         }
 
         distance = maxDistance;
+        done = true;
     }
 
+    /**
+     * Obtain the diameter value for the {@link net.sourceforge.cilib.entity.Topology} of
+     * {@code Entity} instances.
+     * @return The diameter value.
+     */
     @Override
     public Double getResult() {
         return this.distance;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isDone() {
+        return done;
     }
 
 }

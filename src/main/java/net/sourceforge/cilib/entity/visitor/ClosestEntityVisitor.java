@@ -31,10 +31,10 @@ import net.sourceforge.cilib.entity.Topology;
  * @author gpampara
  */
 public class ClosestEntityVisitor extends TopologyVisitor {
-
     private Entity closestEntity;
     private Entity targetEntity;
     private double closest = Double.MAX_VALUE;
+    private boolean done;
 
     /**
      * Perform the search for the closest entity.
@@ -42,6 +42,7 @@ public class ClosestEntityVisitor extends TopologyVisitor {
      */
     @Override
     public void visit(Topology<? extends Entity> topology) {
+        done = false;
         closestEntity = null;
 
         for (Entity entity : topology) {
@@ -54,6 +55,7 @@ public class ClosestEntityVisitor extends TopologyVisitor {
                 this.closest = distance;
             }
         }
+        done = true;
     }
 
     /**
@@ -80,6 +82,14 @@ public class ClosestEntityVisitor extends TopologyVisitor {
      */
     public void setTargetEntity(Entity targetEntity) {
         this.targetEntity = targetEntity;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isDone() {
+        return done;
     }
 
 }
