@@ -76,4 +76,13 @@ public class MultiSwarmDiameterVisitor extends TopologyVisitor{
          return this.distance;
     }
 
+    /**
+     * {@inheritDoc}
+     * @return
+     */
+    @Override
+    public boolean isDone() {
+        return false;
+    }
+
 }
