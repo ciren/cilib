@@ -65,6 +65,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
         clusterCenterStrategy = new ClusterCentroidStrategy();
     }
 
+    @Override
     public abstract ClusteringFitnessFunction getClone();
 
     /**
@@ -360,12 +361,12 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
     @Override
     public Double getMinimum() {
-        return new Double(0.0);
+        return 0.0;
     }
 
     @Override
     public Double getMaximum() {
-        return new Double(Double.MAX_VALUE);
+        return Double.MAX_VALUE;
     }
 
     protected Double worstFitness() {

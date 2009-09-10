@@ -42,7 +42,7 @@ public class IndexedSplitStrategy implements SplitStrategy {
     }
 
     public void addSplitIndex(int index) {
-        indices.add(new Integer(index));
+        indices.add(index);
     }
 
     public int getSplitIndex(int position) {

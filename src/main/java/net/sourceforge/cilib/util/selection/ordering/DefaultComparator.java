@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.util.selection.ordering;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import net.sourceforge.cilib.util.selection.Selection.Entry;
 
@@ -29,7 +30,8 @@ import net.sourceforge.cilib.util.selection.Selection.Entry;
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public class DefaultComparator<E extends Comparable> implements Comparator<Entry<E>> {
+public class DefaultComparator<E extends Comparable> implements Comparator<Entry<E>>, Serializable {
+    private static final long serialVersionUID = -7811082307938055094L;
 
     /**
      * Compares its two arguments for order.  Returns a negative integer,

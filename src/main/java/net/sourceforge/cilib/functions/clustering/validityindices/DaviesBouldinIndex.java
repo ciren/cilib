@@ -75,7 +75,7 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
         for (Pattern pattern : cluster) {
             withinClusterScatter += helper.calculateDistance(pattern.data, center);
         }
-        return withinClusterScatter /= cluster.size();
+        return withinClusterScatter / cluster.size();
     }
 
     /**

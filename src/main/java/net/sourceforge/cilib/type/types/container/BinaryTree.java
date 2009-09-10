@@ -136,12 +136,14 @@ public class BinaryTree<E extends Comparable<? super E> & Cloneable> extends Abs
         if (isEmpty())
             throw new UnsupportedOperationException("Cannot add a subtree to an empty tree");
 
+        BinaryTree<E> child = (BinaryTree<E>) subTree;
+
         if (left.isEmpty()) {
-            left = (BinaryTree<E>) subTree;
+            left = child;
             return true;
         }
         if (right.isEmpty()) {
-            right = (BinaryTree<E>) subTree;
+            right = child;
             return true;
         }
 

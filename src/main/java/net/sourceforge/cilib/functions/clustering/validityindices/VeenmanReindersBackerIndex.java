@@ -72,7 +72,7 @@ public class VeenmanReindersBackerIndex extends ClusteringFitnessFunction {
                 sumOfSquaredError += Math.pow(helper.calculateDistance(pattern.data, center), 2);
             }
         }
-        return sumOfSquaredError /= helper.getNumberOfPatternsInDataSet();
+        return sumOfSquaredError / (double) helper.getNumberOfPatternsInDataSet();
     }
 
     private boolean holdsConstraint() {

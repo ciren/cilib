@@ -75,7 +75,7 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
         stdev = Math.sqrt(stdev);
         stdev /= clustersFormed;
         scattering /= datasetVariance;
-        return scattering /= clustersFormed;
+        return scattering / clustersFormed;
     }
 
     /**
@@ -116,12 +116,12 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
                     // 2. the distance between the pattern and midPoint was not > stdev (for both
                     // clusters)
                     if (leftDensity + rightDensity > 0.0) {
-                        density += midDensity / Math.max(leftDensity, rightDensity);
+                        density += midDensity / (double) Math.max(leftDensity, rightDensity);
                     }
                 }
             }
         }
-        return density /= (clustersFormed * (clustersFormed - 1));
+        return density / (clustersFormed * (clustersFormed - 1));
     }
 
     /**
