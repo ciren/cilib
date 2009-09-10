@@ -47,8 +47,6 @@ public class Bit extends Numeric {
     public Bit() {
         this.state = new MersenneTwister().nextBoolean();
         super.setBounds(BoundsFactory.create(0.0, 1.0));
-//        this.setLowerBound(0.0);
-//        this.setUpperBound(1.0);
     }
 
 

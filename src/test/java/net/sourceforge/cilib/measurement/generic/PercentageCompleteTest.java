@@ -21,13 +21,13 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
-import net.sourceforge.cilib.type.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
 import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -74,7 +74,7 @@ public class PercentageCompleteTest {
     }
 
     @Test
-    public void testPercentageCompleteDomain() throws ParseException {
+    public void testPercentageCompleteDomain() throws ParserException {
         Measurement m = new PercentageComplete();
 
         Vector vector = (Vector) DomainParser.parse(m.getDomain());

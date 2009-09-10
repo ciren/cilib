@@ -26,7 +26,7 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.ParseException;
+import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.util.Vectors;
@@ -64,7 +64,7 @@ public class SolutionTest {
     }
 
     @Test
-    public void testSolutionDomain() throws ParseException {
+    public void testSolutionDomain() throws ParserException {
         Measurement m = new Solution();
 
         TypeList vector = (TypeList) DomainParser.parse(m.getDomain());

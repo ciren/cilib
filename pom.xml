@@ -159,12 +159,12 @@
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>javacc-maven-plugin</artifactId>
+        <artifactId>sablecc-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>jjtree-javacc</id>
+            <phase>generate-sources</phase>
             <goals>
-              <goal>jjtree-javacc</goal>
+              <goal>generate</goal>
             </goals>
           </execution>
         </executions>
@@ -222,7 +222,7 @@
             <year>2009</year>
           </properties>
 	  <mapping>
-	    <jjt>JAVADOC_STYLE</jjt>
+	    <grammar>JAVADOC_STYLE</grammar>
 	  </mapping>
         </configuration>
         <executions>

@@ -29,7 +29,7 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.ParseException;
+import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -210,9 +210,10 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 
             try {
                 //extra for debug, can be commented out
+                //extra for debug, can be commented out
 //            parser.parse(rep);
                 DomainParser.parse(rep);
-            } catch (ParseException ex) {
+            } catch (ParserException ex) {
             }
 
             domainRegistry.setDomainString(rep);

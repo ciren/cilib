@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.measurement.generic;
 
-import net.sourceforge.cilib.type.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -38,7 +38,7 @@ import org.junit.Test;
 public class RestartsTest {
 
     @Test
-    public void testRestartsDomain() throws ParseException {
+    public void testRestartsDomain() throws ParserException {
         Measurement m = new Restarts();
 
         Vector vector = (Vector) DomainParser.parse(m.getDomain());

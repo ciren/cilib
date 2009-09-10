@@ -26,7 +26,7 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
 import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeStrategy;
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.ParseException;
+import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -188,7 +188,7 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
             this.N = function.getDimension();
             this.matrix = initMatrices();
 
-        } catch (ParseException ex) {
+        } catch (ParserException ex) {
             throw new IllegalArgumentException(ex);
         }
     }

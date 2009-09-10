@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.parser;
 
+import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
@@ -34,10 +35,10 @@ public class DomainParserTest {
 
     /**
      * Creation of {@code StringType}.
-     * @throws ParseException if an exception occurs during parsing.
+     * @throws ParserException if an exception occurs during parsing.
      */
     @Test
-    public void stringType() throws ParseException  {
+    public void stringType() throws ParserException  {
         StructuredType vector = DomainParser.parse("T");
 
         Assert.assertEquals(1, vector.size());
@@ -45,31 +46,31 @@ public class DomainParserTest {
 
     /**
      * The default kind of domain string that would be quite common.
-     * @throws ParseException
+     * @throws ParserException
      */
     @Test
-    public void dimensionRange() throws ParseException {
+    public void dimensionRange() throws ParserException {
         Vector vector = (Vector) DomainParser.parse("R(-9.0, 9.0)^6");
 
         Assert.assertEquals(6, vector.size());
     }
 
     @Test
-    public void infiniteBounds() throws ParseException {
+    public void infiniteBounds() throws ParserException {
         Vector vector = (Vector) DomainParser.parse("R^6");
 
         Assert.assertEquals(6, vector.size());
     }
 
     @Test
-    public void singleInfiniteBounds() throws ParseException {
+    public void singleInfiniteBounds() throws ParserException {
         Vector vector = (Vector) DomainParser.parse("R");
 
         Assert.assertEquals(1, vector.size());
     }
 
     @Test
-    public void value() throws ParseException {
+    public void value() throws ParserException {
         Vector vector = (Vector) DomainParser.parse("R(8.0)^6");
 
         Assert.assertEquals(6, vector.size());
@@ -78,7 +79,7 @@ public class DomainParserTest {
     }
 
     @Test
-    public void singleValue() throws ParseException {
+    public void singleValue() throws ParserException {
         Vector vector = (Vector) DomainParser.parse("R(8.0)");
 
         Assert.assertEquals(1, vector.size());
@@ -86,47 +87,47 @@ public class DomainParserTest {
     }
 
     @Test
-    public void complex() throws ParseException {
+    public void complex() throws ParserException {
         Vector vector = (Vector) DomainParser.parse("R(-9.0, 9.0),R^6,R(9.0),B,Z");
 
         Assert.assertEquals(10, vector.size());
     }
 
-    @Test(expected=TokenMgrError.class)
-    public void invalidDomain() throws ParseException {
+    @Test(expected=ParserException.class)
+    public void invalidDomain() throws ParserException {
         DomainParser.parse("Y");
     }
 
-    @Test(expected=ParseException.class)
-    public void parseNotValid() throws ParseException {
+    @Test(expected=ParserException.class)
+    public void parseNotValid() throws ParserException {
         DomainParser.parse("R(-5, -4, -5)^-7");
     }
 
-    @Test(expected=ParseException.class)
-    public void negativeExponent() throws ParseException {
+    @Test(expected=ParserException.class)
+    public void negativeExponent() throws ParserException {
         DomainParser.parse("R^-9");
     }
 
-    @Test(expected=ParseException.class)
-    public void zeroExponent() throws ParseException {
+    @Test(expected=ParserException.class)
+    public void zeroExponent() throws ParserException {
         DomainParser.parse("R^0");
     }
 
     @Test
-    public void integerBounds() throws ParseException {
+    public void integerBounds() throws ParserException {
         DomainParser.parse("R(1,3)");
         DomainParser.parse("R(-1,3)");
         DomainParser.parse("R(-3,-1)");
         DomainParser.parse("R(-3,-1)^9");
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void incorrectBoundsOrder() throws ParseException {
+    @Test(expected=ParserException.class)
+    public void incorrectBoundsOrder() throws ParserException {
         DomainParser.parse("R(3, 2)"); // Lower bound > Upper bound = WRONG!
     }
 
      @Test
-    public void testParseReal() throws ParseException {
+    public void testParseReal() throws ParserException {
         net.sourceforge.cilib.type.parser.DomainParser.parse("R(0.0,9.0)");
         net.sourceforge.cilib.type.parser.DomainParser.parse("R");
         net.sourceforge.cilib.type.parser.DomainParser.parse("R^6");
@@ -136,16 +137,17 @@ public class DomainParserTest {
 
 
     @Test
-    public void testParseBit() throws ParseException {
+    public void testParseBit() throws ParserException {
         net.sourceforge.cilib.type.parser.DomainParser.parse("B");
         net.sourceforge.cilib.type.parser.DomainParser.parse("B^6");
     }
 
 
     @Test
-    public void testParseInteger() throws ParseException {
+    public void testParseInteger() throws ParserException {
         net.sourceforge.cilib.type.parser.DomainParser.parse("Z");
         net.sourceforge.cilib.type.parser.DomainParser.parse("Z(-1,0)");
+        net.sourceforge.cilib.type.parser.DomainParser.parse("Z(1)");
         net.sourceforge.cilib.type.parser.DomainParser.parse("Z(0,1)");
         net.sourceforge.cilib.type.parser.DomainParser.parse("Z(-999,999)");
         net.sourceforge.cilib.type.parser.DomainParser.parse("Z^8");
@@ -154,7 +156,7 @@ public class DomainParserTest {
 
 
     @Test
-    public void testParseString() throws ParseException {
+    public void testParseString() throws ParserException {
         net.sourceforge.cilib.type.parser.DomainParser.parse("T^5");
     }
 

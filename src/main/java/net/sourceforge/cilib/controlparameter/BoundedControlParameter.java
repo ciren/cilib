@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.controlparameter;
 
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.ParseException;
+import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -167,7 +167,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * Set the range of the parameter.
      * @param range The domain string representing the range.
      */
-    public void setRange(String range) throws ParseException {
+    public void setRange(String range) throws ParserException {
         this.range = range;
         Vector v = (Vector) DomainParser.parse(this.range);
 //        parser.parse(this.range);

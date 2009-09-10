@@ -1,0 +1,68 @@
+/**
+ * Copyright (C) 2003 - 2009
+ * Computational Intelligence Research Group (CIRG@UP)
+ * Department of Computer Science
+ * University of Pretoria
+ * South Africa
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+Package net.sourceforge.cilib.type.parser;
+
+Helpers
+    tab   = 9;
+    cr    = 13;
+    lf    = 10;
+    minus = '-';
+    non_zero_digit = ['1'..'9'];
+    digit = ['0'..'9'];
+    digit_sequence = digit+;
+    integer_constant = minus? digit_sequence;
+    decimal_constant = integer_constant ('.' digit_sequence)?;
+
+Tokens
+    type = 'R' | 'B' | 'Z' | 'T';
+    eol   = cr | lf | cr lf;
+    blank = (' ' | tab)+;
+    caret = '^';
+    comma = ',';
+    l_par = '(';
+    r_par = ')';
+
+    positive_integer = non_zero_digit digit*;
+    decimal = decimal_constant;
+
+Ignored Tokens
+    eol, blank;
+
+Productions
+    grammar = statement_sequence;
+    statement_sequence =
+        {single} statement |
+        {sequence} statement_sequence comma statement;
+    statement =
+        type bounds_statement exponent_statement;
+    bounds_statement =
+        {bounded} l_par [value]:number bounded_statement |
+	{empty} ;
+    bounded_statement =
+        {value} r_par |
+        {bounds} comma number r_par;
+    exponent_statement =
+        {non_empty} caret positive_integer |
+        {empty} ;
+
+    number = {double} decimal |
+             {integer} positive_integer;

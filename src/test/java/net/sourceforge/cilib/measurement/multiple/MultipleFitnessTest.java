@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.measurement.multiple;
 
-import net.sourceforge.cilib.type.parser.ParseException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.parser.DomainParser;
+import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.container.TypeList;
 
@@ -38,7 +38,7 @@ import org.junit.Test;
 public class MultipleFitnessTest {
 
     @Test
-    public void testMultipleFitnessDomain() throws ParseException {
+    public void testMultipleFitnessDomain() throws ParserException {
         Measurement m = new MultipleFitness();
 
         TypeList vector = (TypeList) DomainParser.parse(m.getDomain());
