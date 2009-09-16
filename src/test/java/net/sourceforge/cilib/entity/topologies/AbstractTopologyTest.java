@@ -70,12 +70,9 @@ public class AbstractTopologyTest {
         topology.add(i2);
         topology.add(i3);
 
-        Particle socialBest = topology.getBestEntity(new SocialBestFitnessComparator());
-        topology.clearBestEntity();
-        Particle mostFit = topology.getBestEntity(new AscendingFitnessComparator());
-        topology.clearBestEntity();
-        Particle leastFit = topology.getBestEntity(new DescendingFitnessComparator());
-        topology.clearBestEntity();
+        Particle socialBest = topology.getBestEntity(new SocialBestFitnessComparator<Particle>());
+        Particle mostFit = topology.getBestEntity(new AscendingFitnessComparator<Particle>());
+        Particle leastFit = topology.getBestEntity(new DescendingFitnessComparator<Particle>());
         Particle other = topology.getBestEntity();
 
         Assert.assertThat(socialBest, is(other));

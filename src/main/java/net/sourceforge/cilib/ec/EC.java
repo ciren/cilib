@@ -95,8 +95,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      */
     @Override
     public void algorithmIteration() {
-        this.topology.clearBestEntity();
-
         for (Entity entity : this.getTopology()) {
             //entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
             entity.calculateFitness();

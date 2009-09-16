@@ -424,14 +424,6 @@ public class VonNeumannTopology<E extends Entity> extends AbstractTopology<E> {
      * {@inheritDoc}
      */
     @Override
-    public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean equals(Object o) {
         throw new UnsupportedOperationException("Method not supported in VonNeumannTopology");
     }
