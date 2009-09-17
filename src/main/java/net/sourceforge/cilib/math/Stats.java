@@ -21,11 +21,13 @@
  */
 package net.sourceforge.cilib.math;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Some simple methods for determining some statistics.
@@ -140,12 +142,7 @@ public final class Stats {
     }
 
     public static double stdDeviation(Number... values) {
-        double [] elements = new double[values.length];
-        for (int i = 0; i < values.length; i++) {
-            elements[i] = values[i].doubleValue();
-        }
-
-        return Math.sqrt(org.apache.commons.math.stat.StatUtils.variance(elements));
+        return Math.sqrt(variance(Vectors.create(values)));
     }
 
 }
