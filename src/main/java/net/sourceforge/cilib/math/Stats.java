@@ -139,4 +139,13 @@ public final class Stats {
         return Math.sqrt(variance(vector));
     }
 
+    public static double stdDeviation(Number... values) {
+        double [] elements = new double[values.length];
+        for (int i = 0; i < values.length; i++) {
+            elements[i] = values[i].doubleValue();
+        }
+
+        return Math.sqrt(org.apache.commons.math.stat.StatUtils.variance(elements));
+    }
+
 }

@@ -35,9 +35,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * <p>Minimum:
  * <ul>
- * <li> f(<b>x</b>*) = 0.0 </li>
+ * <li> &fnof;(<b>x</b>*) = 0.0 </li>
  * <li> <b>x</b>* = (-10,0)</li>
- * <li> for x_1 in [-15,-5], x_2 in [-3,3]</li>
+ * <li> for x<sub>1</sub> in [-15,-5], x<sub>2</sub> in [-3,3]</li>
  * </ul>
  * </p>
  *

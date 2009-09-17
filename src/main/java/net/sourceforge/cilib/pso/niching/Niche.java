@@ -28,31 +28,55 @@ import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationSt
 import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.entity.initialization.ConstantInitializationStrategy;
-import net.sourceforge.cilib.problem.InferiorFitness;
+import net.sourceforge.cilib.entity.initialization.RandomInitializationStrategy;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.boundaryconstraint.ReinitialisationBoundary;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.StandardVelocityUpdate;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * <p>
+ * Generalized Niche algorithm.
+ * </p>
+ * <p>
+ * This class is intended to be the base class (or even the only class) for all
+ * algorithms implementing a form of niching.
+ * </p>
+ * <p>
+ * Currently the main implementation is the NichePSO, however, any implementation
+ * can be achieved by correctly applying the different setter methods with the appropriate
+ * instances.
+ * </p>
+ * <pre>
+ * {@literal @}inproceedings{}
+ * </pre>
  * @author gpampara
  */
 public class Niche extends MultiPopulationBasedAlgorithm {
     private static final long serialVersionUID = 3575627467034673738L;
 
     private PopulationBasedAlgorithm mainSwarm;
-    private NicheCreationStrategy swarmCreationStrategy;
 
+    private NicheIdentificationStrategy nicheIdentificationStrategy;
+    private NicheCreationStrategy swarmCreationStrategy;
+    private AbsorptionStrategy absorptionStrategy;
+    private MergeStrategy mergeStrategy;
+
+    /**
+     * Create a new instance of Niche.
+     */
     public Niche() {
         this.mainSwarm = new PSO();
+        PSO pso = (PSO) this.mainSwarm;
+        ((SynchronousIterationStrategy)pso.getIterationStrategy()).setBoundaryConstraint(new ReinitialisationBoundary());
 
         Particle mainSwarmParticle = new StandardParticle();
-        mainSwarmParticle.setVelocityInitializationStrategy(new ConstantInitializationStrategy(0.0));
+        mainSwarmParticle.setVelocityInitializationStrategy(new RandomInitializationStrategy());
         StandardVelocityUpdate velocityUpdateStrategy = new StandardVelocityUpdate();
         velocityUpdateStrategy.setSocialAcceleration(new ConstantControlParameter(0.0));
 
@@ -63,9 +87,24 @@ public class Niche extends MultiPopulationBasedAlgorithm {
 
         this.mainSwarm.setInitialisationStrategy(mainSwarmInitialisationStrategy);
 
-//        this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
+        this.nicheIdentificationStrategy = new StandardNicheIdentificationStrategy();
+        this.swarmCreationStrategy = new StandardSwarmCreationStrategy();
+        this.absorptionStrategy = new NullAbsorptionStrategy();
+        this.mergeStrategy = new StandardMergeStrategy();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PopulationBasedAlgorithm getClone() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Initialise the main population based algorithm, provided such a notion exists.
+     * @see MultiPopulationBasedAlgorithm#performInitialisation()
+     */
     @Override
     public void performInitialisation() {
         for (StoppingCondition stoppingCondition : getStoppingConditions())
@@ -77,32 +116,51 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         this.mainSwarm.performInitialisation();
     }
 
-
-
+    /**
+     * <p>
+     * Perform the iteration of the algorithm.
+     * </p>
+     * <p>
+     * The general format of this method would be the following steps:
+     * <ol>
+     *   <li>Perform an iteration of the main swarm.</li>
+     *   <li>Perform an iteration for each of the contained sub-swarms.</li>
+     *   <li>Merge any sub-swarms as defined my the associated {@link MergeStrategy}.</li>
+     *   <li>Perform an absorption step defined by a {@link AbsorptionStrategy}.</li>
+     *   <li>Identify any new potential niches using a {@link NicheIdentificationStrategy}.</li>
+     *   <li>Create new sub-swarms via a {@link NicheCreationStrategy} for the identified niches.</li>
+     * </ol>
+     * </p>
+     */
     @Override
     protected void algorithmIteration() {
         mainSwarm.performIteration();
 
         for (PopulationBasedAlgorithm subSwarm : this) {
-            subSwarm.performIteration();
+            subSwarm.performIteration(); // TODO: There may be an issue with this and the number of iterations
         }
 
-//        this.mergeStrategy.merge(this);
-//        this.absorptionStrategy.absorb(this);
-        this.swarmCreationStrategy.create(this);
+        this.mergeStrategy.merge(this);
+        this.absorptionStrategy.absorb(this);
+
+        List<Entity> niches = this.nicheIdentificationStrategy.identify(mainSwarm.getTopology());
+        this.swarmCreationStrategy.create(this, niches);
     }
 
-    @Override
-    public PopulationBasedAlgorithm getClone() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    /**
+     * There is no best solution associated with a top level Niche algorithm.
+     * @see #getSolutions()
+     */
     @Override
     public OptimisationSolution getBestSolution() {
-//        throw new UnsupportedOperationException("Niching does not provide a single solution.");
-        return new OptimisationSolution(new Vector(), InferiorFitness.instance());
+        throw new UnsupportedOperationException("Niching algorithms do not have a single solution.");
     }
 
+    /**
+     * Get the solutions of the the optimisation. The solutions are the best
+     * entities within each identified niche.
+     * @return The list of best solutions for each niche.
+     */
     @Override
     public List<OptimisationSolution> getSolutions() {
         List<OptimisationSolution> list = new ArrayList<OptimisationSolution>();
@@ -113,8 +171,20 @@ public class Niche extends MultiPopulationBasedAlgorithm {
         return list;
     }
 
+    /**
+     * Get the main swarm.
+     * @return The main swarm.
+     */
     public PopulationBasedAlgorithm getMainSwarm() {
         return this.mainSwarm;
+    }
+
+    /**
+     * Set the main swarm of the Niche.
+     * @param mainSwarm The swarm to set.
+     */
+    public void setMainSwarm(PopulationBasedAlgorithm mainSwarm) {
+        this.mainSwarm = mainSwarm;
     }
 
 }

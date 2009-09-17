@@ -148,7 +148,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
      * Equivalent to calling {@link Algorithm#removeStoppingCondition(StoppingCondition)} on
      * the algorithm set in {@link #setTargetAlgorithm(OptimisationAlgorithm)}.
      *
-     * @param indicator The {@link StoppingCondition} to be removed.
+     * @param condition The {@link StoppingCondition} to be removed.
      */
     public void removeRestartCondition(StoppingCondition condition) {
         algorithm.removeStoppingCondition(condition);

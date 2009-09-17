@@ -21,23 +21,27 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
-import java.util.List;
-import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.algorithm.population.MultiPopulationBasedAlgorithm;
+import net.sourceforge.cilib.util.Cloneable;
 
 /**
- * Niche creation strategies.
+ * Merge startegies for Niching.
  *
  * @author gpampara
  */
-public interface NicheCreationStrategy {
+public interface MergeStrategy extends Cloneable {
 
     /**
-     * Create new niching populations for the provided Niche. The newly found niche
-     * points are provided and are then used to create new niching populations for
-     * the provided Niche algorithm.
-     * @param algorithm The Niche containing all niching populations.
-     * @param niches The newly identified niching locations.
+     * {@inheritDoc}
      */
-    public void create(Niche algorithm, List<Entity> niches);
+    public MergeStrategy getClone();
+
+    /**
+     * Apply check conditions to see if sub-swarms within the provided
+     * {@link MultiPopulationBasedAlgorithm} can be combined into fewer
+     * sub-swarms.
+     * @param algorithm The {@link MultiPopulationBasedAlgorithm} to apply these conditions on.
+     */
+    public void merge(MultiPopulationBasedAlgorithm algorithm);
 
 }

@@ -32,6 +32,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.moo.archive.Archive;
 import net.sourceforge.cilib.problem.OptimisationSolution;
+import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -95,5 +96,15 @@ public class ArchivingIterationStrategy<E extends PopulationBasedAlgorithm> impl
 
     public Archive getArchive() {
         return Archive.get();
+    }
+
+    @Override
+    public BoundaryConstraint getBoundaryConstraint() {
+        return this.iterationStrategy.getBoundaryConstraint();
+    }
+
+    @Override
+    public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

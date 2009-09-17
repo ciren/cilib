@@ -23,21 +23,22 @@ package net.sourceforge.cilib.pso.niching;
 
 import java.util.List;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 
 /**
- * Niche creation strategies.
+ * Identification of niches within a Niching process.
  *
  * @author gpampara
  */
-public interface NicheCreationStrategy {
+public interface NicheIdentificationStrategy {
 
     /**
-     * Create new niching populations for the provided Niche. The newly found niche
-     * points are provided and are then used to create new niching populations for
-     * the provided Niche algorithm.
-     * @param algorithm The Niche containing all niching populations.
-     * @param niches The newly identified niching locations.
+     * Identify any Entity instances that, based on the decision strategy,
+     * have found niches. These entities are returned, with the expectation
+     * that the callee will use them in some or other manner.
+     * @param topology The topology containing the list of Entity instances.
+     * @return A list of niches. The list may be empty.
      */
-    public void create(Niche algorithm, List<Entity> niches);
+    public List<Entity> identify(Topology<? extends Entity> topology);
 
 }

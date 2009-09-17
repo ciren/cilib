@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
+import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.EnvironmentChangeDetectionStrategy;
 import net.sourceforge.cilib.pso.dynamic.detectionstrategies.RandomSentryDetectionStrategy;
@@ -155,5 +156,15 @@ public class DynamicIterationStrategy implements IterationStrategy<PSO> {
      */
     public void setResponseStrategy(EnvironmentChangeResponseStrategy<PSO> responseStrategy) {
         this.responseStrategy = responseStrategy;
+    }
+
+    @Override
+    public BoundaryConstraint getBoundaryConstraint() {
+        return this.iterationStrategy.getBoundaryConstraint();
+    }
+
+    @Override
+    public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
+        this.iterationStrategy.setBoundaryConstraint(boundaryConstraint);
     }
 }

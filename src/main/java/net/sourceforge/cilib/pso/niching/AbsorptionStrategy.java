@@ -21,23 +21,19 @@
  */
 package net.sourceforge.cilib.pso.niching;
 
-import java.util.List;
-import net.sourceforge.cilib.entity.Entity;
-
 /**
- * Niche creation strategies.
+ * Absorption of entities during Niching.
  *
  * @author gpampara
  */
-public interface NicheCreationStrategy {
+public interface AbsorptionStrategy {
 
     /**
-     * Create new niching populations for the provided Niche. The newly found niche
-     * points are provided and are then used to create new niching populations for
-     * the provided Niche algorithm.
-     * @param algorithm The Niche containing all niching populations.
-     * @param niches The newly identified niching locations.
+     * Absorb any entities from any swarm to another within the Niche. Please
+     * refer to the doucumentation of the implementing classes for more details
+     * on how each of the strategies operate.
+     * @param algorithm The algorithm to perform absorption on.
      */
-    public void create(Niche algorithm, List<Entity> niches);
+    public void absorb(Niche algorithm);
 
 }

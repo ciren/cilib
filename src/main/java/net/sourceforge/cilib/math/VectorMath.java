@@ -70,6 +70,12 @@ public interface VectorMath {
     public double norm();
 
     /**
+     * Synonym for the {@code norm()} of the vector.
+     * @return The vector length.
+     */
+    public double length();
+
+    /**
      * Create a unit vector from the current Vector.
      * @return The created unit vector.
      */

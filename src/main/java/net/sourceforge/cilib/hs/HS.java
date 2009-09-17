@@ -99,6 +99,7 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
     /**
      * {@inheritDoc}
      */
+    @Override
     public HS getClone() {
         return new HS(this);
     }

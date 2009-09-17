@@ -198,6 +198,7 @@ public class StandardParticle extends AbstractParticle {
      */
     @Override
     public void reinitialise() {
+        this.positionInitialisationStrategy.initialize(EntityType.CANDIDATE_SOLUTION, this);
         this.velocityInitializationStrategy.initialize(EntityType.Particle.VELOCITY, this);
     }
 }

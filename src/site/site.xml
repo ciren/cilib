@@ -89,6 +89,7 @@
         <item name="Direct usage in code" href="/usersguide/direct-code-usage.html" />
       </item>
       <item name="Developer's Guide" href="/developers/index.html" collapse="true">
+        <item name="Developer Workflow" href="/developers/workflows.html" />
         <item name="Code Style and conventions" href="/developers/code.html" />
         <item name="Workflows" href="/developers/workflows.html" />
       </item>

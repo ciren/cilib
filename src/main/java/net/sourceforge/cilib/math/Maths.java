@@ -204,8 +204,8 @@ public final class Maths {
         if (probability < 0 || probability > 1)
             throw new IllegalArgumentException("Illegal input: valid range is [0,1]");
 
-        Random random = new MersenneTwister();
-        if (random.nextDouble() <= probability)
+        Random randomNumber = new MersenneTwister();
+        if (randomNumber.nextDouble() <= probability)
             return 1;
 
         return 0;

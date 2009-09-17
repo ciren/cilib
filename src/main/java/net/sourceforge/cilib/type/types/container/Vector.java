@@ -392,13 +392,25 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     }
 
     /**
+     * Obtain the length of the {@code Vector}. The length is determined
+     * by obtaining the {@code norm()} of the {@code Vector}.
+     * @return The length of the {@code Vector}.
+     */
+    public final double length() {
+        return this.norm();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public final Vector normalize() {
         Vector local = getClone();
         double value = local.norm();
-        return local.divide(value);
+
+        // If the norm() of the vector is 0.0, then we are takling about the "normal vector"
+        // (\vector{0}) and as a result the normal vector is it's own normal.
+        return (Double.compare(value, 0.0) != 0) ? local.divide(value) : local;
     }
 
     /**

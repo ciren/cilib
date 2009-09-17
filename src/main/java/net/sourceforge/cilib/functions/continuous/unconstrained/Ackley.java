@@ -32,9 +32,9 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * <p>Minimum:
  * <ul>
- * <li> f(<b>x</b>*) = 0</li>
+ * <li> &fnof;(<b>x</b>*) = 0</li>
  * <li> <b>x</b>* = (0, 0, ...., 0)</li>
- * <li> for x_i in [-32.768,32.768]</li>
+ * <li> for x<sub>i</sub> in [-32.768,32.768]</li>
  * </ul>
  * </p>
  *
