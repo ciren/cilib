@@ -207,16 +207,6 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
     }
 
     /**
-     * Return the actual domain of the problem's dataset, i.e. NOT the duplicated domain
-     * string as used by the clustering fitness function.
-     *
-     * @return the {@link #domainRegistry} of this clustering problem
-     */
-    public DomainRegistry getBehaviouralDomain() {
-        return domainRegistry;
-    }
-
-    /**
      * Sets the domain of the dataset being clustered. Once this domain string is set
      * (changed), the domain of the {@link net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction}
      * is automatically {@link #regenerateDomain() regenerated}.

@@ -264,10 +264,6 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
             return null;
         }
 
-        public DomainRegistry getBehaviouralDomain() {
-            return null;
-        }
-
         private OptimisationProblem target;
 
     }

@@ -86,10 +86,6 @@ public class MSAProblem extends OptimisationProblemAdapter {
         return gapPenaltyMethod;
     }
 
-    public DomainRegistry getBehaviouralDomain() {
-        return this.domainRegistry;
-    }
-
     public OptimisationProblemAdapter getClone() {
         return this;
     }

@@ -96,12 +96,6 @@ public class MOFitnessTest {
         }
 
         @Override
-        public DomainRegistry getBehaviouralDomain() {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
         public DataSetBuilder getDataSetBuilder() {
             // TODO Auto-generated method stub
             return null;

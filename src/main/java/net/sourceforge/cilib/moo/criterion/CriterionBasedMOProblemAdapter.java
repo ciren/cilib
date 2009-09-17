@@ -87,11 +87,6 @@ public class CriterionBasedMOProblemAdapter extends OptimisationProblemAdapter {
     }
 
     @Override
-    public DomainRegistry getBehaviouralDomain() {
-        return getActiveOptimisationProblem().getBehaviouralDomain();
-    }
-
-    @Override
     public DomainRegistry getDomain() {
         return getActiveOptimisationProblem().getDomain();
     }

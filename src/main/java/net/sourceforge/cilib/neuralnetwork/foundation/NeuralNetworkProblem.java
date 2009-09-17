@@ -106,10 +106,6 @@ public class NeuralNetworkProblem implements OptimisationProblem, Initializable 
         return null;
     }
 
-    public DomainRegistry getBehaviouralDomain() {
-        return null;
-    }
-
     public void setEvaluationStrategy(EvaluationMediator evaluationStrategy) {
         this.evaluationStrategy = evaluationStrategy;
     }

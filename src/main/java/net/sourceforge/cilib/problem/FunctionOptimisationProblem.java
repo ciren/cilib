@@ -90,14 +90,6 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     }
 
     /**
-     *
-     */
-    public DomainRegistry getBehaviouralDomain() {
-//        return function.getBehavioralDomainRegistry();
-        return null;
-    }
-
-    /**
      * Returns the error (as a double for now) that the given solution has with respect to the actual optimum solution.
      *
      * @param solution the solution for which an error should be determined
