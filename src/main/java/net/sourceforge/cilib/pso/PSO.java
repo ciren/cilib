@@ -116,8 +116,6 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     @Override
     protected void algorithmIteration() {
-        this.topology.clearBestEntity();
-
         iterationStrategy.performIteration(this);
 
         for (Particle particle : this.getTopology()) {

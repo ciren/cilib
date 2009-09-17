@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 
@@ -39,8 +40,6 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
  */
 public abstract class AbstractTopology<E extends Entity> implements Topology<E> {
     private static final long serialVersionUID = -9117512234439769226L;
-
-    private E bestEntity;
 
     /**
      * {@inheritDoc}
@@ -89,18 +88,16 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
      */
     @Override
     public E getBestEntity(Comparator<? super E> comparator) {
-//        if (bestEntity == null) {
         E bestEntity = null;
-            Iterator<E> i = this.iterator();
-            bestEntity = i.next();
+        Iterator<E> i = this.iterator();
+        bestEntity = i.next();
 
-            while (i.hasNext()) {
-                E entity = i.next();
-                if (comparator.compare(bestEntity, entity) < 0) { // bestEntity is worse than entity
-                    bestEntity = entity;
-                }
+        while (i.hasNext()) {
+            E entity = i.next();
+            if (comparator.compare(bestEntity, entity) < 0) { // bestEntity is worse than entity
+                bestEntity = entity;
             }
-//        }
+        }
 
         return bestEntity;
     }
@@ -109,14 +106,17 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
      * {@inheritDoc}
      */
     @Override
-    public void clearBestEntity() {
-        this.bestEntity = null;
+    public void update() {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
-    public void update() {
+    public boolean containsAll(Collection<?> c) {
+        Iterator<?> e = c.iterator();
+        while (e.hasNext()) {
+            if (!contains(e))
+                return false;
+        }
+        return true;
     }
 }

@@ -132,11 +132,6 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Method not supported in GBestTopology");
-    }
-
-    @Override
     public boolean equals(Object o) {
         throw new UnsupportedOperationException("Method not supported in GBestTopology");
     }

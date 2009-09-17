@@ -203,9 +203,4 @@ public interface Topology<E extends Entity>
      */
     public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator);
 
-    /**
-     * Clear the current best entity from the topology, thereby forcing a
-     * re-calculation of the best {@linkplain Entity} within the topology.
-     */
-    public void clearBestEntity();
 }
