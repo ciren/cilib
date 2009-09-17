@@ -28,7 +28,6 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -96,9 +95,8 @@ public class ConvergedDimensions implements Measurement<Real> {
     /**
      * Set the target solution string representation
      * @param stringRepresentation
-     * @throws ParserException if the provided {@code String} cannot be parsed.
      */
-    public void setTargetSolution(String stringRepresentation) throws ParserException {
+    public void setTargetSolution(String stringRepresentation) {
         this.targetSolution = (Vector) DomainParser.parse(stringRepresentation);
     }
 

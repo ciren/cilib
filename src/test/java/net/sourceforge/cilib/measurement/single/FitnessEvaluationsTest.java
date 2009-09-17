@@ -25,7 +25,6 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -67,7 +66,7 @@ public class FitnessEvaluationsTest {
     }
 
     @Test
-    public void testFitnessEvaluationsDomain() throws ParserException {
+    public void testFitnessEvaluationsDomain() {
         Measurement m = new FitnessEvaluations();
         Vector vector = (Vector) DomainParser.parse(m.getDomain());
 

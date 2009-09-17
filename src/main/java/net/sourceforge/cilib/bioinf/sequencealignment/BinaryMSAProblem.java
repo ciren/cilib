@@ -201,13 +201,10 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
 
             System.out.println("Domain: "+rep);  //extra for debug, can be commented out
 
-            try {
                 //extra for debug, can be commented out
                 //extra for debug, can be commented out
 //            parser.parse(rep);
-                DomainParser.parse(rep);
-            } catch (ParserException ex) {
-            }
+            DomainParser.parse(rep);
 
             domainRegistry.setDomainString(rep);
         }

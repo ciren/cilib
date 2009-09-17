@@ -24,8 +24,6 @@ package net.sourceforge.cilib.type.parser;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.cilib.type.creator.TypeCreator;
 import net.sourceforge.cilib.type.parser.analysis.DepthFirstAdapter;
 import net.sourceforge.cilib.type.parser.lexer.Lexer;
@@ -36,25 +34,33 @@ import net.sourceforge.cilib.type.parser.node.ADoubleNumber;
 import net.sourceforge.cilib.type.parser.node.AIntegerNumber;
 import net.sourceforge.cilib.type.parser.node.ANonEmptyExponentStatement;
 import net.sourceforge.cilib.type.parser.node.AStatement;
-import net.sourceforge.cilib.type.parser.node.EOF;
 import net.sourceforge.cilib.type.parser.node.Start;
-import net.sourceforge.cilib.type.parser.node.TDecimal;
 import net.sourceforge.cilib.type.parser.node.TType;
 import net.sourceforge.cilib.type.parser.parser.Parser;
 import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.AbstractList;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- *
+ * The domain parser converts a provided domain string representation into
+ * a {@code StructuredType}. If the domain string defines a simple {@code Vector}
+ * based representaton of {@code Numeric} types, then a {@code Vector} is returned.
  */
-public class DomainParser {
+public final class DomainParser {
 
-    public static StructuredType parse(String domain) throws ParserException {
+    private DomainParser() {}
+
+    /**
+     * Parse the provided domain string and return the constructed representation.
+     * @param <E> The structured type.
+     * @param domain The string to parse.
+     * @return A {@code TypeList} is returned by default, but if the type is defined
+     *         to consist of {@code Numeric} types, a {@code Vector} instance is returned.
+     */
+    public static <E extends StructuredType<? extends Type>> E parse(String domain) {
         try {
             Evaluator e = new Evaluator();
             Lexer lexer = new Lexer(new PushbackReader(new StringReader(domain), 100));
@@ -62,18 +68,32 @@ public class DomainParser {
             Start ast = parser.parse();
             ast.apply(e);
 
-            TypeList list = e.typeList;
+            @SuppressWarnings("unchecked")
+            E result = (E) e.typeList; // This is a typesafe operation
 
-            if (isVector(list))
-                return toVector(list);
+            if (isVector(result)) {
+                @SuppressWarnings("unchecked") E vector = (E) toVector(result);
+                return vector;
+            }
 
-            return list;
-        } catch (Exception ex) {
-            throw new ParserException(new EOF(), "Unexplained error! Cannot parse domain: " + domain + " Reason: " + ex);
+            return result;
+        } catch (IOException io) {
+            throw new RuntimeException("IOException somehow happened during the parsing of the domain: " + domain, io);
+        } catch (LexerException lexer) {
+            throw new RuntimeException("A lexer error was caused during parsing of domain string: " + domain, lexer);
+        } catch (ParserException ex) {
+            throw new RuntimeException("An exception occured during the parsing of: " + domain, ex);
         }
     }
 
-    private static boolean isVector(TypeList representation) {
+    /**
+     * Convert the {@code TypeList} into a {@code Vector} if all elements are
+     * {@code Numeric} types.
+     * @param representation The current data structure of the representation.
+     * @return {@code true} if the structure should really be a {@code Vector},
+     *         {@code false} otherwise.
+     */
+    private static boolean isVector(StructuredType<? extends Type> representation) {
         for (Type type : representation)
             if (!(type instanceof Numeric))
                 return false;
@@ -81,8 +101,12 @@ public class DomainParser {
         return true;
     }
 
-    @SuppressWarnings("unchecked")
-    private static AbstractList toVector(TypeList representation) {
+    /**
+     * Convert the provided {@code representation} into a {@code Vector}.
+     * @param representation The {@code StructuredType} to convert.
+     * @return The converted vector object.
+     */
+    private static <E extends StructuredType<? extends Type>> Vector toVector(E representation) {
         Vector vector = new Vector(representation.size());
 
         for (Type type : representation)
@@ -113,7 +137,7 @@ public class DomainParser {
                 } else {
                     if (boundVisitor.lowerBound > boundVisitor.upperBound)
                         throw new UnsupportedOperationException("Bounds are in an invalid order. Expected x < yb but got x > y");
-                    
+
                     instance = creator.create(boundVisitor.lowerBound, boundVisitor.upperBound);
                 }
 
@@ -128,12 +152,12 @@ public class DomainParser {
                 // create an instance of the TypeCreator
                 Class<?> creatorClass = Class.forName("net.sourceforge.cilib.type.creator." + type.getText());
                 instance = (TypeCreator) creatorClass.newInstance();
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (InstantiationException ex) {
-                ex.printStackTrace();
-            } catch (IllegalAccessException ex) {
-                ex.printStackTrace();
+            } catch (ClassNotFoundException c) {
+                throw new UnsupportedOperationException("Cannot find class: net.sourceforge.cilib.type.creator." + type.getText(), c);
+            } catch (IllegalAccessException i) {
+                throw new UnsupportedOperationException("Cannot access!", i);
+            } catch (InstantiationException in) {
+                throw new UnsupportedOperationException("Cannot instantiate class: net.sourceforge.cilib.type.creator." + type.getText(), in);
             }
 
             return instance;
@@ -190,8 +214,5 @@ public class DomainParser {
 
             node.getBoundedStatement().apply(this);
         }
-    }
-
-    private DomainParser() {
     }
 }

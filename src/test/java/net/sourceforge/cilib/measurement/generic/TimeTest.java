@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -34,7 +33,7 @@ import org.junit.Test;
 public class TimeTest {
 
     @Test
-    public void testTimeDomain() throws ParserException {
+    public void testTimeDomain() {
         Measurement m = new Time();
 
         Vector vector = (Vector) DomainParser.parse(m.getDomain());

@@ -38,7 +38,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 
     private long id;
     private final CandidateSolution candidateSolution;
-    private FitnessCalculator<Entity> fitnessCalculator;
+    private FitnessCalculator fitnessCalculator;
 
     /**
      * Initialise the candidate solution of the {@linkplain Entity}.

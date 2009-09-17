@@ -78,6 +78,8 @@ public class BlendCrossoverStrategyTest {
      * This kind of thing would be awesome to just imject with Guice.
      */
     private class MockFitnessCalculator implements FitnessCalculator<Individual> {
+        private static final long serialVersionUID = 9150587058200872989L;
+
         @Override
         public FitnessCalculator<Individual> getClone() {
             return this;

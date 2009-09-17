@@ -501,7 +501,7 @@ public final class Matrix implements Type {
                 }
 
                 // Compute multipliers.
-                if (j < m & (lu[j][j] != 0.0)) {
+                if (j < m && (lu[j][j] != 0.0)) {
                     for (int i = j+1; i < m; i++) {
                         lu[i][j] /= lu[j][j];
                     }

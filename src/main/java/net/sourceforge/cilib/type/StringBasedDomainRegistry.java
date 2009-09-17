@@ -21,9 +21,6 @@
  */
 package net.sourceforge.cilib.type;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
@@ -77,11 +74,7 @@ public class StringBasedDomainRegistry implements DomainRegistry {
     @Override
     public void setDomainString(String domainString) {
         this.domainString = domainString;
-        try {
-            this.builtRepresenation = net.sourceforge.cilib.type.parser.DomainParser.parse(domainString);
-        } catch (ParserException ex) {
-            Logger.getLogger(StringBasedDomainRegistry.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.builtRepresenation = net.sourceforge.cilib.type.parser.DomainParser.parse(domainString);
     }
 
     /**

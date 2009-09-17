@@ -26,7 +26,6 @@ import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.problem.changestrategy.ChangeStrategy;
 import net.sourceforge.cilib.problem.changestrategy.IterationBasedSingleChangeStrategy;
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Matrix;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -175,21 +174,16 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
      * @param function the function to set
      */
     public void setFunction(ContinuousFunction function) {
-        try {
-            this.function = function;
-            this.setDomain(function.getDomainRegistry().getDomainString());
+        this.function = function;
+        this.setDomain(function.getDomainRegistry().getDomainString());
 
-            Vector structure = (Vector) DomainParser.parse(function.getDomainRegistry().getDomainString());
-            Bounds bounds = structure.get(0).getBounds();
-            double lowerLimit = bounds.getLowerBound();
-            double upperLimit = bounds.getUpperBound();
+        Vector structure = (Vector) DomainParser.parse(function.getDomainRegistry().getDomainString());
+        Bounds bounds = structure.get(0).getBounds();
+        double lowerLimit = bounds.getLowerBound();
+        double upperLimit = bounds.getUpperBound();
 
-            center = (upperLimit - lowerLimit) / 2 + lowerLimit;
-            this.N = function.getDimension();
-            this.matrix = initMatrices();
-
-        } catch (ParserException ex) {
-            throw new IllegalArgumentException(ex);
-        }
+        center = (upperLimit - lowerLimit) / 2 + lowerLimit;
+        this.N = function.getDimension();
+        this.matrix = initMatrices();
     }
 }
