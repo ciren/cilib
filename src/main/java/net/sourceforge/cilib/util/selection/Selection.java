@@ -63,7 +63,6 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * @author gpampara
  */
 public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, UniqueSyntax<E> {
-
     private List<Entry<E>> elements;
 
     /**
@@ -110,6 +109,9 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A random element within {@code elements}.
      */
     public static <T> T randomFrom(List<? extends T> elements, Random random) {
+        if (elements.size() == 0)
+            throw new IllegalArgumentException("Provided list must contain elements.");
+
         int index = random.nextInt(elements.size());
         int count = 0;
 
@@ -136,6 +138,9 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A list of random elements contained in {@code elements}.
      */
     public static <T> List<T> randomFrom(List<? extends T> elements, Random random, int number) {
+        if (elements.size() == 0)
+            throw new IllegalArgumentException("Provided list must contain elements.");
+
         List<T> tmp = new ArrayList<T>(number);
 
         for (int i = 0; i < number; i++) {
@@ -298,7 +303,6 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @param <E> The {@see Comparable} type.
      */
     public final static class Entry<E> {
-
         private final E element;
         private double weight;
 

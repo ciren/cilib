@@ -102,4 +102,19 @@ public final class Vectors {
         return vector;
     }
 
+    /**
+     * Determine the sum of a list of {@code Vector} instances.
+     * @param vectors The {@code Vector} instances to sum.
+     * @return The resultant {@code Vector}.
+     */
+    public static Vector sumOf(Vector... vectors) {
+        Vector result = vectors[0].getClone();
+        result.reset();
+
+        for (Vector vector : vectors)
+            result = result.plus(vector);
+
+        return result;
+    }
+
 }

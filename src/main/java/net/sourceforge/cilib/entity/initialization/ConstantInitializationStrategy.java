@@ -54,6 +54,7 @@ public class ConstantInitializationStrategy<E extends Entity> implements Initial
     @Override
     public void initialize(Enum<?> key, E entity) {
         Type type = entity.getProperties().get(key);
+
         if (type instanceof Vector) {
             Vector vector = (Vector) type;
 
@@ -64,7 +65,7 @@ public class ConstantInitializationStrategy<E extends Entity> implements Initial
             return;
         }
 
-        throw new UnsupportedOperationException("Cannot perfrom initialization on a non Vector type.");
+        throw new UnsupportedOperationException("Cannot perfrom initialization on non Vector type.");
     }
 
     public double getConstant() {

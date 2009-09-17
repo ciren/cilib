@@ -30,7 +30,10 @@ import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm
 import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
+import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
+import net.sourceforge.cilib.entity.initialization.NullInitializationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -49,6 +52,8 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     private IterationStrategy<EC> iterationStrategy;
     private Topology<Individual> topology;
 
+    private InitializationStrategy<Entity> strategyParameterInitialization;
+
     /**
      * Create a new instance of {@code EC}.
      */
@@ -58,6 +63,8 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
 
         this.iterationStrategy = new GeneticAlgorithmIterationStrategy();
         this.topology = new GBestTopology<Individual>();
+
+        this.strategyParameterInitialization = new NullInitializationStrategy<Entity>();
     }
 
     /**
@@ -74,6 +81,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     /**
      * {@inheritDoc}
      */
+    @Override
     public EC getClone() {
         return new EC(this);
     }
@@ -88,6 +96,10 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         for (Entity individual : individuals)
             topology.add((Individual) individual);
 //        Iterables.addAll(topology, individuals);
+
+        for (Entity entity : topology) {
+            this.strategyParameterInitialization.initialize(EntityType.STRATEGY_PARAMETERS, entity);
+        }
     }
 
     /**
@@ -96,7 +108,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     @Override
     public void algorithmIteration() {
         for (Entity entity : this.getTopology()) {
-            //entity.setFitness(this.getOptimisationProblem().getFitness(entity.get(), true));
             entity.calculateFitness();
         }
 
@@ -114,7 +125,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void setTopology(Topology topology) {
         this.topology = topology;
@@ -139,6 +149,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     /**
      * {@inheritDoc}
      */
+    @Override
     public OptimisationSolution getBestSolution() {
         Entity bestEntity = topology.getBestEntity();
         OptimisationSolution solution = new OptimisationSolution(bestEntity.getCandidateSolution().getClone(), bestEntity.getFitness());
@@ -159,7 +170,6 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
      * Set the current {@linkplain net.sourceforge.cilib.algorithm.population.IterationStrategy}.
      * @param iterationStrategy The value to set.
      */
-    @SuppressWarnings("unchecked")
     public void setIterationStrategy(IterationStrategy iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
     }
@@ -194,6 +204,14 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         //TODO: This might not be what you want, change as desired
         //getBestEntity().setFitness(fitness);
         this.topology.getBestEntity().calculateFitness();
+    }
+
+    public InitializationStrategy<Entity> getStrategyParameterInitialization() {
+        return strategyParameterInitialization;
+    }
+
+    public void setStrategyParameterInitialization(InitializationStrategy<Entity> strategyParameterInitialization) {
+        this.strategyParameterInitialization = strategyParameterInitialization;
     }
 
 }
