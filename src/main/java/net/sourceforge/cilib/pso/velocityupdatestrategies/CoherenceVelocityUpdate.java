@@ -28,6 +28,7 @@ import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
 import net.sourceforge.cilib.math.random.RandomNumber;
 import net.sourceforge.cilib.pso.PSO;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -95,7 +96,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
         double swarmCenterVelocity = averageVelocity.norm();
         double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
 
-        double sigmoidValue = sigmoid.evaluate(swarmCoherence);
+        double sigmoidValue = sigmoid.evaluate(new Real(swarmCoherence)).getReal();
 
          for (int i = 0; i < particle.getDimension(); ++i) {
                 double value = inertiaWeight.getParameter()*velocity.getReal(i) +

@@ -33,6 +33,7 @@ import net.sourceforge.cilib.util.Vectors;
  * be taken into consideration.
  */
 public class Sigmoid extends ActivationFunction {
+
     private static final long serialVersionUID = 8291966233976579855L;
     private ControlParameter steepness;
     private ControlParameter offset;
@@ -60,60 +61,45 @@ public class Sigmoid extends ActivationFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
-        if (input.getDimension() != 1)
-            throw new UnsupportedOperationException("Cannot determine the actvation of more than a single value");
-
-        if (steepness.getParameter() < 0.0)
-            throw new UnsupportedOperationException("Steepness value for sigmoid function must be >= 0");
-
-        return (1.0 / (1.0+Math.pow(Math.E, -1.0*steepness.getParameter()*(input.getReal(0)-offset.getParameter()))));
+    public Real evaluate(Real input) {
+        return new Real(this.evaluate(input.getReal()));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Number number) {
-        Vector vector = new Vector();
-        vector.add(new Real(number.doubleValue()));
-        return evaluate(vector);
+    public double evaluate(double input) {
+        return 1.0 / (1.0 + Math.pow(Math.E, -1.0 * steepness.getParameter() * (input - offset.getParameter())));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double getMaximum() {
-        return 1.0;
+    public Real getMaximum() {
+        return new Real(1.0);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double getMinimum() {
-        return 0.0;
+    public Real getMinimum() {
+        return new Real(0.0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Vector getGradient(Vector x) {
-        double point = x.getReal(0);
-        double valueAtPoint = evaluate(point);
-        double result = valueAtPoint * (1 - valueAtPoint);
-
-        return Vectors.create(result);
+        return Vectors.create(this.getGradient((Real) x.get(0)).getReal());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double getGradient(Number number) {
-        return getGradient(Vectors.create(number)).getReal(0);
+    public double getGradient(double number) {
+        return number * (1 - number);
     }
 
     /**
@@ -129,6 +115,8 @@ public class Sigmoid extends ActivationFunction {
      * @param steepness The value to set.
      */
     public void setSteepness(ControlParameter steepness) {
+        if (steepness.getParameter() < 0)
+            throw new UnsupportedOperationException("Cannot set steepness to a negative value.");
         this.steepness = steepness;
     }
 
@@ -147,5 +135,4 @@ public class Sigmoid extends ActivationFunction {
     public void setOffset(ControlParameter offset) {
         this.offset = offset;
     }
-
 }

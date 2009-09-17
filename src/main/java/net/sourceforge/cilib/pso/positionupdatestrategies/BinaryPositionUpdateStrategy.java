@@ -23,6 +23,7 @@ package net.sourceforge.cilib.pso.positionupdatestrategies;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.functions.activation.Sigmoid;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -65,7 +66,7 @@ public class BinaryPositionUpdateStrategy implements PositionUpdateStrategy {
         Vector velocity = (Vector) particle.getVelocity();
 
         for (int i = 0; i < position.getDimension(); i++) {
-            double result = sigmoid.evaluate(velocity.getReal(i));
+            double result = sigmoid.evaluate((Real)velocity.get(i)).getReal();
             double rand = Math.random();
 
             if (rand < result) {
