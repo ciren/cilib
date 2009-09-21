@@ -41,7 +41,7 @@ import net.sourceforge.cilib.math.random.generator.Random;
  *
  * @param <E> The {@code Comparable} type.
  */
-public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
+public class StandardGraph<E extends Comparable<? super E>> implements Graph<E> {
     private static final long serialVersionUID = -5517089079342858152L;
 
     private Map<E, List<Graph.Edge<E>>> adjacencyMap;
@@ -399,7 +399,7 @@ public class StandardGraph<E extends Comparable<E>> implements Graph<E> {
      *
      * @param <E> The {@linkplain Comparable} type.
      */
-    public static class Edge<E extends Comparable<E>> implements Graph.Edge<E> {
+    public static class Edge<E extends Comparable<? super E>> implements Graph.Edge<E> {
         private static final long serialVersionUID = 1697479517382450802L;
         private double weight;
         private double cost;

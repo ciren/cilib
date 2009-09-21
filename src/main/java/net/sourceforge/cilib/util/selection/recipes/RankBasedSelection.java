@@ -44,7 +44,7 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
  * @author Wiehann Matthysen
  * @param <E>
  */
-public class RankBasedSelection<E extends Comparable> implements SelectionRecipe<E> {
+public class RankBasedSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
     private static final long serialVersionUID = -2387196820773731607L;
 
     private Comparator<Entry<E>> comparator;

@@ -41,7 +41,7 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public class RouletteWheelSelection<E extends Comparable> implements SelectionRecipe<E> {
+public class RouletteWheelSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
     private static final long serialVersionUID = 4194450350205390514L;
 
     private Weighing<E> weighing;

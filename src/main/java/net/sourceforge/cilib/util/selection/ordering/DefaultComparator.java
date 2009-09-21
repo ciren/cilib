@@ -30,7 +30,7 @@ import net.sourceforge.cilib.util.selection.Selection.Entry;
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public class DefaultComparator<E extends Comparable> implements Comparator<Entry<E>>, Serializable {
+public class DefaultComparator<E extends Comparable<? super E>> implements Comparator<Entry<E>> {
     private static final long serialVersionUID = -7811082307938055094L;
 
     /**

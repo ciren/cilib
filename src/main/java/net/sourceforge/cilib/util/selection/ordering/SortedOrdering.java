@@ -33,7 +33,7 @@ import net.sourceforge.cilib.util.selection.Selection.Entry;
  * @param <E> The comparable type.
  * @author gpampara
  */
-public class SortedOrdering<E extends Comparable> implements Ordering<E> {
+public class SortedOrdering<E extends Comparable<? super E>> implements Ordering<E> {
 
     private Comparator<Entry<E>> comparator;
 

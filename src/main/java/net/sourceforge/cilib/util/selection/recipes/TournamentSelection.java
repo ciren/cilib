@@ -48,7 +48,7 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public class TournamentSelection<E extends Comparable> implements SelectionRecipe<E> {
+public class TournamentSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
     private static final long serialVersionUID = -6689673224380247931L;
 
     private ControlParameter tournamentProportion;
