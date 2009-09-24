@@ -81,8 +81,8 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     }
 
     @Override
-    public boolean add(E particle) {
-        return entities.add(particle);
+    public boolean add(E element) {
+        return entities.add(element);
     }
 
     @Override
@@ -106,9 +106,9 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     }
 
     @Override
-    public E set(int index, E particle) {
-        this.entities.set(index, particle);
-        return particle;
+    public E set(int index, E entity) {
+        this.entities.set(index, entity);
+        return entity;
     }
 
     @Override

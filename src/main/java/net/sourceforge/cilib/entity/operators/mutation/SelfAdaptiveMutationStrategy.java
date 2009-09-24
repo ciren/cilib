@@ -90,7 +90,6 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
         if (Double.compare(tau, Double.NaN) == 0) {
             tau = 1.0 / (Math.sqrt(2 * Math.sqrt(first.getDimension())));
             tauPrime = 1.0 / Math.sqrt(2*first.getDimension());
-            System.out.println("tau: " + tau + " tauPrime: " + tauPrime);
         }
     }
 

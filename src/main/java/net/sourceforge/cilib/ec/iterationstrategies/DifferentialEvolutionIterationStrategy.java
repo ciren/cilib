@@ -84,7 +84,8 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
         Topology<Entity> topology = (Topology<Entity>) ec.getTopology();
         topology.update();
 
-        for (Entity current : topology) {
+        for (int i = 0; i < topology.size(); i++) {
+            Entity current = topology.get(i);
             current.calculateFitness();
 
             // Create the trial vector by applying mutation
@@ -104,7 +105,7 @@ public class DifferentialEvolutionIterationStrategy extends AbstractIterationStr
             offspringEntity.calculateFitness();
 
             if (offspringEntity.getFitness().compareTo(current.getFitness()) > 0) { // the trial vector is better than the parent
-                current.setCandidateSolution(offspring.get(0).getCandidateSolution());
+                topology.set(i, offspringEntity); // Replace the parent with the offspring individual
             }
         }
     }
