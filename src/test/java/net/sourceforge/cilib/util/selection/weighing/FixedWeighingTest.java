@@ -32,6 +32,7 @@ import org.junit.Test;
  *
  * @author gpampara
  */
+<<<<<<< HEAD:src/test/java/net/sourceforge/cilib/util/selection/weighing/FixedWeighingTest.java
 public class FixedWeighingTest {
 
     @Test
@@ -41,6 +42,40 @@ public class FixedWeighingTest {
         for (int i = 0; i < weighedElements.size(); ++i) {
             Assert.assertEquals(1.0, weighedElements.get(i).getWeight(), 0.0001);
         }
+=======
+public class Step extends ContinuousFunction {
+
+    private static final long serialVersionUID = -3888436745417400797L;
+
+    /**
+     * Create an instance of the {@code Step} function.
+     */
+    public Step() {
+        setDomain("R(-100.0, 100.0)^6");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Step getClone() {
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double evaluate(Vector input) {
+        double sum = 0.0;
+
+        for (int i = 0; i < input.getDimension(); i++) {
+            double value = Math.floor(input.getReal(i));
+            sum += value*value;
+        }
+
+        return sum;
+>>>>>>> Corrected implementation of Step function.:src/main/java/net/sourceforge/cilib/functions/continuous/Step.java
     }
 
 }
