@@ -64,6 +64,7 @@ public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorit
      * Get the currently associated {@linkplain BoundaryConstraint}.
      * @return The current {@linkplain BoundaryConstraint}.
      */
+    @Override
     public BoundaryConstraint getBoundaryConstraint() {
         return boundaryConstraint;
     }
@@ -72,6 +73,7 @@ public abstract class AbstractIterationStrategy<E extends PopulationBasedAlgorit
      * Set the {@linkplain BoundaryConstraint} to maintain within this {@linkplain IterationStrategy}.
      * @param boundaryConstraint The {@linkplain BoundaryConstraint} to set.
      */
+    @Override
     public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint) {
         this.boundaryConstraint = boundaryConstraint;
     }

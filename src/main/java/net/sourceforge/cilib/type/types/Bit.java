@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.types;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -223,6 +224,7 @@ public class Bit implements Numeric {
      * Randomly choose a new valid for the <code>Bit</code> object.
      */
     public void randomize(Random random) {
+        checkNotNull(random);
         this.state = random.nextBoolean();
     }
 

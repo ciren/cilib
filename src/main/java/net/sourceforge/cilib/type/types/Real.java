@@ -135,6 +135,7 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean getBit() {
         return Double.compare(this.value, 0.0) == 0 ? false : true;
     }
@@ -142,6 +143,7 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setBit(boolean value) {
         this.value = value ? 1.0 : 0.0;
     }
@@ -149,6 +151,7 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setBit(String value) {
         setBit(Boolean.parseBoolean(value));
     }
@@ -156,6 +159,7 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getInt() {
         return Double.valueOf(this.value).intValue();
     }
@@ -163,6 +167,7 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setInt(int value) {
         this.value = Integer.valueOf(value).doubleValue();
     }
@@ -178,6 +183,7 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getReal() {
         return this.value;
     }
@@ -185,6 +191,7 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setReal(double value) {
         this.value = value;
     }
@@ -192,6 +199,7 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setReal(String value) {
         setReal(Double.parseDouble(value));
     }
@@ -199,21 +207,24 @@ public class Real implements Numeric {
     /**
      * {@inheritDoc}
      */
-    public int compareTo(Numeric other) {
-        final Real otherReal = (Real) other;
+    @Override
+    public int compareTo(Numeric object) {
+        final Real otherReal = (Real) object;
         return Double.compare(this.value, otherReal.value);
     }
 
     /**
      * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
      */
+    @Override
     public void randomize(Random random) {
-        this.value = random.nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
+        this.value = checkNotNull(random).nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
     }
 
     /**
      * Set the value of the <tt>Real</tt> to a default value of 0.0.
      */
+    @Override
     public void reset() {
         this.setReal(0.0);
     }
@@ -222,6 +233,7 @@ public class Real implements Numeric {
      * Return a <code>String</code> representation of the <code>Real</code> object.
      * @return A <code>String</code> representing the object instance.
      */
+    @Override
     public String toString() {
         return String.valueOf(this.value);
     }
@@ -231,6 +243,7 @@ public class Real implements Numeric {
      *
      * @return The String representation of this <tt>Type</tt> object.
      */
+    @Override
     public String getRepresentation() {
         return "R(" + getBounds().getLowerBound() + "," + getBounds().getUpperBound() +")";
     }

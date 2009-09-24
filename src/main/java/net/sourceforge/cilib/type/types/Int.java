@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.types;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -216,6 +217,7 @@ public class Int implements Numeric {
      * {@inheritDoc}
      */
     public void randomize(Random random) {
+        checkNotNull(random);
         double tmp = random.nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
     }
