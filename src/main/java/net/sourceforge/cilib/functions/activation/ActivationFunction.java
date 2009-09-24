@@ -23,29 +23,38 @@ package net.sourceforge.cilib.functions.activation;
 
 import net.sourceforge.cilib.functions.Differentiable;
 import net.sourceforge.cilib.functions.AbstractFunction;
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.Real;
 
 /**
  * Activation functions are functions that are typically used within Neurons. This class provides
  * an abstraction for all functions that can be used in this manner.
  */
-public abstract class ActivationFunction extends AbstractFunction<Vector, Double> implements Differentiable {
+public abstract class ActivationFunction extends AbstractFunction<Real, Real> implements Differentiable {
     private static final long serialVersionUID = 4692200308338537909L;
 
     /**
-     * Determine the value of the {@link ActivationFunction} at the provided <code>point</code>.
-     * The provided <code>point</code> is simply a {@linkplain Number} that is provided as input.
-     * @param number The input value.
-     * @return The evaluation of the {@link ActivationFunction}, given <code>number</code> as
-     *         input.
+     * Determine the gradient of the {@link ActivationFunction} at the given point.
+     * @param number The <code>point</code> at which the gradient is to be determined.
+     * Delegates to {@link #getGradient(double) }
+     * @return The value of the gradient and the provided input.
      */
-    public abstract Double evaluate(Number number);
+    public Real getGradient(Real number) {
+        return new Real(this.getGradient(number.getReal()));
+    }
 
     /**
      * Determine the gradient of the {@link ActivationFunction} at the given point.
      * @param number The <code>point</code> at which the gradient is to be determined.
      * @return The value of the gradient and the provided input.
      */
-    public abstract Double getGradient(Number number);
+    public abstract double getGradient(double number);
+
+    /**
+     * Evaluates the point given a double (as opposed to Real). And also returns
+     * a double. This increases scalability and performance in the NN code.
+     * @param input the point to evaluate.
+     * @return the evaluation result.
+     */
+    public abstract double evaluate(double input);
 
 }
