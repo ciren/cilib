@@ -34,12 +34,12 @@ import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 public abstract class AbstractFunction<F, T> implements Function<F, T> {
     private static final long serialVersionUID = -4843291761555348251L;
 
-    private DomainRegistry domainRegistry;
+    private final DomainRegistry domainRegistry;
 
     /**
      * Create a new instance of {@linkplain AbstractFunction}.
      */
-    public AbstractFunction() {
+    protected AbstractFunction() {
         domainRegistry = new StringBasedDomainRegistry();
     }
 
@@ -63,6 +63,7 @@ public abstract class AbstractFunction<F, T> implements Function<F, T> {
      * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
      * @return The function domain.
      */
+    @Override
     public DomainRegistry getDomainRegistry() {
         return domainRegistry;
     }
@@ -79,6 +80,7 @@ public abstract class AbstractFunction<F, T> implements Function<F, T> {
      * Sets the domain of the function.
      * @param representation the string representation for the function domain.
      */
+    @Override
     public void setDomain(String representation) {
         this.domainRegistry.setDomainString(representation);
     }

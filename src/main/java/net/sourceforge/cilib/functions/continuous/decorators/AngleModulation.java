@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.decorators;
 
-import net.sourceforge.cilib.functions.AbstractFunction;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
@@ -47,7 +46,7 @@ public class AngleModulation extends ContinuousFunction {
     private int requiredBits;
     private double lowerBound;
     private double upperBound;
-    private AbstractFunction function;
+    private Function<Vector, ? extends Number> function;
 
     public AngleModulation() {
         setDomain("R(-1.0,1.0)^4");
@@ -74,7 +73,7 @@ public class AngleModulation extends ContinuousFunction {
      */
     @Override
     public Double getMinimum() {
-        Number n = (Number) function.getMinimum();
+        Number n = function.getMinimum();
         return n.doubleValue();
     }
 
@@ -83,7 +82,7 @@ public class AngleModulation extends ContinuousFunction {
      */
     @Override
     public Double getMaximum() {
-        Number n = (Number) function.getMaximum();
+        Number n = function.getMaximum();
         return n.doubleValue();
     }
 
@@ -94,8 +93,7 @@ public class AngleModulation extends ContinuousFunction {
     public Double evaluate(Vector input) {
         String solution = generateBitString(input);
         Vector expandedVector = decodeBitString(solution);
-        Number result = (Number) function.evaluate(expandedVector);
-        return result.doubleValue();
+        return function.evaluate(expandedVector).doubleValue();
     }
 
     /**
@@ -129,8 +127,8 @@ public class AngleModulation extends ContinuousFunction {
      *
      * @param decoratedFunciton
      */
-    public void setFunction(Function decoratedFunciton) {
-        this.function = (AbstractFunction) decoratedFunciton;
+    public void setFunction(Function<Vector, ? extends Number> decoratedFunciton) {
+        this.function = decoratedFunciton;
         requiredBits = getRequiredNumberOfBits(function.getDomainRegistry());
     }
 

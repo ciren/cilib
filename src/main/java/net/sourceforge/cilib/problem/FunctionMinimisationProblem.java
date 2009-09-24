@@ -43,6 +43,7 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
     /**
      * {@inheritDoc}
      */
+    @Override
     public FunctionMinimisationProblem getClone() {
         return new FunctionMinimisationProblem(this);
     }
@@ -50,9 +51,10 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected Fitness calculateFitness(Type solution) {
         /* Add code to enforce the boundary constraint */
-        return new MinimisationFitness(function.evaluate((Vector) solution));
+        return new MinimisationFitness(function.evaluate((Vector) solution).doubleValue());
     }
 
     /**
@@ -68,7 +70,8 @@ public class FunctionMinimisationProblem extends FunctionOptimisationProblem {
      * @param solution The solution for which an error is saught.
      * @return The error.
      */
+    @Override
     public double getError(Type solution) {
-        return function.evaluate((Vector) solution) - function.getMinimum();
+        return function.evaluate((Vector) solution).doubleValue() - function.getMinimum().doubleValue();
     }
 }

@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.problem;
 
-import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class serves as a base class for function optimisation problems using a
@@ -35,7 +35,7 @@ import net.sourceforge.cilib.type.types.Type;
 public abstract class FunctionOptimisationProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = 7944544624736580311L;
 
-    protected ContinuousFunction function;
+    protected Function<Vector, ? extends Number> function;
 
     /**
      * Creates a new instance of {@code FunctionOptimisationProblem} with {@code null} function.
@@ -60,6 +60,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract FunctionOptimisationProblem getClone();
 
     /**
@@ -67,7 +68,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      *
      * @param function The function.
      */
-    public void setFunction(ContinuousFunction function) {
+    public void setFunction(Function<Vector, ? extends Number> function) {
         this.function = function;
     }
 
@@ -76,7 +77,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      *
      * @return The function
      */
-    public ContinuousFunction getFunction() {
+    public Function<Vector, ? extends Number> getFunction() {
         return function;
     }
 
@@ -85,6 +86,7 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
      *
      * @return the domain component.
      */
+    @Override
     public DomainRegistry getDomain() {
         return function.getDomainRegistry();
     }

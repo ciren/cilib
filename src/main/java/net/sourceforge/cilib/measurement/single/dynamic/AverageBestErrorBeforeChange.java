@@ -33,9 +33,15 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+<<<<<<< HEAD
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
+=======
+import net.sourceforge.cilib.functions.Function;
+import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
+>>>>>>> Generic functions in function decorators.
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * AverageBestErrorBeforeChange computes the average of the differences between
@@ -49,8 +55,7 @@ import net.sourceforge.cilib.type.types.Type;
  * the measurement
  * @author  Julien Duhain
  */
-public class AverageBestErrorBeforeChange extends DynamicMeasurement{
-
+public class AverageBestErrorBeforeChange extends DynamicMeasurement {
     private static final long serialVersionUID = -2848258016113713942L;
 
     private int cycleSize = 50; //period between 2 changes in the environment
@@ -90,8 +95,7 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement{
     }
 
     @Override
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         this.avg = in.readDouble();
         this.cycleNr = in.readInt();
     }

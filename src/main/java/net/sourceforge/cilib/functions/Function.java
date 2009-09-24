@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.functions;
 
+import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -60,5 +61,17 @@ public interface Function<F, T> extends Cloneable {
      * @return The domain {@linkplain String}.
      */
     public String getDomain();
+
+    /**
+     * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
+     * @return The function domain.
+     */
+    public DomainRegistry getDomainRegistry();
+
+    /**
+     * Sets the domain of the function.
+     * @param representation the string representation for the function domain.
+     */
+    public void setDomain(String representation);
     
 }

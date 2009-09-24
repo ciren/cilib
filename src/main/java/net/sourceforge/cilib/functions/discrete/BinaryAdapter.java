@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.functions.discrete;
 
-import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.functions.Function;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -34,10 +34,10 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  * @author Gary Pampara
  */
-public class BinaryAdapter extends DiscreteFunction {
+public class BinaryAdapter extends ContinuousFunction {
     private static final long serialVersionUID = -329657439970469569L;
 
-    private ContinuousFunction function;
+    private Function<Vector, Number> function;
     private int bitsPerDimension;
     private int precision;
 
@@ -60,29 +60,31 @@ public class BinaryAdapter extends DiscreteFunction {
      * decoding the binary vector into a continuous vector and evaluate the results
      * by feeding the result into the wrapped funtion.
      *
-     * @param vector The {@see net.sourceforge.cilib.type.types.Bit} vector to evaluate
+     * @param input The {@see net.sourceforge.cilib.type.types.Bit} vector to evaluate
      */
     @Override
-    public Integer evaluate(Vector input) {
-        //System.out.println("vector: " + vector);
+    public Double evaluate(Vector input) {
+//        System.out.println("vector: " + input);
         Vector decodedVector = this.decodeBitString(input);
-        //System.out.println("decoded: " + decodedVector);
+//        System.out.println("decoded: " + decodedVector + " " + decodedVector.size());
 
-        return function.evaluate(decodedVector).intValue();
+        return function.evaluate(decodedVector).doubleValue();
     }
 
     /**
      *
      */
-    public Integer getMinimum() {
-        return function.getMinimum().intValue();
+    @Override
+    public Double getMinimum() {
+        return function.getMinimum().doubleValue();
     }
 
     /**
      *
      */
-    public Integer getMaximum() {
-        return function.getMaximum().intValue();
+    @Override
+    public Double getMaximum() {
+        return function.getMaximum().doubleValue();
     }
 
     /**
@@ -122,15 +124,15 @@ public class BinaryAdapter extends DiscreteFunction {
     /**
      * @return Returns the function.
      */
-    public ContinuousFunction getFunction() {
+    public Function<Vector, Number> getFunction() {
         return function;
     }
 
     /**
      * @param function The function to set.
      */
-    public void setFunction(ContinuousFunction function) {
-        this.function = function;
+    public void setFunction(Function<Vector, ? extends Number> function) {
+        this.function = (Function<Vector, Number>) function;
     }
 
 
@@ -142,7 +144,7 @@ public class BinaryAdapter extends DiscreteFunction {
     public Vector decodeBitString(Vector bits) {
         Vector vector = new Vector();
 
-        for (int i = 0; i < bits.getDimension();) {
+        for (int i = 0; i < bits.size();) {
             double tmp = valueOf(bits, i, i+this.bitsPerDimension);
             tmp = transform(tmp);
 
@@ -156,7 +158,7 @@ public class BinaryAdapter extends DiscreteFunction {
 
     /**
      *
-     * @param str
+     * @param vector
      * @param i
      * @param j
      * @return

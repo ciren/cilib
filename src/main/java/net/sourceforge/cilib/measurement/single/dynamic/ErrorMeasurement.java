@@ -27,13 +27,13 @@ import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * Calculate the error between the current best value of the swarm and the
  * global optimum of the function.
  *
  * @author Anna Rakitianskaia, Julien Duhain
- *
  */
 public class ErrorMeasurement implements Measurement {
     private static final long serialVersionUID = 2632671785674388015L;

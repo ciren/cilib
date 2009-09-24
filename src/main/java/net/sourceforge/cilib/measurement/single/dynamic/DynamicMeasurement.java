@@ -35,7 +35,6 @@ import java.io.ObjectOutput;
 import net.sourceforge.cilib.measurement.StateAwareMeasurement;
 
 public abstract class DynamicMeasurement extends StateAwareMeasurement {
-
     protected double avg;
 
     public DynamicMeasurement() {
