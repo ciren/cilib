@@ -76,7 +76,7 @@
       <item name="Home" href="/index.html" />
       <item name="Downloads" href="http://sourceforge.net/project/platformdownload.php?group_id=72233&amp;sel_platform=740" />
       <item name="Forums" href="http://forums.cilib.net" />
-      <item name="Issue Tracker" href="http://forums.cilib.net/tracker.php" />
+      <item name="Issue Tracker" href="http://code.google.com/p/cilib/issues/list" />
       <item name="CIlib Blog" href="http://performiteration.blogspot.com" />
     </menu>
 
