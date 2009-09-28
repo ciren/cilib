@@ -8,33 +8,41 @@
 
 <simulator>
 
-    <problem id="PredatorPrey" class="problem.coevolution.CompetitiveCoevolutionGameLearningOptimizationProblem" numberOfEvaluations="10">
+    <problem id="PredatorPrey" class="problem.coevolution.CompetitiveCoevolutionGameLearningOptimizationProblem" numberOfEvaluations="20">
         <game class="games.game.predatorprey.RealTimePredatorPreyGame" MaxIterations="20">
-            <agent class="games.agent.NeuralAgent" hiddenNodes="4" AgentToken="PredatorPrey.PREDATOR">
-                <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
-                    <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
-                        <activationFunction class = "neuralnetwork.generic.neuron.TanHOutputFunction"/>
-                        <prototypeWeight class="neuralnetwork.generic.Weight">
-                            <weightValue class="type.types.Real" real="0.5"/>
-                            <previousChange class="type.types.Real" real="0.0"/>
-                        </prototypeWeight>
-                    </topologyBuilder>
-                    <weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
-                </neuralNetworkTopology>
+            <agent class="games.agent.NeuralAgent" AgentToken="PredatorPrey.PREDATOR">
+                <neuralNetwork class="nn.NeuralNetwork">
+                    <architecture class="nn.architecture.Architecture">
+                        <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                            <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by neural input strategy-->
+                            <addLayer class="nn.architecture.builder.LayerConfiguration" size="4">
+                                <ActivationFunction class="functions.activation.TanH"/>
+                            </addLayer>
+                            <addLayer class="nn.architecture.builder.LayerConfiguration"> <!-- size is specified by output interpretation strategy-->
+                                   <ActivationFunction class="functions.activation.TanH"/>
+                            </addLayer>
+                            <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1,1)" />
+                        </architectureBuilder>
+                    </architecture>
+                </neuralNetwork>
                 <stateInputStrategy class="games.game.predatorprey.PredatorPreyNeuralInputStrategy"/>
                 <outputInterpretationStrategy class="games.game.predatorprey.NeuralPredatorOutputStrategy"/>
             </agent>
-            <agent class="games.agent.NeuralAgent" hiddenNodes="4" AgentToken="PredatorPrey.PREY">
-                <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
-                    <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
-                        <activationFunction class = "neuralnetwork.generic.neuron.TanHOutputFunction"/>
-                        <prototypeWeight class="neuralnetwork.generic.Weight">
-                            <weightValue class="type.types.Real" real="0.5"/>
-                            <previousChange class="type.types.Real" real="0.0"/>
-                        </prototypeWeight>
-                    </topologyBuilder>
-                    <weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
-                </neuralNetworkTopology>
+            <agent class="games.agent.NeuralAgent" AgentToken="PredatorPrey.PREY">
+                <neuralNetwork class="nn.NeuralNetwork">
+                    <architecture class="nn.architecture.Architecture">
+                        <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                            <addLayer class="nn.architecture.builder.LayerConfiguration"/>
+                            <addLayer class="nn.architecture.builder.LayerConfiguration" size="4">
+                                <ActivationFunction class="functions.activation.TanH"/>
+                            </addLayer>
+                            <addLayer class="nn.architecture.builder.LayerConfiguration">
+                                   <ActivationFunction class="functions.activation.TanH"/>
+                            </addLayer>
+                            <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1,1)" />
+                        </architectureBuilder>
+                    </architecture>
+                </neuralNetwork>
                 <stateInputStrategy class="games.game.predatorprey.PredatorPreyNeuralInputStrategy"/>
                 <outputInterpretationStrategy class="games.game.predatorprey.NeuralPreyOutputStrategy"/>
             </agent>
@@ -74,7 +82,7 @@
         </algorithm>
     </algorithms>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="2">
         <addMeasurement class="measurement.multiple.MultiPopulationFitness"/>
     </measurements>
 

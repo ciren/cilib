@@ -135,4 +135,19 @@ public class Sigmoid extends ActivationFunction {
     public void setOffset(ControlParameter offset) {
         this.offset = offset;
     }
+
+    /**
+     * {@inheritDoc}
+     * The active range for sigmoid is -Sqrt(3) - Sqrt(3), and Sqrt(3) = 1.732050808
+     */
+    public double getLowerActiveRange() {
+        return -1.732050808;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public double getUpperActiveRange() {
+        return 1.732050808;
+    }
 }

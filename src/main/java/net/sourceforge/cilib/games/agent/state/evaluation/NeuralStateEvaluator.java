@@ -22,19 +22,18 @@
 package net.sourceforge.cilib.games.agent.state.evaluation;
 
 
+import java.util.List;
+
 import net.sourceforge.cilib.games.agent.NeuralAgent;
 import net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy;
 import net.sourceforge.cilib.games.agent.neural.NeuralStateInputStrategy;
 import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.states.GameState;
-import net.sourceforge.cilib.neuralnetwork.generic.datacontainers.StandardPattern;
-import net.sourceforge.cilib.neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder;
 import net.sourceforge.cilib.type.DomainRegistry;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.TypeList;
 import net.sourceforge.cilib.type.types.container.Vector;
-
+import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.nn.architecture.builder.LayerConfiguration;
 /**
  * @author leo
  * This is a {@linkplain StateEvaluator} that uses a Neural Network to evaluate a given game state. This class inherets from the NeuralAgent class
@@ -67,8 +66,8 @@ public class NeuralStateEvaluator extends NeuralAgent implements StateEvaluator 
         Vector input = stateInputStrategy.getNeuralInputArray(this, state);
         StandardPattern pattern = new StandardPattern(input, input);
         //get the output vector
-        TypeList NNOutput = neuralNetworkTopology.evaluate(pattern);//perform NN iteration, get output
-        return ((Numeric) NNOutput.get(0)).getReal();
+        Vector NNOutput = neuralNetwork.evaluatePattern(pattern);//perform NN iteration, get output
+        return  NNOutput.get(0).getReal();
     }
 
     /**
@@ -90,16 +89,6 @@ public class NeuralStateEvaluator extends NeuralAgent implements StateEvaluator 
     @Override
     public NeuralStateEvaluator getClone() {
         return new NeuralStateEvaluator(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setHiddenNodes(int count){
-        hiddenNodesCount = count;
-        if(stateInputStrategy != null)
-            initializeNeuralNetwork();
     }
 
     /**
@@ -133,9 +122,12 @@ public class NeuralStateEvaluator extends NeuralAgent implements StateEvaluator 
      * {@inheritDoc}
      */
     private void initializeNeuralNetwork(){
-        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(stateInputStrategy.amountInputs() + 1);
-        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(hiddenNodesCount + 1);
-        ((FFNNgenericTopologyBuilder)neuralNetworkTopology.getTopologyBuilder()).addLayer(1); //there will only be 1 output neuron, the rank value of the state
-        neuralNetworkTopology.initialize();
+        List<LayerConfiguration> layerConfigs = neuralNetwork.getArchitecture().getArchitectureBuilder().getLayerConfigurations();
+        //set input layer, first layer
+        layerConfigs.get(0).setSize(stateInputStrategy.amountInputs());
+        //set output layer, last layer
+        layerConfigs.get(layerConfigs.size() - 1).setSize(1); //there will only be 1 output neuron, the rank value of the state
+
+        neuralNetwork.initialize();
     }
 }

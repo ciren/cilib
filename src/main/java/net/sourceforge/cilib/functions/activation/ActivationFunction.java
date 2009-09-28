@@ -57,4 +57,16 @@ public abstract class ActivationFunction extends AbstractFunction<Real, Real> im
      */
     public abstract double evaluate(double input);
 
+    /**
+     *  Return the lowerbound for the active range of this NeuronFunction
+     * @return the lowerbound
+     */
+    public abstract double getLowerActiveRange();
+
+    /**
+     * Return the upperbound for the active range of this NeuronFunction
+     * @return the upperbound
+     */
+    public abstract double getUpperActiveRange();
+
 }

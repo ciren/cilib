@@ -25,8 +25,7 @@ import net.sourceforge.cilib.games.agent.Agent;
 import net.sourceforge.cilib.games.agent.neural.NeuralOutputInterpretationStrategy;
 import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.items.GameToken;
-import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.container.TypeList;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author leo
@@ -41,7 +40,7 @@ public class NeuralPreyOutputStrategy extends
      * {@inheritDoc}
      */
     @Override
-    public void applyOutputToState(TypeList outputData, Agent currentPlayer, Game oldState) {
+    public void applyOutputToState(Vector outputData, Agent currentPlayer, Game oldState) {
 
         if(!(oldState instanceof PredatorPreyGame))
             throw new RuntimeException("Invalid game for this agent");
@@ -50,19 +49,19 @@ public class NeuralPreyOutputStrategy extends
 
         PredatorPreyGame game = (PredatorPreyGame)oldState;
         int moveAmount = 1;
-        if(((Numeric) outputData.get(0)).getReal() >  0.0) //move 2 squares
+        if(outputData.get(0).getReal() >  0.0) //move 2 squares
             moveAmount = 2;
 
         int x = 0;
-        if(((Numeric) outputData.get(1)).getReal() >  0.0) //move on x axis
-            if(((Numeric) outputData.get(2)).getReal() >  0.0) //move right
+        if(outputData.get(1).getReal() >  0.0) //move on x axis
+            if(outputData.get(2).getReal() >  0.0) //move right
                 x = 1;
             else
                 x = -1;
 
         int y = 0;
-        if(((Numeric) outputData.get(3)).getReal() >  0.0) //move on y axis
-            if(((Numeric) outputData.get(4)).getReal() >  0.0) //move down
+        if(outputData.get(3).getReal() >  0.0) //move on y axis
+            if(outputData.get(4).getReal() >  0.0) //move down
                 y = 1;
             else
                 y = -1;
