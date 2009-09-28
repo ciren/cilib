@@ -19,61 +19,71 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+/**
+ *
+ */
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Salomon function.
- * <p>
- * Characteristics:
+ * <p><b>The Zakharov Function.</b></p>
+ *
+ * <p><b>Reference:</b> M. Laguna, R. Martı´ <i>Experimental testing of advanced scatter search designs for global optimization of multimodal functions</i>,
+ * Journal of Global Optimization, 2005</p>
+ *
+ * <p>Minimum:
  * <ul>
- * <li>Multimodal</li>
- * <li>Nonseperable</li>
+ * <li> &fnof;(<b>x</b>*) = 0</li>
+ * <li> <b>x</b>* = (0, 0, ...., 0)</li>
+ * <li> for x<sub>i</sub> in [-5, 10]</li>
  * </ul>
- * f(x) = 0; x = (0,0,...,0); x_i e (-600,600)
- * @author Olusegun Olorunda
+ * </p>
+ *
+ * <p>Characteristics:
+ * <ul>
+ * </ul>
+ * </p>
+ *
+ * @author leo
+ *
  */
-public class Salomon extends ContinuousFunction {
-    private static final long serialVersionUID = -6002240316648057218L;
+public class Zakharov extends ContinuousFunction {
 
-    /**
-     * Create an instance of the function. Default domain is set to R(-600, 600)^30
-     */
-    public Salomon() {
-        setDomain("R(-600, 600)^30");
+    private static final long serialVersionUID = -635648546100966058L;
+
+    public Zakharov() {
+        setDomain("R(-5, 10)^30");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Salomon getClone() {
-        return new Salomon();
+    public Zakharov getClone() {
+        return new Zakharov();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Double getMinimum() {
-        return 0.0;
+        return new Double(0.0);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
-        double functionValue = 0.0;
-        double sumSquares = 0.0;
-
-        for (int i = 0; i < input.getDimension(); i++) {
-            sumSquares += input.getReal(i) * input.getReal(i);
+    public Double evaluate(Vector x) {
+        double sum1 = 0;
+        double sum2 = 0;
+        for(int i = 0; i < x.size(); ++i){
+            sum1 += x.getReal(i) * x.getReal(i);
+            sum2 += 0.5 * (i + 1) * x.getReal(i);
         }
-
-        functionValue = -(Math.cos(2 * Math.PI * Math.sqrt(sumSquares))) + (0.1 * Math.sqrt(sumSquares)) + 1;
-
-        return functionValue;
+        return sum1 + (sum2 * sum2) + (sum2 * sum2 * sum2 * sum2);
     }
 }

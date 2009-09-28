@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -50,11 +50,22 @@ public class Step extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
+    public Double getMinimum() {
+        return new Double(0);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double evaluate(Vector x) {
         double sum = 0.0;
 
-        for (int i = 0; i < input.getDimension(); i++)
-            sum += Math.floor(input.getReal(i));
+        for (int i = 0; i < x.getDimension(); i++){
+            double val = Math.floor(x.getReal(i) + 0.5);
+            sum += val*val;
+
+        }
 
         return sum;
     }
