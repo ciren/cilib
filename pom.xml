@@ -208,6 +208,7 @@
       <plugin>
         <groupId>com.google.code.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
+        <version>1.4.0</version>
         <configuration>
           <header>src/main/resources/java-header.txt</header>
           <failIfMissing>true</failIfMissing>
