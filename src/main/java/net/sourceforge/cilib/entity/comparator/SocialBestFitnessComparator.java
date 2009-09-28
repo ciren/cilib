@@ -41,8 +41,8 @@ public class SocialBestFitnessComparator<E extends SocialEntity> implements Comp
      */
     @Override
     public int compare(E o1, E o2) {
-        Fitness f1 = o1.getSocialBestFitness();
-        Fitness f2 = o2.getSocialBestFitness();
+        Fitness f1 = o1.getSocialFitness();
+        Fitness f2 = o2.getSocialFitness();
 
         return f1.compareTo(f2);
     }

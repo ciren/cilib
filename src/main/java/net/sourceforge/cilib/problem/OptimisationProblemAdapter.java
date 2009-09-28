@@ -52,6 +52,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     }
 
     public OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
+        changeStrategy = copy.changeStrategy;
         fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
         if(copy.dataSetBuilder != null)
             dataSetBuilder = copy.dataSetBuilder.getClone();
