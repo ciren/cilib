@@ -7,7 +7,7 @@
 ]>
 
 <simulator>
-    
+
     <problem id="PredatorPrey" class="problem.coevolution.CompetitiveCoevolutionGameLearningOptimizationProblem" numberOfEvaluations="10">
         <game class="games.game.predatorprey.RealTimePredatorPreyGame" MaxIterations="20">
             <agent class="games.agent.NeuralAgent" hiddenNodes="4" AgentToken="PredatorPrey.PREDATOR">
@@ -24,7 +24,7 @@
                 <stateInputStrategy class="games.game.predatorprey.PredatorPreyNeuralInputStrategy"/>
                 <outputInterpretationStrategy class="games.game.predatorprey.NeuralPredatorOutputStrategy"/>
             </agent>
-            <agent class="games.agent.NeuralAgent" hiddenNodes="4" AgentToken="PredatorPrey.PREY"> 
+            <agent class="games.agent.NeuralAgent" hiddenNodes="4" AgentToken="PredatorPrey.PREY">
                 <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
                     <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
                         <activationFunction class = "neuralnetwork.generic.neuron.TanHOutputFunction"/>
@@ -53,7 +53,7 @@
             <entityType class="pso.dynamic.ChargedParticle">
                 <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
                 <velocityUpdateStrategy class="pso.dynamic.ChargedVelocityUpdateStrategy" pCore = "10" p = "1000">
-                    <vMax class="controlparameter.ConstantControlParameter" parameter="3.0"/>                    
+                    <vMax class="controlparameter.ConstantControlParameter" parameter="3.0"/>
                 </velocityUpdateStrategy>
                 <chargedParticleInitialisationStrategy class="pso.dynamic.StandardChargedParticleInitialisationStrategy" ChargeMagnitude = "1.0"/>
             </entityType>
@@ -61,7 +61,7 @@
             <topology class="entity.topologies.LBestTopology">
                 <neighbourhoodSize class = "controlparameter.ConstantControlParameter" parameter = "3"/>
             </topology>
-        </algorithm>                    
+        </algorithm>
 
         <algorithm id="compcoevol" class="coevolution.CoevolutionAlgorithm">
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
