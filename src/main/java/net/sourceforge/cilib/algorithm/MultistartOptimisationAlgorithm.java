@@ -24,8 +24,8 @@ package net.sourceforge.cilib.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
-import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
@@ -114,22 +114,17 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     /**
      * {@inheritDoc}
      */
-    public Entity getContribution() {
-        return ((ParticipatingAlgorithm) algorithm).getContribution();
+    @Override
+    public ContributionSelectionStrategy getContributionSelectionStrategy() {
+        return ((ParticipatingAlgorithm)algorithm).getContributionSelectionStrategy();
     }
 
     /**
      * {@inheritDoc}
      */
-    public Fitness getContributionFitness() {
-        return ((ParticipatingAlgorithm) algorithm).getContributionFitness();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void updateContributionFitness(Fitness fitness) {
-        ((ParticipatingAlgorithm) algorithm).updateContributionFitness(fitness);
+    @Override
+    public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
+        ((ParticipatingAlgorithm)algorithm).setContributionSelectionStrategy(strategy);
     }
 
     /**

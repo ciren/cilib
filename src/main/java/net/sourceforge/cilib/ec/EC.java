@@ -27,7 +27,9 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
+import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.ec.iterationstrategies.GeneticAlgorithmIterationStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
@@ -35,7 +37,6 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.entity.initialization.NullInitializationStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
@@ -51,8 +52,8 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     private OptimisationProblem problem;
     private IterationStrategy<EC> iterationStrategy;
     private Topology<Individual> topology;
-
     private InitializationStrategy<Entity> strategyParameterInitialization;
+    private ContributionSelectionStrategy contributionSelection;
 
     /**
      * Create a new instance of {@code EC}.
@@ -65,6 +66,8 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         this.topology = new GBestTopology<Individual>();
 
         this.strategyParameterInitialization = new NullInitializationStrategy<Entity>();
+
+        this.contributionSelection = new ZeroContributionSelectionStrategy();
     }
 
     /**
@@ -76,6 +79,7 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
         this.initialisationStrategy = copy.initialisationStrategy.getClone();
         this.iterationStrategy = copy.iterationStrategy.getClone();
         this.topology = copy.topology.getClone();
+        this.contributionSelection = copy.contributionSelection.getClone();
     }
 
     /**
@@ -184,26 +188,17 @@ public class EC extends SinglePopulationBasedAlgorithm implements ParticipatingA
     /**
      * {@inheritDoc}
      */
-    public Entity getContribution() {
-        //TODO: This might not be what you want, change as desired
-        return this.topology.getBestEntity();
+    @Override
+    public ContributionSelectionStrategy getContributionSelectionStrategy() {
+        return contributionSelection;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Fitness getContributionFitness() {
-        //TODO: This might not be what you want, change as desired
-        return this.topology.getBestEntity().getFitness();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void updateContributionFitness(Fitness fitness) {
-        //TODO: This might not be what you want, change as desired
-        //getBestEntity().setFitness(fitness);
-        this.topology.getBestEntity().calculateFitness();
+    @Override
+    public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
+        contributionSelection = strategy;
     }
 
     public InitializationStrategy<Entity> getStrategyParameterInitialization() {

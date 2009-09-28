@@ -27,8 +27,8 @@ import java.util.List;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.initialisation.PopulationInitialisationStrategy;
-import net.sourceforge.cilib.cooperative.algorithmiterators.AlgorithmIterator;
-import net.sourceforge.cilib.cooperative.algorithmiterators.SequentialAlgorithmIterator;
+import net.sourceforge.cilib.algorithm.iterator.AlgorithmIterator;
+import net.sourceforge.cilib.algorithm.iterator.SequentialAlgorithmIterator;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.visitor.TopologyVisitor;

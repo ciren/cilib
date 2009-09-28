@@ -27,13 +27,14 @@ import java.util.List;
 import net.sourceforge.cilib.algorithm.initialisation.ClonedPopulationInitialisationStrategy;
 import net.sourceforge.cilib.algorithm.population.IterationStrategy;
 import net.sourceforge.cilib.algorithm.population.SinglePopulationBasedAlgorithm;
-import net.sourceforge.cilib.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.coevolution.cooperative.ParticipatingAlgorithm;
+import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
+import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.iterationstrategies.SynchronousIterationStrategy;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
@@ -64,6 +65,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
     private static final long serialVersionUID = -8234345682394295357L;
     private Topology<Particle> topology;
     private IterationStrategy<PSO> iterationStrategy;
+    private ContributionSelectionStrategy contributionSelection;
 
     /**
      * Creates a new instance of <code>PSO</code>. All fields are initialised to reasonable
@@ -77,6 +79,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
 
         initialisationStrategy = new ClonedPopulationInitialisationStrategy();
         initialisationStrategy.setEntityType(new StandardParticle());
+        contributionSelection = new ZeroContributionSelectionStrategy();
     }
 
     /**
@@ -88,6 +91,7 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         this.topology = copy.topology.getClone();
         this.iterationStrategy = copy.iterationStrategy; // need to clone?
         this.initialisationStrategy = copy.initialisationStrategy; // need to clone?
+        this.contributionSelection = copy.contributionSelection.getClone();
     }
 
     /**
@@ -163,28 +167,6 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
         return topology;
     }
 
-    // TODO: Move down heirarchy into MOPSO????
-    @Override
-    public Particle getContribution() {
-        return topology.getBestEntity();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Fitness getContributionFitness() {
-        return topology.getBestEntity().getBestFitness();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateContributionFitness(Fitness fitness) {
-        topology.getBestEntity().calculateFitness();
-    }
-
     /**
      * Get the <code>IterationStrategy</code> of the PSO algorithm.
      * @return Returns the iterationStrategy..
@@ -199,5 +181,21 @@ public class PSO extends SinglePopulationBasedAlgorithm implements Participating
      */
     public void setIterationStrategy(IterationStrategy<PSO> iterationStrategy) {
         this.iterationStrategy = iterationStrategy;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ContributionSelectionStrategy getContributionSelectionStrategy() {
+        return contributionSelection;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
+        contributionSelection = strategy;
     }
 }

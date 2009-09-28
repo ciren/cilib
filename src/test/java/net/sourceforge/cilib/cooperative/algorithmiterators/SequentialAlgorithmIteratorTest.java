@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import net.sourceforge.cilib.algorithm.iterator.AlgorithmIterator;
+import net.sourceforge.cilib.algorithm.iterator.SequentialAlgorithmIterator;
 import net.sourceforge.cilib.pso.PSO;
 
 import org.junit.Test;
