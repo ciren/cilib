@@ -19,38 +19,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The Schaffer F6 function.
+ * <p><b>Schaffer's F6 generalised, also referred to as the Pathological Function.</b></p>
  *
- * Minimum: f(x,y) = 0; (x,y) = (0,0);
+ * <p><b>Reference:</b> S. Rahnamayan, H. R. Tizhoosh, M. M. A. Salama <i>A novel population initialization method for accelerating evolutionary algorithms</i>,
+ * Computers and Mathematics with Applications, 2007</p>
  *
- * <p>
- * Characteristics:
+ * <p>Minimum:
  * <ul>
- * <li>Need to complete</li>
+ * <li> &fnof;(<b>x</b>*) = 0</li>
+ * <li> <b>x</b>* = (0, 0, ...., 0)</li>
+ * <li> for x<sub>i</sub> in [-100, 100]</li>
  * </ul>
+ * </p>
  *
- * <p>
- * LaTeX function code: <br>
- *
- * \textbf{Schaffer F6:} $f(x) = 0.5 + \frac{(sin^{2} \sqrt{x^2 + y^2}) - 0.5}{(1.0 + 0.001(x^2 + y^2))^2}$
- *
- * @author Gary Pampara
+ * <p>Characteristics:
+ * <ul>
+ * </ul>
+ * </p>
  */
 public class Schaffer6 extends ContinuousFunction {
     private static final long serialVersionUID = 4959662717057274057L;
-
 
     /**
      * Constructor. Initialise the function to the initial domain of R(-100.0,100.0)^2
      */
     public Schaffer6() {
-        setDomain("R(-100.0,100.0)^2");
+        setDomain("R(-100.0,100.0)^30");
     }
 
     /**
@@ -80,18 +80,21 @@ public class Schaffer6 extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        double x = input.getReal(0);
-        double y = input.getReal(1);
+        double sum = 0;
+        
+        for (int i = 0; i < input.size()-1; i++) {
+            double xi = input.getReal(i);
+            double xj = input.getReal(i + 1);
+            double sinSquared = Math.sin(Math.sqrt((100 * (xi*xi)) + (xj*xj)));
+            sinSquared *= sinSquared;
 
-        double squared = x*x + y*y;
-        double squareRooted = Math.sqrt(squared);
+            double squaredVal = (xi*xi) - (2*xi*xj) + (xj*xj);
+            squaredVal *= squaredVal;
 
-        double numerator = (Math.sin(squareRooted) * Math.sin(squareRooted)) - 0.5;
+            sum += 0.5 + ((sinSquared - 0.5) / (1 + (0.001 * squaredVal)));
+        }
 
-        double denominatorTmp = 1.0 + 0.001*squared;
-        double denominator = denominatorTmp * denominatorTmp;
-
-        return 0.5 + (numerator / denominator);
+        return sum;
     }
 
 }
