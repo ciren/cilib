@@ -31,21 +31,22 @@ package net.sourceforge.cilib.measurement.single.dynamic;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * AverageBestFitnessBeforeChange computes the average of the best fitness of the swarm
- * selected from specific iterations.
- * In an environment that changes periodically, this class selects the best fitness
- * at the end of each cycle averages them.
+ * AverageBestFitnessBeforeChange computes the average of the best fitness of
+ * the swarm selected from specific iterations.
+ * In an environment that changes periodically, this class selects the best
+ * fitness at the end of each cycle and averages them.
  * The output for a given iteration is the average of all the fitness's selected
  * so far.
  *
- * NOTE: for this measurement to be used, a resolution of 1 as to be used by the measurement
+ * NOTE: For this measurement to be used, a resolution of 1 has to be set for
+ * the measurement.
+ *
  * @author  Julien Duhain
  */
 public class AverageBestFitnessBeforeChange extends DynamicMeasurement {
@@ -64,15 +65,17 @@ public class AverageBestFitnessBeforeChange extends DynamicMeasurement {
         this.avg = copy.avg;
     }
 
+    @Override
     public AverageBestFitnessBeforeChange getClone() {
         return new AverageBestFitnessBeforeChange(this);
     }
 
+    @Override
     public Type getValue(Algorithm algorithm) {
-        double n = algorithm.getBestSolution().getFitness().getValue();
-
-        if((AbstractAlgorithm.get().getIterations()+1)%cycleSize == 0){
-            avg = (avg * cycleNr + n) / (cycleNr + 1);
+        if((algorithm.getIterations()+1)%cycleSize == 0){
+            OptimisationProblem function = algorithm.getOptimisationProblem();
+            double fitness = function.getFitness(algorithm.getBestSolution().getPosition()).getValue();
+            avg = (avg * cycleNr + fitness) / (cycleNr + 1);
             cycleNr++;
         }
 
@@ -98,5 +101,4 @@ public class AverageBestFitnessBeforeChange extends DynamicMeasurement {
         out.writeDouble(avg);
         out.writeInt(cycleNr);
     }
-
 }

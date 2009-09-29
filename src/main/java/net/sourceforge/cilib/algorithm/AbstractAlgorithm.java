@@ -248,6 +248,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      * Returns true if the algorithm has finished executing.
      * @return true if the algorithm is finished
      */
+    @Override
     public final boolean isFinished() {
         for (StoppingCondition condition : stoppingConditions) {
             if (condition.isCompleted()) {

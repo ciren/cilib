@@ -186,4 +186,14 @@ public class RotatingFunctionDecorator extends ContinuousFunction {
         this.N = function.getDimension();
         this.matrix = initMatrices();
     }
+
+    @Override
+    public Double getMaximum() {
+        return function.getMaximum();
+    }
+
+    @Override
+    public Double getMinimum() {
+        return function.getMinimum();
+    }
 }

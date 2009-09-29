@@ -32,22 +32,21 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * AverageBestErrorBeforeChange computes the average of the differences between best fitness of the swarm
- * and the maximum selected from specific iterations.
- * In an environment that changes periodically, this class selects the best fitness
- * at the end of each cycle averages them.
+ * AverageBestErrorBeforeChange computes the average of the differences between
+ * best fitness of the swarm and the maximum selected from specific iterations.
+ * In an environment that changes periodically, this class selects the best
+ * fitness at the end of each cycle averages them.
  * The output for a given iteration is the average of all the errors selected
  * so far.
  *
- * NOTE: for this measurement to be used, a resolution of 1 as to be used by the measurement
+ * NOTE: For this measurement to be used, a resolution of 1 has to be set for
+ * the measurement
  * @author  Julien Duhain
  */
 public class AverageBestErrorBeforeChange extends DynamicMeasurement{
@@ -66,17 +65,17 @@ public class AverageBestErrorBeforeChange extends DynamicMeasurement{
         this.avg = copy.avg;
     }
 
+    @Override
     public AverageBestErrorBeforeChange getClone() {
         return new AverageBestErrorBeforeChange(this);
     }
 
+    @Override
     public synchronized Type getValue(Algorithm algorithm) {
-        if((AbstractAlgorithm.get().getIterations()+1)%cycleSize == 0){
-            double n = algorithm.getBestSolution().getFitness().getValue();
-            ContinuousFunction func = ((FunctionMaximisationProblem) (algorithm.getOptimisationProblem())).getFunction();
-            Real err = new Real(func.getMaximum() - n);
-
-            avg = (avg * this.cycleNr + err.getReal()) / (this.cycleNr + 1);
+        if((algorithm.getIterations()+1)%cycleSize == 0){
+            FunctionOptimisationProblem function = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+            double error = function.getError(algorithm.getBestSolution().getPosition());
+            this.avg = (this.avg * this.cycleNr + error) / (this.cycleNr + 1);
             this.cycleNr++;
         }
         return new Real(avg);
