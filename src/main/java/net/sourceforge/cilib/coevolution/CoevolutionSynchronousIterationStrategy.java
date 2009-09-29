@@ -56,7 +56,7 @@ public class CoevolutionSynchronousIterationStrategy extends AbstractIterationSt
          //   current.calculateFitness(); add this line to get the standard SynchronousIterationStrategy
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();
-                if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+                if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
             }

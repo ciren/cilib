@@ -86,7 +86,7 @@ public abstract class EnvironmentChangeResponseStrategy<E extends PopulationBase
 
             for (Iterator<? extends Entity> inside = topology.neighbourhood(outside); inside.hasNext(); ) {
                 Particle other = (Particle) inside.next();
-                if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+                if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current);
                 }
             }

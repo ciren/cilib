@@ -19,43 +19,57 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+/**
+ *
+ */
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.container.Vector;
 
-/**
- * Salomon function.
- * <p>
- * Characteristics:
- * <ul>
- * <li>Multimodal</li>
- * <li>Nonseperable</li>
- * </ul>
- * f(x) = 0; x = (0,0,...,0); x_i e (-600,600)
- * @author Olusegun Olorunda
- */
-public class Salomon extends ContinuousFunction {
-    private static final long serialVersionUID = -6002240316648057218L;
 
-    /**
-     * Create an instance of the function. Default domain is set to R(-600, 600)^30
-     */
-    public Salomon() {
-        setDomain("R(-600, 600)^30");
+/**
+ * <p><b>The Alpine Function.</b></p>
+ *
+ * <p><b>Reference:</b> S. Rahnamayan, H. R. Tizhoosh, M. M. A. Salama <i>A novel population initialization method for accelerating evolutionary algorithms</i>,
+ * Computers and Mathematics with Applications, 2007</p>
+ *
+ * <p>Minimum:
+ * <ul>
+ * <li> &fnof;(<b>x</b>*) = 0</li>
+ * <li> <b>x</b>* = (0, 0, ...., 0)</li>
+ * <li> for x<sub>i</sub> in [-10, 10]</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Characteristics:
+ * <ul>
+ * </ul>
+ * </p>
+ *
+ * @author leo
+ *
+ */
+public class Alpine extends ContinuousFunction {
+    private static final long serialVersionUID = -1365268075451075465L;
+
+    public Alpine() {
+        setDomain("R(-10, 10)^30");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Salomon getClone() {
-        return new Salomon();
+    public Alpine getClone() {
+        return new Alpine();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Double getMinimum() {
         return 0.0;
     }
@@ -64,16 +78,12 @@ public class Salomon extends ContinuousFunction {
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector input) {
-        double functionValue = 0.0;
-        double sumSquares = 0.0;
-
-        for (int i = 0; i < input.getDimension(); i++) {
-            sumSquares += input.getReal(i) * input.getReal(i);
+    public Double evaluate(Vector x) {
+        double sum = 0;
+        for (Numeric n : x) {
+            sum += Math.abs((n.getReal() * Math.sin(n.getReal())) + (0.1 * n.getReal()));
         }
-
-        functionValue = -(Math.cos(2 * Math.PI * Math.sqrt(sumSquares))) + (0.1 * Math.sqrt(sumSquares)) + 1;
-
-        return functionValue;
+        return sum;
     }
+
 }
