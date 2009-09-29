@@ -29,12 +29,12 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Shaffer6GeneralisedTest {
+public class Schaffer6Test {
     private ContinuousFunction function;
 
     @Before
     public void instantiate() {
-        this.function = new Shaffer6Generalised();
+        this.function = new Schaffer6();
     }
 
     /** Test of evaluate method, of class cilib.functions.unconstrained.Pathological. */

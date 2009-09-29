@@ -58,22 +58,24 @@ public class SchwefelProblem2_22 extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Double getMinimum() {
-        return new Double(0);
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Double evaluate(Vector x) {
+    @Override
+    public Double evaluate(Vector input) {
         double sum = 0;
         double product = 0;
         for (int i = 0; i < getDimension(); ++i) {
-            sum += Math.abs(x.getReal(i));
+            sum += Math.abs(input.getReal(i));
             if (i == 0)
-                product = Math.abs(x.getReal(i));
+                product = Math.abs(input.getReal(i));
             else
-                product *= Math.abs(x.getReal(i));
+                product *= Math.abs(input.getReal(i));
         }
 
         return sum + product;

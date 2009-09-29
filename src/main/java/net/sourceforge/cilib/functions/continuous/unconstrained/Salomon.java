@@ -68,24 +68,22 @@ public class Salomon extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Double getMinimum() {
-        return new Double(0);
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector x) {
-        double functionValue = 0.0;
+    public Double evaluate(Vector input) {
         double sumSquares = 0.0;
 
-        for (int i = 0; i < x.getDimension(); i++) {
-            sumSquares += x.getReal(i) * x.getReal(i);
+        for (int i = 0; i < input.getDimension(); i++) {
+            sumSquares += input.getReal(i) * input.getReal(i);
         }
 
-        functionValue = -(Math.cos(2 * Math.PI * Math.sqrt(sumSquares))) + (0.1 * Math.sqrt(sumSquares)) + 1;
-
-        return functionValue;
+        return -(Math.cos(2 * Math.PI * Math.sqrt(sumSquares))) + (0.1 * Math.sqrt(sumSquares)) + 1;
     }
 }

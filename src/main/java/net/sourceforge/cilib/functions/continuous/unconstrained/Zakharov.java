@@ -19,9 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-/**
- *
- */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
@@ -47,10 +44,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * </p>
  *
  * @author leo
- *
  */
 public class Zakharov extends ContinuousFunction {
-
     private static final long serialVersionUID = -635648546100966058L;
 
     public Zakharov() {
@@ -70,19 +65,19 @@ public class Zakharov extends ContinuousFunction {
      */
     @Override
     public Double getMinimum() {
-        return new Double(0.0);
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         double sum1 = 0;
         double sum2 = 0;
-        for(int i = 0; i < x.size(); ++i){
-            sum1 += x.getReal(i) * x.getReal(i);
-            sum2 += 0.5 * (i + 1) * x.getReal(i);
+        for(int i = 0; i < input.size(); ++i){
+            sum1 += input.getReal(i) * input.getReal(i);
+            sum2 += 0.5 * (i + 1) * input.getReal(i);
         }
         return sum1 + (sum2 * sum2) + (sum2 * sum2 * sum2 * sum2);
     }
