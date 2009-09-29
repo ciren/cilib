@@ -71,17 +71,17 @@ public class DeJongF4 extends ContinuousFunction {
      */
     @Override
     public Double getMinimum() {
-        return new Double(0.0);
+        return 0.0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double evaluate(Vector x) {
+    public Double evaluate(Vector input) {
         double sum = 0;
-        for(int i = 0; i < x.size(); ++i){
-            double xi = x.getReal(i);
+        for(int i = 0; i < input.size(); ++i){
+            double xi = input.getReal(i);
             sum += (i+1) * (xi*xi*xi*xi);
         }
         return sum;

@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import java.io.Serializable;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -53,7 +52,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Andries Engelbrecht
  *
  */
-public class Bukin6 extends ContinuousFunction implements Serializable {
+public class Bukin6 extends ContinuousFunction {
     private static final long serialVersionUID = -5557883529972004157L;
 
     /**
@@ -74,6 +73,7 @@ public class Bukin6 extends ContinuousFunction implements Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Double getMinimum() {
         return 0.0;
     }

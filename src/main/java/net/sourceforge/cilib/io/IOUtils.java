@@ -31,11 +31,26 @@ import java.nio.charset.CharsetEncoder;
  * Utility methods used in the I/O packages.
  * @author andrich
  */
-public class IOUtils {
+public final class IOUtils {
 
-    public static final int KILOBYTE = 1024;
-    public static final int MEGABYTE = KILOBYTE * KILOBYTE;
-    public static int characterBufferSize = 4 * KILOBYTE;
+    public enum Block {
+        KILOBYTE(1024),
+        MEGABYTE(1024*1024);
+
+        private final int bytes;
+
+        Block(int size) {
+            this.bytes = size;
+        }
+
+        public int size() {
+            return this.bytes;
+        }
+    }
+
+    private static int characterBufferSize = 4 * Block.KILOBYTE.size();
+
+    private IOUtils() {}
 
     /**
      * Writes a variable number of string to the given ByteBuffer.
@@ -103,4 +118,5 @@ public class IOUtils {
     public static void setCharacterBufferSize(int characterBufferSize) {
         IOUtils.characterBufferSize = characterBufferSize;
     }
+
 }

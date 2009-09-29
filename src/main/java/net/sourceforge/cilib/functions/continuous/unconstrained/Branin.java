@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import java.io.Serializable;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -53,7 +52,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author Clive Naicker
  *
  */
-public class Branin extends ContinuousFunction implements Serializable {
+public class Branin extends ContinuousFunction {
     private static final long serialVersionUID = -2254223453957430344L;
 
     private double a = 1.0;
@@ -94,6 +93,7 @@ public class Branin extends ContinuousFunction implements Serializable {
      *
      * The minimum is located at <code>0.397887</code>.
      */
+    @Override
     public Double getMinimum() {
         return 0.397887;
     }

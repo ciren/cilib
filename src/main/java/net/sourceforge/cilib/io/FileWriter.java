@@ -43,7 +43,7 @@ public abstract class FileWriter implements DataWriter {
      * Default constructor. Initializes the output buffer to a default size.
      */
     public FileWriter() {
-        outputBufferSize = 32 * IOUtils.MEGABYTE;
+        outputBufferSize = 32 * IOUtils.Block.MEGABYTE.size();
     }
 
     /**
