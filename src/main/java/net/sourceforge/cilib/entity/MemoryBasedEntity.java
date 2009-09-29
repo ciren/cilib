@@ -19,23 +19,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.util.selection.weighing.entity;
+package net.sourceforge.cilib.entity;
 
-import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.problem.Fitness;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 
 /**
- * Obtain the social best fitness value from a {@link SocialEntity}.
- * @author Wiehann Matthysen
+ * All {@link Entity} types that have a memory of pervious experiences
+ * should implement this interface.
  */
-public class SocialBestFitness implements EntityFitness<SocialEntity> {
+public interface MemoryBasedEntity {
 
     /**
-     * {@inheritDoc}
-     * Obtains the social based fitness from the {@link SocialEntity}.
+     * Get the best position of the {@linkplain MemoryBasedEntity}.
+     * @return The {@linkplain net.sourceforge.cilib.type.types.Type}
+     *         representing the best position.
      */
-    @Override
-    public Fitness getFitness(SocialEntity entity) {
-        return entity.getSocialFitness();
-    }
+    public StructuredType getBestPosition();
+
+    /**
+     * Get the best {@linkplain Fitness} for the {@linkplain MemoryBasedEntity}.
+     * @return The entity's best {@linkplain Fitness}.
+     */
+    public Fitness getBestFitness();
 }

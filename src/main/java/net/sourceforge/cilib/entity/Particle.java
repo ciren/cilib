@@ -24,7 +24,6 @@ package net.sourceforge.cilib.entity;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.initialization.InitializationStrategy;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PersonalBestUpdateStrategy;
-import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.pso.positionupdatestrategies.PositionUpdateStrategy;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.Type;
@@ -33,7 +32,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
 /**
  * Definition of a particle.
  */
-public interface Particle extends Entity, SocialEntity {
+public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
 
     /**
      * {@inheritDoc}
@@ -46,12 +45,6 @@ public interface Particle extends Entity, SocialEntity {
      * @return The {@linkplain Type} representing the position.
      */
     public StructuredType getPosition();
-
-    /**
-     * Get the best position of the {@linkplain Particle}.
-     * @return The {@linkplain Type} representing the best position.
-     */
-    public StructuredType getBestPosition();
 
     /**
      * Get the current velocity of the {@linkplain Particle}.
@@ -70,22 +63,6 @@ public interface Particle extends Entity, SocialEntity {
      * @param particle The particle to set as the neighbourhood best.
      */
     public void setNeighbourhoodBest(Particle particle);
-
-    /**
-     * {@inheritDoc}
-     */
-    public int getDimension();
-
-    /**
-     * {@inheritDoc}
-     */
-    public Fitness getFitness();
-
-    /**
-     * Get the best {@linkplain Fitness} for the particle.
-     * @return The particle's best {@linkplain Fitness}.
-     */
-    public Fitness getBestFitness();
 
     /**
      * Update the current position of the {@linkplain Particle}.

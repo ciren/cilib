@@ -78,7 +78,7 @@ public class ParticleReevaluationResponseStrategy<E extends PopulationBasedAlgor
             Iterator<? extends Entity> j = topology.neighbourhood(iterator);
             while (j.hasNext()) {
                 Particle other = (Particle) j.next();
-                if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+                if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current);
                 }
             } // end for

@@ -78,7 +78,7 @@ public class SynchronousIterationStrategy extends AbstractIterationStrategy<PSO>
 
             for (Iterator<? extends Particle> j = topology.neighbourhood(i); j.hasNext();) {
                 Particle other = j.next();
-                if (current.getSocialBestFitness().compareTo(other.getNeighbourhoodBest().getSocialBestFitness()) > 0) {
+                if (current.getSocialFitness().compareTo(other.getNeighbourhoodBest().getSocialFitness()) > 0) {
                     other.setNeighbourhoodBest(current); // TODO: neighbourhood visitor?
                 }
             }

@@ -285,7 +285,7 @@ public abstract class AbstractParticle extends AbstractEntity implements Particl
      * {@inheritDoc}
      */
     @Override
-    public Fitness getSocialBestFitness() {
+    public Fitness getSocialFitness() {
         return this.neighbourhoodBestUpdateStrategy.getSocialBestFitness(this);
     }
 
