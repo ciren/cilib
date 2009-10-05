@@ -40,7 +40,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  */
 public class CandidateSolutionMixin implements CandidateSolution {
     private static final long serialVersionUID = 4539668687773346284L;
-    private Blackboard<Enum<?>, Type> properties;
+    private final Blackboard<Enum<?>, Type> properties;
 
     /**
      * Create the Mixin class, providing the reference to the shared {@linkplain Blackboard}
@@ -102,6 +102,7 @@ public class CandidateSolutionMixin implements CandidateSolution {
      * represents.
      * @return A {@linkplain Type} representing the solution of the {@linkplain Entity}
      */
+    @Override
     public StructuredType getCandidateSolution() {
         return (StructuredType) properties.get(EntityType.CANDIDATE_SOLUTION);
     }
@@ -109,13 +110,15 @@ public class CandidateSolutionMixin implements CandidateSolution {
     /**
      * {@inheritDoc}
      */
-    public void setCandidateSolution(StructuredType candidateSolution) {
-        properties.put(EntityType.CANDIDATE_SOLUTION, candidateSolution);
+    @Override
+    public void setCandidateSolution(StructuredType contents) {
+        properties.put(EntityType.CANDIDATE_SOLUTION, contents);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Fitness getFitness() {
         return (Fitness) properties.get(EntityType.FITNESS);
     }
@@ -123,15 +126,9 @@ public class CandidateSolutionMixin implements CandidateSolution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Blackboard<Enum<?>, Type> getProperties() {
         return properties;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void setProperties(Blackboard<Enum<?>, Type> properties) {
-        this.properties = properties;
     }
 
 }
