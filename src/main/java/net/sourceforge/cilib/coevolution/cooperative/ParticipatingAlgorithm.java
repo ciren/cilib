@@ -24,7 +24,7 @@ package net.sourceforge.cilib.coevolution.cooperative;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 /**
  * Any algorithm that implements this interface can be used as a participant in any Cooperative
- * Algorithm. If a class inherits from this inteface it has to define a {@linkplain ContributionSelectionStrategy} member variable. This
+ * Algorithm. Any class that inherits from this inteface has to define a {@linkplain ContributionSelectionStrategy} member variable. This
  * strategy dictates how the solution contribution is selected from the {@linkplain ParticipatingAlgorithm}.
  * @author Edwin Peer
  * @author Theuns Cloete

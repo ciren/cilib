@@ -47,7 +47,7 @@ public class RandomAlgorithmImperfectSplitDistribution implements
         ProblemDistributionStrategy {
 
     /**
-     * Splits up the given {@link OptimisationProblem} into sub-problems, where each sub problem contains a sequencial, non-uniform length, portion of the problem verctor, and assigns all the sub-problems to the sub population {@link Algorithm}s.
+     * Splits up the given {@link OptimisationProblem} into sub-problems, where each sub problem contains a sequencial (non-uniform sized) portion of the problem vector, and assigns them to all the participating {@link Algorithm}s.
      * This implimentation assigns a portion of length dimensionality/number of populations + 1 to dimensionality % number of populations of the participating poopulations.
      * The order in which the algorithms are assigned is generated randomly.
      * @param populations The list of participating {@linkplain PopulationBasedAlgorithm}s.
