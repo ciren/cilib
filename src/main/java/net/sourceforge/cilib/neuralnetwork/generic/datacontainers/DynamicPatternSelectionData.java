@@ -69,7 +69,7 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
         for (int i = 0; i < nrUpdates; i++){
             mostInformative.add(null);
             informativeness.add(prototypeError.getClone());
-            informativeness.get(i).setValue(new Double(-999999));
+            informativeness.get(i).setValue(Double.valueOf(-999999));
         }
     }
 
@@ -139,7 +139,7 @@ public class DynamicPatternSelectionData extends GenericData implements Initiali
             for (int i = 0; i < nrUpdates; i++){
                 mostInformative.add(null);
                 informativeness.add(prototypeError.getClone());
-                informativeness.get(i).setValue(new Double(-999999));
+                informativeness.get(i).setValue(Double.valueOf(-999999));
             }
         }
 

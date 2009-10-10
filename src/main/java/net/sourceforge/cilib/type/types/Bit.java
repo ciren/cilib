@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
 
 
@@ -36,19 +35,10 @@ import net.sourceforge.cilib.math.random.generator.Random;
  * @author Gary Pampara
  */
 public class Bit extends Numeric {
-
     private static final long serialVersionUID = 1328646735062562469L;
+    private static final Bounds DEFAULT_BOUND = new Bounds(0, 1);
+
     private boolean state;
-
-
-    /**
-     * Create a <tt>Bit</tt> object with a random state value.
-     */
-    public Bit() {
-        this.state = new MersenneTwister().nextBoolean();
-        super.setBounds(BoundsFactory.create(0.0, 1.0));
-    }
-
 
     /**
      * Copy-constructor. Create a <tt>Bit</tt> object with the specified state.
@@ -56,7 +46,7 @@ public class Bit extends Numeric {
      */
     public Bit(boolean state) {
         this.state = state;
-        super.setBounds(BoundsFactory.create(0.0, 1.0));
+        super.setBounds(DEFAULT_BOUND);
     }
 
     /**
@@ -68,7 +58,6 @@ public class Bit extends Numeric {
         super.setBounds(copy.getBounds());
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -76,21 +65,19 @@ public class Bit extends Numeric {
         return new Bit(this);
     }
 
-
     /**
      * {@inheritDoc}
      */
-    public boolean equals(Object other) {
-        if (this == other)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
 
-        if ((other == null) || (this.getClass() != other.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass()))
             return false;
 
-        Bit otherBit = (Bit) other;
-        return super.equals(other) && (this.state == otherBit.state);
+        Bit otherBit = (Bit) obj;
+        return super.equals(obj) && (this.state == otherBit.state);
     }
-
 
     /**
      * {@inheritDoc}
@@ -134,7 +121,6 @@ public class Bit extends Numeric {
         setInt(value);
     }
 
-
     /**
      * Return the state of the curent <tt>Bit</tt> object.
      *
@@ -143,7 +129,6 @@ public class Bit extends Numeric {
     public boolean getBit() {
         return state;
     }
-
 
     /**
      * Set the state of of this <tt>Bit</tt> object.
@@ -161,7 +146,6 @@ public class Bit extends Numeric {
         setBit(Boolean.parseBoolean(value));
     }
 
-
     /**
      * Get the integer representation of the current <tt>Bit</tt> object.
      *
@@ -173,7 +157,6 @@ public class Bit extends Numeric {
             return 1;
         else return 0;
     }
-
 
     /**
      * Set the state of the current <tt>Bit</tt> object.
@@ -196,7 +179,6 @@ public class Bit extends Numeric {
         setInt(Integer.parseInt(value));
     }
 
-
     /**
      * Get the state of the <tt>Bit</tt> returned as a double value.
      *
@@ -207,7 +189,6 @@ public class Bit extends Numeric {
             return 1.0;
         else return 0.0;
     }
-
 
     /**
      * Set the state of the <tt>Bit</tt> object using <i>value</i> as input. If the
@@ -226,7 +207,6 @@ public class Bit extends Numeric {
     public void setReal(String value) {
         setReal(Double.parseDouble(value));
     }
-
 
     /**
      * {@inheritDoc}
@@ -252,7 +232,6 @@ public class Bit extends Numeric {
         this.setBit(false);
     }
 
-
     /**
      * Return the <tt>String</tt> representation of this object's value.
      *
@@ -271,7 +250,6 @@ public class Bit extends Numeric {
         return "B";
     }
 
-
     /**
      * Externalise the current object to the provided <tt>ObjectOutput</tt>.
      *
@@ -281,7 +259,6 @@ public class Bit extends Numeric {
     public void writeExternal(ObjectOutput oos) throws IOException {
         oos.writeBoolean(state);
     }
-
 
     /**
      * Externalise the current object to the provided <tt>ObjectInput</tt>.
@@ -302,18 +279,6 @@ public class Bit extends Numeric {
      */
     @Override
     public void setBounds(Bounds bounds) {
-        throw new UnsupportedOperationException("Bounds may not be altered for Bit instances.");
-    }
-
-    /**
-     * Set the bounds for the current {@code Bit} instance. This method is not a valid
-     * operation and as a result throws a {@code UnsupportedOperationException}.
-     * @param lower The lower bound value.
-     * @param upper The upperbound value.
-     * @throws UnsupportedOperationException Bit instances cannot have arbitary bounds.
-     */
-    @Override
-    public void setBounds(double lower, double upper) {
         throw new UnsupportedOperationException("Bounds may not be altered for Bit instances.");
     }
 

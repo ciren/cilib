@@ -192,10 +192,6 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     private int counter = 1;
     private double frequency = 3.14159 / 20.0;
 
-    final int peakFunction1 = 0;
-    final int peakFunctionCone = 1;
-    final int peakFunctionSphere = 2;
-
     public boolean didChange() {
         if (changed) {
             changed = false;
@@ -437,7 +433,6 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
             peak[i] = null;
             prevMovement[i] = null;
         }
-        System.gc();
     } // freePeaks
 
     /* The following procedures may be used to change the step size over time */

@@ -66,7 +66,7 @@ public class ConstantInitializationStrategyTest {
     @Test(expected=UnsupportedOperationException.class)
     public void invalidInitialize() {
         Individual individual = new Individual();
-        individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Real());
+        individual.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Real(0.0));
 
         ConstantInitializationStrategy<Individual> initializationStrategy = new ConstantInitializationStrategy<Individual>();
 

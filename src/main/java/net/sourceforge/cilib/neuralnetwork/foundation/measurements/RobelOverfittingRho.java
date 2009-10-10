@@ -56,8 +56,7 @@ public class RobelOverfittingRho implements Measurement {
         NNError[] errorDt = ((NeuralNetworkProblem) controller.getOptimisationProblem()).getEvaluationStrategy().getErrorDt();
         NNError[] errorDg = ((NeuralNetworkProblem) controller.getOptimisationProblem()).getEvaluationStrategy().getErrorDg();
 
-        Real rho = new Real();
-        rho.setReal(errorDg[0].getValue().doubleValue() / errorDt[0].getValue().doubleValue());
-        return rho;
+        double value = errorDg[0].getValue().doubleValue() / errorDt[0].getValue().doubleValue();
+        return new Real(value);
     }
 }

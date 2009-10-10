@@ -45,7 +45,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * Create an instance of the {@code BoundedControlParameter}.
      */
     public BoundedControlParameter() {
-        this.parameter = new Real();
+        this.parameter = new Real(0.0);
     }
 
 
@@ -55,7 +55,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      */
     public BoundedControlParameter(BoundedControlParameter copy) {
         this.parameter = copy.parameter.getClone();
-        this.range = new String(copy.range);
+        this.range = copy.range;
     }
 
 
@@ -128,7 +128,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
     public void setLowerBound(double lower) {
 //        this.parameter.getBounds().setLowerBound(lower);
         Bounds bounds = parameter.getBounds();
-        this.parameter.setBounds(lower, bounds.getUpperBound());
+        this.parameter.setBounds(new Bounds(lower, bounds.getUpperBound()));
     }
 
 
@@ -149,7 +149,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
     public void setUpperBound(double value) {
 //        this.parameter.getBounds().setUpperBound(value);
         Bounds bounds = parameter.getBounds();
-        this.parameter.setBounds(bounds.getLowerBound(), value);
+        this.parameter.setBounds(new Bounds(bounds.getLowerBound(), value));
     }
 
 

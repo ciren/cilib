@@ -21,7 +21,10 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.type.types.Bit;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -32,12 +35,14 @@ import net.sourceforge.cilib.type.types.Type;
 public final class B implements TypeCreator {
     private static final long serialVersionUID = 7124782787032789332L;
 
+    private Random random = new MersenneTwister();
+
     /**
      * {@inheritDoc}
      */
     @Override
     public Type create() {
-        return new Bit();
+        return new Bit(random.nextBoolean());
     }
 
     /**
@@ -45,7 +50,7 @@ public final class B implements TypeCreator {
      */
     @Override
     public Type create(double value) {
-        Bit b = new Bit();
+        Bit b = new Bit(false);
         b.setReal(value);
         return b;
     }
@@ -54,7 +59,7 @@ public final class B implements TypeCreator {
      * {@inheritDoc}
      */
     @Override
-    public Type create(final double lower, final double upper) {
+    public Type create(final Bounds bounds) {
         throw new UnsupportedOperationException("Bit types cannot be constructed with bounds");
     }
 

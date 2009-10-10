@@ -39,12 +39,12 @@ public interface Type extends Cloneable {
      * Compare the specified object with this type for equality. Returns
      * {@code true} if and only if the specified object is also an instance
      * of the same type.
-     * @param o The object to compare.
+     * @param obj The object to compare.
      * @return {@code true} if equality exists, {@code false} otherwise.
      * @see Object#equals(Object)
      */
     @Override
-    public boolean equals(Object o);
+    public boolean equals(Object obj);
 
     /**
      * Returns the hash code value for this list.  The hash code of a list

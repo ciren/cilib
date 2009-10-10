@@ -38,6 +38,7 @@ import net.sourceforge.cilib.type.parser.node.Start;
 import net.sourceforge.cilib.type.parser.node.TType;
 import net.sourceforge.cilib.type.parser.parser.Parser;
 import net.sourceforge.cilib.type.parser.parser.ParserException;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
@@ -117,6 +118,7 @@ public final class DomainParser {
 
     private static class Evaluator extends DepthFirstAdapter {
         private TypeList typeList = new TypeList();
+        private BoundsFactory boundsFactory = new BoundsFactory();
 
         @Override
         public void outAStatement(AStatement node) {
@@ -138,7 +140,8 @@ public final class DomainParser {
                     if (boundVisitor.lowerBound > boundVisitor.upperBound)
                         throw new UnsupportedOperationException("Bounds are in an invalid order. Expected x < yb but got x > y");
 
-                    instance = creator.create(boundVisitor.lowerBound, boundVisitor.upperBound);
+                    Bounds bounds = boundsFactory.create(boundVisitor.lowerBound, boundVisitor.upperBound);
+                    instance = creator.create(bounds);
                 }
 
                 typeList.add(instance);

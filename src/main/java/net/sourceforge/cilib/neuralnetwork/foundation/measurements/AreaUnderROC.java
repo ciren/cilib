@@ -151,26 +151,26 @@ public class AreaUnderROC implements Measurement{
         totalAUC = (totalAUC * 2) / (matrixSize * (matrixSize - 1));
 
         //Build measurement
-        String countString = new String();
-        countString = "(" + String.valueOf(this.classCount[0]);
+        StringBuilder countStringBuilder = new StringBuilder();
+        countStringBuilder.append("(").append(this.classCount[0]);
         for (int i = 1; i < matrixSize; i++){
-            countString += "," + String.valueOf(this.classCount[i]);
+            countStringBuilder.append(",").append(this.classCount[i]);
         }
-        countString += ")";
+        countStringBuilder.append(")");
 
-        String matrix = new String();
-        matrix += "{";
+        StringBuilder matrix = new StringBuilder();
+        matrix.append("{");
         for (int i = 0; i < matrixSize; i++){
-            matrix += "(";
+            matrix.append("(");
             for (int j = 0; j < matrixSize; j++){
-                matrix += String.valueOf(confusionMatrix[i][j]);
+                matrix.append(confusionMatrix[i][j]);
                 if (j < matrixSize - 1)
-                    matrix += ",";
+                    matrix.append(",");
             }
-            matrix += ")";
+            matrix.append(")");
 
         }
-        matrix += "}";
+        matrix.append("}");
 
 
         double accuracyVal = 0;
@@ -183,8 +183,8 @@ public class AreaUnderROC implements Measurement{
 
         TypeList v = new TypeList();
         v.add(new Real(totalAUC));
-        v.add(new StringType(countString));
-        v.add(new StringType(matrix));
+        v.add(new StringType(countStringBuilder.toString()));
+        v.add(new StringType(matrix.toString()));
         v.add(new StringType(accuracy));
 
         return v;

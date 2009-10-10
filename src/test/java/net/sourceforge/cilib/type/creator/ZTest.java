@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
@@ -43,14 +44,14 @@ public class ZTest {
 
     @Test
     public void testCreateNoBounds() {
-        Type z = creator.create();
+        Type z = creator.create(new Bounds(0, 2));
 
         assertTrue(z instanceof Int);
     }
 
     @Test
     public void testCreateBounds() {
-        Type z = creator.create(0, 2);
+        Type z = creator.create(new Bounds(0, 2));
 
         assertTrue(z instanceof Int);
     }

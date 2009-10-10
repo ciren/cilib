@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -30,10 +31,6 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public final class T implements TypeCreator {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 1198714503772193216L;
 
     /**
@@ -53,7 +50,7 @@ public final class T implements TypeCreator {
     /**
      * {@inheritDoc}
      */
-    public Type create(final double lower, final double upper) {
+    public Type create(final Bounds bounds) {
         throw new UnsupportedOperationException("StringTypes with bounds do not exist");
     }
 

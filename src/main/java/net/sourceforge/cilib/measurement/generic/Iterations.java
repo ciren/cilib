@@ -53,10 +53,7 @@ public class Iterations implements Measurement<Int> {
      */
     @Override
     public Int getValue(Algorithm algorithm) {
-        Int i = new Int();
-        i.setInt(algorithm.getIterations());
-
-        return i;
+        return new Int(algorithm.getIterations());
     }
 
 }

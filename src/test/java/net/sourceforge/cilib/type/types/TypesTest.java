@@ -33,17 +33,28 @@ import org.junit.Test;
 public class TypesTest {
 
     @Test
+    public void numericDimension() {
+        Real r = new Real(0.0);
+        Int i = new Int(0);
+        Bit b = new Bit(false);
+
+        Assert.assertEquals(1, Types.getDimension(r));
+        Assert.assertEquals(1, Types.getDimension(i));
+        Assert.assertEquals(1, Types.getDimension(b));
+    }
+
+    @Test
     public void structureDimension() {
         Vector vector = new Vector();
         Assert.assertEquals(0, Types.getDimension(vector));
 
-        vector.add(new Real());
+        vector.add(new Real(0.0));
         Assert.assertEquals(1, Types.getDimension(vector));
     }
 
     @Test
     public void nonStructureDimension() {
-        Real r = new Real();
+        Real r = new Real(0.0);
 
         Assert.assertEquals(1, Types.getDimension(r));
     }
@@ -51,8 +62,7 @@ public class TypesTest {
     @Test
     public void structureIsNotInsideBounds() {
         Vector vector = new Vector();
-        Real r = new Real(-5.0, 5.0);
-        r.setReal(-7.0);
+        Real r = new Real(-7.0, new Bounds(-5.0, 5.0));
 
         vector.add(r);
 
@@ -61,12 +71,11 @@ public class TypesTest {
 
     @Test
     public void structureInBounds() {
-        Vector vector = new Vector();
-        Real r1 = new Real(-5.0, 5.0);
-        Real r2 = new Real(-5.0, 5.0);
-        r1.setReal(-5.0);
-        r2.setReal(5.0);
+        Bounds bounds = new Bounds(-5.0, 5.0);
+        Real r1 = new Real(-5.0, bounds);
+        Real r2 = new Real(5.0, bounds);
 
+        Vector vector = new Vector();
         vector.add(r1);
         vector.add(r2);
 

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -30,24 +31,20 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 public final class Z implements TypeCreator {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = -5763440861780552761L;
 
     /**
      * {@inheritDoc}
      */
     public Type create() {
-        return new Int();
+        return new Int(0);
     }
 
     /**
      * {@inheritDoc}
      */
     public Type create(double value) {
-        Int i = new Int();
+        Int i = new Int(0);
         i.setReal(value);
         return i;
     }
@@ -55,7 +52,9 @@ public final class Z implements TypeCreator {
     /**
      * {@inheritDoc}
      */
-    public Type create(final double lower, final double upper) {
-        return new Int(Double.valueOf(lower).intValue(), Double.valueOf(upper).intValue());
+    public Type create(final Bounds bounds) {
+        Int i = new Int(0);
+        i.setBounds(bounds);
+        return i;
     }
 }

@@ -95,7 +95,7 @@ public class RandomAlgorithmIterator<E extends Algorithm> extends SequentialAlgo
         for (int i = 0; i < algorithms.size(); i++) {
             // make sure each index is used only once
             do {
-                random = new Integer((int) generator.getUniform(0, algorithms.size()));
+                random = Integer.valueOf((int)generator.getUniform(0, algorithms.size()));
             }
             while (list.contains(random));
 

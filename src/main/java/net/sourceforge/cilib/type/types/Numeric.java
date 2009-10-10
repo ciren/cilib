@@ -31,29 +31,24 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
 
     private Bounds bounds;
 
-    protected Numeric() {
-        this.bounds = new Bounds();
-    }
-
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract Numeric getClone();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object other) {
-        if (this == other)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
 
-        if ((other == null) || (this.getClass() != other.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass()))
             return false;
 
-        Numeric numeric = (Numeric) other;
-//        return (Double.valueOf(this.lowerBound).equals(Double.valueOf(numeric.lowerBound))) &&
-//            (Double.valueOf(this.upperBound).equals(Double.valueOf(numeric.upperBound)));
+        Numeric numeric = (Numeric) obj;
         return this.bounds.equals(numeric.bounds);
     }
 
@@ -153,11 +148,6 @@ public abstract class Numeric implements Type, BoundedType, Resetable, Comparabl
     @Override
     public void setBounds(Bounds bounds) {
         this.bounds = bounds;
-    }
-
-    @Override
-    public void setBounds(double lower, double upper) {
-        this.setBounds(BoundsFactory.create(lower, upper));
     }
 
     public abstract String getRepresentation();

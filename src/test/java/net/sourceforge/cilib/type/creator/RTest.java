@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -43,14 +44,14 @@ public class RTest {
 
     @Test
     public void testCreateNoBounds() {
-        Type r = creator.create();
+        Type r = creator.create(new Bounds(0, 2));
 
         assertTrue(r instanceof Real);
     }
 
     @Test
     public void testCreateBounds() {
-        Type r = creator.create(0, 2);
+        Type r = creator.create(new Bounds(0, 2));
 
         assertTrue(r instanceof Real);
     }

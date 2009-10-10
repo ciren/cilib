@@ -74,17 +74,18 @@ public class TicTacToe extends GridGame implements StateGame {
     @Override
     public void display() {
         System.out.println("");
+        StringBuilder builder = new StringBuilder();
         for(int j = 0; j < getHeight(); ++j){
-            String line = "|";
+            builder.append("|");
             for(int i = 0; i < getWidth(); ++i){
                 GameItem item = getCurrentState().getItem(i, j);
                 char player = ' ';
                 if(item != null){
                     player = ((GameEnum)getPlayer(((PlayerItem)item).getPlayerID()).getAgentToken()).getDescription().charAt(0);
                 }
-                line += player + "|";
+                builder.append(player).append("|");
             }
-            System.out.println(line);
+            System.out.println(builder.toString());
         }
     }
 

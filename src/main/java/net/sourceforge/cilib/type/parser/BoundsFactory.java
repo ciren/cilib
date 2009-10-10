@@ -19,8 +19,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.types;
+package net.sourceforge.cilib.type.parser;
 
+import net.sourceforge.cilib.type.types.*;
 import com.google.common.collect.Maps;
 import java.util.Map;
 
@@ -31,15 +32,17 @@ import java.util.Map;
  * @author gpampara
  */
 public class BoundsFactory {
+    private final Map<Integer, Bounds> bounds = Maps.newHashMap();
 
-    private final static Map<Integer, Bounds> bounds = Maps.newHashMap();
+    BoundsFactory() {
+    }
 
     /**
      * Create a new {@code Bounds} object, or alternatively return a precreated instance.
      * @param bounds The bounds object to base the creation off.
      * @return The common {@code Bounds} instance.
      */
-    public static Bounds create(Bounds bounds) {
+    public Bounds create(Bounds bounds) {
         return create(bounds.getLowerBound(), bounds.getUpperBound());
     }
 
@@ -50,7 +53,7 @@ public class BoundsFactory {
      * @param upperBound The upper bound of the bound definition.
      * @return The newly created or previously created {@code Bounds} instance.
      */
-    public static Bounds create(double lowerBound, double upperBound) {
+    public Bounds create(double lowerBound, double upperBound) {
         int key = Double.valueOf(lowerBound).hashCode() + Double.valueOf(upperBound).hashCode();
 
         if (!bounds.containsKey(key)) {

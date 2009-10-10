@@ -29,6 +29,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Bit;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
@@ -53,7 +54,7 @@ public class VectorTest {
 
         for(int i = 1; i < 5; i++) {
             Numeric element = new Real(i);
-            element.setBounds(i*-2, i*2);
+            element.setBounds(new Bounds(i*-2, i*2));
             vector.append(element);
         }
     }
@@ -197,8 +198,7 @@ public class VectorTest {
     @Test
     public void testSetReal() {
         Vector m = new Vector();
-        m.add(new Real(-10.0, 10.0));
-        m.setReal(0, 10.0);
+        m.add(new Real(10.0, new Bounds(-10.0, 10.0)));
 
         assertEquals(10.0, m.getReal(0), 0.0);
     }
@@ -221,8 +221,7 @@ public class VectorTest {
         m.setInt(1, 1);
         assertEquals(1, m.getInt(1));
 
-        m.add(new Bit());
-        m.setBit(2, true);
+        m.add(new Bit(true));
         assertTrue(m.getBit(2));
     }
 
@@ -235,8 +234,7 @@ public class VectorTest {
     @Test
     public void testSetBit() {
         Vector m = new Vector();
-        m.add(new Bit());
-        m.setBit(0, false);
+        m.add(new Bit(false));
 
         assertFalse(m.getBit(0));
     }

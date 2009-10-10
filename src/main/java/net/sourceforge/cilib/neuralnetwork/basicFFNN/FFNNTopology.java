@@ -148,7 +148,7 @@ public class FFNNTopology implements NeuralNetworkTopology {
         output = new ArrayList<Double>();
         for (int i = 0; i < nrOutput; i++) {
             temp.add(new Real(outputResult[i]));
-            output.add(new Double(outputResult[i]));
+            output.add(Double.valueOf(outputResult[i]));
         }
 
         lastPattern = p;

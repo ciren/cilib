@@ -129,13 +129,13 @@ public class FunctionDimensionMapping extends ContinuousFunction {
         long result = 0;
 
         String s = vector.toString(' ', ' ', ' ');
-        String tmp = "";
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) != ' ')
-                tmp += s.charAt(i);
+                builder.append(s.charAt(i));
         }
 
-        result = Long.parseLong(tmp, 2);
+        result = Long.parseLong(builder.toString(), 2);
         return result;
     }
 

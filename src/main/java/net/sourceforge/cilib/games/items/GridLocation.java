@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.games.items;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Type;
@@ -34,14 +35,14 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 public class GridLocation extends Vector implements ItemLocation {
     private static final long serialVersionUID = 4974578979607886491L;
     public GridLocation(int gridWidth, int gridHeight) {
-        this.add(new Int(0, gridWidth));
-        this.add(new Int(0, gridHeight));
+        this.add(new Int(0, new Bounds(0, gridWidth)));
+        this.add(new Int(0, new Bounds(0, gridHeight)));
     }
 
     public GridLocation(int xMax, int yMax, int zMax) {
-        this.add(new Int(0, xMax));
-        this.add(new Int(0, yMax));
-        this.add(new Int(0, zMax));
+        this.add(new Int(0, new Bounds(0, xMax)));
+        this.add(new Int(0, new Bounds(0, yMax)));
+        this.add(new Int(0, new Bounds(0, zMax)));
     }
 
     /**

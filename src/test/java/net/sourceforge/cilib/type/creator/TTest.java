@@ -21,8 +21,8 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -49,10 +49,9 @@ public class TTest {
         assertTrue(t instanceof StringType);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected=UnsupportedOperationException.class)
     public void testCreateBounds() {
-        Type t = creator.create(0, 3);
-        assertTrue(t == null);
+        Type t = creator.create(new Bounds(0, 3));
     }
 
 }

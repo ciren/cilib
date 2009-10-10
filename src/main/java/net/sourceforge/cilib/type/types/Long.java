@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.math.random.generator.Random;
 
 /**
@@ -35,25 +34,9 @@ import net.sourceforge.cilib.math.random.generator.Random;
  */
 public class Long extends Numeric {
     private static final long serialVersionUID = -2222077877538045288L;
+    private static final Bounds DEFAULT_BOUND = new Bounds(java.lang.Long.MIN_VALUE, java.lang.Long.MAX_VALUE);
 
     private long value;
-
-    /**
-     * Create an instance of {@linkplain Long}.
-     */
-    public Long() {
-        this(java.lang.Long.MIN_VALUE, java.lang.Long.MAX_VALUE);
-    }
-
-    /**
-     * Create an instance of {@linkplain Long} randomly initialised between <code>lower</code>
-     * and <code>upper</code>.
-     * @param lower The lower bound.
-     * @param upper The upper bound.
-     */
-    public Long(long lower, long upper) {
-            this.setBounds(BoundsFactory.create(lower, upper));
-    }
 
     /**
      * Create an {@linkplain Long} with the specified value.
@@ -61,7 +44,15 @@ public class Long extends Numeric {
      */
     public Long(long value) {
         this.value = value;
-        this.setBounds(BoundsFactory.create(java.lang.Long.MIN_VALUE, java.lang.Long.MAX_VALUE));
+        this.setBounds(DEFAULT_BOUND);
+    }
+
+    /**
+     * Create an instance of {@linkplain Long} with the defined {@code Bounds}.
+     * @param bounds The {@code Bounds} for the instance.
+     */
+    public Long(long value, Bounds bounds) {
+        this.setBounds(bounds);
     }
 
     /**
@@ -83,15 +74,15 @@ public class Long extends Numeric {
     /**
      * {@inheritDoc}
      */
-    public boolean equals(Object other) {
-        if (this == other)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
 
-        if ((other == null) || (this.getClass() != other.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass()))
             return false;
 
-        Long otherLong = (Long) other;
-        return super.equals(other) && (this.value == otherLong.value);
+        Long otherLong = (Long) obj;
+        return super.equals(obj) && (this.value == otherLong.value);
     }
 
     /**
@@ -201,7 +192,10 @@ public class Long extends Numeric {
      * {@inheritDoc}
      */
     public void setReal(double value) {
-        this.value = Double.valueOf(value).intValue();
+        if (Double.compare(0, value) <= 0) // value is bigger or is equal
+            this.value = Double.valueOf(Math.ceil(value)).longValue();
+        else
+            this.value = Double.valueOf(Math.floor(value)).longValue();
     }
 
     /**
