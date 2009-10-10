@@ -198,12 +198,12 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
             return;
         }
 
-        String duplicated = new String(domainRegistry.getDomainString());
+        StringBuilder duplicated = new StringBuilder(domainRegistry.getDomainString());
 
         for (int i = 1; i < numberOfClusters; i++) {
-            duplicated += "," + domainRegistry.getDomainString();
+            duplicated.append(",").append(domainRegistry.getDomainString());
         }
-        innerProblem.getFunction().setDomain(duplicated);
+        innerProblem.getFunction().setDomain(duplicated.toString());
     }
 
     /**

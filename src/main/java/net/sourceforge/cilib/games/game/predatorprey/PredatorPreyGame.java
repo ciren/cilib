@@ -186,20 +186,21 @@ public class PredatorPreyGame extends Game<ListGameState> {
     public void display() {
         System.out.println("");
         GridLocation itemLoc = new GridLocation(boardWidth, boardHeight);
+        StringBuilder builder = new StringBuilder();
         for(int y = 0; y < boardHeight; ++y){
-            String line = "|";
+            builder.append("|");
             for(int x = 0; x < boardWidth; ++x){
                 itemLoc.setInt(0, x);
                 itemLoc.setInt(1, y);
                 GameItem item = getCurrentState().getItem(itemLoc);
                 if(item != null){
                     Enum<?> pp = item.getToken();
-                    line += ((GameEnum)pp).getDescription() + "|";
+                    builder.append(((GameEnum)pp).getDescription()).append("|");
                 }
                 else
-                    line += " |";
+                    builder.append(" |");
             }
-            System.out.println(line);
+            System.out.println(builder.toString());
         }
     }
 

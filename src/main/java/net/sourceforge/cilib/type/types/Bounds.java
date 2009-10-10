@@ -25,13 +25,9 @@ package net.sourceforge.cilib.type.types;
  *
  * @author gpampara
  */
-public class Bounds {
-
-    private double lowerBound;
-    private double upperBound;
-
-    public Bounds() {
-    }
+public final class Bounds {
+    private final double lowerBound;
+    private final double upperBound;
 
     public Bounds(double lowerBound, double upperBound) {
         this.lowerBound = lowerBound;

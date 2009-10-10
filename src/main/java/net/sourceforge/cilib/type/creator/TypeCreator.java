@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
@@ -53,10 +54,9 @@ public interface TypeCreator {
     /**
      * Create the type using the bounds <tt>lower</tt> and <tt>upper</tt>.
      *
-     * @param lower The lower bound for the Type.
-     * @param upper The upper bound for the Type.
+     * @param bounds The {@code Bounds} for the type.
      * @return The newly created <tt>Type</tt> object using the specified bounds
      */
-    public Type create(double lower, double upper);
+    public Type create(Bounds bounds);
 
 }

@@ -65,20 +65,17 @@ public class RealTest {
 
     @Test
     public void testHashCode() {
-        Real r = new Real(10.0);
+        Real r = new Real(-10.0, new Bounds(-30.0, 30.0));
 
         // This is the hasCode evaluation of the super classes bound information as well
-        assertEquals(-486200953, r.hashCode());
+        assertEquals(1195977095, r.hashCode());
     }
 
 
     @Test
     public void testCompareTo() {
-        Real r1 = new Real(0.0, 30.0);
-        Real r2 = new Real(-30.0, 0.0);
-
-        r1.setReal(15.0);
-        r2.setReal(-15.0);
+        Real r1 = new Real(15.0, new Bounds(0.0, 30.0));
+        Real r2 = new Real(-15.0, new Bounds(-30.0, 0.0));
 
         assertEquals(0, r1.compareTo(r1));
         assertEquals(0, r2.compareTo(r2));
@@ -89,7 +86,7 @@ public class RealTest {
 
     @Test
     public void testGetRepresentation() {
-        Real r = new Real(-30.0, 30.0);
+        Real r = new Real(0.0, new Bounds(-30.0, 30.0));
 
         assertEquals("R(-30.0,30.0)", r.getRepresentation());
     }
@@ -101,12 +98,30 @@ public class RealTest {
      */
     @Test
     public void testRandomize() {
-        Real r1 = new Real(-30.0, 30.0);
+        Real r1 = new Real(0.0, new Bounds(-30.0, 30.0));
         Real r2 = r1.getClone();
 
         assertTrue(r1.getReal() == r2.getReal());
         r1.randomize(new MersenneTwister());
         assertTrue(r1.getReal() != r2.getReal());
+    }
+
+    @Test
+    public void lowerBoundModification() {
+        Real r = new Real(0.0, new Bounds(-30.0, 30.0));
+        assertEquals(-30.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
+
+        r.setBounds(new Bounds(0.0, r.getBounds().getUpperBound()));
+        assertEquals(0.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
+    }
+
+    @Test
+    public void upperBoundModification() {
+        Real r = new Real(0.0, new Bounds(-30.0, 30.0));
+        assertEquals(30.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
+
+        r.setBounds(new Bounds(r.getBounds().getLowerBound(), 0.0));
+        assertEquals(0.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
     }
 
 }

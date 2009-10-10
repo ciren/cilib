@@ -19,8 +19,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.types;
+package net.sourceforge.cilib.type.parser;
 
+import net.sourceforge.cilib.type.types.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,7 +33,8 @@ public class BoundsFactoryTest {
 
     @Test
     public void creation() {
-        Bounds b1 = BoundsFactory.create(-1.0, 1.0);
+        BoundsFactory factory = new BoundsFactory();
+        Bounds b1 = factory.create(-1.0, 1.0);
 
         Assert.assertEquals(-1.0, b1.getLowerBound(), 0.0);
         Assert.assertEquals(1.0, b1.getUpperBound(), 0.0);
@@ -40,8 +42,9 @@ public class BoundsFactoryTest {
 
     @Test
     public void returnSameInstance() {
-        Bounds b1 = BoundsFactory.create(-1.0, 1.0);
-        Bounds b2 = BoundsFactory.create(-1.0, 1.0);
+        BoundsFactory factory = new BoundsFactory();
+        Bounds b1 = factory.create(-1.0, 1.0);
+        Bounds b2 = factory.create(-1.0, 1.0);
 
         Assert.assertSame(b1, b2);
         Assert.assertEquals(b1, b2);

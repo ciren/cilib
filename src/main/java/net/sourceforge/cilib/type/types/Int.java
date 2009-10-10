@@ -31,28 +31,11 @@ import net.sourceforge.cilib.math.random.generator.Random;
 /**
  *
  * @author Gary Pampara
- *
  */
 public class Int extends Numeric {
     private static final long serialVersionUID = 271271478995857543L;
+    private static final Bounds DEFAULT_BOUND = new Bounds(Integer.MIN_VALUE, Integer.MAX_VALUE);
     private int value;
-
-    /**
-     * Create an instance of {@linkplain Int}.
-     */
-    public Int() {
-        this(Integer.MIN_VALUE, Integer.MAX_VALUE);
-    }
-
-    /**
-     * Create an instance of {@linkplain Int} randomly initialised between <code>lower</code>
-     * and <code>upper</code>.
-     * @param lower The lower bound.
-     * @param upper The upper bound.
-     */
-    public Int(int lower, int upper) {
-        this.setBounds(BoundsFactory.create(lower, upper));
-    }
 
     /**
      * Create an {@linkplain Int} with the specified value.
@@ -60,7 +43,16 @@ public class Int extends Numeric {
      */
     public Int(int value) {
         this.value = value;
-        this.setBounds(BoundsFactory.create(Integer.MIN_VALUE, Integer.MAX_VALUE));
+        this.setBounds(DEFAULT_BOUND);
+    }
+
+    /**
+     * Create an instance of {@linkplain Int} with the defined bounds.
+     * @param bounds The defined {@code Bounds}.
+     */
+    public Int(int value, Bounds bounds) {
+        this.value = value;
+        this.setBounds(bounds);
     }
 
     /**
@@ -82,15 +74,16 @@ public class Int extends Numeric {
     /**
      * {@inheritDoc}
      */
-    public boolean equals(Object other) {
-        if (this == other)
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
 
-        if ((other == null) || (this.getClass() != other.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass()))
             return false;
 
-        Int otherInt = (Int) other;
-        return super.equals(other) && (this.value == otherInt.value);
+        Int otherInt = (Int) obj;
+        return super.equals(obj) && (this.value == otherInt.value);
     }
 
     /**
@@ -99,6 +92,7 @@ public class Int extends Numeric {
      *
      * @return The value of this Int representation.
      */
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + super.hashCode();
@@ -193,7 +187,10 @@ public class Int extends Numeric {
      * {@inheritDoc}
      */
     public void setReal(double value) {
-        this.value = Double.valueOf(value).intValue();
+        if (Double.compare(0, value) <= 0) // value is bigger or is equal
+            this.value = Double.valueOf(Math.ceil(value)).intValue();
+        else
+            this.value = Double.valueOf(Math.floor(value)).intValue();
     }
 
     /**

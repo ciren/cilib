@@ -24,6 +24,7 @@ package net.sourceforge.cilib.entity.initialization;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
@@ -40,7 +41,7 @@ public class DomainPercentageInitializationStrategyTest {
 
     @Test
     public void initialize() {
-        Real r = new Real(-8.0, 8.0);
+        Real r = new Real(0.0, new Bounds(-8.0, 8.0));
         Vector vector = new Vector();
         vector.add(r.getClone());
         vector.add(r.getClone());

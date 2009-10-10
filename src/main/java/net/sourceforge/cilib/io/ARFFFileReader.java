@@ -147,7 +147,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
      */
     private Type getTypeData(int columnn, String datatype) throws CIlibIOException {
         if (datatype.equalsIgnoreCase("NUMERIC")) {
-            return new Real();
+            return new Real(0.0);
         }
         if (datatype.equalsIgnoreCase("STRING")) {
             return new StringType();
@@ -173,7 +173,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
             nominalMap.put(nominalAttribute, i);
         }
         columnToNominalAttributesMap.put(columnn, nominalMap);
-        return new Int();
+        return new Int(0);
     }
 
     /**

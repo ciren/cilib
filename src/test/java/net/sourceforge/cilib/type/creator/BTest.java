@@ -23,6 +23,7 @@ package net.sourceforge.cilib.type.creator;
 
 import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Bit;
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Type;
 
 import org.junit.BeforeClass;
@@ -48,10 +49,9 @@ public class BTest {
         assertTrue(b instanceof Bit);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected=UnsupportedOperationException.class)
     public void testCreateBounds() {
-        Type b = creator.create(0, 3);
-        assertTrue(b == null);
+        Type b = creator.create(new Bounds(0, 3));
     }
 
 }

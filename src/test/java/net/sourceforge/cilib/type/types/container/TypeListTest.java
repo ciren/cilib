@@ -36,7 +36,7 @@ public class TypeListTest {
        TypeList list = new TypeList();
        list.add(new Vector());
        list.add(new BinaryTree());
-       list.add(new Int());
+       list.add(new Int(0));
        list.add(new Set());
        list.add(new NaryTree());
 

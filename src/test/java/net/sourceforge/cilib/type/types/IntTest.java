@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.type.types;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -37,9 +38,7 @@ public class IntTest {
 
     @Test
     public void testClone() {
-        Int i = new Int();
-        i.setInt(-10);
-
+        Int i = new Int(-10);
         Int clone = i.getClone();
 
         assertEquals(i.getInt(), clone.getInt());
@@ -64,11 +63,8 @@ public class IntTest {
 
     @Test
     public void testCompareTo() {
-        Int i1 = new Int(0, 30);
-        Int i2 = new Int(-30, 0);
-
-        i1.setInt(15);
-        i2.setInt(-15);
+        Int i1 = new Int(15, new Bounds(0, 30));
+        Int i2 = new Int(-15, new Bounds(-30, 0));
 
         assertEquals(0, i1.compareTo(i1));
         assertEquals(0, i2.compareTo(i2));
@@ -78,12 +74,46 @@ public class IntTest {
 
     @Test
     public void testRandomize() {
-        Int i1 = new Int(-300, 300);
+        Int i1 = new Int(0, new Bounds(-300, 300));
         Int i2 = i1.getClone();
 
         assertTrue(i1.getInt() == i2.getInt());
         i1.randomize(new MersenneTwister());
         assertTrue(i1.getInt() != i2.getInt());
+    }
+
+    @Test
+    public void lowerBoundModification() {
+        Int i = new Int(0, new Bounds(-3, 3));
+        assertEquals(-3.0, i.getBounds().getLowerBound(), Double.MIN_NORMAL);
+
+        i.setBounds(new Bounds(1.0, i.getBounds().getUpperBound()));
+        assertEquals(1.0, i.getBounds().getLowerBound(), Double.MIN_NORMAL);
+    }
+
+    @Test
+    public void upperBoundModification() {
+        Int i = new Int(0, new Bounds(-3, 3));
+        assertEquals(3.0, i.getBounds().getUpperBound(), Double.MIN_NORMAL);
+
+        i.setBounds(new Bounds(i.getBounds().getLowerBound(), 1));
+        assertEquals(1.0, i.getBounds().getUpperBound(), Double.MIN_NORMAL);
+    }
+
+    @Test
+    public void bucketPositiveRealValue() {
+        Int i = new Int(0);
+        i.setReal(4.6);
+
+        Assert.assertEquals(5, i.getInt());
+    }
+
+    @Test
+    public void bucketNegativeRealValue() {
+        Int i = new Int(0);
+        i.setReal(-4.6);
+
+        Assert.assertEquals(-5, i.getInt());
     }
 
 }

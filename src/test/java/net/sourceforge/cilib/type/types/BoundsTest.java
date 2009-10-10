@@ -32,25 +32,16 @@ import org.junit.Test;
 public class BoundsTest {
 
     @Test
-    public void createNumeric() {
-        Real r1 = new Real();
-        Real r2 = new Real();
-
-        Assert.assertSame(r1.getBounds(), r2.getBounds());
-    }
-
-    @Test
     public void equals() {
-        Bounds b1 = BoundsFactory.create(0.0, 2.0);
-        Bounds b2 = BoundsFactory.create(0.0, 2.0);
+        Bounds b1 = new Bounds(0.0, 2.0);
+        Bounds b2 = new Bounds(0.0, 2.0);
 
         Assert.assertEquals(b1, b2);
-        Assert.assertSame(b1, b2);
     }
 
     @Test
     public void boundsEdgeCases() {
-        Bounds b1 = BoundsFactory.create(0.0, 2.0);
+        Bounds b1 = new Bounds(0.0, 2.0);
         Assert.assertTrue(b1.isInsideBounds(2.0));
         Assert.assertTrue(b1.isInsideBounds(0.0));
 

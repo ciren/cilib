@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.creator;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -34,8 +35,9 @@ public final class R implements TypeCreator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Type create() {
-        return new Real();
+        return new Real(0.0);
     }
 
     /**
@@ -49,8 +51,11 @@ public final class R implements TypeCreator {
     /**
      * {@inheritDoc}
      */
-    public Type create(final double lower, final double upper) {
-        return new Real(lower, upper);
+    @Override
+    public Type create(final Bounds bounds) {
+        Real r = new Real(0.0);
+        r.setBounds(bounds);
+        return r;
     }
 
 }

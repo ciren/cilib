@@ -130,15 +130,15 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 
 
     private String getSubSequence(Vector x, String target) {
-        String result = "";
+        StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < x.getDimension(); i++) {
             Numeric n = x.get(i);
             if (n.getBit())
-                result += target.charAt(i);
+                builder.append(target.charAt(i));
         }
 
-        return result;
+        return builder.toString();
     }
 
 

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.type.types;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
@@ -33,15 +34,8 @@ import net.sourceforge.cilib.math.random.generator.Random;
  */
 public class Real extends Numeric {
     private static final long serialVersionUID = 5290504438178510485L;
+    private static final Bounds DEFAULT_BOUND = new Bounds(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     private double value;
-
-
-    /**
-     * Create the instance with a random value.
-     */
-    public Real() {
-        this(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-    }
 
     /**
      * Create the instance with the given value.
@@ -49,17 +43,16 @@ public class Real extends Numeric {
      */
     public Real(double value) {
         this.value = value;
-        this.setBounds(BoundsFactory.create(-Double.MAX_VALUE, Double.MAX_VALUE));
+        this.setBounds(DEFAULT_BOUND);
     }
 
-
     /**
-     * Create the <code>Real</code> instance with the initial value which is random between <code>lower</code> and <code>upper</code>.
-     * @param lower The lower boundary for the random number.
-     * @param upper The upper boundary for the random number.
+     * Create the <code>Real</code> instance with the defined {@code Bounds}.
+     * @param bounds The defined {@code Bounds}.
      */
-    public Real(double lower, double upper) {
-        this.setBounds(BoundsFactory.create(lower, upper));
+    public Real(double value, Bounds bounds) {
+        this.value = value;
+        this.setBounds(checkNotNull(bounds));
     }
 
     /**
@@ -85,15 +78,15 @@ public class Real extends Numeric {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object other) {
-        if (this == other)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
 
-        if ((other == null) || (this.getClass() != other.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass()))
             return false;
 
-        Real otherReal = (Real) other;
-        return Double.compare(this.value, otherReal.value) == 0 && super.equals(other);
+        Real otherReal = (Real) obj;
+        return Double.compare(this.value, otherReal.value) == 0 && super.equals(obj);
     }
 
 

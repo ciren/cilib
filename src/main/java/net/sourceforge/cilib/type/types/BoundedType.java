@@ -40,6 +40,4 @@ public interface BoundedType {
 
     public void setBounds(Bounds bounds);
 
-    public void setBounds(double lower, double upper);
-
 }

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.nn.components;
 
+import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Real;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class RandomWeightInitializationStrategyTest {
     public void testInitialize() {
         Neuron neuron = new Neuron();
         for (int i = 0; i < 10; i++) {
-            neuron.getWeights().add(new Real(-5, 5));
+            neuron.getWeights().add(new Real(0.0, new Bounds(-5, 5)));
         }
         RandomWeightInitializationStrategy initializationStrategy = new RandomWeightInitializationStrategy();
         initializationStrategy.initialize(neuron.getWeights());

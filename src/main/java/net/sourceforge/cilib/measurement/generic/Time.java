@@ -76,7 +76,7 @@ public class Time implements Measurement<Int>, AlgorithmListener {
      * {@inheritDoc}
      */
     public Int getValue(Algorithm algorithm) {
-        Int t = new Int();
+        Int t = new Int(0);
         
         if (running) {
             t.setReal(Long.valueOf(System.currentTimeMillis() - startTime));
