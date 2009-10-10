@@ -102,15 +102,6 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
     }
 
     /**
-     * Set the properties for the current <code>Entity</code>.
-     * @param properties The {@linkplain Blackboard} containing the new properties.
-     */
-    @Override
-    public final void setProperties(Blackboard<Enum<?>, Type> properties) {
-        this.candidateSolution.setProperties(properties);
-    }
-
-    /**
      * Get the value of the {@linkplain CandidateSolution} maintained by this
      * {@linkplain Entity}.
      * @return The candidate solution as a {@linkplain Type}.

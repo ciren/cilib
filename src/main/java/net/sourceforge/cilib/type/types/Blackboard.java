@@ -27,14 +27,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Simple <tt>Blackboard</tt> implementation.
+ * Simple {@code Blackboard} implementation.
  *
  * @param <K> The key type.
  * @param <V> The value type.
  */
-public class Blackboard<K, V extends Type> implements Type {
+public final class Blackboard<K, V extends Type> implements Type {
     private static final long serialVersionUID = -2589625146223946484L;
-    private ConcurrentMap<K, V> board;
+    private final ConcurrentMap<K, V> board;
 
     /**
      * Create a new empty {@code Blackboard} container.
@@ -48,6 +48,7 @@ public class Blackboard<K, V extends Type> implements Type {
      * @param copy The isntance to copy.
      */
     public Blackboard(Blackboard<K, V> copy) {
+        this.board = new ConcurrentHashMap<K, V>();
         for (Map.Entry<K, V> entry : copy.board.entrySet()) {
             K key = entry.getKey();
             @SuppressWarnings({"unchecked"}) V value = (V) entry.getValue().getClone();
@@ -87,13 +88,6 @@ public class Blackboard<K, V extends Type> implements Type {
         int hash = 7;
         hash = 31 * hash + (this.board == null ? 0 : this.board.hashCode());
         return hash;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void reset() {
-        this.board.clear();
     }
 
     /**

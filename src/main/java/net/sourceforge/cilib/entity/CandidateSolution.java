@@ -55,12 +55,6 @@ public interface CandidateSolution extends Cloneable {
     public Fitness getFitness();
 
     /**
-     * Set the {@code Blackboard} defining the properties of the {@code CandidateSolution}.
-     * @param properties The properties to set.
-     */
-    public void setProperties(Blackboard<Enum<?>, Type> properties);
-
-    /**
      * Get the properties associated with this {@code CandidateSolution}.
      * @return The properties of the {@code CandidateSolution}.
      */

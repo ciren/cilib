@@ -111,12 +111,6 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
     public Blackboard<Enum<?>, Type> getProperties();
 
     /**
-     * Set the properties for the current <code>Entity</code>.
-     * @param properties The properties to set.
-     */
-    public void setProperties(Blackboard<Enum<?>, Type> properties);
-
-    /**
      * Get the identifier associated with the {@code Entity} instance.
      * @return The associated identifier.
      */
