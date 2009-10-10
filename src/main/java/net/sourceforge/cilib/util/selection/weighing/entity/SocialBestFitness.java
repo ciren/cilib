@@ -21,21 +21,25 @@
  */
 package net.sourceforge.cilib.util.selection.weighing.entity;
 
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.SocialEntity;
 import net.sourceforge.cilib.problem.Fitness;
 
 /**
  * Obtain the social best fitness value from a {@link SocialEntity}.
+ * @param <E> The type that is both an {@code Entity} and a {@code SocialEntity}.
+ *            An example of such an entity is the {@link net.sourceforge.cilib.entity.Particle}.
  * @author Wiehann Matthysen
  */
-public class SocialBestFitness implements EntityFitness<SocialEntity> {
+public class SocialBestFitness<E extends Entity & SocialEntity> implements EntityFitness<E> {
 
     /**
      * {@inheritDoc}
      * Obtains the social based fitness from the {@link SocialEntity}.
      */
     @Override
-    public Fitness getFitness(SocialEntity entity) {
+    public Fitness getFitness(E entity) {
         return entity.getSocialFitness();
     }
+
 }
