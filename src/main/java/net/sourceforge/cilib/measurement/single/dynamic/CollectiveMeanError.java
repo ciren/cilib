@@ -29,17 +29,18 @@
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * CollectiveMeanError computes the average of the differences between best fitness of the swarm
- * and the maximum over all iterations so far.
+ * CollectiveMeanError computes the average of the differences between best
+ * fitness of the swarm and the maximum over all iterations so far.
  * The output for a given iteration is the average of all the errors so far.
  *
- * NOTE: for this measurement to be used, a resolution of 1 as to be used by the measurement
+ * NOTE: For this measurement to be used, a resolution of 1 has to be set for
+ * the measurement.
+ *
  * @author  Julien Duhain
  */
 public class CollectiveMeanError extends DynamicMeasurement {
@@ -53,16 +54,17 @@ public class CollectiveMeanError extends DynamicMeasurement {
         this.avg = copy.avg;
     }
 
+    @Override
     public CollectiveMeanError getClone() {
         return new CollectiveMeanError(this);
     }
 
+    @Override
     public Type getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
-        double n = algorithm.getBestSolution().getFitness().getValue();
-        ContinuousFunction func = (ContinuousFunction)((FunctionMaximisationProblem)(algorithm.getOptimisationProblem())).getFunction();
-        double err = (Double)func.getMaximum() - n;
-        avg = (avg * (iteration-1) + err) / (iteration);
+        FunctionOptimisationProblem function = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+        double error = function.getError(algorithm.getBestSolution().getPosition());
+        avg = (avg * (iteration-1) + error) / (iteration);
         return new Real(avg);
     }
 }

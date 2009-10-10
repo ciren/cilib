@@ -33,17 +33,17 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.ContinuousFunction;
-import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 
 /**
- * AverageIterationsToErrorLimit computes the average number of iterations needed to reach
- * an acceptable error value after a change.
- * The output for a given iteration is the average of all the measurements taken so far.
+ * AverageIterationsToErrorLimit computes the average number of iterations
+ * needed to reach an acceptable error value after a change.
+ * The output for a given iteration is the average so far.
  *
- * NOTE: for this measurement to be used, a resolution of 1 as to be used by the measurement
+ * NOTE: For this measurement to be used, a resolution of 1 has to be set for
+ * the measurement.
  * @author  Julien Duhain
  */
 public class AverageIterationsToErrorLimit extends DynamicMeasurement {
@@ -81,24 +81,27 @@ public class AverageIterationsToErrorLimit extends DynamicMeasurement {
         this.limit = limit;
     }
 
+    @Override
     public AverageIterationsToErrorLimit getClone() {
         return new AverageIterationsToErrorLimit(this);
     }
 
+    @Override
     public Type getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
-        double n = algorithm.getBestSolution().getFitness().getValue();
-        ContinuousFunction func = (ContinuousFunction)((FunctionMaximisationProblem)(algorithm.getOptimisationProblem())).getFunction();
-        double err = (Double)func.getMaximum() - n;
+
+        FunctionOptimisationProblem function = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
+        double error = function.getError(algorithm.getBestSolution().getPosition());
         int score = this.cycleSize;
 
-        if(flag &&(err <= limit || (iteration+1)%cycleSize == 0)){
+        if(flag &&(error <= limit || (iteration)%cycleSize == 0)){
             score = iteration-this.cycleNr*this.cycleSize;
             avg = (avg * this.cycleNr + score) / (this.cycleNr+1);
             cycleNr++;
             flag = false;
         }//if
-        if((iteration+1)%cycleSize == 0){
+
+        if((iteration)%cycleSize == 0 && !algorithm.isFinished()){
             flag = true;
         }//if
 
@@ -110,16 +113,13 @@ public class AverageIterationsToErrorLimit extends DynamicMeasurement {
             ClassNotFoundException {
         this.cycleNr = in.readInt();
         this.avg = in.readDouble();
-        this.limit = in.readDouble();
         this.flag = in.readBoolean();
-
     }
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeInt(cycleNr);
         out.writeDouble(avg);
-        out.writeDouble(limit);
         out.writeBoolean(flag);
     }
 }

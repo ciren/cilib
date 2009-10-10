@@ -82,4 +82,6 @@ public interface Algorithm extends Cloneable {
      * @return The specified {@linkplain OptimisationProblem}.
      */
     public OptimisationProblem getOptimisationProblem();
+
+    public boolean isFinished();
 }

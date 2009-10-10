@@ -42,6 +42,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
     /**
      * {@inheritDoc}
      */
+    @Override
     public FunctionMaximisationProblem getClone() {
         return new FunctionMaximisationProblem(this);
     }
@@ -49,6 +50,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected Fitness calculateFitness(Type solution) {
         return new MaximisationFitness(function.evaluate((Vector) solution));
     }
@@ -66,6 +68,7 @@ public class FunctionMaximisationProblem extends FunctionOptimisationProblem {
      * @param solution The solution for which an error is saught.
      * @return The error.
      */
+    @Override
     public double getError(Type solution) {
         return function.getMaximum() - function.evaluate((Vector) solution);
     }

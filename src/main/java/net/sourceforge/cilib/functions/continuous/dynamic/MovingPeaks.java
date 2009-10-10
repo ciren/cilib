@@ -54,6 +54,7 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
         initPeaks();
     }
 
+    @Override
     public MovingPeaks getClone() {
         return new MovingPeaks();
     }
@@ -69,10 +70,12 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Double getMinimum() {
         return 0.0;
     }
 
+    @Override
     public Double getMaximum() {
         return getGlobalMax();
     }
@@ -805,6 +808,7 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
     }
 
     public double getGlobalMax() {
+        this.evaluateMovpeaks(new double[getDimension()]);//updates globalMax
         return globalMax;
     }
 }

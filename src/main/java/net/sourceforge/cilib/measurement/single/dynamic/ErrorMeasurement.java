@@ -22,17 +22,15 @@
 
 package net.sourceforge.cilib.measurement.single.dynamic;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * Calculate the error between the current best value of the swarm and the global optimum of the
- * function.
+ * Calculate the error between the current best value of the swarm and the
+ * global optimum of the function.
  *
  * @author Anna Rakitianskaia, Julien Duhain
  *
@@ -47,10 +45,7 @@ public class ErrorMeasurement implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        double n = algorithm.getBestSolution().getFitness().getValue();
-           ContinuousFunction func = ((FunctionMaximisationProblem) (AbstractAlgorithm.get().getOptimisationProblem())).getFunction();
-           Real err = new Real(func.getMaximum() - n);
-        return err;
+          return new Real(((FunctionOptimisationProblem) (algorithm.getOptimisationProblem())).getError(algorithm.getBestSolution().getPosition()));
     }
 
     @Override

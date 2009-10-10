@@ -29,6 +29,7 @@
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -37,7 +38,9 @@ import net.sourceforge.cilib.type.types.Type;
  * over all iterations so far.
  * The output for a given iteration is the average of all the errors so far.
  *
- * NOTE: for this measurement to be used, a resolution of 1 as to be used by the measurement
+ * NOTE: For this measurement to be used, a resolution of 1 has to be set for
+ * the measurement.
+ *
  * @author  Julien Duhain
  */
 public class CollectiveMeanFitness extends DynamicMeasurement {
@@ -51,14 +54,17 @@ public class CollectiveMeanFitness extends DynamicMeasurement {
         this.avg = copy.avg;
     }
 
+    @Override
     public CollectiveMeanFitness getClone() {
         return new CollectiveMeanFitness(this);
     }
 
+    @Override
     public Type getValue(Algorithm algorithm) {
         int iteration = algorithm.getIterations();
-        double n = algorithm.getBestSolution().getFitness().getValue();
-        avg = (avg * (iteration-1) + n) / (iteration);
+        OptimisationProblem function = algorithm.getOptimisationProblem();
+        double fitness = function.getFitness(algorithm.getBestSolution().getPosition()).getValue();
+        avg = (avg * (iteration-1) + fitness) / (iteration);
         return new Real(avg);
     }
 }

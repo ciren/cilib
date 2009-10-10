@@ -90,7 +90,8 @@ public abstract class FunctionOptimisationProblem extends OptimisationProblemAda
     }
 
     /**
-     * Returns the error (as a double for now) that the given solution has with respect to the actual optimum solution.
+     * Returns the error (as a double for now) that the given solution has with
+     * respect to the actual optimum solution.
      *
      * @param solution the solution for which an error should be determined
      * @return the error with respect to the optimum solution

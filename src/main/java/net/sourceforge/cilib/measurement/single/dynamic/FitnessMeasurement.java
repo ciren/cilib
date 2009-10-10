@@ -23,29 +23,20 @@
 package net.sourceforge.cilib.measurement.single.dynamic;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
 
 /**
- * Give the current value of the global optimum of the
- * function.
+ * Calculate the actual fitness of the particle at their current position.
+ * This measurement should be used on dynamic algorithms where the pbest of the
+ * particles may be innacurate (outdated).
  *
  * @author Julien Duhain
  *
  */
-public class GlobalMaximum implements Measurement {
-
-    private static final long serialVersionUID = 2658868675629949642L;
-    public GlobalMaximum() {}
-    public GlobalMaximum(GlobalMaximum rhs) {}
-
-    @Override
-    public GlobalMaximum clone() {
-        return new GlobalMaximum(this);
-    }
+public class FitnessMeasurement implements Measurement {
+    private static final long serialVersionUID = 2632671785674388015L;
 
     @Override
     public String getDomain() {
@@ -54,12 +45,11 @@ public class GlobalMaximum implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        return new Real((Double)((ContinuousFunction)((FunctionMaximisationProblem)(algorithm.getOptimisationProblem())).getFunction()).getMaximum());
+        return new Real(algorithm.getOptimisationProblem().getFitness(algorithm.getBestSolution().getPosition()).getValue());
     }
 
     @Override
     public Measurement getClone() {
-        return new GlobalMaximum(this);
+        return this;
     }
 }
-
