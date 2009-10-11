@@ -32,10 +32,11 @@ import net.sourceforge.cilib.math.random.generator.Random;
 /**
  * @author Gary Pampara
  */
-public class Real extends Numeric {
+public class Real implements Numeric {
     private static final long serialVersionUID = 5290504438178510485L;
     private static final Bounds DEFAULT_BOUND = new Bounds(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     private double value;
+    private Bounds bounds;
 
     /**
      * Create the instance with the given value.
@@ -43,7 +44,7 @@ public class Real extends Numeric {
      */
     public Real(double value) {
         this.value = value;
-        this.setBounds(DEFAULT_BOUND);
+        this.bounds = DEFAULT_BOUND;
     }
 
     /**
@@ -52,7 +53,7 @@ public class Real extends Numeric {
      */
     public Real(double value, Bounds bounds) {
         this.value = value;
-        this.setBounds(checkNotNull(bounds));
+        this.bounds = checkNotNull(bounds);
     }
 
     /**
@@ -61,7 +62,7 @@ public class Real extends Numeric {
      */
     public Real(Real copy) {
         this.value = copy.value;
-        this.setBounds(copy.getBounds());
+        this.bounds = copy.bounds;
     }
 
 
@@ -86,7 +87,8 @@ public class Real extends Numeric {
             return false;
 
         Real otherReal = (Real) obj;
-        return Double.compare(this.value, otherReal.value) == 0 && super.equals(obj);
+        return Double.compare(this.value, otherReal.value) == 0 &&
+            this.bounds.equals(otherReal.bounds);
     }
 
 
@@ -96,7 +98,7 @@ public class Real extends Numeric {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + this.bounds.hashCode();
         hash = 31 * hash + Double.valueOf(this.value).hashCode();
         return hash;
     }
@@ -263,6 +265,16 @@ public class Real extends Numeric {
      */
     public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
         this.value = ois.readDouble();
+    }
+
+    @Override
+    public Bounds getBounds() {
+        return this.bounds;
+    }
+
+    @Override
+    public void setBounds(Bounds bounds) {
+        this.bounds = checkNotNull(bounds);
     }
 
 }

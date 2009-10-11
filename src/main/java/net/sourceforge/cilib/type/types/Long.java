@@ -26,17 +26,19 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.random.generator.Random;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  *
  * @author leo
  *
  */
-public class Long extends Numeric {
+public class Long implements Numeric {
     private static final long serialVersionUID = -2222077877538045288L;
     private static final Bounds DEFAULT_BOUND = new Bounds(java.lang.Long.MIN_VALUE, java.lang.Long.MAX_VALUE);
 
     private long value;
+    private Bounds bounds;
 
     /**
      * Create an {@linkplain Long} with the specified value.
@@ -44,7 +46,7 @@ public class Long extends Numeric {
      */
     public Long(long value) {
         this.value = value;
-        this.setBounds(DEFAULT_BOUND);
+        this.bounds = DEFAULT_BOUND;
     }
 
     /**
@@ -52,7 +54,8 @@ public class Long extends Numeric {
      * @param bounds The {@code Bounds} for the instance.
      */
     public Long(long value, Bounds bounds) {
-        this.setBounds(bounds);
+        this.value = value;
+        this.bounds = checkNotNull(bounds);
     }
 
     /**
@@ -61,7 +64,7 @@ public class Long extends Numeric {
      */
     public Long(Long copy) {
         this.value = copy.value;
-        this.setBounds(copy.getBounds());
+        this.bounds = copy.bounds;
     }
 
     /**
@@ -82,7 +85,8 @@ public class Long extends Numeric {
             return false;
 
         Long otherLong = (Long) obj;
-        return super.equals(obj) && (this.value == otherLong.value);
+        return (this.value == otherLong.value) &&
+            (this.bounds.equals(otherLong.bounds));
     }
 
     /**
@@ -93,8 +97,8 @@ public class Long extends Numeric {
      */
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + super.hashCode();
         hash = 31 * hash + java.lang.Long.valueOf(this.value).hashCode();
+        hash = 31 * hash + this.bounds.hashCode();
         return hash;
     }
 
@@ -265,5 +269,15 @@ public class Long extends Numeric {
      */
     public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
         this.value = ois.readInt();
+    }
+
+    @Override
+    public Bounds getBounds() {
+        return this.bounds;
+    }
+
+    @Override
+    public void setBounds(Bounds bounds) {
+        this.bounds = checkNotNull(bounds);
     }
 }

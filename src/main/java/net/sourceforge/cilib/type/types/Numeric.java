@@ -26,130 +26,92 @@ package net.sourceforge.cilib.type.types;
  *
  * @author Gary Pampara
  */
-public abstract class Numeric implements Type, BoundedType, Resetable, Comparable<Numeric>, Randomizable {
-    private static final long serialVersionUID = 3795529161693499589L;
-
-    private Bounds bounds;
+public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeric>, Randomizable {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract Numeric getClone();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-
-        if ((obj == null) || (this.getClass() != obj.getClass()))
-            return false;
-
-        Numeric numeric = (Numeric) obj;
-        return this.bounds.equals(numeric.bounds);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + this.bounds.hashCode();
-        return hash;
-    }
+    public Numeric getClone();
 
     /**
      * Set the value of the {@linkplain Numeric}.
      * @param value The {@linkplain String} value to be parsed.
      */
-    public abstract void set(String value);
+    public void set(String value);
 
     /**
      * Set the value of the {@linkplain Numeric}.
      * @param value The {@literal boolean} value representing the value for this {@linkplain Type}.
      */
-    public abstract void set(boolean value);
+    public void set(boolean value);
 
     /**
      * Set the value of the {@linkplain Numeric}.
      * @param value The {@literal int} value representing the value for this {@linkplain Type}.
      */
-    public abstract void set(int value);
+    public void set(int value);
 
     /**
      * Set the value of the {@linkplain Numeric}.
      * @param value The {@literal double} value representing the value for this {@linkplain Type}.
      */
-    public abstract void set(double value);
+    public void set(double value);
 
     /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal boolean}.
      */
-    public abstract boolean getBit();
+    public boolean getBit();
 
     /**
      * Set the bit value with the provided value.
      * @param value The value to set.
      */
-    public abstract void setBit(boolean value);
+    public void setBit(boolean value);
 
     /**
      * Set the bit value with the provided value.
      * @param value The value to set.
      */
-    public abstract void setBit(String value);
+    public void setBit(String value);
 
     /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal int}.
      */
-    public abstract int getInt();
+    public int getInt();
 
     /**
      * Set the integer value with the provided value.
      * @param value The value to set.
      */
-    public abstract void setInt(int value);
+    public void setInt(int value);
 
     /**
      * Set the integer value with the provided value.
      * @param value The value to set.
      */
-    public abstract void setInt(String value);
+    public void setInt(String value);
 
     /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal double}.
      */
-    public abstract double getReal();
+    public double getReal();
 
     /**
      * Set the real value with the provided value.
      * @param value The value to set.
      */
-    public abstract void setReal(double value);
+    public void setReal(double value);
 
     /**
      * Set the real value with the provided value.
      * @param value The value to set.
      */
-    public abstract void setReal(String value);
+    public void setReal(String value);
 
-    @Override
-    public Bounds getBounds() {
-        return bounds;
-    }
-
-    @Override
-    public void setBounds(Bounds bounds) {
-        this.bounds = bounds;
-    }
-
-    public abstract String getRepresentation();
+    public String getRepresentation();
 
 }

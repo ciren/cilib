@@ -34,11 +34,12 @@ import net.sourceforge.cilib.math.random.generator.Random;
  *
  * @author Gary Pampara
  */
-public class Bit extends Numeric {
+public class Bit implements Numeric {
     private static final long serialVersionUID = 1328646735062562469L;
     private static final Bounds DEFAULT_BOUND = new Bounds(0, 1);
 
     private boolean state;
+    private final Bounds bounds;
 
     /**
      * Copy-constructor. Create a <tt>Bit</tt> object with the specified state.
@@ -46,7 +47,7 @@ public class Bit extends Numeric {
      */
     public Bit(boolean state) {
         this.state = state;
-        super.setBounds(DEFAULT_BOUND);
+        this.bounds = DEFAULT_BOUND;
     }
 
     /**
@@ -55,7 +56,7 @@ public class Bit extends Numeric {
      */
     public Bit(Bit copy) {
         this.state = copy.state;
-        super.setBounds(copy.getBounds());
+        this.bounds = DEFAULT_BOUND;
     }
 
     /**
@@ -76,7 +77,7 @@ public class Bit extends Numeric {
             return false;
 
         Bit otherBit = (Bit) obj;
-        return super.equals(obj) && (this.state == otherBit.state);
+        return (this.state == otherBit.state);
     }
 
     /**
@@ -84,7 +85,7 @@ public class Bit extends Numeric {
      */
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + this.bounds.hashCode();
         hash = 31 * hash + Boolean.valueOf(this.state).hashCode();
         return hash;
     }
@@ -280,6 +281,11 @@ public class Bit extends Numeric {
     @Override
     public void setBounds(Bounds bounds) {
         throw new UnsupportedOperationException("Bounds may not be altered for Bit instances.");
+    }
+
+    @Override
+    public Bounds getBounds() {
+        return this.bounds;
     }
 
 }

@@ -26,16 +26,18 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.random.generator.Random;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 /**
  *
  * @author Gary Pampara
  */
-public class Int extends Numeric {
+public class Int implements Numeric {
     private static final long serialVersionUID = 271271478995857543L;
     private static final Bounds DEFAULT_BOUND = new Bounds(Integer.MIN_VALUE, Integer.MAX_VALUE);
     private int value;
+    private Bounds bounds;
 
     /**
      * Create an {@linkplain Int} with the specified value.
@@ -43,7 +45,7 @@ public class Int extends Numeric {
      */
     public Int(int value) {
         this.value = value;
-        this.setBounds(DEFAULT_BOUND);
+        this.bounds = DEFAULT_BOUND;
     }
 
     /**
@@ -52,7 +54,7 @@ public class Int extends Numeric {
      */
     public Int(int value, Bounds bounds) {
         this.value = value;
-        this.setBounds(bounds);
+        this.bounds = checkNotNull(bounds);
     }
 
     /**
@@ -61,7 +63,7 @@ public class Int extends Numeric {
      */
     public Int(Int copy) {
         this.value = copy.value;
-        this.setBounds(copy.getBounds());
+        this.bounds = copy.bounds;
     }
 
     /**
@@ -83,7 +85,7 @@ public class Int extends Numeric {
             return false;
 
         Int otherInt = (Int) obj;
-        return super.equals(obj) && (this.value == otherInt.value);
+        return (this.value == otherInt.value) && this.bounds.equals(otherInt.bounds);
     }
 
     /**
@@ -95,7 +97,7 @@ public class Int extends Numeric {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + super.hashCode();
+        hash = 31 * hash + this.bounds.hashCode();
         hash = 31 * hash + Integer.valueOf(this.value).hashCode();
         return hash;
     }
@@ -260,5 +262,15 @@ public class Int extends Numeric {
      */
     public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
         this.value = ois.readInt();
+    }
+
+    @Override
+    public Bounds getBounds() {
+        return this.bounds;
+    }
+
+    @Override
+    public void setBounds(Bounds bounds) {
+        this.bounds = checkNotNull(bounds);
     }
 }
