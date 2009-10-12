@@ -49,4 +49,9 @@ public class BoundsTest {
         Assert.assertFalse(b1.isInsideBounds(0.0 - Maths.EPSILON));
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void invalidLowerBound() {
+        new Bounds(7.0, 4.0);
+    }
+
 }

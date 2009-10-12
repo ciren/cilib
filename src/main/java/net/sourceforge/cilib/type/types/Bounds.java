@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.type.types;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  *
  * @author gpampara
@@ -30,6 +32,9 @@ public final class Bounds {
     private final double upperBound;
 
     public Bounds(double lowerBound, double upperBound) {
+        checkArgument(lowerBound <= upperBound, "Bounds range violation, "
+            + lowerBound + " should be less than " + upperBound);
+
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
     }

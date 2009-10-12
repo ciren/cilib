@@ -137,9 +137,6 @@ public final class DomainParser {
                 } else if (boundVisitor.value && Double.compare(boundVisitor.lowerBound, Double.NEGATIVE_INFINITY) != 0) {
                     instance = creator.create(boundVisitor.lowerBound);
                 } else {
-                    if (boundVisitor.lowerBound > boundVisitor.upperBound)
-                        throw new UnsupportedOperationException("Bounds are in an invalid order. Expected x < yb but got x > y");
-
                     Bounds bounds = boundsFactory.create(boundVisitor.lowerBound, boundVisitor.upperBound);
                     instance = creator.create(bounds);
                 }
