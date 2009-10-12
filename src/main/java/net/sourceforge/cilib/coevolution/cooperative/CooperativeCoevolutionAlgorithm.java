@@ -29,6 +29,7 @@ import net.sourceforge.cilib.coevolution.cooperative.contextupdate.ContextUpdate
 import net.sourceforge.cilib.coevolution.cooperative.contextupdate.SelectiveContextUpdateStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ContributionSelectionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.contributionselection.TopologyBestContributionSelectionStrategy;
+import net.sourceforge.cilib.coevolution.cooperative.contributionselection.ZeroContributionSelectionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.PerfectSplitDistributionStrategy;
 import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.ProblemDistributionStrategy;
@@ -170,7 +171,8 @@ public class CooperativeCoevolutionAlgorithm extends
      */
     @Override
     public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
-        if(((ParticipatingAlgorithm)algorithm).getContributionSelectionStrategy() == null)
+        // TODO: There should be a better way to perfrom this test, rather than using an instanceof.
+        if (((ParticipatingAlgorithm)algorithm).getContributionSelectionStrategy() instanceof ZeroContributionSelectionStrategy)
             ((ParticipatingAlgorithm)algorithm).setContributionSelectionStrategy(contributionSelection);
 
         super.addPopulationBasedAlgorithm(algorithm);
