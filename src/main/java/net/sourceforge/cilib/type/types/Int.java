@@ -37,7 +37,7 @@ public class Int implements Numeric {
     private static final long serialVersionUID = 271271478995857543L;
     private static final Bounds DEFAULT_BOUND = new Bounds(Integer.MIN_VALUE, Integer.MAX_VALUE);
     private int value;
-    private Bounds bounds;
+    private final Bounds bounds;
 
     /**
      * Create an {@linkplain Int} with the specified value.
@@ -101,7 +101,6 @@ public class Int implements Numeric {
         hash = 31 * hash + Integer.valueOf(this.value).hashCode();
         return hash;
     }
-
 
     /**
      * {@inheritDoc}
@@ -269,8 +268,4 @@ public class Int implements Numeric {
         return this.bounds;
     }
 
-    @Override
-    public void setBounds(Bounds bounds) {
-        this.bounds = checkNotNull(bounds);
-    }
 }

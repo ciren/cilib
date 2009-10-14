@@ -38,6 +38,4 @@ public interface BoundedType {
 
     public Bounds getBounds();
 
-    public void setBounds(Bounds bounds);
-
 }

@@ -83,24 +83,6 @@ public class IntTest {
     }
 
     @Test
-    public void lowerBoundModification() {
-        Int i = new Int(0, new Bounds(-3, 3));
-        assertEquals(-3.0, i.getBounds().getLowerBound(), Double.MIN_NORMAL);
-
-        i.setBounds(new Bounds(1.0, i.getBounds().getUpperBound()));
-        assertEquals(1.0, i.getBounds().getLowerBound(), Double.MIN_NORMAL);
-    }
-
-    @Test
-    public void upperBoundModification() {
-        Int i = new Int(0, new Bounds(-3, 3));
-        assertEquals(3.0, i.getBounds().getUpperBound(), Double.MIN_NORMAL);
-
-        i.setBounds(new Bounds(i.getBounds().getLowerBound(), 1));
-        assertEquals(1.0, i.getBounds().getUpperBound(), Double.MIN_NORMAL);
-    }
-
-    @Test
     public void bucketPositiveRealValue() {
         Int i = new Int(0);
         i.setReal(4.6);

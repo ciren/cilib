@@ -53,8 +53,6 @@ public final class Z implements TypeCreator {
      * {@inheritDoc}
      */
     public Type create(final Bounds bounds) {
-        Int i = new Int(0);
-        i.setBounds(bounds);
-        return i;
+        return new Int(0, bounds);
     }
 }

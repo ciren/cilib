@@ -44,8 +44,7 @@ public class VectorsTest {
         vector = new Vector();
 
         for(int i = 1; i < 5; i++) {
-            Numeric element = new Real(i);
-            element.setBounds(new Bounds(i*-2, i*2));
+            Numeric element = new Real(i, new Bounds(i*-2, i*2));
             vector.append(element);
         }
     }

@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.type.types;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -104,22 +103,6 @@ public class BitTest {
             assertTrue(b1.getBit() == b2.getBit());
         else
             assertTrue(b1.getBit() != b2.getBit());
-    }
-
-    @Test(expected=UnsupportedOperationException.class)
-    public void lowerBoundModification() {
-        Bit b = new Bit(false);
-        Assert.assertEquals(0.0, b.getBounds().getLowerBound(), Double.MIN_NORMAL);
-
-        b.setBounds(new Bounds(-8.0, b.getBounds().getUpperBound()));
-    }
-
-    @Test(expected=UnsupportedOperationException.class)
-    public void upperBoundModification() {
-        Bit b = new Bit(false);
-        Assert.assertEquals(1.0, b.getBounds().getUpperBound(), Double.MIN_NORMAL);
-
-        b.setBounds(new Bounds(b.getBounds().getLowerBound(), 8.0));
     }
 
  }

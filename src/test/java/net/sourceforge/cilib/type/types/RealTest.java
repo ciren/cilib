@@ -106,22 +106,4 @@ public class RealTest {
         assertTrue(r1.getReal() != r2.getReal());
     }
 
-    @Test
-    public void lowerBoundModification() {
-        Real r = new Real(0.0, new Bounds(-30.0, 30.0));
-        assertEquals(-30.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
-
-        r.setBounds(new Bounds(0.0, r.getBounds().getUpperBound()));
-        assertEquals(0.0, r.getBounds().getLowerBound(), Double.MIN_NORMAL);
-    }
-
-    @Test
-    public void upperBoundModification() {
-        Real r = new Real(0.0, new Bounds(-30.0, 30.0));
-        assertEquals(30.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
-
-        r.setBounds(new Bounds(r.getBounds().getLowerBound(), 0.0));
-        assertEquals(0.0, r.getBounds().getUpperBound(), Double.MIN_NORMAL);
-    }
-
 }

@@ -53,9 +53,7 @@ public final class R implements TypeCreator {
      */
     @Override
     public Type create(final Bounds bounds) {
-        Real r = new Real(0.0);
-        r.setBounds(bounds);
-        return r;
+        return new Real(0.0, bounds);
     }
 
 }

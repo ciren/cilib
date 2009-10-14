@@ -38,7 +38,7 @@ public class Long implements Numeric {
     private static final Bounds DEFAULT_BOUND = new Bounds(java.lang.Long.MIN_VALUE, java.lang.Long.MAX_VALUE);
 
     private long value;
-    private Bounds bounds;
+    private final Bounds bounds;
 
     /**
      * Create an {@linkplain Long} with the specified value.
@@ -101,7 +101,6 @@ public class Long implements Numeric {
         hash = 31 * hash + this.bounds.hashCode();
         return hash;
     }
-
 
     /**
      * {@inheritDoc}
@@ -276,8 +275,4 @@ public class Long implements Numeric {
         return this.bounds;
     }
 
-    @Override
-    public void setBounds(Bounds bounds) {
-        this.bounds = checkNotNull(bounds);
-    }
 }

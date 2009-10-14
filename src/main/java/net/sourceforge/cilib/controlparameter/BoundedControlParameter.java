@@ -40,14 +40,12 @@ public abstract class BoundedControlParameter implements ControlParameter {
     protected Real parameter;
     protected String range = "";
 
-
     /**
      * Create an instance of the {@code BoundedControlParameter}.
      */
     public BoundedControlParameter() {
         this.parameter = new Real(0.0);
     }
-
 
     /**
      * Create a copy of the provided instance.
@@ -58,12 +56,10 @@ public abstract class BoundedControlParameter implements ControlParameter {
         this.range = copy.range;
     }
 
-
     /**
      * {@inheritDoc}
      */
     public abstract BoundedControlParameter getClone();
-
 
     /**
      * {@inheritDoc}
@@ -78,7 +74,6 @@ public abstract class BoundedControlParameter implements ControlParameter {
     public double getParameter(double min, double max) {
         throw new UnsupportedOperationException("");
     }
-
 
     /**
      * {@inheritDoc}
@@ -110,7 +105,6 @@ public abstract class BoundedControlParameter implements ControlParameter {
             this.parameter.setReal(this.parameter.getBounds().getUpperBound());
     }
 
-
     /**
      * Get the lower bound of the
      * {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control paramter}.
@@ -120,17 +114,14 @@ public abstract class BoundedControlParameter implements ControlParameter {
         return this.parameter.getBounds().getLowerBound();
     }
 
-
     /**
      * Set the value of the lower bound.
      * @param lower The value to set.
      */
     public void setLowerBound(double lower) {
-//        this.parameter.getBounds().setLowerBound(lower);
         Bounds bounds = parameter.getBounds();
-        this.parameter.setBounds(new Bounds(lower, bounds.getUpperBound()));
+        this.parameter = new Real(this.parameter.getReal(), new Bounds(lower, bounds.getUpperBound()));
     }
-
 
     /**
      * Get the upper bound for the
@@ -141,17 +132,14 @@ public abstract class BoundedControlParameter implements ControlParameter {
         return this.parameter.getBounds().getUpperBound();
     }
 
-
     /**
      * Set the value for the upper bound.
      * @param value The value to set.
      */
     public void setUpperBound(double value) {
-//        this.parameter.getBounds().setUpperBound(value);
         Bounds bounds = parameter.getBounds();
-        this.parameter.setBounds(new Bounds(bounds.getLowerBound(), value));
+        this.parameter = new Real(this.parameter.getReal(), new Bounds(bounds.getLowerBound(), value));
     }
-
 
     /**
      * Get the range of the {@linkplain net.sourceforge.cilib.controlparameter.BoundedControlParameter}.
@@ -160,7 +148,6 @@ public abstract class BoundedControlParameter implements ControlParameter {
     public String getRange() {
         return range;
     }
-
 
     /**
      * Set the range of the parameter.

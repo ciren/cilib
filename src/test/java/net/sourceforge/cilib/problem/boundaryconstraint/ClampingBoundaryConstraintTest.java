@@ -24,6 +24,7 @@ package net.sourceforge.cilib.problem.boundaryconstraint;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
@@ -41,13 +42,9 @@ public class ClampingBoundaryConstraintTest {
         Vector candidateSolution = new Vector();
 
         Bounds bounds = new Bounds(-5.0, 5.0);
-        Real r1 = new Real(-6.0);
-        Real r2 = new Real(3.0);
-        Real r3 = new Real(6.0);
-
-        r1.setBounds(bounds);
-        r2.setBounds(bounds);
-        r3.setBounds(bounds);
+        Real r1 = new Real(-6.0, bounds);
+        Real r2 = new Real(3.0, bounds);
+        Real r3 = new Real(6.0, bounds);
 
         candidateSolution.add(r1);
         candidateSolution.add(r2);
@@ -62,6 +59,22 @@ public class ClampingBoundaryConstraintTest {
         Assert.assertThat(((Real)candidateSolution.get(0)).getReal(), is(-5.0));
         Assert.assertThat(((Real)candidateSolution.get(1)).getReal(), is(3.0));
         Assert.assertThat(((Real)candidateSolution.get(2)).getReal(), is(5.0-Maths.EPSILON));
+    }
+
+    @Test
+    public void integerUpperBound() {
+        Int i = new Int(5, new Bounds(0, 4));
+
+        Vector candidateSolution = new Vector();
+        candidateSolution.add(i);
+
+        Individual individual = new Individual();
+        individual.setCandidateSolution(candidateSolution);
+
+        ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
+        clampingBoundaryConstraint.enforce(individual);
+
+        Assert.assertThat(i.getInt(), is(4));
     }
 
 }

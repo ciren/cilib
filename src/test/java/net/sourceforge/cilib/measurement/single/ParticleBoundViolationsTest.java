@@ -28,11 +28,9 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -57,23 +55,17 @@ public class ParticleBoundViolationsTest {
         Particle p3 = new StandardParticle();
         Particle p4 = new StandardParticle();
 
-        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(0.0, -1.0, 0.0));
-        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(1.0, 2.0, 2.0));
-        p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(-1.0,0.0,1.0));
-        p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vectors.create(1.0,2.0,-1.0));
+        Bounds bounds = new Bounds(0.0, 2.0);
+        p1.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, 0.0, -1.0, 0.0));
+        p2.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, 1.0, 2.0, 2.0));
+        p3.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, -1.0,0.0,1.0));
+        p4.getProperties().put(EntityType.CANDIDATE_SOLUTION, vectorOf(bounds, 1.0,2.0,-1.0));
 
         final Topology<Particle> topology = new GBestTopology<Particle>();
         topology.add(p1);
         topology.add(p2);
         topology.add(p3);
         topology.add(p4);
-
-        Bounds bounds = new Bounds(0.0,2.0);
-        for (Particle particle : topology) {
-            for (Numeric position : (Vector) particle.getCandidateSolution()) {
-                 position.setBounds(bounds);
-            }
-        }
 
         final PopulationBasedAlgorithm pba = context.mock(PopulationBasedAlgorithm.class);
         context.checking(new Expectations(){{
@@ -82,6 +74,14 @@ public class ParticleBoundViolationsTest {
 
         Measurement m = new ParticleBoundViolations();
         Assert.assertEquals(new Real(3.0/topology.size()), m.getValue(pba));
+    }
+
+    private Vector vectorOf(Bounds bounds, double... values) {
+        Vector vector = new Vector();
+        for (int i = 0; i < values.length; i++) {
+            vector.add(new Real(values[i], bounds));
+        }
+        return vector;
     }
 
 }

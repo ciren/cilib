@@ -36,7 +36,7 @@ public class Real implements Numeric {
     private static final long serialVersionUID = 5290504438178510485L;
     private static final Bounds DEFAULT_BOUND = new Bounds(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     private double value;
-    private Bounds bounds;
+    private final Bounds bounds;
 
     /**
      * Create the instance with the given value.
@@ -65,7 +65,6 @@ public class Real implements Numeric {
         this.bounds = copy.bounds;
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -73,7 +72,6 @@ public class Real implements Numeric {
     public Real getClone() {
         return new Real(this);
     }
-
 
     /**
      * {@inheritDoc}
@@ -91,7 +89,6 @@ public class Real implements Numeric {
             this.bounds.equals(otherReal.bounds);
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -103,7 +100,6 @@ public class Real implements Numeric {
         return hash;
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -111,7 +107,6 @@ public class Real implements Numeric {
     public void set(String value) {
         setReal(value);
     }
-
 
     /**
      * {@inheritDoc}
@@ -144,7 +139,6 @@ public class Real implements Numeric {
         return Double.compare(this.value, 0.0) == 0 ? false : true;
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -159,14 +153,12 @@ public class Real implements Numeric {
         setBit(Boolean.parseBoolean(value));
     }
 
-
     /**
      * {@inheritDoc}
      */
     public int getInt() {
         return Double.valueOf(this.value).intValue();
     }
-
 
     /**
      * {@inheritDoc}
@@ -204,7 +196,6 @@ public class Real implements Numeric {
         setReal(Double.parseDouble(value));
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -220,14 +211,12 @@ public class Real implements Numeric {
         this.value = random.nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
     }
 
-
     /**
      * Set the value of the <tt>Real</tt> to a default value of 0.0.
      */
     public void reset() {
         this.setReal(0.0);
     }
-
 
     /**
      * Return a <code>String</code> representation of the <code>Real</code> object.
@@ -246,7 +235,6 @@ public class Real implements Numeric {
         return "R(" + getBounds().getLowerBound() + "," + getBounds().getUpperBound() +")";
     }
 
-
     /**
      * Serialize the {@linkplain Real} to the provided {@linkplain ObjectOutput}.
      * @param oos The provided {@linkplain ObjectOutput}.
@@ -255,7 +243,6 @@ public class Real implements Numeric {
     public void writeExternal(ObjectOutput oos) throws IOException {
         oos.writeDouble(this.value);
     }
-
 
     /**
      * Read the {@linkplain Real} from the provided {@linkplain ObjectInput}.
@@ -270,11 +257,6 @@ public class Real implements Numeric {
     @Override
     public Bounds getBounds() {
         return this.bounds;
-    }
-
-    @Override
-    public void setBounds(Bounds bounds) {
-        this.bounds = checkNotNull(bounds);
     }
 
 }

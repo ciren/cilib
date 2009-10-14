@@ -272,17 +272,6 @@ public class Bit implements Numeric {
         this.state = ois.readBoolean();
     }
 
-    /**
-     * Set the bounds for the current {@code Bit} instance. This method is not a valid
-     * operation and as a result throws a {@code UnsupportedOperationException}.
-     * @param bounds The bounds to set.
-     * @throws UnsupportedOperationException Bit instances cannot have arbitary bounds.
-     */
-    @Override
-    public void setBounds(Bounds bounds) {
-        throw new UnsupportedOperationException("Bounds may not be altered for Bit instances.");
-    }
-
     @Override
     public Bounds getBounds() {
         return this.bounds;
