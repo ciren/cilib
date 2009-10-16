@@ -46,12 +46,12 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     protected DataSetBuilder dataSetBuilder;
     private ChangeStrategy changeStrategy;
 
-    public OptimisationProblemAdapter() {
+    protected OptimisationProblemAdapter() {
         fitnessEvaluations = new AtomicInteger(0);
         changeStrategy = new NoChangeStrategy();
     }
 
-    public OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
+    protected OptimisationProblemAdapter(OptimisationProblemAdapter copy) {
         changeStrategy = copy.changeStrategy;
         fitnessEvaluations = new AtomicInteger(copy.fitnessEvaluations.get());
         if(copy.dataSetBuilder != null)
@@ -73,6 +73,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     /**
      * {@inheritDoc}
      */
+    @Override
     public final Fitness getFitness(Type solution) {
         fitnessEvaluations.incrementAndGet();
 
@@ -85,6 +86,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     /**
      * {@inheritDoc}
      */
+    @Override
     public final int getFitnessEvaluations() {
         return fitnessEvaluations.get();
     }
@@ -92,13 +94,16 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     /**
      * {@inheritDoc}
      */
+    @Override
     public DataSetBuilder getDataSetBuilder() {
         return this.dataSetBuilder;
     }
 
     /**
      * {@inheritDoc}
+     * @param dsb
      */
+    @Override
     public void setDataSetBuilder(DataSetBuilder dsb) {
         dataSetBuilder = dsb;
     }
@@ -106,6 +111,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void accept(ProblemVisitor visitor) {
         throw new UnsupportedOperationException("This method is not implemented");
     }
@@ -113,6 +119,7 @@ public abstract class OptimisationProblemAdapter implements OptimisationProblem 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void changeEnvironment() {
         throw new UnsupportedOperationException("Problems are static by default. Dynamic problems should override this method");
     }
