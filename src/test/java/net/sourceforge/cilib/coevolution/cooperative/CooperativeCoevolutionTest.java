@@ -83,14 +83,7 @@ public class CooperativeCoevolutionTest {
                  allowing (problem).getDomain(); will(returnValue(problemDomain));
             }});
 
-         //mock solutions
-         final OptimisationSolution solution = context.mock(OptimisationSolution.class);
-         context.checking(new Expectations() {{
-                 atLeast(2).of (solution).getPosition();
-                will(onConsecutiveCalls(
-                            returnValue(pop1Rand),
-                            returnValue(pop2Rand)));
-             }});
+         final OptimisationSolution solution = new OptimisationSolution(pop1Rand, InferiorFitness.instance());
 
          final CooperativeCoevolutionProblemAdapter subProb = context.mock(CooperativeCoevolutionProblemAdapter.class);
          context.checking(new Expectations() {{
