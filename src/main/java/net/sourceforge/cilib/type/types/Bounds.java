@@ -84,4 +84,11 @@ public final class Bounds {
         return hash;
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder()
+            .append("(").append(lowerBound).append(",").append(upperBound).append(")")
+            .toString();
+    }
+
 }

@@ -78,7 +78,7 @@ public class FIPSVelocityUpdate extends StandardVelocityUpdate {
             Iterator<Particle> neighborhoodIterator = topology.neighbourhood(swarmIterator);
 
             while (neighborhoodIterator.hasNext()) {
-                Particle currentTarget = (Particle) neighborhoodIterator.next();
+                Particle currentTarget = neighborhoodIterator.next();
                 Vector currentTargetPosition = (Vector) currentTarget.getBestPosition();
 
                 randomComponent.setParameter(cognitiveAcceleration.getParameter() + socialAcceleration.getParameter());

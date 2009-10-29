@@ -50,7 +50,7 @@ public class BinaryAlignmentCreator {
             for (int l = 0; l < 4; l++) {
                 buff += ""+solution.get(k+l);
             }
-            tmpSolution.add(new Integer(((int) buff.charAt(0)-48) *8 + ((int) buff.charAt(1)-48) *4 + ((char) buff.charAt(2)-48)*2 + ((char) buff.charAt(3)-48)*1));
+            tmpSolution.add(new Integer(((int) buff.charAt(0)-48) *8 + ((int) buff.charAt(1)-48) *4 + (buff.charAt(2)-48)*2 + (buff.charAt(3)-48)*1));
             buff = "";
         }
 
@@ -79,7 +79,7 @@ public class BinaryAlignmentCreator {
                 // *** GAP Positions ***
                 // Then go through #gaps allowed
                 for (int i = 0; i < gapsArray[counter]; i++)
-                    dummyArray [i] = (int) Math.round(tmpSolution.elementAt(i+start));
+                    dummyArray[i] = Math.round(tmpSolution.elementAt(i + start));
 
                 /*Sort the positions in the vector so we can add gaps always from the root (original input sequence) and
                  by just incrementing position by 1 every loop execution.*/

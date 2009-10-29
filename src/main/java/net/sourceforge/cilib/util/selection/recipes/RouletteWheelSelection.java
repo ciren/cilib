@@ -82,8 +82,8 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
      * {@inheritDoc}
      */
     @Override
-    public RouletteWheelSelection getClone() {
-        return new RouletteWheelSelection(this);
+    public RouletteWheelSelection<E> getClone() {
+        return new RouletteWheelSelection<E>(this);
     }
 
     /**

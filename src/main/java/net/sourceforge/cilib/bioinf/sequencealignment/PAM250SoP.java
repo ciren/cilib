@@ -128,8 +128,8 @@ public class PAM250SoP implements ScoringMethod {
             //go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
             for (int j = 0; j < alignment.size()-1; j++) {
                 for (int k = j+1; k < alignment.size(); k++) {
-                    String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
-                    String seq2 = (String) alignment.get(k);   //gets the second sequence
+                    String seq1 = alignment.get(j);   //gets the first sequence as a String
+                    String seq2 = alignment.get(k);   //gets the second sequence
 
                 //    go through all columns, pairwise conmparison
                     for (int i = 0; i < seqLength1; i++) {
@@ -161,8 +161,8 @@ public class PAM250SoP implements ScoringMethod {
 //            go through all the seqs (rows) SUM OF PAIRS (N * (N-1) /2)
             for (int j = 0; j < alignment.size()-1; j++) {
                 for (int k = j+1; k < alignment.size(); k++) {
-                    String seq1 = (String) alignment.get(j);   //gets the first sequence as a String
-                    String seq2 = (String) alignment.get(k);   //gets the second sequence
+                    String seq1 = alignment.get(j);   //gets the first sequence as a String
+                    String seq2 = alignment.get(k);   //gets the second sequence
 
                 //    go through all columns, pairwise conmparison
                     for (int i = 0; i < seqLength1; i++) {

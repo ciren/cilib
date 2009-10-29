@@ -33,15 +33,9 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-<<<<<<< HEAD
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
-=======
-import net.sourceforge.cilib.functions.Function;
-import net.sourceforge.cilib.problem.FunctionMaximisationProblem;
->>>>>>> Generic functions in function decorators.
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * AverageBestErrorBeforeChange computes the average of the differences between

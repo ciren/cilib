@@ -33,7 +33,6 @@ import net.sourceforge.cilib.util.Vectors;
  * be taken into consideration.
  */
 public class Sigmoid extends ActivationFunction {
-
     private static final long serialVersionUID = 8291966233976579855L;
     private ControlParameter steepness;
     private ControlParameter offset;
@@ -140,6 +139,7 @@ public class Sigmoid extends ActivationFunction {
      * {@inheritDoc}
      * The active range for sigmoid is -Sqrt(3) - Sqrt(3), and Sqrt(3) = 1.732050808
      */
+    @Override
     public double getLowerActiveRange() {
         return -1.732050808;
     }
@@ -147,6 +147,7 @@ public class Sigmoid extends ActivationFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getUpperActiveRange() {
         return 1.732050808;
     }

@@ -118,7 +118,7 @@ public class StandardPatternDataTable implements DataTable<StandardPattern, Type
      */
     @Override
     public void setRow(int index, StandardPattern rowData) {
-        this.dataTable.set(index, (StandardPattern) rowData);
+        this.dataTable.set(index, rowData);
     }
 
     /**

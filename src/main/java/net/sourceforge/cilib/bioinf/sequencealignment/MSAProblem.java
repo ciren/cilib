@@ -127,7 +127,7 @@ public class MSAProblem extends OptimisationProblemAdapter {
                 if (result.length() > biggestLength) biggestLength = result.length();
             }
 
-            averageLength = (int) Math.round(totalLength/strings.size());
+            averageLength = Math.round(totalLength / strings.size());
             System.out.println("Got " + strings.size() + " sequences of average length: " + averageLength + ".");
 
             /*

@@ -118,8 +118,8 @@ public class DeviationDecorator extends ParticleDecorator implements Cloneable {
         double sumsq = 0;
 
         for (int i = 0; i < observations; ++i) {
-            sum += ((Double) fitnesses[i].getValue()).doubleValue();
-            double tmp = ((Double) fitnesses[i].getValue()).doubleValue();
+            sum += fitnesses[i].getValue().doubleValue();
+            double tmp = fitnesses[i].getValue().doubleValue();
             sumsq += tmp * tmp;
         }
 

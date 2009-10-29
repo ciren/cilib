@@ -80,8 +80,8 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      * {@inheritDoc}
      */
     @Override
-    public RankBasedSelection getClone() {
-        return new RankBasedSelection(this);
+    public RankBasedSelection<E> getClone() {
+        return new RankBasedSelection<E>(this);
     }
 
     /**

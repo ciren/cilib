@@ -58,7 +58,7 @@ public class RNAPSO extends PSO {
         readDataSet();
 
         Topology<Particle> topology = getTopology();
-        Iterable<? extends Entity> particles = this.initialisationStrategy.initialise(getOptimisationProblem());
+        Iterable<? extends Entity> particles = getInitialisationStrategy().initialise(getOptimisationProblem());
         
         //Iterables.addAll(getTopology(), particles); // Use this instead?
         for (Entity particle : particles)

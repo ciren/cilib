@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.boa;
 
-import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.List;
 

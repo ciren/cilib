@@ -78,8 +78,8 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
      * {@inheritDoc}
      */
     @Override
-    public TournamentSelection getClone() {
-        return new TournamentSelection(this);
+    public TournamentSelection<E> getClone() {
+        return new TournamentSelection<E>(this);
     }
 
     /**

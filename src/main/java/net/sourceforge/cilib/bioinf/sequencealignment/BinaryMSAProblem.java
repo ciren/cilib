@@ -29,7 +29,6 @@ import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.parser.DomainParser;
-import net.sourceforge.cilib.type.parser.parser.ParserException;
 import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -171,7 +170,7 @@ public class BinaryMSAProblem extends OptimisationProblemAdapter {
                 if (string.length() > biggestLength) biggestLength = string.length();
             }
 
-            averageLength = (int) Math.round(totalLength/strings.size());
+            averageLength = Math.round(totalLength / strings.size());
             System.out.println("Got "+strings.size()+" sequences of average length: "+averageLength+".");
 
             /*

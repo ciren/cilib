@@ -53,9 +53,9 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
         MersenneTwister twister = new MersenneTwister();
         int j = twister.nextInt(bee.getDimension());
 
-        Vector newPosition = (Vector) bee.getPosition();
-        Vector oldPosition = (Vector) bee.getPosition().getClone();
-        Vector otherPosition = (Vector) otherBee.getPosition();
+        Vector newPosition = bee.getPosition();
+        Vector oldPosition = bee.getPosition().getClone();
+        Vector otherPosition = otherBee.getPosition();
         double value = ((Real) newPosition.get(j)).getReal();
         double other = ((Real) otherPosition.get(j)).getReal();
         Real newValue = (Real) newPosition.get(j);

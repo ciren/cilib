@@ -72,8 +72,8 @@ public class ElitistSelection<E extends Comparable<? super E>> implements Select
      * {@inheritDoc}
      */
     @Override
-    public ElitistSelection getClone() {
-        return new ElitistSelection(this);
+    public ElitistSelection<E> getClone() {
+        return new ElitistSelection<E>(this);
     }
 
     /**

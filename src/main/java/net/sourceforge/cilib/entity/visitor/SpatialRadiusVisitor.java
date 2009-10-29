@@ -23,7 +23,6 @@ package net.sourceforge.cilib.entity.visitor;
 
 import java.util.Iterator;
 
-import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -46,10 +45,10 @@ public class SpatialRadiusVisitor extends TopologyVisitor {
         double maxDistance = 0.0;
 
         // get number of entities in the population
-        int numberOfEntities = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().size();
+        int numberOfEntities = (this.currentAlgorithm).getTopology().size();
 
         // initialize iterator to be used to calculate spatial center
-        Iterator<? extends Entity> calculateCenterIterator = ((PopulationBasedAlgorithm) this.currentAlgorithm).getTopology().iterator();
+        Iterator<? extends Entity> calculateCenterIterator = (this.currentAlgorithm).getTopology().iterator();
         Entity entity = calculateCenterIterator.next();
         Vector spatialCenter = (Vector) entity.getCandidateSolution().getClone();
 

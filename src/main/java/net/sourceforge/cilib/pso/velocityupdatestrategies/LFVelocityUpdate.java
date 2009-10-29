@@ -76,8 +76,8 @@ public class LFVelocityUpdate implements VelocityUpdateStrategy {
             //double[] previousVelocity = lfParticle.getPreviousVelocity();
             Vector velocity = (Vector) particle.getVelocity();
             Vector position = (Vector) particle.getPosition();
-            Vector previousPosition = (Vector) lfParticle.getPreviousPosition();
-            Vector previousVelocity = (Vector) lfParticle.getPreviousVelocity();
+            Vector previousPosition = lfParticle.getPreviousPosition();
+            Vector previousVelocity = lfParticle.getPreviousVelocity();
 
             double[] nextGradient = lfParticle.getNextGradient();
 

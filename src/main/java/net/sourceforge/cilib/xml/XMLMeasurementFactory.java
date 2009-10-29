@@ -53,7 +53,9 @@ public class XMLMeasurementFactory extends XMLObjectFactory implements Measureme
     }
 
     public Measurement newMeasurement() {
-        return (Measurement) newObject();
+        @SuppressWarnings("unchecked")
+        Measurement measurement = (Measurement) newObject();
+        return measurement;
     }
 
     public void setMeasurement(Measurement measurement) {

@@ -59,7 +59,7 @@ public class GreedyRNAFolder extends RNAFolder {
                 //check if this stem conflicts with any of the current stems
                 conflicts = false;
                 for (RNAStem currentStem : currentFolding) {
-                    if (((RNAStem) tempStem).conflictsWith((RNAStem) currentStem)) {
+                    if ((tempStem).conflictsWith(currentStem)) {
                         conflicts = true;
                         break;
                     }
@@ -71,7 +71,7 @@ public class GreedyRNAFolder extends RNAFolder {
                     //test if currentFolding is more fit
                     if (fitness.getRNAFitness(currentFolding).doubleValue() < bestFitness) {
                         bestFitness = fitness.getRNAFitness(currentFolding).doubleValue();
-                        bestStem = (RNAStem) tempStem;
+                        bestStem = tempStem;
                     }
                     currentFolding.remove(tempStem);
                 }

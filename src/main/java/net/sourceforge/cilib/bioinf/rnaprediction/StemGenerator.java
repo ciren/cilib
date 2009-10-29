@@ -71,7 +71,7 @@ public final class StemGenerator {
                     while (pOn.canBind(index)) {
                         tempstem.add(new NucleotidePair(pOn.get5prime(index)+1, pOn.get3prime(index)+1));
                         if (generateSubstems && tempstem.size()>=minStemLength) {
-                            allStems.add((RNAStem) tempstem.getClone());
+                            allStems.add(tempstem.getClone());
                             //System.out.println("Stem added");
                             //System.out.println(tempstem);
                             //System.out.println();
@@ -125,7 +125,7 @@ public final class StemGenerator {
                     while (pOff.canBind(index)) {
                         tempstem.add(new NucleotidePair(pOff.get5prime(index)+1, pOff.get3prime(index)+1));
                         if (generateSubstems && tempstem.size()>=minStemLength) {
-                            allStems.add((RNAStem) tempstem.getClone());
+                            allStems.add(tempstem.getClone());
                             //System.out.println("Stem added");
                             //System.out.println(tempstem);
                             //System.out.println();
@@ -356,6 +356,7 @@ public final class StemGenerator {
             }
         }
 
+        @Override
         public String toString() {
             String temp;
             String top = "";

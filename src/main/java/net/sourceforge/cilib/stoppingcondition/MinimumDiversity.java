@@ -26,7 +26,6 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.measurement.single.diversity.Diversity;
-import net.sourceforge.cilib.type.types.Real;
 
 /**
  * A stopping condition that is based on the {@link Diversity} of the population. The
@@ -89,7 +88,7 @@ public class MinimumDiversity implements StoppingCondition {
      */
     public boolean isCompleted() {
         updateControlParameters();
-        calculatedDiversity = ((Real) diversity.getValue(AbstractAlgorithm.get())).getReal();
+        calculatedDiversity = (diversity.getValue(AbstractAlgorithm.get())).getReal();
         maximumDiversity = Math.max(maximumDiversity, calculatedDiversity);
 
         iterations = calculatedDiversity < minimumDiversity.getParameter() ? iterations + 1 : 0;

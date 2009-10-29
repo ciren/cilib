@@ -80,11 +80,11 @@ public class KnightsCoverage extends DiscreteFunction {
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                if (board[i][j] == -1)
+                if (board[i][j] == -1) // covered square by knight
                     fitness += 100;
-                else if (board[i][j] == 0)
+                else if (board[i][j] == 0) // not covered by a knight at all
                     fitness += 1000;
-                else fitness -= 200;
+                else fitness -= 200; // square is covered
             }
         }
 

@@ -76,13 +76,13 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
             DynamicParticle current = (DynamicParticle) iterator.next();
 
             //makes sure the charged particles are randomly positionned accross the topology
-            if(reinitCounter < Math.floor(populationSize*reinitialisationRatio) && randomiser.nextDouble() < reinitialisationRatio && current != ((E)algorithm).getTopology().getBestEntity()){
+            if(reinitCounter < Math.floor(populationSize*reinitialisationRatio) && randomiser.nextDouble() < reinitialisationRatio && current != (algorithm).getTopology().getBestEntity()){
                 current.getPosition().randomize(this.randomiser);
                 current.getVelocity().reset();
                 current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());
                 ++reinitCounter;
             }//if
-            else if(keepCounter > Math.floor(populationSize*(1.0-reinitialisationRatio)) && current != ((E)algorithm).getTopology().getBestEntity()){
+            else if(keepCounter > Math.floor(populationSize*(1.0-reinitialisationRatio)) && current != (algorithm).getTopology().getBestEntity()){
                 current.getPosition().randomize(this.randomiser);
                 current.getVelocity().reset();
                 current.getProperties().put(EntityType.Particle.BEST_POSITION, current.getPosition().getClone());

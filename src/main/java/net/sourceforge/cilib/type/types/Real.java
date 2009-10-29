@@ -28,13 +28,12 @@ import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.random.generator.Random;
 
-
 /**
  * @author Gary Pampara
  */
 public class Real implements Numeric {
     private static final long serialVersionUID = 5290504438178510485L;
-    private static final Bounds DEFAULT_BOUND = new Bounds(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    private static final Bounds DEFAULT_BOUND = new Bounds(Double.MIN_VALUE, Double.MAX_VALUE);
     private double value;
     private final Bounds bounds;
 
@@ -49,6 +48,7 @@ public class Real implements Numeric {
 
     /**
      * Create the <code>Real</code> instance with the defined {@code Bounds}.
+     * @param value The initial value.
      * @param bounds The defined {@code Bounds}.
      */
     public Real(double value, Bounds bounds) {
@@ -161,7 +161,10 @@ public class Real implements Numeric {
      */
     @Override
     public int getInt() {
-        return Double.valueOf(this.value).intValue();
+        int result = Double.compare(value, 0.0);
+        return (result >= 0)
+            ? Double.valueOf(Math.ceil(value)).intValue()
+            : Double.valueOf(Math.floor(value)).intValue();
     }
 
     /**
@@ -208,8 +211,8 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(Numeric object) {
-        final Real otherReal = (Real) object;
+    public int compareTo(Numeric o) {
+        final Real otherReal = (Real) o;
         return Double.compare(this.value, otherReal.value);
     }
 
@@ -245,7 +248,7 @@ public class Real implements Numeric {
      */
     @Override
     public String getRepresentation() {
-        return "R(" + getBounds().getLowerBound() + "," + getBounds().getUpperBound() +")";
+        return "R" + this.bounds.toString();
     }
 
     /**

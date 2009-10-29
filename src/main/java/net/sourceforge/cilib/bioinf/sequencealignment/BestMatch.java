@@ -114,7 +114,7 @@ public class BestMatch implements ScoringMethod {
 
                 //check if hashtable already has that character
                 if (hashTable.containsKey(new Character(currentString.charAt(i)))) {
-                    Integer count1 = (Integer) hashTable.get(c); //gets the # of that char in hashtable
+                    Integer count1 = hashTable.get(c); //gets the # of that char in hashtable
                     int tmp1 = count1.intValue() + 1; //tmp1 = value+1 , just increments occurence #
                     hashTable.put(c, tmp1); //put the char back along with new value in hashtable
                 }

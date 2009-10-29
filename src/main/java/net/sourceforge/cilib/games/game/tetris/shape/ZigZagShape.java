@@ -35,19 +35,18 @@ public class ZigZagShape extends AbstractShape {
 	private static final long serialVersionUID = -1538895951963722986L;
 
 	public ZigZagShape(int gridWidth, int gridHeight) {
-		super();
 		staticCellIndex = 1;
 		GridLocation block = new GridLocation(gridWidth, gridHeight);
-		block.setInt(0, (int)(gridWidth / 2) - 1);
+		block.setInt(0, (gridWidth / 2) - 1);
 		block.setInt(1, 0);
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.ZIGZAG, block.getClone()));
-		block.setInt(0, (int)(gridWidth / 2));
+		block.setInt(0, (gridWidth / 2));
 		block.setInt(1, 0);
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.ZIGZAG, block.getClone()));
-		block.setInt(0, (int)(gridWidth / 2));
+		block.setInt(0, (gridWidth / 2));
 		block.setInt(1, 1);
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.ZIGZAG, block.getClone()));
-		block.setInt(0, (int)(gridWidth / 2) + 1);
+		block.setInt(0, (gridWidth / 2) + 1);
 		block.setInt(1, 1);
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.ZIGZAG, block.getClone()));
 

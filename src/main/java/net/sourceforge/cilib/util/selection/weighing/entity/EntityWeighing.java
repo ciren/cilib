@@ -67,8 +67,8 @@ public class EntityWeighing<E extends Entity> implements Weighing<E> {
      * {@inheritDoc}
      */
     @Override
-    public EntityWeighing getClone() {
-        return new EntityWeighing(this);
+    public EntityWeighing<E> getClone() {
+        return new EntityWeighing<E>(this);
     }
 
     /**

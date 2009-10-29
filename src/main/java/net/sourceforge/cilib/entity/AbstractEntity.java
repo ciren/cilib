@@ -38,7 +38,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
 
     private long id;
     private final CandidateSolution candidateSolution;
-    private FitnessCalculator fitnessCalculator;
+    private FitnessCalculator<Entity> fitnessCalculator;
 
     /**
      * Initialise the candidate solution of the {@linkplain Entity}.
@@ -145,7 +145,7 @@ public abstract class AbstractEntity implements Entity, CandidateSolution {
      * @return The {@code FitnessCalculator} associated with this {@code Entity}.
      */
     @Override
-    public FitnessCalculator getFitnessCalculator() {
+    public FitnessCalculator<Entity> getFitnessCalculator() {
         return fitnessCalculator;
     }
 

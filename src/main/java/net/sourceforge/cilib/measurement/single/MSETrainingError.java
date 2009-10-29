@@ -40,6 +40,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author andrich
  */
 public class MSETrainingError implements Measurement {
+    private static final long serialVersionUID = 426053308416839866L;
 
     /**
      * {@inheritDoc }
@@ -66,7 +67,7 @@ public class MSETrainingError implements Measurement {
         NNDataTrainingProblem problem = (NNDataTrainingProblem) algorithm.getOptimisationProblem();
         StandardPatternDataTable trainingSet = problem.getTrainingSet();
         NeuralNetwork neuralNetwork = problem.getNeuralNetwork();
-        neuralNetwork.setWeights((Vector) solution);
+        neuralNetwork.setWeights(solution);
 
         double errorTraining = 0.0;
         OutputErrorVisitor visitor = new OutputErrorVisitor();

@@ -152,7 +152,7 @@ public class TetrisGameState extends GridGameState {
             }
             else if ((totalRowsCleared >= 1) && (totalRowsCleared <= 90))
             {
-                earnedLevel = 1 + (((int)totalRowsCleared - 1) / 10);
+                earnedLevel = 1 + ((totalRowsCleared - 1) / 10);
             }
             else if (totalRowsCleared >= 91)
             {
@@ -164,7 +164,7 @@ public class TetrisGameState extends GridGameState {
             	currentLevel++;
             }
 
-            int pointAward = ((21 + (3 * (int)currentLevel))); //- freefallIterations);
+            int pointAward = ((21 + (3 * currentLevel))); //- freefallIterations);
             currentScore += pointAward;
         }
     }
@@ -269,7 +269,7 @@ public class TetrisGameState extends GridGameState {
                 B.updateMovesDown();
                 if (((GridLocation)(B.getLocation())).getInt(1) != key[1])
                 {
-                    changeBlocks.add((TetrisBlock)B.getClone());
+                    changeBlocks.add(B.getClone());
                     state[key[0]][key[1]] = null;
                 }
             }
@@ -367,7 +367,7 @@ public class TetrisGameState extends GridGameState {
     }
 	/**
 	 * Check whether one of the blocks in the {@link AbstractShape} collides in the current grid
-	 * @param blocks The given {@link AbstractShape}
+	 * @param shape The given {@link AbstractShape}
 	 * @return A boolean that indicates if a collision occurred
 	 */
     public boolean collides(AbstractShape shape){

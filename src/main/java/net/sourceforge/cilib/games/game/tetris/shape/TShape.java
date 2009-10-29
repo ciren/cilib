@@ -38,16 +38,16 @@ public class TShape extends AbstractShape {
 		super();
 		staticCellIndex = 1;
 		GridLocation block = new GridLocation(gridWidth, gridHeight);
-		block.setInt(0, (int)(gridWidth / 2) - 1);
+		block.setInt(0, (gridWidth / 2) - 1);
 		block.setInt(1, 0);
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.T, block.getClone()));
-		block.setInt(0, (int)(gridWidth / 2));
+		block.setInt(0, (gridWidth / 2));
 		block.setInt(1, 0);
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.T, block.getClone()));
-		block.setInt(0, (int)(gridWidth / 2) + 1);
+		block.setInt(0, (gridWidth / 2) + 1);
 		block.setInt(1, 0);
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.T, block.getClone()));
-		block.setInt(0, (int)(gridWidth / 2));
+		block.setInt(0, (gridWidth / 2));
 		block.setInt(1, 1);
 		shapeBlocks.add(new TetrisBlock(GameToken.Tetris.T, block.getClone()));
 	}

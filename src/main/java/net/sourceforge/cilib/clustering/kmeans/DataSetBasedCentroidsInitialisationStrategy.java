@@ -69,7 +69,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
         Vector centroids = new Vector(problem.getDomain().getDimension());
 
         for (int i = 0; i < numberOfCentroids; i++) {
-            Vector centroid = patterns.get((int) Math.round(random.nextInt(patterns.size()))).data;
+            Vector centroid = patterns.get(Math.round(random.nextInt(patterns.size()))).data;
             centroids.append(centroid.getClone());
         }
         return centroids;

@@ -69,8 +69,8 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      * {@inheritDoc}
      */
     @Override
-    public RandomSelection getClone() {
-        return new RandomSelection(this);
+    public RandomSelection<E> getClone() {
+        return new RandomSelection<E>(this);
     }
 
     /**

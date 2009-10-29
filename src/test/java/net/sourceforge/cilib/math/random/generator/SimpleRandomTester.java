@@ -51,7 +51,7 @@ public class SimpleRandomTester implements RandomTester {
         }
         double current;
         while (i.hasNext()) {
-            current = ((Double) i.next()).doubleValue();
+            current = i.next().doubleValue();
             if (current >= 0.5) {
                 ++n1;
                 if (previous < 0.5) {

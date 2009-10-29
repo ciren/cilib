@@ -39,6 +39,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author andrich
  */
 public class MSEGeneralizationError implements Measurement {
+    private static final long serialVersionUID = -1014032196750640716L;
 
     /**
      * {@inheritDoc }
@@ -65,7 +66,7 @@ public class MSEGeneralizationError implements Measurement {
         NNDataTrainingProblem problem = (NNDataTrainingProblem) algorithm.getOptimisationProblem();
         StandardPatternDataTable generalizationSet = problem.getGeneralizationSet();
         NeuralNetwork neuralNetwork = problem.getNeuralNetwork();
-        neuralNetwork.setWeights((Vector) solution);
+        neuralNetwork.setWeights(solution);
 
         double errorGeneralization = 0.0;
         OutputErrorVisitor visitor = new OutputErrorVisitor();

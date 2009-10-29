@@ -38,7 +38,7 @@ public class PropertyBasedFitnessCalculator implements
      * {@inheritDoc}
      */
     @Override
-    public FitnessCalculator getClone() {
+    public PropertyBasedFitnessCalculator getClone() {
         return this;
     }
 

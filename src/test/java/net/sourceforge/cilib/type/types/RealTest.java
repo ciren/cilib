@@ -22,13 +22,15 @@
 package net.sourceforge.cilib.type.types;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.not;
 
 import org.junit.Test;
-
 
 /**
  *
@@ -37,7 +39,7 @@ import org.junit.Test;
 public class RealTest {
 
     @Test
-    public void testClone() {
+    public void cloning() {
         Real r = new Real(-10.0);
         Real test = r.getClone();
 
@@ -45,9 +47,8 @@ public class RealTest {
         assertNotSame(r, test);
     }
 
-
     @Test
-    public void testEquals() {
+    public void equality() {
         Real i1 = new Real(10.0);
         Real i2 = new Real(10.0);
         Real i3 = new Real(-5.0);
@@ -62,18 +63,16 @@ public class RealTest {
         assertFalse(i2.equals(i3));
     }
 
-
     @Test
-    public void testHashCode() {
+    public void hashValue() {
         Real r = new Real(-10.0, new Bounds(-30.0, 30.0));
 
         // This is the hasCode evaluation of the super classes bound information as well
         assertEquals(1195970368, r.hashCode());
     }
 
-
     @Test
-    public void testCompareTo() {
+    public void comparison() {
         Real r1 = new Real(15.0, new Bounds(0.0, 30.0));
         Real r2 = new Real(-15.0, new Bounds(-30.0, 0.0));
 
@@ -83,27 +82,29 @@ public class RealTest {
         assertEquals(-1, r2.compareTo(r1));
     }
 
-
     @Test
-    public void testGetRepresentation() {
+    public void representation() {
         Real r = new Real(0.0, new Bounds(-30.0, 30.0));
 
         assertEquals("R(-30.0,30.0)", r.getRepresentation());
     }
 
-
-    /**
-     *
-     *
-     */
     @Test
-    public void testRandomize() {
+    public void randomizeWithinDefinedBounds() {
         Real r1 = new Real(0.0, new Bounds(-30.0, 30.0));
         Real r2 = r1.getClone();
 
         assertTrue(r1.getReal() == r2.getReal());
         r1.randomize(new MersenneTwister());
         assertTrue(r1.getReal() != r2.getReal());
+    }
+
+    @Test
+    public void randomizeBetweenInfiniteBounds() {
+        Real r = new Real(0.0);
+        r.randomize(new MersenneTwister());
+        Assert.assertThat(r.getReal(), not(equalTo(0.0)));
+        Assert.assertThat(r.getReal(), not(equalTo(Double.NaN)));
     }
 
 }

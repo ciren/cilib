@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -19,31 +19,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-package net.sourceforge.cilib.measurement.single.dynamic;
+package net.sourceforge.cilib.measurement.single;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
+import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.type.types.Real;
-import net.sourceforge.cilib.type.types.Type;
 
 /**
- * Give the current value of the global optimum of the
- * function.
  *
- * @author Julien Duhain
- *
+ * @author gpampara
  */
-public class GlobalMaximum implements Measurement {
-
-    private static final long serialVersionUID = 2658868675629949642L;
-    public GlobalMaximum() {}
-    public GlobalMaximum(GlobalMaximum rhs) {}
+public class CollectiveFitness implements Measurement<Real> {
+    private static final long serialVersionUID = 6171032748690594619L;
 
     @Override
-    public GlobalMaximum clone() {
-        return new GlobalMaximum(this);
+    public Measurement getClone() {
+        return this;
     }
 
     @Override
@@ -52,15 +50,15 @@ public class GlobalMaximum implements Measurement {
     }
 
     @Override
-    public Type getValue(Algorithm algorithm) {
-        FunctionOptimisationProblem problem = (FunctionOptimisationProblem) algorithm.getOptimisationProblem();
-        double value = problem.getFunction().getMaximum().doubleValue();
-        return new Real(value);
+    public Real getValue(Algorithm algorithm) {
+        PopulationBasedAlgorithm pba = (PopulationBasedAlgorithm) algorithm;
+
+        double collectiveFitness = 0.0;
+        for (Entity e : pba.getTopology()) {
+            collectiveFitness += e.getFitness().getValue();
+        }
+
+        return new Real(collectiveFitness);
     }
 
-    @Override
-    public Measurement getClone() {
-        return new GlobalMaximum(this);
-    }
 }
-
