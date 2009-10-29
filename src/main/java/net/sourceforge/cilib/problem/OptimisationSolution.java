@@ -30,7 +30,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author  Edwin Peer
  */
-public class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
+public final class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
     private static final long serialVersionUID = 2119444179382452329L;
 
     private final Type position;
