@@ -96,11 +96,6 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     }
 
     @Override
-    public boolean remove(E indiv) {
-        return entities.remove(indiv);
-    }
-
-    @Override
     public E get(int index) {
         return this.entities.get(index);
     }
@@ -132,19 +127,25 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        throw new UnsupportedOperationException("Method not supported in GBestTopology");
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GBestTopology<E> other = (GBestTopology<E>) obj;
+        if (this.entities != other.entities && (this.entities == null || !this.entities.equals(other.entities))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return this.entities.hashCode();
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        E entity = (E) o;
-        return this.remove(entity);
+        int hash = 7;
+        hash = 43 * hash + (this.entities != null ? this.entities.hashCode() : 0);
+        return hash;
     }
 
     @Override
@@ -175,11 +176,6 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     @Override
     public void add(int index, E element) {
         throw new UnsupportedOperationException("Method not supported in GBestTopology");
-    }
-
-    @Override
-    public E remove(int index) {
-        return this.entities.remove(index);
     }
 
     @Override
@@ -215,6 +211,16 @@ public class GBestTopology<E extends Entity> extends AbstractTopology<E> {
     @Override
     public void setId(String id) {
 
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return this.entities.remove(o);
+    }
+
+    @Override
+    public E remove(int index) {
+        return this.entities.remove(index);
     }
 
     /**

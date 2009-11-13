@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.entity;
 
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -38,106 +36,13 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Gary Pampara
  * @param <E> All types derived from {@linkplain Entity}.
  */
-public interface Topology<E extends Entity>
-    extends Iterable<E>, List<E>, Cloneable, Serializable {
+public interface Topology<E> extends Iterable<E>, List<E>, Cloneable {
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Topology<E> getClone();
-
-    /**
-     * Adds an entity to the topology.
-     * @param entity The entity to be added.
-     * @return <code>true</code> if the addition is successful, <code>false</code> otherwise.
-     */
-    @Override
-    public boolean add(E entity);
-
-    /**
-     * Removes an entity from the topology.
-     * @param entity The entity to be removed.
-     * @return boolean, true if remove operation was successful.
-     */
-    public boolean remove(E entity);
-
-    /**
-     * {@inheritDoc}
-     */
-    public E get(int index);
-
-    /**
-     * {@inheritDoc}
-     */
-    public E set(int index, E entity);
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isEmpty();
-
-    /**
-     * Remove all the entities from the topology.
-     * {@inheritDoc}
-     */
-    public void clear();
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean contains(Object o);
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean containsAll(Collection<?> c);
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean equals(Object o);
-
-    /**
-     * {@inheritDoc}
-     */
-    public int hashCode();
-
-    /**
-     * {@inheritDoc}
-     */
-    public Iterator<E> iterator();
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean remove(Object o);
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean removeAll(Collection<?> c);
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean retainAll(Collection<?> c);
-
-    /**
-     * Returns the size of the {@linkplain Topology}.
-     * @return The size of {@linkplain Topology}.
-     */
-    public int size();
-
-    /**
-     * {@inheritDoc}
-     */
-    public Object [] toArray();
-
-    /**
-     * {@inheritDoc}
-     */
-    public <T> T[] toArray(T[] a);
 
     /**
      * Get the <code>id</code> associated with this {@linkplain Topology}, if
