@@ -43,7 +43,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class AngleModulation extends ContinuousFunction {
     private static final long serialVersionUID = -3492262439415251355L;
     private int precision;
-    private int requiredBits;
+    private int bitsPerDimension;
     private double lowerBound;
     private double upperBound;
     private Function<Vector, ? extends Number> function;
@@ -51,13 +51,13 @@ public class AngleModulation extends ContinuousFunction {
     public AngleModulation() {
         setDomain("R(-1.0,1.0)^4");
         precision = 3;
-        requiredBits = 0;
+        bitsPerDimension = 0;
     }
 
     public AngleModulation(AngleModulation copy) {
         setDomain(copy.getDomain());
         this.precision = copy.precision;
-        this.requiredBits = copy.requiredBits;
+        this.bitsPerDimension = copy.bitsPerDimension;
     }
 
     /**
@@ -91,8 +91,8 @@ public class AngleModulation extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        String solution = generateBitString(input);
-        Vector expandedVector = decodeBitString(solution);
+        String solution = generateBitString(input, bitsPerDimension);
+        Vector expandedVector = decodeBitString(solution, bitsPerDimension);
         return function.evaluate(expandedVector).doubleValue();
     }
 
@@ -129,7 +129,7 @@ public class AngleModulation extends ContinuousFunction {
      */
     public void setFunction(Function<Vector, ? extends Number> decoratedFunciton) {
         this.function = decoratedFunciton;
-        requiredBits = getRequiredNumberOfBits(function.getDomainRegistry());
+        bitsPerDimension = getRequiredNumberOfBits(function.getDomainRegistry());
     }
 
     /**
@@ -165,9 +165,10 @@ public class AngleModulation extends ContinuousFunction {
      * @TODO: complete this method
      *
      * @param x
+     * @param dimensionBitNumber 
      * @return
      */
-    public String generateBitString(Vector x) {
+    public String generateBitString(Vector x, int dimensionBitNumber) {
         double a = x.getReal(0);
         double b = x.getReal(1);
         double c = x.getReal(2);
@@ -175,7 +176,7 @@ public class AngleModulation extends ContinuousFunction {
 
         StringBuilder str = new StringBuilder();
 
-        for (int i = 0; i < requiredBits*function.getDimension(); i++) {
+        for (int i = 0; i < dimensionBitNumber*function.getDimension(); i++) {
             double result =  Math.sin(2*Math.PI*(i-a) * b * Math.cos(2*Math.PI*c*(i-a))) + d;
 
             if (result > 0.0)
@@ -190,17 +191,18 @@ public class AngleModulation extends ContinuousFunction {
     /**
      *
      * @param bits
+     * @param dimensionBits
      * @return
      */
-    private Vector decodeBitString(String bits) {
+    public Vector decodeBitString(String bits, int dimensionBits) {
         Vector vector = new Vector();
 
         for (int i = 0; i < bits.length();) {
-            double tmp = valueOf(bits, i, i+requiredBits);
+            double tmp = valueOf(bits, i, i+dimensionBits);
             tmp = transform(tmp);
 
             vector.append(new Real(tmp));
-            i += requiredBits;
+            i += dimensionBits;
         }
 
         return vector;
@@ -243,7 +245,7 @@ public class AngleModulation extends ContinuousFunction {
         double result = number;
 
         int tmp = 1;
-        tmp <<= this.requiredBits-1;
+        tmp <<= this.bitsPerDimension-1;
         result -= tmp;
         result /= Math.pow(10, getPrecision());
 
