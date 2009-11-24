@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.creator;
+package net.sourceforge.cilib.type.parser;
 
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Type;
@@ -32,7 +32,7 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author Gary Pampara
  */
-public interface TypeCreator {
+interface TypeCreator {
 
     /**
      * Create the type in a standard fashion. If the type has the concept of bounds,
@@ -41,14 +41,14 @@ public interface TypeCreator {
      *
      * @return The newly created <tt>Type</tt>
      */
-    public Type create();
+    Type create();
 
     /**
      * Create the type with the specified value.
      * @param value The value for the {@code Type}.
      * @return The created {@code Type} with the provided value.
      */
-    public Type create(double value);
+    Type create(double value);
 
 
     /**
@@ -57,6 +57,6 @@ public interface TypeCreator {
      * @param bounds The {@code Bounds} for the type.
      * @return The newly created <tt>Type</tt> object using the specified bounds
      */
-    public Type create(Bounds bounds);
+    Type create(Bounds bounds);
 
 }

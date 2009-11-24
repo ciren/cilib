@@ -19,39 +19,48 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.creator;
+package net.sourceforge.cilib.type.parser;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
-import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
  *
  * @author Gary Pampara
+ *
  */
-public class TTest {
+final class B implements TypeCreator {
+    private static final long serialVersionUID = 7124782787032789332L;
 
-    private static T creator = null;
+    private Random random = new MersenneTwister();
 
-    @BeforeClass
-    public static void setUp() {
-        creator = new T();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Type create() {
+        return new Bit(random.nextBoolean());
     }
 
-    @Test
-    public void testCreateNoBounds() {
-        Type t = creator.create();
-
-        assertTrue(t instanceof StringType);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Type create(double value) {
+        Bit b = new Bit(false);
+        b.setReal(value);
+        return b;
     }
 
-    @Test(expected=UnsupportedOperationException.class)
-    public void testCreateBounds() {
-        Type t = creator.create(new Bounds(0, 3));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Type create(final Bounds bounds) {
+        throw new UnsupportedOperationException("Bit types cannot be constructed with bounds");
     }
 
 }
