@@ -28,7 +28,24 @@
     <author email="gpampara@cs.up.ac.za">Gary Pampara</author>
   </properties>
   <body>
-    <section name="News">
+    <section name="CIlib 0.7.3.1 Released">
+      <p>CIlib 0.7.3.1 has been released and is available for <a href="http://code.google.com/downloads/list">download</a>.</p>
+
+      <p>This is a maintenance release that corrects a few issues that
+      were introduced accidentally in the merges into 0.7.3</p>
+    </section>
+    <section name="Project hosting migrated">
+      <p>CIlib has had it's project hosting moved to Google Code. The
+      <a href="http://code.google.com/p/downloads/list">downloads</a>
+      and <a href="http://code.google.com/p/cilib/issues/list">issue tracker</a>
+      are now available for your usage.</p>
+
+      <p>The current SF.net page will remain active for the time being
+      until we manage to perform the complete migration. Once that
+      happens, the SF.net page will redirect to <a
+      href="http://www.cilib.net">here</a>.</p>
+    </section>
+    <section name="CIlib 0.7.3 Released">
       <p>
         CIlib 0.7.1 has been released. Get the new release from
 	<a
