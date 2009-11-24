@@ -19,39 +19,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.creator;
+package net.sourceforge.cilib.type.parser;
 
+import static org.junit.Assert.assertTrue;
+import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
  * @author Gary Pampara
- *
  */
-public final class T implements TypeCreator {
-    private static final long serialVersionUID = 1198714503772193216L;
+public class BTest {
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create() {
-        return new StringType();
+    private static B creator = null;
+
+    @BeforeClass
+    public static void setUp() {
+        creator = new B();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create(double value) {
-        throw new UnsupportedOperationException("StringTypes with single values do not exist");
+    @Test
+    public void testCreateNoBounds() {
+        Type b = creator.create();
+
+        assertTrue(b instanceof Bit);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create(final Bounds bounds) {
-        throw new UnsupportedOperationException("StringTypes with bounds do not exist");
+    @Test(expected=UnsupportedOperationException.class)
+    public void testCreateBounds() {
+        Type b = creator.create(new Bounds(0, 3));
     }
 
 }

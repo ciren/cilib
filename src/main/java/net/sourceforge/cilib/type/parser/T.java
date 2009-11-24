@@ -19,41 +19,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.creator;
+package net.sourceforge.cilib.type.parser;
 
 import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
-
 /**
+ *
  * @author Gary Pampara
+ *
  */
-public final class R implements TypeCreator {
-    private static final long serialVersionUID = -3393953231231613279L;
+final class T implements TypeCreator {
+    private static final long serialVersionUID = 1198714503772193216L;
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public Type create() {
-        return new Real(0.0);
+        return new StringType();
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public Type create(double value) {
-        return new Real(value);
+        throw new UnsupportedOperationException("StringTypes with single values do not exist");
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public Type create(final Bounds bounds) {
-        return new Real(0.0, bounds);
+        throw new UnsupportedOperationException("StringTypes with bounds do not exist");
     }
 
 }

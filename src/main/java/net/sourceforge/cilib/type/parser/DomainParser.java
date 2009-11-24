@@ -24,7 +24,6 @@ package net.sourceforge.cilib.type.parser;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
-import net.sourceforge.cilib.type.creator.TypeCreator;
 import net.sourceforge.cilib.type.parser.analysis.DepthFirstAdapter;
 import net.sourceforge.cilib.type.parser.lexer.Lexer;
 import net.sourceforge.cilib.type.parser.lexer.LexerException;
@@ -150,7 +149,7 @@ public final class DomainParser {
 
             try {
                 // create an instance of the TypeCreator
-                Class<?> creatorClass = Class.forName("net.sourceforge.cilib.type.creator." + type.getText());
+                Class<?> creatorClass = Class.forName("net.sourceforge.cilib.type.parser." + type.getText());
                 instance = (TypeCreator) creatorClass.newInstance();
             } catch (ClassNotFoundException c) {
                 throw new UnsupportedOperationException("Cannot find class: net.sourceforge.cilib.type.creator." + type.getText(), c);

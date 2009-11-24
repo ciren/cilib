@@ -19,11 +19,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.creator;
+package net.sourceforge.cilib.type.parser;
 
-import static org.junit.Assert.assertTrue;
-import net.sourceforge.cilib.type.types.Bit;
 import net.sourceforge.cilib.type.types.Bounds;
+import static org.junit.Assert.assertTrue;
+import net.sourceforge.cilib.type.types.StringType;
 import net.sourceforge.cilib.type.types.Type;
 
 import org.junit.BeforeClass;
@@ -33,25 +33,25 @@ import org.junit.Test;
  *
  * @author Gary Pampara
  */
-public class BTest {
+public class TTest {
 
-    private static B creator = null;
+    private static T creator = null;
 
     @BeforeClass
     public static void setUp() {
-        creator = new B();
+        creator = new T();
     }
 
     @Test
     public void testCreateNoBounds() {
-        Type b = creator.create();
+        Type t = creator.create();
 
-        assertTrue(b instanceof Bit);
+        assertTrue(t instanceof StringType);
     }
 
     @Test(expected=UnsupportedOperationException.class)
     public void testCreateBounds() {
-        Type b = creator.create(new Bounds(0, 3));
+        Type t = creator.create(new Bounds(0, 3));
     }
 
 }

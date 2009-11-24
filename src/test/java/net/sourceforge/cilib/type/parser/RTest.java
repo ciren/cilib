@@ -19,40 +19,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.creator;
+package net.sourceforge.cilib.type.parser;
 
 import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.Int;
+import static org.junit.Assert.assertTrue;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
  * @author Gary Pampara
- *
  */
-public final class Z implements TypeCreator {
-    private static final long serialVersionUID = -5763440861780552761L;
+public class RTest {
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create() {
-        return new Int(0);
+    private static R creator = null;
+
+    @BeforeClass
+    public static void setUp() {
+        creator = new R();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create(double value) {
-        Int i = new Int(0);
-        i.setReal(value);
-        return i;
+    @Test
+    public void testCreateNoBounds() {
+        Type r = creator.create(new Bounds(0, 2));
+
+        assertTrue(r instanceof Real);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create(final Bounds bounds) {
-        return new Int(0, bounds);
+    @Test
+    public void testCreateBounds() {
+        Type r = creator.create(new Bounds(0, 2));
+
+        assertTrue(r instanceof Real);
     }
+
 }
