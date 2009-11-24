@@ -30,6 +30,9 @@
   <module name="NewlineAtEndOfFile" />
   <!--  <module name="PackageHtml" /> -->
 
+  <!-- Size Violations -->
+  <module name="FileLength" />
+
   <module name="TreeWalker">
     <module name="JavadocType">
       <property name="scope" value="package" />
@@ -64,9 +67,6 @@
     <module name="RedundantImport" />
     <module name="UnusedImports" />
     <module name="ImportOrder" />
-
-    <!-- Size Violations -->
-    <module name="FileLength" />
 
     <!-- Whitespace Violations -->
     <module name="EmptyForIteratorPad" />
