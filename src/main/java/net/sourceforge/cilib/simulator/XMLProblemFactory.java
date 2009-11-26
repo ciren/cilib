@@ -31,32 +31,19 @@ import org.w3c.dom.Element;
  *
  * @author  Edwin Peer
  */
-public class XMLProblemFactory extends XMLObjectFactory implements ProblemFactory {
-
-    public XMLProblemFactory() {
-        super(null);
-    }
+class XMLProblemFactory extends XMLObjectFactory implements ProblemFactory {
 
     /** Creates a new instance of XMLProblemFactory. */
-    public XMLProblemFactory(Document xmlDocument, Element xmlProblemDescription) {
+    XMLProblemFactory(Document xmlDocument, Element xmlProblemDescription) {
         super(xmlDocument, xmlProblemDescription);
         if (!xmlProblemDescription.getTagName().equals("problem")) {
             error(xmlProblemDescription, "Expected <problem> tag");
         }
     }
 
-    public XMLProblemFactory(Element xmlProblemDescription) {
-        super(xmlProblemDescription);
-        if (!xmlProblemDescription.getTagName().equals("problem")) {
-            error(xmlProblemDescription, "Expected <problem> tag");
-        }
-    }
-
+    @Override
     public Problem newProblem() {
         return (Problem) newObject();
     }
 
-    public void setProblem(Problem problem) {
-        // hack to make CiClops introspector work properly
-    }
 }

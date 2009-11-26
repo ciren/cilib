@@ -76,7 +76,7 @@ import org.w3c.dom.Text;
  * @author  Edwin Peer
  */
 // TODO: Rewrite to use SAX instead of maintaining a DOM tree.
-public class XMLObjectFactory {
+class XMLObjectFactory {
 
     private Document xmlDocument;
     private Element xmlObjectDescription;
@@ -88,7 +88,7 @@ public class XMLObjectFactory {
      * @param xmlObjectDescription An XML element that describes the objects to be constructed by this factory.
      *
      */
-    public XMLObjectFactory(Element xmlObjectDescription) {
+    XMLObjectFactory(Element xmlObjectDescription) {
         this.xmlDocument = null;
         this.xmlObjectDescription = xmlObjectDescription;
     }
@@ -100,7 +100,7 @@ public class XMLObjectFactory {
      * @param xmlObjectDescription An XML element that describes the objects to be constructed by this factory.
      * @param xmlDocument The XML document to search for any idrefs.
      **/
-    public XMLObjectFactory(Document xmlDocument, Element xmlObjectDescription) {
+    XMLObjectFactory(Document xmlDocument, Element xmlObjectDescription) {
         this.xmlDocument = xmlDocument;
         this.xmlObjectDescription = xmlObjectDescription;
     }
@@ -317,7 +317,7 @@ public class XMLObjectFactory {
         try {
             invokeSetMethod(xml, target, name, value);
         }
-        catch (FactoryException ex) {
+        catch (Exception ex) {
             Object[] parameter = { value };
             invokeMethod(xml, target, name, parameter);
         }
@@ -398,7 +398,7 @@ public class XMLObjectFactory {
     }
 
     protected void error(Element element, String message) {
-        throw new FactoryException("In <" + element.getTagName() + "> : " + message);
+        throw new RuntimeException("In <" + element.getTagName() + "> : " + message);
     }
 
 }

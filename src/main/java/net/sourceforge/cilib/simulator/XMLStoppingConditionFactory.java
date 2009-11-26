@@ -31,22 +31,11 @@ import org.w3c.dom.Element;
  *
  * @author  Edwin Peer
  */
-public class XMLStoppingConditionFactory extends XMLObjectFactory implements StoppingConditionFactory {
-
-    public XMLStoppingConditionFactory() {
-        super(null);
-    }
+class XMLStoppingConditionFactory extends XMLObjectFactory implements StoppingConditionFactory {
 
     /** Creates a new instance of XMLProgressIndicatorFactory. */
-    public XMLStoppingConditionFactory(Document xmlDocument, Element xmlProgressIndicatorDescription) {
+    XMLStoppingConditionFactory(Document xmlDocument, Element xmlProgressIndicatorDescription) {
         super(xmlDocument, xmlProgressIndicatorDescription);
-        if (!xmlProgressIndicatorDescription.getTagName().equals("progressIndicator")) {
-            error(xmlProgressIndicatorDescription, "Expected <progressIndicator> tag");
-        }
-    }
-
-    public XMLStoppingConditionFactory(Element xmlProgressIndicatorDescription) {
-        super(xmlProgressIndicatorDescription);
         if (!xmlProgressIndicatorDescription.getTagName().equals("progressIndicator")) {
             error(xmlProgressIndicatorDescription, "Expected <progressIndicator> tag");
         }
@@ -57,11 +46,9 @@ public class XMLStoppingConditionFactory extends XMLObjectFactory implements Sto
      * @return A new {@link StoppingCondition}.
      *
      */
+    @Override
     public StoppingCondition newStoppingCondition() {
         return (StoppingCondition) newObject();
     }
 
-    public void setProgressIndicator(StoppingCondition progressIndicator) {
-        // hack to make CiClops introspector work properly
-    }
 }
