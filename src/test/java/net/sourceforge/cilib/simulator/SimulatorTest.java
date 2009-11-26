@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.xml;
+package net.sourceforge.cilib.simulator;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -47,10 +47,10 @@ import org.xml.sax.SAXException;
  * XML related tests.
  */
 @RunWith(Parameterized.class)
-public class XMLFileTest {
+public class SimulatorTest {
     private final String filename;
 
-    public XMLFileTest(String filename) {
+    public SimulatorTest(String filename) {
         this.filename = filename;
     }
 

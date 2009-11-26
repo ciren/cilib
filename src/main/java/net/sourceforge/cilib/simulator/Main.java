@@ -26,10 +26,6 @@ import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.sourceforge.cilib.xml.XMLAlgorithmFactory;
-import net.sourceforge.cilib.xml.XMLObjectFactory;
-import net.sourceforge.cilib.xml.XMLProblemFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

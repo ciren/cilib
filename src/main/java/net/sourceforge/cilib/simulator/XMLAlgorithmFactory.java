@@ -19,10 +19,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.xml;
+package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.ProblemFactory;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.algorithm.AlgorithmFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,32 +31,38 @@ import org.w3c.dom.Element;
  *
  * @author  Edwin Peer
  */
-public class XMLProblemFactory extends XMLObjectFactory implements ProblemFactory {
+public class XMLAlgorithmFactory extends XMLObjectFactory implements AlgorithmFactory {
 
-    public XMLProblemFactory() {
+    public XMLAlgorithmFactory() {
         super(null);
     }
 
-    /** Creates a new instance of XMLProblemFactory. */
-    public XMLProblemFactory(Document xmlDocument, Element xmlProblemDescription) {
-        super(xmlDocument, xmlProblemDescription);
-        if (!xmlProblemDescription.getTagName().equals("problem")) {
-            error(xmlProblemDescription, "Expected <problem> tag");
+    /** Creates a new instance of XMLAlgorithmFactory. */
+    public XMLAlgorithmFactory(Document xmlDocument, Element xmlAlgorithmDescription) {
+        super(xmlDocument, xmlAlgorithmDescription);
+        if (!xmlAlgorithmDescription.getTagName().equals("algorithm")) {
+            error(xmlAlgorithmDescription, "Expected <algorithm> tag");
         }
     }
 
-    public XMLProblemFactory(Element xmlProblemDescription) {
-        super(xmlProblemDescription);
-        if (!xmlProblemDescription.getTagName().equals("problem")) {
-            error(xmlProblemDescription, "Expected <problem> tag");
+    public XMLAlgorithmFactory(Element xmlAlgorithmDescription) {
+        super(xmlAlgorithmDescription);
+        if (!xmlAlgorithmDescription.getTagName().equals("algorithm")) {
+            error(xmlAlgorithmDescription, "Expected <algorithm> tag");
         }
     }
 
-    public Problem newProblem() {
-        return (Problem) newObject();
+    /** Returns a newly constructed algorithm.
+     *
+     * @return A new {@link Algorithm}.
+     *
+     */
+    public Algorithm newAlgorithm() {
+        return (Algorithm) newObject();
     }
 
-    public void setProblem(Problem problem) {
+    public void setAlgorithm(Algorithm algorithm) {
         // hack to make CiClops introspector work properly
     }
+
 }
