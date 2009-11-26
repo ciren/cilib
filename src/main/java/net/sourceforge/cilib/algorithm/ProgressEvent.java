@@ -19,28 +19,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.simulator;
+package net.sourceforge.cilib.algorithm;
 
 /**
+ * A progress event informs the listening party about the percentage complete of the simulation.
  *
  * @author  Edwin Peer
  */
-public class SimulationException extends java.lang.RuntimeException {
-
-    private static final long serialVersionUID = -3913611751781282569L;
+public class ProgressEvent {
 
     /**
-     * Creates a new instance of <code>SimulationException</code> without detail message.
+     * Creates a new instance of ProgressEvent with a given completion percentage.
+     * @param percentage The current percentage value.
      */
-    public SimulationException() {
+    public ProgressEvent(double percentage) {
+        this.percentage = percentage;
     }
-
 
     /**
-     * Constructs an instance of <code>SimulationException</code> with the specified detail message.
-     * @param msg the detail message.
+     * Accessor for the percentage completed.
+     * @return The percentage
      */
-    public SimulationException(String msg) {
-        super(msg);
+    public double getPercentage() {
+        return percentage;
     }
+
+    private double percentage;
 }

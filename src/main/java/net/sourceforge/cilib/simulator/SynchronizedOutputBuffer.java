@@ -34,10 +34,10 @@ import net.sourceforge.cilib.measurement.Measurement;
  *
  * @author  Edwin Peer
  */
-public class SynchronizedOutputBuffer {
+class SynchronizedOutputBuffer {
 
     /** Creates a new instance of SynchronizedOutputBuffer. */
-    public SynchronizedOutputBuffer(String file, int measurements, int samples) {
+    SynchronizedOutputBuffer(String file, int measurements, int samples) {
         try {
             File pathedFile = new File(file);
             String parentPath = pathedFile.getParent();
@@ -53,7 +53,7 @@ public class SynchronizedOutputBuffer {
             writer = new BufferedWriter(new FileWriter(file));
         }
         catch (IOException ex) {
-            throw new SimulationException(ex.toString());
+            throw new RuntimeException(ex.toString());
         }
         this.measurements = measurements;
         this.samples = samples;
@@ -64,7 +64,7 @@ public class SynchronizedOutputBuffer {
         lineMap = new HashMap<Integer, Line>();
     }
 
-    public synchronized void writeDescription(Measurement measurement) {
+    synchronized void writeDescription(Measurement measurement) {
         int column = getMeasurementId(measurement) * samples + 1;
         String description = measurement.getClass().getName();
         description = description.substring(description.lastIndexOf(".") + 1);
@@ -73,7 +73,7 @@ public class SynchronizedOutputBuffer {
         }
     }
 
-    public synchronized void writeMeasuredValue(Object value, Algorithm algorithm, Measurement measurement) {
+    synchronized void writeMeasuredValue(Object value, Algorithm algorithm, Measurement measurement) {
         Integer key = new Integer(algorithm.getIterations());
         Line line;
         if (lineMap.containsKey(key)) {
@@ -93,25 +93,25 @@ public class SynchronizedOutputBuffer {
     }
 
 
-    public synchronized void write(String string) {
+    synchronized void write(String string) {
         writeLine(string);
     }
 
-    public synchronized void flush() {
+    synchronized void flush() {
         try {
             writer.flush();
         }
         catch (IOException ex) {
-            throw new SimulationException(ex.toString());
+            throw new RuntimeException(ex.toString());
         }
     }
 
-    public synchronized void close() {
+    synchronized void close() {
         try {
             writer.close();
         }
         catch (IOException ex) {
-            throw new SimulationException(ex.toString());
+            throw new RuntimeException(ex.toString());
         }
     }
 
@@ -122,7 +122,7 @@ public class SynchronizedOutputBuffer {
             writer.flush();
         }
         catch (IOException ex) {
-            throw new SimulationException(ex.toString());
+            throw new RuntimeException(ex.toString());
         }
     }
 

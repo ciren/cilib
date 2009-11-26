@@ -21,12 +21,15 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import net.sourceforge.cilib.algorithm.ProgressEvent;
+import net.sourceforge.cilib.algorithm.ProgressListener;
+
 /**
  * Progress listener that does not create any output whatsoever.
  */
-public class NoProgress implements ProgressListener {
+class NoProgress implements ProgressListener {
 
-    public NoProgress() {
+    NoProgress() {
     }
 
     @Override

@@ -27,6 +27,8 @@ import java.util.Vector;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmFactory;
+import net.sourceforge.cilib.algorithm.ProgressEvent;
+import net.sourceforge.cilib.algorithm.ProgressListener;
 import net.sourceforge.cilib.problem.ProblemFactory;
 
 /**
@@ -46,7 +48,7 @@ import net.sourceforge.cilib.problem.ProblemFactory;
  * </p>
  * @author Edwin Peer
  */
-public class Simulator {
+class Simulator {
     private static final long serialVersionUID = 8987667794610802908L;
 
     private MeasurementSuite measurementSuite;
@@ -64,7 +66,7 @@ public class Simulator {
      * @param problemFactory The problem factory.
      * @param measurementSuite The measurement suite.
      */
-    public Simulator(AlgorithmFactory algorithmFactory, ProblemFactory problemFactory, MeasurementSuite measurementSuite) {
+    Simulator(AlgorithmFactory algorithmFactory, ProblemFactory problemFactory, MeasurementSuite measurementSuite) {
         measurementSuite.initialise();
         this.measurementSuite = measurementSuite;
         progressListeners = new Vector<ProgressListener>();
@@ -79,7 +81,7 @@ public class Simulator {
     /**
      * Executes all the experiments for this simulation.
      */
-    public void execute() {
+    void execute() {
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
             simulations[i] = new Simulation(this, algorithmFactory.newAlgorithm(), problemFactory.newProblem());
             progress.put(simulations[i], 0.0);
@@ -106,7 +108,7 @@ public class Simulator {
     /**
      * Terminates all the experiments.
      */
-    public void terminate() {
+    void terminate() {
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
             simulations[i].terminate();
         }
@@ -117,7 +119,7 @@ public class Simulator {
      * of the measurements. {@see ProgressEvent} {@see ProgressListener}
      * @param listener The event listener
      */
-    public void addProgressListener(ProgressListener listener) {
+    void addProgressListener(ProgressListener listener) {
         progressListeners.add(listener);
     }
 
@@ -125,7 +127,7 @@ public class Simulator {
      * Removes a listener for progress events.
      * @param listener The event listener
      */
-    public void removeProgressListener(ProgressListener listener) {
+    void removeProgressListener(ProgressListener listener) {
         progressListeners.remove(listener);
     }
 

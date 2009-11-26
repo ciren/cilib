@@ -22,6 +22,8 @@
 package net.sourceforge.cilib.simulator;
 
 import java.text.NumberFormat;
+import net.sourceforge.cilib.algorithm.ProgressEvent;
+import net.sourceforge.cilib.algorithm.ProgressListener;
 
 /**
  *
@@ -32,7 +34,7 @@ class ProgressFrame extends javax.swing.JFrame implements ProgressListener {
     private static final long serialVersionUID = 4007873302370282732L;
 
     /** Creates new form ProgressFrame. */
-    public ProgressFrame(int simulations) {
+    ProgressFrame(int simulations) {
         initComponents();
         jProgressBar1.setMinimum(0);
         jProgressBar1.setMaximum(100);

@@ -21,24 +21,28 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import net.sourceforge.cilib.algorithm.ProgressEvent;
+import net.sourceforge.cilib.algorithm.ProgressListener;
+
 
 /**
  * Implements a text progress meter.
  *
  * @author  jkroon
  */
-public class ProgressText implements ProgressListener {
+class ProgressText implements ProgressListener {
 
     /**
      * Creates new form ProgressFrame.
      *
      * @param simulations The number of simulations in total.
      * */
-    public ProgressText(int simulations) {
+    ProgressText(int simulations) {
         this.simulations = simulations;
         printedDone = false;
     }
 
+    @Override
     public void handleProgressEvent(ProgressEvent event) {
         if(printedDone) {
             return;
@@ -63,6 +67,7 @@ public class ProgressText implements ProgressListener {
         }
     }
 
+    @Override
     public void setSimulation(int simulation) {
         System.out.println("Starting simulation " + (simulation + 1) + " of " + simulations + ".");
         printedDone = false;

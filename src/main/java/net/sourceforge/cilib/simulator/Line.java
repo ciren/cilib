@@ -29,7 +29,7 @@ package net.sourceforge.cilib.simulator;
 class Line {
 
     /** Creates a new instance of Line. */
-    public Line(int elements) {
+    Line(int elements) {
         this.elements = elements;
         count = 0;
         values = new Object[elements];
@@ -43,7 +43,7 @@ class Line {
      * @param index The position to set the value.
      * @param value The value to set.
      */
-    public void setElement(int index, Object value) {
+    void setElement(int index, Object value) {
         if (values[index] == null) {
             values[index] = value;
             ++count;
@@ -54,7 +54,7 @@ class Line {
      * Determine if the current line is full.
      * @return {@code true} if the line is full, {@code false} otherwsie.
      */
-    public boolean isFull() {
+    boolean isFull() {
         return (count == elements);
     }
 

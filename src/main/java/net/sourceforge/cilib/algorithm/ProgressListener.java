@@ -19,30 +19,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.simulator;
+package net.sourceforge.cilib.algorithm;
 
 /**
- * A progress event informs the listening party about the percentage complete of the simulation.
+ * This interface must be implemented by any class that wishes to receive progress
+ * events.
  *
  * @author  Edwin Peer
  */
-public class ProgressEvent {
+public interface ProgressListener {
 
     /**
-     * Creates a new instance of ProgressEvent with a given completion percentage.
-     * @param percentage The current percentage value.
+     * Process the given progress event.
+     *
+     * @param event The progress event.
      */
-    public ProgressEvent(double percentage) {
-        this.percentage = percentage;
-    }
+    void handleProgressEvent(ProgressEvent event);
 
     /**
-     * Accessor for the percentage completed.
-     * @return The percentage
+     * Indicates on which event we are.
+     *
+     * TODO:  This needs to become a ProgressEvent, same as the indication
+     * of percentage completed.
+     *
+     * @param simnum The number of the simulation.
      */
-    public double getPercentage() {
-        return percentage;
-    }
+    void setSimulation(int simnum);
 
-    private double percentage;
 }
