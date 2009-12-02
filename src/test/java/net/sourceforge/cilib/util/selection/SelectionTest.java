@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.Random;
@@ -65,7 +67,7 @@ public class SelectionTest {
     }
 
     @Test
-    public void exclusionSelection(){
+    public void exclusionSelection() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
         List<Integer> exlusionElements = Arrays.asList(1, 2, 4, 6);
         List<Integer> selection = Selection.from(elements).exclude(exlusionElements).first(3).select();
@@ -76,14 +78,39 @@ public class SelectionTest {
     }
 
     @Test
+    public void predicateSelection() {
+        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        Predicate<Integer> evenNumbers = new Predicate<Integer>() {
+
+            @Override
+            public boolean apply(Integer element) {
+                return element % 2 == 0;
+            }
+        };
+        Predicate<Integer> numberSeven = new Predicate<Integer>() {
+
+            @Override
+            public boolean apply(Integer element) {
+                return element == 7;
+            }
+        };
+
+        List<Integer> selection = Selection.from(elements).satisfies(Predicates.<Integer>or(evenNumbers, numberSeven)).select();
+        Assert.assertThat(selection.size(), is(4));
+        Assert.assertThat(selection.get(0), is(2));
+        Assert.assertThat(selection.get(1), is(4));
+        Assert.assertThat(selection.get(2), is(6));
+        Assert.assertThat(selection.get(3), is(7));
+    }
+
+    @Test
     public void randomFrom() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         Integer selection = Selection.randomFrom(elements, new MockRandom());
-
         Assert.assertEquals(1, selection.intValue());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void emptyRandomFrom() {
         List<Integer> elements = Arrays.asList();
         Selection.randomFrom(elements, new MockRandom());
@@ -99,13 +126,14 @@ public class SelectionTest {
         Assert.assertThat(selection.get(1), is(1));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void emptyMultipleRandomFrom() {
         List<Integer> elements = Arrays.asList();
         Selection.randomFrom(elements, new MockRandom(), 2);
     }
 
     private class MockRandom extends Random {
+
         private static final long serialVersionUID = 6512653155066129236L;
 
         public MockRandom() {
@@ -122,5 +150,4 @@ public class SelectionTest {
             return 0;
         }
     }
-
 }

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Predicate;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
@@ -90,6 +91,13 @@ public interface SelectionSyntax<E> {
      * @return A selection containing the remaining elements which do not occur in {@code exclusion}.
      */
     public SelectionSyntax<E> exclude(Iterable<E> exclusions);
+
+    /**
+     * Remove any {@code Entry}'s from {@code elements} that does not satisfy {@code predicate}.
+     * @param predicate The predicate that tests if an element will be removed or not.
+     * @return A selection containing the remaining elements which satisfies {@code predicate}.
+     */
+    public SelectionSyntax<E> satisfies(Predicate<E> predicate);
 
     /**
      * Obtain the result of the selection.

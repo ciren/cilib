@@ -48,5 +48,4 @@ public class LinearWeighingTest {
         Assert.assertEquals(0.875,  weighedElements.get(7).getWeight(), 0.0001);
         Assert.assertEquals(1.0,    weighedElements.get(8).getWeight(), 0.0001);
     }
-
 }

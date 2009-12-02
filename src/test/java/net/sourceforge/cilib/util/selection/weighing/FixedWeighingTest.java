@@ -42,5 +42,4 @@ public class FixedWeighingTest {
             Assert.assertEquals(1.0, weighedElements.get(i).getWeight(), 0.0001);
         }
     }
-
 }

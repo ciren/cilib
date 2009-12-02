@@ -21,19 +21,20 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import java.util.Arrays;
-import java.util.Collections;
+import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.operators.selection.ElitistSelectionStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.Matchers.hasItem;
 
 /**
  *
@@ -41,60 +42,67 @@ import static org.hamcrest.CoreMatchers.is;
  */
 public class ElitistSelectionTest {
 
-    @Test
-    public void selectionOfMostFit() {
-        Individual indiv1 = new Individual();
-        Individual indiv2 = new Individual();
-        Individual indiv3 = new Individual();
-
-        indiv1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
-        indiv2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
-        indiv3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
-
-        Topology<Individual> population = new GBestTopology<Individual>();
-        population.add(indiv1);
-        population.add(indiv2);
-        population.add(indiv3);
-
-        ElitistSelectionStrategy selector = new ElitistSelectionStrategy();
-        final Individual selected = selector.select(population);
-
-        List<Individual> list = population.asList();
-        Collections.sort(list);
-
-        Assert.assertThat(selected.getFitness(), is(indiv2.getFitness()));
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void selectEmpty() {
+        List<Integer> elements = Lists.newArrayList();
+        ElitistSelection<Integer> selection = new ElitistSelection<Integer>();
+        selection.select(elements);
     }
 
     @Test
-    public void selectionOfMostFitMaximisation() {
-        Individual indiv1 = new Individual();
-        Individual indiv2 = new Individual();
-        Individual indiv3 = new Individual();
+    public void selectSingle() {
+        List<Integer> elements = Lists.newArrayList(1);
+        ElitistSelection<Integer> selection = new ElitistSelection<Integer>();
+        int selected = selection.select(elements);
+        Assert.assertThat(selected, is(1));
+    }
 
-        indiv1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(99.0));
-        indiv2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(8.0));
-        indiv3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(9.0));
+    private static Topology<Individual> createDummyTopology() {
+        Topology<Individual> topology = new GBestTopology<Individual>();
+        Individual individual1 = new Individual();
+        Individual individual2 = new Individual();
+        Individual individual3 = new Individual();
+        topology.add(individual1);
+        topology.add(individual2);
+        topology.add(individual3);
+        return topology;
+    }
 
-        Topology<Individual> population = new GBestTopology<Individual>();
-        population.add(indiv1);
-        population.add(indiv2);
-        population.add(indiv3);
+    @Test
+    public void minimizationSelection() {
+        Topology<Individual> topology = createDummyTopology();
+        topology.get(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(99.0));
+        topology.get(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(8.0));
+        topology.get(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(9.0));
 
-        ElitistSelectionStrategy selector = new ElitistSelectionStrategy();
-        final Individual selected = selector.select(population);
+        ElitistSelection<Individual> selection = new ElitistSelection<Individual>();
+        Individual selected = selection.select(topology);
 
-        List<Individual> list = population.asList();
-        Collections.sort(list);
+        Assert.assertThat(selected, is(notNullValue()));
+        Assert.assertThat(topology, hasItem(selected));
+        Assert.assertThat(selected, is(topology.get(1)));
+    }
 
-        Assert.assertEquals(indiv1.getFitness().getValue(), selected.getFitness().getValue());
+    @Test
+    public void maximizationSelection() {
+        Topology<Individual> topology = createDummyTopology();
+        topology.get(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(99.0));
+        topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(8.0));
+        topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(9.0));
+
+        ElitistSelection<Individual> selection = new ElitistSelection<Individual>();
+        Individual selected = selection.select(topology);
+
+        Assert.assertThat(selected, is(notNullValue()));
+        Assert.assertThat(topology, hasItem(selected));
+        Assert.assertThat(selected, is(topology.get(0)));
     }
 
     @Test
     public void elitistSelection() {
-         List<Integer> elements = Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 1);
-         ElitistSelection<Integer> selection = new ElitistSelection<Integer>();
-         Integer selected = selection.select(elements);
-         Assert.assertEquals(9, selected.intValue());
+        List<Integer> elements = Lists.newArrayList(9, 8, 7, 6, 5, 4, 3, 2, 1);
+        ElitistSelection<Integer> selection = new ElitistSelection<Integer>();
+        int selected = selection.select(elements);
+        Assert.assertThat(selected, is(9));
     }
-
 }

@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.util.selection.ordering;
 
+import com.google.common.collect.Lists;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
@@ -62,6 +64,7 @@ public class ProportionalOrdering<E> implements Ordering<E> {
      */
     @Override
     public boolean order(List<Selection.Entry<E>> elements) {
+
         double total = 0.0;
         for (Selection.Entry<E> weighedObject : elements) {
             total += weighedObject.getWeight();
@@ -71,17 +74,27 @@ public class ProportionalOrdering<E> implements Ordering<E> {
             return false;
         }
 
-        for (int i = 0; i < elements.size(); ++i) {
+        List<Selection.Entry<E>> temp = Lists.newArrayList();
+        while (elements.size() > 0) {
             double randomValue = this.generator.nextDouble() * total;
             double marker = 0.0;
-            int j = i;
+            int i = 0;
             do {
-                marker += elements.get(j++).getWeight();
-            } while (j < elements.size() && marker >= randomValue);
-            // Swap elements i and j - 1.
-            Selection.Entry<E> elementJ = elements.set(j - 1, elements.set(i, elements.get(j - 1)));
-            total -= elementJ.getWeight();
+                marker += elements.get(i++).getWeight();
+            } while (i < elements.size() && marker < randomValue);
+
+            Selection.Entry<E> selected = elements.get(i - 1);
+            temp.add(selected);
+            elements.remove(i - 1);
+            total -= selected.getWeight();
         }
+
+        // The reverse is needed as largest
+        // elements were added to the front.
+        Collections.reverse(temp);
+
+        elements.addAll(temp);
+
         return true;
     }
 }

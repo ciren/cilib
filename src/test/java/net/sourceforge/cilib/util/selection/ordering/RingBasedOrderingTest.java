@@ -27,6 +27,8 @@ import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.hamcrest.core.Is.is;
+
 /**
  *
  * @author gpampara
@@ -38,17 +40,16 @@ public class RingBasedOrderingTest {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
         boolean ordered = new RingBasedOrdering<Integer>(5).order(entries);
-        Assert.assertTrue(ordered);
+        Assert.assertThat(ordered, is(true));
 
-        Assert.assertEquals(6, entries.get(0).getElement().intValue());
-        Assert.assertEquals(7, entries.get(1).getElement().intValue());
-        Assert.assertEquals(8, entries.get(2).getElement().intValue());
-        Assert.assertEquals(9, entries.get(3).getElement().intValue());
-        Assert.assertEquals(1, entries.get(4).getElement().intValue());
-        Assert.assertEquals(2, entries.get(5).getElement().intValue());
-        Assert.assertEquals(3, entries.get(6).getElement().intValue());
-        Assert.assertEquals(4, entries.get(7).getElement().intValue());
-        Assert.assertEquals(5, entries.get(8).getElement().intValue());
+        Assert.assertThat(entries.get(0).getElement(), is(6));
+        Assert.assertThat(entries.get(1).getElement(), is(7));
+        Assert.assertThat(entries.get(2).getElement(), is(8));
+        Assert.assertThat(entries.get(3).getElement(), is(9));
+        Assert.assertThat(entries.get(4).getElement(), is(1));
+        Assert.assertThat(entries.get(5).getElement(), is(2));
+        Assert.assertThat(entries.get(6).getElement(), is(3));
+        Assert.assertThat(entries.get(7).getElement(), is(4));
+        Assert.assertThat(entries.get(8).getElement(), is(5));
     }
-
 }

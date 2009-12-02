@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -261,12 +263,29 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> exclude(Iterable<E> exclusions) {
-        List<Entry<E>> tmp = new ArrayList<Entry<E>>();
+        List<Entry<E>> tmp = Lists.newArrayList();
 
         for (E e : exclusions) {
             for (Entry<E> entry : this.elements)
                 if (entry.getElement().equals(e))
                     tmp.add(entry);
+        }
+
+        this.elements.removeAll(tmp);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Selection<E> satisfies(Predicate<E> predicate) {
+        List<Entry<E>> tmp = Lists.newArrayList();
+
+        for (Entry<E> entry : this.elements) {
+            if (!predicate.apply(entry.getElement())) {
+                tmp.add(entry);
+            }
         }
 
         this.elements.removeAll(tmp);
@@ -377,7 +396,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
          */
         @Override
         public String toString() {
-            return this.element.toString();
+            return this.element.toString() + ":" + this.weight;
         }
     }
 }

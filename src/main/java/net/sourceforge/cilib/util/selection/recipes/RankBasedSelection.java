@@ -45,8 +45,8 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
  * @param <E>
  */
 public class RankBasedSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
-    private static final long serialVersionUID = -2387196820773731607L;
 
+    private static final long serialVersionUID = -2387196820773731607L;
     private Comparator<Entry<E>> comparator;
     private Random random;
 
@@ -121,8 +121,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      */
     @Override
     public E select(List<? extends E> elements) {
-        List<E> selection = Selection.from(elements).orderBy(new SortedOrdering<E>(this.comparator))
-            .last(this.random.nextInt(elements.size())).orderBy(new RandomOrdering<E>(this.random)).last().select();
-        return selection.get(0);
+        return Selection.from(elements).orderBy(new SortedOrdering<E>(this.comparator)).
+                last(this.random.nextInt(elements.size()) + 1).orderBy(new RandomOrdering<E>(this.random)).last().singleSelect();
     }
 }

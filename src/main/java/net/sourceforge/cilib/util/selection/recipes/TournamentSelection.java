@@ -115,6 +115,22 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
     }
 
     /**
+     * Set the random number generator to use.
+     * @param random The value to set.
+     */
+    public void setRandom(Random random) {
+        this.random = random;
+    }
+
+    /**
+     * Get the current random number generator.
+     * @return The current random number generator.
+     */
+    public Random getRandom() {
+        return this.random;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

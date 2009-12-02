@@ -27,6 +27,9 @@ import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+
 /**
  *
  * @author gpampara
@@ -38,11 +41,10 @@ public class ReverseOrderingTest {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
         boolean ordered = new ReverseOrdering<Integer>().order(entries);
-        Assert.assertTrue(ordered);
+        Assert.assertThat(ordered, is(true));
 
         for (int i = 0; i < 9; ++i) {
-            Assert.assertEquals(elements.size() - i, entries.get(i).getElement().intValue());
+            Assert.assertThat(entries.get(i).getElement(), is(equalTo(elements.size() - i)));
         }
     }
-
 }

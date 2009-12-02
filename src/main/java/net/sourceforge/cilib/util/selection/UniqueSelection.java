@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -188,6 +190,23 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
             for (Entry<E> entry : this.elements)
                 if (entry.getElement().equals(e))
                     tmp.add(entry);
+        }
+
+        this.elements.removeAll(tmp);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UniqueSelection<E> satisfies(Predicate<E> predicate) {
+        List<Entry<E>> tmp = Lists.newArrayList();
+
+        for (Entry<E> entry : this.elements) {
+            if (!predicate.apply(entry.getElement())) {
+                tmp.add(entry);
+            }
         }
 
         this.elements.removeAll(tmp);
