@@ -97,7 +97,7 @@ public interface SelectionSyntax<E> {
      * @param predicate The predicate that tests if an element will be removed or not.
      * @return A selection containing the remaining elements which satisfies {@code predicate}.
      */
-    public SelectionSyntax<E> satisfies(Predicate<E> predicate);
+    public SelectionSyntax<E> satisfies(Predicate<? super E> predicate);
 
     /**
      * Obtain the result of the selection.
@@ -109,7 +109,7 @@ public interface SelectionSyntax<E> {
      * Obtain the list of internal {@code Entry} instances.
      * @return The list of internal {@code Entry} instances.
      */
-    public List<Selection.Entry<E>> entries();
+    public List<SelectionSyntax.Entry<E>> entries();
 
     /**
      * Obtain the first result of the selection.
@@ -117,4 +117,37 @@ public interface SelectionSyntax<E> {
      */
     public E singleSelect();
 
+
+    /**
+     * This class provides the notion of an entry within a list
+     * for the selection process.
+     * <p>
+     * This class is is final and non-instantiable to ensure that the
+     * operations are allowed to be applied, however, additional metadata
+     * can be recored and used during the selection process.
+     * @param <E> The {@see Comparable} type.
+     */
+    interface Entry<E> {
+
+        /**
+         * Get the {@code element} that this {@code Entry} represents.
+         * @return The decorated {@code element}.
+         */
+        public E getElement();
+
+        /**
+         * Obtain the weight value associated with this {@code Entry}.
+         * <p>
+         * The weight value need not be set. It is not always used.
+         *
+         * @return The {@code weight} value.
+         */
+        public double getWeight();
+
+        /**
+         * Set the weight associated to the current {@code Entry}.
+         * @param value The weight value to set.
+         */
+        public void setWeight(double value);
+    }
 }

@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,7 +43,7 @@ public class RandomOrderingTest {
     @Test
     public void randomOrdering() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
+        List<SelectionSyntax.Entry<Integer>> entries = Selection.from(elements).entries();
         boolean ordered = new RandomOrdering<Integer>(new ConstantRandomNumber()).order(entries);
         Assert.assertThat(ordered, is(true));
 

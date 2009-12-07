@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.util.selection.weighing;
 
 import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 
 /**
  * Apply a weighting to the provided list of elements. This weighting will be
@@ -107,10 +107,10 @@ public class LinearWeighing<E> implements Weighing<E> {
      * Apply a linear weighing that has an equal step size from {@code [min, max]}.
      */
     @Override
-    public boolean weigh(List<Selection.Entry<E>> elements) {
+    public boolean weigh(List<SelectionSyntax.Entry<E>> elements) {
         double stepSize = (this.max - this.min) / (elements.size() - 1);
         int objectIndex = 0;
-        for (Selection.Entry<E> element : elements) {
+        for (SelectionSyntax.Entry<E> element : elements) {
             element.setWeight(objectIndex++ * stepSize + this.min);
         }
         return true;

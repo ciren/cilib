@@ -21,7 +21,10 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,7 +68,7 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * @author gpampara
  */
 public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, UniqueSyntax<E> {
-    private List<Entry<E>> elements;
+    private List<SelectionSyntax.Entry<E>> elements;
 
     /**
      * Assign the Selection to take palce on the porvided collection. The
@@ -74,7 +77,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @param elements The elements on which the selection should take place.
      */
     private Selection(Collection<? extends E> elements) {
-        this.elements = new ArrayList<Entry<E>>(elements.size());
+        this.elements = Lists.newArrayListWithCapacity(elements.size());
 
         for (E element : elements) {
             this.elements.add(new Entry<E>(element));
@@ -96,7 +99,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public UniqueSelection<E> unique(){
-        return UniqueSelection.from(this.select());
+        return new UniqueSelection(this.select());
     }
 
     /**
@@ -111,8 +114,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A random element within {@code elements}.
      */
     public static <T> T randomFrom(List<? extends T> elements, Random random) {
-        if (elements.size() == 0)
-            throw new IllegalArgumentException("Provided list must contain elements.");
+        Preconditions.checkArgument(elements.size() > 0, "Provided list must contain elements.");
 
         int index = random.nextInt(elements.size());
         int count = 0;
@@ -140,8 +142,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A list of random elements contained in {@code elements}.
      */
     public static <T> List<T> randomFrom(List<? extends T> elements, Random random, int number) {
-        if (elements.size() == 0)
-            throw new IllegalArgumentException("Provided list must contain elements.");
+        Preconditions.checkArgument(elements.size() > 0, "Provided list must contain elements.");
 
         List<T> tmp = new ArrayList<T>(number);
 
@@ -224,13 +225,12 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public List<E> select() {
-        List<E> result = new ArrayList<E>();
-
-        for (Entry<E> entry : elements) {
-            result.add(entry.getElement());
-        }
-
-        return result;
+        return Lists.transform(elements, new Function<SelectionSyntax.Entry<E>, E>() {
+            @Override
+            public E apply(SelectionSyntax.Entry<E> from) {
+                return from.getElement();
+            }
+        });
     }
 
     /**
@@ -245,7 +245,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * {@inheritDoc}
      */
     @Override
-    public List<Selection.Entry<E>> entries() {
+    public List<SelectionSyntax.Entry<E>> entries() {
         return this.elements;
     }
 
@@ -254,8 +254,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> exclude(E... exclusions) {
-        List<E> exclusionList = Arrays.asList(exclusions);
-        return this.exclude(exclusionList);
+        return exclude(Arrays.asList(exclusions));
     }
 
     /**
@@ -263,10 +262,10 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> exclude(Iterable<E> exclusions) {
-        List<Entry<E>> tmp = Lists.newArrayList();
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList();
 
         for (E e : exclusions) {
-            for (Entry<E> entry : this.elements)
+            for (SelectionSyntax.Entry<E> entry : this.elements)
                 if (entry.getElement().equals(e))
                     tmp.add(entry);
         }
@@ -279,15 +278,17 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * {@inheritDoc}
      */
     @Override
-    public Selection<E> satisfies(Predicate<E> predicate) {
-        List<Entry<E>> tmp = Lists.newArrayList();
-
-        for (Entry<E> entry : this.elements) {
-            if (!predicate.apply(entry.getElement())) {
-                tmp.add(entry);
+    public Selection<E> satisfies(final Predicate<? super E> predicate) {
+        Predicate<SelectionSyntax.Entry<E>> internal = new Predicate<SelectionSyntax.Entry<E>>() {
+            @Override
+            public boolean apply(SelectionSyntax.Entry<E> input) {
+                return !predicate.apply(input.getElement());
             }
-        }
+        };
 
+        Iterable<SelectionSyntax.Entry<E>> iterable = Iterables.filter(elements, internal);
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList();
+        Iterables.addAll(tmp, iterable);
         this.elements.removeAll(tmp);
         return this;
     }
@@ -297,7 +298,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> random(Random random) {
-        Entry<E> randomEntry = randomFrom(this.elements, random);
+        SelectionSyntax.Entry<E> randomEntry = randomFrom(this.elements, random);
         this.elements.clear();
         this.elements.add(randomEntry);
         return this;
@@ -321,13 +322,14 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * can be recored and used during the selection process.
      * @param <E> The {@see Comparable} type.
      */
-    public final static class Entry<E> {
+    static class Entry<E> implements SelectionSyntax.Entry<E> {
         private final E element;
         private double weight;
 
         /**
          * Create a new {@code Entry}. This constructor is private intentionall
-         * @param element The element to decorate.                             +         */
+         * @param element The element to decorate.
+         */
         Entry(E element) {
             this.element = element;
             this.weight = 0.0;
@@ -337,6 +339,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
          * Get the {@code element} that this {@code Entry} represents.
          * @return The decorated {@code element}.
          */
+        @Override
         public E getElement() {
             return element;
         }
@@ -348,6 +351,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
          *
          * @return The {@code weight} value.
          */
+        @Override
         public double getWeight() {
             return this.weight;
         }
@@ -357,6 +361,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
          * within the {@code Selection}.
          * @param weight The {@code weight} value to set.
          */
+        @Override
         public void setWeight(double weight) {
             this.weight = weight;
         }

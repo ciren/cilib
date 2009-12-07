@@ -24,7 +24,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.Selection.Entry;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
 import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
 
@@ -43,7 +43,7 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
 public class ElitistSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
     private static final long serialVersionUID = -5432603299031620114L;
 
-    private Comparator<Entry<E>> comparator;
+    private Comparator<SelectionSyntax.Entry<E>> comparator;
 
     /**
      * Create a new instance with a defined comparator being {@link DefaultComparator}.
@@ -56,7 +56,7 @@ public class ElitistSelection<E extends Comparable<? super E>> implements Select
      * Create a new instance with the provided {@link Comparator}.
      * @param comparator The comparator to set.
      */
-    public ElitistSelection(Comparator<Entry<E>> comparator) {
+    public ElitistSelection(Comparator<SelectionSyntax.Entry<E>> comparator) {
         this.comparator = comparator;
     }
 
@@ -80,7 +80,7 @@ public class ElitistSelection<E extends Comparable<? super E>> implements Select
      * Set the comparator to be used.
      * @param comparator The value to set.
      */
-    public void setComparator(Comparator<Entry<E>> comparator) {
+    public void setComparator(Comparator<SelectionSyntax.Entry<E>> comparator) {
         this.comparator = comparator;
     }
 
@@ -88,7 +88,7 @@ public class ElitistSelection<E extends Comparable<? super E>> implements Select
      * Get the current comparator.
      * @return The current comparator instance.
      */
-    public Comparator<Entry<E>> getComparator() {
+    public Comparator<SelectionSyntax.Entry<E>> getComparator() {
         return this.comparator;
     }
 

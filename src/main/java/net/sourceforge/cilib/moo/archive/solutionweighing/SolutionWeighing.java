@@ -26,7 +26,7 @@ import java.util.List;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
 import net.sourceforge.cilib.util.Cloneable;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 
 /**
  * <p>
@@ -42,5 +42,5 @@ public interface SolutionWeighing extends Weighing<OptimisationSolution>, Clonea
     public abstract SolutionWeighing getClone();
 
     @Override
-    public boolean weigh(List<Selection.Entry<OptimisationSolution>> elements);
+    public boolean weigh(List<SelectionSyntax.Entry<OptimisationSolution>> elements);
 }

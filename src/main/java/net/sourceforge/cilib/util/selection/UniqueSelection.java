@@ -21,15 +21,15 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import net.sourceforge.cilib.math.random.generator.Random;
-import net.sourceforge.cilib.util.selection.Selection.Entry;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
 
@@ -45,7 +45,7 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * @author leo
  */
 public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
-    private List<Entry<E>> elements;
+    private List<SelectionSyntax.Entry<E>> elements;
 
     /**
      * Assign the UniqueSelection to take palce on the provided collection. The
@@ -53,25 +53,12 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * not altered.
      * @param elements The elements on which the selection should take place.
      */
-    private UniqueSelection(Collection<? extends E> elements) {
-        this.elements = new ArrayList<Entry<E>>(elements.size());
+     UniqueSelection(Collection<? extends E> elements) {
+        this.elements = Lists.newArrayListWithCapacity(elements.size());
 
         for (E element : elements) {
             this.elements.add(new Entry<E>(element));
         }
-    }
-
-    /**
-     * Create a selection that will operate on the provided collection.
-     * This method is intentionally package private as we don't want manual creation
-     * of UniqueSelection<T> instances. All access must be through the Selection<T>
-     * interface.
-     * @param <T> The comparable type.
-     * @param elements The collection of elements to operate on.
-     * @return A UniqueSelection based on the provided collection.
-     */
-    static <T> UniqueSelection<T> from(List<? extends T> elements) {
-        return new UniqueSelection<T>(elements);
     }
 
     /**
@@ -145,13 +132,12 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      */
     @Override
     public List<E> select() {
-        List<E> result = new ArrayList<E>();
-
-        for (Entry<E> entry : elements) {
-            result.add(entry.getElement());
-        }
-
-        return result;
+        return Lists.transform(elements, new Function<SelectionSyntax.Entry<E>, E>() {
+            @Override
+            public E apply(SelectionSyntax.Entry<E> from) {
+                return from.getElement();
+            }
+        });
     }
 
     /**
@@ -166,7 +152,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * {@inheritDoc}
      */
     @Override
-    public List<Selection.Entry<E>> entries() {
+    public List<SelectionSyntax.Entry<E>> entries() {
         return this.elements;
     }
 
@@ -184,10 +170,10 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      */
     @Override
     public UniqueSelection<E> exclude(Iterable<E> exclusions) {
-        List<Entry<E>> tmp = new ArrayList<Entry<E>>();
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList();
 
         for (E e : exclusions) {
-            for (Entry<E> entry : this.elements)
+            for (SelectionSyntax.Entry<E> entry : this.elements)
                 if (entry.getElement().equals(e))
                     tmp.add(entry);
         }
@@ -200,10 +186,10 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * {@inheritDoc}
      */
     @Override
-    public UniqueSelection<E> satisfies(Predicate<E> predicate) {
-        List<Entry<E>> tmp = Lists.newArrayList();
+    public UniqueSelection<E> satisfies(Predicate<? super E> predicate) {
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList();
 
-        for (Entry<E> entry : this.elements) {
+        for (SelectionSyntax.Entry<E> entry : this.elements) {
             if (!predicate.apply(entry.getElement())) {
                 tmp.add(entry);
             }
@@ -218,7 +204,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      */
     @Override
     public UniqueSelection<E> random(Random random) {
-        Entry<E> randomEntry = Selection.randomFrom(elements, random);
+        SelectionSyntax.Entry<E> randomEntry = Selection.randomFrom(elements, random);
         elements.clear();
         elements.add(randomEntry);
         return this;
@@ -229,17 +215,99 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      */
     @Override
     public UniqueSelection<E> random(Random random, int number) {
-        if(number > elements.size())
-            throw new RuntimeException("Unable to select " + number + " unique elements, current Selection only contains " + elements.size() + " elements.");
-        List<Entry<E>> tmp = new ArrayList<Entry<E>>(number);
+        Preconditions.checkArgument(number <= elements.size(), "Unable to select " + number + " unique elements, current Selection only contains " + elements.size() + " elements.");
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayListWithCapacity(number);
 
         for (int i = 0; i < number; i++) {
             int index = random.nextInt(elements.size());
             tmp.add(elements.get(index));
-            elements.remove(index);
+            elements.remove(index); // Remove the selected entry fromt he original list.
         }
         elements = tmp;
         return this;
+    }
+
+    static class Entry<E> implements SelectionSyntax.Entry<E> {
+        private final E element;
+        private double weight;
+
+        /**
+         * Create a new {@code Entry}. This constructor is private intentionall
+         * @param element The element to decorate.
+         */
+        Entry(E element) {
+            this.element = element;
+            this.weight = 0.0;
+        }
+
+        /**
+         * Get the {@code element} that this {@code Entry} represents.
+         * @return The decorated {@code element}.
+         */
+        @Override
+        public E getElement() {
+            return element;
+        }
+
+        /**
+         * Obtain the weight value associated with this {@code Entry}.
+         * <p>
+         * The weight value need not be set. It is not always used.
+         *
+         * @return The {@code weight} value.
+         */
+        @Override
+        public double getWeight() {
+            return this.weight;
+        }
+
+        /**
+         * Set the {@code weight} value for the current {@code Entry}
+         * within the {@code Selection}.
+         * @param weight The {@code weight} value to set.
+         */
+        @Override
+        public void setWeight(double weight) {
+            this.weight = weight;
+        }
+
+        /**
+         * Determine if the provided {@code obj} is equal to the currently
+         * decorated element within this {@code Entry}.
+         * @param obj The object instance to compare.
+         * @return {@code true} if the objects are equal, {@code false} otherwi
+         */
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+
+            if ((obj == null) || (this.getClass() != obj.getClass())) {
+                return false;
+            }
+
+            Entry<E> other = (Entry<E>) obj;
+            return this.element.equals(other.element);
+        }
+
+        /**
+         * Obtain the hash of the decorated {@code element}.
+         * @return The decorated instance's hash value.
+         */
+        @Override
+        public int hashCode() {
+            return element.hashCode();
+        }
+
+        /**
+         * Obtain the {@code String} of the decorated {@code element}.
+         * @return The {@code toString()} of the decorated element.
+         */
+        @Override
+        public String toString() {
+            return this.element.toString() + ":" + this.weight;
+        }
     }
 
 }

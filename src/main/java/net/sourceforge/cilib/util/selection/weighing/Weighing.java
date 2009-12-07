@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.selection.weighing;
 
 import java.util.List;
 import net.sourceforge.cilib.util.Cloneable;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 
 /**
  * Interface defining how weighing for selections are to operate.
@@ -43,6 +43,6 @@ public interface Weighing<E> extends Cloneable {
      * @param elements The entries to weigh.
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    public boolean weigh(List<Selection.Entry<E>> elements);
+    public boolean weigh(List<SelectionSyntax.Entry<E>> elements);
 
 }

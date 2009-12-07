@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 
 /**
  * Apply a random ordering to the provided list. This class defines that the
@@ -58,7 +58,7 @@ public class RandomOrdering<E> implements Ordering<E> {
      * {@inheritDoc} This ordering will be a random shuffle.
      */
     @Override
-    public boolean order(List<Selection.Entry<E>> elements) {
+    public boolean order(List<SelectionSyntax.Entry<E>> elements) {
         shuffle(elements);
         return true;
     }
@@ -67,12 +67,12 @@ public class RandomOrdering<E> implements Ordering<E> {
      * Implementation of the Fisher-Yates shuffle algorithm. This algorithm runs in O(n).
      * <p>
      * This method has been added to the implemenation due to the fact that Collections.shuffle()
-     * does not perform the same operations. Collections.shuffle() does not use the current size
-     * of the permutable sublist.
+     * does not perform the same operation efficiently. Collections.shuffle() <b>does not</b>
+     * use the current size of the permutable sublist.
      *
      * @param elements The elements to shuffle.
      */
-    private void shuffle(List<Selection.Entry<E>> elements) {
+    private void shuffle(List<SelectionSyntax.Entry<E>> elements) {
         int n = elements.size();
 
         while (n > 1) {

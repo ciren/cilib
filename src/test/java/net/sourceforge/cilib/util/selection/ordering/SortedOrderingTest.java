@@ -24,6 +24,7 @@ package net.sourceforge.cilib.util.selection.ordering;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class SortedOrderingTest {
     @Test
     public void sortedOrdering() {
         List<Integer> elements = Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 1);
-        List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
+        List<SelectionSyntax.Entry<Integer>> entries = Selection.from(elements).entries();
         boolean ordered = new SortedOrdering().order(entries);
         Assert.assertThat(ordered, is(true));
 

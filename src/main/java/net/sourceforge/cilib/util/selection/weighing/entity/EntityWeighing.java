@@ -28,7 +28,7 @@ import net.sourceforge.cilib.container.Pair;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 
 /**
  * Apply a weighing based on the {@link Fitness} of {@link Entity} instances.
@@ -76,9 +76,9 @@ public class EntityWeighing<E extends Entity> implements Weighing<E> {
      * @param entities The entity objects to inspect.
      * @return A {@link Pair} holding the minimum and maximum fitness values.
      */
-    private Pair<Fitness, Fitness> getMinMaxFitness(Collection<Selection.Entry<E>> entities) {
+    private Pair<Fitness, Fitness> getMinMaxFitness(Collection<SelectionSyntax.Entry<E>> entities) {
         Pair<Fitness, Fitness> minMaxFitness = new Pair<Fitness, Fitness>(InferiorFitness.instance(), InferiorFitness.instance());
-        for (Selection.Entry<E> entity : entities) {
+        for (SelectionSyntax.Entry<E> entity : entities) {
             Fitness fitness = this.entityFitness.getFitness(entity.getElement());
             if (minMaxFitness.getKey() == InferiorFitness.instance() || fitness.compareTo(minMaxFitness.getKey()) < 0) {
                 minMaxFitness.setKey(fitness);
@@ -95,7 +95,7 @@ public class EntityWeighing<E extends Entity> implements Weighing<E> {
      * @param entities The entities to weigh.
      */
     @Override
-    public boolean weigh(List<Selection.Entry<E>> entities) {
+    public boolean weigh(List<SelectionSyntax.Entry<E>> entities) {
         Pair<Fitness, Fitness> minMaxFitness = getMinMaxFitness(entities);
 
         if (minMaxFitness.getKey() == InferiorFitness.instance() ||
@@ -105,7 +105,7 @@ public class EntityWeighing<E extends Entity> implements Weighing<E> {
 
         double minMaxDifference = minMaxFitness.getValue().getValue() - minMaxFitness.getKey().getValue();
 
-        for (Selection.Entry<E> entity : entities) {
+        for (SelectionSyntax.Entry<E> entity : entities) {
             double weight = (this.entityFitness.getFitness(entity.getElement()).getValue() - minMaxFitness.getKey().getValue()) / minMaxDifference;
             entity.setWeight(weight);
         }

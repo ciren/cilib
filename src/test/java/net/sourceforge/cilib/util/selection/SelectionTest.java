@@ -81,14 +81,12 @@ public class SelectionTest {
     public void predicateSelection() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
         Predicate<Integer> evenNumbers = new Predicate<Integer>() {
-
             @Override
             public boolean apply(Integer element) {
                 return element % 2 == 0;
             }
         };
         Predicate<Integer> numberSeven = new Predicate<Integer>() {
-
             @Override
             public boolean apply(Integer element) {
                 return element == 7;

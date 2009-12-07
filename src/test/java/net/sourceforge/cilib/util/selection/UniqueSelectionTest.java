@@ -81,7 +81,7 @@ public class UniqueSelectionTest {
 
         try {
             List<Integer> elements = Arrays.asList(1, 2, 3, 4);
-            List<Integer> selection = UniqueSelection.from(elements).random(new MersenneTwister(), 4).select();
+            List<Integer> selection = new UniqueSelection<Integer>(elements).random(new MersenneTwister(), 4).select();
             Assert.assertEquals(4, selection.size());
             Assert.assertEquals(4, selection.get(0).intValue());
             Assert.assertEquals(1, selection.get(1).intValue());

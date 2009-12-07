@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.util.selection.ordering;
 
 import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionSyntax;
 
 /**
  * An ordering is a construct to define how a list of elements should be ordered.
@@ -37,5 +37,5 @@ public interface Ordering<E> {
      * @param elements The list to be ordered.
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    public boolean order(List<Selection.Entry<E>> elements);
+    public boolean order(List<SelectionSyntax.Entry<E>> elements);
 }
