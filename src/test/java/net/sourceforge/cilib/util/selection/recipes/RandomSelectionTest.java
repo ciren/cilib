@@ -69,7 +69,7 @@ public class RandomSelectionTest {
     @Test
     public void selectRandomFrom() {
         List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        int selected = Selection.randomFrom(list, new ConstantRandomNumber());
+        int selected = Selection.from(list).random(new ConstantRandomNumber()).singleSelect();
 
         List<Integer> otherElements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         Collections.shuffle(otherElements, new ConstantRandomNumber());

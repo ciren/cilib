@@ -26,11 +26,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
@@ -68,7 +68,8 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * @author gpampara
  */
 public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, UniqueSyntax<E> {
-    private List<SelectionSyntax.Entry<E>> elements;
+    private final List<SelectionSyntax.Entry<E>> elements;
+    private final RandomSelection<SelectionSyntax.Entry<E>> randomSelection;
 
     /**
      * Assign the Selection to take palce on the porvided collection. The
@@ -76,12 +77,14 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * not altered.
      * @param elements The elements on which the selection should take place.
      */
-    private Selection(Collection<? extends E> elements) {
+    private Selection(Collection<? extends E> elements, RandomSelection<SelectionSyntax.Entry<E>> randomSelection) {
         this.elements = Lists.newArrayListWithCapacity(elements.size());
 
         for (E element : elements) {
             this.elements.add(new Entry<E>(element));
         }
+
+        this.randomSelection = randomSelection;
     }
 
     /**
@@ -91,67 +94,15 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @return A selection based on the provided collection.
      */
     public static <T> Selection<T> from(List<? extends T> elements) {
-        return new Selection<T>(elements);
+        return new Selection<T>(elements, new DefaultRandomSelection<SelectionSyntax.Entry<T>>());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UniqueSelection<E> unique(){
-        return new UniqueSelection(this.select());
-    }
-
-    /**
-     * Obtain a random element from the provided list. This is a convenience method
-     * that allows the selection of a random element from a provided list, based
-     * on a provided {@code Random}.
-     * <p>
-     * This method terminates the selection.
-     * @param <T> The type of the selection.
-     * @param elements The element from which the selection is to be performed.
-     * @param random The random number to be used in the selection.
-     * @return A random element within {@code elements}.
-     */
-    public static <T> T randomFrom(List<? extends T> elements, Random random) {
-        Preconditions.checkArgument(elements.size() > 0, "Provided list must contain elements.");
-
-        int index = random.nextInt(elements.size());
-        int count = 0;
-
-        for (T t : elements) {
-            if (count == index)
-                return t;
-
-            count++;
-        }
-
-        throw new NoSuchElementException("Random element not found?");
-    }
-
-    /**
-     * Obtain a random element sublist from the provided list. This is a convenience method
-     * that allows the selection of random elements from a provided list, based
-     * on a provided {@code Random}.
-     * <p>
-     * This method terminates the selection.
-     * @param <T> The selection type.
-     * @param elements The elements from which the selection is to be performed.
-     * @param random The random number to be used in the selection.
-     * @param number The number of elements to select.
-     * @return A list of random elements contained in {@code elements}.
-     */
-    public static <T> List<T> randomFrom(List<? extends T> elements, Random random, int number) {
-        Preconditions.checkArgument(elements.size() > 0, "Provided list must contain elements.");
-
-        List<T> tmp = new ArrayList<T>(number);
-
-        for (int i = 0; i < number; i++) {
-            int index = random.nextInt(elements.size());
-            tmp.add(elements.get(index));
-        }
-
-        return tmp;
+    public Selection<E> unique(){
+        return new Selection<E>(this.select(), new UniqueRandomSelection<SelectionSyntax.Entry<E>>());
     }
 
     /**
@@ -189,7 +140,9 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> first() {
-        this.elements = this.elements.subList(0, 1);
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList(elements.subList(0, 1));
+        elements.clear();
+        elements.addAll(tmp);
         return this;
     }
 
@@ -198,7 +151,9 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> first(int number) {
-        this.elements = this.elements.subList(0, number);
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList(elements.subList(0, number));
+        elements.clear();
+        elements.addAll(tmp);
         return this;
     }
 
@@ -207,7 +162,10 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> last() {
-        this.elements = this.elements.subList(this.elements.size() - 1, this.elements.size());
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList(elements.subList(this.elements.size() - 1, this.elements.size()));
+
+        elements.clear();
+        elements.addAll(tmp);
         return this;
     }
 
@@ -216,7 +174,9 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> last(int number) {
-        this.elements = this.elements.subList(this.elements.size() - number, this.elements.size());
+        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList(elements.subList(this.elements.size() - number, this.elements.size()));
+        elements.clear();
+        elements.addAll(tmp);
         return this;
     }
 
@@ -254,7 +214,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> exclude(E... exclusions) {
-        return exclude(Arrays.asList(exclusions));
+        return exclude(Lists.newArrayList(exclusions));
     }
 
     /**
@@ -298,7 +258,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> random(Random random) {
-        SelectionSyntax.Entry<E> randomEntry = randomFrom(this.elements, random);
+        SelectionSyntax.Entry<E> randomEntry = this.randomSelection.get(this.elements, random);
         this.elements.clear();
         this.elements.add(randomEntry);
         return this;
@@ -309,7 +269,9 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      */
     @Override
     public Selection<E> random(Random random, int number) {
-        this.elements = randomFrom(this.elements, random, number);
+        List<SelectionSyntax.Entry<E>> tmp = randomSelection.get(this.elements, random, number);
+        elements.clear();
+        elements.addAll(tmp);
         return this;
     }
 
@@ -382,6 +344,8 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
                 return false;
             }
 
+            // This suppression is type safe, based on the above checks
+            @SuppressWarnings("unchecked")
             Entry<E> other = (Entry<E>) obj;
             return this.element.equals(other.element);
         }
@@ -402,6 +366,88 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
         @Override
         public String toString() {
             return this.element.toString() + ":" + this.weight;
+        }
+    }
+
+    interface RandomSelection<E> {
+        E get(List<E> elements, Random random);
+        List<E> get(List<E> elements, Random random, int number);
+    }
+
+    static final class DefaultRandomSelection<E> implements RandomSelection<E> {
+        @Override
+        public E get(List<E> elements, Random random) {
+            Preconditions.checkArgument(elements.size() > 0, "Provided list must contain elements.");
+            int index = random.nextInt(elements.size());
+            int count = 0;
+
+            for (E t : elements) {
+                if (count == index)
+                    return t;
+
+                count++;
+            }
+
+            throw new NoSuchElementException("Random element not found?");
+        }
+
+        @Override
+        public List<E> get(List<E> elements, Random random, int number) {
+            Preconditions.checkArgument(elements.size() > 0, "Provided list must contain elements.");
+            List<E> tmp = Lists.newArrayListWithCapacity(number);
+
+            for (int i = 0; i < number; i++) {
+                int index = random.nextInt(elements.size());
+                tmp.add(elements.get(index));
+            }
+
+            return tmp;
+        }
+    }
+
+    static final class UniqueRandomSelection<E> implements RandomSelection<E> {
+        @Override
+        public E get(List<E> elements, Random random) {
+            Preconditions.checkArgument(elements.size() > 0, "Provided list must contain elements.");
+            int index = random.nextInt(elements.size());
+            int count = 0;
+
+            for (E t : elements) {
+                if (count == index) {
+                    return t;
+                }
+
+                count++;
+            }
+            throw new NoSuchElementException("Random element not found?");
+        }
+
+        /**
+         * This implementation determines unique elements from a collection. The method
+         * operates by having all duplicate items removed by placing all elements into
+         * a {@linkplain java.util.Set set}. Then from the set, a selection is made.
+         * @param elements The elements to select from.
+         * @param random The provided random number generator.
+         * @param number The number of items to select.
+         * @return A List of unique items.
+         */
+        @Override
+        public List<E> get(final List<E> elements, Random random, int number) {
+            Preconditions.checkArgument(number <= elements.size(),
+                    "Unable to select " + number + " unique elements, current selection only contains " + elements.size() + " elements.");
+
+            // Remove the possible duplicates in 'elements'
+            List<E> from = Lists.newArrayList(Sets.newHashSet(elements));
+            Preconditions.checkState(from.size() >= number, "Not enough unique elements in the provided list.");
+            List<E> to = Lists.newArrayList();
+
+            for (int i = 0; i < number; i++) {
+                int index = random.nextInt(from.size());
+                to.add(from.get(index));
+                from.remove(index); // Remove the selected entry fromt he original list.
+            }
+
+            return to;
         }
     }
 }

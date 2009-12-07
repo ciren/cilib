@@ -86,6 +86,7 @@ public class SelectionTest {
                 return element % 2 == 0;
             }
         };
+
         Predicate<Integer> numberSeven = new Predicate<Integer>() {
             @Override
             public boolean apply(Integer element) {
@@ -104,20 +105,20 @@ public class SelectionTest {
     @Test
     public void randomFrom() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Integer selection = Selection.randomFrom(elements, new MockRandom());
+        Integer selection = Selection.from(elements).random(new MockRandom()).singleSelect();
         Assert.assertEquals(1, selection.intValue());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyRandomFrom() {
         List<Integer> elements = Arrays.asList();
-        Selection.randomFrom(elements, new MockRandom());
+        Selection.from(elements).random(new MockRandom());
     }
 
     @Test
     public void multipleRandomFrom() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Integer> selection = Selection.randomFrom(elements, new MockRandom(), 2);
+        List<Integer> selection = Selection.from(elements).random(new MockRandom(), 2).select();
 
         Assert.assertEquals(2, selection.size());
         Assert.assertThat(selection.get(0), is(1));
@@ -127,11 +128,26 @@ public class SelectionTest {
     @Test(expected = IllegalArgumentException.class)
     public void emptyMultipleRandomFrom() {
         List<Integer> elements = Arrays.asList();
-        Selection.randomFrom(elements, new MockRandom(), 2);
+        Selection.from(elements).random(new MockRandom(), 2);
+    }
+
+    @Test
+    public void uniqueSelection() {
+        List<Integer> elements = Arrays.asList(1, 1, 1, 2, 2);
+        List<Integer> randoms = Selection.from(elements).unique().random(new MockRandom(), 2).select();
+
+        Assert.assertThat(randoms.size(), is(2));
+        Assert.assertTrue(randoms.contains(1));
+        Assert.assertTrue(randoms.contains(2));
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void notEnoughUniqueElements() {
+        List<Integer> elements = Arrays.asList(1, 1, 1, 2, 2);
+        Selection.from(elements).unique().random(new MockRandom(), 3).select();
     }
 
     private class MockRandom extends Random {
-
         private static final long serialVersionUID = 6512653155066129236L;
 
         public MockRandom() {

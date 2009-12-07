@@ -78,7 +78,6 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      */
     @Override
     public E select(List<? extends E> elements) {
-        E selection = Selection.randomFrom(elements, random);
-        return selection;
+        return Selection.from(elements).random(random).singleSelect();
     }
 }
