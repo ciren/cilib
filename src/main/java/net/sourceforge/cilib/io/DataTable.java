@@ -36,113 +36,113 @@ public interface DataTable<T, E> extends Cloneable, Iterable<T> {
      * Adds a row to the table.
      * @param rowData a collection containing the row's data.
      */
-    public void addRow(T rowData);
+    void addRow(T rowData);
 
     /**
      * Adds a column to the table.
      * @param columnData a collection containing the column's data.
      */
-    public void addColumn(E columnData);
+    void addColumn(E columnData);
 
     /**
      * Adds multiple rows to the table.
      * @param multipleRowData List containing multiple rows' data.
      */
-    public void addRows(List<T> multipleRowData);
+    void addRows(List<T> multipleRowData);
 
     /**
      * Adds mulltiple columns to the table.
      * @param multipleColumnData List containing multiple columns' data.
      */
-    public void addColumns(List<E> multipleColumnData);
+    void addColumns(List<E> multipleColumnData);
 
     /**
      * Removes a row from the table and returns it.
      * @param index the row that must be removed.
      * @return the row that was removed.
      */
-    public T removeRow(int index);
+    T removeRow(int index);
 
     /**
      * Returns a row in the table.
      * @param index the index of the row to retrieve.
      * @return the requested row.
      */
-    public T getRow(int index);
+    T getRow(int index);
 
     /**
      * Sets a row in the data table.
      * @param index the row to be set.
      * @param rowData the new row data.
      */
-    public void setRow(int index, T rowData);
+    void setRow(int index, T rowData);
 
     /**
      * Returns a column in the table.
      * @param index the column to retrieve.
      * @return the column data.
      */
-    public E getColumn(int index);
+    E getColumn(int index);
 
     /**
      * Sets a column in the table
      * @param index the column to set
      * @param columnData the column data
      */
-    public void setColumn(int index, E columnData);
+    void setColumn(int index, E columnData);
 
     /**
      * Gets the name of the column, returns an empty string if none is specified.
      * @param index the column which is to be named.
      * @return
      */
-    public String getColumnName(int index);
+    String getColumnName(int index);
 
     /**
      * Sets the name of the column.
      * @param index the column which is to be named.
      * @param name the new name of the column.
      */
-    public void setColumnName(int index, String name);
+    void setColumnName(int index, String name);
 
     /**
      * Gets the columns names as a list.
      * @return the column names.
      */
-    public List<String> getColumnNames();
+    List<String> getColumnNames();
 
     /**
      * Sets the column names.
      * @param names the new column names.
      */
-    public void setColumnNames(List<String> names);
+    void setColumnNames(List<String> names);
 
     /**
      * Clears the data table.
      */
-    public void clear();
+    void clear();
 
     /**
      * Gets the size of the table.
      * @return the size of the table.
      */
-    public int size();
+    int size();
 
     /**
      * Gets the number of rows in the table.
      * @return the number of rows in the table.
      */
-    public int getNumRows();
+    int getNumRows();
 
     /**
      * Gets the number of columns in the table.
      * @return the number of columns.
      */
-    public int getNumColums();
+    int getNumColums();
 
     /**
      * Make deep copy of the table.
      */
     @Override
-    public Object getClone();
+    Object getClone();
 }

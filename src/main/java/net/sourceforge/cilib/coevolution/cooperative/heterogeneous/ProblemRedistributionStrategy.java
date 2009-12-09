@@ -45,11 +45,11 @@ public interface ProblemRedistributionStrategy extends Cloneable {
      * @param distributionStrategy The {@link CooperativeCoevolutionAlgorithm}'s original {@link ProblemDistributionStrategy}, which may be used to recalculate the distribution.
      * @param context The current {@link ContextEntity} of the {@link CooperativeCoevolutionAlgorithm}.
      */
-    public void redistributeProblem(List<PopulationBasedAlgorithm> populations, OptimisationProblem problem, ProblemDistributionStrategy distributionStrategy, Vector context);
+    void redistributeProblem(List<PopulationBasedAlgorithm> populations, OptimisationProblem problem, ProblemDistributionStrategy distributionStrategy, Vector context);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ProblemRedistributionStrategy getClone();
+    ProblemRedistributionStrategy getClone();
 }

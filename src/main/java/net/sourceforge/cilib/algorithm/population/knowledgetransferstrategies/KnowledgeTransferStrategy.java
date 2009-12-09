@@ -40,7 +40,7 @@ import net.sourceforge.cilib.util.Cloneable;
 public interface KnowledgeTransferStrategy extends Cloneable {
 
     @Override
-    public KnowledgeTransferStrategy getClone();
+    KnowledgeTransferStrategy getClone();
 
     /**
      * Returns knowledge that was gained from an entity within the list of populations.
@@ -48,5 +48,5 @@ public interface KnowledgeTransferStrategy extends Cloneable {
      * entity who's knowledge will be used.
      * @return The knowledge that was gained.
      */
-    public Type transferKnowledge(List<PopulationBasedAlgorithm> allPopulations);
+    Type transferKnowledge(List<PopulationBasedAlgorithm> allPopulations);
 }

@@ -38,6 +38,6 @@ public interface NicheCreationStrategy {
      * @param algorithm The Niche containing all niching populations.
      * @param niches The newly identified niching locations.
      */
-    public void create(Niche algorithm, List<Entity> niches);
+    void create(Niche algorithm, List<Entity> niches);
 
 }

@@ -35,7 +35,7 @@ public interface Operator extends Cloneable {
      * {@inheritDoc}
      */
     @Override
-    public Operator getClone();
+    Operator getClone();
 
     /**
      * Perform the operator operation given the current {@link net.sourceforge.cilib.entity.topologies.TopologyHolder}.
@@ -44,6 +44,6 @@ public interface Operator extends Cloneable {
      *               {@link net.sourceforge.cilib.entity.Topology} instances.
      */
 //    public void performOperation(Topology<? extends Entity> topology, Topology<Entity> offspring);
-    public void performOperation(TopologyHolder holder);
+    void performOperation(TopologyHolder holder);
 
 }

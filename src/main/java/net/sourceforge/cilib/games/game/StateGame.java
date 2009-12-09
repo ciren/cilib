@@ -36,5 +36,5 @@ public interface StateGame {
      * @param currentPlater the player whos turn it is
      * @return a list of possible game states
      */
-    public List<GameState> generateStates(int currentPlater);
+    List<GameState> generateStates(int currentPlater);
 }

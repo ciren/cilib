@@ -40,13 +40,13 @@ public interface Measurement<E extends Type> extends Cloneable {
      * {@inheritDoc}
      */
     @Override
-    public Measurement getClone();
+    Measurement<E> getClone();
 
     /**
      * Get the domain string representing what this measurement's results will conform to.
      * @return The Domain String representing the represenation of the measurement
      */
-    public String getDomain();
+    String getDomain();
 
 
     /**
@@ -55,5 +55,5 @@ public interface Measurement<E extends Type> extends Cloneable {
      * @param algorithm The algorithm to obtain the measurement from.
      * @return The <tt>Type</tt> representing the value of the measurement.
      */
-    public E getValue(Algorithm algorithm);
+    E getValue(Algorithm algorithm);
 }

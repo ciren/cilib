@@ -34,19 +34,19 @@ public interface GradientOptimisationAlgorithm {
      *
      * @param problem The {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} to be solved.
      */
-    public void setGradientOptimisationProblem(GradientOptimisationProblem problem);
+    void setGradientOptimisationProblem(GradientOptimisationProblem problem);
 
     /**
      * Accessor for the optimisation problem to be solved.
      *
      * @return The {@link net.sourceforge.cilib.problem.OptimisationProblemAdapter} to be solved.
      */
-    public GradientOptimisationProblem getGradientOptimisationProblem();
+    GradientOptimisationProblem getGradientOptimisationProblem();
 
     /**
      * Get the number of evaluations that have been performed to determine the gradient.
      * @return The number of gradient evaluations.
      */
-    public int getGradientEvaluations();
+    int getGradientEvaluations();
 
 }

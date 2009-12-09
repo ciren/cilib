@@ -32,5 +32,5 @@ public interface RealTimeGame {
     /**
      * Record the state of the game at the start of the round
      */
-    public void recordRoundStartState();
+    void recordRoundStartState();
 }

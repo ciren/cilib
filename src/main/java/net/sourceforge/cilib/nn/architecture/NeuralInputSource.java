@@ -36,11 +36,11 @@ public interface NeuralInputSource {
      * @param index the index of the input to retrieve.
      * @return the neural input at the specified index.
      */
-    public double getNeuralInput(int index);
+    double getNeuralInput(int index);
 
     /**
      * Gets the size of the neural input source.
      * @return the size of the neural input source.
      */
-    public int size();
+    int size();
 }

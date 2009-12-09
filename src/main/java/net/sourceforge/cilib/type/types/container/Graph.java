@@ -35,16 +35,16 @@ public interface Graph<E> extends StructuredType<E> {
      * structure.
      * @return The number of contained vertices.
      */
-    public int vertices();
+    int vertices();
 
     /**
      * Determine the number of edges contained within the current <tt>Graph</tt>
      * structure.
      * @return The number of contained edges.
      */
-    public int edgeCount();
+    int edgeCount();
 
-    public List<Graph.Edge<E>> edgesOf(E vertex);
+    List<Graph.Edge<E>> edgesOf(E vertex);
 
     /**
      * Create an edge / link between the given two vertices.
@@ -52,7 +52,7 @@ public interface Graph<E> extends StructuredType<E> {
      * @param b The vertex the edge should be incident to.
      * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
      */
-    public boolean addEdge(E a, E b);
+    boolean addEdge(E a, E b);
 
     /**
      * Create an edge / link between the given two vertices.
@@ -61,7 +61,7 @@ public interface Graph<E> extends StructuredType<E> {
      * @param cost The cost associated with this edge.
      * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
      */
-    public boolean addEdge(E a, E b, double cost);
+    boolean addEdge(E a, E b, double cost);
 
     /**
      * Create an edge / link between the given two vertices.
@@ -71,7 +71,7 @@ public interface Graph<E> extends StructuredType<E> {
      * @param weight The weight value associated with this edge.
      * @return <tt>true</tt> if the edge was created, <tt>false</tt> otherwise.
      */
-    public boolean addEdge(E a, E b, double cost, double weight);
+    boolean addEdge(E a, E b, double cost, double weight);
 
     /**
      * Determine if <tt>a</tt> and <tt>b</tt> are connected by an edge.
@@ -79,14 +79,14 @@ public interface Graph<E> extends StructuredType<E> {
      * @param b The vertex the edge should be incident to.
      * @return <tt>true</tt> if an edge is defined, <tt>false</tt> otherwise.
      */
-    public boolean isConnected(E a, E b);
+    boolean isConnected(E a, E b);
 
     /**
      * Get the vertex at the provided <code>index</code>.
      * @param index The index of the vertex.
      * @return The value of the vertex at <code>index</code>.
      */
-    public E getVertex(int index);
+    E getVertex(int index);
 
     /**
      * Definition of an edge within a {@code Graph} structure.
@@ -98,37 +98,37 @@ public interface Graph<E> extends StructuredType<E> {
          * Obtain the cost associated with the {@code Edge}.
          * @return The edge cost.
          */
-        public Double getCost();
+        Double getCost();
 
         /**
          * Obtain the {@code Vertex} to which this edge is connected.
          * @return The "other" connected vertex.
          */
-        public E getConnectedVertex();
+        E getConnectedVertex();
 
         /**
          * Obtain the weight value associated with this {@code Edge}.
          * @return The associated weight.
          */
-        public Double getWeight();
+        Double getWeight();
 
         /**
          * Set the cost value for this {@code Edge}.
          * @param cost The value to set.
          */
-        public void setCost(Double cost);
+        void setCost(Double cost);
 
         /**
          * Set the vertex to which the current edge is connected.
          * @param element The element to set.
          */
-        public void setConnectedVertex(E element);
+        void setConnectedVertex(E element);
 
         /**
          * Set the weight value for this {@code Edge}.
          * @param weight The value to set.
          */
-        public void setWeight(Double weight);
+        void setWeight(Double weight);
 
     }
 

@@ -40,6 +40,6 @@ public interface GradientOptimisationProblem {
      * @param position the position.
      * @return the gradient at position.
      */
-    public abstract Vector getGradient(Vector position);
+    Vector getGradient(Vector position);
 
 }

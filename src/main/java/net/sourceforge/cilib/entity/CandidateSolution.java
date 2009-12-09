@@ -40,24 +40,24 @@ public interface CandidateSolution extends Cloneable {
      * potential solution.
      * @return A {@linkplain Type} representing the solution.
      */
-    public StructuredType getCandidateSolution();
+    StructuredType getCandidateSolution();
 
     /**
      * Set the solution that the <code>CandidateSolution</code> represents.
      * @param contents The potential solution to set.
      */
-    public void setCandidateSolution(StructuredType contents);
+    void setCandidateSolution(StructuredType contents);
 
     /**
      * Obtain the {@linkplain Fitness} of the current <code>CandidateSolution</code>.
      * @return The current {@linkplain Fitness} value.
      */
-    public Fitness getFitness();
+    Fitness getFitness();
 
     /**
      * Get the properties associated with this {@code CandidateSolution}.
      * @return The properties of the {@code CandidateSolution}.
      */
-    public Blackboard<Enum<?>, Type> getProperties();
+    Blackboard<Enum<?>, Type> getProperties();
 
 }

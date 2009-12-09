@@ -37,5 +37,5 @@ public interface ClusterCenterStrategy extends Serializable {
      * @param i The integer representing the cluster for which a center should be returned
      * @return a {@link Vector} representing the center of cluster i
      */
-    public Vector getCenter(int i);
+    Vector getCenter(int i);
 }

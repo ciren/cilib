@@ -35,13 +35,13 @@ public interface FitnessCalculator<T> extends Cloneable {
      * {@inheritDoc}
      */
     @Override
-    public FitnessCalculator<T> getClone();
+    FitnessCalculator<T> getClone();
 
     /**
      * Get the fitness, given the <code>position</code>.
      * @param entity The <code>Type</code> to base the calculation on.
      * @return A <code>Fitness</code> object representing the fitness of the <code>position</code>.
      */
-    public Fitness getFitness(T entity);
+    Fitness getFitness(T entity);
 
 }

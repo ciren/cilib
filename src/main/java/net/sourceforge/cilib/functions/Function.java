@@ -38,40 +38,40 @@ public interface Function<F, T> extends Cloneable {
      * @param input The input for the function.
      * @return The result of the evaluation.
      */
-    public T evaluate(F input);
+    T evaluate(F input);
 
     /**
      * The maximum of the function.
      * @return The function maximum.
      */
-    public T getMaximum();
+    T getMaximum();
 
     /**
      * The minimum of the function.
      * @return The function minimum.
      */
-    public T getMinimum();
+    T getMinimum();
 
     /**
      * @return The dimension of the function.
      */
-    public int getDimension();
+    int getDimension();
 
     /**
      * @return The domain {@linkplain String}.
      */
-    public String getDomain();
+    String getDomain();
 
     /**
      * Accessor for the domain of the function. See {@link net.sourceforge.cilib.Domain.Component}.
      * @return The function domain.
      */
-    public DomainRegistry getDomainRegistry();
+    DomainRegistry getDomainRegistry();
 
     /**
      * Sets the domain of the function.
      * @param representation the string representation for the function domain.
      */
-    public void setDomain(String representation);
+    void setDomain(String representation);
     
 }

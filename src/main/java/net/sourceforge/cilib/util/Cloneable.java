@@ -50,6 +50,6 @@ public interface Cloneable extends Serializable {
      * @return An exact clone of the current object instance.
      * @see Object#clone()
      */
-    public Object getClone();
+    Object getClone();
 
 }

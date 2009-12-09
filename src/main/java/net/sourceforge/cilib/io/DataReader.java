@@ -38,43 +38,43 @@ public interface DataReader<T> {
      * @throws CIlibIOException a wrapper exception for any type of IO exception
      * that might occur.
      */
-    public void open() throws CIlibIOException;
+    void open() throws CIlibIOException;
 
     /**
      * Returns the next row of data as a list.
      * @return the next row of data.
      */
-    public T nextRow();
+    T nextRow();
 
     /**
      * Checks whether the data source has a next row of data.
      * @return true if another row can be read.
      * @throws CIlibIOException a wrapper exception for any type of IO exception
      */
-    public boolean hasNextRow() throws CIlibIOException;
+    boolean hasNextRow() throws CIlibIOException;
 
     /**
      * Properly terminates reading.
      * @throws CIlibIOException a wrapper exception for any type of IO exception
      */
-    public void close() throws CIlibIOException;
+    void close() throws CIlibIOException;
 
     /**
      * Gets the URL that the data is read from.
      * @return the source data URL.
      */
-    public String getSourceURL();
+    String getSourceURL();
 
     /**
      * Sets the URL that the data is read from.
      * @param sourceURL the source data URL.
      */
-    public void setSourceURL(String sourceURL);
+    void setSourceURL(String sourceURL);
 
     /**
      * Gets the names of the columns as a list.
      * @return the column names.
      */
-    public List<String> getColumnNames();
+    List<String> getColumnNames();
 
 }

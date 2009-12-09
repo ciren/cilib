@@ -36,13 +36,13 @@ public interface SelectionRecipe<E> extends Cloneable {
      * {@inheritDoc}
      */
     @Override
-    public SelectionRecipe<E> getClone();
+    SelectionRecipe<E> getClone();
 
     /**
      * Perform the selection process.
      * @param elements The elements to perfrom the selection on.
      * @return The selected element.
      */
-    public E select(List<? extends E> elements);
+    E select(List<? extends E> elements);
 
 }

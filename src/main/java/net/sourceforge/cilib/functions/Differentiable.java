@@ -38,5 +38,5 @@ public interface Differentiable {
      * @return A {@link net.sourceforge.cilib.type.types.container.Vector} containing
      *         the gradient of the provided input.
      */
-    public Vector getGradient(Vector x);
+    Vector getGradient(Vector x);
 }

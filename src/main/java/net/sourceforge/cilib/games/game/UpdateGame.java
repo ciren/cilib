@@ -29,5 +29,5 @@ public interface UpdateGame {
     /**
      * This method should update any game elements outside the control of the players
      */
-    public void Update();
+    void Update();
 }

@@ -38,7 +38,7 @@ import net.sourceforge.cilib.util.Cloneable;
 public interface GuideUpdateStrategy extends Cloneable {
 
     @Override
-    public abstract GuideUpdateStrategy getClone();
+    GuideUpdateStrategy getClone();
 
     /**
      * Determines if {@code particle}'s guide (either local or global depending on {@code guideType})
@@ -47,5 +47,5 @@ public interface GuideUpdateStrategy extends Cloneable {
      * @param guideType If the local or global guide should be updated.
      * @param newGuide The new guide that should replace the old guide, if it is to be updated.
      */
-    public void updateGuide(Particle particle, EntityType.Particle.Guide guideType, Vector newGuide);
+    void updateGuide(Particle particle, EntityType.Particle.Guide guideType, Vector newGuide);
 }

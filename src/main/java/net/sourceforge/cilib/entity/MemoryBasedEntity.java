@@ -35,11 +35,11 @@ public interface MemoryBasedEntity {
      * @return The {@linkplain net.sourceforge.cilib.type.types.Type}
      *         representing the best position.
      */
-    public StructuredType getBestPosition();
+    StructuredType getBestPosition();
 
     /**
      * Get the best {@linkplain Fitness} for the {@linkplain MemoryBasedEntity}.
      * @return The entity's best {@linkplain Fitness}.
      */
-    public Fitness getBestFitness();
+    Fitness getBestFitness();
 }

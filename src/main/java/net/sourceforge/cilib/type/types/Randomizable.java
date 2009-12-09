@@ -33,6 +33,6 @@ public interface Randomizable {
      * Apply a randomization using the provided {@code Random}.
      * @param random The {@code Random} to use for the randomization.
      */
-    public void randomize(Random random);
+    void randomize(Random random);
 
 }

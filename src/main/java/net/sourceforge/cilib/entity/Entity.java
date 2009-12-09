@@ -43,7 +43,7 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
      * @return the cloned object
      */
     @Override
-    public Entity getClone();
+    Entity getClone();
 
     /**
      * Get the candidate solution of the entity. The contents will depend on the subclass.
@@ -54,25 +54,25 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
      *
      * @return The {@linkplain Type} representing the contents of the {@linkplain Entity}.
      */
-    public StructuredType getCandidateSolution();
+    StructuredType getCandidateSolution();
 
     /**
      * Set the candidate solution of the current {@linkplain Entity} to the provided {@linkplain Type}.
      * @param type the {@linkplain Type} to be set as the contents of the {@linkplain Entity}.
      */
-    public void setCandidateSolution(StructuredType type);
+    void setCandidateSolution(StructuredType type);
 
     /**
      * Calculate the fitness of the <code>Entity</code> incrementing the
      * number of fitness evaluations for the algorithm.
      */
-    public void calculateFitness();
+    void calculateFitness();
 
     /**
      * Returns the {@linkplain Entity} fitness.
      * @return The {@linkplain Fitness} of the {@linkplain Entity}.
      */
-    public Fitness getFitness();
+    Fitness getFitness();
 
     /**
      * Return the best fitness associated with this {@linkplain Entity}, provided a best
@@ -82,7 +82,7 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
      * for example with {@linkplain Particle} objects.
      * @return The associated best {@linkplain Fitness} value.
      */
-    public Fitness getBestFitness();
+    Fitness getBestFitness();
 
     /**
      * Intialise the Entity to something meaningful and within the problem space.
@@ -91,35 +91,35 @@ public interface Entity extends Comparable<Entity>, Cloneable, Serializable {
      *
      * @param problem The {@linkplain OptimisationProblem} to based the initialisation on.
      */
-    public void initialise(OptimisationProblem problem);
+    void initialise(OptimisationProblem problem);
 
     /**
      * Returns the dimension of the {@linkplain Entity}.
      * @return The dimension of the {@linkplain Entity}.
      */
-    public int getDimension();
+    int getDimension();
 
     /**
      * Re-initialise the given {@linkplain Entity} within the defined domain.
      */
-    public void reinitialise();
+    void reinitialise();
 
     /**
      * Get the properties associate with the <code>Entity</code>.
      * @return The {@linkplain Blackboard} containing the properties.
      */
-    public Blackboard<Enum<?>, Type> getProperties();
+    Blackboard<Enum<?>, Type> getProperties();
 
     /**
      * Get the identifier associated with the {@code Entity} instance.
      * @return The associated identifier.
      */
-    public long getId();
+    long getId();
 
     /**
      * Get the current {@code FitnessCalculator} for the current {@code Entity}.
      * @return The {@code FitnessCalculator} associated with this {@code Entity}.
      */
-    public FitnessCalculator getFitnessCalculator();
+    FitnessCalculator getFitnessCalculator();
 
 }

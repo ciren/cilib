@@ -30,8 +30,8 @@ import net.sourceforge.cilib.util.Cloneable;
 public interface InitializationStrategy<E> extends Cloneable {
 
     @Override
-    public InitializationStrategy getClone();
+    InitializationStrategy getClone();
 
-    public void initialize(Enum<?> key, E entity);
+    void initialize(Enum<?> key, E entity);
 
 }

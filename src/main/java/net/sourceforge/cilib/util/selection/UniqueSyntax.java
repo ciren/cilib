@@ -27,6 +27,6 @@ public interface UniqueSyntax<E> {
      * Convert the selection process into a selection that is aware of uniqueness.
      * @return An instance of {@code UniqueSelection} with identical elements.
      */
-    public SelectionSyntax<E> unique();
+    SelectionSyntax<E> unique();
 
 }

@@ -40,7 +40,7 @@ public interface MappingEvaluator {
      *
      * @author jkroon
      */
-    public Fitness evaluateMapping(Matrix dist);
+    Fitness evaluateMapping(Matrix dist);
 
     /**
      * Gets called when attached to a MappingProblem.  This is to allow
@@ -51,6 +51,6 @@ public interface MappingEvaluator {
      *
      * @author jkroon
      */
-    public void setMappingProblem(MappingProblem prob);
+    void setMappingProblem(MappingProblem prob);
 
 }

@@ -36,5 +36,5 @@ public interface EntityFitness<E extends Entity> {
      * @param entity The entity to query.
      * @return The obtained {@link Fitness} value.
      */
-    public Fitness getFitness(E entity);
+    Fitness getFitness(E entity);
 }

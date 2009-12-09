@@ -28,12 +28,13 @@ package net.sourceforge.cilib.simulator;
  * @author  Edwin Peer
  */
 public interface ProgressListener {
+
     /**
      * Process the given progress event.
      *
      * @param event The progress event.
      */
-    public void handleProgressEvent(ProgressEvent event);
+    void handleProgressEvent(ProgressEvent event);
 
     /**
      * Indicates on which event we are.
@@ -43,5 +44,6 @@ public interface ProgressListener {
      *
      * @param simnum The number of the simulation.
      */
-    public void setSimulation(int simnum);
+    void setSimulation(int simnum);
+
 }

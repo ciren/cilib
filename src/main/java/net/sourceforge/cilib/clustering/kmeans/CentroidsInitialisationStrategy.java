@@ -51,6 +51,6 @@ public interface CentroidsInitialisationStrategy extends Serializable, Cloneable
      * @param dataset the {@link ClusterableDataSet} currently being clustered
      * @return a {@link Vector} that represents all the centroids
      */
-    public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset);
+    Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset);
 
 }

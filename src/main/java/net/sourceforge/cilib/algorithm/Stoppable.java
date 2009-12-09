@@ -33,12 +33,12 @@ public interface Stoppable {
      * Add a stopping condition
      * @param condition The stopping condition to add.
      */
-    public void addStoppingCondition(StoppingCondition condition);
+    void addStoppingCondition(StoppingCondition condition);
 
     /**
      * Remove the specified stopping condition.
      * @param condition The stopping condition to remove.
      */
-    public void removeStoppingCondition(StoppingCondition condition);
+    void removeStoppingCondition(StoppingCondition condition);
     
 }

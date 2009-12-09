@@ -26,6 +26,6 @@ package net.sourceforge.cilib.math.random.generator;
  * @author  Edwin Peer
  */
 public interface RandomTester {
-    public void addSample(double number);
-    public boolean hasRandomSamples();
+    void addSample(double number);
+    boolean hasRandomSamples();
 }

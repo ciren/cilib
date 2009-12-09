@@ -38,7 +38,7 @@ public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends C
      * {@inheritDoc}
      */
     @Override
-    public abstract IterationStrategy<E> getClone();
+    abstract IterationStrategy<E> getClone();
 
     /**
      * Perform the iteration of the PopulationBasedAlgorithm.
@@ -60,17 +60,17 @@ public interface IterationStrategy<E extends PopulationBasedAlgorithm> extends C
      *
      * @param algorithm The algorithm to perform the iteration process on.
      */
-    public abstract void performIteration(E algorithm);
+    abstract void performIteration(E algorithm);
 
     /**
      * Get the currently associated {@linkplain BoundaryConstraint}.
      * @return The current {@linkplain BoundaryConstraint}.
      */
-    public BoundaryConstraint getBoundaryConstraint();
+    BoundaryConstraint getBoundaryConstraint();
 
     /**
      * Set the {@linkplain BoundaryConstraint} to maintain within this {@linkplain IterationStrategy}.
      * @param boundaryConstraint The {@linkplain BoundaryConstraint} to set.
      */
-    public void setBoundaryConstraint(BoundaryConstraint boundaryConstraint);
+    void setBoundaryConstraint(BoundaryConstraint boundaryConstraint);
 }

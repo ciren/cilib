@@ -23,7 +23,6 @@ package net.sourceforge.cilib.type;
 
 import java.io.Serializable;
 
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -37,38 +36,31 @@ public interface DomainRegistry extends Cloneable, Serializable {
     /**
      * {@inheritDoc}
      */
-    public DomainRegistry getClone();
+    DomainRegistry getClone();
 
     /**
      * Set the value of the string representing the domain.
      * @param domainString The domainString to set.
      */
-    public void setDomainString(String domainString);
+    void setDomainString(String domainString);
 
     /**
      * Get the string specifying the domain.
      * @return Returns the domainString.
      */
-    public String getDomainString();
-
-    /**
-     * Get the string representing the domain, after if has been expanded to
-     * a dimensional string with a descriptve component for each dimension.
-     * @return Returns the expandedRepresentation.
-     */
-//    public String getExpandedRepresentation();
+    String getDomainString();
 
     /**
      * Get the instance of the built representation for this domain string.
      * @return Returns the builtRepresenation.
      */
-    public StructuredType getBuiltRepresenation();
+    StructuredType getBuiltRepresenation();
 
     /**
      * Get the dimension of the built representation of the domain string.
      * @return The dimension of the domain string.
      */
-    public int getDimension();
+    int getDimension();
 
 }
 

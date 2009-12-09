@@ -32,7 +32,7 @@ public interface Array {
      * @param index The index of the desired element.
      * @return The element at {@code index}, if available.
      */
-    public <E> E get(int index);
+    <E> E get(int index);
 
     /**
      * Set the element at {@code index}.
@@ -40,12 +40,12 @@ public interface Array {
      * @param object The object to place within the array.
      * @param index The index to set the object at.
      */
-    public <E> void set(E object, int index);
+    <E> void set(E object, int index);
 
     /**
      * Obtain the current size of the array structure.
      * @return The array length.
      */
-    public int size();
+    int size();
 
 }

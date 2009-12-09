@@ -28,5 +28,5 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public interface MeasurementFactory {
-    public Measurement<? extends Type> newMeasurement();
+    Measurement<? extends Type> newMeasurement();
 }

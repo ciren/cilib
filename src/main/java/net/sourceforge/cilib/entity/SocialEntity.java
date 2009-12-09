@@ -44,18 +44,18 @@ public interface SocialEntity extends Cloneable {
      * on the current {@linkplain NeighbourhoodBestUpdateStrategy}.
      * @return The fitness based on the currently set {@linkplain NeighbourhoodBestUpdateStrategy}.
      */
-    public Fitness getSocialFitness();
+    Fitness getSocialFitness();
 
     /**
      * Get the reference to the currently employed <code>NeighbourhoodBestUpdateStrategy</code>.
      * @return A reference to the current <code>NeighbourhoodBestUpdateStrategy</code> object
      */
-    public NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy();
+    NeighbourhoodBestUpdateStrategy getNeighbourhoodBestUpdateStrategy();
 
     /**
      * Set the <code>NeighbourhoodBestUpdateStrategy</code> to be used by the {@linkplain Entity}.
      * @param neighbourhoodBestUpdateStrategy The <code>NeighbourhoodBestUpdateStrategy</code> to be used
      */
-    public void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy);
+    void setNeighbourhoodBestUpdateStrategy(NeighbourhoodBestUpdateStrategy neighbourhoodBestUpdateStrategy);
 
 }

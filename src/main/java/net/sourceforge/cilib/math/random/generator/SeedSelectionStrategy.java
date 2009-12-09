@@ -31,6 +31,6 @@ public interface SeedSelectionStrategy {
      * Obtain the desired seed value based.
      * @return The seed value to use.
      */
-    public long getSeed();
+    long getSeed();
 
 }

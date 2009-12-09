@@ -35,12 +35,12 @@ public interface BoundaryConstraint extends Cloneable {
      * {@inheritDoc}
      */
     @Override
-    public BoundaryConstraint getClone();
+    BoundaryConstraint getClone();
 
     /**
      * Enforce the defined boundary constraint on the provided {@linkplain Entity}.
      * @param entity The {@linkplain Entity} with which the boundary is to be enforced.
      */
-    public void enforce(Entity entity);
+    void enforce(Entity entity);
 
 }

@@ -34,29 +34,29 @@ public interface DataWriter {
      * @throws CIlibIOException a wrapper exception for any type of IO exception
      * that might occur.
      */
-    public void open() throws CIlibIOException;
+    void open() throws CIlibIOException;
 
     /**
      * Write a data table to a URL.
      * @param dataTable the data to write.
      * @throws net.sourceforge.cilib.io.exception.CIlibIOException
      */
-    public void write(DataTable dataTable) throws CIlibIOException;
+    void write(DataTable dataTable) throws CIlibIOException;
 
     /**
      * Properly terminates writer.
      */
-    public void close();
+    void close();
 
     /**
      * Gets the URL that the data is written to.
      * @return the source data URL.
      */
-    public String getDestinationURL();
+    String getDestinationURL();
 
     /**
      * Sets the URL that the data is written to.
      * @param sourceURL the source data URL.
      */
-    public void setDestinationURL(String sourceURL);
+    void setDestinationURL(String sourceURL);
 }

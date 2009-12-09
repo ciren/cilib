@@ -34,33 +34,34 @@ public interface Tree<E extends Cloneable> extends StructuredType<E> {
     /**
      * {@inheritDoc}
      */
-    public Tree<E> getClone();
+    @Override
+    Tree<E> getClone();
 
     /**
      * Get the key value maintained by this {@linkplain Tree}.
      * @return The key of the current {@linkplain Tree}.
      */
-    public E getKey();
+    E getKey();
 
     /**
      * Set the current key for the {@linkplain Tree}.
      * @param element The {@linkplain E} to be used as the key.
      */
-    public void setKey(E element);
+    void setKey(E element);
 
     /**
      * Add a subtree to the current {@linkplain Tree} instance.
      * @param subTree The {@linkplain Tree} instance to add as a child tree.
      * @return <code>true</code> if the subtree was added, <code>false</code> otherwise.
      */
-    public boolean addSubTree(Tree<E> subTree);
+    boolean addSubTree(Tree<E> subTree);
 
     /**
      * Get the subtree with the specified key value.
      * @param element The value of the key to lookup.
      * @return A reference to the found {@linkplain Tree}, otherwise {@code null}.
      */
-    public Tree<E> getSubTree(E element);
+    Tree<E> getSubTree(E element);
 
     /**
      * Return the subTree with the node value of <tt>element</tt>. If
@@ -69,28 +70,28 @@ public interface Tree<E extends Cloneable> extends StructuredType<E> {
      * @param element The element of the subTree to search for.
      * @return The subtree if found else an empty <tt>Tree</tt> object.
      */
-    public Tree<E> getSubTree(int index);
+    Tree<E> getSubTree(int index);
 
     /**
      * Remove the subtree with the given key value.
      * @param element The value of the key of the subtree to be removed.
      * @return The instance that was removed, otherwise {@code null}.
      */
-    public Tree<E> removeSubTree(E element);
+    Tree<E> removeSubTree(E element);
 
     /**
      * Remove the subtree at the specified index within the current {@linkplain Tree}.
      * @param index The index of the {@linkplain Tree} to be removed.
      * @return The instance that was removed, otherwise {@code null}.
      */
-    public Tree<E> removeSubTree(int index);
+    Tree<E> removeSubTree(int index);
 
     /**
      * Determine if the current {@linkplain Tree} node is a leaf node in the current
      * structure.
      * @return <code>true</code> if it is a leaf node, <code>false</code> otherwise.
      */
-    public boolean isLeaf();
+    boolean isLeaf();
 
     /**
      * Get the degree of the current {@linkplain Tree}. The degree is an indication of
@@ -98,20 +99,20 @@ public interface Tree<E extends Cloneable> extends StructuredType<E> {
      * children that it may contain.
      * @return The branching factor / maximum allowable children.
      */
-    public int getDegree();
+    int getDegree();
 
     /**
      * Perform a depth first traversal of the current {@linkplain Tree} node, executing
      * the operation stored within the provided {@linkplain Visitor} instance.
      * @param visitor The visitor operation to execute at each node.
      */
-    public void depthFirstTraversal(PrePostVisitor<E> visitor);
+    void depthFirstTraversal(PrePostVisitor<E> visitor);
 
     /**
      * Perform a breadth first traversal of the current {@linkplain Tree} node, executing
      * the operation stored within the provided {@linkplain Visitor} instance.
      * @param visitor The visitor operation to execute at each node.
      */
-    public void breadthFirstTraversal(Visitor<Tree<E>> visitor);
+    void breadthFirstTraversal(Visitor<Tree<E>> visitor);
 
 }
