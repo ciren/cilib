@@ -36,6 +36,6 @@ package net.sourceforge.cilib.type.types;
  */
 public interface BoundedType {
 
-    public Bounds getBounds();
+    Bounds getBounds();
 
 }

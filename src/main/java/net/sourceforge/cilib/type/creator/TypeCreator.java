@@ -41,14 +41,14 @@ public interface TypeCreator {
      *
      * @return The newly created <tt>Type</tt>
      */
-    public Type create();
+    Type create();
 
     /**
      * Create the type with the specified value.
      * @param value The value for the {@code Type}.
      * @return The created {@code Type} with the provided value.
      */
-    public Type create(double value);
+    Type create(double value);
 
 
     /**
@@ -57,6 +57,6 @@ public interface TypeCreator {
      * @param bounds The {@code Bounds} for the type.
      * @return The newly created <tt>Type</tt> object using the specified bounds
      */
-    public Type create(Bounds bounds);
+    Type create(Bounds bounds);
 
 }

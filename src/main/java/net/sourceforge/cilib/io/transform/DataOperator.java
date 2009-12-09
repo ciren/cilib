@@ -37,5 +37,5 @@ public interface DataOperator {
      * @throws net.sourceforge.cilib.io.exception.CIlibIOException A wrapper exception
      * that occured during the operation.
      */
-    public DataTable operate(DataTable dataTable) throws CIlibIOException;
+    DataTable operate(DataTable dataTable) throws CIlibIOException;
 }

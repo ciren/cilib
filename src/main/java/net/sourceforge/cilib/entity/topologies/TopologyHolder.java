@@ -28,21 +28,21 @@ import net.sourceforge.cilib.entity.Topology;
 
 public interface TopologyHolder {
 
-    public Topology<? extends Entity> getTopology();
+    Topology<? extends Entity> getTopology();
 
     /**
      * Add a child to the holder?
      * @param entity
      */
-    public void add(Entity entity);
+    void add(Entity entity);
 
     /**
      * plural version of add()
      * @param entities
      */
-    public void addAll(List<Entity> entities);
+    void addAll(List<Entity> entities);
 
-    public void add(Entity entity, boolean modifiable);
+    void add(Entity entity, boolean modifiable);
 
     /**
      * get the modifiable list of entities. The idea here is to return various
@@ -55,8 +55,8 @@ public interface TopologyHolder {
      *
      * @return
      */
-    public List<? extends Entity> getModifiable();
+    List<? extends Entity> getModifiable();
 
-    public List<? extends Entity> getUnmodifiable();
+    List<? extends Entity> getUnmodifiable();
 
 }

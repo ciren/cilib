@@ -34,6 +34,6 @@ public interface AbsorptionStrategy {
      * on how each of the strategies operate.
      * @param algorithm The algorithm to perform absorption on.
      */
-    public void absorb(Niche algorithm);
+    void absorb(Niche algorithm);
 
 }

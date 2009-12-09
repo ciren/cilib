@@ -41,5 +41,5 @@ public interface AlgorithmFactory {
      *
      * @return A new {@link Algorithm}.
      */
-    public Algorithm newAlgorithm();
+    Algorithm newAlgorithm();
 }

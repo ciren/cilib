@@ -33,7 +33,7 @@ public interface Type extends Cloneable {
      * {@inheritDoc}
      */
     @Override
-    public Type getClone();
+    Type getClone();
 
     /**
      * Compare the specified object with this type for equality. Returns
@@ -44,7 +44,7 @@ public interface Type extends Cloneable {
      * @see Object#equals(Object)
      */
     @Override
-    public boolean equals(Object obj);
+    boolean equals(Object obj);
 
     /**
      * Returns the hash code value for this list.  The hash code of a list
@@ -67,6 +67,6 @@ public interface Type extends Cloneable {
      * @see #equals(Object)
      */
     @Override
-    public int hashCode();
+    int hashCode();
 
 }

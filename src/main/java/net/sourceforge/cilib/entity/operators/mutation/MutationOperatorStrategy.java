@@ -35,7 +35,7 @@ public interface MutationOperatorStrategy {
      * @param t2 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
      * @return The result of the evaluation with parameter t1 and t2.
      */
-    public double evaluate(Numeric t1, Numeric t2);
+    double evaluate(Numeric t1, Numeric t2);
 
     /**
      * Perform the evaluation based on the given parameters.
@@ -43,7 +43,7 @@ public interface MutationOperatorStrategy {
      * @param value The second parameter: double.
      * @return The result of the evaluation with parameter t1 and t2.
      */
-    public double evaluate(Numeric t1, double value);
+    double evaluate(Numeric t1, double value);
 
     /**
      * Perform the evaluation based on the given parameters.
@@ -51,7 +51,7 @@ public interface MutationOperatorStrategy {
      * @param t1 The second parameter: {@see net.sourceforge.cilib.type.types.Numeric}.
      * @return The result of the evaluation with parameter value and t2.
      */
-    public double evaluate(double value, Numeric t1);
+    double evaluate(double value, Numeric t1);
 
     /**
      * Perform the evaluation based on the given parameters.
@@ -59,6 +59,6 @@ public interface MutationOperatorStrategy {
      * @param t2 The second parameter: double.
      * @return The result of the evaluation with parameter t1 and t2.
      */
-    public double evaluate(double t1, double t2);
+    double evaluate(double t1, double t2);
 
 }

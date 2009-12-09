@@ -40,20 +40,19 @@ import net.sourceforge.cilib.util.Cloneable;
  * @author Edwin Peer
  */
 public interface StoppingCondition extends Serializable, Cloneable {
-    public static byte CICLOPS_EXCLUDE_ALGORITHM = 1;
 
     /**
      * Determines the percentage complete for the associated algorithm.
      * @returns The percentage completed as a fraction (0 <= i <= 1.0).
      */
-    public double getPercentageCompleted();
+    double getPercentageCompleted();
 
     /**
      * Determines whether the stopping condition has been satisfied (equivalent to
      * {@link #getPercentageCompleted()} == 1.0 but may be more efficient).
      * @return true when condition is satisfied, false otherwise
      */
-    public boolean isCompleted();
+    boolean isCompleted();
 
     /**
      * Sets the algorithm that this stopping condition should be applied to. Called by
@@ -62,10 +61,10 @@ public interface StoppingCondition extends Serializable, Cloneable {
      * to after each iteration).
      * @param algorithm The applicable {@link Algorithm}.
      */
-    public void setAlgorithm(Algorithm algorithm);
+    void setAlgorithm(Algorithm algorithm);
 
     /**
      * @return
      */
-    public StoppingCondition getClone();
+    StoppingCondition getClone();
 }

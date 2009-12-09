@@ -35,12 +35,12 @@ public interface PersonalBestUpdateStrategy extends Cloneable {
     /**
      * {@inheritDoc}
      */
-    public PersonalBestUpdateStrategy getClone();
+    PersonalBestUpdateStrategy getClone();
 
     /**
      * Update the personal best of the provided {@link Particle}.
      * @param particle The particle to update.
      */
-    public void updatePersonalBest(Particle particle);
+    void updatePersonalBest(Particle particle);
 
 }

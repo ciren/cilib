@@ -36,13 +36,13 @@ public interface Weighing<E> extends Cloneable {
      * {@inheritDoc}
      */
     @Override
-    public Weighing<E> getClone();
+    Weighing<E> getClone();
 
     /**
      * Perform a weighing on the provided list of entries.
      * @param elements The entries to weigh.
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    public boolean weigh(List<Selection.Entry<E>> elements);
+    boolean weigh(List<Selection.Entry<E>> elements);
 
 }

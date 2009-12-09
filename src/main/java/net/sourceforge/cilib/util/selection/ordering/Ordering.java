@@ -37,5 +37,6 @@ public interface Ordering<E> {
      * @param elements The list to be ordered.
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    public boolean order(List<Selection.Entry<E>> elements);
+    boolean order(List<Selection.Entry<E>> elements);
+
 }

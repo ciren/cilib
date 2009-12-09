@@ -45,7 +45,7 @@ public interface Topology<E extends Entity>
      * {@inheritDoc}
      */
     @Override
-    public Topology<E> getClone();
+    Topology<E> getClone();
 
     /**
      * Adds an entity to the topology.
@@ -53,116 +53,116 @@ public interface Topology<E extends Entity>
      * @return <code>true</code> if the addition is successful, <code>false</code> otherwise.
      */
     @Override
-    public boolean add(E entity);
+    boolean add(E entity);
 
     /**
      * Removes an entity from the topology.
      * @param entity The entity to be removed.
      * @return boolean, true if remove operation was successful.
      */
-    public boolean remove(E entity);
+    boolean remove(E entity);
 
     /**
      * {@inheritDoc}
      */
-    public E get(int index);
+    E get(int index);
 
     /**
      * {@inheritDoc}
      */
-    public E set(int index, E entity);
+    E set(int index, E entity);
 
     /**
      * {@inheritDoc}
      */
-    public boolean isEmpty();
+    boolean isEmpty();
 
     /**
      * Remove all the entities from the topology.
      * {@inheritDoc}
      */
-    public void clear();
+    void clear();
 
     /**
      * {@inheritDoc}
      */
-    public boolean contains(Object o);
+    boolean contains(Object o);
 
     /**
      * {@inheritDoc}
      */
-    public boolean containsAll(Collection<?> c);
+    boolean containsAll(Collection<?> c);
 
     /**
      * {@inheritDoc}
      */
-    public boolean equals(Object o);
+    boolean equals(Object o);
 
     /**
      * {@inheritDoc}
      */
-    public int hashCode();
+    int hashCode();
 
     /**
      * {@inheritDoc}
      */
-    public Iterator<E> iterator();
+    Iterator<E> iterator();
 
     /**
      * {@inheritDoc}
      */
-    public boolean remove(Object o);
+    boolean remove(Object o);
 
     /**
      * {@inheritDoc}
      */
-    public boolean removeAll(Collection<?> c);
+    boolean removeAll(Collection<?> c);
 
     /**
      * {@inheritDoc}
      */
-    public boolean retainAll(Collection<?> c);
+    boolean retainAll(Collection<?> c);
 
     /**
      * Returns the size of the {@linkplain Topology}.
      * @return The size of {@linkplain Topology}.
      */
-    public int size();
+    int size();
 
     /**
      * {@inheritDoc}
      */
-    public Object [] toArray();
+    Object [] toArray();
 
     /**
      * {@inheritDoc}
      */
-    public <T> T[] toArray(T[] a);
+    <T> T[] toArray(T[] a);
 
     /**
      * Get the <code>id</code> associated with this {@linkplain Topology}, if
      * an id is defined.
      * @return The <code>id</code> for this {@linkplain Topology}.
      */
-    public String getId();
+    String getId();
 
     /**
      * Set the <code>id</code> for this {@linkplain Topology}.
      * @param id The value to set.
      */
-    public void setId(String id);
+    void setId(String id);
 
     /**
      * Get all the entities within the topology.
      * @return Collection. Data collection of all the entities
      */
-    public List<E> asList();
+    List<E> asList();
 
     /**
      * Obtain the current best entity within the {@code Topology}.
      * @return The best {@code Entity}.
      */
-    public E getBestEntity();
+    E getBestEntity();
 
     /**
      * Obtain the current best entity within the {@code Topology}, based
@@ -170,7 +170,7 @@ public interface Topology<E extends Entity>
      * @param comparator The {@code Comparator} to use.
      * @return The best {@code Entity} based on the defined comparison.
      */
-    public E getBestEntity(Comparator<? super E> comparator);
+    E getBestEntity(Comparator<? super E> comparator);
 
     /**
      * Accept a vistitor and perform the visitor actions on this
@@ -178,21 +178,21 @@ public interface Topology<E extends Entity>
      *
      * @param visitor The {@see net.sourceforge.cilib.container.visitor.Visitor} to accept
      */
-    public void accept(Visitor<E> visitor);
+    void accept(Visitor<E> visitor);
 
     /**
      * Accept a {@code TopologyVisitor} into the {@code Topology} to perform the actions
      * defined within the {@code TopologyVisitor}.
      * @param visitor The instance to accept into the {@code Topology}.
      */
-    public void accept(TopologyVisitor visitor);
+    void accept(TopologyVisitor visitor);
 
     /**
      * Perform any required updates to the {@linkplain Topology} instance.
      * The method in has an empty implementation and needs to be overridden
      * within the required subclass.
      */
-    public void update();
+    void update();
 
     /**
      * Returns an <code>Iterator</code> over all particles in the neighbourhood of
@@ -201,6 +201,6 @@ public interface Topology<E extends Entity>
      * @param iterator An iterator that refers to a particle in this topology.
      * @return A particle iterator.
      */
-    public Iterator<E> neighbourhood(Iterator<? extends Entity> iterator);
+    Iterator<E> neighbourhood(Iterator<? extends Entity> iterator);
 
 }

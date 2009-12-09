@@ -33,6 +33,6 @@ public interface DiscreteOptimisationProblem extends OptimisationProblem {
      * {@inheritDoc}
      */
     @Override
-    public abstract DiscreteOptimisationProblem getClone();
+    DiscreteOptimisationProblem getClone();
 
 }

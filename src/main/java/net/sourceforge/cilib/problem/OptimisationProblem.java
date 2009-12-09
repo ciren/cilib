@@ -44,7 +44,7 @@ public interface OptimisationProblem extends Problem {
      * {@inheritDoc}
      */
     @Override
-    public OptimisationProblem getClone();
+    OptimisationProblem getClone();
 
     /**
      * Returns the fitness of a potential solution to this problem. The solution object is described
@@ -55,29 +55,27 @@ public interface OptimisationProblem extends Problem {
      * @param solution The potential solution found by the optimisation algorithm.
      * @return The fitness of the solution.
      */
-    public Fitness getFitness(Type solution);
+    Fitness getFitness(Type solution);
 
     /**
      * Returns the number of times the underlying fitness function has been evaluated.
      *
      * @return The number fitness evaluations.
      */
-    public int getFitnessEvaluations();
+    int getFitnessEvaluations();
 
     /**
      * Returns the domain component that describes the search space for this problem.
      *
      * @return A {@link net.sourceforge.cilib.type.DomainRegistry} object representing the search space.
      */
-    public DomainRegistry getDomain();
-
+    DomainRegistry getDomain();
 
     /**
      * Get the associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
      * @return The currently associated {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}.
      */
-    public DataSetBuilder getDataSetBuilder();
-
+    DataSetBuilder getDataSetBuilder();
 
     /**
      * Set the {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder} for this
@@ -85,13 +83,13 @@ public interface OptimisationProblem extends Problem {
      * @param dataSetBuilder The {@link net.sourceforge.cilib.problem.dataset.DataSetBuilder}
      *                       to be set on the current {@link net.sourceforge.cilib.problem.OptimisationProblem}.
      */
-    public void setDataSetBuilder(DataSetBuilder dataSetBuilder);
+    void setDataSetBuilder(DataSetBuilder dataSetBuilder);
 
     /**
      * Accept the provided {@link net.sourceforge.cilib.container.visitor.Visitor} and
      * perform the {@link net.sourceforge.cilib.container.visitor.Visitor#visit(Object)} method.
      * @param visitor The visitor which has operations to perform.
      */
-    public void accept(ProblemVisitor visitor);
+    void accept(ProblemVisitor visitor);
 
 }

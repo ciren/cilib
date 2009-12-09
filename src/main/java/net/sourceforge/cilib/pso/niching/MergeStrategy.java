@@ -34,7 +34,7 @@ public interface MergeStrategy extends Cloneable {
     /**
      * {@inheritDoc}
      */
-    public MergeStrategy getClone();
+    MergeStrategy getClone();
 
     /**
      * Apply check conditions to see if sub-swarms within the provided
@@ -42,6 +42,6 @@ public interface MergeStrategy extends Cloneable {
      * sub-swarms.
      * @param algorithm The {@link MultiPopulationBasedAlgorithm} to apply these conditions on.
      */
-    public void merge(MultiPopulationBasedAlgorithm algorithm);
+    void merge(MultiPopulationBasedAlgorithm algorithm);
 
 }

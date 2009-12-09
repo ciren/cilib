@@ -42,5 +42,5 @@ public interface ProblemFactory {
      *
      * @return A new {@link Problem}.
      */
-    public Problem newProblem();
+    Problem newProblem();
 }

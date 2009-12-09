@@ -56,19 +56,19 @@ public interface Fitness extends Type, Comparable<Fitness>, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public Fitness getClone();
+    Fitness getClone();
 
     /**
      * Returns the underlying fitness value.
      * @return the actual fitness value.
      */
-    public Double getValue();
+    Double getValue();
 
     /**
      * Creation method that maintains Fitness object immutability by returning
      * a new instance of the current class type.
      * @param value The desired value of the {@code Fitness} object.
      */
-    public Fitness newInstance(Double value);
+    Fitness newInstance(Double value);
 
 }

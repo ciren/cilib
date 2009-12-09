@@ -36,35 +36,35 @@ public interface HoneyBee extends Entity {
      * {@inheritDoc}
      */
     @Override
-    public HoneyBee getClone();
+    HoneyBee getClone();
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Fitness getFitness();
+    Fitness getFitness();
 
     /**
      * Updates the position of the bee based on the neighboring nectar content.
      */
-    public void updatePosition();
+    void updatePosition();
 
     /**
      * Gets the bee's position (contents).
      * @return the position.
      */
-    public Vector getPosition();
+    Vector getPosition();
 
     /**
      * Sets the bee's position (contents).
      * @param position The value to set.
      */
-    public void setPosition(Vector position);
+    void setPosition(Vector position);
 
     /**
      * Getter method for the position update strategy.
      * @return the position update strategy.
      */
-    public BeePositionUpdateStrategy getPositionUpdateStrategy();
+    BeePositionUpdateStrategy getPositionUpdateStrategy();
 
 }

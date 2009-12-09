@@ -36,7 +36,7 @@ public interface BeePositionUpdateStrategy extends Cloneable {
      * {@inheritDoc}
      */
     @Override
-    public BeePositionUpdateStrategy getClone();
+    BeePositionUpdateStrategy getClone();
 
     /**
      * Updates the position of the given bee.
@@ -44,6 +44,6 @@ public interface BeePositionUpdateStrategy extends Cloneable {
      * @param other another bee that the position update might use to update the position.
      * @return whether the position update was successful.
      */
-    public boolean updatePosition(HoneyBee bee, HoneyBee other);
+    boolean updatePosition(HoneyBee bee, HoneyBee other);
 
 }

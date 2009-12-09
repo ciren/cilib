@@ -40,13 +40,13 @@ public interface PositionUpdateStrategy extends Cloneable, Serializable {
      *
      * @return A clone of the current <tt>PositionUpdateStrategy</tt>
      */
-    public PositionUpdateStrategy getClone();
+    PositionUpdateStrategy getClone();
 
     /**
      * Update the position of the <tt>Particle</tt>.
      *
      * @param particle The <tt>Particle</tt> to perform the position update on.
      */
-    public void updatePosition(Particle particle);
+    void updatePosition(Particle particle);
 
 }

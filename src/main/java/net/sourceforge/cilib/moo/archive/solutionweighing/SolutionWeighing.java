@@ -39,8 +39,8 @@ import net.sourceforge.cilib.util.selection.Selection;
 public interface SolutionWeighing extends Weighing<OptimisationSolution>, Cloneable {
 
     @Override
-    public abstract SolutionWeighing getClone();
+    abstract SolutionWeighing getClone();
 
     @Override
-    public boolean weigh(List<Selection.Entry<OptimisationSolution>> elements);
+    boolean weigh(List<Selection.Entry<OptimisationSolution>> elements);
 }

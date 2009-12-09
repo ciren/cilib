@@ -36,7 +36,7 @@ public interface DistanceMetric {
      *
      * @param prob The underlying MappingProblem.
      */
-    public void setMappingProblem(MappingProblem prob);
+    void setMappingProblem(MappingProblem prob);
 
     /**
      * Gets called by CurvilinearDistEvaluator to request the distance between
@@ -47,5 +47,5 @@ public interface DistanceMetric {
      *
      * @return The distance between to two vectors.
      */
-    public double getDistance(int i, int j);
+    double getDistance(int i, int j);
 }

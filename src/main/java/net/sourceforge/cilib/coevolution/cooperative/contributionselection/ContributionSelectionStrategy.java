@@ -37,12 +37,12 @@ public interface ContributionSelectionStrategy extends Cloneable {
      * @param algorithm The {@linkplain PopulationBasedAlgorithm} to select the participant from.
      * @return The participating solution {@linkplain Vector}
      */
-    public Vector getContribution(PopulationBasedAlgorithm algorithm);
+    Vector getContribution(PopulationBasedAlgorithm algorithm);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ContributionSelectionStrategy getClone();
+    ContributionSelectionStrategy getClone();
 
 }

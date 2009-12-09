@@ -43,7 +43,7 @@ public interface DistanceMeasure {
      * @param y The second object from which the calculation is to be performed.
      * @return The distance between the provided instances.
      */
-    public <T extends Type, U extends StructuredType<T>> double distance(U x, U y);
+    <T extends Type, U extends StructuredType<T>> double distance(U x, U y);
 
     /**
      * Determine the distance between the two provided {@linkplain Collection}s.
@@ -52,6 +52,6 @@ public interface DistanceMeasure {
      * @param y The second {@linkplain Collection}.
      * @return The distance value.
      */
-    public <T extends Collection<? extends Number>> double distance(T x, T y);
+    <T extends Collection<? extends Number>> double distance(T x, T y);
 
 }

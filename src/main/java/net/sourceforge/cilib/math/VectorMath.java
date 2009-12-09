@@ -36,7 +36,7 @@ public interface VectorMath {
      * @param vector The {@code Vector} to add to the current one
      * @return The resultant {@code Vector}
      */
-    public Vector plus(Vector vector);
+    Vector plus(Vector vector);
 
     /**
      * Subtract the provided {@code Vector} from the current {@code Vector}.
@@ -45,21 +45,21 @@ public interface VectorMath {
      * @param vector The {@code Vector} to subtract.
      * @return A new {@code Vector} instance representing the result of the operation.
      */
-    public Vector subtract(Vector vector);
+    Vector subtract(Vector vector);
 
     /**
      * Divide the elements of the current {@code Vector} by the provided {@code scalar}.
      * @param scalar The value to divide all elements within the {@code Vector} by.
      * @return A new {@code Vector} instance containing the result of the operator.
      */
-    public Vector divide(double scalar);
+    Vector divide(double scalar);
 
     /**
      * Multiply a {@code scalar} with each component in the {@code Vector}.
      * @param scalar The scalar to multiply in.
      * @return A new {@code Vector} instance containing the result of the operator.
      */
-    public Vector multiply(double scalar);
+    Vector multiply(double scalar);
 
     /**
      * Calculate the norm of this <tt>Vector</tt> object. All the elements must
@@ -67,20 +67,19 @@ public interface VectorMath {
      *
      * @return The value of the vector norm
      */
-    public double norm();
+    double norm();
 
     /**
      * Synonym for the {@code norm()} of the vector.
      * @return The vector length.
      */
-    public double length();
+    double length();
 
     /**
      * Create a unit vector from the current Vector.
      * @return The created unit vector.
      */
-    public Vector normalize();
-
+    Vector normalize();
 
     /**
      * Calculate the vector dot product of the current <tt>Vector</tt> and the
@@ -90,8 +89,7 @@ public interface VectorMath {
      *                product is to be calculated.
      * @return The dot product value.
      */
-    public double dot(Vector vector);
-
+    double dot(Vector vector);
 
     /**
      * Get the cross-product vector based on the current <tt>Vector</tt> and the
@@ -103,5 +101,5 @@ public interface VectorMath {
      * @return The orthogonal vector to the current and the specified <tt>Vector</tt>.
      * @throws ArithmeticException if vectors are invalid.
      */
-    public Vector cross(Vector vector);
+    Vector cross(Vector vector);
 }

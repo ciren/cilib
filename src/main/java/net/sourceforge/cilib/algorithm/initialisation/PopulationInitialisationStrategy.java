@@ -36,19 +36,19 @@ public interface PopulationInitialisationStrategy<E extends Entity> extends Clon
      * {@inheritDoc}
      */
     @Override
-    public PopulationInitialisationStrategy getClone();
+    PopulationInitialisationStrategy<E> getClone();
 
     /**
      * Set the entity type to use.
      * @param entity The entity type to use.
      */
-    public void setEntityType(Entity entity);
+    void setEntityType(Entity entity);
 
     /**
      * Get the current entity type.
      * @return The entity being used.
      */
-    public Entity getEntityType();
+    Entity getEntityType();
 
     /**
      * Initialise the {@see net.sourceforge.cilib.entity.Entity} collection based on the given
@@ -56,18 +56,18 @@ public interface PopulationInitialisationStrategy<E extends Entity> extends Clon
      * @param problem The Problem to based the initialisation on
      * @return An {@code Iterable<E>} of instances.
      */
-    public Iterable<E> initialise(OptimisationProblem problem);
+    Iterable<E> initialise(OptimisationProblem problem);
 
     /**
      * Get the number of entities specified to be created by the <code>InitialisationStrategy</code>.
      * @return The number of entities to construct.
      */
-    public int getEntityNumber();
+    int getEntityNumber();
 
     /**
      * Set the number of {@code Entity} instances to clone.
      * @param entityNumber The number to clone.
      */
-    public void setEntityNumber(int entityNumber);
+    void setEntityNumber(int entityNumber);
 
 }

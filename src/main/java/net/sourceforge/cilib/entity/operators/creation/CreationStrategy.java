@@ -32,7 +32,7 @@ import net.sourceforge.cilib.entity.operators.Operator;
 public interface CreationStrategy extends Operator {
 
     @Override
-    public CreationStrategy getClone();
+    CreationStrategy getClone();
 
     /**
      * Create an Entity, based on the provided parameters.
@@ -44,6 +44,6 @@ public interface CreationStrategy extends Operator {
      * @param topology
      * @return
      */
-    public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology);
+    Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology);
 
 }

@@ -35,13 +35,13 @@ import net.sourceforge.cilib.entity.visitor.TopologyVisitor;
 public interface PopulationBasedAlgorithm extends Algorithm, Stoppable {
 
     @Override
-    public PopulationBasedAlgorithm getClone();
+    PopulationBasedAlgorithm getClone();
 
     /**
      * Get the current collection (population) of {@linkplain Entity entities}.
      * @return The current population.
      */
-    public abstract Topology<? extends Entity> getTopology();
+    abstract Topology<? extends Entity> getTopology();
 
     /**
      * General method to accept a visitor to perform a calculation on the current algorithm. The
@@ -51,18 +51,18 @@ public interface PopulationBasedAlgorithm extends Algorithm, Stoppable {
      * @param visitor The <tt>Visitor</tt> to be applied to the algorithm
      * @return The result of the visitor operation.
      */
-    public abstract Object accept(TopologyVisitor visitor);
+    abstract Object accept(TopologyVisitor visitor);
 
     /**
      * Set the initialisation strategy to use for the initialisation of the population.
      * @param initialisationStrategy The population initialisation strategy to set.
      */
-    public abstract void setInitialisationStrategy(PopulationInitialisationStrategy<? extends Entity> initialisationStrategy);
+    abstract void setInitialisationStrategy(PopulationInitialisationStrategy<? extends Entity> initialisationStrategy);
 
     /**
      * Get the current {@code PopulationInitialisationStrategy}.
      * @return The current {@code PopulationInitialisationStrategy}.
      */
-    public abstract PopulationInitialisationStrategy getInitialisationStrategy();
+    abstract PopulationInitialisationStrategy getInitialisationStrategy();
 
 }

@@ -42,12 +42,12 @@ public interface ContextUpdateStrategy extends Cloneable {
      * @param allocation The {@linkplain DimensionAllocation} which indictates how the solution
      *      vector forms part of the context.
      */
-    public void updateContext(ContextEntity context, Vector solution, DimensionAllocation allocation);
+    void updateContext(ContextEntity context, Vector solution, DimensionAllocation allocation);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ContextUpdateStrategy getClone();
+    ContextUpdateStrategy getClone();
 
 }

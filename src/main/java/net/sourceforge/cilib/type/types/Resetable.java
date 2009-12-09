@@ -29,6 +29,6 @@ public interface Resetable {
     /**
      * Reset the instance to a predefined state.
      */
-    public void reset();
+    void reset();
 
 }

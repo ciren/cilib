@@ -39,6 +39,6 @@ public interface NicheIdentificationStrategy {
      * @param topology The topology containing the list of Entity instances.
      * @return A list of niches. The list may be empty.
      */
-    public List<Entity> identify(Topology<? extends Entity> topology);
+    List<Entity> identify(Topology<? extends Entity> topology);
 
 }

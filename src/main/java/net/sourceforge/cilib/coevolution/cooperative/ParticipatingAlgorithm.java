@@ -31,14 +31,16 @@ import net.sourceforge.cilib.coevolution.cooperative.contributionselection.Contr
  * @author leo
  */
 public interface ParticipatingAlgorithm {
+
     /**
      * Return the {@linkplain ParticipatingAlgorithm}'s {@linkplain ContributionSelectionStrategy}.
      * @return The current instance of the {@linkplain ContributionSelectionStrategy}.
      */
-    public ContributionSelectionStrategy getContributionSelectionStrategy();
+    ContributionSelectionStrategy getContributionSelectionStrategy();
+    
     /**
      * Change the current instance of the {@linkplain ParticipatingAlgorithm}'s {@linkplain ContributionSelectionStrategy}.
      * @param strategy The new instance of the {@linkplain ContributionSelectionStrategy}.
      */
-    public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy);
+    void setContributionSelectionStrategy(ContributionSelectionStrategy strategy);
 }

@@ -39,12 +39,12 @@ import net.sourceforge.cilib.util.Cloneable;
 public interface GuideSelectionStrategy extends Cloneable {
 
     @Override
-    public GuideSelectionStrategy getClone();
+    GuideSelectionStrategy getClone();
 
     /**
      * Selects a guide for {@code particle}.
      * @param particle The particle who's guide will be selected.
      * @return The selected guide.
      */
-    public Vector selectGuide(Particle particle);
+    Vector selectGuide(Particle particle);
 }

@@ -37,11 +37,11 @@ public interface Problem extends Serializable, Cloneable {
     /**
      * {@inheritDoc}
      */
-    public Problem getClone();
+    Problem getClone();
 
     /**
      * Change the environment. TODO: this might need to be refactored.
      */
-    public void changeEnvironment();
+    void changeEnvironment();
 
 }

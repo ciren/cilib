@@ -27,5 +27,5 @@ package net.sourceforge.cilib.stoppingcondition;
  */
 public interface StoppingConditionFactory {
 
-    public StoppingCondition newStoppingCondition();
+    StoppingCondition newStoppingCondition();
 }

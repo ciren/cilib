@@ -42,6 +42,6 @@ public interface ChangeStrategy {
      * @param problem The problem on which a change is to be applied.
      * @return {@code true} if a change occoured, {@code false} otherwise.
      */
-    public boolean shouldApply(Problem problem);
+    boolean shouldApply(Problem problem);
 
 }

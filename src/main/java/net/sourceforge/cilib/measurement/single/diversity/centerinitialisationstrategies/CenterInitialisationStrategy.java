@@ -33,6 +33,6 @@ public interface CenterInitialisationStrategy {
      * Get the population center.
      * @return the populationCenter
      */
-    public Vector getCenter();
+    Vector getCenter();
 
 }

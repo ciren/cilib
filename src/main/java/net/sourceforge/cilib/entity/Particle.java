@@ -38,94 +38,94 @@ public interface Particle extends Entity, SocialEntity, MemoryBasedEntity {
      * {@inheritDoc}
      */
     @Override
-    public Particle getClone();
+    Particle getClone();
 
     /**
      * Get the current position of the {@linkplain Particle}.
      * @return The {@linkplain Type} representing the position.
      */
-    public StructuredType getPosition();
+    StructuredType getPosition();
 
     /**
      * Get the current velocity of the {@linkplain Particle}.
      * @return The {@linkplain Type} representing the velocity.
      */
-    public StructuredType getVelocity();
+    StructuredType getVelocity();
 
     /**
      * Get the current best particle within the {@linkplain Particle}s neighbourhood.
      * @return The neighbourhood best particle.
      */
-    public Particle getNeighbourhoodBest();
+    Particle getNeighbourhoodBest();
 
     /**
      * Set the current neighbourhood best particle within the current neighbourhood.
      * @param particle The particle to set as the neighbourhood best.
      */
-    public void setNeighbourhoodBest(Particle particle);
+    void setNeighbourhoodBest(Particle particle);
 
     /**
      * Update the current position of the {@linkplain Particle}.
      */
-    public void updatePosition();
+    void updatePosition();
 
     /**
      * Update the velocity of the {@linkplain Particle}.
      */
-    public void updateVelocity();
+    void updateVelocity();
 
     /**
      * Update all the {@linkplain ControlParameter}s that are maintained within the
      * {@linkplain Particle}.
      */
-    public void updateControlParameters();
+    void updateControlParameters();
 
     /**
      * Get the strategy that will be used to update the velocity.
      * @return The current {@linkplain VelocityUpdateStrategy}.
      */
-    public VelocityUpdateStrategy getVelocityUpdateStrategy();
+    VelocityUpdateStrategy getVelocityUpdateStrategy();
 
     /**
      * Set the {@linkplain VelocityUpdateStrategy} to be used during velocity updates.
      * @param velocityUpdateStrategy the {@linkplain VelocityUpdateStrategy} to use.
      */
-    public void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy);
+    void setVelocityUpdateStrategy(VelocityUpdateStrategy velocityUpdateStrategy);
 
     /**
      * Get the strategy for the intialisation of the velocity.
      * @return The {@linkplain VelocityInitialisationStrategy} that is currently set.
      */
-    public InitializationStrategy getVelocityInitializationStrategy();
+    InitializationStrategy getVelocityInitializationStrategy();
 
     /**
      * Set the initialisation strategy for the {@linkplain Particle}s velocity.
      * @param velocityInitialisationStrategy The velocity initialisation strategy to set.
      */
-    public void setVelocityInitializationStrategy(InitializationStrategy velocityInitialisationStrategy);
+    void setVelocityInitializationStrategy(InitializationStrategy velocityInitialisationStrategy);
 
     /**
      * Get the current {@linkplain PositionUpdateStrategy} of the {@linkplain Particle}.
      * @return The current {@linkplain PositionUpdateStrategy}.
      */
-    public PositionUpdateStrategy getPositionUpdateStrategy();
+    PositionUpdateStrategy getPositionUpdateStrategy();
 
     /**
      * Set the {@linkplain PositionUpdateStrategy} to use for particle position updates.
      * @param positionUpdateStrategy The {@linkplain PositionUpdateStrategy} to set.
      */
-    public void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy);
+    void setPositionUpdateStrategy(PositionUpdateStrategy positionUpdateStrategy);
 
     /**
      * Get the current strategy to perform personal best updates.
      * @return The current {@link PersonalBestUpdateStrategy}.
      */
-    public PersonalBestUpdateStrategy getPersonalBestUpdateStrategy();
+    PersonalBestUpdateStrategy getPersonalBestUpdateStrategy();
 
     /**
      * Set the strategy to perform personal best updates.
      * @param personalBestUpdateStrategy The instance to set.
      */
-    public void setPersonalBestUpdateStrategy(PersonalBestUpdateStrategy personalBestUpdateStrategy);
+    void setPersonalBestUpdateStrategy(PersonalBestUpdateStrategy personalBestUpdateStrategy);
 
 }

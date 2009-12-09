@@ -33,5 +33,5 @@ public interface WeightInitializationStrategy {
      * Initialize (set the initial values of) the given set of weights.
      * @param weights the weights to initialize.
      */
-    public void initialize(Vector weights);
+    void initialize(Vector weights);
 }

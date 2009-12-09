@@ -32,15 +32,15 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public interface ClusterableDataSet {
 
-    public int getNumberOfPatterns();
+    int getNumberOfPatterns();
 
-    public Pattern getPattern(int index);
+    Pattern getPattern(int index);
 
-    public ArrayList<Pattern> getPatterns();
-    public Vector getMean();
-    public double getVariance();
-    public double getCachedDistance(int x, int y);
-    public void initialise();
+    ArrayList<Pattern> getPatterns();
+    Vector getMean();
+    double getVariance();
+    double getCachedDistance(int x, int y);
+    void initialise();
 
     /**
      * TODO: Complete this javadoc.

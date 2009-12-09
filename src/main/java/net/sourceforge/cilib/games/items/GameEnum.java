@@ -37,5 +37,5 @@ public interface GameEnum {
      * a {@linkplain GameItem}
      * @return the string description.
      */
-    public String getDescription();
+    String getDescription();
 }

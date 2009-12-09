@@ -42,5 +42,5 @@ public interface ProblemDistributionStrategy {
      * @param problem The problem that needs to be re-distributed.
      * @param context The context vector maintained by the {@linkplain CooperativeCoevolutionAlgorithm}.
      */
-    public void performDistribution(List<PopulationBasedAlgorithm> populations, OptimisationProblem problem, Vector context);
+    void performDistribution(List<PopulationBasedAlgorithm> populations, OptimisationProblem problem, Vector context);
 }
