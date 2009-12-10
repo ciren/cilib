@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.bioinf.sequencealignment;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 
@@ -32,52 +31,63 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * already been found.
  * @author Fabien Zablocki
  */
-public class DesiredMaximizationFitness implements StoppingCondition {
+@Deprecated
+public class DesiredMaximizationFitness implements StoppingCondition<Algorithm> {
     private static final long serialVersionUID = 6494553632698710933L;
-    private AbstractAlgorithm algorithm;
-    private double desiredFitness;
-    private int quitAnywayAfterIterations;
 
-    public DesiredMaximizationFitness() {
+    @Override
+    public double getPercentageCompleted(Algorithm algorithm) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public DesiredMaximizationFitness(DesiredMaximizationFitness copy) {
-        this.algorithm = copy.algorithm;
-        this.desiredFitness = copy.desiredFitness;
+    @Override
+    public boolean apply(Algorithm input) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    public DesiredMaximizationFitness getClone() {
-        return new DesiredMaximizationFitness(this);
-    }
-
-    public double getFitness() {
-        return desiredFitness;
-    }
-
-    public void setDesiredFitness(double desiredFitness) {
-        this.desiredFitness = desiredFitness;
-    }
-
-    public double getPercentageCompleted() {
-        return algorithm.getBestSolution().getFitness().getValue() / desiredFitness;
-    }
-
-    public boolean isCompleted() {
-        if (algorithm.getIterations() == quitAnywayAfterIterations)
-            return true;
-        else
-            return algorithm.getBestSolution().getFitness().getValue() >= desiredFitness;
-    }
-
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = (AbstractAlgorithm) algorithm;
-    }
-
-    public int getQuitAnywayAfterIterations() {
-        return quitAnywayAfterIterations;
-    }
-
-    public void setQuitAnywayAfterIterations(int quitAnywayAfterIterations) {
-        this.quitAnywayAfterIterations = quitAnywayAfterIterations;
-    }
+//    private AbstractAlgorithm algorithm;
+//    private double desiredFitness;
+//    private int quitAnywayAfterIterations;
+//
+//    public DesiredMaximizationFitness() {
+//    }
+//
+//    public DesiredMaximizationFitness(DesiredMaximizationFitness copy) {
+//        this.algorithm = copy.algorithm;
+//        this.desiredFitness = copy.desiredFitness;
+//    }
+//
+//    public DesiredMaximizationFitness getClone() {
+//        return new DesiredMaximizationFitness(this);
+//    }
+//
+//    public double getFitness() {
+//        return desiredFitness;
+//    }
+//
+//    public void setDesiredFitness(double desiredFitness) {
+//        this.desiredFitness = desiredFitness;
+//    }
+//
+//    public double getPercentageCompleted() {
+//        return algorithm.getBestSolution().getFitness().getValue() / desiredFitness;
+//    }
+//
+//    public boolean isCompleted() {
+//        if (algorithm.getIterations() == quitAnywayAfterIterations)
+//            return true;
+//        else
+//            return algorithm.getBestSolution().getFitness().getValue() >= desiredFitness;
+//    }
+//
+//    public void setAlgorithm(Algorithm algorithm) {
+//        this.algorithm = (AbstractAlgorithm) algorithm;
+//    }
+//
+//    public int getQuitAnywayAfterIterations() {
+//        return quitAnywayAfterIterations;
+//    }
+//
+//    public void setQuitAnywayAfterIterations(int quitAnywayAfterIterations) {
+//        this.quitAnywayAfterIterations = quitAnywayAfterIterations;
+//    }
 }

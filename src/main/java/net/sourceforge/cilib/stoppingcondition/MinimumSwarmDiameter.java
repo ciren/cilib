@@ -21,18 +21,16 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.entity.visitor.DiameterVisitor;
 import net.sourceforge.cilib.pso.PSO;
 
 /**
  * @author Edwin Peer
  */
-public class MinimumSwarmDiameter implements StoppingCondition {
+public class MinimumSwarmDiameter implements StoppingCondition<PSO> {
     private static final long serialVersionUID = -1570485054918077401L;
 
-    double minimumSwarmDiameter;
-    PSO algorithm;
+    private double minimumSwarmDiameter;
 
     /** Creates a new instance of MinimumSwarmDiameterIndicator. */
     public MinimumSwarmDiameter() {
@@ -43,15 +41,6 @@ public class MinimumSwarmDiameter implements StoppingCondition {
         this.minimumSwarmDiameter = minimumSwarmDiameter;
     }
 
-    public MinimumSwarmDiameter(MinimumSwarmDiameter copy) {
-        this.minimumSwarmDiameter = copy.minimumSwarmDiameter;
-        this.algorithm = copy.algorithm;
-    }
-
-    public MinimumSwarmDiameter getClone() {
-        return new MinimumSwarmDiameter(this);
-    }
-
     public void setDiameter(double minimumSwarmDiameter) {
         this.minimumSwarmDiameter = minimumSwarmDiameter;
     }
@@ -60,7 +49,8 @@ public class MinimumSwarmDiameter implements StoppingCondition {
         return minimumSwarmDiameter;
     }
 
-    public double getPercentageCompleted() {
+    @Override
+    public double getPercentageCompleted(PSO algorithm) {
         DiameterVisitor diameterVisitor = new DiameterVisitor();
         algorithm.accept(diameterVisitor);
         double diameter = diameterVisitor.getResult();
@@ -71,13 +61,11 @@ public class MinimumSwarmDiameter implements StoppingCondition {
         return minimumSwarmDiameter / diameter;
     }
 
-    public boolean isCompleted() {
+    @Override
+    public boolean apply(PSO input) {
         DiameterVisitor diameterVisitor = new DiameterVisitor();
-        algorithm.accept(diameterVisitor);
+        input.accept(diameterVisitor);
         return (diameterVisitor.getResult() <= minimumSwarmDiameter);
     }
 
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = (PSO) algorithm;
-    }
 }

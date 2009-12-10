@@ -27,12 +27,10 @@ import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 /**
  * @author Edwin Peer
  */
-public class MinimumFunctionMinimisationError implements StoppingCondition {
+public class MinimumFunctionMinimisationError implements StoppingCondition<Algorithm> {
     private static final long serialVersionUID = -7375489325180419208L;
 
-    private Algorithm optAlgorithm;
     private double minimumError;
-    private FunctionMinimisationProblem problem;
 
     /** Creates a new instance of MinimumErrorIndicator. */
     public MinimumFunctionMinimisationError() {
@@ -43,16 +41,6 @@ public class MinimumFunctionMinimisationError implements StoppingCondition {
         this.minimumError = minimumError;
     }
 
-    public MinimumFunctionMinimisationError(MinimumFunctionMinimisationError copy) {
-        this.minimumError = copy.minimumError;
-        this.optAlgorithm = copy.optAlgorithm;
-        this.problem = copy.problem;
-    }
-
-    public MinimumFunctionMinimisationError getClone() {
-        return new MinimumFunctionMinimisationError(this);
-    }
-
     public void setError(double minimumError) {
         this.minimumError = minimumError;
     }
@@ -61,20 +49,20 @@ public class MinimumFunctionMinimisationError implements StoppingCondition {
         return minimumError;
     }
 
-    public double getPercentageCompleted() {
-        double error = problem.getError(optAlgorithm.getBestSolution().getPosition());
+    @Override
+    public double getPercentageCompleted(Algorithm algorithm) {
+        FunctionMinimisationProblem problem = (FunctionMinimisationProblem) algorithm.getOptimisationProblem();
+        double error = problem.getError(algorithm.getBestSolution().getPosition());
         if (error <= minimumError) {
             return 1;
         }
         return minimumError / error;
     }
 
-    public boolean isCompleted() {
-        return problem.getError(optAlgorithm.getBestSolution().getPosition()) <= minimumError;
+    @Override
+    public boolean apply(Algorithm input) {
+        FunctionMinimisationProblem problem = (FunctionMinimisationProblem) input.getOptimisationProblem();
+        return problem.getError(input.getBestSolution().getPosition()) <= minimumError;
     }
 
-    public void setAlgorithm(Algorithm algorithm) {
-        optAlgorithm = algorithm;
-        problem = (FunctionMinimisationProblem) optAlgorithm.getOptimisationProblem();
-    }
 }
