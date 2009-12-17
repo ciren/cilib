@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.selection.ordering;
 
 import java.util.Collections;
 import java.util.List;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
+import net.sourceforge.cilib.util.selection.Selection;
 
 /**
  * Reverse the ordering of the provided list of entries.
@@ -36,7 +36,7 @@ public class ReverseOrdering<E> implements Ordering<E> {
      * {@inheritDoc} The resulting list will be the reverse order of {@code elements}.
      */
     @Override
-    public boolean order(List<SelectionSyntax.Entry<E>> elements) {
+    public boolean order(List<Selection.Entry<E>> elements) {
         Collections.reverse(elements);
         return true;
     }

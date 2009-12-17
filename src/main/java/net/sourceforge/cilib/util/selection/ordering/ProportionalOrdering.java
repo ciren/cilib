@@ -26,7 +26,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
+import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionBuilder;
 
 /**
  * Apply a proportionate ordering. Proportionate ordering is done by determining
@@ -63,10 +64,10 @@ public class ProportionalOrdering<E> implements Ordering<E> {
      * list of elements.
      */
     @Override
-    public boolean order(List<SelectionSyntax.Entry<E>> elements) {
+    public boolean order(List<Selection.Entry<E>> elements) {
 
         double total = 0.0;
-        for (SelectionSyntax.Entry<E> weighedObject : elements) {
+        for (Selection.Entry<E> weighedObject : elements) {
             total += weighedObject.getWeight();
         }
 
@@ -74,7 +75,7 @@ public class ProportionalOrdering<E> implements Ordering<E> {
             return false;
         }
 
-        List<SelectionSyntax.Entry<E>> temp = Lists.newArrayList();
+        List<Selection.Entry<E>> temp = Lists.newArrayList();
         while (elements.size() > 0) {
             double randomValue = this.generator.nextDouble() * total;
             double marker = 0.0;
@@ -83,7 +84,7 @@ public class ProportionalOrdering<E> implements Ordering<E> {
                 marker += elements.get(i++).getWeight();
             } while (i < elements.size() && marker < randomValue);
 
-            SelectionSyntax.Entry<E> selected = elements.get(i - 1);
+            Selection.Entry<E> selected = elements.get(i - 1);
             temp.add(selected);
             elements.remove(i - 1);
             total -= selected.getWeight();

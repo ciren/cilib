@@ -27,8 +27,8 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
 import net.sourceforge.cilib.util.selection.ordering.RandomOrdering;
 import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
@@ -52,7 +52,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
     private static final long serialVersionUID = -6689673224380247931L;
 
     private ControlParameter tournamentProportion;
-    private Comparator<SelectionSyntax.Entry<E>> comparator;
+    private Comparator<Selection.Entry<E>> comparator;
     private Random random;
 
     /**
@@ -68,7 +68,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public TournamentSelection(TournamentSelection copy) {
+    public TournamentSelection(TournamentSelection<E> copy) {
         this.tournamentProportion = copy.tournamentProportion.getClone();
         this.comparator = copy.comparator;
         this.random = copy.random.getClone();
@@ -102,7 +102,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
      * Set the comparator for the selection.
      * @param comparator The value to set.
      */
-    public void setComparator(Comparator<SelectionSyntax.Entry<E>> comparator) {
+    public void setComparator(Comparator<Selection.Entry<E>> comparator) {
         this.comparator = comparator;
     }
 
@@ -110,7 +110,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
      * Get the comparator for the selection.
      * @return The current comparator.
      */
-    public Comparator<SelectionSyntax.Entry<E>> getComparator() {
+    public Comparator<Selection.Entry<E>> getComparator() {
         return this.comparator;
     }
 
@@ -136,7 +136,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
     @Override
     public E select(List<? extends E> elements) {
         int tournamentSize = Double.valueOf(this.tournamentProportion.getParameter() * elements.size()).intValue();
-        return Selection.from(elements).orderBy(new RandomOrdering<E>(this.random)).
-                last(tournamentSize).orderBy(new SortedOrdering<E>(this.comparator)).last().singleSelect();
+        return Selection.from(elements).orderBy(new RandomOrdering<E>(this.random)).select(Samples.last(tournamentSize))
+                .and().orderBy(new SortedOrdering<E>(this.comparator)).select(Samples.last()).performSingle();
     }
 }

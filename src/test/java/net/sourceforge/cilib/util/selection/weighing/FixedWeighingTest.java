@@ -24,7 +24,6 @@ package net.sourceforge.cilib.util.selection.weighing;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,7 +36,7 @@ public class FixedWeighingTest {
     @Test
     public void fixedWeighing() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<SelectionSyntax.Entry<Integer>> weighedElements = Selection.from(elements).weigh(new FixedWeighing(1.0)).entries();
+        List<Selection.Entry<Integer>> weighedElements = Selection.from(elements).weigh(new FixedWeighing<Integer>(1.0)).and().entries();
         for (int i = 0; i < weighedElements.size(); ++i) {
             Assert.assertEquals(1.0, weighedElements.get(i).getWeight(), 0.0001);
         }

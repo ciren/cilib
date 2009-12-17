@@ -24,7 +24,6 @@ package net.sourceforge.cilib.util.selection.ordering;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -40,7 +39,7 @@ public class ReverseOrderingTest {
     @Test
     public void reverseOrdering() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<SelectionSyntax.Entry<Integer>> entries = Selection.from(elements).entries();
+        List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
         boolean ordered = new ReverseOrdering<Integer>().order(entries);
         Assert.assertThat(ordered, is(true));
 

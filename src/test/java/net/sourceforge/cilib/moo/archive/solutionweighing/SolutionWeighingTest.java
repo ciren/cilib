@@ -41,7 +41,6 @@ import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -143,10 +142,10 @@ public class SolutionWeighingTest {
 
     @Test
     public void testAntiClusteringWeighingStrategy() {
-        List<SelectionSyntax.Entry<OptimisationSolution>> weighedSolutions = Selection.from(solutions).weigh(new AntiClusterWeighing()).entries();
+        List<Selection.Entry<OptimisationSolution>> weighedSolutions = Selection.from(solutions).weigh(new AntiClusterWeighing()).and().entries();
 
-        Iterator<SelectionSyntax.Entry<OptimisationSolution>> weighedSolutionIterator = weighedSolutions.iterator();
-        SelectionSyntax.Entry<OptimisationSolution> weighedSolution = weighedSolutionIterator.next();
+        Iterator<Selection.Entry<OptimisationSolution>> weighedSolutionIterator = weighedSolutions.iterator();
+        Selection.Entry<OptimisationSolution> weighedSolution = weighedSolutionIterator.next();
         Assert.assertEquals(0.290823093508, weighedSolution.getWeight(), EPSILON);
 
         weighedSolution = weighedSolutionIterator.next();

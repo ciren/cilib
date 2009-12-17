@@ -47,7 +47,7 @@ import static org.hamcrest.Matchers.hasItem;
  */
 public class RouletteWheelSelectionTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
         RouletteWheelSelection<Integer> selection = new RouletteWheelSelection<Integer>();
@@ -73,7 +73,7 @@ public class RouletteWheelSelectionTest {
         return topology;
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void selectionWithInferiorFitness() {
         RouletteWheelSelection<Entity> rouletteWheelSelection = new RouletteWheelSelection<Entity>(new EntityWeighing<Entity>());
         rouletteWheelSelection.select(new GBestTopology<Individual>());

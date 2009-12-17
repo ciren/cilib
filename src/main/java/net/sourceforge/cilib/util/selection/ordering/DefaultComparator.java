@@ -22,14 +22,15 @@
 package net.sourceforge.cilib.util.selection.ordering;
 
 import java.util.Comparator;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
+import net.sourceforge.cilib.util.selection.Selection;
+import net.sourceforge.cilib.util.selection.SelectionBuilder;
 
 /**
  * A Comparator that orders objects in a natural ordering.
  * @param <E> The selection type.
  * @author Wiehann Matthysen
  */
-public class DefaultComparator<E extends Comparable<? super E>> implements Comparator<SelectionSyntax.Entry<E>> {
+public class DefaultComparator<E extends Comparable<? super E>> implements Comparator<Selection.Entry<E>> {
     private static final long serialVersionUID = -7811082307938055094L;
 
     /**
@@ -71,7 +72,7 @@ public class DefaultComparator<E extends Comparable<? super E>> implements Compa
      * 	       being compared by this comparator.
      */
     @Override
-    public int compare(SelectionSyntax.Entry<E> o1, SelectionSyntax.Entry<E> o2) {
+    public int compare(Selection.Entry<E> o1, Selection.Entry<E> o2) {
         return o1.getElement().compareTo(o2.getElement());
     }
 }

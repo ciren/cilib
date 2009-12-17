@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
 import org.junit.Test;
@@ -69,7 +70,7 @@ public class RandomSelectionTest {
     @Test
     public void selectRandomFrom() {
         List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        int selected = Selection.from(list).random(new ConstantRandomNumber()).singleSelect();
+        int selected = Selection.from(list).random(new ConstantRandomNumber()).select(Samples.first()).performSingle();
 
         List<Integer> otherElements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         Collections.shuffle(otherElements, new ConstantRandomNumber());

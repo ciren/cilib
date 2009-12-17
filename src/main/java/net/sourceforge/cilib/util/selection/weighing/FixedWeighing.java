@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.util.selection.weighing;
 
 import java.util.List;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
+import net.sourceforge.cilib.util.selection.Selection;
 
 /**
  * Apply a fixed weighing to a list of elements.
@@ -86,8 +86,8 @@ public class FixedWeighing<E> implements Weighing<E> {
      * Apply the defined weight value to the all the entries contain in {@code elements}.
      */
     @Override
-    public boolean weigh(List<SelectionSyntax.Entry<E>> elements) {
-        for (SelectionSyntax.Entry<E> object : elements) {
+    public boolean weigh(List<Selection.Entry<E>> elements) {
+        for (Selection.Entry<E> object : elements) {
             object.setWeight(this.weight);
         }
 

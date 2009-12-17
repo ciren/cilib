@@ -29,7 +29,7 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MOFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.moo.guideselectionstrategies.GuideSelectionStrategy;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
+import net.sourceforge.cilib.util.selection.Selection;
 
 /**
  * <p>
@@ -63,10 +63,10 @@ public class AntiClusterWeighing implements SolutionWeighing {
     }
 
     @Override
-    public boolean weigh(List<SelectionSyntax.Entry<OptimisationSolution>> solutions) {
+    public boolean weigh(List<Selection.Entry<OptimisationSolution>> solutions) {
         // Get first fitness as dummy fitness to set size of initial min and max fitness
         // arrays as well as populating these arrays.
-        Iterator<? extends SelectionSyntax.Entry<OptimisationSolution>> solutionIterator = solutions.iterator();
+        Iterator<? extends Selection.Entry<OptimisationSolution>> solutionIterator = solutions.iterator();
         MOFitness tempFitness = (MOFitness) solutionIterator.next().getElement().getFitness();
         Fitness[] minFitnesses = new Fitness[tempFitness.getDimension()];
         Fitness[] maxFitnesses = new Fitness[tempFitness.getDimension()];
@@ -77,7 +77,7 @@ public class AntiClusterWeighing implements SolutionWeighing {
 
         // Iterate over all remaining optimisation solutions and find the min and max fitness values.
         while (solutionIterator.hasNext()) {
-            SelectionSyntax.Entry<OptimisationSolution> optimisationSolution = solutionIterator.next();
+            Selection.Entry<OptimisationSolution> optimisationSolution = solutionIterator.next();
             MOFitness fitnesses = (MOFitness) optimisationSolution.getElement().getFitness();
             for (int i = 0; i < fitnesses.getDimension(); ++i) {
                 Double fitnessValue = fitnesses.getFitness(i).getValue();
@@ -92,10 +92,10 @@ public class AntiClusterWeighing implements SolutionWeighing {
         // Now, iterate over all solutions again, but calculate the distance from each solution to every other
         // solution and store the results in a list. Each solution in the list contains the distance as weight value.
 //        List<Pair<Double, OptimisationSolution>> weighedOptimisationSolutions = new ArrayList<Pair<Double, OptimisationSolution>>();
-        for (SelectionSyntax.Entry<OptimisationSolution> fromSolution : solutions) {
+        for (Selection.Entry<OptimisationSolution> fromSolution : solutions) {
             double totalDistance = 0.0;
             MOFitness fromFitnesses = (MOFitness) fromSolution.getElement().getFitness();
-            for (SelectionSyntax.Entry<OptimisationSolution> toSolution : solutions) {
+            for (Selection.Entry<OptimisationSolution> toSolution : solutions) {
                 if (fromSolution != toSolution) {
                     double distance = 0.0;
                     MOFitness toFitnesses = (MOFitness) toSolution.getElement().getFitness();

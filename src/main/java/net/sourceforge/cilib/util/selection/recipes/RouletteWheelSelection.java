@@ -24,6 +24,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.ordering.ProportionalOrdering;
 import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
@@ -69,7 +70,7 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public RouletteWheelSelection(RouletteWheelSelection copy) {
+    public RouletteWheelSelection(RouletteWheelSelection<E> copy) {
         this.weighing = copy.weighing.getClone();
         this.random = copy.random.getClone();
     }
@@ -123,7 +124,7 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
         // Boil largest elements to the front using proportional ordering
         // (as final step, elements get reversed such that largest elements are at the back).
         // Select the largest from the end and return.
-        return Selection.from(elements).weigh(this.weighing).orderBy(new SortedOrdering<E>()).
-                orderBy(new ProportionalOrdering<E>(this.random)).last().singleSelect();
+        return Selection.from(elements).weigh(this.weighing).and().orderBy(new SortedOrdering<E>()).and()
+                .orderBy(new ProportionalOrdering<E>(this.random)).select(Samples.last()).performSingle();
     }
 }

@@ -24,6 +24,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 
 /**
@@ -61,7 +62,7 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public RandomSelection(RandomSelection copy) {
+    public RandomSelection(RandomSelection<E> copy) {
         this.random = copy.random.getClone();
     }
 
@@ -78,6 +79,6 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      */
     @Override
     public E select(List<? extends E> elements) {
-        return Selection.from(elements).random(random).singleSelect();
+        return Selection.from(elements).random(random).select(Samples.first()).performSingle();
     }
 }

@@ -19,14 +19,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package net.sourceforge.cilib.util.selection;
 
-public interface UniqueSyntax<E> {
+import java.util.List;
 
-    /**
-     * Convert the selection process into a selection that is aware of uniqueness.
-     * @return An instance of {@code UniqueSelection} with identical elements.
-     */
-    public SelectionSyntax<E> unique();
+/**
+ *
+ * @author gpampara
+ */
+public interface SampleSelectionBuilder<T> {
+
+    List<T> perform();
+
+    T performSingle();
+
+    LinkedSelectionBuilder<T> and();
 
 }

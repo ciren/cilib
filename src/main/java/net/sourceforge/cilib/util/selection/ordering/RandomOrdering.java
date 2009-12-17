@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
+import net.sourceforge.cilib.util.selection.Selection;
 
 /**
  * Apply a random ordering to the provided list. This class defines that the
@@ -58,7 +58,7 @@ public class RandomOrdering<E> implements Ordering<E> {
      * {@inheritDoc} This ordering will be a random shuffle.
      */
     @Override
-    public boolean order(List<SelectionSyntax.Entry<E>> elements) {
+    public boolean order(List<Selection.Entry<E>> elements) {
         shuffle(elements);
         return true;
     }
@@ -72,7 +72,7 @@ public class RandomOrdering<E> implements Ordering<E> {
      *
      * @param elements The elements to shuffle.
      */
-    private void shuffle(List<SelectionSyntax.Entry<E>> elements) {
+    private void shuffle(List<Selection.Entry<E>> elements) {
         int n = elements.size();
 
         while (n > 1) {

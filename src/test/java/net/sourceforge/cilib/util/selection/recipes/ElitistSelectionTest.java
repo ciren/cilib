@@ -42,7 +42,7 @@ import static org.hamcrest.Matchers.hasItem;
  */
 public class ElitistSelectionTest {
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
         ElitistSelection<Integer> selection = new ElitistSelection<Integer>();

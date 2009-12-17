@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import net.sourceforge.cilib.util.selection.weighing.LinearWeighing;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class ProportionalOrderingTest {
     @Test
     public void proportionalOrdering() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<SelectionSyntax.Entry<Integer>> entries = Selection.from(elements).weigh(new LinearWeighing<Integer>(1, 9)).entries();
+        List<Selection.Entry<Integer>> entries = Selection.from(elements).weigh(new LinearWeighing<Integer>(1, 9)).and().entries();
         boolean ordered = new ProportionalOrdering<Integer>(new ConstantRandomNumber()).order(entries);
         Assert.assertThat(ordered, is(true));
 

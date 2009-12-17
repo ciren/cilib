@@ -19,23 +19,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.util.selection.ordering;
 
-import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
+package net.sourceforge.cilib.util.selection;
 
 /**
- * An ordering is a construct to define how a list of elements should be ordered.
- * The ordering is a simple function that does a single action.
- * @param <E> The type to apply the ordering to.
+ *
  * @author gpampara
  */
-public interface Ordering<E> {
+public interface SamplePredicate<T> {
 
     /**
-     * Apply the ordering on the provided list.
-     * @param elements The list to be ordered.
-     * @return {@code true} if successful, {@code false} otherwise.
+     * 
+     * @param input
+     * @param capacity
+     * @return
+     *
+     * @TODO: There must be a way to remove the capacity parameter... ?
      */
-    public boolean order(List<Selection.Entry<E>> elements);
+    boolean apply(T input, int capacity);
+
+    boolean isDone();
+
 }

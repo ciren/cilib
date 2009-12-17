@@ -25,8 +25,8 @@ import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
 import net.sourceforge.cilib.util.selection.ordering.RandomOrdering;
 import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
@@ -47,7 +47,7 @@ import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
 public class RankBasedSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
 
     private static final long serialVersionUID = -2387196820773731607L;
-    private Comparator<SelectionSyntax.Entry<E>> comparator;
+    private Comparator<Selection.Entry<E>> comparator;
     private Random random;
 
     /**
@@ -62,7 +62,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      * Create a new instance with the provided {@link Comparator}.
      * @param comparator The comparator to use.
      */
-    public RankBasedSelection(Comparator<SelectionSyntax.Entry<E>> comparator) {
+    public RankBasedSelection(Comparator<Selection.Entry<E>> comparator) {
         this.comparator = comparator;
         this.random = new MersenneTwister();
     }
@@ -71,7 +71,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public RankBasedSelection(RankBasedSelection copy) {
+    public RankBasedSelection(RankBasedSelection<E> copy) {
         this.comparator = copy.comparator;
         this.random = copy.random.getClone();
     }
@@ -88,7 +88,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      * Set the comparator to use.
      * @param comparator The value to set.
      */
-    public void setComparator(Comparator<SelectionSyntax.Entry<E>> comparator) {
+    public void setComparator(Comparator<Selection.Entry<E>> comparator) {
         this.comparator = comparator;
     }
 
@@ -96,7 +96,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      * Get the comparator.
      * @return The current comparator.
      */
-    public Comparator<SelectionSyntax.Entry<E>> getComparator() {
+    public Comparator<Selection.Entry<E>> getComparator() {
         return this.comparator;
     }
 
@@ -121,7 +121,8 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      */
     @Override
     public E select(List<? extends E> elements) {
-        return Selection.from(elements).orderBy(new SortedOrdering<E>(this.comparator)).
-                last(this.random.nextInt(elements.size()) + 1).orderBy(new RandomOrdering<E>(this.random)).last().singleSelect();
+        List<E> list = Selection.from(elements).orderBy(new SortedOrdering<E>(this.comparator))
+                .select(Samples.last(this.random.nextInt(elements.size()) + 1)).perform();
+        return Selection.from(list).orderBy(new RandomOrdering<E>(this.random)).select(Samples.last()).performSingle();
     }
 }

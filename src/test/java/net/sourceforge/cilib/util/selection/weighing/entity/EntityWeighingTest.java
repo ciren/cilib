@@ -29,7 +29,6 @@ import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -45,7 +44,7 @@ public class EntityWeighingTest {
         Individual i3 = createIndividual(new MaximisationFitness(3.0));
 
         List<Individual> individuals = Arrays.asList(i1, i2, i3);
-        List<SelectionSyntax.Entry<Individual>> entries = Selection.from(individuals).entries();
+        List<Selection.Entry<Individual>> entries = Selection.from(individuals).entries();
         EntityWeighing<Individual> weighing = new EntityWeighing<Individual>();
         weighing.weigh(entries);
 
@@ -61,7 +60,7 @@ public class EntityWeighingTest {
         Individual i3 = createIndividual(new MinimisationFitness(3.0));
 
         List<Individual> individuals = Arrays.asList(i1, i2, i3);
-        List<SelectionSyntax.Entry<Individual>> entries = Selection.from(individuals).entries();
+        List<Selection.Entry<Individual>> entries = Selection.from(individuals).entries();
         EntityWeighing<Individual> weighing = new EntityWeighing<Individual>();
         weighing.weigh(entries);
 

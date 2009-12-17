@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.selection.ordering;
 
 import com.google.common.collect.Lists;
 import java.util.List;
-import net.sourceforge.cilib.util.selection.SelectionSyntax;
+import net.sourceforge.cilib.util.selection.Selection;
 
 /**
  * Arrange all elements as a ring and depending on the desired pivot point, return
@@ -61,11 +61,11 @@ public class RingBasedOrdering<E> implements Ordering<E> {
      * element defined to be 5, the resulting order will be: {6, 7, 8, 9, 1, 2, 3, 4, 5}
      */
     @Override
-    public boolean order(List<SelectionSyntax.Entry<E>> elements) {
-        List<SelectionSyntax.Entry<E>> tmp = Lists.newArrayList(elements);
+    public boolean order(List<Selection.Entry<E>> elements) {
+        List<Selection.Entry<E>> tmp = Lists.newArrayList(elements);
 
         int position = 0;
-        for (SelectionSyntax.Entry<E> entry : elements) {
+        for (Selection.Entry<E> entry : elements) {
             if (this.marker.equals(entry.getElement()))
                 break;
             position++;

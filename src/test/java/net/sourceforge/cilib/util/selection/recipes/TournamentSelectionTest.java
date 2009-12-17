@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.hasItem;
  */
 public class TournamentSelectionTest {
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void selectEmpty() {
         List<Integer> elements = Lists.newArrayList();
         TournamentSelection<Integer> selection = new TournamentSelection<Integer>();
