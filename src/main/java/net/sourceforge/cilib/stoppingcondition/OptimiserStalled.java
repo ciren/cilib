@@ -33,16 +33,15 @@ import net.sourceforge.cilib.util.ManhattanDistanceMeasure;
  * maximum consecutive minimum change, then the algorithm is assumed to have stalled.
  * @author frans
  */
-public class OptimiserStalled implements StoppingCondition {
+public class OptimiserStalled implements StoppingCondition<Algorithm> {
     private static final long serialVersionUID = 4017249915571841835L;
 
     protected double minChange;
     protected int maxConsecutiveMinChange;
     protected int minChangeCounter;
 
-    DistanceMeasure distMeasure;
-    Algorithm algorithm;
-    OptimisationSolution previousBest;
+    private final DistanceMeasure distMeasure;
+    private OptimisationSolution previousBest;
 
     /**
      * Creates a new instance of OptimiserStalled.
@@ -53,68 +52,6 @@ public class OptimiserStalled implements StoppingCondition {
 
         minChangeCounter = 0;
         distMeasure = new ManhattanDistanceMeasure();
-    }
-
-    /**
-     * Copy constructor.
-     * @param copy The instance to create the copy from.
-     */
-    public OptimiserStalled(OptimiserStalled copy) {
-        this.minChange = copy.minChange;
-        this.maxConsecutiveMinChange = copy.maxConsecutiveMinChange;
-        this.minChangeCounter = copy.minChangeCounter;
-        this.distMeasure = copy.distMeasure;
-        this.algorithm = copy.algorithm;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public OptimiserStalled getClone() {
-        return new OptimiserStalled(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public double getPercentageCompleted() {
-        // check if this is the first iteration
-        if (previousBest == null) {
-            previousBest = algorithm.getBestSolution();
-
-            return 0.0;
-        }
-
-        // get the distance between previous and current best
-        // double distance = distMeasure.distance((double[])previousBest.getPosition(),
-        // (double[])algorithm.getBestSolution().getPosition());
-        double distance = distMeasure.distance((Vector) previousBest.getPosition(), (Vector) algorithm.getBestSolution().getPosition());
-
-        // compare to see change
-        if (distance < minChange)
-            minChangeCounter++;
-        else
-            minChangeCounter = 0;
-
-        return minChangeCounter / maxConsecutiveMinChange;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isCompleted() {
-        if (getPercentageCompleted() == 1.0)
-            return true;
-
-        previousBest = algorithm.getBestSolution();
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
     }
 
     /**
@@ -132,5 +69,35 @@ public class OptimiserStalled implements StoppingCondition {
      */
     public void setMaxConsecutiveMinChange(int count) {
         maxConsecutiveMinChange = count;
+    }
+
+    @Override
+    public double getPercentageCompleted(Algorithm algorithm) {
+        // check if this is the first iteration
+        if (previousBest == null) {
+            previousBest = algorithm.getBestSolution();
+
+            return 0.0;
+        }
+
+        // get the distance between previous and current best
+        double distance = distMeasure.distance((Vector) previousBest.getPosition(), (Vector) algorithm.getBestSolution().getPosition());
+
+        // compare to see change
+        if (distance < minChange)
+            minChangeCounter++;
+        else
+            minChangeCounter = 0;
+
+        return minChangeCounter / maxConsecutiveMinChange;
+    }
+
+    @Override
+    public boolean apply(Algorithm input) {
+        if (getPercentageCompleted(input) == 1.0)
+            return true;
+
+        previousBest = input.getBestSolution();
+        return false;
     }
 }

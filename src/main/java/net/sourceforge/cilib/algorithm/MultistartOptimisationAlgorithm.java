@@ -31,7 +31,6 @@ import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.OptimisationProblemAdapter;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.stoppingcondition.SingleIteration;
 import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
@@ -66,13 +65,13 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
      */
     public MultistartOptimisationAlgorithm(MultistartOptimisationAlgorithm copy) {
         super(copy);
-        this.singleIteration = copy.singleIteration.getClone();
         this.problem = copy.problem.getClone();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public MultistartOptimisationAlgorithm getClone() {
         return new MultistartOptimisationAlgorithm(this);
     }
@@ -91,6 +90,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public OptimisationProblem getOptimisationProblem() {
         return problem.getTarget();
     }
@@ -107,6 +107,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
      * Set the optimisation problem.
      * @param problem The problem to set.
      */
+    @Override
     public void setOptimisationProblem(OptimisationProblem problem) {
         this.problem = new MultistartProblemAdapter(problem);
     }
@@ -152,6 +153,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public void performInitialisation() {
         if (problem != null) {
             optimisationAlgorithm.setOptimisationProblem(problem);
@@ -166,6 +168,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
      * Perform an algorithm iteration, then restart the {@linkplain Algorithm} and increment
      * the number of restarts.
      */
+    @Override
     public void algorithmIteration() {
         algorithm.run();
         singleIteration.reset();
@@ -195,6 +198,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public OptimisationSolution getBestSolution() {
         return solution;
     }
@@ -202,6 +206,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<OptimisationSolution> getSolutions() {
         // TODO: Fix this so that all the solutions found at the time of each restart are added to the collection
 
@@ -234,6 +239,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
 
         }
 
+        @Override
         public MultistartProblemAdapter getClone() {
             return new MultistartProblemAdapter(this);
         }
@@ -245,6 +251,7 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
         /* (non-Javadoc)
          * @see net.sourceforge.cilib.Problem.OptimisationProblemAdapter#calculateFitness(java.lang.Object)
          */
+        @Override
         protected Fitness calculateFitness(Type solution) {
             return target.getFitness(solution);
         }
@@ -254,13 +261,38 @@ public class MultistartOptimisationAlgorithm extends AbstractAlgorithm implement
         }
 
 
+        @Override
         public DomainRegistry getDomain() {
-            // TODO Auto-generated method stub
-            return null;
+            throw new UnsupportedOperationException("Method not implemented");
         }
 
         private OptimisationProblem target;
 
+    }
+
+    private class SingleIteration implements StoppingCondition<Algorithm> {
+        private static final long serialVersionUID = 7136206631115015558L;
+
+        private int iteration;
+
+        @Override
+        public double getPercentageCompleted(Algorithm algorithm) {
+            if (iteration == algorithm.getIterations()) {
+                return 0.0;
+            }
+            else {
+                return 1.0;
+            }
+        }
+
+        @Override
+        public boolean apply(Algorithm input) {
+            return iteration != algorithm.getIterations();
+        }
+
+        public void reset() {
+            iteration = algorithm.getIterations();
+        }
     }
 
 }

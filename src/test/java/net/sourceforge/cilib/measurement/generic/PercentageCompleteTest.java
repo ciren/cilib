@@ -50,7 +50,6 @@ public class PercentageCompleteTest {
     public void value() {
         PSO pso = new PSO();
         MaximumIterations maximumIterations = new MaximumIterations(100);
-        maximumIterations.setAlgorithm(pso);
         pso.addStoppingCondition(maximumIterations);
 
         for (int i = 0; i < 10; i++)
@@ -58,18 +57,6 @@ public class PercentageCompleteTest {
 
         PercentageComplete percentageComplete = new PercentageComplete();
         Assert.assertEquals(0.1, percentageComplete.getValue(pso).getReal(), 0.001);
-    }
-
-    @Test
-    public void resultType() {
-//        final Algorithm algorithm = context.mock(Algorithm.class);
-//
-//        context.checking(new Expectations() {{
-////            oneOf(algorithm).
-//        }});
-//
-//        PercentageComplete percentageComplete = new PercentageComplete();
-//        Assert.assertThat(percentageComplete.getValue(pso), is(Real.class));
     }
 
     @Test

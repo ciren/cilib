@@ -21,31 +21,20 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.MultistartOptimisationAlgorithm;
 
 /**
  * The maximum number of allowed restarts.
  * @author Edwin Peer
  */
-public class MaximumRestarts implements StoppingCondition {
+public class MaximumRestarts implements StoppingCondition<MultistartOptimisationAlgorithm> {
     private static final long serialVersionUID = 8888789427315067855L;
 
     private int maximumRestarts;
-    private MultistartOptimisationAlgorithm algorithm;
 
     /** Creates a new instance of MaximumRestarts. */
     public MaximumRestarts() {
         maximumRestarts = 10;
-    }
-
-    public MaximumRestarts(MaximumRestarts copy) {
-        this.maximumRestarts = copy.maximumRestarts;
-        this.algorithm = copy.algorithm;
-    }
-
-    public MaximumRestarts getClone() {
-        return new MaximumRestarts(this);
     }
 
     public MaximumRestarts(int maximumRestarts) {
@@ -60,15 +49,13 @@ public class MaximumRestarts implements StoppingCondition {
         this.maximumRestarts = maximumRestarts;
     }
 
-    public double getPercentageCompleted() {
+    @Override
+    public double getPercentageCompleted(MultistartOptimisationAlgorithm algorithm) {
         return ((double) algorithm.getRestarts()) / ((double) maximumRestarts + 1);
     }
 
-    public boolean isCompleted() {
-        return algorithm.getRestarts() > maximumRestarts;
-    }
-
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = (MultistartOptimisationAlgorithm) algorithm;
+    @Override
+    public boolean apply(MultistartOptimisationAlgorithm input) {
+        return input.getRestarts() > this.maximumRestarts;
     }
 }

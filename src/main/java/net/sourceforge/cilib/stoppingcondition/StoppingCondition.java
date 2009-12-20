@@ -21,10 +21,9 @@
  */
 package net.sourceforge.cilib.stoppingcondition;
 
-import java.io.Serializable;
+import com.google.common.base.Predicate;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.util.Cloneable;
 
 /**
  * <p>
@@ -39,32 +38,12 @@ import net.sourceforge.cilib.util.Cloneable;
  * </p>
  * @author Edwin Peer
  */
-public interface StoppingCondition extends Serializable, Cloneable {
+public interface StoppingCondition<E extends Algorithm> extends Predicate<E> {
 
     /**
      * Determines the percentage complete for the associated algorithm.
      * @returns The percentage completed as a fraction (0 <= i <= 1.0).
      */
-    double getPercentageCompleted();
+    public double getPercentageCompleted(E algorithm);
 
-    /**
-     * Determines whether the stopping condition has been satisfied (equivalent to
-     * {@link #getPercentageCompleted()} == 1.0 but may be more efficient).
-     * @return true when condition is satisfied, false otherwise
-     */
-    boolean isCompleted();
-
-    /**
-     * Sets the algorithm that this stopping condition should be applied to. Called by
-     * {@link Algorithm#addStoppingCondition(StoppingCondition)}. This ensures that any down casting
-     * necessary is done only once, when the stopping codition is added to an alogorithm (as apposed
-     * to after each iteration).
-     * @param algorithm The applicable {@link Algorithm}.
-     */
-    void setAlgorithm(Algorithm algorithm);
-
-    /**
-     * @return
-     */
-    StoppingCondition getClone();
 }

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.algorithm;
 
+import com.google.common.base.Predicates;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  */
 public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnable {
     private static final long serialVersionUID = 7197544770653732632L;
-    private List<StoppingCondition> stoppingConditions;
+    private List<StoppingCondition<? extends Algorithm>> stoppingConditions;
     private List<AlgorithmListener> algorithmListeners;
     private int iterations;
     private volatile boolean running;
@@ -70,7 +71,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      * {@linkplain AlgorithmEvent}s that are generated.
      */
     protected AbstractAlgorithm() {
-        stoppingConditions = new ArrayList<StoppingCondition>();
+        stoppingConditions = new ArrayList<StoppingCondition<? extends Algorithm>>();
         algorithmListeners = new ArrayList<AlgorithmListener>();
 
         running = false;
@@ -82,12 +83,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      * @param copy The instance to copy.
      */
     protected AbstractAlgorithm(AbstractAlgorithm copy) {
-        stoppingConditions = new ArrayList<StoppingCondition>();
-        for (StoppingCondition stoppingCondition : copy.stoppingConditions) {
-            StoppingCondition clone = stoppingCondition.getClone();
-            clone.setAlgorithm(this);
-            stoppingConditions.add(clone);
-        }
+        stoppingConditions = new ArrayList<StoppingCondition<? extends Algorithm>>(copy.stoppingConditions);
 
         algorithmListeners = new ArrayList<AlgorithmListener>();
         for (AlgorithmListener listen : copy.algorithmListeners) {
@@ -111,9 +107,6 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
 
         if (stoppingConditions.isEmpty())
             throw new InitialisationException("No stopping conditions specified");
-
-        for (StoppingCondition stoppingCondition : stoppingConditions)
-            stoppingCondition.setAlgorithm(this);
 
         currentAlgorithmStack.get().push(this);
         performInitialisation();
@@ -190,7 +183,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      *        to be added.
      */
     @Override
-    public final void addStoppingCondition(StoppingCondition stoppingCondition) {
+    public final void addStoppingCondition(StoppingCondition<Algorithm> stoppingCondition) {
         stoppingConditions.add(stoppingCondition);
     }
 
@@ -200,7 +193,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      *        to be removed.
      */
     @Override
-    public final void removeStoppingCondition(StoppingCondition stoppingCondition) {
+    public final void removeStoppingCondition(StoppingCondition<Algorithm> stoppingCondition) {
         stoppingConditions.remove(stoppingCondition);
     }
 
@@ -237,8 +230,9 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
     public final double getPercentageComplete() {
         double percentageComplete = 0;
         for (StoppingCondition condition : stoppingConditions) {
-            if (condition.getPercentageCompleted() > percentageComplete) {
-                percentageComplete = condition.getPercentageCompleted();
+            double percentage = condition.getPercentageCompleted(this);
+            if (percentage > percentageComplete) {
+                percentageComplete = percentage;
             }
         }
         return percentageComplete;
@@ -250,12 +244,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      */
     @Override
     public final boolean isFinished() {
-        for (StoppingCondition condition : stoppingConditions) {
-            if (condition.isCompleted()) {
-                return true;
-            }
-        }
-        return false;
+        return Predicates.or(stoppingConditions).apply(this);
     }
 
     /**
@@ -288,7 +277,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      * @return The list of {@linkplain StoppingCondition} instances associated with
      *         the current {@linkplain Algorithm}.
      */
-    public List<StoppingCondition> getStoppingConditions() {
+    public List<StoppingCondition<? extends Algorithm>> getStoppingConditions() {
         return this.stoppingConditions;
     }
 

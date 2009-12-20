@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.algorithm;
 
-import java.util.List;
-import net.sourceforge.cilib.problem.OptimisationSolution;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
@@ -32,11 +30,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.EmptyStackException;
 
-import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.pso.PSO;
 
-import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
@@ -79,28 +74,6 @@ public class GenericAlgorithmTest {
 
         // We have to make sure that the AlgorithmStack is in fact created and not null, stack should be empty
         assertNotNull(target.get());
-    }
-
-    @Test
-    public void stoppingConditionInitialization() {
-        final StoppingCondition stoppingCondition = context.mock(StoppingCondition.class);
-        final OptimisationProblem problem = context.mock(OptimisationProblem.class);
-        AbstractAlgorithm algorithm = new AbstractAlgorithm() {
-            public AbstractAlgorithm getClone() { return null; }
-            protected void algorithmIteration() {}
-            public OptimisationSolution getBestSolution() { return null; }
-            public List<OptimisationSolution> getSolutions() { return null; }
-        };
-
-        algorithm.addStoppingCondition(stoppingCondition);
-        algorithm.setOptimisationProblem(problem);
-
-        context.checking(new Expectations() {{
-            ignoring(problem);
-            oneOf(stoppingCondition).setAlgorithm(with(any(Algorithm.class)));
-        }});
-
-        algorithm.initialise();
     }
 
 }

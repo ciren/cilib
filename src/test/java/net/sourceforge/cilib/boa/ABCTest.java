@@ -30,7 +30,6 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.functions.continuous.unconstrained.Ackley;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.stoppingcondition.MaximumIterations;
-import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
 import net.sourceforge.cilib.type.types.Type;
 
 import org.junit.Test;
@@ -42,7 +41,7 @@ public class ABCTest {
         FunctionMinimisationProblem problem = new FunctionMinimisationProblem();
         problem.setFunction(new Ackley());
 
-        StoppingCondition condition = new MaximumIterations(1000);
+        MaximumIterations condition = new MaximumIterations(1000);
 
         ABC abc = new ABC();
         abc.addStoppingCondition(condition);

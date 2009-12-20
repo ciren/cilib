@@ -26,24 +26,14 @@ import net.sourceforge.cilib.algorithm.Algorithm;
 /**
  * @author Edwin Peer
  */
-public class MaximumFitnessEvaluations implements StoppingCondition {
+public class MaximumFitnessEvaluations implements StoppingCondition<Algorithm> {
     private static final long serialVersionUID = 92433928310230011L;
 
     private int maximumFitnessEvaluations;
-    private Algorithm algorithm;
 
     /** Creates a new instance of MaximumFitnessEvaluationsIndicator. */
     public MaximumFitnessEvaluations() {
         maximumFitnessEvaluations = 200000;
-    }
-
-    public MaximumFitnessEvaluations(MaximumFitnessEvaluations copy) {
-        this.maximumFitnessEvaluations = copy.maximumFitnessEvaluations;
-        this.algorithm = copy.algorithm;
-    }
-
-    public MaximumFitnessEvaluations getClone() {
-        return new MaximumFitnessEvaluations(this);
     }
 
     public MaximumFitnessEvaluations(int maximumFitnessEvaluations) {
@@ -58,15 +48,14 @@ public class MaximumFitnessEvaluations implements StoppingCondition {
         return maximumFitnessEvaluations;
     }
 
-    public double getPercentageCompleted() {
+    @Override
+    public double getPercentageCompleted(Algorithm algorithm) {
         return ((double) algorithm.getOptimisationProblem().getFitnessEvaluations()) / ((double) maximumFitnessEvaluations);
     }
 
-    public boolean isCompleted() {
-        return algorithm.getOptimisationProblem().getFitnessEvaluations() >= maximumFitnessEvaluations;
+    @Override
+    public boolean apply(Algorithm input) {
+        return input.getOptimisationProblem().getFitnessEvaluations() >= maximumFitnessEvaluations;
     }
 
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
-    }
 }
