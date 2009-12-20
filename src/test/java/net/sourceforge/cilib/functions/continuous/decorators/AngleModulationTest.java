@@ -85,6 +85,11 @@ public class AngleModulationTest {
         assertTrue(angle.getFunction() instanceof Rastrigin);
     }
 
+    /**
+     * This test uses Rastrigin which has the default domain of R(-5.12, 5.12)^30
+     *
+     * Converting this to bits results in the expected number being:
+     */
     @Test
     public void testConversionToBitRepresentationLength() {
         AngleModulation angle = new AngleModulation();
@@ -96,7 +101,7 @@ public class AngleModulationTest {
         testVector.append(new Real(1.0));
         testVector.append(new Real(0.0));
 
-        String converted = angle.generateBitString(testVector);
+        String converted = angle.generateBitString(testVector, 14);
 
         assertEquals(420, converted.length());
     }

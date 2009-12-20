@@ -37,7 +37,7 @@ public class SortedOrderingTest {
     public void sortedOrdering() {
         List<Integer> elements = Arrays.asList(9, 8, 7, 6, 5, 4, 3, 2, 1);
         List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
-        boolean ordered = new SortedOrdering().order(entries);
+        boolean ordered = new SortedOrdering<Integer>().order(entries);
         Assert.assertTrue(ordered);
 
         for (int i = 0; i < 9; ++i) {

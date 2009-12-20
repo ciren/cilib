@@ -114,7 +114,7 @@ public abstract class AbstractTopology<E extends Entity> implements Topology<E> 
     public boolean containsAll(Collection<?> c) {
         Iterator<?> e = c.iterator();
         while (e.hasNext()) {
-            if (!contains(e))
+            if (!c.contains(e.next()))
                 return false;
         }
         return true;

@@ -68,7 +68,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public TournamentSelection(TournamentSelection copy) {
+    public TournamentSelection(TournamentSelection<E> copy) {
         this.tournamentProportion = copy.tournamentProportion.getClone();
         this.comparator = copy.comparator;
         this.random = copy.random.getClone();
