@@ -106,7 +106,7 @@ public class StaticDataSetBuilder extends DataSetBuilder {
             }
 
             this.patterns.addAll(data);
-            System.out.println(data.size() + " patterns added");
+            System.out.printf("#%d patterns added", data.size());
         }
 
         this.cacheMeanAndVariance();
@@ -116,12 +116,12 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      * Calculate and cached the mean ({@link Vector}) and variance (scalar) of the dataset.
      */
     private void cacheMeanAndVariance() {
-        System.out.println("Caching dataset mean and variance");
+        System.out.println("#Caching dataset mean and variance");
 
         this.cachedMean = Stats.meanVector(this.patterns);
-        System.out.println("Cached mean: " + this.cachedMean);
+        System.out.println("#Cached mean: " + this.cachedMean);
         this.cachedVariance = Stats.variance(this.patterns, this.cachedMean);
-        System.out.println("Cached variance: " + this.cachedVariance);
+        System.out.println("#Cached variance: " + this.cachedVariance);
     }
 
     /**

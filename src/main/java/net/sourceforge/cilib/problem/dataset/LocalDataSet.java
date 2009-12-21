@@ -138,7 +138,7 @@ public class LocalDataSet extends DataSet {
         Set<Pattern<Vector>> patterns = Sets.newHashSet();
         InputStream is = this.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        System.out.println("Parsing " + identifier);
+        System.out.println("#Parsing " + identifier);
 
         try {
             // every line in a dataset represents a pattern

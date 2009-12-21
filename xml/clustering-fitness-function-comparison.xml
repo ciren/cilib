@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE simulator [
 <!ATTLIST algorithm id ID #IMPLIED>
 <!ATTLIST dataSetBuilder id ID #IMPLIED>
@@ -10,10 +9,10 @@
 <simulator>
     <algorithms>
         <algorithm id="pso" class="pso.PSO">
-            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10" />
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
 
             <iterationStrategy class="pso.iterationstrategies.SynchronousIterationStrategy">
-                <boundaryConstraint class="problem.boundaryconstraint.PerElementReinitialisation" />
+                <boundaryConstraint class="problem.boundaryconstraint.RandomBoundaryConstraint" />
             </iterationStrategy>
         </algorithm>
     </algorithms>
@@ -22,12 +21,20 @@
         <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/generated/artificial2/artificial.txt" delimiter="\s+" beginIndex="0" endIndex="1" classIndex="2" />
     </dataSetBuilder>
 
-    <dataSetBuilder id="iris" class="problem.dataset.StaticDataSetBuilder" identifier="iris">
+    <dataSetBuilder id="iris.unscaled" class="problem.dataset.StaticDataSetBuilder" identifier="iris.unscaled">
         <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/iris/iris.data" delimiter="," beginIndex="0" endIndex="3" classIndex="4" />
     </dataSetBuilder>
 
-    <dataSetBuilder id="glass" class="problem.dataset.StaticDataSetBuilder" identifier="glass">
+    <dataSetBuilder id="iris.scaled" class="problem.dataset.StaticDataSetBuilder" identifier="iris.scaled">
+        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/iris/iris.scaled.csv" delimiter="," beginIndex="0" endIndex="3" classIndex="4" />
+    </dataSetBuilder>
+
+    <dataSetBuilder id="glass.unscaled" class="problem.dataset.StaticDataSetBuilder" identifier="glass.unscaled">
         <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/glass/glass.data" delimiter="," beginIndex="1" endIndex="9" classIndex="10" />
+    </dataSetBuilder>
+
+    <dataSetBuilder id="glass.scaled" class="problem.dataset.StaticDataSetBuilder" identifier="glass.scaled">
+        <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/glass/glass.scaled.csv" delimiter="," beginIndex="1" endIndex="9" classIndex="10" />
     </dataSetBuilder>
 
     <problems>
@@ -116,36 +123,69 @@
             <dataSetBuilder idref="artificial" />
         </problem>
 
-        <problem id="iris.total" class="problem.ClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
+        <problem id="iris.unscaled.total" class="problem.ClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
             <innerProblem class="problem.FunctionMinimisationProblem">
                 <function class="functions.clustering.TotalErrorFunction" />
             </innerProblem>
-            <dataSetBuilder idref="iris" />
+            <dataSetBuilder idref="iris.unscaled" />
         </problem>
 
-        <problem id="glass.total" class="problem.ClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
+        <problem id="iris.scaled.total" class="problem.ClusteringProblem" domain="R(0.0,1.0)^4">
             <innerProblem class="problem.FunctionMinimisationProblem">
                 <function class="functions.clustering.TotalErrorFunction" />
             </innerProblem>
-            <dataSetBuilder idref="glass" />
+            <dataSetBuilder idref="iris.scaled" />
         </problem>
 
-        <problem id="scaled.glass.total" class="problem.ClusteringProblem" domain="R(0.0,1.0)^9">
+        <problem id="iris.unscaled.kharmonic.means" class="problem.ClusteringProblem" domain="R(4.2,8.0),R(1.9,4.5),R(0.9,6.9),R(0.0,2.6)">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.KHarmonicMeansFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="iris.unscaled" />
+        </problem>
+
+        <problem id="iris.scaled.kharmonic.means" class="problem.ClusteringProblem" domain="R(0.0,1.0)^4">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.KHarmonicMeansFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="iris.scaled" />
+        </problem>
+
+        <problem id="glass.unscaled.total" class="problem.ClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
             <innerProblem class="problem.FunctionMinimisationProblem">
                 <function class="functions.clustering.TotalErrorFunction" />
             </innerProblem>
-            <dataSetBuilder class="problem.dataset.StaticDataSetBuilder" identifier="scaled.glass">
-                <addDataSet class="problem.dataset.LocalDataSet" identifier="../../datasets/uci/glass/scaled.glass.data" delimiter="," beginIndex="1" endIndex="9" classIndex="10" />
-            </dataSetBuilder>
+            <dataSetBuilder idref="glass.unscaled" />
+        </problem>
+
+        <problem id="glass.scaled.total" class="problem.ClusteringProblem" domain="R(0.0,1.0)^9">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.TotalErrorFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="glass.scaled" />
+        </problem>
+
+        <problem id="glass.unscaled.kharmonic.means" class="problem.ClusteringProblem" domain="R(1.5,1.6),R(10.7,17.4),R(0.0,4.5),R(0.2,3.6),R(69.8,75.5),R(0.0,6.3),R(5.4,16.2),R(0.0,3.2),R(0.0,0.6)">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.KHarmonicMeansFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="glass.unscaled" />
+        </problem>
+
+        <problem id="glass.scaled.kharmonic.means" class="problem.ClusteringProblem" domain="R(0.0,1.0)^9">
+            <innerProblem class="problem.FunctionMinimisationProblem">
+                <function class="functions.clustering.KHarmonicMeansFunction" />
+            </innerProblem>
+            <dataSetBuilder idref="glass.scaled" />
         </problem>
     </problems>
 
-    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="1">
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="100">
         <addMeasurement class="measurement.single.Fitness" />
         <addMeasurement class="measurement.single.clustering.NumberOfClustersFormed" />
+        <addMeasurement class="measurement.single.clustering.PlotHighDimensionalClustersAndCentroids" />
 <!--
         <addMeasurement class="measurement.single.clustering.PlotClustersAndCentroids" />
-        <addMeasurement class="measurement.single.clustering.PlotHighDimensionalClustersAndCentroids" />
 -->
     </measurements>
 
@@ -250,9 +290,58 @@
 
         <simulation samples="1">
             <algorithm idref="pso" />
-            <problem idref="iris.total" numberOfClusters="3" />
+            <problem idref="iris.unscaled.total" numberOfClusters="3" />
             <measurements idref="measurements" />
-            <output format="TXT" file="measurements/pso.total.iris.3.txt" />
+            <output format="TXT" file="measurements/pso.total.iris.unscaled.3.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="iris.scaled.total" numberOfClusters="3" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.total.iris.scaled.3.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="iris.unscaled.kharmonic.means" numberOfClusters="3" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.kharmonic.iris.unscaled.3.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="iris.scaled.kharmonic.means" numberOfClusters="3" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.khamromic.iris.scaled.3.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="glass.unscaled.total" numberOfClusters="7" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.total.glass.unscaled.7.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="glass.scaled.total" numberOfClusters="7" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.total.glass.scaled.7.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="glass.unscaled.kharmonic.means" numberOfClusters="7" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.kharmonic.glass.unscaled.7.txt" />
+        </simulation>
+
+        <simulation samples="1">
+            <algorithm idref="pso" />
+            <problem idref="glass.scaled.kharmonic.means" numberOfClusters="7" />
+            <measurements idref="measurements" />
+            <output format="TXT" file="measurements/pso.khamromic.glass.scaled.7.txt" />
         </simulation>
     </simulations>
 </simulator>

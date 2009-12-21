@@ -81,11 +81,11 @@ public final class DataSetManager implements Serializable {
     public synchronized Set<Pattern<Vector>> getDataFromSet(DataSet dataset) {
         String identifier = dataset.getIdentifier();
 
-        System.out.println("Requesting data set: " + identifier);
+        System.out.println("#Requesting data set: " + identifier);
         if (!datasets.containsKey(identifier)) {
             datasets.put(identifier, dataset.parseDataSet());
         }
-        System.out.println("Returning data set: " + identifier);
+        System.out.println("#Returning data set: " + identifier);
         return datasets.get(identifier);
     }
 
@@ -102,12 +102,12 @@ public final class DataSetManager implements Serializable {
     public synchronized StaticDataSetBuilder getDataSetBuilder(StaticDataSetBuilder datasetBuilder) {
         String identifier = datasetBuilder.getIdentifier();
 
-        System.out.println("Requesting built data set: " + identifier);
+        System.out.println("#Requesting built data set: " + identifier);
         if (!builders.containsKey(identifier)) {
             datasetBuilder.initialise();
             builders.put(identifier, datasetBuilder);
         }
-        System.out.println("Returning built data set: " + identifier);
+        System.out.println("#Returning built data set: " + identifier);
         return builders.get(identifier);
     }
 }

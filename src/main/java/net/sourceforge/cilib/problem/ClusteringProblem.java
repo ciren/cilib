@@ -189,7 +189,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      */
     private void regenerateDomain() {
         if (innerProblem == null || innerProblem.getFunction() == null || domainRegistry == null || numberOfClusters == UNINITIALISED) {
-            System.out.println("Preliminary: ClusteringProblem not completely configured yet");
+            System.out.println("#Preliminary: ClusteringProblem not completely configured yet");
             return;
         }
 
