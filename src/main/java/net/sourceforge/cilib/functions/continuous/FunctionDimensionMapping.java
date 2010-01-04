@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.functions.continuous;
 
-import java.util.Random;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
@@ -72,8 +72,7 @@ public class FunctionDimensionMapping extends ContinuousFunction {
         // The vector x is an entities information vector which represents the seed to
         // a random number generator.
         long seed = convert(input);
-        Random generator = new MersenneTwister();
-        generator.setSeed(seed);
+        RandomProvider generator = new MersenneTwister(seed);
 
         // Now generate all the data points
         //System.out.println(Double.valueOf(dataDimension*number).intValue());

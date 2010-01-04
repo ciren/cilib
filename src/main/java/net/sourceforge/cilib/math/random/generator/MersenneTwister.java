@@ -52,16 +52,16 @@ package net.sourceforge.cilib.math.random.generator;
  *
  * @author  Edwin Peer
  */
-public class MersenneTwister extends Random {
-
+public class MersenneTwister implements RandomProvider {
     private static final long serialVersionUID = -4165908582605023476L;
+    private final long seed;
 
     /**
      * Default Constructor. Initialises the {@linkplain MersenneTwister} with the
      * seed value from {@link Seeder#getSeed()}.
      */
     public MersenneTwister() {
-        super(Seeder.getSeed());
+        this.seed = Seeder.getSeed();
     }
 
     /**
@@ -69,7 +69,7 @@ public class MersenneTwister extends Random {
      * @param seed The initial seed value to use.
      */
     public MersenneTwister(long seed) {
-        super(seed);
+        this.seed = seed;
     }
 
     /**
@@ -78,7 +78,7 @@ public class MersenneTwister extends Random {
      * @param copy The instance to copy.
      */
     public MersenneTwister(MersenneTwister copy) {
-        super(Seeder.getSeed());
+        this.seed = copy.seed;
     }
 
     /**
@@ -93,8 +93,7 @@ public class MersenneTwister extends Random {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void setSeed(long seed) {
+    private void setSeed(long seed) {
         data = new long[N];
 
         if (seed == 0) {
@@ -112,8 +111,10 @@ public class MersenneTwister extends Random {
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected int next(int bits) {
+    private int next(int bits) {
+        if (data == null)
+            setSeed(seed);
+
         if (index >= N) {
             int i;
             for (i = 0; i < N - M; ++i) {
@@ -166,4 +167,45 @@ public class MersenneTwister extends Random {
     private static final int M = 397;
     private static final long UPPER_MASK = 0x80000000L;
     private static final long LOWER_MASK = 0x7fffffffL;
+
+    @Override
+    public boolean nextBoolean() {
+        return next(1) != 0;
+    }
+
+    @Override
+    public int nextInt() {
+        return next(32);
+    }
+
+    @Override
+    public int nextInt(int n) {
+        if (n <= 0)
+            throw new IllegalArgumentException("n must be positive");
+
+        if ((n & -n) == n)  // i.e., n is a power of 2
+            return (int)((n * (long)next(31)) >> 31);
+
+        int bits, val;
+        do {
+            bits = next(31);
+            val = bits % n;
+        } while (bits - val + (n-1) < 0);
+        return val;
+    }
+
+    @Override
+    public long nextLong() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public float nextFloat() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void nextBytes(byte[] bytes) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

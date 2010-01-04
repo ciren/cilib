@@ -804,7 +804,7 @@ public class MovingPeaks extends ContinuousFunction implements DynamicFunction {
 
     public void setMovrandseed(long movrandseed) {
         this.movrandseed = movrandseed;
-        randomNumberGenerator.getRandomGenerator().setSeed(movrandseed);
+        randomNumberGenerator = new RandomNumber(movrandseed);
     }
 
     public double getGlobalMax() {

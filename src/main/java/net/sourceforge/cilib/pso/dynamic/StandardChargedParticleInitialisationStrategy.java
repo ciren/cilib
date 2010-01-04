@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.pso.dynamic;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 
 /**
@@ -62,7 +62,7 @@ public class StandardChargedParticleInitialisationStrategy implements
      * @see net.sourceforge.cilib.pso.particle.initialisation.ChargedParticleInitialisationStrategy#initialise(net.sourceforge.cilib.pso.particle.ChargedParticle)
      */
     public void initialise(ChargedParticle particle) {
-        Random r = new MersenneTwister();
+        RandomProvider r = new MersenneTwister();
 
         //makes sure the charged particles are randomly positioned across the topology
         if(chargedCounter < Math.floor(populationSize*chargedRatio) && r.nextDouble() < chargedRatio){

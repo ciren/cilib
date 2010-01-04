@@ -24,7 +24,7 @@ package net.sourceforge.cilib.clustering.kmeans;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet;
 import net.sourceforge.cilib.problem.dataset.ClusterableDataSet.Pattern;
@@ -39,7 +39,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -3016201656688883387L;
 
-    private Random random = null;
+    private RandomProvider random = null;
 
     /**
      * Create a new instance of {@linkplain DataSetBasedCentroidsInitialisationStrategy}.

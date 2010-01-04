@@ -19,20 +19,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.types;
-
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+package net.sourceforge.cilib.math.random.generator;
 
 /**
- *
- * @author gpampara
+ * This interface provides a replacement API for the standard java.util.Random
+ * classes and API. The reason for _not_ using the standard Java API is due to
+ * the API maintaining a large amount of static state. As a result, the classes
+ * implementing this interface are all self contained and should be as immutable
+ * as possible.
  */
-public interface Randomizable {
+public interface RandomProvider extends net.sourceforge.cilib.util.Cloneable {
 
-    /**
-     * Apply a randomization using the provided {@code Random}.
-     * @param random The {@code Random} to use for the randomization.
-     */
-    public void randomize(RandomProvider random);
+    RandomProvider getClone();
+
+    boolean nextBoolean();
+
+    int nextInt();
+
+    int nextInt(int n);
+
+    long nextLong();
+
+    float nextFloat();
+
+    double nextDouble();
+
+    void nextBytes(byte[] bytes);
 
 }

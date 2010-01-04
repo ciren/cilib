@@ -27,6 +27,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * This {@link EnvironmentChangeResponseStrategy reaction strategy} wraps both a
@@ -45,7 +46,7 @@ public class DualReactionStrategy<E extends PopulationBasedAlgorithm> extends En
 
     protected ReevaluationReactionStrategy<E> reevaluation = null;
     protected ReinitializationReactionStrategy<E> reinitialization = null;
-    protected Random randomGenerator = null;
+    protected RandomProvider randomGenerator = null;
 
     public DualReactionStrategy() {
         // calls super() automatically
@@ -147,7 +148,7 @@ public class DualReactionStrategy<E extends PopulationBasedAlgorithm> extends En
      *
      * @param r a {@link Random} object
      */
-    public void setRandomGenerator(Random r) {
+    public void setRandomGenerator(RandomProvider r) {
         randomGenerator = r;
         reevaluation.setRandomGenerator(randomGenerator);
         reinitialization.setRandomGenerator(randomGenerator);
@@ -158,7 +159,7 @@ public class DualReactionStrategy<E extends PopulationBasedAlgorithm> extends En
      *
      * @return the {@link Random} object being used to generate a random sequence of numbers
      */
-    public Random getRandomGenerator() {
+    public RandomProvider getRandomGenerator() {
         return randomGenerator;
     }
 }

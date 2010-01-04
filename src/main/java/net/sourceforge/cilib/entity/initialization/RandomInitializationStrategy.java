@@ -23,7 +23,7 @@ package net.sourceforge.cilib.entity.initialization;
 
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Randomizable;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -34,14 +34,15 @@ import net.sourceforge.cilib.type.types.Type;
 public class RandomInitializationStrategy<E extends Entity> implements InitializationStrategy<E> {
     private static final long serialVersionUID = 5630272366805104400L;
 
-    private Random random;
+    private RandomProvider random;
 
     public RandomInitializationStrategy() {
         this.random = new MersenneTwister();
     }
 
     public RandomInitializationStrategy(RandomInitializationStrategy copy) {
-        this.random = copy.random.getClone();
+//        this.random = copy.random.getClone();
+        this.random = new MersenneTwister();
     }
 
     @Override

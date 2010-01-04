@@ -28,6 +28,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 
@@ -43,7 +44,7 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
     private static final long serialVersionUID = -5549918743502730714L;
 
     protected double reevaluationRatio = 0.0;
-    protected Random randomGenerator = null;
+    protected RandomProvider randomGenerator = null;
 
     public ReevaluationReactionStrategy() {
         // super() called automatically
@@ -125,7 +126,7 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
      *
      * @param r a {@link Random} object
      */
-    protected void setRandomGenerator(Random r) {
+    protected void setRandomGenerator(RandomProvider r) {
         randomGenerator = r;
     }
 
@@ -134,7 +135,7 @@ public class ReevaluationReactionStrategy<E extends PopulationBasedAlgorithm> ex
      *
      * @return the {@link Random} object being used to generate a random sequence of numbers
      */
-    protected Random getRandomGenerator() {
+    protected RandomProvider getRandomGenerator() {
         return randomGenerator;
     }
 }

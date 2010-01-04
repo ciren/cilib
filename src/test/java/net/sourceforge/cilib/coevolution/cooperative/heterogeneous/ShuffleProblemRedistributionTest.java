@@ -36,14 +36,12 @@ import org.jmock.Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
 public class ShuffleProblemRedistributionTest {
-
     private Mockery context = new Mockery()     {{
         setImposteriser(ClassImposteriser.INSTANCE);
     }};
 
     @Test
     public void ShuffleProblemTest(){
-
         SeedSelectionStrategy seedStrategy = Seeder.getSeederStrategy();
         Seeder.setSeederStrategy(new ZeroSeederStrategy());
         try {

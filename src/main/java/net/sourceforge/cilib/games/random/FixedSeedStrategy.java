@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.games.random;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+
 /**
  * This seeding strategy always uses the same seed.
  * @author leo
@@ -47,7 +49,7 @@ public class FixedSeedStrategy extends GameSeedingStrategy {
      */
     @Override
     public void seedGenerator() {
-        generator.setSeed(currentSeed);
+        generator = new MersenneTwister(currentSeed);
     }
     /**
      * set the specified seed value to use

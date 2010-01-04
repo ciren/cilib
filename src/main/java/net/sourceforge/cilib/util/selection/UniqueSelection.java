@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.List;
 
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection.Entry;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
@@ -198,7 +199,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * {@inheritDoc}
      */
     @Override
-    public UniqueSelection<E> random(Random random) {
+    public UniqueSelection<E> random(RandomProvider random) {
         Entry<E> randomEntry = Selection.randomFrom(elements, random);
         elements.clear();
         elements.add(randomEntry);
@@ -209,7 +210,7 @@ public class UniqueSelection<E> implements SelectionSyntax<E>, RandomSyntax<E> {
      * {@inheritDoc}
      */
     @Override
-    public UniqueSelection<E> random(Random random, int number) {
+    public UniqueSelection<E> random(RandomProvider random, int number) {
         if(number > elements.size())
             throw new RuntimeException("Unable to select " + number + " unique elements, current Selection only contains " + elements.size() + " elements.");
         List<Entry<E>> tmp = new ArrayList<Entry<E>>(number);

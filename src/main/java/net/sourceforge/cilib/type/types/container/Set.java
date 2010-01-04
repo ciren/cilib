@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.sourceforge.cilib.container.visitor.Visitor;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 
 /**
@@ -245,7 +245,7 @@ public class Set<E> implements StructuredType<E> {
     }
 
     @Override
-    public void randomize(Random random) {
+    public void randomize(RandomProvider random) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

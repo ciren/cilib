@@ -25,6 +25,7 @@ import java.math.BigInteger;
 
 import net.sourceforge.cilib.functions.DiscreteFunction;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomAdaptor;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -62,7 +63,7 @@ public class BitStringMatcher extends DiscreteFunction {
         super.setDomain(newDomain);
         this.numberOfBits = this.getDimension();
 
-        BigInteger bi = new BigInteger(this.numberOfBits, new MersenneTwister());
+        BigInteger bi = new BigInteger(this.numberOfBits, new RandomAdaptor(new MersenneTwister()));
         this.targetRandomString = bi.toString(2);
 
         // We need to prepend leading '0's cause the BigInteger removes leading 0's

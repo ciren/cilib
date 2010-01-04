@@ -23,6 +23,7 @@ package net.sourceforge.cilib.games.random;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 
 /**
  * This class contains a list of seed values to use. When a seed is requested the
@@ -68,7 +69,7 @@ public class ListSeedingStrategy extends GameSeedingStrategy {
     public void seedGenerator() {
         updateIndex();
         currentSeed = seeds.get(index);
-        generator.setSeed(currentSeed);
+        generator = new MersenneTwister(currentSeed);
     }
 
     /**

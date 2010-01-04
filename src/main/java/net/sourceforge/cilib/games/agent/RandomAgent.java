@@ -27,7 +27,7 @@ import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.game.StateGame;
 import net.sourceforge.cilib.games.states.GameState;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
 
@@ -82,7 +82,7 @@ public class RandomAgent extends Agent {
         if(!(game instanceof StateGame))
             throw new RuntimeException("Random agent can only operate on an state game");
         List<GameState> states = ((StateGame)game).generateStates(playerID);
-        Random rand = new MersenneTwister();
+        RandomProvider rand = new MersenneTwister();
         game.setCurrentGameState(states.get(rand.nextInt(states.size())));
     }
 }

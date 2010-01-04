@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
 
 /**
@@ -40,7 +40,7 @@ import net.sourceforge.cilib.util.selection.Selection;
 public class RandomSelection<E> implements SelectionRecipe<E> {
     private static final long serialVersionUID = -5099663528040315048L;
 
-    private Random random;
+    private RandomProvider random;
 
     /**
      * Create a new instance.
@@ -53,7 +53,7 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      * Create a new instance with the provided {@code Random}.
      * @param random The {@code random} to use.
      */
-    public RandomSelection(Random random) {
+    public RandomSelection(RandomProvider random) {
         this.random = random;
     }
 
@@ -62,7 +62,7 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      * @param copy The instance to copy.
      */
     public RandomSelection(RandomSelection copy) {
-        this.random = copy.random.getClone();
+        this.random = new MersenneTwister();
     }
 
     /**

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>
@@ -204,7 +204,7 @@ public final class Maths {
         if (probability < 0 || probability > 1)
             throw new IllegalArgumentException("Illegal input: valid range is [0,1]");
 
-        Random randomNumber = new MersenneTwister();
+        RandomProvider randomNumber = new MersenneTwister();
         if (randomNumber.nextDouble() <= probability)
             return 1;
 

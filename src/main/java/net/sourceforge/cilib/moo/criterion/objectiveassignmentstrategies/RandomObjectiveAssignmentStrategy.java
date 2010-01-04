@@ -22,10 +22,10 @@
 package net.sourceforge.cilib.moo.criterion.objectiveassignmentstrategies;
 
 import java.util.List;
-import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.moo.criterion.CriterionBasedMOProblemAdapter;
 import net.sourceforge.cilib.problem.MOOptimisationProblem;
 
@@ -51,7 +51,7 @@ public class RandomObjectiveAssignmentStrategy implements ObjectiveAssignmentStr
 
 	@Override
 	public void assignObjectives(MOOptimisationProblem problem, List<PopulationBasedAlgorithm> populations) {
-		Random generator = new MersenneTwister();
+		RandomProvider generator = new MersenneTwister();
 		for (int i = 0; i < populations.size(); ++i) {
 			int randomIndex = generator.nextInt(problem.size());
 			CriterionBasedMOProblemAdapter problemAdapter = new CriterionBasedMOProblemAdapter(problem);

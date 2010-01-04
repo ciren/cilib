@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
 
 /**
@@ -35,7 +36,7 @@ import net.sourceforge.cilib.util.selection.Selection;
  */
 public class RandomOrdering<E> implements Ordering<E> {
 
-    private Random generator;
+    private RandomProvider generator;
 
     /**
      * Create a new instance. A {@link MersenneTwister} will be set as the
@@ -50,7 +51,7 @@ public class RandomOrdering<E> implements Ordering<E> {
      * class to use.
      * @param generator The random to use.
      */
-    public RandomOrdering(Random generator) {
+    public RandomOrdering(RandomProvider generator) {
         this.generator = generator;
     }
 

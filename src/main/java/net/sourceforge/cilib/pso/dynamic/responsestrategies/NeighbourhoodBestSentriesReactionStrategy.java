@@ -25,7 +25,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topologies;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 public class NeighbourhoodBestSentriesReactionStrategy<E extends PopulationBasedAlgorithm> extends EnvironmentChangeResponseStrategy<E> {
     private static final long serialVersionUID = -2142727048293776335L;
@@ -45,7 +45,7 @@ public class NeighbourhoodBestSentriesReactionStrategy<E extends PopulationBased
 
     @Override
     public void performReaction(PopulationBasedAlgorithm algorithm) {
-        Random random = new MersenneTwister();
+        RandomProvider random = new MersenneTwister();
 
         for (Entity entity : Topologies.getNeighbourhoodBestEntities(algorithm.getTopology()))
             entity.getCandidateSolution().randomize(random);

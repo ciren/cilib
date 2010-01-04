@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.controlparameter;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * <p>
@@ -39,7 +39,7 @@ import net.sourceforge.cilib.math.random.generator.Random;
 public class RandomizingControlParameter implements ControlParameter {
     private static final long serialVersionUID = 5678971018262140893L;
     protected ControlParameter controlParameter;
-    protected Random randomiser;
+    protected RandomProvider randomiser;
 
     /**
      * Create a new {@code RandomizingControlParameter} instance. This object will be
@@ -71,7 +71,7 @@ public class RandomizingControlParameter implements ControlParameter {
      * Return the current <tt>Random</tt>.
      * @return The <tt>Random</tt> being used.
      */
-    public Random getRandomiser() {
+    public RandomProvider getRandomiser() {
         return randomiser;
     }
 
@@ -79,7 +79,7 @@ public class RandomizingControlParameter implements ControlParameter {
      * Set the <tt>Random</tt> to be used.
      * @param randomiser The <tt>Random</tt> to be used.
      */
-    public void setRandomiser(Random randomiser) {
+    public void setRandomiser(RandomProvider randomiser) {
         this.randomiser = randomiser;
     }
 

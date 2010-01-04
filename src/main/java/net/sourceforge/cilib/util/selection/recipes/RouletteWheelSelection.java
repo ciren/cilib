@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.ordering.ProportionalOrdering;
 import net.sourceforge.cilib.util.selection.weighing.LinearWeighing;
@@ -45,7 +45,7 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
     private static final long serialVersionUID = 4194450350205390514L;
 
     private Weighing<E> weighing;
-    private Random random;
+    private RandomProvider random;
 
     /**
      * Create a new instance.
@@ -64,7 +64,7 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
         this.random = new MersenneTwister();
     }
 
-    public RouletteWheelSelection(Weighing<E> weighing, Random random) {
+    public RouletteWheelSelection(Weighing<E> weighing, RandomProvider random) {
         this.weighing = weighing;
         this.random = random;
     }

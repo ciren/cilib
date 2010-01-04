@@ -23,6 +23,7 @@ package net.sourceforge.cilib.nn.components;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Randomizable;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -33,7 +34,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class RandomWeightInitializationStrategy implements WeightInitializationStrategy {
 
-    private Random randomNumberGenerator;
+    private RandomProvider randomNumberGenerator;
 
     /**
      * Default constructor. The default RNG is a Mersenne Twister.
@@ -57,7 +58,7 @@ public class RandomWeightInitializationStrategy implements WeightInitializationS
      * Gets the random number generator to use.
      * @return the random number generator that the class uses.
      */
-    public Random getRandomNumberGenerator() {
+    public RandomProvider getRandomNumberGenerator() {
         return randomNumberGenerator;
     }
 
@@ -65,7 +66,7 @@ public class RandomWeightInitializationStrategy implements WeightInitializationS
      * Sets the random number generator.
      * @param randomNumberGenerator the class's new random number generator to use.
      */
-    public void setRandomNumberGenerator(Random randomNumberGenerator) {
+    public void setRandomNumberGenerator(RandomProvider randomNumberGenerator) {
         this.randomNumberGenerator = randomNumberGenerator;
     }
 }

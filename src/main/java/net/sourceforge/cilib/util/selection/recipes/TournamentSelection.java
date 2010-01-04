@@ -26,7 +26,7 @@ import java.util.List;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.controlparameter.ProportionalControlParameter;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.Selection.Entry;
 import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
@@ -53,7 +53,7 @@ public class TournamentSelection<E extends Comparable<? super E>> implements Sel
 
     private ControlParameter tournamentProportion;
     private Comparator<Entry<E>> comparator;
-    private Random random;
+    private RandomProvider random;
 
     /**
      * Create a new instance.
