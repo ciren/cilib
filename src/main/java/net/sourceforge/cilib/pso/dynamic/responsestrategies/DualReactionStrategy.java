@@ -22,11 +22,12 @@
 package net.sourceforge.cilib.pso.dynamic.responsestrategies;
 
 import java.util.List;
+import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
+import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**

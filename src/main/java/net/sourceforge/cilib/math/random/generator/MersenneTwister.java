@@ -53,6 +53,7 @@ package net.sourceforge.cilib.math.random.generator;
  * @author  Edwin Peer
  */
 public class MersenneTwister implements RandomProvider {
+
     private static final long serialVersionUID = -4165908582605023476L;
     private final long seed;
 
@@ -112,8 +113,9 @@ public class MersenneTwister implements RandomProvider {
      * {@inheritDoc}
      */
     private int next(int bits) {
-        if (data == null)
+        if (data == null) {
             setSeed(seed);
+        }
 
         if (index >= N) {
             int i;
@@ -150,19 +152,18 @@ public class MersenneTwister implements RandomProvider {
      */
     @Override
     public double nextDouble() {
-       double result = (((long)next(26) << 27) + next(27)) / (double)(1L << 53);
-       index--;
-       return result;
+        double result = (((long) next(26) << 27) + next(27)) / (double) (1L << 53);
+        index--;
+        return result;
     }
 
     private void magic(long y, long[] data, int i) {
-        if ((y & 0x1L) == 1L)
+        if ((y & 0x1L) == 1L) {
             data[i] ^= 0x9908b0dfL;
+        }
     }
-
     private long[] data;
     private int index;
-
     private static final int N = 624;
     private static final int M = 397;
     private static final long UPPER_MASK = 0x80000000L;
@@ -180,32 +181,41 @@ public class MersenneTwister implements RandomProvider {
 
     @Override
     public int nextInt(int n) {
-        if (n <= 0)
+        if (n <= 0) {
             throw new IllegalArgumentException("n must be positive");
+        }
 
-        if ((n & -n) == n)  // i.e., n is a power of 2
-            return (int)((n * (long)next(31)) >> 31);
+        if ((n & -n) == n) // i.e., n is a power of 2
+        {
+            return (int) ((n * (long) next(31)) >> 31);
+        }
 
         int bits, val;
         do {
             bits = next(31);
             val = bits % n;
-        } while (bits - val + (n-1) < 0);
+        } while (bits - val + (n - 1) < 0);
         return val;
     }
 
     @Override
     public long nextLong() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((long) (next(32)) << 32) + next(32);
     }
 
     @Override
     public float nextFloat() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return next(24) / ((float) (1 << 24));
     }
 
     @Override
     public void nextBytes(byte[] bytes) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        for (int i = 0, len = bytes.length; i < len;) {
+            for (int rnd = nextInt(),
+                    n = Math.min(len - i, Integer.SIZE / Byte.SIZE);
+                    n-- > 0; rnd >>= Byte.SIZE) {
+                bytes[i++] = (byte) rnd;
+            }
+        }
     }
 }

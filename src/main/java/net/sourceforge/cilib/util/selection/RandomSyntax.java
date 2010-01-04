@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**

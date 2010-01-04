@@ -30,6 +30,7 @@ package net.sourceforge.cilib.math.random.generator;
  */
 public interface RandomProvider extends net.sourceforge.cilib.util.Cloneable {
 
+    @Override
     RandomProvider getClone();
 
     boolean nextBoolean();

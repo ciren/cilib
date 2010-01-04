@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.nn.components;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Randomizable;
 import net.sourceforge.cilib.type.types.container.Vector;

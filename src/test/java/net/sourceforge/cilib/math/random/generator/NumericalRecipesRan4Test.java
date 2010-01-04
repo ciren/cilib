@@ -34,11 +34,6 @@ import org.junit.Test;
  */
 public class NumericalRecipesRan4Test {
 
-    public NumericalRecipesRan4Test() {
-
-    }
-
-
     @Test
     public void testNextDouble() {
         RandomTester tester = new SimpleRandomTester();

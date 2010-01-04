@@ -21,20 +21,21 @@
  */
 package net.sourceforge.cilib.math.random.generator.quasi;
 
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * TODO: Need to complete javadoc.
  *
  */
-public abstract class QuasiRandom extends Random {
+public abstract class QuasiRandom implements RandomProvider {
     private static final long serialVersionUID = -1631441422804523649L;
+    private final long seed;
 
     protected int dimensions;
     protected int skipValue;
 
     public QuasiRandom(long seed) {
-        super(seed);
+        this.seed = seed;
         this.dimensions = 3;
         this.skipValue = 0;
     }

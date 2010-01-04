@@ -23,7 +23,6 @@ package net.sourceforge.cilib.math.random.generator;
 
 import static org.junit.Assert.assertTrue;
 
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,10 +31,6 @@ import org.junit.Test;
  * @author Edwin Peer
  */
 public class MersenneTwisterTest {
-
-    public MersenneTwisterTest() {
-
-    }
 
     @Test
     public void testNextDouble() {

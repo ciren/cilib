@@ -54,15 +54,16 @@ package net.sourceforge.cilib.math.random.generator;
  *
  * @author  Edwin Peer
  */
-public class RANLUX extends Random {
+public class RANLUX implements RandomProvider {
 
     private static final long serialVersionUID = -2393841490133897078L;
+    private final long seed;
 
     /**
      * Create a new instance of {@linkplain RANLUX}.
      */
     public RANLUX() {
-        super(Seeder.getSeed());
+        this.seed = Seeder.getSeed();
     }
 
     /**
@@ -71,12 +72,13 @@ public class RANLUX extends Random {
      * @param seed The initial value for the seed.
      */
     public RANLUX(long seed) {
-        super(seed);
+        this.seed = seed;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public RANLUX getClone() {
         return new RANLUX();
     }
@@ -84,7 +86,7 @@ public class RANLUX extends Random {
     /**
      * {@inheritDoc}
      */
-    public void setSeed(long seed) {
+    private void setSeed(long seed) {
         xdbl = new double[12];
 
         if (seed == 0) {
@@ -131,8 +133,7 @@ public class RANLUX extends Random {
             if (y2 < 0) {
                 carry = ONE_BIT;
                 y2 += 1;
-            }
-            else {
+            } else {
                 carry = 0;
             }
             xdbl[ir] = y2;
@@ -237,8 +238,7 @@ public class RANLUX extends Random {
             if (y3 < 0) {
                 carry = ONE_BIT;
                 y3 += 1;
-            }
-            else {
+            } else {
                 carry = 0;
             }
             xdbl[11] = y3;
@@ -252,8 +252,7 @@ public class RANLUX extends Random {
             if (y2 < 0) {
                 carry = ONE_BIT;
                 y2 += 1;
-            }
-            else {
+            } else {
                 carry = 0;
             }
             xdbl[ir] = y2;
@@ -268,6 +267,10 @@ public class RANLUX extends Random {
      * {@inheritDoc}
      */
     protected int next(int bits) {
+        if (xdbl == null) {
+            setSeed(seed);
+        }
+
         ir = NEXT[ir];
 
         if (ir == irOld) {
@@ -277,14 +280,67 @@ public class RANLUX extends Random {
         return (int) (((long) (xdbl[ir] * 4294967296.0) & 0xffffffffL) >>> (32 - bits));
 
     }
-
     private double[] xdbl;
     private double carry;
     private int ir;
     private int jr;
     private int irOld;
-
     private static final int LUXURY = 397;
     private static final double ONE_BIT = 1.0 / 281474976710656.0;
     private static final int[] NEXT = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0};
+
+    @Override
+    public boolean nextBoolean() {
+        return next(1) != 0;
+    }
+
+    @Override
+    public int nextInt() {
+        return next(32);
+    }
+
+    @Override
+    public int nextInt(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("n must be positive");
+        }
+
+        if ((n & -n) == n) // i.e., n is a power of 2
+        {
+            return (int) ((n * (long) next(31)) >> 31);
+        }
+
+        int bits, val;
+        do {
+            bits = next(31);
+            val = bits % n;
+        } while (bits - val + (n - 1) < 0);
+        return val;
+    }
+
+    @Override
+    public long nextLong() {
+        return ((long) (next(32)) << 32) + next(32);
+    }
+
+    @Override
+    public float nextFloat() {
+        return next(24) / ((float) (1 << 24));
+    }
+
+    @Override
+    public double nextDouble() {
+        return (((long) next(26) << 27) + next(27)) / (double) (1L << 53);
+    }
+
+    @Override
+    public void nextBytes(byte[] bytes) {
+        for (int i = 0, len = bytes.length; i < len;) {
+            for (int rnd = nextInt(),
+                    n = Math.min(len - i, Integer.SIZE / Byte.SIZE);
+                    n-- > 0; rnd >>= Byte.SIZE) {
+                bytes[i++] = (byte) rnd;
+            }
+        }
+    }
 }

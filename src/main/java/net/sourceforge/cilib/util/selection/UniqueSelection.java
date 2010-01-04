@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import net.sourceforge.cilib.math.random.generator.Random;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection.Entry;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
