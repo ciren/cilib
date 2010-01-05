@@ -21,11 +21,14 @@
  */
 package net.sourceforge.cilib.math;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * This class provides helper functions in addtion to the standard <code>java.lang.Math</code>
@@ -48,16 +51,32 @@ public final class Maths {
      * @param x The number to generate the factorial from.
      * @return The factorial of <code>x</code>.
      */
-    public static double factorial(double x) {
-        if (x < 0)
-            throw new IllegalArgumentException("Factorial is defined to work on numbers >= 0 only");
+    public static int factorial(int x) {
+        checkArgument(x >= 0, "x must be a positive integer");
+        checkArgument(x < 20, "The size of the factorial will result in a overflow. Please consider using Maths.largeFactorial() instead");
 
-        if (x == 0.0)
-            return 1.0;
-        else if (x == 1.0)
-            return 1.0;
-        else
-            return x * factorial(x-1);
+        if (x == 0 || x == 1) {
+            return 1;
+        }
+
+        return x * factorial(x-1);
+    }
+
+    /**
+     * Generate the required factorial of {@code x}. Additionally, this
+     * method is not affected by data type overflow.
+     * @param x The value to calculate the factorial of.
+     * @return A {@link BigInteger} representing the factorial.
+     */
+    public static BigInteger largeFactorial(int x) {
+        checkArgument(x >= 0, "x must be a positive integer");
+        BigInteger n = BigInteger.ONE;
+
+        for (int i = 1; i < x; i++) {
+            n = n.multiply(BigInteger.valueOf(i));
+        }
+
+        return n;
     }
 
     /**
@@ -66,10 +85,9 @@ public final class Maths {
      * @param r The {@code r}-combinations (of size {@code r}) to select.
      * @return The combination of <code>n</code> and <code>r</code>.
      */
-    public static double combination(double n, double r) {
-        if (n < r)
-            throw new IllegalArgumentException("In a combination the following must hold: n >= x");
-
+    public static int combination(int n, int r) {
+        checkArgument(n >= r, "Combination violation: n >= r");
+        checkArgument(r >= 0, "Combination violation: r >= 0");
         return permutation(n, r) / factorial(r);
     }
 
@@ -79,7 +97,7 @@ public final class Maths {
      * @param r The {@code r}-combinations (of size {@code r}) to select.
      * @return The value of the operation "<code>n</code> choose <code>x</code>".
      */
-    public static double choose(double n, double r) {
+    public static double choose(int n, int r) {
         return combination(n, r);
     }
 
@@ -90,7 +108,9 @@ public final class Maths {
      * @param r The number of elements to be selected {@code (0 <= r <= n)}.
      * @return The number of permutations.
      */
-    public static double permutation(double n, double r) {
+    public static int permutation(int n, int r) {
+        checkArgument(n >= r, "Permutations violation: n >= r");
+        checkArgument(r >= 0, "Permutations violation: r >= 0");
         return factorial(n) / factorial(n-r);
     }
 
@@ -128,8 +148,9 @@ public final class Maths {
             }
 
             private int[] initialize() {
-                if (!(this.n >= m && m >= 0))
+                if (!(this.n >= m && m >= 0)) {
                     throw new IllegalStateException("Permutation error! n >= m");
+                }
 
                 int[] tmp = new int[this.n];
                 for (int i = 0; i < this.n; i++) {
@@ -198,15 +219,16 @@ public final class Maths {
     /**
      * Determine if a "flip" would occur given the provided probability value.
      * @param probability The provided probability value. This value must be in [0,1]
+     * @param randomProvider The {@link RandomProvider} to provide random numbers.
      * @return 1 - if a "flip" occured, 0 otherwise.
      */
-    public static int flip(double probability) {
-        if (probability < 0 || probability > 1)
-            throw new IllegalArgumentException("Illegal input: valid range is [0,1]");
+    public static int flip(double probability, RandomProvider randomProvider) {
+        checkArgument(probability >= 0 && probability <= 1, "Illegal input: valid range is [0,1]");
+        checkNotNull(randomProvider, "Random number generator cannot be null.");
 
-        RandomProvider randomNumber = new MersenneTwister();
-        if (randomNumber.nextDouble() <= probability)
+        if (randomProvider.nextDouble() <= probability) {
             return 1;
+        }
 
         return 0;
     }

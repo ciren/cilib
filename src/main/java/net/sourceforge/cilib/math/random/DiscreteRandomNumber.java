@@ -43,7 +43,7 @@ public final class DiscreteRandomNumber {
      * @param lambda The value of lambda.
      * @return The value at point {@code x}.
      */
-    public static double getPoisson(double x, double lambda) {
+    public static double getPoisson(int x, int lambda) {
         double numerator = Math.pow(Math.E, -lambda) * Math.pow(lambda, x);
         double denominator = Maths.factorial(x);
         return numerator / denominator;
@@ -57,7 +57,7 @@ public final class DiscreteRandomNumber {
      * @param n The value of {@code n}.
      * @return The value of the binomial distribution.
      */
-    public static double getBinomial(double x, double p, double n) {
+    public static double getBinomial(int x, int p, int n) {
         return Maths.combination(n, x) * Math.pow(p, x) * Math.pow((1-p), (n-x));
     }
 
