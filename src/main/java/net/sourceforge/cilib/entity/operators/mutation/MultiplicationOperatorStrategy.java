@@ -21,8 +21,6 @@
  */
 package net.sourceforge.cilib.entity.operators.mutation;
 
-import net.sourceforge.cilib.type.types.Numeric;
-
 /**
  *
  * @author Gary Pampara
@@ -30,32 +28,9 @@ import net.sourceforge.cilib.type.types.Numeric;
  */
 public class MultiplicationOperatorStrategy implements MutationOperatorStrategy {
 
-    /**
-     * {@inheritDoc}
-     */
-    public double evaluate(Numeric t1, Numeric t2) {
-        return t1.getReal() * t2.getReal();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public double evaluate(Numeric t1, double value) {
-        return t1.getReal() * value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public double evaluate(double value, Numeric t1) {
-        return value * t1.getReal();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public double evaluate(double t1, double t2) {
-        return t1 * t2;
+    @Override
+    public <T extends Number> double evaluate(T t1, T t2) {
+        return t1.doubleValue() * t2.doubleValue();
     }
 
 }
