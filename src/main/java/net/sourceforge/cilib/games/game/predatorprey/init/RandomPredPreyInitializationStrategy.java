@@ -23,7 +23,7 @@ package net.sourceforge.cilib.games.game.predatorprey.init;
 
 import net.sourceforge.cilib.games.game.predatorprey.PredatorPreyGame;
 import net.sourceforge.cilib.games.items.GridLocation;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * @author leo
@@ -57,7 +57,7 @@ public class RandomPredPreyInitializationStrategy extends PredPreyPositionInitia
      */
     @Override
     public void initializePP(PredatorPreyGame game) {
-        Random rand = game.getCurrentState().getRandomizer().getGenerator();
+        RandomProvider rand = game.getCurrentState().getRandomizer().getGenerator();
         for(int i = 0; i < game.getCurrentState().getSize(); ++i){
             GridLocation itemLoc = (GridLocation)game.getCurrentState().getItem(i).getLocation();
             itemLoc.setInt(0, rand.nextInt(game.getBoardWidth()));

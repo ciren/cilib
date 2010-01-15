@@ -24,7 +24,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.Selection.Entry;
 import net.sourceforge.cilib.util.selection.ordering.DefaultComparator;
@@ -48,7 +48,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
     private static final long serialVersionUID = -2387196820773731607L;
 
     private Comparator<Entry<E>> comparator;
-    private Random random;
+    private RandomProvider random;
 
     /**
      * Create a new instance.
@@ -73,7 +73,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      */
     public RankBasedSelection(RankBasedSelection copy) {
         this.comparator = copy.comparator;
-        this.random = copy.random.getClone();
+        this.random = new MersenneTwister();
     }
 
     /**
@@ -104,7 +104,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      * Get the current random number generator.
      * @return The current random number generator.
      */
-    public Random getRandom() {
+    public RandomProvider getRandom() {
         return random;
     }
 
@@ -112,7 +112,7 @@ public class RankBasedSelection<E extends Comparable<? super E>> implements Sele
      * Set the random number generator to use.
      * @param random The value to set.
      */
-    public void setRandom(Random random) {
+    public void setRandom(RandomProvider random) {
         this.random = random;
     }
 

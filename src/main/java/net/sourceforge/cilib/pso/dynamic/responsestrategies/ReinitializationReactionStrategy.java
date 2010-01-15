@@ -27,8 +27,7 @@ import net.sourceforge.cilib.algorithm.population.PopulationBasedAlgorithm;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
-import net.sourceforge.cilib.type.types.Types;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * This reaction strategy reinitializes the specified
@@ -42,7 +41,7 @@ public class ReinitializationReactionStrategy<E extends PopulationBasedAlgorithm
     private static final long serialVersionUID = -7283513652737895281L;
 
     protected double reinitializationRatio = 0.0;
-    protected Random randomGenerator = null;
+    protected RandomProvider randomGenerator = null;
 
     public ReinitializationReactionStrategy() {
         // super() is automatically called
@@ -121,7 +120,7 @@ public class ReinitializationReactionStrategy<E extends PopulationBasedAlgorithm
      *
      * @param r a {@link Random} object
      */
-    protected void setRandomGenerator(Random r) {
+    protected void setRandomGenerator(RandomProvider r) {
         randomGenerator = r;
     }
 
@@ -130,7 +129,7 @@ public class ReinitializationReactionStrategy<E extends PopulationBasedAlgorithm
      *
      * @return the {@link Random} object being used to generate a random sequence of numbers
      */
-    protected Random getRandomGenerator() {
+    protected RandomProvider getRandomGenerator() {
         return randomGenerator;
     }
 }

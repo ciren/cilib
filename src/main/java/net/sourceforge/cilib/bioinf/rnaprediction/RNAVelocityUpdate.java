@@ -22,13 +22,12 @@
 package net.sourceforge.cilib.bioinf.rnaprediction;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.velocityupdatestrategies.VelocityUpdateStrategy;
 import net.sourceforge.cilib.type.types.container.TypeList;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * @author mneethling
@@ -38,7 +37,7 @@ public class RNAVelocityUpdate implements VelocityUpdateStrategy {
     private static final long serialVersionUID = -6682883069950387034L;
 
     private RNAConformation unionSet;
-    private Random r;
+    private RandomProvider r;
     double openProbability = 0.5;
     double closeProbability = 0.6;
     double addRandomProbability = 0.1;

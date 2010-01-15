@@ -21,11 +21,11 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
-import java.util.Random;
 
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
@@ -38,8 +38,8 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
 
     private static final long serialVersionUID = -1624326615681760823L;
 
-    private Random socialRandomGenerator;
-    private Random cognitiveRandomGenerator;
+    private RandomProvider socialRandomGenerator;
+    private RandomProvider cognitiveRandomGenerator;
 
     /**
      * Create an instance of {@linkplain LinearVelocityUpdate}.
@@ -87,7 +87,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
      * Return the random number generator for the cognitive component.
      * @return Returns the random number generator for the cognitive component.
      */
-    public Random getCongnitiveRandomGenerator() {
+    public RandomProvider getCongnitiveRandomGenerator() {
         return cognitiveRandomGenerator;
     }
 
@@ -95,7 +95,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
     /**
      * @param congnitiveRandomGenerator The congnitiveRandomGenerator to set.
      */
-    public void setCongnitiveRandomGenerator(Random congnitiveRandomGenerator) {
+    public void setCongnitiveRandomGenerator(RandomProvider congnitiveRandomGenerator) {
         this.cognitiveRandomGenerator = congnitiveRandomGenerator;
     }
 
@@ -103,7 +103,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
     /**
      * @return Returns the socialRandomGenerator.
      */
-    public Random getSocialRandomGenerator() {
+    public RandomProvider getSocialRandomGenerator() {
         return socialRandomGenerator;
     }
 
@@ -111,7 +111,7 @@ public class LinearVelocityUpdate extends StandardVelocityUpdate {
     /**
      * @param socialRandomGenerator The socialRandomGenerator to set.
      */
-    public void setSocialRandomGenerator(Random socialRandomGenerator) {
+    public void setSocialRandomGenerator(RandomProvider socialRandomGenerator) {
         this.socialRandomGenerator = socialRandomGenerator;
     }
 }

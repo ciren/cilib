@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,21 +42,50 @@ public class RandomSelectionTest {
         Assert.assertEquals(7, selected.intValue());
     }
 
-    private class ConstantRandomNumber extends Random {
+    private class ConstantRandomNumber implements RandomProvider {
         private static final long serialVersionUID = 3019387660938987850L;
 
         public ConstantRandomNumber() {
-            super(0);
         }
 
         @Override
-        public Random getClone() {
+        public RandomProvider getClone() {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public int nextInt(int n) {
-            return super.nextInt(n);
+            return 6;
+        }
+
+        @Override
+        public boolean nextBoolean() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public int nextInt() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public long nextLong() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public float nextFloat() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public double nextDouble() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void nextBytes(byte[] bytes) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
     }

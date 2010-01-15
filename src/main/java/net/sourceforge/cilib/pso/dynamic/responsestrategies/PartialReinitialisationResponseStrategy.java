@@ -28,7 +28,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
 /**
@@ -39,7 +39,7 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
     private static final long serialVersionUID = 4619744183683905269L;
 
     private double reinitialisationRatio;
-    private Random randomiser;
+    private RandomProvider randomiser;
 
     public PartialReinitialisationResponseStrategy() {
         super();
@@ -114,14 +114,14 @@ public class PartialReinitialisationResponseStrategy<E extends PopulationBasedAl
     /**
      * @return the randomiser
      */
-    public Random getRandomiser() {
+    public RandomProvider getRandomiser() {
         return randomiser;
     }
 
     /**
      * @param randomiser the randomiser to set
      */
-    public void setRandomiser(Random randomiser) {
+    public void setRandomiser(RandomProvider randomiser) {
         this.randomiser = randomiser;
     }
 }

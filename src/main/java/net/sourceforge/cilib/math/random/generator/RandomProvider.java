@@ -21,22 +21,30 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
-import net.sourceforge.cilib.util.Cloneable;
-
 /**
- *
- *
+ * This interface provides a replacement API for the standard java.util.Random
+ * classes and API. The reason for _not_ using the standard Java API is due to
+ * the API maintaining a large amount of static state. As a result, the classes
+ * implementing this interface are all self contained and should be as immutable
+ * as possible.
  */
-public abstract class Random extends java.util.Random implements Cloneable {
-    private static final long serialVersionUID = -2799436666697479722L;
+public interface RandomProvider extends net.sourceforge.cilib.util.Cloneable {
 
-    public Random(long seed) {
-        super(seed);
-    }
+    @Override
+    RandomProvider getClone();
 
-    /**
-     * {@inheritDoc}
-     */
-    public abstract Random getClone();
+    boolean nextBoolean();
+
+    int nextInt();
+
+    int nextInt(int n);
+
+    long nextLong();
+
+    float nextFloat();
+
+    double nextDouble();
+
+    void nextBytes(byte[] bytes);
 
 }

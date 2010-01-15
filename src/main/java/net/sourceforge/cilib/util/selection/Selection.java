@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
 
@@ -108,7 +108,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @param random The random number to be used in the selection.
      * @return A random element within {@code elements}.
      */
-    public static <T> T randomFrom(List<? extends T> elements, Random random) {
+    public static <T> T randomFrom(List<? extends T> elements, RandomProvider random) {
         if (elements.size() == 0)
             throw new IllegalArgumentException("Provided list must contain elements.");
 
@@ -137,7 +137,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * @param number The number of elements to select.
      * @return A list of random elements contained in {@code elements}.
      */
-    public static <T> List<T> randomFrom(List<? extends T> elements, Random random, int number) {
+    public static <T> List<T> randomFrom(List<? extends T> elements, RandomProvider random, int number) {
         if (elements.size() == 0)
             throw new IllegalArgumentException("Provided list must contain elements.");
 
@@ -277,7 +277,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * {@inheritDoc}
      */
     @Override
-    public Selection<E> random(Random random) {
+    public Selection<E> random(RandomProvider random) {
         Entry<E> randomEntry = randomFrom(this.elements, random);
         this.elements.clear();
         this.elements.add(randomEntry);
@@ -288,7 +288,7 @@ public final class Selection<E> implements SelectionSyntax<E>, RandomSyntax<E>, 
      * {@inheritDoc}
      */
     @Override
-    public Selection<E> random(Random random, int number) {
+    public Selection<E> random(RandomProvider random, int number) {
         this.elements = randomFrom(this.elements, random, number);
         return this;
     }

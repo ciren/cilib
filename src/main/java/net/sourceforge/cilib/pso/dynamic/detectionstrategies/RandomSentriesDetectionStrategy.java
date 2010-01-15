@@ -29,7 +29,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * This class defines a detection strategy that uses a user-specified
@@ -46,7 +46,7 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
     private static final long serialVersionUID = -7299802900616282412L;
 
     protected ControlParameter numberOfSentries;
-    protected Random randomGenerator = null;
+    protected RandomProvider randomGenerator = null;
 
     public RandomSentriesDetectionStrategy() {
         // super() is automatically called
@@ -114,11 +114,11 @@ public class RandomSentriesDetectionStrategy<E extends PopulationBasedAlgorithm>
         return numberOfSentries;
     }
 
-    public void setRandomNumberGenerator(Random rng) {
+    public void setRandomNumberGenerator(RandomProvider rng) {
         randomGenerator = rng;
     }
 
-    public Random getRandomNumberGenerator() {
+    public RandomProvider getRandomNumberGenerator() {
         return randomGenerator;
     }
 }

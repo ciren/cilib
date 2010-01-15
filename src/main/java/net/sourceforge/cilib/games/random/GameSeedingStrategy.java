@@ -21,8 +21,9 @@
  */
 package net.sourceforge.cilib.games.random;
 
+import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.util.Cloneable;
 
@@ -35,7 +36,7 @@ import net.sourceforge.cilib.util.Cloneable;
  */
 public abstract class GameSeedingStrategy implements Cloneable {
 
-    protected Random generator;
+    protected RandomProvider generator;
     protected long currentSeed;
 
     public GameSeedingStrategy() {
@@ -64,11 +65,11 @@ public abstract class GameSeedingStrategy implements Cloneable {
      */
     public abstract void seedGenerator();
 
-    public Random getGenerator() {
+    public RandomProvider getGenerator() {
         return generator;
     }
 
-    public void setGenerator(Random generator) {
+    public void setGenerator(RandomProvider generator) {
         this.generator = generator;
     }
 

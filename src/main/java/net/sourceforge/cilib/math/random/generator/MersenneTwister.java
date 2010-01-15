@@ -52,16 +52,17 @@ package net.sourceforge.cilib.math.random.generator;
  *
  * @author  Edwin Peer
  */
-public class MersenneTwister extends Random {
+public class MersenneTwister implements RandomProvider {
 
     private static final long serialVersionUID = -4165908582605023476L;
+    private final long seed;
 
     /**
      * Default Constructor. Initialises the {@linkplain MersenneTwister} with the
      * seed value from {@link Seeder#getSeed()}.
      */
     public MersenneTwister() {
-        super(Seeder.getSeed());
+        this.seed = Seeder.getSeed();
     }
 
     /**
@@ -69,7 +70,7 @@ public class MersenneTwister extends Random {
      * @param seed The initial seed value to use.
      */
     public MersenneTwister(long seed) {
-        super(seed);
+        this.seed = seed;
     }
 
     /**
@@ -78,7 +79,7 @@ public class MersenneTwister extends Random {
      * @param copy The instance to copy.
      */
     public MersenneTwister(MersenneTwister copy) {
-        super(Seeder.getSeed());
+        this.seed = copy.seed;
     }
 
     /**
@@ -93,8 +94,7 @@ public class MersenneTwister extends Random {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void setSeed(long seed) {
+    private void setSeed(long seed) {
         data = new long[N];
 
         if (seed == 0) {
@@ -112,8 +112,11 @@ public class MersenneTwister extends Random {
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected int next(int bits) {
+    private int next(int bits) {
+        if (data == null) {
+            setSeed(seed);
+        }
+
         if (index >= N) {
             int i;
             for (i = 0; i < N - M; ++i) {
@@ -149,21 +152,70 @@ public class MersenneTwister extends Random {
      */
     @Override
     public double nextDouble() {
-       double result = (((long)next(26) << 27) + next(27)) / (double)(1L << 53);
-       index--;
-       return result;
+        double result = (((long) next(26) << 27) + next(27)) / (double) (1L << 53);
+        index--;
+        return result;
     }
 
     private void magic(long y, long[] data, int i) {
-        if ((y & 0x1L) == 1L)
+        if ((y & 0x1L) == 1L) {
             data[i] ^= 0x9908b0dfL;
+        }
     }
-
     private long[] data;
     private int index;
-
     private static final int N = 624;
     private static final int M = 397;
     private static final long UPPER_MASK = 0x80000000L;
     private static final long LOWER_MASK = 0x7fffffffL;
+
+    @Override
+    public boolean nextBoolean() {
+        return next(1) != 0;
+    }
+
+    @Override
+    public int nextInt() {
+        return next(32);
+    }
+
+    @Override
+    public int nextInt(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("n must be positive");
+        }
+
+        if ((n & -n) == n) // i.e., n is a power of 2
+        {
+            return (int) ((n * (long) next(31)) >> 31);
+        }
+
+        int bits, val;
+        do {
+            bits = next(31);
+            val = bits % n;
+        } while (bits - val + (n - 1) < 0);
+        return val;
+    }
+
+    @Override
+    public long nextLong() {
+        return ((long) (next(32)) << 32) + next(32);
+    }
+
+    @Override
+    public float nextFloat() {
+        return next(24) / ((float) (1 << 24));
+    }
+
+    @Override
+    public void nextBytes(byte[] bytes) {
+        for (int i = 0, len = bytes.length; i < len;) {
+            for (int rnd = nextInt(),
+                    n = Math.min(len - i, Integer.SIZE / Byte.SIZE);
+                    n-- > 0; rnd >>= Byte.SIZE) {
+                bytes[i++] = (byte) rnd;
+            }
+        }
+    }
 }

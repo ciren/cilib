@@ -23,7 +23,7 @@ package net.sourceforge.cilib.games.game.predatorprey.init;
 
 import net.sourceforge.cilib.games.game.predatorprey.PredatorPreyGame;
 import net.sourceforge.cilib.games.items.GridLocation;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 
 /**
@@ -64,7 +64,7 @@ public class MinMaxDistanceInitializationStrategy extends
      */
     @Override
     public void initializePP(PredatorPreyGame game) {
-        Random rand = game.getCurrentState().getRandomizer().getGenerator();
+        RandomProvider rand = game.getCurrentState().getRandomizer().getGenerator();
         double distance = 0;
         while(distance < minDistance || (maxDistance != -1 && distance > maxDistance)){
             for(int i = 0; i < game.getCurrentState().getSize(); ++i){

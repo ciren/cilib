@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * @author Gary Pampara
@@ -220,7 +220,7 @@ public class Real implements Numeric {
      * Re-randomize the <code>Real</code> object based on the upper and lower bounds.
      */
     @Override
-    public void randomize(Random random) {
+    public void randomize(RandomProvider random) {
         this.value = checkNotNull(random).nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
     }
 

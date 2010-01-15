@@ -66,15 +66,16 @@ package net.sourceforge.cilib.math.random.generator;
  *
  * @author  Edwin Peer
  */
-public class ZiffGFSR4 extends Random {
+public class ZiffGFSR4 implements RandomProvider {
 
     private static final long serialVersionUID = -1714226372864316570L;
+    private final long seed;
 
     /**
      * Create an instance of {@linkplain ZiffGFSR4}.
      */
     public ZiffGFSR4() {
-        super(Seeder.getSeed());
+        this.seed = Seeder.getSeed();
     }
 
     /**
@@ -82,12 +83,13 @@ public class ZiffGFSR4 extends Random {
      * @param seed The seed value to use.
      */
     public ZiffGFSR4(long seed) {
-        super(seed);
+        this.seed = seed;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public ZiffGFSR4 getClone() {
         return new ZiffGFSR4();
     }
@@ -99,7 +101,7 @@ public class ZiffGFSR4 extends Random {
     /**
      * {@inheritDoc}
      */
-    public void setSeed(long seed) {
+    private void setSeed(long seed) {
         ra = new long[M + 1];
 
         if (seed == 0) {
@@ -136,24 +138,80 @@ public class ZiffGFSR4 extends Random {
     /**
      * {@inheritDoc}
      */
-    protected int next(int bits) {
+    private int next(int bits) {
+        if (ra == null) {
+            setSeed(seed);
+        }
+
         nd = (nd + 1) & M;
 
-        ra[nd] = ra[(nd + M + 1 - A) & M] ^
-                 ra[(nd + M + 1 - B) & M] ^
-                 ra[(nd + M + 1 - C) & M] ^
-                 ra[(nd + M + 1 - D) & M];
+        ra[nd] = ra[(nd + M + 1 - A) & M]
+                ^ ra[(nd + M + 1 - B) & M]
+                ^ ra[(nd + M + 1 - C) & M]
+                ^ ra[(nd + M + 1 - D) & M];
 
         return (int) (ra[nd] >>> (32 - bits));
     }
-
     private static final int A = 471;
     private static final int B = 1586;
     private static final int C = 6988;
     private static final int D = 9689;
     private static final int M = 16383;
-
     private int nd;
     private long[] ra;
 
+    @Override
+    public boolean nextBoolean() {
+        return next(1) != 0;
+    }
+
+    @Override
+    public int nextInt() {
+        return next(32);
+    }
+
+    @Override
+    public int nextInt(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("n must be positive");
+        }
+
+        if ((n & -n) == n) // i.e., n is a power of 2
+        {
+            return (int) ((n * (long) next(31)) >> 31);
+        }
+
+        int bits, val;
+        do {
+            bits = next(31);
+            val = bits % n;
+        } while (bits - val + (n - 1) < 0);
+        return val;
+    }
+
+    @Override
+    public long nextLong() {
+        return ((long) (next(32)) << 32) + next(32);
+    }
+
+    @Override
+    public float nextFloat() {
+        return next(24) / ((float) (1 << 24));
+    }
+
+    @Override
+    public double nextDouble() {
+        return (((long) next(26) << 27) + next(27)) / (double) (1L << 53);
+    }
+
+    @Override
+    public void nextBytes(byte[] bytes) {
+        for (int i = 0, len = bytes.length; i < len;) {
+            for (int rnd = nextInt(),
+                    n = Math.min(len - i, Integer.SIZE / Byte.SIZE);
+                    n-- > 0; rnd >>= Byte.SIZE) {
+                bytes[i++] = (byte) rnd;
+            }
+        }
+    }
 }

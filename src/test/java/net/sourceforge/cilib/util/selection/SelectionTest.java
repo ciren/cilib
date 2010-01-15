@@ -23,7 +23,7 @@ package net.sourceforge.cilib.util.selection;
 
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
@@ -105,21 +105,50 @@ public class SelectionTest {
         Selection.randomFrom(elements, new MockRandom(), 2);
     }
 
-    private class MockRandom extends Random {
+    private class MockRandom implements RandomProvider {
         private static final long serialVersionUID = 6512653155066129236L;
 
         public MockRandom() {
-            super(0);
         }
 
         @Override
-        public Random getClone() {
+        public RandomProvider getClone() {
             return this;
         }
 
         @Override
         public int nextInt(int n) {
             return 0;
+        }
+
+        @Override
+        public boolean nextBoolean() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public int nextInt() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public long nextLong() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public float nextFloat() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public double nextDouble() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void nextBytes(byte[] bytes) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 

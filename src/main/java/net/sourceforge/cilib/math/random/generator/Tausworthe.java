@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.math.random.generator;
 
-
 /**
  * <p>
  * This is a maximally equidistributed combined Tausworthe generator
@@ -50,18 +49,25 @@ package net.sourceforge.cilib.math.random.generator;
  *
  * @author  Edwin Peer
  */
-public class Tausworthe extends Random {
-
+public class Tausworthe implements RandomProvider {
     private static final long serialVersionUID = -2863057390167225361L;
+    private final long seed;
+
+    private long s1;
+    private long s2;
+    private long s3;
 
     public Tausworthe() {
-        super(Seeder.getSeed());
+        seed = Seeder.getSeed();
+        setSeed(seed); // Not the best code.... nothing should happen in a constructor.
     }
 
     public Tausworthe(long seed) {
-        super(seed);
+        this.seed = seed;
+        setSeed(seed); // Not the best code.... nothing should happen in a constructor.
     }
 
+    @Override
     public Tausworthe getClone() {
         return new Tausworthe();
     }
@@ -70,7 +76,7 @@ public class Tausworthe extends Random {
         return (69069 * n) & 0xffffffffL;
     }
 
-    public void setSeed(long seed) {
+    private void setSeed(long seed) {
         if (seed == 0) {
             seed = 1;
         }
@@ -96,7 +102,7 @@ public class Tausworthe extends Random {
         next(32);
     }
 
-    protected int next(int bits) {
+    private int next(int bits) {
         s1 = (((s1 & 4294967294L) << 12) & 0xffffffffL) ^ ((((s1 << 13) & 0xffffffffL) ^ s1) >>> 19);
         s2 = (((s2 & 4294967288L) << 4) & 0xffffffffL) ^ ((((s2 << 2) & 0xffffffffL) ^ s2) >>> 25);
         s3 = (((s3 & 4294967280L) << 17) & 0xffffffffL) ^ ((((s3 << 3) & 0xffffffffL) ^ s3) >>> 11);
@@ -104,7 +110,58 @@ public class Tausworthe extends Random {
         return (int) ((s1 ^ s2 ^ s3) >>> (32 - bits));
     }
 
-    private long s1;
-    private long s2;
-    private long s3;
+    @Override
+    public boolean nextBoolean() {
+        return next(1) != 0;
+    }
+
+    @Override
+    public int nextInt() {
+        return next(32);
+    }
+
+    @Override
+    public int nextInt(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("n must be positive");
+        }
+
+        if ((n & -n) == n) // i.e., n is a power of 2
+        {
+            return (int) ((n * (long) next(31)) >> 31);
+        }
+
+        int bits, val;
+        do {
+            bits = next(31);
+            val = bits % n;
+        } while (bits - val + (n - 1) < 0);
+        return val;
+    }
+
+    @Override
+    public long nextLong() {
+        return ((long) (next(32)) << 32) + next(32);
+    }
+
+    @Override
+    public float nextFloat() {
+        return next(24) / ((float) (1 << 24));
+    }
+
+    @Override
+    public double nextDouble() {
+        return (((long) next(26) << 27) + next(27)) / (double) (1L << 53);
+    }
+
+    @Override
+    public void nextBytes(byte[] bytes) {
+        for (int i = 0, len = bytes.length; i < len;) {
+            for (int rnd = nextInt(),
+                    n = Math.min(len - i, Integer.SIZE / Byte.SIZE);
+                    n-- > 0; rnd >>= Byte.SIZE) {
+                bytes[i++] = (byte) rnd;
+            }
+        }
+    }
 }

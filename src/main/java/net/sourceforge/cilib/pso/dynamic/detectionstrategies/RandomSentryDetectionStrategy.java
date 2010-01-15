@@ -31,7 +31,7 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.dynamic.DynamicParticle;
 
 /**
@@ -43,7 +43,7 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
 
     private int sentries;
     private double theta;
-    private Random randomiser;
+    private RandomProvider randomiser;
     private int[] sentryIDs;
     private boolean initialized = false;
     ArrayList<Particle> sentryList;
@@ -124,14 +124,14 @@ public class RandomSentryDetectionStrategy<E extends PopulationBasedAlgorithm> e
     /**
      * @return the randomiser
      */
-    public Random getRandomiser() {
+    public RandomProvider getRandomiser() {
         return randomiser;
     }
 
     /**
      * @param randomiser the randomiser to set
      */
-    public void setRandomiser(Random randomiser) {
+    public void setRandomiser(RandomProvider randomiser) {
         this.randomiser = randomiser;
     }
 

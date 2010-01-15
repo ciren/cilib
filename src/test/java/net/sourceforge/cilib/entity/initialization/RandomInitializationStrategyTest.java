@@ -23,7 +23,7 @@ package net.sourceforge.cilib.entity.initialization;
 
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
 import net.sourceforge.cilib.type.types.Blackboard;
 import net.sourceforge.cilib.type.types.Type;
@@ -76,7 +76,7 @@ public class RandomInitializationStrategyTest {
 
         mockery.checking(new Expectations() {{
             oneOf(particle).getProperties(); will(returnValue(blackboard));
-            oneOf(randomizable).randomize(with(any(Random.class)));
+            oneOf(randomizable).randomize(with(any(RandomProvider.class)));
         }});
 
         strategy.initialize(EntityType.CANDIDATE_SOLUTION, particle);

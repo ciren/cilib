@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.math.random;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -41,7 +41,7 @@ import net.sourceforge.cilib.util.Cloneable;
 public class RandomNumber implements Cloneable {
     private static final long serialVersionUID = -7960211483219171592L;
 
-    private Random randomGenerator;
+    private RandomProvider randomGenerator;
 
 
     /**
@@ -53,8 +53,13 @@ public class RandomNumber implements Cloneable {
         randomGenerator = new MersenneTwister();
     }
 
+    public RandomNumber(long seed) {
+        this.randomGenerator = new MersenneTwister(seed);
+    }
+
     public RandomNumber(RandomNumber copy) {
-        this.randomGenerator = copy.randomGenerator.getClone();
+//        this.randomGenerator = copy.randomGenerator.getClone();
+        this.randomGenerator = new MersenneTwister();
     }
 
     public RandomNumber getClone() {
@@ -66,7 +71,7 @@ public class RandomNumber implements Cloneable {
      * Return the random number generator being used.
      * @return The random number generator.
      */
-    public Random getRandomGenerator() {
+    public RandomProvider getRandomGenerator() {
         return this.randomGenerator;
     }
 
@@ -75,7 +80,7 @@ public class RandomNumber implements Cloneable {
      * Set the random number generator to be used.
      * @param random The random number generator to be used.
      */
-    public void setRandomGenerator(Random random) {
+    public void setRandomGenerator(RandomProvider random) {
         this.randomGenerator = random;
     }
 

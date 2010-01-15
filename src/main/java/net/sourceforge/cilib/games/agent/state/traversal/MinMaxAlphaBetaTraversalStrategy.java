@@ -27,7 +27,7 @@ import net.sourceforge.cilib.games.game.Game;
 import net.sourceforge.cilib.games.game.StateGame;
 import net.sourceforge.cilib.games.states.GameState;
 //import net.sourceforge.cilib.math.random.generator.MersenneTwister;
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * @author leo
@@ -74,7 +74,7 @@ public class MinMaxAlphaBetaTraversalStrategy extends StateTraversalStrategy {
 			return score;
 		}
 		//if not at a terminating node, generate all the possible states from this one
-		Random rand = game.getCurrentState().getRandomizer().getGenerator();
+		RandomProvider rand = game.getCurrentState().getRandomizer().getGenerator();
 		List<GameState> nextStates = ((StateGame)game).generateStates(currentPlayerID);
 		double bestMoveValue = maxPlayer ? -999999 : 999999;
 		int amStates = nextStates.size();
@@ -121,7 +121,7 @@ public class MinMaxAlphaBetaTraversalStrategy extends StateTraversalStrategy {
 	 */
 	@Override
 	public GameState selectState(Game<GameState> game, int playerID) {
-		Random rand = game.getCurrentState().getRandomizer().getGenerator();
+		RandomProvider rand = game.getCurrentState().getRandomizer().getGenerator();
 		decisionPlayerID = playerID;
 		//generate all the states from the current state
 		List<GameState> startStates = ((StateGame)game).generateStates(playerID);

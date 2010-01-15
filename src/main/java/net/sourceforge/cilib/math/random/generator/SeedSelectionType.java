@@ -32,11 +32,13 @@ import java.util.Random;
 /**
  * Determine the initial seed value by manipulating the current network address.
  */
-public class NetworkBasedSeedSelectionStrategy implements SeedSelectionStrategy {
+public enum SeedSelectionType implements SeedSelectionStrategy {
+    NETWORK_BASED;
+    
     private Random random;
     private int address;
 
-    public NetworkBasedSeedSelectionStrategy() {
+    SeedSelectionType() {
         random = new SecureRandom();
         address = getNetworkAddress();
     }

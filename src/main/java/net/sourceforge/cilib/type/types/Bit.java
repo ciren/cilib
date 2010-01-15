@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 
 /**
@@ -223,7 +223,7 @@ public class Bit implements Numeric {
     /**
      * Randomly choose a new valid for the <code>Bit</code> object.
      */
-    public void randomize(Random random) {
+    public void randomize(RandomProvider random) {
         checkNotNull(random);
         this.state = random.nextBoolean();
     }

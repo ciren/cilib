@@ -24,6 +24,7 @@ package net.sourceforge.cilib.util.selection.ordering;
 import java.util.List;
 import java.util.Random;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.Selection;
 
 /**
@@ -37,7 +38,7 @@ import net.sourceforge.cilib.util.selection.Selection;
  */
 public class ProportionalOrdering<E> implements Ordering<E> {
 
-    private Random generator;
+    private RandomProvider generator;
 
     /**
      * Create a new instance with an internal {@link MersenneTwister}.
@@ -50,7 +51,7 @@ public class ProportionalOrdering<E> implements Ordering<E> {
      * Create a new instance with the provided {@link Random}.
      * @param generator The generator to use.
      */
-    public ProportionalOrdering(Random generator) {
+    public ProportionalOrdering(RandomProvider generator) {
         this.generator = generator;
     }
 

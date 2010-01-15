@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.games.random;
 
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 
 /**
@@ -54,7 +55,7 @@ public class UniqueSeedingStrategy extends GameSeedingStrategy {
     @Override
     public void seedGenerator() {
         currentSeed = Seeder.getSeed();
-        generator.setSeed(currentSeed);
+        generator = new MersenneTwister(currentSeed);
     }
 
 }

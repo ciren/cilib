@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.pso;
 
-import java.util.Random;
 
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.math.random.generator.KnuthSubtractive;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -91,11 +91,11 @@ public class DissipativeStep {
         }
     }
 
-    public void setRandomGenerator(Random randomGenerator) {
+    public void setRandomGenerator(RandomProvider randomGenerator) {
         this.randomGenerator = randomGenerator;
     }
 
-    public Random getRandomGenerator() {
+    public RandomProvider getRandomGenerator() {
         return randomGenerator;
     }
 
@@ -125,7 +125,7 @@ public class DissipativeStep {
 
     private PSO pso;
 
-    private Random randomGenerator;
+    private RandomProvider randomGenerator;
     private float velocityThreshold;
     private float positionThreshold;
 

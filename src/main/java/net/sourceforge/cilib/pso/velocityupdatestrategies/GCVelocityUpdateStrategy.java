@@ -21,7 +21,6 @@
  */
 package net.sourceforge.cilib.pso.velocityupdatestrategies;
 
-import java.util.Random;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
@@ -29,6 +28,7 @@ import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.entity.comparator.SocialBestFitnessComparator;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.Fitness;
 import net.sourceforge.cilib.problem.InferiorFitness;
 import net.sourceforge.cilib.pso.PSO;
@@ -62,7 +62,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public class GCVelocityUpdateStrategy extends StandardVelocityUpdate {
     private static final long serialVersionUID = 5985694749940610522L;
-    private Random randomNumberGenerator;
+    private RandomProvider randomNumberGenerator;
     private ControlParameter rhoLowerBound;
     private ControlParameter rho;
     private int successCount;

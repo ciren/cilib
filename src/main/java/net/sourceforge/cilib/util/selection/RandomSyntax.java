@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-import net.sourceforge.cilib.math.random.generator.Random;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
 /**
  * Syntax defining methods that result in a selection of random elements.
@@ -34,7 +34,7 @@ public interface RandomSyntax<E> {
      * @param random The random number to be used in the selection.
      * @return A selection containing a random element from the original {@code elements} member.
      */
-    SelectionSyntax<E> random(Random random);
+    SelectionSyntax<E> random(RandomProvider random);
 
     /**
      * Obtain a random number of elements from the current Selection.
@@ -42,6 +42,6 @@ public interface RandomSyntax<E> {
      * @param number The number of elements to select.
      * @return A selection containing the random elements from the original {@code elements} member.
      */
-    SelectionSyntax<E> random(Random random, int number);
+    SelectionSyntax<E> random(RandomProvider random, int number);
 
 }
