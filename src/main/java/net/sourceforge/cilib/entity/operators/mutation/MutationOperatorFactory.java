@@ -23,6 +23,7 @@ package net.sourceforge.cilib.entity.operators.mutation;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.cilib.math.ArithmeticOperator;
 
 /**
  * Factory to return the correct object based on the given symbol / token.
@@ -37,16 +38,19 @@ public final class MutationOperatorFactory {
 
         private List<String> operationSynnomymns;
 
-        private Operators(String... strings) {
+        Operators(String... strings) {
             this.operationSynnomymns = new ArrayList<String>();
-            for (String s : strings)
+            for (String s : strings) {
                 this.operationSynnomymns.add(s);
+            }
         }
 
-        public boolean contains(String operatorSymbol) {
-            for (String string : operationSynnomymns)
-                if (string.compareToIgnoreCase(operatorSymbol) == 0)
+        boolean contains(String operatorSymbol) {
+            for (String string : operationSynnomymns) {
+                if (string.compareToIgnoreCase(operatorSymbol) == 0) {
                     return true;
+                }
+            }
 
             return false;
         }
@@ -64,12 +68,14 @@ public final class MutationOperatorFactory {
      * @param operatorSymbol A symbol or word describing the symbol
      * @return The <tt>MutationOperatorStrategy</tt> associated to the meaning of the operatorSymbol.
      */
-    public static MutationOperatorStrategy getOperatorStrategy(String operatorSymbol) {
-        if (Operators.ADDITION.contains(operatorSymbol))
-            return new AdditionMutationOperatorStrategy();
+    public static ArithmeticOperator getOperatorStrategy(String operatorSymbol) {
+        if (Operators.ADDITION.contains(operatorSymbol)) {
+            return ArithmeticOperator.ADDITION;
+        }
 
-        if (Operators.MULTIPLICATION.contains(operatorSymbol))
-            return new MultiplicationOperatorStrategy();
+        if (Operators.MULTIPLICATION.contains(operatorSymbol)) {
+            return ArithmeticOperator.MULTIPLICATION;
+        }
 
         StringBuilder builder = new StringBuilder();
         builder.append("Cannot determine the type of operator strategy! ");

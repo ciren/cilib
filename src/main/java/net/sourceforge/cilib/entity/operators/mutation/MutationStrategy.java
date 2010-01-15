@@ -27,6 +27,7 @@ import net.sourceforge.cilib.controlparameter.ConstantControlParameter;
 import net.sourceforge.cilib.controlparameter.ControlParameter;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.operators.Operator;
+import net.sourceforge.cilib.math.ArithmeticOperator;
 import net.sourceforge.cilib.math.random.RandomNumber;
 
 /**
@@ -40,7 +41,7 @@ public abstract class MutationStrategy implements Operator {
     private ControlParameter mutationProbability;
     private RandomNumber randomNumber;
     private String operator;
-    private MutationOperatorStrategy operatorStrategy;
+    private ArithmeticOperator operatorStrategy;
 
     public MutationStrategy() {
         this.setOperator("+");
@@ -116,16 +117,8 @@ public abstract class MutationStrategy implements Operator {
         this.operatorStrategy = MutationOperatorFactory.getOperatorStrategy(operator);
     }
 
-    /**
-     * Get the defined {@link net.sourceforge.cilib.offspringList.operators.mutation.MutationOperatorStrategy}.
-     * @return
-     */
-    public MutationOperatorStrategy getOperatorStrategy() {
+    public ArithmeticOperator getOperatorStrategy() {
         return this.operatorStrategy;
-    }
-
-    public void setOperatorStrategy(MutationOperatorStrategy operatorStrategy) {
-        this.operatorStrategy = operatorStrategy;
     }
 
 }
