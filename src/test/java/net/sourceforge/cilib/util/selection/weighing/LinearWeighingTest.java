@@ -24,7 +24,6 @@ package net.sourceforge.cilib.util.selection.weighing;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.Selection.Entry;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,7 +36,7 @@ public class LinearWeighingTest {
     @Test
     public void linearWeighing() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Entry<Integer>> weighedElements = Selection.from(elements).weigh(new LinearWeighing<Integer>(0.0,1.0)).entries();
+        List<Selection.Entry<Integer>> weighedElements = Selection.from(elements).weigh(new LinearWeighing<Integer>(0.0,1.0)).and().entries();
         Assert.assertEquals(0.0,    weighedElements.get(0).getWeight(), 0.0001);
         Assert.assertEquals(0.125,  weighedElements.get(1).getWeight(), 0.0001);
         Assert.assertEquals(0.25,   weighedElements.get(2).getWeight(), 0.0001);
@@ -48,5 +47,4 @@ public class LinearWeighingTest {
         Assert.assertEquals(0.875,  weighedElements.get(7).getWeight(), 0.0001);
         Assert.assertEquals(1.0,    weighedElements.get(8).getWeight(), 0.0001);
     }
-
 }

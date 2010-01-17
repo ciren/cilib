@@ -68,8 +68,8 @@ public class RandomOrdering<E> implements Ordering<E> {
      * Implementation of the Fisher-Yates shuffle algorithm. This algorithm runs in O(n).
      * <p>
      * This method has been added to the implemenation due to the fact that Collections.shuffle()
-     * does not perform the same operations. Collections.shuffle() does not use the current size
-     * of the permutable sublist.
+     * does not perform the same operation efficiently. Collections.shuffle() <b>does not</b>
+     * use the current size of the permutable sublist.
      *
      * @param elements The elements to shuffle.
      */

@@ -19,27 +19,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Predicate;
 import java.util.List;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.util.selection.ordering.Ordering;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
 
 /**
- * Default operations related to selection.
- * @author Wiehann Matthysen
- * @param <E> The selection type.
+ *
  */
-public interface SelectionSyntax<E> {
+public interface LinkedSelectionBuilder<T> {
 
-    /**
+     /**
      * Apply the provided ordering on the current selection. The result of the
      * operation will result in a modified selection.
      * @param ordering The ordering to orderBy.
      * @return A selection upon which the ordering has been applied.
      * @throws UnsupportedOperationException if the ordering cannot be applied.
      */
-    SelectionSyntax<E> orderBy(Ordering<E> ordering);
+    SelectionBuilder<T> orderBy(Ordering<T> ordering);
 
     /**
      * Apply the provided weighing on the current selection. The result of the
@@ -47,66 +48,48 @@ public interface SelectionSyntax<E> {
      * @param weighing The weighing to weighWith.
      * @return A selection upon which the weighing has been applied.
      */
-    SelectionSyntax<E> weigh(Weighing<E> weighing);
+    SelectionBuilder<T> weigh(Weighing<T> weighing);
 
     /**
-     * Obtain the first result from the current selection. These elements are returned
-     * from the front of the current selection.
-     * @return A selection containing the first element.
+     * Obtain a random element from the current Selection.
+     * @param random The random number to be used in the selection.
+     * @return A selection containing a random element from the original {@code elements} member.
      */
-    SelectionSyntax<E> first();
+    SelectionBuilder<T> random(RandomProvider random);
 
     /**
-     * Obtain the first {@code number} of elements from the current selection. These
-     * elements are returned from the front of the current selection.
-     * @param number The number of elements to return.
-     * @return A selection containing the first {@code number} elements.
-     */
-    SelectionSyntax<E> first(int number);
-
-    /**
-     * Obtain the last element contained within the current selection.
-     * @return A selection containing the last element.
-     */
-    SelectionSyntax<E> last();
-
-    /**
-     * Obtain the last {@code number} of elements from the current selection.
+     * Obtain a random number of elements from the current Selection.
+     * @param random The random number to be used in the selection.
      * @param number The number of elements to select.
-     * @return A selection containing the last {@code number} of elements.
+     * @return A selection containing the random elements from the original {@code elements} member.
      */
-    SelectionSyntax<E> last(int number);
+    SelectionBuilder<T> random(RandomProvider random, int number);
 
     /**
      * Remove any {@code Entry}'s from {@code elements} that are also contained in {@code exclusion}.
      * @param exclusions The elements to exclude.
      * @return A selection containing the remaining elements which do not occur in {@code exclusion}.
      */
-    SelectionSyntax<E> exclude(E... exclusions);
+    SelectionBuilder<T> exclude(T... exclusions);
 
     /**
      * Remove any {@code Entry}'s from {@code elements} that are also contained in {@code exclusion}.
      * @param exclusions The elements to exclude.
      * @return A selection containing the remaining elements which do not occur in {@code exclusion}.
      */
-    SelectionSyntax<E> exclude(Iterable<E> exclusions);
+    SelectionBuilder<T> exclude(Iterable<T> exclusions);
 
     /**
-     * Obtain the result of the selection.
-     * @return A list of elements that the selection has selected.
+     * Remove any {@code Entry}'s from {@code elements} that does not satisfy {@code predicate}.
+     * @param predicate The predicate that tests if an element would should be removed or not.
+     * @return A selection containing the remaining elements which satisfies the {@code predicate}.
      */
-    List<E> select();
+    SelectionBuilder<T> filter(Predicate<? super T> predicate);
 
     /**
      * Obtain the list of internal {@code Entry} instances.
      * @return The list of internal {@code Entry} instances.
      */
-    List<Selection.Entry<E>> entries();
-
-    /**
-     * Obtain the first result of the selection.
-     * @return The first element returned by the selection.
-     */
-    E singleSelect();
+    List<Selection.Entry<T>> entries();
 
 }

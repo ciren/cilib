@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.Selection.Entry;
 
 /**
  * Apply a sorting operation to the provided list, ordering the list naturally
@@ -35,7 +34,7 @@ import net.sourceforge.cilib.util.selection.Selection.Entry;
  */
 public class SortedOrdering<E extends Comparable<? super E>> implements Ordering<E> {
 
-    private Comparator<Entry<E>> comparator;
+    private Comparator<Selection.Entry<E>> comparator;
 
     /**
      * Create an new instance with the default ordering defined to be an
@@ -50,7 +49,7 @@ public class SortedOrdering<E extends Comparable<? super E>> implements Ordering
      * comparator to use.
      * @param comparator The comparator to use.
      */
-    public SortedOrdering(Comparator<Entry<E>> comparator) {
+    public SortedOrdering(Comparator<Selection.Entry<E>> comparator) {
         this.comparator = comparator;
     }
 

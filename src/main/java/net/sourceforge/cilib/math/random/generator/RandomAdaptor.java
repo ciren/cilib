@@ -93,7 +93,8 @@ public final class RandomAdaptor extends java.util.Random {
 
     @Override
     public synchronized void setSeed(long seed) {
-        throw new UnsupportedOperationException("Cannot redefine the seed value. Please recreate the instance with the specified seed.");
+        // Nothing is to be done in this method. The seed value should never be redefined.
+        // If you want it to be redefined, recreate the RandomProvider with the desired seed.
     }
 
 }

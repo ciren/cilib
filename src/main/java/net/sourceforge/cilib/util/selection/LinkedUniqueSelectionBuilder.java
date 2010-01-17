@@ -19,32 +19,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.util.selection.ordering;
-
-import java.util.Arrays;
-import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection;
-import org.junit.Assert;
-import org.junit.Test;
-
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
+package net.sourceforge.cilib.util.selection;
 
 /**
  *
- * @author gpampara
  */
-public class ReverseOrderingTest {
+public interface LinkedUniqueSelectionBuilder<T> extends LinkedSelectionBuilder<T> {
 
-    @Test
-    public void reverseOrdering() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Selection.Entry<Integer>> entries = Selection.from(elements).entries();
-        boolean ordered = new ReverseOrdering<Integer>().order(entries);
-        Assert.assertThat(ordered, is(true));
+    LinkedSelectionBuilder<T> unique();
 
-        for (int i = 0; i < 9; ++i) {
-            Assert.assertThat(entries.get(i).getElement(), is(equalTo(elements.size() - i)));
-        }
-    }
 }

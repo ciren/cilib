@@ -21,12 +21,12 @@
  */
 package net.sourceforge.cilib.controlparameter;
 
-
 /**
  * A {@linkplain net.sourceforge.cilib.controlparameter.ControlParameter control parameter}
  * that is defined to return a proportional value.
  */
 public class ProportionalControlParameter implements ControlParameter {
+
     private static final long serialVersionUID = 8415953407107514281L;
     private double proportion;
 
@@ -36,6 +36,10 @@ public class ProportionalControlParameter implements ControlParameter {
      */
     public ProportionalControlParameter() {
         this.proportion = 0.1;
+    }
+
+    public ProportionalControlParameter(double proportion) {
+        this.proportion = proportion;
     }
 
     public ProportionalControlParameter(ProportionalControlParameter copy) {
@@ -72,8 +76,9 @@ public class ProportionalControlParameter implements ControlParameter {
      */
     @Override
     public void setParameter(double value) {
-        if (value < 0)
+        if (value < 0) {
             throw new IllegalArgumentException("The proportion must be positive");
+        }
 
         this.proportion = value;
     }

@@ -24,8 +24,10 @@ package net.sourceforge.cilib.util.selection.recipes;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import net.sourceforge.cilib.util.selection.ordering.ProportionalOrdering;
+import net.sourceforge.cilib.util.selection.ordering.SortedOrdering;
 import net.sourceforge.cilib.util.selection.weighing.LinearWeighing;
 import net.sourceforge.cilib.util.selection.weighing.Weighing;
 
@@ -42,8 +44,8 @@ import net.sourceforge.cilib.util.selection.weighing.Weighing;
  * @author Wiehann Matthysen
  */
 public class RouletteWheelSelection<E extends Comparable<? super E>> implements SelectionRecipe<E> {
-    private static final long serialVersionUID = 4194450350205390514L;
 
+    private static final long serialVersionUID = 4194450350205390514L;
     private Weighing<E> weighing;
     private RandomProvider random;
 
@@ -64,16 +66,11 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
         this.random = new MersenneTwister();
     }
 
-    public RouletteWheelSelection(Weighing<E> weighing, RandomProvider random) {
-        this.weighing = weighing;
-        this.random = random;
-    }
-
     /**
      * Create a copy of the provided instance.
      * @param copy The instance to copy.
      */
-    public RouletteWheelSelection(RouletteWheelSelection copy) {
+    public RouletteWheelSelection(RouletteWheelSelection<E> copy) {
         this.weighing = copy.weighing.getClone();
         this.random = copy.random.getClone();
     }
@@ -103,11 +100,31 @@ public class RouletteWheelSelection<E extends Comparable<? super E>> implements 
     }
 
     /**
+     * Set the random number generator to use.
+     * @param random The value to set.
+     */
+    public void setRandom(RandomProvider random) {
+        this.random = random;
+    }
+
+    /**
+     * Get the current random number generator.
+     * @return The current random number generator.
+     */
+    public RandomProvider getRandom() {
+        return this.random;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public E select(List<? extends E> elements) {
-        E selection = Selection.from(elements).weigh(this.weighing).orderBy(new ProportionalOrdering<E>(this.random)).last().singleSelect();
-        return selection;
+        // First, weigh and order from smallest to largest (natural ordering).
+        // Boil largest elements to the front using proportional ordering
+        // (as final step, elements get reversed such that largest elements are at the back).
+        // Select the largest from the end and return.
+        return Selection.from(elements).weigh(this.weighing).and().orderBy(new SortedOrdering<E>()).and()
+                .orderBy(new ProportionalOrdering<E>(this.random)).select(Samples.last()).performSingle();
     }
 }

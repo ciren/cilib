@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.util.selection;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -35,40 +37,10 @@ import static org.hamcrest.CoreMatchers.is;
 public class SelectionTest {
 
     @Test
-    public void lastSelection() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Integer> selection = Selection.from(elements).last(3).select();
-
-        Assert.assertEquals(3, selection.size());
-        Assert.assertTrue(selection.contains(7));
-        Assert.assertTrue(selection.contains(8));
-        Assert.assertTrue(selection.contains(9));
-
-        selection = Selection.from(elements).last().select();
-        Assert.assertEquals(1, selection.size());
-        Assert.assertEquals(9, selection.get(0).intValue());
-    }
-
-    @Test
-    public void firstSelection() {
-        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Integer> selection = Selection.from(elements).first(3).select();
-
-        Assert.assertEquals(3, selection.size());
-        Assert.assertEquals(1, selection.get(0).intValue());
-        Assert.assertEquals(2, selection.get(1).intValue());
-        Assert.assertEquals(3, selection.get(2).intValue());
-
-        selection = Selection.from(elements).first().select();
-        Assert.assertEquals(1, selection.get(0).intValue());
-        Assert.assertEquals(1, selection.size());
-    }
-
-    @Test
-    public void exclusionSelection(){
+    public void exclusionSelection() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
         List<Integer> exlusionElements = Arrays.asList(1, 2, 4, 6);
-        List<Integer> selection = Selection.from(elements).exclude(exlusionElements).first(3).select();
+        List<Integer> selection = Selection.from(elements).exclude(exlusionElements).select(Samples.first(3)).perform();
         Assert.assertEquals(3, selection.size());
         Assert.assertEquals(3, selection.get(0).intValue());
         Assert.assertEquals(5, selection.get(1).intValue());
@@ -76,33 +48,73 @@ public class SelectionTest {
     }
 
     @Test
+    public void predicateSelection() {
+        List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        Predicate<Integer> evenNumbers = new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer element) {
+                return element % 2 == 0;
+            }
+        };
+
+        Predicate<Integer> numberSeven = new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer element) {
+                return element == 7;
+            }
+        };
+
+        List<Integer> selection = Selection.from(elements).filter(Predicates.<Integer>or(evenNumbers, numberSeven)).select(Samples.all()).perform();
+        Assert.assertThat(selection.size(), is(4));
+        Assert.assertThat(selection.get(0), is(2));
+        Assert.assertThat(selection.get(1), is(4));
+        Assert.assertThat(selection.get(2), is(6));
+        Assert.assertThat(selection.get(3), is(7));
+    }
+
+    @Test
     public void randomFrom() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Integer selection = Selection.randomFrom(elements, new MockRandom());
-
+        Integer selection = Selection.from(elements).random(new MockRandom()).select(Samples.first()).performSingle();
         Assert.assertEquals(1, selection.intValue());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void emptyRandomFrom() {
-        List<Integer> elements = Arrays.asList();
-        Selection.randomFrom(elements, new MockRandom());
+        List<Integer> elements = Arrays.<Integer>asList();
+        Selection.from(elements).random(new MockRandom());
     }
 
     @Test
     public void multipleRandomFrom() {
         List<Integer> elements = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        List<Integer> selection = Selection.randomFrom(elements, new MockRandom(), 2);
+        List<Integer> selection = Selection.from(elements).random(new MockRandom(), 2).select(Samples.all()).perform();
 
         Assert.assertEquals(2, selection.size());
         Assert.assertThat(selection.get(0), is(1));
         Assert.assertThat(selection.get(1), is(1));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void emptyMultipleRandomFrom() {
-        List<Integer> elements = Arrays.asList();
-        Selection.randomFrom(elements, new MockRandom(), 2);
+        List<Integer> elements = Arrays.<Integer>asList();
+        Selection.from(elements).random(new MockRandom(), 2);
+    }
+
+    @Test
+    public void uniqueSelection() {
+        List<Integer> elements = Arrays.asList(1, 1, 1, 2, 2);
+        List<Integer> randoms = Selection.from(elements).unique().random(new MockRandom(), 2).select(Samples.all()).perform();
+
+        Assert.assertThat(randoms.size(), is(2));
+        Assert.assertTrue(randoms.contains(1));
+        Assert.assertTrue(randoms.contains(2));
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void notEnoughUniqueElements() {
+        List<Integer> elements = Arrays.asList(1, 1, 1, 2, 2);
+        Selection.from(elements).unique().random(new MockRandom(), 3).select(Samples.all()).perform();
     }
 
     private class MockRandom implements RandomProvider {
@@ -151,5 +163,4 @@ public class SelectionTest {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }
-
 }

@@ -30,7 +30,6 @@ import net.sourceforge.cilib.problem.MOFitness;
 import net.sourceforge.cilib.problem.OptimisationSolution;
 import net.sourceforge.cilib.pso.moo.guideselectionstrategies.GuideSelectionStrategy;
 import net.sourceforge.cilib.util.selection.Selection;
-import net.sourceforge.cilib.util.selection.Selection.Entry;
 
 /**
  * <p>
@@ -67,7 +66,7 @@ public class AntiClusterWeighing implements SolutionWeighing {
     public boolean weigh(List<Selection.Entry<OptimisationSolution>> solutions) {
         // Get first fitness as dummy fitness to set size of initial min and max fitness
         // arrays as well as populating these arrays.
-        Iterator<? extends Entry<OptimisationSolution>> solutionIterator = solutions.iterator();
+        Iterator<? extends Selection.Entry<OptimisationSolution>> solutionIterator = solutions.iterator();
         MOFitness tempFitness = (MOFitness) solutionIterator.next().getElement().getFitness();
         Fitness[] minFitnesses = new Fitness[tempFitness.getDimension()];
         Fitness[] maxFitnesses = new Fitness[tempFitness.getDimension()];
@@ -78,7 +77,7 @@ public class AntiClusterWeighing implements SolutionWeighing {
 
         // Iterate over all remaining optimisation solutions and find the min and max fitness values.
         while (solutionIterator.hasNext()) {
-            Entry<OptimisationSolution> optimisationSolution = solutionIterator.next();
+            Selection.Entry<OptimisationSolution> optimisationSolution = solutionIterator.next();
             MOFitness fitnesses = (MOFitness) optimisationSolution.getElement().getFitness();
             for (int i = 0; i < fitnesses.getDimension(); ++i) {
                 Double fitnessValue = fitnesses.getFitness(i).getValue();

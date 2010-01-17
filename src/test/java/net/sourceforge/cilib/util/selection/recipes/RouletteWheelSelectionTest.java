@@ -21,86 +21,140 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import java.util.Arrays;
+import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Topology;
-import net.sourceforge.cilib.entity.operators.selection.RouletteWheelSelectionStrategy;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
+import net.sourceforge.cilib.math.random.generator.MersenneTwister;
+import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.MaximisationFitness;
 import net.sourceforge.cilib.problem.MinimisationFitness;
+import net.sourceforge.cilib.util.selection.weighing.entity.EntityWeighing;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.Matchers.hasItem;
 
 /**
  * <p>
  * Tests to test the behaviour of RouletteWheelSelection, in both the minimization
  * and maximization cases.
  * </p>
- * <p>
- * It should be noted that all the values within the tests are extremely exaggerated
- * so that the tests almost always pass.
- * </p>
  */
 public class RouletteWheelSelectionTest {
 
-    private Topology<Individual> topology;
-    private Individual individual1;
-    private Individual individual2;
-    private Individual individual3;
+    @Test(expected = IllegalArgumentException.class)
+    public void selectEmpty() {
+        List<Integer> elements = Lists.newArrayList();
+        RouletteWheelSelection<Integer> selection = new RouletteWheelSelection<Integer>();
+        selection.select(elements);
+    }
 
-    @Before
-    public void createDummyTopology() {
-        topology = new GBestTopology<Individual>();
+    @Test
+    public void selectSingle() {
+        List<Integer> elements = Lists.newArrayList(1);
+        RouletteWheelSelection<Integer> selection = new RouletteWheelSelection<Integer>();
+        int selected = selection.select(elements);
+        Assert.assertThat(selected, is(1));
+    }
 
-        individual1 = new Individual();
-        individual2 = new Individual();
-        individual3 = new Individual();
+    private static Topology<Individual> createDummyTopology() {
+        Topology<Individual> topology = new GBestTopology<Individual>();
+        Individual individual1 = new Individual();
+        Individual individual2 = new Individual();
+        Individual individual3 = new Individual();
         topology.add(individual1);
         topology.add(individual2);
         topology.add(individual3);
+        return topology;
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void selectionWithInferiorFitness() {
-        RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
-        rouletteWheelSelectionStrategy.select(topology);
+        RouletteWheelSelection<Entity> rouletteWheelSelection = new RouletteWheelSelection<Entity>(new EntityWeighing<Entity>());
+        rouletteWheelSelection.select(new GBestTopology<Individual>());
     }
 
     @Test
     public void minimizationSelection() {
-        individual1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
-        individual2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
-        individual3.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
+        Topology<Individual> topology = createDummyTopology();
+        topology.get(0).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
+        topology.get(1).getProperties().put(EntityType.FITNESS, new MinimisationFitness(10000.0));
+        topology.get(2).getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.00001)); // Should be the best entity
 
-        RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
-        Entity entity = rouletteWheelSelectionStrategy.select(topology);
+        RouletteWheelSelection<Individual> selection = new RouletteWheelSelection<Individual>(new EntityWeighing<Individual>());
+        selection.setRandom(new ConstantRandomNumber());
+        Individual selected = selection.select(topology);
 
-        Assert.assertNotNull(entity);
-        Assert.assertTrue(topology.contains(entity));
-        Assert.assertSame(entity, individual3);
+        Assert.assertThat(selected, is(notNullValue()));
+        Assert.assertThat(topology, hasItem(selected));
+        Assert.assertThat(selected, is(topology.get(2)));
     }
 
     @Test
     public void maximizationSelection() {
-        individual1.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
-        individual2.getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
-        individual3.getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+        Topology<Individual> topology = createDummyTopology();
+        topology.get(0).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
+        topology.get(1).getProperties().put(EntityType.FITNESS, new MaximisationFitness(90000.0)); // Should be the best entity
+        topology.get(2).getProperties().put(EntityType.FITNESS, new MaximisationFitness(0.5));
 
-        RouletteWheelSelectionStrategy rouletteWheelSelectionStrategy = new RouletteWheelSelectionStrategy();
-        Entity entity = rouletteWheelSelectionStrategy.select(topology);
+        RouletteWheelSelection<Individual> selection = new RouletteWheelSelection<Individual>(new EntityWeighing<Individual>());
+        selection.setRandom(new ConstantRandomNumber());
+        Individual selected = selection.select(topology);
 
-        Assert.assertNotNull(entity);
-        Assert.assertTrue(entity.equals(individual2));
+        Assert.assertThat(selected, is(notNullValue()));
+        Assert.assertThat(topology, hasItem(selected));
+        Assert.assertThat(selected, is(topology.get(1)));
     }
 
-    @Test
-    public void primitiveSelection() {
-        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private static class ConstantRandomNumber implements RandomProvider {
 
+        private static final long serialVersionUID = 3019387660938987850L;
+        private RandomProvider randomNumber = new MersenneTwister(0);
+
+        @Override
+        public RandomProvider getClone() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public boolean nextBoolean() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public int nextInt() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public int nextInt(int n) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public long nextLong() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public float nextFloat() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public double nextDouble() {
+            return this.randomNumber.nextDouble();
+        }
+
+        @Override
+        public void nextBytes(byte[] bytes) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
-
 }

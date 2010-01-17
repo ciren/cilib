@@ -21,12 +21,18 @@
  */
 package net.sourceforge.cilib.util.selection.recipes;
 
-import java.util.Arrays;
+import com.google.common.collect.Lists;
+import java.util.Collections;
 import java.util.List;
+import net.sourceforge.cilib.math.random.generator.RandomAdaptor;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  *
@@ -34,15 +40,48 @@ import org.junit.Test;
  */
 public class RandomSelectionTest {
 
-    @Test
-    public void randomSelection() {
-        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Integer selected = Selection.randomFrom(list, new ConstantRandomNumber());
+    @Test(expected = IllegalArgumentException.class)
+    public void selectEmpty() {
+        List<Integer> elements = Lists.newArrayList();
+        RandomSelection<Integer> selection = new RandomSelection<Integer>();
+        selection.select(elements);
+    }
 
-        Assert.assertEquals(7, selected.intValue());
+    @Test
+    public void selectSingle() {
+        List<Integer> elements = Lists.newArrayList(1);
+        RandomSelection<Integer> selection = new RandomSelection<Integer>();
+        int selected = selection.select(elements);
+        Assert.assertThat(selected, is(1));
+    }
+
+    @Test
+    public void selectMultiple() {
+        List<Integer> elements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        RandomSelection<Integer> selection = new RandomSelection<Integer>(new ConstantRandomNumber());
+        int selected = selection.select(elements);
+
+        List<Integer> otherElements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Collections.shuffle(otherElements, new RandomAdaptor(new ConstantRandomNumber()));
+
+        int lastIndex = otherElements.size() - 1;
+        Assert.assertThat(selected, is(equalTo(otherElements.get(lastIndex))));
+    }
+
+    @Test
+    public void selectRandomFrom() {
+        List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        int selected = Selection.from(list).random(new ConstantRandomNumber()).select(Samples.first()).performSingle();
+
+        List<Integer> otherElements = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Collections.shuffle(otherElements, new RandomAdaptor(new ConstantRandomNumber()));
+
+        int lastIndex = otherElements.size() - 1;
+        Assert.assertThat(selected, is(equalTo(otherElements.get(lastIndex))));
     }
 
     private class ConstantRandomNumber implements RandomProvider {
+
         private static final long serialVersionUID = 3019387660938987850L;
 
         public ConstantRandomNumber() {
@@ -50,7 +89,7 @@ public class RandomSelectionTest {
 
         @Override
         public RandomProvider getClone() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return this;
         }
 
         @Override
@@ -87,7 +126,5 @@ public class RandomSelectionTest {
         public void nextBytes(byte[] bytes) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
-
     }
-
 }

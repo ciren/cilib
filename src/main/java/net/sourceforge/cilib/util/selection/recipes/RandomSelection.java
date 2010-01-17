@@ -24,6 +24,7 @@ package net.sourceforge.cilib.util.selection.recipes;
 import java.util.List;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 
 /**
@@ -78,7 +79,6 @@ public class RandomSelection<E> implements SelectionRecipe<E> {
      */
     @Override
     public E select(List<? extends E> elements) {
-        E selection = Selection.randomFrom(elements, random);
-        return selection;
+        return Selection.from(elements).random(random).select(Samples.first()).performSingle();
     }
 }

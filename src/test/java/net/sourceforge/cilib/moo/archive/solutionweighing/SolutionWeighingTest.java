@@ -22,7 +22,6 @@
 package net.sourceforge.cilib.moo.archive.solutionweighing;
 
 import java.util.List;
-import net.sourceforge.cilib.util.selection.Selection.Entry;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -143,9 +142,9 @@ public class SolutionWeighingTest {
 
     @Test
     public void testAntiClusteringWeighingStrategy() {
-        List<Entry<OptimisationSolution>> weighedSolutions = Selection.from(solutions).weigh(new AntiClusterWeighing()).entries();
+        List<Selection.Entry<OptimisationSolution>> weighedSolutions = Selection.from(solutions).weigh(new AntiClusterWeighing()).and().entries();
 
-        Iterator<Entry<OptimisationSolution>> weighedSolutionIterator = weighedSolutions.iterator();
+        Iterator<Selection.Entry<OptimisationSolution>> weighedSolutionIterator = weighedSolutions.iterator();
         Selection.Entry<OptimisationSolution> weighedSolution = weighedSolutionIterator.next();
         Assert.assertEquals(0.290823093508, weighedSolution.getWeight(), EPSILON);
 

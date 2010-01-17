@@ -21,7 +21,7 @@
  */
 package net.sourceforge.cilib.util.selection.ordering;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
 import java.util.List;
 import net.sourceforge.cilib.util.selection.Selection;
 
@@ -62,7 +62,7 @@ public class RingBasedOrdering<E> implements Ordering<E> {
      */
     @Override
     public boolean order(List<Selection.Entry<E>> elements) {
-        List<Selection.Entry<E>> tmp = new ArrayList<Selection.Entry<E>>(elements);
+        List<Selection.Entry<E>> tmp = Lists.newArrayList(elements);
 
         int position = 0;
         for (Selection.Entry<E> entry : elements) {

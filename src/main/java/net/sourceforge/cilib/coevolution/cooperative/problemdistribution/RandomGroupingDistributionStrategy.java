@@ -33,6 +33,7 @@ import net.sourceforge.cilib.coevolution.cooperative.problem.RandomDimensionAllo
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 
 /**
@@ -71,7 +72,8 @@ public class RandomGroupingDistributionStrategy implements
             int actualDimension = dimension;
             if (p < oddDimensions)
                 actualDimension++;
-            List<Integer> selectedDimensions = Selection.from(dimensions).unique().random(random, actualDimension).select();
+            List<Integer> selectedDimensions = Selection.from(dimensions).unique()
+                    .random(random, actualDimension).select(Samples.all()).perform();
             for (Integer d : selectedDimensions) {
                 indexList.add(d);
                 dimensions.remove(d);

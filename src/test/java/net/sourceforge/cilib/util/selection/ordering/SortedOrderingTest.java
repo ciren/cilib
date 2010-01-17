@@ -27,6 +27,9 @@ import net.sourceforge.cilib.util.selection.Selection;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+
 /**
  *
  * @author gpampara
@@ -41,8 +44,7 @@ public class SortedOrderingTest {
         Assert.assertTrue(ordered);
 
         for (int i = 0; i < 9; ++i) {
-            Assert.assertEquals(i + 1, entries.get(i).getElement().intValue());
+            Assert.assertThat(entries.get(i).getElement(), is(equalTo(i + 1)));
         }
     }
-
 }

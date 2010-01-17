@@ -19,29 +19,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package net.sourceforge.cilib.util.selection;
 
-import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import java.util.List;
 
 /**
- * Syntax defining methods that result in a selection of random elements.
- * @param <E> The selection type.
+ *
+ * @author gpampara
  */
-public interface RandomSyntax<E> {
+public interface SampleSelectionBuilder<T> {
 
-    /**
-     * Obtain a random element from the current Selection.
-     * @param random The random number to be used in the selection.
-     * @return A selection containing a random element from the original {@code elements} member.
-     */
-    SelectionSyntax<E> random(RandomProvider random);
+    List<T> perform();
 
-    /**
-     * Obtain a random number of elements from the current Selection.
-     * @param random The random number to be used in the selection.
-     * @param number The number of elements to select.
-     * @return A selection containing the random elements from the original {@code elements} member.
-     */
-    SelectionSyntax<E> random(RandomProvider random, int number);
+    T performSingle();
+
+    LinkedSelectionBuilder<T> and();
 
 }

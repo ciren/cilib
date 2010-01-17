@@ -24,7 +24,6 @@
  */
 package net.sourceforge.cilib.entity.operators.creation;
 
-import static org.hamcrest.CoreMatchers.is;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.EntityType;
@@ -79,7 +78,7 @@ public class RandToBestCreationTest {
 
             Entity resultEntity = creation.create(entityRandom, current, testTopology);
 
-            Assert.assertThat((Double)((Vector)resultEntity.getCandidateSolution()).get(0).getReal(), is(0.2));
+            Assert.assertEquals(0.1, ((Vector)resultEntity.getCandidateSolution()).get(0).getReal(), 0.001);
         } finally {
             Seeder.setSeederStrategy(seedStrategy);
         }

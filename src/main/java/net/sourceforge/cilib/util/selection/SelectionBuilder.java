@@ -21,12 +21,15 @@
  */
 package net.sourceforge.cilib.util.selection;
 
-public interface UniqueSyntax<E> {
+/**
+ * Default operations related to selection.
+ * @author Wiehann Matthysen
+ * @param <T> The selection type.
+ */
+public interface SelectionBuilder<T> {
 
-    /**
-     * Convert the selection process into a selection that is aware of uniqueness.
-     * @return An instance of {@code UniqueSelection} with identical elements.
-     */
-    SelectionSyntax<E> unique();
+    SampleSelectionBuilder<T> select(SamplePredicate<? super T> action);
+
+    LinkedSelectionBuilder<T> and();
 
 }
