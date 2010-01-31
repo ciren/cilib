@@ -43,7 +43,7 @@ public class ARFFFileReaderTest {
     @Before
     @Test
     public void testReading() throws CIlibIOException {
-        testFilePath = "datasets/iris.arff";
+        testFilePath = "src/test/resources/datasets/iris.arff";
         reader = new ARFFFileReader();
         DataTableBuilder builder = new DataTableBuilder(reader);
         builder.setSourceURL(testFilePath);

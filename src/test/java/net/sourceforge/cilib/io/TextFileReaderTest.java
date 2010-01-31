@@ -38,7 +38,7 @@ public class TextFileReaderTest {
 
     @BeforeClass
     public static void setTestFilePath() {
-        testFilePath = "datasets/iris.data";
+        testFilePath = "src/test/resources/datasets/iris.data";
     }
 
     @Test

@@ -1,10 +1,10 @@
 % 1. Title: Iris Plants Database
-% 
+%
 % 2. Sources:
 %      (a) Creator: R.A. Fisher
 %      (b) Donor: Michael Marshall (MARSHALL%PLU@io.arc.nasa.gov)
 %      (c) Date: July, 1988
-% 
+%
 @RELATION iris
 
 @ATTRIBUTE sepallength  NUMERIC

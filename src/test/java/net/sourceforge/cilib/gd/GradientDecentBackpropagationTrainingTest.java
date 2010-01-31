@@ -44,7 +44,7 @@ public class GradientDecentBackpropagationTrainingTest {
     public void setup() {
         problem = new NNDataTrainingProblem();
         problem.getDataTableBuilder().setDataReader(new ARFFFileReader());
-        problem.getDataTableBuilder().setSourceURL("datasets/iris.arff");
+        problem.getDataTableBuilder().setSourceURL("src/test/resources/datasets/iris.arff");
 
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(4));
         problem.getNeuralNetwork().getArchitecture().getArchitectureBuilder().addLayer(new LayerConfiguration(3));
