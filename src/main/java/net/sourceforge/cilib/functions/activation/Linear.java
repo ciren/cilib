@@ -23,28 +23,22 @@ package net.sourceforge.cilib.functions.activation;
 
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.util.Vectors;
 
 /**
- * Hyperbollic Tangent Function.
- *
- * @author leo
+ * The linear activation function, f(x) = x; f '(x) = 1; Since it
+ * is unbounded, the linear function has no active range, and
+ * these values are set to postive and neg. max double.
+ * @author andrich
  */
-
-public class TanH extends ActivationFunction {
-    private static final long serialVersionUID = -5843046986587459333L;
-
-    /**
-     * Create a new instance of {@code TanH}.
-     */
-    public TanH() {
-        setDomain("R(-1.0, 1.0)");
-    }
+public class Linear extends ActivationFunction {
+    private static final long serialVersionUID = -6826800182176063079L;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public TanH getClone() {
+    public Linear getClone() {
         return this;
     }
 
@@ -61,9 +55,7 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public double evaluate(double input) {
-        double a = Math.exp(input);
-        double b = Math.exp(-input);
-        return ((a-b)/(a+b));
+        return input;
     }
 
     /**
@@ -71,7 +63,7 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public Real getMaximum() {
-        return new Real(1.0);
+        return new Real(Double.MAX_VALUE);
     }
 
     /**
@@ -79,12 +71,15 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public Real getMinimum() {
-        return new Real(0.0);
+        return new Real(Double.MIN_VALUE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector getGradient(Vector x) {
-        throw new RuntimeException("Implement me");
+        return Vectors.create(this.getGradient((Real) x.get(0)).getReal());
     }
 
     /**
@@ -92,16 +87,15 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public double getGradient(double number) {
-        throw new RuntimeException("Implement me");
+        return 1.0;
     }
 
     /**
      * {@inheritDoc}
-     * The active range is -Sqrt(3) - Sqrt(3), and Sqrt(3) = 1.732050808
      */
     @Override
     public double getLowerActiveRange() {
-        return -1.732050808;
+        return Double.MIN_VALUE;
     }
 
     /**
@@ -109,7 +103,6 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public double getUpperActiveRange() {
-        return 1.732050808;
+        return Double.MAX_VALUE;
     }
-
 }

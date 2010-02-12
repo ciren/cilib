@@ -114,8 +114,9 @@ public class Sigmoid extends ActivationFunction {
      * @param steepness The value to set.
      */
     public void setSteepness(ControlParameter steepness) {
-        if (steepness.getParameter() < 0)
+        if (steepness.getParameter() < 0) {
             throw new UnsupportedOperationException("Cannot set steepness to a negative value.");
+        }
         this.steepness = steepness;
     }
 

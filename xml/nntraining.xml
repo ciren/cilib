@@ -42,7 +42,26 @@
                 <architecture class="nn.architecture.Architecture">
                     <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
                         <addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
-                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="3"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="3">
+                            <activationFunction class="functions.activation.Sigmoid" />
+                        </addLayer>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
+                        <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3,3)" />
+                    </architectureBuilder>
+                </architecture>
+            </neuralNetwork>
+        </problem>
+        <problem id="nn4-8-1-lin" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
+            <dataTableBuilder class="io.DataTableBuilder">
+                <dataReader class="io.ARFFFileReader" sourceURL="datasets/iris.arff"/>
+            </dataTableBuilder>
+            <neuralNetwork class="nn.NeuralNetwork">
+                <architecture class="nn.architecture.Architecture">
+                    <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="4"/>
+                        <addLayer class="nn.architecture.builder.LayerConfiguration" size="3">
+                            <activationFunction class="functions.activation.Linear" />
+                        </addLayer>
                         <addLayer class="nn.architecture.builder.LayerConfiguration" size="1"/>
                         <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-3,3)" />
                     </architectureBuilder>
@@ -67,6 +86,18 @@
             <algorithm idref="gradientdecent"/>
             <problem idref="nn4-8-1-sig"/>
             <measurements idref="fitness" file="data/gd_nn_iris_fitness.csv"/>
+        </simulation>
+
+        <simulation>
+            <algorithm idref="gcpsoLB"/>
+            <problem idref="nn4-8-1-lin"/>
+            <measurements idref="fitness" file="data/gbest_nn-lin_iris_fitness.csv"/>
+        </simulation>
+
+        <simulation>
+            <algorithm idref="gradientdecent"/>
+            <problem idref="nn4-8-1-lin"/>
+            <measurements idref="fitness" file="data/gd_nn-lin_iris_fitness.csv"/>
         </simulation>
     </simulations>
 </simulator>

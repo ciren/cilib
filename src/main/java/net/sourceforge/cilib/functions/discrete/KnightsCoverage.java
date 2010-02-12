@@ -32,16 +32,15 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class KnightsCoverage extends DiscreteFunction {
-    private static final long serialVersionUID = -8039165934381145252L;
 
+    private static final long serialVersionUID = -8039165934381145252L;
     private final int[] movesX = {1, 2, 2, 1, -1, -2, -2, -1};
     private final int[] movesY = {-2, -1, 1, 2, 2, 1, -1, -2};
-
     private int boardSize;
 
     public KnightsCoverage() {
         this.boardSize = 8;
-        setDomain("B^"+boardSize*boardSize);
+        setDomain("B^" + boardSize * boardSize);
     }
 
     /**
@@ -62,16 +61,18 @@ public class KnightsCoverage extends DiscreteFunction {
         // Place the knights (represented by a -1)
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                if (input.getBit(i*boardSize + j))
+                if (input.getBit(i * boardSize + j)) {
                     board[i][j] = -1;
+                }
             }
         }
 
         // Now determine the coverage.
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                if (board[i][j] == -1)
+                if (board[i][j] == -1) {
                     determineCoverage(board, i, j);
+                }
             }
         }
 
@@ -80,11 +81,13 @@ public class KnightsCoverage extends DiscreteFunction {
 
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                if (board[i][j] == -1) // covered square by knight
+                if (board[i][j] == -1) {// covered square by knight
                     fitness += 100;
-                else if (board[i][j] == 0) // not covered by a knight at all
+                } else if (board[i][j] == 0) { // not covered by a knight at all
                     fitness += 1000;
-                else fitness -= 200; // square is covered
+                } else {
+                    fitness -= 200; // square is covered
+                }
             }
         }
 
@@ -97,9 +100,11 @@ public class KnightsCoverage extends DiscreteFunction {
             int moveX = movesX[m] + i;
             int moveY = movesY[m] + j;
 
-            if ((moveX >= 0 && moveX < boardSize) && (moveY >= 0 && moveY < boardSize))
-                if (board[moveX][moveY] != -1)
+            if ((moveX >= 0 && moveX < boardSize) && (moveY >= 0 && moveY < boardSize)) {
+                if (board[moveX][moveY] != -1) {
                     board[moveX][moveY]++;
+                }
+            }
         }
     }
 
@@ -109,7 +114,6 @@ public class KnightsCoverage extends DiscreteFunction {
 
     public void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
-        setDomain("B^"+boardSize*boardSize);
+        setDomain("B^" + boardSize * boardSize);
     }
-
 }
