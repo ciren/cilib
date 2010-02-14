@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -39,24 +41,25 @@ import org.w3c.dom.NodeList;
  */
 public final class Main {
 
-    /** Creates a new instance of Simulator */
-    private Main(Document config, ProgressListener progress) {
-        this.config = config;
-        this.progress = progress;
-        simulations = config.getElementsByTagName("simulation");
+    private NodeList simulations;
+
+    Main() {
     }
 
-    private void runSimulations() {
+    private void runSimulations(Document config, ProgressListener progress) {
+        simulations = config.getElementsByTagName("simulation");
+
         for (int i = 0; i < simulations.getLength(); ++i) {
-            if(progress != null)
+            if (progress != null) {
                 progress.setSimulation(i);
+            }
             Element current = (Element) simulations.item(i);
             XMLAlgorithmFactory algorithmFactory = new XMLAlgorithmFactory(config, (Element) current.getElementsByTagName("algorithm").item(0));
             XMLProblemFactory problemFactory = new XMLProblemFactory(config, (Element) current.getElementsByTagName("problem").item(0));
             XMLObjectFactory measurementsFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("measurements").item(0));
             MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
             Simulator simulator = new Simulator(algorithmFactory, problemFactory, suite);
-            if(progress != null) {
+            if (progress != null) {
                 simulator.addProgressListener(progress);
             }
 
@@ -80,22 +83,16 @@ public final class Main {
         ProgressListener progress = null;
         if (args.length > 1 && args[1].equals("-textprogress")) {
             progress = new ProgressText(doc.getElementsByTagName("simulation").getLength());
-        }
-        else if (args.length > 1 && args[1].equals("-guiprogress")) { //-guiprogress
+        } else if (args.length > 1 && args[1].equals("-guiprogress")) { //-guiprogress
             ProgressFrame pf = new ProgressFrame(doc.getElementsByTagName("simulation").getLength());
             pf.setVisible(true);
             progress = pf;
-        }
-        else {
+        } else {
             progress = new NoProgress();
         }
 
-        Main simulator = new Main(doc, progress);
-        simulator.runSimulations();
-        System.exit(0);
+        Injector injector = Guice.createInjector(new SimulatorModule());
+        Main simulator = injector.getInstance(Main.class);
+        simulator.runSimulations(doc, progress);
     }
-
-    private Document config;
-    private NodeList simulations;
-    private ProgressListener progress;
 }
