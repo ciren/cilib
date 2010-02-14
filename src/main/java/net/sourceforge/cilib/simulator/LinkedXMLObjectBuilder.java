@@ -19,14 +19,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.measurement;
-
-import net.sourceforge.cilib.type.types.Type;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package net.sourceforge.cilib.simulator;
 
 /**
  *
- * @author  Edwin Peer
+ * @author gpampara
  */
-public interface MeasurementFactory {
-    Measurement<? extends Type> newMeasurement();
+interface LinkedXMLObjectBuilder {
+
+    XMLObjectFactory build();
 }

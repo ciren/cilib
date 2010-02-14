@@ -21,8 +21,11 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -34,38 +37,37 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * This is the entry point for the CILib simulator. This class accepts one
+ * This is the entry point for the CIlib simulator. This class accepts one
  * command line parameter, which is the name of the XML config file to parse.
  *
  * @author  Edwin Peer
  */
 public final class Main {
+    private final Provider<XMLObjectBuilder> objectBuilderProvider;
 
-    private NodeList simulations;
-
-    Main() {
+    @Inject
+    Main(Provider<XMLObjectBuilder> objectBuilderProvider) {
+        this.objectBuilderProvider = objectBuilderProvider;
     }
 
     private void runSimulations(Document config, ProgressListener progress) {
-        simulations = config.getElementsByTagName("simulation");
+        Preconditions.checkNotNull(progress);
+
+        NodeList simulations = config.getElementsByTagName("simulation");
 
         for (int i = 0; i < simulations.getLength(); ++i) {
-            if (progress != null) {
-                progress.setSimulation(i);
-            }
             Element current = (Element) simulations.item(i);
-            XMLAlgorithmFactory algorithmFactory = new XMLAlgorithmFactory(config, (Element) current.getElementsByTagName("algorithm").item(0));
-            XMLProblemFactory problemFactory = new XMLProblemFactory(config, (Element) current.getElementsByTagName("problem").item(0));
-            XMLObjectFactory measurementsFactory = new XMLObjectFactory(config, (Element) current.getElementsByTagName("measurements").item(0));
+
+            XMLObjectFactory algorithmFactory = objectBuilderProvider.get().config(config).element(current.getElementsByTagName("algorithm").item(0)).build();
+            XMLObjectFactory problemFactory = objectBuilderProvider.get().config(config).element(current.getElementsByTagName("problem").item(0)).build();
+            XMLObjectFactory measurementsFactory = objectBuilderProvider.get().config(config).element((Element) current.getElementsByTagName("measurements").item(0)).build();
             MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
+
             Simulator simulator = new Simulator(algorithmFactory, problemFactory, suite);
-            if (progress != null) {
-                simulator.addProgressListener(progress);
-            }
+            simulator.addProgressListener(progress);
+            progress.setSimulation(i);
 
             simulator.execute();
-            simulator = null;
-            System.gc();
         }
     }
 
@@ -76,7 +78,6 @@ public final class Main {
         }
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        // dbf.setValidating(true);
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File(args[0]));
 

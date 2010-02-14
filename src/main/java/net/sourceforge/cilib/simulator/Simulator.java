@@ -26,10 +26,9 @@ import java.util.Vector;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.AlgorithmFactory;
 import net.sourceforge.cilib.algorithm.ProgressEvent;
 import net.sourceforge.cilib.algorithm.ProgressListener;
-import net.sourceforge.cilib.problem.ProblemFactory;
+import net.sourceforge.cilib.problem.Problem;
 
 /**
  * <p>
@@ -56,8 +55,8 @@ class Simulator {
     private Vector<ProgressListener> progressListeners;
     private HashMap<Simulation, Double> progress;
 
-    private final AlgorithmFactory algorithmFactory;
-    private final ProblemFactory problemFactory;
+    private final XMLObjectFactory algorithmFactory;
+    private final XMLObjectFactory problemFactory;
 
     /**
      * Creates a new instance of Simulator given an algorithm factory, a problem factory and a
@@ -66,7 +65,7 @@ class Simulator {
      * @param problemFactory The problem factory.
      * @param measurementSuite The measurement suite.
      */
-    Simulator(AlgorithmFactory algorithmFactory, ProblemFactory problemFactory, MeasurementSuite measurementSuite) {
+    Simulator(XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, MeasurementSuite measurementSuite) {
         measurementSuite.initialise();
         this.measurementSuite = measurementSuite;
         progressListeners = new Vector<ProgressListener>();
@@ -83,7 +82,7 @@ class Simulator {
      */
     void execute() {
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            simulations[i] = new Simulation(this, algorithmFactory.newAlgorithm(), problemFactory.newProblem());
+            simulations[i] = new Simulation(this, (Algorithm) algorithmFactory.newObject(), (Problem) problemFactory.newObject());
             progress.put(simulations[i], 0.0);
         }
 
