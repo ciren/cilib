@@ -83,18 +83,6 @@ class XMLObjectFactory {
 
     /**
      * Creates a new instance of <code>XMLObjectFactory</code> for constructing objects
-     * given an XML description.
-     *
-     * @param xmlObjectDescription An XML element that describes the objects to be constructed by this factory.
-     *
-     */
-    XMLObjectFactory(Element xmlObjectDescription) {
-        this.xmlDocument = null;
-        this.xmlObjectDescription = xmlObjectDescription;
-    }
-
-    /**
-     * Creates a new instance of <code>XMLObjectFactory</code> for constructing objects
      * given an XML description and an XML document for handling idrefs.
      *
      * @param xmlObjectDescription An XML element that describes the objects to be constructed by this factory.

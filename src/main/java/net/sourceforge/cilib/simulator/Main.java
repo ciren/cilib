@@ -21,21 +21,11 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import com.google.common.collect.Lists;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
 import java.io.File;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import net.sourceforge.cilib.algorithm.ProgressListener;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * This is the entry point for the CIlib simulator. This class accepts one
@@ -45,63 +35,27 @@ import org.w3c.dom.NodeList;
  */
 public final class Main {
 
-    private final Provider<XMLObjectBuilder> objectBuilderProvider;
-    private final SimulatorCreator simulationCreator;
-
-    @Inject
-    Main(Provider<XMLObjectBuilder> objectBuilderProvider, SimulatorCreator simulationCreator) {
-        this.objectBuilderProvider = objectBuilderProvider;
-        this.simulationCreator = simulationCreator;
-    }
-
-    List<Simulator> prepare(Document config) {
-        List<Simulator> simulators = Lists.newArrayList();
-        NodeList simulations = config.getElementsByTagName("simulation");
-
-        for (int i = 0; i < simulations.getLength(); ++i) {
-            Element current = (Element) simulations.item(i);
-            XMLObjectFactory algorithmFactory = objectBuilderProvider.get().config(config).element(current.getElementsByTagName("algorithm").item(0)).build();
-            XMLObjectFactory problemFactory = objectBuilderProvider.get().config(config).element(current.getElementsByTagName("problem").item(0)).build();
-            XMLObjectFactory measurementsFactory = objectBuilderProvider.get().config(config).element((Element) current.getElementsByTagName("measurements").item(0)).build();
-            MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
-
-            Simulator simulator = simulationCreator.algorithm(algorithmFactory).problem(problemFactory).measurement(suite).get();
-            simulator.init();
-            simulators.add(simulator);
-        }
-        return simulators;
-    }
-
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
             System.err.println("Usage: Simulator <simulation-config.xml> [-noprogress|-textprogress|-guiprogress]");
             System.exit(1);
         }
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(new File(args[0]));
+        Injector injector = Guice.createInjector(new SimulatorModule());
+        SimulatorShell shell = injector.getInstance(SimulatorShell.class);
+        final List<Simulator> simulators = shell.prepare(new File(args[0]));
 
         ProgressListener progress = null;
         if (args.length > 1 && args[1].equals("-textprogress")) {
-            progress = new ProgressText(doc.getElementsByTagName("simulation").getLength());
+            progress = new ProgressText(simulators.size());
         } else if (args.length > 1 && args[1].equals("-guiprogress")) { //-guiprogress
-            ProgressFrame pf = new ProgressFrame(doc.getElementsByTagName("simulation").getLength());
+            ProgressFrame pf = new ProgressFrame(simulators.size());
             pf.setVisible(true);
             progress = pf;
         } else {
             progress = new NoProgress();
         }
 
-        Injector injector = Guice.createInjector(new SimulatorModule());
-        Main main = injector.getInstance(Main.class);
-        List<Simulator> simulators = main.prepare(doc);
-
-        for (int i = 0; i < simulators.size(); i++) {
-            Simulator simulator = simulators.get(i);
-            simulator.addProgressListener(progress);
-            progress.setSimulation(i);
-            simulator.execute();
-        }
+        shell.execute(simulators, progress);
     }
 }
