@@ -5,61 +5,61 @@
 <!ATTLIST measurements id ID #IMPLIED>
 ]>
 <simulator>
-  <algorithms>
-    <algorithm id="pso" class="pso.PSO">
-        <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
-    </algorithm>
-    <algorithm id="ga" class="ec.EC">
-      <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
-    </algorithm>
-    <algorithm id="coop-pso" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
-      <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
-      <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
-      <addPopulationBasedAlgorithm idref="pso"/>
-      <addPopulationBasedAlgorithm idref="pso"/>
-      <addPopulationBasedAlgorithm idref="pso"/>
-      <addPopulationBasedAlgorithm idref="pso"/>
-      <addPopulationBasedAlgorithm idref="pso"/>
-      <addPopulationBasedAlgorithm idref="pso"/>
-    </algorithm>
-    <algorithm id="coop-ga" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
-      <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
-      <addPopulationBasedAlgorithm idref="ga"/>
-      <addPopulationBasedAlgorithm idref="ga"/>
-      <addPopulationBasedAlgorithm idref="ga"/>
-      <addPopulationBasedAlgorithm idref="ga"/>
-      <addPopulationBasedAlgorithm idref="ga"/>
-      <addPopulationBasedAlgorithm idref="ga"/>
-    </algorithm>
-  </algorithms>
-  <problems>
-    <problem id="griewank" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Griewank" domain="R(-600.0, 600.0)^36"/>
-    </problem>
-  </problems>
-  <measurements id="fitness" class="simulator.MeasurementSuite" samples="2" resolution="10">
-    <addMeasurement class="measurement.single.Fitness"/>
-  </measurements>
-  <simulations>
-    <simulation>
-      <algorithm idref="coop-pso"/>
-      <problem idref="griewank"/>
-      <measurements idref="fitness" file="data/coop-pso.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="coop-ga"/>
-      <problem idref="griewank"/>
-      <measurements idref="fitness" file="data/coop-ga.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="pso"/>
-      <problem idref="griewank"/>
-      <measurements idref="fitness" file="data/norm-pso.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="ga"/>
-      <problem idref="griewank"/>
-      <measurements idref="fitness" file="data/norm-ga.txt"/>
-    </simulation>
-  </simulations>
+    <algorithms>
+        <algorithm id="pso" class="pso.PSO">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
+        </algorithm>
+        <algorithm id="ga" class="ec.EC">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000"/>
+        </algorithm>
+        <algorithm id="coop-pso" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+            <contributionSelectionStrategy class="coevolution.cooperative.contributionselection.SocialFitnessContributionSelectionStrategy"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+            <addPopulationBasedAlgorithm idref="pso"/>
+        </algorithm>
+        <algorithm id="coop-ga" class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+            <addPopulationBasedAlgorithm idref="ga"/>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="griewank" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Griewank" domain="R(-600.0, 600.0)^36"/>
+        </problem>
+    </problems>
+    <measurements id="fitness" class="simulator.MeasurementSuite" samples="2" resolution="10">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+    <simulations>
+        <simulation>
+            <algorithm idref="coop-pso"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" file="data/coop-pso.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="coop-ga"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" file="data/coop-ga.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="pso"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" file="data/norm-pso.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="ga"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" file="data/norm-ga.txt"/>
+        </simulation>
+    </simulations>
 </simulator>

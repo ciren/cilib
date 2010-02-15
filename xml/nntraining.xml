@@ -25,7 +25,7 @@
             </topology>
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="1000" />
         </algorithm>
-        
+
         <algorithm id="gradientdecent" class="gd.GradientDescentBackpropagationTraining">
             <learningRate class="controlparameter.ConstantControlParameter" parameter="0.2" />
             <momentum class="controlparameter.ConstantControlParameter" parameter="0.8" />
@@ -81,7 +81,7 @@
             <problem idref="nn4-8-1-sig"/>
             <measurements idref="fitness" file="data/gbest_nn_iris_fitness.csv"/>
         </simulation>
-        
+
         <simulation>
             <algorithm idref="gradientdecent"/>
             <problem idref="nn4-8-1-sig"/>

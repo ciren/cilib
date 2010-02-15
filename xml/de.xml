@@ -5,70 +5,70 @@
 <!ATTLIST measurements id ID #IMPLIED>
 ]>
 <simulator>
-  <algorithms>
-    <algorithm id="de" class="ec.EC">
-      <iterationStrategy class="ec.iterationstrategies.DifferentialEvolutionIterationStrategy"/>
-      <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-        <entityNumber value="50"/>
-        <entityType class="ec.Individual"/>
-      </initialisationStrategy>
-      <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="5000"/>
-    </algorithm>
-  </algorithms>
-  <problems>
-    <problem id="spherical" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Spherical"/>
-    </problem>
-    <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Rosenbrock"/>
-    </problem>
-    <problem id="griewank" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Griewank"/>
-    </problem>
-    <problem id="hyperellipsoid" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.HyperEllipsoid"/>
-    </problem>
-    <problem id="colville" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Colville"/>
-    </problem>
-    <problem id="ackley" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Ackley"/>
-    </problem>
-  </problems>
-  <measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
-    <addMeasurement class="measurement.single.Fitness"/>
-    <!--        <addMeasurement class="measurement.single.Solution" />-->
-  </measurements>
-  <simulations>
-    <simulation>
-      <algorithm idref="de"/>
-      <problem idref="spherical"/>
-      <measurements idref="measurements" file="data/de-spherical.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="de"/>
-      <problem idref="rosenbrock"/>
-      <measurements idref="measurements" file="data/de-rosenbrock.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="de"/>
-      <problem idref="griewank"/>
-      <measurements idref="measurements" file="data/de-griewank.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="de"/>
-      <problem idref="hyperellipsoid"/>
-      <measurements idref="measurements" file="data/de-hyperellipsoid.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="de"/>
-      <problem idref="colville"/>
-      <measurements idref="measurements" file="data/de-colville.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="de"/>
-      <problem idref="ackley"/>
-      <measurements idref="measurements" file="data/de-ackley.txt"/>
-    </simulation>
-  </simulations>
+    <algorithms>
+        <algorithm id="de" class="ec.EC">
+            <iterationStrategy class="ec.iterationstrategies.DifferentialEvolutionIterationStrategy"/>
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityNumber value="50"/>
+                <entityType class="ec.Individual"/>
+            </initialisationStrategy>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="5000"/>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="spherical" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Spherical"/>
+        </problem>
+        <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Rosenbrock"/>
+        </problem>
+        <problem id="griewank" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Griewank"/>
+        </problem>
+        <problem id="hyperellipsoid" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.HyperEllipsoid"/>
+        </problem>
+        <problem id="colville" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Colville"/>
+        </problem>
+        <problem id="ackley" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Ackley"/>
+        </problem>
+    </problems>
+    <measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
+        <addMeasurement class="measurement.single.Fitness"/>
+        <!--        <addMeasurement class="measurement.single.Solution" />-->
+    </measurements>
+    <simulations>
+        <simulation>
+            <algorithm idref="de"/>
+            <problem idref="spherical"/>
+            <measurements idref="measurements" file="data/de-spherical.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="de"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="measurements" file="data/de-rosenbrock.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="de"/>
+            <problem idref="griewank"/>
+            <measurements idref="measurements" file="data/de-griewank.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="de"/>
+            <problem idref="hyperellipsoid"/>
+            <measurements idref="measurements" file="data/de-hyperellipsoid.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="de"/>
+            <problem idref="colville"/>
+            <measurements idref="measurements" file="data/de-colville.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="de"/>
+            <problem idref="ackley"/>
+            <measurements idref="measurements" file="data/de-ackley.txt"/>
+        </simulation>
+    </simulations>
 </simulator>

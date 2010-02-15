@@ -33,7 +33,7 @@
     <measurements id="fitness" class="simulator.MeasurementSuite" resolution="5" samples="1">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
-    
+
     <simulations>
         <simulation>
             <algorithm idref="gbest"/>

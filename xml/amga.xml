@@ -5,67 +5,67 @@
 <!ATTLIST measurements id ID #IMPLIED>
 ]>
 <simulator>
-  <algorithms>
-    <algorithm id="ga" class="ec.EC">
-      <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000"/>
-    </algorithm>
-  </algorithms>
-  <problems>
-    <problem id="spherical" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
-        <function class="functions.continuous.unconstrained.Spherical" domain="R(-5.12,5.12)^30"/>
-      </function>
-    </problem>
-    <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0,1.0)^4">
-        <function class="functions.continuous.unconstrained.Rosenbrock" domain="R(-2.048,2.048)^30"/>
-      </function>
-    </problem>
-    <problem id="griewank" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0,1.0)^4">
-        <function class="functions.continuous.unconstrained.Griewank" domain="R(-300.0,300.0)^30"/>
-      </function>
-    </problem>
-    <problem id="ackley" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
-        <function class="functions.continuous.unconstrained.Ackley" domain="R(-30.0,30.0)^30"/>
-      </function>
-    </problem>
-    <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
-        <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12,5.12)^30"/>
-      </function>
-    </problem>
-  </problems>
-  <measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
-    <addMeasurement class="measurement.single.Fitness"/>
-    <addMeasurement class="measurement.single.Solution"/>
-  </measurements>
-  <simulations>
-    <simulation>
-      <algorithm idref="ga"/>
-      <problem idref="spherical"/>
-      <measurements idref="measurements" file="data/amga-spherical.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="ga"/>
-      <problem idref="rosenbrock"/>
-      <measurements idref="measurements" file="data/amga-rosenbrock.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="ga"/>
-      <problem idref="griewank"/>
-      <measurements idref="measurements" file="data/amga-griewank.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="ga"/>
-      <problem idref="ackley"/>
-      <measurements idref="measurements" file="data/amga-ackley.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="ga"/>
-      <problem idref="rastrigin"/>
-      <measurements idref="measurements" file="data/amga-rastrigin.txt"/>
-    </simulation>
-  </simulations>
+    <algorithms>
+        <algorithm id="ga" class="ec.EC">
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000"/>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="spherical" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
+            <function class="functions.continuous.unconstrained.Spherical" domain="R(-5.12,5.12)^30"/>
+            </function>
+        </problem>
+        <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0,1.0)^4">
+            <function class="functions.continuous.unconstrained.Rosenbrock" domain="R(-2.048,2.048)^30"/>
+            </function>
+        </problem>
+        <problem id="griewank" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.decorators.AngleModulation" precision="3" domain="R(-1.0,1.0)^4">
+            <function class="functions.continuous.unconstrained.Griewank" domain="R(-300.0,300.0)^30"/>
+            </function>
+        </problem>
+        <problem id="ackley" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
+            <function class="functions.continuous.unconstrained.Ackley" domain="R(-30.0,30.0)^30"/>
+            </function>
+        </problem>
+        <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.decorators.AngleModulation" precision="2" domain="R(-1.0,1.0)^4">
+            <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12,5.12)^30"/>
+            </function>
+        </problem>
+    </problems>
+    <measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
+        <addMeasurement class="measurement.single.Fitness"/>
+        <addMeasurement class="measurement.single.Solution"/>
+    </measurements>
+    <simulations>
+        <simulation>
+            <algorithm idref="ga"/>
+            <problem idref="spherical"/>
+            <measurements idref="measurements" file="data/amga-spherical.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="ga"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="measurements" file="data/amga-rosenbrock.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="ga"/>
+            <problem idref="griewank"/>
+            <measurements idref="measurements" file="data/amga-griewank.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="ga"/>
+            <problem idref="ackley"/>
+            <measurements idref="measurements" file="data/amga-ackley.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="ga"/>
+            <problem idref="rastrigin"/>
+            <measurements idref="measurements" file="data/amga-rastrigin.txt"/>
+        </simulation>
+    </simulations>
 </simulator>

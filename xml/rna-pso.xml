@@ -7,7 +7,6 @@
 ]>
 
 <simulator>
-
     <algorithms>
         <algorithm id="rnapso" class="bioinf.rnaprediction.RNAPSO">
             <!--<initialiser class="bioinf.rnaprediction.RNAInitialiser"/>      -->
@@ -19,7 +18,7 @@
         </algorithm>
     </algorithms>
 
-    <problems> 
+    <problems>
         <problem id="rnaprob" class="bioinf.rnaprediction.RNAOptimisationProblem">
             <fitnessCalculator class="bioinf.rnaprediction.SimpleRNAFitness" />
             <!--<dataSetBuilder class="problem.dataset.StringDataSetBuilder">

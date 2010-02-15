@@ -19,11 +19,11 @@
                 </initialisationStrategy>
                 <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
             </algorithm>
-            
+
             <problem class="problem.FunctionMinimisationProblem">
                 <function class="functions.continuous.NastyBenchmark"/>
             </problem>
-            
+
             <measurements class="simulator.MeasurementSuite" file="data/gaussian.txt" resolution="1">
                 <addMeasurement class="measurement.single.FunctionOptimisationError"/>
             </measurements>

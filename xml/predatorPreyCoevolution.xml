@@ -7,7 +7,6 @@
 ]>
 
 <simulator>
-
     <problem id="PredatorPrey" class="problem.coevolution.CompetitiveCoevolutionGameLearningOptimizationProblem" numberOfEvaluations="20">
         <game class="games.game.predatorprey.RealTimePredatorPreyGame" MaxIterations="20">
             <agent class="games.agent.NeuralAgent" AgentToken="PredatorPrey.PREDATOR">
@@ -19,7 +18,7 @@
                                 <ActivationFunction class="functions.activation.TanH"/>
                             </addLayer>
                             <addLayer class="nn.architecture.builder.LayerConfiguration"> <!-- size is specified by output interpretation strategy-->
-                                   <ActivationFunction class="functions.activation.TanH"/>
+                                <ActivationFunction class="functions.activation.TanH"/>
                             </addLayer>
                             <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1,1)" />
                         </architectureBuilder>
@@ -37,7 +36,7 @@
                                 <ActivationFunction class="functions.activation.TanH"/>
                             </addLayer>
                             <addLayer class="nn.architecture.builder.LayerConfiguration">
-                                   <ActivationFunction class="functions.activation.TanH"/>
+                                <ActivationFunction class="functions.activation.TanH"/>
                             </addLayer>
                             <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1,1)" />
                         </architectureBuilder>
@@ -53,18 +52,18 @@
     <algorithms>
         <algorithm id="lbest" class="pso.PSO">
             <iterationStrategy class = "pso.dynamic.DynamicIterationStrategy">
-                <IterationStrategy class = "pso.iterationstrategies.ASynchronousIterationStrategy"/>
+            <IterationStrategy class = "pso.iterationstrategies.ASynchronousIterationStrategy"/>
                 <DetectionStrategy class = "pso.dynamic.detectionstrategies.PeriodicDetectionStrategy" IterationsModulus="50"/>
                 <ResponseStrategy class = "pso.dynamic.responsestrategies.CompetitiveCoevolutionParticleReevaluationResponseStrategy"/>
             </iterationStrategy>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="40">
-            <entityType class="pso.dynamic.ChargedParticle">
-                <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
-                <velocityUpdateStrategy class="pso.dynamic.ChargedVelocityUpdateStrategy" pCore = "10" p = "1000">
-                    <vMax class="controlparameter.ConstantControlParameter" parameter="3.0"/>
-                </velocityUpdateStrategy>
-                <chargedParticleInitialisationStrategy class="pso.dynamic.StandardChargedParticleInitialisationStrategy" ChargeMagnitude = "1.0"/>
-            </entityType>
+                <entityType class="pso.dynamic.ChargedParticle">
+                    <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
+                    <velocityUpdateStrategy class="pso.dynamic.ChargedVelocityUpdateStrategy" pCore = "10" p = "1000">
+                        <vMax class="controlparameter.ConstantControlParameter" parameter="3.0"/>
+                    </velocityUpdateStrategy>
+                    <chargedParticleInitialisationStrategy class="pso.dynamic.StandardChargedParticleInitialisationStrategy" ChargeMagnitude = "1.0"/>
+                </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology">
                 <neighbourhoodSize class = "controlparameter.ConstantControlParameter" parameter = "3"/>
@@ -86,11 +85,11 @@
         <addMeasurement class="measurement.multiple.MultiPopulationFitness"/>
     </measurements>
 
-<simulations>
+    <simulations>
         <simulation>
             <algorithm idref="compcoevol">
-                <algorithm idref="lbest"/>
-                <algorithm idref="lbest"/>
+            <algorithm idref="lbest"/>
+            <algorithm idref="lbest"/>
             </algorithm>
             <problem idref="PredatorPrey"/>
             <measurements idref="fitness" file="data/PredatorPreyCoevolutionPSO.txt"/>

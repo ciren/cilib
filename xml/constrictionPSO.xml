@@ -5,59 +5,59 @@
 <!ATTLIST measurements id ID #IMPLIED>
 ]>
 <simulator>
-  <algorithms>
-    <algorithm id="constrictionPSO" class="pso.PSO">
-      <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
-        <entityType class="pso.particle.StandardParticle">
-          <velocityUpdateStrategy class="pso.velocityupdatestrategies.ConstrictionVelocityUpdate">
-            <kappa class="controlparameter.ConstantControlParameter" parameter="1.0"/>
-            <socialAcceleration class="controlparameter.RandomizingControlParameter" parameter="2.05"/>
-            <cognitiveAcceleration class="controlparameter.RandomizingControlParameter" parameter="2.05"/>
-            <!--vMax class="controlparameter.ConstantControlParameter" parameter="0.1" /-->
-          </velocityUpdateStrategy>
-        </entityType>
-      </initialisationStrategy>
-      <topology class="entity.topologies.GBestTopology"/>
-      <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
-    </algorithm>
-  </algorithms>
-  <problems>
-    <problem id="spherical" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Spherical" domain="R(-20.0, 20.0)^30"/>
-    </problem>
-    <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Rosenbrock" domain="R(-10.0, 10.0)^30"/>
-    </problem>
-    <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12, 5.12)^30"/>
-    </problem>
-    <problem id="griewank" class="problem.FunctionMinimisationProblem">
-      <function class="functions.continuous.unconstrained.Griewank" domain="R(-300, 300)^30"/>
-    </problem>
-  </problems>
-  <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="50">
-    <addMeasurement class="measurement.single.Fitness"/>
-  </measurements>
-  <simulations>
-    <simulation>
-      <algorithm idref="constrictionPSO"/>
-      <problem idref="spherical"/>
-      <measurements idref="fitness" file="data/constrictionpso_spherical.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="constrictionPSO"/>
-      <problem idref="rosenbrock"/>
-      <measurements idref="fitness" file="data/constrictionpso_rosenbrock.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="constrictionPSO"/>
-      <problem idref="rastrigin"/>
-      <measurements idref="fitness" file="data/constrictionpso_rastrigin.txt"/>
-    </simulation>
-    <simulation>
-      <algorithm idref="constrictionPSO"/>
-      <problem idref="griewank"/>
-      <measurements idref="fitness" file="data/constrictionpso_griewank.txt"/>
-    </simulation>
-  </simulations>
+    <algorithms>
+        <algorithm id="constrictionPSO" class="pso.PSO">
+            <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
+                <entityType class="pso.particle.StandardParticle">
+                    <velocityUpdateStrategy class="pso.velocityupdatestrategies.ConstrictionVelocityUpdate">
+                        <kappa class="controlparameter.ConstantControlParameter" parameter="1.0"/>
+                        <socialAcceleration class="controlparameter.RandomizingControlParameter" parameter="2.05"/>
+                        <cognitiveAcceleration class="controlparameter.RandomizingControlParameter" parameter="2.05"/>
+                        <!--vMax class="controlparameter.ConstantControlParameter" parameter="0.1" /-->
+                    </velocityUpdateStrategy>
+                </entityType>
+            </initialisationStrategy>
+            <topology class="entity.topologies.GBestTopology"/>
+            <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="2000"/>
+        </algorithm>
+    </algorithms>
+    <problems>
+        <problem id="spherical" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Spherical" domain="R(-20.0, 20.0)^30"/>
+        </problem>
+        <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Rosenbrock" domain="R(-10.0, 10.0)^30"/>
+        </problem>
+        <problem id="rastrigin" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12, 5.12)^30"/>
+        </problem>
+        <problem id="griewank" class="problem.FunctionMinimisationProblem">
+            <function class="functions.continuous.unconstrained.Griewank" domain="R(-300, 300)^30"/>
+        </problem>
+    </problems>
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="50">
+        <addMeasurement class="measurement.single.Fitness"/>
+    </measurements>
+    <simulations>
+        <simulation>
+            <algorithm idref="constrictionPSO"/>
+            <problem idref="spherical"/>
+            <measurements idref="fitness" file="data/constrictionpso_spherical.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="constrictionPSO"/>
+            <problem idref="rosenbrock"/>
+            <measurements idref="fitness" file="data/constrictionpso_rosenbrock.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="constrictionPSO"/>
+            <problem idref="rastrigin"/>
+            <measurements idref="fitness" file="data/constrictionpso_rastrigin.txt"/>
+        </simulation>
+        <simulation>
+            <algorithm idref="constrictionPSO"/>
+            <problem idref="griewank"/>
+            <measurements idref="fitness" file="data/constrictionpso_griewank.txt"/>
+        </simulation>
+    </simulations>
 </simulator>

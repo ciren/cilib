@@ -19,7 +19,7 @@
             </topology>
         </algorithm>
     </algorithms>
-    
+
     <simulation>
         <algorithm class="cooperative.SplitCooperativeAlgorithm">
             <addPopulationBasedAlgorithm idref="gcpso"/>
@@ -29,11 +29,11 @@
             <addPopulationBasedAlgorithm idref="gcpso"/>
             <addStoppingCondition class="stoppingcondition.MaximumFitnessEvaluations" maximumFitnessEvaluations="200000"/>
         </algorithm>
-        
+
         <problem class="problem.FunctionMinimisationProblem">
             <function class="functions.continuous.Schwefel" />
         </problem>
-        
+
         <measurements class="simulator.MeasurementSuite" file="data/splitcooperative-pso-schwefel.txt" resolution="10">
             <addMeasurement class="measurement.single.FitnessEvaluations" />
             <addMeasurement class="measurement.single.FunctionOptimisationError" />

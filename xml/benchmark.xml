@@ -14,11 +14,11 @@
                 <entityType class="pso.particle.StandardParticle">
                     <velocityUpdateStrategy class="pso.velocityupdatestrategies.StandardVelocityUpdate">
                         <inertiaWeight class="controlparameter.ConstantControlParameter" parameter="0.729844"/>
-                        <socialAcceleration class="controlparameter.RandomizingControlParameter"> 
+                        <socialAcceleration class="controlparameter.RandomizingControlParameter">
                             <parameter value="1.49180"/>
                             <randomiser class="math.random.generator.KnuthSubtractive"/>
                         </socialAcceleration>
-                        <cognitiveAcceleration class="controlparameter.RandomizingControlParameter"> 
+                        <cognitiveAcceleration class="controlparameter.RandomizingControlParameter">
                             <parameter value="1.49180"/>
                             <randomiser class="math.random.generator.KnuthSubtractive"/>
                         </cognitiveAcceleration>
@@ -27,11 +27,11 @@
             </initialisationStrategy>
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="10000"/>
         </algorithm>
-        
+
         <problem class="problem.FunctionMinimisationProblem">
             <function class="functions.continuous.NastyBenchmark"/>
         </problem>
-        
+
         <measurements class="simulator.MeasurementSuite">
             <file value="data/benchmark.txt"/>
             <resolution value="1000"/>

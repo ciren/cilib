@@ -7,37 +7,38 @@
 ]>
 
 <simulator>
-    
     <problem id="ttt" class="problem.coevolution.CompetitiveCoevolutionGameLearningOptimizationProblem" numberOfEvaluations="1">
         <game class="games.game.tictactoe.TicTacToe">
             <agent class="games.agent.state.StateEvaluationAgent">
-                <traversalStrategy class="games.agent.state.traversal.MinMaxAlphaBetaTraversalStrategy" MaxDepth="1"> 
-                    <evaluator class="games.agent.state.evaluation.NeuralStateEvaluator" hiddenNodes="2">
-                        <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
-                            <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
-                                <prototypeWeight class="neuralnetwork.generic.Weight">
-                                    <weightValue class="type.types.Real" real="0.5"/>
-                                    <previousChange class="type.types.Real" real="0.0"/>
-                                </prototypeWeight>
-                            </topologyBuilder>
-                            <weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
-                        </neuralNetworkTopology>
+                <traversalStrategy class="games.agent.state.traversal.MinMaxAlphaBetaTraversalStrategy" MaxDepth="1">
+                    <evaluator class="games.agent.state.evaluation.NeuralStateEvaluator">
+                        <neuralNetwork class="nn.NeuralNetwork">
+                            <architecture class="nn.architecture.Architecture">
+                                <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                                    <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by neural input strategy-->
+                                    <addLayer class="nn.architecture.builder.LayerConfiguration" size="2"/>
+                                    <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by output interpretation strategy-->
+                                    <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1,1)" />
+                                </architectureBuilder>
+                            </architecture>
+                        </neuralNetwork>
                         <stateInputStrategy class="games.game.tictactoe.TTTStateInputStrategy"/>
                     </evaluator>
                 </traversalStrategy>
             </agent>
             <agent class="games.agent.state.StateEvaluationAgent">
-                <traversalStrategy class="games.agent.state.traversal.MinMaxAlphaBetaTraversalStrategy" MaxDepth="1"> 
-                    <evaluator class="games.agent.state.evaluation.NeuralStateEvaluator" hiddenNodes="2"> 
-                        <neuralNetworkTopology id="topo" class="neuralnetwork.generic.LayeredGenericTopology">
-                            <topologyBuilder class="neuralnetwork.generic.topologybuilders.FFNNgenericTopologyBuilder">
-                                <prototypeWeight class="neuralnetwork.generic.Weight">
-                                    <weightValue class="type.types.Real" real="0.5"/>
-                                    <previousChange class="type.types.Real" real="0.0"/>
-                                </prototypeWeight>
-                            </topologyBuilder>
-                            <weightInitialiser class="neuralnetwork.generic.topologyvisitors.RandomWeightInitialiser"/>
-                        </neuralNetworkTopology>
+                <traversalStrategy class="games.agent.state.traversal.MinMaxAlphaBetaTraversalStrategy" MaxDepth="1">
+                    <evaluator class="games.agent.state.evaluation.NeuralStateEvaluator">
+                        <neuralNetwork class="nn.NeuralNetwork">
+                            <architecture class="nn.architecture.Architecture">
+                                <architectureBuilder class="nn.architecture.builder.FeedForwardArchitectureBuilder">
+                                    <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by neural input strategy-->
+                                    <addLayer class="nn.architecture.builder.LayerConfiguration" size="2"/>
+                                    <addLayer class="nn.architecture.builder.LayerConfiguration"/> <!-- size is specified by output interpretation strategy-->
+                                    <layerBuilder class="nn.architecture.builder.PrototypeFullyConnectedLayerBuilder" domain="R(-1,1)" />
+                                </architectureBuilder>
+                            </architecture>
+                        </neuralNetwork>
                         <stateInputStrategy class="games.game.tictactoe.TTTStateInputStrategy"/>
                     </evaluator>
                 </traversalStrategy>
@@ -49,15 +50,15 @@
     <algorithms>
         <algorithm id="lbest" class="pso.PSO">
             <iterationStrategy class = "pso.dynamic.DynamicIterationStrategy">
-                <IterationStrategy class = "pso.iterationstrategies.ASynchronousIterationStrategy"/>
+            <IterationStrategy class = "pso.iterationstrategies.ASynchronousIterationStrategy"/>
                 <DetectionStrategy class = "pso.dynamic.detectionstrategies.PeriodicDetectionStrategy" IterationsModulus="50"/>
                 <ResponseStrategy class = "pso.dynamic.responsestrategies.CompetitiveCoevolutionParticleReevaluationResponseStrategy"/>
             </iterationStrategy>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy" entityNumber="30">
-            <entityType class="pso.dynamic.ChargedParticle">
-            <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
-                <chargedParticleInitialisationStrategy class="pso.dynamic.StandardChargedParticleInitialisationStrategy"/>
-            </entityType>
+                <entityType class="pso.dynamic.ChargedParticle">
+                    <neighbourhoodBestUpdateStrategy class = "pso.positionupdatestrategies.IterationNeighbourhoodBestUpdateStrategy"/>
+                    <chargedParticleInitialisationStrategy class="pso.dynamic.StandardChargedParticleInitialisationStrategy"/>
+                </entityType>
             </initialisationStrategy>
             <topology class="entity.topologies.LBestTopology">
                 <neighbourhoodSize class = "controlparameter.ConstantControlParameter" parameter = "3"/>
@@ -79,11 +80,11 @@
         <addMeasurement class="measurement.multiple.MultiPopulationFitness"/>
     </measurements>
 
-<simulations>
+    <simulations>
         <simulation>
             <algorithm idref="compcoevol">
-                <algorithm idref="lbest"/>
-                <algorithm idref="lbest"/>
+            <algorithm idref="lbest"/>
+            <algorithm idref="lbest"/>
             </algorithm>
             <problem idref="ttt"/>
             <measurements idref="fitness" file="data/TTTCoEvolution.txt"/>
