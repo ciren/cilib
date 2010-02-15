@@ -32,13 +32,14 @@ import net.sourceforge.cilib.problem.Problem;
 
 /**
  * <p>
- * This class represents a single simulation experiment. The experiment is repeated based on the
- * number of samples that the measurement suite requires. In this implementation each experiment is
- * execute in its own thread. Thus, each experiment is execute in parallel for a given simulation.
+ * This class represents an instance of a "simulator" that may or may not contain multiple
+ * individual simulations.
  * </p>
  * <p>
- * The simulation executes a given algorithm on the given problem. Factories are utilised so that
- * the simulation can create as many alogirthms and problems as it needs to execute many experiments.
+ * Each simulation experiment is repeated based on the
+ * number of samples that the measurement suite requires (although this is subject to change
+ * in a future version of the library). In this implementation each experiment is
+ * execute in its own thread. Thus, each experiment is execute in parallel for a given simulation.
  * </p>
  * <p>
  * The primary purpose of running simulations is to measure the performance of the given algorithm
@@ -48,57 +49,62 @@ import net.sourceforge.cilib.problem.Problem;
  * @author Edwin Peer
  */
 class Simulator {
-    private static final long serialVersionUID = 8987667794610802908L;
 
-    private MeasurementSuite measurementSuite;
+    private static final long serialVersionUID = 8987667794610802908L;
     private Simulation[] simulations;
     private Vector<ProgressListener> progressListeners;
     private HashMap<Simulation, Double> progress;
-
     private final XMLObjectFactory algorithmFactory;
     private final XMLObjectFactory problemFactory;
+    private final MeasurementSuite measurementSuite;
 
     /**
      * Creates a new instance of Simulator given an algorithm factory, a problem factory and a
-     * measurement suite. {@see net.sourceforge.cilib.XMLObjectFactory}
+     * measurement suite.
+     * @see net.sourceforge.cilib.XMLObjectFactory
      * @param algorithmFactory The algorithm factory.
      * @param problemFactory The problem factory.
      * @param measurementSuite The measurement suite.
      */
     Simulator(XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, MeasurementSuite measurementSuite) {
-        measurementSuite.initialise();
-        this.measurementSuite = measurementSuite;
         progressListeners = new Vector<ProgressListener>();
         progress = new HashMap<Simulation, Double>();
-
         simulations = new Simulation[measurementSuite.getSamples()];
 
+        this.measurementSuite = measurementSuite;
         this.algorithmFactory = algorithmFactory;
         this.problemFactory = problemFactory;
     }
 
     /**
-     * Executes all the experiments for this simulation.
+     * Perform the initialization of the {@code Simulator} by creating the required
+     * {@code Simulation} instances and executing the threads.
      */
-    void execute() {
+    void init() {
+        measurementSuite.initialise();
+
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
             simulations[i] = new Simulation(this, (Algorithm) algorithmFactory.newObject(), (Problem) problemFactory.newObject());
             progress.put(simulations[i], 0.0);
         }
+    }
 
+    /**
+     * Executes all the experiments for this simulation. The measurement suite will
+     * be closed once this method completes.
+     */
+    void execute() {
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
             simulations[i].start();
         }
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
             try {
                 simulations[i].join();
-            }
-            catch (InterruptedException ex) {
+            } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
         measurementSuite.getOutputBuffer().close();
-        measurementSuite = null;
         simulations = null;
         progress = null;
         progressListeners = null;
@@ -161,7 +167,7 @@ class Simulator {
         Algorithm algorithm = simulation.getAlgorithm();
         if (algorithm.getIterations() % measurementSuite.getResolution() == 0) {
             measurementSuite.measure(simulation.getAlgorithm());
-            progress.put(simulation, new Double(((AbstractAlgorithm)algorithm).getPercentageComplete()));
+            progress.put(simulation, new Double(((AbstractAlgorithm) algorithm).getPercentageComplete()));
             notifyProgress();
         }
     }

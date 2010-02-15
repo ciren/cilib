@@ -21,31 +21,39 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.measurement.MeasurementFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import com.google.inject.Provider;
 
 /**
  *
- * @author  Edwin Peer
+ * @author gpampara
  */
-class XMLMeasurementFactory extends XMLObjectFactory implements MeasurementFactory {
+class SimulatorCreator implements Provider<Simulator> {
 
-    /** Creates a new instance of XMLMeasurementFactory. */
-    XMLMeasurementFactory(Document xmlDocument, Element xmlMeasurementDescription) {
-        super(xmlDocument, xmlMeasurementDescription);
-        if (!xmlMeasurementDescription.getTagName().equals("measurement")) {
-            error(xmlMeasurementDescription, "Expected <measurement> tag");
-        }
+    private XMLObjectFactory algorithmFactory;
+    private XMLObjectFactory problemFactory;
+    private MeasurementSuite measurementSuite;
+
+    SimulatorCreator algorithm(XMLObjectFactory algorithmFactory) {
+        this.algorithmFactory = algorithmFactory;
+        return this;
+    }
+
+    SimulatorCreator problem(XMLObjectFactory problemFactory) {
+        this.problemFactory = problemFactory;
+        return this;
+    }
+
+    SimulatorCreator measurement(MeasurementSuite suite) {
+        this.measurementSuite = suite;
+        return this;
     }
 
     @Override
-    public Measurement newMeasurement() {
-        @SuppressWarnings("unchecked")
-        Measurement measurement = (Measurement) newObject();
-        return measurement;
+    public Simulator get() {
+        Simulator simulator = new Simulator(algorithmFactory, problemFactory, measurementSuite);
+        this.algorithmFactory = null;
+        this.problemFactory = null;
+        this.measurementSuite = null;
+        return simulator;
     }
-
 }

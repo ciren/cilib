@@ -117,24 +117,9 @@ class XMLObjectFactory {
 
     @SuppressWarnings("unchecked")
     private Object newObject(Element xml) {
-
-        Class objectClass = getClass(xml);
-
-        if (objectClass.getName().matches("^.*XML[a-zA-Z]+Factory$")) {
-            Object[] parameters = {xmlDocument, getFirstChildElement(xml)};
-            Class[] types = {Document.class, Element.class};
-            try {
-                return objectClass.getConstructor(types).newInstance(parameters);
-            }
-            catch (Exception ex) {
-                error(xml, ex.getMessage());
-            }
-        }
-
+        Class<?> objectClass = getClass(xml);
         Object object = instanciate(xml, objectClass);
-
         setup(object, xml);
-
         return object;
     }
 
@@ -163,37 +148,17 @@ class XMLObjectFactory {
             error(xml, "No class specified");
         }
 
-        /*
-        Package pkg = this.getClass().getPackage();
-        if (pkg != null) {
-            try {
-                return Class.forName(pkg.getName() + "."  + className);
-            }
-            catch (ClassNotFoundException e) { }
-
-            if (pkg.getName().indexOf('.') != -1) {
-
-                try {
-                    return Class.forName(pkg.getName().substring(0, pkg.getName().lastIndexOf('.')) + "." + className);
-                }
-                catch (ClassNotFoundException e) { }
-            }
-        }
-       */
-
         try {
             return Class.forName("net.sourceforge.cilib." + className);
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Class not found" + className);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found: " + className);
             e.printStackTrace();
         }
 
         try {
             return Class.forName(className);
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Class not found" + className);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found: " + className);
             e.printStackTrace();
         }
 
@@ -206,8 +171,7 @@ class XMLObjectFactory {
         Object object = null;
         try {
             object = objectClass.newInstance();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             error(xml, "Could not instanciate " + objectClass.getName());
         }
 
@@ -234,27 +198,22 @@ class XMLObjectFactory {
         for (Element e = getFirstChildElement(xml); e != null; e = getNextSiblingElement(e)) {
             if (e.hasAttribute("value")) {
                 invokeSetMethod(e, object, e.getTagName(), newObject(e.getAttribute("value")));
-            }
-            else if (e.hasAttribute("class") || e.hasAttribute("idref")) {
+            } else if (e.hasAttribute("class") || e.hasAttribute("idref")) {
                 invokeAnyMethod(e, object, e.getTagName(), newObject(e));
-            }
-            else if (getFirstChildElement(e) == null) {
+            } else if (getFirstChildElement(e) == null) {
                 Text text = getFirstChildText(e);
                 if (text == null) {
                     error(e, "Can't create object from null text");
                 }
                 invokeAnyMethod(e, object, e.getTagName(), newObject(text.getNodeValue()));
-            }
-            else {
+            } else {
                 ArrayList<Object> parameters = new ArrayList<Object>();
-                for (Element ee = getFirstChildElement(e); ee != null; ee= getNextSiblingElement(ee)) {
+                for (Element ee = getFirstChildElement(e); ee != null; ee = getNextSiblingElement(ee)) {
                     if (ee.hasAttribute("value")) {
                         parameters.add(newObject(ee.getAttribute("value")));
-                    }
-                    else if (ee.hasAttribute("class") || ee.hasAttribute("idref")) {
+                    } else if (ee.hasAttribute("class") || ee.hasAttribute("idref")) {
                         parameters.add(newObject(ee));
-                    }
-                    else {
+                    } else {
                         Text text = getFirstChildText(ee);
                         if (text == null) {
                             error(ee, "Can't create object from null text");
@@ -266,7 +225,6 @@ class XMLObjectFactory {
             }
         }
     }
-
 
     private Element getNextSiblingElement(Node current) {
         current = current.getNextSibling();
@@ -295,20 +253,19 @@ class XMLObjectFactory {
     private Object newObject(String value) {
         try {
             return Integer.valueOf(value.trim());
+        } catch (NumberFormatException e) {
         }
-        catch (NumberFormatException e) { }
         try {
             return Long.valueOf(value.trim());
+        } catch (NumberFormatException e) {
         }
-        catch (NumberFormatException e) { }
         try {
             return Double.valueOf(value.trim());
+        } catch (NumberFormatException e) {
         }
-        catch (NumberFormatException e) { }
         if (value.trim().compareToIgnoreCase("true") == 0 || value.trim().compareToIgnoreCase("false") == 0) {
             return Boolean.valueOf(value);
-        }
-        else {
+        } else {
             return value;
         }
     }
@@ -316,16 +273,15 @@ class XMLObjectFactory {
     private void invokeAnyMethod(Element xml, Object target, String name, Object value) {
         try {
             invokeSetMethod(xml, target, name, value);
-        }
-        catch (Exception ex) {
-            Object[] parameter = { value };
+        } catch (Exception ex) {
+            Object[] parameter = {value};
             invokeMethod(xml, target, name, parameter);
         }
     }
 
     private void invokeSetMethod(Element xml, Object target, String property, Object value) {
         String setMethodName = "set" + property.substring(0, 1).toUpperCase() + property.substring(1);
-        Object[] parameters = { value };
+        Object[] parameters = {value};
         invokeMethod(xml, target, setMethodName, parameters);
     }
 
@@ -359,18 +315,14 @@ class XMLObjectFactory {
                         Class<?> type = methods[i].getParameterTypes()[j];
                         if (parameters[j] instanceof Integer && !(type.equals(Integer.TYPE) || type.equals(Long.TYPE) || type.equals(Double.TYPE))) {
                             match = false;
-                        }
-                        else if (parameters[j] instanceof Long && !(type.equals(Long.TYPE) || type.equals(Double.TYPE))) {
+                        } else if (parameters[j] instanceof Long && !(type.equals(Long.TYPE) || type.equals(Double.TYPE))) {
+                            match = false;
+                        } else if (parameters[j] instanceof Double && !type.equals(Double.TYPE)) {
+                            match = false;
+                        } else if (parameters[j] instanceof Boolean && !type.equals(Boolean.TYPE)) {
                             match = false;
                         }
-                        else if (parameters[j] instanceof Double && !type.equals(Double.TYPE)) {
-                            match = false;
-                        }
-                        else if (parameters[j] instanceof Boolean && !type.equals(Boolean.TYPE)) {
-                            match = false;
-                        }
-                    }
-                    else if (!methods[i].getParameterTypes()[j].isInstance(parameters[j])) {
+                    } else if (!methods[i].getParameterTypes()[j].isInstance(parameters[j])) {
                         match = false;
                     }
                 }
@@ -387,18 +339,15 @@ class XMLObjectFactory {
 
         try {
             method.invoke(target, parameters);
-        }
-        catch (InvocationTargetException ex) {
+        } catch (InvocationTargetException ex) {
             ex.printStackTrace();
-           error(xml, "Invoking " + target.getClass().getName() + "." + method.getName() + "(" + getParameterString(parameters) + ") caused: " + ex.getTargetException().toString());
-        }
-        catch (Exception ex) {
-           error(xml, "Could not invoke " + target.getClass().getName() + "." + method.getName() + "(" + getParameterString(parameters) + ")");
+            error(xml, "Invoking " + target.getClass().getName() + "." + method.getName() + "(" + getParameterString(parameters) + ") caused: " + ex.getTargetException().toString());
+        } catch (Exception ex) {
+            error(xml, "Could not invoke " + target.getClass().getName() + "." + method.getName() + "(" + getParameterString(parameters) + ")");
         }
     }
 
     protected void error(Element element, String message) {
         throw new RuntimeException("In <" + element.getTagName() + "> : " + message);
     }
-
 }

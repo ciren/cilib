@@ -27,8 +27,6 @@ import net.sourceforge.cilib.coevolution.selection.OpponentSelectionStrategy;
 import net.sourceforge.cilib.coevolution.selection.SelectAllOpponentSelectionStrategy;
 import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
 
-
-
 /**
  * This iteration strategy defines methods to select opponents.
  * @author Julien Duhain
@@ -37,63 +35,63 @@ import net.sourceforge.cilib.problem.boundaryconstraint.BoundaryConstraint;
  */
 public class CompetitiveCoevolutionIterationStrategy extends CoevolutionIterationStrategy {
 
-	private static final long serialVersionUID = 1061304146851715740L;
-	protected OpponentSelectionStrategy opponentSelectionStrategy;
-	protected FitnessSharingStrategy fitnessSharingStrategy;
+    private static final long serialVersionUID = 1061304146851715740L;
+    protected OpponentSelectionStrategy opponentSelectionStrategy;
+    protected FitnessSharingStrategy fitnessSharingStrategy;
 
-	public CompetitiveCoevolutionIterationStrategy() {
-		super();
-		opponentSelectionStrategy = new SelectAllOpponentSelectionStrategy();
-		fitnessSharingStrategy = new StandardFitnessSharingStrategy();
-	}
+    public CompetitiveCoevolutionIterationStrategy() {
+        super();
+        opponentSelectionStrategy = new SelectAllOpponentSelectionStrategy();
+        fitnessSharingStrategy = new StandardFitnessSharingStrategy();
+    }
 
-	@Override
-	public CompetitiveCoevolutionIterationStrategy getClone(){
-		return new CompetitiveCoevolutionIterationStrategy(this);
-	}
+    @Override
+    public CompetitiveCoevolutionIterationStrategy getClone() {
+        return new CompetitiveCoevolutionIterationStrategy(this);
+    }
 
-	public CompetitiveCoevolutionIterationStrategy(CompetitiveCoevolutionIterationStrategy copy){
-		opponentSelectionStrategy = copy.opponentSelectionStrategy;
-		fitnessSharingStrategy = copy.fitnessSharingStrategy;
-	}
+    public CompetitiveCoevolutionIterationStrategy(CompetitiveCoevolutionIterationStrategy copy) {
+        opponentSelectionStrategy = copy.opponentSelectionStrategy;
+        fitnessSharingStrategy = copy.fitnessSharingStrategy;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void performIteration(CoevolutionAlgorithm ca) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performIteration(CoevolutionAlgorithm ca) {
 
-		 for(PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
-			currentAlgorithm.performIteration();
-		}
-	}
+        for (PopulationBasedAlgorithm currentAlgorithm : ca.getPopulations()) {
+            currentAlgorithm.performIteration();
+        }
+    }
 
-	/**
-	 * Select opponents based on the current {@linkplain OpponentSelectionStrategy}
-	 * @param populationID the populationID of the {@linkplain Entity} for whom opponents are being selected
-	 * @param ca the Coevolution algorithm
-	 * @return the list of competitors
-	 */
-	public CoevolutionCompetitorList selectOpponents(int populationID, CoevolutionAlgorithm ca){
-		return opponentSelectionStrategy.setCompetitors(populationID, ca.getPopulations());
-	}
+    /**
+     * Select opponents based on the current {@linkplain OpponentSelectionStrategy}
+     * @param populationID the populationID of the {@linkplain Entity} for whom opponents are being selected
+     * @param ca the Coevolution algorithm
+     * @return the list of competitors
+     */
+    public CoevolutionCompetitorList selectOpponents(int populationID, CoevolutionAlgorithm ca) {
+        return opponentSelectionStrategy.setCompetitors(populationID, ca.getPopulations());
+    }
 
-	public FitnessSharingStrategy getFitnessSharingStrategy() {
-		return fitnessSharingStrategy;
-	}
+    public FitnessSharingStrategy getFitnessSharingStrategy() {
+        return fitnessSharingStrategy;
+    }
 
-	public void setFitnessSharingStrategy(
-			FitnessSharingStrategy fitnessSharingStrategy) {
-		this.fitnessSharingStrategy = fitnessSharingStrategy;
-	}
+    public void setFitnessSharingStrategy(
+            FitnessSharingStrategy fitnessSharingStrategy) {
+        this.fitnessSharingStrategy = fitnessSharingStrategy;
+    }
 
-	public OpponentSelectionStrategy getOpponentSelectionStrategy() {
-		return opponentSelectionStrategy;
-	}
+    public OpponentSelectionStrategy getOpponentSelectionStrategy() {
+        return opponentSelectionStrategy;
+    }
 
-	public void setOpponentSelectionStrategy(OpponentSelectionStrategy opponentSelectionStrategy) {
-		this.opponentSelectionStrategy = opponentSelectionStrategy;
-	}
+    public void setOpponentSelectionStrategy(OpponentSelectionStrategy opponentSelectionStrategy) {
+        this.opponentSelectionStrategy = opponentSelectionStrategy;
+    }
 
     @Override
     public BoundaryConstraint getBoundaryConstraint() {

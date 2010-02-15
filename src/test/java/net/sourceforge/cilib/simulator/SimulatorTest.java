@@ -23,6 +23,7 @@ package net.sourceforge.cilib.simulator;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.inject.Provider;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -31,20 +32,19 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import net.sourceforge.cilib.algorithm.ProgressListener;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * XML related tests.
+ * Integration test to ensure that the construction of all provided
+ * XML files succeed.
  */
 @RunWith(Parameterized.class)
 public class SimulatorTest {
+
     private final String filename;
 
     public SimulatorTest(String filename) {
@@ -59,7 +59,8 @@ public class SimulatorTest {
      * instances.
      * </p>
      * <p>
-     * Tests will pass if all the instance creation succeeds.
+     * Tests will pass if all instance creation for the defined simulations
+     * succeed.
      * </p>
      * @throws ParserConfigurationException
      * @throws SAXException
@@ -67,49 +68,35 @@ public class SimulatorTest {
      */
     @Test
     public void simulationConstruction() throws ParserConfigurationException, SAXException, IOException {
-        System.out.println("Constructing: " + filename);
+        System.out.println("Constructing specification: " + filename);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File("xml", filename));
 
-        NodeList simulations = doc.getElementsByTagName("simulation");
-        ProgressListener progress = new ProgressText(simulations.getLength());
-
-        for (int i = 0; i < simulations.getLength(); ++i) {
-            if(progress != null)
-                progress.setSimulation(i);
-
-            Element current = (Element) simulations.item(i);
-            XMLAlgorithmFactory algorithmFactory = new XMLAlgorithmFactory(doc, (Element) current.getElementsByTagName("algorithm").item(0));
-            XMLProblemFactory problemFactory = new XMLProblemFactory(doc, (Element) current.getElementsByTagName("problem").item(0));
-            XMLObjectFactory measurementsFactory = new XMLObjectFactory(doc, (Element) current.getElementsByTagName("measurements").item(0));
-            MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
-            Simulator simulation = new Simulator(algorithmFactory, problemFactory, suite);
-            if(progress != null) {
-                simulation.addProgressListener(progress);
-            }
-
-            simulation = null;
-        }
+        Main main = new Main(new ObjectBuilderProvider(), new SimulatorCreator());
+        main.prepare(doc);
     }
 
     @Parameterized.Parameters
     public static List<Object[]> getXMLFiles() {
         File file = new File("xml");
         List<String> files = Arrays.asList(file.list(new FilenameFilter() {
+
             @Override
             public boolean accept(File dir, String name) {
-                if (name.endsWith("xml"))
+                if (name.endsWith("xml")) {
                     return true;
+                }
 
                 return false;
             }
         }));
 
         return Lists.transform(files, new Function<String, Object[]>() {
+
             @Override
             public Object[] apply(String from) {
-                return new Object[]{ from };
+                return new Object[]{from};
             }
 
             @Override
@@ -123,5 +110,13 @@ public class SimulatorTest {
                 return 0;
             }
         });
+    }
+
+    private class ObjectBuilderProvider implements Provider<XMLObjectBuilder> {
+
+        @Override
+        public XMLObjectBuilder get() {
+            return new XMLObjectBuilder();
+        }
     }
 }

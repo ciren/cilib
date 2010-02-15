@@ -21,12 +21,13 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import java.io.File;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -43,32 +44,32 @@ import org.w3c.dom.NodeList;
  * @author  Edwin Peer
  */
 public final class Main {
+
     private final Provider<XMLObjectBuilder> objectBuilderProvider;
+    private final SimulatorCreator simulationCreator;
 
     @Inject
-    Main(Provider<XMLObjectBuilder> objectBuilderProvider) {
+    Main(Provider<XMLObjectBuilder> objectBuilderProvider, SimulatorCreator simulationCreator) {
         this.objectBuilderProvider = objectBuilderProvider;
+        this.simulationCreator = simulationCreator;
     }
 
-    private void runSimulations(Document config, ProgressListener progress) {
-        Preconditions.checkNotNull(progress);
-
+    List<Simulator> prepare(Document config) {
+        List<Simulator> simulators = Lists.newArrayList();
         NodeList simulations = config.getElementsByTagName("simulation");
 
         for (int i = 0; i < simulations.getLength(); ++i) {
             Element current = (Element) simulations.item(i);
-
             XMLObjectFactory algorithmFactory = objectBuilderProvider.get().config(config).element(current.getElementsByTagName("algorithm").item(0)).build();
             XMLObjectFactory problemFactory = objectBuilderProvider.get().config(config).element(current.getElementsByTagName("problem").item(0)).build();
             XMLObjectFactory measurementsFactory = objectBuilderProvider.get().config(config).element((Element) current.getElementsByTagName("measurements").item(0)).build();
             MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
 
-            Simulator simulator = new Simulator(algorithmFactory, problemFactory, suite);
-            simulator.addProgressListener(progress);
-            progress.setSimulation(i);
-
-            simulator.execute();
+            Simulator simulator = simulationCreator.algorithm(algorithmFactory).problem(problemFactory).measurement(suite).get();
+            simulator.init();
+            simulators.add(simulator);
         }
+        return simulators;
     }
 
     public static void main(String[] args) throws Exception {
@@ -93,7 +94,14 @@ public final class Main {
         }
 
         Injector injector = Guice.createInjector(new SimulatorModule());
-        Main simulator = injector.getInstance(Main.class);
-        simulator.runSimulations(doc, progress);
+        Main main = injector.getInstance(Main.class);
+        List<Simulator> simulators = main.prepare(doc);
+
+        for (int i = 0; i < simulators.size(); i++) {
+            Simulator simulator = simulators.get(i);
+            simulator.addProgressListener(progress);
+            progress.setSimulation(i);
+            simulator.execute();
+        }
     }
 }
