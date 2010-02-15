@@ -21,7 +21,7 @@
     </algorithms>
 
     <simulation>
-        <algorithm class="cooperative.SplitCooperativeAlgorithm">
+        <algorithm class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
             <addPopulationBasedAlgorithm idref="gcpso"/>
             <addPopulationBasedAlgorithm idref="gcpso"/>
             <addPopulationBasedAlgorithm idref="gcpso"/>
