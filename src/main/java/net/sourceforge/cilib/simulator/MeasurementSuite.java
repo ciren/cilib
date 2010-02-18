@@ -21,9 +21,10 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import java.io.IOException;
 import net.sourceforge.cilib.measurement.MeasurementStateManager;
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -37,13 +38,13 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author  Edwin Peer
  */
-public class MeasurementSuite implements Serializable {
+public class MeasurementSuite implements MeasurementCollector {
     private static final long serialVersionUID = 8021290553229945841L;
 
     private String file;
     private int samples;
     private int resolution;
-    private ArrayList<Measurement> measurements;
+    private List<Measurement> measurements;
     private SynchronizedOutputBuffer buffer;
     private MeasurementStateManager measurementStateManager;
 
@@ -168,6 +169,25 @@ public class MeasurementSuite implements Serializable {
 
             buffer.writeMeasuredValue(value, algorithm, measurement);
         }
+    }
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public void add(Measurement<?> measurement) {
+        measurements.add(measurement);
+    }
+
+    @Override
+    public void close() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

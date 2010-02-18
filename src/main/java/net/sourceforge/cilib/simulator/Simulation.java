@@ -32,9 +32,9 @@ import net.sourceforge.cilib.problem.Problem;
 /**
  * A Simulation is a complete simulation that runs as a separate thread.
  */
-class Simulation extends Thread implements AlgorithmListener {
-    private static final long serialVersionUID = -3733724215662398762L;
+class Simulation implements AlgorithmListener, Runnable {
 
+    private static final long serialVersionUID = -3733724215662398762L;
     private final Simulator simulator;
     private final Algorithm algorithm;
     private final Problem problem;
@@ -67,13 +67,11 @@ class Simulation extends Thread implements AlgorithmListener {
             }
 
             String type = current.getInterfaces()[0].getName();
-            Class<?> [] parameters = new Class[1];
-            parameters[0] = Class.forName(type);
+            Class<?>[] parameters = new Class<?>[]{Class.forName(type)};
             String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);
             Method setProblemMethod = algorithm.getClass().getMethod(setMethodName, parameters);
-            setProblemMethod.invoke(algorithm, new Object[] {problem});
-        }
-        catch (Exception ex) {
+            setProblemMethod.invoke(algorithm, new Object[]{problem});
+        } catch (Exception ex) {
             throw new InitialisationException(algorithm.getClass().getName() + " does not support problems of type " + problem.getClass().getName());
         }
 
@@ -133,5 +131,4 @@ class Simulation extends Thread implements AlgorithmListener {
     public Algorithm getAlgorithm() {
         return algorithm;
     }
-
 }

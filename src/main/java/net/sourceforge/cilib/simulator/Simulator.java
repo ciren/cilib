@@ -23,6 +23,11 @@ package net.sourceforge.cilib.simulator;
 
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -51,9 +56,10 @@ import net.sourceforge.cilib.problem.Problem;
 class Simulator {
 
     private static final long serialVersionUID = 8987667794610802908L;
-    private Simulation[] simulations;
-    private Vector<ProgressListener> progressListeners;
-    private HashMap<Simulation, Double> progress;
+    private final Simulation[] simulations;
+    private final Vector<ProgressListener> progressListeners;
+    private final HashMap<Simulation, Double> progress;
+    private final ExecutorService executor;
     private final XMLObjectFactory algorithmFactory;
     private final XMLObjectFactory problemFactory;
     private final MeasurementSuite measurementSuite;
@@ -66,14 +72,15 @@ class Simulator {
      * @param problemFactory The problem factory.
      * @param measurementSuite The measurement suite.
      */
-    Simulator(XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, MeasurementSuite measurementSuite) {
+    Simulator(ExecutorService executor, XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, MeasurementSuite measurementSuite) {
+        this.measurementSuite = measurementSuite;
+        this.executor = executor;
+        this.algorithmFactory = algorithmFactory;
+        this.problemFactory = problemFactory;
+
         progressListeners = new Vector<ProgressListener>();
         progress = new HashMap<Simulation, Double>();
         simulations = new Simulation[measurementSuite.getSamples()];
-
-        this.measurementSuite = measurementSuite;
-        this.algorithmFactory = algorithmFactory;
-        this.problemFactory = problemFactory;
     }
 
     /**
@@ -94,20 +101,22 @@ class Simulator {
      * be closed once this method completes.
      */
     void execute() {
+        CompletionService<Void> completionService = new ExecutorCompletionService<Void>(executor);
+
         for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            simulations[i].start();
+            completionService.submit(simulations[i], null); // The return value is explicitly null.
         }
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            try {
-                simulations[i].join();
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
+
+        try {
+            for (int i = 0; i < measurementSuite.getSamples(); i++) {
+                completionService.take(); // Intentionally loose the reference
             }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        executor.shutdown();
         measurementSuite.getOutputBuffer().close();
-        simulations = null;
-        progress = null;
-        progressListeners = null;
     }
 
     /**

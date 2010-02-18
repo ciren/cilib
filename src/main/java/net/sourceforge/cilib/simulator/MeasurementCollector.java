@@ -19,26 +19,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.simulator;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.Closeable;
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.measurement.Measurement;
 
 /**
  *
  * @author gpampara
  */
- final class SimulatorModule extends AbstractModule {
+interface MeasurementCollector extends Closeable {
 
-    @Override
-    protected void configure() {
-    }
+    /**
+     * Perform measurements on the provided {@code algorithm}.
+     * @param algorithm The algorithm to perform the measurements on.
+     */
+    void measure(Algorithm algorithm);
 
-    @Provides
-    ExecutorService getExecutor() {
-        return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    }
+    void add(Measurement<?> measurement);
 }
