@@ -28,6 +28,7 @@ import net.sourceforge.cilib.io.DelimitedTextFileReader;
 import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
+import net.sourceforge.cilib.io.transform.DataOperator;
 import net.sourceforge.cilib.io.transform.PatternConversionOperator;
 import net.sourceforge.cilib.io.transform.ShuffleOperator;
 import net.sourceforge.cilib.io.transform.TypeConversionOperator;
@@ -57,6 +58,7 @@ public class NNDataTrainingProblem extends OptimisationProblemAdapter {
     private int previousShuffleIteration;
     private ShuffleOperator shuffler;
     private boolean initialized;
+    private DataOperator patternConverstionOperator;
 
     /**
      * Default constructor.
@@ -67,6 +69,7 @@ public class NNDataTrainingProblem extends OptimisationProblemAdapter {
         previousShuffleIteration = -1;
         trainingSetPercentage = 0.66;
         generalizationSetPercentage = 0.34;
+        patternConverstionOperator = new PatternConversionOperator();
         initialized = false;
     }
 
@@ -80,7 +83,7 @@ public class NNDataTrainingProblem extends OptimisationProblemAdapter {
         }
         try {
             dataTableBuilder.addDataOperator(new TypeConversionOperator());
-            dataTableBuilder.addDataOperator(new PatternConversionOperator());
+            dataTableBuilder.addDataOperator(patternConverstionOperator);
             dataTableBuilder.buildDataTable();
             DataTable dataTable = (StandardPatternDataTable) dataTableBuilder.getDataTable();
 
@@ -298,5 +301,21 @@ public class NNDataTrainingProblem extends OptimisationProblemAdapter {
      */
     public void setShuffler(ShuffleOperator shuffler) {
         this.shuffler = shuffler;
+    }
+
+    /**
+     * Get the { @link PatternConversionOperator}
+     * @return the pattern conversion operator
+     */
+    public DataOperator getPatternConversionOperator() {
+        return patternConverstionOperator;
+    }
+
+    /**
+     * Set the { @link PatternConversionOperator}
+     * @param patternConverstionOperator the new pattern conversion operator
+     */
+    public void setPatternConversionOperator(DataOperator patternConverstionOperator) {
+        this.patternConverstionOperator = patternConverstionOperator;
     }
 }
