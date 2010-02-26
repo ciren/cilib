@@ -90,8 +90,9 @@ public class PatternConversionOperator extends SelectiveDataOperator {
         StandardDataTable<Type> typedTable = (StandardDataTable<Type>) dataTable;
 
         int rowLength = typedTable.getNumColums();
-        if (classIndex == -1) {
-            classIndex = rowLength - 1;
+        // a negative class index indicates the class (target) is at the end of the pattern
+        if (classIndex < 0) {
+            classIndex = rowLength - classLength;
         }
         int classRange = classIndex + classLength;
 
@@ -136,6 +137,8 @@ public class PatternConversionOperator extends SelectiveDataOperator {
 
     /**
      * Sets the index in a row where the feature vector's class starts.
+     * Setting the class index to a negative value indicates that the class (target) is at the
+     * end of the pattern.
      * @param classIndex the class index.
      */
     public void setClassIndex(int classIndex) {
