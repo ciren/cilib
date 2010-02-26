@@ -139,11 +139,8 @@ class Simulation implements AlgorithmListener, Runnable {
         return this;
     }
 
-    /**
-     * Obtain the {@code Algorithm} of the current {@code Simulation}.
-     * @return The current {@code Algorithm}.
-     */
-    public Algorithm getAlgorithm() {
-        return algorithm;
+    MeasurementSuite getMeasurementSuite() {
+        return measurementSuite;
     }
+
 }

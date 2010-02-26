@@ -22,12 +22,13 @@
 package net.sourceforge.cilib.simulator;
 
 import java.io.Closeable;
+import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 
 /**
- *
- * @author gpampara
+ * Collect measurements from an {@code Algorithm}. This interface determines how
+ * the measurements are collected from the running algorithm.
  */
 interface MeasurementCollector extends Closeable {
 
@@ -37,5 +38,18 @@ interface MeasurementCollector extends Closeable {
      */
     void measure(Algorithm algorithm);
 
+    /**
+     * Appends this measurement to the current list maintained by the collector.
+     * @param measurement element to be added to the collector.
+     */
     void add(Measurement<?> measurement);
+
+    /**
+     * Returns the textual descriptions of the collector's measurements.
+     * <p>
+     * The class names of the actual measurements are colelcted, placed
+     * into a {@code List} and then returned.
+     * @return the textual re[presentations of the measurements.
+     */
+    List<String> getDescriptions();
 }

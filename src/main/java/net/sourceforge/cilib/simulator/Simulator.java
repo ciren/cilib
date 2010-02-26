@@ -21,7 +21,10 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import com.google.common.collect.Lists;
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
@@ -30,7 +33,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.ProgressEvent;
@@ -66,6 +68,7 @@ class Simulator {
     private final XMLObjectFactory problemFactory;
     private final XMLObjectFactory measurementFactory;
     private final int samples;
+    private final MeasurementCombiner combiner;
 
     /**
      * Creates a new instance of Simulator given an algorithm factory, a problem factory and a
@@ -84,6 +87,8 @@ class Simulator {
         this.progressListeners = new Vector<ProgressListener>();
         this.progress = new HashMap<Simulation, Double>();
         this.simulations = new Simulation[samples];
+
+        this.combiner = new StandardCombiner();
     }
 
     /**
@@ -119,7 +124,16 @@ class Simulator {
             throw new RuntimeException(ex);
         }
 
+        // Get the names of the measurements.
+        List<String> descriptions = simulations[0].getMeasurementSuite().getDescriptions(); // Law of demeter!
+
+        List<File> fileList = Lists.newArrayList();
+        for (Simulation simulation : completedSimulations) {
+            fileList.add(simulation.getMeasurementSuite().getFile());
+        }
         executor.shutdown();
+
+        combiner.combine("data/results.txt", descriptions, fileList);
     }
 
     /**
@@ -162,7 +176,7 @@ class Simulator {
     }
 
     void updateProgress(Simulation simulation, double percentageComplete) {
-        progress.put(simulation, new Double(((AbstractAlgorithm) simulation.getAlgorithm()).getPercentageComplete()));
+        progress.put(simulation, percentageComplete);
         notifyProgress();
     }
 }

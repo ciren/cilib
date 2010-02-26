@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import com.google.common.collect.Lists;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -52,7 +53,6 @@ public class MeasurementSuite implements MeasurementCollector {
     /** Creates a new instance of MeasurementSuite. */
     public MeasurementSuite() {
         measurements = new ArrayList<Measurement<?>>();
-//        filename = "results.txt";
         resolution = 1;
         measurementStateManager = new MeasurementStateManager();
     }
@@ -63,16 +63,10 @@ public class MeasurementSuite implements MeasurementCollector {
     public void initialise() {
         try {
             file = File.createTempFile("cilib_data", ".tmp");
-            System.out.println("tmpFile: " + file.getAbsolutePath());
             writer = new FileWriter(file);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-//        buffer = new SynchronizedOutputBuffer(filename, measurements.size(), samples);
-//        buffer.write("# 0 - Iterations");
-//        for (Measurement measurement : measurements) {
-//            buffer.writeDescription(measurement);
-//        }
     }
 
     public File getFile() {
@@ -134,12 +128,11 @@ public class MeasurementSuite implements MeasurementCollector {
             }
 
             tmp[index++] = value;
-//            buffer.writeMeasuredValue(value, algorithm, measurement);
         }
         StringBuilder builder = new StringBuilder();
-        builder.append(algorithm.getIterations()).append(" ");
+        builder.append(algorithm.getIterations());
         for (Type t : tmp) {
-            builder.append(t).append(" ");
+            builder.append(" ").append(t);
         }
         builder.append("\n");
 
@@ -158,5 +151,14 @@ public class MeasurementSuite implements MeasurementCollector {
     @Override
     public void close() throws IOException {
         this.writer.close();
+    }
+
+    @Override
+    public List<String> getDescriptions() {
+        List<String> result = Lists.newArrayList();
+        for (Measurement<?> measurement : measurements) {
+            result.add(measurement.getClass().getSimpleName());
+        }
+        return result;
     }
 }

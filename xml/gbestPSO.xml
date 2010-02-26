@@ -48,14 +48,16 @@
             <function class="functions.continuous.Schwefel"/>
         </problem>
     </problems>
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="1">
+    <!--<measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="1">-->
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gbest"/>
             <problem idref="spherical"/>
-            <measurements idref="fitness" file="data/spherical3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <!--<measurements idref="fitness" file="data/spherical3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>-->
+            <measurements idref="fitness" />
         </simulation>
         <simulation>
             <algorithm idref="gbest"/>
