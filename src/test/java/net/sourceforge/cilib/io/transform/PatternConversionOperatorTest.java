@@ -158,13 +158,23 @@ public class PatternConversionOperatorTest {
         TypeConversionOperator operator = new TypeConversionOperator();
         typedDataTable = (StandardDataTable<Type>) operator.operate(dataTable);
 
+        // test normal class index
         PatternConversionOperator conversionOperator = new PatternConversionOperator();
         conversionOperator.setClassIndex(5);
         conversionOperator.setClassLength(2);
-        StandardPatternDataTable patterns = (StandardPatternDataTable) conversionOperator.operate(typedDataTable);
+        StandardPatternDataTable patterns1 = (StandardPatternDataTable) conversionOperator.operate(typedDataTable);
 
         for (int i = 0; i < referenceList.size(); i++) {
-            Assert.assertEquals(referenceList.get(i), patterns.getRow(i));
+            Assert.assertEquals(referenceList.get(i), patterns1.getRow(i));
+        }
+
+        // test negative class index
+        conversionOperator = new PatternConversionOperator();
+        conversionOperator.setClassIndex(-1);
+        conversionOperator.setClassLength(2);
+        StandardPatternDataTable patterns2 = (StandardPatternDataTable) conversionOperator.operate(typedDataTable);
+        for (int i = 0; i < referenceList.size(); i++) {
+            Assert.assertEquals(referenceList.get(i), patterns2.getRow(i));
         }
     }
 
