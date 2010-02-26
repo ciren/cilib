@@ -62,12 +62,12 @@ class SimulatorShell {
             NodeList simulations = config.getElementsByTagName("simulation");
             for (int i = 0; i < simulations.getLength(); ++i) {
                 Element current = (Element) simulations.item(i);
+                int samples = current.hasAttribute("samples") ? Integer.valueOf(current.getAttribute("samples")) : 1;
                 XMLObjectFactory algorithmFactory = objectBuilder.config(config).element(current.getElementsByTagName("algorithm").item(0)).build();
                 XMLObjectFactory problemFactory = objectBuilder.config(config).element(current.getElementsByTagName("problem").item(0)).build();
                 XMLObjectFactory measurementsFactory = objectBuilder.config(config).element((Element) current.getElementsByTagName("measurements").item(0)).build();
-                MeasurementSuite suite = (MeasurementSuite) measurementsFactory.newObject();
 
-                Simulator simulator = creator.algorithm(algorithmFactory).problem(problemFactory).measurement(suite).get();
+                Simulator simulator = creator.algorithm(algorithmFactory).problem(problemFactory).measurement(measurementsFactory).samples(samples).get();
                 simulator.init();
                 simulators.add(simulator);
             }

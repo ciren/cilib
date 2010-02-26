@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
@@ -38,6 +39,7 @@ class Simulation implements AlgorithmListener, Runnable {
     private final Simulator simulator;
     private final Algorithm algorithm;
     private final Problem problem;
+    private final MeasurementSuite measurementSuite;
 
     /**
      * Create a Simulation with the required dependencies.
@@ -45,10 +47,11 @@ class Simulation implements AlgorithmListener, Runnable {
      * @param algorithmFactory The factory that creates {@code Algorithm} instances.
      * @param problemFactory The factory that creates {@code Problem} instances.
      */
-    public Simulation(Simulator simulator, Algorithm algorithm, Problem problem) {
+    public Simulation(Simulator simulator, Algorithm algorithm, Problem problem, MeasurementSuite measurementSuite) {
         this.simulator = simulator;
         this.algorithm = algorithm;
         this.problem = problem;
+        this.measurementSuite = measurementSuite;
     }
 
     /**
@@ -90,30 +93,42 @@ class Simulation implements AlgorithmListener, Runnable {
      * {@inheritDoc}
      */
     @Override
-    public void algorithmStarted(AlgorithmEvent e) {
+    public void algorithmStarted(AlgorithmEvent event) {
+        measurementSuite.initialise(); // Initialise the temporary data store
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void algorithmFinished(AlgorithmEvent e) {
-        this.simulator.simulationFinished(this);
+    public void algorithmFinished(AlgorithmEvent event) {
+        measurementSuite.measure(event.getSource());
+        simulator.updateProgress(this, ((AbstractAlgorithm) event.getSource()).getPercentageComplete());
+
+        try {
+            measurementSuite.close();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void algorithmTerminated(AlgorithmEvent e) {
+    public void algorithmTerminated(AlgorithmEvent event) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void iterationCompleted(AlgorithmEvent e) {
-        this.simulator.simulationIterationCompleted(this);
+    public void iterationCompleted(AlgorithmEvent event) {
+        Algorithm alg = event.getSource();
+        if (alg.getIterations() % measurementSuite.getResolution() == 0) {
+            measurementSuite.measure(alg);
+            simulator.updateProgress(this, ((AbstractAlgorithm) alg).getPercentageComplete());
+        }
     }
 
     /**

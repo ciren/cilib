@@ -24,12 +24,14 @@ package net.sourceforge.cilib.simulator;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
+
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.ProgressEvent;
 import net.sourceforge.cilib.algorithm.ProgressListener;
@@ -62,7 +64,8 @@ class Simulator {
     private final ExecutorService executor;
     private final XMLObjectFactory algorithmFactory;
     private final XMLObjectFactory problemFactory;
-    private final MeasurementSuite measurementSuite;
+    private final XMLObjectFactory measurementFactory;
+    private final int samples;
 
     /**
      * Creates a new instance of Simulator given an algorithm factory, a problem factory and a
@@ -70,17 +73,17 @@ class Simulator {
      * @see net.sourceforge.cilib.XMLObjectFactory
      * @param algorithmFactory The algorithm factory.
      * @param problemFactory The problem factory.
-     * @param measurementSuite The measurement suite.
+     * @param measurementFactory The measurement suite.
      */
-    Simulator(ExecutorService executor, XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, MeasurementSuite measurementSuite) {
-        this.measurementSuite = measurementSuite;
+    Simulator(ExecutorService executor, XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, XMLObjectFactory measurementFactory, int samples) {
         this.executor = executor;
         this.algorithmFactory = algorithmFactory;
         this.problemFactory = problemFactory;
-
-        progressListeners = new Vector<ProgressListener>();
-        progress = new HashMap<Simulation, Double>();
-        simulations = new Simulation[measurementSuite.getSamples()];
+        this.measurementFactory = measurementFactory;
+        this.samples = samples;
+        this.progressListeners = new Vector<ProgressListener>();
+        this.progress = new HashMap<Simulation, Double>();
+        this.simulations = new Simulation[samples];
     }
 
     /**
@@ -88,10 +91,8 @@ class Simulator {
      * {@code Simulation} instances and executing the threads.
      */
     void init() {
-        measurementSuite.initialise();
-
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            simulations[i] = new Simulation(this, (Algorithm) algorithmFactory.newObject(), (Problem) problemFactory.newObject());
+        for (int i = 0; i < samples; ++i) {
+            simulations[i] = new Simulation(this, (Algorithm) algorithmFactory.newObject(), (Problem) problemFactory.newObject(), (MeasurementSuite) measurementFactory.newObject());
             progress.put(simulations[i], 0.0);
         }
     }
@@ -101,29 +102,31 @@ class Simulator {
      * be closed once this method completes.
      */
     void execute() {
-        CompletionService<Void> completionService = new ExecutorCompletionService<Void>(executor);
-
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            completionService.submit(simulations[i], null); // The return value is explicitly null.
+        CompletionService<Simulation> completionService = new ExecutorCompletionService<Simulation>(executor);
+        for (int i = 0; i < samples; ++i) {
+            completionService.submit(simulations[i], simulations[i]); // The return value is explicitly null.
         }
 
+        final Simulation[] completedSimulations = new Simulation[samples];
         try {
-            for (int i = 0; i < measurementSuite.getSamples(); i++) {
-                completionService.take(); // Intentionally loose the reference
+            for (int i = 0; i < samples; i++) {
+                Future<Simulation> simulation = completionService.take();
+                completedSimulations[i] = simulation.get();
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            throw new RuntimeException(ex);
         }
 
         executor.shutdown();
-        measurementSuite.getOutputBuffer().close();
     }
 
     /**
      * Terminates all the experiments.
      */
     void terminate() {
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
+        for (int i = 0; i < samples; ++i) {
             simulations[i].terminate();
         }
     }
@@ -158,26 +161,8 @@ class Simulator {
         }
     }
 
-    /**
-     * Indicate that the provided {@code Simulation} has completed.
-     * @param simulation The {@code simulation} which has completed.
-     */
-    void simulationFinished(Simulation simulation) {
-        measurementSuite.measure(simulation.getAlgorithm());
+    void updateProgress(Simulation simulation, double percentageComplete) {
         progress.put(simulation, new Double(((AbstractAlgorithm) simulation.getAlgorithm()).getPercentageComplete()));
         notifyProgress();
-    }
-
-    /**
-     * Indicate that the provided {@code Simulation} has completed an iteration.
-     * @param simulation The {@code Simulation} that has completed an iteration.
-     */
-    void simulationIterationCompleted(Simulation simulation) {
-        Algorithm algorithm = simulation.getAlgorithm();
-        if (algorithm.getIterations() % measurementSuite.getResolution() == 0) {
-            measurementSuite.measure(simulation.getAlgorithm());
-            progress.put(simulation, new Double(((AbstractAlgorithm) algorithm).getPercentageComplete()));
-            notifyProgress();
-        }
     }
 }

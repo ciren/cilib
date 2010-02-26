@@ -36,7 +36,8 @@ class SimulatorCreator implements Provider<Simulator> {
 
     private XMLObjectFactory algorithmFactory;
     private XMLObjectFactory problemFactory;
-    private MeasurementSuite measurementSuite;
+    private XMLObjectFactory measurementFactory;
+    private int samples;
 
     SimulatorCreator algorithm(XMLObjectFactory algorithmFactory) {
         this.algorithmFactory = algorithmFactory;
@@ -48,17 +49,22 @@ class SimulatorCreator implements Provider<Simulator> {
         return this;
     }
 
-    SimulatorCreator measurement(MeasurementSuite suite) {
-        this.measurementSuite = suite;
+    SimulatorCreator measurement(XMLObjectFactory measurementFactory) {
+        this.measurementFactory = measurementFactory;
         return this;
     }
 
     @Override
     public Simulator get() {
-        Simulator simulator = new Simulator(service.get(), algorithmFactory, problemFactory, measurementSuite);
+        Simulator simulator = new Simulator(service.get(), algorithmFactory, problemFactory, measurementFactory, samples);
         this.algorithmFactory = null;
         this.problemFactory = null;
-        this.measurementSuite = null;
+        this.measurementFactory = null;
         return simulator;
+    }
+
+    SimulatorCreator samples(int samples) {
+        this.samples = samples;
+        return this;
     }
 }

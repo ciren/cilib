@@ -21,6 +21,8 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import net.sourceforge.cilib.measurement.MeasurementStateManager;
 import java.util.ArrayList;
@@ -39,20 +41,18 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public class MeasurementSuite implements MeasurementCollector {
-    private static final long serialVersionUID = 8021290553229945841L;
 
-    private String file;
-    private int samples;
+    private static final long serialVersionUID = 8021290553229945841L;
+    private File file;
+    private FileWriter writer;
     private int resolution;
-    private List<Measurement> measurements;
-    private SynchronizedOutputBuffer buffer;
+    private List<Measurement<?>> measurements;
     private MeasurementStateManager measurementStateManager;
 
     /** Creates a new instance of MeasurementSuite. */
     public MeasurementSuite() {
-        measurements = new ArrayList<Measurement>();
-        file = "results.txt";
-        samples = 30;
+        measurements = new ArrayList<Measurement<?>>();
+//        filename = "results.txt";
         resolution = 1;
         measurementStateManager = new MeasurementStateManager();
     }
@@ -61,47 +61,22 @@ public class MeasurementSuite implements MeasurementCollector {
      * Initialise the require output buffers for the {@linkplain MeasurementSuite}.
      */
     public void initialise() {
-        buffer = new SynchronizedOutputBuffer(file, measurements.size(), samples);
-        buffer.write("# 0 - Iterations");
-        for (Measurement measurement : measurements) {
-            buffer.writeDescription(measurement);
+        try {
+            file = File.createTempFile("cilib_data", ".tmp");
+            System.out.println("tmpFile: " + file.getAbsolutePath());
+            writer = new FileWriter(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
+//        buffer = new SynchronizedOutputBuffer(filename, measurements.size(), samples);
+//        buffer.write("# 0 - Iterations");
+//        for (Measurement measurement : measurements) {
+//            buffer.writeDescription(measurement);
+//        }
     }
 
-    /**
-     * Sets the output file to record the measurements in.
-     *
-     * @param file The name of the output file.
-     */
-    public void setFile(String file) {
-        this.file = file;
-    }
-
-    /**
-     * Get the current specified filename.
-     * @return The current file name.
-     */
-    public String getFile() {
-        return this.file;
-    }
-
-    /**
-     * Sets the number of samples to take for each measurement. Each sample results
-     * in the experiment being performed again.
-     *
-     * @param samples The number of samples.
-     */
-    public void setSamples(int samples) {
-        this.samples = samples;
-    }
-
-    /**
-     * Accessor for the number of samples to take for each measurement.
-     *
-     * @return The number of samples.
-     */
-    public int getSamples() {
-        return samples;
+    public File getFile() {
+        return file;
     }
 
     /**
@@ -125,23 +100,11 @@ public class MeasurementSuite implements MeasurementCollector {
     }
 
     /**
-     * Get the current {@linkplain SynchronizedOutputBuffer}.
-     * @return The current buffer.
-     */
-    public SynchronizedOutputBuffer getOutputBuffer() {
-        return buffer;
-    }
-
-    public void setOutputBuffer(SynchronizedOutputBuffer buffer) {
-        this.buffer = buffer;
-    }
-
-    /**
      * Adds a measurement to the suite.
      *
      * @param measurement The measurement to be added.
      */
-    public void addMeasurement(Measurement measurement) {
+    public void addMeasurement(Measurement<?> measurement) {
         measurements.add(measurement);
     }
 
@@ -154,31 +117,38 @@ public class MeasurementSuite implements MeasurementCollector {
      * as measurements are taken on the current {@linkplain Algorithm}.
      * @param algorithm The {@linkplain Algorithm} to measure.
      */
+    @Override
     public void measure(Algorithm algorithm) {
-        for (Measurement measurement : measurements) {
+        Type[] tmp = new Type[measurements.size()];
+        int index = 0;
+        for (Measurement<?> measurement : measurements) {
             Type value = null;
 
-            if (measurement instanceof StateAwareMeasurement) {
-                StateAwareMeasurement stateAwareMeasurement = (StateAwareMeasurement) measurement;
+            if (measurement instanceof StateAwareMeasurement<?>) {
+                StateAwareMeasurement<?> stateAwareMeasurement = (StateAwareMeasurement<?>) measurement;
                 measurementStateManager.setState(algorithm, stateAwareMeasurement);
                 value = measurement.getValue(algorithm);
                 measurementStateManager.getState(algorithm, stateAwareMeasurement);
-            }
-            else
+            } else {
                 value = measurement.getValue(algorithm);
+            }
 
-            buffer.writeMeasuredValue(value, algorithm, measurement);
+            tmp[index++] = value;
+//            buffer.writeMeasuredValue(value, algorithm, measurement);
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append(algorithm.getIterations()).append(" ");
+        for (Type t : tmp) {
+            builder.append(t).append(" ");
+        }
+        builder.append("\n");
+
+        try {
+            writer.write(builder.toString());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
-
-
-
-
-
-
-
-
-
 
     @Override
     public void add(Measurement<?> measurement) {
@@ -187,7 +157,6 @@ public class MeasurementSuite implements MeasurementCollector {
 
     @Override
     public void close() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.writer.close();
     }
-
 }
