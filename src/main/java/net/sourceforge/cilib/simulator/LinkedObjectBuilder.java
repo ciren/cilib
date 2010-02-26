@@ -21,29 +21,13 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.ProblemFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
- * @author  Edwin Peer
+ * @author gpampara
  */
-class XMLProblemFactory extends XMLObjectFactory implements ProblemFactory {
+interface LinkedObjectBuilder {
 
-    /** Creates a new instance of XMLProblemFactory. */
-    XMLProblemFactory(Document xmlDocument, Element xmlProblemDescription) {
-        super(xmlDocument, xmlProblemDescription);
-        if (!xmlProblemDescription.getTagName().equals("problem")) {
-            error(xmlProblemDescription, "Expected <problem> tag");
-        }
-    }
-
-    @Override
-    public Problem newProblem() {
-        return (Problem) newObject();
-    }
-
+    LinkedXMLObjectBuilder element(Node item);
 }

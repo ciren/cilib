@@ -19,28 +19,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.simulator;
+
+import java.io.File;
+import java.util.List;
 
 /**
  *
- * <p>
- * A factory used to produce a {@link Problem} must satisfy this interface.
- * {@link net.sourceforge.cilib.xml.XMLProblemFactory} implements this
- * interface so that problems can be created for the Simulator.
- * </p>
- * <p>
- * To avoid the use of XML you can create your own implementation of <code>ProblemFactory</code> to create
- * appropriately configured problems.
- * </p>
- *
- * @author  Edwin Peer
  */
-public interface ProblemFactory {
+public interface MeasurementCombiner {
 
     /**
-     * Returns a newly contructed problem.
-     *
-     * @return A new {@link Problem}.
+     * Combine many partial results into a single result file.
+     * @param targetFilename The name fo the target results file.
+     * @param descriptions header descriptions for the results.
+     * @param partials list of partial results
      */
-    Problem newProblem();
+    void combine(String targetFilename, List<String> descriptions, List<File> partials);
 }

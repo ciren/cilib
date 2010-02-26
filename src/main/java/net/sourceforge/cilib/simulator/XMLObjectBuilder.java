@@ -21,34 +21,32 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
-import net.sourceforge.cilib.stoppingcondition.StoppingConditionFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
- * @author  Edwin Peer
+ * @author gpampara
  */
-class XMLStoppingConditionFactory extends XMLObjectFactory implements StoppingConditionFactory {
+class XMLObjectBuilder implements LinkedObjectBuilder, LinkedXMLObjectBuilder {
+    private Document config;
+    private Element element;
 
-    /** Creates a new instance of XMLProgressIndicatorFactory. */
-    XMLStoppingConditionFactory(Document xmlDocument, Element xmlProgressIndicatorDescription) {
-        super(xmlDocument, xmlProgressIndicatorDescription);
-        if (!xmlProgressIndicatorDescription.getTagName().equals("progressIndicator")) {
-            error(xmlProgressIndicatorDescription, "Expected <progressIndicator> tag");
-        }
+    LinkedObjectBuilder config(final Document config) {
+        this.config = config;
+        return this;
     }
 
-    /** Returns a newly constructed StoppingCondition.
-     *
-     * @return A new {@link StoppingCondition}.
-     *
-     */
     @Override
-    public StoppingCondition newStoppingCondition() {
-        return (StoppingCondition) newObject();
+    public LinkedXMLObjectBuilder element(Node item) {
+        this.element = (Element) item;
+        return this;
+    }
+
+    @Override
+    public XMLObjectFactory build() {
+        return new XMLObjectFactory(config, element);
     }
 
 }

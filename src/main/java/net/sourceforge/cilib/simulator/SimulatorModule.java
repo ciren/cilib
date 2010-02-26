@@ -19,33 +19,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.measurement.MeasurementFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
- * @author  Edwin Peer
+ * @author gpampara
  */
-class XMLMeasurementFactory extends XMLObjectFactory implements MeasurementFactory {
-
-    /** Creates a new instance of XMLMeasurementFactory. */
-    XMLMeasurementFactory(Document xmlDocument, Element xmlMeasurementDescription) {
-        super(xmlDocument, xmlMeasurementDescription);
-        if (!xmlMeasurementDescription.getTagName().equals("measurement")) {
-            error(xmlMeasurementDescription, "Expected <measurement> tag");
-        }
-    }
+ final class SimulatorModule extends AbstractModule {
 
     @Override
-    public Measurement newMeasurement() {
-        @SuppressWarnings("unchecked")
-        Measurement measurement = (Measurement) newObject();
-        return measurement;
+    protected void configure() {
     }
 
+    @Provides
+    ExecutorService getExecutor() {
+        return Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    }
 }
