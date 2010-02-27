@@ -32,124 +32,31 @@ public class MockClusteringStringDataSet extends LocalDataSet {
     private String data = null;
 
     public MockClusteringStringDataSet() {
-        delimiter = ",\\s";
-        beginIndex = 0;
-        endIndex = 1;
-        classIndex = 2;
+        this.identifier = "mock-data-set";
+        this.delimiter = ", ";
+        this.beginIndex = 0;
+        this.endIndex = 1;
+        this.classIndex = 2;
 
-        data = "5, 1, Class0\n";
+        this.data = "-1, 2, Class1\n";
+        this.data += "-1, 2, Class1\n";
+        this.data += "-1, 2, Class1\n";
 
-        data += "32, 1, Class1\n";
-        data += "33, 1, Class1\n";
-        data += "34, 1, Class1\n";
-        data += "35, 1, Class1\n";
-        data += "36, 1, Class1\n";
-        data += "32, 2, Class1\n";
-        data += "33, 2, Class1\n";
-        data += "34, 2, Class1\n";
-        data += "35, 2, Class1\n";
-        data += "36, 2, Class1\n";
-        data += "32, 3, Class1\n";
-        data += "33, 3, Class1\n";
-        data += "34, 3, Class1\n";
-        data += "35, 3, Class1\n";
-        data += "36, 3, Class1\n";
-        data += "32, 4, Class1\n";
-        data += "33, 4, Class1\n";
-        data += "34, 4, Class1\n";
-        data += "35, 4, Class1\n";
-        data += "36, 4, Class1\n";
-        data += "32, 5, Class1\n";
-        data += "33, 5, Class1\n";
-        data += "34, 5, Class1\n";
-        data += "35, 5, Class1\n";
-        data += "36, 5, Class1\n";
+        this.data += "-1, -1, Class2\n";
+        this.data += "-2, -1, Class2\n";
+        this.data += "-2, -1, Class2\n";
 
-        data += "23, 9, Class2\n";
-        data += "23, 10, Class2\n";
-        data += "22, 11, Class2\n";
-        data += "23, 11, Class2\n";
-        data += "24, 11, Class2\n";
-        data += "22, 12, Class2\n";
-        data += "23, 12, Class2\n";
-        data += "24, 12, Class2\n";
-        data += "22, 13, Class2\n";
-        data += "23, 13, Class2\n";
-        data += "24, 13, Class2\n";
-        data += "23, 14, Class2\n";
-        data += "23, 15, Class2\n";
-
-        data += "16, 18, Class3\n";
-        data += "17, 18, Class3\n";
-        data += "14, 19, Class3\n";
-        data += "15, 19, Class3\n";
-        data += "16, 19, Class3\n";
-        data += "17, 19, Class3\n";
-
-        data += "22, 19, Class4\n";
-        data += "24, 19, Class4\n";
-        data += "26, 19, Class4\n";
-        data += "28, 19, Class4\n";
-
-        data += "13, 20, Class3\n";
-        data += "14, 20, Class3\n";
-        data += "15, 20, Class3\n";
-        data += "16, 20, Class3\n";
-        data += "12, 21, Class3\n";
-        data += "13, 21, Class3\n";
-        data += "14, 21, Class3\n";
-        data += "15, 21, Class3\n";
-        data += "16, 21, Class3\n";
-
-        data += "22, 21, Class4\n";
-        data += "24, 21, Class4\n";
-        data += "26, 21, Class4\n";
-        data += "28, 21, Class4\n";
-
-        data += "12, 22, Class3\n";
-        data += "13, 22, Class3\n";
-        data += "14, 22, Class3\n";
-        data += "15, 22, Class3\n";
-        data += "11, 23, Class3\n";
-        data += "12, 23, Class3\n";
-        data += "13, 23, Class3\n";
-        data += "14, 23, Class3\n";
-
-        data += "22, 23, Class4\n";
-        data += "24, 23, Class4\n";
-        data += "26, 23, Class4\n";
-        data += "28, 23, Class4\n";
-
-        data += "11, 24, Class3\n";
-        data += "12, 24, Class3\n";
-
-        data += "22, 25, Class4\n";
-        data += "24, 25, Class4\n";
-        data += "26, 25, Class4\n";
-        data += "28, 25, Class4\n";
-
-        data += "20, 30, Class5\n";
-
-        data += "17, 38, Class6\n";
-        data += "19, 38, Class6\n";
-        data += "21, 38, Class6\n";
-        data += "18, 39, Class6\n";
-        data += "20, 39, Class6\n";
-        data += "17, 40, Class6\n";
-        data += "21, 40, Class6\n";
-        data += "18, 41, Class6\n";
-        data += "20, 41, Class6\n";
-        data += "17, 42, Class6\n";
-        data += "19, 42, Class6\n";
-        data += "21, 42, Class6\n";
+        this.data += "2, -1, Class3\n";
+        this.data += "1, -1, Class3\n";
+        this.data += "1, -2, Class3\n";
     }
 
     public MockClusteringStringDataSet(MockClusteringStringDataSet rhs) {
-        data = new String(rhs.data);
-        delimiter = new String(rhs.delimiter);
-        beginIndex = rhs.beginIndex;
-        endIndex = rhs.endIndex;
-        classIndex = rhs.classIndex;
+        this.data = new String(rhs.data);
+        this.delimiter = new String(rhs.delimiter);
+        this.beginIndex = rhs.beginIndex;
+        this.endIndex = rhs.endIndex;
+        this.classIndex = rhs.classIndex;
     }
 
     @Override

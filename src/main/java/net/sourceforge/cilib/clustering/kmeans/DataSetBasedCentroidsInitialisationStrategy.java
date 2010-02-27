@@ -21,7 +21,10 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
+import com.google.common.collect.Iterables;
+
 import java.util.ArrayList;
+import java.util.Set;
 
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -39,7 +42,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -3016201656688883387L;
 
-    private ArrayList<Pattern<Vector>> patterns;
+    private Set<Pattern<Vector>> patterns;
 
     public DataSetBasedCentroidsInitialisationStrategy() {
         this.patterns = null;
@@ -69,7 +72,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
         RandomProvider random = new MersenneTwister();
 
         for (int i = 0; i < numberOfCentroids; ++i) {
-            Vector centroid = Vector.copyOf(patterns.get(random.nextInt(patterns.size())).getData());
+            Vector centroid = Vector.copyOf(Iterables.get(patterns, random.nextInt(patterns.size())).getData());
 
             centroids.add(centroid);
         }
@@ -83,7 +86,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
     @Override
     public Vector reinitialise(ArrayList<Vector> centroids, int which) {
         RandomProvider random = new MersenneTwister();
-        Vector reinitialised = Vector.copyOf(patterns.get(random.nextInt(patterns.size())).getData());
+        Vector reinitialised = Vector.copyOf(Iterables.get(patterns, random.nextInt(patterns.size())).getData());
 
         centroids.set(which, reinitialised);
         return reinitialised;

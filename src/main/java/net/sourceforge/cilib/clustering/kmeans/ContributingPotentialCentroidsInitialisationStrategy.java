@@ -21,7 +21,11 @@
  */
 package net.sourceforge.cilib.clustering.kmeans;
 
+import com.google.common.collect.Iterables;
+
 import java.util.ArrayList;
+import java.util.Set;
+
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.ClusteringProblem;
@@ -44,8 +48,9 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  * @author Theuns Cloete
  */
 public class ContributingPotentialCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
-    private static final long serialVersionUID = -1475341727508334776L;
-    private ArrayList<Pattern<Vector>> patterns;
+    private static final long serialVersionUID = -3956593150571608857L;
+
+    private Set<Pattern<Vector>> patterns;
     private DistanceMeasure distanceMeasure;
 
     public ContributingPotentialCentroidsInitialisationStrategy() {
@@ -76,11 +81,11 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
         ArrayList<Vector> chosenCentroids = new ArrayList<Vector>();
 
         for (int i = 0; i < numberOfClusters; ++i) {
-            Vector candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).getData());
+            Vector candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
 
             if (i > 0) {
                 while (randomProbability.nextDouble() >= this.calculateProbability(chosenCentroids, candidateCentroid)) {
-                    candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).getData());
+                    candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
                 }
             }
             chosenCentroids.add(candidateCentroid);
@@ -100,7 +105,7 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
         RandomProvider randomProbability = new MersenneTwister();
 
         do {
-            candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).getData());
+            candidateCentroid = Vector.copyOf(Iterables.get(patterns, randomPattern.nextInt(patterns.size())).getData());
         }
         while (randomProbability.nextDouble() >= this.calculateProbability(centroids, candidateCentroid));
 

@@ -56,12 +56,12 @@ public class StatsTest {
         mean = null;
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void testEmptySetForMeanVector() {
         Stats.meanVector(Sets.<Pattern<Vector>>newHashSet());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void testEmptySetForVarianceScalar() {
         Stats.variance(Sets.<Pattern<Vector>>newHashSet(), mean);
     }

@@ -22,278 +22,186 @@
 package net.sourceforge.cilib.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.functions.ContinuousFunction;
+import net.sourceforge.cilib.functions.clustering.QuantisationErrorFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
+import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MockClusteringStringDataSet;
 import net.sourceforge.cilib.pso.PSO;
-import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsSame.sameInstance;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.matchers.IsCollectionContaining.hasItem;
 
 /**
- * TODO: Enable this unit test again. We need guice
- *
  * @author Theuns Cloete
  */
-@Ignore
 public class ClusteringUtilsTest {
-    private static Vector centroids = null;
-    private static ArrayList<Cluster<Vector>> arrangedClusters = null;
-    private static StaticDataSetBuilder dataSetBuilder = null;
-    private static ClusteringProblem problem = null;
+    private static Vector centroids;
+    private static StaticDataSetBuilder dataSetBuilder;
+    private static ClusteringProblem problem;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         dataSetBuilder = new StaticDataSetBuilder();
         dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
+        dataSetBuilder.setIdentifier("mock-data-set-builder");
         problem = new ClusteringProblem();
+        ContinuousFunction function = new QuantisationErrorFunction();
+        FunctionOptimisationProblem innerProblem = new FunctionMinimisationProblem();
+        innerProblem.setFunction(function);
+        problem.setInnerProblem(innerProblem);
+        problem.setDomain("Z(-5, 5),Z(-5, 5)");
+        problem.setNumberOfClusters(4);
+        problem.setDataSetBuilder(dataSetBuilder);
+
         Algorithm algorithm = new PSO();
         algorithm.setOptimisationProblem(problem);
         algorithm.performInitialisation();
-        problem.setDomain("Z(0, 37),Z(0, 51)");
-        problem.setNumberOfClusters(7);
-        problem.setDataSetBuilder(dataSetBuilder);
 
-        Vector.Builder centroidsBuilder = Vector.newBuilder();
-
-        centroidsBuilder.add(Int.valueOf(1));
-        centroidsBuilder.add(Int.valueOf(1));
-        centroidsBuilder.add(Int.valueOf(33));
-        centroidsBuilder.add(Int.valueOf(8));
-        centroidsBuilder.add(Int.valueOf(20));
-        centroidsBuilder.add(Int.valueOf(19));
-        centroidsBuilder.add(Int.valueOf(11));
-        centroidsBuilder.add(Int.valueOf(22));
-        centroidsBuilder.add(Int.valueOf(30));
-        centroidsBuilder.add(Int.valueOf(27));
-        centroidsBuilder.add(Int.valueOf(19));
-        centroidsBuilder.add(Int.valueOf(40));
-        centroidsBuilder.add(Int.valueOf(5));
-        centroidsBuilder.add(Int.valueOf(50));
-        arrangedClusters = ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, dataSetBuilder);
+        centroids = Vector.of(2, 2, -2, 2, -2, -2, 2, -2);
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-    }
-
-    @Test
-    public void testArrangeClustersAndCentroids() {
-        assertThat(arrangedClusters.size(), equalTo(6));
-
-        assertThat(arrangedClusters.get(0).size(), equalTo(1));
-        assertThat(arrangedClusters.get(1).size(), equalTo(26));
-        assertThat(arrangedClusters.get(2).size(), equalTo(29));
-        assertThat(arrangedClusters.get(3).size(), equalTo(18));
-        assertThat(arrangedClusters.get(4).size(), equalTo(6));
-        assertThat(arrangedClusters.get(5).size(), equalTo(13));
+        centroids = null;
+        dataSetBuilder = null;
+        problem = null;
     }
 
     @Test
     public void testMiscStuff() {
-        assertThat(problem.getNumberOfClusters(), equalTo(7));
-        assertThat(dataSetBuilder.getNumberOfPatterns(), equalTo(93));
-        assertThat(centroids.size(), equalTo(14));
-
-        for (Cluster<Vector> cluster : arrangedClusters) {
-            assertThat(cluster.getCentroid().size(), equalTo(2));
-
-            for (Pattern<Vector> pattern : cluster) {
-                assertThat(pattern.getData().size(), equalTo(2));
-            }
-        }
+        assertThat(problem.getNumberOfClusters(), equalTo(4));
+        assertThat(dataSetBuilder.getNumberOfPatterns(), equalTo(6));
+        assertThat(centroids.size(), equalTo(8));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testPatternAssignments() {
-        int counter = 0;
-        // cluster 0
-        Cluster<Vector> cluster = arrangedClusters.get(0);
+    private void testArrangeClustersAndCentroids(ArrayList<Cluster<Vector>> arrangedClusters) {
+        assertThat(arrangedClusters.size(), is(3));
 
-        while (counter <= 0) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
+        assertThat(arrangedClusters.get(0).size(), is(1));
+        assertThat(arrangedClusters.get(0).getCentroid(), equalTo(Vector.of(-2, 2)));
+        assertThat(arrangedClusters.get(0).getMean(), equalTo(Vector.of(-1, 2)));
 
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
+        assertThat(arrangedClusters.get(1).size(), is(2));
+        assertThat(arrangedClusters.get(1).getCentroid(), equalTo(Vector.of(-2, -2)));
+        assertThat(arrangedClusters.get(1).getMean(), equalTo(Vector.of(-1.5, -1)));
 
-        // cluster 1
-        cluster = arrangedClusters.get(1);
-        while (counter <= 26) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // cluster 2
-        cluster = arrangedClusters.get(2);
-        while (counter <= 40) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // cluster 3
-        cluster = arrangedClusters.get(3);
-        // this pattern can belong to either clusters 2 or 3, depending on the order of the centroids
-        while (counter <= 41) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-        // more cluster 2
-        cluster = arrangedClusters.get(2);
-        while (counter <= 48) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 3
-        cluster = arrangedClusters.get(3);
-        while (counter <= 51) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 2
-        cluster = arrangedClusters.get(2);
-        while (counter <= 52) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 3
-        cluster = arrangedClusters.get(3);
-        while (counter <= 56) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 2
-        cluster = arrangedClusters.get(2);
-        while (counter <= 60) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // cluster 4
-        cluster = arrangedClusters.get(4);
-        while (counter <= 61) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 3
-        cluster = arrangedClusters.get(3);
-        while (counter <= 69) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 2
-        cluster = arrangedClusters.get(2);
-        while (counter <= 71) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 4
-        cluster = arrangedClusters.get(4);
-        while (counter <= 73) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 3
-        cluster = arrangedClusters.get(3);
-        while (counter <= 75) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 2
-        cluster = arrangedClusters.get(2);
-        while (counter <= 76) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // more cluster 4
-        cluster = arrangedClusters.get(4);
-        while (counter <= 79) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // cluster 5
-        cluster = arrangedClusters.get(5);
-        while (counter <= 92) {
-            Pattern<Vector> pattern = dataSetBuilder.getPattern(counter);
-
-            assertThat(cluster, hasItem(pattern));
-            ++counter;
-        }
-
-        // the last cluster is empty
-        // should throw an exception (no such element / index out of bounds)
-        assertThat(arrangedClusters.get(6), nullValue());
+        assertThat(arrangedClusters.get(2).size(), is(3));
+        assertThat(arrangedClusters.get(2).getCentroid(), equalTo(Vector.of(2, -2)));
+        assertThat(arrangedClusters.get(2).getMean(), equalTo(Vector.of(1.3333333333333333, -1.3333333333333333)));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testArrangedCentroids() {
-        assertThat(arrangedClusters.get(0).getCentroid(), equalTo(centroids.copyOfRange(0, 2)));
+    @Test
+    public void testArrangeClustersAndCentroidsCombined() {
+        testArrangeClustersAndCentroids(ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, dataSetBuilder));
+    }
 
-        assertThat(arrangedClusters.get(1).getCentroid(), equalTo(centroids.copyOfRange(2, 4)));
+    @Test
+    public void testArrangeClustersAndCentroidsSeparate() {
+        testArrangeClustersAndCentroids(ClusteringUtils.arrangeClustersAndCentroids(ClusteringUtils.disassembleCentroids(centroids, 4), problem, dataSetBuilder));
+    }
 
-        assertThat(arrangedClusters.get(2).getCentroid(), equalTo(centroids.copyOfRange(4, 6)));
+    @Test
+    public void testAssembleCentroids() {
+        ArrayList<Vector> separated = new ArrayList<Vector>();
 
-        assertThat(arrangedClusters.get(3).getCentroid(), equalTo(centroids.copyOfRange(6, 8)));
+        separated.add(Vector.of(0.0, 1.0, 2.0));
+        separated.add(Vector.of(3.0, 4.0, 5.0));
+        separated.add(Vector.of(6.0, 7.0, 8.0));
 
-        assertThat(arrangedClusters.get(4).getCentroid(), equalTo(centroids.copyOfRange(8, 10)));
+        Vector assembled = ClusteringUtils.assembleCentroids(separated);
 
-        assertThat(arrangedClusters.get(5).getCentroid(), equalTo(centroids.copyOfRange(10, 12)));
+        assertThat(assembled.size(), is(9));
+        assertThat(assembled.get(0).doubleValue(), is(0.0));
+        assertThat(assembled.get(1).doubleValue(), is(1.0));
+        assertThat(assembled.get(2).doubleValue(), is(2.0));
+        assertThat(assembled.get(3).doubleValue(), is(3.0));
+        assertThat(assembled.get(4).doubleValue(), is(4.0));
+        assertThat(assembled.get(5).doubleValue(), is(5.0));
+        assertThat(assembled.get(6).doubleValue(), is(6.0));
+        assertThat(assembled.get(7).doubleValue(), is(7.0));
+        assertThat(assembled.get(8).doubleValue(), is(8.0));
+    }
 
-        // the last centroid is useless, i.e. no pattern "belongs" to it
-        // should throw an exception (no such element / index out of bounds)
-        arrangedClusters.get(6).getCentroid();
+    @Test
+    public void testDisassembleCentroids() {
+        Vector assembled = Vector.of(0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        List<Vector> separated = ClusteringUtils.disassembleCentroids(assembled, 3);
+
+        assertThat(separated.size(), is(3));
+        assertThat(separated.get(0).size(), is(3));
+        assertThat(separated.get(0).get(0).doubleValue(), is(0.0));
+        assertThat(separated.get(0).get(1).doubleValue(), is(1.0));
+        assertThat(separated.get(0).get(2).doubleValue(), is(2.0));
+        assertThat(separated.get(1).size(), is(3));
+        assertThat(separated.get(1).get(0).doubleValue(), is(3.0));
+        assertThat(separated.get(1).get(1).doubleValue(), is(4.0));
+        assertThat(separated.get(1).get(2).doubleValue(), is(5.0));
+        assertThat(separated.get(2).size(), is(3));
+        assertThat(separated.get(2).get(0).doubleValue(), is(6.0));
+        assertThat(separated.get(2).get(1).doubleValue(), is(7.0));
+        assertThat(separated.get(2).get(2).doubleValue(), is(8.0));
+    }
+
+    @Test
+    public void testFormClusters() {
+        ArrayList<Vector> separate = ClusteringUtils.disassembleCentroids(centroids, 4);
+        ArrayList<Cluster<Vector>> clusters = ClusteringUtils.formClusters(separate, problem, dataSetBuilder.getPatterns());
+
+        assertThat(clusters.size(), is(4));
+
+        assertThat(clusters.get(0).size(), is(0));
+        assertThat(clusters.get(0).getCentroid(), sameInstance(separate.get(0)));
+
+        assertThat(clusters.get(1).size(), is(1));
+        assertThat(clusters.get(1).getCentroid(), sameInstance(separate.get(1)));
+        assertThat(clusters.get(1).getMean(), equalTo(Vector.of(-1, 2)));
+
+        assertThat(clusters.get(2).size(), is(2));
+        assertThat(clusters.get(2).getCentroid(), sameInstance(separate.get(2)));
+        assertThat(clusters.get(2).getMean(), equalTo(Vector.of(-1.5, -1)));
+
+        assertThat(clusters.get(3).size(), is(3));
+        assertThat(clusters.get(3).getCentroid(), sameInstance(separate.get(3)));
+        assertThat(clusters.get(3).getMean(), equalTo(Vector.of(1.3333333333333333, -1.3333333333333333)));
+    }
+
+    @Test
+    public void testSignificantClusters() {
+        ArrayList<Cluster<Vector>> clusters = new ArrayList<Cluster<Vector>>();
+        Cluster<Vector> cluster = new Cluster<Vector>(Vector.of(0.0, 1.0, 2.0));
+
+        cluster.add(new Pattern<Vector>(Vector.of(0.1, 1.1, 2.1), "1"));
+        cluster.add(new Pattern<Vector>(Vector.of(0.2, 1.2, 2.2), "1"));
+        cluster.add(new Pattern<Vector>(Vector.of(0.3, 1.3, 2.3), "1"));
+        clusters.add(cluster);
+
+        cluster = new Cluster<Vector>(Vector.of(3.0, 4.0, 5.0));
+        cluster.add(new Pattern<Vector>(Vector.of(3.1, 4.1, 5.1), "2"));
+        clusters.add(cluster);
+
+        cluster = new Cluster<Vector>(Vector.of(6.0, 7.0, 8.0));
+        clusters.add(cluster);
+
+        ArrayList<Cluster<Vector>> significant = ClusteringUtils.significantClusters(clusters);
+
+        assertThat(significant.size(), is(2));
+        assertThat(significant.get(0).size(), is(3));
+        assertThat(significant.get(1).size(), is(1));
+        assertThat(significant.get(0), sameInstance(clusters.get(0)));
+        assertThat(significant.get(1), sameInstance(clusters.get(1)));
     }
 }

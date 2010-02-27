@@ -23,7 +23,7 @@ package net.sourceforge.cilib.problem.dataset;
 
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Set;
 
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -41,17 +41,17 @@ public abstract class DataSet implements Cloneable, Serializable {
     protected String identifier = null;
 
     public DataSet() {
-        identifier = "<unknown data set>";
+        this.identifier = "<unknown data set>";
     }
 
     public DataSet(DataSet rhs) {
-        identifier = rhs.identifier;
+        this.identifier = rhs.identifier;
     }
 
     @Override
     public abstract DataSet getClone();
 
-    public abstract ArrayList<Pattern<Vector>> parseDataSet();
+    public abstract Set<Pattern<Vector>> parseDataSet();
 
     /**
      * Returns the data set as a byte array.

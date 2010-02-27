@@ -37,8 +37,8 @@ public class ClusterCentroidStrategy<C extends Vector> implements ClusterCenterS
 
     /**
      * In this case, we are interested in the centroid of the cluster.
-     * @param i The integer representing the cluster for which the centroid should be returned
-     * @return the centroid of cluster i
+     * @param cluster the cluster whose center should be returned
+     * @return the centroid of the provided {@link Cluster}
      */
     @Override
     public C getCenter(Cluster<C> cluster) {

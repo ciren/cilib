@@ -126,14 +126,14 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
         double quantisationError = 0.0;
 
         for (Cluster<Vector> cluster : this.significantClusters) {
-            double averageDistance = 0.0;
+            double averageCompactness = 0.0;
             Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
             for (Pattern<Vector> pattern : cluster) {
-                averageDistance += this.problem.calculateDistance(pattern.getData(), center);
+                averageCompactness += this.problem.calculateDistance(pattern.getData(), center);
             }
-            averageDistance /= cluster.size();
-            quantisationError += averageDistance;
+            averageCompactness /= cluster.size();
+            quantisationError += averageCompactness;
         }
         quantisationError /= clustersFormed;
         return quantisationError;
@@ -298,6 +298,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
         double diameter = 0.0;
         Cluster<Vector> cluster = this.significantClusters.get(k);
 
+        // these loops result in Big-O n (n - 1) but it can be Big-O (n (n - 1)) / 2
         for (Pattern<Vector> leftPattern : cluster) {
             for (Pattern<Vector> rightPattern : cluster) {
                 if (leftPattern != rightPattern) {

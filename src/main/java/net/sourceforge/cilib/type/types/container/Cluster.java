@@ -85,16 +85,32 @@ public class Cluster<C extends Vector> extends ForwardingSet<Pattern<C>> impleme
         return Stats.meanVector(this);
     }
 
+    public C getVarianceVector() {
+        return Stats.varianceVector(this, this.centroid);
+    }
+
     public C getVarianceVector(C center) {
         return Stats.varianceVector(this, center);
+    }
+
+    public double getVariance() {
+        return Stats.variance(this, this.centroid);
     }
 
     public double getVariance(C center) {
         return Stats.variance(this, center);
     }
 
+    public C getStdDeviationVector() {
+        return Stats.stdDeviationVector(this, this.centroid);
+    }
+
     public C getStdDeviationVector(C center) {
         return Stats.stdDeviationVector(this, center);
+    }
+
+    public double getStdDeviation() {
+        return Stats.stdDeviation(this, this.centroid);
     }
 
     public double getStdDeviation(C center) {

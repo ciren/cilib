@@ -26,6 +26,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * The <i>center of a cluster</i> is interpreted as the <i>mean of a cluster</i>.
+ *
  * @author Theuns Cloete
  */
 public class ClusterMeanStrategy<C extends Vector> implements ClusterCenterStrategy<C> {
@@ -37,7 +38,7 @@ public class ClusterMeanStrategy<C extends Vector> implements ClusterCenterStrat
     /**
      * In this case, we are interested in the mean of the cluster.
      * @param cluster the cluster whose mean should be returned
-     * @return the mean of the given {@link Cluster}
+     * @return the mean of the provided {@link Cluster}
      */
     @Override
     public C getCenter(Cluster<C> cluster) {

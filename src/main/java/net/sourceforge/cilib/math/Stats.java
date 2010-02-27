@@ -23,6 +23,7 @@ package net.sourceforge.cilib.math;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -74,9 +75,7 @@ public final class Stats {
      * @return a {@link Vector} that represents the mean/center of the given set
      */
     public static <C extends Vector> C meanVector(Set<Pattern<C>> set) {
-        if (set.isEmpty()) {
-            throw new IllegalArgumentException("Cannot calculate the mean for an empty set");
-        }
+        Preconditions.checkState(!set.isEmpty(), "Cannot calculate the mean for an empty set");
 
         C mean = (C) Vectors.zeroVector(Iterables.get(set, 0).getData());
 
@@ -128,9 +127,7 @@ public final class Stats {
      *         of this vector is taken, you will get the actual variance scalar of the given set with given center.
      */
     public static <C extends Vector> C varianceVector(Set<Pattern<C>> set, C center) {
-        if (set.isEmpty()) {
-            throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
-        }
+        Preconditions.checkState(!set.isEmpty(), "Cannot calculate the variance for an empty set");
 
         C variance = (C) Vectors.zeroVector(center);
 

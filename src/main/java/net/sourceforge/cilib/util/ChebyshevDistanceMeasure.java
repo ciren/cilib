@@ -51,7 +51,7 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
          * TODO: Consider re-implementing for different sized vectors, especially as everything is
          * equivalent relative to infinity
          */
-        Preconditions.checkState(x.size() == y.size(), "Cannot calculate Chebyshev Metric for vectors of different dimensions");
+        Preconditions.checkArgument(x.size() == y.size(), "Cannot calculate Chebyshev Metric for vectors of different dimensions");
         Iterator<? extends Numeric> xIterator = x.iterator();
         Iterator<? extends Numeric> yIterator = y.iterator();
         double maxDistance = 0.0;

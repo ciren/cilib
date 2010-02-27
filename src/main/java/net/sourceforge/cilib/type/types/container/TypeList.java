@@ -36,16 +36,15 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author gpampara
  */
-public class TypeList extends AbstractList<Type> {
-
+public class TypeList<T extends Type> extends AbstractList<T> {
     private static final long serialVersionUID = 136711882764612609L;
-    private List<Type> components;
+    private List<T> components;
 
     /**
      * Create a new instance.
      */
     public TypeList() {
-        this.components = new ArrayList<Type>();
+        this.components = new ArrayList<T>();
     }
 
     /**
@@ -54,7 +53,7 @@ public class TypeList extends AbstractList<Type> {
      */
     @Deprecated
     private TypeList(int size) {
-        this.components = new ArrayList<Type>();
+        this.components = new ArrayList<T>(size);
     }
 
     /**
@@ -62,20 +61,19 @@ public class TypeList extends AbstractList<Type> {
      * @param copy The instance to copy.
      */
     @Deprecated
-    private TypeList(TypeList copy) {
-        this.components = new ArrayList<Type>(copy.components.size());
+    public TypeList(TypeList<T> copy) {
+        this.components = new ArrayList<T>(copy.components.size());
 
-        for (Type type : copy.components) {
-            this.components.add(type.getClone());
-        }
+        for (T type : copy.components)
+            this.components.add((T) type.getClone());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public TypeList getClone() {
-        return new TypeList(this);
+    public TypeList<T> getClone() {
+        return new TypeList<T>(this);
     }
 
     /**
@@ -91,7 +89,7 @@ public class TypeList extends AbstractList<Type> {
             return false;
         }
 
-        TypeList otherList = (TypeList) o;
+        TypeList<T> otherList = (TypeList<T>) o;
         return this.components.equals(otherList.components);
     }
 
@@ -109,7 +107,7 @@ public class TypeList extends AbstractList<Type> {
      * {@inheritDoc}
      */
     @Override
-    public Type get(int index) {
+    public T get(int index) {
         return this.components.get(index);
     }
 
@@ -117,7 +115,7 @@ public class TypeList extends AbstractList<Type> {
      * {@inheritDoc}
      */
     @Override
-    public void set(int index, Type value) {
+    public void set(int index, T value) {
         this.components.set(index, value);
     }
 
@@ -125,7 +123,7 @@ public class TypeList extends AbstractList<Type> {
      * {@inheritDoc}
      */
     @Override
-    public void insert(int index, Type value) {
+    public void insert(int index, T value) {
         this.components.add(index, value);
     }
 
@@ -133,8 +131,8 @@ public class TypeList extends AbstractList<Type> {
      * {@inheritDoc}
      */
     @Override
-    public boolean append(AbstractList<Type> list) {
-        for (Type type : list) {
+    public boolean append(AbstractList<T> list) {
+        for (T type : list) {
             this.components.add(type);
         }
 
@@ -145,7 +143,7 @@ public class TypeList extends AbstractList<Type> {
      * {@inheritDoc}
      */
     @Override
-    public boolean prepend(AbstractList<Type> list) {
+    public boolean prepend(AbstractList<T> list) {
         for (int i = list.size() - 1; i >= 0; i--) {
             this.components.add(0, list.get(i));
         }
@@ -167,10 +165,10 @@ public class TypeList extends AbstractList<Type> {
     @Override
     public TypeList subList(int fromIndex, int toIndex) {
         // Need to bump up the toIndex because the List.subList() operation is upper bound exclusive.
-        List<Type> result = this.components.subList(fromIndex, toIndex + 1);
-        TypeList sublist = new TypeList();
+        List<T> result = this.components.subList(fromIndex, toIndex + 1);
+        TypeList<T> sublist = new TypeList<T>();
 
-        for (Type type : result) {
+        for (T type : result) {
             sublist.add(type);
         }
 
@@ -181,7 +179,7 @@ public class TypeList extends AbstractList<Type> {
      * {@inheritDoc}
      */
     @Override
-    public boolean add(Type element) {
+    public boolean add(T element) {
         return this.components.add(element);
     }
 
@@ -189,7 +187,7 @@ public class TypeList extends AbstractList<Type> {
      * {@inheritDoc}
      */
     @Override
-    public boolean addAll(Collection<? extends Type> c) {
+    public boolean addAll(Collection<? extends T> c) {
         return this.components.addAll(c);
     }
 
@@ -223,7 +221,7 @@ public class TypeList extends AbstractList<Type> {
      * @return an iterator over the elements in this list in proper sequence
      */
     @Override
-    public Iterator<Type> iterator() {
+    public Iterator<T> iterator() {
         return this.components.iterator();
     }
 
@@ -255,8 +253,8 @@ public class TypeList extends AbstractList<Type> {
      * {@inheritDoc}
      */
     @Override
-    public void accept(Visitor<Type> visitor) {
-        for (Type type : this.components) {
+    public void accept(Visitor<T> visitor) {
+        for (T type : this.components) {
             if (!visitor.isDone()) {
                 visitor.visit(type);
             }

@@ -22,7 +22,7 @@
 package net.sourceforge.cilib.problem.dataset;
 
 import com.google.common.collect.Sets;
-import java.util.ArrayList;
+
 import java.util.Set;
 
 import net.sourceforge.cilib.math.Stats;
@@ -43,7 +43,7 @@ import net.sourceforge.cilib.util.ClusteringUtils;
 public class StaticDataSetBuilder extends DataSetBuilder {
     private static final long serialVersionUID = -7035524554252462144L;
 
-    protected ArrayList<Pattern<Vector>> patterns;
+    protected Set<Pattern<Vector>> patterns;
     protected Vector cachedMean;
     protected double cachedVariance;
     protected String identifier;
@@ -52,13 +52,13 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      * Initialise the patterns data structure and set the identifier to be blank.
      */
     public StaticDataSetBuilder() {
-        this.patterns = new ArrayList<Pattern<Vector>>();
+        this.patterns = Sets.newHashSet();
         this.identifier = "<unknown built data set>";
     }
 
     public StaticDataSetBuilder(StaticDataSetBuilder rhs) {
         super(rhs);
-        this.patterns = new ArrayList<Pattern<Vector>>();
+        this.patterns = Sets.newHashSet();
 
         for (Pattern<Vector> pattern : rhs.patterns) {
             this.patterns.add(pattern.getClone());
@@ -100,9 +100,9 @@ public class StaticDataSetBuilder extends DataSetBuilder {
     @Override
     public void initialise() {
         for (DataSet dataset : this.dataSets) {
-            ArrayList<Pattern<Vector>> data = DataSetManager.getInstance().getDataFromSet(dataset);
+            Set<Pattern<Vector>> data = DataSetManager.getInstance().getDataFromSet(dataset);
 
-            if (!patterns.isEmpty() && data.get(0).getData().getDimension() != patterns.get(0).getData().getDimension()) {
+            if (!patterns.isEmpty() && data.iterator().next().getData().getDimension() != patterns.iterator().next().getData().getDimension()) {
                 throw new IllegalArgumentException("Cannot combine datasets of different dimensions");
             }
 
@@ -118,11 +118,10 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      */
     private void cacheMeanAndVariance() {
         System.out.println("Caching dataset mean and variance");
-        Set<Pattern<Vector>> set = Sets.newHashSet(this.patterns);
 
-        this.cachedMean = Stats.meanVector(set);
+        this.cachedMean = Stats.meanVector(this.patterns);
         System.out.println("Cached mean: " + this.cachedMean);
-        this.cachedVariance = Stats.variance(set, this.cachedMean);
+        this.cachedVariance = Stats.variance(this.patterns, this.cachedMean);
         System.out.println("Cached variance: " + this.cachedVariance);
     }
 
@@ -149,18 +148,8 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      *
      * @return the {@link #patterns} list
      */
-    public ArrayList<Pattern<Vector>> getPatterns() {
+    public Set<Pattern<Vector>> getPatterns() {
         return this.patterns;
-    }
-
-    /**
-     * Get the pattern that is represented by the given index.
-     *
-     * @param i the index representing a pattern in the {@link #patterns}
-     * @return pattern i of {@link #patterns}
-     */
-    public Pattern<Vector> getPattern(int i) {
-        return patterns.get(i);
     }
 
     /**

@@ -21,22 +21,23 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import static org.junit.Assert.assertEquals;
+import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.FunctionMinimisationProblem;
 import net.sourceforge.cilib.problem.FunctionOptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.MockClusteringStringDataSet;
-import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
- * TODO: Enable this unit test again. We need guice!
+ * TODO: Algorithm.get() breaks testability. Enable this unit test once we have a guiced Algorithm.
  *
  * @author Theuns Cloete
  */
@@ -53,120 +54,123 @@ public class ClusteringFitnessFunctionTest {
     public static void intialise() {
         dataSetBuilder = new StaticDataSetBuilder();
         dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
+        dataSetBuilder.setIdentifier("mock-data-set-builder");
         function = new QuantisationErrorFunction();
         innerProblem = new FunctionMinimisationProblem();
         innerProblem.setFunction(function);
         problem = new ClusteringProblem();
-        problem.setDomain("Z(0, 37),Z(0, 51)");
+        Algorithm algorithm = new PSO();
+        algorithm.setOptimisationProblem(problem);
+        algorithm.performInitialisation();
+        problem.setDomain("Z(-5, 5),Z(-5, 5)");
         problem.setInnerProblem(innerProblem);
-        problem.setNumberOfClusters(7);
+        problem.setNumberOfClusters(4);
         problem.setDataSetBuilder(dataSetBuilder);
 
-        centroids = new Vector();
-        centroids.add(Int.valueOf(1));
-        centroids.add(Int.valueOf(1));
-        centroids.add(Int.valueOf(33));
-        centroids.add(Int.valueOf(8));
-        centroids.add(Int.valueOf(20));
-        centroids.add(Int.valueOf(19));
-        centroids.add(Int.valueOf(11));
-        centroids.add(Int.valueOf(22));
-        centroids.add(Int.valueOf(30));
-        centroids.add(Int.valueOf(27));
-        centroids.add(Int.valueOf(19));
-        centroids.add(Int.valueOf(40));
-        centroids.add(Int.valueOf(5));
-        centroids.add(Int.valueOf(50));
+        centroids = Vector.of(2, 2, -2, 2, -2, -2, 2, -2);
     }
 
     @AfterClass
     public static void destroy() {
-        function = null;
-        dataSetBuilder = null;
         centroids = null;
+        dataSetBuilder = null;
+        problem = null;
+        function = null;
     }
 
     @Test
     public void testEvaluate() {
         // the evaluate method arranges the clusters and centroids
-        assertEquals(4.27188655918496, function.apply(centroids), DELTA);
+        // 1.1150593228814152913
+        double quantisation = 1.0 / 1.0;
+        quantisation += (1.0 + Math.sqrt(2.0)) / 2.0;
+        quantisation += (1.0 + 1.0 + Math.sqrt(2.0)) / 3.0;
+        assertEquals(quantisation / 3.0, function.apply(centroids), DELTA);
     }
 
     @Test
     public void testQuantisationError() {
-        assertEquals(4.27188655918496, function.calculateQuantisationError(), DELTA);
+        // 1.1150593228814152913
+        double quantisation = 1.0 / 1.0;
+        quantisation += (1.0 + Math.sqrt(2.0)) / 2.0;
+        quantisation += (1.0 + 1.0 + Math.sqrt(2.0)) / 3.0;
+        assertEquals(quantisation / 3.0, function.calculateQuantisationError(), DELTA);
     }
 
     @Test
     public void testMaximumAverageDistance() {
-        assertEquals(5.765984935187037, function.calculateMaximumAverageDistance(), DELTA);
+        // from cluster 1: 1.2071067811865475244
+        double maximumAverage = (1.0 + Math.sqrt(2.0)) / 2.0;
+        assertEquals(maximumAverage, function.calculateMaximumAverageDistance(), DELTA);
     }
 
     @Test
     public void testMinimumInterClusterDistance() {
-        assertEquals(Math.sqrt(90), function.calculateMinimumInterClusterDistance(), DELTA);
+        // same for all clusters
+        assertEquals(4.0, function.calculateMinimumInterClusterDistance(), DELTA);
     }
 
     @Test
     public void testMaximumInterClusterDistance() {
-        assertEquals(Math.sqrt(1845), function.calculateMaximumInterClusterDistance(), DELTA);
+        // same for all clusters
+        // 5.6568542494923801952
+        double maximumInter = Math.sqrt(Math.pow(4.0, 2.0) + Math.pow(4.0, 2.0));
+        assertEquals(maximumInter, function.calculateMaximumInterClusterDistance(), DELTA);
     }
 
     @Test
     public void testMinimumSetDistance() {
-        assertEquals(Math.sqrt(388), function.calculateMinimumSetDistance(0, 1), DELTA);
-        assertEquals(Math.sqrt(389), function.calculateMinimumSetDistance(0, 2), DELTA);
-        assertEquals(Math.sqrt(405), function.calculateMinimumSetDistance(0, 3), DELTA);
-        assertEquals(Math.sqrt(925), function.calculateMinimumSetDistance(0, 4), DELTA);
-        assertEquals(Math.sqrt(1066), function.calculateMinimumSetDistance(0, 5), DELTA);
-        assertEquals(1.0, function.calculateMinimumSetDistance(1, 2), DELTA);
-        assertEquals(Math.sqrt(181), function.calculateMinimumSetDistance(1, 3), DELTA);
-        assertEquals(Math.sqrt(169), function.calculateMinimumSetDistance(1, 4), DELTA);
-        assertEquals(Math.sqrt(450), function.calculateMinimumSetDistance(1, 5), DELTA);
-        assertEquals(1.0, function.calculateMinimumSetDistance(2, 3), DELTA);
-        assertEquals(2.0, function.calculateMinimumSetDistance(2, 4), DELTA);
-        assertEquals(Math.sqrt(29), function.calculateMinimumSetDistance(2, 5), DELTA);
-        assertEquals(Math.sqrt(90), function.calculateMinimumSetDistance(3, 4), DELTA);
-        assertEquals(Math.sqrt(85), function.calculateMinimumSetDistance(3, 5), DELTA);
-        assertEquals(Math.sqrt(41), function.calculateMinimumSetDistance(4, 5), DELTA);
+        assertEquals(3.0, function.calculateMinimumSetDistance(0, 1), DELTA);
+
+        // 3.6055512754639892931
+        double minimumSet = Math.sqrt(Math.pow(3.0, 2.0) + Math.pow(2.0, 2.0));
+        assertEquals(minimumSet, function.calculateMinimumSetDistance(0, 2), DELTA);
+
+        assertEquals(2.0, function.calculateMinimumSetDistance(1, 2), DELTA);
     }
 
     @Test
     public void testAverageSetDistance() {
-        assertEquals(28.74157583325409, function.calculateAverageSetDistance(0, 1), DELTA);
-        assertEquals(23.48964010748228, function.calculateAverageSetDistance(0, 2), DELTA);
-        assertEquals(22.3251767476371, function.calculateAverageSetDistance(0, 3), DELTA);
-        assertEquals(31.41056805514129, function.calculateAverageSetDistance(0, 4), DELTA);
-        assertEquals(40.7867709331524, function.calculateAverageSetDistance(0, 5), DELTA);
-        assertEquals(18.55559976582913, function.calculateAverageSetDistance(1, 2), DELTA);
-        assertEquals(27.60024942795051, function.calculateAverageSetDistance(1, 3), DELTA);
-        assertEquals(21.74671419268618, function.calculateAverageSetDistance(1, 4), DELTA);
-        assertEquals(38.91030178983154, function.calculateAverageSetDistance(1, 5), DELTA);
-        assertEquals(10.52656908164985, function.calculateAverageSetDistance(2, 3), DELTA);
-        assertEquals(9.524130794948, function.calculateAverageSetDistance(2, 4), DELTA);
-        assertEquals(22.78200247378393, function.calculateAverageSetDistance(2, 5), DELTA);
-        assertEquals(13.81371117279074, function.calculateAverageSetDistance(3, 4), DELTA);
-        assertEquals(18.65560457581544, function.calculateAverageSetDistance(3, 5), DELTA);
-        assertEquals(17.464647454513713, function.calculateAverageSetDistance(4, 5), DELTA);
+        // 3.0811388300841896660
+        double averageSet = 3.0;
+        averageSet += Math.sqrt(Math.pow(1.0, 2.0) + Math.pow(3.0, 2.0));
+        averageSet /= 2.0;
+        assertEquals(averageSet, function.calculateAverageSetDistance(0, 1), DELTA);
+
+        // 4.1067759725276179441
+        averageSet = Math.sqrt(Math.pow(3.0, 2.0) + Math.pow(2.0, 2.0));
+        averageSet += Math.sqrt(Math.pow(3.0, 2.0) + Math.pow(3.0, 2.0));
+        averageSet += Math.sqrt(Math.pow(4.0, 2.0) + Math.pow(2.0, 2.0));
+        averageSet /= 3.0;
+        assertEquals(averageSet, function.calculateAverageSetDistance(0, 2), DELTA);
+
+        // 2.6046642240893420780
+        averageSet = 3.0 + 2.0;
+        averageSet += 4.0 + 3.0;
+        averageSet += Math.sqrt(Math.pow(1.0, 2.0) + Math.pow(3.0, 2.0));
+        averageSet += Math.sqrt(Math.pow(1.0, 2.0) + Math.pow(2.0, 2.0));
+        averageSet /= 6.0;
+        assertEquals(averageSet, function.calculateAverageSetDistance(1, 2), DELTA);
     }
 
     @Test
     public void testClusterDiameter() {
         assertEquals(0.0, function.calculateClusterDiameter(0), DELTA);
-        assertEquals(Math.sqrt(233), function.calculateClusterDiameter(1), DELTA);
-        assertEquals(Math.sqrt(226), function.calculateClusterDiameter(2), DELTA);
-        assertEquals(Math.sqrt(34), function.calculateClusterDiameter(3), DELTA);
-        assertEquals(Math.sqrt(32), function.calculateClusterDiameter(4), DELTA);
-        assertEquals(Math.sqrt(153), function.calculateClusterDiameter(5), DELTA);
+        assertEquals(1.0, function.calculateClusterDiameter(1), DELTA);
+        assertEquals(Math.sqrt(2.0), function.calculateClusterDiameter(2), DELTA);
     }
 
     @Test
     public void testIntraClusterDistance() {
-        assertEquals(427.037141232211, function.calculateIntraClusterDistance(), DELTA);
+        // 6.8284271247461900976
+        double intra = 1.0 + 1.0 + Math.sqrt(2.0) + 1.0 + 1.0 + Math.sqrt(2.0);
+        assertEquals(intra, function.calculateIntraClusterDistance(), DELTA);
     }
 
     @Test
     public void testAverageIntraClusterDistance() {
-        assertEquals(427.037141232211 / 93, function.calculateAverageIntraClusterDistance(), DELTA);
+        // 2.2761423749153966992
+        double intra = 1.0 + 1.0 + Math.sqrt(2.0) + 1.0 + 1.0 + Math.sqrt(2.0);
+        assertEquals(intra / 3.0, function.calculateAverageIntraClusterDistance(), DELTA);
     }
 }

@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
+import java.util.Iterator;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -28,6 +29,8 @@ import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
@@ -40,7 +43,7 @@ import net.sourceforge.cilib.util.DistanceMeasure;
 public class DataSetDiameter implements Measurement {
     private static final long serialVersionUID = -2057778074502089769L;
 
-    private Real xMax = null;
+    private Real diameter = null;
 
     @Override
     public Measurement getClone() {
@@ -55,20 +58,21 @@ public class DataSetDiameter implements Measurement {
     @Override
     public Type getValue(Algorithm algorithm) {
         // we only have to calculate it once as long as the data set remains static/unchanged
-        if (xMax == null) {
+        if (diameter == null) {
             //TODO: When we start using Guice, this statement should be updated
             ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
             StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
             int numPatterns = dataSetBuilder.getNumberOfPatterns();
             double maxDistance = 0.0;
+            Pattern<Vector>[] array = dataSetBuilder.getPatterns().toArray(new Pattern[] {});
 
             for (int y = 0; y < numPatterns - 1; ++y) {
                 for (int x = y + 1; x < numPatterns; ++x) {
-                    maxDistance = Math.max(maxDistance, problem.calculateDistance(dataSetBuilder.getPattern(x).getData(), dataSetBuilder.getPattern(y).getData()));
+                    maxDistance = Math.max(maxDistance, problem.calculateDistance(array[x].getData(), array[y].getData()));
                 }
             }
-            this.xMax = Real.valueOf(maxDistance);
+            this.diameter = Real.valueOf(maxDistance);
         }
-        return this.xMax;
+        return this.diameter;
     }
 }

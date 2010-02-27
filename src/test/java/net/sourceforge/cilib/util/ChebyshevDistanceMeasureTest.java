@@ -33,7 +33,7 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
  */
 public class ChebyshevDistanceMeasureTest {
 
-    @Test(expected=IllegalStateException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testVectorDistance() {
         DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
         Vector lhs = Vector.of(5.0, 3.0, 1.0);
@@ -74,5 +74,12 @@ public class ChebyshevDistanceMeasureTest {
         Vector rhs = Vector.of(1.0);
 
         assertThat(distanceMeasure.distance(lhs, rhs), closeTo(1.0, Maths.EPSILON));
+    }
+
+    @Test(expected=UnsupportedOperationException.class)
+    public void testSetAlpha() {
+        ChebyshevDistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
+
+        distanceMeasure.setAlpha(5);
     }
 }

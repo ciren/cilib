@@ -21,6 +21,9 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -29,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Set;
 
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Pattern;
@@ -129,15 +133,13 @@ public class LocalDataSet extends DataSet {
      *         dataset
      */
     @Override
-    public ArrayList<Pattern<Vector>> parseDataSet() {
-        if (beginIndex == endIndex) {
-            throw new IllegalArgumentException("The begin and end should not be equal");
-        }
-
-        ArrayList<Pattern<Vector>> patterns = new ArrayList<Pattern<Vector>>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream()));
-
+    public Set<Pattern<Vector>> parseDataSet() {
+        Preconditions.checkArgument(beginIndex != endIndex, "beginIndex and endIndex should not be equal");
+        Set<Pattern<Vector>> patterns = Sets.newHashSet();
+        InputStream is = this.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
         System.out.println("Parsing " + identifier);
+
         try {
             // every line in a dataset represents a pattern
             String line = br.readLine();
@@ -149,6 +151,19 @@ public class LocalDataSet extends DataSet {
         }
         catch (IOException io) {
             throw new RuntimeException(io);
+        }
+        finally {
+            try {
+                br.close();
+            }
+            catch (IOException ioe) {
+            }
+
+            try {
+                is.close();
+            }
+            catch (IOException ioe) {
+            }
         }
 
         return patterns;
@@ -193,9 +208,7 @@ public class LocalDataSet extends DataSet {
      * @throws IllegalArgumentException when the delimiter is empty ("") or <code>null</code>
      */
     public void setDelimiter(String d) {
-        if (d.equals("") || d == null) {
-            throw new IllegalArgumentException("The delimiter cannot be empty");
-        }
+        Preconditions.checkArgument(d != null && !d.isEmpty(), "The delimiter cannot be null, empty or blank");
 
         delimiter = d;
     }
@@ -207,9 +220,7 @@ public class LocalDataSet extends DataSet {
      * @throws IllegalArgumentException when the index is negative
      */
     public void setBeginIndex(int bi) {
-        if (bi < 0) {
-            throw new IllegalArgumentException("An index cannot be negative");
-        }
+        Preconditions.checkArgument(bi >= 0, "An index cannot be negative");
 
         beginIndex = bi;
     }
@@ -221,9 +232,7 @@ public class LocalDataSet extends DataSet {
      * @throws IllegalArgumentException when the index is negative
      */
     public void setEndIndex(int ei) {
-        if (ei < 0) {
-            throw new IllegalArgumentException("An index cannot be negative");
-        }
+        Preconditions.checkArgument(ei >= 0, "An index cannot be negative");
 
         endIndex = ei;
     }
@@ -236,9 +245,7 @@ public class LocalDataSet extends DataSet {
      * @param ci the index where the class resides
      */
     public void setClassIndex(int ci) {
-        if (ci < -1) {
-            throw new IllegalArgumentException("The classIndex should be >= -1");
-        }
+        Preconditions.checkArgument(ci >= -1, "The classIndex should be >= -1");
 
         classIndex = ci;
     }

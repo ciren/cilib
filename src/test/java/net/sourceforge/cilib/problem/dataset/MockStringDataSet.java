@@ -25,7 +25,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Set;
+
 import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
@@ -42,8 +43,7 @@ public class MockStringDataSet extends DataSet {
     }
 
     public MockStringDataSet(MockStringDataSet rhs) {
-        super();
-        data = new String(rhs.data);
+        data = rhs.data;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class MockStringDataSet extends DataSet {
     }
 
     @Override
-    public ArrayList<Pattern<Vector>> parseDataSet() {
+    public Set<Pattern<Vector>> parseDataSet() {
         throw new UnsupportedOperationException("This method is not applicable");
     }
 

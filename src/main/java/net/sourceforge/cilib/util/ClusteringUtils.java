@@ -22,8 +22,10 @@
 package net.sourceforge.cilib.util;
 
 import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
@@ -64,7 +66,7 @@ public final class ClusteringUtils {
     }
 
     public static ArrayList<Cluster<Vector>> arrangeClustersAndCentroids(ArrayList<Vector> separateCentroids, ClusteringProblem problem, StaticDataSetBuilder dataSetBuilder) {
-        ArrayList<Cluster<Vector>> clusters = formClusters(separateCentroids, problem, dataSetBuilder);
+        ArrayList<Cluster<Vector>> clusters = formClusters(separateCentroids, problem, dataSetBuilder.getPatterns());
 
         return significantClusters(clusters);
     }
@@ -109,14 +111,14 @@ public final class ClusteringUtils {
      * @return an {@link ArrayList} of {@link Cluster clusters} where each {@link Pattern} have been assigned to its
      *         closest centroid
      */
-    private static ArrayList<Cluster<Vector>> formClusters(ArrayList<Vector> centroids, ClusteringProblem problem, StaticDataSetBuilder dataSetBuilder) {
+    public static ArrayList<Cluster<Vector>> formClusters(ArrayList<Vector> centroids, ClusteringProblem problem, Set<Pattern<Vector>> patterns) {
         ArrayList<Cluster<Vector>> clusters = Lists.newArrayList();
 
         for (Vector centroid : centroids) {
             clusters.add(new Cluster<Vector>(centroid));
         }
 
-        for (Pattern<Vector> pattern : dataSetBuilder.getPatterns()) {
+        for (Pattern<Vector> pattern : patterns) {
             double minimum = Double.MAX_VALUE;
 
             for (Cluster<Vector> cluster : clusters) {
@@ -125,18 +127,11 @@ public final class ClusteringUtils {
                 if (distance < minimum) {
                     minimum = distance;
 
-                    int counter = 0;
                     for (Cluster<Vector> other : clusters) {
-                        // A cluster is a set and can therefore contain the pattern only once
+                        // a cluster is a set and can therefore contain the pattern only once
                         if (other.remove(pattern)) {
-                            // only one cluster can contain it at a time
-                            ++counter;
-                            //break;
+                            break;  // only one cluster can contain the pattern
                         }
-                    }
-
-                    if (counter > 1) {
-                        System.out.println("The pattern was removed from " + counter + " clusters. Fix the problem, then remove the counter and replace it with a break");
                     }
                     cluster.add(pattern);
                 }

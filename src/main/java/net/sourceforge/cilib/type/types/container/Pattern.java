@@ -58,6 +58,35 @@ public class Pattern<S extends StructuredType<Numeric>> extends ForwardingStruct
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pattern<S> other = (Pattern<S>) obj;
+        if ((this.delegate() == null) ? (other.delegate() != null) : !this.delegate().equals(other.delegate())) {
+            return false;
+        }
+        if ((this.classification == null) ? (other.classification != null) : !this.classification.equals(other.classification)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + (this.delegate() != null ? this.delegate().hashCode() : 0);
+        hash = 97 * hash + (this.classification != null ? this.classification.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
     public String toString() {
         return Vectors.toString(this.data, "", "", "\t");
     }

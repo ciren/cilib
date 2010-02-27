@@ -34,9 +34,11 @@ public class StaticDataSetBuilderTest {
     @BeforeClass
     public static void intialise() {
         dataSetBuilder = new StaticDataSetBuilder();
+        dataSetBuilder.setIdentifier("mock-data-set-builder");
         dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
         ClusteringProblem problem = new ClusteringProblem();
         problem.setDataSetBuilder(dataSetBuilder);
+        dataSetBuilder.initialise();
     }
 
     @AfterClass
@@ -46,6 +48,6 @@ public class StaticDataSetBuilderTest {
 
     @Test
     public void testNumberOfPatterns() {
-        assertEquals(93, dataSetBuilder.getNumberOfPatterns());
+        assertEquals(6, dataSetBuilder.getNumberOfPatterns());
     }
 }

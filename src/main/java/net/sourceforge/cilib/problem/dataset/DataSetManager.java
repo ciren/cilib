@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.cilib.problem.Problem;
 import net.sourceforge.cilib.type.types.container.Pattern;
@@ -53,7 +54,7 @@ public final class DataSetManager implements Serializable {
     private static final long serialVersionUID = 6735187580654161651L;
 
     private static volatile DataSetManager instance = null;
-    private Map<String, ArrayList<Pattern<Vector>>> datasets = null;
+    private Map<String, Set<Pattern<Vector>>> datasets = null;
     private Map<String, StaticDataSetBuilder> builders = null;
 
     private DataSetManager() {
@@ -77,7 +78,7 @@ public final class DataSetManager implements Serializable {
      *        parsed/instantiated before
      * @return an {@link ArrayList} of {@link Pattern}s representing the given dataset
      */
-    public synchronized ArrayList<Pattern<Vector>> getDataFromSet(DataSet dataset) {
+    public synchronized Set<Pattern<Vector>> getDataFromSet(DataSet dataset) {
         String identifier = dataset.getIdentifier();
 
         System.out.println("Requesting data set: " + identifier);
