@@ -22,12 +22,13 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -49,13 +50,13 @@ public class ClusterVariances implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        ClusteringUtils helper = ClusteringUtils.get();
-        ArrayList<Hashtable<Integer, Pattern>> clusters = helper.getArrangedClusters();
-        ArrayList<Vector> centroids = helper.getArrangedCentroids();
+        //TODO: When we start using Guice, this statement should be updated
+        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
+        ArrayList<Cluster<Vector>> clusters = ClusteringUtils.arrangeClustersAndCentroids((Vector) algorithm.getBestSolution().getPosition(), problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
         Vector.Builder combined = Vector.newBuilder();
 
-        for (int i = 0; i < clusters.size(); ++i) {
-            combined.copyOf(Stats.varianceVector(clusters.get(i).values(), centroids.get(i)));
+        for (Cluster<Vector> cluster : clusters) {
+            combined.copyOf(cluster.getVarianceVector(cluster.getCentroid()));
         }
         return combined.build();
     }

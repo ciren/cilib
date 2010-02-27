@@ -21,10 +21,9 @@
  */
 package net.sourceforge.cilib.math;
 
-import java.util.ArrayList;
-
-import net.sourceforge.cilib.problem.dataset.Pattern;
-import net.sourceforge.cilib.type.types.Real;
+import com.google.common.collect.Sets;
+import java.util.Set;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.AfterClass;
@@ -38,19 +37,17 @@ import static org.junit.Assert.assertThat;
  * @author Theuns Cloete
  */
 public class StatsTest {
-
-    private static ArrayList<Pattern> set;
+    private static Set<Pattern<Vector>> set;
     private static Vector mean = null;
-    private static final int SIZE = 3;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        set = new ArrayList<Pattern>();
-        set.add(new Pattern("class0", Vector.of(1.0, 2.0, 3.0)));
-        set.add(new Pattern("class1", Vector.of(3.0, 2.0, 1.0)));
-        set.add(new Pattern("class2", Vector.of(1.0, 1.0, 1.0)));
-        set.add(new Pattern("class1", Vector.of(2.0, 2.0, 2.0)));
-        set.add(new Pattern("class0", Vector.of(3.0, 3.0, 3.0)));
+        set = Sets.newHashSet();
+        set.add(new Pattern(Vector.of(1.0, 2.0, 3.0), "class0"));
+        set.add(new Pattern(Vector.of(3.0, 2.0, 1.0), "class1"));
+        set.add(new Pattern(Vector.of(1.0, 1.0, 1.0), "class2"));
+        set.add(new Pattern(Vector.of(2.0, 2.0, 2.0), "class1"));
+        set.add(new Pattern(Vector.of(3.0, 3.0, 3.0), "class0"));
     }
 
     @AfterClass
@@ -61,12 +58,12 @@ public class StatsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySetForMeanVector() {
-        Stats.meanVector(new ArrayList<Pattern>());
+        Stats.meanVector(Sets.<Pattern<Vector>>newHashSet());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testEmptySetForVarianceScalar() {
-        Stats.variance(new ArrayList<Pattern>(), mean);
+        Stats.variance(Sets.<Pattern<Vector>>newHashSet(), mean);
     }
 
     @Test

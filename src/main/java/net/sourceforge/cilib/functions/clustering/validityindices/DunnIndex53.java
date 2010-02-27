@@ -21,9 +21,8 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.Collection;
-
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -49,17 +48,17 @@ public class DunnIndex53 extends DunnIndex33 {
     @Override
     protected double calculateBetweenClusterSeperation(int i, int j) {
         double lhsAverage = 0.0, rhsAverage = 0.0;
-        Collection<Pattern> leftCluster = arrangedClusters.get(i).values();
-        Collection<Pattern> rightCluster = arrangedClusters.get(j).values();
-        Vector leftCenter = clusterCenterStrategy.getCenter(i);
-        Vector rightCenter = clusterCenterStrategy.getCenter(j);
+        Cluster<Vector> leftCluster = this.significantClusters.get(i);
+        Cluster<Vector> rightCluster = this.significantClusters.get(j);
+        Vector leftCenter = this.clusterCenterStrategy.getCenter(leftCluster);
+        Vector rightCenter = this.clusterCenterStrategy.getCenter(rightCluster);
 
-        for (Pattern pattern : leftCluster) {
-            lhsAverage += helper.calculateDistance(pattern.data, rightCenter);
+        for (Pattern<Vector> pattern : leftCluster) {
+            lhsAverage += this.problem.calculateDistance(pattern.getData(), rightCenter);
         }
 
-        for (Pattern pattern : rightCluster) {
-            rhsAverage += helper.calculateDistance(pattern.data, leftCenter);
+        for (Pattern<Vector> pattern : rightCluster) {
+            rhsAverage += this.problem.calculateDistance(pattern.getData(), leftCenter);
         }
 
         return (lhsAverage + rhsAverage) / (leftCluster.size() + rightCluster.size());

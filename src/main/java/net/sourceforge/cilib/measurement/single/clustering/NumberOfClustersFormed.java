@@ -21,14 +21,15 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
-import net.sourceforge.cilib.util.Vectors;
 
 /**
  * This measurement measures the number of clusters that were formed during a particular clustering.
@@ -63,10 +64,11 @@ public class NumberOfClustersFormed implements Measurement<Int> {
 
     @Override
     public Int getValue(Algorithm algorithm) {
-        ClusteringUtils helper = ClusteringUtils.get();
+        //TODO: When we start using Guice, this statement should be updated
+        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
+        StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
         Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
 
-        helper.arrangeClustersAndCentroids(centroids);
-        return Int.valueOf(helper.getArrangedCentroids().size());
+        return Int.valueOf(ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, dataSetBuilder).size());
     }
 }

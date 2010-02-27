@@ -22,12 +22,15 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.Vectors;
@@ -35,7 +38,7 @@ import net.sourceforge.cilib.util.Vectors;
 /**
  * This measurement is handy when debugging a clustering in R^2 space using GNUplot. Logging should be disabled and no
  * other output should be written to standard out. To try it, start GNUplot, execute:<br/>
- * load "&lt./simulator.sh path/to/your/cilib.config.file.xml -noprogress"<br/>
+ * load "&lt;./simulator.sh path/to/your/cilib.config.file.xml -noprogress"<br/>
  * and enjoy.
  *
  * @author Theuns Cloete
@@ -55,9 +58,9 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
 
     @Override
     public Int getValue(Algorithm algorithm) {
-        ClusteringUtils helper = ClusteringUtils.get();
+        //TODO: When we start using Guice, this statement should be updated
+        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
         Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
-        helper.arrangeClustersAndCentroids(centroids);
 
 //        System.out.println("reset");
 //        System.out.println("set term jpeg medium");
@@ -65,30 +68,30 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
 //        System.out.print("plot [-0.5:10][-5:5] sin(x) - 0.5, 0.5 - sin(x), ");
         System.out.print("plot ");
 
-        ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = helper.getArrangedClusters();
-        ArrayList<Vector> arrangedCentroids = helper.getArrangedCentroids();
-        for (int i = 0; i < arrangedClusters.size(); ++i) {
+        ArrayList<Cluster<Vector>> arrangedClusters = ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
+
+        for (int i = 0, n = arrangedClusters.size(); i < n; ++i) {
             System.out.print("'-' title 'cluster" + i + "', ");
         }
 
-        for (int i = 0; i < arrangedCentroids.size(); ++i) {
+        for (int i = 0, n = arrangedClusters.size(); i < n; ++i) {
             System.out.print("'-' title 'centroid" + i + "'");
-            if (i < arrangedCentroids.size() - 1) {
+            if (i < n - 1) {
                 System.out.print(", ");
             }
         }
         System.out.println();
 
-        for (Hashtable<Integer, Pattern> cluster : arrangedClusters) {
-            for (Pattern pattern : cluster.values()) {
+        for (Cluster<Vector> cluster : arrangedClusters) {
+            for (Pattern<Vector> pattern : cluster) {
                 System.out.println(pattern);
             }
             System.out.println("e");
         }
 
-        for (Vector centroid : arrangedCentroids) {
-            System.out.println(Vectors.toString(centroid, "", "", "\t"));
-            System.out.println('e');
+        for (Cluster<Vector> cluster : arrangedClusters) {
+            System.out.println(Vectors.toString(cluster.getCentroid(), "", "", "\t"));
+            System.out.println("e");
         }
         return Int.valueOf(0, new Bounds(0, 0));
     }

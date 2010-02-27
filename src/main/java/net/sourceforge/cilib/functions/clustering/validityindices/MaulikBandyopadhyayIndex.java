@@ -22,7 +22,8 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -46,12 +47,17 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
     }
 
     @Override
+    public MaulikBandyopadhyayIndex getClone() {
+        return new MaulikBandyopadhyayIndex();
+    }
+
+    @Override
     public double calculateFitness() {
         return Math.pow(termOne() * termTwo() * termThree(), p);
     }
 
     private double termOne() {
-        return 1.0 / clustersFormed;
+        return 1.0 / this.clustersFormed;
     }
 
     private double termTwo() {
@@ -62,26 +68,21 @@ public class MaulikBandyopadhyayIndex extends ClusteringFitnessFunction {
          * cluster. In this case, the dataset mean can be thought of as the dataset's centroid as
          * well.
          */
-        Vector mean = helper.getDataSetMean();
-        for (Pattern pattern : helper.getPatternsInDataSet()) {
-            intraDatasetDistance += helper.calculateDistance(pattern.data, mean);
+        Vector mean = ((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getMean();
+        for (Pattern<Vector> pattern : ((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getPatterns()) {
+            intraDatasetDistance += this.problem.calculateDistance(pattern.getData(), mean);
         }
 
-        return intraDatasetDistance / calculateIntraClusterDistance();
+        return intraDatasetDistance / this.calculateIntraClusterDistance();
     }
 
     private double termThree() {
-        return calculateMaximumInterClusterDistance();
+        return this.calculateMaximumInterClusterDistance();
     }
 
     public void setP(int pu) {
         if (pu < 1)
             throw new IllegalArgumentException("The p-value cannot be < 1");
         p = pu;
-    }
-
-    @Override
-    public MaulikBandyopadhyayIndex getClone() {
-        return new MaulikBandyopadhyayIndex();
     }
 }

@@ -21,10 +21,9 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.Collection;
-
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterMeanStrategy;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -42,7 +41,12 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
     private static final long serialVersionUID = -3307601269742583865L;
 
     public DunnIndex33() {
-        clusterCenterStrategy = new ClusterMeanStrategy();
+        this.clusterCenterStrategy = new ClusterMeanStrategy();
+    }
+
+    @Override
+    public DunnIndex33 getClone() {
+        return new DunnIndex33();
     }
 
     /**
@@ -51,11 +55,11 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
     @Override
     protected double calculateWithinClusterScatter(int k) {
         double averageDistance = 0.0;
-        Collection<Pattern> cluster = arrangedClusters.get(k).values();
-        Vector center = clusterCenterStrategy.getCenter(k);
+        Cluster<Vector> cluster = this.significantClusters.get(k);
+        Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
-        for (Pattern pattern : cluster) {
-            averageDistance += helper.calculateDistance(pattern.data, center);
+        for (Pattern<Vector> pattern : cluster) {
+            averageDistance += this.problem.calculateDistance(pattern.getData(), center);
         }
         return 2.0 * (averageDistance / cluster.size());
     }
@@ -65,11 +69,6 @@ public class DunnIndex33 extends GeneralisedDunnIndex {
      */
     @Override
     protected double calculateBetweenClusterSeperation(int i, int j) {
-        return calculateAverageSetDistance(i, j);
-    }
-
-    @Override
-    public DunnIndex33 getClone() {
-        return new DunnIndex33();
+        return this.calculateAverageSetDistance(i, j);
     }
 }

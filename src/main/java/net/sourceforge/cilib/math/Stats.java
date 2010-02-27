@@ -22,16 +22,14 @@
 package net.sourceforge.cilib.math;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import java.util.ArrayList;
-import java.util.Collection;
 
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import java.util.ArrayList;
+import java.util.Set;
+
 import net.sourceforge.cilib.type.types.Numeric;
-import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Sequence;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
@@ -64,8 +62,7 @@ public final class Stats {
     }
 
     /**
-     * Calculates the mean {@linkplain Vector} of the given set/cluster/collection of
-     * {@link Pattern}s.
+     * Calculates the mean {@linkplain Vector} of the given set of {@link Pattern patterns}.
      *
      * This is illustrated in Equation 4.b of:<br/>
      * @InProceedings{ 657864, author = "Maria Halkidi and Michalis Vazirgiannis", title =
@@ -76,17 +73,17 @@ public final class Stats {
      * @param set a set ({@link ArrayList}) of {@link Pattern}s
      * @return a {@link Vector} that represents the mean/center of the given set
      */
-    public static Vector meanVector(Collection<Pattern> set) {
+    public static <C extends Vector> C meanVector(Set<Pattern<C>> set) {
         if (set.isEmpty()) {
             throw new IllegalArgumentException("Cannot calculate the mean for an empty set");
         }
 
-        Vector mean = Vectors.zeroVector(Iterables.get(set, 0).data);
+        C mean = (C) Vectors.zeroVector(Iterables.get(set, 0).getData());
 
-        for (Pattern pattern : set) {
-            mean = mean.plus(pattern.data);
+        for (Pattern<C> pattern : set) {
+            mean = (C) mean.plus(pattern.getData());
         }
-        return mean.divide(set.size());
+        return (C) mean.divide(set.size());
     }
 
     /**
@@ -118,7 +115,7 @@ public final class Stats {
      * @param center a {@link Vector} that represents the mean/center of the accompanied set
      * @return a double representing the variance of the given set with the given center
      */
-    public static double variance(Collection<Pattern> set, Vector center) {
+    public static <C extends Vector> double variance(Set<Pattern<C>> set, C center) {
         return varianceVector(set, center).norm();
     }
 
@@ -130,30 +127,31 @@ public final class Stats {
      * @return a {@link Vector} representing the variance vector of the given set with the given center. When the norm
      *         of this vector is taken, you will get the actual variance scalar of the given set with given center.
      */
-    public static Vector varianceVector(Collection<Pattern> set, Vector center) {
+    public static <C extends Vector> C varianceVector(Set<Pattern<C>> set, C center) {
         if (set.isEmpty()) {
             throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
         }
 
-        Vector variance = Vectors.zeroVector(center);
+        C variance = (C) Vectors.zeroVector(center);
 
-        for (Pattern pattern : set) {
-            Vector diffSquare = Vectors.transform(pattern.data.subtract(center), new Function<Numeric, Double>() {
+        for (Pattern<C> pattern : set) {
+            C diffSquare = (C) Vectors.transform(pattern.getData().subtract(center), new Function<Numeric, Double>() {
                 @Override
                 public Double apply(Numeric from) {
                     return from.doubleValue() * from.doubleValue();
                 }
             });
 
-            variance = variance.plus(diffSquare);
+            variance = (C) variance.plus(diffSquare);
         }
-        return variance.divide(set.size());
+        return (C) variance.divide(set.size());
     }
 
     /**
+     * Calculates the standard deviation of the elements in the given {@link Vector}.
      *
-     * @param vector
-     * @return
+     * @param vector the vector whose standard deviation is desired
+     * @return a scalar representing the standard deviation of the lements in the given vector
      */
     public static double stdDeviation(final Vector vector) {
         return Math.sqrt(variance(vector));
@@ -163,14 +161,14 @@ public final class Stats {
         return Math.sqrt(variance(Vector.of(values)));
     }
 
-    public static double stdDeviation(Collection<Pattern> set, Vector center) {
+    public static <C extends Vector> double stdDeviation(Set<Pattern<C>> set, C center) {
         return Math.sqrt(variance(set, center));
     }
 
-    public static Vector stdDeviationVector(Collection<Pattern> set, Vector center) {
-        Vector variance = varianceVector(set, center);
+    public static <C extends Vector> C stdDeviationVector(Set<Pattern<C>> set, C center) {
+        C variance = varianceVector(set, center);
 
-        return Vectors.transform(variance, new Function<Numeric, Double>() {
+        return (C) Vectors.transform(variance, new Function<Numeric, Double>() {
             @Override
             public Double apply(Numeric from) {
                 return Math.sqrt(from.doubleValue());

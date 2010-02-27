@@ -47,12 +47,12 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
     protected double zMax = -1.0;
 
     public ParametricClusteringFunction() {
-        super();
         w1 = new ConstantControlParameter(0.5);
         w2 = new ConstantControlParameter(0.5);
         zMax = -1.0;
     }
 
+    @Override
     public ParametricClusteringFunction getClone() {
         return new ParametricClusteringFunction();
     }
@@ -114,11 +114,11 @@ public class ParametricClusteringFunction extends ClusteringFitnessFunction {
      * @return the maximum distance possible between two {@linkplain Vector}s for the specified domain.
      */
     protected double zMax() {
-        Vector prototype = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();
+        Vector prototype = (Vector) this.problem.getDomain().getBuiltRepresenation();
         Vector upperBoundVector = Vectors.upperBoundVector(prototype);
         Vector lowerBoundVector = Vectors.lowerBoundVector(prototype);
 
-        return helper.calculateDistance(upperBoundVector, lowerBoundVector);
+        return this.problem.calculateDistance(upperBoundVector, lowerBoundVector);
     }
 
     public void updateControlParameters() {

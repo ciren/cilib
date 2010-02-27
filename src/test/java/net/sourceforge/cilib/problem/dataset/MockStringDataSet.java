@@ -26,6 +26,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 public class MockStringDataSet extends DataSet {
     private static final long serialVersionUID = 8253706217084102158L;
@@ -50,7 +52,7 @@ public class MockStringDataSet extends DataSet {
     }
 
     @Override
-    public ArrayList<Pattern> parseDataSet() {
+    public ArrayList<Pattern<Vector>> parseDataSet() {
         throw new UnsupportedOperationException("This method is not applicable");
     }
 

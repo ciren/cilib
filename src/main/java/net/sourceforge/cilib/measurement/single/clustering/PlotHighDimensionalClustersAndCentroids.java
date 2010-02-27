@@ -22,22 +22,23 @@
 package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * This measurement is handy when debugging a clustering in R^n space using GNUplot. Logging should be disabled and no
  * other output should be written to standard out. To try it, start GNUplot, execute:<br/>
- * load "&lt./simulator.sh path/to/your/cilib.config.file.xml -noprogress"<br/>
+ * load "&lt;./simulator.sh path/to/your/cilib.config.file.xml -noprogress"<br/>
  * and enjoy.
  *
  * @author Theuns Cloete
@@ -57,75 +58,75 @@ public class PlotHighDimensionalClustersAndCentroids implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
-        ClusteringUtils helper = ClusteringUtils.get();
+        //TODO: When we start using Guice, this statement should be updated
+        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
         Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
-        helper.arrangeClustersAndCentroids(centroids);
 
         System.out.println("reset");
         System.out.println("set term jpeg medium");
         System.out.println("set style data lines");
         System.out.println("set key off");
-        
 
-        ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = helper.getArrangedClusters();
-        ArrayList<Vector> arrangedCentroids = helper.getArrangedCentroids();
+        ArrayList<Cluster<Vector>> arrangedClusters = ClusteringUtils.arrangeClustersAndCentroids(centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
         int iteration = AbstractAlgorithm.get().getIterations();
 
-        this.plotCentroids(iteration, arrangedCentroids);
-        this.plotClustersWithCentroids(iteration, arrangedClusters, arrangedCentroids);
+        this.plotCentroids(iteration, arrangedClusters);
+        this.plotClustersWithCentroids(iteration, arrangedClusters);
 
         return Int.valueOf(0, new Bounds(0, 0));
     }
 
-    private void plotCentroids(int iteration, ArrayList<Vector> centroids) {
+    private void plotCentroids(int iteration, ArrayList<Cluster<Vector>> clusters) {
         System.out.println("set output \"centroids.all.iteration." + String.format("%04d", iteration) + ".jpg\"");
-        System.out.println("set title 'Iteration " + iteration + ": Centroids (" + centroids.size() + ")'");
+        System.out.println("set title 'Iteration " + iteration + ": Centroids (" + clusters.size() + ")'");
         System.out.print("plot ");
 
-        for (int i = 0; i < centroids.size(); ++i) {
+        for (int i = 0, n = clusters.size(); i < n; ++i) {
             System.out.print("'-' title 'centroid " + i + "'");
-            if (i < centroids.size() - 1) {
+            if (i < n - 1) {
                 System.out.print(", ");
             }
         }
         System.out.println();
 
-        for (Vector centroid : centroids) {
-            for (int i = 0; i < centroid.size(); ++i) {
+        for (Cluster<Vector> cluster : clusters) {
+            Vector centroid = cluster.getCentroid();
+
+            for (int i = 0, n = centroid.size(); i < n; ++i) {
                 System.out.println(String.format("%d\t%f", i, centroid.doubleValueOf(i)));
             }
             System.out.println("e");
         }
     }
 
-    private void plotClustersWithCentroids(int iteration, ArrayList<Hashtable<Integer, Pattern>> clusters, ArrayList<Vector> centroids) {
-        for (int i = 0; i < clusters.size(); ++i) {
+    private void plotClustersWithCentroids(int iteration, ArrayList<Cluster<Vector>> clusters) {
+        for (int i = 0, n = clusters.size(); i < n; ++i) {
             System.out.println("set output \"cluster." + String.format("%02d", i) + ".iteration."+ String.format("%04d", iteration) + ".jpg\"");
 
-            plotClusterWithCentroid(iteration, i, clusters.get(i).values(), centroids.get(i));
+            plotClusterWithCentroid(iteration, i, clusters.get(i), clusters.get(i).getCentroid());
         }
     }
 
-    private void plotClusterWithCentroid(int iteration, int id, Collection<Pattern> cluster, Vector centroid) {
+    private void plotClusterWithCentroid(int iteration, int id, Cluster<Vector> cluster, Vector centroid) {
         System.out.println("set title 'Iteration " + iteration + ": Cluster " + id + " (" + cluster.size() + " patterns)'");
         System.out.print("plot ");
 
-        for (Pattern pattern : cluster) {
-            System.out.print("'-' title '" + pattern.clazz + "', ");
+        for (Pattern<Vector> pattern : cluster) {
+            System.out.print("'-' title '" + pattern.getClassification() + "', ");
         }
 
         System.out.println("'-' title 'centroid' linetype 1 linewidth 5");
 
-        for (Pattern pattern : cluster) {
-            Vector vector = pattern.data;
+        for (Pattern<Vector> pattern : cluster) {
+            Vector data = pattern.getData();
 
-            for (int i = 0; i < vector.size(); ++i) {
-                System.out.println(String.format("%d\t%f", i, vector.doubleValueOf(i)));
+            for (int i = 0, n = data.size(); i < n; ++i) {
+                System.out.println(String.format("%d\t%f", i, data.doubleValueOf(i)));
             }
             System.out.println("e");
         }
 
-        for (int i = 0; i < centroid.size(); ++i) {
+        for (int i = 0, n = centroid.size(); i < n; ++i) {
             System.out.println(String.format("%d\t%f", i, centroid.doubleValueOf(i)));
         }
         System.out.println("e");

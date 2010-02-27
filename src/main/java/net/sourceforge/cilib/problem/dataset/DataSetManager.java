@@ -21,11 +21,16 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
+import com.google.common.collect.Maps;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Map;
 
 import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
  * This class is a Singleton and is responsible for managing all the {@link DataSet}s and
@@ -48,12 +53,12 @@ public final class DataSetManager implements Serializable {
     private static final long serialVersionUID = 6735187580654161651L;
 
     private static volatile DataSetManager instance = null;
-    private Hashtable<String, ArrayList<Pattern>> datasets = null;
-    private Hashtable<String, StaticDataSetBuilder> builders = null;
+    private Map<String, ArrayList<Pattern<Vector>>> datasets = null;
+    private Map<String, StaticDataSetBuilder> builders = null;
 
     private DataSetManager() {
-        datasets = new Hashtable<String, ArrayList<Pattern>>();
-        builders = new Hashtable<String, StaticDataSetBuilder>();
+        datasets = Maps.newHashMap();
+        builders = Maps.newHashMap();
     }
 
     public static synchronized DataSetManager getInstance() {
@@ -72,7 +77,7 @@ public final class DataSetManager implements Serializable {
      *        parsed/instantiated before
      * @return an {@link ArrayList} of {@link Pattern}s representing the given dataset
      */
-    public synchronized ArrayList<Pattern> getDataFromSet(DataSet dataset) {
+    public synchronized ArrayList<Pattern<Vector>> getDataFromSet(DataSet dataset) {
         String identifier = dataset.getIdentifier();
 
         System.out.println("Requesting data set: " + identifier);

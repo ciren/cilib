@@ -31,6 +31,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -128,12 +129,12 @@ public class LocalDataSet extends DataSet {
      *         dataset
      */
     @Override
-    public ArrayList<Pattern> parseDataSet() {
+    public ArrayList<Pattern<Vector>> parseDataSet() {
         if (beginIndex == endIndex) {
             throw new IllegalArgumentException("The begin and end should not be equal");
         }
 
-        ArrayList<Pattern> patterns = new ArrayList<Pattern>();
+        ArrayList<Pattern<Vector>> patterns = new ArrayList<Pattern<Vector>>();
         BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream()));
 
         System.out.println("Parsing " + identifier);
@@ -161,7 +162,7 @@ public class LocalDataSet extends DataSet {
      * @return a new {@link Pattern} object of which the class and {@link Pattern#data} has
      *         been configured.
      */
-    private Pattern parseLine(String line) {
+    private Pattern<Vector> parseLine(String line) {
         // split the line using the 'delimiter' regular expression
         String[] elements = line.split(delimiter);
         // the elements of the split are stored inside a vector that will form the pattern
@@ -180,7 +181,7 @@ public class LocalDataSet extends DataSet {
             clazz = elements[classIndex];
         }
 
-        return new Pattern(clazz, pattern.build());
+        return new Pattern<Vector>(pattern.build(), clazz);
     }
 
     /**

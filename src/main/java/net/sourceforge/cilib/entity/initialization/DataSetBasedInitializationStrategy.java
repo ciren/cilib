@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.entity.initialization;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.clustering.kmeans.CentroidsInitialisationStrategy;
 import net.sourceforge.cilib.clustering.kmeans.DataSetBasedCentroidsInitialisationStrategy;
 import net.sourceforge.cilib.entity.Entity;
@@ -66,8 +67,9 @@ public class DataSetBasedInitializationStrategy<E extends Entity> implements Ini
      */
     @Override
     public void initialize(Enum<?> key, E particle) {
-        ClusteringUtils helper = ClusteringUtils.get();
-        Vector centroids = ClusteringUtils.assembleCentroids(centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder()));
+        //TODO: When we start using Guice, this statement should be updated (we want the main algorithm)
+        ClusteringProblem clusteringProblem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
+        Vector centroids = ClusteringUtils.assembleCentroids(this.centroidsInitialisationStrategy.initialise(clusteringProblem, (StaticDataSetBuilder) clusteringProblem.getDataSetBuilder()));
 
         particle.setCandidateSolution(centroids);
     }

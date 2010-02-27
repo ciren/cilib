@@ -37,7 +37,6 @@ public class StaticDataSetBuilderTest {
         dataSetBuilder.addDataSet(new MockClusteringStringDataSet());
         ClusteringProblem problem = new ClusteringProblem();
         problem.setDataSetBuilder(dataSetBuilder);
-        dataSetBuilder.initialise();
     }
 
     @AfterClass

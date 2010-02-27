@@ -21,7 +21,9 @@
  */
 package net.sourceforge.cilib.functions.clustering;
 
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -38,12 +40,13 @@ public class KHarmonicMeansFunction extends ClusteringFitnessFunction {
     public double calculateFitness() {
         double harmonicMean = 0.0;
 
-        for (Pattern pattern : helper.getPatternsInDataSet()) {
+        for (Pattern<Vector> pattern : ((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getPatterns()) {
             double sumOfReciprocals = 0.0;
 
-            for (int i = 0; i < arrangedClusters.size(); i++) {
-                Vector center = clusterCenterStrategy.getCenter(i);
-                sumOfReciprocals += 1.0 / Math.max(helper.calculateDistance(pattern.data, center), Double.MIN_VALUE);        // if the distance == 0.0, use a very small value
+            for (Cluster<Vector> cluster : this.significantClusters) {
+                Vector center = this.clusterCenterStrategy.getCenter(cluster);
+
+                sumOfReciprocals += 1.0 / Math.max(this.problem.calculateDistance(pattern.getData(), center), Double.MIN_VALUE);        // if the distance == 0.0, use a very small value
             }
             harmonicMean += clustersFormed / sumOfReciprocals;
         }

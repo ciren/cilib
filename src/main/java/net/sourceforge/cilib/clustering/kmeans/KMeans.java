@@ -23,14 +23,14 @@ package net.sourceforge.cilib.clustering.kmeans;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.SingularAlgorithm;
-import net.sourceforge.cilib.math.Stats;
+import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.OptimisationSolution;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.Vectors;
@@ -83,10 +83,9 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
         super(rhs);
         this.centroidsInitialisationStrategy = rhs.centroidsInitialisationStrategy.getClone();
         this.centroidsDiversificationStrategy = rhs.centroidsDiversificationStrategy.getClone();
-
         this.calculator = rhs.calculator.getClone();
-
         this.centroids = new ArrayList<Vector>();
+
         for (Vector centroid : rhs.centroids) {
             this.centroids.add(Vector.copyOf(centroid));
         }
@@ -106,9 +105,9 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
      */
     @Override
     public void performInitialisation() {
-        ClusteringUtils helper = ClusteringUtils.get();
+        ClusteringProblem problem = (ClusteringProblem) this.getOptimisationProblem();
 
-        this.centroids = this.centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
+        this.centroids = this.centroidsInitialisationStrategy.initialise(problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
         this.centroidsDiversificationStrategy.initialise(this.centroids);
     }
 
@@ -119,12 +118,13 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     public void algorithmIteration() {
         calculator.getFitness(ClusteringUtils.assembleCentroids(this.centroids));
 
-        // the fitness calculation step already arranged the clusters and centroids with the help of ClusteringUtils
-        ClusteringUtils helper = ClusteringUtils.get();
-        ArrayList<Hashtable<Integer, Pattern>> clusters = helper.getOriginalClusters();
+        //TODO: When we start using Guice, this statement should be updated
+        //TODO: This algorithm is not a population based algorithm and therefore Algorithm.get() will return the correct algorithm
+        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.get().getOptimisationProblem();
+        ArrayList<Cluster<Vector>> clusters = ClusteringUtils.arrangeClustersAndCentroids(this.centroids, problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
 
-        for (int i = 0; i < clusters.size(); i++) {
-            Hashtable<Integer, Pattern> cluster = clusters.get(i);
+        for (int i = 0; i < clusters.size(); ++i) {
+            Cluster<Vector> cluster = clusters.get(i);
             Vector centroid = null;
 
             // TODO: I don't know if this if-else is part of the original KMeans algorithm
@@ -133,15 +133,16 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
                 centroid = this.centroidsInitialisationStrategy.reinitialise(centroids, i); // might return unbounded Vector
             }
             else {
-                // the centroid becomes the mean of cluster i
-                centroid = Stats.meanVector(cluster.values());  // returns unbounded Vector
+                // the centroid becomes the mean of the cluster
+                centroid = cluster.getMean();   // returns unbounded Vector
             }
 
             // we need to set the bounds of the centroid, because some centroids might be unbounded Vectors
-            Vector builtRepresentation = (Vector) helper.getClusteringProblem().getDomain().getBuiltRepresenation();
+            Vector builtRepresentation = ClusteringUtils.disassembleCentroids((Vector) problem.getDomain().getBuiltRepresenation(), problem.getNumberOfClusters()).get(0);
 
             centroid = Vectors.setBounds(centroid, Vectors.lowerBoundVector(builtRepresentation), Vectors.upperBoundVector(builtRepresentation));
             this.centroids.set(i, centroid);
+            cluster.setCentroid(centroid);
             this.centroidsDiversificationStrategy.diversify(centroids, i);
         }
     }

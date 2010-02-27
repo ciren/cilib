@@ -29,6 +29,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.type.types.Bounds;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.type.types.container.StructuredType;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -124,8 +125,8 @@ public final class Vectors {
     }
 
     /**
-     * Return the string representation of the given {@code Vector} using the given characters as the first, last and
-     * delimeter.
+     * Return the string representation of the given {@link StructuredType} using the given characters as the first,
+     * last and delimeter characters.
      * <p>
      * All returned strings will be in the format of:
      * <pre>
@@ -133,11 +134,11 @@ public final class Vectors {
      * </pre>
      * For example: <code>Vectors.toString(vector, '\0', '\0', '\t')</code> will return the following representation:<br/>
      * <code>1\t2\t3</code>
-     * @return The string representation of the given {@code Vector}.
+     * @return The string representation of the given {@link StructuredType}.
      */
-    public static String toString(Vector vector, String first, String last, String delimeter) {
+    public static String toString(StructuredType<? extends Numeric> structure, String first, String last, String delimeter) {
         StringBuilder stringRepresentation = new StringBuilder(first);
-        Joiner.on(delimeter).appendTo(stringRepresentation, vector);
+        Joiner.on(delimeter).appendTo(stringRepresentation, structure);
 
         return stringRepresentation.append(last).toString();
     }

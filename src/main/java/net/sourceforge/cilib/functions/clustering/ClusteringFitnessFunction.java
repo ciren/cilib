@@ -22,13 +22,15 @@
 package net.sourceforge.cilib.functions.clustering;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCenterStrategy;
 import net.sourceforge.cilib.functions.clustering.clustercenterstrategies.ClusterCentroidStrategy;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -48,10 +50,9 @@ import net.sourceforge.cilib.util.ClusteringUtils;
 public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     private static final long serialVersionUID = 4834673666638644106L;
 
-    protected ClusteringUtils helper = null;
-    protected ClusterCenterStrategy clusterCenterStrategy = null;
-    protected ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = null;
-    protected ArrayList<Vector> arrangedCentroids = null;
+    protected ClusteringProblem problem;
+    protected ClusterCenterStrategy clusterCenterStrategy;
+    protected ArrayList<Cluster<Vector>> significantClusters;
     protected int clustersFormed = 0;
 
     /**
@@ -60,7 +61,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
      * domain is not set, because it should be specified on the {@link ClusteringProblem}.
      */
     public ClusteringFitnessFunction() {
-        clusterCenterStrategy = new ClusterCentroidStrategy();
+        this.clusterCenterStrategy = new ClusterCentroidStrategy();
     }
 
     @Override
@@ -71,34 +72,28 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
      * <ol>
      * <li>Arrange the patterns in the dataset to belong to its closest centroid. We don't
      * care how this is done, since it is handled by the
-     * {@link ClusteringUtils#arrangeClustersAndCentroids(Vector)} method. We also assume
-     * that this method removes empty clusters and their associated centroids from the
-     * <i>arranged lists</i></li>
-     * <li>Sets the {@link #arrangedClusters} member variable which is available to
-     * sub-classes.</li>
-     * <li>Sets the {@link #arrangedCentroids} member variable which is available to
+     * {@link ClusteringUtils#arrangeClustersAndCentroids(net.sourceforge.cilib.type.types.container.Vector, net.sourceforge.cilib.problem.ClusteringProblem, net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder)}
+     * method. We also assume that this method only returns significant clusters</li>
+     * <li>Sets the {@link #significantClusters} member variable which is available to
      * sub-classes.</li>
      * <li>Calculate the fitness using the given centroids {@linkplain Vector}. We don't
      * care how this is done, since it is handled by the abstraction (polymorphism) created
-     * by the hierarchy of this class. This is achieved via the abstact
+     * by the hierarchy of this class. This is achieved via the abstract
      * {@link #calculateFitness()} method</li>
-     * <li>Validate the fitness, i.e. make sure the fitness is positive
-     * <code>&gt;= 0.0</code>.</li>
      * </ol>
-     * Steps 1 - 3 have to be performed before the fitness is calculated, using the given
-     * <tt>centroids</tt> {@linkplain Vector}, in step 4.
+     * Steps 1 and 2 have to be performed before the fitness is calculated, using the given
+     * <tt>centroids</tt> {@linkplain Vector}, in step 3.
      *
      * @param centroids The {@link Vector} representing the centroid vectors
      * @return the fitness that has been calculated
      */
     @Override
     public Double apply(Vector centroids) {
-        helper = ClusteringUtils.get(); //this statement should not be in a constructor
-        helper.arrangeClustersAndCentroids(centroids);
-        arrangedClusters = helper.getArrangedClusters();
-        arrangedCentroids = helper.getArrangedCentroids();
+        //TODO: When we start using Guice, this statement should be updated (we want the main algorithm)
+        this.problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
 
-        clustersFormed = arrangedClusters.size();
+        significantClusters = ClusteringUtils.arrangeClustersAndCentroids(centroids, this.problem, (StaticDataSetBuilder) this.problem.getDataSetBuilder());
+        clustersFormed = significantClusters.size();
 
         /*
          * TODO: Figure out a nice OO way to determine whether this function is being
@@ -130,13 +125,12 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     public double calculateQuantisationError() {
         double quantisationError = 0.0;
 
-        for (int i = 0; i < clustersFormed; i++) {
+        for (Cluster<Vector> cluster : this.significantClusters) {
             double averageDistance = 0.0;
-            Collection<Pattern> cluster = arrangedClusters.get(i).values();
-            Vector center = clusterCenterStrategy.getCenter(i);
+            Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
-            for (Pattern pattern : cluster) {
-                averageDistance += helper.calculateDistance(pattern.data, center);
+            for (Pattern<Vector> pattern : cluster) {
+                averageDistance += this.problem.calculateDistance(pattern.getData(), center);
             }
             averageDistance /= cluster.size();
             quantisationError += averageDistance;
@@ -163,13 +157,12 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     public double calculateMaximumAverageDistance() {
         double maximumAverageDistance = 0.0;
 
-        for (int i = 0; i < clustersFormed; i++) {
+        for (Cluster<Vector> cluster : this.significantClusters) {
             double averageDistance = 0.0;
-            Collection<Pattern> cluster = arrangedClusters.get(i).values();
-            Vector center = clusterCenterStrategy.getCenter(i);
+            Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
-            for (Pattern pattern : cluster) {
-                averageDistance += helper.calculateDistance(pattern.data, center);
+            for (Pattern<Vector> pattern : cluster) {
+                averageDistance += this.problem.calculateDistance(pattern.getData(), center);
             }
             averageDistance /= cluster.size();
             maximumAverageDistance = Math.max(maximumAverageDistance, averageDistance);
@@ -186,11 +179,13 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     public double calculateMinimumInterClusterDistance() {
         double minimumInterClusterDistance = Double.MAX_VALUE;
 
-        for (int i = 0; i < clustersFormed - 1; i++) {
-            Vector leftCenter = clusterCenterStrategy.getCenter(i);
-            for (int j = i + 1; j < clustersFormed; j++) {
-                Vector rightCenter = clusterCenterStrategy.getCenter(j);
-                minimumInterClusterDistance = Math.min(minimumInterClusterDistance, helper.calculateDistance(leftCenter, rightCenter));
+        for (int i = 0; i < clustersFormed - 1; ++i) {
+            Vector leftCenter = this.clusterCenterStrategy.getCenter(this.significantClusters.get(i));
+
+            for (int j = i + 1; j < clustersFormed; ++j) {
+                Vector rightCenter = this.clusterCenterStrategy.getCenter(this.significantClusters.get(j));
+
+                minimumInterClusterDistance = Math.min(minimumInterClusterDistance, this.problem.calculateDistance(leftCenter, rightCenter));
             }
         }
         return minimumInterClusterDistance;
@@ -205,11 +200,13 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     public double calculateMaximumInterClusterDistance() {
         double maximumInterClusterDistance = -Double.MAX_VALUE;
 
-        for (int i = 0; i < clustersFormed - 1; i++) {
-            Vector leftCenter = clusterCenterStrategy.getCenter(i);
-            for (int j = i + 1; j < clustersFormed; j++) {
-                Vector rightCenter = clusterCenterStrategy.getCenter(j);
-                maximumInterClusterDistance = Math.max(maximumInterClusterDistance, helper.calculateDistance(leftCenter, rightCenter));
+        for (int i = 0; i < clustersFormed - 1; ++i) {
+            Vector leftCenter = this.clusterCenterStrategy.getCenter(this.significantClusters.get(i));
+
+            for (int j = i + 1; j < clustersFormed; ++j) {
+                Vector rightCenter = this.clusterCenterStrategy.getCenter(this.significantClusters.get(j));
+
+                maximumInterClusterDistance = Math.max(maximumInterClusterDistance, this.problem.calculateDistance(leftCenter, rightCenter));
             }
         }
         return maximumInterClusterDistance;
@@ -232,9 +229,9 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     public double calculateMinimumSetDistance(int i, int j) {
         double distance = Double.MAX_VALUE;
 
-        for (int leftPatternIndex : arrangedClusters.get(i).keySet()) {
-            for (int rightPatternIndex : arrangedClusters.get(j).keySet()) {
-                distance = Math.min(distance, helper.calculateDistance(leftPatternIndex, rightPatternIndex));
+        for (Pattern<Vector> leftPattern : this.significantClusters.get(i)) {
+            for (Pattern<Vector> rightPattern : this.significantClusters.get(j)) {
+                distance = Math.min(distance, this.problem.calculateDistance(leftPattern.getData(), rightPattern.getData()));
             }
         }
         return distance;
@@ -256,9 +253,9 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     public double calculateMaximumSetDistance(int i, int j) {
         double distance = -Double.MAX_VALUE;
 
-        for (int leftPatternIndex : arrangedClusters.get(i).keySet()) {
-            for (int rightPatternIndex : arrangedClusters.get(j).keySet()) {
-                distance = Math.max(distance, helper.calculateDistance(leftPatternIndex, rightPatternIndex));
+        for (Pattern<Vector> leftPattern : this.significantClusters.get(i)) {
+            for (Pattern<Vector> rightPattern : this.significantClusters.get(j)) {
+                distance = Math.max(distance, this.problem.calculateDistance(leftPattern.getData(), rightPattern.getData()));
             }
         }
         return distance;
@@ -281,12 +278,12 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     public double calculateAverageSetDistance(int i, int j) {
         double distance = 0.0;
 
-        for (int leftPatternIndex : arrangedClusters.get(i).keySet()) {
-            for (int rightPatternIndex : arrangedClusters.get(j).keySet()) {
-                distance += helper.calculateDistance(leftPatternIndex, rightPatternIndex);
+        for (Pattern<Vector> leftPattern : this.significantClusters.get(i)) {
+            for (Pattern<Vector> rightPattern : this.significantClusters.get(j)) {
+                distance += this.problem.calculateDistance(leftPattern.getData(), rightPattern.getData());
             }
         }
-        return distance / (arrangedClusters.get(i).size() * arrangedClusters.get(j).size());
+        return distance / (this.significantClusters.get(i).size() * this.significantClusters.get(j).size());
     }
 
     /**
@@ -299,15 +296,12 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
      */
     public double calculateClusterDiameter(int k) {
         double diameter = 0.0;
-        Collection<Integer> indices = arrangedClusters.get(k).keySet();
+        Cluster<Vector> cluster = this.significantClusters.get(k);
 
-        for (int leftPatternIndex : indices) {
-            for (int rightPatternIndex : indices) {
-                if (leftPatternIndex == rightPatternIndex) {
-                    continue;
-                }
-                else {
-                    diameter = Math.max(diameter, helper.calculateDistance(leftPatternIndex, rightPatternIndex));
+        for (Pattern<Vector> leftPattern : cluster) {
+            for (Pattern<Vector> rightPattern : cluster) {
+                if (leftPattern != rightPattern) {
+                    diameter = Math.max(diameter, this.problem.calculateDistance(leftPattern.getData(), rightPattern.getData()));
                 }
             }
         }
@@ -329,12 +323,11 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
     public double calculateIntraClusterDistance() {
         double intraClusterDistance = 0.0;
 
-        for (int i = 0; i < clustersFormed; i++) {
-            Collection<Pattern> cluster = arrangedClusters.get(i).values();
-            Vector center = clusterCenterStrategy.getCenter(i);
+        for (Cluster<Vector> cluster : this.significantClusters) {
+            Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
-            for (Pattern pattern : cluster) {
-                intraClusterDistance += helper.calculateDistance(pattern.data, center);
+            for (Pattern<Vector> pattern : cluster) {
+                intraClusterDistance += this.problem.calculateDistance(pattern.getData(), center);
             }
         }
         return intraClusterDistance;
@@ -351,11 +344,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
      * @return the average intra-cluster distance for all clusters.
      */
     public double calculateAverageIntraClusterDistance() {
-        return calculateIntraClusterDistance() / helper.getNumberOfPatternsInDataSet();
-    }
-
-    public void setClusterCenterStrategy(ClusterCenterStrategy ccs) {
-        clusterCenterStrategy = ccs;
+        return calculateIntraClusterDistance() / ((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getNumberOfPatterns();
     }
 
     @Override
@@ -370,27 +359,5 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
 
     protected Double worstFitness() {
         return getMaximum();
-    }
-
-    /**
-     * This method logs the cases when the fitness is less than zero. We do not want the
-     * Parametric fitness to be less than zero. Fitnesses drop below zero when the centroids
-     * are outside the given domain which causes {@linkplain zMax} to be too small to
-     * compensate.
-     *
-     * TODO: Should this function always return the fitness?
-     * TODO: Or should it return NaN when the fitness drops below 0.0?
-     * TODO: Or should we throw an exception?
-     *
-     * @param fitness the fitness value that will be validated.
-     * @return the fitness.
-     * @deprecated depending on the distance measure used, a negative fitness function may be allowed
-     */
-    protected double validateFitness(double fitness) {
-        if (fitness < 0.0) {
-            System.err.println(this.getClass().getSimpleName() + " fitness < 0.0 : " + fitness);
-            System.err.println("Number of clusters formed = " + clustersFormed);
-        }
-        return fitness;
     }
 }

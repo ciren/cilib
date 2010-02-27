@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import net.sourceforge.cilib.problem.ClusteringProblem;
-import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.DistanceMeasure;
 
@@ -45,7 +45,7 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  */
 public class ContributingPotentialCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -1475341727508334776L;
-    private ArrayList<Pattern> patterns;
+    private ArrayList<Pattern<Vector>> patterns;
     private DistanceMeasure distanceMeasure;
 
     public ContributingPotentialCentroidsInitialisationStrategy() {
@@ -76,16 +76,14 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
         ArrayList<Vector> chosenCentroids = new ArrayList<Vector>();
 
         for (int i = 0; i < numberOfClusters; ++i) {
-            Vector candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).data);
+            Vector candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).getData());
 
             if (i > 0) {
                 while (randomProbability.nextDouble() >= this.calculateProbability(chosenCentroids, candidateCentroid)) {
-                    System.out.println("Trying another candidate centroid");
-                    candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).data);
+                    candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).getData());
                 }
             }
             chosenCentroids.add(candidateCentroid);
-            System.out.println("Adding candidate centroid " + i);
         }
         return chosenCentroids;
     }
@@ -102,7 +100,7 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
         RandomProvider randomProbability = new MersenneTwister();
 
         do {
-            candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).data);
+            candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).getData());
         }
         while (randomProbability.nextDouble() >= this.calculateProbability(centroids, candidateCentroid));
 
@@ -122,13 +120,10 @@ public class ContributingPotentialCentroidsInitialisationStrategy implements Cen
             double denominator = Double.MAX_VALUE;
 
             for (Vector chosenCentroid : chosenCentroids) {
-                denominator = Math.min(denominator, this.distanceMeasure.distance(chosenCentroid, pattern.data));
+                denominator = Math.min(denominator, this.distanceMeasure.distance(chosenCentroid, pattern.getData()));
             }
             probability += denominator;
         }
-        System.out.println("numerator = " + numerator);
-        System.out.println("denominator = " + probability);
-        System.out.println("probability = " + numerator / probability);
         return numerator / probability;
     }
 }

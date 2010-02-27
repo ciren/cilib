@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import net.sourceforge.cilib.type.types.container.Pattern;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Cloneable;
 
 /**
@@ -46,9 +48,10 @@ public abstract class DataSet implements Cloneable, Serializable {
         identifier = rhs.identifier;
     }
 
+    @Override
     public abstract DataSet getClone();
 
-    public abstract ArrayList<Pattern> parseDataSet();
+    public abstract ArrayList<Pattern<Vector>> parseDataSet();
 
     /**
      * Returns the data set as a byte array.

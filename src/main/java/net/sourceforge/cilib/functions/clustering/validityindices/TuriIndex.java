@@ -44,18 +44,18 @@ public class TuriIndex extends ClusteringFitnessFunction {
     }
 
     @Override
+    public TuriIndex getClone() {
+        return new TuriIndex();
+    }
+
+    @Override
     public double calculateFitness() {
 //        gaussian = random.getGaussian(2, 1);
 
-        return /*(c * gaussian + 1) * */(calculateAverageIntraClusterDistance() / calculateMinimumInterClusterDistance());
+        return /*(c * gaussian + 1) * */(this.calculateAverageIntraClusterDistance() / this.calculateMinimumInterClusterDistance());
     }
 
 //    public void setC(double c) {
 //        this.c = c;
 //    }
-
-    @Override
-    public TuriIndex getClone() {
-        return new TuriIndex();
-    }
 }

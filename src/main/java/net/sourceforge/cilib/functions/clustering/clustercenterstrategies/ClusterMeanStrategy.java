@@ -21,33 +21,26 @@
  */
 package net.sourceforge.cilib.functions.clustering.clustercenterstrategies;
 
-import java.util.Collection;
-
-import net.sourceforge.cilib.math.Stats;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.ClusteringUtils;
 
 /**
  * The <i>center of a cluster</i> is interpreted as the <i>mean of a cluster</i>.
  * @author Theuns Cloete
  */
-public class ClusterMeanStrategy implements ClusterCenterStrategy {
+public class ClusterMeanStrategy<C extends Vector> implements ClusterCenterStrategy<C> {
     private static final long serialVersionUID = 9080168372118441393L;
 
     public ClusterMeanStrategy() {
-        super();
     }
 
     /**
      * In this case, we are interested in the mean of the cluster.
-     * @param i The integer representing the cluster for which the mean should be returned
-     * @return the mean of cluster i
+     * @param cluster the cluster whose mean should be returned
+     * @return the mean of the given {@link Cluster}
      */
     @Override
-    public Vector getCenter(int i) {
-        Collection<Pattern> cluster = ClusteringUtils.get().getArrangedClusters().get(i).values();
-
-        return Stats.meanVector(cluster);
+    public C getCenter(Cluster<C> cluster) {
+        return cluster.getMean();
     }
 }

@@ -35,29 +35,29 @@ import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 public abstract class ScatterSeperationRatio extends ClusteringFitnessFunction {
     private static final long serialVersionUID = 6758442782079174817L;
 
-    protected ArrayList<Double> withinClusterScatterCache = null;
-    protected ArrayList<Double> betweenClusterSeperationCache = null;
+    protected ArrayList<Double> withinClusterScatterCache;
+    protected ArrayList<Double> betweenClusterSeperationCache;
 
     protected void cacheWithinClusterScatter() {
-        withinClusterScatterCache = new ArrayList<Double>();
+        this.withinClusterScatterCache = new ArrayList<Double>();
 
-        for (int i = 0; i < clustersFormed; i++) {
-            withinClusterScatterCache.add(calculateWithinClusterScatter(i));
+        for (int i = 0; i < this.clustersFormed; ++i) {
+            this.withinClusterScatterCache.add(calculateWithinClusterScatter(i));
         }
     }
 
     protected abstract double calculateWithinClusterScatter(int k);
 
     protected double getWithinClusterScatter(int i) {
-        return withinClusterScatterCache.get(i);
+        return this.withinClusterScatterCache.get(i);
     }
 
     protected void cacheBetweenClusterSeperation() {
-        betweenClusterSeperationCache = new ArrayList<Double>();
+        this.betweenClusterSeperationCache = new ArrayList<Double>();
 
-        for(int i = 0; i < clustersFormed - 1; i++) {
-            for(int j = i + 1; j < clustersFormed; j++) {
-                betweenClusterSeperationCache.add(calculateBetweenClusterSeperation(i, j));
+        for(int i = 0; i < clustersFormed - 1; ++i) {
+            for(int j = i + 1; j < clustersFormed; ++j) {
+                this.betweenClusterSeperationCache.add(this.calculateBetweenClusterSeperation(i, j));
             }
         }
     }
@@ -76,6 +76,6 @@ public abstract class ScatterSeperationRatio extends ClusteringFitnessFunction {
             i = j;
             j = tmp;
         }
-        return betweenClusterSeperationCache.get(i + (clustersFormed * j) - (((j + 1) * (j + 2)) / 2));
+        return this.betweenClusterSeperationCache.get(i + (this.clustersFormed * j) - (((j + 1) * (j + 2)) / 2));
     }
 }

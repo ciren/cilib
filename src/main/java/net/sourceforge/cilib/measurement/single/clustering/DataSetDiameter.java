@@ -21,12 +21,14 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.problem.ClusteringProblem;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
-import net.sourceforge.cilib.util.ClusteringUtils;
+import net.sourceforge.cilib.util.DistanceMeasure;
 
 /**
  * Calculates the data set diameter as the maximum distance between any two patterns in the data set. The
@@ -36,6 +38,8 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  * @author Theuns Cloete
  */
 public class DataSetDiameter implements Measurement {
+    private static final long serialVersionUID = -2057778074502089769L;
+
     private Real xMax = null;
 
     @Override
@@ -52,14 +56,15 @@ public class DataSetDiameter implements Measurement {
     public Type getValue(Algorithm algorithm) {
         // we only have to calculate it once as long as the data set remains static/unchanged
         if (xMax == null) {
-            ClusteringUtils helper = ClusteringUtils.get();
-            StaticDataSetBuilder dataSetBuilder = helper.getDataSetBuilder();
-            int numPatterns = helper.getNumberOfPatternsInDataSet();
+            //TODO: When we start using Guice, this statement should be updated
+            ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
+            StaticDataSetBuilder dataSetBuilder = (StaticDataSetBuilder) problem.getDataSetBuilder();
+            int numPatterns = dataSetBuilder.getNumberOfPatterns();
             double maxDistance = 0.0;
 
-            for (int y = 0; y < numPatterns - 1; y++) {
-                for (int x = y + 1; x < numPatterns; x++) {
-                    maxDistance = Math.max(maxDistance, dataSetBuilder.getCachedDistance(x, y));
+            for (int y = 0; y < numPatterns - 1; ++y) {
+                for (int x = y + 1; x < numPatterns; ++x) {
+                    maxDistance = Math.max(maxDistance, problem.calculateDistance(dataSetBuilder.getPattern(x).getData(), dataSetBuilder.getPattern(y).getData()));
                 }
             }
             this.xMax = Real.valueOf(maxDistance);

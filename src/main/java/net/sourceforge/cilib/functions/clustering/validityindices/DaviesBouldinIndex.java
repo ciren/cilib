@@ -21,9 +21,8 @@
  */
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
-import java.util.Collection;
-
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -68,11 +67,11 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
     @Override
     protected double calculateWithinClusterScatter(int k) {
         double withinClusterScatter = 0.0;
-        Collection<Pattern> cluster = arrangedClusters.get(k).values();
-        Vector center = clusterCenterStrategy.getCenter(k);
+        Cluster<Vector> cluster = this.significantClusters.get(k);
+        Vector center = this.clusterCenterStrategy.getCenter(cluster);
 
-        for (Pattern pattern : cluster) {
-            withinClusterScatter += helper.calculateDistance(pattern.data, center);
+        for (Pattern<Vector> pattern : cluster) {
+            withinClusterScatter += this.problem.calculateDistance(pattern.getData(), center);
         }
         return withinClusterScatter / cluster.size();
     }
@@ -83,7 +82,7 @@ public class DaviesBouldinIndex extends ScatterSeperationRatio {
      */
     @Override
     protected double calculateBetweenClusterSeperation(int i, int j) {
-        return helper.calculateDistance(clusterCenterStrategy.getCenter(i), clusterCenterStrategy.getCenter(j));
+        return this.problem.calculateDistance(this.clusterCenterStrategy.getCenter(this.significantClusters.get(i)), this.clusterCenterStrategy.getCenter(this.significantClusters.get(j)));
     }
 
     @Override

@@ -21,9 +21,14 @@
  */
 package net.sourceforge.cilib.measurement.single.clustering;
 
+import java.util.ArrayList;
+import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Cluster;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -45,10 +50,13 @@ public class ClusterCentroids implements Measurement {
 
     @Override
     public Type getValue(Algorithm algorithm) {
+        //TODO: When we start using Guice, this statement should be updated
+        ClusteringProblem problem = (ClusteringProblem) AbstractAlgorithm.getAlgorithmList().get(0).getOptimisationProblem();
+        ArrayList<Cluster<Vector>> clusters = ClusteringUtils.arrangeClustersAndCentroids((Vector) algorithm.getBestSolution().getPosition(), problem, (StaticDataSetBuilder) problem.getDataSetBuilder());
         Vector.Builder combined = Vector.newBuilder();
 
-        for (Vector centroid : ClusteringUtils.get().getArrangedCentroids()) {
-            combined.copyOf(centroid);
+        for (Cluster<Vector> cluster : clusters) {
+            combined.copyOf(cluster.getCentroid());
         }
         return combined.build();
     }

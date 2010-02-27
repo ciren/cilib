@@ -21,10 +21,13 @@
  */
 package net.sourceforge.cilib.problem.dataset;
 
+import com.google.common.collect.Sets;
 import java.util.ArrayList;
+import java.util.Set;
 
 import net.sourceforge.cilib.math.Stats;
 import net.sourceforge.cilib.problem.Problem;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 
@@ -40,32 +43,28 @@ import net.sourceforge.cilib.util.ClusteringUtils;
 public class StaticDataSetBuilder extends DataSetBuilder {
     private static final long serialVersionUID = -7035524554252462144L;
 
-    protected ArrayList<Pattern> patterns;
+    protected ArrayList<Pattern<Vector>> patterns;
     protected Vector cachedMean;
     protected double cachedVariance;
-    protected double[] distanceCache;
     protected String identifier;
-    protected boolean cached;
 
     /**
      * Initialise the patterns data structure and set the identifier to be blank.
      */
     public StaticDataSetBuilder() {
-        this.patterns = new ArrayList<Pattern>();
+        this.patterns = new ArrayList<Pattern<Vector>>();
         this.identifier = "<unknown built data set>";
-        this.cached = true;
     }
 
     public StaticDataSetBuilder(StaticDataSetBuilder rhs) {
         super(rhs);
-        this.patterns = new ArrayList<Pattern>();
+        this.patterns = new ArrayList<Pattern<Vector>>();
 
-        for (Pattern pattern : rhs.patterns) {
+        for (Pattern<Vector> pattern : rhs.patterns) {
             this.patterns.add(pattern.getClone());
         }
 
         this.identifier = rhs.identifier;
-        this.cached = rhs.cached;
     }
 
     @Override
@@ -77,13 +76,13 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      * This method has three responsibilities:
      * <ol>
      * <li>It takes into account the fact that datasets may already have been parsed by
-     * other {@link Simulation}s, {@link Problem}s or {@link Thread}s. It relies on the
+     * other simulations, {@link Problem}s or {@link Thread}s. It relies on the
      * {@link DataSetManager} singleton to parse and/or retrieve the patterns of the given
      * {@link DataSet}. Then it adds these retrieved patterns to the current
      * {@link #patterns} list. This method also builds up the {@link #identifier} that
      * uniquely identifies this dataset builder. This identifier is used by the
      * {@link DataSetManager} to keep track of this built-up dataset, because it might be
-     * used by other {@link Simulation}s, {@link Problem}s or {@link Thread}s as well.</li>
+     * used by other simulations, {@link Problem}s or {@link Thread}s as well.</li>
      * <li>It caches both the mean and variance of the built-up data set.</li>
      * <li>It caches the distances from all the patterns to all the other patterns in the
      * built-up data set.</li>
@@ -101,19 +100,17 @@ public class StaticDataSetBuilder extends DataSetBuilder {
     @Override
     public void initialise() {
         for (DataSet dataset : this.dataSets) {
-            ArrayList<Pattern> data = DataSetManager.getInstance().getDataFromSet(dataset);
+            ArrayList<Pattern<Vector>> data = DataSetManager.getInstance().getDataFromSet(dataset);
 
-            if (!patterns.isEmpty() && data.get(0).data.getDimension() != patterns.get(0).data.getDimension()) {
+            if (!patterns.isEmpty() && data.get(0).getData().getDimension() != patterns.get(0).getData().getDimension()) {
                 throw new IllegalArgumentException("Cannot combine datasets of different dimensions");
             }
-            patterns.addAll(data);
+
+            this.patterns.addAll(data);
             System.out.println(data.size() + " patterns added");
         }
 
         this.cacheMeanAndVariance();
-        if (this.cached) {
-            this.cacheDistances();
-        }
     }
 
     /**
@@ -121,10 +118,12 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      */
     private void cacheMeanAndVariance() {
         System.out.println("Caching dataset mean and variance");
-        cachedMean = Stats.meanVector(patterns);
-        System.out.println("Cached mean: " + cachedMean);
-        cachedVariance = Stats.variance(patterns, cachedMean);
-        System.out.println("Cached variance: " + cachedVariance);
+        Set<Pattern<Vector>> set = Sets.newHashSet(this.patterns);
+
+        this.cachedMean = Stats.meanVector(set);
+        System.out.println("Cached mean: " + this.cachedMean);
+        this.cachedVariance = Stats.variance(set, this.cachedMean);
+        System.out.println("Cached variance: " + this.cachedVariance);
     }
 
     /**
@@ -133,7 +132,7 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      * @return the {@link #cachedMean}
      */
     public Vector getMean() {
-        return cachedMean;
+        return this.cachedMean;
     }
 
     /**
@@ -142,70 +141,7 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      * @return the {@link #cachedVariance}
      */
     public double getVariance() {
-        return cachedVariance;
-    }
-
-    /**
-     * Calculate and cache the distances from all patterns to all other patterns. The cached
-     * structure looks like this (x represents a distance):
-     *   0 1 2 3 4 5
-     * 0 0 x x x x x
-     * 1   0 x x x x
-     * 2     0 x x x
-     * 3       0 x x
-     * 4         0 x
-     * 5           0
-     * Although it seems like a 2D structure, it is a 1D array. The zero-values are not
-     * stored, because zero can be returned when the indices are equal. Only the x values are
-     * stored.
-     */
-    private void cacheDistances() {
-        System.out.println("Caching distances between patterns of dataset");
-        ClusteringUtils helper = ClusteringUtils.get();
-        int numPatterns = getNumberOfPatterns();
-        int cacheSize = (numPatterns * (numPatterns - 1)) / 2;
-        distanceCache = new double[cacheSize];
-        int index = 0;
-        int jump = 0;
-
-        for (int y = 0; y < numPatterns - 1; y++) {
-            Vector rhs = patterns.get(y).data;
-            for (int x = y + 1; x < numPatterns; x++) {
-                Vector lhs = patterns.get(x).data;
-                index = x + (numPatterns * y) - (((y + 1) * (y + 2)) / 2);
-                distanceCache[index] = helper.calculateDistance(lhs, rhs);
-            }
-
-            int percentageComplete = 100 * index / cacheSize;
-            if (percentageComplete == jump) {
-                System.out.println(percentageComplete + "% of distances cached");
-                jump += 10;
-            }
-        }
-    }
-
-    /**
-     * Retrieve the cached distance between the given patterns.
-     *
-     * @throws IllegalArgumentException when either <code>x</code> or <code>y</code> is
-     *         negative.
-     * @param x index of the one pattern
-     * @param y index of the other pattern
-     * @return the cached distance between the two given patterns
-     */
-    public double getCachedDistance(int x, int y) {
-        if (x < 0 || y < 0) {
-            throw new IllegalArgumentException("No pattern at (" + x + ", " + y + ")");
-        }
-
-        if (x == y) {
-            return 0.0;
-        }
-
-        if (y > x) {
-            return getCachedDistance(y, x); // use recursion to swap the x and y index
-        }
-        return distanceCache[x + (getNumberOfPatterns() * y) - (((y + 1) * (y + 2)) / 2)];
+        return this.cachedVariance;
     }
 
     /**
@@ -213,8 +149,8 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      *
      * @return the {@link #patterns} list
      */
-    public ArrayList<Pattern> getPatterns() {
-        return patterns;
+    public ArrayList<Pattern<Vector>> getPatterns() {
+        return this.patterns;
     }
 
     /**
@@ -223,7 +159,7 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      * @param i the index representing a pattern in the {@link #patterns}
      * @return pattern i of {@link #patterns}
      */
-    public Pattern getPattern(int i) {
+    public Pattern<Vector> getPattern(int i) {
         return patterns.get(i);
     }
 
@@ -233,7 +169,7 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      * @return the number of patterns/elements in {@link #patterns}
      */
     public int getNumberOfPatterns() {
-        return patterns.size();
+        return this.patterns.size();
     }
 
     /**
@@ -263,21 +199,5 @@ public class StaticDataSetBuilder extends DataSetBuilder {
      */
     public void setIdentifier(String id) {
         this.identifier = id;
-    }
-
-    /**
-     * Checker whether the distances between every pattern (in this built-up data set) were cached?
-     * @return true/false
-     */
-    public boolean getCached() {
-        return this.cached;
-    }
-
-    /**
-     * Sets whether the distances between every pattern (in this built-up data set) should be cached.
-     * @param c true/false
-     */
-    public void setCached(boolean c) {
-        this.cached = c;
     }
 }

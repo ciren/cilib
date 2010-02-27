@@ -22,8 +22,9 @@
 package net.sourceforge.cilib.functions.clustering.validityindices;
 
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
-import net.sourceforge.cilib.math.Stats;
-import net.sourceforge.cilib.problem.dataset.Pattern;
+import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
+import net.sourceforge.cilib.type.types.container.Cluster;
+import net.sourceforge.cilib.type.types.container.Pattern;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -52,7 +53,7 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
      */
     @Override
     public double calculateFitness() {
-        return calculateWithinClusterScatter() + calculateBetweenClusterSeperation();
+        return this.calculateWithinClusterScatter() + this.calculateBetweenClusterSeperation();
     }
 
     /**
@@ -62,17 +63,17 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
      */
     protected double calculateWithinClusterScatter() {
         double scattering = 0.0;
-        double datasetVariance = helper.getDataSetVariance();
+        double datasetVariance = ((StaticDataSetBuilder) this.problem.getDataSetBuilder()).getVariance();
         double clusterVariance = 0.0;
 
-        stdev = 0.0;
-        for (int i = 0; i < clustersFormed; i++) {
-            clusterVariance = Stats.variance(arrangedClusters.get(i).values(), clusterCenterStrategy.getCenter(i));
+        this.stdev = 0.0;
+        for (Cluster<Vector> cluster : this.significantClusters) {
+            clusterVariance = cluster.getVariance(this.clusterCenterStrategy.getCenter(cluster));
             scattering += clusterVariance;
-            stdev += clusterVariance;
+            this.stdev += clusterVariance;
         }
-        stdev = Math.sqrt(stdev);
-        stdev /= clustersFormed;
+        this.stdev = Math.sqrt(this.stdev);
+        this.stdev /= clustersFormed;
         scattering /= datasetVariance;
         return scattering / clustersFormed;
     }
@@ -86,26 +87,26 @@ public class HalkidiVazirgiannisIndex extends ClusteringFitnessFunction {
         double density = 0.0;
         int midDensity = 0, leftDensity = 0, rightDensity = 0;
 
-        for (int i = 0; i < clustersFormed; i++) {
-            leftCenter = clusterCenterStrategy.getCenter(i);
-            for (int j = 0; j < clustersFormed; j++) {
-                if (i != j) {
-                    rightCenter = clusterCenterStrategy.getCenter(j);
+        for (Cluster<Vector> leftCluster : this.significantClusters) {
+            leftCenter = this.clusterCenterStrategy.getCenter(leftCluster);
+            for (Cluster<Vector> rightCluster : this.significantClusters) {
+                if (leftCluster != rightCluster) {
+                    rightCenter = this.clusterCenterStrategy.getCenter(rightCluster);
                     midPoint = leftCenter.plus(rightCenter);
                     midPoint = midPoint.divide(2.0);
                     midDensity = leftDensity = rightDensity = 0;
 
-                    for (Pattern pattern : arrangedClusters.get(i).values()) {
-                        if (helper.calculateDistance(pattern.data, midPoint) <= stdev)
+                    for (Pattern<Vector> pattern : leftCluster) {
+                        if (this.problem.calculateDistance(pattern.getData(), midPoint) <= stdev)
                             ++midDensity;
-                        if (helper.calculateDistance(pattern.data, leftCenter) <= stdev)
+                        if (this.problem.calculateDistance(pattern.getData(), leftCenter) <= stdev)
                             ++leftDensity;
                     }
 
-                    for (Pattern pattern : arrangedClusters.get(j).values()) {
-                        if (helper.calculateDistance(pattern.data, midPoint) <= stdev)
+                    for (Pattern<Vector> pattern : rightCluster) {
+                        if (this.problem.calculateDistance(pattern.getData(), midPoint) <= stdev)
                             ++midDensity;
-                        if (helper.calculateDistance(pattern.data, rightCenter) <= stdev)
+                        if (this.problem.calculateDistance(pattern.getData(), rightCenter) <= stdev)
                             ++rightDensity;
                     }
 

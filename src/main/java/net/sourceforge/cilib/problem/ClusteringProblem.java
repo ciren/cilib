@@ -27,6 +27,7 @@ import net.sourceforge.cilib.problem.dataset.DataSetManager;
 import net.sourceforge.cilib.type.DomainRegistry;
 import net.sourceforge.cilib.type.StringBasedDomainRegistry;
 import net.sourceforge.cilib.type.types.Type;
+import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.ClusteringUtils;
 import net.sourceforge.cilib.util.DistanceMeasure;
 import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
@@ -83,29 +84,26 @@ import net.sourceforge.cilib.util.EuclideanDistanceMeasure;
 public class ClusteringProblem extends OptimisationProblemAdapter {
     private static final long serialVersionUID = 7027242527499147957L;
 
+    private static final int UNINITIALISED = -1;
+
     private FunctionOptimisationProblem innerProblem;
     private int numberOfClusters;
     private DomainRegistry domainRegistry;
     private DistanceMeasure distanceMeasure;
-    private static final int UNINITIALISED = -1;
 
     public ClusteringProblem() {
-        innerProblem = null;
-        numberOfClusters = UNINITIALISED;
-        domainRegistry = new StringBasedDomainRegistry();
-        distanceMeasure = new EuclideanDistanceMeasure();
-        // needed so that the unit tests don't get NullPointerExceptions
-        ClusteringUtils.get().setClusteringProblem(this);
+        this.innerProblem = null;
+        this.numberOfClusters = UNINITIALISED;
+        this.domainRegistry = new StringBasedDomainRegistry();
+        this.distanceMeasure = new EuclideanDistanceMeasure();
     }
 
     public ClusteringProblem(ClusteringProblem rhs) {
         super(rhs);
-        innerProblem = rhs.innerProblem.getClone();
-        numberOfClusters = rhs.numberOfClusters;
-        domainRegistry = rhs.domainRegistry.getClone();
-        distanceMeasure = rhs.distanceMeasure;
-        // not sure if it is needed, but it can't hurt
-        ClusteringUtils.get().setClusteringProblem(this);
+        this.innerProblem = rhs.innerProblem.getClone();
+        this.numberOfClusters = rhs.numberOfClusters;
+        this.domainRegistry = rhs.domainRegistry.getClone();
+        this.distanceMeasure = rhs.distanceMeasure;
     }
 
     @Override
@@ -127,8 +125,8 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      *        optimisation process.
      */
     public void setInnerProblem(FunctionOptimisationProblem fop) {
-        innerProblem = fop;
-        regenerateDomain();
+        this.innerProblem = fop;
+        this.regenerateDomain();
     }
 
     /**
@@ -136,7 +134,7 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      * @return the {@link #numberOfClusters}
      */
     public int getNumberOfClusters() {
-        return numberOfClusters;
+        return this.numberOfClusters;
     }
 
     /**
@@ -150,8 +148,8 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      *        optimise this clustering
      */
     public void setNumberOfClusters(int noc) {
-        numberOfClusters = noc;
-        regenerateDomain();
+        this.numberOfClusters = noc;
+        this.regenerateDomain();
     }
 
     /**
@@ -253,7 +251,6 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
         StaticDataSetBuilder builder = (StaticDataSetBuilder) dsb;
 
         this.dataSetBuilder = DataSetManager.getInstance().getDataSetBuilder(builder);
-        ClusteringUtils.get().setDataSetBuilder((StaticDataSetBuilder) this.dataSetBuilder);
     }
 
     /**
@@ -275,6 +272,19 @@ public class ClusteringProblem extends OptimisationProblemAdapter {
      */
     public DistanceMeasure getDistanceMeasure() {
         return distanceMeasure;
+    }
+
+    /**
+     * A central point where distances can be calculated. This is to prevent various
+     * different distance measures from being used in the same clustering algorithm/problem.
+     *
+     * @param lhs the one {@link Vector}
+     * @param rhs the other {@link Vector}
+     * @return the distance between the two given vectors calculated using the current
+     *         {@link #distanceMeasure}
+     */
+    public double calculateDistance(Vector lhs, Vector rhs) {
+        return this.distanceMeasure.distance(lhs, rhs);
     }
 
     /**

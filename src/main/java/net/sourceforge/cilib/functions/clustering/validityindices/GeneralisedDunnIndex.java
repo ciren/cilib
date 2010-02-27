@@ -48,16 +48,16 @@ public abstract class GeneralisedDunnIndex extends ScatterSeperationRatio {
     public double calculateFitness() {
         double withinScatter = -Double.MAX_VALUE, betweenSeperation = Double.MAX_VALUE;
 
-        cacheWithinClusterScatter();
-        cacheBetweenClusterSeperation();
+        this.cacheWithinClusterScatter();
+        this.cacheBetweenClusterSeperation();
 
         for (int i = 0; i < clustersFormed; i++) {
-            withinScatter = Math.max(withinScatter, getWithinClusterScatter(i));
+            withinScatter = Math.max(withinScatter, this.getWithinClusterScatter(i));
         }
 
         for (int i = 0; i < clustersFormed - 1; i++) {
             for (int j = i + 1; j < clustersFormed; j++) {
-                betweenSeperation = Math.min(betweenSeperation, getBetweenClusterSeperation(i, j));
+                betweenSeperation = Math.min(betweenSeperation, this.getBetweenClusterSeperation(i, j));
             }
         }
 

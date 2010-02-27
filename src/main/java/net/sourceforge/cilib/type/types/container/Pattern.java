@@ -19,35 +19,54 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.problem.dataset;
+package net.sourceforge.cilib.type.types.container;
 
-import java.io.Serializable;
-
-import net.sourceforge.cilib.type.types.container.Vector;
+import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.util.Vectors;
 
-public class Pattern implements Cloneable, Serializable {
+public class Pattern<S extends StructuredType<Numeric>> extends ForwardingStructuredType<Numeric> {
     private static final long serialVersionUID = 3018524182531891291L;
 
-    public String clazz = "<not set>";
-    public Vector data = null;
+    private S data;
+    private String classification;
 
-    public Pattern(String c, Vector d) {
-        clazz = c;
-        data = d;
+    public Pattern(S data, String classification) {
+        this.data = data;
+        this.classification = classification;
     }
 
-    public Pattern(Pattern rhs) {
-        clazz = rhs.clazz;
-        data = rhs.data;
+    public Pattern(Pattern<S> rhs) {
+        this.data = (S) rhs.data.getClone();
+        this.classification = rhs.classification;
     }
 
-    public Pattern getClone() {
-        return new Pattern(this);
+    @Override
+    public S delegate() {
+        return this.data;
+    }
+
+    /**
+     * Convenience method.
+     */
+    public S getData() {
+        return this.data;
+    }
+
+    @Override
+    public Pattern<S> getClone() {
+        return new Pattern<S>(this);
     }
 
     @Override
     public String toString() {
-        return Vectors.toString(data, "", "", "\t") + '\t' + clazz;
+        return Vectors.toString(this.data, "", "", "\t");
+    }
+
+    public String getClassification() {
+        return this.classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 }
