@@ -35,6 +35,8 @@ import net.sourceforge.cilib.util.Vectors;
  * @author theuns.cloete
  */
 public class StandardCentroidsDiversificationStrategy implements CentroidsDiversificationStrategy {
+    private static final long serialVersionUID = -5900302560150700540L;
+
     private ArrayList<Vector> previousCentroids;
     private ArrayList<Integer> unchangedIterations;
     private double diversifyRatio;

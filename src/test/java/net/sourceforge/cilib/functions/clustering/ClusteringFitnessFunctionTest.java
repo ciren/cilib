@@ -72,7 +72,6 @@ public class ClusteringFitnessFunctionTest {
         centroids.add(Int.valueOf(50));
     }
 
-
     @AfterClass
     public static void destroy() {
         function = null;

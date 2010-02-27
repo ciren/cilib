@@ -59,10 +59,10 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
         Vector centroids = (Vector) algorithm.getBestSolution().getPosition();
         helper.arrangeClustersAndCentroids(centroids);
 
-//		System.out.println("reset");
-//		System.out.println("set term jpeg medium");
-//		System.out.println("set output \"iteration." + String.format("%04d", Algorithm.get().getIterations()) + ".jpg\"");
-//		System.out.print("plot [-0.5:10][-5:5] sin(x) - 0.5, 0.5 - sin(x), ");
+//        System.out.println("reset");
+//        System.out.println("set term jpeg medium");
+//        System.out.println("set output \"iteration." + String.format("%04d", Algorithm.get().getIterations()) + ".jpg\"");
+//        System.out.print("plot [-0.5:10][-5:5] sin(x) - 0.5, 0.5 - sin(x), ");
         System.out.print("plot ");
 
         ArrayList<Hashtable<Integer, Pattern>> arrangedClusters = helper.getArrangedClusters();

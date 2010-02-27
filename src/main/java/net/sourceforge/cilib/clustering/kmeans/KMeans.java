@@ -60,6 +60,7 @@ import net.sourceforge.cilib.util.calculator.StructuredTypeFitnessCalculator;
  */
 public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
     private static final long serialVersionUID = -3301123926538450441L;
+
     private CentroidsInitialisationStrategy centroidsInitialisationStrategy;
     private CentroidsDiversificationStrategy centroidsDiversificationStrategy;
     private FitnessCalculator<Vector> calculator;
@@ -87,7 +88,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
 
         this.centroids = new ArrayList<Vector>();
         for (Vector centroid : rhs.centroids) {
-            this.centroids.add(centroid.getClone());
+            this.centroids.add(Vector.copyOf(centroid));
         }
     }
 
@@ -130,7 +131,7 @@ public class KMeans extends AbstractAlgorithm implements SingularAlgorithm {
             if (cluster.isEmpty()) {
                 // reinitialise the centroid if no patterns "belong" to it
                 ArrayList<Vector> tmp = this.centroidsInitialisationStrategy.initialise(helper.getClusteringProblem(), helper.getDataSetBuilder());
-                centroid = tmp.get(tmp.size() - 1);	// use the last centroid that was generated; might return an unbounded Vector
+                centroid = tmp.get(tmp.size() - 1); // use the last centroid that was generated; might return an unbounded Vector
             }
             else {
                 // the centroid becomes the mean of cluster i

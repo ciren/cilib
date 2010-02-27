@@ -43,6 +43,7 @@ import net.sourceforge.cilib.util.ClusteringUtils;
  */
 public class DataSetBasedInitializationStrategy<E extends Entity> implements InitializationStrategy<E> {
     private static final long serialVersionUID = 1341622520702058537L;
+
     private CentroidsInitialisationStrategy centroidsInitialisationStrategy;
 
     public DataSetBasedInitializationStrategy() {

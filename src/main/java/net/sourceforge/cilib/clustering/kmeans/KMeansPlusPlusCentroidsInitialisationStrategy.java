@@ -79,7 +79,7 @@ public class KMeansPlusPlusCentroidsInitialisationStrategy implements CentroidsI
         this.chosenCentroids = new ArrayList<Vector>();
 
         while (centroidsChosen < numberOfClusters) {
-            Vector candidateCentroid = patterns.get(Math.round(randomPattern.nextInt(patterns.size()))).data.getClone();
+            Vector candidateCentroid = Vector.copyOf(patterns.get(Math.round(randomPattern.nextInt(patterns.size()))).data);
 
             if (centroidsChosen > 0) {
                 double probability = calculateProbability(candidateCentroid);

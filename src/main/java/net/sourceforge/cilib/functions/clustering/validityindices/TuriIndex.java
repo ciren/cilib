@@ -39,8 +39,8 @@ public class TuriIndex extends ClusteringFitnessFunction {
 //    private double gaussian = 0.0;
 
     public TuriIndex() {
-//      random = new RandomNumber();
-//      gaussian = random.getGaussian(2, 1);
+//        random = new RandomNumber();
+//        gaussian = random.getGaussian(2, 1);
     }
 
     @Override

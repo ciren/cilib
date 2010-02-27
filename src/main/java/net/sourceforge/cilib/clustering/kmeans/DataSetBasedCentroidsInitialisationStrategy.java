@@ -63,7 +63,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
         RandomProvider random = new MersenneTwister();
 
         for (int i = 0; i < numberOfCentroids; ++i) {
-            Vector centroid = patterns.get(Math.round(random.nextInt(patterns.size()))).data.getClone();
+            Vector centroid = Vector.copyOf(patterns.get(Math.round(random.nextInt(patterns.size()))).data);
 
             centroids.add(centroid);
         }
