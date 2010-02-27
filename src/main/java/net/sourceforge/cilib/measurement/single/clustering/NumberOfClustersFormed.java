@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.measurement.single;
+package net.sourceforge.cilib.measurement.single.clustering;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -36,13 +36,13 @@ import net.sourceforge.cilib.util.Vectors;
  * <ol>
  * <li><tt>Algorithm.get()</tt> should not be <tt>null</tt>.</li>
  * <li>The algorithm's best solution (best position) should return a {@link Vector}.</li>
- * <li>The algorithm's problem's {@link DataSetBuilder} should be a
- * {@link StaticDataSetBuilder}.</li>
+ * <li>The algorithm's problem's {@link DataSetBuilder} should be a {@link StaticDataSetBuilder}.</li>
  * <li>The {@link ClusteringUtils#arrangeClustersAndCentroids(net.sourceforge.cilib.type.types.container.Vector)} method
  * should be implemented to remove <i>empty clusters</i>.</li>
  * <li>The {@link ClusteringUtils#getArrangedClusters()} method should be implemented to return the list of non-empty
  * clusters.</li>
  * </ol>
+ *
  * @author Theuns Cloete
  */
 public class NumberOfClustersFormed implements Measurement<Int> {

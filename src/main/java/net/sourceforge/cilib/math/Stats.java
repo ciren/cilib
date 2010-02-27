@@ -22,18 +22,21 @@
 package net.sourceforge.cilib.math;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.Sequence;
 import net.sourceforge.cilib.util.Vectors;
 
 /**
  * Some simple methods for determining some statistics.
- *
+ * @author Gary Pampara, Theuns Cloete
  */
 public final class Stats {
 
@@ -78,14 +81,9 @@ public final class Stats {
             throw new IllegalArgumentException("Cannot calculate the mean for an empty set");
         }
 
-        Vector mean = null;
+        Vector mean = Vectors.zeroVector(Iterables.get(set, 0).data);
 
         for (Pattern pattern : set) {
-            if (mean == null) {
-                mean = pattern.data.getClone();
-//                mean.reset();        // initialize the mean to be all zeroes
-                continue;
-            }
             mean = mean.plus(pattern.data);
         }
         return mean.divide(set.size());
@@ -121,23 +119,35 @@ public final class Stats {
      * @return a double representing the variance of the given set with the given center
      */
     public static double variance(Collection<Pattern> set, Vector center) {
+        return varianceVector(set, center).norm();
+    }
+
+    /**
+     * Calculates the variance vector of the given set/cluster/collection of @{link Pattern}s.
+     *
+     * @param set a set ({@link ArrayList}) of {@link Pattern}s
+     * @param center a {@link Vector} that represents the mean/center of the accompanied set
+     * @return a {@link Vector} representing the variance vector of the given set with the given center. When the norm
+     *         of this vector is taken, you will get the actual variance scalar of the given set with given center.
+     */
+    public static Vector varianceVector(Collection<Pattern> set, Vector center) {
         if (set.isEmpty()) {
             throw new IllegalArgumentException("Cannot calculate the variance for an empty set");
         }
 
-        Vector variance = Vector.copyOf(Sequence.repeat(0.0, center.size()));
+        Vector variance = Vectors.zeroVector(center);
 
         for (Pattern pattern : set) {
             Vector diffSquare = Vectors.transform(pattern.data.subtract(center), new Function<Numeric, Double>() {
-
                 @Override
                 public Double apply(Numeric from) {
                     return from.doubleValue() * from.doubleValue();
                 }
             });
+
             variance = variance.plus(diffSquare);
         }
-        return variance.norm() / set.size();
+        return variance.divide(set.size());
     }
 
     /**
@@ -151,5 +161,20 @@ public final class Stats {
 
     public static double stdDeviation(Number... values) {
         return Math.sqrt(variance(Vector.of(values)));
+    }
+
+    public static double stdDeviation(Collection<Pattern> set, Vector center) {
+        return Math.sqrt(variance(set, center));
+    }
+
+    public static Vector stdDeviationVector(Collection<Pattern> set, Vector center) {
+        Vector variance = varianceVector(set, center);
+
+        return Vectors.transform(variance, new Function<Numeric, Double>() {
+            @Override
+            public Double apply(Numeric from) {
+                return Math.sqrt(from.doubleValue());
+            }
+        });
     }
 }

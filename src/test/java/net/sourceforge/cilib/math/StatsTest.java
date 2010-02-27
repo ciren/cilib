@@ -21,9 +21,6 @@
  */
 package net.sourceforge.cilib.math;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 
 import net.sourceforge.cilib.problem.dataset.Pattern;
@@ -33,7 +30,13 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+import static org.junit.Assert.assertThat;
 
+/**
+ * @author Theuns Cloete
+ */
 public class StatsTest {
 
     private static ArrayList<Pattern> set;
@@ -42,28 +45,12 @@ public class StatsTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Vector tmp = Vector.of();
         set = new ArrayList<Pattern>();
-
-        for (int i = 1; i <= SIZE; i++) {
-            tmp.add(Real.valueOf(i));
-        }
-        set.add(new Pattern("class0", tmp));
-
-        tmp = Vector.of();
-        for (int i = SIZE; i > 0; i--) {
-            tmp.add(Real.valueOf(i));
-        }
-        set.add(new Pattern("class1", tmp));
-
-        tmp = Vector.of(1.0, 1.0, 1.0);
-        set.add(new Pattern("class2", tmp));
-
-        tmp = Vector.of(2.0, 2.0, 2.0);
-        set.add(new Pattern("class1", tmp));
-
-        tmp = Vector.of(3.0, 3.0, 3.0);
-        set.add(new Pattern("class0", tmp));
+        set.add(new Pattern("class0", Vector.of(1.0, 2.0, 3.0)));
+        set.add(new Pattern("class1", Vector.of(3.0, 2.0, 1.0)));
+        set.add(new Pattern("class2", Vector.of(1.0, 1.0, 1.0)));
+        set.add(new Pattern("class1", Vector.of(2.0, 2.0, 2.0)));
+        set.add(new Pattern("class0", Vector.of(3.0, 3.0, 3.0)));
     }
 
     @AfterClass
@@ -92,6 +79,30 @@ public class StatsTest {
 
     @Test
     public void testVarianceScalar() {
-        assertThat(Stats.variance(set, mean), equalTo(1.2)); // more accurate than Stats.varianceVector()
+        assertThat(Stats.variance(set, mean), closeTo(1.2, Maths.EPSILON)); // more accurate than Stats.varianceVector()
+    }
+
+    @Test
+    public void testVarianceVector() {
+        Vector varianceVector = Stats.varianceVector(set, mean);
+
+        assertThat(varianceVector.doubleValueOf(0), closeTo(0.8, Maths.EPSILON));
+        assertThat(varianceVector.doubleValueOf(1), closeTo(0.4, Maths.EPSILON));
+        assertThat(varianceVector.doubleValueOf(2), closeTo(0.8, Maths.EPSILON));
+        assertThat(varianceVector.norm(), closeTo(1.2, Maths.EPSILON));
+    }
+
+    @Test
+    public void testStdDeviationScalar() {
+        assertThat(Stats.stdDeviation(set, mean), closeTo(1.0954451150103323, Maths.EPSILON));
+    }
+
+    @Test
+    public void testStdDeviationVector() {
+        Vector stdDeviationVector = Stats.stdDeviationVector(set, mean);
+
+        assertThat(stdDeviationVector.doubleValueOf(0), closeTo(0.894427190999916, Maths.EPSILON));
+        assertThat(stdDeviationVector.doubleValueOf(1), closeTo(0.632455532033676, Maths.EPSILON));
+        assertThat(stdDeviationVector.doubleValueOf(2), closeTo(0.894427190999916, Maths.EPSILON));
     }
 }

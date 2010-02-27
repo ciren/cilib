@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.measurement.single;
+package net.sourceforge.cilib.measurement.single.clustering;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -35,10 +35,10 @@ import net.sourceforge.cilib.util.Vectors;
 /**
  * This measurement is handy when debugging a clustering in R^2 space using GNUplot. Logging should be disabled and no
  * other output should be written to standard out. To try it, start GNUplot, execute:<br/>
- * load "&lt./simulator.sh path/to/your/cilib.config.file.xml"<br/>
+ * load "&lt./simulator.sh path/to/your/cilib.config.file.xml -noprogress"<br/>
  * and enjoy.
  *
- * @author theuns.cloete
+ * @author Theuns Cloete
  */
 public class PlotClustersAndCentroids implements Measurement<Int> {
     private static final long serialVersionUID = -3463144715668304866L;
@@ -87,7 +87,7 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
         }
 
         for (Vector centroid : arrangedCentroids) {
-            System.out.println(Vectors.toString(centroid, '\0', '\0', '\t'));
+            System.out.println(Vectors.toString(centroid, "", "", "\t"));
             System.out.println('e');
         }
         return Int.valueOf(0, new Bounds(0, 0));

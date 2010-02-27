@@ -75,6 +75,7 @@ public class GenericFunctionMeasurement<F, T> implements Measurement<Real> {
     @Override
     public Real getValue(Algorithm algorithm) {
         Preconditions.checkNotNull(function, "The function that should be evaluated has not been set");
+
         Vector vector = (Vector) algorithm.getBestSolution().getPosition();
         return Real.valueOf(function.apply(vector));
     }

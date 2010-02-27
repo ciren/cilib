@@ -19,34 +19,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.problem.dataset;
+package net.sourceforge.cilib.measurement.single.clustering;
 
-import java.io.Serializable;
-
+import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.measurement.Measurement;
+import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
+import net.sourceforge.cilib.util.ClusteringUtils;
 
-public class Pattern implements Cloneable, Serializable {
-    private static final long serialVersionUID = 3018524182531891291L;
-    private String clas = "<not set>";
-    public Vector data = null;
-
-    public Pattern(String c, Vector d) {
-        clas = c;
-        data = d;
-    }
-
-    public Pattern(Pattern rhs) {
-        clas = rhs.clas;
-        data = rhs.data;
-    }
-
-    public Pattern getClone() {
-        return new Pattern(this);
+/**
+ * Combines and measures the centroid vectors of the clusters optimised by the given algorithm.
+ *
+ * @author Theuns Cloete
+ */
+public class ClusterCentroids implements Measurement {
+    @Override
+    public Measurement getClone() {
+        return this;
     }
 
     @Override
-    public String toString() {
-        return Vectors.toString(data, "", "", "\t") + '\t' + clas;
+    public String getDomain() {
+        return "(R^?)^?";
+    }
+
+    @Override
+    public Type getValue(Algorithm algorithm) {
+        Vector.Builder combined = Vector.newBuilder();
+
+        for (Vector centroid : ClusteringUtils.get().getArrangedCentroids()) {
+            combined.copyOf(centroid);
+        }
+        return combined.build();
     }
 }

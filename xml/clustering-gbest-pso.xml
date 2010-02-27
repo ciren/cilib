@@ -1011,7 +1011,7 @@
 		<addMeasurement class="measurement.single.GenericFunctionMeasurement">
 			<function class="functions.clustering.IntraClusterDistance" />
 		</addMeasurement>
-		<addMeasurement class="measurement.single.NumberOfClustersFormed" />
+		<addMeasurement class="measurement.single.clustering.NumberOfClustersFormed" />
 		<addMeasurement class="measurement.single.diversity.Diversity" />
 	</measurements>
 

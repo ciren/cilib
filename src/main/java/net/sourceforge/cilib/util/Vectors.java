@@ -53,12 +53,12 @@ public final class Vectors {
      *         elements set to their respective upper bounds
      */
     public static Vector upperBoundVector(Vector vector) {
-        Vector.Builder upperBounds = Vector.newBuilder();
-
-        for (Numeric element : vector) {
-            upperBounds.addWithin(element.getBounds().getUpperBound(), element.getBounds());
-        }
-        return upperBounds.build();
+        return Vectors.transform(vector, new Function<Numeric, Double>() {
+            @Override
+            public Double apply(Numeric from) {
+                return from.getBounds().getUpperBound();
+            }
+        });
     }
 
     /**
@@ -71,12 +71,12 @@ public final class Vectors {
      *         elements set to their respective lower bounds
      */
     public static Vector lowerBoundVector(Vector vector) {
-        Vector.Builder lowerBounds = Vector.newBuilder();
-
-        for (Numeric element : vector) {
-            lowerBounds.addWithin(element.getBounds().getLowerBound(), element.getBounds());
-        }
-        return lowerBounds.build();
+        return Vectors.transform(vector, new Function<Numeric, Double>() {
+            @Override
+            public Double apply(Numeric from) {
+                return from.getBounds().getLowerBound();
+            }
+        });
     }
 
     /**
@@ -135,12 +135,11 @@ public final class Vectors {
      * <code>1\t2\t3</code>
      * @return The string representation of the given {@code Vector}.
      */
-    public static String toString(Vector vector, char first, char last, char delimeter) {
+    public static String toString(Vector vector, String first, String last, String delimeter) {
         StringBuilder stringRepresentation = new StringBuilder(first);
         Joiner.on(delimeter).appendTo(stringRepresentation, vector);
 
-        stringRepresentation.append(last);
-        return stringRepresentation.toString();
+        return stringRepresentation.append(last).toString();
     }
 
     /**
@@ -160,14 +159,15 @@ public final class Vectors {
      * @throws {@link UnsupportedOperationException} when an element in the is not a {@link Numeric}
      * @return a new {@link Vector} with added noise.
      */
-    public static Vector jitter(Vector vector, double ratio) {
-        Vector.Builder jittered = Vector.newBuilder();
-        RandomProvider random = new MersenneTwister();
+    public static Vector jitter(Vector vector, final double ratio) {
+        final RandomProvider random = new MersenneTwister();
 
-        for (Numeric element : vector) {
-            jittered.add(element.doubleValue() + (random.nextDouble() - 0.5) * ratio * ((element.getBounds().getUpperBound() - element.getBounds().getLowerBound()) / 2.0));
-        }
-        return jittered.build();
+        return Vectors.transform(vector, new Function<Numeric, Double>() {
+            @Override
+            public Double apply(Numeric from) {
+                return from.doubleValue() + (random.nextDouble() - 0.5) * ratio * ((from.getBounds().getUpperBound() - from.getBounds().getLowerBound()) / 2.0);
+            }
+        });
     }
 
     /**
@@ -184,5 +184,14 @@ public final class Vectors {
             bounded.add(Real.valueOf(vector.doubleValueOf(i), new Bounds(lowerBounds.doubleValueOf(i), upperBounds.doubleValueOf(i))));
         }
         return bounded.build();
+    }
+
+    public static Vector zeroVector(Vector vector) {
+        return Vectors.transform(vector, new Function<Numeric, Double>() {
+            @Override
+            public Double apply(Numeric from) {
+                return 0.0;
+            }
+        });
     }
 }

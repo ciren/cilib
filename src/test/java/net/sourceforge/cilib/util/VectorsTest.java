@@ -22,8 +22,6 @@
 package net.sourceforge.cilib.util;
 
 import net.sourceforge.cilib.type.types.Bounds;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import net.sourceforge.cilib.type.types.Numeric;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Type;
@@ -33,7 +31,11 @@ import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class VectorsTest {
 
@@ -84,4 +86,49 @@ public class VectorsTest {
         Assert.assertThat(result.doubleValueOf(0), is(5.0));
     }
 
+    @Test
+    public void testToString() {
+        assertThat(Vectors.toString(vector, "[", "]", ","), is("[1.0,2.0,3.0,4.0]"));
+        assertThat(Vectors.toString(vector, "", "", "\t"), is("1.0\t2.0\t3.0\t4.0"));
+    }
+
+    @Test
+    public void testJitter() {
+        Vector jittered = Vectors.jitter(vector, 0.01);
+
+        assertThat(jittered.size(), is(vector.size()));
+        assertThat(jittered.doubleValueOf(0), closeTo(1.0, 0.04));
+        assertThat(jittered.doubleValueOf(1), closeTo(2.0, 0.08));
+        assertThat(jittered.doubleValueOf(2), closeTo(3.0, 1.02));
+        assertThat(jittered.doubleValueOf(3), closeTo(4.0, 1.06));
+
+        jittered = Vectors.jitter(vector, 0.001);
+        assertThat(jittered.size(), is(vector.size()));
+        assertThat(jittered.doubleValueOf(0), closeTo(1.0, 0.004));
+        assertThat(jittered.doubleValueOf(1), closeTo(2.0, 0.008));
+        assertThat(jittered.doubleValueOf(2), closeTo(3.0, 1.002));
+        assertThat(jittered.doubleValueOf(3), closeTo(4.0, 1.006));
+    }
+
+    @Test
+    public void testJitterZeroRatio() {
+        Vector jittered = Vectors.jitter(vector, 0.0);
+
+        assertThat(jittered.size(), is(vector.size()));
+        assertThat(jittered.doubleValueOf(0), is(1.0));
+        assertThat(jittered.doubleValueOf(1), is(2.0));
+        assertThat(jittered.doubleValueOf(2), is(3.0));
+        assertThat(jittered.doubleValueOf(3), is(4.0));
+    }
+
+    @Test
+    public void testZeroVector() {
+        Vector zeroed = Vectors.zeroVector(vector);
+
+        assertThat(zeroed.size(), is(vector.size()));
+
+        for (Numeric numeric : zeroed) {
+            assertThat(numeric.doubleValue(), is(0.0));
+        }
+    }
 }
