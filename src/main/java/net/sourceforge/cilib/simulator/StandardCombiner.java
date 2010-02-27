@@ -24,11 +24,14 @@ package net.sourceforge.cilib.simulator;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -44,7 +47,7 @@ class StandardCombiner implements MeasurementCombiner {
         Preconditions.checkArgument(partials.size() >= 1);
 
         try {
-            FileWriter writer = new FileWriter(resultFilename);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(resultFilename));
             int columnId = 0;
             writer.write("# " + columnId++ + " - Iterations\n");
             for (int i = 0; i < partials.size(); i++) {
@@ -61,13 +64,14 @@ class StandardCombiner implements MeasurementCombiner {
         }
     }
 
-    private void writeDataLines(FileWriter writer, List<File> partials) {
+    private void writeDataLines(final BufferedWriter writer, final List<File> partials) {
         List<BufferedReader> readers = Lists.newArrayListWithCapacity(partials.size());
         for (File file : partials) {
             try {
-                readers.add(new BufferedReader(new FileReader(file)));
+                InputStreamReader is = new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8"));
+                readers.add(new BufferedReader(is));
             } catch (FileNotFoundException ex) {
-               throw new RuntimeException(ex);
+                throw new RuntimeException(ex);
             }
         }
 
@@ -82,8 +86,9 @@ class StandardCombiner implements MeasurementCombiner {
                     String string = reader.readLine();
                     builder.append(string.substring(string.indexOf(" ")));
                 }
-                builder.append("\n");
+
                 writer.write(builder.toString());
+                writer.newLine();
                 builder = new StringBuilder();
                 checkLine = checkReader.readLine();
             }
