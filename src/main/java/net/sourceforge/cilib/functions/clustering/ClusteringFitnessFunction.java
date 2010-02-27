@@ -109,7 +109,8 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
             return worstFitness();
         }
 
-        return validateFitness(calculateFitness());
+        return calculateFitness();
+//        return validateFitness(calculateFitness());
     }
 
     public abstract double calculateFitness();
@@ -383,6 +384,7 @@ public abstract class ClusteringFitnessFunction extends ContinuousFunction {
      *
      * @param fitness the fitness value that will be validated.
      * @return the fitness.
+     * @deprecated depending on the distance measure used, a negative fitness function may be allowed
      */
     protected double validateFitness(double fitness) {
         if (fitness < 0.0) {

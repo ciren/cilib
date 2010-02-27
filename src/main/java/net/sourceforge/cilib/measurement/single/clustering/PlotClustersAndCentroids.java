@@ -83,7 +83,7 @@ public class PlotClustersAndCentroids implements Measurement<Int> {
             for (Pattern pattern : cluster.values()) {
                 System.out.println(pattern);
             }
-            System.out.println('e');
+            System.out.println("e");
         }
 
         for (Vector centroid : arrangedCentroids) {

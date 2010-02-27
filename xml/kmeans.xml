@@ -16,9 +16,9 @@
             <centroidsInitialisationStrategy class="clustering.kmeans.DataSetBasedCentroidsInitialisationStrategy"/>
         </algorithm>
 
-        <algorithm id="kmeans.plusplus" class="clustering.kmeans.KMeans">
+        <algorithm id="kmeans.potential" class="clustering.kmeans.KMeans">
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="100"/>
-            <centroidsInitialisationStrategy class="clustering.kmeans.KMeansPlusPlusCentroidsInitialisationStrategy"/>
+            <centroidsInitialisationStrategy class="clustering.kmeans.ContributingPotentialCentroidsInitialisationStrategy"/>
             <centroidsDiversificationStrategy class="clustering.kmeans.StandardCentroidsDiversificationStrategy" interval="1" diversifyRatio="0.1" />
         </algorithm>
     </algorithms>
@@ -64,7 +64,7 @@
         </simulation>
 
         <simulation samples="1">
-            <algorithm idref="kmeans.plusplus"/>
+            <algorithm idref="kmeans.potential"/>
             <problem idref="artificial" numberOfClusters="4" />
             <measurements idref="measurements" />
             <output format="TXT" file="measurements/kmeans.plusplus.artificial.4.txt" />

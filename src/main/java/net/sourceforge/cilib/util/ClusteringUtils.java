@@ -27,8 +27,10 @@ import java.util.Hashtable;
 
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
+import net.sourceforge.cilib.coevolution.cooperative.problem.CooperativeCoevolutionProblemAdapter;
 import net.sourceforge.cilib.functions.clustering.ClusteringFitnessFunction;
 import net.sourceforge.cilib.problem.ClusteringProblem;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.dataset.DataSetBuilder;
 import net.sourceforge.cilib.problem.dataset.Pattern;
 import net.sourceforge.cilib.problem.dataset.StaticDataSetBuilder;
@@ -79,7 +81,15 @@ public final class ClusteringUtils {
         if (clusteringProblem == null || dataSetBuilder == null) {
             try {
                 Algorithm algorithm = AbstractAlgorithm.get();
-                clusteringProblem = (ClusteringProblem) algorithm.getOptimisationProblem();
+                OptimisationProblem problem = algorithm.getOptimisationProblem();
+
+                if (problem instanceof ClusteringProblem) {
+                    clusteringProblem = (ClusteringProblem) problem;
+                }
+                else if (problem instanceof CooperativeCoevolutionProblemAdapter) {
+                    clusteringProblem = (ClusteringProblem) (((CooperativeCoevolutionProblemAdapter) problem).getWrappedProblem());
+                }
+
                 dataSetBuilder = (StaticDataSetBuilder) clusteringProblem.getDataSetBuilder();
 
                 System.out.println("Initialised Algorithm found: " + ClusteringUtils.class.getSimpleName() + " is now configured");

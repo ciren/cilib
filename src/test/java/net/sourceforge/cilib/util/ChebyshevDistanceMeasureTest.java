@@ -21,41 +21,28 @@
  */
 package net.sourceforge.cilib.util;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sourceforge.cilib.type.types.Real;
+import net.sourceforge.cilib.math.Maths;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Test;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 
 /**
  * @author Olusegun Olorunda
  */
 public class ChebyshevDistanceMeasureTest {
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IllegalStateException.class)
     public void testVectorDistance() {
         DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
+        Vector lhs = Vector.of(5.0, 3.0, 1.0);
+        Vector rhs = Vector.of(1.0, 3.0, 5.5);
 
-        Vector v1 = new Vector();
-        Vector v2 = new Vector();
+        assertThat(distanceMeasure.distance(lhs, rhs), closeTo(4.5, Maths.EPSILON));
 
-        v1.add(Real.valueOf(5.0));
-        v1.add(Real.valueOf(3.0));
-        v1.add(Real.valueOf(1.0));
-
-        v2.add(Real.valueOf(1.0));
-        v2.add(Real.valueOf(3.0));
-        v2.add(Real.valueOf(5.5));
-
-        assertEquals(4.5, distanceMeasure.distance(v1, v2), Double.MIN_NORMAL);
-
-        v1.add(Real.valueOf(22.0));
-
-        distanceMeasure.distance(v1, v2);
+        lhs = Vector.of(5.0, 3.0, 1.0, 22.0);
+        distanceMeasure.distance(lhs, rhs);
     }
 
 //    @Test(expected=IllegalArgumentException.class)
@@ -80,16 +67,12 @@ public class ChebyshevDistanceMeasureTest {
 //        distanceMeasure.distance(l1, l2);
 //    }
 
-//    @Test
-//    public void testSingleDimension() {
-//        DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
-//
-//        List<Double> list1 = new ArrayList<Double>(1);
-//        List<Double> list2 = new ArrayList<Double>(1);
-//
-//        list1.add(0.0);
-//        list2.add(1.0);
-//
-//        assertEquals(1.0, distanceMeasure.distance(list1, list2), Double.MIN_NORMAL);
-//    }
+    @Test
+    public void testSingleDimension() {
+        DistanceMeasure distanceMeasure = new ChebyshevDistanceMeasure();
+        Vector lhs = Vector.of(0.0);
+        Vector rhs = Vector.of(1.0);
+
+        assertThat(distanceMeasure.distance(lhs, rhs), closeTo(1.0, Maths.EPSILON));
+    }
 }

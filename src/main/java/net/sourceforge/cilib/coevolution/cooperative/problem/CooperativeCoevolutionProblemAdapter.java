@@ -127,4 +127,8 @@ public class CooperativeCoevolutionProblemAdapter extends
     public void updateContext(Vector context) {
         this.context = Vector.copyOf(context);
     }
+
+    public OptimisationProblem getWrappedProblem() {
+        return this.problem;
+    }
 }

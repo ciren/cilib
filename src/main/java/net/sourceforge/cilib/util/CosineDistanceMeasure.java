@@ -83,7 +83,9 @@ public class CosineDistanceMeasure implements DistanceMeasure {
             throw new ArithmeticException("Division by zero");
         }
 
-        // TODO: return x.dot(y) ???
+        // TODO: the following (single line) statement returns exactly the same value
+        // TODO: but x and y should then be Vectors
+        // return 1.0 - (x.dot(y) / (x.norm() * y.norm())); ???
 
         //convert to distance by subtracting from 1
         return 1.0 - (distance / (norm_x * norm_y));

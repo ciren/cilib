@@ -78,7 +78,7 @@
 
 	<dataSetBuilders>
 	<!-- wdbc MINIMUMS and MAXIMUMS: R(6.9, 28.2), R(9.7, 39.3), R(43.7, 188.6), R(143.4, 2501.1), R(0.0, 0.2), R(0.0, 0.4), R(0.0, 0.5), R(0.0, 0.3), R(0.1, 0.4), R(0.0, 0.2), R(0.1, 2.9), R(0.3, 4.9), R(0.7, 22.0), R(6.7, 542.3), R(0.0, 0.1), R(0.0, 0.2), R(0.0, 0.5), R(0.0, 0.1), R(0.0, 0.1), R(0.0, 0.1), R(7.9, 36.1), R(12.0, 49.6), R(50.4, 251.3), R(185.1, 4254.1), R(0.0, 0.3), R(0.0, 1.1), R(0.0, 1.3), R(0.0, 0.3), R(0.1, 0.7), R(0.0, 0.3) -->
-		<dataSetBuilder id="wdbc" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="wdbc" class="problem.dataset.StaticDataSetBuilder" identifier="wdbc">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/uci/breast-cancer-wisconsin/wdbc.data</identifier>
 <!--				<patternExpression>(\d+,(M|B))?,</patternExpression> -->
@@ -90,7 +90,7 @@
 		</dataSetBuilder>
 
 		<!-- glass MINIMUMS and MAXIMUMS: R(1.5, 1.6), R(10.7, 17.4), R(0.0, 4.5), R(0.2, 3.6), R(69.8, 75.5), R(0.0, 6.3), R(5.4, 16.2), R(0.0, 3.2), R(0.0, 0.6) -->
-		<dataSetBuilder id="glass" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="glass" class="problem.dataset.StaticDataSetBuilder" identifier="glass">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/uci/glass/glass.data</identifier>
 <!--				<patternExpression>(^\d+,|\d$|,)</patternExpression> -->
@@ -102,7 +102,7 @@
 		</dataSetBuilder>
 	
 		<!-- ionosphere MINIMUMS and MAXIMUMS: Z(0, 1), Z(0, 0), R(-1.0, 1.0)^32 -->
-		<dataSetBuilder id="ionosphere" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="ionosphere" class="problem.dataset.StaticDataSetBuilder" identifier="ionosphere">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/uci/ionosphere/ionosphere.data</identifier>
 <!--				<patternExpression>,(g|b)?</patternExpression> -->
@@ -114,7 +114,7 @@
 		</dataSetBuilder>
 	
 		<!-- iris MINIMUMS and MAXIMUMS: R(4.2, 8.0), R(1.9, 4.5), R(0.9, 6.9), R(0.0, 2.6) -->
-		<dataSetBuilder id="iris" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="iris" class="problem.dataset.StaticDataSetBuilder" identifier="iris">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/uci/iris/iris.data</identifier>
 <!--				<patternExpression>,\D*</patternExpression>-->
@@ -126,7 +126,7 @@
 		</dataSetBuilder>
 	
 		<!-- bupa MINIMUMS and MAXIMUMS: Z(65, 103), Z(23, 138), Z(4, 155), Z(5, 82), Z(5, 297), R(0.0, 20.0) -->
-		<dataSetBuilder id="bupa" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="bupa" class="problem.dataset.StaticDataSetBuilder" identifier="bupa">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/uci/liver-disorders/bupa.data</identifier>
 <!--				<patternExpression>,\d$|,</patternExpression> -->
@@ -138,7 +138,7 @@
 		</dataSetBuilder>
 	
 		<!-- pima indians diabetes MINIMUMS and MAXIMUMS: Z(0, 17), Z(0, 199), Z(0, 122), Z(0, 99), Z(0, 846), R(0, 67.1), R(0.08, 2.42), Z(21, 81) -->
-		<dataSetBuilder id="diabetes" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="diabetes" class="problem.dataset.StaticDataSetBuilder" identifier="diabetes">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/uci/pima-indians-diabetes/pima-indians-diabetes.data</identifier>
 <!--				<patternExpression>,\d$|,</patternExpression> -->
@@ -150,7 +150,7 @@
 		</dataSetBuilder>
 	
 		<!-- new thyroid MINIMUMS and MAXIMUMS: Z(65, 144), R(0.5, 25.3), R(0.2, 10.0), R(0.1, 56.4), R(-0.7, 56.3) -->
-		<dataSetBuilder id="thyroid" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="thyroid" class="problem.dataset.StaticDataSetBuilder" identifier="thyroid">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/uci/thyroid-disease/new-thyroid.data</identifier>
 <!--				<patternExpression>^\d,|,</patternExpression> -->
@@ -162,7 +162,7 @@
 		</dataSetBuilder>
 	
 		<!-- wine MINIMUMS and MAXIMUMS: R(11.03, 14.83), R(0.74, 5.8), R(1.36, 3.23), R(10.6, 30.0), Z(70, 162), R(0.98, 3.88), R(0.34, 5.08), R(0.13, 0.66), R(0.41, 3.58), R(1.28, 13.0), R(0.48, 1.71), R(1.27, 4.0), Z(278, 1680) -->
-		<dataSetBuilder id="wine" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="wine" class="problem.dataset.StaticDataSetBuilder" identifier="wine">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/uci/wine/wine.data</identifier>
 <!--				<patternExpression>^\d,|,</patternExpression> -->
@@ -174,7 +174,7 @@
 		</dataSetBuilder>
 	
 		<!-- artificial MINIMUMS and MAXIMUMS: R(-1.0, 1.0), R(-1.0, 1.0) -->
-		<dataSetBuilder id="artificial" class="problem.dataset.StaticDataSetBuilder">
+		<dataSetBuilder id="artificial" class="problem.dataset.StaticDataSetBuilder" identifier="artificial">
 			<addDataSet class="problem.dataset.LocalDataSet">
 				<identifier>../../datasets/generated/artificial2/artificial.txt</identifier>
 <!-- 				<patternExpression>,Class\d|,</patternExpression> -->

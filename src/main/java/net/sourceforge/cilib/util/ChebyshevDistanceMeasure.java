@@ -21,6 +21,7 @@
  */
 package net.sourceforge.cilib.util;
 
+import com.google.common.base.Preconditions;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -34,7 +35,6 @@ import net.sourceforge.cilib.type.types.Numeric;
  * @author Olusegun Olorunda
  */
 public class ChebyshevDistanceMeasure extends MinkowskiMetric {
-
     /**
      * Create an instance of the {@linkplain ChebyshevDistanceMeasure}.
      */
@@ -51,31 +51,28 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
          * TODO: Consider re-implementing for different sized vectors, especially as everything is
          * equivalent relative to infinity
          */
-        if (x.size() != y.size()) {
-            throw new IllegalArgumentException("Cannot calculate Chebyshev Metric for vectors of different dimensions");
-        }
-
+        Preconditions.checkState(x.size() == y.size(), "Cannot calculate Chebyshev Metric for vectors of different dimensions");
         Iterator<? extends Numeric> xIterator = x.iterator();
         Iterator<? extends Numeric> yIterator = y.iterator();
-
         double maxDistance = 0.0;
-        for (int i = 0; i < x.size(); ++i) {
+
+        for (int i = 0, n = x.size(); i < n; ++i) {
             Numeric xElement = (Numeric) xIterator.next();
             Numeric yElement = (Numeric) yIterator.next();
-
             double distance = Math.abs(xElement.doubleValue() - yElement.doubleValue());
+
             if (distance > maxDistance) {
                 maxDistance = distance;
             }
         }
-
         return maxDistance;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setAlpha(int a) {
-        throw new IllegalArgumentException("The 'alpha' parameter of the Chebyshev Distance Measure cannot be set directly");
+        throw new UnsupportedOperationException("The 'alpha' parameter of the Chebyshev Distance Measure cannot be set directly");
     }
 }

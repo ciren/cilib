@@ -43,12 +43,12 @@ import net.sourceforge.cilib.util.DistanceMeasure;
  *
  * @author Theuns Cloete
  */
-public class KMeansPlusPlusCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
+public class ContributingPotentialCentroidsInitialisationStrategy implements CentroidsInitialisationStrategy {
     private static final long serialVersionUID = -1475341727508334776L;
     private ArrayList<Pattern> patterns;
     private DistanceMeasure distanceMeasure;
 
-    public KMeansPlusPlusCentroidsInitialisationStrategy() {
+    public ContributingPotentialCentroidsInitialisationStrategy() {
         patterns = null;
         distanceMeasure = null;
     }
@@ -57,8 +57,8 @@ public class KMeansPlusPlusCentroidsInitialisationStrategy implements CentroidsI
      * {@inheritDoc}
      */
     @Override
-    public KMeansPlusPlusCentroidsInitialisationStrategy getClone() {
-        return new KMeansPlusPlusCentroidsInitialisationStrategy();
+    public ContributingPotentialCentroidsInitialisationStrategy getClone() {
+        return new ContributingPotentialCentroidsInitialisationStrategy();
     }
 
     /**
@@ -80,10 +80,12 @@ public class KMeansPlusPlusCentroidsInitialisationStrategy implements CentroidsI
 
             if (i > 0) {
                 while (randomProbability.nextDouble() >= this.calculateProbability(chosenCentroids, candidateCentroid)) {
+                    System.out.println("Trying another candidate centroid");
                     candidateCentroid = Vector.copyOf(patterns.get(randomPattern.nextInt(patterns.size())).data);
                 }
             }
             chosenCentroids.add(candidateCentroid);
+            System.out.println("Adding candidate centroid " + i);
         }
         return chosenCentroids;
     }
@@ -124,6 +126,9 @@ public class KMeansPlusPlusCentroidsInitialisationStrategy implements CentroidsI
             }
             probability += denominator;
         }
+        System.out.println("numerator = " + numerator);
+        System.out.println("denominator = " + probability);
+        System.out.println("probability = " + numerator / probability);
         return numerator / probability;
     }
 }

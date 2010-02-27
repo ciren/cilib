@@ -19,35 +19,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.cilib.problem.dataset;
-
-import java.io.Serializable;
+package net.sourceforge.cilib.util;
 
 import net.sourceforge.cilib.type.types.container.Vector;
-import net.sourceforge.cilib.util.Vectors;
 
-public class Pattern implements Cloneable, Serializable {
-    private static final long serialVersionUID = 3018524182531891291L;
+import org.junit.Test;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.Is.is;
 
-    public String clazz = "<not set>";
-    public Vector data = null;
+/**
+ * @author Theuns Cloete
+ */
+public class HammingDistanceMeasureTest {
 
-    public Pattern(String c, Vector d) {
-        clazz = c;
-        data = d;
-    }
+    @Test(expected=IllegalStateException.class)
+    public void testDistance() {
+        DistanceMeasure measure = new HammingDistanceMeasure();
+        Vector lhs = Vector.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        Vector rhs = Vector.of(1.0, 5.0, 3.0, 2.0, 4.0);
 
-    public Pattern(Pattern rhs) {
-        clazz = rhs.clazz;
-        data = rhs.data;
-    }
+        assertThat(measure.distance(lhs, rhs), is(3.0));
 
-    public Pattern getClone() {
-        return new Pattern(this);
-    }
-
-    @Override
-    public String toString() {
-        return Vectors.toString(data, "", "", "\t") + '\t' + clazz;
+        rhs = Vector.of(1.0, 5.0, 3.0, 2.0, 4.0, 99.0);
+        measure.distance(lhs, rhs);
     }
 }
