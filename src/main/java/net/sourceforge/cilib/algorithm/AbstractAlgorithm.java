@@ -40,7 +40,7 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * </p>
  * @author Edwin Peer
  */
-public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnable {
+public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     private static final long serialVersionUID = 7197544770653732632L;
     private List<StoppingCondition<? extends Algorithm>> stoppingConditions;
     private List<AlgorithmListener> algorithmListeners;
@@ -93,8 +93,9 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
         running = false;
         initialised = false;
 
-        if (copy.optimisationProblem != null)
+        if (copy.optimisationProblem != null) {
             optimisationProblem = copy.optimisationProblem.getClone();
+        }
     }
 
     /**
@@ -105,8 +106,9 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
         running = true;
         initialised = true;
 
-        if (stoppingConditions.isEmpty())
+        if (stoppingConditions.isEmpty()) {
             throw new InitialisationException("No stopping conditions specified");
+        }
 
         currentAlgorithmStack.get().push(this);
         performInitialisation();

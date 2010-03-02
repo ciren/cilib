@@ -25,9 +25,9 @@ import net.sourceforge.cilib.algorithm.ProgressEvent;
 import net.sourceforge.cilib.algorithm.ProgressListener;
 
 /**
- * Progress listener that does not create any output whatsoever.
+ * A {@code ProgressListener} that sinks all output
  */
-class NoProgress implements ProgressListener {
+final class NoProgress implements ProgressListener {
 
     NoProgress() {
     }
@@ -39,5 +39,4 @@ class NoProgress implements ProgressListener {
     @Override
     public void setSimulation(int simnum) {
     }
-
 }
