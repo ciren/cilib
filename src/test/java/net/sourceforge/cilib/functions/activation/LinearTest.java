@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -44,6 +44,8 @@ public class LinearTest {
 
         Assert.assertEquals(Double.MAX_VALUE, linear.evaluate(Double.MAX_VALUE), Maths.EPSILON);
         Assert.assertEquals(Double.MIN_VALUE, linear.evaluate(new Real(Double.MIN_VALUE)).getReal(), Maths.EPSILON);
+        Assert.assertEquals(-Double.MIN_VALUE, linear.evaluate(new Real(-Double.MIN_VALUE)).getReal(), Maths.EPSILON);
+        Assert.assertEquals(-Double.MAX_VALUE, linear.evaluate(new Real(-Double.MAX_VALUE)).getReal(), Maths.EPSILON);
     }
 
     @Test
@@ -57,12 +59,14 @@ public class LinearTest {
 
         Assert.assertEquals(1.0, linear.getGradient(Double.MAX_VALUE), Maths.EPSILON);
         Assert.assertEquals(1.0, linear.getGradient(Vectors.create(Double.MIN_VALUE)).get(0).getReal(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(-Double.MIN_VALUE)).get(0).getReal(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(-Double.MAX_VALUE)).get(0).getReal(), Maths.EPSILON);
     }
 
     @Test
     public void activeRange() {
         Linear linear = new Linear();
         Assert.assertEquals(Double.MAX_VALUE, linear.getUpperActiveRange(), Maths.EPSILON);
-        Assert.assertEquals(Double.MIN_VALUE, linear.getLowerActiveRange(), Maths.EPSILON);
+        Assert.assertEquals(-Double.MAX_VALUE, linear.getLowerActiveRange(), Maths.EPSILON);
     }
 }

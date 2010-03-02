@@ -70,8 +70,9 @@ public abstract class FileReader<T> implements DataReader<T> {
         }
         try {
             previousReadLine = reader.readLine();
-            if (previousReadLine == null)
+            if (previousReadLine == null) {
                 return false;
+            }
         } catch (IOException ex) {
             throw new CIlibIOException(ex);
         }
@@ -99,9 +100,10 @@ public abstract class FileReader<T> implements DataReader<T> {
     public void close() throws CIlibIOException {
         try {
             reader.close();
-            reader = null;
         } catch (IOException ex) {
             throw new CIlibIOException(ex);
+        } finally {
+            reader = null;
         }
     }
 

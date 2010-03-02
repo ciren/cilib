@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2003 - 2009
  * Computational Intelligence Research Group (CIRG@UP)
  * Department of Computer Science
@@ -28,7 +28,7 @@ import net.sourceforge.cilib.util.Vectors;
 /**
  * The linear activation function, f(x) = x; f '(x) = 1; Since it
  * is unbounded, the linear function has no active range, and
- * these values are set to postive and neg. max double.
+ * these values are set to postive and negative max double.
  * @author andrich
  */
 public class Linear extends ActivationFunction {
@@ -71,7 +71,7 @@ public class Linear extends ActivationFunction {
      */
     @Override
     public Real getMinimum() {
-        return new Real(Double.MIN_VALUE);
+        return new Real(-Double.MAX_VALUE);
     }
 
     /**
@@ -95,7 +95,7 @@ public class Linear extends ActivationFunction {
      */
     @Override
     public double getLowerActiveRange() {
-        return Double.MIN_VALUE;
+        return -Double.MAX_VALUE;
     }
 
     /**
