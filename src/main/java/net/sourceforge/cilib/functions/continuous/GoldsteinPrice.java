@@ -56,6 +56,7 @@ public class GoldsteinPrice extends ContinuousFunction {
     /**
      * Get the minimum of the function. The value of the minimum of 3.0.
      */
+    @Override
     public Double getMinimum() {
         return 3.0;
     }
