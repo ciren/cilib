@@ -98,6 +98,7 @@ class Simulator {
     void init() {
         for (int i = 0; i < samples; ++i) {
             simulations[i] = new Simulation(this, (Algorithm) algorithmFactory.newObject(), (Problem) problemFactory.newObject(), (MeasurementSuite) measurementFactory.newObject());
+            simulations[i].init(); // Prepare the simulation for execution
             progress.put(simulations[i], 0.0);
         }
     }

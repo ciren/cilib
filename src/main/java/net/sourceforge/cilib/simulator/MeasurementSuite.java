@@ -22,6 +22,7 @@
 package net.sourceforge.cilib.simulator;
 
 import com.google.common.collect.Lists;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class MeasurementSuite implements MeasurementCollector {
 
     private static final long serialVersionUID = 8021290553229945841L;
     private File file;
-    private FileWriter writer;
+    private BufferedWriter writer;
     private int resolution;
     private List<Measurement<?>> measurements;
     private MeasurementStateManager measurementStateManager;
@@ -63,7 +64,7 @@ public class MeasurementSuite implements MeasurementCollector {
     public void initialise() {
         try {
             file = File.createTempFile("cilib_data", ".tmp");
-            writer = new FileWriter(file);
+            writer = new BufferedWriter(new FileWriter(file));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -134,10 +135,10 @@ public class MeasurementSuite implements MeasurementCollector {
         for (Type t : tmp) {
             builder.append(" ").append(t);
         }
-        builder.append("\n");
 
         try {
             writer.write(builder.toString());
+            writer.newLine();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -150,6 +151,7 @@ public class MeasurementSuite implements MeasurementCollector {
 
     @Override
     public void close() throws IOException {
+        this.writer.flush();
         this.writer.close();
     }
 

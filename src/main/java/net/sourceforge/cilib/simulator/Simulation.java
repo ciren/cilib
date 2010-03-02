@@ -22,12 +22,11 @@
 package net.sourceforge.cilib.simulator;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
-import net.sourceforge.cilib.algorithm.InitialisationException;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
@@ -47,7 +46,7 @@ class Simulation implements AlgorithmListener, Runnable {
      * @param algorithmFactory The factory that creates {@code Algorithm} instances.
      * @param problemFactory The factory that creates {@code Problem} instances.
      */
-    public Simulation(Simulator simulator, Algorithm algorithm, Problem problem, MeasurementSuite measurementSuite) {
+    Simulation(Simulator simulator, Algorithm algorithm, Problem problem, MeasurementSuite measurementSuite) {
         this.simulator = simulator;
         this.algorithm = algorithm;
         this.problem = problem;
@@ -55,37 +54,29 @@ class Simulation implements AlgorithmListener, Runnable {
     }
 
     /**
+     * Prepre for execution. The simulation is prepared for execution by
+     * setting the provided {@code problem} on the current {@code algorithm},
+     * followed by the required initialization for the {@code algorithm} itself.
+     */
+    void init() {
+        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
+        alg.addAlgorithmListener(this);
+        alg.setOptimisationProblem((OptimisationProblem) problem);
+        alg.initialise();
+    }
+
+    /**
      * Execute the simulation.
      */
     @Override
     public void run() {
-        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
-        alg.addAlgorithmListener(this);
-
-        try {
-            Class<? extends Object> current = problem.getClass();
-
-            while (!current.getSuperclass().equals(Object.class)) {
-                current = current.getSuperclass();
-            }
-
-            String type = current.getInterfaces()[0].getName();
-            Class<?>[] parameters = new Class<?>[]{Class.forName(type)};
-            String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);
-            Method setProblemMethod = algorithm.getClass().getMethod(setMethodName, parameters);
-            setProblemMethod.invoke(algorithm, new Object[]{problem});
-        } catch (Exception ex) {
-            throw new InitialisationException(algorithm.getClass().getName() + " does not support problems of type " + problem.getClass().getName());
-        }
-
-        alg.initialise();
-        alg.run();
+        algorithm.run();
     }
 
     /**
      * Terminate the current simulation.
      */
-    public void terminate() {
+    void terminate() {
         ((AbstractAlgorithm) algorithm).terminate();
     }
 
@@ -142,5 +133,4 @@ class Simulation implements AlgorithmListener, Runnable {
     MeasurementSuite getMeasurementSuite() {
         return measurementSuite;
     }
-
 }

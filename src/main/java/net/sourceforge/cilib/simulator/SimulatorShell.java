@@ -68,7 +68,7 @@ class SimulatorShell {
                 XMLObjectFactory measurementsFactory = objectBuilder.config(config).element((Element) current.getElementsByTagName("measurements").item(0)).build();
 
                 Simulator simulator = creator.algorithm(algorithmFactory).problem(problemFactory).measurement(measurementsFactory).samples(samples).get();
-                simulator.init();
+                simulator.init(); // Prepare the simulator by initializing the simulations
                 simulators.add(simulator);
             }
             return simulators;
