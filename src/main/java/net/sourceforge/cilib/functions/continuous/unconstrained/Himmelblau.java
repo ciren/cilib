@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
@@ -74,7 +74,7 @@ public class Himmelblau extends ContinuousFunction {
         double x = input.getReal(0);
         double y = input.getReal(1);
 
-        return -Math.pow((x*x + y -11), 2) + Math.pow((x + y*y -7), 2);
+        return Math.pow((x*x + y -11), 2) + Math.pow((x + y*y -7), 2);
     }
 
 }
