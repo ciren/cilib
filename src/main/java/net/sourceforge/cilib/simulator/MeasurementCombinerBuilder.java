@@ -21,19 +21,43 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import java.io.File;
-import java.util.List;
-
 /**
- * Combines a collection of smaller data sources into a single datasource.
+ *
+ * @author gpampara
  */
-public interface MeasurementCombiner {
+final class MeasurementCombinerBuilder {
 
-    /**
-     * Combine many partial results into a single result file. Once
-     * this method completes, all streams will be closed for the provided files.
-     * @param descriptions header descriptions for the results.
-     * @param partials list of partial results
-     */
-    public abstract void combine(List<String> descriptions, List<File> partials);
+    MeasurementCombinerBuilder() {
+    }
+
+    MeasurementCombiner build(OutputType type, String filename) {
+        return type.newInstance(filename);
+    }
+
+    public enum OutputType {
+
+        TXT {
+
+            @Override
+            public MeasurementCombiner newInstance(String filename) {
+                return new TextBasedCombiner(filename);
+            }
+        },
+        CSV {
+
+            @Override
+            public MeasurementCombiner newInstance(String filename) {
+                throw new UnsupportedOperationException();
+            }
+        },
+        XML {
+
+            @Override
+            public MeasurementCombiner newInstance(String filename) {
+                throw new UnsupportedOperationException();
+            }
+        };
+
+        public abstract MeasurementCombiner newInstance(String filename);
+    }
 }

@@ -67,8 +67,8 @@ class Simulator {
     private final XMLObjectFactory algorithmFactory;
     private final XMLObjectFactory problemFactory;
     private final XMLObjectFactory measurementFactory;
-    private final int samples;
     private final MeasurementCombiner combiner;
+    private final int samples;
 
     /**
      * Creates a new instance of Simulator given an algorithm factory, a problem factory and a
@@ -78,17 +78,16 @@ class Simulator {
      * @param problemFactory The problem factory.
      * @param measurementFactory The measurement suite.
      */
-    Simulator(ExecutorService executor, XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, XMLObjectFactory measurementFactory, int samples) {
+    Simulator(ExecutorService executor, XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, XMLObjectFactory measurementFactory, MeasurementCombiner combiner, int samples) {
         this.executor = executor;
         this.algorithmFactory = algorithmFactory;
         this.problemFactory = problemFactory;
         this.measurementFactory = measurementFactory;
+        this.combiner = combiner;
         this.samples = samples;
         this.progressListeners = new Vector<ProgressListener>();
         this.progress = new HashMap<Simulation, Double>();
         this.simulations = new Simulation[samples];
-
-        this.combiner = new StandardCombiner();
     }
 
     /**
@@ -134,7 +133,7 @@ class Simulator {
         }
         executor.shutdown();
 
-        combiner.combine("data/results.txt", descriptions, fileList);
+        combiner.combine(descriptions, fileList);
     }
 
     /**
@@ -176,6 +175,12 @@ class Simulator {
         }
     }
 
+    /**
+     * Update the progress of the current simulation with the provided
+     * percentage.
+     * @param simulation to be updated.
+     * @param percentageComplete updated percentage value.
+     */
     void updateProgress(Simulation simulation, double percentageComplete) {
         progress.put(simulation, percentageComplete);
         notifyProgress();
