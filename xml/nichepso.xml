@@ -15,14 +15,15 @@
             <function class="functions.continuous.MultimodalFunction1"/>
         </problem>
     </problems>
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.multiple.MultipleSolutions"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="spherical"/>
-            <measurements idref="fitness" file="data/nichepso-f1.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/nichepso-f1.txt"/>
         </simulation>
     </simulations>
 </simulator>

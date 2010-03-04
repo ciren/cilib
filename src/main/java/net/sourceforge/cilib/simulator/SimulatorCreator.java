@@ -31,14 +31,17 @@ import java.util.concurrent.ExecutorService;
  */
 class SimulatorCreator implements Provider<Simulator> {
 
-    @Inject
-    private Provider<ExecutorService> service;
-
+    private final Provider<ExecutorService> service;
     private XMLObjectFactory algorithmFactory;
     private XMLObjectFactory problemFactory;
     private XMLObjectFactory measurementFactory;
     private int samples;
     private MeasurementCombiner combiner;
+
+    @Inject
+    SimulatorCreator(Provider<ExecutorService> service) {
+        this.service = service;
+    }
 
     SimulatorCreator algorithm(XMLObjectFactory algorithmFactory) {
         this.algorithmFactory = algorithmFactory;

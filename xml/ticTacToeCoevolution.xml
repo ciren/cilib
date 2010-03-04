@@ -76,18 +76,19 @@
         </algorithm>
     </algorithms>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.multiple.MultiPopulationFitness"/>
     </measurements>
 
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="compcoevol">
             <algorithm idref="lbest"/>
             <algorithm idref="lbest"/>
             </algorithm>
             <problem idref="ttt"/>
-            <measurements idref="fitness" file="data/TTTCoEvolution.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/TTTCoEvolution.txt"/>
         </simulation>
     </simulations>
 </simulator>

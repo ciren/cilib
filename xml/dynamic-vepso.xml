@@ -86,15 +86,16 @@
         </problem>
     </problems>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.multiple.ParetoOptimalFront"/>
     </measurements>
 
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="vepso"/>
             <problem idref="moo_problem"/>
-            <measurements idref="fitness" file="data/dynamic-vepso.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/dynamic-vepso.txt"/>
         </simulation>
     </simulations>
 </simulator>

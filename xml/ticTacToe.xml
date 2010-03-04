@@ -70,20 +70,22 @@
         </algorithm>
     </algorithms>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.StoredFitness"/>
     </measurements>
 
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="lbest"/>
             <problem idref="NeuralvsRandom"/>
-            <measurements idref="fitness" file="data/TTTNvR.txt"/>
+            <measurements idref="fitness"/>
+            <output format="TXT" file="data/TTTNvR.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="lbest"/>
             <problem idref="NeuralvsHandcoded"/>
-            <measurements idref="fitness" file="data/TTTNvH.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/TTTNvH.txt"/>
         </simulation>
     </simulations>
 </simulator>

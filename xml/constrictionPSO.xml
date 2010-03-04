@@ -35,29 +35,33 @@
             <function class="functions.continuous.unconstrained.Griewank" domain="R(-300, 300)^30"/>
         </problem>
     </problems>
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="50">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="50">
             <algorithm idref="constrictionPSO"/>
             <problem idref="spherical"/>
-            <measurements idref="fitness" file="data/constrictionpso_spherical.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/constrictionpso_spherical.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="50">
             <algorithm idref="constrictionPSO"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="fitness" file="data/constrictionpso_rosenbrock.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/constrictionpso_rosenbrock.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="50">
             <algorithm idref="constrictionPSO"/>
             <problem idref="rastrigin"/>
-            <measurements idref="fitness" file="data/constrictionpso_rastrigin.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/constrictionpso_rastrigin.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="50">
             <algorithm idref="constrictionPSO"/>
             <problem idref="griewank"/>
-            <measurements idref="fitness" file="data/constrictionpso_griewank.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/constrictionpso_griewank.txt"/>
         </simulation>
     </simulations>
 </simulator>

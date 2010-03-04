@@ -28,16 +28,17 @@
 
     </problems>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.Fitness"/>
         <addMeasurement class="bioinf.rnaprediction.RNAStructureMeasurement"/>
     </measurements>
 
     <simulations>
-        <simulation>
+        <!--<simulation samples="1">
             <algorithm idref="rnapso"/>
             <problem idref="rnaprob"/>
-            <measurements idref="fitness" file="data/rna.txt"/>
-        </simulation>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/rna.txt"/>
+        </simulation>-->
     </simulations>
 </simulator>

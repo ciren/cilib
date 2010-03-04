@@ -37,30 +37,34 @@
             </function>
         </problem>
     </problems>
-    <measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
         <addMeasurement class="measurement.single.Solution"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="de"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/de-spherical-@iteration@.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/de-spherical-@iteration@.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="de"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/de-rosenbrock.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/de-rosenbrock.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="de"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/de-griewank.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/de-griewank.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="de"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/de-ackley.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/de-ackley.txt"/>
         </simulation>
     </simulations>
 </simulator>

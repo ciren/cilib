@@ -36,7 +36,7 @@
     <problems>
         <problem id="nn4-8-1-sig" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
             <dataTableBuilder class="io.DataTableBuilder">
-                <dataReader class="io.ARFFFileReader" sourceURL="datasets/iris.arff"/>
+                <dataReader class="io.ARFFFileReader" sourceURL="src/test/resources/datasets/iris.arff"/>
             </dataTableBuilder>
             <neuralNetwork class="nn.NeuralNetwork">
                 <architecture class="nn.architecture.Architecture">
@@ -53,7 +53,7 @@
         </problem>
         <problem id="nn4-8-1-lin" class="problem.NNDataTrainingProblem" trainingSetPercentage="0.7" generalizationSetPercentage="0.3">
             <dataTableBuilder class="io.DataTableBuilder">
-                <dataReader class="io.ARFFFileReader" sourceURL="datasets/iris.arff"/>
+                <dataReader class="io.ARFFFileReader" sourceURL="src/test/resources/datasets/iris.arff"/>
             </dataTableBuilder>
             <neuralNetwork class="nn.NeuralNetwork">
                 <architecture class="nn.architecture.Architecture">
@@ -70,34 +70,38 @@
         </problem>
     </problems>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="2">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.Fitness"/>
         <addMeasurement class="measurement.single.MSEGeneralizationError"/>
     </measurements>
 
     <simulations>
-        <simulation>
+        <simulation samples="2">
             <algorithm idref="gcpsoLB"/>
             <problem idref="nn4-8-1-sig"/>
-            <measurements idref="fitness" file="data/gbest_nn_iris_fitness.csv"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gbest_nn_iris_fitness.csv"/>
         </simulation>
 
-        <simulation>
+        <simulation samples="2">
             <algorithm idref="gradientdecent"/>
             <problem idref="nn4-8-1-sig"/>
-            <measurements idref="fitness" file="data/gd_nn_iris_fitness.csv"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gd_nn_iris_fitness.csv"/>
         </simulation>
 
-        <simulation>
+        <simulation samples="2">
             <algorithm idref="gcpsoLB"/>
             <problem idref="nn4-8-1-lin"/>
-            <measurements idref="fitness" file="data/gbest_nn-lin_iris_fitness.csv"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gbest_nn-lin_iris_fitness.csv"/>
         </simulation>
 
-        <simulation>
+        <simulation samples="2">
             <algorithm idref="gradientdecent"/>
             <problem idref="nn4-8-1-lin"/>
-            <measurements idref="fitness" file="data/gd_nn-lin_iris_fitness.csv"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/gd_nn-lin_iris_fitness.csv"/>
         </simulation>
     </simulations>
 </simulator>
