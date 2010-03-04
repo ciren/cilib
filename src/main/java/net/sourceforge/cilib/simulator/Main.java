@@ -37,10 +37,13 @@ public final class Main {
 
     private Main() {} // Prevent instances of this class.
 
-    public static void main(String[] args) throws Exception {
+    /**
+     * Main entry point for the simulator.
+     * @param args provided arguments.
+     */
+    public static void main(String[] args) {
         if (args.length < 1) {
-            System.err.println("Usage: Simulator <simulation-config.xml> [-noprogress|-textprogress|-guiprogress]");
-            System.exit(1);
+            throw new IllegalArgumentException("Please provide the correct arguments.\nUsage: Simulator <simulation-config.xml> [-noprogress|-textprogress|-guiprogress]");
         }
 
         Injector injector = Guice.createInjector(new SimulatorModule());

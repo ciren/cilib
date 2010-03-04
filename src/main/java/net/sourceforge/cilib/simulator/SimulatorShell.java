@@ -28,11 +28,18 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import net.sourceforge.cilib.algorithm.ProgressListener;
+import net.sourceforge.cilib.simulator.MeasurementCombinerBuilder.OutputType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
+ * The basic skeleton of the simulator. The aim of the shell is to allow
+ * for the required instances to be assembled before the simulator instance
+ * is actually created and executed.
+ * <p>
+ * The {@code SimulatorShell} may construct more than one simulator instance
+ * if required, based on the provided simulation file.
  *
  * @author gpampara
  */
@@ -40,17 +47,21 @@ class SimulatorShell {
 
     private final XMLObjectBuilder objectBuilder;
     private final SimulatorCreator creator;
+    private final MeasurementCombinerBuilder combinerBuilder;
 
     @Inject
-    SimulatorShell(XMLObjectBuilder objectBuilder, SimulatorCreator creator) {
+    SimulatorShell(XMLObjectBuilder objectBuilder,
+            SimulatorCreator creator,
+            MeasurementCombinerBuilder combinerBuilder) {
         this.objectBuilder = objectBuilder;
         this.creator = creator;
+        this.combinerBuilder = combinerBuilder;
     }
 
     /**
-     *
-     * @param specification
-     * @return
+     * Prepare a list of {@code Simulator} instances for execution.
+     * @param specification to be read defining the simulations.
+     * @return the list of instacnes to execute.
      */
     List<Simulator> prepare(File specification) {
         try {
@@ -66,8 +77,9 @@ class SimulatorShell {
                 XMLObjectFactory algorithmFactory = objectBuilder.config(config).element(current.getElementsByTagName("algorithm").item(0)).build();
                 XMLObjectFactory problemFactory = objectBuilder.config(config).element(current.getElementsByTagName("problem").item(0)).build();
                 XMLObjectFactory measurementsFactory = objectBuilder.config(config).element((Element) current.getElementsByTagName("measurements").item(0)).build();
+                MeasurementCombiner combiner = createCombiner((Element) current.getElementsByTagName("output").item(0));
 
-                Simulator simulator = creator.algorithm(algorithmFactory).problem(problemFactory).measurement(measurementsFactory).samples(samples).get();
+                Simulator simulator = creator.algorithm(algorithmFactory).problem(problemFactory).measurement(measurementsFactory).combiner(combiner).samples(samples).get();
                 simulator.init(); // Prepare the simulator by initializing the simulations
                 simulators.add(simulator);
             }
@@ -78,9 +90,10 @@ class SimulatorShell {
     }
 
     /**
-     * TODO: This listener idea is not fresh
-     * @param simulators
-     * @param listener
+     * Run and execute the simulations, reporting progress.
+     * @param simulators iterable list to execute.
+     * @param listener reposible to monitor progress.
+     * TODO: This listener idea is not fresh - one listener per simulation should be the case.
      */
     void execute(Iterable<Simulator> simulators, ProgressListener listener) {
         int index = 0;
@@ -89,5 +102,14 @@ class SimulatorShell {
             listener.setSimulation(index++);
             simulator.execute();
         }
+    }
+
+    /*
+     * This shoud be a guice provider.... I don't like this
+     */
+    private MeasurementCombiner createCombiner(Element item) {
+        String file = item.getAttribute("file");
+        OutputType format = OutputType.valueOf(item.getAttribute("format"));
+        return this.combinerBuilder.build(format, file);
     }
 }

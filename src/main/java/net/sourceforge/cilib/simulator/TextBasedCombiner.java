@@ -35,19 +35,34 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 /**
+ * <p>
+ * Create a combined view of the generated data in the normal CIlib text
+ * file format.
  *
  * @author gpampara
  * @TODO: This class should probably use a divide and conquer startegy to combine files as needed
  */
-class StandardCombiner implements MeasurementCombiner {
+class TextBasedCombiner implements MeasurementCombiner {
 
+    private final String filename;
+
+    TextBasedCombiner(String filename) {
+        this.filename = filename;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * This method actually creates a text file, named {@code filename}.
+     */
     @Override
-    public void combine(String resultFilename, List<String> descriptions, List<File> partials) {
+    public void combine(List<String> descriptions, List<File> partials) {
         Preconditions.checkArgument(descriptions.size() >= 1);
         Preconditions.checkArgument(partials.size() >= 1);
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(resultFilename));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
             int columnId = 0;
             writer.write("# " + columnId++ + " - Iterations\n");
             for (int i = 0; i < partials.size(); i++) {
@@ -56,7 +71,7 @@ class StandardCombiner implements MeasurementCombiner {
                     columnId++;
                 }
             }
-            writeDataLines(writer, partials);
+            combineData(writer, partials);
             writer.flush();
             writer.close();
         } catch (IOException ex) {
@@ -64,7 +79,16 @@ class StandardCombiner implements MeasurementCombiner {
         }
     }
 
-    private void writeDataLines(final BufferedWriter writer, final List<File> partials) {
+    /**
+     * Combine the actual line data. The data is read line for line and
+     * then appended one after the other and then written to the file.
+     * <p>
+     * The order of the files is maintained so that the data is not corrupted
+     * once the writing out to the final result file is performed.
+     * @param writer destination of the final output.
+     * @param partials list of partial results.
+     */
+    private void combineData(final BufferedWriter writer, final List<File> partials) {
         List<BufferedReader> readers = Lists.newArrayListWithCapacity(partials.size());
         for (File file : partials) {
             try {

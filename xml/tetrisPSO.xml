@@ -59,16 +59,17 @@
         </algorithm>
     </algorithms>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="1">
         <addMeasurement class="measurement.single.Fitness"/>
         <addMeasurement class="measurement.single.Solution"/>
     </measurements>
 
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gcpso-vn"/>
             <problem idref="tetris"/>
-            <measurements idref="fitness" file="data/tetrisPSO.txt"/>
+            <measurements idref="fitness"/>
+            <output format="TXT" file="data/tetrisPSO.txt"/>
         </simulation>
     </simulations>
 </simulator>

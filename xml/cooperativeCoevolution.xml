@@ -37,29 +37,33 @@
             <function class="functions.continuous.unconstrained.Griewank" domain="R(-600.0, 600.0)^36"/>
         </problem>
     </problems>
-    <measurements id="fitness" class="simulator.MeasurementSuite" samples="2" resolution="10">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="2">
             <algorithm idref="coop-pso"/>
             <problem idref="griewank"/>
-            <measurements idref="fitness" file="data/coop-pso.txt"/>
+            <measurements idref="fitness"/>
+            <output format="TXT" file="data/coop-pso.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="2">
             <algorithm idref="coop-ga"/>
             <problem idref="griewank"/>
-            <measurements idref="fitness" file="data/coop-ga.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/coop-ga.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="2">
             <algorithm idref="pso"/>
             <problem idref="griewank"/>
-            <measurements idref="fitness" file="data/norm-pso.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/norm-pso.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="2">
             <algorithm idref="ga"/>
             <problem idref="griewank"/>
-            <measurements idref="fitness" file="data/norm-ga.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/norm-ga.txt"/>
         </simulation>
     </simulations>
 </simulator>

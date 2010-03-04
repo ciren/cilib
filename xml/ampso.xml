@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <simulator>
-    <simulation>
+    <simulation  samples="1">
         <algorithm class="pso.PSO">
             <addStoppingCondition class="stoppingcondition.MaximumIterations" maximumIterations="4000"/>
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
@@ -18,9 +18,10 @@
             <function class="functions.continuous.unconstrained.Rastrigin" domain="R(-5.12,5.12)^30"/>
             </function>
         </problem>
-        <measurements class="simulator.MeasurementSuite" resolution="1" samples="1" file="data/ampso-quadric.txt">
+        <measurements class="simulator.MeasurementSuite" resolution="1">
             <addMeasurement class="measurement.single.Fitness"/>
             <addMeasurement class="measurement.single.Solution"/>
         </measurements>
+        <output format="TXT"  file="data/ampso-quadric.txt" />
     </simulation>
 </simulator>

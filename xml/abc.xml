@@ -36,29 +36,33 @@
             <function class="functions.continuous.unconstrained.Griewank"/>
         </problem>
     </problems>
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="10">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="10">
             <algorithm idref="abc"/>
             <problem idref="spherical"/>
-            <measurements idref="fitness" file="data/abc_spherical.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/abc_spherical.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="10">
             <algorithm idref="abc"/>
             <problem idref="griewank"/>
-            <measurements idref="fitness" file="data/abc_griewank.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/abc_griewank.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="10">
             <algorithm idref="abc"/>
             <problem idref="rastrigin"/>
-            <measurements idref="fitness" file="data/abc_rastrigin.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/abc_rastrigin.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="10">
             <algorithm idref="abc"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="fitness" file="data/abc_rosenbrock.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/abc_rosenbrock.txt"/>
         </simulation>
     </simulations>
 </simulator>

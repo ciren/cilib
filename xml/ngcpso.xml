@@ -69,220 +69,262 @@
             <function class="functions.continuous.Schwefel"/>
         </problem>
     </problems>
-    <measurements id="measurements" class="simulator.MeasurementSuite" samples="30" resolution="100">
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="100">
         <addMeasurement class="measurement.single.FitnessEvaluations"/>
         <addMeasurement class="measurement.single.FunctionOptimisationError"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-gbest"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/spherical-gcpso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/spherical-gcpso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-lbest"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/spherical-gcpso-lbest.txt"/>
+            <measurements idref="measurements"  />
+	    <output format="TXT" file="data/spherical-gcpso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-vn"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/spherical-gcpso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/spherical-gcpso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-gbest"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/spherical-pso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/spherical-pso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-lbest"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/spherical-pso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/spherical-pso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-vn"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/spherical-pso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/spherical-pso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-gbest"/>
             <problem idref="quadric"/>
-            <measurements idref="measurements" file="data/quadric-gcpso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/quadric-gcpso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-lbest"/>
             <problem idref="quadric"/>
-            <measurements idref="measurements" file="data/quadric-gcpso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/quadric-gcpso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-vn"/>
             <problem idref="quadric"/>
-            <measurements idref="measurements" file="data/quadric-gcpso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/quadric-gcpso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-gbest"/>
             <problem idref="quadric"/>
-            <measurements idref="measurements" file="data/quadric-pso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/quadric-pso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-lbest"/>
             <problem idref="quadric"/>
-            <measurements idref="measurements" file="data/quadric-pso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/quadric-pso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-vn"/>
             <problem idref="quadric"/>
-            <measurements idref="measurements" file="data/quadric-pso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/quadric-pso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-gbest"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/rosenbrock-gcpso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rosenbrock-gcpso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-lbest"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/rosenbrock-gcpso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rosenbrock-gcpso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-vn"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/rosenbrock-gcpso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rosenbrock-gcpso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-gbest"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/rosenbrock-pso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rosenbrock-pso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-lbest"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/rosenbrock-pso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rosenbrock-pso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-vn"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/rosenbrock-pso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rosenbrock-pso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-gbest"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/ackley-gcpso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/ackley-gcpso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-lbest"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/ackley-gcpso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/ackley-gcpso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-vn"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/ackley-gcpso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/ackley-gcpso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-gbest"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/ackley-pso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/ackley-pso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-lbest"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/ackley-pso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/ackley-pso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-vn"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/ackley-pso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/ackley-pso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-gbest"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/griewank-gcpso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/griewank-gcpso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-lbest"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/griewank-gcpso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/griewank-gcpso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-vn"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/griewank-gcpso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/griewank-gcpso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-gbest"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/griewank-pso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/griewank-pso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-lbest"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/griewank-pso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/griewank-pso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-vn"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/griewank-pso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/griewank-pso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-gbest"/>
             <problem idref="rastrigin"/>
-            <measurements idref="measurements" file="data/rastrigin-gcpso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rastrigin-gcpso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-lbest"/>
             <problem idref="rastrigin"/>
-            <measurements idref="measurements" file="data/rastrigin-gcpso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rastrigin-gcpso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-vn"/>
             <problem idref="rastrigin"/>
-            <measurements idref="measurements" file="data/rastrigin-gcpso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rastrigin-gcpso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-gbest"/>
             <problem idref="rastrigin"/>
-            <measurements idref="measurements" file="data/rastrigin-pso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rastrigin-pso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-lbest"/>
             <problem idref="rastrigin"/>
-            <measurements idref="measurements" file="data/rastrigin-pso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rastrigin-pso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-vn"/>
             <problem idref="rastrigin"/>
-            <measurements idref="measurements" file="data/rastrigin-pso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/rastrigin-pso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-gbest"/>
             <problem idref="schwefel"/>
-            <measurements idref="measurements" file="data/schwefel-gcpso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/schwefel-gcpso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-lbest"/>
             <problem idref="schwefel"/>
-            <measurements idref="measurements" file="data/schwefel-gcpso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/schwefel-gcpso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="gcpso-vn"/>
             <problem idref="schwefel"/>
-            <measurements idref="measurements" file="data/schwefel-gcpso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/schwefel-gcpso-vn.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-gbest"/>
             <problem idref="schwefel"/>
-            <measurements idref="measurements" file="data/schwefel-pso-gbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/schwefel-pso-gbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-lbest"/>
             <problem idref="schwefel"/>
-            <measurements idref="measurements" file="data/schwefel-pso-lbest.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/schwefel-pso-lbest.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="30">
             <algorithm idref="pso-vn"/>
             <problem idref="schwefel"/>
-            <measurements idref="measurements" file="data/schwefel-pso-vn.txt"/>
+            <measurements idref="measurements" />
+	    <output format="TXT" file="data/schwefel-pso-vn.txt"/>
         </simulation>
     </simulations>
 </simulator>
