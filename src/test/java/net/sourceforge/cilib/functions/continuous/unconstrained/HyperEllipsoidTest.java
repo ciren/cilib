@@ -19,28 +19,52 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
-import net.sourceforge.cilib.functions.AbstractFunction;
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-public class QuarticTest {
+/**
+ *
+ * @author Bennie Leonard
+ */
+public class HyperEllipsoidTest {
+    private static final double EPSILON = 1.0E-6;
+    private ContinuousFunction function;
 
-    @Test
-    public void evaluationTest() {
-        ContinuousFunction function = new Quartic();
-
-        Vector v = new Vector();
-        v.add(new Real(0.0));
-        v.add(new Real(1.0));
-        v.add(new Real(2.0));
-
-        Assert.assertEquals(33.0, function.evaluate(v).doubleValue(), 0.001);
+    @Before
+    public void instantiate() {
+        this.function = new HyperEllipsoid();
     }
 
+    /** Test of the evaluate method of the {@link HyperEllipsoid} class. */
+    @Test
+    public void testEvaluate() {
+        function.setDomain("R(-5.12,5.12)^3");
+
+        Vector x = new Vector();
+
+        //test the defined global minimum
+        x.append(new Real(0.0));
+        x.append(new Real(0.0));
+        x.append(new Real(0.0));
+        Assert.assertEquals(0.0, function.evaluate(x), EPSILON);
+
+        //test another point
+        x.setReal(0, 2.0);
+        x.setReal(1, 2.0);
+        x.setReal(2, 2.0);
+        Assert.assertEquals(24.0, function.evaluate(x), EPSILON);
+    }
+
+    /** Test of the getMinimum method of the {@link HyperEllipsoid} class. */
+    @Test
+    public void minimum() {
+        Assert.assertEquals(0.0, function.getMinimum(), EPSILON);
+    }
 }

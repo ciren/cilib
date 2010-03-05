@@ -19,46 +19,57 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * The Quartic function.
- * Source: Evolutionary Programming Made Faster (Xin Yao)
- * @author Gary Pampara
+ * <p><b>The Quadric Function</b></p>
+ *
+ * <p>
+ * Minimum:
+ * <ul>
+ * <li>&fnof;(<b>x</b>*) = 0</li>
+ * <li> <b>x</b>* = (0, 0, ...., 0)</li>
+ * <li> for x<sub>i</sub> in [-100,100]</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Characteristics:
+ * <ul>
+ * <li>Unimodal</li>
+ * <li>Continuous</li>
+ * </ul>
+ * </p>
+ *
+ *
+ * @author  Edwin Peer
  */
-public class Quartic extends ContinuousFunction {
-    private static final long serialVersionUID = 1830591489569513511L;
+public class Quadric extends ContinuousFunction {
+    private static final long serialVersionUID = -2555670302543357421L;
 
-    /**
-     * Create a new instance of {@linkplain Quadric}. Domain defaults to R(-1.28, 1.28)^30.
-     */
-    public Quartic() {
-        setDomain("R(-1.28, 1.28)^30");
+    public Quadric() {
+        setDomain("R(-100, 100)^30");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Quartic getClone() {
-        return new Quartic();
+    public Quadric getClone() {
+        return new Quadric();
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * This is extra stuff i hope is added.
+     * Get the minimum of the function. It is defined to be a value of <code>0.0</code>.
+     * @return The function minimum value.
      */
     public Double getMinimum() {
         return 0.0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Double getMaximum() {
         return 1248.2;
     }
@@ -66,17 +77,15 @@ public class Quartic extends ContinuousFunction {
     /**
      * {@inheritDoc}
      */
-    @Override
     public Double evaluate(Vector input) {
-        double result = 0.0;
-
-        for (int i = 0; i < input.getDimension(); i++) {
-            double square = input.getReal(i) * input.getReal(i);
-            double square2 = square * square;
-
-            result += i * square2;
+        double sumsq = 0;
+        for (int i = 0; i < getDimension(); ++i) {
+            double sum = 0;
+            for (int j = 0; j <= i; ++j) {
+                sum += input.getReal(j);
+            }
+            sumsq += sum * sum;
         }
-
-        return result;
+        return sumsq;
     }
 }
