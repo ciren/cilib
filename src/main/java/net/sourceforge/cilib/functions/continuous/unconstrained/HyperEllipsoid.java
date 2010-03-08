@@ -19,14 +19,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.functions.continuous;
+package net.sourceforge.cilib.functions.continuous.unconstrained;
 
 import net.sourceforge.cilib.functions.ContinuousFunction;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 
 /**
- * HyperEllipsoid.
+ * <p><b>HyperEllipsoid.</b></p>
+ *
+ * <p>
+ * Minimum:
+ * <ul>
+ * <li> &fnof;(<b>x</b>*) = 0</li>
+ * <li> <b>x</b>* = (0, 0, ...., 0)</li>
+ * <li> for x<sub>i</sub> in [-5.12,5.12]</li>
+ * </ul>
+ * </p>
  *
  * <p>
  * Characteristics:
@@ -35,8 +44,6 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * <li>Continuous</li>
  * <li>Convex</li>
  * </ul>
- *
- * f(x) = 0; x = (0,0,...,0)
  *
  * @author  engel
  */
