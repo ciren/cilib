@@ -25,7 +25,7 @@
             <function class="functions.continuous.unconstrained.Griewank"/>
         </problem>
         <problem id="hyperellipsoid" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.HyperEllipsoid"/>
+            <function class="functions.continuous.unconstrained.HyperEllipsoid"/>
         </problem>
         <problem id="colville" class="problem.FunctionMinimisationProblem">
             <function class="functions.continuous.Colville"/>

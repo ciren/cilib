@@ -33,13 +33,13 @@
             <function class="functions.continuous.unconstrained.Griewank"/>
         </problem>
         <problem id="quadric" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.Quadric"/>
+            <function class="functions.continuous.unconstrained.Quadric"/>
         </problem>
         <problem id="michalewicz" class="problem.FunctionMinimisationProblem">
             <function class="functions.continuous.unconstrained.Michalewicz"/>
         </problem>
         <problem id="hyperellipsoid" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.HyperEllipsoid"/>
+            <function class="functions.continuous.unconstrained.HyperEllipsoid"/>
         </problem>
         <problem id="easom" class="problem.FunctionMinimisationProblem">
             <function class="functions.continuous.unconstrained.Easom"/>
