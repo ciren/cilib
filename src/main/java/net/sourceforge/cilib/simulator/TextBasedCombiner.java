@@ -22,7 +22,9 @@
 package net.sourceforge.cilib.simulator;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -65,8 +67,8 @@ class TextBasedCombiner implements MeasurementCombiner {
             BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
             int columnId = 0;
             writer.write("# " + columnId++ + " - Iterations\n");
-            for (int i = 0; i < partials.size(); i++) {
-                for (String description : descriptions) {
+            for (String description : descriptions) {
+                for (int i = 0; i < partials.size(); i++) {
                     writer.write("# " + columnId + " - " + description + " (" + (columnId - 1) + ")\n");
                     columnId++;
                 }
@@ -102,19 +104,33 @@ class TextBasedCombiner implements MeasurementCombiner {
         try {
             BufferedReader checkReader = readers.get(0); // There will always be at least 1
             String checkLine = checkReader.readLine();
+            String[] parts = checkLine.split(" ");
+            Entry entry = new Entry(parts[0], parts.length - 1);
+            for (int i = 1; i < parts.length; i++) {
+                entry.add(i - 1, parts[i]);
+            }
+
             List<BufferedReader> loopingList = readers.subList(1, readers.size());
             while (checkLine != null) {
-                StringBuilder builder = new StringBuilder();
-                builder.append(checkLine);
                 for (BufferedReader reader : loopingList) {
                     String string = reader.readLine();
-                    builder.append(string.substring(string.indexOf(" ")));
+                    String[] localParts = string.split(" ");
+                    for (int i = 1; i < localParts.length; i++) {
+                        entry.add(i - 1, localParts[i]);
+                    }
                 }
 
-                writer.write(builder.toString());
+                writer.write(entry.toString());
                 writer.newLine();
-                builder = new StringBuilder();
                 checkLine = checkReader.readLine();
+
+                if (checkLine != null) {
+                    parts = checkLine.split(" ");
+                    entry = new Entry(parts[0], parts.length - 1);
+                    for (int i = 1; i < parts.length; i++) {
+                        entry.add(i - 1, parts[i]);
+                    }
+                }
             }
 
             for (BufferedReader reader : readers) {
@@ -126,6 +142,33 @@ class TextBasedCombiner implements MeasurementCombiner {
             }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
+        }
+    }
+
+    private static class Entry {
+
+        private final Multimap<Integer, String> map;
+        private final String iteration;
+
+        Entry(String iteration, int categories) {
+            this.map = LinkedListMultimap.create(categories);
+            this.iteration = iteration;
+        }
+
+        void add(Integer key, String value) {
+            this.map.put(key, value);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append(iteration);
+            for (Integer i : map.keySet()) {
+                for (String s : map.get(i)) {
+                    builder.append(" ").append(s);
+                }
+            }
+            return builder.toString();
         }
     }
 }
