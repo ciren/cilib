@@ -51,7 +51,7 @@
             <function class="functions.continuous.unconstrained.Spherical"/>
         </problem>
         <problem id="quadric" class="problem.FunctionMinimisationProblem">
-            <function class="functions.continuous.Quadric"/>
+            <function class="functions.continuous.unconstrained.Quadric"/>
         </problem>
         <problem id="rosenbrock" class="problem.FunctionMinimisationProblem">
             <function class="functions.continuous.unconstrained.Rosenbrock"/>
