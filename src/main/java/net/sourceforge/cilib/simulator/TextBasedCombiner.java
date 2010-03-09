@@ -69,7 +69,7 @@ class TextBasedCombiner implements MeasurementCombiner {
             writer.write("# " + columnId++ + " - Iterations\n");
             for (String description : descriptions) {
                 for (int i = 0; i < partials.size(); i++) {
-                    writer.write("# " + columnId + " - " + description + " (" + (columnId - 1) + ")\n");
+                    writer.write("# " + columnId + " - " + description + " (" + i + ")\n");
                     columnId++;
                 }
             }
