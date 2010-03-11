@@ -54,15 +54,4 @@ public class RandomNumberTest {
             assertTrue(0.0 <= number);
         }
     }
-
-    @Test
-    public void testCauchy() {
-        RandomNumber rand = new RandomNumber();
-
-        for (int i = 0; i < 200; i++ ) {
-            double number = rand.getCauchy();
-            assertTrue(-7.0 < number);
-            assertTrue(number < 7.0);
-        }
-    }
 }
