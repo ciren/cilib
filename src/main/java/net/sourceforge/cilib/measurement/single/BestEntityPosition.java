@@ -24,7 +24,6 @@ package net.sourceforge.cilib.measurement.single;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
 import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.Type;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
@@ -57,11 +56,7 @@ public class BestEntityPosition implements Measurement<StringType> {
     @Override
     public StringType getValue(Algorithm algorithm) {
         Vector solution = (Vector) algorithm.getBestSolution().getPosition();
-
-        StringType t = new StringType();
-        t.setString(solution.toString());
-
-        return t;
+        return new StringType(solution.toString());
     }
 
 }

@@ -56,7 +56,7 @@ public class BackPropagationVisitorTest {
 
         topology.setWeights(network.getWeights());
 
-        BackpropagationVisitor visitor = new BackpropagationVisitor();
+        BackPropagationVisitor visitor = new BackPropagationVisitor();
         double[][] previousWeightUpdates = null;
 
         for (int i = 0; i < 3; i++) {
@@ -101,7 +101,7 @@ public class BackPropagationVisitorTest {
         network.getArchitecture().getArchitectureBuilder().getLayerBuilder().setDomain("R(-3,3)");
         network.initialize();
 
-        BackpropagationVisitor visitor = new BackpropagationVisitor();
+        BackPropagationVisitor visitor = new BackPropagationVisitor();
         double[][] previousWeightUpdates = null;
 
         for (int i = 0; i < 3; i++) {

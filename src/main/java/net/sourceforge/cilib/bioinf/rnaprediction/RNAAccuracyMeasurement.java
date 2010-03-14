@@ -55,12 +55,10 @@ public class RNAAccuracyMeasurement implements Measurement {
             totalPairs = getTotalPairs(solution);
             correctPairs = getCorrectPairs(solution);
 
-            sb.append("Pairs: " + totalPairs + " Correct: " + correctPairs + "\t");
+            sb.append("Pairs: ").append(totalPairs).append(" Correct: ").append(correctPairs).append("\t");
         }
 
-        StringType t = new StringType();
-        t.setString(sb.toString());
-        return t;
+        return new StringType(sb.toString());
     }
 
     private int getTotalPairs(OptimisationSolution solution) {
@@ -73,8 +71,9 @@ public class RNAAccuracyMeasurement implements Measurement {
         int correct = 0;
         for (RNAStem stem : conf) {
             for (NucleotidePair np : stem) {
-                if (NucleotideString.getInstance().knownConf.contains(np))
+                if (NucleotideString.getInstance().knownConf.contains(np)) {
                     correct++;
+                }
             }
         }
         return correct;

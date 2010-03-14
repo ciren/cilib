@@ -21,32 +21,33 @@
  */
 package net.sourceforge.cilib.type.types;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 /**
+ * A general for string that may be returned from {@code measurement} instances.
+ * The {@code StringType} represents a free form string for additional data. The
+ * {@code StringType} replaces all occuring {@code ' '} with {@code '_'} to
+ * prevent any potential problems with the format of CIlib output files.
+ * <p>
+ * It is not possible to determine what the delimeter within a data file will be
+ * as a result the whitespace is "escaped".
  *
  * @author Gary Pampara
- *
  */
 public class StringType implements Type {
     private static final long serialVersionUID = 2946972552546398657L;
     private String string;
 
     /**
-     * Create an {@linkplain StringType} instance, which is empty and uninitialised.
-     */
-    public StringType() {
-        string = null;
-    }
-
-    /**
-     * Create an instance with the given string as the contents.
-     * @param string The string value to have.
+     * Create an instance with the given string as the contents. All whitespace
+     * is replaced with {@code '_'}.
+     * @param string value to set, before replacement.
      */
     public StringType(String string) {
-        this.string = string;
+        this.string = checkNotNull(string).replaceAll(" ", "_");
     }
 
     /**
@@ -72,23 +73,15 @@ public class StringType implements Type {
         return this.string;
     }
 
-    /**
-     * Set the contained {@linkplain String} value.
-     * @param newString The value to be contained by the {@linkplain StringType}.
-     */
-    public void setString(String newString) {
-        this.string = newString;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean equals(Object other) {
-        if (this == other)
+        if (this == other) {
             return true;
+        }
 
-        if ((other == null) || (this.getClass() != other.getClass()))
+        if ((other == null) || (this.getClass() != other.getClass())) {
             return false;
+        }
 
         StringType stringType = (StringType) other;
         return this.string.equals(stringType.string);
@@ -97,6 +90,7 @@ public class StringType implements Type {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + this.string.hashCode();
@@ -106,6 +100,7 @@ public class StringType implements Type {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         return string;
     }

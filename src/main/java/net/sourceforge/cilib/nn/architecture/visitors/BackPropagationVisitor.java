@@ -36,7 +36,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * for an N layer feed forward network with momentum and learning rate terms.
  * @author andrich
  */
-public class BackpropagationVisitor implements ArchitectureVisitor {
+public class BackPropagationVisitor implements ArchitectureVisitor {
 
     private StandardPattern previousPattern;
     private double[][] layerWeightsDelta;
@@ -47,7 +47,7 @@ public class BackpropagationVisitor implements ArchitectureVisitor {
     /**
      * Default constructor.
      */
-    public BackpropagationVisitor() {
+    public BackPropagationVisitor() {
         learningRate = 0.1;
         momentum = 0.9;
     }

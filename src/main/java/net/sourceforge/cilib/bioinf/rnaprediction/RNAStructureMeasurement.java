@@ -58,9 +58,7 @@ public class RNAStructureMeasurement implements Measurement {
         OptimisationSolution os = algorithm.getBestSolution();
         RNAConformation conf = (RNAConformation) os.getPosition();
 
-        StringType t = new StringType();
-        t.setString(new String(conf.getCharRepresentation())+"@");
-        return t;
+        return new StringType(String.copyValueOf(conf.getCharRepresentation())+"@");
         /*
         //StemGenerator generator = StemGenerator.getInstance();
         char[] conf = new char[NucleotideString.getInstance().getNucleotideString().length()+2];

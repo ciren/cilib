@@ -150,7 +150,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
             return new Real(0.0);
         }
         if (datatype.equalsIgnoreCase("STRING")) {
-            return new StringType();
+            return new StringType("");
         }
         if (datatype.equalsIgnoreCase("DATE")) {
             throw new UnsupportedOperationException("Date format currently not supported" +

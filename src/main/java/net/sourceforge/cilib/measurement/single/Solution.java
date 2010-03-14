@@ -53,12 +53,8 @@ public class Solution implements Measurement<StringType> {
      */
     @Override
     public StringType getValue(Algorithm algorithm) {
-        StringType s = new StringType();
-
         Vector solution = (Vector) algorithm.getBestSolution().getPosition();
-        s.setString(solution.toString());
-
-        return s;
+        return new StringType(solution.toString());
     }
 
 }
