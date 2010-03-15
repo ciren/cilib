@@ -28,7 +28,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import net.sourceforge.cilib.algorithm.ProgressListener;
-import net.sourceforge.cilib.simulator.OutputType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -108,8 +107,8 @@ class SimulatorShell {
      * This shoud be a guice provider.... I don't like this
      */
     private MeasurementCombiner createCombiner(Element item) {
-        String file = item.getAttribute("file").toUpperCase();
-        OutputType format = OutputType.valueOf(item.getAttribute("format"));
+        String file = item.getAttribute("file");
+        OutputType format = OutputType.valueOf(item.getAttribute("format").toUpperCase());
         return this.combinerBuilder.build(format, file);
     }
 }

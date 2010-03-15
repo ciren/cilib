@@ -46,10 +46,10 @@ import java.util.List;
  */
 class TextBasedCombiner implements MeasurementCombiner {
 
-    private final String filename;
+    private final File file;
 
-    TextBasedCombiner(String filename) {
-        this.filename = filename;
+    TextBasedCombiner(File file) {
+        this.file = file;
     }
 
     /**
@@ -64,7 +64,7 @@ class TextBasedCombiner implements MeasurementCombiner {
         Preconditions.checkArgument(partials.size() >= 1);
 
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             int columnId = 0;
             writer.write("# " + columnId++ + " - Iterations\n");
             for (String description : descriptions) {
