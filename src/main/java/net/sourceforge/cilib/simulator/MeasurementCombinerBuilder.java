@@ -33,31 +33,4 @@ final class MeasurementCombinerBuilder {
     MeasurementCombiner build(OutputType type, String filename) {
         return type.newInstance(filename);
     }
-
-    public enum OutputType {
-
-        TXT {
-
-            @Override
-            public MeasurementCombiner newInstance(String filename) {
-                return new TextBasedCombiner(filename);
-            }
-        },
-        CSV {
-
-            @Override
-            public MeasurementCombiner newInstance(String filename) {
-                throw new UnsupportedOperationException();
-            }
-        },
-        XML {
-
-            @Override
-            public MeasurementCombiner newInstance(String filename) {
-                throw new UnsupportedOperationException();
-            }
-        };
-
-        public abstract MeasurementCombiner newInstance(String filename);
-    }
 }

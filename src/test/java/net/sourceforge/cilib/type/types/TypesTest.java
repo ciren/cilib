@@ -38,25 +38,25 @@ public class TypesTest {
         Int i = new Int(0);
         Bit b = new Bit(false);
 
-        Assert.assertEquals(1, Types.getDimension(r));
-        Assert.assertEquals(1, Types.getDimension(i));
-        Assert.assertEquals(1, Types.getDimension(b));
+        Assert.assertEquals(1, Types.dimensionOf(r));
+        Assert.assertEquals(1, Types.dimensionOf(i));
+        Assert.assertEquals(1, Types.dimensionOf(b));
     }
 
     @Test
     public void structureDimension() {
         Vector vector = new Vector();
-        Assert.assertEquals(0, Types.getDimension(vector));
+        Assert.assertEquals(0, Types.dimensionOf(vector));
 
         vector.add(new Real(0.0));
-        Assert.assertEquals(1, Types.getDimension(vector));
+        Assert.assertEquals(1, Types.dimensionOf(vector));
     }
 
     @Test
     public void nonStructureDimension() {
         Real r = new Real(0.0);
 
-        Assert.assertEquals(1, Types.getDimension(r));
+        Assert.assertEquals(1, Types.dimensionOf(r));
     }
 
     @Test

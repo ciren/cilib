@@ -32,7 +32,7 @@ import net.sourceforge.cilib.io.StandardPatternDataTable;
 import net.sourceforge.cilib.io.exception.CIlibIOException;
 import net.sourceforge.cilib.io.pattern.StandardPattern;
 import net.sourceforge.cilib.nn.NeuralNetwork;
-import net.sourceforge.cilib.nn.architecture.visitors.BackpropagationVisitor;
+import net.sourceforge.cilib.nn.architecture.visitors.BackPropagationVisitor;
 import net.sourceforge.cilib.nn.architecture.visitors.OutputErrorVisitor;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.problem.NNDataTrainingProblem;
@@ -52,7 +52,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
     private ControlParameter learningRate;
     private ControlParameter momentum;
     private double errorTraining;
-    private BackpropagationVisitor bpVisitor;
+    private BackPropagationVisitor bpVisitor;
     private double[][] previousWeightChanges;
 
     /**
@@ -61,7 +61,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
     public GradientDescentBackpropagationTraining() {
         learningRate = new ConstantControlParameter(0.1);
         momentum = new ConstantControlParameter(0.9);
-        bpVisitor = new BackpropagationVisitor();
+        bpVisitor = new BackPropagationVisitor();
     }
 
     /**

@@ -19,39 +19,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.type.parser;
+package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.type.types.Bounds;
-import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.Type;
+public enum OutputType {
 
-/**
- *
- * @author Gary Pampara
- *
- */
-final class T implements TypeCreator {
-    private static final long serialVersionUID = 1198714503772193216L;
+    TXT {
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create() {
-        return new StringType("");
-    }
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            return new TextBasedCombiner(filename);
+        }
+    }, CSV {
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create(double value) {
-        throw new UnsupportedOperationException("StringTypes with single values do not exist");
-    }
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            throw new UnsupportedOperationException();
+        }
+    }, XML {
 
-    /**
-     * {@inheritDoc}
-     */
-    public Type create(final Bounds bounds) {
-        throw new UnsupportedOperationException("StringTypes with bounds do not exist");
-    }
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            throw new UnsupportedOperationException();
+        }
+    };
 
+    public abstract MeasurementCombiner newInstance(String filename);
 }
