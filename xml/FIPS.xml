@@ -30,15 +30,16 @@
         </problem>
     </problems>
 
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="5" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="5">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
 
     <simulations>
-        <simulation>
+        <simulation  samples="1">
             <algorithm idref="gbest"/>
             <problem idref="spherical"/>
-            <measurements idref="fitness" file="data/spherical.FIPS.p20w0.7298c3NoVmax.txt"/>
+            <measurements idref="fitness" />
+            <output format="TXT" file="data/spherical.FIPS.p20w0.7298c3NoVmax.txt"/>
         </simulation>
     </simulations>
 </simulator>

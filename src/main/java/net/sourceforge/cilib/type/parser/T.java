@@ -37,7 +37,7 @@ final class T implements TypeCreator {
      * {@inheritDoc}
      */
     public Type create() {
-        return new StringType();
+        return new StringType("");
     }
 
     /**

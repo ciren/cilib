@@ -21,34 +21,13 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.AlgorithmFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
- * @author  Edwin Peer
+ * @author gpampara
  */
-class XMLAlgorithmFactory extends XMLObjectFactory implements AlgorithmFactory {
+interface LinkedObjectBuilder {
 
-    /** Creates a new instance of XMLAlgorithmFactory. */
-    XMLAlgorithmFactory(Document xmlDocument, Element xmlAlgorithmDescription) {
-        super(xmlDocument, xmlAlgorithmDescription);
-        if (!xmlAlgorithmDescription.getTagName().equals("algorithm")) {
-            error(xmlAlgorithmDescription, "Expected <algorithm> tag");
-        }
-    }
-
-    /** Returns a newly constructed algorithm.
-     *
-     * @return A new {@link Algorithm}.
-     *
-     */
-    @Override
-    public Algorithm newAlgorithm() {
-        return (Algorithm) newObject();
-    }
-
+    LinkedXMLObjectBuilder element(Node item);
 }

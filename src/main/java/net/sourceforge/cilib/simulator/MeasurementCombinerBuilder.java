@@ -21,29 +21,16 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.problem.Problem;
-import net.sourceforge.cilib.problem.ProblemFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 /**
  *
- * @author  Edwin Peer
+ * @author gpampara
  */
-class XMLProblemFactory extends XMLObjectFactory implements ProblemFactory {
+final class MeasurementCombinerBuilder {
 
-    /** Creates a new instance of XMLProblemFactory. */
-    XMLProblemFactory(Document xmlDocument, Element xmlProblemDescription) {
-        super(xmlDocument, xmlProblemDescription);
-        if (!xmlProblemDescription.getTagName().equals("problem")) {
-            error(xmlProblemDescription, "Expected <problem> tag");
-        }
+    MeasurementCombinerBuilder() {
     }
 
-    @Override
-    public Problem newProblem() {
-        return (Problem) newObject();
+    MeasurementCombiner build(OutputType type, String filename) {
+        return type.newInstance(filename);
     }
-
 }

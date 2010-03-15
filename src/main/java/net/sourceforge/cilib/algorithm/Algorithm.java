@@ -28,7 +28,7 @@ import net.sourceforge.cilib.util.Cloneable;
 /**
  * Base interface defining all {@code Algorithm} classes.
  */
-public interface Algorithm extends Cloneable {
+public interface Algorithm extends Runnable, Cloneable {
 
     /**
      * Perform the actions of the current {@linkplain Algorithm} for a single iteration.

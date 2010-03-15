@@ -24,13 +24,15 @@ package net.sourceforge.cilib.simulator;
 import net.sourceforge.cilib.algorithm.ProgressEvent;
 import net.sourceforge.cilib.algorithm.ProgressListener;
 
-
 /**
  * Implements a text progress meter.
  *
  * @author  jkroon
  */
-class ProgressText implements ProgressListener {
+final class ProgressText implements ProgressListener {
+
+    private boolean printedDone;
+    private final int simulations;
 
     /**
      * Creates new form ProgressFrame.
@@ -44,25 +46,24 @@ class ProgressText implements ProgressListener {
 
     @Override
     public void handleProgressEvent(ProgressEvent event) {
-        if(printedDone) {
+        if (printedDone) {
             return;
         }
         double percentage = (int) (1000 * event.getPercentage()) / 10.0;
         int nequals = (int) (50 * event.getPercentage());
         int i = 0;
-        System.out.print("\rProgress (" + percentage + "%) |");
-        while(i++ < nequals) {
+        System.out.printf("\rProgress (%3.1f) |", percentage);
+        while (i++ < nequals) {
             System.out.print("=");
         }
-        while(i++ < 50) {
+        while (i++ < 50) {
             System.out.print(" ");
         }
         System.out.print("|");
-        if(nequals == 50) {
+        if (nequals == 50) {
             printedDone = true;
             System.out.println(" done.");
-        }
-        else {
+        } else {
             System.out.flush();
         }
     }
@@ -72,7 +73,4 @@ class ProgressText implements ProgressListener {
         System.out.println("Starting simulation " + (simulation + 1) + " of " + simulations + ".");
         printedDone = false;
     }
-
-    private boolean printedDone;
-    private int simulations;
 }

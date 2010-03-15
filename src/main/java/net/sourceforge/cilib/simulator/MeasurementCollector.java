@@ -19,44 +19,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.measurement.single;
+package net.sourceforge.cilib.simulator;
 
+import java.io.Closeable;
+import java.util.List;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
-import net.sourceforge.cilib.type.types.StringType;
-import net.sourceforge.cilib.type.types.container.Vector;
 
 /**
- * Print the position of the best entity within a topology.
- *
- * @author Gary Pampara
+ * Collect measurements from an {@code Algorithm}. This interface determines how
+ * the measurements are collected from the running algorithm.
  */
-public class BestEntityPosition implements Measurement<StringType> {
-    private static final long serialVersionUID = 5808686984197365658L;
+interface MeasurementCollector extends Closeable {
 
     /**
-     * {@inheritDoc}
+     * Perform measurements on the provided {@code algorithm}.
+     * @param algorithm The algorithm to perform the measurements on.
      */
-    @Override
-    public BestEntityPosition getClone() {
-        return this;
-    }
+    void measure(Algorithm algorithm);
 
     /**
-     * {@inheritDoc}
+     * Appends this measurement to the current list maintained by the collector.
+     * @param measurement element to be added to the collector.
      */
-    @Override
-    public String getDomain() {
-        return "T";
-    }
+    void add(Measurement<?> measurement);
 
     /**
-     * {@inheritDoc}
+     * Returns the textual descriptions of the collector's measurements.
+     * <p>
+     * The class names of the actual measurements are colelcted, placed
+     * into a {@code List} and then returned.
+     * @return the textual re[presentations of the measurements.
      */
-    @Override
-    public StringType getValue(Algorithm algorithm) {
-        Vector solution = (Vector) algorithm.getBestSolution().getPosition();
-        return new StringType(solution.toString());
-    }
-
+    List<String> getDescriptions();
 }

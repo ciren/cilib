@@ -7,7 +7,7 @@
 ]>
 
 <simulator>
-    <simulation>
+    <simulation samples="30">
         <algorithm id="gbest" class="pso.PSO">
             <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
                 <!--<entityNumber value="20"/>-->
@@ -33,11 +33,10 @@
         </problem>
 
         <measurements class="simulator.MeasurementSuite">
-            <file value="data/benchmark.txt"/>
             <resolution value="1000"/>
-            <samples value="30"/>
             <addMeasurement class="measurement.single.Fitness"/>
             <addMeasurement class="measurement.single.Solution"/>
         </measurements>
+        <output format="TXT" file="data/benchmark.txt"/>
     </simulation>
 </simulator>

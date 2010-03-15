@@ -21,25 +21,34 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import com.google.common.collect.Lists;
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
-import net.sourceforge.cilib.algorithm.AlgorithmFactory;
 import net.sourceforge.cilib.algorithm.ProgressEvent;
 import net.sourceforge.cilib.algorithm.ProgressListener;
-import net.sourceforge.cilib.problem.ProblemFactory;
+import net.sourceforge.cilib.problem.Problem;
 
 /**
  * <p>
- * This class represents a single simulation experiment. The experiment is repeated based on the
- * number of samples that the measurement suite requires. In this implementation each experiment is
- * execute in its own thread. Thus, each experiment is execute in parallel for a given simulation.
+ * This class represents an instance of a "simulator" that may or may not contain multiple
+ * individual simulations.
  * </p>
  * <p>
- * The simulation executes a given algorithm on the given problem. Factories are utilised so that
- * the simulation can create as many alogirthms and problems as it needs to execute many experiments.
+ * Each simulation experiment is repeated based on the
+ * number of samples that the measurement suite requires (although this is subject to change
+ * in a future version of the library). In this implementation each experiment is
+ * execute in its own thread. Thus, each experiment is execute in parallel for a given simulation.
  * </p>
  * <p>
  * The primary purpose of running simulations is to measure the performance of the given algorithm
@@ -49,67 +58,89 @@ import net.sourceforge.cilib.problem.ProblemFactory;
  * @author Edwin Peer
  */
 class Simulator {
+
     private static final long serialVersionUID = 8987667794610802908L;
-
-    private MeasurementSuite measurementSuite;
-    private Simulation[] simulations;
-    private Vector<ProgressListener> progressListeners;
-    private HashMap<Simulation, Double> progress;
-
-    private final AlgorithmFactory algorithmFactory;
-    private final ProblemFactory problemFactory;
+    private final Simulation[] simulations;
+    private final Vector<ProgressListener> progressListeners;
+    private final HashMap<Simulation, Double> progress;
+    private final ExecutorService executor;
+    private final XMLObjectFactory algorithmFactory;
+    private final XMLObjectFactory problemFactory;
+    private final XMLObjectFactory measurementFactory;
+    private final MeasurementCombiner combiner;
+    private final int samples;
 
     /**
      * Creates a new instance of Simulator given an algorithm factory, a problem factory and a
-     * measurement suite. {@see net.sourceforge.cilib.XMLObjectFactory}
+     * measurement suite.
+     * @see net.sourceforge.cilib.XMLObjectFactory
      * @param algorithmFactory The algorithm factory.
      * @param problemFactory The problem factory.
-     * @param measurementSuite The measurement suite.
+     * @param measurementFactory The measurement suite.
      */
-    Simulator(AlgorithmFactory algorithmFactory, ProblemFactory problemFactory, MeasurementSuite measurementSuite) {
-        measurementSuite.initialise();
-        this.measurementSuite = measurementSuite;
-        progressListeners = new Vector<ProgressListener>();
-        progress = new HashMap<Simulation, Double>();
-
-        simulations = new Simulation[measurementSuite.getSamples()];
-
+    Simulator(ExecutorService executor, XMLObjectFactory algorithmFactory, XMLObjectFactory problemFactory, XMLObjectFactory measurementFactory, MeasurementCombiner combiner, int samples) {
+        this.executor = executor;
         this.algorithmFactory = algorithmFactory;
         this.problemFactory = problemFactory;
+        this.measurementFactory = measurementFactory;
+        this.combiner = combiner;
+        this.samples = samples;
+        this.progressListeners = new Vector<ProgressListener>();
+        this.progress = new HashMap<Simulation, Double>();
+        this.simulations = new Simulation[samples];
     }
 
     /**
-     * Executes all the experiments for this simulation.
+     * Perform the initialization of the {@code Simulator} by creating the required
+     * {@code Simulation} instances and executing the threads.
      */
-    void execute() {
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            simulations[i] = new Simulation(this, algorithmFactory.newAlgorithm(), problemFactory.newProblem());
+    void init() {
+        for (int i = 0; i < samples; ++i) {
+            simulations[i] = new Simulation(this, (Algorithm) algorithmFactory.newObject(), (Problem) problemFactory.newObject(), (MeasurementSuite) measurementFactory.newObject());
+            simulations[i].init(); // Prepare the simulation for execution
             progress.put(simulations[i], 0.0);
         }
+    }
 
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            simulations[i].start();
+    /**
+     * Executes all the experiments for this simulation. The measurement suite will
+     * be closed once this method completes.
+     */
+    void execute() {
+        CompletionService<Simulation> completionService = new ExecutorCompletionService<Simulation>(executor);
+        for (int i = 0; i < samples; ++i) {
+            completionService.submit(simulations[i], simulations[i]); // The return value is explicitly null.
         }
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
-            try {
-                simulations[i].join();
+
+        final Simulation[] completedSimulations = new Simulation[samples];
+        try {
+            for (int i = 0; i < samples; i++) {
+                Future<Simulation> simulation = completionService.take();
+                completedSimulations[i] = simulation.get();
             }
-            catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            throw new RuntimeException(ex);
         }
-        measurementSuite.getOutputBuffer().close();
-        measurementSuite = null;
-        simulations = null;
-        progress = null;
-        progressListeners = null;
+
+        // Get the names of the measurements.
+        List<String> descriptions = simulations[0].getMeasurementSuite().getDescriptions(); // Law of demeter!
+
+        List<File> fileList = Lists.newArrayList();
+        for (Simulation simulation : completedSimulations) {
+            fileList.add(simulation.getMeasurementSuite().getFile());
+        }
+        executor.shutdown();
+
+        combiner.combine(descriptions, fileList);
     }
 
     /**
      * Terminates all the experiments.
      */
     void terminate() {
-        for (int i = 0; i < measurementSuite.getSamples(); ++i) {
+        for (int i = 0; i < samples; ++i) {
             simulations[i].terminate();
         }
     }
@@ -145,25 +176,13 @@ class Simulator {
     }
 
     /**
-     * Indicate that the provided {@code Simulation} has completed.
-     * @param simulation The {@code simulation} which has completed.
+     * Update the progress of the current simulation with the provided
+     * percentage.
+     * @param simulation to be updated.
+     * @param percentageComplete updated percentage value.
      */
-    void simulationFinished(Simulation simulation) {
-        measurementSuite.measure(simulation.getAlgorithm());
-        progress.put(simulation, new Double(((AbstractAlgorithm) simulation.getAlgorithm()).getPercentageComplete()));
+    void updateProgress(Simulation simulation, double percentageComplete) {
+        progress.put(simulation, percentageComplete);
         notifyProgress();
-    }
-
-    /**
-     * Indicate that the provided {@code Simulation} has completed an iteration.
-     * @param simulation The {@code Simulation} that has completed an iteration.
-     */
-    void simulationIterationCompleted(Simulation simulation) {
-        Algorithm algorithm = simulation.getAlgorithm();
-        if (algorithm.getIterations() % measurementSuite.getResolution() == 0) {
-            measurementSuite.measure(simulation.getAlgorithm());
-            progress.put(simulation, new Double(((AbstractAlgorithm)algorithm).getPercentageComplete()));
-            notifyProgress();
-        }
     }
 }

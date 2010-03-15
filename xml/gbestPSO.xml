@@ -48,69 +48,81 @@
             <function class="functions.continuous.Schwefel"/>
         </problem>
     </problems>
-    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10" samples="1">
+    <measurements id="fitness" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="spherical"/>
-            <measurements idref="fitness" file="data/spherical3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/spherical3.gbest.p20w1.0c1_2c2_2NoVmax.txt" />
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="fitness" file="data/rosenbrock3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/rosenbrock3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="rastrigin"/>
-            <measurements idref="fitness" file="data/rastrigin3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/rastrigin3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="griewank"/>
-            <measurements idref="fitness" file="data/griewank3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/griewank3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="quadric"/>
-            <measurements idref="fitness" file="data/quadric3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/quadric3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="michalewicz"/>
-            <measurements idref="fitness" file="data/michalewicz3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/michalewicz3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="hyperellipsoid"/>
-            <measurements idref="fitness" file="data/hyperellipsoid3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/hyperellipsoid3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="easom"/>
-            <measurements idref="fitness" file="data/easom3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/easom3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="colville"/>
-            <measurements idref="fitness" file="data/colville3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/colville3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="bohachevsky1"/>
-            <measurements idref="fitness" file="data/bohachevksy1_3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/bohachevksy1_3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="ackley"/>
-            <measurements idref="fitness" file="data/ackley3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/ackley3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="gbest"/>
             <problem idref="schwefel"/>
-            <measurements idref="fitness" file="data/schwefel3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
+            <measurements idref="fitness" />
+	    <output format="TXT" file="data/schwefel3.gbest.p20w1.0c1_2c2_2NoVmax.txt"/>
         </simulation>
     </simulations>
 </simulator>

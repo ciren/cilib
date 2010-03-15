@@ -19,28 +19,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.problem;
+package net.sourceforge.cilib.simulator;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
- * <p>
- * A factory used to produce a {@link Problem} must satisfy this interface.
- * {@link net.sourceforge.cilib.xml.XMLProblemFactory} implements this
- * interface so that problems can be created for the Simulator.
- * </p>
- * <p>
- * To avoid the use of XML you can create your own implementation of <code>ProblemFactory</code> to create
- * appropriately configured problems.
- * </p>
- *
- * @author  Edwin Peer
+ * @author gpampara
  */
-public interface ProblemFactory {
+class XMLObjectBuilder implements LinkedObjectBuilder, LinkedXMLObjectBuilder {
+    private Document config;
+    private Element element;
 
-    /**
-     * Returns a newly contructed problem.
-     *
-     * @return A new {@link Problem}.
-     */
-    Problem newProblem();
+    LinkedObjectBuilder config(final Document config) {
+        this.config = config;
+        return this;
+    }
+
+    @Override
+    public LinkedXMLObjectBuilder element(Node item) {
+        this.element = (Element) item;
+        return this;
+    }
+
+    @Override
+    public XMLObjectFactory build() {
+        return new XMLObjectFactory(config, element);
+    }
+
 }

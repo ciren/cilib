@@ -37,35 +37,40 @@
             </function>
         </problem>
     </problems>
-    <measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
         <addMeasurement class="measurement.single.Solution"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/amga-spherical.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/amga-spherical.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/amga-rosenbrock.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/amga-rosenbrock.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/amga-griewank.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/amga-griewank.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/amga-ackley.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/amga-ackley.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="rastrigin"/>
-            <measurements idref="measurements" file="data/amga-rastrigin.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/amga-rastrigin.txt"/>
         </simulation>
     </simulations>
 </simulator>

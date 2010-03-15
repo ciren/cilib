@@ -21,9 +21,14 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import com.google.common.collect.Lists;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import net.sourceforge.cilib.measurement.MeasurementStateManager;
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.measurement.Measurement;
@@ -37,21 +42,18 @@ import net.sourceforge.cilib.type.types.Type;
  *
  * @author  Edwin Peer
  */
-public class MeasurementSuite implements Serializable {
-    private static final long serialVersionUID = 8021290553229945841L;
+public class MeasurementSuite implements MeasurementCollector {
 
-    private String file;
-    private int samples;
+    private static final long serialVersionUID = 8021290553229945841L;
+    private File file;
+    private BufferedWriter writer;
     private int resolution;
-    private ArrayList<Measurement> measurements;
-    private SynchronizedOutputBuffer buffer;
+    private List<Measurement<?>> measurements;
     private MeasurementStateManager measurementStateManager;
 
     /** Creates a new instance of MeasurementSuite. */
     public MeasurementSuite() {
-        measurements = new ArrayList<Measurement>();
-        file = "results.txt";
-        samples = 30;
+        measurements = new ArrayList<Measurement<?>>();
         resolution = 1;
         measurementStateManager = new MeasurementStateManager();
     }
@@ -60,47 +62,16 @@ public class MeasurementSuite implements Serializable {
      * Initialise the require output buffers for the {@linkplain MeasurementSuite}.
      */
     public void initialise() {
-        buffer = new SynchronizedOutputBuffer(file, measurements.size(), samples);
-        buffer.write("# 0 - Iterations");
-        for (Measurement measurement : measurements) {
-            buffer.writeDescription(measurement);
+        try {
+            file = File.createTempFile("cilib_data", ".tmp");
+            writer = new BufferedWriter(new FileWriter(file));
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
-    /**
-     * Sets the output file to record the measurements in.
-     *
-     * @param file The name of the output file.
-     */
-    public void setFile(String file) {
-        this.file = file;
-    }
-
-    /**
-     * Get the current specified filename.
-     * @return The current file name.
-     */
-    public String getFile() {
-        return this.file;
-    }
-
-    /**
-     * Sets the number of samples to take for each measurement. Each sample results
-     * in the experiment being performed again.
-     *
-     * @param samples The number of samples.
-     */
-    public void setSamples(int samples) {
-        this.samples = samples;
-    }
-
-    /**
-     * Accessor for the number of samples to take for each measurement.
-     *
-     * @return The number of samples.
-     */
-    public int getSamples() {
-        return samples;
+    public File getFile() {
+        return file;
     }
 
     /**
@@ -124,23 +95,11 @@ public class MeasurementSuite implements Serializable {
     }
 
     /**
-     * Get the current {@linkplain SynchronizedOutputBuffer}.
-     * @return The current buffer.
-     */
-    public SynchronizedOutputBuffer getOutputBuffer() {
-        return buffer;
-    }
-
-    public void setOutputBuffer(SynchronizedOutputBuffer buffer) {
-        this.buffer = buffer;
-    }
-
-    /**
      * Adds a measurement to the suite.
      *
      * @param measurement The measurement to be added.
      */
-    public void addMeasurement(Measurement measurement) {
+    public void addMeasurement(Measurement<?> measurement) {
         measurements.add(measurement);
     }
 
@@ -153,21 +112,55 @@ public class MeasurementSuite implements Serializable {
      * as measurements are taken on the current {@linkplain Algorithm}.
      * @param algorithm The {@linkplain Algorithm} to measure.
      */
+    @Override
     public void measure(Algorithm algorithm) {
-        for (Measurement measurement : measurements) {
+        Type[] tmp = new Type[measurements.size()];
+        int index = 0;
+        for (Measurement<?> measurement : measurements) {
             Type value = null;
 
-            if (measurement instanceof StateAwareMeasurement) {
-                StateAwareMeasurement stateAwareMeasurement = (StateAwareMeasurement) measurement;
+            if (measurement instanceof StateAwareMeasurement<?>) {
+                StateAwareMeasurement<?> stateAwareMeasurement = (StateAwareMeasurement<?>) measurement;
                 measurementStateManager.setState(algorithm, stateAwareMeasurement);
                 value = measurement.getValue(algorithm);
                 measurementStateManager.getState(algorithm, stateAwareMeasurement);
-            }
-            else
+            } else {
                 value = measurement.getValue(algorithm);
+            }
 
-            buffer.writeMeasuredValue(value, algorithm, measurement);
+            tmp[index++] = value;
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append(algorithm.getIterations());
+        for (Type t : tmp) {
+            builder.append(" ").append(t);
+        }
+
+        try {
+            writer.write(builder.toString());
+            writer.newLine();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
+    @Override
+    public void add(Measurement<?> measurement) {
+        measurements.add(measurement);
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.writer.flush();
+        this.writer.close();
+    }
+
+    @Override
+    public List<String> getDescriptions() {
+        List<String> result = Lists.newArrayList();
+        for (Measurement<?> measurement : measurements) {
+            result.add(measurement.getClass().getSimpleName());
+        }
+        return result;
+    }
 }

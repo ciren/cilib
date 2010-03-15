@@ -19,27 +19,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package net.sourceforge.cilib.algorithm;
+package net.sourceforge.cilib.simulator;
 
-/**
- * <p>
- * A factory used to produce an {@link Algorithm} must satisfy this interface.
- * {@link net.sourceforge.cilib.xml.XMLAlgorithmFactory} implements this
- * interface so that algorithms can be created for the simulator.
- * </p>
- * <p>
- * To avoid the use of XML you can create your own implementation of <code>AlgorithmFactory</code> to create
- * appropriately configured algorithms.
- * </p>
- *
- * @author  Edwin Peer
- */
-public interface AlgorithmFactory {
+public enum OutputType {
 
-    /**
-     * Returns a newly constructed algorithm.
-     *
-     * @return A new {@link Algorithm}.
-     */
-    Algorithm newAlgorithm();
+    TXT {
+
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            return new TextBasedCombiner(filename);
+        }
+    }, CSV {
+
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            throw new UnsupportedOperationException();
+        }
+    }, XML {
+
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            throw new UnsupportedOperationException();
+        }
+    };
+
+    public abstract MeasurementCombiner newInstance(String filename);
 }

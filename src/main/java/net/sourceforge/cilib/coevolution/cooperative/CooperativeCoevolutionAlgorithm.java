@@ -36,47 +36,42 @@ import net.sourceforge.cilib.coevolution.cooperative.problemdistribution.Problem
 import net.sourceforge.cilib.problem.OptimisationSolution;
 
 /**
- * This class forms the basis for any co-operative coevolution optimization algorithm implementations.
- * A cooperative algorithm is an algorithm that maintains a context solution and a list of participating algorithms. Each participating algorithm
- * optimizes only a subsection of the problem, and fitness values are computed by inserting an enitie's solution into the current context vector
- * before it is evaluated. The context vector is simply the concatenation of the best solutions from each participating population.
- *
- * Any algorithm that wishes to participate in a cooperative optimisation
-
- *
- * TODO test this class.
- *
- * This class forms that basis for any co-operative co-evoultion optimisation algorithm implementations.
- * A cooperating algorihtm is an algorithm that maintains a context solution and a list of participating algorithms. Each algorithm
- * optimizes a subsection of the problem, where fitness values are computed based on a participating algorithm's entitie's influence on
- * a context vector. The context vector is simply the concatenation of the best solutions from each participating population.
+ * This class forms the basis for any co-operative coevolution optimization
+ * algorithm implementations. A cooperative algorithm is an algorithm that
+ * maintains a context solution and a list of participating algorithms. Each
+ * participating algorithm optimizes only a subsection of the problem, and
+ * fitness values are computed by inserting an enitie's solution into the
+ * current context vector before it is evaluated. The context vector is simply
+ * the concatenation of the best solutions from each participating population.
  *
  * Any algorithm that wishes to participate in a co-operative optimisation
- * algorithm must implement the {@link ParticipatingAlgorithm} interface. This class also implements
- * {@link ParticipatingAlgorithm}, meaning that co-operative algorithms can be composed of
- * co-operative algorithms again.
- *
+ * algorithm must implement the {@link ParticipatingAlgorithm} interface. This class
+ * also implements {@link ParticipatingAlgorithm}, meaning that co-operative
+ * algorithms can be composed of co-operative algorithms again.
  *
  * <p>
  * References:
  * </p>
  * <p>
  * <ul>
- * <li> M. Potter and K.D. Jong, "A Cooperative Coevolutionary approach to function optimization," in Proceedings of the
- *  Third conference on Paralell Problem Solving from Nature, pp. 249-257, Springer-Verlag, 1994.
+ * <li> M. Potter and K.D. Jong, "A Cooperative Coevolutionary approach to function optimization,"
+ * in Proceedings of the Third conference on Paralell Problem Solving from Nature, pp. 249-257,
+ * Springer-Verlag, 1994.
  * </li>
- * <li> F. van den Bergh and A. Engelbrecht, "A cooperative approach to particle swarm optimization," IEEE Transactions on Evolutionary
- * Computation, vol. 8, no. 3, pp 225-239, 2004.
+ * <li> F. van den Bergh and A. Engelbrecht, "A cooperative approach to particle swarm optimization,"
+ * IEEE Transactions on Evolutionary Computation, vol. 8, no. 3, pp 225-239, 2004.
  * </li>
  * </ul>
  * </p>
+ *
+ * @TODO: test this class.
  *
  * @author Edwin Peer
  * @author Theuns Cloete
  * @author leo
  */
-public class CooperativeCoevolutionAlgorithm extends
-        MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
+public class CooperativeCoevolutionAlgorithm extends MultiPopulationBasedAlgorithm implements ParticipatingAlgorithm {
+
     private static final long serialVersionUID = 3351497412601778L;
     protected ContextEntity context;
     protected ProblemDistributionStrategy problemDistribution;
@@ -111,12 +106,12 @@ public class CooperativeCoevolutionAlgorithm extends
     @Override
     public void performInitialisation() {
         /*use the problem distribution class to allocate segments of the problem to the different algorithms, this class gives each sub population
-          a wrapped problem, which contains the original problem and the current context vector*/
+        a wrapped problem, which contains the original problem and the current context vector*/
         context.initialise(optimisationProblem);
         problemDistribution.performDistribution(subPopulationsAlgorithms, optimisationProblem, context.getCandidateSolution());
         context.clear();
         //Initialize each sub population, and add the randomised solution vector from each population to the current context.
-        for(PopulationBasedAlgorithm algorithm: subPopulationsAlgorithms){
+        for (PopulationBasedAlgorithm algorithm : subPopulationsAlgorithms) {
             algorithm.performInitialisation();
             context.append(algorithm.getBestSolution().getPosition());
         }
@@ -130,15 +125,15 @@ public class CooperativeCoevolutionAlgorithm extends
     protected void algorithmIteration() {
         //iterate through each algorithm
         algorithmIterator.setAlgorithms(subPopulationsAlgorithms);
-        while(algorithmIterator.hasNext()){
+        while (algorithmIterator.hasNext()) {
             //get the optimisation problem from the algorithm
-            CooperativeCoevolutionProblemAdapter problem = (CooperativeCoevolutionProblemAdapter)algorithmIterator.next().getOptimisationProblem();
+            CooperativeCoevolutionProblemAdapter problem = (CooperativeCoevolutionProblemAdapter) algorithmIterator.next().getOptimisationProblem();
             //update the context solution to point to the current context
             problem.updateContext(context.getCandidateSolution());
             //perform an iteration of the sub population algorithm
             algorithmIterator.current().performIteration();
             //select the contribution from the population
-            contextUpdate.updateContext(context,  ((ParticipatingAlgorithm)algorithmIterator.current()).getContributionSelectionStrategy().getContribution(algorithmIterator.current()), problem.getProblemAllocation());
+            contextUpdate.updateContext(context, ((ParticipatingAlgorithm) algorithmIterator.current()).getContributionSelectionStrategy().getContribution(algorithmIterator.current()), problem.getProblemAllocation());
         }
     }
 
@@ -172,16 +167,19 @@ public class CooperativeCoevolutionAlgorithm extends
     @Override
     public void addPopulationBasedAlgorithm(PopulationBasedAlgorithm algorithm) {
         // TODO: There should be a better way to perfrom this test, rather than using an instanceof.
-        if (((ParticipatingAlgorithm)algorithm).getContributionSelectionStrategy() instanceof ZeroContributionSelectionStrategy)
-            ((ParticipatingAlgorithm)algorithm).setContributionSelectionStrategy(contributionSelection);
+        if (((ParticipatingAlgorithm) algorithm).getContributionSelectionStrategy() instanceof ZeroContributionSelectionStrategy) {
+            ((ParticipatingAlgorithm) algorithm).setContributionSelectionStrategy(contributionSelection);
+        }
 
         super.addPopulationBasedAlgorithm(algorithm);
     }
 
+    @Override
     public ContributionSelectionStrategy getContributionSelectionStrategy() {
         return contributionSelection;
     }
 
+    @Override
     public void setContributionSelectionStrategy(ContributionSelectionStrategy strategy) {
         contributionSelection = strategy;
     }
@@ -197,5 +195,4 @@ public class CooperativeCoevolutionAlgorithm extends
     public ContextEntity getContext() {
         return context;
     }
-
 }

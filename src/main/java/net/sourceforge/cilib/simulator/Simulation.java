@@ -21,23 +21,24 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import java.lang.reflect.Method;
+import java.io.IOException;
 import net.sourceforge.cilib.algorithm.AbstractAlgorithm;
 import net.sourceforge.cilib.algorithm.Algorithm;
 import net.sourceforge.cilib.algorithm.AlgorithmEvent;
 import net.sourceforge.cilib.algorithm.AlgorithmListener;
-import net.sourceforge.cilib.algorithm.InitialisationException;
+import net.sourceforge.cilib.problem.OptimisationProblem;
 import net.sourceforge.cilib.problem.Problem;
 
 /**
  * A Simulation is a complete simulation that runs as a separate thread.
  */
-class Simulation extends Thread implements AlgorithmListener {
-    private static final long serialVersionUID = -3733724215662398762L;
+class Simulation implements AlgorithmListener, Runnable {
 
+    private static final long serialVersionUID = -3733724215662398762L;
     private final Simulator simulator;
     private final Algorithm algorithm;
     private final Problem problem;
+    private final MeasurementSuite measurementSuite;
 
     /**
      * Create a Simulation with the required dependencies.
@@ -45,10 +46,23 @@ class Simulation extends Thread implements AlgorithmListener {
      * @param algorithmFactory The factory that creates {@code Algorithm} instances.
      * @param problemFactory The factory that creates {@code Problem} instances.
      */
-    public Simulation(Simulator simulator, Algorithm algorithm, Problem problem) {
+    Simulation(Simulator simulator, Algorithm algorithm, Problem problem, MeasurementSuite measurementSuite) {
         this.simulator = simulator;
         this.algorithm = algorithm;
         this.problem = problem;
+        this.measurementSuite = measurementSuite;
+    }
+
+    /**
+     * Prepre for execution. The simulation is prepared for execution by
+     * setting the provided {@code problem} on the current {@code algorithm},
+     * followed by the required initialization for the {@code algorithm} itself.
+     */
+    void init() {
+        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
+        alg.addAlgorithmListener(this);
+        alg.setOptimisationProblem((OptimisationProblem) problem);
+        alg.initialise();
     }
 
     /**
@@ -56,35 +70,13 @@ class Simulation extends Thread implements AlgorithmListener {
      */
     @Override
     public void run() {
-        AbstractAlgorithm alg = (AbstractAlgorithm) algorithm;
-        alg.addAlgorithmListener(this);
-
-        try {
-            Class<? extends Object> current = problem.getClass();
-
-            while (!current.getSuperclass().equals(Object.class)) {
-                current = current.getSuperclass();
-            }
-
-            String type = current.getInterfaces()[0].getName();
-            Class<?> [] parameters = new Class[1];
-            parameters[0] = Class.forName(type);
-            String setMethodName = "set" + type.substring(type.lastIndexOf(".") + 1);
-            Method setProblemMethod = algorithm.getClass().getMethod(setMethodName, parameters);
-            setProblemMethod.invoke(algorithm, new Object[] {problem});
-        }
-        catch (Exception ex) {
-            throw new InitialisationException(algorithm.getClass().getName() + " does not support problems of type " + problem.getClass().getName());
-        }
-
-        alg.initialise();
-        alg.run();
+        algorithm.run();
     }
 
     /**
      * Terminate the current simulation.
      */
-    public void terminate() {
+    void terminate() {
         ((AbstractAlgorithm) algorithm).terminate();
     }
 
@@ -92,30 +84,42 @@ class Simulation extends Thread implements AlgorithmListener {
      * {@inheritDoc}
      */
     @Override
-    public void algorithmStarted(AlgorithmEvent e) {
+    public void algorithmStarted(AlgorithmEvent event) {
+        measurementSuite.initialise(); // Initialise the temporary data store
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void algorithmFinished(AlgorithmEvent e) {
-        this.simulator.simulationFinished(this);
+    public void algorithmFinished(AlgorithmEvent event) {
+        measurementSuite.measure(event.getSource());
+        simulator.updateProgress(this, ((AbstractAlgorithm) event.getSource()).getPercentageComplete());
+
+        try {
+            measurementSuite.close();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void algorithmTerminated(AlgorithmEvent e) {
+    public void algorithmTerminated(AlgorithmEvent event) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void iterationCompleted(AlgorithmEvent e) {
-        this.simulator.simulationIterationCompleted(this);
+    public void iterationCompleted(AlgorithmEvent event) {
+        Algorithm alg = event.getSource();
+        if (alg.getIterations() % measurementSuite.getResolution() == 0) {
+            measurementSuite.measure(alg);
+            simulator.updateProgress(this, ((AbstractAlgorithm) alg).getPercentageComplete());
+        }
     }
 
     /**
@@ -126,12 +130,7 @@ class Simulation extends Thread implements AlgorithmListener {
         return this;
     }
 
-    /**
-     * Obtain the {@code Algorithm} of the current {@code Simulation}.
-     * @return The current {@code Algorithm}.
-     */
-    public Algorithm getAlgorithm() {
-        return algorithm;
+    MeasurementSuite getMeasurementSuite() {
+        return measurementSuite;
     }
-
 }

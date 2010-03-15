@@ -20,7 +20,7 @@
         </algorithm>
     </algorithms>
 
-    <simulation>
+    <simulation samples="1">
         <algorithm class="coevolution.cooperative.CooperativeCoevolutionAlgorithm">
             <addPopulationBasedAlgorithm idref="gcpso"/>
             <addPopulationBasedAlgorithm idref="gcpso"/>
@@ -34,9 +34,10 @@
             <function class="functions.continuous.Schwefel" />
         </problem>
 
-        <measurements class="simulator.MeasurementSuite" file="data/splitcooperative-pso-schwefel.txt" resolution="10">
+        <measurements class="simulator.MeasurementSuite" resolution="10">
             <addMeasurement class="measurement.single.FitnessEvaluations" />
             <addMeasurement class="measurement.single.FunctionOptimisationError" />
         </measurements>
+        <output format="TXT" file="data/splitcooperative-pso-schwefel.txt"/>
     </simulation>
 </simulator>

@@ -34,34 +34,39 @@
             <function class="functions.continuous.unconstrained.Ackley"/>
         </problem>
     </problems>
-    <measurements id="measurements" class="simulator.MeasurementSuite" samples="1" resolution="10">
+    <measurements id="measurements" class="simulator.MeasurementSuite" resolution="10">
         <addMeasurement class="measurement.single.Fitness"/>
     </measurements>
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="spherical"/>
-            <measurements idref="measurements" file="data/ga-spherical.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/ga-spherical.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="rosenbrock"/>
-            <measurements idref="measurements" file="data/ga-rosenbrock.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/ga-rosenbrock.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="griewank"/>
-            <measurements idref="measurements" file="data/ga-griewank.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/ga-griewank.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="hyperellipsoid"/>
-            <measurements idref="measurements" file="data/ga-hyperellipsoid.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/ga-hyperellipsoid.txt"/>
         </simulation>
-        <simulation>
+        <simulation samples="1">
             <algorithm idref="ga"/>
             <problem idref="ackley"/>
-            <measurements idref="measurements" file="data/ga-ackley.txt"/>
+            <measurements idref="measurements" />
+            <output format="TXT" file="data/ga-ackley.txt"/>
         </simulation>
     </simulations>
 </simulator>

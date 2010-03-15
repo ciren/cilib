@@ -79,10 +79,7 @@ public class ParticlePositions implements Measurement<StringType> {
             }
         }
 
-        StringType t = new StringType();
-        t.setString(tmp.toString());
-
-        return t;
+        return new StringType(tmp.toString());
     }
 
 }

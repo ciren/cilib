@@ -8,7 +8,7 @@
 
 <simulator>
     <simulations>
-        <simulation>
+        <simulation samples="1">
             <algorithm class="pso.PSO">
                 <topology class="entity.topologies.VonNeumannTopology"/>
                 <initialisationStrategy class="algorithm.initialisation.ClonedPopulationInitialisationStrategy">
@@ -24,9 +24,10 @@
                 <function class="functions.continuous.NastyBenchmark"/>
             </problem>
 
-            <measurements class="simulator.MeasurementSuite" file="data/gaussian.txt" resolution="1">
+            <measurements class="simulator.MeasurementSuite" resolution="1">
                 <addMeasurement class="measurement.single.FunctionOptimisationError"/>
             </measurements>
+            <output format="TXT" file="data/gaussian.txt"/>
         </simulation>
     </simulations>
 </simulator>

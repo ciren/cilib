@@ -40,11 +40,11 @@ import net.sourceforge.cilib.stoppingcondition.StoppingCondition;
  * </p>
  * @author Edwin Peer
  */
-public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnable {
+public abstract class AbstractAlgorithm implements Algorithm, Stoppable {
     private static final long serialVersionUID = 7197544770653732632L;
     private List<StoppingCondition<? extends Algorithm>> stoppingConditions;
     private List<AlgorithmListener> algorithmListeners;
-    private int iterations;
+    private int iteration;
     private volatile boolean running;
     private boolean initialised;
 
@@ -93,20 +93,22 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
         running = false;
         initialised = false;
 
-        if (copy.optimisationProblem != null)
+        if (copy.optimisationProblem != null) {
             optimisationProblem = copy.optimisationProblem.getClone();
+        }
     }
 
     /**
      * Initialises the algorithm. Must be called before {@link #run()} is called.
      */
     public final void initialise() {
-        iterations = 0;
+        iteration = 0;
         running = true;
         initialised = true;
 
-        if (stoppingConditions.isEmpty())
+        if (stoppingConditions.isEmpty()) {
             throw new InitialisationException("No stopping conditions specified");
+        }
 
         currentAlgorithmStack.get().push(this);
         performInitialisation();
@@ -120,7 +122,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
     public final void performIteration() {
         currentAlgorithmStack.get().push(this);
         algorithmIteration();
-        iterations++;
+        iteration++;
         currentAlgorithmStack.get().pop();
     }
 
@@ -219,7 +221,7 @@ public abstract class AbstractAlgorithm implements Algorithm, Stoppable, Runnabl
      */
     @Override
     public final int getIterations() {
-        return iterations;
+        return iteration;
     }
 
     /**

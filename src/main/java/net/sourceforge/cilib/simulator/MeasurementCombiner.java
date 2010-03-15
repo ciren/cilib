@@ -21,22 +21,19 @@
  */
 package net.sourceforge.cilib.simulator;
 
-import net.sourceforge.cilib.algorithm.ProgressEvent;
-import net.sourceforge.cilib.algorithm.ProgressListener;
+import java.io.File;
+import java.util.List;
 
 /**
- * A {@code ProgressListener} that sinks all output
+ * Combines a collection of smaller data sources into a single datasource.
  */
-final class NoProgress implements ProgressListener {
+public interface MeasurementCombiner {
 
-    NoProgress() {
-    }
-
-    @Override
-    public void handleProgressEvent(ProgressEvent event) {
-    }
-
-    @Override
-    public void setSimulation(int simnum) {
-    }
+    /**
+     * Combine many partial results into a single result file. Once
+     * this method completes, all streams will be closed for the provided files.
+     * @param descriptions header descriptions for the results.
+     * @param partials list of partial results.
+     */
+    public abstract void combine(List<String> descriptions, List<File> partials);
 }
