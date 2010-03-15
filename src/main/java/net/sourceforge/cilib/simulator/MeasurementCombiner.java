@@ -33,7 +33,7 @@ public interface MeasurementCombiner {
      * Combine many partial results into a single result file. Once
      * this method completes, all streams will be closed for the provided files.
      * @param descriptions header descriptions for the results.
-     * @param partials list of partial results
+     * @param partials list of partial results.
      */
     public abstract void combine(List<String> descriptions, List<File> partials);
 }

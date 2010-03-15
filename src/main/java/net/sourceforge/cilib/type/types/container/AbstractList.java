@@ -31,6 +31,7 @@ import net.sourceforge.cilib.type.types.Types;
  * @author Gary Pampara
  */
 public abstract class AbstractList<E extends Type> implements StructuredType<E> {
+
     private static final long serialVersionUID = -7855489699409219241L;
 
     /**
@@ -38,18 +39,6 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
      */
     @Override
     public abstract AbstractList<E> getClone();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract boolean equals(Object o);
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract int hashCode();
 
     /**
      * Get the {@linkplain Type} at the given index.
@@ -77,7 +66,7 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
      * @param value The {@linkplain Type} to add.
      */
     public void append(E value) {
-        int position = Types.getDimension(this);
+        int position = Types.dimensionOf(this);
         insert(position, value);
     }
 
@@ -131,14 +120,13 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
             current = Types.getRepresentation(this.get(i));
             if (current.equals(previous)) {
                 dimension++;
-            }
-            else {    //the else part will always happen for the first element
+            } else {    //the else part will always happen for the first element
                 if (dimension > 1) {
                     representation.append("^").append(String.valueOf(dimension));
                     dimension = 1;
                 }
                 if (i > 0) {        //Puts a ',' before the 'current' element; only when 'current' is not the first element
-                        representation.append(',');
+                    representation.append(',');
                 }
                 representation.append(current);
             }
@@ -183,6 +171,7 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
     /**
      * Create a new (cloned) <tt>Vector</tt> consisting of <tt>rhs</tt> that has been prepended
      * to <tt>lhs</tt>.
+     * @param <T>
      * @param lhs The <tt>Vector</tt> that will form the back part of the new (cloned)
      *        <tt>Vector</tt>.
      * @param rhs The <tt>Vector</tt> that will form the front part of the new (cloned)
@@ -190,8 +179,8 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
      * @return A new <tt>Vector</tt> consisting of the concatenation of <tt>rhs</tt> and
      *         <tt>lhs</tt>.
      */
-    public static AbstractList prepend(AbstractList lhs, AbstractList rhs) {
-        AbstractList cat = rhs.getClone();
+    public static <T extends Type> AbstractList<T> prepend(AbstractList<T> lhs, AbstractList<T> rhs) {
+        AbstractList<T> cat = rhs.getClone();
         cat.append(lhs.getClone());
         return cat;
     }
@@ -219,8 +208,9 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
     public String toString(char first, char last, char delimiter) {
         int dimension = size();
         StringBuilder tmp = new StringBuilder(10 * dimension);
-        if (first != 0)
+        if (first != 0) {
             tmp.append(first);
+        }
         if (dimension > 0) {
             tmp.append(this.get(0).toString());
             for (int i = 1; i < dimension; ++i) {
@@ -228,8 +218,9 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
                 tmp.append(this.get(i).toString());
             }
         }
-        if (last != 0)
+        if (last != 0) {
             tmp.append(last);
+        }
         return tmp.toString();
     }
 
@@ -250,5 +241,4 @@ public abstract class AbstractList<E extends Type> implements StructuredType<E> 
     public String toString(char delimiter) {
         return toString('[', ']', delimiter);
     }
-
 }

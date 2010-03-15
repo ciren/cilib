@@ -58,6 +58,7 @@ public final class Types {
     }
 
     private static class BoundsVerificationVisitor implements Visitor<Type> {
+
         private boolean valid = true;
         private boolean isDone = false;
 
@@ -86,7 +87,6 @@ public final class Types {
             return isDone;
         }
     }
-
 
     /**
      * Get the representation of the type in the form expressed by the domain notation.
@@ -129,7 +129,7 @@ public final class Types {
      * @param value The type to determine the dimension of.
      * @return The dimensionality of the provided type.
      */
-    public static int getDimension(Type value) {
+    public static int dimensionOf(Type value) {
         if (value instanceof StructuredType) {
             StructuredType structuredType = (StructuredType) value;
             return structuredType.size();
@@ -137,21 +137,4 @@ public final class Types {
 
         return 1; // This is the size for all non-structured types.
     }
-
-    /**
-     * Reset the current {@code Resetable} instance.
-     * @see Resetable
-     * @param type The type to reset
-     * @throws UnsupportedOperationException if the provided type is not {@code Resetable}.
-     */
-    public static void reset(Type type) {
-        if (type instanceof Resetable) {
-            Resetable resetable = (Resetable) type;
-            resetable.reset();
-            return;
-        }
-
-        throw new UnsupportedOperationException("The provided type instance [" + type.getClass().getSimpleName() + "] does not implement the Resetable interface.");
-    }
-
 }

@@ -42,7 +42,7 @@ public interface StoppingCondition<E extends Algorithm> extends Predicate<E> {
 
     /**
      * Determines the percentage complete for the associated algorithm.
-     * @returns The percentage completed as a fraction (0 <= i <= 1.0).
+     * @returns The percentage completed as a fraction {@literal (0 <= i <= 1.0)}.
      */
     public double getPercentageCompleted(E algorithm);
 
