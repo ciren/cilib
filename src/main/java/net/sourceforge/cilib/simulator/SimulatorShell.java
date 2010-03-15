@@ -108,7 +108,7 @@ class SimulatorShell {
      * This shoud be a guice provider.... I don't like this
      */
     private MeasurementCombiner createCombiner(Element item) {
-        String file = item.getAttribute("file");
+        String file = item.getAttribute("file").toUpperCase();
         OutputType format = OutputType.valueOf(item.getAttribute("format"));
         return this.combinerBuilder.build(format, file);
     }
