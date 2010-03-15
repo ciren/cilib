@@ -28,7 +28,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import net.sourceforge.cilib.algorithm.ProgressListener;
-import net.sourceforge.cilib.simulator.MeasurementCombinerBuilder.OutputType;
+import net.sourceforge.cilib.simulator.OutputType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

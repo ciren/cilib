@@ -21,16 +21,27 @@
  */
 package net.sourceforge.cilib.simulator;
 
-/**
- *
- * @author gpampara
- */
-final class MeasurementCombinerBuilder {
+public enum OutputType {
 
-    MeasurementCombinerBuilder() {
-    }
+    TXT {
 
-    MeasurementCombiner build(OutputType type, String filename) {
-        return type.newInstance(filename);
-    }
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            return new TextBasedCombiner(filename);
+        }
+    }, CSV {
+
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            throw new UnsupportedOperationException();
+        }
+    }, XML {
+
+        @Override
+        public MeasurementCombiner newInstance(String filename) {
+            throw new UnsupportedOperationException();
+        }
+    };
+
+    public abstract MeasurementCombiner newInstance(String filename);
 }
