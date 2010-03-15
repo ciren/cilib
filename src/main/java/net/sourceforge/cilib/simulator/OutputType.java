@@ -21,27 +21,29 @@
  */
 package net.sourceforge.cilib.simulator;
 
+import java.io.File;
+
 public enum OutputType {
 
     TXT {
 
         @Override
-        public MeasurementCombiner newInstance(String filename) {
-            return new TextBasedCombiner(filename);
+        public MeasurementCombiner newInstance(File file) {
+            return new TextBasedCombiner(file);
         }
     }, CSV {
 
         @Override
-        public MeasurementCombiner newInstance(String filename) {
+        public MeasurementCombiner newInstance(File file) {
             throw new UnsupportedOperationException();
         }
     }, XML {
 
         @Override
-        public MeasurementCombiner newInstance(String filename) {
+        public MeasurementCombiner newInstance(File file) {
             throw new UnsupportedOperationException();
         }
     };
 
-    public abstract MeasurementCombiner newInstance(String filename);
+    public abstract MeasurementCombiner newInstance(File file);
 }

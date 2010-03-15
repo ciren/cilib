@@ -21,16 +21,13 @@
  */
 package net.sourceforge.cilib.simulator;
 
-/**
- *
- * @author gpampara
- */
+import java.io.File;
+
 final class MeasurementCombinerBuilder {
 
-    MeasurementCombinerBuilder() {
-    }
-
     MeasurementCombiner build(OutputType type, String filename) {
-        return type.newInstance(filename);
+        File file = new File(filename);
+        file.getParentFile().mkdirs(); // Create the required directory structure.
+        return type.newInstance(file);
     }
 }
