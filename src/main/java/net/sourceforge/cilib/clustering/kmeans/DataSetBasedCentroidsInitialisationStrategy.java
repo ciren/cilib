@@ -66,7 +66,7 @@ public class DataSetBasedCentroidsInitialisationStrategy implements CentroidsIni
     public Vector initialise(ClusteringProblem problem, ClusterableDataSet dataset) {
         ArrayList<Pattern> patterns = dataset.getPatterns();
         int numberOfCentroids = problem.getNumberOfClusters();
-        Vector centroids = new Vector(problem.getDomain().getDimension());
+        Vector centroids = new Vector();
 
         for (int i = 0; i < numberOfCentroids; i++) {
             Vector centroid = patterns.get(Math.round(random.nextInt(patterns.size()))).data;

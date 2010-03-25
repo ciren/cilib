@@ -88,7 +88,7 @@ public class Rastrigin extends ContinuousFunction implements Differentiable {
      * {@inheritDoc}
      */
     public Vector getGradient(Vector x) {
-        Vector tmp = new Vector(getDimension());
+        Vector tmp = new Vector();
 
         for (int i = 0; i < getDimension(); ++i) {
             tmp.setReal(i, (2.0 * x.getReal(i)) + (20 * Math.PI * Math.sin(2.0 * Math.PI * x.getReal(i))));

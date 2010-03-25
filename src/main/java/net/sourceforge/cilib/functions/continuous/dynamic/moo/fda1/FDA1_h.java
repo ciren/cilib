@@ -148,9 +148,9 @@ public class FDA1_h extends ContinuousFunction {
     public Double evaluate(Vector input) {
 
         //only the first element
-        Vector y = input.subList(0, 0);
+        Vector y = input.subList(0, 1);
         //all the elements except the first element
-        Vector z = input.subList(1, input.getDimension()-1);
+        Vector z = input.subList(1, input.getDimension());
         //evaluate the fda1_g function
         double g = this.fda1_g.evaluate(z);
         //evaluate the fda1_f1 function

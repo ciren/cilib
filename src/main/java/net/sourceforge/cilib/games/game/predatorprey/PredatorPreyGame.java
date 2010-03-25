@@ -108,7 +108,7 @@ public class PredatorPreyGame extends Game<ListGameState> {
      */
     public void movePlayer(int playerID, int x, int y){
         try{
-            Vector moveVector = new Vector(2);
+            Vector moveVector = new Vector();
             moveVector.add(new Int(x));
             moveVector.add(new Int(y));
             for(int i = 0; i < getCurrentState().getSize(); ++i){

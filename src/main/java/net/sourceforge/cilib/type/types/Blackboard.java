@@ -21,10 +21,10 @@
  */
 package net.sourceforge.cilib.type.types;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Simple {@code Blackboard} implementation.
@@ -33,14 +33,15 @@ import java.util.concurrent.ConcurrentMap;
  * @param <V> The value type.
  */
 public final class Blackboard<K, V extends Type> implements Type {
+
     private static final long serialVersionUID = -2589625146223946484L;
-    private final ConcurrentMap<K, V> board;
+    private final Map<K, V> board;
 
     /**
      * Create a new empty {@code Blackboard} container.
      */
     public Blackboard() {
-        this.board = new ConcurrentHashMap<K, V>();
+        this.board = new HashMap<K, V>();
     }
 
     /**
@@ -51,7 +52,8 @@ public final class Blackboard<K, V extends Type> implements Type {
         this.board = new ConcurrentHashMap<K, V>();
         for (Map.Entry<K, V> entry : copy.board.entrySet()) {
             K key = entry.getKey();
-            @SuppressWarnings({"unchecked"}) V value = (V) entry.getValue().getClone();
+            @SuppressWarnings({"unchecked"})
+            V value = (V) entry.getValue().getClone();
             this.board.put(key, value);
         }
     }
@@ -70,11 +72,13 @@ public final class Blackboard<K, V extends Type> implements Type {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         Blackboard<?, ?> other = (Blackboard<?, ?>) obj;
         return this.board.equals(other.board);
@@ -124,5 +128,4 @@ public final class Blackboard<K, V extends Type> implements Type {
     public Set<Map.Entry<K, V>> entrySet() {
         return this.board.entrySet();
     }
-
 }

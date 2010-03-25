@@ -108,7 +108,7 @@ public class DeratingFunctionMaximisationProblem extends FunctionMaximisationPro
             for (int i = 0; i < d_solution.length; i++) {
                 t_solution[i] = d_solution[i].doubleValue();
             }*/
-            Vector tSolution = new Vector(distanceSolution.length);
+            Vector tSolution = new Vector();
             for (int i = 0; i < distanceSolution.length; i++) {
                 tSolution.set(i, new Real(distanceSolution[i].doubleValue()));
             }

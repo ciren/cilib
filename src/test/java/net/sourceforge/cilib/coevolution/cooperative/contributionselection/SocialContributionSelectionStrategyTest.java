@@ -52,15 +52,15 @@ public class SocialContributionSelectionStrategyTest {
         e2.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.0));
         e3.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(0.5));
 
-        Vector v1 = new Vector(1);
+        Vector v1 = new Vector();
         v1.add(new Real(1.0));
         e1.getProperties().put(EntityType.Particle.BEST_POSITION, v1);
 
-        Vector v2 = new Vector(1);
+        Vector v2 = new Vector();
         v2.add(new Real(2.0));
         e2.getProperties().put(EntityType.Particle.BEST_POSITION, v2);
 
-        Vector v3 = new Vector(1);
+        Vector v3 = new Vector();
         v3.add(new Real(3.0));
         e3.getProperties().put(EntityType.Particle.BEST_POSITION, v3);
 

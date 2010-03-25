@@ -67,7 +67,7 @@ public class PredatorPreyNeuralInputStrategy extends NeuralStateInputStrategy {
                 else
                     preyPos = ((GridLocation)lstate.getItem(i).getLocation());
             }
-            Vector inputvector = new Vector(4);
+            Vector inputvector = new Vector();
             inputvector.add(new Real(currentPlayer.getScaledInput((double)predPos.getInt(0), 0, ((PredatorPreyGame)state).getBoardWidth())));
             inputvector.add(new Real(currentPlayer.getScaledInput((double)predPos.getInt(1), 0, ((PredatorPreyGame)state).getBoardHeight())));
             inputvector.add(new Real(currentPlayer.getScaledInput((double)preyPos.getInt(0), 0, ((PredatorPreyGame)state).getBoardWidth())));

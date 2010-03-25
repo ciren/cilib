@@ -31,8 +31,8 @@ import net.sourceforge.cilib.type.types.Type;
  * @author  Edwin Peer
  */
 public final class OptimisationSolution implements Solution, Comparable<OptimisationSolution> {
-    private static final long serialVersionUID = 2119444179382452329L;
 
+    private static final long serialVersionUID = 2119444179382452329L;
     private final Type position;
     private final Fitness fitness;
 
@@ -53,12 +53,13 @@ public final class OptimisationSolution implements Solution, Comparable<Optimisa
             return true;
         }
 
-        if ((other == null) || (this.getClass() != other.getClass()))
+        if ((other == null) || (this.getClass() != other.getClass())) {
             return false;
+        }
 
-        OptimisationSolution otherSolution = (OptimisationSolution)other;
-        return this.position.equals(otherSolution.position) &&
-            this.fitness.equals(otherSolution.fitness);
+        OptimisationSolution otherSolution = (OptimisationSolution) other;
+        return this.position.equals(otherSolution.position)
+                && this.fitness.equals(otherSolution.fitness);
     }
 
     @Override

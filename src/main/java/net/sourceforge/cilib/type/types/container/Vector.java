@@ -21,9 +21,9 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import java.util.ArrayList;
+import com.google.common.base.Preconditions;
+import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
@@ -35,24 +35,34 @@ import net.sourceforge.cilib.type.types.Resetable;
  * @author gpampara
  */
 public class Vector extends AbstractList<Numeric> implements VectorMath, Resetable {
-    private static final long serialVersionUID = -4853190809813810272L;
 
-    private List<Numeric> components;
+    private static final long serialVersionUID = -4853190809813810272L;
+    private Numeric[] components;
+    private int current = 0;
+
+    @Deprecated
+    Vector(Numeric[] elements) {
+        this.components = elements;
+    }
 
     /**
      * Create a new empty {@code Vector}.
      */
     public Vector() {
-        this.components = new ArrayList<Numeric>();
+        this.components = new Numeric[]{};
     }
 
     /**
      * Create a new empty {@code Vector} with {@code size} as the initial
      * capacity.
      * @param size The initial capacity.
+     * @deprecated This constructor has been deprecated in order to improve the performance
+     *  of the {@code Vector}.
      */
+    @Deprecated
     public Vector(int size) {
-        this.components = new ArrayList<Numeric>(size);
+        this.components = new Numeric[size];
+        current = 0;
     }
 
     /**
@@ -62,9 +72,11 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param numeric The {@code Numeric} to copy.
      */
     public Vector(int size, Numeric numeric) {
-        this.components = new ArrayList<Numeric>(size);
-        for (int i = 0; i < size; i++)
-            this.components.add(numeric.getClone());
+        this.components = new Numeric[size];
+        for (int i = 0; i < size; i++) {
+            this.components[i] = numeric.getClone();
+        }
+        this.current = size;
     }
 
     /**
@@ -72,9 +84,11 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param copy The {@code Vector} to copy.
      */
     public Vector(Vector copy) {
-        this.components = new ArrayList<Numeric>(copy.size());
-        for (Numeric numeric : copy.components)
-            this.components.add(numeric.getClone());
+        this.components = new Numeric[copy.components.length];
+        for (int i = 0, n = components.length; i < n; i++) {
+            this.components[i] = copy.components[i].getClone();
+        }
+        this.current = copy.current;
     }
 
     /**
@@ -93,14 +107,16 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         Vector otherList = (Vector) obj;
-        return this.components.equals(otherList.components);
+        return Arrays.deepEquals(components, otherList.components);
     }
 
     /**
@@ -110,7 +126,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + (this.components == null ? 0 : this.components.hashCode());
+        hash = 31 * hash + (this.components == null ? 0 : Arrays.hashCode(components));//this.components.hashCode());
         return hash;
     }
 
@@ -121,7 +137,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public Numeric get(int index) {
-        return this.components.get(index);
+        return components[index];
     }
 
     /**
@@ -131,7 +147,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public void set(int index, Numeric value) {
-        this.components.set(index, value);
+        this.components[index] = value;
     }
 
     /**
@@ -141,7 +157,16 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public void insert(int index, Numeric value) {
-        this.components.add(index, value);
+        Numeric[] array = new Numeric[components.length + 1];
+        for (int i = 0, n = index; i < n; i++) {
+            array[i] = components[i];
+        }
+        array[index] = value;
+        for (int i = index + 1, n = array.length; i < n; i++) {
+            array[i] = components[i - 1];
+        }
+        components = array;
+        current += 1;
     }
 
     /**
@@ -151,9 +176,14 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean append(AbstractList<Numeric> list) {
-        for (Numeric numeric : list)
-            this.components.add(numeric);
-
+        Numeric[] array = new Numeric[components.length + list.size()];
+        int index = 0;
+        for (Numeric numeric : list) {
+            array[index++] = numeric;
+        }
+        System.arraycopy(components, 0, array, list.size(), components.length);
+        components = array;
+        current++;
         return true;
     }
 
@@ -165,9 +195,12 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean prepend(AbstractList<Numeric> list) {
-        for (int i = list.size()-1; i >= 0; i--)
-            this.components.add(0, list.get(i));
-
+        Numeric[] array = new Numeric[components.length + list.size()];
+        for (int i = 0, n = list.size(); i < n; i++) {
+            array[i] = list.get(i);
+        }
+        System.arraycopy(components, 0, array, list.size(), components.length);
+        components = array;
         return true;
     }
 
@@ -177,7 +210,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public Object[] toArray() {
-        return this.components.toArray();
+        return this.components;
     }
 
     /**
@@ -187,15 +220,12 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return A {@code Vector} which is a subset of the current {@code Vector}.
      */
     @Override
-    public Vector subList(int fromIndex, int toIndex) {
-        // Change the final bound to be incremented by. List.subList() is exclusive on the upper bound.
-        List<Numeric> list = this.components.subList(fromIndex, toIndex+1);
-        Vector result = new Vector();
-
-        for (Numeric numeric : list)
-            result.add(numeric);
-
-        return result;
+    public Vector subList(final int fromIndex, final int toIndex) {
+        Numeric[] array = new Numeric[toIndex - fromIndex];
+        for (int i = fromIndex, index = 0; i < toIndex; i++) {
+            array[index++] = components[i];
+        }
+        return new Vector(array);
     }
 
     /**
@@ -205,7 +235,11 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean add(Numeric element) {
-        return this.components.add(element);
+        Numeric[] array = new Numeric[components.length + 1];
+        System.arraycopy(components, 0, array, 0, components.length);
+        array[array.length - 1] = element;
+        components = array;
+        return true;
     }
 
     /**
@@ -216,9 +250,15 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean addAll(StructuredType<? extends Numeric> structure) {
-        for (Numeric numeric : structure)
-            this.components.add(numeric);
+        int size = components.length + structure.size();
+        Numeric[] array = new Numeric[size];
+        System.arraycopy(components, 0, array, 0, components.length);
+        int index = components.length;
+        for (Numeric numeric : structure) {
+            array[index++] = numeric;
+        }
 
+        this.components = array;
         return true;
     }
 
@@ -227,7 +267,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public void clear() {
-        this.components.clear();
+        this.components = new Numeric[]{};
     }
 
     /**
@@ -240,7 +280,12 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean contains(Numeric element) {
-        return this.components.contains(element);
+        for (int i = 0; i < components.length; i++) {
+            if (element.equals(components[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -249,7 +294,12 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean isEmpty() {
-        return this.components.isEmpty();
+        for (int i = 0; i < components.length; i++) {
+            if (components[i] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -258,7 +308,25 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public Iterator<Numeric> iterator() {
-        return this.components.iterator();
+        return new Iterator<Numeric>() {
+
+            int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < components.length;
+            }
+
+            @Override
+            public Numeric next() {
+                return components[index++];
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        };
     }
 
     /**
@@ -268,7 +336,8 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean remove(Numeric element) {
-        return this.components.remove(element);
+//        return this.components.remove(element);
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -278,7 +347,18 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public Numeric remove(int index) {
-        return this.components.remove(index);
+        Preconditions.checkArgument(index < components.length);
+        Numeric result = null;
+        Numeric[] array = new Numeric[components.length - 1];
+        for (int i = 0, count = 0; i < components.length; i++) {
+            if (i == index) {
+                result = components[i];
+                continue;
+            }
+            array[count++] = components[i];
+        }
+        this.components = array;
+        return result;
     }
 
     /**
@@ -288,10 +368,12 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public boolean removeAll(StructuredType<Numeric> structure) {
-        for (Numeric numeric : structure)
-            this.components.remove(numeric);
-
-        return true;
+//        for (Numeric numeric : structure) {
+//            this.components.remove(numeric);
+//        }
+//
+//        return true;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -300,7 +382,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public int size() {
-        return this.components.size();
+        return this.components.length;
     }
 
     /**
@@ -309,7 +391,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @see Vector#size()
      */
     public int getDimension() {
-        return this.components.size();
+        return this.components.length;
     }
 
     /**
@@ -318,9 +400,11 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public void accept(Visitor<Numeric> visitor) {
-        for (Numeric numeric : this.components)
-            if (!visitor.isDone())
+        for (Numeric numeric : this.components) {
+            if (!visitor.isDone()) {
                 visitor.visit(numeric);
+            }
+        }
     }
 
     /**
@@ -328,11 +412,12 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public final Vector plus(Vector vector) {
-        if (this.components.size() != vector.size())
+        if (this.components.length != vector.size()) {
             throw new UnsupportedOperationException("Cannot add vectors with differing dimensions");
+        }
 
         final Vector result = this.getClone();
-        for(int i = 0; i < result.size(); i++) {
+        for (int i = 0; i < result.size(); i++) {
             Numeric numeric = result.get(i);
             numeric.setReal(numeric.getReal() + vector.getReal(i));
         }
@@ -344,8 +429,9 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public final Vector subtract(Vector vector) {
-        if (this.components.size() != vector.size())
+        if (this.components.length != vector.size()) {
             throw new UnsupportedOperationException("Cannot subtract vectors with differing dimensions");
+        }
 
         final Vector result = this.getClone();
         for (int i = 0; i < result.size(); i++) {
@@ -360,8 +446,9 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public final Vector divide(double scalar) {
-        if (scalar == 0.0)
+        if (scalar == 0.0) {
             throw new ArithmeticException("Vector division by zero");
+        }
 
         return this.multiply(1.0 / scalar);
     }
@@ -385,8 +472,9 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     public final double norm() {
         double result = 0.0;
 
-        for (Numeric numeric : this.components)
+        for (Numeric numeric : this.components) {
             result += numeric.getReal() * numeric.getReal();
+        }
 
         return Math.sqrt(result);
     }
@@ -436,19 +524,22 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public final Vector cross(Vector vector) {
-        if (this.size() != vector.size())
+        if (this.size() != vector.size()) {
             throw new ArithmeticException("Cannot perform the dot product on vectors with differing dimensions");
+        }
 
         if (this.size() != 3) // implicitly checks that vector.size() == 3
+        {
             throw new ArithmeticException("Cannot determine the cross product on non 3-dimensional vectors.");
+        }
 
-        Numeric n1 = this.components.get(0).getClone();
-        Numeric n2 = this.components.get(1).getClone();
-        Numeric n3 = this.components.get(2).getClone();
+        Numeric n1 = this.components[0].getClone();
+        Numeric n2 = this.components[1].getClone();
+        Numeric n3 = this.components[2].getClone();
 
-        n1.setReal(this.getReal(1)*vector.getReal(2) - this.getReal(2)*vector.getReal(1));
-        n2.setReal(-(vector.getReal(2)*this.getReal(0) - vector.getReal(0)*this.getReal(2)));
-        n3.setReal(this.getReal(0)*vector.getReal(1) - this.getReal(1)*vector.getReal(0));
+        n1.setReal(this.getReal(1) * vector.getReal(2) - this.getReal(2) * vector.getReal(1));
+        n2.setReal(-(vector.getReal(2) * this.getReal(0) - vector.getReal(0) * this.getReal(2)));
+        n3.setReal(this.getReal(0) * vector.getReal(1) - this.getReal(1) * vector.getReal(0));
 
         final Vector result = new Vector();
         result.add(n1);
@@ -462,8 +553,9 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public void reset() {
-        for (Numeric numeric : this.components)
+        for (Numeric numeric : this.components) {
             numeric.reset();
+        }
     }
 
     /**
@@ -472,8 +564,8 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public void randomize(RandomProvider random) {
-        for (int i = 0; i < components.size(); i++) {
-            this.components.get(i).randomize(random);
+        for (int i = 0; i < components.length; i++) {
+            this.components[i].randomize(random);
         }
     }
 
@@ -483,7 +575,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param value The value to be set.
      */
     public void setReal(int index, double value) {
-        this.components.get(index).setReal(value);
+        this.components[index].setReal(value);
     }
 
     /**
@@ -492,7 +584,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return The double value of the {@code Numeric} at position {@code index}.
      */
     public double getReal(int index) {
-        return this.components.get(index).getReal();
+        return this.components[index].getReal();
     }
 
     /**
@@ -501,7 +593,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param value The value to be set.
      */
     public void setInt(int index, int value) {
-        this.components.get(index).setInt(value);
+        this.components[index].setInt(value);
     }
 
     /**
@@ -510,7 +602,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return The int value of the {@code Numeric} at position {@code index}.
      */
     public int getInt(int index) {
-        return this.components.get(index).getInt();
+        return this.components[index].getInt();
     }
 
     /**
@@ -519,7 +611,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param value The value to be set.
      */
     public void setBit(int index, boolean value) {
-        this.components.get(index).setBit(value);
+        this.components[index].setBit(value);
     }
 
     /**
@@ -528,7 +620,6 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return The boolean value of the {@code Numeric} at position {@code index}.
      */
     public boolean getBit(int index) {
-        return this.components.get(index).getBit();
+        return this.components[index].getBit();
     }
-
 }

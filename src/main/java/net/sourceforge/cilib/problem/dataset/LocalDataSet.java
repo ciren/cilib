@@ -178,7 +178,7 @@ public class LocalDataSet extends DataSet {
         // split the line using the 'delimiter' regular expression
         String[] elements = line.split(delimiter);
         // the elements of the split are stored inside a vector that will form the pattern
-        Vector pattern = new Vector(endIndex - beginIndex + 1);
+        Vector pattern = new Vector();
 
         for (int i = beginIndex; i <= endIndex; i++) {
             pattern.add(new Real(Double.valueOf(elements[i])));

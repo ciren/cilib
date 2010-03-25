@@ -127,7 +127,7 @@ public class NeuralAgent extends Agent {
     public void move(Game<GameState> game) {
         //set the input of the neural network to
         Vector input = stateInputStrategy.getNeuralInputArray(this, game);
-        StandardPattern pattern = new StandardPattern(input, new Vector(0));
+        StandardPattern pattern = new StandardPattern(input, new Vector());
         //get the output vector
         Vector NNOutput = neuralNetwork.evaluatePattern(pattern);//perform NN iteration, get output
         outputInterpretationStrategy.applyOutputToState(NNOutput, this, game);

@@ -41,7 +41,7 @@ public class StatsTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Vector tmp = new Vector(SIZE);
+        Vector tmp = new Vector();
         set = new ArrayList<Pattern>();
 
         for (int i = 1; i <= SIZE; i++) {
@@ -49,7 +49,7 @@ public class StatsTest {
         }
         set.add(new Pattern("class0", tmp));
 
-        tmp = new Vector(SIZE);
+        tmp = new Vector();
         for (int i = SIZE; i > 0; i--) {
             tmp.add(new Real(i));
         }

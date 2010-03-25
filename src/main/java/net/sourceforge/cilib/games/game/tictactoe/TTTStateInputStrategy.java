@@ -56,7 +56,7 @@ public class TTTStateInputStrategy extends NeuralStateInputStrategy {
      */
     @Override
     public Vector getNeuralInputArray(NeuralAgent currentPlayer, Game state) {
-        Vector input = new Vector(amountInputs());
+        Vector input = new Vector();
         int Width = ((GridGame)state).getWidth();
         int Height = ((GridGame)state).getHeight();
         GridGameState gstate = (GridGameState)state.getDecisionState();

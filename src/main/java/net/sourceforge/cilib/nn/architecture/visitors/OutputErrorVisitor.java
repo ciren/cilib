@@ -44,7 +44,7 @@ public class OutputErrorVisitor extends ArchitectureOperationVisitor {
     public void visit(Architecture architecture) {
         Layer outputLayer = architecture.getLayers().get(architecture.getNumLayers() - 1);
         int layerSize = outputLayer.size();
-        output = new Vector(layerSize);
+        output = new Vector();
         for (int k = 0; k < layerSize; k++) {
             Neuron currentNeuron = outputLayer.get(k);
             double t_k = layerSize > 1 ? ((Vector) input.getTarget()).getReal(k) : ((Real)input.getTarget()).getReal();

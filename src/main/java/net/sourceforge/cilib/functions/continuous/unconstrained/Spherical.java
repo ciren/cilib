@@ -91,7 +91,7 @@ public class Spherical extends ContinuousFunction implements Differentiable {
      * {@inheritDoc}
      */
     public Vector getGradient(Vector x) {
-        Vector tmp = new Vector(x.getDimension());
+        Vector tmp = new Vector();
 
         for (int i = 0; i < x.getDimension(); ++i) {
             tmp.setReal(i, 2*x.getReal(i));

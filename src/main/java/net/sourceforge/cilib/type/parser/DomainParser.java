@@ -51,7 +51,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  */
 public final class DomainParser {
 
-    private DomainParser() {}
+    private DomainParser() {
+    }
 
     /**
      * Parse the provided domain string and return the constructed representation.
@@ -67,12 +68,12 @@ public final class DomainParser {
             Parser parser = new Parser(lexer);
             Start ast = parser.parse();
             ast.apply(e);
-
             @SuppressWarnings("unchecked")
             E result = (E) e.typeList; // This is a typesafe operation
 
             if (isVector(result)) {
-                @SuppressWarnings("unchecked") E vector = (E) toVector(result);
+                @SuppressWarnings("unchecked")
+                E vector = (E) toVector(result);
                 return vector;
             }
 
@@ -94,9 +95,11 @@ public final class DomainParser {
      *         {@code false} otherwise.
      */
     private static boolean isVector(StructuredType<? extends Type> representation) {
-        for (Type type : representation)
-            if (!(type instanceof Numeric))
+        for (Type type : representation) {
+            if (!(type instanceof Numeric)) {
                 return false;
+            }
+        }
 
         return true;
     }
@@ -107,15 +110,17 @@ public final class DomainParser {
      * @return The converted vector object.
      */
     private static <E extends StructuredType<? extends Type>> Vector toVector(E representation) {
-        Vector vector = new Vector(representation.size());
+        Vector vector = new Vector();
 
-        for (Type type : representation)
+        for (Type type : representation) {
             vector.add((Numeric) type);
+        }
 
         return vector;
     }
 
     private static class Evaluator extends DepthFirstAdapter {
+
         private TypeList typeList = new TypeList();
         private BoundsFactory boundsFactory = new BoundsFactory();
 
@@ -164,6 +169,7 @@ public final class DomainParser {
     }
 
     private static class ExponentVisitor extends DepthFirstAdapter {
+
         private int exponentValue = 1;
 
         @Override
@@ -177,6 +183,7 @@ public final class DomainParser {
     }
 
     private static class BoundVisitor extends DepthFirstAdapter {
+
         private boolean value = true;
         private double lowerBound = Double.NEGATIVE_INFINITY;
         private double upperBound = Double.POSITIVE_INFINITY;
@@ -185,6 +192,7 @@ public final class DomainParser {
         public void outABoundsBoundedStatement(ABoundsBoundedStatement node) {
             value = false;
             node.getNumber().apply(new DepthFirstAdapter() {
+
                 @Override
                 public void outADoubleNumber(ADoubleNumber node) {
                     upperBound = Double.valueOf(node.getDecimal().getText());
@@ -200,6 +208,7 @@ public final class DomainParser {
         @Override
         public void outABoundedBoundsStatement(ABoundedBoundsStatement node) {
             node.getValue().apply(new DepthFirstAdapter() {
+
                 @Override
                 public void outADoubleNumber(ADoubleNumber node) {
                     lowerBound = Double.valueOf(node.getDecimal().getText());

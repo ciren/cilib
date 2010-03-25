@@ -47,7 +47,7 @@ public class StandardContextUpdateStrategyTest {
                  oneOf (test).getFitness( with(any(ContextEntity.class)));
                 will(returnValue(new MinimisationFitness(1.0)));
             }});
-         Vector testContext = new Vector(2);
+         Vector testContext = new Vector();
          testContext.add(new Real(1.0));
          testContext.add(new Real(1.0));
 
@@ -55,7 +55,7 @@ public class StandardContextUpdateStrategyTest {
          contextEntity.setFitnessCalculator(test);
          contextEntity.setFitness(new MinimisationFitness(0.0));
 
-         Vector solution = new Vector(1);
+         Vector solution = new Vector();
          solution.add(new Real(0.0));
          DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
 

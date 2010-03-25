@@ -54,7 +54,7 @@ public class ContextEntity implements Entity {
     public ContextEntity(){
         fitnessCalculator = new EntityBasedFitnessCalculator();
         fitness = InferiorFitness.instance();
-        context = new Vector(0);
+        context = new Vector();
     }
 
     /**

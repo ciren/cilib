@@ -174,7 +174,7 @@ public class VectorTest {
         vector.remove(-1);
     }
 
-    @Test(expected=IndexOutOfBoundsException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void removeIndexToLarge() {
         vector.remove(10);
     }
@@ -508,7 +508,7 @@ public class VectorTest {
     @Test
     public void subList() {
         Vector original = Vectors.create(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Vector subVector = original.subList(0, 3);
+        Vector subVector = original.subList(0, 4);
 
         Assert.assertEquals(4, subVector.size());
     }

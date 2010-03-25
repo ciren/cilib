@@ -34,7 +34,7 @@ public class IndividualTest {
 
     @Test
     public void testClone() {
-        Vector genes = new Vector(5);
+        Vector genes = new Vector();
         genes.add(new Real(1.0));
         genes.add(new Real(2.0));
         genes.add(new Real(3.0));

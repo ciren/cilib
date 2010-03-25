@@ -149,7 +149,7 @@ public class FDA1_f2 extends ContinuousFunction {
      */
     @Override
     public Double evaluate(Vector input) {
-        Vector y = input.subList(1, input.getDimension()-1);
+        Vector y = input.subList(1, input.getDimension());
         double g = this.fda1_g.evaluate(y).doubleValue();
         double h = this.fda1_h.evaluate(input).doubleValue();
 

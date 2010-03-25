@@ -126,7 +126,7 @@ public class TetrisFeaturesInputStrategy extends NeuralStateInputStrategy {
 			TetrisGameState stateData = (TetrisGameState)state.getCurrentState().getClone();
 			int Width = stateData.getGridWidth();
 			int Height = stateData.getGridHeight();
-			Vector input = new Vector(amountInputs());
+			Vector input = new Vector();
 			double landingHeight = 0.5 * ((stateData.getCurrentShape().getBottomMostBlock().getInt(1) + 1) + (stateData.getCurrentShape().getTopMostBlock().getInt(1) + 1));
 			int erodedPieceCount = stateData.getErodedShapeCount();
 			stateData.mergeCurrentShape();

@@ -33,13 +33,13 @@ public class ContextEntityTest {
     @Test
     public void CopyFromTest(){
         ContextEntity testEntity = new ContextEntity();
-        Vector context = new Vector(4);
+        Vector context = new Vector();
         context.add(new Real(0));
         context.add(new Real(0));
         context.add(new Real(0));
         context.add(new Real(0));
         testEntity.setCandidateSolution(context);
-        Vector data = new Vector(2);
+        Vector data = new Vector();
         data.add(new Real(1));
         data.add(new Real(2));
 

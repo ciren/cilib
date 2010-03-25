@@ -88,8 +88,8 @@ public class LFDecorator extends ParticleDecorator implements Cloneable {
         //previousPosition = new MixedVector(DomainParser.getInstance().getDimension());
         //previousVelocity = new MixedVector(DomainParser.getInstance().getDimension());
 
-        previousPosition = new Vector(problem.getDomain().getDimension());
-        previousVelocity = new Vector(problem.getDomain().getDimension());
+        previousPosition = new Vector();
+        previousVelocity = new Vector();
 
         //gradient = new double[DomainParser.getInstance().getDimension()];
         gradient = new double[problem.getDomain().getDimension()];

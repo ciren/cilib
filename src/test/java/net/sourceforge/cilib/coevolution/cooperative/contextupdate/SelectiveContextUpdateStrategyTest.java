@@ -50,13 +50,13 @@ public class SelectiveContextUpdateStrategyTest {
                             returnValue(new MinimisationFitness(3.0))));
                 allowing (test).getClone(); will(returnValue(test));
             }});
-         Vector testContext = new Vector(2);
+         Vector testContext = new Vector();
          testContext.add(new Real(1.0));
          testContext.add(new Real(1.0));
 
          contextEntity.setCandidateSolution(testContext);
          contextEntity.setFitnessCalculator(test);
-         Vector solution = new Vector(1);
+         Vector solution = new Vector();
          solution.add(new Real(0.0));
          DimensionAllocation allocation = new SequencialDimensionAllocation(0, 1);
 
@@ -66,7 +66,7 @@ public class SelectiveContextUpdateStrategyTest {
          assertEquals(0.0, contextEntity.getCandidateSolution().get(0).getReal(), 0.0);
          assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
 
-         Vector otherSolution = new Vector(1);
+         Vector otherSolution = new Vector();
          otherSolution.add(new Real(3.0));
          strategy.updateContext(contextEntity, otherSolution, allocation);
 
