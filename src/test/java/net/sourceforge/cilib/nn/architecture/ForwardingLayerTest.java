@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.nn.architecture;
 
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -45,7 +44,7 @@ public class ForwardingLayerTest {
     @Before
     public void setup() {
         input = Vectors.create(0.1, 0.2, 0.3, 0.4, 0.5);
-        StandardPattern pattern = new StandardPattern(input,input);
+        StandardPattern pattern = new StandardPattern(input, input);
         layer = new ForwardingLayer();
         layer.setSource(new PatternInputSource(pattern));
         layer.add(new BiasNeuron());
@@ -55,10 +54,10 @@ public class ForwardingLayerTest {
     public void testNeuralInput() {
         Vector refInput = new Vector(input);
         refInput.add(new Real(-1.0));
-        Assert.assertEquals(6,layer.size());
+        Assert.assertEquals(6, layer.size());
 
         for (int i = 0; i < refInput.size(); i++) {
-            Assert.assertEquals(refInput.get(i).getReal(),layer.getNeuralInput(i),
+            Assert.assertEquals(refInput.getReal(i), layer.getNeuralInput(i),
                     Maths.EPSILON);
         }
     }
@@ -67,7 +66,6 @@ public class ForwardingLayerTest {
     public void testGetActivations() {
         Vector refInput = new Vector(input);
         refInput.add(new Real(-1.0));
-        Assert.assertEquals(refInput,layer.getActivations());
+        Assert.assertEquals(refInput, layer.getActivations());
     }
-
 }

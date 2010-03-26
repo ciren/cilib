@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 package net.sourceforge.cilib.nn.components;
 
 import net.sourceforge.cilib.io.pattern.StandardPattern;
@@ -50,8 +49,7 @@ public class PatternInputSourceTest {
     public void testGetNeuralInput() {
         NeuralInputSource source = new PatternInputSource(standardPattern);
         for (int i = 0; i < standardPattern.getVector().size(); i++) {
-            Assert.assertEquals(standardPattern.getVector().get(i).getReal(), source.getNeuralInput(i), Maths.EPSILON);
+            Assert.assertEquals(standardPattern.getVector().getReal(i), source.getNeuralInput(i), Maths.EPSILON);
         }
     }
-
 }

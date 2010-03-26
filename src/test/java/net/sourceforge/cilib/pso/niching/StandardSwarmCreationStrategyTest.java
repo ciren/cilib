@@ -28,7 +28,6 @@ import net.sourceforge.cilib.entity.Entity;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.pso.PSO;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -54,10 +53,10 @@ public class StandardSwarmCreationStrategyTest {
         Particle p3 = new StandardParticle();
         Particle p4 = new StandardParticle();
 
-        p1.setCandidateSolution(new Vector(1, new Real(0.0)));
-        p2.setCandidateSolution(new Vector(1, new Real(0.1)));
-        p3.setCandidateSolution(new Vector(1, new Real(0.4)));
-        p4.setCandidateSolution(new Vector(1, new Real(0.5)));
+        p1.setCandidateSolution(Vector.of(0.0));
+        p2.setCandidateSolution(Vector.of(0.1));
+        p3.setCandidateSolution(Vector.of(0.4));
+        p4.setCandidateSolution(Vector.of(0.5));
 
         // Create the main swarm
         PSO pso = new PSO();
@@ -66,7 +65,7 @@ public class StandardSwarmCreationStrategyTest {
         Niche niche = new Niche();
         niche.setMainSwarm(pso);
 
-        List<Entity> locatedNiche = new ArrayList();
+        List<Entity> locatedNiche = new ArrayList<Entity>();
         locatedNiche.add(p1);
 
         // Identify the niche and create a subswarm!
@@ -79,5 +78,4 @@ public class StandardSwarmCreationStrategyTest {
         Assert.assertTrue(niche.getMainSwarm().getTopology().contains(p3));
         Assert.assertTrue(niche.getMainSwarm().getTopology().contains(p4));
     }
-
 }

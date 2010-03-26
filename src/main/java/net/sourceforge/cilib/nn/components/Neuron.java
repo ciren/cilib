@@ -81,7 +81,7 @@ public class Neuron implements Cloneable {
 
         int size = this.weights.size();
         for (int i = 0; i < size; i++) {
-            netInput += netInputSource.getNeuralInput(i) * this.weights.get(i).getReal();
+            netInput += netInputSource.getNeuralInput(i) * this.weights.getReal(i);
         }
         this.activation = activationFunction.evaluate(netInput);
         return activation;

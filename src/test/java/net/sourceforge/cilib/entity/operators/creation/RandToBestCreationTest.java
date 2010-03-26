@@ -33,7 +33,6 @@ import net.sourceforge.cilib.math.random.generator.SeedSelectionStrategy;
 import net.sourceforge.cilib.math.random.generator.Seeder;
 import net.sourceforge.cilib.math.random.generator.ZeroSeederStrategy;
 import net.sourceforge.cilib.problem.MinimisationFitness;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 
 import org.junit.Assert;
@@ -68,17 +67,17 @@ public class RandToBestCreationTest {
             testTopology.add((Individual) entity2);
 
             entityBest.getProperties().put(EntityType.FITNESS, new MinimisationFitness(0.0));
-            entityBest.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(1, new Real(0.1)));
+            entityBest.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.1));
             entityRandom.getProperties().put(EntityType.FITNESS, new MinimisationFitness(1.0));
-            entityRandom.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(1, new Real(0.2)));
+            entityRandom.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.2));
             entity1.getProperties().put(EntityType.FITNESS, new MinimisationFitness(2.0));
-            entity1.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(1, new Real(0.3)));
+            entity1.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.3));
             entity2.getProperties().put(EntityType.FITNESS, new MinimisationFitness(3.0));
-            entity2.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(1, new Real(0.4)));
+            entity2.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.4));
 
             Entity resultEntity = creation.create(entityRandom, current, testTopology);
 
-            Assert.assertEquals(0.1, ((Vector) resultEntity.getCandidateSolution()).get(0).getReal(), 0.001);
+            Assert.assertEquals(0.1, ((Vector) resultEntity.getCandidateSolution()).getReal(0), 0.001);
         } finally {
             Seeder.setSeederStrategy(seedStrategy);
         }

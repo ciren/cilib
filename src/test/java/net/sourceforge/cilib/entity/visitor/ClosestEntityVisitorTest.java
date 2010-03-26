@@ -24,7 +24,6 @@ package net.sourceforge.cilib.entity.visitor;
 import net.sourceforge.cilib.ec.Individual;
 import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.GBestTopology;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,9 +43,9 @@ public class ClosestEntityVisitorTest {
         Individual individual2 = new Individual();
         Individual individual3 = new Individual();
 
-        Vector vector1 = new Vector(5, new Real(0.0));
-        Vector vector2 = new Vector(5, new Real(1.0));
-        Vector vector3 = new Vector(5, new Real(2.0));
+        Vector vector1 = Vector.of(0.0, 0.0, 0.0, 0.0, 0.0);
+        Vector vector2 = Vector.of(1.0, 1.0, 1.0, 1.0, 1.0);
+        Vector vector3 = Vector.of(2.0, 2.0, 2.0, 2.0, 2.0);
 
         individual1.setCandidateSolution(vector1);
         individual2.setCandidateSolution(vector2);

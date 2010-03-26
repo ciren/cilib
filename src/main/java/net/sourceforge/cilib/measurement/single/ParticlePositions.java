@@ -65,7 +65,6 @@ public class ParticlePositions implements Measurement<StringType> {
         while (i.hasNext()) {
             Particle particle = i.next();
             tmp.append("\nParticle: ");
-            //tmp.append(particle.getId());
             tmp.append(" Current Fitness: ");
             tmp.append(particle.getFitness().getValue());
             tmp.append(" Best Fitness: ");

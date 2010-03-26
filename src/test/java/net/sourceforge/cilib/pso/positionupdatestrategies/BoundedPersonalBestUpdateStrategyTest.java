@@ -49,7 +49,7 @@ public class BoundedPersonalBestUpdateStrategyTest {
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
         particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(1, real));
+        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(real));
 
         BoundedPersonalBestUpdateStrategy strategy = new BoundedPersonalBestUpdateStrategy();
         strategy.updatePersonalBest(particle);
@@ -65,7 +65,7 @@ public class BoundedPersonalBestUpdateStrategyTest {
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
         particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(1, real));
+        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(real));
 
         Type previousBestPosition = particle.getBestPosition();
 
@@ -76,5 +76,4 @@ public class BoundedPersonalBestUpdateStrategyTest {
         Assert.assertThat(particle.getBestPosition(), is(previousBestPosition));
         Assert.assertThat(particle.getFitness(), is(InferiorFitness.instance()));
     }
-
 }

@@ -21,13 +21,20 @@
  */
 package net.sourceforge.cilib.type.types.container;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.common.collect.Lists;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import net.sourceforge.cilib.container.visitor.Visitor;
 import net.sourceforge.cilib.math.VectorMath;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
+import net.sourceforge.cilib.type.types.Bit;
+import net.sourceforge.cilib.type.types.Bounds;
+import net.sourceforge.cilib.type.types.Int;
 import net.sourceforge.cilib.type.types.Numeric;
+import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.Resetable;
 
 /**
@@ -38,16 +45,43 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
 
     private static final long serialVersionUID = -4853190809813810272L;
     private Numeric[] components;
-    private int current = 0;
 
-    @Deprecated
-    Vector(Numeric[] elements) {
+    /**
+     * Returns an emtpty {@code Vector}.
+     * @return empty {@code Vector}.
+     */
+    public static Vector of() {
+        return new Vector(new Numeric[]{});
+    }
+
+    public static Vector of(Number... numbers) {
+        Numeric[] elements = new Numeric[numbers.length];
+        int index = 0;
+        for (Number number : numbers) {
+            elements[index++] = new Real(number.doubleValue());
+        }
+        return new Vector(elements);
+    }
+
+    public static Vector of(Numeric... numerics) {
+        Numeric[] elements = new Numeric[numerics.length];
+        int index = 0;
+        for (Numeric numeric : numerics) {
+            elements[index++] = numeric.getClone();
+        }
+        return new Vector(elements);
+    }
+
+    private Vector(Numeric[] elements) {
         this.components = elements;
     }
 
     /**
      * Create a new empty {@code Vector}.
+     * @deprecated This constructor has been deprecated in favor of the static
+     * factory methods {@code of()} and {@code copyOf()}.
      */
+    @Deprecated
     public Vector() {
         this.components = new Numeric[]{};
     }
@@ -62,7 +96,6 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     @Deprecated
     public Vector(int size) {
         this.components = new Numeric[size];
-        current = 0;
     }
 
     /**
@@ -70,13 +103,14 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * cloned copies of {@code numeric}.
      * @param size The initial size of the {@code Vector}.
      * @param numeric The {@code Numeric} to copy.
+     * @deprecated This constructor has been deprecated in favor of the {@code Vector.Builder}.
      */
+    @Deprecated
     public Vector(int size, Numeric numeric) {
         this.components = new Numeric[size];
         for (int i = 0; i < size; i++) {
             this.components[i] = numeric.getClone();
         }
-        this.current = size;
     }
 
     /**
@@ -88,7 +122,6 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
         for (int i = 0, n = components.length; i < n; i++) {
             this.components[i] = copy.components[i].getClone();
         }
-        this.current = copy.current;
     }
 
     /**
@@ -126,7 +159,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * hash + (this.components == null ? 0 : Arrays.hashCode(components));//this.components.hashCode());
+        hash = 31 * hash + (this.components == null ? 0 : Arrays.hashCode(components));
         return hash;
     }
 
@@ -166,14 +199,15 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
             array[i] = components[i - 1];
         }
         components = array;
-        current += 1;
     }
 
     /**
      * Add the elements of {@code list} to the end of the current {@code Vector}.
      * @param list The list of elements to add.
      * @return {@code true} if successful, {@code false} otherwise.
+     * @deprecated This method has been deprecated in favor of the {@code Vector.Builder}.
      */
+    @Deprecated
     @Override
     public boolean append(AbstractList<Numeric> list) {
         Numeric[] array = new Numeric[components.length + list.size()];
@@ -183,7 +217,6 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
         }
         System.arraycopy(components, 0, array, list.size(), components.length);
         components = array;
-        current++;
         return true;
     }
 
@@ -210,13 +243,18 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public Object[] toArray() {
-        return this.components;
+        Object[] copy = new Object[components.length];
+        int index = 0;
+        for (Numeric n : components) {
+            copy[index++] = n.getClone();
+        }
+        return copy;
     }
 
     /**
-     * Obtain a sublist from {@code fromIndex} to {@code toIndex}.
+     * Obtain a sublist from {@code fromIndex} to {@code toIndex}, where {@code toIndex} is excluded.
      * @param fromIndex The starting point.
-     * @param toIndex The ending point.
+     * @param toIndex The ending point, excluding.
      * @return A {@code Vector} which is a subset of the current {@code Vector}.
      */
     @Override
@@ -232,7 +270,9 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * Add the {@code element} to the end of the current {@code Vector}.
      * @param element The instace to add to the current {@code Vector}.
      * @return {@code true} if successful, {@false otherwise}.
+     * @deprecated Use the {@code Vector.Builder} instead.
      */
+    @Deprecated
     @Override
     public boolean add(Numeric element) {
         Numeric[] array = new Numeric[components.length + 1];
@@ -347,7 +387,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     @Override
     public Numeric remove(int index) {
-        Preconditions.checkArgument(index < components.length);
+        checkArgument(index < components.length);
         Numeric result = null;
         Numeric[] array = new Numeric[components.length - 1];
         for (int i = 0, count = 0; i < components.length; i++) {
@@ -621,5 +661,70 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      */
     public boolean getBit(int index) {
         return this.components[index].getBit();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public double doubleValueOf(int index) {
+        return this.components[index].getReal();
+    }
+
+    /**
+     *
+     */
+    public static class Builder {
+
+        private List<Numeric> elements = Lists.newArrayList();
+
+        public Builder add(double value) {
+            elements.add(new Real(value));
+            return this;
+        }
+
+        public Builder add(int value) {
+            elements.add(new Int(value));
+            return this;
+        }
+
+        public Builder add(boolean value) {
+            elements.add(new Bit(value));
+            return this;
+        }
+
+        public Builder addWithin(double value, Bounds bounds) {
+            elements.add(new Real(value, checkNotNull(bounds)));
+            return this;
+        }
+
+        public Builder addWithin(int value, Bounds bounds) {
+            elements.add(new Int(value, checkNotNull(bounds)));
+            return this;
+        }
+
+        public Builder copyOf(Iterable<? extends Numeric> iterable) {
+            for (Numeric n : iterable) {
+                elements.add(n.getClone());
+            }
+            return this;
+        }
+
+        public Vector build() {
+            if (elements.isEmpty()) {
+                return Vector.of();
+            }
+
+            Numeric[] numerics = new Numeric[elements.size()];
+            int index = 0;
+            for (Numeric n : elements) {
+                numerics[index++] = n;
+            }
+            return new Vector(numerics);
+        }
     }
 }

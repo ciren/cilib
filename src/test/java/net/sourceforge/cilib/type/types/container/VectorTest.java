@@ -40,11 +40,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 /**
  * @author Gary Pampara
  */
 public class VectorTest {
+
     private static Vector vector;
     private static Vector tmpVector;
 
@@ -52,8 +52,8 @@ public class VectorTest {
     public static void setUp() {
         vector = new Vector();
 
-        for(int i = 1; i < 5; i++) {
-            Numeric element = new Real(i, new Bounds(i*-2, i*2));
+        for (int i = 1; i < 5; i++) {
+            Numeric element = new Real(i, new Bounds(i * -2, i * 2));
             vector.append(element);
         }
     }
@@ -127,7 +127,7 @@ public class VectorTest {
     @Test
     public void testInsert() {
         Vector m = new Vector();
-        double [] targetResults = { 0.0, 1.0, 2.0, 3.0, 4.0 };
+        double[] targetResults = {0.0, 1.0, 2.0, 3.0, 4.0};
 
         m.add(new Real(1.0));
         m.add(new Real(3.0));
@@ -144,12 +144,12 @@ public class VectorTest {
         }
     }
 
-    @Test(expected=IndexOutOfBoundsException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void invalidIndexInsert() {
         vector.insert(6, new Real(1.0));
     }
 
-    @Test(expected=IndexOutOfBoundsException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void negativeIndexInsert() {
         vector.insert(-1, new Real(1.0));
     }
@@ -168,13 +168,13 @@ public class VectorTest {
         assertEquals(1, m.getDimension());
     }
 
-    @Test(expected=IndexOutOfBoundsException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void removeNegativeIndex() {
         // Invalid indexes
         vector.remove(-1);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void removeIndexToLarge() {
         vector.remove(10);
     }
@@ -348,10 +348,12 @@ public class VectorTest {
         Vector a = new Vector();
         Vector b = new Vector();
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             a.append(new Real(i));
-        for(int i = 0; i < 9; i++)
+        }
+        for (int i = 0; i < 9; i++) {
             b.prepend(new Real(i));
+        }
 
         a.plus(b);
     }
@@ -361,10 +363,12 @@ public class VectorTest {
         Vector a = new Vector();
         Vector b = new Vector();
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             a.append(new Real(i));
-        for(int i = 0; i < 9; i++)
+        }
+        for (int i = 0; i < 9; i++) {
             b.prepend(new Real(i));
+        }
 
         b.prepend(new Real(9));
         Vector sum = a.plus(b);
@@ -374,7 +378,7 @@ public class VectorTest {
         assertNotSame(sum, a);
         assertNotSame(sum, b);
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             assertNotSame(a.get(i), b.get(i));
             assertNotSame(sum.get(i), a.get(i));
             assertNotSame(sum.get(i), b.get(i));
@@ -390,10 +394,12 @@ public class VectorTest {
         Vector a = new Vector();
         Vector b = new Vector();
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             a.append(new Real(i));
-        for(int i = 0; i < 9; i++)
+        }
+        for (int i = 0; i < 9; i++) {
             b.prepend(new Real(i));
+        }
 
         a.subtract(b);
     }
@@ -403,10 +409,12 @@ public class VectorTest {
         Vector a = new Vector();
         Vector b = new Vector();
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             a.append(new Real(i));
-        for(int i = 0; i < 9; i++)
+        }
+        for (int i = 0; i < 9; i++) {
             b.prepend(new Real(i));
+        }
 
         b.prepend(new Real(9));
         Vector difference = a.subtract(b);
@@ -418,7 +426,7 @@ public class VectorTest {
         assertNotSame(difference, a);
         assertNotSame(difference, b);
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             assertNotNull(a.get(i));
             assertNotNull(b.get(i));
             assertNotNull(difference.get(i));
@@ -426,7 +434,7 @@ public class VectorTest {
             assertNotSame(difference.get(i), a.get(i));
             assertNotSame(difference.get(i), b.get(i));
 
-            assertEquals(a.getReal(i), (double)i, 0.0);
+            assertEquals(a.getReal(i), (double) i, 0.0);
             assertEquals(b.getReal(i), (9.0 - i), 0.0);
             assertEquals(difference.getReal(i), (i - (9.0 - i)), 0.0);
         }
@@ -436,8 +444,9 @@ public class VectorTest {
     public void vectorDivisionByScalarZero() {
         Vector a = new Vector();
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             a.append(new Real(i));
+        }
 
         a.divide(0);
     }
@@ -446,8 +455,9 @@ public class VectorTest {
     public void testScalarDivision() {
         Vector a = new Vector();
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             a.append(new Real(i));
+        }
 
         Vector divided = a.divide(3.0);
 
@@ -455,7 +465,7 @@ public class VectorTest {
         assertNotNull(divided);
         assertNotSame(divided, a);
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             assertNotNull(a.get(i));
             assertNotNull(divided.get(i));
             assertNotSame(divided.get(i), a.get(i));
@@ -469,8 +479,9 @@ public class VectorTest {
     public void testScalarMultiplication() {
         Vector a = new Vector();
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             a.append(new Real(i));
+        }
 
         Vector product = a.multiply(3.0);
 
@@ -478,12 +489,12 @@ public class VectorTest {
         assertNotNull(product);
         assertNotSame(product, a);
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             assertNotNull(a.get(i));
             assertNotNull(product.get(i));
             assertNotSame(product.get(i), a.get(i));
 
-            assertEquals(a.getReal(i), (double)i, 0.0);
+            assertEquals(a.getReal(i), (double) i, 0.0);
             assertEquals(product.getReal(i), (i * 3.0), 0.0);
         }
     }
@@ -511,5 +522,37 @@ public class VectorTest {
         Vector subVector = original.subList(0, 4);
 
         Assert.assertEquals(4, subVector.size());
+    }
+
+    @Test
+    public void simpleBuilder() {
+        Vector.Builder builder = Vector.newBuilder();
+        builder.add(1.0);
+        Vector result = builder.build();
+
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals(1.0, result.doubleValueOf(0), 0.001);
+    }
+
+    @Test
+    public void copyOf() {
+        Vector initial = new Vector();
+        initial.add(new Real(1.0));
+        initial.add(new Real(1.0));
+        initial.add(new Real(1.0));
+
+        Vector.Builder builder = Vector.newBuilder();
+        builder.copyOf(initial);
+        Vector result = builder.build();
+
+        Assert.assertEquals(3, result.size());
+    }
+
+    @Test
+    public void emptyBuilder() {
+        Vector.Builder builder = Vector.newBuilder();
+        Vector result = builder.build();
+
+        Assert.assertEquals(0, result.size());
     }
 }

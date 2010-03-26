@@ -31,14 +31,13 @@ import net.sourceforge.cilib.entity.Topology;
 import net.sourceforge.cilib.entity.topologies.TopologyHolder;
 import net.sourceforge.cilib.math.random.generator.MersenneTwister;
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import net.sourceforge.cilib.util.selection.Samples;
 import net.sourceforge.cilib.util.selection.Selection;
 
 public class RandCreationStrategy implements CreationStrategy {
-    private static final long serialVersionUID = 930740770470361009L;
 
+    private static final long serialVersionUID = 930740770470361009L;
     protected ControlParameter scaleParameter;
     protected ControlParameter numberOfDifferenceVectors;
 
@@ -74,7 +73,7 @@ public class RandCreationStrategy implements CreationStrategy {
     @Override
     public Entity create(Entity targetEntity, Entity current, Topology<? extends Entity> topology) {
         RandomProvider random = new MersenneTwister();
-        List<Entity> participants = Selection.from(topology.asList()).unique().exclude(targetEntity, current).and().random(random, (int)numberOfDifferenceVectors.getParameter()).select(Samples.all()).perform();
+        List<Entity> participants = Selection.from(topology.asList()).unique().exclude(targetEntity, current).and().random(random, (int) numberOfDifferenceVectors.getParameter()).select(Samples.all()).perform();
         Vector differenceVector = determineDistanceVector(participants);
 
         Vector targetVector = (Vector) targetEntity.getCandidateSolution();
@@ -95,7 +94,12 @@ public class RandCreationStrategy implements CreationStrategy {
      * @return A {@linkplain Vector} representing the resultant of all calculated difference vectors.
      */
     protected Vector determineDistanceVector(List<Entity> participants) {
-        Vector distanceVector = new Vector(participants.get(0).getCandidateSolution().size(), new Real(0.0));
+        Vector.Builder builder = Vector.newBuilder();
+        for (int i = 0; i < participants.get(0).getCandidateSolution().size(); i++) {
+            builder.add(0.0);
+        }
+        Vector distanceVector = builder.build();
+
         Iterator<Entity> iterator = participants.iterator();
 
         while (iterator.hasNext()) {
@@ -148,5 +152,4 @@ public class RandCreationStrategy implements CreationStrategy {
     public void setScaleParameter(ControlParameter scaleParameter) {
         this.scaleParameter = scaleParameter;
     }
-
 }

@@ -35,13 +35,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class StatsTest {
+
     private static ArrayList<Pattern> set;
     private static Vector mean = null;
     private static final int SIZE = 3;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        Vector tmp = new Vector();
+        Vector tmp = Vector.of();
         set = new ArrayList<Pattern>();
 
         for (int i = 1; i <= SIZE; i++) {
@@ -49,19 +50,19 @@ public class StatsTest {
         }
         set.add(new Pattern("class0", tmp));
 
-        tmp = new Vector();
+        tmp = Vector.of();
         for (int i = SIZE; i > 0; i--) {
             tmp.add(new Real(i));
         }
         set.add(new Pattern("class1", tmp));
 
-        tmp = new Vector(SIZE, new Real(1));
+        tmp = Vector.of(1.0, 1.0, 1.0);
         set.add(new Pattern("class2", tmp));
 
-        tmp = new Vector(SIZE, new Real(2));
+        tmp = Vector.of(2.0, 2.0, 2.0);
         set.add(new Pattern("class1", tmp));
 
-        tmp = new Vector(SIZE, new Real(3));
+        tmp = Vector.of(3.0, 3.0, 3.0);
         set.add(new Pattern("class0", tmp));
     }
 
@@ -83,7 +84,7 @@ public class StatsTest {
 
     @Test
     public void testMeanVector() {
-        Vector calculated = new Vector(SIZE, new Real(2));
+        Vector calculated = Vector.of(2.0, 2.0, 2.0);
 
         mean = Stats.meanVector(set);
         assertThat(mean, equalTo(calculated));

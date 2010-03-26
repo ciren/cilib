@@ -25,14 +25,12 @@ import net.sourceforge.cilib.entity.EntityType;
 import net.sourceforge.cilib.entity.Particle;
 import net.sourceforge.cilib.problem.MinimisationFitness;
 import net.sourceforge.cilib.pso.particle.StandardParticle;
-import net.sourceforge.cilib.type.types.Real;
 import net.sourceforge.cilib.type.types.container.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-
 
 /**
  *
@@ -51,7 +49,7 @@ public class StandardPersonalBestUpdateStrategyTest {
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
         particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(300.0));
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(1, new Real(0.0)));
+        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0));
 
         StandardPersonalBestUpdateStrategy strategy = new StandardPersonalBestUpdateStrategy();
         strategy.updatePersonalBest(particle);
@@ -71,7 +69,7 @@ public class StandardPersonalBestUpdateStrategyTest {
 
         particle.getProperties().put(EntityType.FITNESS, new MinimisationFitness(200.0));
         particle.getProperties().put(EntityType.Particle.BEST_FITNESS, new MinimisationFitness(100.0));
-        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, new Vector(1, new Real(0.0)));
+        particle.getProperties().put(EntityType.CANDIDATE_SOLUTION, Vector.of(0.0));
 
         StandardPersonalBestUpdateStrategy strategy = new StandardPersonalBestUpdateStrategy();
         strategy.updatePersonalBest(particle);
@@ -79,5 +77,4 @@ public class StandardPersonalBestUpdateStrategyTest {
         Assert.assertThat(particle.getBestFitness(), is(not(particle.getFitness())));
         Assert.assertThat(particle.getBestPosition(), is(not(particle.getPosition())));
     }
-
 }
