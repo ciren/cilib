@@ -36,24 +36,6 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
 
     /**
      * Set the value of the {@linkplain Numeric}.
-     * @param value The {@linkplain String} value to be parsed.
-     */
-    void set(String value);
-
-    /**
-     * Set the value of the {@linkplain Numeric}.
-     * @param value The {@literal boolean} value representing the value for this {@linkplain Type}.
-     */
-    void set(boolean value);
-
-    /**
-     * Set the value of the {@linkplain Numeric}.
-     * @param value The {@literal int} value representing the value for this {@linkplain Type}.
-     */
-    void set(int value);
-
-    /**
-     * Set the value of the {@linkplain Numeric}.
      * @param value The {@literal double} value representing the value for this {@linkplain Type}.
      */
     void set(double value);
@@ -71,12 +53,6 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
     void setBit(boolean value);
 
     /**
-     * Set the bit value with the provided value.
-     * @param value The value to set.
-     */
-    void setBit(String value);
-
-    /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal int}.
      */
@@ -89,12 +65,6 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
     void setInt(int value);
 
     /**
-     * Set the integer value with the provided value.
-     * @param value The value to set.
-     */
-    void setInt(String value);
-
-    /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal double}.
      */
@@ -105,12 +75,6 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
      * @param value The value to set.
      */
     void setReal(double value);
-
-    /**
-     * Set the real value with the provided value.
-     * @param value The value to set.
-     */
-    void setReal(String value);
 
     String getRepresentation();
 

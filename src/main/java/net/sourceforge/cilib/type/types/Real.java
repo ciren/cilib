@@ -22,9 +22,6 @@
 package net.sourceforge.cilib.type.types;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 
@@ -32,6 +29,7 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * @author Gary Pampara
  */
 public class Real implements Numeric {
+
     private static final long serialVersionUID = 5290504438178510485L;
     private static final Bounds DEFAULT_BOUND = new Bounds(Double.MIN_VALUE, Double.MAX_VALUE);
     private double value;
@@ -78,15 +76,17 @@ public class Real implements Numeric {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         Real otherReal = (Real) obj;
-        return Double.compare(this.value, otherReal.value) == 0 &&
-            this.bounds.equals(otherReal.bounds);
+        return Double.compare(this.value, otherReal.value) == 0
+                && this.bounds.equals(otherReal.bounds);
     }
 
     /**
@@ -104,32 +104,8 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void set(String value) {
-        setReal(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(boolean value) {
-        setBit(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void set(double value) {
         setReal(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(int value) {
-        setInt(value);
     }
 
     /**
@@ -152,19 +128,11 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void setBit(String value) {
-        setBit(Boolean.parseBoolean(value));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getInt() {
         int result = Double.compare(value, 0.0);
         return (result >= 0)
-            ? Double.valueOf(Math.ceil(value)).intValue()
-            : Double.valueOf(Math.floor(value)).intValue();
+                ? Double.valueOf(Math.ceil(value)).intValue()
+                : Double.valueOf(Math.floor(value)).intValue();
     }
 
     /**
@@ -173,14 +141,6 @@ public class Real implements Numeric {
     @Override
     public void setInt(int value) {
         this.value = Integer.valueOf(value).doubleValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setInt(String value) {
-        setInt(Integer.parseInt(value));
     }
 
     /**
@@ -203,14 +163,6 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void setReal(String value) {
-        setReal(Double.parseDouble(value));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int compareTo(Numeric o) {
         final Real otherReal = (Real) o;
         return Double.compare(this.value, otherReal.value);
@@ -221,7 +173,7 @@ public class Real implements Numeric {
      */
     @Override
     public void randomize(RandomProvider random) {
-        this.value = checkNotNull(random).nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
+        this.value = checkNotNull(random).nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
     }
 
     /**
@@ -251,28 +203,8 @@ public class Real implements Numeric {
         return "R" + this.bounds.toString();
     }
 
-    /**
-     * Serialize the {@linkplain Real} to the provided {@linkplain ObjectOutput}.
-     * @param oos The provided {@linkplain ObjectOutput}.
-     * @throws IOException if an error occurs.
-     */
-    public void writeExternal(ObjectOutput oos) throws IOException {
-        oos.writeDouble(this.value);
-    }
-
-    /**
-     * Read the {@linkplain Real} from the provided {@linkplain ObjectInput}.
-     * @param ois The provided {@linkplain ObjectInput}.
-     * @throws IOException If an IO error occurs.
-     * @throws ClassNotFoundException If a class cast problem occurs.
-     */
-    public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-        this.value = ois.readDouble();
-    }
-
     @Override
     public Bounds getBounds() {
         return this.bounds;
     }
-
 }

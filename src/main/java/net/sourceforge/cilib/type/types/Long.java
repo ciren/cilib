@@ -21,9 +21,6 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -34,9 +31,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  */
 public class Long implements Numeric {
+
     private static final long serialVersionUID = -2222077877538045288L;
     private static final Bounds DEFAULT_BOUND = new Bounds(java.lang.Long.MIN_VALUE, java.lang.Long.MAX_VALUE);
-
     private long value;
     private final Bounds bounds;
 
@@ -78,15 +75,17 @@ public class Long implements Numeric {
      * {@inheritDoc}
      */
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         Long otherLong = (Long) obj;
-        return (this.value == otherLong.value) &&
-            (this.bounds.equals(otherLong.bounds));
+        return (this.value == otherLong.value)
+                && (this.bounds.equals(otherLong.bounds));
     }
 
     /**
@@ -106,32 +105,8 @@ public class Long implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void set(String value) {
-        setInt(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(boolean value) {
-        setBit(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void set(double value) {
         setReal(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(int value) {
-        setInt(value);
     }
 
     /**
@@ -155,18 +130,19 @@ public class Long implements Numeric {
         setBit(Boolean.parseBoolean(value));
     }
 
-    public void setLong(long value){
+    public void setLong(long value) {
         this.value = value;
     }
 
-    public long getLong(){
+    public long getLong() {
         return value;
     }
+
     /**
      * {@inheritDoc}
      */
     public int getInt() {
-        return (int)this.value;
+        return (int) this.value;
     }
 
     /**
@@ -174,14 +150,6 @@ public class Long implements Numeric {
      */
     public void setInt(int value) {
         this.value = value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setInt(String value) {
-        setInt(Integer.parseInt(value));
     }
 
     /**
@@ -196,27 +164,22 @@ public class Long implements Numeric {
      */
     public void setReal(double value) {
         if (Double.compare(0, value) <= 0) // value is bigger or is equal
+        {
             this.value = Double.valueOf(Math.ceil(value)).longValue();
-        else
+        } else {
             this.value = Double.valueOf(Math.floor(value)).longValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setReal(String value) {
-        setReal(Double.parseDouble(value));
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     public int compareTo(Numeric other) {
-        if (this.value == other.getInt())
+        if (this.value == other.getInt()) {
             return 0;
-        else
+        } else {
             return (other.getInt() < this.value) ? 1 : -1;
+        }
     }
 
     /**
@@ -224,7 +187,7 @@ public class Long implements Numeric {
      */
     public void randomize(RandomProvider random) {
         checkNotNull(random);
-        double tmp = random.nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
+        double tmp = random.nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
     }
 
@@ -238,6 +201,7 @@ public class Long implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         return String.valueOf(this.value);
     }
@@ -247,33 +211,14 @@ public class Long implements Numeric {
      *
      * @return The String representation of this <tt>Type</tt> object.
      */
+    @Override
     public String getRepresentation() {
-        return "Z(" + Double.valueOf(getBounds().getLowerBound()).intValue() + "," +
-            Double.valueOf(getBounds().getUpperBound()).intValue() +")";
-    }
-
-    /**
-     * Write this {@linkplain Long} to the provided {@linkplain ObjectOutput}.
-     * @param oos The {@linkplain ObjectOutput} to write on.
-     * @throws IOException If an error occurs during the write operation.
-     */
-    public void writeExternal(ObjectOutput oos) throws IOException {
-        oos.writeLong(this.value);
-    }
-
-    /**
-     * Read off the provided {@linkplain ObjectInput}.
-     * @param ois The {@linkplain ObjectInput} to read off.
-     * @throws IOException If an I/O error occurs.
-     * @throws ClassNotFoundException If the class to instantiate was not found.
-     */
-    public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-        this.value = ois.readInt();
+        return "Z(" + Double.valueOf(getBounds().getLowerBound()).intValue() + ","
+                + Double.valueOf(getBounds().getUpperBound()).intValue() + ")";
     }
 
     @Override
     public Bounds getBounds() {
         return this.bounds;
     }
-
 }

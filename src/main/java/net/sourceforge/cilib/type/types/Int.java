@@ -21,19 +21,16 @@
  */
 package net.sourceforge.cilib.type.types;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
 import static com.google.common.base.Preconditions.checkNotNull;
-
 
 /**
  *
  * @author Gary Pampara
  */
 public class Int implements Numeric {
+
     private static final long serialVersionUID = 271271478995857543L;
     private static final Bounds DEFAULT_BOUND = new Bounds(Integer.MIN_VALUE, Integer.MAX_VALUE);
     private int value;
@@ -78,11 +75,13 @@ public class Int implements Numeric {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         Int otherInt = (Int) obj;
         return (this.value == otherInt.value) && this.bounds.equals(otherInt.bounds);
@@ -106,32 +105,8 @@ public class Int implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void set(String value) {
-        setInt(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(boolean value) {
-        setBit(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void set(double value) {
         setReal(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(int value) {
-        setInt(value);
     }
 
     /**
@@ -172,14 +147,6 @@ public class Int implements Numeric {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void setInt(String value) {
-        setInt(Integer.parseInt(value));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public double getReal() {
         return Integer.valueOf(value).doubleValue();
     }
@@ -189,27 +156,22 @@ public class Int implements Numeric {
      */
     public void setReal(double value) {
         if (Double.compare(0, value) <= 0) // value is bigger or is equal
+        {
             this.value = Double.valueOf(Math.ceil(value)).intValue();
-        else
+        } else {
             this.value = Double.valueOf(Math.floor(value)).intValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setReal(String value) {
-        setReal(Double.parseDouble(value));
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     public int compareTo(Numeric other) {
-        if (this.value == other.getInt())
+        if (this.value == other.getInt()) {
             return 0;
-        else
+        } else {
             return (other.getInt() < this.value) ? 1 : -1;
+        }
     }
 
     /**
@@ -217,7 +179,7 @@ public class Int implements Numeric {
      */
     public void randomize(RandomProvider random) {
         checkNotNull(random);
-        double tmp = random.nextDouble()*(getBounds().getUpperBound()-getBounds().getLowerBound()) + getBounds().getLowerBound();
+        double tmp = random.nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
         this.value = Double.valueOf(tmp).intValue();
     }
 
@@ -231,6 +193,7 @@ public class Int implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         return String.valueOf(this.value);
     }
@@ -240,33 +203,14 @@ public class Int implements Numeric {
      *
      * @return The String representation of this <tt>Type</tt> object.
      */
+    @Override
     public String getRepresentation() {
-        return "Z(" + Double.valueOf(getBounds().getLowerBound()).intValue() + "," +
-            Double.valueOf(getBounds().getUpperBound()).intValue() +")";
-    }
-
-    /**
-     * Write this {@linkplain Int} to the provided {@linkplain ObjectOutput}.
-     * @param oos The {@linkplain ObjectOutput} to write on.
-     * @throws IOException If an error occurs during the write operation.
-     */
-    public void writeExternal(ObjectOutput oos) throws IOException {
-        oos.writeInt(this.value);
-    }
-
-    /**
-     * Read off the provided {@linkplain ObjectInput}.
-     * @param ois The {@linkplain ObjectInput} to read off.
-     * @throws IOException If an I/O error occurs.
-     * @throws ClassNotFoundException If the class to instantiate was not found.
-     */
-    public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-        this.value = ois.readInt();
+        return "Z(" + Double.valueOf(getBounds().getLowerBound()).intValue() + ","
+                + Double.valueOf(getBounds().getUpperBound()).intValue() + ")";
     }
 
     @Override
     public Bounds getBounds() {
         return this.bounds;
     }
-
 }

@@ -33,8 +33,8 @@ import net.sourceforge.cilib.type.types.Type;
  *
  */
 final class B implements TypeCreator {
-    private static final long serialVersionUID = 7124782787032789332L;
 
+    private static final long serialVersionUID = 7124782787032789332L;
     private RandomProvider random = new MersenneTwister();
 
     /**
@@ -50,9 +50,12 @@ final class B implements TypeCreator {
      */
     @Override
     public Type create(double value) {
-        Bit b = new Bit(false);
-        b.setReal(value);
-        return b;
+        if (Double.compare(value, 0.0) == 0) {
+            return new Bit(false);
+        } else if (Double.compare(value, 1.0) == 0) {
+            return new Bit(true);
+        }
+        throw new UnsupportedOperationException("Cannot create a bit type with the specified value.");
     }
 
     /**
@@ -62,5 +65,4 @@ final class B implements TypeCreator {
     public Type create(final Bounds bounds) {
         throw new UnsupportedOperationException("Bit types cannot be constructed with bounds");
     }
-
 }

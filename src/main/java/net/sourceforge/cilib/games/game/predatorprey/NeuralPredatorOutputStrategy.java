@@ -31,8 +31,8 @@ import net.sourceforge.cilib.type.types.container.Vector;
  * @author leo
  * This is a {@linkplain NeuralOutputInterpretationStrategy} that will interperet the output of a neural network to make a movement decision for a Predator agent.
  */
-public class NeuralPredatorOutputStrategy extends
-        NeuralOutputInterpretationStrategy {
+public class NeuralPredatorOutputStrategy extends NeuralOutputInterpretationStrategy {
+
     public NeuralPredatorOutputStrategy() {
     }
 
@@ -41,23 +41,32 @@ public class NeuralPredatorOutputStrategy extends
      */
     @Override
     public void applyOutputToState(Vector outputData, Agent currentPlayer, Game oldState) {
-        if(!(oldState instanceof PredatorPreyGame))
+        if (!(oldState instanceof PredatorPreyGame)) {
             throw new RuntimeException("Invalid game for this agent");
-        if(!currentPlayer.getAgentToken().equals(GameToken.PredatorPrey.PREDATOR))
+        }
+        if (!currentPlayer.getAgentToken().equals(GameToken.PredatorPrey.PREDATOR)) {
             throw new RuntimeException("This strategy can only be used on a prey player");
-        PredatorPreyGame game = (PredatorPreyGame)oldState;
+        }
+        PredatorPreyGame game = (PredatorPreyGame) oldState;
         int x = 0;
-        if(outputData.get(0).getReal() > 0.0) //move on x axis
-            if(outputData.get(1).getReal() > 0.0) //move right
+        if (outputData.getReal(0) > 0.0) //move on x axis
+        {
+            if (outputData.getReal(1) > 0.0) {
                 x = 1;
-            else
+            } else {
                 x = -1;
+            }
+        }
         int y = 0;
-        if(outputData.get(2).getReal() > 0.0) //move on y axis
-            if(outputData.get(3).getReal() >  0.0) //move down
+        if (outputData.getReal(2) > 0.0) //move on y axis
+        {
+            if (outputData.getReal(3) > 0.0) //move down
+            {
                 y = 1;
-            else
+            } else {
                 y = -1;
+            }
+        }
 
         game.movePlayer(currentPlayer.getPlayerID(), x, y);
     }
@@ -73,5 +82,4 @@ public class NeuralPredatorOutputStrategy extends
     public int getAmOutputs() {
         return 4;
     }
-
 }

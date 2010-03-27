@@ -79,7 +79,7 @@ public class Linear extends ActivationFunction {
      */
     @Override
     public Vector getGradient(Vector x) {
-        return Vectors.create(this.getGradient((Real) x.get(0)).getReal());
+        return Vectors.create(this.getGradient(x.getReal(0)));
     }
 
     /**

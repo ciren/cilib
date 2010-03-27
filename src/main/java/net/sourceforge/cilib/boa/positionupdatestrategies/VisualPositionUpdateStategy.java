@@ -35,6 +35,7 @@ import net.sourceforge.cilib.type.types.container.Vector;
  *
  */
 public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
+
     private static final long serialVersionUID = 3782171955167557793L;
 
     /**
@@ -56,14 +57,14 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
         Vector newPosition = bee.getPosition();
         Vector oldPosition = bee.getPosition().getClone();
         Vector otherPosition = otherBee.getPosition();
-        double value = ((Real) newPosition.get(j)).getReal();
-        double other = ((Real) otherPosition.get(j)).getReal();
+        double value = newPosition.getReal(j);
+        double other = otherPosition.getReal(j);
         Real newValue = (Real) newPosition.get(j);
-        newValue.set(value + (twister.nextDouble()*2-1)*(value - other));
+        newValue.set(value + (twister.nextDouble() * 2 - 1) * (value - other));
         newPosition.set(j, newValue);
 
         //Determine if new position is better than old and update
-        Fitness oldFitness =  bee.getFitness().getClone();
+        Fitness oldFitness = bee.getFitness().getClone();
         bee.calculateFitness();
         Fitness newFitness = bee.getFitness();
         if (newFitness.compareTo(oldFitness) < 0) {
@@ -74,5 +75,4 @@ public class VisualPositionUpdateStategy implements BeePositionUpdateStrategy {
 
         return true;
     }
-
 }

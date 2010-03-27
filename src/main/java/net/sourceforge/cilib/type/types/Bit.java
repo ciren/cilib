@@ -22,12 +22,8 @@
 package net.sourceforge.cilib.type.types;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 
 import net.sourceforge.cilib.math.random.generator.RandomProvider;
-
 
 /**
  * Implemetantation of the <tt>Bit</tt> object. The <tt>Bit</tt> object is the
@@ -36,9 +32,9 @@ import net.sourceforge.cilib.math.random.generator.RandomProvider;
  * @author Gary Pampara
  */
 public class Bit implements Numeric {
+
     private static final long serialVersionUID = 1328646735062562469L;
     private static final Bounds DEFAULT_BOUND = new Bounds(0, 1);
-
     private boolean state;
     private final Bounds bounds;
 
@@ -71,11 +67,13 @@ public class Bit implements Numeric {
      * {@inheritDoc}
      */
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if ((obj == null) || (this.getClass() != obj.getClass()))
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
+        }
 
         Bit otherBit = (Bit) obj;
         return (this.state == otherBit.state);
@@ -95,32 +93,8 @@ public class Bit implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void set(String value) {
-        setBit(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(boolean value) {
-        setBit(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void set(double value) {
         setReal(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(int value) {
-        setInt(value);
     }
 
     /**
@@ -155,9 +129,11 @@ public class Bit implements Numeric {
      *         of the <tt>Bit</tt> object is <tt>true</tt>, else returns 0.
      */
     public int getInt() {
-        if (state)
+        if (state) {
             return 1;
-        else return 0;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -169,9 +145,11 @@ public class Bit implements Numeric {
      * @param value The value to be used to set the state.
      */
     public void setInt(int value) {
-        if (value == 0)
+        if (value == 0) {
             this.state = false;
-        else this.state = true;
+        } else {
+            this.state = true;
+        }
     }
 
     /**
@@ -187,9 +165,11 @@ public class Bit implements Numeric {
      * @return The state of this <tt>Bit</tt> object returned as a double.
      */
     public double getReal() {
-        if (state)
+        if (state) {
             return 1.0;
-        else return 0.0;
+        } else {
+            return 0.0;
+        }
     }
 
     /**
@@ -214,10 +194,11 @@ public class Bit implements Numeric {
      * {@inheritDoc}
      */
     public int compareTo(Numeric other) {
-        if (state == other.getBit())
+        if (state == other.getBit()) {
             return 0;
-        else
+        } else {
             return state ? 1 : -1;
+        }
     }
 
     /**
@@ -240,6 +221,7 @@ public class Bit implements Numeric {
      *
      * @return The <tt>String</tt> represtnation of this object's value.
      */
+    @Override
     public String toString() {
         return state ? "1" : "0";
     }
@@ -249,34 +231,13 @@ public class Bit implements Numeric {
      *
      * @return The String representation of this <tt>Type</tt> object.
      */
+    @Override
     public String getRepresentation() {
         return "B";
-    }
-
-    /**
-     * Externalise the current object to the provided <tt>ObjectOutput</tt>.
-     *
-     * @param oos The provided <tt>ObjectOutput</tt>
-     * @throws IOException if an error occurs.
-     */
-    public void writeExternal(ObjectOutput oos) throws IOException {
-        oos.writeBoolean(state);
-    }
-
-    /**
-     * Externalise the current object to the provided <tt>ObjectInput</tt>.
-     *
-     * @param ois The provided <tt>ObjectInput</tt>
-     * @throws IOException if an error occurs.
-     * @throws ClassNotFoundException if the required class is not found.
-     */
-    public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
-        this.state = ois.readBoolean();
     }
 
     @Override
     public Bounds getBounds() {
         return this.bounds;
     }
-
 }
