@@ -63,9 +63,9 @@ public class CollectiveMeanErrorTest {
         }});
 
         Measurement m = new CollectiveMeanError();
-        Assert.assertEquals(5.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(4.5, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(3.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
+        Assert.assertEquals(5.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(4.5, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(3.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
     }
 
 }

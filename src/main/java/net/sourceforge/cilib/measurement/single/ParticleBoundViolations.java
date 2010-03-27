@@ -78,7 +78,7 @@ public class ParticleBoundViolations implements Measurement<Real> {
             while (positionIterator.hasNext()) {
                 Numeric position = (Numeric) positionIterator.next();
                 Bounds bounds = position.getBounds();
-                if (!bounds.isInsideBounds(position.getReal())) {
+                if (!bounds.isInsideBounds(position.doubleValue())) {
                     numberOfViolations++;
                     break;
                 }

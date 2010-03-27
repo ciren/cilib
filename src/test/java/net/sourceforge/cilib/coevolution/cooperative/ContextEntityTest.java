@@ -48,9 +48,9 @@ public class ContextEntityTest {
         testEntity.copyFrom(data, allocation);
         context = testEntity.getCandidateSolution();
 
-        assertEquals(0.0, context.get(0).getReal(),0);
-        assertEquals(1.0, context.get(1).getReal(),0);
-        assertEquals(2.0, context.get(2).getReal(),0);
-        assertEquals(0.0, context.get(3).getReal(),0);
+        assertEquals(0.0, context.get(0).doubleValue(),0);
+        assertEquals(1.0, context.get(1).doubleValue(),0);
+        assertEquals(2.0, context.get(2).doubleValue(),0);
+        assertEquals(0.0, context.get(3).doubleValue(),0);
     }
 }

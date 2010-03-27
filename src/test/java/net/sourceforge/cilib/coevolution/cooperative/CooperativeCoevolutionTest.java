@@ -140,8 +140,8 @@ public class CooperativeCoevolutionTest {
          context.assertIsSatisfied(); //assert that alll the required methods have been invoked
 
          //ensure that the solutions from the sub populations have been copied into the context vector
-         assertEquals(1.0, testAlgorithm.getContext().getCandidateSolution().get(0).getReal(), 0.0);
-         assertEquals(2.0, testAlgorithm.getContext().getCandidateSolution().get(1).getReal(), 0.0);
+         assertEquals(1.0, testAlgorithm.getContext().getCandidateSolution().get(0).doubleValue(), 0.0);
+         assertEquals(2.0, testAlgorithm.getContext().getCandidateSolution().get(1).doubleValue(), 0.0);
          assertEquals(1.0, testAlgorithm.getContext().getFitness().getValue(), 1.0);
     }
 }

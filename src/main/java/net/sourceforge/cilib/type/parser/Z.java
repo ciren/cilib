@@ -45,7 +45,7 @@ final class Z implements TypeCreator {
      */
     public Type create(double value) {
         Int i = new Int(0);
-        i.setReal(value);
+        i.valueOf(value);
         return i;
     }
 

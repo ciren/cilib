@@ -51,7 +51,7 @@ public final class Types {
         if (candidateSolution instanceof Numeric) {
             Numeric boundedType = (Numeric) candidateSolution;
             Bounds bounds = boundedType.getBounds();
-            return bounds.isInsideBounds(boundedType.getReal());
+            return bounds.isInsideBounds(boundedType.doubleValue());
         }
 
         return false;
@@ -66,7 +66,7 @@ public final class Types {
         public void visit(Type o) {
             if (o instanceof Numeric) {
                 Numeric numeric = (Numeric) o;
-                if (!numeric.getBounds().isInsideBounds(numeric.getReal())) {
+                if (!numeric.getBounds().isInsideBounds(numeric.doubleValue())) {
                     this.isDone = true;
                     this.valid = false;
                 }

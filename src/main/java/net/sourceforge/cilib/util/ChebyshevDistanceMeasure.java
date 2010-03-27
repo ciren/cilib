@@ -65,7 +65,7 @@ public class ChebyshevDistanceMeasure extends MinkowskiMetric {
             Numeric xElement = (Numeric) xIterator.next();
             Numeric yElement = (Numeric) yIterator.next();
 
-            double distance = Math.abs(xElement.getReal() - yElement.getReal());
+            double distance = Math.abs(xElement.doubleValue() - yElement.doubleValue());
             if (distance > maxDistance)
                 maxDistance = distance;
         }

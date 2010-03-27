@@ -62,7 +62,7 @@ public class StandardContextUpdateStrategyTest {
          StandardContextUpdateStrategy strategy = new StandardContextUpdateStrategy();
          strategy.updateContext(contextEntity, solution, allocation);
 
-         assertEquals(0.0, contextEntity.getCandidateSolution().get(0).getReal(), 0.0);
+         assertEquals(0.0, contextEntity.getCandidateSolution().get(0).doubleValue(), 0.0);
          assertEquals(1.0, contextEntity.getFitness().getValue(), 0.0);
      }
 }

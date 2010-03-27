@@ -193,7 +193,7 @@ public class FFNNTopology {
 
         // Error signal for output units.
         for (int k = 0; k < nrOutput; k++) {
-            double t_k = nrOutput == 1 ? ((Real) ((PatternInputSource) lastPattern).getTarget()).getReal() : ((Vector) ((PatternInputSource) lastPattern).getTarget()).getReal(k);
+            double t_k = nrOutput == 1 ? ((Real) ((PatternInputSource) lastPattern).getTarget()).doubleValue() : ((Vector) ((PatternInputSource) lastPattern).getTarget()).getReal(k);
             double o_k = output.get(k);
             errorSignalOutput[k] = -1.0 * (t_k - o_k) * (1.0 - o_k) * o_k;
         }

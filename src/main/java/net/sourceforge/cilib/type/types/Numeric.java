@@ -35,46 +35,40 @@ public interface Numeric extends Type, BoundedType, Resetable, Comparable<Numeri
     Numeric getClone();
 
     /**
-     * Set the value of the {@linkplain Numeric}.
-     * @param value The {@literal double} value representing the value for this {@linkplain Type}.
-     */
-    void set(double value);
-
-    /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal boolean}.
      */
-    boolean getBit();
+    boolean booleanValue();
 
     /**
      * Set the bit value with the provided value.
      * @param value The value to set.
      */
-    void setBit(boolean value);
+    void valueOf(boolean value);
 
     /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal int}.
      */
-    int getInt();
+    int intValue();
 
     /**
      * Set the integer value with the provided value.
      * @param value The value to set.
      */
-    void setInt(int value);
+    void valueOf(int value);
 
     /**
      * Get the value of this {@linkplain Numeric}.
      * @return The value of this {@linkplain Numeric} as a {@literal double}.
      */
-    double getReal();
+    double doubleValue();
 
     /**
      * Set the real value with the provided value.
      * @param value The value to set.
      */
-    void setReal(double value);
+    void valueOf(double value);
 
     String getRepresentation();
 

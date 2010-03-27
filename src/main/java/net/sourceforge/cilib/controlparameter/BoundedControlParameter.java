@@ -65,7 +65,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * {@inheritDoc}
      */
     public double getParameter() {
-        return parameter.getReal();
+        return parameter.doubleValue();
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * {@inheritDoc}
      */
     public void setParameter(double value) {
-        this.parameter.setReal(value);
+        this.parameter.valueOf(value);
     }
 
     /**
@@ -99,10 +99,10 @@ public abstract class BoundedControlParameter implements ControlParameter {
      * Clamp the current paramter vaue between the lower and upper bound values.
      */
     protected void clamp() {
-        if (this.parameter.getReal() < this.parameter.getBounds().getLowerBound())
-            this.parameter.setReal(this.parameter.getBounds().getLowerBound());
-        else if (this.parameter.getReal() > this.parameter.getBounds().getUpperBound())
-            this.parameter.setReal(this.parameter.getBounds().getUpperBound());
+        if (this.parameter.doubleValue() < this.parameter.getBounds().getLowerBound())
+            this.parameter.valueOf(this.parameter.getBounds().getLowerBound());
+        else if (this.parameter.doubleValue() > this.parameter.getBounds().getUpperBound())
+            this.parameter.valueOf(this.parameter.getBounds().getUpperBound());
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      */
     public void setLowerBound(double lower) {
         Bounds bounds = parameter.getBounds();
-        this.parameter = new Real(this.parameter.getReal(), new Bounds(lower, bounds.getUpperBound()));
+        this.parameter = new Real(this.parameter.doubleValue(), new Bounds(lower, bounds.getUpperBound()));
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class BoundedControlParameter implements ControlParameter {
      */
     public void setUpperBound(double value) {
         Bounds bounds = parameter.getBounds();
-        this.parameter = new Real(this.parameter.getReal(), new Bounds(bounds.getLowerBound(), value));
+        this.parameter = new Real(this.parameter.doubleValue(), new Bounds(bounds.getLowerBound(), value));
     }
 
     /**

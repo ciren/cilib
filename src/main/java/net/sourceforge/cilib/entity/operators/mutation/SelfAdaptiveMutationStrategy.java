@@ -73,8 +73,8 @@ public class SelfAdaptiveMutationStrategy extends MutationStrategy {
             // Update the strategy parameters
             for (Numeric n : strategy) {
                 double exponent = pre + tau*randomDimension.getGaussian();
-                double value = n.getReal() * Math.exp(exponent);
-                n.setReal(value);
+                double value = n.doubleValue() * Math.exp(exponent);
+                n.valueOf(value);
             }
         }
     }

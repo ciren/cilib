@@ -459,7 +459,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
         final Vector result = this.getClone();
         for (int i = 0; i < result.size(); i++) {
             Numeric numeric = result.get(i);
-            numeric.setReal(numeric.getReal() + vector.getReal(i));
+            numeric.valueOf(numeric.doubleValue() + vector.getReal(i));
         }
         return result;
     }
@@ -476,7 +476,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
         final Vector result = this.getClone();
         for (int i = 0; i < result.size(); i++) {
             Numeric numeric = result.get(i);
-            numeric.setReal(numeric.getReal() - vector.getReal(i));
+            numeric.valueOf(numeric.doubleValue() - vector.getReal(i));
         }
         return result;
     }
@@ -500,7 +500,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     public final Vector multiply(double scalar) {
         final Vector result = this.getClone();
         for (Numeric numeric : result.components) {
-            numeric.set(numeric.getReal() * scalar);
+            numeric.valueOf(numeric.doubleValue() * scalar);
         }
         return result;
     }
@@ -513,7 +513,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
         double result = 0.0;
 
         for (Numeric numeric : this.components) {
-            result += numeric.getReal() * numeric.getReal();
+            result += numeric.doubleValue() * numeric.doubleValue();
         }
 
         return Math.sqrt(result);
@@ -577,9 +577,9 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
         Numeric n2 = this.components[1].getClone();
         Numeric n3 = this.components[2].getClone();
 
-        n1.setReal(this.getReal(1) * vector.getReal(2) - this.getReal(2) * vector.getReal(1));
-        n2.setReal(-(vector.getReal(2) * this.getReal(0) - vector.getReal(0) * this.getReal(2)));
-        n3.setReal(this.getReal(0) * vector.getReal(1) - this.getReal(1) * vector.getReal(0));
+        n1.valueOf(this.getReal(1) * vector.getReal(2) - this.getReal(2) * vector.getReal(1));
+        n2.valueOf(-(vector.getReal(2) * this.getReal(0) - vector.getReal(0) * this.getReal(2)));
+        n3.valueOf(this.getReal(0) * vector.getReal(1) - this.getReal(1) * vector.getReal(0));
 
         final Vector result = new Vector();
         result.add(n1);
@@ -615,7 +615,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param value The value to be set.
      */
     public void setReal(int index, double value) {
-        this.components[index].setReal(value);
+        this.components[index].valueOf(value);
     }
 
     /**
@@ -624,7 +624,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return The double value of the {@code Numeric} at position {@code index}.
      */
     public double getReal(int index) {
-        return this.components[index].getReal();
+        return this.components[index].doubleValue();
     }
 
     /**
@@ -633,7 +633,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param value The value to be set.
      */
     public void setInt(int index, int value) {
-        this.components[index].setInt(value);
+        this.components[index].valueOf(value);
     }
 
     /**
@@ -642,7 +642,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return The int value of the {@code Numeric} at position {@code index}.
      */
     public int getInt(int index) {
-        return this.components[index].getInt();
+        return this.components[index].intValue();
     }
 
     /**
@@ -651,7 +651,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @param value The value to be set.
      */
     public void setBit(int index, boolean value) {
-        this.components[index].setBit(value);
+        this.components[index].valueOf(value);
     }
 
     /**
@@ -660,7 +660,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
      * @return The boolean value of the {@code Numeric} at position {@code index}.
      */
     public boolean getBit(int index) {
-        return this.components[index].getBit();
+        return this.components[index].booleanValue();
     }
 
     /**
@@ -672,7 +672,7 @@ public class Vector extends AbstractList<Numeric> implements VectorMath, Resetab
     }
 
     public double doubleValueOf(int index) {
-        return this.components[index].getReal();
+        return this.components[index].doubleValue();
     }
 
     /**

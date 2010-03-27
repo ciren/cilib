@@ -95,7 +95,7 @@ public class GradientDescentBackpropagationTraining extends AbstractAlgorithm im
                 neuralNetwork.getArchitecture().accept(visitor);
                 error = visitor.getOutput();
                 for (Numeric real : error) {
-                    errorTraining += real.getReal()*real.getReal();
+                    errorTraining += real.doubleValue()*real.doubleValue();
                 }
 
                 // backpropagate

@@ -75,8 +75,8 @@ public class VisualPositionUpdateStategyTest {
         Vector currentPosition = bee.getPosition();
         assertEquals(10, currentPosition.size());
         for (int i = 0; i < currentPosition.size(); i++) {
-            assertTrue(((Real) currentPosition.get(i)).getReal() != Double.NaN);
-            assertTrue(!Double.isInfinite(((Real) currentPosition.get(i)).getReal()));
+            assertTrue(((Real) currentPosition.get(i)).doubleValue() != Double.NaN);
+            assertTrue(!Double.isInfinite(((Real) currentPosition.get(i)).doubleValue()));
         }
         Fitness newFitness = bee.getFitness();
         assertTrue(newFitness.compareTo(oldFitness)  >= 0);

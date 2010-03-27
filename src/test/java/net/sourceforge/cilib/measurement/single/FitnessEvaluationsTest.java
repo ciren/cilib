@@ -61,8 +61,8 @@ public class FitnessEvaluationsTest {
         Int i1 = (Int) m.getValue(pba);
         Int i2 = (Int) m.getValue(pba);
 
-        Assert.assertThat(i1.getInt(), is(10));
-        Assert.assertThat(i2.getInt(), is(20));
+        Assert.assertThat(i1.intValue(), is(10));
+        Assert.assertThat(i2.intValue(), is(20));
     }
 
     @Test

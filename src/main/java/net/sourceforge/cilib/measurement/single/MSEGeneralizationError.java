@@ -77,7 +77,7 @@ public class MSEGeneralizationError implements Measurement {
             neuralNetwork.getArchitecture().accept(visitor);
             error = visitor.getOutput();
             for (Numeric real : error) {
-                errorGeneralization += real.getReal() * real.getReal();
+                errorGeneralization += real.doubleValue() * real.doubleValue();
             }
         }
         errorGeneralization /= generalizationSet.getNumRows() * error.size();

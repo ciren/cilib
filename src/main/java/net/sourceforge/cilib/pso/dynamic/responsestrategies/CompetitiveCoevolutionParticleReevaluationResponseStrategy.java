@@ -66,7 +66,7 @@ public class CompetitiveCoevolutionParticleReevaluationResponseStrategy<E extend
              if(!(e instanceof AbstractParticle))
                  throw new RuntimeException("CompetitiveCoevolutionParticleReevaluationResponseStrategy should only be used with Particles");
              if(populationID == -1)
-                 populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
+                 populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).intValue();
              Blackboard<Enum<?>, Type> blackboard = new Blackboard<Enum<?>, Type>();
              blackboard.put(EntityType.CANDIDATE_SOLUTION, ((AbstractParticle)e).getBestPosition());
              blackboard.put(EntityType.Coevolution.BOARD, new EntityScoreboard());

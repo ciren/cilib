@@ -73,7 +73,7 @@ public class SelectHOFPoolSelectionStrategy extends
 			lasIterationAdded = new int[populations.size()];
 		for(PopulationBasedAlgorithm algorithm: populations){
 			int currIteration = algorithm.getIterations();
-			int pID = ((Int)algorithm.getTopology().get(0).getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
+			int pID = ((Int)algorithm.getTopology().get(0).getProperties().get(EntityType.Coevolution.POPULATION_ID)).intValue();
 			if(currIteration != 0 && currIteration != lasIterationAdded[pID - 1] && currIteration % addToHOFEpoch == 0){
 
 				Fitness bestFit = null;

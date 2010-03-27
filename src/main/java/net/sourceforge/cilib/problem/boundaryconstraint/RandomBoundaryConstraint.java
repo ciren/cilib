@@ -88,9 +88,9 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
             Numeric vel = (Numeric) vIterator.next();
             Bounds bounds = pos.getBounds();
 
-            if (Double.compare(pos.getReal(), bounds.getLowerBound()) < 0) {
+            if (Double.compare(pos.doubleValue(), bounds.getLowerBound()) < 0) {
                 constrain(pos, vel);
-            } else if (Double.compare(pos.getReal(), bounds.getUpperBound()) > 0) {
+            } else if (Double.compare(pos.doubleValue(), bounds.getUpperBound()) > 0) {
                 constrain(pos, vel);
             }
         }
@@ -104,6 +104,6 @@ public class RandomBoundaryConstraint implements BoundaryConstraint {
     private void constrain(Numeric position, Numeric velocity) {
         Numeric previousPosition = position.getClone();
         position.randomize(random);
-        velocity.set(position.getReal() - previousPosition.getReal());
+        velocity.valueOf(position.doubleValue() - previousPosition.doubleValue());
     }
 }

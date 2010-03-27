@@ -52,7 +52,7 @@ public class IterationsTest {
         }});
         
         Measurement m = new Iterations();
-        Assert.assertEquals(expected, ((Int) m.getValue(algorithm)).getInt());
+        Assert.assertEquals(expected, ((Int) m.getValue(algorithm)).intValue());
     }
 
     @Test

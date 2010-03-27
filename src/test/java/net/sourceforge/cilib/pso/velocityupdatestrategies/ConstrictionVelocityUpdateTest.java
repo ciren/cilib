@@ -186,8 +186,8 @@ public class ConstrictionVelocityUpdateTest {
         Vector velocity = (Vector) particle.getVelocity();
 
         for (Numeric number : velocity) {
-            Assert.assertTrue(Double.compare(number.getReal(), 0.5) <= 0);
-            Assert.assertTrue(Double.compare(number.getReal(), -0.5) >= 0);
+            Assert.assertTrue(Double.compare(number.doubleValue(), 0.5) <= 0);
+            Assert.assertTrue(Double.compare(number.doubleValue(), -0.5) >= 0);
         }
 
     }

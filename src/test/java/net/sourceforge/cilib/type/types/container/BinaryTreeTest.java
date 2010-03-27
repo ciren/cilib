@@ -57,7 +57,7 @@ public class BinaryTreeTest {
     public void removalOfSubtreeByKey() {
         Tree<Real> removed = doubleTree.removeSubTree(new Real(2.0));
         assertNotNull(removed);
-        assertEquals(2.0, removed.getKey().getReal(), 0);
+        assertEquals(2.0, removed.getKey().doubleValue(), 0);
         assertTrue(doubleTree.getSubTree(new Real(2.0)).isEmpty());
     }
 

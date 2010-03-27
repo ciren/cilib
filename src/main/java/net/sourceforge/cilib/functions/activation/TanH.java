@@ -53,7 +53,7 @@ public class TanH extends ActivationFunction {
      */
     @Override
     public Real evaluate(Real input) {
-        return new Real(this.evaluate(input.getReal()));
+        return new Real(this.evaluate(input.doubleValue()));
     }
 
     /**

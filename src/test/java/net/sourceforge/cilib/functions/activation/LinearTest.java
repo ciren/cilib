@@ -37,30 +37,30 @@ public class LinearTest {
     public void evaluate() {
         Linear linear = new Linear();
         Assert.assertEquals(0.0, linear.evaluate(0.0), Maths.EPSILON);
-        Assert.assertEquals(0.0, linear.evaluate(new Real(0.0)).getReal(), Maths.EPSILON);
+        Assert.assertEquals(0.0, linear.evaluate(new Real(0.0)).doubleValue(), Maths.EPSILON);
 
         Assert.assertEquals(0.5, linear.evaluate(0.5), Maths.EPSILON);
-        Assert.assertEquals(0.5, linear.evaluate(new Real(0.5)).getReal(), Maths.EPSILON);
+        Assert.assertEquals(0.5, linear.evaluate(new Real(0.5)).doubleValue(), Maths.EPSILON);
 
         Assert.assertEquals(Double.MAX_VALUE, linear.evaluate(Double.MAX_VALUE), Maths.EPSILON);
-        Assert.assertEquals(Double.MIN_VALUE, linear.evaluate(new Real(Double.MIN_VALUE)).getReal(), Maths.EPSILON);
-        Assert.assertEquals(-Double.MIN_VALUE, linear.evaluate(new Real(-Double.MIN_VALUE)).getReal(), Maths.EPSILON);
-        Assert.assertEquals(-Double.MAX_VALUE, linear.evaluate(new Real(-Double.MAX_VALUE)).getReal(), Maths.EPSILON);
+        Assert.assertEquals(Double.MIN_VALUE, linear.evaluate(new Real(Double.MIN_VALUE)).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(-Double.MIN_VALUE, linear.evaluate(new Real(-Double.MIN_VALUE)).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(-Double.MAX_VALUE, linear.evaluate(new Real(-Double.MAX_VALUE)).doubleValue(), Maths.EPSILON);
     }
 
     @Test
     public void gradient() {
         Linear linear = new Linear();
         Assert.assertEquals(1.0, linear.getGradient(0.0), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(0.0)).get(0).getReal(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(0.0)).get(0).doubleValue(), Maths.EPSILON);
 
         Assert.assertEquals(1.0, linear.getGradient(0.5), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(0.5)).get(0).getReal(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(0.5)).get(0).doubleValue(), Maths.EPSILON);
 
         Assert.assertEquals(1.0, linear.getGradient(Double.MAX_VALUE), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(Double.MIN_VALUE)).get(0).getReal(), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(-Double.MIN_VALUE)).get(0).getReal(), Maths.EPSILON);
-        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(-Double.MAX_VALUE)).get(0).getReal(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(Double.MIN_VALUE)).get(0).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(-Double.MIN_VALUE)).get(0).doubleValue(), Maths.EPSILON);
+        Assert.assertEquals(1.0, linear.getGradient(Vectors.create(-Double.MAX_VALUE)).get(0).doubleValue(), Maths.EPSILON);
     }
 
     @Test

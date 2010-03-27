@@ -43,9 +43,9 @@ public class SortedListTest {
         intList.add(new Int(8));
         intList.add(new Int(2));
 
-        assertEquals(2, intList.get(0).getInt());
-        assertEquals(5, intList.get(1).getInt());
-        assertEquals(8, intList.get(2).getInt());
+        assertEquals(2, intList.get(0).intValue());
+        assertEquals(5, intList.get(1).intValue());
+        assertEquals(8, intList.get(2).intValue());
     }
 
 
@@ -88,9 +88,9 @@ public class SortedListTest {
 
         list.set(0, new Int(4));
 
-        assertEquals(3, list.get(0).getInt());
-        assertEquals(4, list.get(1).getInt());
-        assertEquals(12, list.get(2).getInt());
+        assertEquals(3, list.get(0).intValue());
+        assertEquals(4, list.get(1).intValue());
+        assertEquals(12, list.get(2).intValue());
     }
 
     @Test
@@ -107,11 +107,11 @@ public class SortedListTest {
 
         list.addAll(list.size()-1, v);
 
-        assertEquals(0, list.get(0).getInt());
-        assertEquals(1, list.get(1).getInt());
-        assertEquals(4, list.get(2).getInt());
-        assertEquals(50, list.get(3).getInt());
-        assertEquals(200, list.get(4).getInt());
+        assertEquals(0, list.get(0).intValue());
+        assertEquals(1, list.get(1).intValue());
+        assertEquals(4, list.get(2).intValue());
+        assertEquals(50, list.get(3).intValue());
+        assertEquals(200, list.get(4).intValue());
     }
 
 

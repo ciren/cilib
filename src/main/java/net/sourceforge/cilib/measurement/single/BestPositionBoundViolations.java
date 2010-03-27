@@ -64,7 +64,7 @@ public class BestPositionBoundViolations implements Measurement<Real> {
         for (Numeric position : gbest) {
             Bounds bounds = position.getBounds();
 
-            if (!bounds.isInsideBounds(position.getReal())) {
+            if (!bounds.isInsideBounds(position.doubleValue())) {
                 numberOfViolations++;
                 break;
             }

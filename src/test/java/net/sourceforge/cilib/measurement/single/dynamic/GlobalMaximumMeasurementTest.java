@@ -58,6 +58,6 @@ public class GlobalMaximumMeasurementTest {
         }});
 
         Measurement m = new GlobalMaximum();
-        Assert.assertEquals(10.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
+        Assert.assertEquals(10.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
     }
 }

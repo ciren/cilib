@@ -78,7 +78,7 @@ public class MSETrainingError implements Measurement {
             neuralNetwork.getArchitecture().accept(visitor);
             error = visitor.getOutput();
             for (Numeric real : error) {
-                errorTraining += real.getReal() * real.getReal();
+                errorTraining += real.doubleValue() * real.doubleValue();
             }
         }
         errorTraining /= trainingSet.getNumRows() * error.size();

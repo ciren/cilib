@@ -63,7 +63,7 @@ public class MinimumDiversity implements StoppingCondition<PopulationBasedAlgori
     @Override
     public boolean apply(PopulationBasedAlgorithm input) {
         updateControlParameters();
-        calculatedDiversity = (diversity.getValue(input)).getReal();
+        calculatedDiversity = (diversity.getValue(input)).doubleValue();
         maximumDiversity = Math.max(maximumDiversity, calculatedDiversity);
 
         iterations = calculatedDiversity < minimumDiversity.getParameter() ? iterations + 1 : 0;

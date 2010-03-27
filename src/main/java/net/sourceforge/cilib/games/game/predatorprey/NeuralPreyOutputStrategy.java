@@ -49,19 +49,19 @@ public class NeuralPreyOutputStrategy extends
 
         PredatorPreyGame game = (PredatorPreyGame)oldState;
         int moveAmount = 1;
-        if(outputData.get(0).getReal() >  0.0) //move 2 squares
+        if(outputData.get(0).doubleValue() >  0.0) //move 2 squares
             moveAmount = 2;
 
         int x = 0;
-        if(outputData.get(1).getReal() >  0.0) //move on x axis
-            if(outputData.get(2).getReal() >  0.0) //move right
+        if(outputData.get(1).doubleValue() >  0.0) //move on x axis
+            if(outputData.get(2).doubleValue() >  0.0) //move right
                 x = 1;
             else
                 x = -1;
 
         int y = 0;
-        if(outputData.get(3).getReal() >  0.0) //move on y axis
-            if(outputData.get(4).getReal() >  0.0) //move down
+        if(outputData.get(3).doubleValue() >  0.0) //move on y axis
+            if(outputData.get(4).doubleValue() >  0.0) //move down
                 y = 1;
             else
                 y = -1;

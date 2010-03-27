@@ -52,7 +52,7 @@ public final class Vectors {
 
         for (Type element : upper) {
             Numeric numeric = (Numeric) element;
-            numeric.set(numeric.getBounds().getUpperBound());
+            numeric.valueOf(numeric.getBounds().getUpperBound());
         }
 
         return upper;
@@ -71,7 +71,7 @@ public final class Vectors {
 
         for (Type element : lower) {
             Numeric numeric = (Numeric) element;
-            numeric.set(numeric.getBounds().getLowerBound());
+            numeric.valueOf(numeric.getBounds().getLowerBound());
         }
 
         return lower;

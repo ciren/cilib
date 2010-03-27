@@ -62,7 +62,7 @@ public class ExponentiallyIncreasingControlParameter extends BoundedControlParam
     @Override
     public void update() {
         double result = Math.exp(AbstractAlgorithm.get().getPercentageComplete() - 1);
-        this.parameter.setReal(result);
+        this.parameter.valueOf(result);
     }
 
     /**
@@ -71,7 +71,7 @@ public class ExponentiallyIncreasingControlParameter extends BoundedControlParam
     @Override
     public void setLowerBound(double lower) {
         super.setLowerBound(lower);
-        this.parameter.setReal(lower);
+        this.parameter.valueOf(lower);
     }
 
 }

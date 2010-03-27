@@ -56,7 +56,7 @@ public class PercentageCompleteTest {
             pso.performIteration();
 
         PercentageComplete percentageComplete = new PercentageComplete();
-        Assert.assertEquals(0.1, percentageComplete.getValue(pso).getReal(), 0.001);
+        Assert.assertEquals(0.1, percentageComplete.getValue(pso).doubleValue(), 0.001);
     }
 
     @Test

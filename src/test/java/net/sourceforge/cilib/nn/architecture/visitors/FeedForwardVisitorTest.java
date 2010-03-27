@@ -60,8 +60,8 @@ public class FeedForwardVisitorTest {
         feedForwardVisitor.setInput(pattern);
         feedForwardVisitor.visit(network.getArchitecture());
 
-        Assert.assertEquals(((Real)topology.evaluate(new PatternInputSource(pattern)).get(0)).getReal(),
-                            feedForwardVisitor.getOutput().get(0).getReal(),
+        Assert.assertEquals(((Real)topology.evaluate(new PatternInputSource(pattern)).get(0)).doubleValue(),
+                            feedForwardVisitor.getOutput().get(0).doubleValue(),
                             Maths.EPSILON);
     }
 

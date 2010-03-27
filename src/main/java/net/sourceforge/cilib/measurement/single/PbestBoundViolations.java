@@ -74,7 +74,7 @@ public class PbestBoundViolations implements Measurement<Real> {
             for (Numeric position : pbest) {
                 Bounds bounds = position.getBounds();
 
-                if (!bounds.isInsideBounds(position.getReal())) {
+                if (!bounds.isInsideBounds(position.doubleValue())) {
                     numberOfViolations++;
                     break;
                 }

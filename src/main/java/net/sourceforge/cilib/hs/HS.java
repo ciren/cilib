@@ -202,9 +202,9 @@ public class HS extends AbstractAlgorithm implements SingularAlgorithm {
                 Vector selectedHarmonyContents = (Vector) selectedHarmony.getCandidateSolution();
                 Real newHarmonyValue = (Real) selectedHarmonyContents.get(i).getClone();
                 if (random1.getUniform() < pitchAdjustingRate.getParameter()) {
-                    double pitchedValue = newHarmonyValue.getReal() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
+                    double pitchedValue = newHarmonyValue.doubleValue() + random3.getUniform(-1, 1) * distanceBandwidth.getParameter();
                     if ((pitchedValue > newHarmonyValue.getBounds().getLowerBound()) && (pitchedValue < newHarmonyValue.getBounds().getUpperBound()))
-                        newHarmonyValue.setReal(pitchedValue);
+                        newHarmonyValue.valueOf(pitchedValue);
                 }
 
                 newHarmonyVector.set(i, newHarmonyValue);

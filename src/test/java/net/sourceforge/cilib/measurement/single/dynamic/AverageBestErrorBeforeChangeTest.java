@@ -73,12 +73,12 @@ public class AverageBestErrorBeforeChangeTest {
         AverageBestErrorBeforeChange m = new AverageBestErrorBeforeChange();
         m.setCycleSize(3);
 
-        Assert.assertEquals(0.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(30.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(30.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(30.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(20.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(20.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
+        Assert.assertEquals(0.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(30.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(30.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(30.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(20.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(20.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
     }
 
 }

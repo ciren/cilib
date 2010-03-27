@@ -90,7 +90,7 @@ public class MinkowskiMetric implements DistanceMeasure {
             Numeric xElement = (Numeric) xIterator.next();
             Numeric yElement = (Numeric) yIterator.next();
 
-            distance += Math.pow(Math.abs(xElement.getReal() - yElement.getReal()), alpha);
+            distance += Math.pow(Math.abs(xElement.doubleValue() - yElement.doubleValue()), alpha);
         }
         return Math.pow(distance, 1.0 / alpha);
     }

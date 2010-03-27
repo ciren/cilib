@@ -101,7 +101,7 @@ public class VectorTest {
 
         Real t = (Real) tmpVector.get(0);
 
-        assertEquals(1.0, t.getReal(), 0.0);
+        assertEquals(1.0, t.doubleValue(), 0.0);
     }
 
     @Test

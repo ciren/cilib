@@ -61,7 +61,7 @@ public class Sigmoid extends ActivationFunction {
      */
     @Override
     public Real evaluate(Real input) {
-        return new Real(this.evaluate(input.getReal()));
+        return new Real(this.evaluate(input.doubleValue()));
     }
 
     /**
@@ -90,7 +90,7 @@ public class Sigmoid extends ActivationFunction {
 
     @Override
     public Vector getGradient(Vector x) {
-        return Vectors.create(this.getGradient((Real) x.get(0)).getReal());
+        return Vectors.create(this.getGradient((Real) x.get(0)).doubleValue());
     }
 
     /**

@@ -66,6 +66,7 @@ public class Bit implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -82,6 +83,7 @@ public class Bit implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + this.bounds.hashCode();
@@ -90,19 +92,12 @@ public class Bit implements Numeric {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void set(double value) {
-        setReal(value);
-    }
-
-    /**
      * Return the state of the curent <tt>Bit</tt> object.
      *
      * @return The state of the current <tt>Bit</tt> object.
      */
-    public boolean getBit() {
+    @Override
+    public boolean booleanValue() {
         return state;
     }
 
@@ -111,15 +106,9 @@ public class Bit implements Numeric {
      *
      * @param value The state to be set.
      */
-    public void setBit(boolean value) {
+    @Override
+    public void valueOf(boolean value) {
         this.state = value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void setBit(String value) {
-        setBit(Boolean.parseBoolean(value));
     }
 
     /**
@@ -128,7 +117,8 @@ public class Bit implements Numeric {
      * @return The integer value of the current <tt>Bit</tt>. Returns 1 if the state
      *         of the <tt>Bit</tt> object is <tt>true</tt>, else returns 0.
      */
-    public int getInt() {
+    @Override
+    public int intValue() {
         if (state) {
             return 1;
         } else {
@@ -144,7 +134,8 @@ public class Bit implements Numeric {
      *
      * @param value The value to be used to set the state.
      */
-    public void setInt(int value) {
+    @Override
+    public void valueOf(int value) {
         if (value == 0) {
             this.state = false;
         } else {
@@ -153,18 +144,12 @@ public class Bit implements Numeric {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public void setInt(String value) {
-        setInt(Integer.parseInt(value));
-    }
-
-    /**
      * Get the state of the <tt>Bit</tt> returned as a double value.
      *
      * @return The state of this <tt>Bit</tt> object returned as a double.
      */
-    public double getReal() {
+    @Override
+    public double doubleValue() {
         if (state) {
             return 1.0;
         } else {
@@ -179,22 +164,17 @@ public class Bit implements Numeric {
      *
      * @param value The double value to be used to set the state.
      */
-    public void setReal(double value) {
+    @Override
+    public void valueOf(double value) {
         this.state = (Double.compare(value, 0.5) < 0) ? false : true;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setReal(String value) {
-        setReal(Double.parseDouble(value));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public int compareTo(Numeric other) {
-        if (state == other.getBit()) {
+        if (state == other.booleanValue()) {
             return 0;
         } else {
             return state ? 1 : -1;
@@ -204,6 +184,7 @@ public class Bit implements Numeric {
     /**
      * Randomly choose a new valid for the <code>Bit</code> object.
      */
+    @Override
     public void randomize(RandomProvider random) {
         checkNotNull(random);
         this.state = random.nextBoolean();
@@ -212,8 +193,9 @@ public class Bit implements Numeric {
     /**
      * Set the <tt>Bit</tt> object to an initial value of <tt>false</tt>.
      */
+    @Override
     public void reset() {
-        this.setBit(false);
+        this.valueOf(false);
     }
 
     /**

@@ -96,7 +96,7 @@ public class CoherenceVelocityUpdate extends StandardVelocityUpdate {
         double swarmCenterVelocity = averageVelocity.norm();
         double swarmCoherence = calculateSwarmCoherence(swarmCenterVelocity, averageParticleVelocity);
 
-        double sigmoidValue = sigmoid.evaluate(new Real(swarmCoherence)).getReal();
+        double sigmoidValue = sigmoid.evaluate(new Real(swarmCoherence)).doubleValue();
 
          for (int i = 0; i < particle.getDimension(); ++i) {
                 double value = inertiaWeight.getParameter()*velocity.getReal(i) +

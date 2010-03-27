@@ -73,6 +73,6 @@ public class SocialContributionSelectionStrategyTest {
 
         Vector selected = test.getContribution(algorithm);
 
-        assertEquals(2.0, selected.get(0).getReal(), 0.0);
+        assertEquals(2.0, selected.get(0).doubleValue(), 0.0);
     }
 }

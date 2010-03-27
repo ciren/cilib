@@ -47,6 +47,7 @@ import net.sourceforge.cilib.type.types.container.StructuredType;
  * @author Wiehann Matthysen
  */
 public class PeriodicBoundaryConstraint implements BoundaryConstraint {
+
     private static final long serialVersionUID = 6381401553771951793L;
 
     /**
@@ -64,10 +65,11 @@ public class PeriodicBoundaryConstraint implements BoundaryConstraint {
     public void enforce(Entity entity) {
         StructuredType<?> velocity = (StructuredType<?>) entity.getProperties().get(EntityType.Particle.VELOCITY);
 
-        if (velocity == null)
+        if (velocity == null) {
             throw new UnsupportedOperationException("Cannot apply a ["
-                + this.getClass().getSimpleName()
-                + "] to an Entity that is not a Particle");
+                    + this.getClass().getSimpleName()
+                    + "] to an Entity that is not a Particle");
+        }
 
         Iterator<Type> i = entity.getCandidateSolution().iterator();
         Iterator<Type> velocityIterator = (Iterator<Type>) velocity.iterator();
@@ -78,13 +80,13 @@ public class PeriodicBoundaryConstraint implements BoundaryConstraint {
             Bounds bounds = p.getBounds();
             Numeric desiredPosition = p.getClone();
 
-            desiredPosition.set(p.getReal() + v.getReal());
+            desiredPosition.valueOf(p.doubleValue() + v.doubleValue());
 
-            if (Double.compare(p.getReal(), bounds.getLowerBound()) < 0)
-                p.set(bounds.getUpperBound() - (bounds.getLowerBound() - desiredPosition.getReal()) % bounds.getRange());
-            else if (Double.compare(p.getReal(), bounds.getUpperBound()) > 0)
-                p.set(bounds.getLowerBound() + (desiredPosition.getReal() - bounds.getUpperBound()) % bounds.getRange());
+            if (Double.compare(p.doubleValue(), bounds.getLowerBound()) < 0) {
+                p.valueOf(bounds.getUpperBound() - (bounds.getLowerBound() - desiredPosition.doubleValue()) % bounds.getRange());
+            } else if (Double.compare(p.doubleValue(), bounds.getUpperBound()) > 0) {
+                p.valueOf(bounds.getLowerBound() + (desiredPosition.doubleValue() - bounds.getUpperBound()) % bounds.getRange());
+            }
         }
     }
-
 }

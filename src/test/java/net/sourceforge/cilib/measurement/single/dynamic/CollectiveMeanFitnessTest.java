@@ -64,9 +64,9 @@ public class CollectiveMeanFitnessTest {
         }});
 
         Measurement m = new CollectiveMeanFitness();
-        Assert.assertEquals(0.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(2.5, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(7.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
+        Assert.assertEquals(0.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(2.5, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(7.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
     }
 
 }

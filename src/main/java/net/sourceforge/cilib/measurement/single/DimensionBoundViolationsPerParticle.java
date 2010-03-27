@@ -87,7 +87,7 @@ public class DimensionBoundViolationsPerParticle implements Measurement<Real> {
             for (Numeric position : (Vector) populationEntity.getCandidateSolution()) {
                 Bounds bounds = position.getBounds();
 
-                if (!bounds.isInsideBounds(position.getReal()))
+                if (!bounds.isInsideBounds(position.doubleValue()))
                     numberOfViolations++;
             }
             sumOfAverageViolations += (double)numberOfViolations / (double)dimension;

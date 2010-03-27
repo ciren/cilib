@@ -81,12 +81,12 @@ public class AverageIterationToErrorLimitTest {
         m.setCycleSize(3);
         m.setLimit(10.0);
 
-        Assert.assertEquals(1.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(1.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(1.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(1.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(1.5, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
-        Assert.assertEquals(1.5, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
+        Assert.assertEquals(1.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(1.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(1.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(1.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(1.5, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
+        Assert.assertEquals(1.5, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
     }
 
 }

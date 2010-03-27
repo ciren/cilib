@@ -72,8 +72,8 @@ public class CosineDistanceMeasure implements DistanceMeasure {
         for(int i = 0; i < x.size(); ++i) {
             Numeric xElement = (Numeric) xIterator.next();
             Numeric yElement = (Numeric) yIterator.next();
-            x_i = xElement.getReal();
-            y_i = yElement.getReal();
+            x_i = xElement.doubleValue();
+            y_i = yElement.doubleValue();
             distance += x_i * y_i;
             norm_x += x_i * x_i;
             norm_y += y_i * y_i;

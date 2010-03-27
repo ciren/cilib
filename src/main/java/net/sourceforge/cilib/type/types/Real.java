@@ -104,15 +104,7 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void set(double value) {
-        setReal(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean getBit() {
+    public boolean booleanValue() {
         return Double.compare(this.value, 0.0) == 0 ? false : true;
     }
 
@@ -120,7 +112,7 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void setBit(boolean value) {
+    public void valueOf(boolean value) {
         this.value = value ? 1.0 : 0.0;
     }
 
@@ -128,7 +120,7 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public int getInt() {
+    public int intValue() {
         int result = Double.compare(value, 0.0);
         return (result >= 0)
                 ? Double.valueOf(Math.ceil(value)).intValue()
@@ -139,7 +131,7 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void setInt(int value) {
+    public void valueOf(int value) {
         this.value = Integer.valueOf(value).doubleValue();
     }
 
@@ -147,7 +139,7 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public double getReal() {
+    public double doubleValue() {
         return this.value;
     }
 
@@ -155,7 +147,7 @@ public class Real implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void setReal(double value) {
+    public void valueOf(double value) {
         this.value = value;
     }
 
@@ -181,7 +173,7 @@ public class Real implements Numeric {
      */
     @Override
     public void reset() {
-        this.setReal(0.0);
+        this.valueOf(0.0);
     }
 
     /**

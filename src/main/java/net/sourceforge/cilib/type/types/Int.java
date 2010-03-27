@@ -105,56 +105,47 @@ public class Int implements Numeric {
      * {@inheritDoc}
      */
     @Override
-    public void set(double value) {
-        setReal(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean getBit() {
+    public boolean booleanValue() {
         return (this.value == 0) ? false : true;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setBit(boolean value) {
+    @Override
+    public void valueOf(boolean value) {
         this.value = (value) ? 1 : 0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setBit(String value) {
-        setBit(Boolean.parseBoolean(value));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public int getInt() {
+    @Override
+    public int intValue() {
         return this.value;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setInt(int value) {
+    @Override
+    public void valueOf(int value) {
         this.value = value;
     }
 
     /**
      * {@inheritDoc}
      */
-    public double getReal() {
+    @Override
+    public double doubleValue() {
         return Integer.valueOf(value).doubleValue();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setReal(double value) {
+    @Override
+    public void valueOf(double value) {
         if (Double.compare(0, value) <= 0) // value is bigger or is equal
         {
             this.value = Double.valueOf(Math.ceil(value)).intValue();
@@ -166,17 +157,19 @@ public class Int implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(Numeric other) {
-        if (this.value == other.getInt()) {
+        if (this.value == other.intValue()) {
             return 0;
         } else {
-            return (other.getInt() < this.value) ? 1 : -1;
+            return (other.intValue() < this.value) ? 1 : -1;
         }
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void randomize(RandomProvider random) {
         checkNotNull(random);
         double tmp = random.nextDouble() * (getBounds().getUpperBound() - getBounds().getLowerBound()) + getBounds().getLowerBound();
@@ -186,8 +179,9 @@ public class Int implements Numeric {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void reset() {
-        this.setInt(0);
+        this.valueOf(0);
     }
 
     /**

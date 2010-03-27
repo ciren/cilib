@@ -79,10 +79,10 @@ public class Time implements Measurement<Int>, AlgorithmListener {
         Int t = new Int(0);
         
         if (running) {
-            t.setReal(Long.valueOf(System.currentTimeMillis() - startTime));
+            t.valueOf(Long.valueOf(System.currentTimeMillis() - startTime));
         }
         else {
-            t.setReal(endTime - startTime);
+            t.valueOf(endTime - startTime);
         }
 
         return t;

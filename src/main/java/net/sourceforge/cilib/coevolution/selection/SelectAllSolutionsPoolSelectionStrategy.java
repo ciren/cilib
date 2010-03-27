@@ -56,7 +56,7 @@ public class SelectAllSolutionsPoolSelectionStrategy extends
 				List<Competitor> competitors = new ArrayList<Competitor>();
 				for(Entity e: algorithm.getTopology()){
 					if(populationID == -1)
-						populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
+						populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).intValue();
 					competitors.add(new Competitor(e.getCandidateSolution(), e.getFitness(), populationID));
 				}
 				pool.addCompetitorList(populationID, competitors);

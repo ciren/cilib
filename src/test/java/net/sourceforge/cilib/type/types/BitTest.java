@@ -67,8 +67,8 @@ public class BitTest {
         Bit b1 = new Bit(true);
         Bit b2 = new Bit(false);
 
-        assertEquals(true, b1.getBit());
-        assertEquals(false, b2.getBit());
+        assertEquals(true, b1.booleanValue());
+        assertEquals(false, b2.booleanValue());
     }
 
     @Test
@@ -76,11 +76,11 @@ public class BitTest {
         Bit b1 = new Bit(true);
         Bit b2 = new Bit(false);
 
-        b1.setBit(false);
-        b2.setBit(true);
+        b1.valueOf(false);
+        b2.valueOf(true);
 
-        assertEquals(false, b1.getBit());
-        assertEquals(true, b2.getBit());
+        assertEquals(false, b1.booleanValue());
+        assertEquals(true, b2.booleanValue());
     }
 
     @Test
@@ -99,10 +99,10 @@ public class BitTest {
         Bit b2 = new Bit(true);
         b2.randomize(new MersenneTwister());
 
-        if (b2.getBit())
-            assertTrue(b1.getBit() == b2.getBit());
+        if (b2.booleanValue())
+            assertTrue(b1.booleanValue() == b2.booleanValue());
         else
-            assertTrue(b1.getBit() != b2.getBit());
+            assertTrue(b1.booleanValue() != b2.booleanValue());
     }
 
  }

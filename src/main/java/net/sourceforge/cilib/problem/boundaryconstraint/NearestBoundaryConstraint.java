@@ -103,22 +103,22 @@ public class NearestBoundaryConstraint implements BoundaryConstraint {
             Numeric velocity = (Numeric) vIterator.next();
             Bounds bounds = position.getBounds();
 
-            double previousPosition = position.getReal();
+            double previousPosition = position.doubleValue();
 
-            if (Double.compare(position.getReal(), bounds.getLowerBound()) < 0) {
-                position.set(bounds.getLowerBound());    // lower boundary is inclusive
+            if (Double.compare(position.doubleValue(), bounds.getLowerBound()) < 0) {
+                position.valueOf(bounds.getLowerBound());    // lower boundary is inclusive
 
                 if (random.getUniform() < turbulenceProbability.getParameter()) {
-                    position.set(position.getReal() + random.getUniform() * bounds.getRange());
+                    position.valueOf(position.doubleValue() + random.getUniform() * bounds.getRange());
                 }
-                velocity.set(position.getReal() - previousPosition);
+                velocity.valueOf(position.doubleValue() - previousPosition);
             }
-            else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
-                position.set(bounds.getUpperBound() - Maths.EPSILON);    // upper boundary is exclusive
+            else if (Double.compare(position.doubleValue(), bounds.getUpperBound()) > 0) {
+                position.valueOf(bounds.getUpperBound() - Maths.EPSILON);    // upper boundary is exclusive
                 if (random.getUniform() < turbulenceProbability.getParameter()) {
-                    position.set(position.getReal() - random.getUniform() * bounds.getRange());
+                    position.valueOf(position.doubleValue() - random.getUniform() * bounds.getRange());
                 }
-                velocity.set(position.getReal() - previousPosition);
+                velocity.valueOf(position.doubleValue() - previousPosition);
             }
         }
     }

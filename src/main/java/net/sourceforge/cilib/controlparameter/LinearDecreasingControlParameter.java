@@ -62,7 +62,7 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
      */
     public void update() {
         double result = getUpperBound() - (getUpperBound() - getLowerBound()) * AbstractAlgorithm.get().getPercentageComplete();
-        parameter.setReal(result);
+        parameter.valueOf(result);
     }
 
     /**
@@ -71,7 +71,7 @@ public class LinearDecreasingControlParameter extends BoundedControlParameter {
     @Override
     public void setUpperBound(double value) {
         super.setUpperBound(value);
-        this.parameter.setReal(value);
+        this.parameter.valueOf(value);
     }
 
 }

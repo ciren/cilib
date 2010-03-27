@@ -56,9 +56,9 @@ public class ClampingBoundaryConstraintTest {
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
         clampingBoundaryConstraint.enforce(i);
 
-        Assert.assertThat(((Real)candidateSolution.get(0)).getReal(), is(-5.0));
-        Assert.assertThat(((Real)candidateSolution.get(1)).getReal(), is(3.0));
-        Assert.assertThat(((Real)candidateSolution.get(2)).getReal(), is(5.0-Maths.EPSILON));
+        Assert.assertThat(((Real)candidateSolution.get(0)).doubleValue(), is(-5.0));
+        Assert.assertThat(((Real)candidateSolution.get(1)).doubleValue(), is(3.0));
+        Assert.assertThat(((Real)candidateSolution.get(2)).doubleValue(), is(5.0-Maths.EPSILON));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ClampingBoundaryConstraintTest {
         ClampingBoundaryConstraint clampingBoundaryConstraint = new ClampingBoundaryConstraint();
         clampingBoundaryConstraint.enforce(individual);
 
-        Assert.assertThat(i.getInt(), is(4));
+        Assert.assertThat(i.intValue(), is(4));
     }
 
 }

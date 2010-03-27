@@ -126,7 +126,7 @@ public final class Stats {
         for (Pattern pattern : set) {
             Vector diffSquare = pattern.data.subtract(center);
             for (Numeric numeric : diffSquare)
-                numeric.setReal(numeric.getReal()*numeric.getReal());
+                numeric.valueOf(numeric.doubleValue()*numeric.doubleValue());
             variance = variance.plus(diffSquare);
         }
         return variance.norm() / set.size();

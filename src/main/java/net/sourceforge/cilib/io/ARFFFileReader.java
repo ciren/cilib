@@ -272,7 +272,7 @@ public class ARFFFileReader extends FileReader<List<Type>> {
     public String getNominalString(int column, Type nominalKey) {
         int nominalKeyInt;
         try {
-            nominalKeyInt = ((Int) nominalKey).getInt();
+            nominalKeyInt = ((Int) nominalKey).intValue();
         } catch (ClassCastException ex) {
             throw new ClassCastException("Nominal key must be CIlib Int object.");
         }

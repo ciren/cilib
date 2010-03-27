@@ -53,7 +53,7 @@ public class LayerTest {
     @Test
     public void testGetNeuralInput() {
         for (int i = 0; i < refActivations.size(); i++) {
-            Assert.assertEquals(refActivations.get(i).getReal(), layer.getNeuralInput(i), Maths.EPSILON);
+            Assert.assertEquals(refActivations.get(i).doubleValue(), layer.getNeuralInput(i), Maths.EPSILON);
         }
     }
 

@@ -101,7 +101,7 @@ public class LongestCommonSubsequence extends DiscreteFunction {
         int count = 0;
 
         for (Numeric n : x) {
-            if (n.getBit())
+            if (n.booleanValue())
                 count++;
         }
 
@@ -134,7 +134,7 @@ public class LongestCommonSubsequence extends DiscreteFunction {
 
         for (int i = 0; i < x.getDimension(); i++) {
             Numeric n = x.get(i);
-            if (n.getBit())
+            if (n.booleanValue())
                 builder.append(target.charAt(i));
         }
 

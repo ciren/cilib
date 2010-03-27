@@ -83,15 +83,15 @@ public class DeflectionBoundaryConstraint implements BoundaryConstraint {
             Numeric position = (Numeric) pIterator.next();
             Numeric velocity = (Numeric) vIterator.next();
             Bounds bounds = position.getBounds();
-            double desiredPosition = position.getReal() + velocity.getReal();
+            double desiredPosition = position.doubleValue() + velocity.doubleValue();
 
-            if (Double.compare(position.getReal(), bounds.getLowerBound()) < 0) {
-                position.set(bounds.getLowerBound() + (bounds.getLowerBound() - desiredPosition) % bounds.getRange());
-                velocity.set(velocity.getReal() * velocityDampingFactor.getParameter());
+            if (Double.compare(position.doubleValue(), bounds.getLowerBound()) < 0) {
+                position.valueOf(bounds.getLowerBound() + (bounds.getLowerBound() - desiredPosition) % bounds.getRange());
+                velocity.valueOf(velocity.doubleValue() * velocityDampingFactor.getParameter());
             }
-            else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
-                position.set(bounds.getUpperBound() - (desiredPosition - bounds.getUpperBound()) % bounds.getRange());
-                velocity.set(velocity.getReal() * velocityDampingFactor.getParameter());
+            else if (Double.compare(position.doubleValue(), bounds.getUpperBound()) > 0) {
+                position.valueOf(bounds.getUpperBound() - (desiredPosition - bounds.getUpperBound()) % bounds.getRange());
+                velocity.valueOf(velocity.doubleValue() * velocityDampingFactor.getParameter());
             }
         }
     }

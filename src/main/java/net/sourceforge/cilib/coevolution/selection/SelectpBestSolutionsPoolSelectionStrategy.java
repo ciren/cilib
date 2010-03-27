@@ -61,7 +61,7 @@ public class SelectpBestSolutionsPoolSelectionStrategy extends
 			List<Competitor> competitors = new ArrayList<Competitor>();
 			for(Entity e: algorithm.getTopology()){
 				if(populationID == -1){
-					populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).getInt();
+					populationID = ((Int)e.getProperties().get(EntityType.Coevolution.POPULATION_ID)).intValue();
 				}
 				if(!(e instanceof AbstractParticle))
 					break;

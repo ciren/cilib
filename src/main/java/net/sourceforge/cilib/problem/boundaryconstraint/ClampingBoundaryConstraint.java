@@ -56,11 +56,11 @@ public class ClampingBoundaryConstraint implements BoundaryConstraint {
             Numeric numeric = (Numeric) i.next();
             Bounds bounds = numeric.getBounds();
 
-            if (Double.compare(numeric.getReal(), bounds.getLowerBound()) < 0) {
-                numeric.setReal(bounds.getLowerBound());
+            if (Double.compare(numeric.doubleValue(), bounds.getLowerBound()) < 0) {
+                numeric.valueOf(bounds.getLowerBound());
             }
-            else if (Double.compare(numeric.getReal(), bounds.getUpperBound()) > 0) { // number > upper bound
-                numeric.setReal(bounds.getUpperBound() - Maths.EPSILON);
+            else if (Double.compare(numeric.doubleValue(), bounds.getUpperBound()) > 0) { // number > upper bound
+                numeric.valueOf(bounds.getUpperBound() - Maths.EPSILON);
             }
         }
     }

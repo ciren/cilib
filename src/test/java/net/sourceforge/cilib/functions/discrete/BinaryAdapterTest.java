@@ -92,7 +92,7 @@ public class BinaryAdapterTest {
         Type t = converted.get(0);
         assertTrue(t instanceof Numeric);
         Numeric n = (Numeric) t;
-        assertEquals(15.0, n.getReal(), Double.MIN_NORMAL);
+        assertEquals(15.0, n.doubleValue(), Double.MIN_NORMAL);
 
         bitVector.setBit(3, false);
         converted = adapter.decodeBitString(bitVector);
@@ -133,7 +133,7 @@ public class BinaryAdapterTest {
         Type t = converted.get(0);
         assertTrue(t instanceof Numeric);
         Numeric n = (Numeric) t;
-        assertEquals(15.0, n.getReal(), Double.MIN_NORMAL);
+        assertEquals(15.0, n.doubleValue(), Double.MIN_NORMAL);
 
         bitVector.setBit(3, false);
         converted = adapter.decodeBitString(bitVector);
@@ -173,7 +173,7 @@ public class BinaryAdapterTest {
         Type t = converted.get(0);
         assertTrue(t instanceof Numeric);
         Numeric n = (Numeric) t;
-        assertEquals(255.0, n.getReal(), Double.MIN_NORMAL);
+        assertEquals(255.0, n.doubleValue(), Double.MIN_NORMAL);
 
         bitVector.setBit(3, false);
         converted = adapter.decodeBitString(bitVector);

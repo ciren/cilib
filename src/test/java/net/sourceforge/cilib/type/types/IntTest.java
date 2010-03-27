@@ -41,7 +41,7 @@ public class IntTest {
         Int i = new Int(-10);
         Int clone = i.getClone();
 
-        assertEquals(i.getInt(), clone.getInt());
+        assertEquals(i.intValue(), clone.intValue());
         assertNotSame(i, clone);
     }
 
@@ -77,25 +77,25 @@ public class IntTest {
         Int i1 = new Int(0, new Bounds(-300, 300));
         Int i2 = i1.getClone();
 
-        assertTrue(i1.getInt() == i2.getInt());
+        assertTrue(i1.intValue() == i2.intValue());
         i1.randomize(new MersenneTwister());
-        assertTrue(i1.getInt() != i2.getInt());
+        assertTrue(i1.intValue() != i2.intValue());
     }
 
     @Test
     public void bucketPositiveRealValue() {
         Int i = new Int(0);
-        i.setReal(4.6);
+        i.valueOf(4.6);
 
-        Assert.assertEquals(5, i.getInt());
+        Assert.assertEquals(5, i.intValue());
     }
 
     @Test
     public void bucketNegativeRealValue() {
         Int i = new Int(0);
-        i.setReal(-4.6);
+        i.valueOf(-4.6);
 
-        Assert.assertEquals(-5, i.getInt());
+        Assert.assertEquals(-5, i.intValue());
     }
 
 }

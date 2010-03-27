@@ -57,8 +57,8 @@ public class RandomBoundedInitializationStrategyTest {
 
         for (int i = 0; i < vector.size(); i++) {
             Numeric numeric = vector.get(i);
-            Assert.assertThat(numeric.getReal(), is(greaterThanOrEqualTo(-5.0)));
-            Assert.assertThat(numeric.getReal(), is(lessThanOrEqualTo(5.0)));
+            Assert.assertThat(numeric.doubleValue(), is(greaterThanOrEqualTo(-5.0)));
+            Assert.assertThat(numeric.doubleValue(), is(lessThanOrEqualTo(5.0)));
         }
     }
 

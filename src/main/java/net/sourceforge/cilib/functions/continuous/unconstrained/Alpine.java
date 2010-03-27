@@ -81,7 +81,7 @@ public class Alpine extends ContinuousFunction {
     public Double evaluate(Vector x) {
         double sum = 0;
         for (Numeric n : x) {
-            sum += Math.abs((n.getReal() * Math.sin(n.getReal())) + (0.1 * n.getReal()));
+            sum += Math.abs((n.doubleValue() * Math.sin(n.doubleValue())) + (0.1 * n.doubleValue()));
         }
         return sum;
     }

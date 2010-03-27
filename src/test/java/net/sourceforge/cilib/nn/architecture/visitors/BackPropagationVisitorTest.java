@@ -76,7 +76,7 @@ public class BackPropagationVisitorTest {
             Vector topologyWeights = topology.getWeights();
             Vector networkWeights = network.getWeights();
             for (int j = 0; j < topology.getWeights().size(); j++) {
-                Assert.assertEquals(topologyWeights.get(j).getReal(), networkWeights.get(j).getReal(), Maths.EPSILON);
+                Assert.assertEquals(topologyWeights.get(j).doubleValue(), networkWeights.get(j).doubleValue(), Maths.EPSILON);
             }
         }
 

@@ -68,15 +68,15 @@ public class BouncingBoundaryConstraint implements BoundaryConstraint {
             Numeric velocity = (Numeric) vIterator.next();
             Bounds bounds = position.getBounds();
 
-            double previousPosition = position.getReal();
+            double previousPosition = position.doubleValue();
 
-            if (Double.compare(position.getReal(), bounds.getLowerBound()) < 0) {
-                position.set(position.getBounds().getLowerBound());    // lower boundary is inclusive
-                velocity.set(previousPosition - position.getReal());
+            if (Double.compare(position.doubleValue(), bounds.getLowerBound()) < 0) {
+                position.valueOf(position.getBounds().getLowerBound());    // lower boundary is inclusive
+                velocity.valueOf(previousPosition - position.doubleValue());
             }
-            else if (Double.compare(position.getReal(), bounds.getUpperBound()) > 0) {
-                position.set(bounds.getUpperBound() - Maths.EPSILON);
-                velocity.set(previousPosition - position.getReal());
+            else if (Double.compare(position.doubleValue(), bounds.getUpperBound()) > 0) {
+                position.valueOf(bounds.getUpperBound() - Maths.EPSILON);
+                velocity.valueOf(previousPosition - position.doubleValue());
             }
         }
     }

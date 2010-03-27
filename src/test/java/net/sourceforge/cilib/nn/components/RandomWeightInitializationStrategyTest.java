@@ -42,8 +42,8 @@ public class RandomWeightInitializationStrategyTest {
         initializationStrategy.initialize(neuron.getWeights());
 
         for (int i = 0; i < neuron.getWeights().size(); i++) {
-            Assert.assertTrue(Double.compare(neuron.getWeights().get(i).getReal(),neuron.getWeights().get(i).getBounds().getUpperBound()) <= 0);
-            Assert.assertTrue(Double.compare(neuron.getWeights().get(i).getReal(),neuron.getWeights().get(i).getBounds().getLowerBound()) >= 0);
+            Assert.assertTrue(Double.compare(neuron.getWeights().get(i).doubleValue(),neuron.getWeights().get(i).getBounds().getUpperBound()) <= 0);
+            Assert.assertTrue(Double.compare(neuron.getWeights().get(i).doubleValue(),neuron.getWeights().get(i).getBounds().getLowerBound()) >= 0);
         }
     }
 

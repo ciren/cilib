@@ -43,7 +43,7 @@ public class RealTest {
         Real r = new Real(-10.0);
         Real test = r.getClone();
 
-        assertEquals(r.getReal(), test.getReal(), Double.MIN_NORMAL);
+        assertEquals(r.doubleValue(), test.doubleValue(), Double.MIN_NORMAL);
         assertNotSame(r, test);
     }
 
@@ -94,17 +94,17 @@ public class RealTest {
         Real r1 = new Real(0.0, new Bounds(-30.0, 30.0));
         Real r2 = r1.getClone();
 
-        assertTrue(r1.getReal() == r2.getReal());
+        assertTrue(r1.doubleValue() == r2.doubleValue());
         r1.randomize(new MersenneTwister());
-        assertTrue(r1.getReal() != r2.getReal());
+        assertTrue(r1.doubleValue() != r2.doubleValue());
     }
 
     @Test
     public void randomizeBetweenInfiniteBounds() {
         Real r = new Real(0.0);
         r.randomize(new MersenneTwister());
-        Assert.assertThat(r.getReal(), not(equalTo(0.0)));
-        Assert.assertThat(r.getReal(), not(equalTo(Double.NaN)));
+        Assert.assertThat(r.doubleValue(), not(equalTo(0.0)));
+        Assert.assertThat(r.doubleValue(), not(equalTo(Double.NaN)));
     }
 
 }

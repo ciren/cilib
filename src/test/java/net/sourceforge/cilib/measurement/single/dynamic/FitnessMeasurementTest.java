@@ -62,7 +62,7 @@ public class FitnessMeasurementTest {
         }});
 
         Measurement m = new FitnessMeasurement();
-        Assert.assertEquals(100.0, ((Real) m.getValue(algorithm)).getReal(), 0.00001);
+        Assert.assertEquals(100.0, ((Real) m.getValue(algorithm)).doubleValue(), 0.00001);
     }
 
 }

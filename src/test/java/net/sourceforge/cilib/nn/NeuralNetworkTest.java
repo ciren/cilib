@@ -62,8 +62,8 @@ public class NeuralNetworkTest {
         topology.setWeights(network.getWeights());
         network.setWeights(topology.getWeights());
         for (int i = 0; i < 2; i++) {
-            Assert.assertEquals(((Real)topology.evaluate(new PatternInputSource(pattern)).get(i)).getReal(),
-                    ((Real)network.evaluatePattern(pattern).get(i)).getReal(), Maths.EPSILON);
+            Assert.assertEquals(((Real)topology.evaluate(new PatternInputSource(pattern)).get(i)).doubleValue(),
+                    ((Real)network.evaluatePattern(pattern).get(i)).doubleValue(), Maths.EPSILON);
         }
     }
 }
